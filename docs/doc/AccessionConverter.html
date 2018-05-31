@@ -523,7 +523,13 @@
 304
 305
 306
-307</pre>
+307
+308
+309
+310
+311
+312
+313</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/accession_converter.rb', line 26</span>
@@ -624,6 +630,7 @@
     <span class='string val'>&#39;user_defined_enum_4&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;user_defined.enum_4&#39;</span><span class='comma token'>,</span>
 
     <span class='string val'>&#39;agent_role&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;accession.agent_role&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_relator&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;accession.agent_relator&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;agent_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent.agent_type&#39;</span><span class='comma token'>,</span>
 
     <span class='string val'>&#39;agent_contact_address_1&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_contact.address_1&#39;</span><span class='comma token'>,</span>
@@ -647,6 +654,7 @@
     <span class='string val'>&#39;agent_name_name_order&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.name_order&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;agent_name_number&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.number&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;agent_name_prefix&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.prefix&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;agent_name_title&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.title&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;agent_name_primary_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.primary_name&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;agent_name_qualifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.qualifier&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;agent_name_rest_of_name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;agent_name.rest_of_name&#39;</span><span class='comma token'>,</span>
@@ -659,7 +667,7 @@
 
     <span class='string val'>&#39;agent_name_description_note&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_bioghist.content&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;agent_name_description_citation&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_citation.content&#39;</span><span class='comma token'>,</span>
-    
+
     <span class='string val'>&#39;subject_source&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;subject.source&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;subject_term&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;subject.term&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;subject_term_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;subject.term_type&#39;</span><span class='comma token'>,</span>
@@ -682,7 +690,7 @@
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_agent identifier id'>agent</span><span class='bitor op'>|</span>
         <span class='rubyid_accession identifier id'>accession</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='eq op'>==</span> <span class='string val'>&#39;accession&#39;</span> <span class='rbrace token'>}</span>
 
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_accession identifier id'>accession</span> 
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_accession identifier id'>accession</span>
           <span class='rubyid_accession identifier id'>accession</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
         <span class='rubyid_else else kw'>else</span>
           <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_reject! fid id'>reject!</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span> <span class='eq op'>==</span> <span class='rubyid_agent identifier id'>agent</span><span class='dot token'>.</span><span class='rubyid_key identifier id'>key</span><span class='rbrace token'>}</span>
@@ -716,7 +724,11 @@
     <span class='symbol val'>:accession</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:on_create</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
           <span class='rubyid_if if kw'>if</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_role&#39;</span><span class='rbrack token'>]</span>
-            <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;role&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_role&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+            <span class='rubyid_if if kw'>if</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_relator&#39;</span><span class='rbrack token'>]</span>
+              <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;role&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_role&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;relator&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_relator&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+            <span class='rubyid_else else kw'>else</span>
+              <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='string val'>&#39;role&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_role&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+            <span class='rubyid_end end kw'>end</span>
           <span class='rubyid_end end kw'>end</span>
       <span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_queue identifier id'>queue</span><span class='comma token'>,</span> <span class='rubyid_accession identifier id'>accession</span><span class='bitor op'>|</span>
@@ -725,7 +737,7 @@
         <span class='rubyid_end end kw'>end</span>
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
-    
+
     <span class='symbol val'>:note_bioghist</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:on_create</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
         <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_subnotes identifier id'>subnotes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_text&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;content&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;content&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
@@ -901,9 +913,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.3.2 Documentation Generated on Thu Mar 22 10:39:58 2018 by
+  ArchivesSpace Version fix-identifier Documentation Generated on Thu May 31 13:16:40 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.3).
 </div>
     </div>
   </body>

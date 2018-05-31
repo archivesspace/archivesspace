@@ -92,16 +92,17 @@ AppConfig[:mysql_binlog] = false
 AppConfig[:solr_backup_schedule] = "0 * * * *"
 AppConfig[:solr_backup_number_to_keep] = 1
 AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
-# add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { "q.op" => "AND" }
+# add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { "op" => "AND" }
 # Another example below sets the boost query value (bq) to boost the relevancy for the query string in the title,
-# sets the phrase fields parameter (pf) to boost the relevancy for the title when the query terms are in close proximity to 
+# sets the phrase fields parameter (pf) to boost the relevancy for the title when the query terms are in close proximity to
 # each other, and sets the phrase slop (ps) parameter for the pf parameter to indicate how close the proximity should be
 #  AppConfig[:solr_params] = {
 #      "bq" => proc { "title:\"#{@query_string}\"*" },
 #      "pf" => 'title^10',
 #      "ps" => 0,
 #    }
-AppConfig[:solr_params] = {}
+# Configuring search operator to be AND by default - ANW-427
+AppConfig[:solr_params] = { "op" => "AND" }
 
 # Set the application's language (see the .yml files in
 # https://github.com/archivesspace/archivesspace/tree/master/common/locales for
@@ -328,9 +329,10 @@ AppConfig[:max_location_range] = 1000
 # this check here. Do so at your own peril.
 AppConfig[:ignore_schema_info_check] = false
 
-# This is a URL that points to some demo data that can be used for testing,
-# teaching, etc. To use this, set an OS environment variable of ASPACE_DEMO = true
-AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedemo/latest-demo-data.zip"
+# To use this, set an OS environment variable of ASPACE_DEMO = true
+# This is the configuration variable to point to some demo data for use in testing,
+# teaching, etc.
+AppConfig[:demo_data_url] = ""
 
 # Expose external ids in the frontend
 AppConfig[:show_external_ids] = false
