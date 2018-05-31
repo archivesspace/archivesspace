@@ -124,7 +124,7 @@
 
   search_results:
     title: Resultados de la búsqueda
-    context: Contexto del resultado
+    context: Encontrado en
     no_results: Registros no encontrados
     no_results_prefix: No hay resultados de la búsqueda
     result_type: Tipo de registro
