@@ -276,12 +276,12 @@
       <pre class="lines">
 
 
-65
 66
-67</pre>
+67
+68</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 66</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_demo_db? fid id'>demo_db?</span>
   <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span> <span class='match op'>=~</span> <span class='regexp val'>/aspacedemo=true/</span>
@@ -307,7 +307,6 @@
       <pre class="lines">
 
 
-69
 70
 71
 72
@@ -336,10 +335,11 @@
 95
 96
 97
-98</pre>
+98
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_download_demo_db identifier id'>download_demo_db</span>
 
@@ -440,7 +440,8 @@
 59
 60
 61
-62</pre>
+62
+63</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 45</span>
@@ -451,6 +452,7 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_environment identifier id'>environment</span> <span class='neq op'>!=</span> <span class='symbol val'>:auto</span>
     <span class='rubyid_@environment ivar id'>@environment</span> <span class='assign token'>=</span> <span class='rubyid_environment identifier id'>environment</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&quot;ASPACE_DEMO&quot;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;true&#39;</span>
+    <span class='comment val'># to use this mechanism, put URL to demo database in AppConfig[:demo_data_url]</span>
     <span class='rubyid_download_demo_db identifier id'>download_demo_db</span>
     <span class='rubyid_@environment ivar id'>@environment</span> <span class='assign token'>=</span> <span class='symbol val'>:production</span>
   <span class='rubyid_else else kw'>else</span>
@@ -484,7 +486,6 @@
       <pre class="lines">
 
 
-108
 109
 110
 111
@@ -506,10 +507,11 @@
 127
 128
 129
-130</pre>
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 109</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_prepare_database identifier id'>prepare_database</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@environment ivar id'>@environment</span> <span class='eq op'>==</span> <span class='symbol val'>:integration</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_demo_db? fid id'>demo_db?</span>
@@ -545,9 +547,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.3.2 Documentation Generated on Thu Mar 22 10:39:49 2018 by
+  ArchivesSpace Version fix-identifier Documentation Generated on Thu May 31 13:16:32 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.3).
 </div>
     </div>
   </body>

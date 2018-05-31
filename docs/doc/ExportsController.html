@@ -364,13 +364,13 @@
       <pre class="lines">
 
 
-21
-22
 23
-24</pre>
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 23</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_dc identifier id'>download_dc</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
@@ -397,13 +397,13 @@
       <pre class="lines">
 
 
-57
-58
 59
-60</pre>
+60
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 59</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_eac identifier id'>download_eac</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
@@ -430,8 +430,6 @@
       <pre class="lines">
 
 
-40
-41
 42
 43
 44
@@ -444,10 +442,12 @@
 51
 52
 53
-54</pre>
+54
+55
+56</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_ead identifier id'>download_ead</span>
 
@@ -488,14 +488,18 @@
 15
 16
 17
-18</pre>
+18
+19
+20</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 15</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_marc identifier id'>download_marc</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
-    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml&quot;</span><span class='rparen token'>)</span>
+    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> 
+    <span class='symbol val'>:include_unpublished_marc</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:include_unpublished_marc</span><span class='rbrack token'>]</span>
+    <span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -518,17 +522,17 @@
       <pre class="lines">
 
 
-34
-35
 36
-37</pre>
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_mets identifier id'>download_mets</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
-    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/digital_objects/mets/#{params[:id]}.xml&quot;</span><span class='rparen token'>)</span>
+    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/digital_objects/mets/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:dmd</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:dmd_scheme</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -551,13 +555,13 @@
       <pre class="lines">
 
 
-27
-28
 29
-30</pre>
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_mods identifier id'>download_mods</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
@@ -574,9 +578,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.3.2 Documentation Generated on Thu Mar 22 10:40:00 2018 by
+  ArchivesSpace Version fix-identifier Documentation Generated on Thu May 31 13:16:43 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.3).
 </div>
     </div>
   </body>

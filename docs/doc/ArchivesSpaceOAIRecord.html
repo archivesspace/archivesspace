@@ -396,7 +396,9 @@
 10
 11
 12
-13</pre>
+13
+14
+15</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 9</span>
@@ -404,6 +406,8 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_sequel_record identifier id'>sequel_record</span><span class='comma token'>,</span> <span class='rubyid_jsonmodel_record identifier id'>jsonmodel_record</span><span class='rparen token'>)</span>
   <span class='rubyid_@jsonmodel_record ivar id'>@jsonmodel_record</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span>
       <span class='rubyid_URIResolver constant id'>URIResolver</span><span class='dot token'>.</span><span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span> <span class='rubyid_jsonmodel_record identifier id'>jsonmodel_record</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;linked_agents&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;digital_object&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container::container_profile&#39;</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_set_publish_flags! fid id'>set_publish_flags!</span><span class='lparen token'>(</span><span class='rubyid_@jsonmodel_record ivar id'>@jsonmodel_record</span><span class='rparen token'>)</span>
   <span class='rubyid_@sequel_record ivar id'>@sequel_record</span> <span class='assign token'>=</span> <span class='rubyid_sequel_record identifier id'>sequel_record</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -525,12 +529,12 @@
       <pre class="lines">
 
 
-15
-16
-17</pre>
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 17</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_id identifier id'>id</span>
   <span class='rubyid_@jsonmodel_record ivar id'>@jsonmodel_record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
@@ -556,12 +560,12 @@
       <pre class="lines">
 
 
-41
-42
-43</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_oai_dc identifier id'>to_oai_dc</span>
   <span class='rubyid_OAIDCMapper constant id'>OAIDCMapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid_map_oai_record identifier id'>map_oai_record</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -587,12 +591,12 @@
       <pre class="lines">
 
 
-45
-46
-47</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_oai_dcterms identifier id'>to_oai_dcterms</span>
   <span class='rubyid_OAIDCTermsMapper constant id'>OAIDCTermsMapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid_map_oai_record identifier id'>map_oai_record</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -641,8 +645,6 @@
       <pre class="lines">
 
 
-19
-20
 21
 22
 23
@@ -654,10 +656,12 @@
 29
 30
 31
-32</pre>
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_oai_ead identifier id'>to_oai_ead</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_OAI constant id'>OAI</span><span class='colon2 op'>::</span><span class='rubyid_FormatException constant id'>FormatException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@jsonmodel_record ivar id'>@jsonmodel_record</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;resource&#39;</span>
@@ -694,15 +698,15 @@
       <pre class="lines">
 
 
-34
-35
 36
 37
 38
-39</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_oai_marc identifier id'>to_oai_marc</span>
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@sequel_record ivar id'>@sequel_record</span><span class='dot token'>.</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
@@ -731,12 +735,12 @@
       <pre class="lines">
 
 
-49
-50
-51</pre>
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 51</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_oai_mods identifier id'>to_oai_mods</span>
   <span class='rubyid_OAIMODSMapper constant id'>OAIMODSMapper</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid_map_oai_record identifier id'>map_oai_record</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -762,12 +766,12 @@
       <pre class="lines">
 
 
-53
-54
-55</pre>
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/oai/aspace_oai_record.rb', line 55</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_updated_at identifier id'>updated_at</span>
   <span class='rubyid_@sequel_record ivar id'>@sequel_record</span><span class='dot token'>.</span><span class='rubyid_system_mtime identifier id'>system_mtime</span>
@@ -783,9 +787,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.3.2 Documentation Generated on Thu Mar 22 10:39:56 2018 by
+  ArchivesSpace Version fix-identifier Documentation Generated on Thu May 31 13:16:38 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.1).
+  0.9.12 (ruby-2.3.3).
 </div>
     </div>
   </body>
