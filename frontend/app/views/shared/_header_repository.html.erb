@@ -116,7 +116,7 @@
             <% end %>
           </li>
         </ul>
-        <ul class="nav navbar-nav pull-left">
+        <ul class="nav navbar-nav pull-right">
           <li class="repo-container">
             <div class="btn-group">
               <a href="<%= url_for :controller => :repositories, :action => :show, :id => session[:repo_id] %>" class="btn btn-default navbar-btn">
@@ -157,7 +157,7 @@
 
                   <li><%= link_to I18n.t("navbar.list_reports"), :controller => :jobs, :action => :new, :job_type => 'report_job' %></li>
                   <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
-                    <li class="dropdown-submenu">
+                    <li class="dropdown-submenu pull-left">
                       <a href="javascript:void(0);"><%= I18n.t("navbar.plugins") %></a>
                       <ul class="dropdown-menu">
                         <% Plugins.repository_menu_items.each do |plugin| %>
