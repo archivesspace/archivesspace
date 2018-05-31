@@ -427,35 +427,35 @@ module AspaceFormHelper
         html << "<div class='col-sm-2'>"
           html << "<label class='control-label'>#{I18n.t("repository_oai.oai_sets_available")}</label>"
         html << "</div>"
-          html << "<div class='col-sm-8'>&nbsp;"
-          html << "<table class=\"table table-striped table-bordered table-condensed\">"
-            html << "<tbody>"
-              value_list['enumeration_values'].each do |v|
-                # if we have an empty list of checkboxes, assume all sets are enabled.
-                # otherwise, a checkbox is on if it's the in the list we get from the backend.
-                checked = set_arry.include?(v['id'].to_s) || set_arry.length == 0
+        html << "<div class='col-sm-8'>&nbsp;"
+          html << "<ul class='list_group'>"
+            value_list['enumeration_values'].each do |v|
+              # if we have an empty list of checkboxes, assume all sets are enabled.
+              # otherwise, a checkbox is on if it's the in the list we get from the backend.
+              checked = set_arry.include?(v['id'].to_s) || set_arry.length == 0
 
-                html << "<tr>"
-                  html << "<td>"
+              html << "<li class='list-group-item'>"
+                html << "<div class='checkbox'>"
+                  html << "<label>"
                     html << "<input id=\"#{v['id']}\" name=\"sets[#{v['id']}]\" type=\"checkbox\" "
                     if checked
                       html << "checked=\"checked\" "
                     end
-
+  
                     if readonly?
                       html << "disabled />"
                     else
                       html << "/>"
                     end # of checkbox tag
-
-                   html << "</td>"
-                  html << "<td>#{v['value']}</td>"
-                 html << "</tr>"
-              end
-            html << "</tbody>"
-          html << "</table>"
-        html << "</div>"
-      html << "</div>"
+  
+                    html << "#{v['value']}"
+                  html << "</label>"
+                html << "</div>"
+              html << "</li>"
+            end
+          html << "</ul>"
+        html << "</div>" #col-sm-8
+      html << "</div>" #row
 
       return html.html_safe
     end
