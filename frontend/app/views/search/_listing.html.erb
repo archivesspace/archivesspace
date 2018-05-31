@@ -28,7 +28,7 @@
       <% end %>
       <% if request.path =~ /\/(advanced_)*search/ %>
         <th class="col identifier sortable <% if @search_data.sorted_by === "identifier"%>sort-<%= @search_data.current_sort_direction %><% end %>">
-          <%= link_to I18n.t("search_results.identifier"), build_search_params("sort" => @search_data.sort_filter_for("identifier")) %>
+          <%= link_to I18n.t("search_results.result_identifier"), build_search_params("sort" => @search_data.sort_filter_for("identifier")) %>
         </th>
       <% end %>
       <% if extra_columns? %>
