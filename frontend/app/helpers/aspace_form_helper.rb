@@ -414,8 +414,12 @@ module AspaceFormHelper
       # puts "++++++++++++++++++++++++++++"
       # puts "IN FORM HELPER"
 
-      set_arry = JSON::parse(set_json)
-
+      # when called by #new, set_json will be nil.
+      if set_json
+        set_arry = JSON::parse(set_json)
+      else 
+        set_arry = []
+      end
 
       html = "" 
 

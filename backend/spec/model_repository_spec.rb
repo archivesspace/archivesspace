@@ -17,7 +17,7 @@ describe 'Repository model' do
                                                                         :oai_is_disabled => true))
 
     repo = Repository.find(:repo_code => "TESTREPO")
-    expect(repo.oai_is_disabled).to eq(true)
+    expect(repo.oai_is_disabled).to eq(1)
   end
 
   it "can store settings for sets included in OAI export" do

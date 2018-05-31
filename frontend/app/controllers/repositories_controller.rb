@@ -14,6 +14,7 @@ class RepositoriesController < ApplicationController
   end
 
   def new
+    @enum = JSONModel(:enumeration).find("/names/archival_record_level")
     @repository = JSONModel(:repository_with_agent).new('repository' => {},
                                                         'agent_representation' => {
                                                           'agent_contacts' => [{}]
@@ -35,6 +36,7 @@ class RepositoriesController < ApplicationController
 
 
   def create
+    handle_repository_oai_params(params)
     generate_names(params[:repository])
     handle_crud(:instance => :repository,
                 :model => JSONModel(:repository_with_agent),
@@ -65,7 +67,6 @@ class RepositoriesController < ApplicationController
 
   def update
     handle_repository_oai_params(params)
-
     generate_names(params[:repository])
     handle_crud(:instance => :repository,
                 :model => JSONModel(:repository_with_agent),
