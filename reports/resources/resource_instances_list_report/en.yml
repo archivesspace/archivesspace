@@ -9,4 +9,6 @@ en:
       date: Date
       level: Level
       containers: Containers
+      identifier: Identifier
+      resource_title: Title
 

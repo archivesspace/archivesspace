@@ -2,25 +2,30 @@ class ResourceLocationsListReport < AbstractReport
 
   register_report
 
-  def template
-    'resource_locations_list_report.erb'
-  end
-
   def query
-    db[:resource].
-      select(Sequel.as(:id, :resourceId),
-             Sequel.as(:repo_id, :repo_id),
-             Sequel.as(:title, :title),
-             Sequel.as(:identifier, :resourceIdentifier),
+    results = db[:resource].
+      select(Sequel.as(:id, :id),
+             Sequel.as(:title, :resource_title),
+             Sequel.as(:identifier, :identifier),
              Sequel.as(Sequel.lit('GetEnumValueUF(level_id)'), :level),
-             Sequel.as(Sequel.lit('GetResourceDateExpression(id)'), :dateExpression),
-             Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extentNumber)).
+             Sequel.as(Sequel.lit('GetResourceDateExpression(id)'), :date),
+             Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extent_number)).
        filter(:repo_id => @repo_id)
+    info[:total_extent] = db.from(results).sum(:extent_number)
+    ReportUtils.fix_decimal_format(info, :total_extent)
+    info[:total_count] = results.count
+    results
   end
 
-  # Total Extent of Resources
-  def total_extent
-    @total_extent ||= db.from(self.query).sum(:extentNumber)
+  def fix_row(row)
+    ReportUtils.fix_identifier_format(row)
+    row[:locations] = ResourceLocationsSubreport.new(self, row[:id]).get
+    row.delete(:id)
+    row.delete(:extent_number)
+  end
+
+  def identifier_field
+    :identifier
   end
 
 end

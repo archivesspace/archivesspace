@@ -74,7 +74,7 @@ from
                      #{QUERY_ORDER}"
                    else
                      # TODO: add option for range
-                     "#{QUERY_BASE} where id = #{start_location.id} #{QUERY_ORDER}"
+                     "#{QUERY_BASE} where location_id = #{start_location.id} #{QUERY_ORDER}"
                    end
     db.fetch(query_string)
   end
