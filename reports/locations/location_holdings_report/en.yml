@@ -18,14 +18,4 @@ en:
       location_url: Location URL
       location_profile: Location Profile
       containers: Top Conatiners
-      records: Resources and Accessions
-      type: Record Type
-      top_container_indicator: Top Container Indicator
-      top_container_barcode: Top Container Barcode
-      ils_item_id: ILS Item ID
-      ils_holding_id: ILD Holding ID
-      repository: Repository
-      record_identifier: Identifier
-      record_title: Title
       location_barcode: Location Barcode
-      container_profile: Container Profile

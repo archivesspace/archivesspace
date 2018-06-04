@@ -14,15 +14,26 @@ class AbstractSubreport
     @format = parent_report.format
   end
 
-  def query
-    results = do_query
-    results.push(code) if results && (format == 'pdf' || format == 'html')
-    results
+  def get
+    array = []
+    query.each do |result|
+      row = result.to_hash
+      fix_row(row)
+      array.push(row)
+    end
+    if array.empty?
+      nil
+    else
+      array.push(code) if format == 'pdf' || format == 'html'
+      array
+    end
   end
 
-  def do_query
+  def query
     raise 'Please specify a query to return your reportable results'
   end
+
+  def fix_row(row); end
 
   def code
     self.class.code

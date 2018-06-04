@@ -56,7 +56,8 @@
         margin-top: 2em;
         padding-bottom: 2em;
         border-bottom: 2px solid black;
-        page-break-before: always;
+        page-break-inside: <%= report.page_break ? 'auto' : 'avoid' %>;
+        page-break-after: <%= report.page_break ? 'always' : 'auto' %>;
       }
 
       .sub-report-title {
@@ -84,6 +85,7 @@
       }
 
       ul dl {
+        margin-top: .5em;
         margin-bottom: 0em;
       }
 
@@ -117,6 +119,7 @@
         margin-bottom: 0.25em;
         font-size: 24pt;
         font-weight: bold;
+        page-break-after: avoid;
       }
 
       .record-title {

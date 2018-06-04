@@ -1,0 +1,10 @@
+en:
+  reports:
+    location_containers_subreport:
+      top_container_indicator: Top Container Indicator
+      top_container_barcode: Top Container Barcode
+      ils_item_id: ILS Item ID
+      ils_holding_id: ILD Holding ID
+      repository: Repository
+      records: Resources and Accessions
+      container_profile: Container Profile

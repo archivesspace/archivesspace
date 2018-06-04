@@ -3,3 +3,7 @@ en:
     agent_list_report:
       title: Name Records List
       description: Displays selected name record(s). Report lists name, name type, and name source.
+      identifier_prefix: Name
+      sort_name: Sort Name
+      name_type: Name Type
+      name_source: Name Source

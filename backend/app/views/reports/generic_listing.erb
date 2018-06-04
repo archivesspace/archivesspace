@@ -1,5 +1,7 @@
-<% results = report.query %>
-<% results = xml_clean(results) if report.format == 'pdf' %>
+<% results = report.get %>
+<% xml_clean!(results) if report.format == 'pdf' %>
+<% info = report.info %>
+<% xml_clean!(info) if report.format == 'pdf' %>
 
 <div class="header">
   <img class="logo" src="<%= @base_url || '/' %>reports/static/images/archivesspace.small.png"/>
@@ -9,7 +11,7 @@
   <div class="title"><%= report.title %></div>
 
   <dl>
-  <% report.info.each do |key, value| %>
+  <% info.each do |key, value| %>
     <dt><%= t(key) %></dt>
     <dd><%= value %></dd>
   <% end %>

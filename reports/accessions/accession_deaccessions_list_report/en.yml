@@ -8,6 +8,9 @@ en:
       total_extent: Total Extent of Accessions
       total_deaccessions_extent: Total Extent of Deaccessions
       identifier_prefix: Accession
+      accession_number: Accession Number
+      accession_title: Title
       accession_date: Accession Date
+      container_summary: Container Summary
       extent: Extent
       deaccessions: Deaccessions

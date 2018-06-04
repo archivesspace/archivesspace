@@ -6,7 +6,7 @@ class AccessionLocationsSubreport < AbstractSubreport
   end
 
   def query
-    results = db[:instance]
+    db[:instance]
       .inner_join(:sub_container, :instance_id => :instance__id)
       .inner_join(:top_container_link_rlshp, :sub_container_id => :sub_container__id)
       .inner_join(:top_container, :id => :top_container_link_rlshp__top_container_id)
@@ -18,13 +18,6 @@ class AccessionLocationsSubreport < AbstractSubreport
       .filter(:instance__accession_id => @accession_id)
       .select(Sequel.as(:location__title, :location),
               Sequel.as(Sequel.lit("GROUP_CONCAT(CONCAT(COALESCE(container_profile.name, ''), ' ', top_container.indicator) SEPARATOR ', ')"), :container))
-    array = []
-    results.each do |result|
-      job.write_output('Result: ' + result.to_hash.to_s)
-      array.push(result.to_hash)
-    end
-
-    array.empty? ? nil : array
   end
 
 end

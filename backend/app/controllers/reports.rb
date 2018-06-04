@@ -14,7 +14,7 @@ class ArchivesSpaceService < Sinatra::Base
     do
     json_response({
                     :reports => ReportManager.registered_reports,
-                    :formats => ReportHelper.allowed_report_formats
+                    :formats => ReportManager.allowed_report_formats
                   })
   end
 

@@ -7,34 +7,45 @@ class ResourceDeaccessionsListReport < AbstractReport
   end
 
   def query
-    db[:resource].
-      filter(Sequel.lit('GetResourceHasDeaccession(id)') => 1).
-      select(Sequel.as(:id, :resourceId),
-             Sequel.as(:repo_id, :repo_id),
+    results = db[:resource]
+      .filter(Sequel.lit('GetResourceHasDeaccession(id)') => 1)
+      .select(Sequel.as(:id, :id),
              Sequel.as(:title, :title),
-             Sequel.as(:identifier, :resourceIdentifier),
+             Sequel.as(:identifier, :identifier),
              Sequel.as(Sequel.lit('GetEnumValueUF(level_id)'), :level),
-             Sequel.as(Sequel.lit('GetResourceDateExpression(id)'), :dateExpression),
-             Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extentNumber),
-             Sequel.as(Sequel.lit('GetResourceDeaccessionExtent(id)'), :deaccessionExtentNumber)).
-       filter(:repo_id => @repo_id)
+             Sequel.as(Sequel.lit('GetResourceDateExpression(id)'), :date_expression),
+             Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extent_number))
+      .filter(:repo_id => @repo_id)
+    get_total_extent(results)
+    info['total_deaccessions_extent'] = 0
+    info['total_count'] = results.count
+    results
   end
 
   # Total Extent of Resources
-  def total_extent
-    @total_extent ||= db.from(self.query).sum(:extentNumber)
+  def get_total_extent(results)
+    info['total_extent'] = db.from(results).sum(:extent_number)
   end
 
-  # Total Extent of Deaccessions
-  def total_extent_of_deaccessions
-    return @total_extent_of_deaccessions if @total_extent_of_deaccessions
+  def fix_row(row)
+    ReportUtils.fix_identifier_format(row)
+    deaccessions = ResourceDeaccessionsSubreport.new(self, row[:id])
+    row[:deaccessions] = deaccessions.get
+    info['total_deaccessions_extent'] += deaccessions.total_extent
+    row.delete(:id)
+    row.delete(:extent_number)
+  end
 
-    deaccessions = db[:deaccession].where(:accession_id => self.query.select(:id))
-    deaccession_extents = db[:extent].where(:deaccession_id => deaccessions.select(:id))
+  def after_tasks
+    ReportUtils.fix_decimal_format(info, %w[total_extent total_deaccessions_extent])
+  end
 
-    @total_extent_of_deaccessions = deaccession_extents.sum(:number)
+  def page_break
+    false
+  end
 
-    @total_extent_of_deaccessions
+  def identifier_field
+    :identifier
   end
 
 end

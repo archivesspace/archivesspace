@@ -6,6 +6,15 @@ en:
       number_of_records: Number of Records Reviewed
       number_with_inventories: Accessions with Inventories
       identifier_prefix: Accession
+      accession_number: Accession Number
+      accession_title: Title
+      accession_date: Accession Date
       extent: Extent
       inventory: Inventory
       linked_resources: Linked Resource(s)
+      container_summary: Container Summary
+      begin_date: Begin Date
+      end_date: End Date
+      bulk_begin_date: Bulk Begin Date
+      bulk_end_date: Bulk End Date
+      date_expression: Date Expression
