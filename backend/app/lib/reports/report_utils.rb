@@ -20,4 +20,25 @@ module ReportUtils
       record[field] = format('%.2f', record[field].to_s) if record[field]
     end
   end
+
+  def self.fix_container_indicator(row, container_num = 1)
+    if container_num == 1
+      type_field = :type
+      indicator_field = :indicator
+      field = :container
+    elsif container_num == 2
+      type_field = :type_2
+      indicator_field = :indicator_2
+      field = :container_2
+    else
+      type_field = :type_3
+      indicator_field = :indicator_3
+      field = :container_3
+    end
+
+    row[field] = [row[type_field], row[indicator_field]].compact.join(' ')
+    row.delete(type_field)
+    row.delete(indicator_field)
+    row[field] = nil if row[field] == ''
+  end
 end
