@@ -1,4 +1,5 @@
 require 'java'
+require 'csv'
 
 # java_import org.xhtmlrenderer.pdf.ITextRenderer
 
@@ -26,7 +27,7 @@ class ReportGenerator
   end
 
   def generate_json(file)
-    json = ASUtils.to_json(report.query)
+    json = ASUtils.to_json(report.get)
     file.write(json)
   end
 
@@ -36,7 +37,7 @@ class ReportGenerator
 
   def generate_pdf(file)
     output_stream = java.io.FileOutputStream.new(file.path)
-    xml = ASUtils.tempfile('html_report_')
+    xml = ASUtils.tempfile('xml_report_')
     xml.write(clean_invalid_xml_chars(do_render('report.erb')))
     xml.close
     renderer = org.xhtmlrenderer.pdf.ITextRenderer.new
@@ -44,28 +45,39 @@ class ReportGenerator
     renderer.set_document(java.io.File.new(xml.path))
     renderer.layout
 
-    pdf = renderer.create_pdf(output_stream)
+    renderer.create_pdf(output_stream)
 
     xml.unlink
     output_stream.close
-
-    pdf
   end
 
-  def generate_csv(file); end
+  def generate_csv(file)
+    results = report.get
+    CSV.open(file.path, 'wb') do |csv|
+      csv << results[0].keys
+      results.each do |result|
+        row = []
+        result.each do |_key, value|
+          row.push(value.is_a?(Array) ? ASUtils.to_json(value) : value)
+        end
+        csv << row
+      end
+    end
+  end
 
-  def xml_clean(data)
+  def xml_clean!(data)
+    data_array = data.is_a?(Array) ? data : [data]
     invalid_chars = {}
     invalid_chars['"'] = '&quot;'
     invalid_chars['&'] = '&amp;'
     invalid_chars["'"] = '&apos;'
     invalid_chars['<'] = '&lt;'
     invalid_chars['>'] = '&gt;'
-    data.each do |item|
+    data_array.each do |item|
       next unless item.is_a?(Hash)
-      item.each do |key, value|
+      item.each do |_key, value|
         if value.is_a?(Array)
-          item[key] = xml_clean(value)
+          xml_clean!(value)
         elsif value
           value.to_s.gsub!(/[#{invalid_chars.keys.join('')}]/) do |ch|
             invalid_chars[ch]
@@ -73,7 +85,6 @@ class ReportGenerator
         end
       end
     end
-    data
   end
 
   def clean_invalid_xml_chars(text)
@@ -120,7 +131,7 @@ class ReportGenerator
   end
 
   def identifier(record)
-    "#{t('identifier_prefix')} #{report.identifier(record)}" if report.identifier(record)
+    "#{t('identifier_prefix')} #{record[report.identifier_field]}" if report.identifier_field
   end
 
   def t(key)

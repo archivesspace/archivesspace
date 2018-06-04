@@ -1,45 +1,40 @@
 class AssessmentListReport < AbstractReport
+  BOOLEAN_FIELDS = %w[accession_report appraisal container_list catalog_record
+                      control_file deed_of_gift finding_aid_ead finding_aid_online
+                      finding_aid_paper finding_aid_word finding_aid_spreadsheet
+                      related_eac_records].freeze
 
-  BOOLEAN_FIELDS = ['accession_report', 'appraisal', 'container_list', 'catalog_record',
-                    'control_file', 'deed_of_gift', 'finding_aid_ead', 'finding_aid_online',
-                    'finding_aid_paper', 'finding_aid_word', 'finding_aid_spreadsheet',
-                    'related_eac_records']
-
-  register_report({
-                    :params => [["from", Date, "The start of report range"],
-                                ["to", Date, "The start of report range"]]
-                  })
+  register_report(
+    params: [['from', Date, 'The start of report range'],
+             ['to', Date, 'The start of report range']]
+  )
 
   def initialize(params, job, db)
     super
-    from = params["from"].to_s.empty? ? Time.at(0).to_s : params["from"]
-    to = params["to"].to_s.empty? ? Time.parse('9999-01-01').to_s : params["to"]
+    from = params['from'].to_s.empty? ? Time.at(0).to_s : params['from']
+    to = params['to'].to_s.empty? ? Time.parse('9999-01-01').to_s : params['to']
 
-    @from = DateTime.parse(from).to_time.strftime("%Y-%m-%d %H:%M:%S")
-    @to = DateTime.parse(to).to_time.strftime("%Y-%m-%d %H:%M:%S")
-  end
-
-  def template
-    "assessment_list_report.erb"
+    @from = DateTime.parse(from).to_time.strftime('%Y-%m-%d %H:%M:%S')
+    @to = DateTime.parse(to).to_time.strftime('%Y-%m-%d %H:%M:%S')
   end
 
   def query
-    RequestContext.open(:repo_id => repo_id) do
+    RequestContext.open(repo_id: repo_id) do
       Assessment.this_repo
-        .filter(:survey_begin => (@from..@to))
-        .filter(Sequel.~(:inactive => 1))
-        .order(Sequel.asc(:id))
+                .filter(survey_begin: (@from..@to))
+                .filter(Sequel.~(inactive: 1))
+                .order(Sequel.asc(:id))
     end
   end
 
   BATCH_SIZE = 5
 
   def each_assessment
-    RequestContext.open(:repo_id => repo_id) do
+    RequestContext.open(repo_id: repo_id) do
       query.each_slice(BATCH_SIZE).each do |objs|
         URIResolver.resolve_references(Assessment.sequel_to_jsonmodel(objs),
-                                       ['records', 'surveyed_by', 'reviewer'])
-          .each do |assessment_json|
+                                       %w[records surveyed_by reviewer])
+                   .each do |assessment_json|
           yield assessment_json
         end
       end
@@ -66,9 +61,9 @@ class AssessmentListReport < AbstractReport
         row.add_multi_value('basic', 'linked_record_titles', (resolved['display_string'] || resolved['title']))
 
         row.add_multi_value('basic', 'linked_record_identifiers',
-                            ['id_0', 'id_1', 'id_2', 'id_3', 'component_id', 'digital_object_id'].map {|property|
+                            %w[id_0 id_1 id_2 id_3 component_id digital_object_id].map do |property|
                               resolved[property]
-                            }.compact.join('.'))
+                            end.compact.join('.'))
       end
 
       BOOLEAN_FIELDS.each do |field|
@@ -131,7 +126,7 @@ class AssessmentListReport < AbstractReport
   end
 
   def to_json
-    ASUtils.to_json(as_table.map {|row| row.to_hash})
+    ASUtils.to_json(as_table.map(&:to_hash))
   end
 
   def to_csv
@@ -143,17 +138,17 @@ class AssessmentListReport < AbstractReport
     # (like "surveyed_by").  Whichever row has the most of a given field will
     # define how many columns we produce.
     table.all_fields.each do |field|
-      field_repetitions = table.map {|row| row.field_count(field[:category], field[:field_name])}.max
-      headers.concat(field_repetitions.times.map {|idx| field.merge(:idx => idx)})
+      field_repetitions = table.map { |row| row.field_count(field[:category], field[:field_name]) }.max
+      headers.concat(field_repetitions.times.map { |idx| field.merge(idx: idx) })
     end
 
     CSV.generate do |csv|
       # Put out the double header row
-      csv << headers.map {|field| field[:category]}
-      csv << headers.map {|field| field[:field_name]}
+      csv << headers.map { |field| field[:category] }
+      csv << headers.map { |field| field[:field_name] }
 
       table.each do |row|
-        csv << headers.map {|header| value_for_csv(row.get_value(header[:category], header[:field_name], header[:idx]))}
+        csv << headers.map { |header| value_for_csv(row.get_value(header[:category], header[:field_name], header[:idx])) }
       end
     end
   end
@@ -168,9 +163,7 @@ class AssessmentListReport < AbstractReport
     end
   end
 
-
   class AssessmentTable
-
     include Enumerable
 
     def initialize
@@ -184,16 +177,14 @@ class AssessmentListReport < AbstractReport
     end
 
     def all_fields
-      fields = @rows.map {|row| row.fields}.flatten(1).uniq
+      fields = @rows.flat_map(&:fields).uniq
 
       # We want to produce the fields in the approximate order they were added.
-      fields.sort_by {|field| @rows.map {|row| row.fields.index(field)}.compact.min}
+      fields.sort_by { |field| @rows.map { |row| row.fields.index(field) }.compact.min }
     end
 
     def each
-      unless block_given?
-        return @rows.each
-      end
+      return @rows.each unless block_given?
 
       @rows.each do |row|
         yield row
@@ -223,11 +214,11 @@ class AssessmentListReport < AbstractReport
     end
 
     def field_count(category, field_name)
-      @fields.select {|field| field[:category] == category && field[:field_name] == field_name}.count
+      @fields.select { |field| field[:category] == category && field[:field_name] == field_name }.count
     end
 
     def add_value(category, field_name, value)
-      @fields << {:category => category, :field_name => field_name}
+      @fields << { category: category, field_name: field_name }
 
       return if value.nil?
 
@@ -236,7 +227,7 @@ class AssessmentListReport < AbstractReport
     end
 
     def add_multi_value(category, field_name, value)
-      @fields << {:category => category, :field_name => field_name}
+      @fields << { category: category, field_name: field_name }
 
       return if value.nil?
 

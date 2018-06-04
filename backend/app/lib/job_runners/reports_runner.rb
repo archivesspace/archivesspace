@@ -41,8 +41,6 @@ class ReportRunner < JobRunner
       file = ASUtils.tempfile('report_job_')
       ReportGenerator.new(report).generate(file)
 
-      # do something to convert to correct format
-
       file.rewind
       @job.write_output('Adding report file.')
       @job.add_file(file)

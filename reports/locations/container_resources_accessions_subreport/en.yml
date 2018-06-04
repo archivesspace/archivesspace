@@ -1,0 +1,6 @@
+en:
+  reports:
+    container_resources_accessions_subreport:
+      type: Record Type
+      record_identifier: Identifier
+      record_title: Title

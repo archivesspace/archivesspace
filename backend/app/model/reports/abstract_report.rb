@@ -11,6 +11,7 @@ class AbstractReport
   attr_accessor :db
   attr_accessor :job
   attr_accessor :info
+  attr_accessor :page_break
 
   def initialize(params, job, db)
     @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ''
@@ -21,6 +22,10 @@ class AbstractReport
     @info = {}
   end
 
+  def page_break
+    true
+  end
+
   def title
     I18n.t("reports.#{code}.title", :default => code)
   end
@@ -29,17 +34,28 @@ class AbstractReport
     AppConfig[:report_page_layout]
   end
 
-  # def orientation
-  #   "portrait"
-  # end
-
   def current_user
     @job.owner
+  end
+
+  def get
+    array = []
+    query.each do |result|
+      row = result.to_hash
+      fix_row(row)
+      array.push(row)
+    end
+    after_tasks
+    array
   end
 
   def query(db = @db)
     raise 'Please specify a query to return your reportable results'
   end
+
+  def fix_row(row); end
+
+  def after_tasks; end
 
   def code
     self.class.code
@@ -49,7 +65,7 @@ class AbstractReport
     self.name.gsub(/(.)([A-Z])/,'\1_\2').downcase
   end
 
-  def identifier(record)
+  def identifier_field
     nil
   end
 

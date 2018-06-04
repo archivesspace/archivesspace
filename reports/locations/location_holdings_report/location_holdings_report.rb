@@ -27,13 +27,13 @@ from
 	from
 		location_profile join location_profile_rlshp
 			on location_profile.id = location_profile_id
-	) as tbl2"
+	) as tbl2".freeze
 
-  QUERY_ORDER = 'order by building, floor, room, location_in_room, location_url'
+  QUERY_ORDER = 'order by building, floor, room, location_in_room, location_url'.freeze
 
-  register_report({
-                      :params => [['locations', 'LocationList', 'The locations of interest']]
-                  })
+  register_report(
+    params: [['locations', 'LocationList', 'The locations of interest']]
+  )
 
   include JSONModel
 
@@ -48,7 +48,7 @@ from
     elsif ASUtils.present?(params['repository_uri'])
       @repository_uri = params['repository_uri']
 
-      RequestContext.open(:repo_id => JSONModel(:repository).id_for(@repository_uri)) do
+      RequestContext.open(repo_id: JSONModel(:repository).id_for(@repository_uri)) do
         unless current_user.can?(:view_repository)
           raise AccessDeniedException, 'User does not have access to view the requested repository'
         end
@@ -76,96 +76,17 @@ from
                      # TODO: add option for range
                      "#{QUERY_BASE} where id = #{start_location.id} #{QUERY_ORDER}"
                    end
-    results = db.fetch(query_string)
-    location_array = []
-
-    results.each do |row|
-      location = row.to_hash
-      location[:containers] = query_containers(location[:id])
-      location.delete(:id)
-      location_array.push(location) if location[:containers]
-    end
-    location_array
+    db.fetch(query_string)
   end
 
-  def query_containers(location_id)
-    query_string = "select
-	indicator as top_container_indicator,
-	barcode as top_container_barcode,
-	ils_item_id,
-	ils_holding_id,
-  name as repository,
-  tbl.id as id from
-	(select top_container_id as id from top_container_housed_at_rlshp
-  where location_id = #{location_id}) as tbl
-    natural join top_container
-    join repository on repo_id = repository.id"
-    containers = db.fetch(query_string)
-    container_array = []
-    containers.each do |container_row|
-      container = container_row.to_hash
-      container[:container_profile] = query_profiles(container[:id])
-      container[:records] = query_resources_and_accessions(container[:id])
-      container.delete(:id)
-      container_array.push(container)
-    end
-    container_array.empty? ? nil : container_array
+  def fix_row(row)
+    row[:containers] = LocationContainersSubreport
+                                .new(self, row[:id]).get
+    row.delete(:id)
   end
 
-  def query_profiles(container_id)
-    query_string = "select name from
-	container_profile join top_container_profile_rlshp
-    on container_profile.id = container_profile_id
-where top_container_id = #{container_id}"
-    profiles = db.fetch(query_string)
-    profile_string = ''
-    profiles.each do |profile_row|
-      profile = profile_row.to_hash
-      next unless profile[:name]
-      profile_string += ', ' if profile_string != ''
-      profile_string += profile[:name]
-    end
-    profile_string.empty? ? nil : profile_string
-  end
-
-  def query_resources_and_accessions(container_id)
-    resource_query_string = "select 'resource' as type,
-  identifier as record_identifier, title as record_title from
-	resource natural join
-	(select distinct GetResourceIdentiferForInstance(instance_id) as identifier, repo_id from
-		sub_container join top_container_link_rlshp
-		on sub_container.id = sub_container_id
-        join top_container on top_container_id = top_container.id
-	where top_container_id = #{container_id}) as tbl
-where resource.repo_id = tbl.repo_id"
-    resources = db.fetch(resource_query_string)
-    array = []
-    resources.each do |resource_row|
-      resource = resource_row.to_hash
-      identifier = ASUtils.json_parse(resource[:record_identifier])
-      resource[:record_identifier] = identifier.compact.join('/')
-      array.push(resource)
-    end
-
-    accession_query_string = "select 'accession' as type,
-  identifier as record_identifier, title as record_title from
-	accession join instance on accession.id = accession_id
-    join sub_container on instance.id = instance_id
-    join top_container_link_rlshp on sub_container.id = sub_container_id
-where top_container_id = #{container_id}"
-    accessions = db.fetch(accession_query_string)
-    accessions.each do |accession_row|
-      accession = accession_row.to_hash
-      identifier = ASUtils.json_parse(accession[:record_identifier])
-      accession[:record_identifier] = identifier.compact.join('/')
-      array.push(accession)
-    end
-
-    array.empty? ? nil : array
-  end
-
-  def identifier(record)
-    record[:location_url]
+  def identifier_field
+    :location_url
   end
 
 end
