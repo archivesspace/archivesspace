@@ -6,6 +6,8 @@ en:
       total_count: Number of Records
       total_extent: Total Extent of Resources
       identifier_prefix: Resource
+      resource_title: Title
+      identifier: Identifier
       dates: Dates
       level: Level
-      containers: Containers
+      locations: Locations

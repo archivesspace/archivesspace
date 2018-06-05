@@ -1,6 +1,6 @@
 # require_relative '../reports/report_response'
 # require_relative '../reports/report_helper'
-require_relative '../reports/../reports/report_generator'
+require_relative '../reports/report_generator'
 require 'json'
 
 class ReportRunner < JobRunner
