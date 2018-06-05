@@ -436,36 +436,35 @@ describe 'OAI handler' do
     end
   end
 
-  #describe "repository with sets disabled" do
-    #before(:all) do
-      #level_id = EnumerationValue.where(:enumeration_id => 32).all
-      #puts level_id.inspect
-      #@repo_sets = create(:json_repo, :oai_sets_available => [4].to_json)
-#
-      #$another_repo_id = $repo_id
-      #$repo_id = @repo_disabled.id
-#
-      #JSONModel.set_repository($repo_id)
-#
-      #@resource1 = create(:json_resource,
-                          #:level => 'collection')
-      #@resource2 = create(:json_resource,
-                          #:level => 'fonds')
-    #end
-#
-    #after(:all) do
-      #@resource1.delete
-      #@resource2.delete
-      #$repo_id = $another_repo_id
-#
-      #JSONModel.set_repository($repo_id)
-    #end
-#
-#
-    #it "does not return an object if set excluded from OAI in repo" do
-    #end
-  #
-    #it "returns an object if set included in OAI in repo" do
-    #end
-  #end
+  describe "repository with sets disabled" do
+    before(:all) do
+      # 891 is the enum_value_id for 'fonds'
+      # add a set restriction for only 'fonds' objects
+      Repository.where(:id => 3).update(:oai_sets_available => ([891]).to_json)
+    end
+
+    after(:all) do
+      # change things back: remove all set restrictions
+      Repository.where(:id => 3).update(:oai_sets_available => "[]")
+    end
+
+    it "does not return an object if set excluded from OAI in repo" do
+      uri = "/oai?verb=ListRecords&set=collection&metadataPrefix=oai_dc"
+      response = get uri
+      doc = Nokogiri::XML(response.body)
+
+      # should not have any non-tombstone results in xml
+      expect(doc.xpath("//xmlns:header[not(@status='deleted')]").length).to eq(0)
+    end
+  
+    it "returns an object if set included in OAI in repo" do
+        # query explicitly for only fonds objects
+        uri = "/oai?verb=ListRecords&set=fonds&metadataPrefix=oai_dc"
+        response = get uri
+        doc = Nokogiri::XML(response.body)
+
+        # should have at least 1 result in XML
+        expect(doc.xpath("//xmlns:header[not(@status='deleted')]").length > 0).to be true
+    end
+  end
 end
