@@ -177,6 +177,7 @@ module ASModel
 
 
     def update_from_json(json, extra_values = {}, apply_nested_records = true)
+
       if self.values.has_key?(:suppressed)
         if self[:suppressed] == 1
           raise ReadOnlyException.new("Can't update an object that has been suppressed")
@@ -360,7 +361,6 @@ module ASModel
           return unless uri
 
           hash = model.to_jsonmodel(sequel_obj.id).to_hash(:trusted)
-          
           DB.after_commit do
             RealtimeIndexing.record_update(hash, uri)
           end

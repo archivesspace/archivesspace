@@ -37,7 +37,6 @@ ArchivesSpace::Application.routes.draw do
     resources :users
 
     resources :groups
-
     match 'groups/:id' => 'groups#update', :via => [:post]
     match 'groups/:id/delete' => 'groups#delete', :via => [:post]
 

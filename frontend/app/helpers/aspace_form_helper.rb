@@ -411,9 +411,6 @@ module AspaceFormHelper
     # takes a JSON representation of the current options selected and the list of archival_record_level enums
     # returns HTML for a set of checkboxes representing current selected and deselected sets for OAI export
     def checkboxes_for_oai_sets(set_json, value_list)
-      # puts "++++++++++++++++++++++++++++"
-      # puts "IN FORM HELPER"
-
       # when called by #new, set_json will be nil.
       if set_json
         set_arry = JSON::parse(set_json)

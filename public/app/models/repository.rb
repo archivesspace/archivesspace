@@ -1,4 +1,4 @@
-class Repository < Struct.new(:code, :name, :uri, :display_name, :parent, :parent_url, :oai_is_disabled)
+class Repository < Struct.new(:code, :name, :uri, :display_name, :parent, :parent_url)
 
   @@AllRepos = {}
   def Repository.get_repos

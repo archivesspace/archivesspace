@@ -155,6 +155,7 @@ class Repository < Sequel::Model(:repository)
     "#{name} (#{repo_code})"
   end
 
+
   def update_from_json(json, opts = {}, apply_nested_records = true)
     reindex_required = self.publish != (json['publish'] ? 1 : 0)
     classification_reindex_required = self.name != json['name']
