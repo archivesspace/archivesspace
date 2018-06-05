@@ -1,7 +1,0 @@
-en:
-  reports:
-    resources_top_containers_subreport:
-      container: Top Container
-      indicator: Indicator
-      container_profile: Profile
-      instances: Instances

@@ -15,11 +15,12 @@ class ReportGenerator
   end
 
   def generate(file)
-    if report.format == 'json'
+    case(report.format)
+    when 'json'
       generate_json(file)
-    elsif report.format == 'html'
+    when 'html'
       generate_html(file)
-    elsif report.format == 'pdf'
+    when 'pdf'
       generate_pdf(file)
     else
       generate_csv(file)

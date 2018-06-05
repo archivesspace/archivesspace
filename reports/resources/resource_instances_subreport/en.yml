@@ -4,3 +4,7 @@ en:
       container_2: Container 2
       container_3: Container 3
       instance_type: Instance Type
+      container: Top Container
+      indicator: Indicator
+      container_profile: Profile
+      instances: Instances
