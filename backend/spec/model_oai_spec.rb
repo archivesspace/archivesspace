@@ -349,7 +349,6 @@ describe 'OAI handler' do
         break if token.nil?
       end
     end
-
   end
 
   describe 'OAI mappers output' do
@@ -436,4 +435,37 @@ describe 'OAI handler' do
       expect(response.body).to match(/<error code="idDoesNotExist">/)
     end
   end
+
+  #describe "repository with sets disabled" do
+    #before(:all) do
+      #level_id = EnumerationValue.where(:enumeration_id => 32).all
+      #puts level_id.inspect
+      #@repo_sets = create(:json_repo, :oai_sets_available => [4].to_json)
+#
+      #$another_repo_id = $repo_id
+      #$repo_id = @repo_disabled.id
+#
+      #JSONModel.set_repository($repo_id)
+#
+      #@resource1 = create(:json_resource,
+                          #:level => 'collection')
+      #@resource2 = create(:json_resource,
+                          #:level => 'fonds')
+    #end
+#
+    #after(:all) do
+      #@resource1.delete
+      #@resource2.delete
+      #$repo_id = $another_repo_id
+#
+      #JSONModel.set_repository($repo_id)
+    #end
+#
+#
+    #it "does not return an object if set excluded from OAI in repo" do
+    #end
+  #
+    #it "returns an object if set included in OAI in repo" do
+    #end
+  #end
 end
