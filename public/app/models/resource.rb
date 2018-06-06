@@ -183,7 +183,7 @@ class Resource < Record
 
   def parse_related_accessions
     ASUtils.wrap(raw['related_accession_uris']).collect{|uri|
-      unless raw['_resolved_related_accession_uris'].nil?
+      if raw['_resolved_related_accession_uris'] && !raw['_resolved_related_accession_uris'][uri].nil?
         raw['_resolved_related_accession_uris'][uri].first
       end
     }.compact.select{|accession|
