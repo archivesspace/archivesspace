@@ -4,9 +4,3 @@ en:
       title: Accession Receipt Report
       description: Displays a receipt indicating accessioning of materials. Report contains accession number, title, extent, accession date, and repository.
       identifier_prefix: Accession
-      accession_title: Accession Title
-      extent: Extent
-      repository: Repository
-      repository_date: Added to repository on
-      accession_number: Accession Number
-      container_summary: Container Summary

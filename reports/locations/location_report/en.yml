@@ -5,12 +5,3 @@ en:
       description: Displays a list of locations, indicating any accessions or resources assigned to defined locations.
       total_count: Number of Locations
       identifier_prefix: Location in
-      building: Building
-      floor: Floor
-      room: Room
-      area: Area
-      coordinates: Coordinates
-      barcode: Barcode
-      classification_number: Classification number
-      accessions: Accessions
-      resources: Resources

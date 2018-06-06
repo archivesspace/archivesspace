@@ -5,18 +5,21 @@ class LocationContainersSubreport < AbstractSubreport
   end
 
   def query
-    query_string = "select
-	indicator as top_container_indicator,
-	barcode as top_container_barcode,
-	ils_item_id,
-	ils_holding_id,
-  name as repository,
-  tbl.id as id from
-	(select top_container_id as id from top_container_housed_at_rlshp
-  where location_id = #{@location_id}) as tbl
-    natural join top_container
-    join repository on repo_id = repository.id"
     db.fetch(query_string)
+  end
+
+  def query_string
+    "select
+      indicator as top_container_indicator,
+      barcode as top_container_barcode,
+      ils_item_id,
+      ils_holding_id,
+      tbl.id as id
+    from
+      (select top_container_id as id from top_container_housed_at_rlshp
+      where location_id = #{@location_id}) as tbl
+      natural join top_container
+    where repo_id = #{@repo_id}"
   end
 
   def fix_row(row)

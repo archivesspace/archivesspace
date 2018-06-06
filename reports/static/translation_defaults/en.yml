@@ -1,0 +1,125 @@
+en:
+  reports:
+    translation_defaults:
+      access_restrictions: Access Restrictions?
+      access_restrictions_note: Access Restrictions Note
+      accession_date: Accession Date
+      accession_number: Accession Number
+      accession_title: Title
+      accessioned_between: Accessioned Between
+      accessions: Accessions
+      acknowledgement_sent: Acknowledgement Sent?
+      acquisition_type: Acquisition Type
+      acquisitions: Acquisitions
+      area: Area
+      barcode: Barcode
+      begin_date: Begin Date
+      between: Accessioned Between
+      building: Building
+      building_report_type: Building
+      bulk_begin_date: Bulk Begin Date
+      bulk_end_date: Bulk End Date
+      cataloged: Cataloged
+      classification_number: Classification number
+      classifications: Classifications
+      component_identifier: Component Identifer
+      component_title: Component Title
+      condition_note: Condition
+      container: Container
+      container_2: Container 2
+      container_3: Container 3
+      container_profile: Container Profile
+      container_summary: Container Summary
+      containers: Containers
+      coordinates: Coordinates
+      create_time: Time Created
+      created_between: Accessions created in date range
+      date: Date
+      date_expression: Date Expression
+      dates: Dates
+      deaccessions: Deaccessions
+      description: Description
+      description_note: Description
+      digital_object_title: Title
+      disposition_note: Disposition
+      end_date: End Date
+      end_range: Last location
+      extent: Extent
+      file_versions: File Version(s)
+      floor: Floor
+      function: Function
+      general_note: General Note
+      identifier: Identifier
+      ils_holding_id: ILD Holding ID
+      ils_item_id: ILS Item ID
+      indicator: Indicator
+      instance_type: Instance Type
+      instances: Instances
+      inventory: Inventory
+      level: Level
+      linked_resources: Linked Resource(s)
+      location: Location
+      location_barcode: Location Barcode
+      location_in_room: Location in Room
+      location_profile: Location Profile
+      location_range_report_type: Range of Locations
+      location_title: Title
+      location_url: Location URL
+      locations: Locations
+      name: Name
+      name_source: Name Source
+      name_type: Name Type
+      names: Names
+      no_restrictions: No restrictions.
+      notification_sent: Notification Sent
+      number_of_accessions: Number of accessions
+      number_of_records: Number of Records
+      number_with_inventories: Number with Inventories
+      object_type: Object Type
+      processed_date: Date Processed
+      processing_priority: Processing Priority
+      processing_status: Processing Status
+      processors: Processors
+      record_identifier: Identifier
+      record_title: Title
+      records: Resources and Accessions
+      repository: Repository
+      repository_date: Added to repository on
+      repository_report_type: Repository
+      resource_identifier: Resource Identifier
+      resource_title: Title
+      resources: Resources
+      restrictions_apply: Retrictions Apply?
+      retention_rule: Retention
+      retrictions_apply: Restrictions apply.
+      rights_and_restrictions: Rights and Restrictions
+      rights_transferred: Rights Transferred?
+      rights_transferred_false: Not transferred
+      rights_transferred_note: Rights Transferred Note
+      rights_transferred_true: Rights Transferred
+      role: Role
+      room: Room
+      search_range: Report on a range of locations
+      single_location_report_type: Single Location
+      sort_name: Sort Name
+      source: Source
+      start_range: First location
+      subject_title: Title
+      subjects: Subjects
+      term: Term
+      term_type: Term Type
+      title: Title
+      top_container_barcode: Top Container Barcode
+      top_container_indicator: Top Container Indicator
+      total_count: Number of Records
+      total_deaccessions_extent: Total Extent of Deaccessions
+      total_extent: Total Extent of Records
+      total_extent_of_deaccessions: Total Extent of Deaccessions
+      total_extent_of_unprocessed: Total Extent of Unprocessed Accessions
+      total_transferred: Accessions with Rights Transferred
+      total_unprocessed: Unprocessed Accessions
+      type: Type
+      uri: URI
+      use_restrictions: Use Restrictions?
+      use_restrictions_note: Use Restrictions Note
+      use_statement: Use Statement

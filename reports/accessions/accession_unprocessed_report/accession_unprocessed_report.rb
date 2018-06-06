@@ -2,10 +2,6 @@ class AccessionUnprocessedReport < AbstractReport
 
   register_report
 
-  def template
-    'accession_unprocessed_report.erb'
-  end
-
   def query
     db[:accession].
       select(Sequel.as(:id, :accessionId),

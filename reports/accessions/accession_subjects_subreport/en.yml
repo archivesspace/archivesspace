@@ -1,6 +1,3 @@
 en:
   reports:
     accession_subjects_subreport:
-      term: Term
-      type: Type
-      source: Source

@@ -132,14 +132,16 @@ class ReportGenerator
   end
 
   def identifier(record)
-    "#{t('identifier_prefix')} #{record[report.identifier_field]}" if report.identifier_field
+    [t('identifier_prefix', nil), record[report.identifier_field]].compact.join(' ') if report.identifier_field
   end
 
-  def t(key)
+  def t(key, default='')
+    defalut = key if default == ''
+    global = I18n.t("reports.translation_defaults.#{key}", :default => default)
     if sub_report_code_stack.empty?
-      I18n.t("reports.#{report.code}.#{key}")
+      I18n.t("reports.#{report.code}.#{key}", :default => global)
     else
-      I18n.t("reports.#{sub_report_code_stack.last}.#{key}")
+      I18n.t("reports.#{sub_report_code_stack.last}.#{key}", :default => global)
     end
   end
 end

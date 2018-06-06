@@ -2,20 +2,32 @@ class AccessionDeaccessionsListReport < AbstractReport
   register_report
 
   def query
-    results = db[:accession]
-              .select(Sequel.as(:id, :accession_id),
-                      Sequel.as(:identifier, :accession_number),
-                      Sequel.as(:title, :accession_title),
-                      Sequel.as(:accession_date, :accession_date),
-                      Sequel.as(Sequel.lit('GetAccessionContainerSummary(id)'), :container_summary),
-                      Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extent_number),
-                      Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extent_type))
-              .filter(repo_id: @repo_id)
+    results = db.fetch(query_string)
     get_accessioned_between(results)
     get_total_extent(results)
-    info['total_deaccessions_extent'] = 0
+    info[:total_deaccessions_extent] = 0
     info[:number_of_records] = results.count
     results
+  end
+
+  def query_string
+    "select
+      id as accession_id,
+      identifier as accession_number,
+      title as record_title,
+      accession_date,
+      container_summary,
+      extent_number,
+      extent_type
+    from accession natural join
+      (select
+        accession_id as id,
+        sum(number) as extent_number,
+        GROUP_CONCAT(distinct extent_type_id SEPARATOR ', ') as extent_type,
+        GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ') as container_summary
+      from extent
+      group by accession_id) as extent_cnt
+    where repo_id = #{@repo_id}"
   end
 
   def fix_row(row)
