@@ -4,6 +4,7 @@ require 'erb'
 
 class AbstractReport
   include ReportManager::Mixin
+  include JSONModel
 
   attr_accessor :repo_id
   attr_accessor :format
@@ -45,6 +46,7 @@ class AbstractReport
       fix_row(row)
       array.push(row)
     end
+    info[:repository] = repository
     after_tasks
     array
   end
@@ -69,4 +71,7 @@ class AbstractReport
     nil
   end
 
+  def repository
+    Repository.get_or_die(repo_id).name
+  end
 end

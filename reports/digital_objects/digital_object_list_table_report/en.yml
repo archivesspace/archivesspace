@@ -4,8 +4,3 @@ en:
       title: Digital Object table
       description: Displays digital object(s) in table format.  Report contains title, digital object identifier, object type, dates and the title and identifier of linked resources.
       identifier_prefix: Digital Object
-      identifier: Identifier
-      digital_object_title: Title
-      object_type: Object Type
-      date_expression: Date Expression
-      resource_identifier: Resource Identifier

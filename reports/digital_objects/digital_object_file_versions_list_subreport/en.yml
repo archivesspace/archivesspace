@@ -1,7 +1,3 @@
 en:
   reports:
     digital_object_file_versions_list_subreport:
-      uri: URI
-      use_statement: Use Statement
-      component_identifier: Component Identifer
-      component_title: Component Title

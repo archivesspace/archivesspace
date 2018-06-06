@@ -3,8 +3,3 @@ en:
     unprocessed_accessions_report:
       title: Unprocessed Accessions List
       description: Provide a listing of all unprocessed accessions
-      identifier: Identifier
-      accession_title: Title
-      processors: Processors
-      processing_status: Processing Status
-      processing_priority: Processing Priority
