@@ -78,6 +78,10 @@ module ReportUtils
     coor_1 = [row[:coordinate_1_label], row[:coordinate_1_indicator]].compact.join(' ')
     coor_2 = [row[:coordinate_2_label], row[:coordinate_2_indicator]].compact.join(' ')
     coor_3 = [row[:coordinate_3_label], row[:coordinate_3_indicator]].compact.join(' ')
+    coordinates = []
+    coordinates.push(coor_1) if coor_1 != ''
+    coordinates.push(coor_2) if coor_2 != ''
+    coordinates.push(coor_2) if coor_2 != ''
     row[:location_in_room] = [coor_1, coor_2, coor_3].compact.join(', ')
     row.delete(:coordinate_1_label)
     row.delete(:coordinate_1_indicator)
