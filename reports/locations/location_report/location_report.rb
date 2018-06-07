@@ -2,17 +2,7 @@ class LocationReport < AbstractReport
   register_report
 
   def query
-    results = db[:location]
-      .select(Sequel.as(:id, :id),
-              Sequel.as(:building, :building),
-              Sequel.as(:floor, :floor),
-              Sequel.as(:room, :room),
-              Sequel.as(:area, :area),
-              Sequel.as(:barcode, :barcode),
-              Sequel.as(:classification, :classification_number),
-              Sequel.as(Sequel.lit("GetCoordinate(id)"), :coordinates))
-    info['total_count'] = results.count
-    results
+    db.fetch(query_string)
   end
 
   def query_string
