@@ -4,3 +4,6 @@ en:
       title: Location Holdings
       identifier_prefix: Location
       description: Report on containers shelved at one or more locations
+      repository_report_type: Repository
+      single_location_report_type: Single Location
+      building_report_type: Building

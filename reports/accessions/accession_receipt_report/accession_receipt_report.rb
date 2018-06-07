@@ -6,19 +6,32 @@ class AccessionReceiptReport < AbstractReport
   end
 
   def query
-    db[:accession]
-      .select(Sequel.as(:identifier, :accession_number),
-              Sequel.as(:title, :accession_title),
-              Sequel.as(:accession_date, :repository_date),
-              Sequel.as(Sequel.lit('GetAccessionContainerSummary(id)'), :container_summary),
-              Sequel.as(Sequel.lit('GetRepositoryName(repo_id)'), :repository),
-              Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extent_number),
-              Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extent_type))
-      .filter(repo_id: @repo_id)
+    db.fetch(query_string)
+  end
+
+  def query_string
+    "select
+      identifier as accession_number,
+      title as record_title,
+      accession_date as repository_date,
+      container_summary,
+      extent_number,
+      extent_type
+    from accession
+      natural left outer join
+        (select
+          accession_id as id,
+          sum(number) as extent_number,
+          GROUP_CONCAT(distinct extent_type_id SEPARATOR ', ') as extent_type,
+          GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ') as container_summary
+        from extent
+        group by accession_id) as extent_cnt
+    where repo_id = #{@repo_id}"
   end
 
   def fix_row(row)
     ReportUtils.fix_identifier_format(row, :accession_number)
+    ReportUtils.get_enum_values(row, [:extent_type])
     ReportUtils.fix_extent_format(row)
   end
 

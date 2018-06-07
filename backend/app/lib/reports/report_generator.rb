@@ -136,8 +136,12 @@ class ReportGenerator
   end
 
   def t(key, default='')
-    defalut = key if default == ''
-    global = I18n.t("reports.translation_defaults.#{key}", :default => default)
+    if default == ''
+      fallback = key
+    else
+      fallback = default
+    end
+    global = I18n.t("reports.translation_defaults.#{key}", :default => fallback)
     if sub_report_code_stack.empty?
       I18n.t("reports.#{report.code}.#{key}", :default => global)
     else

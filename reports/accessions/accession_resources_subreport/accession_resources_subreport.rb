@@ -6,13 +6,14 @@ class AccessionResourcesSubreport < AbstractSubreport
   end
 
   def query
-    relationships = db[:spawned_rlshp].
-                      filter(:spawned_rlshp__accession_id => @accession_id)
+    db.fetch(query_string)
+  end
 
-    db[:resource]
-      .filter(:id => relationships.select(:resource_id))
-      .select(Sequel.as(:identifier, :identifier),
-              Sequel.as(:title, :title))
+  def query_string
+    "select identifier, title
+    from resource, spawned_rlshp
+    where spawned_rlshp.accession_id = #{@accession_id}
+      and spawned_rlshp.resource_id = resource.id"
   end
 
   def fix_row(row)
