@@ -4,10 +4,10 @@ class AssessmentListReport < AbstractReport
                       finding_aid_paper finding_aid_word finding_aid_spreadsheet
                       related_eac_records].freeze
 
-  register_report(
-    params: [['from', Date, 'The start of report range'],
-             ['to', Date, 'The start of report range']]
-  )
+  # register_report(
+  #   params: [['from', Date, 'The start of report range'],
+  #            ['to', Date, 'The start of report range']]
+  # )
 
   def initialize(params, job, db)
     super

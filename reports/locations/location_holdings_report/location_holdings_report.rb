@@ -44,7 +44,12 @@ class LocationHoldingsReport < AbstractReport
       building,
       floor,
       room,
-      location_in_room,
+      coordinate_1_label,
+      coordinate_1_indicator,
+      coordinate_2_label,
+      coordinate_2_indicator,
+      coordinate_3_label,
+      coordinate_3_indicator,
       location_url,
       location_profile,
       location_barcode
@@ -52,13 +57,18 @@ class LocationHoldingsReport < AbstractReport
 
       (select
         id as location_id,
-        title as location_title,
-        building,
-        floor,
-        room,
-        GetCoordinate(id) as location_in_room,
-        concat('/locations/', id) as location_url,
-        barcode as location_barcode
+            title as location_title,
+            building,
+            floor,
+            room,
+            coordinate_1_label,
+            coordinate_1_indicator,
+            coordinate_2_label,
+            coordinate_2_indicator,
+            coordinate_3_label,
+            coordinate_3_indicator,
+            concat('/locations/', id) as location_url,
+            barcode as location_barcode
       from location) as tbl1
 
       natural left outer join
@@ -73,6 +83,7 @@ class LocationHoldingsReport < AbstractReport
                   
 
   def fix_row(row)
+    ReportUtils.get_location_coordinate(row)
     row[:containers] = LocationContainersSubreport
                                 .new(self, row[:id]).get
     row.delete(:id)

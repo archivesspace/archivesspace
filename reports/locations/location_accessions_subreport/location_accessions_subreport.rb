@@ -5,17 +5,29 @@ class LocationAccessionsSubreport < AbstractSubreport
   end
 
   def query
-    db[:location]
-      .inner_join(:top_container_housed_at_rlshp, top_container_housed_at_rlshp__location_id: :location__id)
-      .inner_join(:top_container, top_container__id: :top_container_housed_at_rlshp__top_container_id)
-      .inner_join(:top_container_link_rlshp, top_container_link_rlshp__top_container_id: :top_container__id)
-      .inner_join(:sub_container, sub_container__id: :top_container_link_rlshp__sub_container_id)
-      .inner_join(:instance, instance__id: :sub_container__instance_id)
-      .inner_join(:accession, accession__id: :instance__accession_id)
-      .filter(location__id: @location_id)
-      .filter(accession__repo_id: repo_id)
-      .select(Sequel.as(:accession__identifier, :identifier),
-              Sequel.as(:accession__title, :title))
+    db.fetch(query_string)
+  end
+
+  def query_string
+    "select
+      accession.identifier as identifier,
+        accession.title as title
+    from 
+      (select * from top_container_housed_at_rlshp
+      where location_id = #{@location_id}) as top_ids
+
+      join top_container on top_container.id = top_ids.id
+
+      join top_container_link_rlshp
+        on top_container_link_rlshp.top_container_id = top_container.id
+
+      join sub_container
+        on sub_container.id = top_container_link_rlshp.sub_container_id
+
+      join instance on instance.id = sub_container.instance_id
+        join accession on accession.id = instance.accession_id
+
+    where accession.repo_id = #{@repo_id}"
   end
 
   def fix_row(row)

@@ -6,24 +6,41 @@ class ContainerResourcesAccessionsSubreport < AbstractSubreport
   end
 
   def query
-    resource_query_string = "select 'resource' as type,
-  identifier as record_identifier, title as record_title from
-	resource natural join
-	(select distinct GetResourceIdentiferForInstance(instance_id) as identifier, repo_id from
-		sub_container join top_container_link_rlshp
-		on sub_container.id = sub_container_id
-        join top_container on top_container_id = top_container.id
-	where top_container_id = #{@container_id}) as tbl
-where resource.repo_id = tbl.repo_id"
+    db.fetch(query_string)
+  end
 
-    accession_query_string = "select 'accession' as type,
-  identifier as record_identifier, title as record_title from
-	accession join instance on accession.id = accession_id
-    join sub_container on instance.id = instance_id
-    join top_container_link_rlshp on sub_container.id = sub_container_id
-where top_container_id = #{@container_id}"
+  def query_string
+    "select distinct 
+      'resource' as type,
+        resource.identifier as record_identifier,
+        resource.title as record_title 
+    from
+      (select sub_container_id as id
+        from top_container_link_rlshp 
+        where top_container_id = #{@container_id}) as sub_ids
+        
+        join sub_container on sub_ids.id = sub_container.id
+        
+        join instance on sub_container.instance_id = instance.id
+        
+        left outer join archival_object
+        on instance.archival_object_id = archival_object.id
+      
+        join resource
+        on resource.id = instance.resource_id
+          or resource.id = archival_object.root_record_id
+                
+    union
 
-    db.fetch(resource_query_string).union(db.fetch(accession_query_string))
+    select
+      'accession' as type,
+      identifier as record_identifier,
+        title as record_title
+    from accession
+        join instance on accession.id = accession_id
+        join sub_container on instance.id = instance_id
+        join top_container_link_rlshp on sub_container.id = sub_container_id
+    where top_container_id = #{@container_id}"
   end
 
   def fix_row(row)
