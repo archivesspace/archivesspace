@@ -13,17 +13,23 @@ class CreatedAccessionsReport < AbstractReport
     @from = DateTime.parse(from).to_time.strftime('%Y-%m-%d %H:%M:%S')
     @to = DateTime.parse(to).to_time.strftime('%Y-%m-%d %H:%M:%S')
 
-    info['created_between'] = "#{from} - #{to}"
+    info[:created_between] = "#{from} - #{to}"
   end
 
   def query
-    db[:accession].where(accession_date: (@from..@to))
-                  .order(Sequel.asc(:accession_date))
-                  .filter(repo_id: @repo_id)
-                  .select(Sequel.as(:identifier, :accession_number),
-                          Sequel.as(:title, :accession_title),
-                          Sequel.as(:accession_date, :accession_date),
-                          Sequel.as(:create_time, :create_time))
+    db.fetch(query_string)
+  end
+
+  def query_string
+    "select
+      identifier as accession_number,
+      title as record_title,
+      accession_date
+    from accession
+    where accession_date > #{@from.split(' ')[0].gsub('-', '')} 
+      and accession_date < #{@to.split(' ')[0].gsub('-', '')}
+      and repo_id = #{@repo_id}
+    order by accession_date"
   end
 
   def fix_row(row)
@@ -31,7 +37,7 @@ class CreatedAccessionsReport < AbstractReport
   end
 
   def identifier_field
-    :identifier
+    :accession_number
   end
 
   def page_break

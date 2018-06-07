@@ -7,6 +7,8 @@ en:
       accession_number: Accession Number
       accession_title: Title
       accessioned_between: Accessioned Between
+      accession_processed: Accession Processed?
+      accession_processed_date: Acceccion Processed Date
       accessions: Accessions
       acknowledgement_sent: Acknowledgement Sent?
       acquisition_type: Acquisition Type
@@ -16,7 +18,6 @@ en:
       begin_date: Begin Date
       between: Accessioned Between
       building: Building
-      building_report_type: Building
       bulk_begin_date: Bulk Begin Date
       bulk_end_date: Bulk End Date
       cataloged: Cataloged
@@ -62,7 +63,6 @@ en:
       location_barcode: Location Barcode
       location_in_room: Location in Room
       location_profile: Location Profile
-      location_range_report_type: Range of Locations
       location_title: Title
       location_url: Location URL
       locations: Locations
@@ -85,7 +85,6 @@ en:
       records: Resources and Accessions
       repository: Repository
       repository_date: Added to repository on
-      repository_report_type: Repository
       resource_identifier: Resource Identifier
       resource_title: Title
       resources: Resources
@@ -99,8 +98,6 @@ en:
       rights_transferred_true: Rights Transferred
       role: Role
       room: Room
-      search_range: Report on a range of locations
-      single_location_report_type: Single Location
       sort_name: Sort Name
       source: Source
       start_range: First location
