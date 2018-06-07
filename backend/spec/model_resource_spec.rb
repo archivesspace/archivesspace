@@ -37,30 +37,6 @@ describe 'Resource model' do
     expect(ARKIdentifier.first(:resource_id => resource_id)).to be_nil
   end
 
-  it "Adds resource ID as external_id in ARKIdentifier record if resource id looks like an ARK url" do
-    opts = {:id_0 => "http://foo.com/ark:/234/123", :title => generate(:generic_title)}
-    resource = create_resource(opts)
-
-    resource_id = resource.id
-
-    ark = ARKIdentifier.first(:resource_id => resource_id)
-    expect(ark).to_not be_nil
-    expect(ark.external_id).to eq("http://foo.com/ark:/234/123")
-  end
-
-  it "updates resource ID as external_id in ARKIdentifier record if resource id updated with ARK url" do
-    opts = {:title => generate(:generic_title)}
-    resource = create_resource(opts)
-
-    json = build(:json_resource, {:id_0 => "http://foo.com/ark:/234/123", :id_1 => "5678", :id_2 => "9876", :id_3 => "5432"})
-    resource.update_from_json(json, {lock_version: 0})
-
-    resource_id = resource.id
-    ark = ARKIdentifier.first(:resource_id => resource_id)
-    expect(ark).to_not be_nil
-    expect(ark.external_id).to eq("http://foo.com/ark:/234/123")
-  end
-
   it "prevents duplicate IDs " do
     opts = {:id_0 => generate(:alphanumstr)}
 
