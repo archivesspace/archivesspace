@@ -13,7 +13,19 @@ module ReportUtils
   end
 
   def self.fix_identifier_format(row, field_name = :identifier)
-    row[field_name] = ASUtils.json_parse(row[field_name]).compact.join('.') if row[field_name]
+    if row[field_name]
+      identifiers = row[field_name].split(',,,')
+    else
+      identifiers = []
+    end
+
+    result = []
+
+    identifiers.each do |identifier|
+      result.push(ASUtils.json_parse(identifier).compact.join('.'))
+    end
+
+    row[field_name] = result.join(', ')
   end
 
   def self.fix_decimal_format(record, fields)
@@ -60,5 +72,18 @@ module ReportUtils
 
       row[field] = results.join(', ')
     end
+  end
+
+  def self.get_location_coordinate(row)
+    coor_1 = [row[:coordinate_1_label], row[:coordinate_1_indicator]].compact.join(' ')
+    coor_2 = [row[:coordinate_2_label], row[:coordinate_2_indicator]].compact.join(' ')
+    coor_3 = [row[:coordinate_3_label], row[:coordinate_3_indicator]].compact.join(' ')
+    row[:location_in_room] = [coor_1, coor_2, coor_3].compact.join(', ')
+    row.delete(:coordinate_1_label)
+    row.delete(:coordinate_1_indicator)
+    row.delete(:coordinate_2_label)
+    row.delete(:coordinate_2_indicator)
+    row.delete(:coordinate_3_label)
+    row.delete(:coordinate_3_indicator)
   end
 end

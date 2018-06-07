@@ -8,7 +8,10 @@ class DigitalObjectFileVersionsReport < AbstractReport
   end
 
   def query_string
-    "select id, digital_object_id as identifier, title as digital_object_title
+    "select 
+      id,
+      digital_object_id as identifier,
+      title as digital_object_title
     from digital_object where repo_id = #{@repo_id}"
   end
 

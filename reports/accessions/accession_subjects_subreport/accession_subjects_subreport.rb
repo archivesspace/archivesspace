@@ -21,7 +21,7 @@ class AccessionSubjectsSubreport < AbstractSubreport
         on subject_term.subject_id = subject.id
       left outer join term
         on subject_term.term_id = term.id
-    where subject_rlshp.accession_id = #{accession_id}
+    where subject_rlshp.accession_id = #{@accession_id}
     group by subject.id"
   end
 

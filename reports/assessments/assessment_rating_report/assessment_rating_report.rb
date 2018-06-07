@@ -7,12 +7,12 @@ class AssessmentRatingReport < AbstractReport
 
   attr_reader :values_of_interest
 
-  register_report({
-                    :params => [["from", Date, "The start of report range"],
-                                ["to", Date, "The start of report range"],
-                                ["rating", "Rating", "The assessment rating to report on"],
-                                ["values", "RatingValues", "The assessment rating values to include"]]
-                  })
+  # register_report({
+  #                   :params => [["from", Date, "The start of report range"],
+  #                               ["to", Date, "The start of report range"],
+  #                               ["rating", "Rating", "The assessment rating to report on"],
+  #                               ["values", "RatingValues", "The assessment rating values to include"]]
+  #                 })
 
   def initialize(params, job, db)
     super
