@@ -26,7 +26,7 @@ class AccessionSubjectsSubreport < AbstractSubreport
   end
 
   def fix_row(row)
-    ReportUtils.get_enum_values(row, [type, source])
+    ReportUtils.get_enum_values(row, [:type, :source])
   end
 
 end
