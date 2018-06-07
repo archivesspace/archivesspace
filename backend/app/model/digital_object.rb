@@ -80,14 +80,5 @@ class DigitalObject < Sequel::Model(:digital_object)
                          :json_property => :digital_object_id)
 
 
-  # If we have an ID for a digital_object that looks like an ARK, 
-  # update the external_id field in the linked ARKIdentifier record
-  def after_save
-    if self.digital_object_id =~ /ark:\//
-      ark = ARKIdentifier.first(digital_object_id: self.id)
-      ark.update(:external_id => self.digital_object_id) if ark
-    end
 
-    super
-  end
 end

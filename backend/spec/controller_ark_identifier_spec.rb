@@ -32,16 +32,32 @@ describe 'ARK Identifier controller' do
     expect(last_response.status).to eq(404)
   end
 
-  it "should redirect to external ID if specified" do
-    resource = create_resource(:title => generate(:generic_title))
+  it "should redirect to external_ark_url in resource if defined" do
+    resource = create_resource(:title => generate(:generic_title),
+                               :external_ark_url => "http://foo.bar/ark:/123/123")
     ark = ARKIdentifier.first(:resource_id => resource.id)
 
-    json = build(:ark_external_id)
-    ark.update_from_json(json, {lock_version: 0})
+    get "/ark:/f00001/#{ark.id}"
+    expect(last_response.status).to eq(302)
+    expect(last_response.location).to eq("http://foo.bar/ark:/123/123")
+  end
+
+  it "should redirect to external_ark_url in accession if defined" do
+    accession = create_accession(:external_ark_url => "http://foo.bar/ark:/123/123")
+    ark = ARKIdentifier.first(:accession_id => accession.id)
 
     get "/ark:/f00001/#{ark.id}"
-
     expect(last_response.status).to eq(302)
-    expect(last_response.location).to eq('http://external.id')
+    expect(last_response.location).to eq("http://foo.bar/ark:/123/123")
+  end
+
+  it "should redirect to external_ark_url in digital_object if defined" do
+    json = build(:json_digital_object, {:external_ark_url => "http://foo.bar/ark:/123/123" })
+    digital_object = DigitalObject.create_from_json(json)
+    ark = ARKIdentifier.first(:digital_object_id => digital_object.id)
+
+    get "/ark:/f00001/#{ark.id}"
+    expect(last_response.status).to eq(302)
+    expect(last_response.location).to eq("http://foo.bar/ark:/123/123")
   end
 end

@@ -7,6 +7,7 @@
     "properties" => {
       "uri" => {"type" => "string", "required" => false},
 
+      "external_ark_url" => {"type" => "string", "required" => false},
       "external_ids" => {"type" => "array", "items" => {"type" => "JSONModel(:external_id) object"}},
 
       "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},

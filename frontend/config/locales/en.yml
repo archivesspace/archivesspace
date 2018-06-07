@@ -444,6 +444,7 @@ en:
       action:
         create: Create Accession
         save: Save Accession
+    external_ark_url: External ARK URL
 
   agent: &agent_attributes
     _frontend:
@@ -606,6 +607,7 @@ en:
         add_child: Add Child
         create: Create Digital Object
         save: Save Digital Object
+    external_ark_url: External ARK URL
 
   digital_object_component:
     _frontend:
@@ -858,6 +860,7 @@ en:
         create: Create Resource
         save: Save Resource
         delete_multiple: Delete Resources
+    external_ark_url: External ARK URL
 
   preference:
     _frontend:
