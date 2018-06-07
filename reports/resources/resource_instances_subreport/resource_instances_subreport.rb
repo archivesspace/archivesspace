@@ -20,7 +20,7 @@ class ResourceInstancesSubreport < AbstractSubreport
           sorted[top_id][:indicator] = result[:indicator_1]
         end
         ReportUtils.fix_container_indicator(sorted[top_id])
-        sorted[top_id][:container_profile] = ''
+        sorted[top_id][:container_profile] = query_profiles(top_id)
         sorted[top_id][:instances] = []
         sorted[top_id][:id] = top_id
       end
@@ -57,7 +57,6 @@ where instance_type != 'digital_object'"
   end
 
   def fix_row(row)
-    row[:container_profile] += query_profiles(row[:id])
     row[:instances].each do |instance|
       ReportUtils.fix_container_indicator(instance, 2)
       ReportUtils.fix_container_indicator(instance, 3)
