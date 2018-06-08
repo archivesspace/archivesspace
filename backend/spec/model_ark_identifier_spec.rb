@@ -102,4 +102,33 @@ describe 'ARKIdentifier model' do
     expect(ARKIdentifier::get_ark_url(resource.id, :resource)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
   end
 
+  it "get_ark_url returns external_ark_url if defined on the resource" do
+    external_ark_url = "http://foo.bar/ark:/123/123"
+    opts = {:title => generate(:generic_title), 
+                      external_ark_url: external_ark_url}
+    resource = create_resource(opts)
+    ark = ARKIdentifier.first(:resource_id => resource.id)
+
+    expect(ARKIdentifier::get_ark_url(resource.id, :resource)).to eq("http://foo.bar/ark:/123/123")
+  end
+
+  it "get_ark_url returns external_ark_url if defined on the accession" do
+    external_ark_url = "http://foo.bar/ark:/123/123"
+    opts = {:title => generate(:generic_title), 
+                      external_ark_url: external_ark_url}
+    accession = create_accession(opts)
+    ark = ARKIdentifier.first(:accession_id => accession.id)
+
+    expect(ARKIdentifier::get_ark_url(accession.id, :accession)).to eq("http://foo.bar/ark:/123/123")
+  end
+
+   it "get_ark_url returns external_ark_url if defined on the digital object" do
+    external_ark_url = "http://foo.bar/ark:/123/123"
+    opts = {:title => generate(:generic_title), 
+                      external_ark_url: external_ark_url}
+    digital_object = create_digital_object(opts)
+    ark = ARKIdentifier.first(:digital_object_id => digital_object.id)
+
+    expect(ARKIdentifier::get_ark_url(digital_object.id, :digital_object)).to eq("http://foo.bar/ark:/123/123")
+  end
 end

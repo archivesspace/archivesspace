@@ -62,16 +62,57 @@ class ARKIdentifier < Sequel::Model(:ark_identifier)
   def self.get_ark_url(id, type)
     case type
     when :digital_object
-      ark = ARKIdentifier.first(:digital_object_id => id)
-      return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
+      id_field = :digital_object_id
+      klass_sym = :digital_object
     when :resource
-      ark = ARKIdentifier.first(:resource_id => id)
-      return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
+      id_field = :resource_id
+      klass_sym = :resource
     when :accession
-      ark = ARKIdentifier.first(:accession_id => id)
-      return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
+      id_field = :accession_id
+      klass_sym = :accession
+    else
+      return nil
     end
 
-    return ""
+    ark = ARKIdentifier.first(id_field => id)
+
+    if ark
+      external_url = get_external_ark_url(ark.send(id_field), klass_sym)
+
+      if external_url
+        return external_url
+      else
+        return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}"
+      end
+    else
+      return nil
+    end
+
+    #ark = ARKIdentifier.first(:resource_id => id)
+    #return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
+#
+    #ark = ARKIdentifier.first(:accession_id => id)
+    #return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
+    #return ""
+  end
+
+  private
+
+  # digital object, accession or resource may have an external_ark_url defined.
+  # query object to see. if found, find it and return it
+  def self.get_external_ark_url(id, type)
+    case type
+    when :digital_object
+      klass = DigitalObject
+    when :accession
+      klass = Accession
+    when :resource
+      klass = Resource
+    else
+      return nil
+    end
+
+    entity = klass.where(:id => id).first
+    return entity.send(:external_ark_url)
   end
 end
