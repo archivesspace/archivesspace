@@ -28,11 +28,11 @@ class OAIDCTermsMapper
 
         case jsonmodel['jsonmodel_type']
         when "resource"
-          ark_identifier = JSONModel::get_ark_url(jsonmodel.id, :resource)
+          ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :resource)
         when "digital_object"
-          ark_identifier = JSONModel::get_ark_url(jsonmodel.id, :digital_object)
+          ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :digital_object)
         when "accession"
-          ark_identifier = JSONModel::get_ark_url(jsonmodel.id, :accession)
+          ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :accession)
         else 
           ark_identifier = ""
         end

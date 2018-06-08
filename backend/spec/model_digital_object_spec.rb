@@ -18,14 +18,6 @@ describe 'Digital object model' do
     expect(ARKIdentifier.first(:digital_object_id => digital_object.id)).to_not be_nil
   end
 
-  it "creates an ARK url for digital_object" do
-    json = build(:json_digital_object)
-    digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
-    ark = ARKIdentifier.first(:digital_object_id => digital_object.id)
-
-    expect(JSONModel::get_ark_url(digital_object.id, :digital_object)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
-  end
-
 
   it "deletes ARK Identifier when digital_object is deleted" do
     json = build(:json_digital_object)
