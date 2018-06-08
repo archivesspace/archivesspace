@@ -582,7 +582,7 @@ class MARCModel < ASpaceExport::ExportModel
                                     ['u', ead_loc]
                                   )
     else
-       ark_url = JSONModel::get_ark_url(resource_id, :resource)
+       ark_url = ARKIdentifier::get_ark_url(resource_id, :resource)
        df('856', '4', '2').with_sfs(
                                     ['z', "Finding aid online:"],
                                     ['u', ark_url]

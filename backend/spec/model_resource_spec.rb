@@ -18,14 +18,6 @@ describe 'Resource model' do
     expect(ARKIdentifier.first(:resource_id => resource.id)).to_not be_nil
   end
 
-  it "creates an ARK url for resource" do
-    opts = {:title => generate(:generic_title)}
-    resource = create_resource(opts)
-    ark = ARKIdentifier.first(:resource_id => resource.id)
-
-    expect(JSONModel::get_ark_url(resource.id, :resource)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
-  end
-
   it "deletes ARK Identifier when resource is deleted" do
     opts = {:title => generate(:generic_title)}
     resource = create_resource(opts)

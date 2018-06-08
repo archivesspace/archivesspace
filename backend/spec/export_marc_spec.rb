@@ -1126,7 +1126,7 @@ end
     it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank" do
       resource = create(:json_resource_blank_ead_location)
       marc = get_marc(resource)
-      ark_url = JSONModel.get_ark_url(resource.id, :resource)
+      ark_url = ARKIdentifier.get_ark_url(resource.id, :resource)
 
       df = marc.df('856', '4', '2')
       df.sf_t('u').should eq(ark_url)
