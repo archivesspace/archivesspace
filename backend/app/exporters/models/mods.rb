@@ -14,6 +14,7 @@ class MODSModel < ASpaceExport::ExportModel
   attr_accessor :parts
   attr_accessor :repository_note
   attr_accessor :identifier
+  attr_accessor :ark_identifier
   attr_accessor :dates
 
   @archival_object_map = {
@@ -23,6 +24,7 @@ class MODSModel < ASpaceExport::ExportModel
     :subjects => :handle_subjects,
     :linked_agents => :handle_agents,
     :notes => :handle_notes,
+    :digital_object_id => :handle_id,
     :id => :handle_ark_id,
     :dates => :handle_dates
   }
@@ -260,9 +262,14 @@ class MODSModel < ASpaceExport::ExportModel
     end
   end
 
+
+  def handle_id(digital_object_id)
+    self.identifier = digital_object_id
+  end
+
   def handle_ark_id(id)
     ark_url = ARKIdentifier::get_ark_url(id, :digital_object)
-    self.identifier = ark_url
+    self.ark_identifier = ark_url
   end
 
 
