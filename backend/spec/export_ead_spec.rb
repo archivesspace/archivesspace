@@ -25,8 +25,13 @@ describe "EAD export mappings" do
     }
 
     @digital_objects = {}
-    5.times {
-      d = create(:json_digital_object)
+    3.times {
+      d = create(:json_digital_object, :publish => true)
+      @digital_objects[d.uri] = d
+    }
+    # ANW-285: Add some file_versions with publish = false to test that exporter handles them correctly
+    2.times {
+      d = create(:json_digital_object_unpub_files, :publish => true)
       @digital_objects[d.uri] = d
     }
 
@@ -207,6 +212,8 @@ describe "EAD export mappings" do
         DB.open(true) do
           load_export_fixtures
           @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+
+          @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
 
 
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
@@ -1015,6 +1022,53 @@ describe "EAD export mappings" do
       end
     end
 
+    # ANW-285: This test set is generating random data for digital objects in the EAD export.
+    # The XML generated is different every time the test is run, hence this test is cycling through
+    # all the digital objects defined in the current run rather that use a deterministic approach.
+    it "displays file_uri if file version is published, digital_object_id otherwise" do
+
+      # for each digital object generated
+      digital_objects.each do |d|
+        digital_object_id = d['digital_object_id']
+
+        if d['file_versions'].length == 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
+        elsif d['file_versions'].length > 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:daogrp/xmlns:daoloc"
+        end
+
+
+        # for each file version in the digital object
+        d['file_versions'].each do |fv|
+          file_uri = fv['file_uri']
+          publish = fv['publish']
+
+          if publish
+            @doc_unpub.should have_node(basepath + "[@xlink:href='#{file_uri}']")
+          else
+            @doc_unpub.should_not have_node(basepath + "[@xlink:href='#{file_uri}']")
+          end
+        end
+      end
+    end
+
+    it "always displays file_uri in dao tags if EAD generated with include_unpublished = true" do
+      # for each digital object generated
+      digital_objects.each do |d|
+        if d['file_versions'].length == 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
+        elsif d['file_versions'].length > 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:daogrp/xmlns:daoloc"
+        end
+
+        # for each file version in the digital object
+        d['file_versions'].each do |fv|
+          file_uri = fv['file_uri']
+
+          @doc.should have_node(basepath + "[@xlink:href='#{file_uri}']")
+        end
+      end
+    end
   end
 
 

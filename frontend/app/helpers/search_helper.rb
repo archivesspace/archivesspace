@@ -1,5 +1,23 @@
 module SearchHelper
 
+  IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP = {
+    "accession"                => "identifier",
+    "agent_corporate_entity"   => "authority_id",
+    "agent_family"             => "authority_id",
+    "agent_person"             => "authority_id",
+    "agent_software"           => "authority_id",
+    "archival_object"          => "component_id",
+    "assessment"               => "assessment_id",
+    "classification"           => "identifier",
+    "classification_term"      => "identifier",
+    "digital_object"           => "digital_object_id",
+    "digital_object_component" => "component_id",
+    "event"                    => "refid",
+    "repository"               => "repo_code",
+    "resource"                 => "identifier",
+    "subject"                  => "authority_id",
+  }
+
   def build_search_params(opts = {})
     search_params = {}
 
@@ -107,9 +125,22 @@ module SearchHelper
   def title_sort_label
     @title_column_header or I18n.t("search_sorting.title_sort")
   end
-  
+
   def identifier_column_header_label
     I18n.t("search_results.result_identifier")
+  end
+
+  def identifier_for_search_result(result)
+    identifier = IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP.fetch(result["primary_type"], "")
+    unless identifier.empty?
+      if result.has_key? identifier
+        identifier = result[identifier]
+      else
+        json       = JSON.parse(result["json"])
+        identifier = json.fetch(identifier, "")
+      end
+    end
+    identifier.to_s.html_safe
   end
 
 
@@ -160,14 +191,6 @@ module SearchHelper
                    }, :sortable => true, :sort_by => prop)
       end
     end
-  end
-
-  def ids_to_identifier(field)
-    id0 = JSONModel::HTTP.get_json(field)['id_0'] ? (JSONModel::HTTP.get_json(field)['id_0']).to_s : nil
-    id1 = JSONModel::HTTP.get_json(field)['id_1'] ? (JSONModel::HTTP.get_json(field)['id_1']).to_s : nil
-    id2 = JSONModel::HTTP.get_json(field)['id_2'] ? (JSONModel::HTTP.get_json(field)['id_2']).to_s : nil
-    id3 = JSONModel::HTTP.get_json(field)['id_3'] ? (JSONModel::HTTP.get_json(field)['id_3']).to_s : nil
-    [id0, id1, id2, id3].compact.join('.')
   end
 
   def get_ancestor_title(field)
