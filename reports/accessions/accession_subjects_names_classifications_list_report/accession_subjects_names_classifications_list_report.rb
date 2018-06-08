@@ -18,8 +18,8 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
       use_restrictions,
       use_restrictions_note,
       container_summary,
-      ifnull(accession_processed, false) as accession_processed,
-      accession_processed_date,
+      GetAccessionProcessed(id) AS `accessionProcessed`,
+      GetAccessionProcessedDate(id) AS `accessionProcessedDate`,
       ifnull(cataloged, false) as cataloged,
       extent_number,
       extent_type,
@@ -28,7 +28,7 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
     from accession
 
       natural left outer join
-      
+
       (select
         accession_id as id,
         count(*) != 0 as rights_transferred,
@@ -37,9 +37,9 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
       where event_link_rlshp.event_id = event.id
         and event.event_type_id = enumeration_value.id and enumeration_value.value = 'copyright_transfer'
       group by event_link_rlshp.accession_id) as rights_transferred
-          
+
       natural left outer join
-      
+
       (select
         accession_id as id,
         sum(number) as extent_number,
@@ -47,35 +47,9 @@ class AccessionSubjectsNamesClassificationsListReport < AbstractReport
         GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ') as container_summary
       from extent
       group by accession_id) as extent_cnt
-      
+
       natural left outer join
-      
-      (select
-        id,
-        accession_processed,
-        group_concat(accession_processed_date) as accession_processed_date
-      from
-        (select
-          event_link_rlshp.accession_id as id,
-          event.id as event_id,
-          count(*) != 0 as accession_processed
-        from event_link_rlshp, event, enumeration_value
-        where event_link_rlshp.event_id = event.id
-          and event.event_type_id = enumeration_value.id and enumeration_value.value = 'processed'
-        group by event_link_rlshp.accession_id) as processed
-        
-        natural left outer join
-        
-        (select 
-          event_id,
-          if(date.end is null, date.begin, concat(date.begin, ' - ', date.end)) as accession_processed_date
-        from date
-          where not event_id is null) as dates
-      
-      group by id) as processed_info
-      
-      natural left outer join
-        
+
       (select
         event_link_rlshp.accession_id as id,
         count(*) != 0 as cataloged

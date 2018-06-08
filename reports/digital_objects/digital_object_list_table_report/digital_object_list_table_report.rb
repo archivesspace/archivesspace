@@ -11,28 +11,19 @@ class DigitalObjectListTableReport < AbstractReport
       digital_object.digital_object_id as identifier,
       digital_object.title as record_title,
       digital_object.digital_object_type_id as object_type,
-      dates.date_expression,
+      GetDigitalObjectDateExpression(digital_object.id) as date_expression,
       group_concat(distinct resource.identifier separator ',,,') as resource_identifier
     from digital_object
-      
-      natural left outer join
-      
-      (select
-      digital_object_id as id,
-        group_concat(ifnull(expression, if(end is null, begin,
-          concat(begin, ' - ', end)))) as date_expression
-      from date
-      group by digital_object_id) as dates
-      
+
       left outer join instance_do_link_rlshp
         on instance_do_link_rlshp.digital_object_id = digital_object.id
-            
+
       left outer join instance
         on instance.id = instance_do_link_rlshp.instance_id
-            
+
       left outer join archival_object
         on archival_object.id = instance.archival_object_id
-      
+
       left outer join resource
         on resource.id = instance.resource_id
           or resource.id = archival_object.root_record_id

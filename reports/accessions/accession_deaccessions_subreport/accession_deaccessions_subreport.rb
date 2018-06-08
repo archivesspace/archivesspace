@@ -19,11 +19,10 @@ class AccessionDeaccessionsSubreport < AbstractSubreport
     "select
       description,
       notification as notification_sent,
-      date.begin as date,
+      GetDeaccessionDate(deaccession.id) as date,
       sum(extent.number) as extent_number,
       GROUP_CONCAT(distinct extent.extent_type_id SEPARATOR ', ') as extent_type
     from deaccession
-      left outer join date on date.deaccession_id = deaccession.id
       left outer join extent on extent.deaccession_id = deaccession.id
     where deaccession.accession_id = #{@accession_id}
     group by deaccession.id"
