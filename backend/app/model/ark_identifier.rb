@@ -87,13 +87,6 @@ class ARKIdentifier < Sequel::Model(:ark_identifier)
     else
       return nil
     end
-
-    #ark = ARKIdentifier.first(:resource_id => id)
-    #return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
-#
-    #ark = ARKIdentifier.first(:accession_id => id)
-    #return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
-    #return ""
   end
 
   private
@@ -104,15 +97,22 @@ class ARKIdentifier < Sequel::Model(:ark_identifier)
     case type
     when :digital_object
       klass = DigitalObject
+      table = "digital_object"
     when :accession
       klass = Accession
+      table = "accession"
     when :resource
       klass = Resource
+      table = "resource"
     else
       return nil
     end
 
-    entity = klass.where(:id => id).first
+    # this should be a call to #where, but the scoping restrictions in ASmodel_crud gets us in trouble here.
+    # Since we are loading records given an ARK ID, we don't know the repo
+    # our entity resides in and can't provide the right scoping.
+    # So, for now, we get around this by using raw SQL.
+    entity = klass.fetch("SELECT external_ark_url from #{table} where id = #{id.to_i}").first
     return entity.send(:external_ark_url)
   end
 end

@@ -413,7 +413,20 @@ describe 'OAI handler' do
         resource_id = @test_resource_record.split("/")[4]
         ark_url = ARKIdentifier.get_ark_url(resource_id.to_i, :resource)
 
-        expect(response.body).to match(/<identifier>#{ark_url}<\/identifier>/)
+        expect(response.body).to match(/<location><url>#{ark_url}<\/url><\/location>/)
+      end
+
+      it "should not output ARK identifier in identifer tag if ARK output is disabled" do
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_mods"
+
+        AppConfig[:ark_ids_enabled] = false
+        response = get uri
+
+        resource_id = @test_resource_record.split("/")[4]
+        ark_url = ARKIdentifier.get_ark_url(resource_id.to_i, :resource)
+
+        expect(response.body).to_not match(/<location><url>#{ark_url}<\/url><\/location>/)
+        AppConfig[:ark_ids_enabled] = true
       end
     end
   end
