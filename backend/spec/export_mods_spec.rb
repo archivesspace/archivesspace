@@ -240,11 +240,26 @@ describe "Exported MODS metadata" do
   end
 
   describe "mods_inner" do
-    it "creates an identifier tag containing the ARK ID for digital objects" do
+    it "creates an identifier tag containing the digital_object_id" do
+      @mods.should have_tag "identifier" => @digital_object.digital_object_id
+    end
+
+    it "creates a location/url tag containing the ARK ID for digital objects if ARKs are enabled" do
       ark = ARKIdentifier.first(:digital_object_id => @digital_object.id)
       url = "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}"
-      @mods.should have_tag "identifier" => url
+      @mods.should have_tag "location/url" => url
     end
+
+    it "does not create a location/url tag containing the ARK ID for digital objects if ARKs are disabled" do
+      AppConfig[:ark_ids_enabled] = false
+
+      digital_object_2 = create(:json_digital_object)
+      mods_ark_disabled = get_mods(digital_object_2)
+
+      mods_ark_disabled.should_not have_tag "location/url"
+      AppConfig[:ark_ids_enabled] = true
+    end
+
 
     it "creates a typeOfResource tag for the digital object type" do
       @mods.should have_tag "typeOfResource" => I18n.t("enumerations.digital_object_digital_object_type." + @digital_object['digital_object_type'])
