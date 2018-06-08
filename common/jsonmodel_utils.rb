@@ -13,23 +13,6 @@ module JSONModel
     end
   end
 
-  # returns an ARK URL for a JSON model
-  def self.get_ark_url(id, type)
-    case type
-    when :digital_object
-      ark = ARKIdentifier.first(:digital_object_id => id)
-      return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
-    when :resource
-      ark = ARKIdentifier.first(:resource_id => id)
-      return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
-    when :accession
-      ark = ARKIdentifier.first(:accession_id => id)
-      return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}" if ark
-    end
-
-    return ""
-  end
-
   private
 
   def self.traverse!(ds, ancestor_publish = nil)

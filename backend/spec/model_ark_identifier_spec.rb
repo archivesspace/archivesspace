@@ -78,4 +78,28 @@ describe 'ARKIdentifier model' do
     # duplicate raises validation exception
     expect{ ARKIdentifier.create(:digital_object_id => digital_object[:id]) }.to raise_error(Sequel::ValidationFailed)
   end
+
+  it "creates an ARK url for digital_object" do
+    json = build(:json_digital_object)
+    digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
+    ark = ARKIdentifier.first(:digital_object_id => digital_object.id)
+
+    expect(ARKIdentifier::get_ark_url(digital_object.id, :digital_object)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
+  end
+
+  it "creates an ARK url for an accession" do
+    accession = create_accession
+    ark = ARKIdentifier.first(:accession_id => accession.id)
+
+    expect(ARKIdentifier::get_ark_url(accession.id, :accession)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
+  end
+
+  it "creates an ARK url for resource" do
+    opts = {:title => generate(:generic_title)}
+    resource = create_resource(opts)
+    ark = ARKIdentifier.first(:resource_id => resource.id)
+
+    expect(ARKIdentifier::get_ark_url(resource.id, :resource)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
+  end
+
 end

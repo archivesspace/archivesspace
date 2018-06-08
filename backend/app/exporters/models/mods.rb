@@ -261,7 +261,7 @@ class MODSModel < ASpaceExport::ExportModel
   end
 
   def handle_ark_id(id)
-    ark_url = JSONModel::get_ark_url(id, :digital_object)
+    ark_url = ARKIdentifier::get_ark_url(id, :digital_object)
     self.identifier = ark_url
   end
 
