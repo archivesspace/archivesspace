@@ -1,0 +1,9 @@
+fr:
+  reports:
+    translation_defaults:
+      access_restrictions: Restrictions de communicabilité
+      access_restrictions_note: Note de restrictions de consultation
+      accession_date: Date d'entrée
+      accession_number: Numéro d'accession
+      accession_title: Intitulé
+      accessioned_between: Ayant eu lieu entre

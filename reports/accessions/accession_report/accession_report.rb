@@ -104,10 +104,10 @@ class AccessionReport < AbstractReport
 
   def add_sub_reports(row)
     id = row[:accession_id]
-    row[:deaccessions] = AccessionDeaccessionsSubreport.new(self, id).get
-    row[:locations] = AccessionLocationsSubreport.new(self, id).get
-    row[:names] = AccessionNamesSubreport.new(self, id).get
-    row[:subjects] = AccessionSubjectsSubreport.new(self, id).get
+    row[:deaccessions] = AccessionDeaccessionsSubreport.new(self, id).get_content
+    row[:locations] = AccessionLocationsSubreport.new(self, id).get_content
+    row[:names] = AccessionNamesSubreport.new(self, id).get_content
+    row[:subjects] = AccessionSubjectsSubreport.new(self, id).get_content
     row.delete(:accession_id)
   end
 

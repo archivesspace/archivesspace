@@ -22,7 +22,7 @@ class ResourceInstancesListReport < AbstractReport
   def fix_row(row)
     ReportUtils.fix_identifier_format(row)
     job.write_output("Fetching instances for resource #{row[:identifier]}...")
-    row[:containers] = ResourceInstancesSubreport.new(self, row[:id]).get
+    row[:containers] = ResourceInstancesSubreport.new(self, row[:id]).get_content
     row.delete(:id)
     row.delete(:extent_number)
   end

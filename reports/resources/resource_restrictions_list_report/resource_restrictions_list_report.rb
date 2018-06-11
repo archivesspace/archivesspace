@@ -20,7 +20,7 @@ class ResourceRestrictionsListReport < AbstractReport
   def fix_row(row)
     row.delete(:extent_number)
     ReportUtils.fix_identifier_format(row)
-    row[:locations] = ResourceLocationsSubreport.new(self, row[:id]).get
+    row[:locations] = ResourceLocationsSubreport.new(self, row[:id]).get_content
     row.delete(:id)
   end
 

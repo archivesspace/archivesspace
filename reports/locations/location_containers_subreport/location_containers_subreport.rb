@@ -25,7 +25,7 @@ class LocationContainersSubreport < AbstractSubreport
   def fix_row(row)
     row[:container_profile] = query_profiles(row[:id])
     row[:records] = ContainerResourcesAccessionsSubreport
-                          .new(self, row[:id]).get
+                          .new(self, row[:id]).get_content
     row.delete(:id)
   end
 

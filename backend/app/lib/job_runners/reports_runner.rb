@@ -1,5 +1,3 @@
-# require_relative '../reports/report_response'
-# require_relative '../reports/report_helper'
 require_relative '../reports/report_generator'
 require 'json'
 
@@ -31,7 +29,6 @@ class ReportRunner < JobRunner
       params[:format] = job_data['format'] || 'pdf'
       params[:repo_id] = @json.repo_id
 
-      # report = ReportRunner.reports[job_data['report_type']]
       report_model = ReportRunner.reports[job_data['report_type']][:model]
 
       report = DB.open do |db|

@@ -141,7 +141,7 @@
       }
 
       @page {
-        size: <%= report.layout %> portrait;
+        size: <%= report.layout %> <%= report.orientation %>;
         -fs-flow-bottom: "footer";
       }
 
@@ -179,7 +179,7 @@
   </head>
 
   <body class="<%= report.format %>">
-    <%= do_render('generic_listing.erb') %>
+    <%= do_render('report_content.erb') %>
 
     <% time = DateTime.now %>
     <div id="footer" class="footer" style="position: running(footer);">

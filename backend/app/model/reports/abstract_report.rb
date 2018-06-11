@@ -31,6 +31,10 @@ class AbstractReport
     I18n.t("reports.#{code}.title", :default => code)
   end
 
+  def orientation
+    'portrait'
+  end
+
   def layout
     AppConfig[:report_page_layout]
   end
@@ -39,7 +43,7 @@ class AbstractReport
     @job.owner
   end
 
-  def get
+  def get_content
     array = []
     query.each do |result|
       row = result.to_hash

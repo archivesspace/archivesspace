@@ -12,7 +12,7 @@ class AccessionInventoryReport < AbstractReport
     ReportUtils.get_enum_values(row, [:extent_type])
     ReportUtils.fix_extent_format(row)
     ReportUtils.fix_identifier_format(row, :accession_number)
-    row[:linked_resources] = AccessionResourcesSubreport.new(self, row[:id]).get
+    row[:linked_resources] = AccessionResourcesSubreport.new(self, row[:id]).get_content
     row.delete(:id)
   end
 

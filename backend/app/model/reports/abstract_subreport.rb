@@ -14,7 +14,7 @@ class AbstractSubreport
     @format = parent_report.format
   end
 
-  def get
+  def get_content
     array = []
     query.each do |result|
       row = result.to_hash

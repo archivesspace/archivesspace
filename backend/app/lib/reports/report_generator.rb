@@ -28,7 +28,7 @@ class ReportGenerator
   end
 
   def generate_json(file)
-    json = ASUtils.to_json(report.get)
+    json = ASUtils.to_json(report.get_content)
     file.write(json)
   end
 
@@ -53,7 +53,7 @@ class ReportGenerator
   end
 
   def generate_csv(file)
-    results = report.get
+    results = report.get_content
     CSV.open(file.path, 'wb') do |csv|
       csv << results[0].keys
       results.each do |result|
@@ -108,7 +108,7 @@ class ReportGenerator
   def format_sub_report(contents)
     sub_report_code_stack.push(contents.pop)
     sub_report_data_stack.push(contents)
-    render = do_render('generic_sub_listing.erb')
+    render = do_render('top_level_subreport.erb')
     sub_report_code_stack.pop
     sub_report_data_stack.pop
     render
@@ -117,7 +117,7 @@ class ReportGenerator
   def show_in_list(value)
     sub_report_code_stack.push(value.pop)
     sub_report_data_stack.push(value)
-    render = do_render('generic_sub_report_list.erb')
+    render = do_render('nested_subreport.erb')
     sub_report_code_stack.pop
     sub_report_data_stack.pop
     render

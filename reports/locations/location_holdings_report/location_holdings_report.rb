@@ -85,7 +85,7 @@ class LocationHoldingsReport < AbstractReport
   def fix_row(row)
     ReportUtils.get_location_coordinate(row)
     row[:containers] = LocationContainersSubreport
-                                .new(self, row[:id]).get
+                                .new(self, row[:id]).get_content
     row.delete(:id)
   end
 

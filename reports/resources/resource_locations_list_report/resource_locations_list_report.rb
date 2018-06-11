@@ -19,7 +19,7 @@ class ResourceLocationsListReport < AbstractReport
 
   def fix_row(row)
     ReportUtils.fix_identifier_format(row)
-    row[:locations] = ResourceLocationsSubreport.new(self, row[:id]).get
+    row[:locations] = ResourceLocationsSubreport.new(self, row[:id]).get_content
     row.delete(:id)
     row.delete(:extent_number)
   end

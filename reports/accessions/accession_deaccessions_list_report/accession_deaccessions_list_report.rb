@@ -35,7 +35,7 @@ class AccessionDeaccessionsListReport < AbstractReport
     ReportUtils.fix_extent_format(row)
     ReportUtils.fix_identifier_format(row, :accession_number)
     deaccessions = AccessionDeaccessionsSubreport.new(self, row[:accession_id])
-    row[:deaccessions] = deaccessions.get
+    row[:deaccessions] = deaccessions.get_content
     info[:total_deaccessions_extent] += deaccessions.total_extent unless deaccessions.total_extent.nil?
     row.delete(:accession_id)
   end

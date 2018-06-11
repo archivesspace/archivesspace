@@ -65,7 +65,7 @@ class AccessionUnprocessedReport < AbstractReport
     ReportUtils.fix_extent_format(row)
     ReportUtils.fix_identifier_format(row, :accession_number)
     ReportUtils.fix_boolean_fields(row, [:cataloged])
-    row[:linked_resources] = AccessionResourcesSubreport.new(self, row[:id]).get
+    row[:linked_resources] = AccessionResourcesSubreport.new(self, row[:id]).get_content
     row.delete(:id)
   end
 

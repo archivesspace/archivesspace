@@ -1,0 +1,9 @@
+es:
+  reports:
+    translation_defaults:
+      access_restrictions: Restricciones de acceso
+      access_restrictions_note: Nota de las restricciones de acceso
+      accession_date: Fecha de entrada
+      accession_number: Número de acta de ingreso
+      accession_title: Título
+      accessioned_between: Ingresados entre

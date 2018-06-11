@@ -1,4 +1,4 @@
-<% results = report.get %>
+<% results = report.get_content %>
 <% xml_clean!(results) if report.format == 'pdf' %>
 <% info = report.info %>
 <% xml_clean!(info) if report.format == 'pdf' %>
