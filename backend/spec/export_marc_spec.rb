@@ -1123,7 +1123,7 @@ end
       df.sf_t('z').should eq("Finding aid online:")
     end
 
-    it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank" do
+    it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are enabled" do
       resource = create(:json_resource_blank_ead_location)
       marc = get_marc(resource)
       ark_url = ARKIdentifier.get_ark_url(resource.id, :resource)
@@ -1131,6 +1131,17 @@ end
       df = marc.df('856', '4', '2')
       df.sf_t('u').should eq(ark_url)
       df.sf_t('z').should eq("Finding aid online:")
+    end
+
+    it "does not map ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are disabled" do
+      resource = create(:json_resource_blank_ead_location)
+
+      AppConfig[:ark_ids_enabled] = false
+      marc = get_marc(resource)
+      ark_url = ARKIdentifier.get_ark_url(resource.id, :resource)
+
+      marc.should_not have_tag "datafield[@tag='856']"
+      AppConfig[:ark_ids_enabled] = true
     end
 
     it "maps resource.finding_aid_note to df 555 ('0', ' '), sf u" do
