@@ -55,7 +55,11 @@ class ReportGenerator
   def generate_csv(file)
     results = report.get_content
     CSV.open(file.path, 'wb') do |csv|
-      csv << results[0].keys
+      begin
+        csv << results[0].keys
+      rescue NoMethodError
+        csv << ['No results found.']
+      end
       results.each do |result|
         row = []
         result.each do |_key, value|
