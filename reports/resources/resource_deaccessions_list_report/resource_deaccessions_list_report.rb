@@ -45,15 +45,15 @@ class ResourceDeaccessionsListReport < AbstractReport
 
   # Total Extent of Resources
   def get_total_extent(results)
-    ReportUtils.get_enum_values(row, [:level])
     info[:total_extent] = db.from(results).sum(:extent_number)
   end
 
   def fix_row(row)
     ReportUtils.fix_identifier_format(row)
+    ReportUtils.get_enum_values(row, [:level])
     deaccessions = ResourceDeaccessionsSubreport.new(self, row[:id])
     row[:deaccessions] = deaccessions.get_content
-    info[:total_deaccessions_extent] += deaccessions.total_extent
+    info[:total_deaccessions_extent] += deaccessions.total_extent if deaccessions.total_extent
     row.delete(:id)
     row.delete(:extent_number)
   end

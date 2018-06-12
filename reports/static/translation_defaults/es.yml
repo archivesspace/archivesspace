@@ -34,48 +34,48 @@ es:
       containers: Contenedores
       coordinates: Coordenadas
       create_time: Creado
-      created_between: Accessions created in date range
-      date: Date
-      date_expression: Date Expression
-      dates: Dates
-      deaccessions: Deaccessions
-      description: Description
-      description_note: Description
-      digital_object_title: Title
-      disposition_note: Disposition
-      end_date: End Date
-      end_range: Last location
-      extent: Extent
-      file_versions: File Version(s)
-      floor: Floor
-      function: Function
-      general_note: General Note
-      identifier: Identifier
+      created_between: Creado en el período
+      date: Fecha
+      date_expression: Expresión de fecha
+      dates: Fechas
+      deaccessions: Expurgos
+      description: Descripción
+      description_note: Descripción
+      digital_object_title: Título
+      disposition_note: Disposición
+      end_date: Fecha de finalización
+      end_range: Ubicación última
+      extent: Extensión
+      file_versions: Versiones del archivo
+      floor: Piso
+      function: Función
+      general_note: Nota general
+      identifier: Identificador
       ils_holding_id: ILD Holding ID
       ils_item_id: ILS Item ID
-      indicator: Indicator
-      instance_type: Instance Type
-      instances: Instances
-      inventory: Inventory
-      level: Level
-      linked_resources: Linked Resource(s)
-      location: Location
-      location_barcode: Location Barcode
-      location_in_room: Location in Room
-      location_profile: Location Profile
-      location_title: Title
-      location_url: Location URL
-      locations: Locations
-      name: Name
-      name_source: Name Source
-      name_type: Name Type
-      names: Names
-      no_restrictions: No restrictions.
-      notification_sent: Notification Sent
-      number_of_accessions: Number of accessions
-      number_of_records: Number of Records
-      number_with_inventories: Number with Inventories
-      object_type: Object Type
+      indicator: Indicador
+      instance_type: Tipo de representación
+      instances: Representaciones
+      inventory: Inventario
+      level: Nivel
+      linked_resources: Recursos vinculados
+      location: Ubicación
+      location_barcode: Código de barras de ubicación
+      location_in_room: Ubicación en la habitación
+      location_profile: Perfil de ubicación
+      location_title: Título
+      location_url: URL de ubicación
+      locations: Ubicaciones
+      name: Nombre
+      name_source: Fuente de nombre
+      name_type: Tipo de nombre
+      names: Nombres
+      no_restrictions: Sin restricciones
+      notification_sent: Notificación está enviado
+      number_of_accessions: Número de ingresos
+      number_of_records: Número de archivos
+      number_with_inventories: Número con inventarios
+      object_type: Tipo de objeto
       processed_date: Date Processed
       processing_priority: Processing Priority
       processing_status: Processing Status

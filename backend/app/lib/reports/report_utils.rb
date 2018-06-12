@@ -67,7 +67,11 @@ module ReportUtils
       results = []
 
       values.each do |value|
-        results.push(EnumerationValue.get_or_die(value).value)
+        begin
+          results.push(EnumerationValue.get_or_die(value).value)
+        rescue Exception => e
+          results.push("Missing enum value: #{value}")
+        end
       end
 
       row[field] = results.join(', ')
