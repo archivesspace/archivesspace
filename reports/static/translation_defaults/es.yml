@@ -76,12 +76,12 @@ es:
       number_of_records: Número de archivos
       number_with_inventories: Número con inventarios
       object_type: Tipo de objeto
-      processed_date: Date Processed
-      processing_priority: Processing Priority
-      processing_status: Processing Status
-      processors: Processors
-      record_identifier: Identifier
-      record_title: Title
+      processed_date: Fecha de procesado
+      processing_priority: Prioridad de procesado
+      processing_status: Estado de procesamiento
+      processors: Procesadores
+      record_identifier: Identificador
+      record_title: Título
       records: Resources and Accessions
       repository: Repository
       repository_date: Added to repository on

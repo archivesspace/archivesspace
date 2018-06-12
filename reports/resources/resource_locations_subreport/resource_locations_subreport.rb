@@ -12,7 +12,8 @@ class ResourceLocationsSubreport < AbstractSubreport
   def query_string
     "select distinct
 	    location.title as location,
-      GROUP_CONCAT(CONCAT(COALESCE(container_type, ''), ' ', top_container.indicator)
+      GROUP_CONCAT(distinct if(container_type is null, top_container.indicator, 
+        CONCAT(container_type, ' ', top_container.indicator))
         SEPARATOR ', ') as containers
 
     from

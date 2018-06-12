@@ -2,7 +2,6 @@ class ResourceInstancesSubreport < AbstractSubreport
   def initialize(parent_report, resource_id)
     super(parent_report)
     @resource_id = resource_id
-    # @top_container_id = top_container_id
   end
 
   def query
@@ -33,7 +32,7 @@ class ResourceInstancesSubreport < AbstractSubreport
   end
 
   def query_string
-    "select
+    "select distinct
     	top_container.id as top_container_id,
     	type_1,
       top_container.indicator as indicator_1,
