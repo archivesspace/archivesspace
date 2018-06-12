@@ -26,6 +26,10 @@ class OAIDCTermsMapper
                               (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
                             end
 
+        unless merged_identifier.empty?
+          xml['dcterms'].identifier(merged_identifier)
+        end
+
         case jsonmodel['jsonmodel_type']
         when "resource"
           ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :resource)
@@ -37,14 +41,13 @@ class OAIDCTermsMapper
           ark_identifier = ""
         end
 
-        unless ark_identifier.empty? 
-          xml['dcterms'].identifier(ark_identifier)
+        unless ark_identifier.empty? || AppConfig[:ark_ids_enabled] == false 
+          xml['dcterms'].location(ark_identifier)
         end       
         
 
         # And a second identifier containing the public url - if public is running
-        # since this is redundant with the ARK identifier, only use if there is no ARK ID
-        if AppConfig[:enable_public] && ark_identifier.empty?
+        if AppConfig[:enable_public]
           xml['dcterms'].identifier(AppConfig[:public_proxy_url] + jsonmodel['uri'])
         end
 

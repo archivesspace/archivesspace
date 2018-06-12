@@ -5,6 +5,7 @@ class DCModel < ASpaceExport::ExportModel
 
   attr_accessor :title
   attr_accessor :identifier
+  attr_accessor :ark_identifier
   attr_accessor :creators
   attr_accessor :subjects
   attr_accessor :dates
@@ -50,8 +51,12 @@ class DCModel < ASpaceExport::ExportModel
     
     dc.apply_map(obj, @digital_object_map)
 
-    if obj.respond_to?(:id)
-      dc.identifier = ARKIdentifier::get_ark_url(obj.id, :digital_object)
+    if obj.respond_to?('uri')
+      dc.identifier = "#{AppConfig[:backend_url]}#{obj.uri}"
+    end
+
+    if obj.respond_to?(:id) && AppConfig[:ark_ids_enabled] == true
+      dc.ark_identifier = ARKIdentifier::get_ark_url(obj.id, :digital_object)
     end
 
     if obj.respond_to?('digital_object_type')
