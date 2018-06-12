@@ -13,19 +13,29 @@ class ResourceDeaccessionsSubreport < AbstractSubreport
   end
 
   def query
-    results = db[:deaccession]
-      .filter(:resource_id => @resource_id)
-      .select(Sequel.as(:description, :description),
-              Sequel.as(:notification, :notification),
-              Sequel.as(Sequel.lit("GetDeaccessionDate(id)"), :deaccession_date),
-              Sequel.as(Sequel.lit("GetDeaccessionExtent(id)"), :extent_number),
-              Sequel.as(Sequel.lit("GetDeaccessionExtentType(id)"), :extent_type))
+    results = db.fetch(query_string)
     @total_extent = db.from(results).sum(:extent_number)
     results
   end
 
+  def query_string
+    "select
+      description,
+      notification,
+      group_concat(distinct date.begin SEPARATOR ', ') as deaccession_date,
+      sum(extent.number) as extent_number,
+      GROUP_CONCAT(distinct extent.extent_type_id SEPARATOR ', ') as extent_type
+    from deaccession
+      left outer join date on date.deaccession_id = deaccession.id
+      left outer join extent on extent.deaccession_id = deaccession.id
+    where deaccession.resource_id = #{@resource_id}
+    group by deaccession.id"
+  end
+
   def fix_row(row)
+    ReportUtils.get_enum_values(row, [:extent_type])
     ReportUtils.fix_extent_format(row)
+    ReportUtils.fix_boolean_fields(row, [:notification])
   end
 
 end

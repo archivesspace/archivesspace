@@ -26,14 +26,14 @@ es:
       component_identifier: Identificador de componente
       component_title: Título de componente
       condition_note: Descripción de la condición
-      container: Container
-      container_2: Container 2
-      container_3: Container 3
-      container_profile: Container Profile
-      container_summary: Container Summary
-      containers: Containers
-      coordinates: Coordinates
-      create_time: Time Created
+      container: Contenedor
+      container_2: Contenedor 2
+      container_3: Contenedor 3
+      container_profile: Perfil de contenedor
+      container_summary: Resumen de contenedor
+      containers: Contenedores
+      coordinates: Coordenadas
+      create_time: Creado
       created_between: Accessions created in date range
       date: Date
       date_expression: Date Expression

@@ -34,26 +34,45 @@ class ResourceInstancesSubreport < AbstractSubreport
 
   def query_string
     "select
-	top_container.id as top_container_id,
-	type_1,
-    top_container.indicator as indicator_1,
-    type_2,
-    sub_container.indicator_2 as indicator_2,
-    type_3,
-    sub_container.indicator_3 as indicator_3,
-    instance_type
-from
-	(select instance.id, instance_type_id from instance
-    left outer join archival_object on instance.archival_object_id = archival_object.id
-    where instance.resource_id = #{@resource_id} or archival_object.root_record_id = #{@resource_id}) as instances
-    left outer join sub_container on instances.id = sub_container.instance_id
-    left outer join top_container_link_rlshp on sub_container.id = top_container_link_rlshp.sub_container_id
-    left outer join top_container on top_container.id = top_container_link_rlshp.top_container_id
-    natural left outer join (select id as type_id, value as type_1 from enumeration_value) as enum1
-    natural left outer join (select id as type_2_id, value as type_2 from enumeration_value) as enum2
-    natural left outer join (select id as type_3_id, value as type_3 from enumeration_value) as enum3
-    natural left outer join (select id as instance_type_id, value as instance_type from enumeration_value) as enum4
-where instance_type != 'digital_object'"
+    	top_container.id as top_container_id,
+    	type_1,
+      top_container.indicator as indicator_1,
+      type_2,
+      sub_container.indicator_2 as indicator_2,
+      type_3,
+      sub_container.indicator_3 as indicator_3,
+      instance_type
+
+    from
+
+    	(select instance.id, instance_type_id
+      from instance
+        left outer join archival_object
+          on instance.archival_object_id = archival_object.id
+      where instance.resource_id = #{@resource_id}
+        or archival_object.root_record_id = #{@resource_id}) as instances
+
+      left outer join sub_container on instances.id = sub_container.instance_id
+      
+      left outer join top_container_link_rlshp
+        on sub_container.id = top_container_link_rlshp.sub_container_id
+      
+      left outer join top_container
+        on top_container.id = top_container_link_rlshp.top_container_id
+      
+      natural left outer join
+        (select id as type_id, value as type_1 from enumeration_value) as enum1
+      
+      natural left outer join
+        (select id as type_2_id, value as type_2 from enumeration_value) as enum2
+      
+      natural left outer join
+        (select id as type_3_id, value as type_3 from enumeration_value) as enum3
+      
+      natural left outer join
+        (select id as instance_type_id, value as instance_type from enumeration_value) as enum4
+    
+    where instance_type != 'digital_object'"
   end
 
   def fix_row(row)

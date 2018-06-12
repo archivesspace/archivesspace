@@ -7,23 +7,45 @@ class ResourceDeaccessionsListReport < AbstractReport
   end
 
   def query
-    results = db[:resource]
-      .filter(Sequel.lit('GetResourceHasDeaccession(id)') => 1)
-      .select(Sequel.as(:id, :id),
-             Sequel.as(:title, :title),
-             Sequel.as(:identifier, :identifier),
-             Sequel.as(Sequel.lit('GetEnumValueUF(level_id)'), :level),
-             Sequel.as(Sequel.lit('GetResourceDateExpression(id)'), :date_expression),
-             Sequel.as(Sequel.lit('GetResourceExtent(id)'), :extent_number))
-      .filter(:repo_id => @repo_id)
+    results = db.fetch(query_string)
     get_total_extent(results)
     info[:total_deaccessions_extent] = 0
     info[:total_count] = results.count
     results
   end
 
+  def query_string
+    "select
+      id,
+      title as record_title,
+      identifier,
+      level_id as level,
+      date_expression,
+      extent_number
+        
+    from resource
+
+      natural left outer join
+      (select
+        resource_id as id,
+        group_concat(ifnull(expression, if(end is null, begin,
+          concat(begin, ' - ', end))) separator ', ') as date_expression
+      from date
+      group by resource_id) as record_date
+      
+      natural left outer join
+      (select
+        resource_id as id,
+        sum(number) as extent_number
+      from extent
+      group by resource_id) as extent_cnt
+        
+    where repo_id = #{@repo_id}"
+  end
+
   # Total Extent of Resources
   def get_total_extent(results)
+    ReportUtils.get_enum_values(row, [:level])
     info[:total_extent] = db.from(results).sum(:extent_number)
   end
 
