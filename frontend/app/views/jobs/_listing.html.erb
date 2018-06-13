@@ -26,10 +26,15 @@
         <% end %>
       </td>
       <td>
-        <% if job['job_type'] == 'import_job' %>
+        <% if job['job_type'] == 'import_job' && !job['job']["filenames"].empty? %>
           <%= job['job']["filenames"].join("<br/>").html_safe %>
-        <% else %>
-          --
+          <br/>
+        <% end %>
+
+        <% unless @files[job['uri']].empty? %>
+          <% @files[job['uri']].each do |file| %>
+            <a href="<%= file %>"><%= file %></a><br/>
+          <% end %>
         <% end %>
       </td>
       <td>

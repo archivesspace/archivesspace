@@ -9,10 +9,19 @@ class JobsController < ApplicationController
   def index
     @active_jobs = Job.active
     @search_data = Job.archived(selected_page)
+    @files = {}
+    (@active_jobs + @search_data['results']).each do |job|
+      @files[job['uri']] = []
+      files = JSONModel::HTTP::get_json("#{job['uri']}/output_files")
+      files.each do |file|
+        job_id = job['uri'].split('/').last
+        @files[job['uri']].push("#{AppConfig[:frontend_url]}/jobs/#{job_id}/file/#{file}")
+      end
+    end
   end
 
   def new
-    @job = JSONModel(:job).new._always_valid!
+    @job = JSONModel(:job).new._always_valid!s
     @import_types = import_types
     @report_data = JSONModel::HTTP::get_json("/reports")
 
