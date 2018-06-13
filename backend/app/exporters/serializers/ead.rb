@@ -157,6 +157,18 @@ class EADSerializer < ASpaceExport::Serializer
 
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
 
+            if AppConfig[:ark_ids_enabled]
+              xml.daogrp {
+                xml.daodesc {
+                  xml.p {
+                    xml.text("ARK URL")
+                  }
+                }
+
+                xml.daoloc(:href => ARKIdentifier::get_ark_url(data.id, :resource))
+              }
+            end
+
             if @include_unpublished
               data.external_ids.each do |exid|
                 xml.unitid  ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
