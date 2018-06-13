@@ -157,18 +157,6 @@ class EADSerializer < ASpaceExport::Serializer
 
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
 
-            if AppConfig[:ark_ids_enabled]
-              xml.daogrp {
-                xml.daodesc {
-                  xml.p {
-                    xml.text("ARK URL")
-                  }
-                }
-
-                xml.daoloc(:href => ARKIdentifier::get_ark_url(data.id, :resource))
-              }
-            end
-
             if @include_unpublished
               data.external_ids.each do |exid|
                 xml.unitid  ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
@@ -704,6 +692,10 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def serialize_eadheader(data, xml, fragments)
+    eadid_url = AppConfig[:ark_ids_enabled] ? 
+                  ARKIdentifier::get_ark_url(data.id, :resource) : 
+                  data.ead_location
+
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",
                       :countryencoding => "iso3166-1",
@@ -713,7 +705,7 @@ class EADSerializer < ASpaceExport::Serializer
     xml.eadheader(eadheader_atts) {
 
       eadid_atts = {:countrycode => data.repo.country,
-              :url => data.ead_location,
+              :url => eadid_url,
               :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil? || v.empty? || v == "null" }
 
       xml.eadid(eadid_atts) {
