@@ -21,7 +21,7 @@ class JobsController < ApplicationController
   end
 
   def new
-    @job = JSONModel(:job).new._always_valid!s
+    @job = JSONModel(:job).new._always_valid!
     @import_types = import_types
     @report_data = JSONModel::HTTP::get_json("/reports")
 
