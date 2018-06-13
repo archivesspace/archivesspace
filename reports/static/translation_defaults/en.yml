@@ -34,7 +34,7 @@ en:
       containers: Containers
       coordinates: Coordinates
       create_time: Time Created
-      created_between: Accessions created in date range
+      created_between: Records created in date range
       date: Date
       date_expression: Date Expression
       dates: Dates
@@ -168,3 +168,7 @@ en:
       ratings: Ratings
       field: Field
       rating: Rating
+      note: Note
+      showing_values: Showing records with rating values
+      scoped_by_date_range: Showing records created between
+      scoped_by_rating: Scoped by Rating

@@ -78,4 +78,8 @@ class AbstractReport
   def repository
     Repository.get_or_die(repo_id).name
   end
+
+  def special_translation(key)
+    nil
+  end
 end

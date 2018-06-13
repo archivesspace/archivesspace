@@ -2,7 +2,8 @@ class AssessmentListReport < AbstractReport
   BOOLEAN_FIELDS = [:accession_report, :appraisal, :container_list, :catalog_record,
                     :control_file, :deed_of_gift, :finding_aid_ead, :finding_aid_online,
                     :finding_aid_paper, :finding_aid_word, :finding_aid_spreadsheet,
-                    :related_eac_records].freeze
+                    :related_eac_records, :review_required, :inactive,
+                    :sensitive_material].freeze
 
   register_report(
     params: [['from', Date, 'The start of report range'],
@@ -16,6 +17,8 @@ class AssessmentListReport < AbstractReport
 
     @from = DateTime.parse(from).to_time.strftime('%Y-%m-%d %H:%M:%S')
     @to = DateTime.parse(to).to_time.strftime('%Y-%m-%d %H:%M:%S')
+
+    info[:scoped_by_date_range] = "#{@from} & #{@to}"
   end
 
   def query

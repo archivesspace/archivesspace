@@ -13,7 +13,7 @@ class CreatedAccessionsReport < AbstractReport
     @from = DateTime.parse(from).to_time.strftime('%Y-%m-%d %H:%M:%S')
     @to = DateTime.parse(to).to_time.strftime('%Y-%m-%d %H:%M:%S')
 
-    info[:created_between] = "#{from} - #{to}"
+    info[:scoped_by_date_range] = "#{@from} & #{@to}"
   end
 
   def query
