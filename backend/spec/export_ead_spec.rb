@@ -217,7 +217,7 @@ describe "EAD export mappings" do
           @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
 
           AppConfig[:ark_ids_enabled] = false
-          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
+          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
           AppConfig[:ark_ids_enabled] = true
 
 
@@ -797,9 +797,6 @@ describe "EAD export mappings" do
       mt(data, "eadheader/eadid", 'mainagencycode')
     end
 
-    it "maps resource.ead_location to eadid/@url" do
-      mt(@resource.ead_location, "eadheader/eadid", 'url')
-    end
 
     it "maps resource.ead_id to eadid" do
       mt(@resource.ead_id, "eadheader/eadid")
@@ -978,13 +975,15 @@ describe "EAD export mappings" do
 
   describe "ARK URLs" do
     it "maps ARK URL to a dao tag if ARK URLs are enabled" do
-      expect(@doc.to_s).to match(/<daoloc href=\"http.*\/ark:/)
-      expect(@doc.to_s).to match(/<daodesc>\s+<p>ARK URL<\/p>/)
+      expect(@doc.to_s).to match(/<eadid.*url=\"http.*\/ark:/)
     end
 
     it "does not map ARK URL to a dao tag if ARK URLs are disabled" do
-      expect(@doc_ark_disabled.to_s).to_not match(/<daoloc href=\"http.*\/ark:/)
-      expect(@doc_ark_disabled.to_s).to_not match(/<daodesc>\s+<p>ARK URL<\/p>/)
+      expect(@doc_ark_disabled.to_s).to_not match(/<eadid.*url=\"http.*\/ark:/)
+    end
+
+    it "maps resource.ead_location to eadid/@url if ARK URLs are disabled" do
+      expect(@doc_ark_disabled.to_s).to match(/<eadid.*url=\"#{@resource.ead_location}/)
     end
   end
 
