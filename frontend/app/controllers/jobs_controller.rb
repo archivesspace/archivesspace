@@ -15,7 +15,7 @@ class JobsController < ApplicationController
       files = JSONModel::HTTP::get_json("#{job['uri']}/output_files")
       files.each do |file|
         job_id = job['uri'].split('/').last
-        @files[job['uri']].push("#{AppConfig[:frontend_proxy_url]}/jobs/#{job_id}/file/#{file}")
+        @files[job['uri']].push("/jobs/#{job_id}/file/#{file}")
       end
     end
   end
