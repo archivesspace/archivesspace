@@ -11,6 +11,7 @@ class AccessionReceiptReport < AbstractReport
 
   def query_string
     "select
+      id,
       identifier as accession_number,
       title as record_title,
       accession_date,
@@ -33,6 +34,10 @@ class AccessionReceiptReport < AbstractReport
     ReportUtils.fix_identifier_format(row, :accession_number)
     ReportUtils.get_enum_values(row, [:extent_type])
     ReportUtils.fix_extent_format(row)
+    row[:names] = AccessionNamesSubreport.new(self, row[:id]).get_content
+    row[:rights_statements] = AccessionRightsStatementSubreport.new(
+      self, row[:id]).get_content
+    row.delete(:id)
   end
 
   def identifier_field

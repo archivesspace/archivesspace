@@ -137,3 +137,11 @@ es:
       deaccession_date: Deaccession Date
       rating_note: Rating Note
       temporary_location: Temporary Location
+      rights_statements: Rights Statements
+      rights_type: Rights Type
+      statute_citation: Statute Citation
+      jurisdiction: Jurisdiction
+      status: Status
+      determination_date: Determination Date
+      license_terms: License Terms
+      other_rights_basis: Other Rights Basis
