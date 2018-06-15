@@ -13,7 +13,7 @@ class AccessionReceiptReport < AbstractReport
     "select
       identifier as accession_number,
       title as record_title,
-      accession_date as repository_date,
+      accession_date,
       container_summary,
       extent_number,
       extent_type
@@ -39,7 +39,4 @@ class AccessionReceiptReport < AbstractReport
     :accession_number
   end
 
-  def page_break
-    false
-  end
 end

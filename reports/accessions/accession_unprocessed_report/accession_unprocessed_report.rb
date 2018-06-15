@@ -6,7 +6,7 @@ class AccessionUnprocessedReport < AbstractReport
     results = db.fetch(query_string)
     info[:total_count] = db[:accession].count
     info[:total_unprocessed] = results.count
-    info[:created_between] = "#{results.min(:accession_date)} & #{results.max(:accession_date)}"
+    info[:scoped_by_date_range] = "#{results.min(:accession_date)} & #{results.max(:accession_date)}"
     info[:total_extent] = results.sum(:extent_number)
     ReportUtils.fix_decimal_format(info, [:total_extent])
     results

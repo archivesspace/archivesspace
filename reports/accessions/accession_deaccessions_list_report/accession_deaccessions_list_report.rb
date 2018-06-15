@@ -6,7 +6,7 @@ class AccessionDeaccessionsListReport < AbstractReport
     get_accessioned_between(results)
     get_total_extent(results)
     info[:total_deaccessions_extent] = 0
-    info[:number_of_records] = results.count
+    info[:total_count] = results.count
     results
   end
 
@@ -48,7 +48,7 @@ class AccessionDeaccessionsListReport < AbstractReport
   def get_accessioned_between(results)
     from_date = results.min(:accession_date)
     to_date = results.max(:accession_date)
-    info[:accessioned_between] = "#{from_date} & #{to_date}"
+    info[:scoped_by_date_range] = "#{from_date} & #{to_date}"
   end
 
   # Total Extent of Accessions

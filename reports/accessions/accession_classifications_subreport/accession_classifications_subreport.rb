@@ -11,10 +11,10 @@ class AccessionClassificationsSubreport < AbstractSubreport
 
   def query_string
     "select
-      classification.identifier as classification_identifier,
-        classification.title as classification_title,
-        classification_term.identifier as classification_term_identifier,
-        classification_term.title as classification_term_title
+      classification.identifier,
+      classification.title,
+      classification_term.identifier as term_identifier,
+      classification_term.title as term_title
     from
       classification_rlshp
         left outer join classification on classification.id = classification_rlshp.classification_id

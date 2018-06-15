@@ -39,7 +39,7 @@ class LocationHoldingsReport < AbstractReport
                   "location_id = #{start_location.id}"
                 end
     "select
-      location_title,
+      record_title,
       location_id as id,
       building,
       floor,
@@ -57,18 +57,18 @@ class LocationHoldingsReport < AbstractReport
 
       (select
         id as location_id,
-            title as location_title,
-            building,
-            floor,
-            room,
-            coordinate_1_label,
-            coordinate_1_indicator,
-            coordinate_2_label,
-            coordinate_2_indicator,
-            coordinate_3_label,
-            coordinate_3_indicator,
-            concat('/locations/', id) as location_url,
-            barcode as location_barcode
+        title as record_title,
+        building,
+        floor,
+        room,
+        coordinate_1_label,
+        coordinate_1_indicator,
+        coordinate_2_label,
+        coordinate_2_indicator,
+        coordinate_3_label,
+        coordinate_3_indicator,
+        concat('/locations/', id) as location_url,
+        barcode as location_barcode
       from location) as tbl1
 
       natural left outer join
@@ -90,7 +90,7 @@ class LocationHoldingsReport < AbstractReport
   end
 
   def identifier_field
-    :location_title
+    :record_title
   end
 
 end

@@ -1,121 +1,139 @@
 es:
   reports:
     translation_defaults:
-      access_restrictions: Restricciones de acceso
+      accession_processed_date: Fecha de tratamiento
       access_restrictions_note: Nota de las restricciones de acceso
+      access_restrictions: Restricciones de acceso
       accession_date: Fecha de entrada
       accession_number: Número de acta de ingreso
-      accession_title: Título
-      accessioned_between: Ingresados entre
       accession_processed: Procesado
-      accession_processed_date: Fecha de tratamiento
-      accessions: Ingresos
+      accession_report: Accession Report
+      total_transferred: Accessions with Rights Transferred
       acknowledgement_sent: Reconocimiento enviado
       acquisition_type: Tipo de entrada
-      acquisitions: Adquisiciones
+      appraisal: Appraisal
       area: Area
       barcode: Código de barras
       begin_date: Fecha de inicio
-      between: Ingresados entre
+      container_list: Box/Container List
       building: Edificio
       bulk_begin_date: Fecha de inicio de la parte principal
       bulk_end_date: Fecha de finalización de la parte principal
+      catalog_record: Catalog Record (MARC)
       cataloged: Catalogado
       classification_number: Número de clasificación
       classifications: Clasificaciones
+      control_file: Collection/Control File
       component_identifier: Identificador de componente
       component_title: Título de componente
       condition_note: Descripción de la condición
+      conservation_issues: Conservation Issues
+      conservation_note: Conservation Note
       container: Contenedor
       container_2: Contenedor 2
       container_3: Contenedor 3
       container_profile: Perfil de contenedor
       container_summary: Resumen de contenedor
       containers: Contenedores
-      coordinates: Coordenadas
-      create_time: Creado
-      created_between: Creado en el período
       date: Fecha
       date_expression: Expresión de fecha
+      survey_end: Date Survey Ended
+      survey_begin: Date Survey Started
       dates: Fechas
       deaccessions: Expurgos
+      deed_of_gift: Deed Of Gift
       description: Descripción
       description_note: Descripción
-      digital_object_title: Título
       disposition_note: Disposición
       end_date: Fecha de finalización
-      end_range: Ubicación última
+      exhibition_value_note: Exhibition Value Note
+      existing_description_notes: Existing Description Notes
       extent: Extensión
+      surveyed_extent: Extent Surveyed
+      field: Field
       file_versions: Versiones del archivo
+      finding_aid_ead: Finding Aid (EAD-encoding)
+      finding_aid_online: Finding Aid (Online)
+      finding_aid_paper: Finding Aid (paper only)
+      finding_aid_spreadsheet: Finding Aid (spreadsheet)
+      finding_aid_word: Finding Aid (word processing document)
       floor: Piso
       function: Función
+      general_assessment_note: General Assessment Note
       general_note: Nota general
+      id: ID
       identifier: Identificador
       ils_holding_id: ILD Holding ID
       ils_item_id: ILS Item ID
-      indicator: Indicador
+      inactive: Inactive
       instance_type: Tipo de representación
       instances: Representaciones
       inventory: Inventario
       level: Nivel
+      linked_records: Linked Records
       linked_resources: Recursos vinculados
+      formats: List of Material Types / Formats
       location: Ubicación
       location_barcode: Código de barras de ubicación
       location_in_room: Ubicación en la habitación
       location_profile: Perfil de ubicación
-      location_title: Título
       location_url: URL de ubicación
       locations: Ubicaciones
+      monetary_value: Monetary Value
+      monetary_value_note: Monetary Value Note
       name: Nombre
       name_source: Fuente de nombre
       name_type: Tipo de nombre
       names: Nombres
-      no_restrictions: Sin restricciones
+      note: Note
       notification_sent: Notificación está enviado
       number_of_accessions: Número de ingresos
-      number_of_records: Número de archivos
+      total_count: Number of Records
       number_with_inventories: Número con inventarios
       object_type: Tipo de objeto
-      processed_date: Fecha de procesado
-      processing_priority: Prioridad de procesado
-      processing_status: Estado de procesamiento
-      processors: Procesadores
-      record_identifier: Identificador
-      record_title: Título
-      records: Resources and Accessions
+      purpose: Purpose of Assessment
+      rating: Rating
+      ratings: Ratings
+      linked_record_type: Record Type
+      related_eac_records: Related EAC Record(s)
       repository: Repository
-      repository_date: Added to repository on
       resource_identifier: Resource Identifier
-      resource_title: Title
       resources: Resources
-      restrictions_apply: Retrictions Apply?
+      records: Resources and Accessions
       retention_rule: Retention
-      rights_and_restrictions: Rights and Restrictions
-      rights_transferred: Rights Transferred?
-      rights_transferred_false: Not transferred
+      restrictions_apply: Retrictions Apply?
+      review_note: Review Note
+      review_required: Review Required?
+      reviewer: Reviewer
       rights_transferred_note: Rights Transferred Note
-      rights_transferred_true: Rights Transferred
+      rights_transferred: Rights Transferred?
       role: Role
       room: Room
+      scope: Scope of Assessment
+      scoped_by_rating: Scoped by Rating
+      sensitive_material: Sensitive Material?
+      scoped_by_date_range: Showing records created between
+      showing_values: Showing records with rating values
       sort_name: Sort Name
       source: Source
-      start_range: First location
-      subject_title: Title
+      special_format_note: Special Format Note
       subjects: Subjects
+      surveyed_by: Surveyed By
       term: Term
-      term_type: Term Type
-      title: Title
+      surveyed_duration: Time it took to Complete Survey
+      record_title: Título
+      title: Título
       top_container_barcode: Top Container Barcode
       top_container_indicator: Top Container Indicator
-      total_count: Number of Records
       total_deaccessions_extent: Total Extent of Deaccessions
       total_extent: Total Extent of Records
-      total_extent_of_deaccessions: Total Extent of Deaccessions
-      total_extent_of_unprocessed: Total Extent of Unprocessed Accessions
-      total_transferred: Accessions with Rights Transferred
-      total_unprocessed: Unprocessed Accessions
       type: Type
+      total_unprocessed: Unprocessed Accessions
       uri: URI
-      use_restrictions: Use Restrictions?
       use_restrictions_note: Use Restrictions Note
+      use_restrictions: Use Restrictions?
       use_statement: Use Statement
+      accessions: Accessions
+      deaccession_date: Deaccession Date
+      rating_note: Rating Note
+      temporary_location: Temporary Location

@@ -1,7 +1,6 @@
 en:
   reports:
     assessment_rating_report:
-      rating_note: Rating Note
       title: Assessment Rating Report
       description: Shows information for assessments with a specified rating in a specified range.
       identifier_prefix: Assessment

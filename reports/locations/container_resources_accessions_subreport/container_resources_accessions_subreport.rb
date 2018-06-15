@@ -11,8 +11,8 @@ class ContainerResourcesAccessionsSubreport < AbstractSubreport
 
   def query_string
     "select distinct 
-      'resource' as type,
-        resource.identifier as record_identifier,
+      'resource' as linked_record_type,
+        resource.identifier as identifier,
         resource.title as record_title 
     from
       (select sub_container_id as id
@@ -33,8 +33,8 @@ class ContainerResourcesAccessionsSubreport < AbstractSubreport
     union
 
     select
-      'accession' as type,
-      identifier as record_identifier,
+      'accession' as linked_record_type,
+      identifier as identifier,
         title as record_title
     from accession
         join instance on accession.id = accession_id
@@ -44,6 +44,6 @@ class ContainerResourcesAccessionsSubreport < AbstractSubreport
   end
 
   def fix_row(row)
-    ReportUtils.fix_identifier_format(row, :record_identifier)
+    ReportUtils.fix_identifier_format(row, :identifier)
   end
 end

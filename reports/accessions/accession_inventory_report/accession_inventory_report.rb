@@ -2,7 +2,7 @@ class AccessionInventoryReport < AbstractReport
   register_report
 
   def query
-    info[:number_of_records] = db[:accession].count
+    info[:total_count] = db[:accession].count
     records = db.fetch(query_string)
     info[:number_with_inventories] = records.count
     records
@@ -22,7 +22,7 @@ class AccessionInventoryReport < AbstractReport
       identifier as accession_number,
       title as record_title,
       accession_date as accession_date,
-      inventory as inventory,
+      inventory,
       date_expression,
       begin_date,
       end_date,

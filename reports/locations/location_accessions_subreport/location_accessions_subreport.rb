@@ -1,7 +1,8 @@
 class LocationAccessionsSubreport < AbstractSubreport
-  def initialize(parent_report, location_id)
+  def initialize(parent_report, location_id, show_containers=false)
     super(parent_report)
     @location_id = location_id
+    @show_containers = show_containers
   end
 
   def query
@@ -10,10 +11,13 @@ class LocationAccessionsSubreport < AbstractSubreport
 
   def query_string
     "select
+      accession.id,
       accession.identifier as identifier,
         accession.title as title
     from 
-      (select * from top_container_housed_at_rlshp
+      (select
+        top_container_id as id
+      from top_container_housed_at_rlshp
       where location_id = #{@location_id}) as top_ids
 
       join top_container on top_container.id = top_ids.id
@@ -32,5 +36,10 @@ class LocationAccessionsSubreport < AbstractSubreport
 
   def fix_row(row)
     ReportUtils.fix_identifier_format(row)
+    if @show_containers
+      row[:containers] = LocationAccessionsContainersSubreport.new(
+        self, @location_id, row[:id]).get_content
+    end
+    row.delete(:id)
   end
 end

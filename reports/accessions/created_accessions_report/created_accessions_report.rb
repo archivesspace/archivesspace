@@ -17,7 +17,9 @@ class CreatedAccessionsReport < AbstractReport
   end
 
   def query
-    db.fetch(query_string)
+    results = db.fetch(query_string)
+    info[:total_count] = results.count
+    results
   end
 
   def query_string

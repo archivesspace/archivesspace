@@ -42,4 +42,9 @@ class AgentListReport < AbstractReport
   def identifier_field
     :sort_name
   end
+
+  def page_break
+    false
+  end
+  
 end

@@ -40,6 +40,7 @@ class ReportRunner < JobRunner
 
       file.rewind
       @job.write_output('Adding report file.')
+
       @job.add_file(file)
 
       self.success!

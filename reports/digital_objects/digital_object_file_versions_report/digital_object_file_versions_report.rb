@@ -11,7 +11,7 @@ class DigitalObjectFileVersionsReport < AbstractReport
     "select 
       id,
       digital_object_id as identifier,
-      title as digital_object_title
+      title as record_title
     from digital_object where repo_id = #{@repo_id}"
   end
 

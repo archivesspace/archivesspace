@@ -3,4 +3,3 @@ en:
     digital_object_file_versions_report:
       title: File Version List
       description: Displays any file versions associated with the selected digital objects.
-      identifier_prefix: Digital Object

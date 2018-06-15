@@ -8,18 +8,19 @@ class LocationReport < AbstractReport
   def query_string
     "select
       id,
-        building,
-        floor,
-        room,
-        area,
-        barcode,
-        classification as classification_number,
-        coordinate_1_label,
-        coordinate_1_indicator,
-        coordinate_2_label,
-        coordinate_2_indicator,
-        coordinate_3_label,
-        coordinate_3_indicator
+      title as record_title,
+      building,
+      floor,
+      room,
+      area,
+      barcode,
+      classification as classification_number,
+      coordinate_1_label,
+      coordinate_1_indicator,
+      coordinate_2_label,
+      coordinate_2_indicator,
+      coordinate_3_label,
+      coordinate_3_indicator
     from location"
   end
 
@@ -35,7 +36,7 @@ class LocationReport < AbstractReport
   end
 
   def identifier_field
-    :building
+    :record_title
   end
 
 end

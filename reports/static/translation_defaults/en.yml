@@ -1,174 +1,139 @@
 en:
   reports:
     translation_defaults:
-      access_restrictions: Access Restrictions?
+      accession_processed_date: Acceccion Processed Date
       access_restrictions_note: Access Restrictions Note
+      access_restrictions: Access Restrictions?
       accession_date: Accession Date
       accession_number: Accession Number
-      accession_title: Title
-      accessioned_between: Accessioned Between
       accession_processed: Accession Processed?
-      accession_processed_date: Acceccion Processed Date
-      accessions: Accessions
+      accession_report: Accession Report
+      total_transferred: Accessions with Rights Transferred
       acknowledgement_sent: Acknowledgement Sent?
       acquisition_type: Acquisition Type
-      acquisitions: Acquisitions
+      appraisal: Appraisal
       area: Area
       barcode: Barcode
       begin_date: Begin Date
-      between: Accessioned Between
+      container_list: Box/Container List
       building: Building
       bulk_begin_date: Bulk Begin Date
       bulk_end_date: Bulk End Date
+      catalog_record: Catalog Record (MARC)
       cataloged: Cataloged
       classification_number: Classification number
       classifications: Classifications
+      control_file: Collection/Control File
       component_identifier: Component Identifer
       component_title: Component Title
       condition_note: Condition
+      conservation_issues: Conservation Issues
+      conservation_note: Conservation Note
       container: Container
       container_2: Container 2
       container_3: Container 3
       container_profile: Container Profile
       container_summary: Container Summary
       containers: Containers
-      coordinates: Coordinates
-      create_time: Time Created
-      created_between: Records created in date range
       date: Date
       date_expression: Date Expression
+      survey_end: Date Survey Ended
+      survey_begin: Date Survey Started
       dates: Dates
       deaccessions: Deaccessions
+      deed_of_gift: Deed Of Gift
       description: Description
       description_note: Description
-      digital_object_title: Title
       disposition_note: Disposition
       end_date: End Date
-      end_range: Last location
-      extent: Extent
-      file_versions: File Version(s)
-      floor: Floor
-      function: Function
-      general_note: General Note
-      identifier: Identifier
-      ils_holding_id: ILD Holding ID
-      ils_item_id: ILS Item ID
-      indicator: Indicator
-      instance_type: Instance Type
-      instances: Instances
-      inventory: Inventory
-      level: Level
-      linked_resources: Linked Resource(s)
-      location: Location
-      location_barcode: Location Barcode
-      location_in_room: Location in Room
-      location_profile: Location Profile
-      location_title: Title
-      location_url: Location URL
-      locations: Locations
-      name: Name
-      name_source: Name Source
-      name_type: Name Type
-      names: Names
-      no_restrictions: No restrictions.
-      notification_sent: Notification Sent
-      number_of_accessions: Number of accessions
-      number_of_records: Number of Records
-      number_with_inventories: Number with Inventories
-      object_type: Object Type
-      processed_date: Date Processed
-      processing_priority: Processing Priority
-      processing_status: Processing Status
-      processors: Processors
-      record_identifier: Identifier
-      record_title: Title
-      records: Resources and Accessions
-      repository: Repository
-      repository_date: Added to repository on
-      resource_identifier: Resource Identifier
-      resource_title: Title
-      resources: Resources
-      restrictions_apply: Retrictions Apply?
-      retention_rule: Retention
-      rights_and_restrictions: Rights and Restrictions
-      rights_transferred: Rights Transferred?
-      rights_transferred_false: Not transferred
-      rights_transferred_note: Rights Transferred Note
-      rights_transferred_true: Rights Transferred
-      role: Role
-      room: Room
-      sort_name: Sort Name
-      source: Source
-      start_range: First location
-      subject_title: Title
-      subjects: Subjects
-      term: Term
-      term_type: Term Type
-      title: Title
-      top_container_barcode: Top Container Barcode
-      top_container_indicator: Top Container Indicator
-      total_count: Number of Records
-      total_deaccessions_extent: Total Extent of Deaccessions
-      total_extent: Total Extent of Records
-      total_extent_of_deaccessions: Total Extent of Deaccessions
-      total_extent_of_unprocessed: Total Extent of Unprocessed Accessions
-      total_transferred: Accessions with Rights Transferred
-      total_unprocessed: Unprocessed Accessions
-      type: Type
-      uri: URI
-      use_restrictions: Use Restrictions?
-      use_restrictions_note: Use Restrictions Note
-      use_statement: Use Statement
-      accession_report: Accession Report
-      appraisal: Appraisal
-      assessment: Assessment
-      assessment_information: Assessment Information
-      assessment_note: Note
-      assessment_rating: Rating
-      assessment_score: Score
-      basic_information: Basic Information
-      catalog_record: Catalog Record (MARC)
-      conservation_issues: Conservation Issues
-      conservation_note: Conservation Note
-      container_list: Box/Container List
-      control_file: Collection/Control File
-      deed_of_gift: Deed Of Gift
-      existing_description_notes: Existing Description Notes
       exhibition_value_note: Exhibition Value Note
+      existing_description_notes: Existing Description Notes
+      extent: Extent
+      surveyed_extent: Extent Surveyed
+      field: Field
+      file_versions: File Version(s)
       finding_aid_ead: Finding Aid (EAD-encoding)
       finding_aid_online: Finding Aid (Online)
       finding_aid_paper: Finding Aid (paper only)
       finding_aid_spreadsheet: Finding Aid (spreadsheet)
       finding_aid_word: Finding Aid (word processing document)
-      formats: List of Material Types / Formats
-      full_title: All Created Assessment Records
+      floor: Floor
+      function: Function
       general_assessment_note: General Assessment Note
+      general_note: General Note
+      id: ID
+      identifier: Identifier
+      ils_holding_id: ILD Holding ID
+      ils_item_id: ILS Item ID
       inactive: Inactive
-      linked_record_title: Title
-      linked_record_type: Record Type
-      linked_record_identifier: Identifier
+      instance_type: Instance Type
+      instances: Instances
+      inventory: Inventory
+      level: Level
       linked_records: Linked Records
+      linked_resources: Linked Resource(s)
+      formats: List of Material Types / Formats
+      location: Location
+      location_barcode: Location Barcode
+      location_in_room: Location in Room
+      location_profile: Location Profile
+      location_url: Location URL
+      locations: Locations
       monetary_value: Monetary Value
       monetary_value_note: Monetary Value Note
-      number_of_assessments: Number Of Assessments
+      name: Name
+      name_source: Name Source
+      name_type: Name Type
+      names: Names
+      note: Note
+      notification_sent: Notification Sent
+      number_of_accessions: Number of accessions
+      total_count: Number of Records
+      number_with_inventories: Number with Inventories
+      object_type: Object Type
       purpose: Purpose of Assessment
+      rating: Rating
+      ratings: Ratings
+      linked_record_type: Record Type
       related_eac_records: Related EAC Record(s)
+      repository: Repository
+      resource_identifier: Resource Identifier
+      resources: Resources
+      records: Resources and Accessions
+      retention_rule: Retention
+      restrictions_apply: Retrictions Apply?
       review_note: Review Note
       review_required: Review Required?
       reviewer: Reviewer
+      rights_transferred_note: Rights Transferred Note
+      rights_transferred: Rights Transferred?
+      role: Role
+      room: Room
       scope: Scope of Assessment
-      sensitive_material: Sensitive Material?
-      special_format_note: Special Format Note
-      survey_begin: Date Survey Started
-      survey_end: Date Survey Ended
-      surveyed_by: Surveyed By
-      surveyed_duration: Time it took to Complete Survey
-      surveyed_extent: Extent Surveyed
-      id: ID
-      ratings: Ratings
-      field: Field
-      rating: Rating
-      note: Note
-      showing_values: Showing records with rating values
-      scoped_by_date_range: Showing records created between
       scoped_by_rating: Scoped by Rating
+      sensitive_material: Sensitive Material?
+      scoped_by_date_range: Showing records created between
+      showing_values: Showing records with rating values
+      sort_name: Sort Name
+      source: Source
+      special_format_note: Special Format Note
+      subjects: Subjects
+      surveyed_by: Surveyed By
+      term: Term
+      surveyed_duration: Time it took to Complete Survey
+      record_title: Title
+      title: Title
+      top_container_barcode: Top Container Barcode
+      top_container_indicator: Top Container Indicator
+      total_deaccessions_extent: Total Extent of Deaccessions
+      total_extent: Total Extent of Records
+      type: Type
+      total_unprocessed: Unprocessed Accessions
+      uri: URI
+      use_restrictions_note: Use Restrictions Note
+      use_restrictions: Use Restrictions?
+      use_statement: Use Statement
+      accessions: Accessions
+      deaccession_date: Deaccession Date
+      rating_note: Rating Note
+      temporary_location: Temporary Location

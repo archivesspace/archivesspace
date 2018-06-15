@@ -21,7 +21,7 @@ class ResourceDeaccessionsSubreport < AbstractSubreport
   def query_string
     "select
       description,
-      notification,
+      notification as notification_sent,
       group_concat(distinct date.begin SEPARATOR ', ') as deaccession_date,
       sum(extent.number) as extent_number,
       GROUP_CONCAT(distinct extent.extent_type_id SEPARATOR ', ') as extent_type
@@ -35,7 +35,7 @@ class ResourceDeaccessionsSubreport < AbstractSubreport
   def fix_row(row)
     ReportUtils.get_enum_values(row, [:extent_type])
     ReportUtils.fix_extent_format(row)
-    ReportUtils.fix_boolean_fields(row, [:notification])
+    ReportUtils.fix_boolean_fields(row, [:notification_sent])
   end
 
 end
