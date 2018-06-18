@@ -28,7 +28,11 @@ class ReportGenerator
   end
 
   def generate_json(file)
-    json = ASUtils.to_json(report.get_content)
+    data = {}
+    data[:info] = nil
+    data[:records] = report.get_content
+    data[:info] = report.info
+    json = ASUtils.to_json(data)
     file.write(json)
   end
 
@@ -55,6 +59,10 @@ class ReportGenerator
   def generate_csv(file)
     results = report.get_content
     CSV.open(file.path, 'wb') do |csv|
+      report.info.each do |key, value|
+        csv << [key, value]
+      end
+      csv << []
       begin
         csv << results[0].keys
       rescue NoMethodError

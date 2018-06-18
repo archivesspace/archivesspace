@@ -1878,6 +1878,7 @@ en:
       from_tooltip:
       to: To
       locations: Locations
+      scope_by_date: Scope by Date
     formats:
       json: JSON
       csv: CSV
