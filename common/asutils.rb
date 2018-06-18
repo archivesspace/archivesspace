@@ -140,10 +140,10 @@ module ASUtils
     }
   end
 
-  def self.diagnostic_trace_msg
+  def self.diagnostic_trace_msg(filename)
     <<ERRMSG
       #{'=' * 72}
-      A trace file has been written to the following location: #{tmp}
+      A trace file has been written to the following location: #{filename}
 
       This file contains information that will assist developers in diagnosing
       problems with your ArchivesSpace installation.  Please review the file's
@@ -162,7 +162,7 @@ ERRMSG
     diagnostics = get_diagnostics(exception)
     tmp = File.join(Dir.tmpdir, "aspace_diagnostic_#{Time.now.to_i}.txt")
     File.open(tmp, 'w') { |fh| fh.write(JSON.pretty_generate(diagnostics)) }
-    $stderr.puts diagnostic_trace_msg
+    $stderr.puts diagnostic_trace_msg(tmp)
     raise exception if exception
   end
 
