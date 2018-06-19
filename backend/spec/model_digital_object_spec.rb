@@ -16,6 +16,8 @@ describe 'Digital object model' do
     digital_object = DigitalObject.create_from_json(json, :repo_id => $repo_id)
 
     expect(ARKIdentifier.first(:digital_object_id => digital_object.id)).to_not be_nil
+
+    digital_object.delete
   end
 
 
