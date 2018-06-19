@@ -1,6 +1,8 @@
 # encoding: utf-8
 require 'nokogiri'
 require 'securerandom'
+require 'cgi'
+
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
@@ -38,6 +40,23 @@ class EADSerializer < ASpaceExport::Serializer
     Nokogiri::XML("<wrap>#{content}</wrap>").errors.reject { |e| e.message =~ ignore  }
   end
 
+  # HTML escape and unescape to handle & characters
+  def escape_content(content)
+    # turn anything previously escaped back to 'normal'
+    unescaped_content   = CGI.unescapeHTML(content) 
+
+    # escape everything all at once. Unfortunately, this will get the brackets in tags in there...
+    content_no_brackets = CGI.escapeHTML(unescaped_content) 
+
+    # unescape again, just the brackets and quotes
+    content = content_no_brackets.gsub("&lt;", "<")
+                                 .gsub("&gt;", ">")
+                                 .gsub("&#39;", "'")
+                                 .gsub("&quot;", '"')
+
+    return content
+  end
+
 
   def handle_linebreaks(content)
     # 4archon... 
@@ -47,19 +66,13 @@ class EADSerializer < ASpaceExport::Serializer
     original_content = content
     blocks = content.split("\n\n").select { |b| !b.strip.empty? }
     if blocks.length > 1
-      content = blocks.inject("") { |c,n| c << "<p>#{n.chomp}</p>"  }
+      content = blocks.inject("") do |c,n| 
+        c << "<p>#{escape_content(n.chomp)}</p>"  
+      end
     else
-      content = "<p>#{content.strip}</p>"
+      content = "<p>#{escape_content(content.strip)}</p>"
     end
 
-    # first lets see if there are any &
-    # note if there's a &somewordwithnospace , the error is EntityRef and wont
-    # be fixed here...
-    if xml_errors(content).any? { |e| e.message.include?("The entity name must immediately follow the '&' in the entity reference.") }
-      content.gsub!("& ", "&amp; ")
-    end
-
-    # in some cases adding p tags can create invalid markup with mixed content
     # just return the original content if there's still problems
     xml_errors(content).any? ? original_content : content
   end

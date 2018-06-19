@@ -1144,6 +1144,7 @@ describe "EAD export mappings" do
     let(:note_with_linebreaks_but_something_xml_nazis_hate) { "Something, something,\n\n<prefercite>XML & How to Live it!</prefercite>\n\n" }
     let(:note_with_linebreaks_and_xml_namespaces) { "Something, something,\n\n<prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite>\n\n" }
     let(:note_with_smart_quotes) {"This note has “smart quotes” and ‘smart apostrophes’ from MSWord."}
+    let(:note_with_different_amps) {"The materials are arrange in folders. Mumford&Sons. Mumford & Sons. They are cool&hip. &lt;p&gt;foo, 2 & 2.&lt;/p&gt;"}
     let(:serializer) { EADSerializer.new }
 
     it "can strip <p> tags from content when disallowed" do
@@ -1174,11 +1175,15 @@ describe "EAD export mappings" do
       serializer.handle_linebreaks(note_with_linebreaks_and_xml_namespaces).should eq("<p>Something, something,</p><p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite></p>")
     end
 
+    it "will correctly handle content with & as punctuation as well as & as pre-escaped characters" do
+      serializer.handle_linebreaks(note_with_different_amps).should eq("<p>The materials are arrange in folders. Mumford&amp;Sons. Mumford &amp; Sons. They are cool&amp;hip. <p>foo, 2 &amp; 2.</p></p>")
+    end
+
     it "will replace MSWord-style smart quotes with ASCII characters" do
       serializer.remove_smart_quotes(note_with_smart_quotes).should eq("This note has \"smart quotes\" and \'smart apostrophes\' from MSWord.")
     end
-
   end
+
 
 
   describe "Test unpublished record EAD exports" do
