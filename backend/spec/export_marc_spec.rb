@@ -1131,6 +1131,8 @@ end
       df = marc.df('856', '4', '2')
       df.sf_t('u').should eq(ark_url)
       df.sf_t('z').should eq("Finding aid online:")
+
+      resource.delete
     end
 
     it "does not map ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are disabled" do
@@ -1142,6 +1144,8 @@ end
 
       marc.should_not have_tag "datafield[@tag='856']"
       AppConfig[:ark_ids_enabled] = true
+      
+      resource.delete
     end
 
     it "maps resource.finding_aid_note to df 555 ('0', ' '), sf u" do

@@ -141,6 +141,8 @@ describe "Exported Dublin Core metadata" do
       url = "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}"
       dc_ark_disabled.should_not have_tag "location" => url
       AppConfig[:ark_ids_enabled] = true
+
+      digital_object_2.delete
     end
 
 
