@@ -7,6 +7,8 @@ describe 'ARKIdentifier model' do
     ark = ARKIdentifier.where(:resource_id => resource[:id]).first
 
     expect(ARKIdentifier[ark[:id]].resource_id).to eq(resource[:id])
+
+    resource.delete
   end
 
   it "creates an ARKIdentifier to a digital_object" do
@@ -15,6 +17,8 @@ describe 'ARKIdentifier model' do
     ark = ARKIdentifier.where(:digital_object_id => digital_object[:id]).first
 
     expect(ARKIdentifier[ark[:id]].digital_object_id).to eq(digital_object[:id])
+
+    digital_object.delete
   end
 
   it "creates an ARKIdentifier to an accession" do
@@ -22,6 +26,8 @@ describe 'ARKIdentifier model' do
     ark = ARKIdentifier.where(:accession_id => accession[:id]).first
 
     expect(ARKIdentifier[ark[:id]].accession_id).to eq(accession[:id])
+
+    accession.delete
   end
 
   it "must specify at least one of resource, accession or digital object" do
@@ -60,6 +66,8 @@ describe 'ARKIdentifier model' do
 
     # duplicate raises validation exception
     expect{ ARKIdentifier.create(:resource_id => resource[:id]) }.to raise_error(Sequel::ValidationFailed)
+
+    resource.delete
   end
 
   it "must link to a unique accession" do
@@ -68,6 +76,8 @@ describe 'ARKIdentifier model' do
 
     # duplicate raises validation exception
     expect{ ARKIdentifier.create(:accession_id => accession[:id]) }.to raise_error(Sequel::ValidationFailed)
+
+    accession.delete
   end
 
   it "must link to a unique digital_object" do
@@ -77,6 +87,8 @@ describe 'ARKIdentifier model' do
 
     # duplicate raises validation exception
     expect{ ARKIdentifier.create(:digital_object_id => digital_object[:id]) }.to raise_error(Sequel::ValidationFailed)
+
+    digital_object.delete
   end
 
   it "creates an ARK url for digital_object" do
@@ -85,6 +97,8 @@ describe 'ARKIdentifier model' do
     ark = ARKIdentifier.first(:digital_object_id => digital_object.id)
 
     expect(ARKIdentifier::get_ark_url(digital_object.id, :digital_object)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
+
+    digital_object.delete
   end
 
   it "creates an ARK url for an accession" do
@@ -92,6 +106,8 @@ describe 'ARKIdentifier model' do
     ark = ARKIdentifier.first(:accession_id => accession.id)
 
     expect(ARKIdentifier::get_ark_url(accession.id, :accession)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
+
+    accession.delete
   end
 
   it "creates an ARK url for resource" do
@@ -100,6 +116,8 @@ describe 'ARKIdentifier model' do
     ark = ARKIdentifier.first(:resource_id => resource.id)
 
     expect(ARKIdentifier::get_ark_url(resource.id, :resource)).to eq("#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}")
+
+    resource.delete
   end
 
   it "get_ark_url returns external_ark_url if defined on the resource" do
@@ -110,6 +128,8 @@ describe 'ARKIdentifier model' do
     ark = ARKIdentifier.first(:resource_id => resource.id)
 
     expect(ARKIdentifier::get_ark_url(resource.id, :resource)).to eq("http://foo.bar/ark:/123/123")
+
+    resource.delete
   end
 
   it "get_ark_url returns external_ark_url if defined on the accession" do
@@ -120,6 +140,8 @@ describe 'ARKIdentifier model' do
     ark = ARKIdentifier.first(:accession_id => accession.id)
 
     expect(ARKIdentifier::get_ark_url(accession.id, :accession)).to eq("http://foo.bar/ark:/123/123")
+
+    accession.delete
   end
 
    it "get_ark_url returns external_ark_url if defined on the digital object" do
@@ -130,5 +152,7 @@ describe 'ARKIdentifier model' do
     ark = ARKIdentifier.first(:digital_object_id => digital_object.id)
 
     expect(ARKIdentifier::get_ark_url(digital_object.id, :digital_object)).to eq("http://foo.bar/ark:/123/123")
+
+    digital_object.delete
   end
 end

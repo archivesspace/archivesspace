@@ -7,6 +7,7 @@ describe 'ARK Identifier controller' do
 
     get "/ark:/f00001/#{ark.id}"
     expect(last_response.status).to eq(302)
+    resource.delete
   end
 
   
@@ -16,6 +17,7 @@ describe 'ARK Identifier controller' do
 
     get "/ark:/f00001/#{ark.id}"
     expect(last_response.status).to eq(302)
+    accession.delete
   end
 
   it "should redirect to digital object" do
@@ -25,6 +27,7 @@ describe 'ARK Identifier controller' do
 
     get "/ark:/f00001/#{ark.id}"
     expect(last_response.status).to eq(302)
+    digital_object.delete
   end
 
   it "should return 404 if ark_id not found" do
@@ -40,6 +43,8 @@ describe 'ARK Identifier controller' do
     get "/ark:/f00001/#{ark.id}"
     expect(last_response.status).to eq(302)
     expect(last_response.location).to eq("http://foo.bar/ark:/123/123")
+
+    resource.delete
   end
 
   it "should redirect to external_ark_url in accession if defined" do
@@ -49,6 +54,8 @@ describe 'ARK Identifier controller' do
     get "/ark:/f00001/#{ark.id}"
     expect(last_response.status).to eq(302)
     expect(last_response.location).to eq("http://foo.bar/ark:/123/123")
+
+    accession.delete
   end
 
   it "should redirect to external_ark_url in digital_object if defined" do
@@ -59,5 +66,7 @@ describe 'ARK Identifier controller' do
     get "/ark:/f00001/#{ark.id}"
     expect(last_response.status).to eq(302)
     expect(last_response.location).to eq("http://foo.bar/ark:/123/123")
+
+    digital_object.delete
   end
 end
