@@ -8,6 +8,7 @@ gem "i18n", "0.9.1"
 gem 'sprockets-rails', '2.3.3'
 
 gem 'tzinfo-data'
+gem 'csv', '~> 3.0.0'
 
 
 # Bundle edge Rails instead:
@@ -26,10 +27,11 @@ gem 'less-rails-bootstrap'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem "json", "1.8.6"
+
+gem 'jrjackson', '0.4.6'
 gem 'json-schema', '1.0.10'
 
-gem "jruby-jars", "= 9.1.8.0"
+gem "jruby-jars", "= 9.2.0.0"
 gem 'atomic', '= 1.0.1'
 
 

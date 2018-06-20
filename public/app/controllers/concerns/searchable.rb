@@ -231,7 +231,7 @@ module Searchable
   def process_results(results, full)
     results.each do |result|
       if !result['json'].blank?
-        result['json'] = JSON.parse(result['json']) || {}
+        result['json'] = ASUtils.json_parse(result['json']) || {}
 #        Pry::ColorPrinter.pp(result['json'])
       end
       result['json']['display_string'] = full_title(result['json'])
@@ -243,7 +243,7 @@ module Searchable
       if result['_resolved_repository'].kind_of?(Hash)
         rr = result['_resolved_repository'].shift
         if !rr[1][0]['json'].blank?
-          result['_resolved_repository']['json'] = JSON.parse( rr[1][0]['json'])
+          result['_resolved_repository']['json'] = ASUtils.json_parse( rr[1][0]['json'])
         end
       end
       # A different kind of convolution
@@ -259,7 +259,7 @@ module Searchable
 #Pry::ColorPrinter.pp result['_resolved_top_container_uri_u_sstr']
         rr = result['_resolved_top_container_uri_u_sstr'].shift
         if !rr[1][0]['json'].blank?
-          result['_resolved_top_container_uri_u_sstr']['json'] = JSON.parse( rr[1][0]['json'])
+          result['_resolved_top_container_uri_u_sstr']['json'] = ASUtils.json_parse( rr[1][0]['json'])
         end
       end
     end

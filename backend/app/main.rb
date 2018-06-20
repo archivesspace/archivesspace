@@ -36,6 +36,9 @@ require 'uri'
 require 'sinatra/base'
 require 'active_support/inflector'
 
+require 'jrjackson'
+#require 'multi_json'
+
 class ArchivesSpaceService < Sinatra::Base
 
   include URIResolver
