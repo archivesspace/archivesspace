@@ -47,7 +47,7 @@ module ASpaceImport
       @cell_handlers = []
       @proxies = ASpaceImport::RecordProxyMgr.new
 
-      CSV.foreach(@input_file, encoding: 'r:bom|utf-8') do |row|
+      CSV.foreach(@input_file, encoding: 'bom|utf-8') do |row|
         # Entirely blank rows can be safely ignored
         next if row.all? {|cell| cell.to_s.strip.empty? }
 
