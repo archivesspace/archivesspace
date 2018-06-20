@@ -8,6 +8,7 @@ gem "i18n", "0.9.1"
 gem 'sprockets-rails', '2.3.3'
 
 gem 'tzinfo-data'
+gem 'csv', '~> 3.0.0'
 
 
 # Bundle edge Rails instead:
