@@ -43,6 +43,8 @@ module ASUtils
   end
 
   def self.json_parse(s)
+    MultiJson.load(s, max_nesting: false, create_additions: false)
+  rescue NameError
     JSON.parse(s, max_nesting: false, create_additions: false)
   end
 

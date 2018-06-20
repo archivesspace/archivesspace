@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra/base'
 require 'atomic'
 
+
 require_relative 'lib/periodic_indexer'
 require_relative 'lib/realtime_indexer'
 require_relative 'lib/pui_indexer'

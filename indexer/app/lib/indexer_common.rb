@@ -1,6 +1,9 @@
 require 'ashttp'
 require 'uri'
-require 'json'
+
+require 'jrjackson'
+require 'multi_json'
+
 require 'fileutils'
 require 'aspace_i18n'
 require 'set'
