@@ -35,6 +35,7 @@ require 'record_inheritance'
 require 'uri'
 require 'sinatra/base'
 require 'active_support/inflector'
+require 'jrjackson'
 
 class ArchivesSpaceService < Sinatra::Base
 

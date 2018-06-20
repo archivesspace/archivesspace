@@ -43,6 +43,9 @@ module ASUtils
   end
 
   def self.json_parse(s)
+    JrJackson::Json.parse(s, max_nesting: false, create_additions: false)
+  # CYA - if jrjackson isn't installed, fallback to json 
+  rescue NameError
     JSON.parse(s, max_nesting: false, create_additions: false)
   end
 
