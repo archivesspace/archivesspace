@@ -54,7 +54,7 @@ class SearchResultData
   end
 
   def facet_label_for_filter(filter)
-    filter_json = JSON.parse(filter)
+    filter_json = ASUtils.json_parse(filter)
     facet = filter_json.keys[0]
     term = filter_json[facet]
 

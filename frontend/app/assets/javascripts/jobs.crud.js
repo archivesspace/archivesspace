@@ -319,7 +319,7 @@ $(function() {
               // it must of errored
               return handleError($responseFromIFrame.val());
             } else if ($responseFromIFrame.data("type") === "json") {
-                uri_to_resolve = JSON.parse($responseFromIFrame.val()).uri;
+                uri_to_resolve = ASUtils.json_parse($responseFromIFrame.val()).uri;
             } else {
               throw "jobs.crud: textarea.data-type not currently support - " + $responseFromIFrame.data("type");
             }
