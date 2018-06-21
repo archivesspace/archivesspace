@@ -140,10 +140,6 @@ class ResourcesController < ApplicationController
 
       tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
 
-      puts "++++++++++++++++++++++++++++"
-      puts "IN CONTROLLER!"
-      puts tree_root.inspect
-
       @has_children = tree_root && tree_root['child_count'] > 0
       @has_containers = has_containers?(uri)
 
