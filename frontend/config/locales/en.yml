@@ -820,6 +820,8 @@ en:
     oai_sets_available: Sets included in OAI
 
   repository:
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
     _frontend:
       messages:
         created: Repository Created
