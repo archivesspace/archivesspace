@@ -364,12 +364,12 @@
       <pre class="lines">
 
 
-8
 9
-10</pre>
+10
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span>
   <span class='rubyid_@query ivar id'>@query</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -450,11 +450,6 @@
       <pre class="lines">
 
 
-54
-55
-56
-57
-58
 59
 60
 61
@@ -471,10 +466,15 @@
 72
 73
 74
-75</pre>
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 59</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_query_from_form identifier id'>build_query_from_form</span><span class='lparen token'>(</span><span class='rubyid_queries identifier id'>queries</span><span class='rparen token'>)</span>
 
@@ -519,19 +519,19 @@
       <pre class="lines">
 
 
-43
-44
-45
-46
-47
 48
 49
 50
 51
-52</pre>
+52
+53
+54
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_json_filter_terms identifier id'>from_json_filter_terms</span><span class='lparen token'>(</span><span class='rubyid_array_of_json identifier id'>array_of_json</span><span class='rparen token'>)</span>
   <span class='rubyid_builder identifier id'>builder</span> <span class='assign token'>=</span> <span class='rubyid_new identifier id'>new</span>
@@ -570,7 +570,6 @@
       <pre class="lines">
 
 
-12
 13
 14
 15
@@ -579,14 +578,19 @@
 18
 19
 20
-21</pre>
+21
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 13</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_and and kw'>and</span><span class='lparen token'>(</span><span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='string val'>&#39;text&#39;</span><span class='comma token'>,</span> <span class='rubyid_literal identifier id'>literal</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_negated identifier id'>negated</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_AdvancedQueryBuilder constant id'>AdvancedQueryBuilder</span><span class='rparen token'>)</span>
     <span class='rubyid_push_subquery identifier id'>push_subquery</span><span class='lparen token'>(</span><span class='string val'>&#39;AND&#39;</span><span class='comma token'>,</span> <span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='rparen token'>)</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_RangeValue constant id'>RangeValue</span>
+    <span class='rubyid_push_range identifier id'>push_range</span><span class='lparen token'>(</span><span class='string val'>&#39;AND&#39;</span><span class='comma token'>,</span> <span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='string val'>&#39;range&#39;</span><span class='comma token'>,</span> <span class='rubyid_literal identifier id'>literal</span><span class='comma token'>,</span> <span class='rubyid_negated identifier id'>negated</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Missing value&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
     <span class='rubyid_push_term identifier id'>push_term</span><span class='lparen token'>(</span><span class='string val'>&#39;AND&#39;</span><span class='comma token'>,</span> <span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_literal identifier id'>literal</span><span class='comma token'>,</span> <span class='rubyid_negated identifier id'>negated</span><span class='rparen token'>)</span>
@@ -615,12 +619,12 @@
       <pre class="lines">
 
 
-39
-40
-41</pre>
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 44</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_build identifier id'>build</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:advanced_query</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;query&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_build_query identifier id'>build_query</span><span class='lparen token'>(</span><span class='rubyid_@query ivar id'>@query</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
@@ -673,12 +677,12 @@
       <pre class="lines">
 
 
-34
-35
-36</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 39</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_empty? fid id'>empty?</span>
   <span class='rubyid_@query ivar id'>@query</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -704,23 +708,27 @@
       <pre class="lines">
 
 
-23
-24
-25
 26
 27
 28
 29
 30
 31
-32</pre>
+32
+33
+34
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'common/advanced_query_builder.rb', line 26</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_or or kw'>or</span><span class='lparen token'>(</span><span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='string val'>&#39;text&#39;</span><span class='comma token'>,</span> <span class='rubyid_literal identifier id'>literal</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_negated identifier id'>negated</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_AdvancedQueryBuilder constant id'>AdvancedQueryBuilder</span><span class='rparen token'>)</span>
     <span class='rubyid_push_subquery identifier id'>push_subquery</span><span class='lparen token'>(</span><span class='string val'>&#39;OR&#39;</span><span class='comma token'>,</span> <span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='rparen token'>)</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_RangeValue constant id'>RangeValue</span>
+    <span class='rubyid_push_range identifier id'>push_range</span><span class='lparen token'>(</span><span class='string val'>&#39;AND&#39;</span><span class='comma token'>,</span> <span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='string val'>&#39;range&#39;</span><span class='comma token'>,</span> <span class='rubyid_literal identifier id'>literal</span><span class='comma token'>,</span> <span class='rubyid_negated identifier id'>negated</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Missing value&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_value identifier id'>value</span>
     <span class='rubyid_push_term identifier id'>push_term</span><span class='lparen token'>(</span><span class='string val'>&#39;OR&#39;</span><span class='comma token'>,</span> <span class='rubyid_field_or_subquery identifier id'>field_or_subquery</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_literal identifier id'>literal</span><span class='comma token'>,</span> <span class='rubyid_negated identifier id'>negated</span><span class='rparen token'>)</span>
@@ -739,7 +747,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version ANW-324 Documentation Generated on Thu Jun  7 11:15:41 2018 by
+  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:30 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>

@@ -272,6 +272,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#blank%3F-class_method" title="blank? (class method)">.<strong>blank?</strong>(obj)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#drop_empty_elements-class_method" title="drop_empty_elements (class method)">.<strong>drop_empty_elements</strong>(obj)  &#x21d2; Object </a>
     
 
@@ -342,29 +365,6 @@
   <span class="summary_signature">
     
       <a href="#fragment_join-class_method" title="fragment_join (class method)">.<strong>fragment_join</strong>(fragment, property = nil)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#is_blank%3F-class_method" title="is_blank? (class method)">.<strong>is_blank?</strong>(obj)  &#x21d2; Boolean </a>
     
 
     
@@ -477,6 +477,10 @@
       <pre class="lines">
 
 
+356
+357
+358
+359
 360
 361
 362
@@ -492,14 +496,10 @@
 372
 373
 374
-375
-376
-377
-378
-379</pre>
+375</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 360</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 356</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_apply_schema_defaults identifier id'>apply_schema_defaults</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
   <span class='rubyid_fn identifier id'>fn</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
@@ -528,6 +528,60 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="blank?-class_method">
+  
+    .<strong>blank?</strong>(obj)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+315
+316
+317</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 315</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='string val'>&#39;&#39;</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="drop_empty_elements-class_method">
   
     .<strong>drop_empty_elements</strong>(obj)  &#x21d2; <tt>Object</tt> 
@@ -542,6 +596,9 @@
       <pre class="lines">
 
 
+319
+320
+321
 322
 323
 324
@@ -550,22 +607,19 @@
 327
 328
 329
-330
-331
-332
-333</pre>
+330</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 319</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_drop_empty_elements identifier id'>drop_empty_elements</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
     <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
            <span class='rubyid_v identifier id'>v</span> <span class='assign token'>=</span> <span class='rubyid_drop_empty_elements identifier id'>drop_empty_elements</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
-           <span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_is_blank? fid id'>is_blank?</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
-         <span class='rubyid_end end kw'>end</span><span class='rbrack token'>]</span>
+           <span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='rbrack token'>]</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_blank? fid id'>blank?</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
+         <span class='rubyid_end end kw'>end</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='rbrack token'>]</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
-    <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_elt identifier id'>elt</span><span class='bitor op'>|</span> <span class='rubyid_drop_empty_elements identifier id'>drop_empty_elements</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_elt identifier id'>elt</span><span class='bitor op'>|</span> <span class='rubyid_is_blank? fid id'>is_blank?</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+    <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_elt identifier id'>elt</span><span class='bitor op'>|</span> <span class='rubyid_drop_empty_elements identifier id'>drop_empty_elements</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_elt identifier id'>elt</span><span class='bitor op'>|</span> <span class='rubyid_blank? fid id'>blank?</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_obj identifier id'>obj</span>
   <span class='rubyid_end end kw'>end</span>
@@ -605,6 +659,10 @@ client, but are not part of the data model.</p>
       <pre class="lines">
 
 
+338
+339
+340
+341
 342
 343
 344
@@ -616,14 +674,10 @@ client, but are not part of the data model.</p>
 350
 351
 352
-353
-354
-355
-356
-357</pre>
+353</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 342</span>
+      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 338</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_drop_unknown_properties identifier id'>drop_unknown_properties</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='comma token'>,</span> <span class='rubyid_drop_readonly identifier id'>drop_readonly</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_fn identifier id'>fn</span> <span class='assign token'>=</span> <span class='rubyid_proc identifier id'>proc</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_schema identifier id'>schema</span><span class='bitor op'>|</span>
@@ -746,60 +800,6 @@ client, but are not part of the data model.</p>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='dstring node'>&quot;#{fragment}#{property}&quot;</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="is_blank?-class_method">
-  
-    .<strong>is_blank?</strong>(obj)  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-317
-318
-319</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'common/json_schema_utils.rb', line 317</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_blank? fid id'>is_blank?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
-  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='string val'>&quot;&quot;</span> <span class='orop op'>||</span> <span class='rubyid_obj identifier id'>obj</span> <span class='eq op'>==</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1161,7 +1161,7 @@ them into a structured format like:</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version ANW-324 Documentation Generated on Thu Jun  7 11:15:24 2018 by
+  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:15 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>
