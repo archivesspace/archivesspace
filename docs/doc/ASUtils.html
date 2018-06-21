@@ -209,7 +209,7 @@ your Gemfile.</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#diagnostic_trace_msg-class_method" title="diagnostic_trace_msg (class method)">.<strong>diagnostic_trace_msg</strong>  &#x21d2; Object </a>
+      <a href="#diagnostic_trace_msg-class_method" title="diagnostic_trace_msg (class method)">.<strong>diagnostic_trace_msg</strong>(filename)  &#x21d2; Object </a>
     
 
     
@@ -935,7 +935,7 @@ your Gemfile.</p>
       <div class="method_details ">
   <h3 class="signature " id="diagnostic_trace_msg-class_method">
   
-    .<strong>diagnostic_trace_msg</strong>  &#x21d2; <tt>Object</tt> 
+    .<strong>diagnostic_trace_msg</strong>(filename)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -954,8 +954,8 @@ your Gemfile.</p>
     <td>
       <pre class="code"><span class="info file"># File 'common/asutils.rb', line 143</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_diagnostic_trace_msg identifier id'>diagnostic_trace_msg</span>
-  <span class='string val'>&quot;      \#{&#39;=&#39; * 72}\n      A trace file has been written to the following location: \#{tmp}\n\n      This file contains information that will assist developers in diagnosing\n      problems with your ArchivesSpace installation.  Please review the file&#39;s\n      contents for sensitive information (such as passwords) that you might not\n      want to share.\n      \#{&#39;=&#39; * 72}\n&quot;</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_diagnostic_trace_msg identifier id'>diagnostic_trace_msg</span><span class='lparen token'>(</span><span class='rubyid_filename identifier id'>filename</span><span class='rparen token'>)</span>
+  <span class='string val'>&quot;      \#{&#39;=&#39; * 72}\n      A trace file has been written to the following location: \#{filename}\n\n      This file contains information that will assist developers in diagnosing\n      problems with your ArchivesSpace installation.  Please review the file&#39;s\n      contents for sensitive information (such as passwords) that you might not\n      want to share.\n      \#{&#39;=&#39; * 72}\n&quot;</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1003,7 +1003,7 @@ your Gemfile.</p>
   <span class='rubyid_diagnostics identifier id'>diagnostics</span> <span class='assign token'>=</span> <span class='rubyid_get_diagnostics identifier id'>get_diagnostics</span><span class='lparen token'>(</span><span class='rubyid_exception identifier id'>exception</span><span class='rparen token'>)</span>
   <span class='rubyid_tmp identifier id'>tmp</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_Dir constant id'>Dir</span><span class='dot token'>.</span><span class='rubyid_tmpdir identifier id'>tmpdir</span><span class='comma token'>,</span> <span class='dstring node'>&quot;aspace_diagnostic_#{Time.now.to_i}.txt&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_tmp identifier id'>tmp</span><span class='comma token'>,</span> <span class='string val'>&#39;w&#39;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_fh identifier id'>fh</span><span class='bitor op'>|</span> <span class='rubyid_fh identifier id'>fh</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_pretty_generate identifier id'>pretty_generate</span><span class='lparen token'>(</span><span class='rubyid_diagnostics identifier id'>diagnostics</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='rubyid_diagnostic_trace_msg identifier id'>diagnostic_trace_msg</span>
+  <span class='rubyid_$stderr gvar id'>$stderr</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span> <span class='rubyid_diagnostic_trace_msg identifier id'>diagnostic_trace_msg</span><span class='lparen token'>(</span><span class='rubyid_tmp identifier id'>tmp</span><span class='rparen token'>)</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_exception identifier id'>exception</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_exception identifier id'>exception</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1809,7 +1809,7 @@ production.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version ANW-324 Documentation Generated on Thu Jun  7 11:15:23 2018 by
+  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:14 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>
