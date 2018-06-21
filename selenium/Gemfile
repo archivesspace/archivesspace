@@ -6,7 +6,7 @@ gem "i18n", "0.9.1"
 gem 'nokogiri', '1.8.1' # because of https://github.com/sparklemotion/nokogiri/issues/1673
 
 group :test do
-  gem "json", "1.8.6"
+  gem 'jrjackson', '0.4.6'
   gem 'multi_json', '~> 1.13.1'
   gem "rubyzip", "~> 1.2.1" # because of https://github.com/rubyzip/rubyzip/issues/315
   gem "sinatra", "1.4.7", :require => false
