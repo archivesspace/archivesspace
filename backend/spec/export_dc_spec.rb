@@ -120,6 +120,31 @@ describe "Exported Dublin Core metadata" do
       @dc.should have_tag "dc/language" => @digital_object.language
     end
 
+    it "maps to identifier" do
+      pending "missing test"
+      expect(false).to eq(true)
+    end
+
+    it "maps ARK identifier to location" do
+      ark = ARKIdentifier.first(:digital_object_id => @digital_object.id)
+      url = "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}"
+      @dc.should have_tag "location" => url
+    end
+
+    it "does not map ARK identifier to location if ARKs are disabled" do
+      digital_object_2 = create(:json_digital_object)
+
+      AppConfig[:ark_ids_enabled] = false
+      dc_ark_disabled = get_dc(digital_object_2) 
+
+      ark = ARKIdentifier.first(:digital_object_id => digital_object_2.id)
+      url = "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}"
+      dc_ark_disabled.should_not have_tag "location" => url
+      AppConfig[:ark_ids_enabled] = true
+
+      digital_object_2.delete
+    end
+
 
     it "maps dates to date" do
       @digital_object.dates.each do |date|

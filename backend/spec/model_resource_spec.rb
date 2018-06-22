@@ -8,8 +8,30 @@ describe 'Resource model' do
     resource = create_resource(opts)
 
     Resource[resource[:id]].title.should eq(opts[:title])
+
+    resource.delete
   end
 
+  it "creates an ARK identifier with resource" do
+    opts = {:title => generate(:generic_title)}
+
+    resource = create_resource(opts)
+
+    expect(ARKIdentifier.first(:resource_id => resource.id)).to_not be_nil
+    
+    resource.delete
+  end
+
+  it "deletes ARK Identifier when resource is deleted" do
+    opts = {:title => generate(:generic_title)}
+    resource = create_resource(opts)
+    resource_id = resource.id
+
+    expect(ARKIdentifier.first(:resource_id => resource_id)).to_not be_nil
+
+    resource.delete
+    expect(ARKIdentifier.first(:resource_id => resource_id)).to be_nil
+  end
 
   it "prevents duplicate IDs " do
     opts = {:id_0 => generate(:alphanumstr)}

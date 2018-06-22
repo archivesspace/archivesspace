@@ -692,6 +692,10 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def serialize_eadheader(data, xml, fragments)
+    eadid_url = AppConfig[:ark_ids_enabled] ? 
+                  ARKIdentifier::get_ark_url(data.id, :resource) : 
+                  data.ead_location
+
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",
                       :countryencoding => "iso3166-1",
@@ -701,7 +705,7 @@ class EADSerializer < ASpaceExport::Serializer
     xml.eadheader(eadheader_atts) {
 
       eadid_atts = {:countrycode => data.repo.country,
-              :url => data.ead_location,
+              :url => eadid_url,
               :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil? || v.empty? || v == "null" }
 
       xml.eadid(eadid_atts) {
