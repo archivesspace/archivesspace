@@ -802,6 +802,10 @@ en:
       action:
         add: Add Revision Statement
 
+  repository_oai:
+    oai_is_disabled: OAI Harvesting Disabled?
+    oai_sets_available: Sets included in OAI
+
   repository:
     _frontend:
       messages:
@@ -820,7 +824,9 @@ en:
         cannot_delete_nonempty: Cannot delete - repository not empty
       section:
         all_fields: Repository Fields
+        oai_fields: OAI Harvest Settings
         transfer: Transfer Repository
+        oai_settings: OAI Settings
       action:
         select: Select Repository
         create: Create Repository

@@ -128,9 +128,35 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   private
 
   def add_visibility_restrictions(dataset)
-    unpublished_repos = Repository.exclude(:publish => 1).select(:id).map {|row| row[:id]}
+    # ANW-242: restrict excluded sets if enabled per repostiory
+    # select repos that
+      # -are published 
+      # -have OAI enabled
+    # gather these repo ids and available set ids in a data structure like:
+    # [ [1, [889, 886]], [2, []], ...]
+    visible_repos= Repository.exclude(:publish => 0).exclude(:oai_is_disabled => 1)
+                             .select(:id, :oai_sets_available)
+                             .map {|row| [row[:id], row[:oai_sets_available]]}
 
-    dataset.exclude(:repo_id => unpublished_repos).filter(:publish => 1, :suppressed => 0)
+    visible_repos.map! do |vr| 
+      osa_parsed = JSON::parse(vr[1]) rescue [] 
+      [vr[0], osa_parsed.map {|s| s.to_i}]
+    end
+
+    # create a query WHERE subclause string for each visible repo
+    # add a check for set restrictions if defined for that repo
+    query_strings = visible_repos.map do |vr|
+      # no set restrictions: add all the repos objects to our query
+      if vr[1].length == 0
+        "(repo_id = #{vr[0]})"
+
+      # set restrictions defined: add only objects in repo that meet set restrictions
+      else
+        "(level_id IN (#{vr[1].join(', ')}) AND repo_id = #{vr[0]})"
+      end
+    end
+
+    dataset.filter(query_strings.join(" OR ")).filter(:publish => 1, :suppressed => 0)
   end
 
   # Don't show deletes for repositories that aren't published.
