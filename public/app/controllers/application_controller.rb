@@ -55,4 +55,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def process_slug_or_id(params)
+    # if we have a string that looks like an integer, treat it as an ID.
+    if params[:slug_or_id].match(/^(\d)+$/)
+      # id found
+      params[:id] = params[:slug_or_id]
+    else
+      # look up slug value via HTTP request to backend to find actual id
+      uri = "/slug?slug=#{params[:slug_or_id]}&controller=#{params[:controller]}&action=#{params[:action]}"
+
+      url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+      response = JSONModel::HTTP.get_response(url)
+
+      params[:id] = JSON.parse(response.body)["id"]
+    end
+
+  end
+
 end

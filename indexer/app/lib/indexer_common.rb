@@ -342,6 +342,8 @@ class IndexerCommon
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
         doc['repo_sort'] = record['record']['display_string']
+        doc['slug'] = record['record']['slug']
+        doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
     }
 

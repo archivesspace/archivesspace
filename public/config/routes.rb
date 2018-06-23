@@ -62,7 +62,7 @@ Rails.application.routes.draw do
     get "repositories/:rid/agents" => 'agents#index'
 
     #REPOSITORIES
-    get "repositories/:id" => 'repositories#show'
+    get "repositories/:slug_or_id" => 'repositories#show'
     get '/repositories', to: 'repositories#index'
 
     #OBJECTS (generic, pass in the object_type as a param)

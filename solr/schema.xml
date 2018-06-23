@@ -227,6 +227,10 @@
    <field name="system_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
    <field name="user_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
 
+   <!-- Slug fields -->
+   <field name="slug" type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="is_slug_auto" type="boolean" indexed="true" stored="true" multiValued="false"/>
+
    <!-- Enum Fields -->
    <dynamicField name="*_enum_s"  type="string"  indexed="true"  stored="true" multiValued="true"/>
 
