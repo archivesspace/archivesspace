@@ -25,6 +25,21 @@ module ASModel
       super
     end
 
+    # if the model has slug fields, make sure our slugs have no
+    # spaces or other URL invalid chars.
+    def before_save
+      if self[:slug]
+        # replace spaces with underscores
+        self[:slug] = self[:slug].gsub(" ", "_")
+
+        # remove URL-reserved chars
+        self[:slug] = self[:slug].gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+        # enforce length limit of 50 chars
+        self[:slug] = self[:slug].slice(0, 50)
+      end
+    end
+
 
     def before_update
       if RequestContext.get(:current_username)

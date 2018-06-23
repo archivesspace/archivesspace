@@ -103,6 +103,14 @@ it "can identify and report conflicting identifiers" do
   end
 
 
+  it "automatically strips invalid chars from slug field" do
+    id = make_test_repo("slugtest")
+    repo = Repository.where(:id => id).first.update(:slug => "A Wierd! Slug# To? Use@")
+
+    expect(repo[:slug]).to eq("A_Wierd_Slug_To_Use")
+  end
+
+
   it "can delete a repo even if it has preferences and import jobs and stuff" do
 
     repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO2",
