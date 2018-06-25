@@ -64,6 +64,7 @@ Rails.application.routes.draw do
     #REPOSITORIES
     get "repositories/:slug_or_id" => 'repositories#show'
     get '/repositories', to: 'repositories#index'
+    get "repositories/:slug_or_id/search" => 'search#search'
 
     #OBJECTS (generic, pass in the object_type as a param)
     get 'objects/search' => 'objects#search'
@@ -83,7 +84,6 @@ Rails.application.routes.draw do
     
     get  "repositories/:rid/classification_terms/:id" => 'classifications#term'
     
-    get  "repositories/:rid/search" => 'search#search'
     get '/search', to: 'search#search'
   end
 end

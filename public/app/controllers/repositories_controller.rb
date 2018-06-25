@@ -3,7 +3,7 @@ class RepositoriesController < ApplicationController
   helper_method :process_repo_info
   skip_before_action  :verify_authenticity_token  
 
-  before_filter(:only => [:show]) {
+  before_filter(:only => [:show, :search]) {
     process_slug_or_id(params)
   }
 
