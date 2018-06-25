@@ -126,6 +126,16 @@ it "can identify and report conflicting identifiers" do
     expect(repo3[:slug]).to eq("Original_2")
   end
 
+  it "autogenerates a slug when turned autogen is on" do
+    id = make_test_repo("slugtest")
+
+    repo = Repository.where(:id => id).first.update(:is_slug_auto => 1)
+    expected_slug = repo[:name].gsub(" ", "_")
+                               .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+    expect(repo[:slug]).to eq(expected_slug)
+  end
+
 
   it "can delete a repo even if it has preferences and import jobs and stuff" do
 

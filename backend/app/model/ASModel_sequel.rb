@@ -25,9 +25,24 @@ module ASModel
       super
     end
 
-    # if the model has slug fields, make sure our slugs have no
-    # spaces or other URL invalid chars.
+    # Slugs:
+    # autogenerate a slug based on name/title if flag is set.
+    # make sure slug has no invalid chars and is valid length
+    # make sure slug is de-duped.
     def before_save
+      if self[:is_slug_auto] == 1
+        if !self[:title].nil? && !self[:title].empty?
+          self[:slug] = self[:title]
+
+        elsif !self[:name].nil? && !self[:name].empty?
+          self[:slug] = self[:name]
+
+        # no title, no name. Generate a random string.
+        else
+          self[:slug] = (0...8).map { (65 + rand(26)).chr }.join
+        end
+      end
+
       if self[:slug]
         # replace spaces with underscores
         self[:slug] = self[:slug].gsub(" ", "_")
@@ -42,8 +57,6 @@ module ASModel
         if SlugHelpers.slug_in_use?(self[:slug])
           self[:slug] = SlugHelpers.dedupe_slug(self[:slug])
         end
-
-
       end
     end
 
