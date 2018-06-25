@@ -1,7 +1,11 @@
 module ReportUtils
   def self.fix_extent_format(row)
     row[:extent_number] = 0.0 unless row[:extent_number]
-    row[:extent] = "#{format('%.2f', row[:extent_number].to_s)} #{row[:extent_type]}"
+    begin
+      row[:extent] = "#{format('%.2f', row[:extent_number].to_s)} #{row[:extent_type]}"
+    rescue ArgumentError => e
+      row[:extent] = "#{row[:extent_number]} #{row[:extent_type]}"
+    end
     row.delete(:extent_type)
     row.delete(:extent_number)
   end

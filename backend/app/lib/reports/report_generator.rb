@@ -148,7 +148,8 @@ class ReportGenerator
   end
 
   def t(key, default='')
-    special_translation = report.special_translation(key)
+    subreport_code = sub_report_code_stack.empty? ? nil : sub_report_code_stack.last
+    special_translation = report.special_translation(key, subreport_code)
     if special_translation
       special_translation
     else

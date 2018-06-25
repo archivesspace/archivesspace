@@ -79,7 +79,7 @@ class AbstractReport
     Repository.get_or_die(repo_id).name
   end
 
-  def special_translation(key)
+  def special_translation(key, subreport_code)
     nil
   end
 end

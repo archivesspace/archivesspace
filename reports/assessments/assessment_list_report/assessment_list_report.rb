@@ -6,7 +6,8 @@ class AssessmentListReport < AbstractReport
                     :sensitive_material].freeze
 
   register_report(
-    params: [['from', Date, 'The start of report range'],
+    params: [['scope_by_date', 'Boolean', 'Scope records by a date range'],
+             ['from', Date, 'The start of report range'],
              ['to', Date, 'The start of report range']]
   )
 
@@ -15,10 +16,19 @@ class AssessmentListReport < AbstractReport
     from = params['from'].to_s.empty? ? Time.at(0).to_s : params['from']
     to = params['to'].to_s.empty? ? Time.parse('9999-01-01').to_s : params['to']
 
-    @from = DateTime.parse(from).to_time.strftime('%Y-%m-%d %H:%M:%S')
-    @to = DateTime.parse(to).to_time.strftime('%Y-%m-%d %H:%M:%S')
+    @date_scope = params['scope_by_date']
 
-    info[:scoped_by_date_range] = "#{@from} & #{@to}"
+    if @date_scope
+      from = params['from']
+      to = params['to']
+
+      raise 'Date range not specified.' if from === '' || to === ''
+
+      @from = DateTime.parse(from).to_time.strftime('%Y-%m-%d %H:%M:%S')
+      @to = DateTime.parse(to).to_time.strftime('%Y-%m-%d %H:%M:%S')
+
+      info[:scoped_by_date_range] = "#{@from} & #{@to}"
+    end
   end
 
   def query
@@ -28,6 +38,14 @@ class AssessmentListReport < AbstractReport
   end
 
   def query_string
+    date_condition = if @date_scope
+                      "survey_begin > 
+                      #{@from.split(' ')[0].gsub('-', '')} 
+                      and survey_begin < 
+                      #{@to.split(' ')[0].gsub('-', '')}"
+                    else
+                      '1=1'
+                    end
     "select
       null as linked_records,
       id,
@@ -95,9 +113,7 @@ class AssessmentListReport < AbstractReport
           on assessment_attribute.assessment_attribute_definition_id
             = assessment_attribute_definition.id
       group by assessment_attribute.assessment_id) as attributes
-    where repo_id = #{@repo_id}
-      and survey_begin > #{@from.split(' ')[0].gsub('-', '')} 
-      and survey_begin < #{@to.split(' ')[0].gsub('-', '')}"
+    where repo_id = #{@repo_id} and #{date_condition}"
   end
 
   def fix_row(row)

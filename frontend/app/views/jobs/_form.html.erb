@@ -89,7 +89,11 @@
                     <input id='report_type_' name='report_job[report_type]' type='hidden' value='<%= report['code'] %>' />
                     <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
 
-                    <% if report_params.length > 0 %>
+                    <% if report['code'] == 'custom_report' %>
+                      <div class="form-group">
+                        <%= render_aspace_partial :partial => "jobs/report_partials/customfields", :locals => {:object => @job, :form => form, :custom_data => report_params[0][3]} %>
+                      </div>
+                    <% elsif report_params.length > 0 %>
                        <% report_params.each do | param | %>
                         <div class="form-group">
                           <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>

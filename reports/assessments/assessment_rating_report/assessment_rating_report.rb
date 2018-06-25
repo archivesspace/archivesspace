@@ -1,12 +1,11 @@
-require 'csv'
-
 class AssessmentRatingReport < AbstractReport
 
   # Gives us each_slice, used below
   include Enumerable
 
   register_report({
-                    :params => [["from", Date, "The start of report range"],
+                    :params => [['scope_by_date', 'Boolean', 'Scope records by a date range'],
+                                ["from", Date, "The start of report range"],
                                 ["to", Date, "The start of report range"],
                                 ["rating", "Rating", "The assessment rating to report on"],
                                 ["values", "RatingValues", "The assessment rating values to include"]]
@@ -29,15 +28,22 @@ class AssessmentRatingReport < AbstractReport
       raise "Need a rating and at least one value of interest"
     end
 
-    from = params["from"].to_s.empty? ? Time.at(0).to_s : params["from"]
-    to = params["to"].to_s.empty? ? Time.parse('9999-01-01').to_s : params["to"]
+    @date_scope = params['scope_by_date']
 
-    @from = DateTime.parse(from).to_time.strftime("%Y-%m-%d %H:%M:%S")
-    @to = DateTime.parse(to).to_time.strftime("%Y-%m-%d %H:%M:%S")
+    if @date_scope
+      from = params['from']
+      to = params['to']
+
+      raise 'Date range not specified.' if from === '' || to === ''
+
+      @from = DateTime.parse(from).to_time.strftime('%Y-%m-%d %H:%M:%S')
+      @to = DateTime.parse(to).to_time.strftime('%Y-%m-%d %H:%M:%S')
+
+      info[:scoped_by_date_range] = "#{@from} & #{@to}"
+    end
 
     info[:scoped_by_rating] = get_attribute_name
     info[:showing_values] = @values_of_interest.join(', ')
-    info[:scoped_by_date_range] = "#{@from} & #{@to}"
   end
 
   def get_attribute_name
@@ -58,6 +64,14 @@ class AssessmentRatingReport < AbstractReport
   end
 
   def query_string
+    date_condition = if @date_scope
+                      "survey_begin > 
+                      #{@from.split(' ')[0].gsub('-', '')} 
+                      and survey_begin < 
+                      #{@to.split(' ')[0].gsub('-', '')}"
+                    else
+                      '1=1'
+                    end
     "select
       null as linked_records,
       id,
@@ -95,9 +109,7 @@ class AssessmentRatingReport < AbstractReport
       from assessment_attribute_note
         where assessment_attribute_definition_id = #{@rating_id}) as notes
 
-    where repo_id = #{@repo_id}
-      and survey_begin > #{@from.split(' ')[0].gsub('-', '')} 
-      and survey_begin < #{@to.split(' ')[0].gsub('-', '')}"
+    where repo_id = #{@repo_id} and #{date_condition}"
   end
 
   def fix_row(row)
@@ -105,7 +117,7 @@ class AssessmentRatingReport < AbstractReport
                                                            .get_content
   end
 
-  def special_translation(key)
+  def special_translation(key, subreport_code)
     if key == :rating_name
       get_attribute_name
     else

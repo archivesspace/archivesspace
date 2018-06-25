@@ -143,6 +143,7 @@ $(function() {
         });
       
         initLocationReportSubForm();
+        initCustomReportSubForm();
       } else if (type === "print_to_pdf_job") {
         $("#noImportTypeSelected", $form).hide();
         $("#job_type_fields", $form)
@@ -367,6 +368,16 @@ $(function() {
     });
 
     $('#location_report_type').trigger('change');
+  };
+
+  var initCustomReportSubForm = function () {
+    $(document).on('change', '#custom_record_type', function () {
+      var selected_record_type = $(this).val();
+
+      $('.record_type').hide();
+      $('.record_type.' + selected_record_type).show();
+    });
+    $('#custom_record_type').trigger('change');
   };
 
   initImportJobForm();

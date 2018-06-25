@@ -1,0 +1,54 @@
+<select id="custom_record_type" name="job[job_params][record_type]" class="form-control">
+	<% custom_data.keys.each do |record_type| %>
+		<option value="<%= record_type %>"><%= I18n.t("#{record_type}._plural") %></option>
+	<% end %>
+
+</select>
+
+<% custom_data.keys.each do |record_type| %>
+	<div class="record_type <%= record_type %>">
+		<br/>
+		<% custom_data[record_type]['fields'].each do |field| %>
+			<% field_name = field['name'] %>
+			<br/>
+			<h4><%= I18n.t("#{record_type}.#{field_name}", :default => field_name) %></h4>
+			<label>Display</label>
+			<%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][include]" %>
+			<br/>
+
+			<% if field['data_type'] == 'Date' %>
+				<label>Narrow By</label>
+				<%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+				<br/>
+				<label>Start Date</label>
+				<%= text_field_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][range_start]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
+				<label>End Date</label>
+				<%= text_field_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][range_end]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
+				<br/>
+			<% end %>
+
+		<% end %>
+		<br/>
+
+		<h4>Linked Records</h4>
+		<% custom_data[record_type]['subreports'].each do |subreport| %>
+			<% field_name = subreport['name'] %>
+			<label><%= I18n.t("#{field_name}._plural", :default => field_name) %></label>
+			<%= check_box_tag "job[job_params][custom_report_data][#{record_type}][subreports][#{field_name}][include]" %>
+			<br/>
+		<% end %>
+		<br/>
+
+		<h4>Sort By</h4>
+		<select id="sort_by" name="job[job_params][custom_report_data][<%= record_type %>][sort_by]" class="form-control">
+			<option value = ''></option>
+			<% custom_data[record_type]['fields'].each do |field| %>
+				<% if field['sortable'] %>
+					<option value="<%= field['name'] %>">
+						<%= I18n.t("#{record_type}.#{field['name']}", :default => field['name']) %>
+					</option>
+				<% end %>
+			<% end %>
+		</select>
+	</div>
+<% end %>
