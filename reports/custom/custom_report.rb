@@ -1,5 +1,3 @@
-require_relative '../../backend/app/model/reports/custom_field'
-
 class CustomReport < AbstractReport
 
 	include CustomField::Mixin
