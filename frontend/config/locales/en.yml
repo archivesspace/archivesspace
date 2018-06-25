@@ -852,6 +852,8 @@ en:
         _plural: OAI Harvest Settings
 
   resource:
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
     _frontend:
       messages:
         created: "Resource <strong>%{resource.title}</strong> created"
