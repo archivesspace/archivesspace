@@ -37,6 +37,13 @@ module ASModel
 
         # enforce length limit of 50 chars
         self[:slug] = self[:slug].slice(0, 50)
+
+        # search for dupes
+        if SlugHelpers.slug_in_use?(self[:slug])
+          self[:slug] = SlugHelpers.dedupe_slug(self[:slug])
+        end
+
+
       end
     end
 

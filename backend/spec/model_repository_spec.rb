@@ -103,11 +103,27 @@ it "can identify and report conflicting identifiers" do
   end
 
 
+  # These slug tests should be in a more generic place. Here out of convienence for now.
+  # TODO: Move slug tests to a generic "ArchiveSpace Slugged Model" test
   it "automatically strips invalid chars from slug field" do
     id = make_test_repo("slugtest")
     repo = Repository.where(:id => id).first.update(:slug => "A Wierd! Slug# To? Use@")
 
     expect(repo[:slug]).to eq("A_Wierd_Slug_To_Use")
+  end
+
+  it "automatically de-duplicates slug names" do
+    id1 = make_test_repo("slugtest1")
+    id2 = make_test_repo("slugtest2")
+    id3 = make_test_repo("slugtest3")
+
+    repo1 = Repository.where(:id => id1).first.update(:slug => "Original")
+    repo2 = Repository.where(:id => id2).first.update(:slug => "Original")
+    repo3 = Repository.where(:id => id3).first.update(:slug => "Original")
+
+    expect(repo1[:slug]).to eq("Original")
+    expect(repo2[:slug]).to eq("Original_1")
+    expect(repo3[:slug]).to eq("Original_2")
   end
 
 
