@@ -1,5 +1,6 @@
 require 'java'
 require 'csv'
+require_relative 'csv_report_expander'
 
 # java_import org.xhtmlrenderer.pdf.ITextRenderer
 
@@ -63,18 +64,32 @@ class ReportGenerator
         csv << [key, value]
       end
       csv << []
-      begin
-        csv << results[0].keys
-      rescue NoMethodError
-        csv << ['No results found.']
-      end
-      results.each do |result|
-        row = []
-        result.each do |_key, value|
-          row.push(value.is_a?(Array) ? ASUtils.to_json(value) : value)
+
+      # begin
+        rows = []
+        rows.push(results[0].keys)
+
+        results.each do |result|
+          row = []
+          result.each do |_key, value|
+            row.push(value.is_a?(Array) ? ASUtils.to_json(value) : value)
+          end
+          rows.push(row)
         end
-        csv << row
-      end
+
+        data = nil
+        if report.expand_csv
+          data = CsvReportExpander.new(rows, report.job).expand_csv
+        else
+          data = rows
+        end
+
+        data.each do |row|
+          csv << row
+        end
+      # rescue NoMethodError
+      #   csv << ['No results found.']
+      # end
     end
   end
 
