@@ -22,8 +22,9 @@ module SlugHelpers
   def self.slug_in_use?(slug)
     repo_count = Repository.where(:slug => slug).count
     resource_count = Resource.where(:slug => slug).count
+    subject_count = Subject.where(:slug => slug).count
 
-    return repo_count + resource_count > 0
+    return repo_count + resource_count + subject_count > 0
   end
 
   # dupe_slug is already in use. Recusively find a suffix (e.g., slug_1)

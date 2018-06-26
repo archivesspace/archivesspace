@@ -900,6 +900,8 @@ en:
     ref: Destination Repository
 
   subject:
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
     _frontend:
       messages:
         created: Subject Created
