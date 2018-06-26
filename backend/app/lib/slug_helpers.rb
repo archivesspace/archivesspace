@@ -9,22 +9,26 @@ module SlugHelpers
 
   	# BINGO!
   	if rec
-  		return [rec[:id], table]
+  		return [rec[:id], table, rec[:repo_id]]
 
   	# Always return -1 if we can't find that slug
   	else
-  		return [-1, table]
+  		return [-1, table, -1]
   	end
   end
 
   # given a slug, return true if slug is used by another entitiy.
   # return false otherwise.
   def self.slug_in_use?(slug)
-    repo_count = Repository.where(:slug => slug).count
-    resource_count = Resource.where(:slug => slug).count
-    subject_count = Subject.where(:slug => slug).count
+    repo_count           = Repository.where(:slug => slug).count
+    resource_count       = Resource.where(:slug => slug).count
+    subject_count        = Subject.where(:slug => slug).count
+    digital_object_count = DigitalObject.where(:slug => slug).count
 
-    return repo_count + resource_count + subject_count > 0
+    return repo_count + 
+           resource_count + 
+           subject_count + 
+           digital_object_count > 0
   end
 
   # dupe_slug is already in use. Recusively find a suffix (e.g., slug_1)

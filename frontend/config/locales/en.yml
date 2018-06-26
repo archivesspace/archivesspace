@@ -598,6 +598,8 @@ en:
         add: Add Deaccession
 
   digital_object:
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
     _frontend:
       messages:
         created: "Digital Object <strong>%{digital_object.title}</strong> Created"
