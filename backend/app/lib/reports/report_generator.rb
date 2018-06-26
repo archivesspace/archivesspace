@@ -65,7 +65,7 @@ class ReportGenerator
       end
       csv << []
 
-      # begin
+      begin
         rows = []
         rows.push(results[0].keys)
 
@@ -87,9 +87,9 @@ class ReportGenerator
         data.each do |row|
           csv << row
         end
-      # rescue NoMethodError
-      #   csv << ['No results found.']
-      # end
+      rescue NoMethodError
+        csv << ['No results found.']
+      end
     end
   end
 
