@@ -12,6 +12,9 @@
       "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"},
+
       "id_0" => {"type" => "string", "ifmissing" => "error", "maxLength" => 255},
       "id_1" => {"type" => "string", "maxLength" => 255},
       "id_2" => {"type" => "string", "maxLength" => 255},

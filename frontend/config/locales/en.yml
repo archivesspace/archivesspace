@@ -437,7 +437,9 @@ en:
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
   accession:
-    _frontend:
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
+    _frontend: 
       messages:
         created: Accession <strong>%{accession.display_string}</strong> created
         unsuppressed: Accession <strong>%{accession.display_string}</strong> unsuppressed

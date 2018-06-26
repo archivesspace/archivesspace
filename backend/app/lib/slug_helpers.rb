@@ -24,10 +24,12 @@ module SlugHelpers
     resource_count       = Resource.where(:slug => slug).count
     subject_count        = Subject.where(:slug => slug).count
     digital_object_count = DigitalObject.where(:slug => slug).count
+    accession_count      = Accession.where(:slug => slug).count
 
     return repo_count + 
            resource_count + 
            subject_count + 
+           accession_count + 
            digital_object_count > 0
   end
 
