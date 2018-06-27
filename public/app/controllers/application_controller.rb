@@ -57,7 +57,11 @@ class ApplicationController < ActionController::Base
 
   def process_slug_or_id(params)
     # if we have a string that looks like an integer, treat it as an ID.
-    if params[:slug_or_id].match(/^(\d)+$/)
+
+    # we may have an id param. If so, use it.
+    if params[:id]
+      true # do nothing
+    elsif params[:slug_or_id].match(/^(\d)+$/)
       # id found
       params[:id] = params[:slug_or_id]
     else
@@ -68,8 +72,9 @@ class ApplicationController < ActionController::Base
       response = JSONModel::HTTP.get_response(url)
 
       json_response = JSON.parse(response.body)
+
       params[:id] = json_response["id"]
-      params[:rid] = json_response["repo_id"]
+      params[:rid] = json_response["repo_id"] if json_response["repo_id"]
     end
 
   end
