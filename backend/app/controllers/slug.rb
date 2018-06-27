@@ -9,10 +9,10 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, ""]) \
   do
-  	id, table = SlugHelpers.get_id_from_slug(params['slug'], 
+  	id, table, repo_id = SlugHelpers.get_id_from_slug(params['slug'], 
   																			     params['controller'], 
   																			     params['action'])
 
-  	json_response({:id => id, :table => table})
+  	json_response({:id => id, :table => table, :repo_id => repo_id})
   end
 end

@@ -67,7 +67,9 @@ class ApplicationController < ActionController::Base
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       response = JSONModel::HTTP.get_response(url)
 
-      params[:id] = JSON.parse(response.body)["id"]
+      json_response = JSON.parse(response.body)
+      params[:id] = json_response["id"]
+      params[:rid] = json_response["repo_id"]
     end
 
   end

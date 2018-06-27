@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     post '/cite', to: 'cite#show'
 
     # RESOURCES
+    get  "resources/:slug_or_id"  => 'resources#show'
+
     get  'repositories/resources' => 'resources#index'
     get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
     get  "repositories/:rid/resources/:id"  => 'resources#show'
