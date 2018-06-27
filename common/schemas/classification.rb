@@ -8,6 +8,8 @@
     "properties" => {
 
       "has_classification_terms" => {"type" => "boolean", "readonly" => true},
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"}
 
     },
   },

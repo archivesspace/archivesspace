@@ -536,6 +536,8 @@ en:
         new_record_title: New Archival Object
 
   classification:
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
     _frontend:
       messages:
         created: "Classification <strong>%{classification.title}</strong> created"
