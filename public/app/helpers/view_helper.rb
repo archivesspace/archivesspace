@@ -49,4 +49,14 @@ module ViewHelper
 
 		return url
 	end
+
+	def classification_base_url(result)
+		if result.json['slug']
+			url = "classifications/" + result.json['slug']
+		else
+			url = result['uri']
+		end
+
+		return url
+	end
 end

@@ -45,6 +45,8 @@ Rails.application.routes.draw do
     get "repositories/:rid/digital_objects/:id/tree/node_from_root"  => 'digital_objects#tree_node_from_root'
 
     #CLASSIFICATIONS
+    get  "classifications/:slug_or_id"  => 'classifications#show'
+
     get 'classifications/search' => 'classifications#search'
     get 'classifications' => 'classifications#index'
     get "repositories/:rid/classifications/:id" => 'classifications#show'

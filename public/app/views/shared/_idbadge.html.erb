@@ -24,6 +24,8 @@ end
     <% url = accession_base_url(result) %>
   <% when "subject" %>
     <% url = subject_base_url(result) %>
+  <% when "classification" %>
+    <% url = classification_base_url(result) %>
   <% else %>
     <% url = result.uri %>
 <% end %>

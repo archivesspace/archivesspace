@@ -13,6 +13,8 @@ module SlugHelpers
       [Accession.any_repo.where(:slug => slug).first, "accession"]
     when "subjects"
       [Subject.any_repo.where(:slug => slug).first, "subject"]
+    when "classifications"
+      [Classification.any_repo.where(:slug => slug).first, "classification"]
   	end
 
   	# BINGO!
