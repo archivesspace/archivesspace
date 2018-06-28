@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     get  "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
 
     #DIGITAL OBJECTS
+    get  "digital_objects/:slug_or_id"  => 'objects#show'
+
     get "repositories/:rid/digital_objects" => 'objects#index'
     get "repositories/:rid/digital_objects/:id/tree/root"  => 'digital_objects#tree_root'
     get "repositories/:rid/digital_objects/:id/tree/waypoint"  => 'digital_objects#tree_waypoint'

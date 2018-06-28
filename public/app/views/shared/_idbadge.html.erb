@@ -14,9 +14,12 @@ end
 %>
 
 <%# build URL with slugs depending on the primary type %>
+<p>REMOVE ME LATER: <%= result.primary_type %></p>
 <% case result.primary_type %>
   <% when "resource" %>
     <% url = resource_base_url(result) %>
+  <% when "digital_object" %>
+    <% url = digital_object_base_url(result) %>
   <% else %>
     <% url = result.uri %>
 <% end %>

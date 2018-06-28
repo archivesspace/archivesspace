@@ -19,4 +19,14 @@ module ViewHelper
 
 		return url
 	end
+
+	def digital_object_base_url(result)
+		if result.json['slug']
+			url = "digital_objects/" + result.json['slug']
+		else
+			url = result['uri']
+		end
+
+		return url
+	end
 end
