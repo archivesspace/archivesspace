@@ -48,7 +48,7 @@ module ASModel
         self[:slug] = self[:slug].gsub(" ", "_")
 
         # remove URL-reserved chars
-        self[:slug] = self[:slug].gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+        self[:slug] = self[:slug].gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!.]/, "")
 
         # enforce length limit of 50 chars
         self[:slug] = self[:slug].slice(0, 50)

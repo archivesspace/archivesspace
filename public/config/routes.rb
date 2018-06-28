@@ -56,8 +56,8 @@ Rails.application.routes.draw do
     get "repositories/:rid/classifications/:id/tree/node_from_root"  => 'classifications#tree_node_from_root'
 
     #SUBJECTS
+    get "subjects/:slug_or_id" => 'subjects#show'
     get 'subjects/search' => 'subjects#search'
-    get "subjects/:id" => 'subjects#show'
     get 'subjects' => 'subjects#index'
     get "repositories/:rid/subjects" => 'subjects#index'
 

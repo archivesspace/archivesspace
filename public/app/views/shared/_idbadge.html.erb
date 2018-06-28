@@ -22,6 +22,8 @@ end
     <% url = digital_object_base_url(result) %>
   <% when "accession" %>
     <% url = accession_base_url(result) %>
+  <% when "subject" %>
+    <% url = subject_base_url(result) %>
   <% else %>
     <% url = result.uri %>
 <% end %>

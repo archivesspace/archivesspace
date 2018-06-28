@@ -11,6 +11,8 @@ module SlugHelpers
       [DigitalObject.any_repo.where(:slug => slug).first, "digital_object"]
     when "accessions"
       [Accession.any_repo.where(:slug => slug).first, "accession"]
+    when "subjects"
+      [Subject.any_repo.where(:slug => slug).first, "subject"]
   	end
 
   	# BINGO!

@@ -39,4 +39,14 @@ module ViewHelper
 
 		return url
 	end
+
+	def subject_base_url(result)
+		if result.json['slug']
+			url = "subjects/" + result.json['slug']
+		else
+			url = result['uri']
+		end
+
+		return url
+	end
 end
