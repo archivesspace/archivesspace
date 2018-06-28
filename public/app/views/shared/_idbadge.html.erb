@@ -20,6 +20,8 @@ end
     <% url = resource_base_url(result) %>
   <% when "digital_object" %>
     <% url = digital_object_base_url(result) %>
+  <% when "accession" %>
+    <% url = accession_base_url(result) %>
   <% else %>
     <% url = result.uri %>
 <% end %>

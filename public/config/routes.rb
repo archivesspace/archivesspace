@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     get  "repositories/:rid/resources/:id/tree/node_from_root"  => 'resources#tree_node_from_root'
 
     #ACCESSIONS
+    get  "accessions/:slug_or_id"  => 'accessions#show'
+
     get  'accessions/search' => 'accessions#search'
     get  'accessions' => 'accessions#index'
     get  "repositories/:rid/accessions" => 'accessions#index'
