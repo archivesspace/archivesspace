@@ -45,7 +45,7 @@ class ResourceInstancesListReport < AbstractReport
     ReportUtils.get_enum_values(row, [:level])
     ReportUtils.fix_identifier_format(row)
     job.write_output("Fetching instances for resource #{row[:identifier]}...")
-    row[:containers] = ResourceInstancesSubreport.new(self, row[:id]).get_content
+    row[:instances] = ResourceInstancesSubreport.new(self, row[:id]).get_content
     row.delete(:id)
     row.delete(:extent_number)
   end

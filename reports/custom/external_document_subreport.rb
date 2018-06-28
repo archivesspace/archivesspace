@@ -2,8 +2,7 @@ class ExternalDocumentSubreport < AbstractSubreport
 
 	register_subreport('external_document', ['accession',
 		'archival_object', 'resource', 'subject', 'digital_object',
-		'digital_object_component', 'agent_person',
-		'agent_family', 'agent_corporate_entity', 'agent_software',
+		'digital_object_component', 'agent',
 		'event', 'rights_statement'])
 
 	def initialize(parent_custom_report, id)

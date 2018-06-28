@@ -1,10 +1,10 @@
-class ResourceInstancesSubreport < AbstractSubreport
+class AccessionInstancesSubreport < AbstractSubreport
 
-  register_subreport('instance', ['resource'])
+  register_subreport('instance', ['accession'])
 
-  def initialize(parent_report, resource_id)
+  def initialize(parent_report, accession_id)
     super(parent_report)
-    @resource_id = resource_id
+    @accession_id = accession_id
   end
 
   def query
@@ -50,12 +50,9 @@ class ResourceInstancesSubreport < AbstractSubreport
 
     from
 
-      (select instance.id, instance_type_id, is_representative
+    	(select id, instance_type_id, is_representative
       from instance
-        left outer join archival_object
-          on instance.archival_object_id = archival_object.id
-      where instance.resource_id = #{@resource_id}
-        or archival_object.root_record_id = #{@resource_id}) as instances
+      where instance.accession_id = #{@accession_id}) as instances
 
       left outer join sub_container on instances.id = sub_container.instance_id
       
@@ -80,7 +77,6 @@ class ResourceInstancesSubreport < AbstractSubreport
       ReportUtils.get_enum_values(instance, [:type_2, :type_3, :instance_type])
       ReportUtils.fix_container_indicator(instance, 2)
       ReportUtils.fix_container_indicator(instance, 3)
-      ReportUtils.fix_boolean_fields(instance, [:is_representative])
     end
     row[:instances].push(code) if format == 'pdf' || format == 'html'
     row.delete(:id)

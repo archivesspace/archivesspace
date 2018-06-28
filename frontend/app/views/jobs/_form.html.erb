@@ -125,10 +125,10 @@
                         <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
                         <%= select_tag("report_job[format]", options_for_select(formats.map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]}, nil), :class => 'form-control') %>
                       </div>
-                        <div class="csv_options" hidden="true">
-                          <label class="col-sm-2 control-label">Linked Records in JSON</label>
-                          <div class="col-sm-1 checkbox">
-                            <%= check_box_tag("job[job_params][csv_show_json]") %>
+                      <div class="csv_options" hidden="true">
+                        <label class="col-sm-2 control-label">Linked Records in JSON</label>
+                        <div class="col-sm-1 checkbox">
+                          <%= check_box_tag("job[job_params][csv_show_json]") %>
                         </div>
                       </div>
                     </div>

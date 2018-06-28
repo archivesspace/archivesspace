@@ -3,10 +3,11 @@ module CustomField
 	@@registered_fields ||= {}
 	@@subreport_classes ||= {}
 	
-	def self.register_field(record_type, field_name, data_type, sortable)
+	def self.register_field(record_type, field_name, data_type, sortable,
+		translation_scope)
 		@@registered_fields[record_type] ||= {:fields => [], :subreports => []}
 		info = {:name => field_name, :data_type => data_type.to_s,
-			:sortable => sortable}
+			:sortable => sortable, :translation_scope => translation_scope}
 		@@registered_fields[record_type][:fields].push(info)
 	end
 
@@ -23,35 +24,48 @@ module CustomField
 		@@registered_fields
 	end
 
+	def self.fields_for(record_type)
+		record_fields = @@registered_fields[record_type][:fields]
+		global_fields = @@registered_fields['global'][:fields]
+		record_fields + global_fields
+	end
+
+	def self.subreports_for(record_type)
+		@@registered_fields[record_type][:subreports]
+	end
+
 	def self.subreport_class(code)
 		@@subreport_classes[code]
 	end
 
 	def self.get_field_by_name(record_type, field_name)
-    	@@registered_fields[record_type][:fields].each do |field|
-    		if field[:name] == field_name
-    			return field
-    		end
-    	end
-    	nil
-    end
+		fields_for(record_type).each do |field|
+			if field[:name] == field_name.to_s
+				return field
+			end
+		end
+		nil
+	end
 
 	module Mixin
 
-    def self.included(base)
-      base.extend(ClassMethods)
-    end
+		def self.included(base)
+			base.extend(ClassMethods)
+		end
 
-    module ClassMethods
+		module ClassMethods
 
-      def register_subreport(field_name, record_types)
-        CustomField.register_subreport(self, field_name, record_types)
-      end
+			def register_subreport(field_name, record_types)
+				CustomField.register_subreport(self, field_name, record_types)
+			end
 
-      def register_field(record_type, field_name, data_type, sortable = false)
-      	CustomField.register_field(record_type, field_name, data_type, sortable)
-      end
-    end
-  end
+			def register_field(record_type, field_name, data_type, sortable = false,
+				translation_scope = nil)
+				CustomField.register_field(record_type, field_name, data_type, sortable,
+					translation_scope)
+			end
+
+		end
+	end
 
 end

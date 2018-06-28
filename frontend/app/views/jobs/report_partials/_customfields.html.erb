@@ -1,54 +1,141 @@
-<select id="custom_record_type" name="job[job_params][record_type]" class="form-control">
-	<% custom_data.keys.each do |record_type| %>
-		<option value="<%= record_type %>"><%= I18n.t("#{record_type}._plural") %></option>
-	<% end %>
+<% record_types = custom_data.keys %>
+<% record_types.delete('global') %>
 
-</select>
+<h3>Record Type</h3>
+<div class="form-group">
+	<label class="col-sm-1 control-label">Record Type</label>
+	<div class="col-sm-2">
+		<%= select_tag "job[job_params][custom_report_data][custom_record_type]", options_for_select(record_types.collect {|record_type| [I18n.t("#{record_type}._plural"), record_type]}), {:id => "custom_record_type", :class => "form-control"} %>
+	</div>
+</div>
 
-<% custom_data.keys.each do |record_type| %>
+<h3>Basic Information</h3>
+
+<% record_types.each do |record_type| %>
+
+	<% fields = (custom_data[record_type]['fields'] + custom_data['global']['fields']) %>
 	<div class="record_type <%= record_type %>">
-		<br/>
-		<% custom_data[record_type]['fields'].each do |field| %>
+
+		<% fields.each do |field| %>
+			<% translation_scope = field['translation_scope'] || record_type %>
 			<% field_name = field['name'] %>
-			<br/>
-			<h4><%= I18n.t("#{record_type}.#{field_name}", :default => field_name) %></h4>
-			<label>Display</label>
-			<%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][include]" %>
-			<br/>
 
-			<% if field['data_type'] == 'Date' %>
-				<label>Narrow By</label>
-				<%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][narrow_by]" %>
-				<br/>
-				<label>Start Date</label>
-				<%= text_field_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][range_start]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
-				<label>End Date</label>
-				<%= text_field_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][range_end]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
-				<br/>
-			<% end %>
+			<div class="panel panel-default">
 
+				<div class="panel-heading">
+					<%= I18n.t("#{translation_scope}.#{field_name}", :default => field_name) %>
+				</div>
+
+				<div style="padding-bottom: 10px;">
+					<div class="form-group">
+						<label class="col-sm-1 control-label">Display</label>
+			      <div class="col-sm-2 checkbox">
+			        <%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][include]" %>
+			      </div>
+			    </div>
+
+					<% if field['data_type'] == 'Date' %>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">Narrow By</label>
+				      <div class="col-sm-2 checkbox">
+				        <%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+				      </div>
+				    </div>
+
+				  	<div class="form-group">
+							<label class="col-sm-1 control-label">Start Date</label>
+							<div class="col-sm-2">
+								<%= text_field_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][range_start]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd' %>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-1 control-label">End Date</label>
+							<div class="col-sm-2">
+								<%= text_field_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][range_end]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
+							</div>
+						</div>
+
+					<% elsif field['data_type'] == 'AgentType' %>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">Narrow By</label>
+				      <div class="col-sm-2 checkbox">
+				        <%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+				      </div>
+				    </div>
+
+				    <div class="form-group">
+							<label class="col-sm-1 control-label">Agent Types</label>
+							<% agent_types = ['agent_family', 'agent_person', 'agent_corporate_entity', 'agent_software'] %>
+							<div class="col-sm-2">
+								<%= select_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][values]", options_for_select(agent_types.collect {|agent_type| [I18n.t("agent.agent_type.#{agent_type}"), agent_type]}), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+							</div>
+						</div>
+					<% elsif field['data_type'] == 'Boolean' %>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">Narrow By</label>
+				      <div class="col-sm-2 checkbox">
+				        <%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+				      </div>
+				    </div>
+
+				    <div class="form-group">
+							<label class="col-sm-1 control-label">Value</label>
+							<div class="col-sm-2">
+								<%= select_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][value]", options_for_select([['Yes', true], ['No', false]]), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+							</div>
+						</div>
+					<% elsif field['data_type'] == 'Enum' %>
+						<% begin %>
+							<% options = options_for(record_type, field_name) %>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">Narrow By</label>
+					      <div class="col-sm-2 checkbox">
+					        <%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+					      </div>
+					    </div>
+
+					    <div class="form-group">
+								<label class="col-sm-1 control-label">Values</label>
+								<div class="col-sm-2">
+									<%= select_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][values]", options_for_select(options.collect {|value| [I18n.t("#{record_type}.#{field_name}.#{value}"), value]}), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+								</div>
+							</div>
+						<% rescue Exception => e %>
+							<p><% "Raised error: #{e}" %></p>
+						<% end %>
+					<% end %>
+				</div>
+			</div>
 		<% end %>
-		<br/>
 
-		<h4>Linked Records</h4>
+		<h3>Linked Records</h4>
 		<% custom_data[record_type]['subreports'].each do |subreport| %>
 			<% field_name = subreport['name'] %>
-			<label><%= I18n.t("#{field_name}._plural", :default => field_name) %></label>
-			<%= check_box_tag "job[job_params][custom_report_data][#{record_type}][subreports][#{field_name}][include]" %>
-			<br/>
+			<div class="form-group">
+				<label class="col-sm-1 control-label"><%= I18n.t("#{field_name}._plural", :default => field_name) %></label>
+				<div class="col-sm-2 checkbox">
+					<%= check_box_tag "job[job_params][custom_report_data][#{record_type}][subreports][#{field_name}][include]" %>
+				</div>
+			</div>
 		<% end %>
-		<br/>
 
-		<h4>Sort By</h4>
-		<select id="sort_by" name="job[job_params][custom_report_data][<%= record_type %>][sort_by]" class="form-control">
-			<option value = ''></option>
-			<% custom_data[record_type]['fields'].each do |field| %>
-				<% if field['sortable'] %>
-					<option value="<%= field['name'] %>">
-						<%= I18n.t("#{record_type}.#{field['name']}", :default => field['name']) %>
-					</option>
-				<% end %>
-			<% end %>
-		</select>
+		<h3>Sort By</h4>
+		<div class="form-group">
+			<label class="col-sm-1 control-label">Field</label>
+			<div class="col-sm-2">
+				<select id="sort_by" name="job[job_params][custom_report_data][<%= record_type %>][sort_by]" class="form-control">
+					<option value = ''></option>
+					<% fields.each do |field| %>
+						<% if field['sortable'] %>
+							<% translation_scope = field['translation_scope'] || record_type %>
+							<option value="<%= field['name'] %>">
+								<%= I18n.t("#{translation_scope}.#{field['name']}", :default => field['name']) %>
+							</option>
+						<% end %>
+					<% end %>
+				</select>
+			</div>
+		</div>
 	</div>
 <% end %>

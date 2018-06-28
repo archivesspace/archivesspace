@@ -18,11 +18,11 @@ class ExtentSubreport < AbstractSubreport
 	def query_string
 		"select
 			portion_id as portion,
-		  number as extent_number,
-		  extent_type_id as extent_type,
-		  container_summary,
-		  physical_details,
-		  dimensions
+			number as extent_number,
+			extent_type_id as extent_type,
+			container_summary,
+			physical_details,
+			dimensions
 		from extent
 		where #{@id_type}_id = #{@id}"
 	end

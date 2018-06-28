@@ -12,6 +12,7 @@ module ReportUtils
 
   def self.fix_boolean_fields(row, fields)
     fields.each do |field|
+      next if row[field] == nil
       row[field] = row[field] == 0 || row[field] == '0' ? 'No' : 'Yes'
     end
   end
@@ -97,5 +98,13 @@ module ReportUtils
     row.delete(:coordinate_2_indicator)
     row.delete(:coordinate_3_label)
     row.delete(:coordinate_3_indicator)
+  end
+
+  def self.local_times(row, fields)
+    fields.each do |field|
+      next unless row[field]
+      row[field] = row[field].localtime.strftime(
+        '%Y-%m-%d %H:%M:%S')
+    end
   end
 end

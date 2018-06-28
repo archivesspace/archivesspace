@@ -51,7 +51,12 @@ class JobsController < ApplicationController
       data_file = ASUtils.tempfile('custom_data_')
       params['job']['job_params'].delete('custom_report_data')
       files['custom_report_data'] = data_file.path
-      data_file.write(ASUtils.to_json(custom_data.to_unsafe_h.to_hash))
+
+      record_type = custom_data['custom_record_type']
+      template = custom_data[record_type].to_unsafe_h.to_hash
+      template['custom_record_type'] = record_type
+      
+      data_file.write(ASUtils.to_json(template))
       data_file.close
     end
 
