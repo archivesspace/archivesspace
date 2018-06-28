@@ -9,4 +9,14 @@ module ViewHelper
 
 		return url
 	end
+
+	def resource_base_url(result)
+		if result.json['slug']
+			url = "resources/" + result.json['slug']
+		else
+			url = result['uri']
+		end
+
+		return url
+	end
 end
