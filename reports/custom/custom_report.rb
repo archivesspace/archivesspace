@@ -1,49 +1,5 @@
 class CustomReport < AbstractReport
 
-	include CustomField::Mixin
-
-	register_field('global', 'created_by', String, sortable = true,
-		translation_scope = 'advanced_search.text')
-	register_field('global', 'last_modified_by', String, sortable = true,
-		translation_scope = 'advanced_search.text')
-	register_field('global', 'create_time', 'Date', sortable = true,
-		translation_scope = 'advanced_search.date')
-	register_field('global', 'user_mtime', 'Date', sortable = true,
-		translation_scope = 'advanced_search.date')
-
-	register_field('accession', 'access_restrictions', 'Boolean')
-	register_field('accession', 'access_restrictions_note', String)
-	register_field('accession', 'accession_date', 'Date', sortable = true)
-	register_field('accession', 'acquisition_type', 'Enum', sortable = true)
-	register_field('accession', 'condition_description', String)
-	register_field('accession', 'content_description', String)
-	register_field('accession', 'disposition', String)
-	register_field('accession', 'identifier', String, sortable = true)
-	register_field('accession', 'general_note', String)
-	register_field('accession', 'inventory', String)
-	register_field('accession', 'provenance', String)
-	register_field('accession', 'publish', 'Boolean')
-	register_field('accession', 'resource_type', 'Enum', sortable = true)
-	register_field('accession', 'restrictions_apply', 'Boolean')
-	register_field('accession', 'retention_rule', String)
-	register_field('accession', 'title', String, sortable = true)
-	register_field('accession', 'use_restrictions', 'Boolean')
-	register_field('accession', 'use_restrictions_note', String)
-
-	register_field('resource', 'identifier', String, sortable = true)
-
-	register_field('agent', 'type', 'AgentType', sortable = true)
-	register_field('agent', 'publish', 'Boolean')
-
-	register_field('archival_object', 'component_id', String, sortable = true)
-	register_field('archival_object', 'language', 'Enum', sortable = true)
-	register_field('archival_object', 'level', 'Enum', sortable = true)
-	register_field('archival_object', 'publish', 'Boolean')
-	register_field('archival_object', 'ref_id', String, sortable = true)
-	register_field('archival_object', 'repository_processing_note', String)
-	register_field('archival_object', 'restrictions_apply', 'Boolean')
-	register_field('archival_object', 'title', String, sortable = true)
-
 	register_report(
     params: [['custom_data', 'CustomFields',
     	'Fields to include in custom report.', CustomField.registered_fields]]
@@ -71,11 +27,15 @@ class CustomReport < AbstractReport
     @enum_fields = []
     @decimal_fields = []
 
-    if @record_type == 'agent' || !(db[record_type.to_sym].columns.include? :repo_id)
+    table = @record_type == 'agent' ? 'agent_person'.to_sym : @record_type.to_sym
+    @possible_fields = db[table].columns.collect {|c| c.to_s}
+
+    unless @possible_fields.include? 'repo_id'
     	@conditions = ["1 = 1"]
     else
     	@conditions = ["repo_id = #{@repo_id}"]
     end
+
 
     CustomField.fields_for(@record_type).each do |field|
     	field_name = field[:name]
@@ -92,12 +52,17 @@ class CustomReport < AbstractReport
     		(template['fields'][field_name]['narrow_by'])
 
     		begin
-	    		if field[:data_type] == 'Date'
+    			case field[:data_type]
+	    		when 'Date'
 	  				date_narrow(template, field_name)
-	  			elsif field[:data_type] == 'AgentType'
+	  			when 'AgentType'
 	  				agent_type_narrow(template, field_name)
-	  			elsif field[:data_type] == 'Boolean'
+	  			when 'Boolean'
 	  				boolean_narrow(template, field_name)
+	  			when 'Enum'
+	  				enum_narrow(template, field)
+	  			when 'User'
+	  				user_narrow(template, field_name)
 		  		end
 	  		rescue Exception => e
   				raise "Selected to narrow results by #{field_name} but missing values."
@@ -132,8 +97,10 @@ class CustomReport < AbstractReport
 
 		@order_field = template['sort_by'] == '' ? nil : template['sort_by']
 		if @order_field
+			info['sorted_by'] = special_translation(@order_field, nil) || @order_field
 			field = CustomField.get_field_by_name(@record_type, @order_field)
 			@order_field += '_id' if field[:data_type] == 'Enum'
+			@order_field = nil unless @possible_fields.include? @order_field
 		end
   end
 
@@ -194,14 +161,23 @@ class CustomReport < AbstractReport
 	end
 
 	def select_fields
-		select_fields = ''
+		columns = {}
 		@fields.each do |field|
 			if field[:data_type] == 'Enum'
-				select_fields += ", #{field[:name]}_id as #{field[:name]}"
+				columns["#{field[:name]}_id"] = field[:alias] || field[:name]
 			elsif field[:name] == 'title'
-				select_fields += ', title as record_title'
+				columns['title'] = field[:alias] || 'record_title'
 			else
-				select_fields += ", #{field[:name]}"
+				columns[field[:name]] = field[:alias] || field[:name]
+			end
+		end
+		select_fields = ''
+		columns.each do |column, colum_alias|
+			if @possible_fields.include? column
+				select_fields += ", #{@record_type}.#{column} as #{colum_alias}"
+			else
+				msg = "#{@record_type} does not have field '#{column}'. Skipping."
+				job.write_output(msg)
 			end
 		end
 		select_fields
@@ -217,8 +193,14 @@ class CustomReport < AbstractReport
 			ReportUtils.fix_identifier_format(row) if row[:identifier]
 		end
 		@subreports.each do |subreport_class|
-			row[subreport_class.field_name.to_sym] = subreport_class
-				.new(self, row[:id]).get_content
+			begin
+				row[subreport_class.field_name.to_sym] = subreport_class
+					.new(self, row[:id]).get_content
+			rescue Exception => e
+				name = special_translation(@record_type, subreport_class.code)
+				job.write_output("Problem with '#{name}' Subreport: #{e}")
+				job.write_output("Skipping #{name} Subreport.")
+			end
 		end
 		if record_type.include? 'agent'
 			row.delete(:type_code)
@@ -240,20 +222,22 @@ class CustomReport < AbstractReport
 				translation_scope = field[:translation_scope] || record_type
 				I18n.t("#{translation_scope}.#{key}", :default => nil)
 			else
-				I18n.t("#{key}._plural", :default => nil)
+				sub_trans = I18n.t("#{key}._plural", :default => nil)
+				I18n.t("#{@record_type}.#{key}", :default => sub_trans)
 			end
 		end
 	end
 
 	def date_narrow(template, field_name)
+		return unless @possible_fields.include? field_name
 		range_start = template['fields'][field_name]['range_start']
 		range_end = template['fields'][field_name]['range_end']
 		from = DateTime.parse(range_start).to_time.strftime(
-			'%Y-%m-%d %H:%M:%S')
+			'%Y-%m-%d')
 		to = DateTime.parse(range_end).to_time.strftime(
-			'%Y-%m-%d %H:%M:%S')
-		@conditions.push("#{field_name} > #{from.split(' ')[0].gsub('-', '')}")
-		@conditions.push("#{field_name} < #{to.split(' ')[0].gsub('-', '')}")
+			'%Y-%m-%d')
+		@conditions.push("#{field_name} > #{from.gsub('-', '')}")
+		@conditions.push("#{field_name} < #{to.gsub('-', '')}")
 		info[field_name] = "#{from} - #{to}"
 	end
 
@@ -264,8 +248,41 @@ class CustomReport < AbstractReport
 	end
 
 	def boolean_narrow(template, field_name)
+		return unless @possible_fields.include? field_name
 		value = template['fields'][field_name]['value']
 		@conditions.push("#{field_name} = #{value}")
 		info[field_name] = value.to_s == 'true' ? 'Yes' : 'No'
+	end
+
+	def enum_narrow(template, field)
+		field_name = field[:name]
+		return unless @possible_fields.include? "#{field_name}_id"
+		values = template['fields'][field_name]['values']
+		raise if !values || values.empty?
+		@conditions.push("#{field_name}_id in (#{values.join(', ')})")
+
+		begin
+			enum_name = field[:enum_name] || "#{@record_type}_#{field_name}"
+			value_names = []
+			values.each do |id|
+				enum_val = EnumerationValue.get_or_die(id)
+				value = enum_val.value
+				value_name = I18n.t("enumerations.#{enum_name}.#{value}",
+					:default => value)
+				value_names.push(value_name)
+			end
+			info[field_name] = value_names.join(', ')		
+		rescue Exception => e
+			info[field_name] = values.join(', ')
+		end
+	end
+
+	def user_narrow(template, field_name)
+		return unless @possible_fields.include? field_name
+		values = template['fields'][field_name]['values']
+		raise if !values || values.empty?
+		value_list = values.collect { |value| "'#{value}'" }.join(', ')
+		@conditions.push("#{field_name} in (#{value_list})")
+		info[field_name] = values.join(', ')
 	end
 end

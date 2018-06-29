@@ -11,6 +11,14 @@
 
 <h3>Basic Information</h3>
 
+<% enums = JSONModel(:enumeration).all %>
+
+<% users = [] %>
+<% JSONModel::HTTP::get_json("/users", :all_ids => true).each do |id| %>
+	<% user = JSONModel(:user).find(id) %>
+	<% users.push([user.name, user.username]) %>
+<% end %>
+
 <% record_types.each do |record_type| %>
 
 	<% fields = (custom_data[record_type]['fields'] + custom_data['global']['fields']) %>
@@ -23,7 +31,7 @@
 			<div class="panel panel-default">
 
 				<div class="panel-heading">
-					<%= I18n.t("#{translation_scope}.#{field_name}", :default => field_name) %>
+					<%= I18n.t("#{translation_scope}.#{field['alias'] || field_name}", :default => field_name) %>
 				</div>
 
 				<div style="padding-bottom: 10px;">
@@ -34,7 +42,8 @@
 			      </div>
 			    </div>
 
-					<% if field['data_type'] == 'Date' %>
+			    <% case field['data_type'] %>
+					<% when 'Date' %>
 						<div class="form-group">
 							<label class="col-sm-1 control-label">Narrow By</label>
 				      <div class="col-sm-2 checkbox">
@@ -56,7 +65,7 @@
 							</div>
 						</div>
 
-					<% elsif field['data_type'] == 'AgentType' %>
+					<% when 'AgentType' %>
 						<div class="form-group">
 							<label class="col-sm-1 control-label">Narrow By</label>
 				      <div class="col-sm-2 checkbox">
@@ -71,7 +80,7 @@
 								<%= select_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][values]", options_for_select(agent_types.collect {|agent_type| [I18n.t("agent.agent_type.#{agent_type}"), agent_type]}), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 							</div>
 						</div>
-					<% elsif field['data_type'] == 'Boolean' %>
+					<% when 'Boolean' %>
 						<div class="form-group">
 							<label class="col-sm-1 control-label">Narrow By</label>
 				      <div class="col-sm-2 checkbox">
@@ -85,9 +94,11 @@
 								<%= select_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][value]", options_for_select([['Yes', true], ['No', false]]), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 							</div>
 						</div>
-					<% elsif field['data_type'] == 'Enum' %>
-						<% begin %>
-							<% options = options_for(record_type, field_name) %>
+					<% when 'Enum' %>
+						<% enum_name = field['enum_name'] || "#{record_type}_#{field_name}" %>
+						<% enum = enums.find {|obj| obj.name == enum_name} %>
+						<% if enum %>
+							<% options = enum['enumeration_values'] %>
 							<div class="form-group">
 								<label class="col-sm-1 control-label">Narrow By</label>
 					      <div class="col-sm-2 checkbox">
@@ -98,12 +109,26 @@
 					    <div class="form-group">
 								<label class="col-sm-1 control-label">Values</label>
 								<div class="col-sm-2">
-									<%= select_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][values]", options_for_select(options.collect {|value| [I18n.t("#{record_type}.#{field_name}.#{value}"), value]}), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+									<%= select_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][values]", options_for_select(options.collect {|value| [I18n.t("enumerations.#{enum_name}.#{value['value']}", :default => value['value']), value['id']]}), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 								</div>
 							</div>
-						<% rescue Exception => e %>
-							<p><% "Raised error: #{e}" %></p>
+						<% else %>
+							<label><%= "No enum found for #{enum_name}" %></label>
 						<% end %>
+					<% when 'User' %>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">Narrow By</label>
+				      <div class="col-sm-2 checkbox">
+				        <%= check_box_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+				      </div>
+				    </div>
+
+				    <div class="form-group">
+							<label class="col-sm-1 control-label">Values</label>
+							<div class="col-sm-2">
+								<%= select_tag "job[job_params][custom_report_data][#{record_type}][fields][#{field_name}][values]", options_for_select(users), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+							</div>
+						</div>
 					<% end %>
 				</div>
 			</div>
@@ -130,7 +155,7 @@
 						<% if field['sortable'] %>
 							<% translation_scope = field['translation_scope'] || record_type %>
 							<option value="<%= field['name'] %>">
-								<%= I18n.t("#{translation_scope}.#{field['name']}", :default => field['name']) %>
+								<%= I18n.t("#{translation_scope}.#{field['alias'] ||field['name']}", :default => field['name']) %>
 							</option>
 						<% end %>
 					<% end %>

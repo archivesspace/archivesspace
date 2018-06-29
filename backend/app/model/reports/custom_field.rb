@@ -3,11 +3,11 @@ module CustomField
 	@@registered_fields ||= {}
 	@@subreport_classes ||= {}
 	
-	def self.register_field(record_type, field_name, data_type, sortable,
-		translation_scope)
+	def self.register_field(record_type, field_name, data_type, options)
 		@@registered_fields[record_type] ||= {:fields => [], :subreports => []}
-		info = {:name => field_name, :data_type => data_type.to_s,
-			:sortable => sortable, :translation_scope => translation_scope}
+		info = options
+		info[:name] = field_name
+		info[:data_type] = data_type.to_s
 		@@registered_fields[record_type][:fields].push(info)
 	end
 
@@ -59,10 +59,8 @@ module CustomField
 				CustomField.register_subreport(self, field_name, record_types)
 			end
 
-			def register_field(record_type, field_name, data_type, sortable = false,
-				translation_scope = nil)
-				CustomField.register_field(record_type, field_name, data_type, sortable,
-					translation_scope)
+			def register_field(record_type, field_name, data_type, options = {})
+				CustomField.register_field(record_type, field_name, data_type, options)
 			end
 
 		end

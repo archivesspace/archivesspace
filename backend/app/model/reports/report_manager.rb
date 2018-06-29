@@ -1,4 +1,5 @@
 module ReportManager
+
   @@registered_reports ||= {}
 
   ALLOWED_REPORT_FORMATS = ["json", "csv", "html", "pdf"]
