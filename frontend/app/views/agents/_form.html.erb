@@ -15,6 +15,9 @@
         <strong><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></strong>
       </div>
     </div>
+
+    <%= form.label_and_textfield "slug" %>
+    <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
     <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
   </section>
 

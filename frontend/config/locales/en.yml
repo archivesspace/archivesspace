@@ -458,6 +458,8 @@ en:
         save: Save Accession
 
   agent: &agent_attributes
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
     _frontend:
       messages:
         created: Agent Created

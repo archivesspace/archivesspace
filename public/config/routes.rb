@@ -64,6 +64,8 @@ Rails.application.routes.draw do
     get "repositories/:rid/subjects" => 'subjects#index'
 
     #AGENTS
+    get "agents/:slug_or_id" => 'agents#show'
+
     get 'agents/search' => 'agents#search'
     get "agents/:eid/:id" => 'agents#show'
     get 'agents' => 'agents#index'

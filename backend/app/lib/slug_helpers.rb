@@ -15,6 +15,8 @@ module SlugHelpers
       [Subject.any_repo.where(:slug => slug).first, "subject"]
     when "classifications"
       [Classification.any_repo.where(:slug => slug).first, "classification"]
+    when "agents"
+      self.find_slug_in_agent_tables(slug)
   	end
 
   	# BINGO!
@@ -27,6 +29,36 @@ module SlugHelpers
   	end
   end
 
+  # our slug could be in one of four tables.
+  # we'll look and see, one table at a time.
+  def self.find_slug_in_agent_tables(slug)
+    found_in = nil
+
+    agent = AgentPerson.where(:slug => slug).first
+    found_in = "agent_person" if agent
+
+    unless found_in
+      agent = AgentFamily.where(:slug => slug).first
+      found_in = "agent_family" if agent
+    end
+
+    unless found_in
+      agent = AgentCorporateEntity.where(:slug => slug).first
+      found_in = "agent_corporate_entity" if agent
+    end
+
+    unless found_in
+      agent = AgentSoftware.where(:slug => slug).first
+      found_in = "agent_software" if agent
+    end
+
+    unless found_in
+      agent = nil
+    end
+
+    return [agent, found_in]
+  end
+
   # given a slug, return true if slug is used by another entitiy.
   # return false otherwise.
   def self.slug_in_use?(slug)
@@ -36,12 +68,21 @@ module SlugHelpers
     digital_object_count = DigitalObject.where(:slug => slug).count
     accession_count      = Accession.where(:slug => slug).count
     classification_count = Classification.where(:slug => slug).count
+    agent_person_count   = AgentPerson.where(:slug => slug).count
+    agent_family_count   = AgentFamily.where(:slug => slug).count
+    agent_corp_count     = AgentCorporateEntity.where(:slug => slug).count
+    agent_software_count = AgentSoftware.where(:slug => slug).count
+
 
     return repo_count + 
            resource_count + 
            subject_count + 
            accession_count + 
            classification_count + 
+           agent_person_count + 
+           agent_family_count + 
+           agent_corp_count + 
+           agent_software_count + 
            digital_object_count > 0
   end
 

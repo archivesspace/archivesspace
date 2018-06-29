@@ -76,9 +76,22 @@ class ApplicationController < ActionController::Base
       params[:id] = json_response["id"]
       params[:rid] = json_response["repo_id"] if json_response["repo_id"]
 
-      #additional params
+      #Add additional params as needed
       if params[:controller] == "objects"
         params[:obj_type] = "digital_objects"
+      end
+
+      if params[:controller] == "agents"
+        case json_response["table"]
+        when "agent_person"
+          params[:eid] = "people"
+        when "agent_family"
+          params[:eid] = "families"
+        when "agent_corporate_entity"
+          params[:eid] = "corporate_entities"
+        when "agent_software"
+          params[:eid] = "software"
+        end
       end
     end
 

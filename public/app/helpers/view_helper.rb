@@ -59,4 +59,14 @@ module ViewHelper
 
 		return url
 	end
+
+	def agent_base_url(result)
+		if result.json['slug']
+			url = "agents/" + result.json['slug']
+		else
+			url = result['uri']
+		end
+
+		return url
+	end
 end
