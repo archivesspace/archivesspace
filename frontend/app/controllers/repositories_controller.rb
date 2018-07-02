@@ -14,6 +14,7 @@ class RepositoriesController < ApplicationController
   end
 
   def new
+    @enum = JSONModel(:enumeration).find("/names/archival_record_level")
     @repository = JSONModel(:repository_with_agent).new('repository' => {},
                                                         'agent_representation' => {
                                                           'agent_contacts' => [{}]
@@ -35,6 +36,7 @@ class RepositoriesController < ApplicationController
 
 
   def create
+    handle_repository_oai_params(params)
     generate_names(params[:repository])
     handle_crud(:instance => :repository,
                 :model => JSONModel(:repository_with_agent),
@@ -60,9 +62,11 @@ class RepositoriesController < ApplicationController
 
   def edit
     @repository = JSONModel(:repository_with_agent).find(params[:id])
+    @enum = JSONModel(:enumeration).find("/names/archival_record_level")
   end
 
   def update
+    handle_repository_oai_params(params)
     generate_names(params[:repository])
     handle_crud(:instance => :repository,
                 :model => JSONModel(:repository_with_agent),
@@ -80,6 +84,7 @@ class RepositoriesController < ApplicationController
   def show
     @repository = JSONModel(:repository_with_agent).find(params[:id])
     flash.now[:info] = I18n.t("repository._frontend.messages.selected") if @repository.id === session[:repo_id]
+    @enum = JSONModel(:enumeration).find("/names/archival_record_level")
   end
 
   def select
@@ -145,4 +150,31 @@ class RepositoriesController < ApplicationController
       end
     end
 
+    # Because of the form structure, our params for OAI settings are coming into params in separate hashes. 
+    # This method updates the params hash to pull the data from the right places and serializes them for the DB update.
+    # The params hash is a complicated data structure, sorry about the confusing hash references!
+
+    # params["repository"]["repository"] ==> contains the properties of our Repository
+    # params["repository"]["repository_oai"] ==> contains the result of the 'OAI enabled' checkbox from the form
+    # params["sets"] ==> contains the results of the sets checkboxes
+
+    def handle_repository_oai_params(params)
+      repo_params_hash      = params["repository"]["repository"]
+      form_oai_enabled_hash = params["repository"]["repository_oai"] 
+      form_oai_sets_hash    = params["sets"]
+
+      # handle set id checkboxes
+      if form_oai_sets_hash
+        repo_params_hash["oai_sets_available"] = form_oai_sets_hash.keys.to_json
+      else
+        repo_params_hash["oai_sets_available"] = "[]"
+      end
+
+      # handle oai toggle flag
+      if form_oai_enabled_hash
+        repo_params_hash["oai_is_disabled"] = form_oai_enabled_hash["oai_is_disabled"]
+      else
+        repo_params_hash["oai_is_disabled"] = 0
+      end
+    end
 end

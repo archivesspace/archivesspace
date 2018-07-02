@@ -91,7 +91,7 @@ END
     # "Indicator 1 {@ind1} --$3: $a : $b : $c ($x)"
     it "maps field 510 to resource['notes']" do
       note = @resource['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}
-      note['content'][0].should eq("Indicator 1 Coverage is selective -- SF 3: SF C (SF X)")
+      note['content'][0].should eq("Coverage is selective -- SF 3: SF C (SF X)")
     end
 
     it "maps field 630 to resource['subjects']" do
@@ -306,7 +306,7 @@ END
       end
 
       it "maps datafield[@tag='535'] to resource.notes[] using template 'Indicator 1 [Holder of originals | Holder of duplicates]: $3--$a. $b, $c. $d ($g).'" do
-        @notes.should include('Indicator 1 Holder of originals: Resource-ExistenceLocationOriginals-AT.')
+        @notes.should include('Holder of originals: Resource-ExistenceLocationOriginals-AT.')
       end
 
       it "maps datafield[@tag='540'] to resource.notes[] using template '$3: $a. $b. $c. $d ($u).'" do

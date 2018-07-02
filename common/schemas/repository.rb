@@ -20,6 +20,8 @@
       "publish" => {"type" => "boolean"},
 
       "display_string" => {"type" => "string", "readonly" => true},
+      "oai_is_disabled" => {"type" => "boolean"},
+      "oai_sets_available" => {"type" => "string"},
 
       "agent_representation" => {
         "type" => "object",

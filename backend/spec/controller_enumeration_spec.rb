@@ -51,6 +51,12 @@ describe "Enumeration controller" do
     JSONModel(:enumeration).find(enum.id).values.count.should eq(2)
   end
 
+  it "can return a single enumeration by name" do
+    get "/config/enumerations/names/test_enum"
+
+    expect(last_response).to be_ok
+    expect(last_response.body).to match(/test_enum/)
+  end
 
   it "can add and remove values (if the value isn't used)" do
     obj = JSONModel(:enumeration).find(@enum_id)

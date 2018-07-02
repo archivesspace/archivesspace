@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'stringio'
 require 'oai_helper'
 
+require_relative 'export_spec_helper'
 require_relative 'oai_response_checker'
 
 describe 'OAI handler' do
@@ -348,7 +349,6 @@ describe 'OAI handler' do
         break if token.nil?
       end
     end
-
   end
 
   describe 'OAI mappers output' do
@@ -482,5 +482,65 @@ describe 'OAI handler' do
       expect(response.body).to_not match(/note with unpublished parent node/)
     end
 
+  end
+
+  describe "respository with OAI harvesting disabled" do
+    before(:all) do
+      @repo_disabled = create(:json_repo, :oai_is_disabled => true)
+
+      $another_repo_id = $repo_id
+      $repo_id = @repo_disabled.id
+
+      JSONModel.set_repository($repo_id)
+
+      @resource = create(:json_resource,
+                          :level => 'collection')
+    end
+
+    after(:all) do
+      @resource.delete
+      $repo_id = $another_repo_id
+
+      JSONModel.set_repository($repo_id)
+    end
+
+    it "does not publish resources in a repository with OAI disabled" do
+      uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@resource['uri']}&metadataPrefix=oai_marc"
+
+      response = get uri
+      expect(response.body).to match(/<error code="idDoesNotExist">/)
+    end
+  end
+
+  describe "repository with sets disabled" do
+    before(:all) do
+      # 891 is the enum_value_id for 'fonds'
+      # add a set restriction for only 'fonds' objects
+      Repository.where(:id => 3).update(:oai_sets_available => ([891]).to_json)
+    end
+
+    after(:all) do
+      # change things back: remove all set restrictions
+      Repository.where(:id => 3).update(:oai_sets_available => "[]")
+    end
+
+    it "does not return an object if set excluded from OAI in repo" do
+      uri = "/oai?verb=ListRecords&set=collection&metadataPrefix=oai_dc"
+      response = get uri
+      doc = Nokogiri::XML(response.body)
+
+      # should not have any non-tombstone results in xml
+      expect(doc.xpath("//xmlns:header[not(@status='deleted')]").length).to eq(0)
+    end
+  
+    it "returns an object if set included in OAI in repo" do
+        # query explicitly for only fonds objects
+        uri = "/oai?verb=ListRecords&set=fonds&metadataPrefix=oai_dc"
+        response = get uri
+        doc = Nokogiri::XML(response.body)
+
+        # should have at least 1 result in XML
+        expect(doc.xpath("//xmlns:header[not(@status='deleted')]").length > 0).to be true
+    end
   end
 end

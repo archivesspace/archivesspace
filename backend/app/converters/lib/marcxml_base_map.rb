@@ -932,7 +932,7 @@ module MarcXMLBaseMap
         "datafield[@tag='508']" => multipart_note('odd', 'Production Credits', "{$a}"),
 
         "datafield[@tag='510']" => bibliography_note_template('Bibliographic References',
-                                                              "Indicator 1 {@ind1} -- {$3: }{$a : }{$b : }{$c }{($x)}",
+                                                              "{@ind1} -- {$3: }{$a : }{$b : }{$c }{($x)}",
                                                               {'ind1' =>{
                                                                   '0'=>'Coverage unknown',
                                                                   '1'=>'Coverage complete',
@@ -998,7 +998,7 @@ module MarcXMLBaseMap
                                             {$p: }{$a, }{$t, }{$k, }{$c }{($b). }{$f. }{$e, }{$m. }{$n, }{$l. }{($x), }{($z)}.|),
 
         "datafield[@tag='535']" => multipart_note('originalsloc', 'Location of Originals Note', %q|
-                                            Indicator 1 {@ind1: } {$3--}{$a. }{$b, }{$c. }{$d }{($g).}|,
+                                            {@ind1: } {$3--}{$a. }{$b, }{$c. }{$d }{($g).}|,
                                                   {'ind1'=>{'1'=>'Holder of originals', '2'=>'Holder of duplicates'}}),
 
         # FINDING AID SPONSOR
@@ -1019,7 +1019,7 @@ module MarcXMLBaseMap
                                             {Type of unit--$o. }{Owner--$f. }{Purchase price--$h}.|),
 
         "datafield[@tag='544']" => multipart_note('relatedmaterial', 'Related Archival Materials', %q|
-                                            {Indicator 1 @ind1--}{$3: }{Title--$t. }{Custodian--$a: }
+                                            {@ind1--}{$3: }{Title--$t. }{Custodian--$a: }
                                             {Address--$b, }{Country--$c. }{Provenance--$e. }{Note--$n}.|,
                                                   {'ind1'=>{'1'=>'Associated Materials', '2'=>'Related Materials'}}),
 
