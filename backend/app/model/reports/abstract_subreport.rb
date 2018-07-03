@@ -49,4 +49,8 @@ class AbstractSubreport
   def self.field_name
     raise 'Must specify field_name in order to use in custom report.'
   end
+
+  def self.translation_scope
+    nil
+  end
 end

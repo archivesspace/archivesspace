@@ -1,5 +1,8 @@
 class LocationResourcesSubreport < AbstractSubreport
-  def initialize(parent_report, location_id, show_containers=false)
+
+  register_subreport('resource', ['location'])
+
+  def initialize(parent_report, location_id, show_containers=true)
     super(parent_report)
     @location_id = location_id
     @show_containers = show_containers
@@ -46,5 +49,9 @@ class LocationResourcesSubreport < AbstractSubreport
         self, @location_id, row[:id]).get_content
     end
     row.delete(:id)
+  end
+
+  def self.field_name
+    'resource'
   end
 end

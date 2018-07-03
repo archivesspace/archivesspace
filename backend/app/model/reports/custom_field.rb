@@ -11,10 +11,12 @@ module CustomField
 		@@registered_fields[record_type][:fields].push(info)
 	end
 
-	def self.register_subreport(subreport, field_name, record_types)
+	def self.register_subreport(subreport, field_name, record_types, options)
 		record_types.each do |record_type|
 			@@registered_fields[record_type] ||= {:fields => [], :subreports => []}
-			info = {:name => field_name, :code => subreport.code}
+			info = options
+			info[:name] = field_name
+			info[:code] = subreport.code
 			@@registered_fields[record_type][:subreports].push(info)
 			@@subreport_classes[subreport.code] = subreport
 		end
@@ -55,12 +57,14 @@ module CustomField
 
 		module ClassMethods
 
-			def register_subreport(field_name, record_types)
-				CustomField.register_subreport(self, field_name, record_types)
+			def register_subreport(field_name, record_types, options = {})
+				CustomField.register_subreport(self, field_name, record_types,
+					options)
 			end
 
 			def register_field(record_type, field_name, data_type, options = {})
-				CustomField.register_field(record_type, field_name, data_type, options)
+				CustomField.register_field(record_type, field_name, data_type,
+					options)
 			end
 
 		end

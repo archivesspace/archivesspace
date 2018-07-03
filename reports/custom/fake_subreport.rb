@@ -1,3 +1,4 @@
+# for testing
 class FakeSubreport < AbstractSubreport
 
 	# register_subreport('FAKE', ['accession',

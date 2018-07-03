@@ -137,8 +137,9 @@
 		<h3>Linked Records</h4>
 		<% custom_data[record_type]['subreports'].each do |subreport| %>
 			<% field_name = subreport['name'] %>
+			<% translation = subreport['translation'] || "#{field_name}._plural" %>
 			<div class="form-group">
-				<label class="col-sm-1 control-label"><%= I18n.t("#{field_name}._plural", :default => field_name) %></label>
+				<label class="col-sm-1 control-label"><%= I18n.t(translation, :default => field_name) %></label>
 				<div class="col-sm-2 checkbox">
 					<%= check_box_tag "job[job_params][custom_report_data][#{record_type}][subreports][#{field_name}][include]" %>
 				</div>

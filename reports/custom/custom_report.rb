@@ -5,7 +5,7 @@ class CustomReport < AbstractReport
     	'Fields to include in custom report.', CustomField.registered_fields]]
   )
 
-  attr_accessor :record_type
+  attr_accessor :record_type, :subreports
 
   def initialize(params, job, db)
     super    
@@ -30,10 +30,12 @@ class CustomReport < AbstractReport
     table = @record_type == 'agent' ? 'agent_person'.to_sym : @record_type.to_sym
     @possible_fields = db[table].columns.collect {|c| c.to_s}
 
+    @possible_fields.push('name') if @record_type == 'agent'
+
     unless @possible_fields.include? 'repo_id'
     	@conditions = ["1 = 1"]
     else
-    	@conditions = ["repo_id = #{@repo_id}"]
+    	@conditions = ["repo_id = #{@repo_id} or repo_id is null"]
     end
 
 
@@ -114,14 +116,11 @@ class CustomReport < AbstractReport
 		results
   end
 
-	def query_string(fields = nil)
-
-		fields ||= select_fields
-
+	def query_string
 		order_by = @order_field ? "order by #{@order_field}" : ''
 		where = @conditions.collect {|item| "(#{item})"}.join(' and ')
 
-		"select id#{fields}
+		"select id#{select_fields}
 		from #{@record_type}
 		where #{where}
 		#{order_by}"
@@ -144,6 +143,17 @@ class CustomReport < AbstractReport
 			order_field = 'type_code' if order_field == 'type'
 		end
 
+		name_field = CustomField.get_field_by_name('agent', 'name')
+		include_name = false
+		if @fields.include?(name_field)
+			include_name = true
+			@fields.delete(name_field)
+		end
+
+		order_by = @order_field ? "order by #{@order_field}" : ''
+		@conditions.push('is_display_name')
+		where = @conditions.collect {|item| "(#{item})"}.join(' and ')
+
 		query_parts = []
 		@agent_types.each do |agent_type|
 			@record_type = agent_type
@@ -154,7 +164,16 @@ class CustomReport < AbstractReport
 				type_fields += ", '#{type_translation}' as type"
 			end
 			fields = type_fields + select_fields
-			query_parts.push(query_string(fields))
+			name_table = agent_type.gsub('agent', 'name')
+			fields += ", #{name_table}.sort_name as name" if include_name
+			agent_query = "select #{agent_type}.id#{fields}
+							from #{agent_type}
+								left outer join #{name_table}
+								on #{name_table}.#{agent_type}_id
+								= #{agent_type}.id
+							where #{where}
+							#{order_by}"
+			query_parts.push(agent_query)
 		end
 		"#{query_parts.join(' union ')}
 		#{order_field ? "order by #{order_field}" : ''}"
@@ -172,9 +191,9 @@ class CustomReport < AbstractReport
 			end
 		end
 		select_fields = ''
-		columns.each do |column, colum_alias|
+		columns.each do |column, column_alias|
 			if @possible_fields.include? column
-				select_fields += ", #{@record_type}.#{column} as #{colum_alias}"
+				select_fields += ", #{@record_type}.#{column} as #{column_alias}"
 			else
 				msg = "#{@record_type} does not have field '#{column}'. Skipping."
 				job.write_output(msg)
@@ -214,8 +233,10 @@ class CustomReport < AbstractReport
 
 	def special_translation(key, subreport_code)
 		if subreport_code
-			subreport_name = CustomField.subreport_class(subreport_code).field_name
-			I18n.t("#{subreport_name}.#{key}", :default => nil)
+			model = CustomField.subreport_class(subreport_code)
+			return nil unless model
+			translation_scope = model.translation_scope || model.field_name
+			I18n.t("#{translation_scope}.#{key}", :default => nil)
 		else
 			field = CustomField.get_field_by_name(record_type, key)
 			if field

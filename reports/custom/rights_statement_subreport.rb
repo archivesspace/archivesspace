@@ -16,15 +16,15 @@ class RightsStatementSubreport < AbstractSubreport
 
 	def query_string
 		"select
-		  rights_type_id as rights_type,
-		  statute_citation,
-		  jurisdiction_id as jurisdiction,
-		  status_id as status,
-		  start_date,
-		  end_date,
-		  determination_date,
-		  license_terms,
-		  other_rights_basis_id as other_rights_basis
+			rights_type_id as rights_type,
+			statute_citation,
+			jurisdiction_id as jurisdiction,
+			status_id as status,
+			start_date,
+			end_date,
+			determination_date,
+			license_terms,
+			other_rights_basis_id as other_rights_basis
 		from rights_statement
 		where #{@id_type}_id = #{@id}"
 	end

@@ -1,7 +1,8 @@
 class AgentSubreport < AbstractSubreport
 
 	register_subreport('linked_agent', ['accession', 'archival_object',
-		'digital_object', 'digital_object_component', 'event', 'resource'])
+		'digital_object', 'digital_object_component', 'event', 'resource',
+		'rights_statement'])
 
 	def initialize(parent_custom_report, id)
 		super(parent_custom_report)

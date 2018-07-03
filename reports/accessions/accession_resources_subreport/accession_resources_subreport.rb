@@ -1,7 +1,5 @@
 class AccessionResourcesSubreport < AbstractSubreport
 
-  register_subreport('related_resource', ['accession'])
-
   def initialize(parent_report, accession_id)
     super(parent_report)
     @accession_id = accession_id
@@ -20,10 +18,6 @@ class AccessionResourcesSubreport < AbstractSubreport
 
   def fix_row(row)
     ReportUtils.fix_identifier_format(row, :identifier)
-  end
-
-  def self.field_name
-    'related_resource'
   end
 
 end

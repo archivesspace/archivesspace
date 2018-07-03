@@ -1,5 +1,8 @@
 class AssessmentRatingSubreport < AbstractSubreport
 
+  register_subreport('ratings', ['assessment'],
+    :translation => 'assessment._frontend.ratings')
+
   def initialize(parent_report, assessment_id)
     super(parent_report)
     @assessment_id = assessment_id
@@ -27,6 +30,10 @@ class AssessmentRatingSubreport < AbstractSubreport
 
     where assessment_attribute.assessment_id = #{@assessment_id}
       and assessment_attribute_definition.type = 'rating'"
+  end
+
+  def self.field_name
+    'ratings'
   end
 
 end

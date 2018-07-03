@@ -4,12 +4,17 @@ module RegisterCustomFields
 
 	include CustomField::Mixin
 
+	# for testing
+
 	# register_field('global', 'FAKE_BOOLEAN_FIELD', 'Boolean')
-	# register_field('global', 'FAKE_DATE_FIELD', 'Date', :sortable => true)
-	# register_field('global', 'FAKE_ENUM_FIELD', 'Enum', :sortable => true,
-	# 	:enum_name => 'language_iso639_2')
-	# register_field('global', 'FAKE_USER_FIELD', 'User', :sortable => true)
-	# register_field('global', 'FAKE_STRING_FIELD', String, :sortable => true)
+	# register_field('global', 'FAKE_DATE_FIELD', 'Date',
+	# 	:sortable => true)
+	# register_field('global', 'FAKE_ENUM_FIELD', 'Enum',
+	# 	:sortable => true, :enum_name => 'language_iso639_2')
+	# register_field('global', 'FAKE_USER_FIELD', 'User',
+	# 	:sortable => true)
+	# register_field('global', 'FAKE_STRING_FIELD', String,
+	# 	:sortable => true)
 
 	register_field('global', 'created_by', 'User', :sortable => true,
 		:translation_scope => 'advanced_search.text')
@@ -43,6 +48,7 @@ module RegisterCustomFields
 
 	register_field('agent', 'type', 'AgentType', :sortable => true)
 	register_field('agent', 'publish', 'Boolean')
+	register_field('agent', 'name', 'String', :sortable => true)
 
 	register_field('archival_object', 'component_id', String,
 		:sortable => true)
@@ -55,6 +61,39 @@ module RegisterCustomFields
 	register_field('archival_object', 'repository_processing_note', String)
 	register_field('archival_object', 'restrictions_apply', 'Boolean')
 	register_field('archival_object', 'title', String, :sortable => true)
+
+	register_field('assessment', 'accession_report', 'Boolean')
+	register_field('assessment', 'appraisal', 'Boolean')
+	register_field('assessment', 'container_list', 'Boolean')
+	register_field('assessment', 'catalog_record', 'Boolean')
+	register_field('assessment', 'control_file', 'Boolean')
+	register_field('assessment', 'finding_aid_ead', 'Boolean')
+	register_field('assessment', 'finding_aid_paper', 'Boolean')
+	register_field('assessment', 'finding_aid_word', 'Boolean')
+	register_field('assessment', 'finding_aid_spreadsheet', 'Boolean')
+	register_field('assessment', 'surveyed_duration', String,
+		:sortable => true)
+	register_field('assessment', 'surveyed_extent', String,
+		:sortable => true)
+	register_field('assessment', 'review_required', 'Boolean')
+	register_field('assessment', 'purpose', String, :sortable => true)
+	register_field('assessment', 'scope', String, :sortable => true)
+	register_field('assessment', 'sensitive_material', 'Boolean')
+	register_field('assessment', 'general_assessment_note', String)
+	register_field('assessment', 'special_format_note', String)
+	register_field('assessment', 'exhibition_value_note', String)
+	register_field('assessment', 'deed_of_gift', 'Boolean')
+	register_field('assessment', 'finding_aid_online', 'Boolean')
+	register_field('assessment', 'related_eac_records', 'Boolean')
+	register_field('assessment', 'existing_description_notes', String)
+	register_field('assessment', 'survey_begin', 'Date', :sortable => true)
+	register_field('assessment', 'survey_end', 'Date', :sortable => true)
+	register_field('assessment', 'review_note', String)
+	register_field('assessment', 'inactive', 'Boolean')
+	register_field('assessment', 'monetary_value', 'Decimal',
+		:sortable => true)
+	register_field('assessment', 'monetary_value_note', String)
+	register_field('assessment', 'conservation_note', String)
 
 	register_field('classification', 'description', String)
 	register_field('classification', 'identifier', String,
@@ -111,19 +150,47 @@ module RegisterCustomFields
 	register_field('resource', 'title', String, :sortable => true)
 	register_field('resource', 'ead_id', String, :sortable => true)
 	register_field('resource', 'ead_location', String, :sortable => true)
-	register_field('resource', 'finding_aid_title', String, :sortable => true)
-	register_field('resource', 'finding_aid_subtitle', String, :sortable => true)
-	register_field('resource', 'finding_aid_date', String, :sortable => true)
-	register_field('resource', 'finding_aid_author', String, :sortable => true)
+	register_field('resource', 'finding_aid_title', String,
+		:sortable => true)
+	register_field('resource', 'finding_aid_subtitle', String,
+		:sortable => true)
+	register_field('resource', 'finding_aid_date', String,
+		:sortable => true)
+	register_field('resource', 'finding_aid_author', String,
+		:sortable => true)
 	register_field('resource', 'finding_aid_description_rules', 'Enum',
 		:sortable => true)
-	register_field('resource', 'finding_aid_language', String, :sortable => true)
-	register_field('resource', 'finding_aid_sponsor', String, :sortable => true)
+	register_field('resource', 'finding_aid_language', String,
+		:sortable => true)
+	register_field('resource', 'finding_aid_sponsor', String,
+		:sortable => true)
 	register_field('resource', 'finding_aid_edition_statement', String)
 	register_field('resource', 'finding_aid_series_statement', String)
-	register_field('resource', 'finding_aid_status', 'Enum', :sortable => true)
-	register_field('resource', 'finding_aid_note', String, :sortable => true)
-	register_field('resource', 'finding_aid_', String, :sortable => true)
+	register_field('resource', 'finding_aid_status', 'Enum',
+		:sortable => true)
+	register_field('resource', 'finding_aid_note', String,
+		:sortable => true)
+	register_field('resource', 'finding_aid_subtitle', String,
+		:sortable => true)
+
+	register_field('rights_statement', 'rights_type', 'Enum',
+		:sortable => true)
+	register_field('rights_statement', 'statute_citation', String,
+		:sortable => true)
+	register_field('rights_statement', 'jurisdiction', 'Enum',
+		:sortable => true)
+	register_field('rights_statement', 'status', 'Enum',
+		:sortable => true, :enum_name => 'rights_statement_ip_status')
+	register_field('rights_statement', 'start_date', 'Date',
+		:sortable => true)
+	register_field('rights_statement', 'end_date', 'Date',
+		:sortable => true)
+	register_field('rights_statement', 'determination_date', 'Date',
+		:sortable => true)
+	register_field('rights_statement', 'license_terms', String,
+		:sortable => true)
+	register_field('rights_statement', 'other_rights_basis', 'Enum',
+		:sortable => true)
 
 	register_field('subject', 'title', String, :sortable => true,
 		:alias => 'terms')

@@ -12,7 +12,9 @@
 
   <dl>
   <% info.each do |key, value| %>
-    <dt><%= t(key) %></dt>
+    <% unless key.to_s[0] == '_' %>
+      <dt><%= t(key) %></dt>
+    <% end %>
     <dd><%= value %></dd>
   <% end %>
   </dl>
@@ -34,7 +36,9 @@
           </section>
           <dl>
         <% elsif value %>
-          <dt><%= t(key) %></dt>
+          <% unless key.to_s[0] == '_' %>
+            <dt><%= t(key) %></dt>
+          <% end %>
           <dd><%= value %></dd>
         <% end %>
       <% end %>
