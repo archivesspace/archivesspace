@@ -140,10 +140,10 @@ module ASUtils
     }
   end
 
-  def self.diagnostic_trace_msg(trace_file_location)
+  def self.diagnostic_trace_msg(filename)
     <<ERRMSG
       #{'=' * 72}
-      A trace file has been written to the following location: #{trace_file_location}
+      A trace file has been written to the following location: #{filename}
 
       This file contains information that will assist developers in diagnosing
       problems with your ArchivesSpace installation.  Please review the file's

@@ -312,26 +312,22 @@ module JSONSchemaUtils
     result
   end
 
-
-
-  def self.is_blank?(obj)
-    obj.nil? || obj == "" || obj == {}
+  def self.blank?(obj)
+    obj.nil? || obj == '' || obj == {}
   end
-
 
   def self.drop_empty_elements(obj)
     if obj.is_a?(Hash)
       Hash[obj.map do |k, v|
              v = drop_empty_elements(v)
-             [k, v] if !is_blank?(v)
-           end]
+             [k, v] unless blank?(v)
+           end.compact]
     elsif obj.is_a?(Array)
-      obj.map {|elt| drop_empty_elements(elt)}.reject {|elt| is_blank?(elt)}
+      obj.map { |elt| drop_empty_elements(elt) }.reject { |elt| blank?(elt) }
     else
       obj
     end
   end
-
 
   # Drop any keys from 'hash' that aren't defined in the JSON schema.
   #

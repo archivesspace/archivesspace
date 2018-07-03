@@ -58,6 +58,15 @@ class ArchivesSpaceService < Sinatra::Base
      json_response(Enumeration.to_jsonmodel(params[:enum_id]))
   end
 
+  Endpoint.get('/config/enumerations/names/:enum_name')
+    .description("Get an Enumeration by Name")
+    .params(["enum_name", String, "The name of the enumeration to retrieve"])
+    .permissions([])
+    .returns([200, "(:enumeration)"]) \
+  do
+     json_response(Enumeration.to_jsonmodel(params[:enum_name], query: "name"))
+  end
+
   Endpoint.get('/config/enumeration_values/:enum_val_id')
     .description("Get an Enumeration Value")
     .params(["enum_val_id", Integer, "The ID of the enumeration value to retrieve"])
