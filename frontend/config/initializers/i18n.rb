@@ -50,20 +50,20 @@ module I18n
     else
       options = {}
     end
+    results = self.t_raw(input, options.merge(:default => 'aspace_i18n_lookup_failed', :raise => false))
 
-    begin
-      results =  self.t_raw(input, options.merge(:raise => true))
-      results.nil? ? "" : results.html_safe
-    rescue I18n::MissingTranslationData => e
+    if results == 'aspace_i18n_lookup_failed'
       if default
         default
       else
-        # "translation missing: ..."
-        e.to_s
+        "translation missing: #{input}"
       end
+    elsif results.nil?
+      ""
+    else
+      results.html_safe
     end
   end
-
 end
 
 I18n.exception_handler = :try_really_hard_to_find_a_key
