@@ -59,10 +59,19 @@ namespace :servers do
   task :start do
     if ENV["ASPACE_BACKEND_URL"] and ENV["ASPACE_FRONTEND_URL"]
       puts "Running tests against a server already started"
+    # Some versions of Java do not seem to respect the ensure block if STOP is
+    # given in ant, which means sometimes pid files get left behind by
+    # accident. 
     elsif File.exist? '/tmp/backend_test_server.pid'
-      puts "Backend Process already exists"
+      puts <<MSG
+    WARNING: Backend Process PID file already exists (/tmp/backend_test_server.pid)
+    If this is a mistake, please remove this file and restart the tests.
+MSG
     elsif File.exist? '/tmp/frontend_test_server.pid'
-      puts "Frontend Process already exists"
+      puts <<MSG
+    Frontend Process PID file already exists (/tmp/frontend_test_server.pd)
+    If this is a mistake, please remove this file and restart the tests.
+MSG
     else
       backend_port = TestUtils::free_port_from(3636)
       frontend_port = TestUtils::free_port_from(4545)
@@ -94,11 +103,12 @@ namespace :servers do
       ENV["ASPACE_SOLR_URL"] = solr_url
 
     end
-    puts ENV["ASPACE_BACKEND_URL"]
-    puts ENV["ASPACE_FRONTEND_URL"]
-    puts ENV["ASPACE_SOLR_URL"]
+    puts <<MSG
+    USING BACKEND URL : #{ENV["ASPACE_BACKEND_URL"]}
+    USING FRONTEND URL : #{ENV["ASPACE_FRONTEND_URL"]}
+    USING SOLR URL : #{ENV["ASPACE_SOLR_URL"]}
+MSG
   end
-
 
   namespace :indexer do
 
@@ -108,10 +118,16 @@ namespace :servers do
       AppConfig[:solr_url] = ENV['ASPACE_SOLR_URL']
       AppConfig[:backend_url] = ENV['ASPACE_BACKEND_URL']
 
+      if AppConfig[:solr_url].nil? || AppConfig[:backend_url].nil?
+        puts <<MSG
+    WARNING: The :solr_url or backend_url in your AppConfig is not set.
+    Your indexer may not run correctly.
+MSG
+      end
+
       AppConfig[:indexer_records_per_thread] = 25
       AppConfig[:indexer_thread_count] = 1
       AppConfig[:indexer_solr_timeout_seconds] = 300
-
 
       ENV["ASPACE_INDEXER_URL"] = indexer_url
 

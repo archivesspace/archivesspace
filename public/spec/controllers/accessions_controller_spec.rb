@@ -27,6 +27,7 @@ describe AccessionsController, type: :controller do
       rec_with_deaccession = results.records.find {|x| x["title"] == @acc_with_deaccession["title"]}
       expect( rec_with_deaccession.deaccessions ).not_to be_empty
     end
+    
     it 'does not show deaccessions when AppConfig[:pui_display_deaccessions] is false' do
       AppConfig[:pui_display_deaccessions] = false
       expect(get :index).to have_http_status(200)

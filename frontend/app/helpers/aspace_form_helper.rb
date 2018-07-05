@@ -4,24 +4,23 @@ module AspaceFormHelper
 
   COMBOBOX_MIN_LIMIT = 50 # if a <select> has equal or more options than this value, output a combobox
 
+  class FormHelpers
+    include ActionView::Helpers::TagHelper
+    include ActionView::Helpers::TextHelper
+    include ActionView::Helpers::FormTagHelper
+    include ActionView::Helpers::FormOptionsHelper
+  end
+
   class FormContext
 
     def initialize(name, values_from, parent)
 
       values = values_from.is_a?(JSONModelType) ? values_from.to_hash(:raw) : values_from
 
-      @forms = Object.new
+      @forms = FormHelpers.new
       @parent = parent
       @context = [[name, values]]
       @path_to_i18n_map = {}
-
-      class << @forms
-        include ActionView::Helpers::TagHelper
-        include ActionView::Helpers::TextHelper
-        include ActionView::Helpers::FormTagHelper
-        include ActionView::Helpers::FormOptionsHelper
-      end
-
     end
 
 
@@ -406,6 +405,55 @@ module AspaceFormHelper
       options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "1") or (obj[name].nil? and default)
 
       @forms.tag("input", options.merge(opts), false, false)
+    end
+
+    # takes a JSON representation of the current options selected and the list of archival_record_level enums
+    # returns HTML for a set of checkboxes representing current selected and deselected sets for OAI export
+    def checkboxes_for_oai_sets(set_json, value_list)
+      # when called by #new, set_json will be nil.
+      if set_json
+        set_arry = JSON::parse(set_json)
+      else 
+        set_arry = []
+      end
+
+      html = "" 
+
+      html << "<div class='row'>"
+        html << "<div class='col-sm-2'>"
+          html << "<label class='control-label'>#{I18n.t("repository_oai.oai_sets_available")}</label>"
+        html << "</div>"
+        html << "<div class='col-sm-8'>&nbsp;"
+          html << "<ul class='list_group'>"
+            value_list['enumeration_values'].each do |v|
+              # if we have an empty list of checkboxes, assume all sets are enabled.
+              # otherwise, a checkbox is on if it's the in the list we get from the backend.
+              checked = set_arry.include?(v['id'].to_s) || set_arry.length == 0
+
+              html << "<li class='list-group-item'>"
+                html << "<div class='checkbox'>"
+                  html << "<label>"
+                    html << "<input id=\"#{v['id']}\" name=\"sets[#{v['id']}]\" type=\"checkbox\" "
+                    if checked
+                      html << "checked=\"checked\" "
+                    end
+  
+                    if readonly?
+                      html << "disabled />"
+                    else
+                      html << "/>"
+                    end # of checkbox tag
+  
+                    html << "#{v['value']}"
+                  html << "</label>"
+                html << "</div>"
+              html << "</li>"
+            end
+          html << "</ul>"
+        html << "</div>" #col-sm-8
+      html << "</div>" #row
+
+      return html.html_safe
     end
 
     def req_checkbox(name, opts = {}, default = true, force_checked = false)

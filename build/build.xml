@@ -864,7 +864,7 @@
 
   </target>
 
-  <target name="public:test" depends="set-classpath" description="Run the unit test suite">
+  <target name="public:test" depends="set-classpath, public:copy-shared-resources" description="Run the unit test suite">
     <property name="spec" value=""/>
     <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
