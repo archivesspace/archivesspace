@@ -1,25 +1,24 @@
 module SlugHelpers
-  def self.get_id_from_slug(slug, controller, action)
-  	rec, table = case controller
+  # Find the record given the slug, return id, repo_id, and table name.
+  def self.get_id_from_slug(slug, controller, action, repo_slug)
 
-  	# based on the controller/action, query the right table for the slug
-  	when "repositories"
-  		[Repository.where(:slug => slug).first, "repository"]
-    when "resources"
-      [Resource.any_repo.where(:slug => slug).first, "resource"]
-    when "objects"
-      [DigitalObject.any_repo.where(:slug => slug).first, "digital_object"]
-    when "accessions"
-      [Accession.any_repo.where(:slug => slug).first, "accession"]
-    when "subjects"
-      [Subject.any_repo.where(:slug => slug).first, "subject"]
-    when "classifications"
-      [Classification.any_repo.where(:slug => slug).first, "classification"]
-    when "agents"
-      self.find_slug_in_agent_tables(slug)
-  	end
+    # global scope tables first
+    if controller == "repositories"
+      rec = Repository.where(:slug => slug).first 
+      table = "repository"
+    elsif controller == "agents"
+      rec, table = self.find_slug_in_agent_tables(slug)
+    elsif controller == "subjects"
+      rec = Subject.where(:slug => slug).first 
+      table = "subject"
 
-  	# BINGO!
+    # repo scope tables
+    elsif AppConfig[:repo_name_in_slugs] 
+      rec, table = find_in_repo(slug, controller, action, repo_slug)
+    else
+      rec, table = find_any_repo(slug, controller, action)
+    end
+
   	if rec
   		return [rec[:id], table, rec[:repo_id]]
 
@@ -27,6 +26,46 @@ module SlugHelpers
   	else
   		return [-1, table, -1]
   	end
+  end
+
+  # based on the controller/action, query the right table for the slug
+  # in repo with repo.slug == repo_slug
+  
+  # FIXME: Queries like: Resource.where(:slug => slug, :repo_id => repo.id)
+  # fail with "missing repo_id for request" error (in ASModel_CRUD) for some reason. Using SQL queries to get around this for now. 
+  def self.find_in_repo(slug, controller, action, repo_slug)
+    repo = Repository.where(:slug => repo_slug).first
+
+    table = case controller
+    when "resources"
+      "resource"
+    when "objects"
+      "digital_object"
+    when "accessions"
+      "accession"
+    when "classifications"
+      "classification"
+    end
+
+    if repo.nil?
+      return [nil, table]
+    else
+      return [Repository.fetch("SELECT * FROM #{table} where slug = ? and repo_id = ?", slug, repo.id).first, table]
+    end
+  end
+
+  # based on the controller/action, query the right table for the slug in any repo
+  def self.find_any_repo(slug, controller, action)
+    return case controller
+    when "resources"
+      [Resource.any_repo.where(:slug => slug).first, "resource"]
+    when "objects"
+      [DigitalObject.any_repo.where(:slug => slug).first, "digital_object"]
+    when "accessions"
+      [Accession.any_repo.where(:slug => slug).first, "accession"]
+    when "classifications"
+      [Classification.any_repo.where(:slug => slug).first, "classification"]
+    end
   end
 
   # our slug could be in one of four tables.
