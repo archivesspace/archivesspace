@@ -12,7 +12,22 @@ module ViewHelper
 
 	def resource_base_url(result)
 		if result.json['slug']
-			url = "resources/" + result.json['slug']
+			# Generate URLs with repo slugs if turned on
+			if AppConfig[:repo_name_in_slugs] 
+				if result.resolved_repository["slug"]
+					url = "repositories/#{result.resolved_repository["slug"]}/resources/" + result.json['slug']
+
+				# just use ids if repo has no slug
+				else
+					url = result['uri']
+				end
+
+			# otherwise, generate URL without repo slug
+			else
+				url = "resources/" + result.json['slug']
+			end
+
+		# object has no slug
 		else
 			url = result['uri']
 		end

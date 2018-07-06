@@ -9,7 +9,11 @@ Rails.application.routes.draw do
     post '/cite', to: 'cite#show'
 
     # RESOURCES
-    get  "resources/:slug_or_id"  => 'resources#show'
+    if AppConfig[:repo_name_in_slugs]
+      get  "repositories/:repo_slug/resources/:slug_or_id"  => 'resources#show'
+    else
+      get  "resources/:slug_or_id"  => 'resources#show'
+    end
 
     get  'repositories/resources' => 'resources#index'
     get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'

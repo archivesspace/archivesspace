@@ -56,27 +56,72 @@ class ApplicationController < ActionController::Base
   end
 
   def process_slug_or_id(params)
-    # if we have a string that looks like an integer, treat it as an ID.
-
-    # we may have an id param. If so, use it.
+    # we may have an id param. If so, use it. Short circuit processing to come.
     if params[:id]
       true # do nothing
+
+    # if we have 'slug' strings that are integers, treat them like IDs.
     elsif params[:slug_or_id].match(/^(\d)+$/)
-      # id found
       params[:id] = params[:slug_or_id]
+
+      if params[:repo_slug] && params[:repo_slug].match(/^(\d)+$/)
+        params[:rid] = params[:repo_slug]
+      end
+
+    # send slug to backend to resolve ids.
     else
+      # use repo scoping, if turned on.
+      if AppConfig[:repo_name_in_slugs] && repo_scoped_controller?(params[:controller])
+        params = resolve_ids_with_repo_scoped_slugs(params)
+
+      # dont use repo scopping
+      else
+        params = resolve_ids_with_slugs(params)
+      end
+
+    end
+
+    return params
+  end
+
+  private
+
+    def repo_scoped_controller?(controller_name)
+      controller_name == "resources" || "objects" || "accessions" || "classifications"
+    end
+
+    def resolve_ids_with_repo_scoped_slugs(params)
+      uri = "/slug_with_repo?slug=#{params[:slug_or_id]}&controller=#{params[:controller]}&action=#{params[:action]}&repo_slug=#{params[:repo_slug]}"
+
+      json_response = send_slug_request(uri)
+      update_params_from_response!(params, json_response)
+
+      return params
+    end
+
+    def resolve_ids_with_slugs(params)
       # look up slug value via HTTP request to backend to find actual id
       uri = "/slug?slug=#{params[:slug_or_id]}&controller=#{params[:controller]}&action=#{params[:action]}"
 
+      json_response = send_slug_request(uri)
+      update_params_from_response!(params, json_response)
+
+      return params
+    end
+
+    def send_slug_request(uri)
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       response = JSONModel::HTTP.get_response(url)
 
-      json_response = JSON.parse(response.body)
+      return JSON.parse(response.body)
+    end
 
+    def update_params_from_response!(params, json_response)
+      #this is what we came here for!
       params[:id] = json_response["id"]
       params[:rid] = json_response["repo_id"] if json_response["repo_id"]
 
-      #Add additional params as needed
+      #Add in additional params as needed, based on the controller
       if params[:controller] == "objects"
         params[:obj_type] = "digital_objects"
       end
@@ -94,7 +139,5 @@ class ApplicationController < ActionController::Base
         end
       end
     end
-
-  end
 
 end
