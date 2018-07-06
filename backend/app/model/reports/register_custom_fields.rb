@@ -127,15 +127,24 @@ module RegisterCustomFields
 	register_field('location', 'area', String, :sortable => true)
 	register_field('location', 'barcode', String, :sortable => true)
 	register_field('location', 'building', String, :sortable => true)
-	register_field('location', 'classification', String, :sortable => true)
-	register_field('location', 'coordinate_1_indicator', :sortable => true)
-	register_field('location', 'coordinate_1_label', :sortable => true)
-	register_field('location', 'coordinate_2_indicator', :sortable => true)
-	register_field('location', 'coordinate_2_label', :sortable => true)
-	register_field('location', 'coordinate_3_indicator', :sortable => true)
-	register_field('location', 'coordinate_3_label', :sortable => true)
-	register_field('location', 'floor', :sortable => true)
-	register_field('location', 'room', :sortable => true)
+	register_field('location', 'classification', String,
+		:sortable => true)
+	register_field('location', 'coordinate_1_indicator', String,
+		:sortable => true)
+	register_field('location', 'coordinate_1_label', String,
+		:sortable => true)
+	register_field('location', 'coordinate_2_indicator', String,
+		:sortable => true)
+	register_field('location', 'coordinate_2_label', String,
+		:sortable => true)
+	register_field('location', 'coordinate_3_indicator', String,
+		:sortable => true)
+	register_field('location', 'coordinate_3_label', String,
+		:sortable => true)
+	register_field('location', 'floor', String,
+		:sortable => true)
+	register_field('location', 'room', String,
+		:sortable => true)
 	register_field('location', 'temporary', 'Enum', :sortable => true)
 
 	register_field('resource', 'identifier', String, :sortable => true)
@@ -146,7 +155,7 @@ module RegisterCustomFields
 	register_field('resource', 'publish', 'Boolean')
 	register_field('resource', 'repository_processing_note', String)
 	register_field('resource', 'resource_type', 'Enum')
-	register_field('resource', 'Restrictions', 'Boolean')
+	register_field('resource', 'restrictions', 'Boolean')
 	register_field('resource', 'title', String, :sortable => true)
 	register_field('resource', 'ead_id', String, :sortable => true)
 	register_field('resource', 'ead_location', String, :sortable => true)

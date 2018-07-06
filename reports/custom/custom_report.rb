@@ -1,78 +1,74 @@
 class CustomReport < AbstractReport
 
-	register_report(
-    params: [['custom_data', 'CustomFields',
-    	'Fields to include in custom report.', CustomField.registered_fields]]
-  )
+	register_report(params: [['template', CustomReportTemplate,
+		'Template to use for the custom report.']])
 
-  attr_accessor :record_type, :subreports
+	attr_accessor :record_type, :subreports
 
-  def initialize(params, job, db)
-    super    
+	def initialize(params, job, db)
+		super
 
-    data_file = ''
-    job.job_files.each do |file|
-    	data_file += file.file_path
-    end
+		id = Integer(params.fetch('template'))
+		template = RequestContext.open(:repo_id => @repo_id) do
+			ASUtils.json_parse(CustomReportTemplate.get_or_die(id).data)
+		end
 
-    template = ASUtils.json_parse(IO.read(data_file))
+		@record_type = template['custom_record_type']
+		info[:custom_record_type] = I18n.t("#{@record_type}._plural",
+			:default => @record_type)
 
-    @record_type = template['custom_record_type']
-    info[:custom_record_type] = I18n.t("#{@record_type}._plural",
-    	:default => @record_type)
+		@fields = []
 
-    @fields = []
+		@boolean_fields = []
+		@enum_fields = []
+		@decimal_fields = []
 
-    @boolean_fields = []
-    @enum_fields = []
-    @decimal_fields = []
+		table = @record_type == 'agent' ? 'agent_person'.to_sym : @record_type.to_sym
+		@possible_fields = db[table].columns.collect {|c| c.to_s}
 
-    table = @record_type == 'agent' ? 'agent_person'.to_sym : @record_type.to_sym
-    @possible_fields = db[table].columns.collect {|c| c.to_s}
+		@possible_fields.push('name') if @record_type == 'agent'
 
-    @possible_fields.push('name') if @record_type == 'agent'
-
-    unless @possible_fields.include? 'repo_id'
-    	@conditions = ["1 = 1"]
-    else
-    	@conditions = ["repo_id = #{@repo_id} or repo_id is null"]
-    end
+		unless @possible_fields.include? 'repo_id'
+			@conditions = ["1 = 1"]
+		else
+			@conditions = ["repo_id = #{@repo_id} or repo_id is null"]
+		end
 
 
-    CustomField.fields_for(@record_type).each do |field|
-    	field_name = field[:name]
+		CustomField.fields_for(@record_type).each do |field|
+			field_name = field[:name]
 
-    	next unless ASUtils.present?(template['fields'][field_name])
+			next unless ASUtils.present?(template['fields'][field_name])
 
-    	begin
-    		@fields.push(field) if template['fields'][field_name]['include']
-    	rescue NoMethodError => e
-    		
-    	end
+			begin
+				@fields.push(field) if template['fields'][field_name]['include']
+			rescue NoMethodError => e
+				
+			end
 
-    	if (ASUtils.present?(template['fields'][field_name]['narrow_by'])) &&
-    		(template['fields'][field_name]['narrow_by'])
+			if (ASUtils.present?(template['fields'][field_name]['narrow_by'])) &&
+				(template['fields'][field_name]['narrow_by'])
 
-    		begin
-    			case field[:data_type]
-	    		when 'Date'
-	  				date_narrow(template, field_name)
-	  			when 'AgentType'
-	  				agent_type_narrow(template, field_name)
-	  			when 'Boolean'
-	  				boolean_narrow(template, field_name)
-	  			when 'Enum'
-	  				enum_narrow(template, field)
-	  			when 'User'
-	  				user_narrow(template, field_name)
-		  		end
-	  		rescue Exception => e
-  				raise "Selected to narrow results by #{field_name} but missing values."
-  			end
-  		end
-    end
+				begin
+					case field[:data_type]
+					when 'Date'
+						date_narrow(template, field_name)
+					when 'AgentType'
+						agent_type_narrow(template, field_name)
+					when 'Boolean'
+						boolean_narrow(template, field_name)
+					when 'Enum'
+						enum_narrow(template, field)
+					when 'User'
+						user_narrow(template, field_name)
+					end
+				rescue Exception => e
+					raise "Selected to narrow results by #{field_name} but missing values."
+				end
+			end
+		end
 
-    @fields.each do |field|
+		@fields.each do |field|
 			case(field[:data_type])
 			when 'Boolean'
 				@boolean_fields.push(field[:name].to_sym)
@@ -104,17 +100,17 @@ class CustomReport < AbstractReport
 			@order_field += '_id' if field[:data_type] == 'Enum'
 			@order_field = nil unless @possible_fields.include? @order_field
 		end
-  end
+	end
 
-  def query
-  	results = unless record_type == 'agent'
-					  		db.fetch(query_string)
-					  	else
-					  		db.fetch(agent_query_string)
-					  	end
+	def query
+	results = unless record_type == 'agent'
+							db.fetch(query_string)
+						else
+							db.fetch(agent_query_string)
+						end
 		info[:total_count] = results.count
 		results
-  end
+	end
 
 	def query_string
 		order_by = @order_field ? "order by #{@order_field}" : ''

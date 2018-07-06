@@ -89,7 +89,7 @@
                     <input id='report_type_' name='report_job[report_type]' type='hidden' value='<%= report['code'] %>' />
                     <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
 
-                    <% if report['code'] == 'custom_report' %>
+                    <% if report['code'] == 'custom_report' && false %>
                       <hr/>
                       <div class="form-group">
                         <%= render_aspace_partial :partial => "jobs/report_partials/customfields", :locals => {:object => @job, :form => form, :custom_data => report_params[0][3]} %>

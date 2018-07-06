@@ -1389,3 +1389,16 @@ ja:
         attribute_in_use: 評価で現在使用されている属性を削除できません
       database_value: データベース値
       translation: 翻訳
+
+  custom_report_template:
+    _frontend:
+      new_title: 新しいカスタムレポートテンプレート
+      section:
+        template_information: テンプレート情報
+        basic_information_fields: 基本情報
+        sort_by: 並び替え
+      action:
+        create: テンプレートを作成する
+        save: テンプレートを保存
+      messages:
+        created: 作成されたカスタムレポートテンプレート

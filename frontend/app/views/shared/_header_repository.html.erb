@@ -156,6 +156,10 @@
                   <% end %>
 
                   <li><%= link_to I18n.t("navbar.list_reports"), :controller => :jobs, :action => :new, :job_type => 'report_job' %></li>
+                  <% if user_can?('view_repository') %>
+                    <li><%= link_to I18n.t("custom_report_template._plural"), :controller => :custom_report_templates, :action => :index %></li>
+                  <% end %>
+
                   <% if Plugins.repository_menu_items.any? {|plugin| has_permission_for_controller?(session, plugin)} %>
                     <li class="dropdown-submenu pull-left">
                       <a href="javascript:void(0);"><%= I18n.t("navbar.plugins") %></a>

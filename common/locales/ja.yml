@@ -1405,6 +1405,8 @@ ja:
       from_tooltip:
       to: に
       locations: 場所
+      scope_by_date: 日付範囲
+      template: テンプレート
     formats:
       json: JSON
       csv: CSV
@@ -1742,3 +1744,19 @@ ja:
       Tape: テープ
       Heat-Sensitive Paper: 感熱紙
       Water Damage: 水害
+
+  custom_report_template:
+    name: 名
+    description: 説明
+    record_type: レコードタイプ
+    display: 表示？
+    narrow_by: 狭い？
+    values: 値
+    value: 値
+    "true": "はい"
+    "false": "ノー"
+    start_date: 開始日
+    end_date: 終了日
+    field: フィールド
+    _singular: カスタムレポートテンプレート
+    _plural: カスタムレポートテンプレート

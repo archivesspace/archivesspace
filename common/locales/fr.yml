@@ -1877,6 +1877,8 @@ fr:
       from_tooltip:
       to: Au
       locations: Localisations
+      scope_by_date: Portée par date
+      template: Modèle
     formats:
       json: JSON
       csv: CSV
@@ -2191,3 +2193,19 @@ fr:
       "Tape": Bande magnétique
       "Heat-Sensitive Paper": Papier sensible à la chaleur
       "Water Damage": Dommage dû à l'eau
+
+  custom_report_template:
+    name: Nom
+    description: Description
+    record_type: Type de notice ou de sous-notice
+    display: Afficher?
+    narrow_by: Affiner par?
+    values: Valeurs
+    value: Valeur
+    "true": "Oui"
+    "false": "No"
+    start_date: Date de début
+    end_date: Date de fin
+    field: Champ
+    _singular: Modèle de rapport personnalisé
+    _plural: Modèles de rapports personnalisés

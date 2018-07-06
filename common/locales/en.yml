@@ -1879,6 +1879,7 @@ en:
       to: To
       locations: Locations
       scope_by_date: Scope by Date
+      template: Template
     formats:
       json: JSON
       csv: CSV
@@ -2193,3 +2194,19 @@ en:
       "Tape": Tape
       "Heat-Sensitive Paper": Heat-Sensitive Paper
       "Water Damage": Water Damage
+
+  custom_report_template:
+    name: Name
+    description: Description
+    record_type: Record Type
+    display: Display?
+    narrow_by: Narrow By?
+    values: Values
+    value: Value
+    "true": "Yes"
+    "false": "No"
+    start_date: Start Date
+    end_date: End Date
+    field: Field
+    _singular: Custom Report Template
+    _plural: Custom Report Templates
