@@ -59,12 +59,22 @@ module ViewHelper
 
 	def accession_base_url(result)
 		if result.json['slug']
-			url = "accessions/" + result.json['slug']
+			if AppConfig[:repo_name_in_slugs] 
+				if result.resolved_repository["slug"]
+					url = "repositories/#{result.resolved_repository["slug"]}/accessions/" + result.json['slug']
+				else
+					url = result['uri']
+				end
+
+			# otherwise, generate URL without repo slug
+			else
+				url = "accessions/" + result.json['slug']
+			end
 		else
 			url = result['uri']
 		end
 
-		return url
+		return url	
 	end
 
 	def subject_base_url(result)
@@ -79,7 +89,17 @@ module ViewHelper
 
 	def classification_base_url(result)
 		if result.json['slug']
-			url = "classifications/" + result.json['slug']
+			if AppConfig[:repo_name_in_slugs] 
+				if result.resolved_repository["slug"]
+					url = "repositories/#{result.resolved_repository["slug"]}/classifications/" + result.json['slug']
+				else
+					url = result['uri']
+				end
+
+			# otherwise, generate URL without repo slug
+			else
+				url = "classifications/" + result.json['slug']
+			end
 		else
 			url = result['uri']
 		end

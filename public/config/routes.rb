@@ -30,7 +30,11 @@ Rails.application.routes.draw do
     get  "repositories/:rid/resources/:id/tree/node_from_root"  => 'resources#tree_node_from_root'
 
     #ACCESSIONS
-    get  "accessions/:slug_or_id"  => 'accessions#show'
+    if AppConfig[:repo_name_in_slugs]
+      get "repositories/:repo_slug/accessions/:slug_or_id"  => 'accessions#show'
+    else
+      get  "accessions/:slug_or_id"  => 'accessions#show'
+    end
 
     get  'accessions/search' => 'accessions#search'
     get  'accessions' => 'accessions#index'
@@ -53,7 +57,11 @@ Rails.application.routes.draw do
     get "repositories/:rid/digital_objects/:id/tree/node_from_root"  => 'digital_objects#tree_node_from_root'
 
     #CLASSIFICATIONS
-    get  "classifications/:slug_or_id"  => 'classifications#show'
+    if AppConfig[:repo_name_in_slugs]
+      get "repositories/:repo_slug/classifications/:slug_or_id"  => 'classifications#show'
+    else
+      get  "classifications/:slug_or_id"  => 'classifications#show'
+    end
 
     get 'classifications/search' => 'classifications#search'
     get 'classifications' => 'classifications#index'
