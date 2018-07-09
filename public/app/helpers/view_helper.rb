@@ -1,4 +1,6 @@
 module ViewHelper
+	#TODO: figure out a clever way to DRY these helpers up.
+
 	# returns repo URL via slug if defined, via ID it not.
 	def repository_base_url(result)
 		if result['slug']
@@ -37,7 +39,17 @@ module ViewHelper
 
 	def digital_object_base_url(result)
 		if result.json['slug']
-			url = "digital_objects/" + result.json['slug']
+			if AppConfig[:repo_name_in_slugs] 
+				if result.resolved_repository["slug"]
+					url = "repositories/#{result.resolved_repository["slug"]}/digital_objects/" + result.json['slug']
+				else
+					url = result['uri']
+				end
+
+			# otherwise, generate URL without repo slug
+			else
+				url = "digital_objects/" + result.json['slug']
+			end
 		else
 			url = result['uri']
 		end

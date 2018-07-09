@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
         params[:rid] = params[:repo_slug]
       end
 
-    # send slug to backend to resolve ids.
+    # if it looks like a slug, send it to the backend to resolve ids.
     else
       # use repo scoping, if turned on.
       if AppConfig[:repo_name_in_slugs] && repo_scoped_controller?(params[:controller])
@@ -81,6 +81,7 @@ class ApplicationController < ActionController::Base
 
     end
 
+    update_params!
     return params
   end
 
@@ -120,7 +121,9 @@ class ApplicationController < ActionController::Base
       #this is what we came here for!
       params[:id] = json_response["id"]
       params[:rid] = json_response["repo_id"] if json_response["repo_id"]
+    end
 
+    def update_params!
       #Add in additional params as needed, based on the controller
       if params[:controller] == "objects"
         params[:obj_type] = "digital_objects"

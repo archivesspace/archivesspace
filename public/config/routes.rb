@@ -10,9 +10,9 @@ Rails.application.routes.draw do
 
     # RESOURCES
     if AppConfig[:repo_name_in_slugs]
-      get  "repositories/:repo_slug/resources/:slug_or_id"  => 'resources#show'
+      get "repositories/:repo_slug/resources/:slug_or_id"  => 'resources#show'
     else
-      get  "resources/:slug_or_id"  => 'resources#show'
+      get "resources/:slug_or_id"  => 'resources#show'
     end
 
     get  'repositories/resources' => 'resources#index'
@@ -40,7 +40,11 @@ Rails.application.routes.draw do
     get  "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
 
     #DIGITAL OBJECTS
-    get  "digital_objects/:slug_or_id"  => 'objects#show'
+    if AppConfig[:repo_name_in_slugs]
+      get "repositories/:repo_slug/digital_objects/:slug_or_id"  => 'objects#show'
+    else
+      get "digital_objects/:slug_or_id"  => 'objects#show'
+    end
 
     get "repositories/:rid/digital_objects" => 'objects#index'
     get "repositories/:rid/digital_objects/:id/tree/root"  => 'digital_objects#tree_root'
