@@ -215,24 +215,79 @@ module AspaceFactories
         } }
       end
 
-
       factory :name_person, class: JSONModel(:name_person) do
         rules { generate(:name_rule) }
         source { generate(:name_source) }
         primary_name { generate(:generic_name) }
-        rest_of_name { generate(:generic_name) }
         sort_name { generate(:sort_name) }
         name_order { %w(direct inverted).sample }
         number { generate(:alphanumstr) }
         sort_name_auto_generate true
         dates { generate(:alphanumstr) }
         qualifier { generate(:alphanumstr) }
+        fuller_form { generate(:alphanumstr) }
+        prefix { [nil, generate(:alphanumstr)].sample }
+        title { [nil, generate(:alphanumstr)].sample }
+        suffix { [nil, generate(:alphanumstr)].sample }
+        rest_of_name { [nil, generate(:alphanumstr)].sample }
+        authority_id { generate(:url) }
       end
 
       factory :agent_person, class: JSONModel(:agent_person) do
         agent_type 'agent_person'
         names { [build(:name_person)] }
         dates_of_existence { [build(:date, :label => 'existence')] }
+      end
+
+      factory :agent_family, class: JSONModel(:agent_family) do
+        agent_type 'agent_family'
+        names { [build(:name_family)] }
+        dates_of_existence { [build(:json_date, :label => 'existence')] }
+      end
+
+      factory :agent_software, class: JSONModel(:agent_software) do
+        agent_type 'agent_software'
+        names { [build(:name_software)] }
+        dates_of_existence { [build(:json_date, :label => 'existence')] }
+      end
+
+      factory :agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
+        agent_type 'agent_corporate_entity'
+        names { [build(:name_corporate_entity)] }
+        dates_of_existence { [build(:json_date, :label => 'existence')] }
+      end
+
+      factory :name_corporate_entity, class: JSONModel(:name_corporate_entity) do
+        rules { generate(:name_rule) }
+        primary_name { generate(:generic_name) }
+        subordinate_name_1 { generate(:alphanumstr) }
+        subordinate_name_2 { generate(:alphanumstr) }
+        number { generate(:alphanumstr) }
+        sort_name { generate(:sort_name) }
+        sort_name_auto_generate true
+        dates { generate(:alphanumstr) }
+        qualifier { generate(:alphanumstr) }
+        authority_id { generate(:url) }
+        source { generate(:name_source) }
+      end
+
+      factory :name_family, class: JSONModel(:name_family) do
+        rules { generate(:name_rule) }
+        family_name { generate(:generic_name) }
+        sort_name { generate(:sort_name) }
+        sort_name_auto_generate true
+        dates { generate(:alphanumstr) }
+        qualifier { generate(:alphanumstr) }
+        prefix { generate(:alphanumstr) }
+        authority_id { generate(:url) }
+        source { generate(:name_source) }
+      end
+
+      factory :name_software, class: JSONModel(:name_software) do
+        rules { generate(:name_rule) }
+        software_name { generate(:generic_name) }
+        sort_name { generate(:sort_name) }
+        sort_name_auto_generate true
       end
 
       factory :subject, class: JSONModel(:subject) do

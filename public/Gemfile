@@ -75,4 +75,5 @@ group :test do
   gem "fog-aws", "2.0.0", :require => false
   gem 'selenium-webdriver'
   gem 'capybara'
+  gem 'launchy'
 end
