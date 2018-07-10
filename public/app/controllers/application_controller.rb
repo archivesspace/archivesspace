@@ -85,6 +85,7 @@ class ApplicationController < ActionController::Base
     return params
   end
 
+  private
 
     def repo_scoped_controller?(controller_name)
       controller_name == "resources" || "objects" || "accessions" || "classifications"
