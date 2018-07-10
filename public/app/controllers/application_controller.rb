@@ -85,7 +85,6 @@ class ApplicationController < ActionController::Base
     return params
   end
 
-  private
 
     def repo_scoped_controller?(controller_name)
       controller_name == "resources" || "objects" || "accessions" || "classifications"
@@ -114,20 +113,17 @@ class ApplicationController < ActionController::Base
       url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
       response = JSONModel::HTTP.get_response(url)
 
-      return JSON.parse(response.body)
+      if response
+        return JSON.parse(response.body)
+      else
+        return {"id" => -1, "repo_id" => -1}
+      end
     end
 
     def update_params_from_response!(params, json_response)
       #this is what we came here for!
       params[:id] = json_response["id"]
       params[:rid] = json_response["repo_id"] if json_response["repo_id"]
-    end
-
-    def update_params!
-      #Add in additional params as needed, based on the controller
-      if params[:controller] == "objects"
-        params[:obj_type] = "digital_objects"
-      end
 
       if params[:controller] == "agents"
         case json_response["table"]
@@ -140,6 +136,13 @@ class ApplicationController < ActionController::Base
         when "agent_software"
           params[:eid] = "software"
         end
+      end
+    end
+
+    def update_params!
+      #Add in additional params as needed, based on the controller
+      if params[:controller] == "objects"
+        params[:obj_type] = "digital_objects"
       end
     end
 

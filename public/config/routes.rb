@@ -9,11 +9,8 @@ Rails.application.routes.draw do
     post '/cite', to: 'cite#show'
 
     # RESOURCES
-    if AppConfig[:repo_name_in_slugs]
-      get "repositories/:repo_slug/resources/:slug_or_id"  => 'resources#show'
-    else
-      get "resources/:slug_or_id"  => 'resources#show'
-    end
+    get "resources/:slug_or_id"  => 'resources#show'
+    get "repositories/:repo_slug/resources/:slug_or_id"  => 'resources#show'
 
     get  'repositories/resources' => 'resources#index'
     get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
@@ -30,11 +27,8 @@ Rails.application.routes.draw do
     get  "repositories/:rid/resources/:id/tree/node_from_root"  => 'resources#tree_node_from_root'
 
     #ACCESSIONS
-    if AppConfig[:repo_name_in_slugs]
-      get "repositories/:repo_slug/accessions/:slug_or_id"  => 'accessions#show'
-    else
-      get  "accessions/:slug_or_id"  => 'accessions#show'
-    end
+    get "accessions/:slug_or_id"  => 'accessions#show'
+    get "repositories/:repo_slug/accessions/:slug_or_id"  => 'accessions#show'
 
     get  'accessions/search' => 'accessions#search'
     get  'accessions' => 'accessions#index'
@@ -44,11 +38,8 @@ Rails.application.routes.draw do
     get  "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
 
     #DIGITAL OBJECTS
-    if AppConfig[:repo_name_in_slugs]
-      get "repositories/:repo_slug/digital_objects/:slug_or_id"  => 'objects#show'
-    else
-      get "digital_objects/:slug_or_id"  => 'objects#show'
-    end
+    get "digital_objects/:slug_or_id"  => 'objects#show'
+    get "repositories/:repo_slug/digital_objects/:slug_or_id"  => 'objects#show'
 
     get "repositories/:rid/digital_objects" => 'objects#index'
     get "repositories/:rid/digital_objects/:id/tree/root"  => 'digital_objects#tree_root'
@@ -57,11 +48,8 @@ Rails.application.routes.draw do
     get "repositories/:rid/digital_objects/:id/tree/node_from_root"  => 'digital_objects#tree_node_from_root'
 
     #CLASSIFICATIONS
-    if AppConfig[:repo_name_in_slugs]
-      get "repositories/:repo_slug/classifications/:slug_or_id"  => 'classifications#show'
-    else
-      get  "classifications/:slug_or_id"  => 'classifications#show'
-    end
+    get  "classifications/:slug_or_id"  => 'classifications#show'
+    get "repositories/:repo_slug/classifications/:slug_or_id"  => 'classifications#show'
 
     get 'classifications/search' => 'classifications#search'
     get 'classifications' => 'classifications#index'
