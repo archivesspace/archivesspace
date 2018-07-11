@@ -423,7 +423,9 @@ describe 'Agent model' do
 
 
     describe "slug tests" do
-      it "sets primary_name as the slug value" do
+      it "sets primary_name as the slug value when configured" do
+        AppConfig[:auto_generate_slugs_with_id] = false 
+        
         agent = AgentPerson.create_from_json(build(:json_agent_person,
                                                    :names => [build(:json_name_person,
                                                                     'authorized' => false)]))

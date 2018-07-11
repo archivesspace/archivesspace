@@ -76,7 +76,9 @@ describe 'Agent Family model' do
   end
 
   describe "slug tests" do
-    it "sets family_name as the slug value" do
+    it "sets family_name as the slug value when configured" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+
       agent = AgentFamily.create_from_json(build(:json_agent_family))
 
       agent_name = NameFamily.where(:agent_family_id => agent[:id]).first

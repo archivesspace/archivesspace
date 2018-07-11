@@ -67,7 +67,9 @@ describe 'Agent model' do
   end
 
   describe "slug tests" do
-    it "sets software_name as the slug value" do
+    it "sets software_name as the slug value if configured" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+
       agent = AgentSoftware.create_from_json(build(:json_agent_software))
 
       agent_name = NameSoftware.where(:agent_software_id => agent[:id]).first

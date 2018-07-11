@@ -31,28 +31,12 @@ module ASModel
     # make sure slug is de-duped.
     def before_save
       if self[:is_slug_auto] == 1
-        if !self[:title].nil? && !self[:title].empty?
-          self[:slug] = self[:title]
-
-        elsif !self[:name].nil? && !self[:name].empty?
-          self[:slug] = self[:name]
-
-        # no title, no name. Generate a random string.
+        if AppConfig[:auto_generate_slugs_with_id]
+          auto_gen_slug_on_id!
         else
-
-          # if Agent, go look in the AgentContact table.
-          if self.class == AgentCorporateEntity ||
-             self.class == AgentPerson ||
-             self.class == AgentFamily ||
-             self.class == AgentSoftware
-
-            self[:slug] = SlugHelpers.get_agent_name(self.id, self.class)
-
-          # otherwise, make something up.
-          else
-            self[:slug] = SlugHelpers.random_name
-          end
+          auto_gen_slug_on_name!
         end
+
       end
 
       if self[:slug]
@@ -70,6 +54,35 @@ module ASModel
           self[:slug] = SlugHelpers.dedupe_slug(self[:slug])
         end
       end
+    end
+
+    # auto generate a slug for this instance based on name
+    def auto_gen_slug_on_name!
+      if !self[:title].nil? && !self[:title].empty?
+        self[:slug] = self[:title]
+
+      elsif !self[:name].nil? && !self[:name].empty?
+        self[:slug] = self[:name]
+
+      else
+        # if Agent, go look in the AgentContact table.
+        if self.class == AgentCorporateEntity ||
+           self.class == AgentPerson ||
+           self.class == AgentFamily ||
+           self.class == AgentSoftware
+
+          self[:slug] = SlugHelpers.get_agent_name(self.id, self.class)
+
+        # otherwise, make something up.
+        else
+          self[:slug] = SlugHelpers.random_name
+        end
+      end
+    end
+
+    # auto generate a slug for this instance based on id
+    def auto_gen_slug_on_id!
+      self[:slug] = SlugHelpers.random_name
     end
 
 

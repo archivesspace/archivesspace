@@ -126,7 +126,7 @@ it "can identify and report conflicting identifiers" do
     expect(repo3[:slug]).to eq("Original_2")
   end
 
-  it "autogenerates a slug when turned autogen is on" do
+  it "truncates a slug name longer than 50 chars" do
     id = make_test_repo("slugtest")
     repo = Repository.where(:id => id).first.update(:slug => "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugName")
 
@@ -135,7 +135,9 @@ it "can identify and report conflicting identifiers" do
     expect(repo[:slug]).to eq(expected_slug)
   end
 
-  it "truncates a slug name longer than 50 chars" do
+  it "autogenerates a slug via name when configured" do
+    AppConfig[:auto_generate_slugs_with_id] = false 
+    
     id = make_test_repo("slugtest")
 
     repo = Repository.where(:id => id).first.update(:is_slug_auto => 1)
