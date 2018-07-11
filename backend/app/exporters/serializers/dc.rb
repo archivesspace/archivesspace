@@ -37,6 +37,10 @@ class DCSerializer < ASpaceExport::Serializer
       xml.title dc.title
       
       xml.identifier dc.identifier
+
+      if dc.ark_identifier
+        xml.location dc.ark_identifier
+      end
       
       dc.creators.each {|c| xml.creator c }
       

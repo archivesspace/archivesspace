@@ -8,7 +8,25 @@ describe 'Accession model' do
     Accession[accession[:id]].title.should eq("Papers of Mark Triggs")
   end
 
+  it "creates an ARK Identifier for accessions" do
+    accession = create_accession
 
+    expect(ARKIdentifier.first(:accession_id => accession.id)).to_not be_nil
+
+    accession.delete
+  end
+
+
+  it "deletes ARK Identifier when accession is deleted" do
+    accession = create_accession
+    accession_id = accession.id
+
+    expect(ARKIdentifier.first(:accession_id => accession_id)).to_not be_nil
+
+    accession.delete
+    expect(ARKIdentifier.first(:accession_id => accession_id)).to be_nil
+  end
+  
   it "enforces ID uniqueness" do
     lambda {
       2.times do

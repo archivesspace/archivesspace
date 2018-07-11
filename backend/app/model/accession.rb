@@ -59,4 +59,5 @@ class Accession < Sequel::Model(:accession)
 
                   %w(id_0 id_1 id_2 id_3).map{|p| json[p]}.compact.join("-")
                 }
+
 end
