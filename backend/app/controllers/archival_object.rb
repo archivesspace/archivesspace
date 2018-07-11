@@ -36,7 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error]) \
   do
     obj = ArchivalObject.get_or_die(params[:id])
-    obj.update_position_only(params[:parent], params[:position])
+    obj.set_parent_and_position(params[:parent], params[:position])
 
     updated_response(obj)
   end
@@ -68,6 +68,20 @@ class ArchivesSpaceService < Sinatra::Base
     json_response(ao.children.map {|child|
                     ArchivalObject.to_jsonmodel(child)
                   })
+  end
+
+
+  Endpoint.get('/repositories/:repo_id/archival_objects/:id/previous')
+    .description("Get the previous record in the tree for an Archival Object")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "(:archival_object)"],
+             [404, "No previous node"]) \
+  do
+    ao = ArchivalObject.get_or_die(params[:id]).previous_node
+
+    json_response(ArchivalObject.to_jsonmodel(ao))
   end
 
 

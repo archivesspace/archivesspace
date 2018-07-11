@@ -15,41 +15,5 @@
         </div>
       </div>
     </div>
-    <% if @refresh_tree_node
-        node_data = {
-          'id' => @archival_object.id,
-          'uri' => @archival_object.uri,
-          'title' => @archival_object.display_string,
-          'level' => @archival_object.level==='otherlevel' ? @archival_object.other_level : I18n.t("enumerations.archival_record_level.#{@archival_object.level}", :default => @archival_object.level),
-          'jsonmodel_type' => @archival_object.jsonmodel_type,
-          'node_type' => @archival_object.jsonmodel_type,
-          'instance_types' => @archival_object.instances.map{|instance| I18n.t("enumerations.instance_instance_type.#{instance['instance_type']}", :default => instance['instance_type'])},
-          'containers' => @archival_object.to_hash["instances"].map{|instance| instance["sub_container"]}.compact.map {|sub_container|
-            properties = {}
-            if sub_container["top_container"]
-              top_container = sub_container["top_container"]["_resolved"]
-              # if _resolved comes from search result, then need to parse JSON
-              if top_container["json"]
-                top_container = ASUtils.json_parse(top_container["json"])
-              end
-              properties["type_1"] = "Container"
-              properties["indicator_1"] = top_container["indicator"]
-              if top_container["barcode"]
-                properties["indicator_1"] += " [#{top_container["barcode"]}]"
-              end
-            end
-            properties["type_2"] = I18n.t("enumerations.container_type.#{sub_container["type_2"]}", :default => sub_container["type_2"])
-            properties["indicator_2"] =sub_container["indicator_2"]
-            properties["type_3"] = I18n.t("enumerations.container_type.#{sub_container["type_3"]}", :default => sub_container["type_3"])
-            properties["indicator_3"] =sub_container["indicator_3"]
-            properties
-          },
-          'replace_new_node' => controller.action_name === 'create'
-        }
-    %>
-      <script>
-        AS.refreshTreeNode(<%= node_data.to_json.html_safe %>);
-      </script>
-    <% end %>
   <% end %>
 <% end %>

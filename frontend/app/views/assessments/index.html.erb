@@ -1,0 +1,45 @@
+<%= setup_context(:title => I18n.t("assessment._plural")) %>
+
+<%
+   @show_multiselect_column = true
+   @no_title = true
+
+   add_column(I18n.t("assessment.id"), proc {|record| record['assessment_id']}, :sortable => true, :sort_by => 'assessment_id', :class => 'col-sm-1')
+   add_column(I18n.t("assessment.records"), proc {|record| render_aspace_partial :partial => 'assessments/search_result_records_cell', :locals => {:record => record}}, :sortable => false, :class => 'col-sm-6')
+   add_column(I18n.t("assessment.surveyed_by"), proc {|record| render_aspace_partial :partial => 'assessments/search_result_surveyed_by_cell', :locals => {:record => record}}, :sortable => false, :class => 'col-sm-2')
+   add_column(I18n.t("assessment.survey_end"), proc {|record| record['assessment_survey_end'] ? Date.parse(record['assessment_survey_end']) : ''}, :sortable => true, :sort_by => "assessment_survey_end", :class => 'col-sm-2')
+
+   add_browse_columns("assessment")
+
+%>
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <% if user_can?('update_assessment_record') %>
+      <div class="record-toolbar">
+        <div class="btn-group pull-right">
+          <% if user_can?("update_assessment_record") %>
+            <%= link_to I18n.t("assessment._frontend.action.create"), {:controller => :assessments, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <% end %>
+          <% if user_can?("delete_assessment_record") %>
+            <%= button_delete_multiple_action(:assessments) %>
+          <% end %>
+        </div>
+        <br style="clear:both" />
+      </div>
+    <% end %>
+    <div class="record-pane">
+      <%= link_to_help :topic => "search" %>
+
+      <h2><%= I18n.t("assessment._plural") %></h2>
+
+      <%= render_aspace_partial :partial => "shared/flash_messages" %>
+
+      <%= render_aspace_partial :partial => "search/listing" %>
+    </div>
+  </div>
+</div>

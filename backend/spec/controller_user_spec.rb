@@ -1,14 +1,5 @@
 require 'spec_helper'
 
-def create_user(username = "test1", name = "Tester")
-  user = JSONModel(:user).from_hash(:username => username,
-                                    :name => name)
-
-  # Probably more realistic than we'd care to think
-  user.save(:password => "password")
-end
-
-
 describe 'User controller' do
 
   before(:each) do

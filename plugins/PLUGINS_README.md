@@ -31,6 +31,8 @@ be used to override or extend the behavior of the core application.
     backend
       controllers ......... backend endpoints
       model ............... database mapping models
+      converters .......... classes for importing data
+      job_runners ......... classes for defining background jobs
       plugin_init.rb ...... if present, loaded when the backend first starts
     frontend
       assets .............. static assets (such as images, javascript) in the staff interface
@@ -82,7 +84,7 @@ For example, to reference this logo from the custom branding file, use
 markup such as:
 
      <div class="container branding">
-       <img src="<%= #{AppConfig[:frontend_prefix]} %>assets/my_logo.png"/>
+       <img src="<%= #{AppConfig[:frontend_proxy_prefix]} %>assets/my_logo.png"/>
      </div>
 
 

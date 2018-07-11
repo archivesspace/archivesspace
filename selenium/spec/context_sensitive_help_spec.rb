@@ -7,7 +7,7 @@ describe "Context Sensitive Help" do
     set_repo @repo
 
     @manager = create_user(@repo => ['repository-managers'])
-    @driver = Driver.new.login_to_repo(@manager, @repo)
+    @driver = Driver.get.login_to_repo(@manager, @repo)
   end
 
 
@@ -19,7 +19,7 @@ describe "Context Sensitive Help" do
   it "displays a clickable tooltip for a field label" do
     # navigate to the Accession form
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     # click on a field label
 

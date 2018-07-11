@@ -1,0 +1,151 @@
+fr:
+  help:
+    icon: "<span class='context-help-icon glyphicon glyphicon-question-sign'></span>"
+    help_center: Centre d'aide ArchivesSpace
+    default_tooltip: Centre d'aide ArchivesSpace
+    topics:
+      # Accession help tooltips
+      accession: Aide sur Entrées
+      accession_basic_information: Aide sur Information de base
+      accession_extents: Aide sur Importance matérielle
+      accession_dates: Aide sur Dates
+      accession_related_resources: Aide sur Ressources associées
+      accession_linked_agents: Aide sur Liens agents
+      accession_subjects: Aide sur Sujets
+      accession_external_documents: Aide sur Documents externes
+      accession_rights_statements: Aide sur Mentions de droits
+      accession_deaccessions: Aide sur Aliénations
+      accession_instances: Aide sur Instances
+      accession_collection_management: Aide sur Gestion de collections
+      accession_classification: Aide sur Classements
+      accession_user_defined: Aide sur Défini par l'utilisateur
+      # Resource help tooltips
+      resource: Aide sur Ressources
+      resource_basic_information: Aide sur Information de base
+      resource_dates: Aide sur Dates
+      resource_extents: Aide sur Importance matérielle
+      resource_finding_aid: Aide sur Instruments de recherche
+      resource_related_accessions: Aide sur Entrées associées
+      resource_linked_agents: Aide sur Liens agents
+      resource_subjects: Aide sur Sujets
+      resource_notes: Aide sur Notes
+      resource_external_documents: Aide sur Documents externes
+      resource_rights_statements: Aide sur Mentions de droits
+      resource_instances: Aide sur Instances
+      resource_deaccessions: Aide sur Aliénations
+      resource_collection_management: Aide sur Gestion des collections
+      resource_classification: Aide sur Classements
+      resource_user_defined: Aide sur Défini par l'utilisateur
+      # Archival Object help tooltips
+      archival_object: Aide sur Documents d'archive
+      archival_object_basic_information: Aide sur Informations de base
+      archival_object_dates: Aide sur Dates
+      archival_object_extents: Aide sur Importance matérielle
+      archival_object_finding_aid: Aide sur Instruments de recherche
+      archival_object_related_accessions: Aide sur Entrées associées
+      archival_object_linked_agents: Aide sur Liens agents
+      archival_object_subjects: Aide sur Sujets
+      archival_object_notes: Aide sur Notes
+      archival_object_external_documents: Aide sur Documents externes
+      archival_object_rights_statements: Aide sur Mentions de droits
+      archival_object_instances: Aide sur Exemplaires
+      archival_object_deaccessions: Aide sur Aliénations
+      archival_object_collection_management: Aide sur Gestion des collections
+      archival_object_classification: Aide sur Classements
+      archival_object_user_defined: Aide sur Défini par l'utilisateur
+      # Digital Object help tooltips
+      digital_object: Aide sur Objet numérique
+      digital_object_basic_information: Aide sur Informations de base
+      digital_object_dates: Aide sur Dates
+      digital_object_extents: Aide sur Importance matérielle
+      digital_object_finding_aid: Aide sur Instruments de recherche
+      digital_object_related_accessions: Aide sur Entrées associées
+      digital_object_linked_agents: Aide sur Liens agents
+      digital_object_subjects: Aide sur Sujets
+      digital_object_notes: Aide sur Notes
+      digital_object_external_documents: Aide sur Documents externes
+      digital_object_rights_statements: Aide sur Mentions de droits
+      digital_object_instances: Aide sur Instances
+      digital_object_deaccessions: Aide sur Aliénations
+      digital_object_collection_management: Aide sur Gestion des collections
+      digital_object_classification: Aide sur Classements
+      digital_object_user_defined: Aide sur Défini par l'utilisateur
+      # Digital Object Component help tooltips
+      digital_object_component: Aide sur Objet numérique composant
+      digital_object_component_basic_information: Aide sur Informations de base
+      digital_object_component_dates: Aide sur Dates
+      digital_object_component_extents: Aide sur Importance matérielle
+      digital_object_component_finding_aid: Aide sur Instruments de recherche
+      digital_object_component_related_accessions: Aide sur Entrées associées
+      digital_object_component_linked_agents: Aide sur Liens agents
+      digital_object_component_subjects: Aide sur Sujets
+      digital_object_component_notes: Aide sur Notes
+      digital_object_component_external_documents: Aide sur Documents externes
+      digital_object_component_rights_statements: Aide sur Mentions de droits
+      digital_object_component_instances: Aide sur Exemplaires
+      digital_object_component_deaccessions: Aide sur Aliénations
+      digital_object_component_collection_management: Aide sur Gestion des collections
+      digital_object_component_classification: Aide sur Classements
+      digital_object_component_user_defined: Aide sur Défini par l'utilisateur
+      # Subjects
+      subject: Aide sur Sujets
+      subject_basic_information: Aide sur Information de base
+      subject_terms: Aide sur Termes et subdivisions
+      subject_external_documents: Aide sur Documents externes
+      # Agent Persons
+      agent_person: Aide sur Personnes (Agent)
+      agent_person_dates_of_existence: Aide sur Dates d'existence
+      agent_person_names: Aide sur Noms
+      agent_person_contact_details: Aide sur Détails contact
+      agent_person_notes: Aide sur Notes
+      agent_person_related_agents: Aide sur Agents associés
+      agent_person_external_documents: Aide sur Documents externes
+      # Agent Family
+      agent_family: Aide sur Famille (Agent)
+      agent_family_dates_of_existence: Aide sur Dates d'existence
+      agent_family_names: Aide sur Noms
+      agent_family_contact_details: Aide sur Détails contact
+      agent_family_notes: Aide sur Notes
+      agent_family_related_agents: Aide sur Agents associés
+      agent_family_external_documents: Aide sur Documents externes
+      # Agent Corporate Entity
+      agent_corporate_entity: Aide sur Personne morale (Agent)
+      agent_corporate_entity_dates_of_existence: Aide sur Dates d'existence
+      agent_corporate_entity_names: Aide sur Noms
+      agent_corporate_entity_contact_details: Aide sur Détails contact
+      agent_corporate_entity_notes: Aide sur Notes
+      agent_corporate_entity_related_agents: Aide sur Agents associés
+      agent_corporate_entity_external_documents: Aide sur Documents externes
+      # Agent Software
+      agent_software: Aide sur Logiciel (Agent)
+      agent_software_dates_of_existence: Aide sur Dates d'existence
+      agent_software_names: Aide sur Noms
+      agent_software_contact_details: Aide sur Détails contact
+      agent_software_notes: Aide sur Notes
+      agent_software_related_agents: Aide sur Agents associés
+      agent_software_external_documents: Aide sur Documents externes
+      # Location
+      location: Aide sur Localisations
+      # Event
+      event: Aide sur Evénements
+      event_basic_information: Aide sur Information de base
+      event_date: Aide sur Date/heure événement
+      event_linked_agents: Aide sur Liens agents
+      event_linked_records: Aide sur Liens notice
+      # Classification
+      classification: Aide sur Classements
+      classification_term: Aide sur Classements
+      # Import
+      import: Aide sur Importer des données
+      # Search
+      search: Aide sur Chercher et Parcourir
+      # Manage Groups
+      repository_groups: Aide sur Gérer groupes
+      # Manage User Access
+      repository_users: Aide sur Assignation de groupe d'utilisateur
+      # Repositories
+      repository: Aide sur Gérer services
+      # Manage Users
+      user: Aide sur Gérer utilisateurs
+      # Controlled Value Lists
+      enumeration: Aide sur Listes contrôlées

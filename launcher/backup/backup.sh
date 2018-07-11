@@ -14,4 +14,4 @@ for dir in ../gems/gems/jruby-*; do
 done
 
 
-java $JAVA_OPTS -cp "../lib/*$JRUBY" org.jruby.Main --1.9 ../launcher/backup/lib/backup.rb ${1+"$@"}
+java $JAVA_OPTS -cp "../lib/*$JRUBY" org.jruby.Main ../launcher/backup/lib/backup.rb ${1+"$@"}

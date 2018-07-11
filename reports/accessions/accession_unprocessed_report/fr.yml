@@ -1,0 +1,13 @@
+fr:
+  reports:
+    accession_unprocessed_report:
+      title: Entrées non traitées
+      description: Affiche uniquement les entrée(s) n'ayant pas été traitée(s). Rapport comprenant n° d'entrée, ressources liées, titre, importance matérielle, cataloguée, date de traitement, le nombre de notices sélectionnées avec date de traitement, et l'importance matérielle totale des notices dont le champ date de traitement effectué n'est pas renseigné.
+      total_count: Nombre d'entrées
+      total_unprocessed: Entrées non traitées
+      between: Ayant eu lieu entre
+      total_extent_of_unprocessed: Importance matérielle totale des entrées non traitées
+      identifier_prefix: Entrée
+      extent: Quantité
+      cataloged: Cataloguée
+      linked_resources: Ressource(s) liée(s)

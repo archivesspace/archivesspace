@@ -1,0 +1,11 @@
+fr:
+  reports:
+    resource_locations_list_report:
+      title: Liste des ressources et localisations
+      description: Affiche ressource(s) et toute information de localisation spécifiée. Rapport comprenant intitulé, identifiant ressource, niveau, fourchette de dates, et localisations assignées.
+      total_count: Nombre de notices
+      total_extent: Importance totale des ressources
+      identifier_prefix: Ressource
+      dates: Dates
+      level: Niveau
+      containers: Conditionnements

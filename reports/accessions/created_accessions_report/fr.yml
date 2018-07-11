@@ -1,0 +1,6 @@
+fr:
+  reports:
+    created_accessions_report:
+      title: Entrées créées
+      description: Rapport sur les entrées créées dans un intervalle de dates
+      full_title: Entrées créées entre %{from} et %{to}

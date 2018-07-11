@@ -9,7 +9,7 @@ require 'asutils'
 require 'fileutils'
 require 'securerandom'
 require 'uri'
-require 'net/http'
+require 'ashttp'
 
 $server_prepare_hooks = []
 
@@ -37,6 +37,12 @@ def start_server(port, *webapps)
 
   connector = org.eclipse.jetty.server.nio.SelectChannelConnector.new
   connector.port = port
+  
+  req_buffer_size_bytes =  AppConfig[:jetty_request_buffer_size_bytes] || 64 * 1024 
+  res_buffer_size_bytes =  AppConfig[:jetty_response_buffer_size_bytes] || 64 * 1024 
+  
+  connector.setRequestHeaderSize(req_buffer_size_bytes)
+  connector.setResponseHeaderSize(res_buffer_size_bytes)
 
   contexts = webapps.map do |webapp|
     if webapp[:war]
@@ -90,7 +96,7 @@ end
 def generate_secret_for(secret)
   file = File.join(AppConfig[:data_directory], "#{secret}_cookie_secret.dat")
 
-  if !File.exists?(file)
+  if !File.exist?(file)
     File.write(file, SecureRandom.hex)
 
     puts "****"
@@ -127,6 +133,10 @@ def main
   if AppConfig[:enable_solr]
     java.lang.System.set_property("solr.data.dir", AppConfig[:solr_index_directory])
     java.lang.System.set_property("solr.solr.home", AppConfig[:solr_home_directory])
+
+    # Windows complains if this directory is missing.  Just create it if needed
+    # and move on with our lives.
+    FileUtils.mkdir_p(File.join(AppConfig[:solr_home_directory], "collection1", "conf"))
   end
 
   [:search_user_secret, :public_user_secret, :staff_user_secret].each do |property|
@@ -155,13 +165,20 @@ def main
     start_server(URI(AppConfig[:frontend_url]).port,
                  {:war => File.join(aspace_base,'wars', 'frontend.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("frontend/assets"),
-                       :path => "#{AppConfig[:frontend_prefix]}assets"}) if AppConfig[:enable_frontend]
+                       :path => "#{AppConfig[:frontend_proxy_prefix]}assets"}) if AppConfig[:enable_frontend]
+
     start_server(URI(AppConfig[:public_url]).port,
                  {:war => File.join(aspace_base,'wars', 'public.war'), :path => '/'},
                  {:static_dirs => ASUtils.find_local_directories("public/assets"),
-                        :path => "#{AppConfig[:public_prefix]}assets"}) if AppConfig[:enable_public]
+                        :path => "#{AppConfig[:public_proxy_prefix]}assets"}) if AppConfig[:enable_public]
+
     start_server(URI(AppConfig[:docs_url]).port,
-                 {:static_dirs => File.join(aspace_base,"docs", "_site"), :path => '/archivesspace'}) if AppConfig[:enable_docs]
+                 {:static_dirs => File.join(aspace_base, "docs", "_site"), :path => '/archivesspace'}) if AppConfig[:enable_docs]
+
+    start_server(URI(AppConfig[:oai_url]).port,
+                 {:war => File.join(aspace_base, 'wars', 'oai.war'), :path => '/'}) if AppConfig[:enable_oai]
+
+
   rescue
     # If anything fails on startup, dump a diagnostic file.
     ASUtils.dump_diagnostics($!)
@@ -182,12 +199,19 @@ def stop_server(uri)j
     
     shutdown_uri = uri.clone 
     shutdown_uri.path = "/xkcd/shutdown"
-    response = Net::HTTP.post_form(shutdown_uri, 'token' => generate_secret_for("jetty_shutdown"))
-    #now we check to see if indeed the server has shutdown. should return an
-    #connection error. 
-    Net::HTTP.get(uri)
+    response = ASHTTP.post_form(shutdown_uri, 'token' => generate_secret_for("jetty_shutdown"))
     
-    raise "Jetty Shutdown error on #{uri.to_s}. Shutdown returned:  #{response.body}"
+    if response.code != 404
+      #now we check to see if indeed the server has shutdown. should return an
+      #connection error. 
+      ASHTTP.get(uri)
+      
+      puts "Jetty Shutdown error on #{uri.to_s}"
+      puts "Shutdown returned: #{response.code}"
+      puts "#{response.body}"
+    else
+      puts "Jetty Shutdown handler does not exist"
+    end
 
 rescue Errno::ECONNREFUSED, SocketError, EOFError => se
   # A little odd, but when jetty shutdowns it just shutsdown and no response is
@@ -195,18 +219,23 @@ rescue Errno::ECONNREFUSED, SocketError, EOFError => se
   # Connection, socket, or a rbuff_fill execption. When this happens, we can
   # assume the shutdown has worked. 
   puts "#{uri.to_s} not running"
+rescue Exception => e
+  # Server is possibly still running so overall shutdown may fail
+  puts "Unexpected shutdown error"
+  puts e.inspect
 end
 
 
 def stop
-  if AppConfig[:use_jetty_shutdown_handler]  
-    stop_server(URI(AppConfig[:backend_url])) if AppConfig[:enable_backend]
-    stop_server(URI(AppConfig[:solr_url])) if AppConfig[:enable_solr]
-    stop_server(URI(AppConfig[:indexer_url])) if AppConfig[:enable_indexer]
+  if AppConfig[:use_jetty_shutdown_handler]
     stop_server(URI(AppConfig[:frontend_url])) if AppConfig[:enable_frontend]
     stop_server(URI(AppConfig[:public_url])) if AppConfig[:enable_public]
-    pid_file = File.join(AppConfig[:data_directory], ".archivesspace.pid" ) 
-    FileUtils.rm(pid_file) if File.exists?(pid_file)
+    stop_server(URI(AppConfig[:docs_url])) if AppConfig[:enable_docs]
+    stop_server(URI(AppConfig[:indexer_url])) if AppConfig[:enable_indexer]
+    stop_server(URI(AppConfig[:solr_url])) if AppConfig[:enable_solr]
+    stop_server(URI(AppConfig[:backend_url])) if AppConfig[:enable_backend]
+    pid_file = File.join(AppConfig[:data_directory], ".archivesspace.pid" )
+    FileUtils.rm(pid_file) if File.exist?(pid_file)
     java.lang.System.exit(0)
   else
     puts "****"
@@ -221,7 +250,7 @@ end
 
 launcher_rc = File.join(java.lang.System.get_property("ASPACE_LAUNCHER_BASE"), "launcher_rc.rb")
 
-if java.lang.System.get_property("ASPACE_LAUNCHER_BASE") && File.exists?(launcher_rc)
+if java.lang.System.get_property("ASPACE_LAUNCHER_BASE") && File.exist?(launcher_rc)
   load File.absolute_path(launcher_rc)
 end
 

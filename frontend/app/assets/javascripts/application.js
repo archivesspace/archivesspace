@@ -11,7 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery.ui.all
+//= require jquery-ui
 //= require jquery_ujs
 //= require jquery.browser
 //= require twitter/bootstrap
@@ -25,4 +25,4 @@
 //= require lodash
 //= require bootstrap-select
 //= require bootstrap3-typeahead
-AS.tree_data = {};
+

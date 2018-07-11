@@ -84,7 +84,8 @@ $(function() {
 
           $.proxy(init_subform, formEl)();
 
-          //init any sub sub record forms
+          //init any sub sub record forms (treat note sub forms special, because they are)
+          $(".subrecord-form.notes-form:not(.initialised)", formEl).init_notes_form();
           $(".subrecord-form:not(.initialised)", formEl).init_subrecord_form();
 
           $(":input:first", formEl).focus();

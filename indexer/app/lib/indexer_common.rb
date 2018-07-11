@@ -1,34 +1,33 @@
-require 'net/http'
+require 'ashttp'
 require 'uri'
 require 'json'
 require 'fileutils'
+require 'aspace_i18n'
+require 'set'
 
 require 'asutils'
 require 'jsonmodel'
 require 'jsonmodel_client'
 require 'config/config-distribution'
+require 'record_inheritance'
 
 require_relative 'index_batch'
+require_relative 'indexer_common_config'
+require_relative 'indexer_timing'
 
 
-class CommonIndexer
+class IndexerCommon
 
   include JSONModel
 
-  @@record_types = [ :top_container,:container_profile,
-                     :archival_object, :resource,
-                    :digital_object, :digital_object_component,
-                    :subject, :location, :classification, :classification_term,
-                    :event, :accession,
-                    :agent_person, :agent_software, :agent_family, :agent_corporate_entity]
+  @@record_types = IndexerCommonConfig.record_types
 
-  @@global_types = [:agent_person, :agent_software, :agent_family, :agent_corporate_entity,
-                    :location, :subject]
+  @@global_types = IndexerCommonConfig.global_types
 
   @@records_with_children = []
   @@init_hooks = []
 
-  @@resolved_attributes = ['container_profile', 'container_locations', 'subjects', 'linked_agents', 'linked_records', 'classifications', 'digital_object']
+  @@resolved_attributes = IndexerCommonConfig.resolved_attributes
 
   @@paused_until = Time.now
 
@@ -38,6 +37,14 @@ class CommonIndexer
 
   def self.add_attribute_to_resolve(attr)
     @@resolved_attributes.push(attr) unless @@resolved_attributes.include?(attr)
+  end
+
+  def resolved_attributes
+    @@resolved_attributes
+  end
+
+  def record_types
+    @@record_types
   end
 
   # This is to pause the indexer.
@@ -64,7 +71,7 @@ class CommonIndexer
         JSONModel::init(:client_mode => true, :url => @backend_url)
         break
       rescue
-        $stderr.puts "Connection to backend failed (#{$!}).  Retrying..."
+        Log.error("Connection to backend failed (#{$!}).  Retrying...")
         sleep(5)
       end
     end
@@ -75,6 +82,22 @@ class CommonIndexer
       hook.call(self)
     end
   end
+
+  def self.generate_years_for_date_range(begin_date, end_date)
+    return [] unless begin_date
+
+    end_date ||= begin_date
+
+    b = begin_date.scan(/\A[0-9]{1,4}/).first
+    e = end_date.scan(/\A[0-9]{1,4}/).first
+
+    if b && e
+      (b .. e).to_a
+    else
+      []
+    end
+  end
+
 
   def self.generate_permutations_for_identifier(identifer)
     return [] if identifer.nil?
@@ -88,10 +111,17 @@ class CommonIndexer
   end
 
 
+  # Isolate leading alpha and numeric values to create a sortable string
+  def self.generate_sort_string_for_identifier(identifier, size = 255)
+    letters, numbers, rest = identifier.scan(/([^0-9]*)([0-9]*)(.*)/)[0]
+    letters.strip.ljust(size).gsub(' ', '#') + numbers.strip.rjust(size).gsub(' ', '0') + rest.strip.ljust(size)
+  end
+
+
   def self.extract_string_values(doc)
     text = ""
     doc.each do |key, val|
-      if %w(json types create_time date_type jsonmodel_type publish extent_type system_generated suppressed source rules name_order).include?(key)
+      if %w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type system_generated suppressed source rules name_order).include?(key)
       elsif key =~ /_enum_s$/
       elsif val.is_a?(String)
         text << "#{val} "
@@ -112,15 +142,58 @@ class CommonIndexer
   end
 
 
+  def self.build_fullrecord(record)
+    fullrecord = IndexerCommon.extract_string_values(record)
+    %w(finding_aid_subtitle finding_aid_author).each do |field|
+      if record['record'].has_key?(field)
+        fullrecord << "#{record['record'][field]} "
+      end
+    end
+
+    if record['record'].has_key?('names')
+      fullrecord << record['record']['names'].map {|name|
+        IndexerCommon.extract_string_values(name)
+      }.join(" ")
+    end
+    fullrecord
+  end
+
+
   def add_agents(doc, record)
     if record['record']['linked_agents']
       # index all linked agents first
       doc['agents'] = record['record']['linked_agents'].collect{|link| link['_resolved']['display_name']['sort_name']}
       doc['agent_uris'] = record['record']['linked_agents'].collect{|link| link['ref']}
 
+      # only published agents
+      doc['published_agents'] = []
+      doc['published_agent_uris'] = []
+      record['record']['linked_agents'].each do |link|
+        if link['_resolved']['publish']
+          doc['published_agents'] << link['_resolved']['display_name']['sort_name']
+          doc['published_agent_uris'] << link['ref']
+        end
+      end
+
       # index the creators only
       creators = record['record']['linked_agents'].select{|link| link['role'] === 'creator'}
       doc['creators'] = creators.collect{|link| link['_resolved']['display_name']['sort_name']} if not creators.empty?
+
+      # make a special sort field for each agent
+      # creator > subject > source
+      seen = {}
+      record['record']['linked_agents'].each do |link|
+        if seen[link['ref']] == 'creator'
+          # do nothing
+        elsif seen[link['ref']] == 'subject' && link['role'] != 'creator'
+          # do nothing
+        else
+          relator_label = link['relator'] ? I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}") : ''
+
+          doc["#{link['ref'].gsub(/\//, '_')}_relator_sort"] = "#{link['role']} #{relator_label}"
+          seen[link['ref']] = link['role']
+        end
+      end
     end
   end
 
@@ -140,7 +213,21 @@ class CommonIndexer
 
   def add_notes(doc, record)
     if record['record']['notes']
-      doc['notes'] = record['record']['notes'].map {|note| CommonIndexer.extract_string_values(note) }.join(" ");
+      doc['notes'] = record['record']['notes'].map {|note| IndexerCommon.extract_string_values(note) }.join(" ");
+    end
+  end
+
+
+  def add_years(doc, record)
+    if record['record']['dates']
+      doc['years'] = []
+      record['record']['dates'].each do |date|
+        doc['years'] += IndexerCommon.generate_years_for_date_range(date['begin'], date['end'])
+      end
+      unless doc['years'].empty?
+        doc['years'] = doc['years'].sort.uniq
+        doc['year_sort'] = doc['years'].first.rjust(4, '0') + doc['years'].last.rjust(4, '0')
+      end
     end
   end
 
@@ -160,51 +247,50 @@ class CommonIndexer
         doc['summary'] = abstract['content'].join("\n")
       else
         scopecontent = notes.find {|note| note['type'] == 'scopecontent'}
-        if scopecontent
+        if scopecontent && scopecontent.has_key?('subnotes')
           doc['summary'] = scopecontent['subnotes'].map {|sn| sn['content']}.join("\n")
         end
       end
     end
   end
 
+  # TODO: We should fix this to read from the JSON schemas
+  HARDCODED_ENUM_FIELDS = ["relator", "type", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "extent_type", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "language", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"]
 
   def configure_doc_rules
 
-    add_delete_hook { |records, delete_request|
-      records.each do |rec|
-        if rec.include?("_collection_management")
-          delete_request[:delete] ||= []
-          delete_request[:delete] <<  {"id" => rec}
-          delete_request[:delete] <<  {'query' => "parent_id:\"#{rec.split("#").first}\""}
-        end
+    add_document_prepare_hook {|doc, record|
+      found_keys = Set.new
 
-        if rec.match(/repositories\/\d+\/collection_management\//)
-          delete_request[:delete] << {'query' => "cm_uri:\"#{rec}\""}
+      ASUtils.search_nested(record["record"], HARDCODED_ENUM_FIELDS, ['_resolved']) do |field, field_value|
+        key = "#{field}_enum_s"
+
+        doc[key] ||= Set.new
+        doc[key] << field_value
+
+        found_keys << key
+      end
+
+      ASUtils.search_nested(record["record"], ['items'], ['_resolved']) do |field, field_value|
+        if field_value.is_a?(Hash) && field_value.key?('type')
+          doc['type_enum_s'] ||= Set.new
+          doc['type_enum_s'] << field_value.fetch('type')
+          found_keys << 'type_enum_s'
         end
       end
-     }
 
-
-    add_document_prepare_hook { |doc,record|
-     ["relator", "type", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "container_extent_type", "extent_type", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "language", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"].each do |field|
-       Array( ASUtils.search_nested(record["record"], field) ).each  { |val| doc["#{field}_enum_s"] ||= [];  doc["#{field}_enum_s"] << val }
-
-     end
-     Array( ASUtils.search_nested(record["record"], "items") ).each  do |val|
-       begin
-         next unless val.key?("type")
-         doc["type_enum_s"] ||= [];
-         doc["type_enum_s"] << val["type"]
-      rescue
-        next
+      # Turn our sets back into regular arrays so they serialize out to JSON correctly
+      found_keys.each do |key|
+        doc[key] = doc[key].to_a
       end
-    end
     }
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'archival_object'
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['display_string']
+        doc['component_id'] = record['record']['component_id']
+        doc['ref_id'] = record['record']['ref_id']
       end
     }
 
@@ -213,6 +299,7 @@ class CommonIndexer
       add_agents(doc, record)
       add_audit_info(doc, record)
       add_notes(doc, record)
+      add_years(doc, record)
       add_level(doc, record)
       add_summary(doc, record)
     }
@@ -229,6 +316,9 @@ class CommonIndexer
         doc['restrictions_apply'] = record['record']['restrictions_apply']
         doc['access_restrictions'] = record['record']['access_restrictions']
         doc['use_restrictions'] = record['record']['use_restrictions']
+        doc['related_resource_uris'] = record['record']['related_resources'].
+                                          collect{|resource| resource["ref"]}.
+                                          compact.uniq
       end
     }
 
@@ -241,10 +331,17 @@ class CommonIndexer
     }
 
     add_document_prepare_hook {|doc, record|
+      if record['record'].has_key?('used_within_repositories')
+        doc['used_within_repository'] = record['record']['used_within_repositories']
+        doc['used_within_published_repository'] = record['record']['used_within_published_repositories']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'repository'
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
-        doc['publish'] = true
+        doc['repo_sort'] = record['record']['display_string']
       end
     }
 
@@ -278,6 +375,9 @@ class CommonIndexer
         doc['restrictions'] = record['record']['restrictions']
         doc['ead_id'] = record['record']['ead_id']
         doc['finding_aid_status'] = record['record']['finding_aid_status']
+        doc['related_accession_uris'] = record['record']['related_accessions'].
+                                           collect{|accession| accession["ref"]}.
+                                           compact.uniq
       end
 
       if doc['primary_type'] == 'digital_object'
@@ -286,6 +386,10 @@ class CommonIndexer
         doc['digital_object_id'] = record['record']['digital_object_id']
         doc['level'] = record['record']['level']
         doc['restrictions'] = record['record']['restrictions']
+
+        doc['linked_instance_uris'] = record['record']['linked_instances'].
+                                         collect{|instance| instance["ref"]}.
+                                         compact.uniq
       end
     }
 
@@ -317,8 +421,16 @@ class CommonIndexer
           doc['rules'] = authorized_name['rules']
         end
 
-        doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
+
+        doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect{|ra| ra['ref']}
+
+        if record['record']['is_user']
+          doc['is_user'] = true
+          doc['types'] << 'agent_with_user'
+        else
+          doc['is_user'] = false
+        end
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
@@ -331,10 +443,13 @@ class CommonIndexer
       end
     }
 
-
     add_document_prepare_hook {|doc, record|
       if ['classification', 'classification_term'].include?(doc['primary_type'])
         doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
+        doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
+        doc['identifier_sort'] = IndexerCommon.generate_sort_string_for_identifier(record['record']['identifier'])
+        doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
+        doc['has_classification_terms'] = record['record']['has_classification_terms']
       end
     }
 
@@ -357,9 +472,14 @@ class CommonIndexer
     add_document_prepare_hook {|doc, record|
       if ['resource', 'archival_object', 'accession'].include?(doc['primary_type']) && record['record']['instances'] && record['record']['instances'].length > 0
         doc['location_uris'] = record['record']['instances'].
-                                  collect{|instance| instance["container"]}.compact.
-                                  collect{|container| container["container_locations"]}.flatten.
+                                  collect{|instance| instance["sub_container"]}.compact.
+                                  collect{|sub_container| sub_container["top_container"]["_resolved"]}.compact.
+                                  collect{|top_container| top_container["container_locations"]}.flatten.
                                   collect{|container_location| container_location["ref"]}.uniq
+        doc['digital_object_uris'] = record['record']['instances'].
+                                        collect{|instance| instance["digital_object"]}.compact.
+                                        collect{|digital_object_instance| digital_object_instance["ref"]}.
+                                        flatten.uniq
       end
     }
 
@@ -385,8 +505,15 @@ class CommonIndexer
           doc['series_level_u_sstr'] = record['record']['series'].map {|series| series['level_display_string']}
           doc['series_identifier_stored_u_sstr'] = record['record']['series'].map {|series| series['identifier']}
           doc['series_identifier_u_stext'] = record['record']['series'].map {|series|
-            CommonIndexer.generate_permutations_for_identifier(series['identifier'])
+            IndexerCommon.generate_permutations_for_identifier(series['identifier'])
           }.flatten
+
+          record['record']['series'].select{|series| series['publish']}.each do |series|
+            doc['published_series_uri_u_sstr'] ||= []
+            doc['published_series_uri_u_sstr'] << series['ref']
+            doc['published_series_title_u_sstr'] ||= []
+            doc['published_series_title_u_sstr'] << series['display_string']
+          end
         end
 
         if record['record']['collection']
@@ -394,7 +521,7 @@ class CommonIndexer
           doc['collection_display_string_u_sstr'] = record['record']['collection'].map {|collection| collection['display_string']}
           doc['collection_identifier_stored_u_sstr'] = record['record']['collection'].map {|collection| collection['identifier']}
           doc['collection_identifier_u_stext'] = record['record']['collection'].map {|collection|
-            CommonIndexer.generate_permutations_for_identifier(collection['identifier'])
+            IndexerCommon.generate_permutations_for_identifier(collection['identifier'])
           }.flatten
         end
 
@@ -416,6 +543,9 @@ class CommonIndexer
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
         doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
+        doc['barcode_u_sstr'] = record['record']['barcode']
+
+        doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
       end
     }
 
@@ -428,7 +558,16 @@ class CommonIndexer
         # index the top_container's linked via a sub_container
         ASUtils.wrap(record['record']['instances']).each{|instance|
           if instance['sub_container'] && instance['sub_container']['top_container']
-            doc['top_container_uri_u_sstr'] = instance['sub_container']['top_container']['ref']
+            doc['top_container_uri_u_sstr'] ||= []
+            doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
+            if instance['sub_container']['type_2']
+              doc['child_container_u_sstr'] ||= []
+              doc['child_container_u_sstr'] << "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']}"
+            end
+            if instance['sub_container']['type_3']
+              doc['grand_child_container_u_sstr'] ||= []
+              doc['grand_child_container_u_sstr'] << "#{instance['sub_container']['type_3']} #{instance['sub_container']['indicator_2']}"
+            end
           end
         }
       end
@@ -452,20 +591,44 @@ class CommonIndexer
 
 
     add_document_prepare_hook { |doc, record|
-      doc['fullrecord'] = CommonIndexer.extract_string_values(doc)
-      %w(finding_aid_subtitle finding_aid_author).each do |field|
-        if record['record'].has_key?(field)
-          doc['fullrecord'] << "#{record['record'][field]} "
+      doc['fullrecord'] = IndexerCommon.build_fullrecord(record)
+    }
+
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'location_profile'
+        doc['title'] = record['record']['display_string']
+        doc['display_string'] = record['record']['display_string']
+
+        ['width', 'height', 'depth'].each do |property|
+          doc["location_profile_#{property}_u_sstr"] = record['record'][property]
         end
+
+        doc["location_profile_dimension_units_u_sstr"] = record['record']['dimension_units']
+
+        doc['typeahead_sort_key_u_sort'] = record['record']['display_string']
       end
 
-      if record['record'].has_key?('names')
-        doc['fullrecord'] << record['record']['names'].map {|name|
-          CommonIndexer.extract_string_values(name)
-        }.join(" ")
+      if record['record']['location_profile']
+        doc['location_profile_uri_u_sstr'] = record['record']['location_profile']['ref']
+        doc['location_profile_display_string_u_ssort'] = record['record']['location_profile']['_resolved']['display_string']
       end
     }
 
+    add_document_prepare_hook {|doc, record|
+      doc['ancestors'] = ASUtils.wrap(record['record']['ancestors']).map {|ancestor|
+        ancestor.fetch('ref')
+      }
+    }
+
+    add_document_prepare_hook {|doc, record|
+      ASUtils.wrap(record['record']['rights_statements']).each do |rights_statement|
+        ASUtils.wrap(rights_statement['linked_agents']).each do |agent_link|
+          doc['rights_statement_agent_uris'] ||= []
+          doc['rights_statement_agent_uris'] << agent_link['ref']
+        end
+      end
+    }
 
     record_has_children('collection_management')
     add_extra_documents_hook {|record|
@@ -475,7 +638,7 @@ class CommonIndexer
       if cm
         parent_type = JSONModel.parse_reference(record['uri'])[:type]
         docs << {
-          'id' => "#{record['uri']}##{parent_type}_collection_management",
+          'id' => cm['uri'],
           'parent_id' => record['uri'],
           'parent_title' => record['record']['title'] || record['record']['display_string'],
           'parent_type' => parent_type,
@@ -485,10 +648,11 @@ class CommonIndexer
           'json' => cm.to_json(:max_nesting => false),
           'cm_uri' => cm['uri'],
           'processing_priority' => cm['processing_priority'],
+          'processing_status' => cm['processing_status'],
           'processing_hours_total' => cm['processing_hours_total'],
           'processing_funding_source' => cm['processing_funding_source'],
           'processors' => cm['processors'],
-          'suppressed' => record['record']['suppressed'].to_s,
+          'suppressed' => record['record']['suppressed'],
           'repository' => get_record_scope(record['uri']),
           'created_by' => cm['created_by'],
           'last_modified_by' => cm['last_modified_by'],
@@ -500,6 +664,43 @@ class CommonIndexer
 
       docs
     }
+
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'assessment'
+        doc['assessment_id'] = JSONModel.parse_reference(record['record']['uri']).fetch(:id)
+        doc['title'] = record['record']['display_string']
+        doc['display_string'] = record['record']['display_string']
+
+        doc['assessment_record_uris'] = ASUtils.wrap(record['record']['records']).map{|r| r['ref']}
+        doc['assessment_records'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+        doc['assessment_record_types'] = ASUtils.wrap(record['record']['records']).map{|r| r['_resolved']['jsonmodel_type']}.uniq.sort
+        doc['assessment_surveyor_uris'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['ref']}
+        doc['assessment_surveyors'] = ASUtils.wrap(record['record']['surveyed_by']).map{|r| r['_resolved']['title']}
+        doc['assessment_survey_begin'] = "#{record['record']['survey_begin']}T00:00:00Z"
+        doc['assessment_survey_end'] = "#{record['record']['survey_end']}T00:00:00Z" if record['record']['survey_end']
+        doc['assessment_review_required'] = record['record']['review_required']
+        doc['assessment_sensitive_material'] = record['record']['sensitive_material']
+        if (ASUtils.wrap(record['record']['reviewer']).length > 0)
+          doc['assessment_reviewer_uris'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['ref']}
+          doc['assessment_reviewers'] = ASUtils.wrap(record['record']['reviewer']).map{|r| r['_resolved']['title']}
+        end
+        doc['assessment_inactive'] = record['record']['inactive']
+
+        doc['assessment_survey_year'] = IndexerCommon.generate_years_for_date_range(record['record']['survey_begin'], record['record']['survey_end'])
+
+        doc['assessment_collection_uris'] = ASUtils.wrap(record['record']['collections']).map{|r| r['ref']}
+        doc['assessment_collections'] = ASUtils.wrap(record['record']['collections']).map{|r| r['_resolved']['display_string'] || r['_resolved']['title']}
+
+        doc['assessment_completed'] = !record['record']['survey_end'].nil?
+
+        doc['assessment_formats'] = record['record']['formats'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+        doc['assessment_ratings'] = record['record']['ratings'].select{|r| r.has_key?('value') || r.has_key?('note')}.map{|r| r['label']}
+        doc['assessment_conservation_issues'] = record['record']['conservation_issues'].select{|r| r.has_key?('value')}.map{|r| r['label']}
+
+        doc['title_sort'] = doc['assessment_id'].to_s.rjust(10, '0')
+      end
+    }
   end
 
 
@@ -510,6 +711,11 @@ class CommonIndexer
 
   def record_has_children(record_type)
     @@records_with_children << record_type.to_s
+  end
+
+
+  def records_with_children
+    @@records_with_children || []
   end
 
 
@@ -536,8 +742,11 @@ class CommonIndexer
   def do_http_request(url, req)
     req['X-ArchivesSpace-Session'] = @current_session
 
-    Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = AppConfig[:indexer_solr_timeout_seconds].to_i
+    opts = {
+      :read_timeout => AppConfig[:indexer_solr_timeout_seconds].to_i
+    }
+
+    ASHTTP.start_uri(url, opts) do |http|
       http.request(req)
     end
   end
@@ -581,7 +790,16 @@ class CommonIndexer
   end
 
 
-  def delete_records(records)
+  def is_repository_unpublished?(uri, values)
+    repo_id = get_record_scope(uri)
+
+    return false if (repo_id == "global")
+
+    values['repository']['_resolved']['publish'] == false
+  end
+
+
+  def delete_records(records, opts = {})
 
     return if records.empty?
 
@@ -591,7 +809,7 @@ class CommonIndexer
     # Delete the ID plus any documents that were the child of that ID
     delete_request = {:delete => records.map {|id|
         [{"id" => id},
-         {'query' => "parent_id:\"#{id}\""}]}.flatten(1)
+         {'query' => opts.fetch(:parent_id_field, 'parent_id') + ":\"#{id}\""}]}.flatten(1)
     }
 
     @delete_hooks.each do |hook|
@@ -601,7 +819,7 @@ class CommonIndexer
     req.body = delete_request.to_json
 
     response = do_http_request(solr_url, req)
-    $stderr.puts "Deleted #{records.length} documents: #{response}"
+    Log.info "Deleted #{records.length} documents: #{response}"
 
     if response.code != '200'
       raise "Error when deleting records: #{response.body}"
@@ -638,68 +856,97 @@ class CommonIndexer
   end
 
 
-  def index_records(records)
+  def clean_for_sort(value)
+    out = value.gsub(/<[^>]+>/, '')
+    out.gsub!(/-/, ' ')
+    out.gsub!(/[^\w\s]/, '')
+    out.strip
+  end
+
+  def index_records(records, timing = IndexerTiming.new)
     batch = IndexBatch.new
 
     records = dedupe_by_uri(records)
 
-    records.each do |record|
-      values = record['record']
-      uri = record['uri']
-      reference = JSONModel.parse_reference(uri)
-      record_type = reference && reference[:type]
+    timing.time_block(:conversion_ms) do
+      records.each do |record|
+        values = record['record']
+        uri = record['uri']
 
-      if !record_type || (record_type != 'repository' && !@@record_types.include?(record_type.intern))
-        next
-      end
+        reference = JSONModel.parse_reference(uri)
+        record_type = reference && reference[:type]
 
-      doc = {}
+        if !record_type || skip_index_record?(record) || (record_type != 'repository' && !record_types.include?(record_type.intern))
+          next
+        end
 
-      doc['id'] = uri
+        doc = {}
 
-      if ( !values["finding_aid_filing_title"].nil? && values["finding_aid_filing_title"].length > 0 )
-        doc['title'] = values["finding_aid_filing_title"]
-      else
-        doc['title'] =  values['title']
-      end
+        doc['id'] = uri
+        doc['uri'] = uri
 
-      doc['primary_type'] = record_type
-      doc['types'] = [record_type]
-      doc['json'] = ASUtils.to_json(values)
-      doc['suppressed'] = values.has_key?('suppressed') ? values['suppressed'].to_s : 'false'
-      if doc['suppressed'] == 'true'
-        doc['publish'] = 'false'
-      elsif values['has_unpublished_ancestor']
-        doc['publish'] = 'false'
-      else
-        doc['publish'] = values.has_key?('publish') ? values['publish'].to_s : 'false'
-      end
-      doc['system_generated'] = values.has_key?('system_generated') ? values['system_generated'].to_s : 'false'
-      doc['repository'] = get_record_scope(uri)
+        if ( !values["finding_aid_filing_title"].nil? && values["finding_aid_filing_title"].length > 0 )
+          doc['title'] = values["finding_aid_filing_title"]
+        else
+          doc['title'] =  values['title']
+        end
 
-      @document_prepare_hooks.each do |hook|
-        hook.call(doc, record)
-      end
+        doc['primary_type'] = record_type
+        doc['types'] = [record_type]
+        doc['json'] = ASUtils.to_json(values)
+        doc['suppressed'] = values.has_key?('suppressed') && values['suppressed']
+        if doc['suppressed']
+          doc['publish'] = false
+        elsif is_repository_unpublished?(uri, values)
+          doc['publish'] = false
+        elsif values['has_unpublished_ancestor']
+          doc['publish'] = false
+        else
+          doc['publish'] = values.has_key?('publish') && values['publish']
+        end
+        doc['system_generated'] = values.has_key?('system_generated') ? values['system_generated'].to_s : 'false'
+        doc['repository'] = get_record_scope(uri)
 
-      batch << clean_whitespace(doc)
+        @document_prepare_hooks.each do |hook|
+          hook.call(doc, record)
+        end
 
-      # Allow a single record to spawn multiple Solr documents if desired
-      @extra_documents_hooks.each do |hook|
-        batch.concat(hook.call(record))
+        doc['title_sort'] ||= clean_for_sort(doc['title'])
+
+        # do this last of all so we know for certain the doc is published
+        apply_pui_fields(doc, record)
+
+        next if skip_index_doc?(doc)
+
+        batch << clean_whitespace(doc)
+
+        # Allow a single record to spawn multiple Solr documents if desired
+        @extra_documents_hooks.each do |hook|
+          batch.concat(hook.call(record))
+        end
       end
     end
 
+    index_batch(batch, timing)
 
-    # Allow hooks to operate on the entire batch if desired
-    @batch_hooks.each_with_index do |hook|
-      hook.call(batch)
+    timing
+  end
+
+
+  def index_batch(batch, timing = IndexerTiming.new, opts = {})
+    timing ||= IndexerTiming.new
+
+    timing.time_block(:batch_hooks_ms) do
+      # Allow hooks to operate on the entire batch if desired
+      @batch_hooks.each_with_index do |hook|
+        hook.call(batch)
+      end
     end
-
 
     if !batch.empty?
       # For any record we're updating, delete any child records first (where applicable)
       records_with_children = batch.map {|e|
-        if @@records_with_children.include?(e['primary_type'].to_s)
+        if self.records_with_children.include?(e['primary_type'].to_s)
           "\"#{e['id']}\""
         end
       }.compact
@@ -707,7 +954,7 @@ class CommonIndexer
       if !records_with_children.empty?
         req = Net::HTTP::Post.new("#{solr_url.path}/update")
         req['Content-Type'] = 'application/json'
-        req.body = {:delete => {'query' => "parent_id:(" + records_with_children.join(" OR ") + ")"}}.to_json
+        req.body = {:delete => {'query' => opts.fetch(:parent_id_field, 'parent_id') + ":(" + records_with_children.join(" OR ") + ")"}}.to_json
         response = do_http_request(solr_url, req)
       end
 
@@ -715,21 +962,24 @@ class CommonIndexer
       req = Net::HTTP::Post.new("#{solr_url.path}/update")
       req['Content-Type'] = 'application/json'
 
+      # Note: We call to_json_stream before asking for the count because this
+      # writes out the closing array and newline.
       stream = batch.to_json_stream
       req['Content-Length'] = batch.byte_count
 
       req.body_stream = stream
 
-      response = do_http_request(solr_url, req)
+      timing.time_block(:solr_add_ms) do
+        response = do_http_request(solr_url, req)
 
-      stream.close
-      batch.destroy
+        stream.close
+        batch.destroy
 
-      if response.code != '200'
-        raise "Error when indexing records: #{response.body}"
+        if response.code != '200'
+          raise "Error when indexing records: #{response.body}"
+        end
       end
     end
-
   end
 
 
@@ -742,7 +992,7 @@ class CommonIndexer
 
     if response.code != '200'
       if response.body =~ /exceeded limit of maxWarmingSearchers/
-        $stderr.puts "INFO: #{response.body}"
+        Log.info "INFO: #{response.body}"
       else
         raise "Error when committing: #{response.body}"
       end
@@ -753,7 +1003,53 @@ class CommonIndexer
     self.singleton_class.class_variable_get(:@@paused_until) > Time.now
   end
 
+  def skip_index_record?(record)
+    false
+  end
 
+  def skip_index_doc?(doc)
+    false
+  end
+
+  def apply_pui_fields(doc, record)
+    # only add pui types if the record is published
+    if doc['publish']
+      object_record_types = ['accession', 'digital_object', 'digital_object_component']
+
+      if object_record_types.include?(doc['primary_type'])
+        doc['types'] << 'pui_record'
+      end
+
+      if ['agent_person', 'agent_corporate_entity'].include?(doc['primary_type'])
+        doc['types'] << 'pui_agent'
+      end
+
+      unless RecordInheritance.has_type?(doc['primary_type'])
+        # All record types are available to PUI except archival objects, since
+        # our pui_indexer indexes a specially formatted version of those.
+        if ['resource'].include?(doc['primary_type'])
+          doc['types'] << 'pui_collection'
+        elsif ['classification'].include?(doc['primary_type'])
+          doc['types'] << 'pui_record_group'
+        elsif ['agent_person'].include?(doc['primary_type'])
+          doc['types'] << 'pui_person'
+        else
+          doc['types'] << 'pui_' + doc['primary_type']
+        end
+
+        doc['types'] << 'pui'
+      end
+    end
+
+    # index all top containers for pui
+    if doc['primary_type'] == 'top_container'
+      doc['publish'] = record['record']['is_linked_to_published_record']
+      if doc['publish']
+        doc['types'] << 'pui_container'
+        doc['types'] << 'pui'
+      end
+    end
+  end
 end
 
 

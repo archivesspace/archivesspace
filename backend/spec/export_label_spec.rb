@@ -1,9 +1,10 @@
 require 'nokogiri'
 require 'spec_helper'
 require_relative 'export_spec_helper'
+require_relative 'container_spec_helper'
 
 
-describe 'Export Labels Mappings ' do
+describe 'Export Labels Mappings' do
 
   #######################################################################
   # FIXTURES
@@ -40,10 +41,7 @@ describe 'Export Labels Mappings ' do
       parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
       a = create(:json_archival_object_normal,  :resource => {:ref => @resource.uri},
                  :parent => parent ? {:ref => parent} : nil,
-                 :instances => [ build(:json_instance,
-                                       :container => build(:json_container, :barcode_1 => nil) )
-                                ]
-    )
+                 :instances => [ build(:json_instance) ])
       a = JSONModel(:archival_object).find(a.id)
       @archival_objects[a.uri] = a
      }
@@ -52,10 +50,7 @@ describe 'Export Labels Mappings ' do
       parent = [true, false].sample ? @archival_objects.keys[rand(@archival_objects.keys.length)] : nil
       a = create(:json_archival_object_normal,  :resource => {:ref => @resource.uri},
                  :parent => parent ? {:ref => parent} : nil,
-                 :instances => [ build(:json_instance,
-                                       :container => build(:json_container, :barcode_1 => nil ) )
-                                ]
-    )
+                 :instances => [ build(:json_instance) ])
       a = JSONModel(:archival_object).find(a.id)
       @archival_objects[a.uri] = a
      }
@@ -81,5 +76,26 @@ describe 'Export Labels Mappings ' do
     end
   end
 
+
+  describe "how top containers only get listed once" do
+
+    before(:each) do
+      top_container = create(:json_top_container)
+
+      instances = (0..2).map {|i| build_instance(top_container)}
+
+      resource = create(:json_resource)
+
+      component = create(:json_archival_object, :instances => instances, :resource => {:ref => resource.uri})
+
+      @labels = get_labels(resource)
+    end
+
+    it "only lists a top container once" do
+      # header and single row
+      @labels.chomp.split("\r").length.should eq(2)
+    end
+
+  end
 
 end

@@ -94,8 +94,16 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     victims_by_model.each do |victim_model, victims|
 
+      # If we're merging a record of type A with relationship R into a record of
+      # type B, type B must also support that relationship type.  If it doesn't,
+      # we risk losing data through the merge and should abort.
+      #
       unless participating_models.include?(victim_model)
-        raise ReferenceError.new("This class doesn't belong to relationship #{self}: #{victim.class}")
+        found = self.find_by_participant_ids(victim_model, victims.map(&:id))
+
+        unless found.empty?
+          raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
+        end
       end
 
       victim_columns = self.reference_columns_for(victim_model)
@@ -228,8 +236,9 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     objects_by_id = objs.group_by {|obj| obj.id}
 
+
     reference_columns.each do |col|
-      self.filter(col => objects_by_id.keys).all.each do |relationship|
+      self.eager(self.associations).filter(col => objects_by_id.keys).all.each do |relationship|
         obj = objects_by_id[relationship[col]].first
         result[obj] ||= []
         result[obj] << relationship
@@ -619,8 +628,10 @@ module Relationships
     # cache its relationships.  This is an optimisation: avoids the need for one
     # SELECT for every relationship lookup by pulling back all relationships at
     # once.
-    def eager_load_relationships(objects)
-      relationships.each do |relationship_defn|
+    def eager_load_relationships(objects, relationships_to_load = nil)
+      relationships_to_load = relationships unless relationships_to_load
+
+      relationships_to_load.each do |relationship_defn|
         # For each defined relationship
         relationships_map = relationship_defn.find_by_participants(objects)
 
@@ -643,7 +654,7 @@ module Relationships
 
       return jsons if opts[:skip_relationships]
 
-      eager_load_relationships(objs)
+      eager_load_relationships(objs, relationships.select {|relationship_defn| relationship_defn.json_property})
 
       jsons.zip(objs).each do |json, obj|
         relationships.each do |relationship_defn|
@@ -710,53 +721,111 @@ module Relationships
       relationships.map do |relationship_defn|
         models = relationship_defn.participating_models
 
-        if models.include?(obj.class)
-          their_ref_columns = relationship_defn.reference_columns_for(obj.class)
-          my_ref_columns = relationship_defn.reference_columns_for(self)
-          their_ref_columns.each do |their_col|
-            my_ref_columns.each do |my_col|
+        # If this relationship doesn't link to records of type `obj`, we're not
+        # interested.
+        next unless models.include?(obj.class)
 
-              # Example: if we're updating a subject record and want to update
-              # the timestamps of any linked archival object records:
-              #
-              #  * self = ArchivalObject
-              #  * relationship_defn is subject_rlshp
-              #  * obj = #<Subject instance that was updated>
-              #  * their_col = subject_rlshp.subject_id
-              #  * my_col = subject_rlshp.archival_object_id
+        their_ref_columns = relationship_defn.reference_columns_for(obj.class)
+        my_ref_columns = relationship_defn.reference_columns_for(self)
+        their_ref_columns.each do |their_col|
+          my_ref_columns.each do |my_col|
 
-              if DB.supports_join_updates?
+            # This one type of relationship (between the software agent and
+            # anything else) was a particular hotspot when analyzing real-world
+            # performance.
+            #
+            # Terrible to have to do this, but the MySQL optimizer refuses
+            # to use the primary key on agent_software because it (often)
+            # only has one row.
+            #
+            if DB.supports_join_updates? &&
+               self.table_name == :agent_software &&
+               relationship_defn.table_name == :linked_agents_rlshp
+              DB.open do |db|
+                id_str = Integer(obj.id).to_s
 
-                if self.table_name == :agent_software && relationship_defn.table_name == :linked_agents_rlshp
-                  # Terrible to have to do this, but the MySQL optimizer refuses
-                  # to use the primary key on agent_software because it (often)
-                  # only has one row.
-                  DB.open do |db|
-                    id_str = Integer(obj.id).to_s
-
-                    db.run("UPDATE `agent_software` FORCE INDEX (PRIMARY) " +
-                           " INNER JOIN `linked_agents_rlshp` " +
-                           "ON (`linked_agents_rlshp`.`agent_software_id` = `agent_software`.`id`) " +
-                           "SET `agent_software`.`system_mtime` = NOW() " +
-                           "WHERE (`linked_agents_rlshp`.`archival_object_id` = #{id_str})")
-                  end
-                else
-                  # MySQL will optimize this much more aggressively
-                  self.join(relationship_defn, Sequel.qualify(relationship_defn.table_name, my_col) => Sequel.qualify(self.table_name, :id)).
-                    filter(Sequel.qualify(relationship_defn.table_name, their_col) => obj.id).
-                    update(Sequel.qualify(self.table_name, :system_mtime) => now)
-                end
-
-              else
-                ids_to_touch = relationship_defn.filter(their_col => obj.id).
-                               select(my_col)
-                self.filter(:id => ids_to_touch).
-                  update(:system_mtime => now)
+                db.run("UPDATE `agent_software` FORCE INDEX (PRIMARY) " +
+                       " INNER JOIN `linked_agents_rlshp` " +
+                       "ON (`linked_agents_rlshp`.`agent_software_id` = `agent_software`.`id`) " +
+                       "SET `agent_software`.`system_mtime` = NOW() " +
+                       "WHERE (`linked_agents_rlshp`.`archival_object_id` = #{id_str})")
               end
+
+              return
             end
+
+            # Example: if we're updating a subject record and want to update
+            # the timestamps of any linked archival object records:
+            #
+            #  * self = ArchivalObject
+            #  * relationship_defn is subject_rlshp
+            #  * obj = #<Subject instance that was updated>
+            #  * their_col = subject_rlshp.subject_id
+            #  * my_col = subject_rlshp.archival_object_id
+
+
+            # Join our model class table to the relationship that links it to `obj`
+            #
+            # For example: join ArchivalObject to subject_rlshp
+            #              join Instance to instance_do_link_rlshp
+            base_ds = self.join(relationship_defn,
+                                Sequel.qualify(relationship_defn.table_name, my_col) =>
+                                       Sequel.qualify(self.table_name, :id))
+
+            # Limit only to the object of interest--we only care about records
+            # involved in a relationship with the record that was updated (obj)
+            base_ds = base_ds.filter(Sequel.qualify(relationship_defn.table_name, their_col) => obj.id)
+
+            # Now update the mtime of any top-level record that links to that
+            # relationship.
+            self.update_toplevel_mtimes(base_ds, now)
           end
         end
       end
     end
+
+    # Given a `dataset` that links the current record type to some relationship
+    # type, set the modification time of the nearest top-level record to
+    # `new_mtime`.
+    #
+    # If the current record type links directly to the relationship (such as an
+    # Archival Object linking to a Subject), then this is easy: we just update
+    # the modification time of the Archival Object.
+    #
+    # If the current record is a nested record (such as an Instance linked to a
+    # Digital Object), we want to continue up the chain, linking the Instance
+    # nested record to its Accession/Resource/Archival Object parent record, and
+    # then update the modification time of that parent.
+    #
+    # And if the nested record has a nested record has a nested record has a
+    # relationship... well, you get the idea.  We handle the recursive case too!
+    #
+    def update_toplevel_mtimes(dataset, new_mtime)
+      if self.enclosing_associations.empty?
+        # If we're not enclosed by anything else, we're a top-level record.  Do the final update.
+        if DB.supports_join_updates?
+          # Fast path!  Use a join update.
+          dataset.update(Sequel.qualify(self.table_name, :system_mtime) => new_mtime)
+        else
+          # Slow path.  Subselect.
+          ids_to_touch = dataset.select(Sequel.qualify(self.table_name, :id))
+          self.filter(:id => ids_to_touch).update(:system_mtime => new_mtime)
+        end
+      else
+        # Otherwise, we're a nested record
+        self.enclosing_associations.each do |association|
+          parent_model = association[:model]
+
+          # Link the parent into the current dataset
+          parent_ds = dataset.join(parent_model,
+                                   Sequel.qualify(self.table_name, association[:key]) =>
+                                          Sequel.qualify(parent_model.table_name, :id))
+
+          # and tell it to continue!
+          parent_model.update_toplevel_mtimes(parent_ds, new_mtime)
+        end
+      end
+    end
+
   end
 end

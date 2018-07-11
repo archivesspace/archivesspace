@@ -1,13 +1,25 @@
 module FileEmbedHelper
 
+  SUPPORTED_URL_SCHEMES = ['http', 'https']
+
+  def self.supported_scheme?(scheme)
+    SUPPORTED_URL_SCHEMES.include?(scheme)
+  end
+
   def uri_or_string(link)
+    # If `link` can be sensibly rendered as a URL, return a URL object.
     begin
-      link.gsub!(/\\/, '/') # for windows uris
-      link = "file://#{link}" unless link.match(/^(http|file)/)
-      URI(link) 
-    rescue URI::InvalidURIError => e
-      link
+      parsed = URI.parse(link)
+
+      if FileEmbedHelper.supported_scheme?(parsed.scheme)
+        # Great.  We'll take it.
+        return parsed
+      end
+    rescue URI::InvalidURIError
     end
+
+    # Otherwise, return the verbatim string
+    link
   end
 
   def can_embed?(file_version)

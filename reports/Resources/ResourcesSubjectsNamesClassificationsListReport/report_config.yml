@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: resources_subjects_names_classifications_list
-description: "Displays resource(s) and linked subjects, classification, and names linked as subjects. Report contains title, resource identifier, level, date range, linked names and their functions, and linked subjects."

@@ -3,7 +3,26 @@
   <% unless content_for?(:exports) %>
     <% content_for :exports do %>
       <li><%= link_to I18n.t("actions.export_mods"), {:controller => :exports, :action => :download_mods, :id => @digital_object.id} %></li>
-      <li><%= link_to I18n.t("actions.export_mets"), {:controller => :exports, :action => :download_mets, :id => @digital_object.id} %></li>
+
+      <li class="dropdown-submenu" id="download-mets-dropdown" data-download-mets-url="<%= url_for(:controller => :exports, :action => :download_mets, :id => @digital_object.id, :dmd_scheme => "${dmd_scheme}")%>">
+         <a href="#" data-toggle="dropdown" class="menu-with-options download-mets-action" title="<%= I18n.t("actions.export_mets") %>"><%= I18n.t("actions.export_mets") %></a>
+         <div class="dropdown-menu" id="form_download_mets">
+           <fieldset>
+             <input type="hidden" name="id", value="<%= @digital_object.id %>" />
+
+             <label class="checkbox" for="js-dmd_scheme_mods">
+               <input type="radio" id="js-dmd_scheme_mods" name="dmd_scheme" checked="checked" />
+               <%= I18n.t("export_options.use_mods") %>&#160;
+             </label>
+
+             <label class="checkbox" for="js-dmd_scheme_dc">
+               <input type="radio" id="js-dmd_scheme_dc" name="dmd_scheme" />
+               <%= I18n.t("export_options.use_dc") %>&#160;
+             </label>
+           </fieldset>
+         </div>
+       </li>
+
       <li><%= link_to I18n.t("actions.export_dc"), {:controller => :exports, :action => :download_dc, :id => @digital_object.id} %></li>
     <% end %>
   <% end %>

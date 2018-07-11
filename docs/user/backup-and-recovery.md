@@ -35,7 +35,7 @@ schema and data to a file.  It's a good idea to run this with the
 `--single-transaction` option to avoid locking your database tables
 while your backups run. It is also essential to use the `--routines`
 flag, which will include functions and stored procedures in the
-backup (which ArchivesSpace uses at least for Jasper reports).
+backup (which ArchivesSpace uses at least for reports).
 
 If you are running with the demo database, you can create periodic
 database snapshots using the following configuration settings:
@@ -85,11 +85,12 @@ database* to create an empty database with the appropriate
 permissions.  Then, populate the database from your backup file using
 the MySQL client:
 
-    mysql -uarchivesspace -p < mysqldump.sql
-    
-(change the username as required and enter your password when
-prompted).
+    `mysql -uas -p archivesspace < mysqldump.sql`, where
+      `as` is the user name
+      `archivesspace` is the database name
+      `mysqldump.sql` is the mysqldump filename
 
+You will be prompted for the password of the user.
 
 If you are using the demo database, your backup `.zip` file will
 contain a directory called `demo_db_backups`.  Each subdirectory of
@@ -125,10 +126,10 @@ For example:
 
      mkdir -p /path/to/archivesspace/data/solr_index
 
-     cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \ 
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \
            /path/to/archivesspace/data/solr_index/index
 
-     cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \ 
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \
            /path/to/archivesspace/data/
 
 

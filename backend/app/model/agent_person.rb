@@ -10,8 +10,7 @@ class AgentPerson < Sequel::Model(:agent_person)
   include RecordableCataloging
   include Notes
   include Publishable
-  include RightsStatements
-
+  include Assessments::LinkedAgent
 
   register_agent_type(:jsonmodel => :agent_person,
                       :name_type => :name_person,

@@ -114,18 +114,13 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource with an instance and container" do
+    instance = build(:json_instance)
 
-    opts = {:instance_type => generate(:instance_type),
-            :container => build(:json_container)
-            }
-
-    id = create(:json_resource,
-                :instances => [build(:json_instance, opts)]
-                ).id
+    id = create(:json_resource, :instances => [instance]).id
 
     JSONModel(:resource).find(id).instances.length.should eq(1)
-    JSONModel(:resource).find(id).instances[0]["instance_type"].should eq(opts[:instance_type])
-    JSONModel(:resource).find(id).instances[0]["container"]["type_1"].should eq(opts[:container]['type_1'])
+    JSONModel(:resource).find(id).instances[0]["instance_type"].should eq(instance[:instance_type])
+    JSONModel(:resource).find(id).instances[0]["sub_container"]["type_2"].should eq(instance[:sub_container]['type_2'])
   end
 
 
@@ -151,28 +146,21 @@ describe 'Resources controller' do
 
 
   it "lets you edit an instance of a resource" do
+    instance = build(:json_instance)
 
-    opts = {:instance_type => generate(:instance_type),
-            :container => build(:json_container)
-            }
-
-    id = create(:json_resource,
-                :instances => [build(:json_instance, opts)]
-                ).id
+    id = create(:json_resource, :instances => [instance]).id
 
     resource = JSONModel(:resource).find(id)
 
-    old_type = opts[:instance_type]
-    until old_type != opts[:instance_type]
-      opts[:instance_type] = generate(:instance_type)
-    end
+    new_instance_type = instance[:instance_type]
+    new_instance_type = generate(:instance_type) until new_instance_type != instance[:instance_type]
 
-    resource.instances[0]["instance_type"] = opts[:instance_type]
+    resource.instances[0]["instance_type"] = new_instance_type
 
     resource.save
 
-    JSONModel(:resource).find(id).instances[0]["instance_type"].should_not eq(old_type)
-    JSONModel(:resource).find(id).instances[0]["instance_type"].should eq(opts[:instance_type])
+    JSONModel(:resource).find(id).instances[0]["instance_type"].should_not eq(instance[:instance_type])
+    JSONModel(:resource).find(id).instances[0]["instance_type"].should eq(new_instance_type)
   end
 
   it "lets you create a resource with an instance with a container with a location (and the location is resolved)" do
@@ -181,104 +169,23 @@ describe 'Resources controller' do
     location = create(:json_location, :temporary => generate(:temporary_location_type))
     status = 'current'
 
-    resource = create(:json_resource, {
-                        :instances => [build(:json_instance, {
-                          :container => build(:json_container, {
-                            :container_locations => [{'ref' => location.uri,
+    top_container = create(:json_top_container,
+                           :container_locations => [{'ref' => location.uri,
                                                       'status' => status,
                                                       'start_date' => generate(:yyyy_mm_dd),
-                                                      'end_date' => generate(:yyyy_mm_dd)}]
-                            })
-                        })]
-                      })
-
-    obj = JSONModel(:resource).find(resource.id, "resolve[]" => "container_locations")
-
-    obj.instances[0]["container"]["container_locations"][0]["status"].should eq(status)
-    obj.instances[0]["container"]["container_locations"][0]["_resolved"]["building"].should eq(location.building)
-  end
-
-
-  it "lets you create a resource with an instance/container/location, and then update the location" do
-    location = create(:json_location, :temporary => generate(:temporary_location_type))
+                                                      'end_date' => generate(:yyyy_mm_dd)}])
 
     resource = create(:json_resource, {
-                        :instances => [build(:json_instance, {
-                          :container => build(:json_container, {
-                            :container_locations => [{'ref' => location.uri,
-                                                      'status' => 'current',
-                                                      'start_date' => generate(:yyyy_mm_dd),
-                                                      'end_date' => generate(:yyyy_mm_dd)}]
-                            })
-                        })]
-                      })
+                        :instances => [build(:json_instance,
+                          :sub_container => build(:json_sub_container,
+                                                  :top_container => {:ref => top_container.uri}))]})
 
-    obj = JSONModel(:resource).find(resource.id)
-    obj['instances'][0]['container']['container_locations'][0]['status'] = 'current'
-    obj.save
-  end
+    obj = JSONModel(:resource).find(resource.id, "resolve[]" => "top_container::container_locations")
 
+    container_location = obj.instances[0]["sub_container"]['top_container']['_resolved']["container_locations"][0]
 
-  it "does not permit a resource's instance's container to be linked to a location with a status of 'previous' unless the location is designated 'temporary'" do
-
-    # create a location
-    location_one = create(:json_location, :temporary => nil)
-    location_two = create(:json_location, :temporary => generate(:temporary_location_type))
-    # create the resource with all the instance/container etc
-
-    l = lambda { |location|
-      resource = create(:json_resource, {
-                          :instances => [build(:json_instance, {
-                            :container => build(:json_container, {
-                              :container_locations => [{
-                                 'ref' => location.uri,
-                                 'status' => 'previous',
-                                 'start_date' => generate(:yyyy_mm_dd),
-                                 'end_date' => generate(:yyyy_mm_dd)
-                               }]
-                            })
-                          })]
-                        })
-
-    }
-
-    expect{ l.call(location_one) }.to raise_error { |error|
-
-      error.should be_a(JSONModel::ValidationException)
-      error.errors.keys.should eq(["container_locations/0/status"])
-    }
-
-
-    expect{ l.call(location_two) }.to_not raise_error
-  end
-
-
-  it "allows a resource's instance's container to be linked to a temporary location when the status is 'previous'" do
-    # create a location
-    temp = generate(:temporary_location_type)
-    status = 'previous'
-
-    location = create(:json_location,
-                      :temporary => temp)
-
-    resource = create(:json_resource, {
-                        :instances => [build(:json_instance, {
-                          :container => build(:json_container, {
-                            :container_locations => [{
-                              'status' => status,
-                              'start_date' => generate(:yyyy_mm_dd),
-                              'end_date' => generate(:yyyy_mm_dd),
-                              'ref' => location.uri
-                            }]
-                          })
-                        })]
-    })
-
-      id = resource.id
-      obj = JSONModel(:resource).find(id, "resolve[]" => "container_locations")
-
-      obj.instances[0]["container"]["container_locations"][0]["status"].should eq(status)
-      obj.instances[0]["container"]["container_locations"][0]["_resolved"]["temporary"].should eq(temp)
+    container_location["status"].should eq(status)
+    container_location["_resolved"]["building"].should eq(location.building)
   end
 
 
@@ -304,14 +211,8 @@ describe 'Resources controller' do
   end
 
 
-  # it "reports an error when marking a non-temporary location as 'previous'" do
-  # merged this test into:
-  #  'does not permit a resource's instance's container to be linked to a location with a status of 'previous'...'
+  it "supports resolving subjects" do
 
-
-  it "supports resolving locations and subjects" do
-
-    test_barcode = generate(:barcode)
     test_subject_term = generate(:term)
 
     vocab = create(:json_vocab)
@@ -324,28 +225,13 @@ describe 'Resources controller' do
                         :vocabulary => vocab.uri
     })
 
-    location = create(:json_location, {
-                        :barcode => test_barcode
-    })
-
-
     r = create(:json_resource, {
-                 :subjects => [{:ref => subject.uri}],
-                 :instances => [build(:json_instance, {
-                                        :container => build(:json_container, {
-                                                              :container_locations => [{:ref => location.uri,
-                                                                                        :status => "current",
-                                                                                        :start_date => generate(:yyyy_mm_dd),
-                                                                                        :end_date => generate(:yyyy_mm_dd),
-                                                                                        :location => location.uri}]
-                                                            })
-                                      })]
+                 :subjects => [{:ref => subject.uri}]
                })
 
-    resource = JSONModel(:resource).find(r.id, "resolve[]" => ["subjects", "container_locations"])
+    resource = JSONModel(:resource).find(r.id, "resolve[]" => ["subjects"])
 
     # yowza!
-    resource["instances"][0]["container"]["container_locations"][0]["_resolved"]["barcode"].should eq(test_barcode)
     resource["subjects"][0]["_resolved"]["terms"][0]["term"].should eq(test_subject_term)
   end
 

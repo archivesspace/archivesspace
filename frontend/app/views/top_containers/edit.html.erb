@@ -25,9 +25,8 @@
   <% end %>
 <% end %>
 
-<script src="<%= "#{AppConfig[:frontend_prefix]}assets/subrecord.crud.js" %>"></script>
-<script src="<%= "#{AppConfig[:frontend_prefix]}assets/form.js" %>"></script>
-<script src="<%= "#{AppConfig[:frontend_prefix]}assets/form.js" %>"></script>
+<%= javascript_include_tag("subrecord.crud") %>
+<%= javascript_include_tag("form") %>
 <script>
   $(function() {
         $(".linker:not(.initialised)", $("#form_top_container")).linker();

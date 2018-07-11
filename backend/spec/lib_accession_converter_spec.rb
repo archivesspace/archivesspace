@@ -23,20 +23,28 @@ describe 'Accession converter' do
   end
 
   it "created one Accession record for each row in the CSV file" do
-    @accessions.count.should eq(18)
+    @accessions.count.should eq(10)
   end
 
   it "created a  Agent record if one is in the row" do
-    @agents.count.should eq(8)
+    @agents.count.should eq(5)
   end
   
-  it "created a  Agent record if one is in the row" do
+  it "created a Subject record if one is in the row" do
     @subjects.count.should eq(8)
   end
   
   it "created a Date record if one is in the row" do
     @dates.count.should eq(2)
   end
+
+  it "sets the publish status correctly" do
+    @accessions[0]['publish'].should eq(true)
+    @accessions[1]['publish'].should eq(nil)
+    @accessions[2]['publish'].should eq(true)
+    @accessions[3]['publish'].should eq(nil)
+  end
+
 
 end
 

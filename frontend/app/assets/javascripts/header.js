@@ -125,7 +125,7 @@ $(function() {
     event.stopPropagation();
     event.preventDefault();
 
-    var index = $("input[id^='v']", $advancedSearchRowContainer).length;
+    var index = $(":input[id^='v']", $advancedSearchRowContainer).length;
 
     var adding_as_first_row = false;
     if (index == 0) {
@@ -142,6 +142,21 @@ $(function() {
     $(this).closest(".dropdown-menu").siblings(".advanced-search-add-row-dropdown").trigger("click");
   });
 
+
+  var disableAdvancedSearch = function() {
+    $advancedSearchForm.on("submit", function() {
+      return false;
+    });
+    $(".btn-primary", $advancedSearchContainer).attr("disabled", "disabled");
+  };
+
+
+  var enableAdvancedSearch = function() {
+    $advancedSearchForm.off("submit");
+    $(".btn-primary", $advancedSearchContainer).removeAttr("disabled");
+  };
+
+
   var addAdvancedSearchRow = function(index, type, first, query) {
     var field_data = {
       index: index,
@@ -156,16 +171,35 @@ $(function() {
 
     if (type == "date") {
       $("#v"+index, $row).on("change", function(event) {
-        $(this).closest(".form-group").removeClass("has-error");
+        $(this).closest(".input-group").removeClass("has-error");
 
-        var value = $(this).val();
-        var asDate = moment(value).format("YYYY-MM-DD");
-        if (asDate == "Invalid date") {
-          $(this).closest(".form-group").addClass("has-error");
-          disableAdvancedSearch();
-        } else {
+        var dop = $("#dop"+index, $row);
+        if (dop.val() == 'empty') {
           enableAdvancedSearch();
-          $(this).val(asDate);
+          return;
+        }
+
+        function isValidDate(dateString) {
+          var dateRegex = /^\d\d\d\d\-\d\d-\d\d$/;
+          var isValidDateString = dateRegex.test(dateString);
+
+          if (!isValidDateString) {
+            return false;
+          }
+
+          var asDate = moment(dateString).format("YYYY-MM-DD");
+          if (asDate == "Invalid date") {
+            return false;
+          }
+
+          return true;
+        };
+
+        if (isValidDate($(this).val())) {
+          enableAdvancedSearch();
+        } else {
+          $(this).closest(".input-group").addClass("has-error");
+          disableAdvancedSearch();
         }
       });
     }
@@ -181,16 +215,4 @@ $(function() {
       addAdvancedSearchRow(i, query["type"], i == 0, query);
     });
   }
-
-  var disableAdvancedSearch = function() {
-    $advancedSearchForm.on("submit", function() {
-      return false;
-    });
-    $(".btn-primary", $advancedSearchContainer).attr("disabled", "disabled");
-  };
-
-  var enableAdvancedSearch = function() {
-    $advancedSearchForm.off("submit");
-    $(".btn-primary", $advancedSearchContainer).removeAttr("disabled");
-  };
 });

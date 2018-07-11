@@ -62,11 +62,13 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/locations/:id')
     .description("Get a Location by ID")
-    .params(["id", :id])
+    .params(["id", :id],
+            ["resolve", :resolve])
     .permissions([])
     .returns([200, "(:location)"]) \
   do
-    json_response(Location.to_jsonmodel(params[:id]))
+    json = Location.to_jsonmodel(params[:id])
+    json_response(resolve_references(json, params[:resolve]))
   end
 
 

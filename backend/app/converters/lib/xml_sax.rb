@@ -31,8 +31,8 @@ module ASpaceImport
         end
 
         def ignore(path)
-          with(path) { @ignore = true }
-          and_in_closing(path) { @ignore = false }
+          with(path) {|*| @ignore = true }
+          and_in_closing(path) {|*| @ignore = false }
         end
         
 
@@ -168,10 +168,10 @@ module ASpaceImport
       def handle_closer(node)
         @node_shadow = nil
         @empty_node = false
+
         node_info = node.is_a?(Array) ? node : [node.local_name, node.depth]
-    
+
         if self.respond_to?("_closing_#{@node_name}")
-          $stderr.puts "HI!" 
           self.send("_closing_#{@node_name}", node)
         end
 
@@ -275,9 +275,9 @@ module ASpaceImport
             if property_type[0].match /list$/
               obj.send("#{property}").push(filtered_value)
             else
-              if obj.send("#{property}")
-                Log.warn("Setting a property that has already been set")
-              end
+              # if obj.send("#{property}")
+              #   Log.warn("Setting a property that has already been set")
+              # end
               obj.send("#{property}=", filtered_value)
             end
           end

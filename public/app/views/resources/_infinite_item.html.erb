@@ -1,0 +1,66 @@
+<%
+  indent_level = @result.raw.fetch('ancestors', []).length
+%>
+<div class="infinite-item infinite-item-indent-<%= indent_level %>">
+  <div class="information" style="overflow: hidden;">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => false} } %>
+  </div>
+
+  <% scopecontent_note = @result.note('scopecontent') %>
+  <% if scopecontent_note %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %>
+  <% end %>
+
+  <dl class="dl-horizontal">
+
+    <% accessrestrict_note = @result.note('accessrestrict') %>
+    <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? %>
+      <dt><%= accessrestrict_note['label'] %></dt>
+      <dd>
+        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
+      </dd>
+    <% end %>
+
+    <% unless @result.dates.blank? %>
+        <dt><%= t('resource._public.dates') %></dt>
+        <% @result.dates.each do |date| %>
+        <dd>
+          <%= inheritance(date['_inherited']).html_safe %>
+          <%= date['final_expression'] %>
+        </dd>
+        <% end %>
+    <% end %>
+
+    <% unless @result.extents.blank? %>
+        <dt><%= t('resource._public.extent') %></dt>
+        <% @result.extents.each do |extent| %>
+          <dd>
+            <%= inheritance(extent['_inherited']).html_safe %>
+            <%= extent['display']%>
+          </dd>
+        <% end %>
+    <% end %>
+
+    <% unless @result.agents.blank? %>
+      <dt><%= t('pui_agent.related') %></dt>
+        <% @result.agents.collect(&:last).flatten.each do |relationship| %>
+          <dd>
+            <%= link_to relationship.fetch('_resolved').fetch('title'), app_prefix(relationship.fetch('ref')) %>
+          </dd>
+        <% end %>
+    <% end %>
+
+    <% if @result['language'] %>
+        <dt><%= t('resource._public.lang')%></dt>
+        <dd><%= t('enumerations.language_iso639_2.' + @result['language'].downcase) %></dd>
+    <% else %>
+      <% langmaterial_note = @result.note('langmaterial') %>
+      <% if langmaterial_note && !langmaterial_note['note_text'].blank? %>
+        <dt><%= t('resource._public.lang')%></dt>
+        <dd>
+          <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
+        </dd>
+      <% end %>
+    <% end %>
+  </dl>
+</div>

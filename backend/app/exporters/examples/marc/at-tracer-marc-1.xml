@@ -269,6 +269,13 @@ Here is an example of a wrap-in tag using ref, targeting the Abstract note in th
             <subfield code="g">CNames-Qualifier-AT</subfield>
             <subfield code="e">source</subfield>
         </datafield>
+        <datafield tag="710" ind2="2" ind1=" ">
+          <subfield code="a">DNames-PrimaryName-AT</subfield>
+          <subfield code="b">DNames-Subordinate1-AT</subfield>
+          <subfield code="b">DNames-Subordiate2-AT</subfield>
+          <subfield code="n">DNames-Number-AT</subfield>
+          <subfield code="g">DNames-Qualifier-AT</subfield>
+        </datafield>
         <datafield tag="852" ind2=" " ind1=" ">
             <subfield code="a">Repositories.Agency Code-AT</subfield>
             <subfield code="b">Archivists' Toolkit Migration Tracer</subfield>

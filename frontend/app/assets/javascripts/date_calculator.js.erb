@@ -1,0 +1,71 @@
+$(function () {
+
+  function DateCalculatorForm(record_type, record_id) {
+      var dialog_content = AS.renderTemplate("template_date_calculator_form_" + record_type + "_" + record_id);
+      this.$modal = AS.openCustomModal("dateCalculationModal", "<%= I18n.t('date_calculator.modal_title') %>", dialog_content, 'large');
+      this.setup_calculator_form();
+  };
+
+  DateCalculatorForm.prototype.setup_calculator_form = function() {
+    var self = this;
+
+    self.$form = self.$modal.find('#date_calculator_form');
+      self.$form.ajaxForm({
+        dataType: "html",
+        type: "POST",
+        beforeSubmit: function() {
+          self.$form.find(":submit").addClass("disabled").attr("disabled","disabled");
+        },
+        success: function(html) {
+          self.$form.find(":submit").removeClass("disabled").removeAttr("disabled");
+          self.setup_create_form(html);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          // FIXME ERRORS
+          self.$form.find(":submit").removeClass("disabled").removeAttr("disabled");
+        }
+      });
+  };
+
+  DateCalculatorForm.prototype.setup_create_form = function(html) {
+    var self = this;
+
+    self.$modal.find('#date-calculator-result').html(html);
+    self.$modal.trigger("resize");
+    $(document).trigger("subrecordcreated.aspace", ['date', self.$modal]);
+
+    var $createForm = self.$modal.find('#date_calculator_create_date_form');
+    var $createButton = self.$modal.find('#createDateButton').show().removeAttr('aria-hidden');
+    var $createErrorMessage = self.$modal.find('#createError');
+    var $createSuccessMessage = self.$modal.find('#createSuccess');
+
+    $createForm.ajaxForm({
+      dataType: "html",
+      type: "POST",
+      beforeSubmit: function() {
+        $createErrorMessage.hide().attr('aria-hidden', true);
+        $createButton.addClass("disabled").attr("disabled","disabled");
+      },
+      success: function(html) {
+        $createSuccessMessage.show().removeAttr('aria-hidden');
+        $createForm.hide();
+        location.reload();
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        $createErrorMessage.show().removeAttr('aria-hidden');
+        $createButton.removeClass("disabled").removeAttr("disabled");
+      }
+    });
+
+    $createButton.on('click', function() {
+      $createForm.submit();
+    });
+  };
+
+
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+      $('.date-calculator-btn').on('click', function (event) {
+          new DateCalculatorForm($(this).data('record-type'), $(this).data('record-id'));
+      });
+  });
+});

@@ -3,7 +3,7 @@ require_relative 'report_response'
 
 module ReportHelper
 
-  ALLOWED_REPORT_FORMATS = ["json", "csv", "xlsx", "html", "pdf"]
+  ALLOWED_REPORT_FORMATS = ["json", "csv", "html", "pdf"]
 
   def self.allowed_report_formats
     ALLOWED_REPORT_FORMATS

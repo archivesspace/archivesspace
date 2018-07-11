@@ -1,0 +1,884 @@
+html {
+  font-family: $serif-font;
+  font-size: 100%;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  line-height: inherit;
+  cursor: pointer; }
+  a:hover, a:focus {
+    color: #1585cf; }
+  a img {
+    border: 0; }
+
+
+
+#header {
+  > .row {
+    height: rem-calc(90);
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: rem-calc(30);
+    padding-right: rem-calc(40);
+    border-bottom: rem-calc(4) solid $primary-color;
+    width: 100%;
+    padding-bottom: rem-calc(1);
+  }
+
+  .logo {
+    float: right;
+    height: 75px;
+    text-align: right;
+  }
+}
+
+#content {
+  margin: 0 rem-calc(30);
+}
+
+.panel-footer {
+  > .row {
+    margin: 0 rem-calc(30);
+  }
+  .footer-items {
+    text-align: right;
+  }
+}
+
+.no-pad {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.top-bar {
+  background: $nvBgDefault !important;
+  border-top: 1px solid $border-accent;
+  border-bottom: rem-calc(1) solid $border-accent;
+  float: none !important;
+  }
+
+.italic {
+	font-style: italic;
+}
+
+.inherit {
+	  font-style: italic;
+}
+
+
+/* handling of more/less */
+.readmore .more {
+  visibility: hidden;
+  display: none; }
+.readmore.expanded .more {
+  visibility: visible;
+  display: inline; }
+.readmore.expanded .elipses {
+  visibility: hidden;
+  width: 0; }
+.readmore .expander .fa {
+  font-size: 0.8em; }
+
+/* for the "tabbing" effect */
+.tabbing.navbar-default {
+  background-color: $white;
+  border-color: $white;
+}
+
+.more-facets {
+  .btn {
+    padding-left: 20px;
+    color: $accent-color;
+  }
+  .below-the-fold {
+    display: none;
+  }
+}
+
+
+.tabbing.nav-pills > li > a  {
+   margin-bottom: 0;
+   margin-left: -10px;
+   margin-right: 0;
+   background-color: $secondary-color;
+   color: $white;
+   border-radius: 0; 
+}
+.tabbing.nav-pills > li:first-child a {
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
+}
+.tabbing.nav-pills > li:last-child a {
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.tabbing.nav-pills > li > a.active {
+  background-color: $accent-color;
+  color: $white;
+}
+.tabbing-item li:first-child a{
+   border-bottom-right-radius: 0; 
+   border-top-right-radius: 0;
+   border-bottom-left-radius: 30px;
+   border-top-left-radius: 30px;
+}
+.tabbing-item li:last-child a {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.tabbing.nav-pills > li > a.disabled-nav-pill:hover {
+    color: #333;
+    background-color: transparent;
+    cursor: default;
+}
+
+
+/* this enables customization of the nav bar. h/t to zessx (http://stackoverflow.com/users/1238019/zessx)
+  for the answer at http://stackoverflow.com/questions/18529274/change-navbar-color-in-twitter-bootstrap-3
+*/
+
+.navbar-default {
+  background-color: $nvBgDefault;
+  border-color: $nvBgHighlight;
+  .navbar-brand {
+    color: $nvColDefault;
+    &:hover, &:focus { 
+      color: $nvColHighlight; }}
+  .navbar-text {
+    color: $nvColDefault; }
+  .navbar-nav {
+    > li {
+      > a {
+        color: $nvColDefault;
+	font-size: 1.0rem !important;
+        &:hover,  &:focus {
+          color: $nvColHighlight;
+	  text-decoration: underline; }}}
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $nvColHighlight;
+        background-color: $nvBgHighlight;
+	text-decoration: underline; }}
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: $nvColHighlight;
+        background-color: $nvBgHighlight;
+	text-decoration: underline; }}}
+  .navbar-toggle {
+    border-color: $nvBgHighlight;
+    &:hover, &:focus {
+      background-color: $nvBgHighlight; }
+    .icon-bar {
+      background-color: $nvColDefault; }}
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $nvColDefault; }
+  .navbar-link {
+    color: $nvColDefault;
+    font-size: 1.0rem !important;
+    &:hover {
+      color: $nvColHighlight;
+      text-decoration: underline; }}}
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: $nvColDefault;
+      &:hover, &:focus {
+        color: $nvColHighlight;
+ 	text-decoration: underline; }}
+    > .active {
+      > a, > a:hover, > a:focus, {
+        color: $nvColHighlight;
+        background-color: $nvBgHighlight;
+	text-decoration: underline; }}}
+}
+
+
+
+#welcome {
+  padding-left: rem-calc(60);
+  padding-right: rem-calc(130);
+  padding-top: rem-calc(30);
+
+  .row {
+    width: $row-width;
+
+    .small-12 {
+      border: 1px solid $border;
+    }
+  }
+}
+
+
+#container {
+  padding-left: rem-calc(60);
+  padding-right: rem-calc(60);
+
+  .row {
+    width: $row-width;
+  }
+}
+
+
+#main-content {
+  &.small-8 {
+    padding-right: rem-calc(20);
+  }
+}
+
+#main-content.accessions, #main-content.objects {
+  padding: 0 1em;
+}
+
+#sidebar {
+  border: 1px solid $border;
+  padding: rem-calc(10);
+}
+
+#whats-in-container {
+  margin-top: rem-calc(20);
+  padding-bottom: rem-calc(20);
+  padding-left: rem-calc(20); 
+  margin-bottom: rem-calc(10);
+  border: 1px solid $border;
+  > h3 {
+    margin-top: 0px;
+    margin-left: rem-calc(-20);
+    background-color: $row-background;
+    color: $secondary-color;
+    border-bottom: 1px solid $border-accent;
+    padding-top: rem-calc(10);
+    padding-bottom: rem-calc(10);
+    padding-left: rem-calc(10);
+  }
+}
+
+.badge-and-identifier {
+  .identifier {
+    margin-left: rem-calc(10);
+    padding: rem-calc(4);
+  }
+}
+
+#lead_graph {
+   padding: rem-calc(20);
+   font-size: 1.0rem;
+}
+
+.record-container {
+  margin-top: rem-calc(20);
+
+  &.concepts-layout {
+
+    > .row {
+      margin-left: 0;
+    }
+  }
+
+}
+
+.record-container.with-border {
+  padding: rem-calc(20);
+  border: 1px solid $border;
+}
+
+
+.record-header {
+  word-wrap: break-word;
+}
+
+.record-toolbar {
+  ul {
+    display: table;
+    width: 100%;
+  }
+
+  li {
+    display: table-cell;
+    width: 25%;
+    text-align: center;
+
+    a {
+      padding: 0 !important;
+    }
+  }
+
+  i {
+    font-size: 2.0rem;
+  }
+}
+
+
+
+.identifier {
+  float: left;
+
+  .id-label {
+    float: left;
+    font-family: $serif-font;
+    font-weight: bold;
+  }
+}
+
+.dates-is-single-date {
+    list-style-type: none;
+    padding: 0;
+}
+
+.record-image {
+  float: right;
+  padding: rem-calc(20);
+  background-color: $image-background;
+  text-align: center;
+
+  p {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  .image-container {
+    width: rem-calc(300);
+    height: rem-calc(280);
+    overflow: hidden;
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}
+
+
+.row.context-row {
+  margin-top: rem-calc(10);
+  background-color: $row-background;
+  border: 1px solid $border;
+  padding-left: rem-calc(10);
+}
+
+.recordrow {
+  padding: rem-calc(10);
+  border: 1px solid $border;
+  margin-bottom: rem-calc(10);
+
+  &.featured {
+    background-color: $row-background;
+  }
+
+
+  h3 {
+    color: $darkest;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .recordsummary {
+    clear: both;
+  }
+}
+
+#embedded-search-container {
+  .recordrow:first-child {
+    margin-top: rem-calc(10);
+  }
+}
+
+
+a {
+  color: $secondary-color;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+h1, .h1 {
+  font-family: $sans-font;
+  font-size: rem-calc(30);
+  font-weight: bold;
+  color: $primary-color;
+}
+
+h1 {
+   font-size: rem-calc(24);
+}
+
+/* we want to shrink the font size of h1 in smaller sizes */
+
+@media (max-width: $screen-xs-max) {
+       h1 {
+      	  font-size: rem-calc(22);
+       }
+}
+
+
+h2 {
+  font-family: $sans-font;
+  font-size: rem-calc(24 );
+  font-weight: bold;
+  color: $accent-color;
+}
+
+h3 {
+  font-family: $sans-font;
+  font-size: rem-calc(20);
+  font-weight: bold;
+  color: $secondary-color;
+
+}
+
+h4 {
+  font-size: rem-calc(18);
+  font-family: $serif-font;
+}
+
+h5 {
+   font-weight: bold;
+}
+
+.valign-middle {
+  display: table;
+
+  > .columns {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  > .columns, > [class*="column"] + [class*="column"]:last-child {
+    float: none;
+  }
+}
+
+
+.spacer {
+  padding-top: 3em;
+}
+.first-row {
+  margin-top: 1em;
+}
+
+.search_row * .form-control {
+   margin-right: .3rem;
+}
+.search_row .fill-column {
+    width: 100%;
+}
+.searchterm, .keywordscontext li em {
+  font-weight:bold;
+  padding: 0 0.2em;
+  background-color: #d5f7e9;
+}
+.searchterm {
+  background-color: $highlight;
+}
+#submit_search {
+  width: 100%;
+}
+.searchstatement {
+  background-color: $row-background;
+}
+
+.facets h2 {
+  font-size: 2em;
+}
+.facets h3 {
+  font-size: 1.2em;
+  border-bottom: 1px solid;
+}
+.facets h4 {
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.facets p {
+  font-size: 0.9em;
+}
+.facets li {
+  width: 100%;
+  border-bottom: 1px solid;
+}
+ul.no-bullets {
+  list-style-type: none;
+}
+
+.facet-group {
+  list-style-type: none !important;
+  margin-left: 0;
+
+  li {
+    border-top: 1px solid $border;
+  }
+
+  li:last-child {
+    border-bottom: 1px solid $border;
+  }
+
+
+  li > a {
+    margin-left: rem-calc(10);
+  }
+
+  li > .recordnumber {
+    float: right;
+    color: $secondary-color;
+    /* position: absolute; */
+    /* right: 20px; */
+  }
+
+}
+
+.recordnumber {
+  /* background-color: #ccc; */
+  padding: 0 5px;
+  font-weight: bold;
+  /* position: absolute; */
+  /* right: 20px; */
+}
+.definition {
+  font-size: 0.7em;
+  float: right;
+}
+
+.center {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* search results */
+.result_context {
+  padding-top: 1em;
+  strong {
+    padding-right: 0.5em;
+  }
+}
+
+.recordrow {
+
+}
+
+.recordtype {
+  margin-top: -0.75em;
+}
+.object {
+  color: $collection-color;
+}
+.collection, .resource {
+  color: $collection-color;
+}
+button.subject {          /* class subject also turns up in finding aid transforms */
+  color:$subject-color;
+}
+.agent {
+  color:$agent-color;
+}
+
+.person {
+  color: $agent-color;
+}
+.record {
+  color: $record-color;
+}
+.classification {
+  color: $repository-color;
+}
+
+.page_action {
+  color: $darkest;
+   text-decoration: none;
+  line-height: inherit;
+  cursor: pointer;
+  border: 1px solid $light-neutral; 
+}
+.page_action:hover, .page_action:focus {
+     color: $accent_color;
+     background-color: $light-neutral;
+}
+
+.top_container {
+  color: $container-color;
+}
+.folder {
+  color:$folder-color;
+}
+.recordtype.repository {
+  color: $repository-color;
+}
+.recordtype.classification {
+  color: $classification-color;
+}
+.digitized {
+  float: right;
+  text-align: center;
+  color: #999;
+}
+.grid-item {
+  text-align: center;
+}
+.smallnote {
+  color: #999;
+  font-style: italic;
+}
+.subnote {
+  margin-top: 10px;
+  padding-left: 5px;
+}
+
+.note_outline ul {
+  list-style: disc;
+}
+
+.note_orderedlist {
+  .enumeration-arabic ol {
+    list-style: decimal;
+  }
+  .enumeration-loweralpha ol {
+    list-style: lower-alpha;
+  }
+  .enumeration-lowerroman ol {
+    list-style: lower-roman;
+  }
+  .enumeration-null ol {
+    list-style: disc;
+  }
+  .enumeration-upperalpha ol {
+    list-style: upper-alpha;
+  }
+  .enumeration-upperroman ol {
+    list-style: upper-roman;
+  }
+}
+
+.recordrow {
+  .classification-subgroups {
+    margin-top: 5px;
+
+    .classification-subgroups-tree.largetree-container {
+      max-height: 200px;
+      overflow: auto;
+    }
+  }
+}
+
+.repository-logo {
+  float: right;
+  img {
+    max-width: 400px;
+    max-height: 120px;
+  }
+}
+.recordrow {
+  .repository-logo {
+    img {
+      max-width: 200px;
+      max-height: 60px;
+    }
+  }
+}
+
+/* / search results */
+
+/* hierarchy tree */
+
+ul.tree {}
+.tree li {
+      margin-left: -2rem;
+      padding-bottom: .5rem;
+      display:block;
+}
+
+/*  THIS CAME FROM BRIAN */
+.contentsarrangement ul {
+  margin-left: 2em;
+}
+.recordchildren li i.fi-plus,
+.recordchildren li i.fi-minus {
+  margin-left: -2em;
+}
+.recordchildren li .treeitemdesc {
+  color: #999;
+  font-style: italic;
+  margin-left: 0.5em;
+}
+.contentsarrangement li.panel {
+  margin-left: -1.25em;
+  margin-bottom: 0;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+/* END OF CAME FROM BRIAN */
+
+.panel-footer {
+  margin-top: 2em;
+}
+
+/* /hierarchy tree */
+
+/* icon sizes */
+i.small {
+  font-size: 1.2em;
+}
+i.medium {
+  font-size: 3em;
+  line-height: 0em;
+}
+i.large {
+  font-size: 5em;
+}
+i.giant {
+  font-size: 8em;
+  line-height: 0em;
+}
+.attention {
+  color: green;
+}
+
+/* record details */
+.objectimage {
+    width: 50%;
+    float:right;
+    margin: 0 0 1em 1em;
+  
+}
+.objectimage img {
+   margin: 0 auto;
+   display:block;
+   max-width: 100%;
+}
+
+.objectimage button[type="submit"] {
+  width: 100%;
+  white-space: normal;
+}
+
+span.component {
+   font-weight: bold;
+}
+
+span.title {
+  font-style: italic;
+  font-variant: small-caps;
+}
+
+span.required {
+  font-variant: small-caps;
+  color: $alert-warning-text;
+}
+.keywordscontext {
+  .content {
+    padding-left: rem-calc(20);
+    display: none;
+  }
+}
+
+.inline-label {
+  font-weight: bold;
+  font-family: $serif-font;
+}
+
+.clear {
+       clear: both;
+}
+
+span.head {
+	  display: block;
+	  font-weight: bold;
+	  font-family: $serif-font;
+}
+
+
+.breadcrumb>li+li:before {color: $darkest; content: "\007C\00a0";}
+.breadcrumb * a {color: $breadcrumb-link;}
+.breadcrumb li br {display: none;}
+.panel .breadcrumb {
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+.acc_holder {
+	    margin-top: rem-calc(20);
+}
+
+#main .acc_button {
+  margin-bottom: 0.5rem;
+}
+
+#sidebar .acc_button {
+  display: none;
+}
+
+#sidebar .present_list {
+  padding-left: 10px
+}
+
+#sidebar form {
+  max-width: 85%;
+  margin: 0 auto;
+}
+
+#sidebar .year_from {
+  padding: 0;
+  padding-right: 0.2rem;
+}
+
+#sidebar .year_to {
+  padding: 0;
+  padding-left: 0.2rem;
+}
+
+.filter_more form {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.filter_more .year_from {
+  padding: 0;
+  padding-right: 0.2rem;
+}
+
+.filter_more .year_to {
+  padding: 0;
+  padding-left: 0.2rem;
+}
+
+.sorter {
+	margin-top: 20px;
+}
+
+@media (min-width: 992px) {
+  #sidebar.resizable-sidebar {
+    position: relative;
+    padding-left: 12px;
+
+    .resizable-sidebar-handle {
+      background-color: #EEE;
+      position: absolute;
+      height: 100%;
+      width: 8px;
+      top: 0;
+      left: 0;
+      cursor: ew-resize;
+      background-image: asset-url('sidebar_drag_handle.png');
+      background-repeat: no-repeat;
+      background-position: 1px center;
+      border-right: 1px solid #CCC;
+    }
+  }
+}
+@media (max-width: 991px) {
+  .row.has-resizable-content {
+    > .col-sm-9, > .resizable-sidebar {
+      width: inherit !important;
+    }
+  }
+}
+
+.skipnav a:focus {
+  position: absolute;
+}

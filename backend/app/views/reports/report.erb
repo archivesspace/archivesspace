@@ -1,10 +1,19 @@
+<% if layout? %>
+
+<% if @report.template == 'generic_listing.erb' %>
+  <!-- Listing template should be printed as landscape to fit on the page. -->
+  <% orientation = 'landscape' %>
+<% else %>
+  <% orientation = @report.orientation %>
+<% end %>
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <style media="screen,print">
-        /* ArchivesSpace Reporting Stylesheet */
-      <% if report.format.to_sym === :pdf %>
+        /* ArchivesSpace reporting Stylesheet */
+      <% if @report.format.to_sym === :pdf %>
         <% AppConfig[:report_pdf_font_paths].each do |font_path| %>
           @font-face {
             src: url('<%= font_path %>');
@@ -19,23 +28,114 @@
       <% else %>
         body {
           font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          max-width: 900px;
         }
       <% end %>
 
       .header .logo {
-        float: right;
+        display: none;
       }
 
       .header h1 {
         margin-top: 1em;
-        float: left;
         font-size: 1.8em;
       }
+
+      table h2,
+      table h3 {
+        margin: 10px 0 0;
+      }
+
+      .titlepage {
+        border: 1px solid black;
+        padding: 1em;
+        page-break-after: always;
+        height: 100%;
+      }
+
+      .titlepage .title {
+        font-weight: bold;
+        font-size: 36pt;
+        display: table;
+        margin: 0 auto;
+
+      }
+
+      .report-record {
+        margin-top: 2em;
+        padding-bottom: 2em;
+        border-bottom: 2px solid black;
+        page-break-before: always;
+      }
+
+      section > h3 {
+          page-break-after: avoid;
+      }
+
+      dl {
+        margin-top: 1em;
+      }
+
+      dt {
+        float: left;
+        padding: 0;
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      dt:after {
+        content: ": "
+      }
+
+      dd {
+        display: block;
+        margin: 2px;
+        padding: 0;
+      }
+
+      .identifier {
+        margin-top: 1em;
+        margin-bottom: 0.25em;
+        font-size: 24pt;
+        font-weight: bold;
+      }
+
+      .record-title {
+        font-style: italic;
+        margin-bottom: 1em;
+      }
+
+      h3 {
+        font-size: 100%;
+        font-weight: bold;
+      }
+
+      table {
+        border-collapse: collapse;
+        border-bottom: 1px solid black;
+        margin-left: 1em;
+        width: 90%;
+        page-break-inside: avoid;
+      }
+
+      table th {
+        border-top: solid 2px black;
+        border-bottom: solid 1px black;
+        text-align: left;
+        padding-left: 0.25em;
+        padding-right: 1em;
+        margin: 0;
+      }
+
+      table td {
+        padding: 0.5em 0.5em 0.5em 0.25em;
+      }     
 
       .report-listing {
         border: 1px solid #AAA;
         border-collapse: collapse;
-        width: 100%;
+        table-layout: fixed;
+        width: 95%;
         clear: both;
       }
 
@@ -44,6 +144,7 @@
         border: 1px solid #AAA;
         padding: 4px;
         vertical-align: top;
+        word-break: break-all;
       }
 
       .report-listing th {
@@ -55,7 +156,7 @@
       }
 
       @page {
-        size: <%= report.layout %>;
+        size: <%= @report.layout %> <%= orientation %>;
         -fs-flow-bottom: "footer";
       }
 
@@ -68,19 +169,14 @@
         border-spacing: 0px;
       }
 
+      .page-break {
+        page-break-after: always;
+      }
+
       @page {
-      @bottom-center {
-            content: element(footer);
-          }
+        @bottom-center {
+          content: element(footer);
         }
-
-      .page-start { -fs-page-sequence: start;}
-
-      .page-number:before { content: counter(page); }
-      .page-count:before { content: counter(pages); }
-
-      .html .pdf-page-count {
-        display: none;
       }
 
       .html #footer {
@@ -93,58 +189,32 @@
         font-size: 11px;
       }
 
-      .pdf #footer .timstamp {
+      .pdf #footer .timestamp {
         position: absolute;
         bottom: 10px;
         left: 0;
         font-size: 0.8em;
       }
-
-      .pdf #footer .pdf-page-count {
-        position: absolute;
-        bottom: 10px;
-        right: 0;
-      }
     </style>
   </head>
-  <body class="<%= report.format %>">
-    <div class="header">
-      <img class="logo" src="<%= @base_url || '/' %>reports/static/images/archivesspace.small.png"/>
-      <h1><%= report.title %></h1>
-    </div>
-    
-    <table class="report-listing">
-      <thead>
-        <tr>
-          <% report.headers.each do |heading| %>
-            <th><%= heading %></th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% report.each do |record| %>
-          <tr>
-            <% report.headers.each do |heading| %>
-              <td>
-                <%= CGI.escapeHTML(record[heading].to_s) %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
 
-    <% if report.format === :html or report.format === :pdf %>
+  <body class="<%= @report.format %>">
+    <%= render(@report.template) %>
+
+    <% if @report.format === 'html' or @report.format === 'pdf' %>
       <% time = DateTime.now %>
       <div id="footer" class="footer" style="position: running(footer);">
         <div class="timestamp">
-          <% if report.repo_id %>Scoped for Repository: <%= report.repo_id %><br/><% end %>
-          Report Generated at <%= time.strftime("%Y-%m-%d %H:%M %Z") %>
+          <% if @report.repo_id %>Scoped for Repository: <%= h @report.repo_id %><br/><% end %>
+          Report Generated at <%= h time.strftime("%Y-%m-%d %H:%M %Z") %>
         </div>
-
-        <div class="pdf-page-count">Page <span class="page-number"/> of <span class="page-count"/></div>
       </div>
     <% end %>
 
   </body>
 </html>
+
+<% else %>
+   <!-- <%= h @report.template %>  -->
+    <%= render(@report.template) %>
+<% end %>

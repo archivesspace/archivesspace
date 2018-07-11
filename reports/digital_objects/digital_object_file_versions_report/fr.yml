@@ -1,0 +1,13 @@
+fr:
+  reports:
+    digital_object_file_versions_report:
+      title: Liste versions de fichiers
+      description: Affiche toutes les versions de fichier associées aux objets numériques sélectionnés.
+      total_count: Nombre de notices
+      identifier_prefix: Objet numérique
+      file_versions: Version(s) de fichier
+      components: Composant(s)
+      component_identifier: Identifiant de composant
+      component_title: Intitulé de composant
+      uri: URI
+      use_statement: Mention d'utilisation

@@ -1,0 +1,10 @@
+JSON Schema: Resource_ordered_records
+/repositories/:repo_id/resources/:id/ordered_records
+Properties
+
+array (Object (ref, display_string, depth, level, _resolved))	uris
+
+
+
+
+

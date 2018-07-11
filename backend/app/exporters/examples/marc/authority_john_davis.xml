@@ -15,6 +15,10 @@
     <marcxml:subfield code="c">DLC</marcxml:subfield>
     <marcxml:subfield code="e">AACR2</marcxml:subfield>
   </marcxml:datafield>
+			<marcxml:datafield tag="046" ind1=" " ind2=" ">
+		<marcxml:subfield code="f">18990101</marcxml:subfield>
+		<marcxml:subfield code="g">19611201</marcxml:subfield>
+	</marcxml:datafield>
 	    <marcxml:datafield tag="100" ind1="1" ind2="0">
     <marcxml:subfield code="a">Davis, John W.</marcxml:subfield>
     <marcxml:subfield code="q">(John William),</marcxml:subfield>
@@ -36,4 +40,9 @@
     <marcxml:subfield code="a">Bio. Dir. of Am. Congress, 1774-1961:</marcxml:subfield>
     <marcxml:subfield code="b">p. 785, etc. (Davis, John William; congressman from W. Va., lawyer; U.S. Solicitor General, 1913-1918; ambassador extraordinary to Gt. Britain, 1918-1921; unsuccessful Democratic candidate for president, 1924)</marcxml:subfield>
   </marcxml:datafield>
+			<marcxml:datafield tag="678" ind1=" " ind2=" ">
+		<marcxml:subfield code="a">Biographical or historical data.</marcxml:subfield>
+		<marcxml:subfield code="b">Expansion ...</marcxml:subfield>
+		<marcxml:subfield code="u">Uniform Resource Identifier</marcxml:subfield>
+	</marcxml:datafield>
 </marcxml:record>

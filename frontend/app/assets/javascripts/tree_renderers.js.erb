@@ -1,0 +1,255 @@
+function BaseRenderer() {
+    this.endpointMarkerTemplate = $('<tr class="end-marker" />');
+
+    this.rootTemplate = $('<tr> ' +
+                          '  <td class="no-drag-handle"></td>' +
+                          '  <td class="title"></td>' +
+                          '</tr>');
+
+
+    this.nodeTemplate = $('<tr> ' +
+                          '  <td class="drag-handle"></td>' +
+                          '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
+                          '</tr>');
+}
+
+BaseRenderer.prototype.endpoint_marker = function () {
+    return this.endpointMarkerTemplate.clone(true);
+}
+
+BaseRenderer.prototype.get_root_template = function () {
+    return this.rootTemplate.clone(false);
+}
+
+
+BaseRenderer.prototype.get_node_template = function () {
+    return this.nodeTemplate.clone(false);
+};
+
+BaseRenderer.prototype.i18n = function (enumeration, enumeration_value) {
+    return EnumerationTranslations.t(enumeration, enumeration_value);
+};
+
+
+function ResourceRenderer() {
+    BaseRenderer.call(this);
+    this.rootTemplate = $('<tr> ' +
+                          '  <td class="no-drag-handle"></td>' +
+                          '  <td class="title"></td>' +
+                          '  <td class="resource-level"></td>' +
+                          '  <td class="resource-type"></td>' +
+                          '  <td class="resource-container"></td>' +
+                          '</tr>');
+
+    this.nodeTemplate = $('<tr> ' +
+                          '  <td class="drag-handle"></td>' +
+                          '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
+                          '  <td class="resource-level"></td>' +
+                          '  <td class="resource-type"></td>' +
+                          '  <td class="resource-container"></td>' +
+                          '</tr>');
+}
+
+ResourceRenderer.prototype = Object.create(BaseRenderer.prototype);
+
+ResourceRenderer.prototype.add_root_columns = function (row, rootNode) {
+    var level = this.i18n('archival_record_level', rootNode.level);
+    var type = this.build_type_summary(rootNode);
+    var container_summary = this.build_container_summary(rootNode);
+
+    if (rootNode.parsed_title) {
+        row.find('.title .record-title').html(rootNode.parsed_title);
+    }
+
+    row.find('.resource-level').text(level).attr('title', level);
+    row.find('.resource-type').text(type).attr('title', type);
+    row.find('.resource-container').text(container_summary).attr('title', container_summary);
+}
+
+
+ResourceRenderer.prototype.add_node_columns = function (row, node) {
+    var title = this.build_node_title(node);
+    var level = this.i18n('archival_record_level', node.level);
+    var type = this.build_type_summary(node);
+    var container_summary = this.build_container_summary(node);
+
+    row.find('.title .record-title').html(title).attr('title', title);
+    row.find('.resource-level').text(level).attr('title', level);
+    row.find('.resource-type').text(type).attr('title', type);
+    row.find('.resource-container').text(container_summary).attr('title', container_summary);
+};
+
+
+ResourceRenderer.prototype.build_node_title = function(node) {
+    var title_bits = [];
+    if (node.parsed_title) {
+      title_bits.push(node.parsed_title);
+    } else if (node.title) {
+      title_bits.push(node.title);
+    }
+
+    if (node.dates && node.dates.length > 0) {
+      var first_date = node.dates[0];
+      if (first_date.expression) {
+          title_bits.push(first_date.expression);
+      } else if (first_date.begin && first_date.end) {
+          title_bits.push(first_date.begin + '-' + first_date.end);
+      } else if (first_date.begin) {
+          title_bits.push(first_date.begin);
+      }
+    }
+
+    return title_bits.join(', ');
+};
+
+
+ResourceRenderer.prototype.build_type_summary = function(node) {
+    var self = this;
+    var type_summary = '';
+
+    if (node['containers']) {
+        var types = []
+
+        $.each(node['containers'], function(_, container) {
+            types.push(self.i18n('instance_instance_type', container['instance_type']));
+        });
+
+        type_summary = types.join(', ');
+    } 
+
+    return type_summary;
+};
+
+
+ResourceRenderer.prototype.build_container_summary = function(node) {
+    var self = this;
+    var container_summary = '';
+
+    if (node['containers']) {
+        var container_summaries = []
+
+        $.each(node['containers'], function(_, container) {
+            var summary_items = []
+            if (container.top_container_indicator) {
+                var top_container_summary = '';
+
+                if (container.top_container_type) {
+                    top_container_summary += self.i18n('container_type', container.top_container_type) + ': ';
+                }
+
+                top_container_summary += container.top_container_indicator;
+
+                if (container.top_container_barcode) {
+                    top_container_summary += ' [' + container.top_container_barcode + ']';
+                }
+
+                summary_items.push(top_container_summary);
+            }
+            if (container.type_2) {
+                summary_items.push(self.i18n('container_type', container.type_2) + ': ' + container.indicator_2);
+            }
+            if (container.type_3) {
+                summary_items.push(self.i18n('container_type', container.type_3) + ': ' + container.indicator_3);
+            }
+            if (summary_items.length > 0) {
+                container_summaries.push(summary_items.join(', '));
+            }
+        });
+
+        container_summary = container_summaries.join('; ');
+    }
+
+    return container_summary;
+};
+
+
+function DigitalObjectRenderer() {
+    BaseRenderer.call(this);
+
+
+    this.rootTemplate = $('<tr> ' +
+                          '  <td class="no-drag-handle"></td>' +
+                          '  <td class="title"></td>' +
+                          '  <td class="digital-object-type"></td>' +
+                          '  <td class="file-uri-summary"></td>' +
+                          '</tr>');
+
+
+    this.nodeTemplate = $('<tr> ' +
+                          '  <td class="drag-handle"></td>' +
+                          '  <td class="title"><span class="indentor"><button class="expandme"><i class="expandme-icon glyphicon glyphicon-chevron-right" /></button></span> </td>' +
+                          '  <td class="digital-object-type"></td>' +
+                          '  <td class="file-uri-summary"></td>' +
+                          '</tr>');
+}
+
+DigitalObjectRenderer.prototype = new BaseRenderer();
+
+DigitalObjectRenderer.prototype.add_root_columns = function (row, rootNode) {
+    if (rootNode.digital_object_type) {
+        var type = this.i18n('digital_object_digital_object_type', rootNode.digital_object_type);
+        row.find('.digital-object-type').text(type).attr('title', type);
+    }
+
+    if (rootNode.file_uri_summary) {
+        row.find('.file-uri-summary').text(rootNode.file_uri_summary).attr('title', rootNode.file_uri_summary);
+    }
+
+    if (rootNode.parsed_title) {
+        row.find('.title .record-title').html(rootNode.parsed_title)
+    }
+}
+
+DigitalObjectRenderer.prototype.add_node_columns = function (row, node) {
+    var title = this.build_node_title(node);
+
+    row.find('.title .record-title').html(title).attr('title', title);
+    row.find('.file-uri-summary').text(node.file_uri_summary).attr('title', node.file_uri_summary);
+};
+
+DigitalObjectRenderer.prototype.build_node_title = function(node) {
+    var title_bits = [];
+
+    if (node.parsed_title) {
+        title_bits.push(node.parsed_title);
+    } else if (node.title) {
+        title_bits.push(node.title);
+    }
+
+    if (node.label) {
+        title_bits.push(node.label);
+    }
+
+    if (node.dates && node.dates.length > 0) {
+        var first_date = node.dates[0];
+        if (first_date.expression) {
+            title_bits.push(first_date.expression);
+        } else if (first_date.begin && first_date.end) {
+            title_bits.push(first_date.begin + '-' + first_date.end);
+        } else if (first_date.begin) {
+            title_bits.push(first_date.begin);
+        }
+    }
+
+    return title_bits.join(', ');
+};
+
+function ClassificationRenderer() {
+    BaseRenderer.call(this);
+};
+
+ClassificationRenderer.prototype = new BaseRenderer();
+
+ClassificationRenderer.prototype.add_root_columns = function (row, rootNode) {
+    var title = this.build_title(rootNode);
+    row.find('.title .record-title').text(title).attr('title', title);
+};
+
+ClassificationRenderer.prototype.add_node_columns = function (row, node) {
+    var title = this.build_title(node);
+    row.find('.title .record-title').text(title).attr('title', title);
+};
+
+ClassificationRenderer.prototype.build_title = function(node) {
+    return [node.identifier, node.title].join('. ');
+};

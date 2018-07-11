@@ -19,13 +19,16 @@ class ArchivalRecordChildren < JSONModel(:archival_record_children)
 
 
   def self.clean_instances(child)
-    return unless child["instances"]
+    return if !child["instances"] || child["instances"].empty?
 
-    if child["instances"][0]["container"].reject{|k,v| v.blank?}.empty?
-      child["instances"][0].delete("container")
+    child["instances"] = [child["instances"].first]
+
+    if child["instances"][0]["sub_container"].reject{|k,v| v.blank?}.empty?
+      child["instances"][0].delete("sub_container")
     end
-    if !child["instances"][0].has_key?("container") and child["instances"][0]["instance_type"].blank?
-      child.delete("instances")
+
+    if !child["instances"][0].has_key?("sub_container") && child["instances"][0]["instance_type"].blank?
+      child["instances"] = []
     end
   end
 

@@ -1,0 +1,8 @@
+en:
+  slow_nothing_job:
+    _singular: Slow nothing job
+    _plural: Slow nothing jobs
+    times: How many times?
+  job:
+    types:
+      slow_nothing_job: Slow Nothing Job

@@ -1,0 +1,5 @@
+fr:
+  reports:
+    digital_object_file_versions_list_subreport:
+      uri: URI
+      use_statement: Mention d'utilisation

@@ -6,11 +6,12 @@ ArchivesSpace::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = (ENV['ASPACE_INTEGRATION'] == "true")
 
+  config.eager_load = true
+
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
-  # Show full error reports and disable caching
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local       = false
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
@@ -29,12 +30,14 @@ ArchivesSpace::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  # Disable multi-threaded mode for development, so "hot code replacement" works
-  # config.threadsafe!
-
   # Do not compress assets
   config.assets.compress = false
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # If we're running with a prefix, write our on-the-fly compiled assets to the
+  # right spot.  NOTE: Don't enable this for production, as it's handled
+  # differently there due to precompilation.
+  config.assets.prefix = AppConfig[:frontend_proxy_prefix] + "assets"
 end

@@ -37,7 +37,7 @@ class ParallelFormatterOut < RSpec::Core::Formatters::DocumentationFormatter
     thread_id + " " + RSpec::Core::Formatters::ConsoleCodes.wrap("#{example.metadata[:example_group][:full_description].strip}: #{example.description.strip}", :success)
   end
 
-  def failure_output(example, _exception)
+  def failure_output(example)
     thread_id + " " + RSpec::Core::Formatters::ConsoleCodes.wrap("#{example.metadata[:example_group][:full_description].strip}: #{example.description.strip} " "(FAILED - #{next_failure_index})",
                             :failure)
   end

@@ -1,11 +1,3 @@
-JOB_TYPES = [
-             {"type" => "JSONModel(:import_job) object"},
-             {"type" => "JSONModel(:find_and_replace_job) object"},
-             {"type" => "JSONModel(:print_to_pdf_job) object"},
-             {"type" => "JSONModel(:report_job) object"},
-             {"type" => "JSONModel(:container_conversion_job) object"}
-            ]
-
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
@@ -18,13 +10,11 @@ JOB_TYPES = [
 
       "job_type" => {
         "type" => "string",
-        "ifmissing" => "error",
-        "minLength" => 1,
-        "dynamic_enum" => "job_type"
+        "readonly" => true
       },
-
+   
       "job" => {
-        "type" => JOB_TYPES
+        "type" => "object"
       },
    
       "job_params" => { 

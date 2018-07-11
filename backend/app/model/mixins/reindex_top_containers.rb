@@ -9,7 +9,7 @@ module ReindexTopContainers
 
     # Find any relationships between a top container and any instance within the current tree.
     root_record = if self.class == ArchivalObject
-                    self.root_record_id ? self.class.root_model[self.root_record_id] : self.topmost_archival_object
+                    self.class.root_model[self.root_record_id]
                   else
                     self
                   end
@@ -40,7 +40,7 @@ module ReindexTopContainers
   def reindex_top_containers_by_any_means_necessary(extra_ids)
     # Find any relationships between a top container and any instance within the current tree.
     root_record = if self.class == ArchivalObject
-                    self.root_record_id ? self.class.root_model[self.root_record_id] : self.topmost_archival_object
+                    self.class.root_model[self.root_record_id]
                   else
                     self
                   end
@@ -58,11 +58,15 @@ module ReindexTopContainers
 
 
   # not defined in accession or resource
-  def update_position_only(*)
+  def set_parent_and_position(*)
     super
     reindex_top_containers
   end
 
+  def set_root(*)
+    super
+    reindex_top_containers
+  end
 
   def delete
     reindex_top_containers

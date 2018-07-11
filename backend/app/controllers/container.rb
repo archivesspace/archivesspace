@@ -1,4 +1,4 @@
-require_relative './search'
+require_relative 'search'
 
 class ArchivesSpaceService < Sinatra::Base
 
@@ -135,6 +135,22 @@ class ArchivesSpaceService < Sinatra::Base
     begin
       updated = TopContainer.bulk_update_barcodes(ASUtils.json_parse(params[:barcode_data]))
       json_response(:updated => updated)
+    rescue Sequel::ValidationFailed => e
+      json_response({:error => e.errors, :uri => e.model.uri}, 400)
+    end
+  end
+
+
+  Endpoint.post('/repositories/:repo_id/top_containers/bulk/locations')
+  .description("Bulk update locations")
+  .params(["location_data", String, "JSON string containing location data {container_uri=>location_uri}", :body => true],
+          ["repo_id", :repo_id])
+  .permissions([:manage_container_record])
+  .returns([200, :updated]) \
+  do
+    begin
+      result = TopContainer.bulk_update_locations(ASUtils.json_parse(params[:location_data]))
+      json_response(result)
     rescue Sequel::ValidationFailed => e
       json_response({:error => e.errors, :uri => e.model.uri}, 400)
     end

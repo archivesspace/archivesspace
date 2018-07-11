@@ -11,4 +11,4 @@ FOR /D %%c IN (..\gems\gems\jruby-*) DO (
   set JRUBY=!JRUBY!;%%c\lib\*
 )
 
-java %JAVA_OPTS% -cp "..\lib\*!JRUBY!" org.jruby.Main --1.9 ..\launcher\password_reset\lib\password-reset.rb %1 %2
+java %JAVA_OPTS% -cp "..\lib\*!JRUBY!" org.jruby.Main ..\launcher\password_reset\lib\password-reset.rb %1 %2

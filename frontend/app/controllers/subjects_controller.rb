@@ -5,11 +5,21 @@ class SubjectsController < ApplicationController
                       "delete_subject_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults]
 
+  include ExportHelper
 
 
   def index
-    @search_data = Search.global({"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.SUBJECT_FACETS})),
+    respond_to do |format| 
+      format.html {   
+        @search_data = Search.global({"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.SUBJECT_FACETS})),
                                  "subjects")
+      }
+      format.csv { 
+        search_params = params_for_backend_search.merge({ "sort" => "title_sort asc",  "facet[]" => SearchResultData.SUBJECT_FACETS})
+        uri = "/search/subjects"
+        csv_response( uri, search_params )
+      }  
+    end 
   end
 
   def show

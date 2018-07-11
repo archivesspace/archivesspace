@@ -10,7 +10,7 @@
       <li>
         <%= form_context :add_event, {} do |form| %>
           <fieldset>
-            <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [I18n.t("enumerations.event_event_type.#{event_type}", event_type), event_type]}) %>
+            <%= select_tag "add_event_event_type", options_for_select(event_types.map{|event_type| [I18n.t("enumerations.event_event_type.#{event_type}", :default => event_type), event_type]}) %>
           </fieldset>
           <div class="form-actions">
             <button class="btn add-event-button"><%= I18n.t("actions.add_event") %></button>

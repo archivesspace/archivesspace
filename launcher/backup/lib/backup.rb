@@ -8,7 +8,7 @@ require_relative 'trollop'
 require 'zip/zip'
 require 'tempfile'
 require 'uri'
-require 'net/http'
+require 'ashttp'
 require 'asutils'
 
 class ArchivesSpaceBackup
@@ -77,7 +77,7 @@ class ArchivesSpaceBackup
   def create_demodb_snapshot
     if AppConfig[:db_url] == AppConfig.demo_db_url
       File.write(AppConfig[:demodb_snapshot_flag], "")
-      Net::HTTP.post_form(URI(URI.join(AppConfig[:backend_url], "/system/demo_db_snapshot")), {})
+      ASHTTP.post_form(URI(URI.join(AppConfig[:backend_url], "/system/demo_db_snapshot")), {})
     end
   end
 
@@ -85,7 +85,7 @@ class ArchivesSpaceBackup
   def backup(output_file, do_mysqldump = false)
     output_file = File.absolute_path(output_file, ENV['ORIG_PWD'])
 
-    if File.exists?(output_file)
+    if File.exist?(output_file)
       puts "Output file '#{output_file}' already exists!  Aborting"
       return 1
     end
@@ -114,7 +114,7 @@ class ArchivesSpaceBackup
 
       Zip::ZipFile.open(output_file, Zip::ZipFile::CREATE) do |zipfile|
         add_whole_directory(solr_snapshot, zipfile) if AppConfig[:enable_solr]
-        add_whole_directory(demo_db_backups, zipfile) if Dir.exists?(demo_db_backups)
+        add_whole_directory(demo_db_backups, zipfile) if Dir.exist?(demo_db_backups)
         add_whole_directory(config_dir, zipfile) if config_dir
         zipfile.add("mysqldump.sql", mysql_dump) if mysql_dump
       end

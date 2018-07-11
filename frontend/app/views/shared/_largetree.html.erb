@@ -1,0 +1,80 @@
+<%
+   read_only = false if read_only.blank?
+%>
+
+<div class="row">
+  <div class="col-md-12">
+    <div style="display: none" id="tree-unexpected-failure" class="alert alert-warning"><%= I18n.t('tree.unexpected_failure') %></div>
+    <div id="tree-toolbar" class="btn-toolbar"></div>
+    <div id="tree-container" class="largetree-container"></div>
+  </div>
+</div>
+
+<div id="object_container"></div>
+
+<div id="tree_toolbar_transfer_action"><!--
+  <a class="btn btn-xs btn-default dropdown-toggle transfer-node" data-toggle="dropdown" href="#" title="<%= I18n.t "actions.transfer" %>">
+    <%= I18n.t "actions.transfer" %> <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu tree-transfer-form">
+    <li class="col-sm-12">
+      <%= form_tag(archival_objects_path + "/${node_id}/transfer") do |f| %>
+        <%= form_context :transfer, {} do |form| %>
+          <fieldset>
+            <%= form.hidden_input "current_resource_id", "${root_object_id}" %>
+            <div class="alert alert-danger missing-ref-message" style="display: none;"><%= I18n.t "archival_object._frontend.messages.please_select_a_resource_for_transfer" %></div>
+            <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :exclude_ids => [root_record.id], :layout => "stacked" }%>
+          </fieldset>
+          <div class="form-actions">
+            <button class="btn btn-default btn-primary pull-left transfer-button"><%= I18n.t("actions.transfer") %></button>
+            <a class="btn btn-default btn-cancel pull-right" href="#"><%= I18n.t("actions.cancel") %></a>
+          </div>
+        <% end %>
+      <% end %>
+    </li>
+  </ul>-->
+</div>
+
+<script>
+  <%
+    translations = {}
+
+    ['instance_instance_type', 'container_type', 'resource_resource_type',
+     'archival_record_level', 'digital_object_digital_object_type'
+    ].each do |enumeration_name|
+      translations[enumeration_name] ||= {}
+
+      JSONModel.enum_values(enumeration_name).each do |enumeration_value|
+        translations[enumeration_name][enumeration_value] = I18n.t("enumerations.#{enumeration_name}.#{enumeration_value}", :default => enumeration_value)
+      end
+    end
+  %>
+
+  var ENUMERATION_TRANSLATIONS = <%== translations.to_json %>;
+
+  var EnumerationTranslations = {
+    t : function(enumeration, enumeration_value) {
+      if (ENUMERATION_TRANSLATIONS.hasOwnProperty(enumeration)) {
+          if (ENUMERATION_TRANSLATIONS[enumeration].hasOwnProperty(enumeration_value)) {
+              return ENUMERATION_TRANSLATIONS[enumeration][enumeration_value];
+          } else if (enumeration == 'archival_record_level'){
+              return enumeration_value;
+          }
+      }
+      return null;
+    }
+  };
+</script>
+
+<%= stylesheet_link_tag "archivesspace/largetree" %>
+<%= javascript_include_tag "tree" %>
+
+<script>
+    var tree = new Tree('<%= url_for(:action => :show) %>/tree',
+                        $('#tree-container'),
+                        $('#object_container'),
+                        $('#tree-toolbar'),
+                        '<%= root_record.uri %>',
+                        <%= read_only %>,
+                        '<%= root_record.jsonmodel_type %>');
+</script>

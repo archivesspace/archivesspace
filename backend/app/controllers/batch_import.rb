@@ -7,7 +7,9 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Import a batch of records")
     .params(["batch_import", :body_stream, "The batch of records"],
             ["repo_id", :repo_id],
-	    ["migration", String, "param to indicate we are using a migrator", :optional => true ]    )
+            ["migration", String, "Param to indicate we are using a migrator", :optional => true ],
+            ["skip_results", BooleanParam, "If true, don't return the list of created record URIs",
+             :optional => true ])
     .request_context(:create_enums => true)
     .use_transaction(false)
     .permissions([:import_records])
@@ -49,7 +51,8 @@ class ArchivesSpaceService < Sinatra::Base
       # Wrap the import in a transaction if the DB supports MVCC
       begin
         DB.open(DB.supports_mvcc?,
-                :retry_on_optimistic_locking_fail => true) do
+                :retry_on_optimistic_locking_fail => true,
+                :isolation_level => :committed) do
           last_error = nil
 
           File.open(env['batch_import_file']) do |stream|
@@ -79,12 +82,13 @@ class ArchivesSpaceService < Sinatra::Base
 
       results = {:saved => []}
 
-      if batch && batch.created_records
+      if !params[:skip_results] && batch && batch.created_records
         results[:saved] = Hash[batch.created_records.map {|logical, real_uri|
                                  [logical, [real_uri, JSONModel.parse_reference(real_uri)[:id]]]}]
       end
 
       if last_error
+        Log.exception(last_error)
         results[:errors] = ["Server error: #{last_error}"]
       end
 

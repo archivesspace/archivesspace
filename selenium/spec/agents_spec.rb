@@ -5,7 +5,7 @@ describe "Agents" do
   before(:all) do
     @repo = create(:repo, :repo_code => "agents_test_#{Time.now.to_i}")
     user = create_user(@repo => ['repository-archivists'])
-    @driver = Driver.new.login_to_repo(user, @repo)
+    @driver = Driver.get.login_to_repo(user, @repo)
 
     @hendrix = "Hendrix von #{Time.now.to_i}"
 
@@ -21,8 +21,8 @@ describe "Agents" do
   it "reports errors and warnings when creating an invalid Person Agent" do
     @driver.find_element(:link, 'Create').click
     @driver.find_element(:link, 'Agent').click
-    @driver.find_element(:link, 'Person').click
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
   end
 
@@ -30,7 +30,7 @@ describe "Agents" do
   it "reports an error when neither Source nor Rules is provided" do
     @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], @hendrix)
 
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Source - is required/)
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Rules - is required/)
@@ -44,7 +44,7 @@ describe "Agents" do
     rules_select = @driver.find_element(:id => "agent_names__0__rules_")
     rules_select.select_option("local")
 
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
     @driver.find_element_with_text('//div[contains(@class, "warning")]', /^Source - is required if there is an 'authority id'$/i)
   end
 
@@ -79,7 +79,7 @@ describe "Agents" do
   it "throws an error if no sort name is provided and auto gen is false" do
     @driver.find_element(:id, "agent_names__0__sort_name_auto_generate_").click
     @driver.clear_and_send_keys([:id, "agent_names__0__sort_name_"], "")
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Sort Name - Property is required but was missing/)
   end
 
@@ -94,7 +94,7 @@ describe "Agents" do
 
   it "can add a secondary name and validations match index of name form" do
     @driver.find_element(:css => '#agent_person_names .subrecord-form-heading .btn:not(.show-all)').click
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
 
@@ -104,7 +104,6 @@ describe "Agents" do
 
 
   it "can save a person and view readonly view of person" do
-    begin
     @driver.find_element(:css => '#agent_person_contact_details .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([:id, "agent_agent_contacts__0__name_"], "Email Address")
@@ -113,9 +112,6 @@ describe "Agents" do
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("My Custom Sort Name Agent") }
-      rescue => e
-      binding.pry
-      end
   end
 
 
@@ -135,32 +131,25 @@ describe "Agents" do
 
   it "reports errors when updating a Person Agent with invalid data" do
     @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], "")
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
     @driver.clear_and_send_keys([:id, "agent_names__0__primary_name_"], @hendrix)
   end
 
 
   it "can add a related agent" do
-    begin
     @driver.find_element(:css => '#agent_person_related_agents .subrecord-form-heading .btn:not(.show-all)').click
     @driver.find_element(:css => "select.related-agent-type").select_option("agent_relationship_associative")
 
     token_input = @driver.find_element(:id, "token-input-agent_related_agents__1__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@other_agent.names.first['sort_name'])
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @other_agent.names.first['sort_name'] ) 
 
-    @driver.find_element(:css => "form .record-pane button[type='submit']").click
+    @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Agent Saved/)
     linked = @driver.find_element(:id, "_agents_people_#{@other_agent.id}").text.sub(/\n.*/, '')
 
     linked.should eq(@other_agent.names[0]['sort_name'])
-      rescue => e
-      binding.pry
-    end
   end
 
 
@@ -242,8 +231,24 @@ describe "Agents" do
     notes[0].find_element(:css => '.collapse-subrecord-toggle').click
 
     # Add a sub note
-    assert(5) { notes[0].find_element(:css => '.subrecord-form-heading .btn:not(.show-all)').click }
-    notes[0].find_element(:css => 'select.bioghist-note-type').select_option('note_outline')
+    @driver.scroll_into_view(notes[0])  
+    sleep 1 
+    i = 0 
+    begin 
+      notes[0].find_element(:css => '.subrecord-form-heading .btn.add-sub-note-btn:not(.show-all)').click 
+      el = notes[0].find_element_orig(:css => 'select.bioghist-note-type')
+      el.select_option('note_outline')
+    rescue Selenium::WebDriver::Error::NoSuchElementError => e
+      if i < 5 
+        i+= 1
+        redo
+      else
+        raise e
+      end
+    end
+
+    # Woah! Slow down, cowboy. Ensure the sub form is initialised.
+    notes[0].find_element(:css => ".subrecord-form-fields.initialised")
 
     # ensure sub note form displayed
     @driver.find_element(:id, "agent_notes__0__subnotes__2__publish_")
@@ -278,7 +283,7 @@ describe "Agents" do
   it "returns agents in search results and shows their types correctly" do
 
     @driver.clear_and_send_keys([:id, "global-search-box"], @hendrix)
-    @driver.find_element(:id => 'global-search-button').click
+    @driver.click_and_wait_until_gone(:id => 'global-search-button')
 
     @driver.find_element_with_text('//td', /My Custom Sort Name/)
     @driver.find_element_with_text('//td', /Person/)

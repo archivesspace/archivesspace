@@ -1,21 +1,25 @@
 ArchivesSpace README
 --------------------
 
-[![Build Status](https://travis-ci.org/archivesspace/archivesspace.svg)](https://travis-ci.org/archivesspace/archivesspace.svg)[![Code Climate](https://codeclimate.com/github/archivesspace/archivesspace.png)](https://codeclimate.com/github/archivesspace/archivesspace)
+[![Build Status](https://travis-ci.org/archivesspace/archivesspace.svg?branch=master)](https://travis-ci.org/archivesspace/archivesspace)[![Coverage Status](https://coveralls.io/repos/github/archivesspace/archivesspace/badge.svg?branch=master)](https://coveralls.io/github/archivesspace/archivesspace?branch=master)[![Code Climate](https://codeclimate.com/github/archivesspace/archivesspace.png)](https://codeclimate.com/github/archivesspace/archivesspace)
+[![Stories in Ready](https://badge.waffle.io/archivesspace/archivesspace.png?label=ready&title=Ready)](https://waffle.io/archivesspace/archivesspace?utm_source=badge)
 
 
-<http://archivesspace.org>
-[Wiki and Issue Tracker](https://archivesspace.atlassian.net)
-IRC: #archivesspace ( chat.freenode.net )
+* [archivesspace.org](http://archivesspace.org)
+* [User Documentation](https://docs.archivesspace.org/)
+* [Technical Documentation](http://archivesspace.github.io/archivesspace/)
+* [API](http://archivesspace.github.io/archivesspace/api)
+* [Wiki](http://wiki.archivesspace.org)
+* [Issue Tracker](http://development.archivesspace.org)
 
 # System requirements
 
-* Java 1.6 or higher; Java 1.7 or 1.8 recommended.
-* At least 1024 MB RAM allocated to the application
+* Java 1.7 or 1.8.
+* At least 1024 MB RAM allocated to the application; at least 2 GB for optimal performance.
 * A [supported browser](https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers)
 
-ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
-Windows (XP, Windows 7, Windows 8, Windows Server 2008 & 2012 ).
+ArchivesSpace has been tested on Ubuntu Linux, Mac OS X, and
+Windows.
 
 MySQL is not required, but is **strongly** recommended for production use.
 
@@ -30,15 +34,10 @@ the latest distribution `.zip` file from the following URL:
 
   https://github.com/archivesspace/archivesspace/releases
 
-You will need to have Java 1.6 (or newer) installed on your machine.
+You will need to have Java 1.7 or 1.8 installed on your machine.
 You can check your Java version by running the command:
 
      java -version
-
-Currently, if you want to use Java 1.8, you will need to remove the
-jdt-compiler jar library from the java classpath ( lib directory of
-your ArchivesSpace directory). This will disable the use of Jasper
-reports ( but not regular reports).  
 
 When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate
@@ -64,15 +63,17 @@ ArchivesSpace directory is located.
 ## Start ArchivesSpace
 
 The first time it starts, the system will take a minute or so to start
-up.  Once it is ready, confirm that ArchivesSpace is running correctly by 
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by
 accessing the following URLs in your browser:
 
   - http://localhost:8089/ -- the backend
   - http://localhost:8080/ -- the staff interface
   - http://localhost:8081/ -- the public interface
+  - http://localhost:8082/ -- the OAI-PMH server
   - http://localhost:8090/ -- the Solr admin console
 
-To start using the Staff interface application, log in using the adminstrator 
+
+To start using the Staff interface application, log in using the adminstrator
 account:
 
 * Username: `admin`
@@ -88,10 +89,10 @@ as creating and modifying user accounts.  **Be sure to change the
 
 The primary configuration for ArchivesSpace is done in the config/config.rb
 file. By default, this file contains the default settings, which are indicated
-by commented out lines ( indicated by the "#" in the file ). You can adjust these 
-settings by adding new lines that change the default and restarting 
-ArchivesSpace. Be sure that your new settings are not commented out 
-( i.e. do NOT start with a "#" ), otherwise the settings will not take effect. 
+by commented out lines ( indicated by the "#" in the file ). You can adjust these
+settings by adding new lines that change the default and restarting
+ArchivesSpace. Be sure that your new settings are not commented out
+( i.e. do NOT start with a "#" ), otherwise the settings will not take effect.
 
 # Running ArchivesSpace as a Unix daemon
 
@@ -120,18 +121,18 @@ that the system runs under, JVM options, and so on.
 
 # Running ArchivesSpace as a Windows Service
 
-Running ArchivesSpace as a Windows service requires some additional 
-configuration. 
+Running ArchivesSpace as a Windows service requires some additional
+configuration.
 
-You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have 
-provided a service.bat script that will attempt to configure 
-procrun for you (under `launcher\service.bat`). 
+You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have
+provided a service.bat script that will attempt to configure
+procrun for you (under `launcher\service.bat`).
 
 To run this script, first you need to [download procrun](http://www.apache.org/dist/commons/daemon/binaries/windows/ ).
 Extract the files and copy the prunsrv.exe and prunmgr.exe to your
-ArchivesSpace directory. 
+ArchivesSpace directory.
 
-You also need to be sure that Java in your system path and also to set `JAVA_HOME` as a global environment variable. 
+You also need to be sure that Java in your system path and also to set `JAVA_HOME` as a global environment variable.
 To add Java to your path, edit you %PATH% environment variable to include the directory of
 your java executable ( it will be something like `C:\Program Files
 (x86)\Java\bin` ). To add `JAVA_HOME`, add a new system variable and put the
@@ -144,13 +145,13 @@ Be sure that the MySQL connector jar file is in the lib directory, in order for
 the service setup script to add it to the application's classpath.
 
 Lastly, for the service to shutdown cleanly, uncomment and change these lines in
-config/config.rb: 
+config/config.rb:
 
-    AppConfig[:use_jetty_shutdown_handler] = true 
+    AppConfig[:use_jetty_shutdown_handler] = true
     AppConfig[:jetty_shutdown_path] = "/xkcd"
 
 This enables a shutdown hook for Jetty to respond to when the shutdown action
-is taken. 
+is taken.
 
 You can now execute the batch script from your ArchivesSpace root directory from
 the command line with `launcher\service.bat`. This  will configure the service and
@@ -167,13 +168,13 @@ system tray with:
 
 To execute the service from the command line, you can invoke:
 
-    ArchivesSpaceService.exe //ES// 
+    ArchivesSpaceService.exe //ES//
 
 Log output will be placed in your ArchivesSpace log directory.
 
 Please see the [procrun
 documentation](http://commons.apache.org/proper/commons-daemon/procrun.html)
-for more information. 
+for more information.
 
 # Running ArchivesSpace with a custom configuration file
 
@@ -202,7 +203,7 @@ Download the Connector and place it in a location where ArchivesSpace can
 find it on its classpath:
 
          $ cd lib
-         $ curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.34/mysql-connector-java-5.1.34.jar 
+         $ curl -Oq http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar
 
 Note that the version of the MySQL connector may be different by the
 time you read this.
@@ -218,6 +219,9 @@ and password `as123`.
 ENCODING FOR THE DATABASE TO BE `utf8`.** This is particularly important
 if you use a MySQL client to create the database (e.g. Navicat, MySQL
 Workbench, phpMyAdmin, etc.).
+
+**NOTE: If using AWS RDS MySQL databases, binary logging is not enabled by default and updates will fail.** To enable binary logging, you must create a custom db parameter group for the database and set the `log_bin_trust_function_creators = 1`. See [Working with DB Parameter Groups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html) for information about RDS parameter groups.
+
 
          $ mysql -uroot -p
 
@@ -240,7 +244,7 @@ ArchivesSpace requires.  Run this with:
     scripts/setup-database.sh  # or setup-database.bat under Windows
 
 You can now follow the instructions in the "Getting Started" section to start
-your ArchivesSpace application. 
+your ArchivesSpace application.
 
 
 # Backup and recovery
@@ -276,7 +280,7 @@ schema and data to a file.  It's a good idea to run this with the
 `--single-transaction` option to avoid locking your database tables
 while your backups run. It is also essential to use the `--routines`
 flag, which will include functions and stored procedures in the
-backup (which ArchivesSpace uses at least for Jasper reports).
+backup (which ArchivesSpace uses at least for reports).
 
 If you are running with the demo database, you can create periodic
 database snapshots using the following configuration settings:
@@ -326,11 +330,12 @@ database* to create an empty database with the appropriate
 permissions.  Then, populate the database from your backup file using
 the MySQL client:
 
-    mysql -uarchivesspace -p < mysqldump.sql
-    
-(change the username as required and enter your password when
-prompted).
+    `mysql -uas -p archivesspace < mysqldump.sql`, where
+      `as` is the user name
+      `archivesspace` is the database name
+      `mysqldump.sql` is the mysqldump filename
 
+You will be prompted for the password of the user.
 
 If you are using the demo database, your backup `.zip` file will
 contain a directory called `demo_db_backups`.  Each subdirectory of
@@ -366,10 +371,10 @@ For example:
 
      mkdir -p /path/to/archivesspace/data/solr_index
 
-     cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \ 
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464 \
            /path/to/archivesspace/data/solr_index/index
 
-     cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \ 
+     cp -a /unpacked/zip/solr.backup-26475-1373323208/indexer_state \
            /path/to/archivesspace/data/
 
 
@@ -434,7 +439,7 @@ Here is a minimal example of an LDAP configuration:
 
 With this configuration, ArchivesSpace performs authentication by
 connecting to `ldap://ldap.example.com:389/`, binding anonymously,
-searching the `ou=people,dc=example,dc=com` tree for `uid = <username>`. 
+searching the `ou=people,dc=example,dc=com` tree for `uid = <username>`.
 
 If the user is found, ArchivesSpace authenticates them by
 binding using the password specified.  Finally, the `:attribute_map`
@@ -478,36 +483,106 @@ appropriate and specify the `encryption` option:
      }]
 
 
-# Plug-ins and local customizations
+# Configuring OAI-PMH
 
-Under your `archivesspace` directory there is a directory called `plugins`.
-Each directory under the `plugins` directory contains a plug-in. In the
-standard distribution there are several plug-in directories, including
-`hello_world` and `local`. The `hello_world` directory contains a simple
-exemplar plug-in. The `local` directory is empty - this is a place to put
-any local customizations or extensions to ArchivesSpace without having to
-change the core codebase.
+A starter OAI-PMH interface for ArchivesSpace allowing other systems to harvest your records is included in version 2.1.0. Additional features and functionality will be added in later releases.
 
-Plug-ins are enabled by listing them in the configuration file. You will see the following line in
-`config/config.rb`:
+Information on configuring the OAI-PMH is available at https://github.com/archivesspace/archivesspace#configuring-oai-pmh. By default, it runs on port 8082. A sample request page is available at http://localhost:8082/sample. (To access it, make sure that you have set the AppConfig[:oai_proxy_url] appropriately.)
 
-     # AppConfig[:plugins] = ['local']
+The system provides responses to a number of standard OAI-PMH requests, including GetRecord, Identify, ListIdentifiers, ListMetadataFormats, ListRecords, and ListSets. Unpublished and suppressed records and elements are not included in any of the OAI-PMH responses.
 
-This states that by default the `local` plug-in is enabled and any files
-contained there will be loaded and available to the application. In order
-to enable other plug-ins simply override this configuration in
-`config/config.rb`. For example, to enable the `hello_world` plug-in, add
-a line like this (ensuring you remove the `#` at the beginning of the line):
+Some responses require the URL parameter metadataPrefix. There are five different metadata responses available:
 
-    AppConfig[:plugins] = ['local', 'hello_world']
+  EAD	                  oai_ead (resources in EAD)
+  Dublin Core	          oai_dc (archival objects and resources in Dublin Core)
+  extended DCMI Terms	  oai_dcterms (archival objects and resources in DCMI Metadata Terms format)
+  MARC	                oai_marc (archival objects and resources in MARC)
+  MODS	                oai_mods (archival objects and resources in MODS)
 
-Note that the string must be identical to the name of the directory under the
-`plugins` directory. Also note that the ordering of plug-ins in the list
-determines the order that the plug-ins will be loaded.
+The EAD response for resources and MARC response for resources and archival objects use the mappings from the built-in exporter for resources. The DC, DCMI terms, and MODS responses for resources and archival objects use mappings suggested by the community.
 
-For more information about plug-ins and how to use them to override and
-customize ArchivesSpace, please see the README in the `plugins` directory.
+Here are some example URLs and other information for these requests:
 
+**GetRecord** – needs a record identifier and metadataPrefix
+
+  	http://localhost:8082/oai?verb=GetRecord&identifier=oai:archivesspace//repositories/2/resources/138&metadataPrefix=oai_ead
+
+**Identify**
+
+  	http://localhost:8082/oai?verb=Identify
+
+**ListIdentifiers** – needs a metadataPrefix
+
+  	http://localhost:8082/oai?verb=ListIdentifiers&metadataPrefix=oai_dc
+
+**ListMetadataFormats**
+
+  	http://localhost:8082/oai?verb=ListMetadataFormats
+
+**ListRecords** – needs a metadataPrefix
+
+	http://localhost:8082/oai?verb=ListRecords&metadataPrefix=oai_dcterms
+
+**ListSets**
+
+	http://localhost:8082/oai?verb=ListSets
+
+Harvesting the ArchivesSpace OAI-PMH server without specifying a set will yield all published records across all repositories.
+Predefined sets can be accessed using the set parameter. In order to retrieve records from sets include a set parameter in the URL and the DC metadataPrefix, such as "&set=collection&metadataPrefix=oai_dc". These sets can be from configured sets as shown above or from the following levels of description:
+
+  Class	      class
+  Collection	collection
+  File	      file
+  Fonds	      fonds
+  Item	      item
+  Other_Level	otherlevel
+  Record_Group	recordgrp
+  Series	    series
+  Sub-Fonds	  subfonds
+  Sub-Group	  subgrp
+  Sub-Series	 subseries
+
+In addition to the sets based on level of description, you can define sets based on repository codes and/or sponsors in the config/config.rb file:
+
+	AppConfig[:oai_sets] = {
+  	'repository_set' => {
+    	:repo_codes => ['hello626'],
+    	:description => "A set of one or more repositories",
+  	},
+
+  	'sponsor_set' => {
+    	:sponsors => ['The_Sponsor'],
+    	:description => "A set of one or more sponsors",
+  	},
+	}
+
+The interface implements resumption tokens for pagination of results. As an example, the following URL format should be used to page through the results from a ListRecords request:
+
+  	http://localhost:8082/oai?verb=ListRecords&metadataPrefix=oai_ead
+
+using the resumption token:
+
+  	http://localhost:8082/oai?verb=ListRecords&resumptionToken=eyJtZXRhZGF0YV9wcmVmaXgiOiJvYWlfZWFkIiwiZnJvbSI6IjE5NzAtMDEtMDEgMDA6MDA6MDAgVVRDIiwidW50aWwiOiIyMDE3LTA3LTA2IDE3OjEwOjQxIFVUQyIsInN0YXRlIjoicHJvZHVjaW5nX3JlY29yZHMiLCJsYXN0X2RlbGV0ZV9pZCI6MCwicmVtYWluaW5nX3R5cGVzIjp7IlJlc291cmNlIjoxfSwiaXNzdWVfdGltZSI6MTQ5OTM2MTA0Mjc0OX0=
+
+Note: you do not use the metadataPrefix when you use the resumptionToken
+
+The ArchivesSpace OAI-PMH server supports persistent deletes, so harvesters will be notified of any records that were deleted since
+they last harvested.
+
+```Mixed content is removed from Dublin Core, dcterms, MARC, and MODS field outputs in the OAI-PMH response (e.g., a scope note mapped to a DC description field would not include <p>, <abbr>, <address>, <archref>, <bibref>, <blockquote>, <chronlist>, <corpname>, <date>, <emph>, <expan>, <extptr>, <extref>, <famname>, <function>, <genreform>, <geogname>, <lb>, <linkgrp>, <list>, <name>, <note>, <num>, <occupation>, <origination>, <persname>, <ptr>, <ref>, <repository>, <subject>, <table>, <title>, <unitdate>, <unittitle>).```
+
+The component level records include inherited data from superior hierarchical levels of the finding aid. Element inheritance is determined by institutional system configuration (editable in the config/config.rb file) as implemented for the Public User Interface.
+
+ARKs have not yet been implemented, pending more discussion of how they should be formulated.
+
+# Customizing and theming ArchivesSpace
+
+[Customizing and theming readme](https://github.com/archivesspace/archivesspace/blob/master/CUSTOMIZING_THEMING.md) Changing labels and messages can be done in the locales files. To do more in-depth customization and theming, a
+plugin or a custom build is likely the best mechanism.
+
+ # Plug-ins and local customizations
+
+[ Plug-ins and local customizations readme](https://github.com/archivesspace/archivesspace/blob/master/plugins/PLUGINS_README.md)
 
 # Running ArchivesSpace with an external Solr instance
 
@@ -521,7 +596,6 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 
 [Upgrading to a new release of ArchivesSpace](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md)
 
-
 # Monitoring with New Relic
 
 [Configuring ArchivesSpace to integrate with New Relic](https://github.com/archivesspace/archivesspace/blob/master/plugins/newrelic/README_NEWRELIC.md)
@@ -529,18 +603,18 @@ customize ArchivesSpace, please see the README in the `plugins` directory.
 # Further documentation
 
 Additional documentation can be found on the ArchivesSpace
-wiki at [https://archivesspace.atlassian.net/wiki/display/ADC](https://archivesspace.atlassian.net/wiki/display/ADC).
+wiki at [http://wiki.archivesspace.org](http://wiki.archivesspace.org).
 
 A document describing the architecture of ArchivesSpace is published
 at [https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md](https://github.com/archivesspace/archivesspace/blob/master/ARCHITECTURE.md).
 
 The latest technical documentation, including API documentation and
 architecture notes, is published at
-[http://archivesspace.github.io/archivesspace/doc](http://archivesspace.github.com/archivesspace/doc/).
+[http://archivesspace.github.io/archivesspace/](http://archivesspace.github.io/archivesspace/).
 
 # Contributing
 
-Contributors are welcome! Please read about our [Contributor License Agreement](https://github.com/archivesspace/archivesspace/tree/master/contributing) for more information. 
+Contributors are welcome! Please read about our [Contributor License Agreements](https://github.com/archivesspace/archivesspace/tree/master/contributing) for more information.
 
 # License
 
@@ -551,7 +625,9 @@ version 2.0](http://opensource.org/licenses/ecl2.php). See the
 
 # Credits
 
-ArchivesSpace 1.0 has been developed by [Hudson Molonglo](http://www.hudsonmolonglo.com)
+ArchivesSpace (http://archivesspace.org) is community-supported software whose ongoing development is led, managed, implemented and funded by a diverse community of users, developers, and administrators all working together to achieve the goal of helping archives and cultural heritage institutions better manage and provide access to their collections.
+
+ArchivesSpace 1.0 (released in 2013) was developed by [Hudson Molonglo](http://www.hudsonmolonglo.com)
 in partnership with the New York University Libraries, UC San Diego
 Libraries, and University of Illinois Urbana-Champaign Library and with
 funding from the Andrew W. Mellon Foundation, organizational support from

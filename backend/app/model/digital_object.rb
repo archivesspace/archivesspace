@@ -18,6 +18,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include ComponentsAddChildren
   include Events
   include Publishable
+  include Assessments::LinkedRecord
 
   enable_suppression
 
@@ -66,6 +67,11 @@ class DigitalObject < Sequel::Model(:digital_object)
     end
 
     jsons
+  end
+
+  def delete
+    related_records(:instance_do_link).map {|sub| sub.delete }
+    super
   end
 
 

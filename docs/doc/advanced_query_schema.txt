@@ -2,7 +2,7 @@ JSON Schema: Advanced_query
 
 Properties
 
-["JSONModel(:boolean_query) object", "JSONModel(:field_query) object", "JSONModel(:date_field_query) object", "JSONModel(:boolean_field_query) object"]	query
+["JSONModel(:boolean_query) object", "JSONModel(:field_query) object", "JSONModel(:date_field_query) object", "JSONModel(:boolean_field_query) object", "JSONModel(:range_query) object"]	query
 
 
 

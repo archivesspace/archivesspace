@@ -3,17 +3,21 @@ require_relative 'spec_helper'
 describe "Search" do
 
   before(:all) do
-    @repo = create(:repo, :repo_code => "search_test_#{Time.now.to_i}")
+    @repo = create(:repo, :repo_code => "search_test_#{Time.now.to_i}", :publish => true)
     set_repo @repo
 
     @accession = create(:accession,
                         :title => "A test accession #{Time.now.to_i}_#{$$}")
+    
+    @accession2 = create(:accession,
+                        :title => "Another test accession #{Time.now.to_i}_#{$$}",
+                        :content_description => "old moldy newspapers found in a dumpster")
 
     @manager_user = create_user(@repo => ['repository-managers'])
 
-    @driver = Driver.new.login_to_repo(@manager_user, @repo)
+    @driver = Driver.get.login_to_repo(@manager_user, @repo)
 
-    run_index_round
+    run_all_indexers
   end
 
 
@@ -33,15 +37,27 @@ describe "Search" do
     @driver.find_element(:link, "Accession").click
     assert(5) { @driver.find_element_with_text("//h5", /Filtered By/) }
     assert(5) { @driver.find_element_with_text("//a", /Record Type: Accession/) }
-    assert(5) { @driver.find_element_with_text('//div', /Showing 1.* of.*Results/) }
+    assert(5) { @driver.find_element_with_text('//div', /Showing .*2.* of.*Results/) }
+    assert(5) { @driver.find_element_with_text("//td", /#{@accession.title}/) }
+    assert(5) { @driver.find_element_with_text("//td", /#{@accession2.title}/) }
   end
+  
+  it "supports some basic fulltext search globally" do
+    @driver.clear_and_send_keys([:id => "global-search-box"], 'newspapers')
+    @driver.find_element(:id, 'global-search-button').click
+    assert(5) { @driver.find_element_with_text('//div', /Showing 1.* of.*Results/) }
+    assert(5) { @driver.find_element_with_text("//td", /#{@accession2.title}/) }
+  end
+    
 
 end
 
 describe "Advanced Search" do
 
   before(:all) do
-    @repo = create(:repo, :repo_code => "adv_search_test_#{Time.now.to_i}")
+    @repo = create(:repo,
+                   :repo_code => "adv_search_test_#{Time.now.to_i}",
+                   :publish => true)
     set_repo @repo
 
     @keywords = (0..9).to_a.map { SecureRandom.hex }
@@ -68,7 +84,7 @@ describe "Advanced Search" do
 
     run_index_round
 
-    @driver = Driver.new.login_to_repo($admin, @repo)
+    @driver = Driver.get.login_to_repo($admin, @repo)
   end
 
 
@@ -79,12 +95,7 @@ describe "Advanced Search" do
 
   it "is available via the navbar and renders when toggled" do
     @driver.find_element(:css => ".navbar .search-switcher").click
-
-    assert(10) {
-      advanced_search_form = @driver.find_element(:css => "form.advanced-search")
-      advanced_search_form.find_element(:id => "v0")
-      advanced_search_form.find_element(:css => ".btn-primary")
-    }
+    @driver.find_element(:css => ".search-switcher-hide")
   end
 
 

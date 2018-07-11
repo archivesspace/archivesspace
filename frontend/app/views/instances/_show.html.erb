@@ -30,8 +30,8 @@
             <%= read_only_view(instance) %>
             <% if instance["instance_type"] == "digital_object" %>
               <div class="form-group">
-                <div class="control-label"><%= I18n.t("instance.digital_object") %></div>
-                <div class="controls token-list">
+                <div class="control-label col-sm-2"><%= I18n.t("instance.digital_object") %></div>
+                <div class="controls token-list col-sm-8">
                   <%= render_token :object => instance["digital_object"]["_resolved"],
                   :label => instance["digital_object"]["_resolved"]["title"],
                   :type => "digital_object",

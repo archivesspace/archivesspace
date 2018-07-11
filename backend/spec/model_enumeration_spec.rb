@@ -170,4 +170,25 @@ describe 'Enumerations model' do
     Enumeration.to_jsonmodel(enum)['readonly_values'].include?('readonly_apple').should be(true)
   end
 
+
+  # TODO: Move these tests: These tests should go in a more generalized spec, but there doesn't seem to be a suitable spec yet.
+  # These tests are here for now because the query by string functionality on models inheriting from ASModel is first used with Enumeration.
+  describe "query via to_jsonmodel" do
+    before(:all) do
+      enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'test_enum',
+                                                                            :values => ['test_value']))
+    end
+
+    it "can query Enumerations by ID" do
+      json = Enumeration.to_jsonmodel(1)
+      expect(json).to_not eq(nil)
+      expect(json['id']).to eq(1)
+    end
+
+    it "allows a query by string" do
+      json = Enumeration.to_jsonmodel("test_enum", :query => "name" )
+      expect(json).to_not eq(nil)
+      expect(json['name']).to eq('test_enum')
+    end
+  end
 end

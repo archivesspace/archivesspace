@@ -4,15 +4,14 @@ require 'net/http'
 class TopContainer < Sequel::Model(:top_container)
   include ASModel
 
-  include Relationships
-
   corresponds_to JSONModel(:top_container)
 
   set_model_scope :repository
 
   include RestrictionCalculator
 
-
+  SERIES_LEVELS = ['series']
+  OTHERLEVEL_SERIES_LEVELS = ['accession']
 
   def validate
     validates_unique([:repo_id, :barcode],
@@ -36,73 +35,111 @@ class TopContainer < Sequel::Model(:top_container)
   end
 
 
-  # For Archival Objects, the series is the topmost record in the tree.
-  def tree_top(obj)
-    if obj.respond_to?(:series)
-      obj.series
-    else
-      nil
-    end
-  end
-
-
-  # return all archival records linked to this top container
-  def linked_archival_records
-    related_records(:top_container_link).map {|subcontainer|
-      linked_archival_record_for(subcontainer)
-    }.compact.uniq {|obj| obj.uri}
-  end
-
-
   def self.linked_instance_ds
-    db[:instance].
-      join(:sub_container, :instance_id => :instance__id).
-      join(:top_container_link_rlshp, :sub_container_id => :sub_container__id).
-      join(:top_container, :id => :top_container_link_rlshp__top_container_id)
-  end
-
-
-  def linked_archival_record_for(subcontainer)
-    # Find its linked instance
-    instance = Instance[subcontainer.instance_id]
-
-    return nil unless instance
-
-    # Find the record that links to that instance
-    ASModel.all_models.each do |model|
-      next unless model.associations.include?(:instance)
-
-      association = model.association_reflection(:instance)
-
-      key = association[:key]
-
-      if instance[key]
-        return model[instance[key]]
-      end
-    end
+    TopContainer
+      .join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :top_container__id)
+      .join(:sub_container, :sub_container__id => :top_container_link_rlshp__sub_container_id)
+      .join(:instance, :instance__id => :sub_container__instance_id)
   end
 
 
   def collections
-    linked_archival_records.map {|obj|
-      if obj.respond_to?(:series)
-        # An Archival Object
-        if obj.root_record_id
-          obj.class.root_model[obj.root_record_id]
-        else
-          # An Archival Object without a resource.  Doesn't really happen in
-          # normal usage, but the data model does support this...
-          nil
-        end
-      else
-        obj
-      end
-    }.compact.uniq {|obj| obj.uri}
+    @collections ||= calculate_collections
+  end
+
+  def calculate_collections
+    result = []
+
+    # Resource linked directly
+    resource_ids = []
+    resource_ids += Resource
+             .join(:instance, :instance__resource_id => :resource__id)
+             .join(:sub_container, :sub_container__instance_id => :instance__id)
+             .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
+             .filter(:top_container_link_rlshp__top_container_id => self.id)
+             .select(:resource__id)
+             .distinct
+             .all.map{|row| row[:id]}
+
+    # Resource linked via AO
+    resource_ids += Resource
+             .join(:archival_object, :archival_object__root_record_id => :resource__id)
+             .join(:instance, :instance__archival_object_id => :archival_object__id)
+             .join(:sub_container, :sub_container__instance_id => :instance__id)
+             .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
+             .filter(:top_container_link_rlshp__top_container_id => self.id)
+             .select(:resource__id)
+             .distinct
+             .all.map{|row| row[:id]}
+
+    result += Resource
+              .filter(:id => resource_ids.uniq)
+              .select_all(:resource)
+              .all
+
+    result += Accession
+             .join(:instance, :instance__accession_id => :accession__id)
+             .join(:sub_container, :sub_container__instance_id => :instance__id)
+             .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
+             .filter(:top_container_link_rlshp__top_container_id => self.id)
+             .select_all(:accession)
+             .all
+
+    result.uniq {|obj| [obj.class, obj.id]}
   end
 
 
   def series
-    linked_archival_records.map {|record| tree_top(record)}.compact.uniq {|obj| obj.uri}
+    @series ||= calculate_series
+  end
+
+  def calculate_series
+    linked_aos = ArchivalObject
+                 .join(:instance, :instance__archival_object_id => :archival_object__id)
+                 .join(:sub_container, :sub_container__instance_id => :instance__id)
+                 .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
+                 .filter(:top_container_link_rlshp__top_container_id => self.id)
+                 .select(:archival_object__id)
+
+    # Find the top-level archival objects of our selected records.
+    # Unfortunately there's no easy way to do this besides walking back up the
+    # tree.
+    top_level_aos = walk_to_top_level_aos(linked_aos.map {|row| row[:id]})
+
+    ArchivalObject
+      .join(:enumeration_value, {:level_enum__id => :archival_object__level_id},
+            :table_alias => :level_enum)
+      .filter(:archival_object__id => top_level_aos)
+      .exclude(:archival_object__component_id => nil)
+      .where { Sequel.|(
+                 { :level_enum__value => SERIES_LEVELS },
+                 Sequel.&({ :level_enum__value => 'otherlevel'},
+                          { Sequel.function(:lower, :other_level) => OTHERLEVEL_SERIES_LEVELS }))
+    }.select_all(:archival_object)
+  end
+
+
+  def walk_to_top_level_aos(ao_ids)
+    result = []
+    id_set = ao_ids
+
+    while !id_set.empty?
+      next_id_set = []
+
+      ArchivalObject.filter(:id => id_set).select(:id, :parent_id).each do |row|
+        if row[:parent_id].nil?
+          # This one's a top-level record
+          result << row[:id]
+        else
+          # Keep looking
+          next_id_set << row[:parent_id]
+        end
+
+        id_set = next_id_set
+      end
+    end
+
+    result
   end
 
 
@@ -143,7 +180,11 @@ class TopContainer < Sequel::Model(:top_container)
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
 
+    publication_status = ImpliedPublicationCalculator.new.for_top_containers(objs)
+
     jsons.zip(objs).each do |json, obj|
+      json['is_linked_to_published_record'] = publication_status.fetch(obj)
+
       json['display_string'] = obj.display_string
       json['long_display_string'] = obj.long_display_string
 
@@ -153,7 +194,8 @@ class TopContainer < Sequel::Model(:top_container)
           'ref' => series.uri,
           'identifier' => series.component_id,
           'display_string' => find_title_for(series),
-          'level_display_string' => obj.level_display_string(series)
+          'level_display_string' => obj.level_display_string(series),
+          'publish' => !(series.suppressed == 1) && (series.publish == 1)
         }
       end
 
@@ -219,7 +261,7 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def reindex_linked_records
-        self.class.update_mtime_for_ids([self.id])
+    self.class.update_mtime_for_ids([self.id])
   end
 
   def self.search_stream(params, repo_id, &block)
@@ -235,16 +277,19 @@ class TopContainer < Sequel::Model(:top_container)
     query.pagination(1, max_results).
       set_repo_id(repo_id).
       set_record_types(params[:type]).
-      set_filter_terms(params[:filter_term]).
-      set_facets(params[:facet])
+      set_facets(params[:facet]).
+      set_filter(params[:filter])
 
+    if params[:filter_term]
+      query.set_filter(AdvancedQueryBuilder.from_json_filter_terms(params[:filter_term]))
+    end
 
     query.add_solr_param(:qf, "series_identifier_u_stext collection_identifier_u_stext")
 
     url = query.to_solr_url
     req = Net::HTTP::Get.new(url.request_uri)
 
-    Net::HTTP.start(url.host, url.port) do |http|
+    ASHTTP.start_uri(url) do |http|
       http.request(req, nil) do |response|
         if response.code =~ /^4/
           raise response.body
@@ -372,6 +417,54 @@ class TopContainer < Sequel::Model(:top_container)
       updated
  
  end
+
+
+ def self.bulk_update_locations(location_data)
+      out = {
+        :records_ids_updated => []
+      }
+
+      ids = location_data.map{|uri,_| my_jsonmodel.id_for(uri)}
+
+      # remove all 'current' locations
+      relationship = TopContainer.find_relationship(:top_container_housed_at)
+      relationship.handle_delete(relationship.find_by_participant_ids(TopContainer, ids).select{|v| v.status == 'current'}.map(&:id))
+
+      now = Time.now
+
+      # add new 'current' location for each container
+      location_data.each do |uri, location_uri|
+        id = my_jsonmodel.id_for(uri)
+
+        begin
+          location = Location[JSONModel(:location).id_for(location_uri)]
+
+          raise "Location not found: #{location_uri}" if !location
+
+          top_container = TopContainer[id]
+
+          relationship.relate(top_container, location, {
+            :status => 'current',
+            :start_date => now.iso8601,
+            :aspace_relationship_position => 0,
+            :system_mtime => now,
+            :user_mtime => now
+          })
+
+          out[:records_ids_updated] << id
+        rescue
+          Log.exception($!)
+
+          out[:error] = $!
+        end
+      end
+
+      TopContainer.update_mtime_for_ids(out[:records_ids_updated])
+
+      out[:records_updated] = out[:records_ids_updated].length
+
+      out
+  end
 
   def self.for_barcode(barcode)
     TopContainer[:barcode => barcode, :repo_id => self.active_repository]

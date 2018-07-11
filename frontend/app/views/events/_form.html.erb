@@ -26,8 +26,8 @@
       <%= form.label_and_textfield "timestamp" %>
     <% else %>
       <%= form.fields_for(@event.date || {}, "date") do | date | %>
-        <% render_aspace_partial :partial => "dates/template", :locals => {:form => form} %>
-        <% form.emit_template("date") %>
+        <% render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "event_date"} %>
+        <% form.emit_template("event_date") %>
       <% end %>
     <% end %>
   <% else %>
@@ -37,8 +37,8 @@
     </div>
     <div id="chronotype_subrecord" class="chronotype_form">
       <%= form.fields_for(@event.date || {}, "date") do | date | %>
-        <% render_aspace_partial :partial => "dates/template", :locals => {:form => form} %>
-        <% form.emit_template("date") %>
+        <% render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "event_date"} %>
+        <% form.emit_template("event_date") %>
       <% end %>
     </div>
   <% end %>
@@ -87,11 +87,12 @@
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
 <% end %>
 
+<% if !form.readonly? || @event.external_documents.length > 0 %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
+<% end %>
 
 <% if !form.readonly? %>
   <%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
 <% end %>
 
 <%= form_plugins_for("event", form) %>
-

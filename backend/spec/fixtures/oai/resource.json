@@ -1,0 +1,451 @@
+{
+    "dates": [
+        {
+            "begin": "2012-06-01",
+            "end": "2016-06-01",
+            "calendar": "gregorian",
+            "date_type": "inclusive",
+            "era": "ce",
+            "jsonmodel_type": "date",
+            "label": "creation"
+        }
+    ],
+    "ead_id": "EAD ID",
+    "ead_location": "EAD Location",
+    "extents": [
+        {
+            "container_summary": "Container summary",
+            "dimensions": "Dimensions",
+            "extent_type": "volumes",
+            "jsonmodel_type": "extent",
+            "number": "10",
+            "physical_details": "Physical details",
+            "portion": "whole"
+        }
+    ],
+    "finding_aid_author": "Finding Aid Author",
+    "finding_aid_date": "Finding Aid Date",
+    "finding_aid_description_rules": "aacr",
+    "finding_aid_edition_statement": "Edition statement",
+    "finding_aid_filing_title": "Finding Aid Filing Title",
+    "finding_aid_language": "English",
+    "finding_aid_note": "Finding Aid Note",
+    "finding_aid_series_statement": "Series statement",
+    "finding_aid_sponsor": "THE_SPONSOR",
+    "finding_aid_status": "completed",
+    "finding_aid_subtitle": "Finding Aid Subtitle",
+    "finding_aid_title": "Finding Aid Title",
+    "id_0": "Resource",
+    "id_1": "OAI",
+    "id_2": "1",
+    "jsonmodel_type": "resource",
+    "language": "eng",
+    "level": "file",
+    "linked_agents": [
+        {
+            "ref": "/agents/people/import_2",
+            "relator": "cre",
+            "role": "creator",
+            "title": "Creator Agent"
+        },
+        {
+            "ref": "/agents/people/import_3",
+            "role": "subject",
+            "terms": []
+        },
+        {
+            "ref": "/agents/people/import_4",
+            "relator": "cre",
+            "role": "creator",
+            "title": "UNPUBLISHED Creator Agent"
+        }
+    ],
+    "notes": [
+        {
+            "content": [
+                "physical description note"
+            ],
+            "jsonmodel_type": "note_singlepart",
+            "persistent_id": "6858c580266b66d8bbb05a111035041d",
+            "publish": true,
+            "type": "physdesc"
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "96a9fd596af701a81372edb5af85454d",
+            "publish": true,
+            "subnotes": [
+                {
+                    "content": "dimensions note",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+            "type": "dimensions"
+        },
+        {
+            "content": [
+                "language of materials note"
+            ],
+            "jsonmodel_type": "note_singlepart",
+            "persistent_id": "7918ce3890da8ee41ad29a79909efb76",
+            "publish": true,
+            "type": "langmaterial"
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "e775f93236a81b34e4b9886ae7d5929c",
+            "publish": true,
+            "subnotes": [
+                {
+                    "content": "bioghist note",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+            "type": "bioghist"
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "74c76f3eeee7708be0e2aa585b2c26c1",
+            "publish": true,
+            "subnotes": [
+                {
+                    "content": "scope and contents note",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+            "type": "scopecontent"
+        },
+        {
+            "content": [
+                "abstract note"
+            ],
+            "jsonmodel_type": "note_singlepart",
+            "persistent_id": "469a62a0e3e23fd64ba8ab90eb981998",
+            "publish": true,
+            "type": "abstract"
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "f1146fbc945a60a4a07132926ef784ef",
+            "publish": true,
+            "subnotes": [
+                {
+                    "content": "general note",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+            "type": "odd"
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "c648af62fde85864f2e2316a8478a227",
+            "publish": true,
+            "subnotes": [
+                {
+                    "content": "arrangement note",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+            "type": "arrangement"
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "186ddddbf13b653da86ba0a31a0367d9",
+            "publish": true,
+            "subnotes": [
+                {
+                    "content": "existence and location of originals note",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+            "type": "originalsloc"
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "36fe37129e1dc45d323abd3a61d7a1d1",
+            "publish": true,
+            "subnotes": [
+                {
+                    "content": "existence and location of copies note",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+            "type": "altformavail"
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "58015bc004028dd1b345d9d3056e32b3",
+            "publish": true,
+            "subnotes": [
+                {
+                    "content": "separated materials note",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+                "type": "separatedmaterial"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "afc8d8e4f41d9c4a246b6796cce52996",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "content": "related materials note",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "relatedmaterial"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "b9ea6b650e466724649c219984aea49f",
+                "publish": true,
+                "rights_restriction": {
+                    "local_access_restriction_type": [
+                        "RestrictedCurApprSpecColl"
+                    ]
+                },
+                "subnotes": [
+                    {
+                        "content": "conditions governing access note",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "accessrestrict"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "0ff89c952d511dec9392779fa38de580",
+                "publish": true,
+                "rights_restriction": {
+                    "local_access_restriction_type": []
+                },
+                "subnotes": [
+                    {
+                        "content": "conditions governing use note",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "userestrict"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "6f85bcfa69e3e97cc3b625cae48ce5f0",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "content": "immediate source of acquisition note",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "acqinfo"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "9637240352cda02ed94fa2c4aadbcf24",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "content": "custodial history note",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "custodhist"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "6740f6a98d7468e72c0fc1b7f33146f2",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "content": "physical characteristics and technical requirements note",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "phystech"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "1484d17585e2e83777108e8f73ff0395",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "content": "preferred citation note",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "prefercite"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "f67239dcdcf18b3446d4e01d04b6bc8b",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "content": "processing information note",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "processinfo"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "6ba7d14613971085b51abca792386053",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "content": "other finding aids note",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "otherfindaid"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "7777454613971085b51abca792386053",
+                "publish": false,
+                "subnotes": [
+                    {
+                        "content": "note with unpublished parent node",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "relatedmaterial"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "8c5cc9b1b18b28e24b82c393fee167df",
+                "publish": false,
+                "subnotes": [
+                    {
+                        "content": "UNPUBLISHED NOTE - top-level",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    }
+                ],
+                "type": "accruals"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "3c212c0bfda30dcce5ab9946a9e20731",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "content": "Published part",
+                        "jsonmodel_type": "note_text",
+                        "publish": true
+                    },
+                    {
+                        "content": "UNPUBLISHED NOTE - child-level",
+                        "jsonmodel_type": "note_text",
+                        "publish": false
+                    }
+                ],
+                "type": "accruals"
+            },
+            {
+                "jsonmodel_type": "note_multipart",
+                "persistent_id": "414ff8ae987bb7ba4cf2c27ceb0055cf",
+                "publish": true,
+                "subnotes": [
+                    {
+                        "items": [
+                            {
+                                "event_date": "2011-11-10",
+                                "events": [
+                                    "Event X",
+                                    "Event Y"
+                                ]
+                            },
+                            {
+                                "events": [
+                                    "Event A",
+                                    "Event B",
+                                    "Event C"
+                                ]
+                            }
+                        ],
+                        "jsonmodel_type": "note_chronology",
+                        "publish": true,
+                        "title": "I'm a chronology title"
+                    },
+                    {
+                        "items": [
+                            {
+                                "label": "Label X",
+                                "value": "Value X"
+                            },
+                            {
+                                "label": "Label Y",
+                                "value": "Value Y"
+                            }
+                        ],
+                        "jsonmodel_type": "note_definedlist",
+                        "publish": true,
+                        "title": "I'm a defined list"
+                    },
+                    {
+                        "enumeration": "arabic",
+                        "items": [
+                            "Item X",
+                            "Item Y",
+                            "Item Z"
+                        ],
+                        "jsonmodel_type": "note_orderedlist",
+                        "publish": true,
+                        "title": "I'm an ordered list"
+                    }
+                ],
+                "type": "odd"
+            }
+        ],
+        "publish": true,
+        "repository_processing_note": "Repository processing note",
+        "resource_type": "collection",
+        "restrictions": false,
+        "revision_statements": [
+            {
+                "date": "2000-01-01",
+                "description": "Revision description",
+                "jsonmodel_type": "revision_statement"
+            }
+        ],
+        "subjects": [
+            {
+                "ref": "/subjects/import_1"
+            },
+            {
+                "ref": "/subjects/import_2"
+            },
+            {
+                "ref": "/subjects/import_3"
+            },
+            {
+                "ref": "/subjects/import_4"
+            },
+            {
+                "ref": "/subjects/import_5"
+            }
+        ],
+        "suppressed": false,
+        "title": "Resource 1",
+        "uri": "/repositories/2/resources/import_1"
+    }

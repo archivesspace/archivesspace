@@ -10,7 +10,7 @@ Sequel.database_timezone = :utc
 Sequel.typecast_timezone = :utc
 
 Sequel.extension :migration
-Sequel.extension :core_extensions 
+Sequel.extension :core_extensions
 
 
 module ColumnDefs
@@ -173,39 +173,104 @@ class DBMigrator
   PLUGIN_MIGRATION_DIRS = {}
   AppConfig[:plugins].each do |plugin|
     mig_dir = ASUtils.find_local_directories("migrations", plugin).shift
-    if mig_dir && Dir.exists?(mig_dir)
+    if mig_dir && Dir.exist?(mig_dir)
       PLUGIN_MIGRATIONS << plugin
       PLUGIN_MIGRATION_DIRS[plugin] = mig_dir
     end
   end
 
   def self.setup_database(db)
-    begin 
+    begin
       $db_type = db.database_type
+
+      fail_if_managed_container_migration_needed!(db)
+
       Sequel::Migrator.run(db, MIGRATIONS_DIR)
       PLUGIN_MIGRATIONS.each { |plugin| Sequel::Migrator.run(db, PLUGIN_MIGRATION_DIRS[plugin],
                                                              :table => "#{plugin}_schema_info") }
+    rescue ContainerMigrationError
+      raise $!
     rescue Exception => e
      $stderr.puts <<EOF
-     
-     #{ 3.times { $stderr.puts "!" * 100  } } 
-     
-     
-     Database migration error. 
-     Your upgrade has encountered a problem. 
-     You must resolve these issues before the database migration can complete.
-     
-     
-     Error: 
-     #{e.inspect}
-     #{e.message}
-     #{e.backtrace.join("\n")}
 
-     
-     #{ 3.times { $stderr.puts "!" * 100  } }
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!                                                                                                !!
+    !!                                      Database migration error.                                 !!
+    !!                                  Your upgrade has encountered a problem.                       !!
+    !!                  You must resolve these issues before the database migration can complete.     !!
+    !!                                                                                                !!
+    !!                                                                                                !!
+    !!                                                Error:                                          !!
+    !!  #{e.inspect}                                                                                  !!
+    !!  #{e.message}                                                                                  !!
+    !!  #{e.backtrace.join("\n")}                                                                     !!
+    !!                                                                                                !!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 EOF
-     
+
      raise e
+    end
+  end
+
+
+  CONTAINER_MIGRATION_NUMBER = 60
+
+  class ContainerMigrationError < StandardError
+  end
+
+  def self.fail_if_managed_container_migration_needed!(db)
+    # If brand new install with empty database, need to check
+    # for tables existence before determining the current version number
+    if db.tables.empty?
+      current_version = 0
+    else
+      current_version = db[:schema_info].first[:version]
+    end
+
+    if current_version && current_version > 0 && current_version < CONTAINER_MIGRATION_NUMBER
+      $stderr.puts <<EOM
+
+=======================================================================
+Important migration issue
+=======================================================================
+
+Hello!
+
+It appears that you are upgrading ArchivesSpace from version 1.4.2 or prior.  To
+complete this upgrade, there are some additional steps to follow.
+
+The 1.5 series of ArchivesSpace introduced a new data model for containers,
+along with a compatibility layer to provide a seamless transition between the
+old and new container models.  In ArchivesSpace version 2.1, this compatibility
+layer was removed in the interest of long-term maintainability and system
+performance.
+
+To upgrade your ArchivesSpace installation, you will first need to upgrade to
+version 2.0.1.  This will upgrade your containers to the new model and clear the
+path for future upgrades.  Once you have done this, you can upgrade to the
+latest ArchivesSpace version as normal.
+
+For more information on upgrading to ArchivesSpace 2.0.1, please see the upgrade
+guide:
+
+  https://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/
+
+The upgrade guide for version 1.5.0 also contains specific instructions for
+the container upgrade that you will be performing, and the steps in this guide
+apply equally to version 2.0.1.  You can find that guide here:
+
+  https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md
+
+=======================================================================
+
+EOM
+
+      raise ContainerMigrationError.new
     end
   end
 
@@ -225,4 +290,18 @@ EOF
     return false
   end
 
+  def self.latest_migration_number(db)
+    migration_numbers = Dir.entries(MIGRATIONS_DIR).map {|e|
+      if e =~ Sequel::Migrator::MIGRATION_FILE_PATTERN
+        # $1 is the migration number (e.g. '075')
+        Integer($1, 10)
+      end
+    }.compact
+
+    if migration_numbers.empty?
+      0
+    else
+      migration_numbers.max
+    end
+  end
 end

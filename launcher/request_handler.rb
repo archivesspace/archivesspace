@@ -1,5 +1,5 @@
 require 'json'
-require 'net/http'
+require 'ashttp'
 require 'nokogiri'
 
 module RequestHandler
@@ -28,7 +28,7 @@ module RequestHandler
 
   def request(url, req, format = :json)
     req['X-ArchivesSpace-Session'] = @token
-    Net::HTTP.start(url.host, url.port) do |http|
+    ASHTTP.start_uri(url) do |http|
       response = http.request(req)
       if response.code =~ /^4/
         raise "Request error for #{url}: #{response.message}"

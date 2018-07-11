@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="EAD_edits/ead_for_Oxygen_2013_11_07.css"?>
+<ead xmlns="urn:isbn:1-931666-22-9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd">
+    <eadheader countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b"
+        repositoryencoding="iso15511" scriptencoding="iso15924">
+        <eadid countrycode="US" mainagencycode="MAMr-A">testPhysfacetDimensions_2016_07_08</eadid>
+        <filedesc>
+            <titlestmt>
+                <titleproper>TEST dimensions physfacet_2016_06_27</titleproper>
+            </titlestmt>
+        </filedesc>
+        <profiledesc>
+            <langusage><language langcode="eng">English</language></langusage>
+        </profiledesc>
+    </eadheader>
+    <archdesc level="collection"><did>
+        <unitid>testPhysfacetDimensions_2016_07_08</unitid><unittitle>TEST dimensions physfacet_2016_06_27</unittitle>
+            <unitdate>1880-1970</unitdate>
+            <physdesc><extent>20 cubic feet</extent><extent>60 boxes</extent></physdesc>
+            <physdesc><extent>10000 photographs</extent><physfacet>gelatin
+                    silver</physfacet><dimensions>8 x 10 or larger</dimensions></physdesc>
+            <langmaterial><language langcode="eng">English</language></langmaterial></did>
+        <dsc>
+            <c level="item">
+                <did>
+                    <unittitle>No extent, single dimensions, single physfacet</unittitle>
+                    <physdesc>1 photograph <physfacet>gelatin silver
+                    </physfacet><dimensions>8 x 10 inches</dimensions></physdesc>
+                </did>
+            </c>
+            <c level="item">
+                <did>
+                    <unittitle>Test single extent and single dimensions</unittitle>
+                    <physdesc><extent>1 photograph</extent><dimensions>8 x 10
+                        inches</dimensions></physdesc>
+                </did>
+            </c>
+            <c level="item">
+                <did>
+                    <unittitle>Test single extent and single physfacet</unittitle>
+                    <physdesc><extent>1 photograph</extent><physfacet>gelatin silver
+                        </physfacet></physdesc>
+                </did>
+            </c>
+            <c level="item">
+                <did>
+                    <unittitle>Test single extent, single dimensions, single physfacet</unittitle>
+                    <physdesc><extent>1 photograph</extent><physfacet>gelatin silver
+                            </physfacet><dimensions>8 x 10 inches</dimensions></physdesc>
+                </did>
+            </c>
+            <c level="item">
+                <did>
+                    <unittitle>Test single extent and two physfacet</unittitle>
+                    <physdesc><extent>1 photograph</extent><physfacet>black and
+                            white</physfacet><physfacet>gelatin silver</physfacet></physdesc>
+                </did>
+            </c>
+            <c level="item">
+                <did>
+                    <unittitle>Test single extent and two dimensions</unittitle>
+                    <physdesc><extent>1 photograph</extent><dimensions>8 x 10 inches (photograph)
+                            </dimensions><dimensions>11 x 14 inches (support)
+                        </dimensions></physdesc>
+                </did>
+            </c>
+            <c level="item">
+                <did>
+                    <unittitle>Physdesc only</unittitle>
+                    <physdesc>1  photograph: 8 x 10 inches (photograph) 11 x 14 inches (support) </physdesc>
+                </did>
+            </c>
+        </dsc>
+    </archdesc>
+</ead>

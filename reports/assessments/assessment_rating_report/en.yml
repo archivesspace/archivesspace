@@ -1,0 +1,15 @@
+en:
+  reports:
+    assessment_rating_report:
+      showing_values: Showing records with rating values
+      assessment_number: Assessment Number
+      linked_record_type: Record Type
+      linked_record_title: Record Title
+      no_matches: There were no assessment records matching your criteria
+      rating: Rating
+      rating_note: Note
+      title: Assessment Rating Report
+      general_assessment_note: General Assessment Note
+      surveyors: Surveyors
+      surveyed_extent: Extent
+      survey_end: Survey Ended

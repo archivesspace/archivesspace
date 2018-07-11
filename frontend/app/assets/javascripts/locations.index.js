@@ -22,7 +22,7 @@ $(function() {
        } else if (itemCount > 0 ) {
         output = itemCount + " top containers.";  
       } else {
-        output = "This location is empty.";  
+        output = "No holdings for this repository.";  
       } 
       $this.html("<span>" + output + "</span>"); 
     });

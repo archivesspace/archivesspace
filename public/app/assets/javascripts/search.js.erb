@@ -1,0 +1,158 @@
+//= require largetree
+//= require tree_renderer
+
+/* search form javascript support */
+
+var $template, $as;
+var plusText = "<%= I18n.t('actions.search_add_row') %>";
+var minusText = "<%= I18n.t('actions.search_remove_row') %>";
+var plusFACss = "fa fa-plus";
+var minusFACss = "fa fa-minus";
+var fn_plusminus = function(e){
+    e.stopPropagation;
+    if ($(this).attr('title') === plusText) {
+	$(this).html("<i aria-hidden='true' class='" + minusFACss + "'></i>");
+	$(this).attr('title', minusText);
+	var $row = new_row_from_template();
+	$(this).parents('.search_row').after($row);
+	$row.find(".bool select").focus();
+    }
+    else {
+        $(this).parents(".search_row").next(".search_row").remove();
+        if ($(this).closest('.search_row').index() == $as.find('.search_row').length) {
+            $(this).html("<i aria-hidden='true' class='" + plusFACss + "'></i>");
+            $(this).attr('title', plusText);
+        }
+    }
+    return false;
+}
+
+function initialize_search() {
+    $as = $("#advanced_search");
+    /* create the + button, attach click event */
+    $as.find('.search_row').each(function(i) {
+        new_button($(this), $as.find('.search_row').length - 1 == i);
+    });
+    /* then save the first_row, so we don't always have to find it */
+    var $first = $($as.find("#search_row_0"));
+    $template = $first.clone();
+    $template.find(':input').each(function() {
+        if ($(this).is('select')) {
+            $(this).find('option[selected]').removeAttr('selected');
+        } else {
+            $(this).val(''); // empty all row values
+        }
+    });
+    $template.find(".norepeat").each(function() { $(this).empty(); });
+    $template.find(".hidden").each(function() {$(this).removeClass("hidden"); });
+    $template.find("#op0").removeProp("disabled"); /* the disabled boolean operator */
+    $template.find("#op0").val('AND');
+    $template.find("#op_").remove();
+    $first.find("#q0").keypress(function (e) {
+	    var key = e.which;
+	    if (key == 13) {
+		$("#submit_search").click();
+		return false;
+	    }
+	});
+
+    // squash whitespace in rows
+    $first.find('> .col-sm-1:first').hide();
+    $first.find('> .col-sm-3:first').addClass('col-sm-4').removeClass('col-sm-3');
+    $template.find('> .col-sm-3.norepeat').remove();
+    $template.find('> .col-sm-3:first').addClass('col-sm-6').removeClass('col-sm-3');
+
+    return true;
+}       
+
+function new_button($row, show_add) {
+    var $plus = $row.find(".plusminus");
+    if (show_add) {
+        $plus.html("<button class='btn btn-default' title='" + plusText + "'><i aria-hidden='true' class='" + plusFACss + "'></i></button>");
+    } else {
+        $plus.html("<button class='btn btn-default' title='" + minusText + "'><i aria-hidden='true' class='" + minusFACss + "'></i></button>");
+    }
+    $plus.find("button").click(fn_plusminus);
+    return true;
+}
+
+function new_row_from_template() {
+    var num = $as.find(".search_row").size();
+    var $row = $template.clone();
+    replace_id_ref($row, 'label', 'for', num);
+    replace_id_ref($row, 'input', 'id', num);
+    replace_id_ref($row, 'select', 'id', num);
+    $row.attr("id", "search_row_" + num);
+    new_button($row, true);
+    return $row;
+}
+
+function add_search_line() {
+    $row = new_row_from_template();
+
+}
+
+function replace_id_ref($row, selector, type, num) {
+    $row.find(selector).each(function() {
+            $(this).attr(type, $(this).attr(type).replace('0', num));
+	});
+}
+
+// show subgroups within search results on demand
+function toggle_subgroups(event) {
+    var $button = $(this);
+    var $result = $button.closest('.recordrow');
+    var $container = $result.find('.classification-subgroups');
+    var $tree = $result.find('.classification-subgroups-tree');
+
+    if ($tree.is(':visible')) {
+        $tree.hide();
+        $button.attr('aria-pressed', 'false').removeClass('active');
+        $button.find('.fa').removeClass('fa-minus').addClass('fa-plus');
+    } else {
+        $tree.show();
+
+        if ($tree.is(':empty')) {
+            var root_uri = $result.data('uri');
+            var should_link_to_record = true;
+
+            var tree = new LargeTree(new TreeDataSource(AS.app_prefix(root_uri + '/tree')),
+                $tree,
+                root_uri,
+                true,
+                new SimpleRenderer(should_link_to_record),
+                $.noop,
+                $.noop);
+        }
+
+        $button.attr('aria-pressed', 'true').addClass('active');
+        $button.find('.fa').removeClass('fa-plus').addClass('fa-minus');
+    }
+};
+
+$(function() {
+    $('.search-results').on('click',
+        '.recordrow .classification-subgroups button.subgroup-toggle',
+        toggle_subgroups);
+});
+
+
+$(function() {
+    $('#toggleRefineSearch').on('click', function(event) {
+        event.preventDefault();
+
+        var $btn = $(this);
+        var $refine = $btn.closest('.searchstatement').find('#refineSearchPanel');
+        if ($refine.is(':visible')) {
+            $refine.css('display', 'none');
+            $refine.attr('aria-hidden', 'true');
+            $btn.removeClass('active');
+            $btn.attr('aria-expanded', 'false');
+        } else {
+            $refine.css('display', 'block');
+            $refine.attr('aria-hidden', 'false');
+            $btn.addClass('active');
+            $btn.attr('aria-expanded', 'true');
+        }
+    });
+});

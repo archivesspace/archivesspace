@@ -6,11 +6,13 @@ string	uri
 
 string (max length: 255)	indicator
 
+string	type
+
+string (max length: 255)	barcode
+
 string	display_string
 
 string	long_display_string
-
-string (max length: 255)	barcode
 
 string (max length: 255)	ils_holding_id
 
@@ -20,15 +22,17 @@ string	exported_to_ils
 
 boolean	restricted
 
-array (JSONModel(:rights_restriction) object)	active_restrictions
+string (max length: 255)	created_for_collection
 
-boolean	legacy_restricted
+boolean	is_linked_to_published_record
+
+array (JSONModel(:rights_restriction) object)	active_restrictions
 
 array (JSONModel(:container_location) object)	container_locations
 
 object	container_profile
 
-array (Object (ref, display_string, identifier, level_display_string, _resolved))	series
+array (Object (ref, display_string, identifier, level_display_string, publish, _resolved))	series
 
 array (Object (ref, display_string, identifier, _resolved))	collection
 

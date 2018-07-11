@@ -13,12 +13,12 @@
     <input id="find_and_replace_job_jsonmodel_type_" name="find_and_replace_job[jsonmodel_type]" type="hidden" value="find_and_replace_job">
 
   <% end %>
-  
+
   <% define_template("print_to_pdf_job", jsonmodel_definition(:print_to_pdf_job)) do |form| %>
 
     <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => I18n.t("actions.resource_to_pdf") }%>
+    <%= form.label_and_boolean "include_unpublished" %>
     <input id="print_to_pdf_jsonmodel_type_" name="print_to_pdf_job[jsonmodel_type]" type="hidden" value="print_to_pdf_job">
-
 
   <% end %>
 
@@ -50,17 +50,14 @@
   <% end %>
 
   <% define_template("job", jsonmodel_definition(:job)) do |form| %>
-    <section>
-      <fieldset>
-        <%= form.label_and_select "job_type", @job_types %>
-      </fieldset>
-    </section>
+
+    <input id="job_type" name="job[job_type]" type="hidden" value="<%= params['job_type'] %>">
+
     <div id="job_form_messages">
         <hr/>
         <div class="alert alert-info" id="noImportTypeSelected"><%= I18n.t("job._frontend.messages.import_type_missing") %></div>
         <hr/>
     </div>
-
 
     <div id="job_type_fields"></div>
   <% end %>
@@ -72,74 +69,89 @@
           <h2>Reports</h2>
 
           <div class="accordion" id="reportListing">
-            
-            <% @report_data["reports"].values.each do | report | %>
+
+            <% @report_data["reports"].values.sort {|x,y| I18n.t("reports.#{x['code']}.title") <=> I18n.t("reports.#{y['code']}.title") }.each do | report | %>
               <div class='report-listing'>
                 <div class="alert alert-info">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["uri_suffix"] %>">
-                    <%= I18n.t("reports.#{report["model"]}", :default => report["model"]) %>
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>">
+                    <%= I18n.t("reports.#{report["code"]}.title") %>
                   </a>
-                  <button class="pull-right btn btn-default  hide selected-message" disabled>Selected</span>
-                  <button class="pull-right btn btn-default select-record" data-report="<%= report['uri_suffix'] %>">Select</button>
-                  <a class="pull-right btn btn-default accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["uri_suffix"] %>" >
+                  <button class="pull-right btn btn-default  hide selected-message" disabled>Selected</button>
+                  <button class="pull-right btn btn-default select-record" data-report="<%= report['code'] %>">Select</button>
+                  <a class="pull-right btn btn-default accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>" >
                     <%= I18n.t("job.show_description") %>
                   </a>
                 </div>
-                <div id="reportListing_<%= report["uri_suffix"] %>" class="accordion-body collapse">
+                <div id="reportListing_<%= report["code"] %>" class="accordion-body collapse">
                   <div class="accordion-inner">
-                    <p><%= report['description'] %></p>
+                    <p><%= I18n.t("reports.#{report["code"]}.description", :default => report["code"]) %></p>
                     <hr/>
-                    <input id='report_type_' name='report_job[report_type]' type='hidden' value='<%= report['uri_suffix'] %>' />
+                    <input id='report_type_' name='report_job[report_type]' type='hidden' value='<%= report['code'] %>' />
                     <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
-                    
+
                     <% if report_params.length > 0 %>
                        <% report_params.each do | param | %>
                         <div class="form-group">
                           <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
                           <div class="col-sm-9">
                             <% if param[1] === "Date" %>
-                              <%= text_field_tag "job[job_params][#{param[0]}]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %> 
+                              <%= text_field_tag "job[job_params][#{param[0]}]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
                             <% elsif param[1] === "String" && param.length > 3 && param[3].has_key?("enumeration") %>
                               <%= select_tag( "job[job_params][#{param[0]}]", options_for_select(
                                                       JSONModel.enum_values(param[3]["enumeration"]).map{|v| [I18n.t("enumerations.#{param[3]["enumeration"]}.#{v}", :default => v), v]},
                                              )) %>
-                            <% else %>
+                            <% elsif param[1] === "String" %>
                               <%= text_field_tag "job[job_params][#{param[0]}]", nil  , :class => 'form-control' %>
+                            <% else %>
+                              <%# Custom types will be rendered using a partial with the corresponding name %>
+                              <%= render_aspace_partial :partial => "jobs/report_partials/#{param[1].downcase}", :locals => {:object => @job, :form => form, :name => param[0]} %>
                             <% end %>
                           </div>
-                        </div> 
+                        </div>
                       <% end %>
                     <% end %>
                     <hr/>
                     <div class="form-group">
                       <label class="col-sm-2 control-label">Format</label>
                       <div class="col-sm-9">
-                        <% formats = @report_data["formats"] || %w{ json csv xlsx html pdf } %>
+                        <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
                         <%= select_tag("report_job[format]", options_for_select(formats.map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]}, nil), :class => 'form-control') %>
                       </div>
                     </div>
-                        
+
                   </div>
-                </div> 
-              </div> 
-            <% end %> 
-          
+                </div>
+              </div>
+            <% end %>
+
           </div>
-          <input id="report_job_jsonmodel_type_" name="report_job[jsonmodel_type]" type="hidden" value="report_job"> 
+          <input id="report_job_jsonmodel_type_" name="report_job[jsonmodel_type]" type="hidden" value="report_job">
       </div>
   <% end %>
 
+  <%# Now create a template for all job types not handled above - eg from plugins %>
+  <% job_types.keys.each do |type| %>
+    <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job'].include?(type) %>
+    <% define_template(type, jsonmodel_definition(type.intern)) do |form| %>
 
+      <% begin %>
+        <%= render_aspace_partial :partial => "#{type}/form", :locals => {:object => @job, :form => form} %>
+      <% rescue ActionView::MissingTemplate %>
+        <%# don't require plugins to provide a form %>
+      <% end %>
+
+      <input name="<%= type %>[jsonmodel_type]" type="hidden" value="<%= type %>">
+    <% end %>
+  <% end %>
 
 
   <%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "jobfileupload", :class => 'form-horizontal aspace-record-form',  :multipart => true} do |f| %>
     <%= form_context :job, @job do |form| %>
           <div class="record-pane">
             <%= link_to_help :topic => "job" %>
-            <h2><%= I18n.t("job._frontend.actions.new") %></h2>
+            <h2><%= I18n.t("job._frontend.actions.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type])  %> </h2>
 
             <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @job, :form => form} %>
-
             <% form.emit_template("job") %>
 
             <div id="uploadProgress" class="progress progress-striped active" style="display: none;">
@@ -151,6 +163,8 @@
             </div>
 
             <div class="form-actions">
+              &nbsp;
+              <hr>
               <div class="btn-group">
                 <button type="submit" class="btn btn-primary"><%= I18n.t("job._frontend.actions.save") %></button>
               </div>

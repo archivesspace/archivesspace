@@ -15,6 +15,9 @@
 
       "publish" => {"type" => "boolean", "default" => true, "readonly" => true},
 
+      "used_within_repositories" => {"type" => "array", "items" => {"type" => "JSONModel(:repository) uri"}, "readonly" => true},
+      "used_within_published_repositories" => {"type" => "array", "items" => {"type" => "JSONModel(:repository) uri"}, "readonly" => true},
+
       "source" => {"type" => "string",  "dynamic_enum" => "subject_source", "ifmissing" => "error"},
 
       "scope_note" => {"type" => "string"},

@@ -7,9 +7,11 @@
 
       "negated" => {"type" => "boolean", "default" => false},
       "field" => {"type" => "string", "ifmissing" => "error"},
-      "value" => {"type" => "string", "ifmissing" => "error"},
+      "value" => {"type" => "string"},
 
       "literal" => {"type" => "boolean", "default" => false},
+      "comparator" => {"type" => "string", "enum" => ["contains", "empty"]},
+
     },
   },
 }

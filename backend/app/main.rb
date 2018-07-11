@@ -12,6 +12,11 @@ end
 require_relative 'lib/bootstrap'
 ASpaceEnvironment.init
 
+
+require 'archivesspace_thread_dump'
+ArchivesSpaceThreadDump.init(File.join(ASUtils.find_base_directory, "thread_dump_backend.txt"))
+
+
 require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
@@ -22,14 +27,14 @@ require_relative 'lib/request_context'
 require_relative 'lib/reports/report_helper'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
-require_relative 'lib/resequencer'
-require_relative 'lib/container_management_conversion'
 require 'solr_snapshotter'
 
 require 'barcode_check'
+require 'record_inheritance'
 
 require 'uri'
 require 'sinatra/base'
+require 'active_support/inflector'
 
 class ArchivesSpaceService < Sinatra::Base
 
@@ -57,15 +62,17 @@ class ArchivesSpaceService < Sinatra::Base
     require 'sinatra/reloader'
     register Sinatra::Reloader
     config.also_reload File.join("app", "**", "*.rb")
+    config.also_reload File.join("..", "plugins", "*", "backend", "**", "*.rb")
     config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "exporters", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
 
-    set :server, :puma
+    set :server, :mizuno
+    set :server_settings, {:reuse_address => true}
   end
 
   configure :test do |config|
-    set :server, :puma
+    set :server, :mizuno
   end
 
 
@@ -97,31 +104,29 @@ class ArchivesSpaceService < Sinatra::Base
 
       require_relative "model/ASModel"
 
+      # Set up our JSON schemas now that we know the JSONModels have been loaded
+      RecordInheritance.prepare_schemas
+
       # let's check that our migrations have passed and we're on the right
       # schema_info version
-      unless AppConfig[:ignore_schema_info_check] 
+      unless AppConfig[:ignore_schema_info_check]
         schema_info = 0
-        DB.open do |db| schema_info =  db[:schema_info].get(:version) end
-        if schema_info != ASConstants.SCHEMA_INFO
-          Log.error("***** DATABASE MIGRATION ERROR *****\n" +
-                    "\n" +
-                    "ArchivesSpace has encountered a problem with your database schema info version.\n\n" +
-                    "The schema info version should be #{ ASConstants.SCHEMA_INFO} for ArchivesSpace version #{ ASConstants.VERSION}.\n " +
-                    "However, your schema info version is set at #{schema_info}\n" + 
-                    "Please ensure your migrations have been run and completed by using the setup-database script.\n\n ")
-          raise "Schema Info Mismatch. Expected #{ ASConstants.SCHEMA_INFO }, received #{ schema_info } for ASPACE version #{ ASConstants.VERSION }. "
+        DB.open do |db|
+          schema_info =  db[:schema_info].get(:version)
+          required_schema_info = DBMigrator.latest_migration_number(db)
 
+          if schema_info != required_schema_info
+            Log.error("***** DATABASE MIGRATION ERROR *****\n" +
+                      "\n" +
+                      "ArchivesSpace has encountered a problem with your database schema info version.\n\n" +
+                      "The schema info version should be #{required_schema_info} for ArchivesSpace version #{ASConstants.VERSION}.\n " +
+                      "However, your schema info version is set at #{schema_info}\n" +
+                      "Please ensure your migrations have been run and completed by using the setup-database script.\n\n ")
+            raise "Schema Info Mismatch. Expected #{required_schema_info}, received #{schema_info} for ASPACE version #{ASConstants.VERSION}. "
+          end
         end
-      end 
-      
-      if AppConfig[:enable_jasper] && DB.supports_jasper? 
-        require_relative 'model/reports/jasper_report' 
-        require_relative 'model/reports/jasper_report_register' 
-        JasperReport.compile if AppConfig[:compile_jasper] 
-        JasperReportRegister.register_reports
+
       end
-
-
 
       [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
         ['model/mixins', 'model', 'model/reports', 'controllers'].each do |path|
@@ -131,11 +136,14 @@ class ArchivesSpaceService < Sinatra::Base
         end
       end
 
+      # Include packaged reports
+      Array(StaticAssetFinder.new('reports').find_all(".rb")).each do |report_file|
+        require File.absolute_path(report_file)
+      end
+
+
       # Start the notifications background delivery thread
       Notifications.init if ASpaceEnvironment.environment != :unit_test
-
-      BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
-
 
       if ASpaceEnvironment.environment == :production
         # Start the job scheduler
@@ -182,42 +190,30 @@ class ArchivesSpaceService < Sinatra::Base
 
       ANONYMOUS_USER = AnonymousUser.new
 
-      require_relative "lib/bootstrap_access_control"
 
-      Preference.init
+      DB.open do
+        require_relative "lib/bootstrap_access_control"
+        Preference.init
 
-      @loaded_hooks.each do |hook|
-        hook.call
-      end
-      @archivesspace_loaded = true
-
-
-      # Load plugin init.rb files (if present)
-      ASUtils.find_local_directories('backend').each do |dir|
-        init_file = File.join(dir, "plugin_init.rb")
-        if File.exists?(init_file)
-          load init_file
+        @loaded_hooks.each do |hook|
+          hook.call
         end
+        @archivesspace_loaded = true
+
+
+        # Load plugin init.rb files (if present)
+        ASUtils.find_local_directories('backend').each do |dir|
+          init_file = File.join(dir, "plugin_init.rb")
+          if File.exist?(init_file)
+            load init_file
+          end
+        end
+
+        BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
+
+        Notifications.notify("BACKEND_STARTED")
+        Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize
       end
-
-
-      Notifications.notify("BACKEND_STARTED")
-      Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}"
-      Resequencer.run( [ :ArchivalObject,  :DigitalObjectComponent, :ClassificationTerm ] ) if AppConfig[:resequence_on_startup]
-     
-     
-      # this checks the system_event table to see if we've already run the CMM
-      # for the upgrade from =< v1.4.2
-      unless ContainerManagementConversion.already_run? 
-        Log.info("\n") 
-        Log.info("*" * 100 )
-        Log.info("Migrating existing containers to the new container model...")
-        ContainerManagementConversion.new.run
-        Log.info("Completed: existing containers have been migrated to the new container model.")
-        Log.info("*" * 100 )
-        Log.info("\n") 
-      end
-
     rescue
       ASUtils.dump_diagnostics($!)
     end
@@ -240,6 +236,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   class RequestWrappingMiddleware
+
+    Session.init
+
     def initialize(app)
       @app = app
     end
@@ -294,7 +293,7 @@ class ArchivesSpaceService < Sinatra::Base
 
       end_time = Time.now
 
-      Log.debug("Responded with #{result.to_s[0..512]}... in #{(end_time - start_time) * 1000}ms")
+      Log.debug("Responded with #{result.to_s[0..512]}... in #{((end_time - start_time) * 1000).to_i}ms")
 
       result
     end
@@ -334,7 +333,7 @@ end
 if $0 == __FILE__
   Log.info("Dev server starting up...")
 
-  ArchivesSpaceService.run!(:port => (ARGV[0] or 4567)) do |server|
+  ArchivesSpaceService.run!(:bind => '0.0.0.0', :port => (ARGV[0] or 4567)) do |server|
     def server.stop
       # Shutdown long polling threads that would otherwise hold things up.
       Notifications.shutdown

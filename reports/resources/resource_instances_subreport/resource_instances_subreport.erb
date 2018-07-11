@@ -1,0 +1,15 @@
+<table>
+  <tr>
+    <th><%= t('top_container') %></th>
+    <th><%= t('container_2') %></th>
+    <th><%= t('container_3') %></th>
+  </tr>
+
+  <% @report.each do |location| %>
+    <tr>
+      <td><%= h location.fetch('container') %></td>
+      <td><%= h location.fetch('container2Type') %> <%= h location.fetch('container2Indicator') %></td>
+      <td><%= h location.fetch('container3Type') %> <%= h location.fetch('container3Indicator') %></td>
+    </tr>
+  <% end %>
+</table>

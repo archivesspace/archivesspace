@@ -4,12 +4,12 @@ layout: en
 permalink: /user/system-requirements/ 
 ---
 
-* Java 1.6 or higher; Java 1.7 or 1.8 recommended.
-* At least 1024 MB RAM allocated to the application
+* Java 1.7 or 1.8.
+* At least 1024 MB RAM allocated to the application; at least 2 GB for optimal performance.
 * A [supported browser](https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers)
 
-ArchivesSpace has been tested on Linux (Red Hat and Ubuntu), Mac OS X, and
-Windows (XP, Windows 7, Windows 8, Windows Server 2008 & 2012 ).
+ArchivesSpace has been tested on Ubuntu Linux, Mac OS X, and
+Windows.
 
 MySQL is not required, but is **strongly** recommended for production use.
 

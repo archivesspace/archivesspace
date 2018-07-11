@@ -69,15 +69,19 @@ class SessionController < ApplicationController
 
     case record_info[:type]
     when 'accession'
-      user_can?('update_accession_record', params[:repository])
+      user_can?('update_accession_record', record_info[:repository])
     when 'resource', 'archival_object'
-      user_can?('update_resource_record', params[:repository])
+      user_can?('update_resource_record', record_info[:repository])
     when 'digital_object', 'digital_object_component'
-      user_can?('update_digital_object_record', params[:repository])
+      user_can?('update_digital_object_record', record_info[:repository])
     when /^agent/
-      user_can?('update_agent_record')
+      user_can?('update_agent_record', record_info[:repository])
+    when /^classification/
+      user_can?('update_classification_record', record_info[:repository])
     when 'subject'
-      user_can?('update_subject_record')
+      user_can?('update_subject_record', record_info[:repository])
+    when 'top_container'
+      user_can?('update_container_record', record_info[:repository])
     end
   end
 end

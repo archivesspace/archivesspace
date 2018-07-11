@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: LocationHoldingsReport
+  
+    &mdash; Documentation by YARD 0.9.0
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "LocationHoldingsReport";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (L)</a> &raquo;
+    
+    
+    <span class="title">LocationHoldingsReport</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <iframe id="search_frame" src="class_list.html"></iframe>
+
+      <div id="content"><h1>Class: LocationHoldingsReport
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="AbstractReport.html" title="AbstractReport (class)">AbstractReport</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="AbstractReport.html" title="AbstractReport (class)">AbstractReport</a></span></li>
+          
+            <li class="next">LocationHoldingsReport</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/reports/location_holdings_report.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#REFERENCE_KEY_REGEX-constant" title="JSONModel::REFERENCE_KEY_REGEX (constant)">JSONModel::REFERENCE_KEY_REGEX</a></span></p>
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#building-instance_method" title="#building (instance method)">#<strong>building</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute building.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#end_location-instance_method" title="#end_location (instance method)">#<strong>end_location</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute end_location.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#repository_uri-instance_method" title="#repository_uri (instance method)">#<strong>repository_uri</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute repository_uri.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_location-instance_method" title="#start_location (instance method)">#<strong>start_location</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute start_location.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="AbstractReport.html" title="AbstractReport (class)">AbstractReport</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="AbstractReport.html#format-instance_method" title="AbstractReport#format (method)">#format</a></span>, <span class='object_link'><a href="AbstractReport.html#params-instance_method" title="AbstractReport#params (method)">#params</a></span>, <span class='object_link'><a href="AbstractReport.html#repo_id-instance_method" title="AbstractReport#repo_id (method)">#repo_id</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#building_query-instance_method" title="#building_query (instance method)">#<strong>building_query</strong>(db)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each-instance_method" title="#each (instance method)">#<strong>each</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#headers-instance_method" title="#headers (instance method)">#<strong>headers</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(params, job)  &#x21d2; LocationHoldingsReport </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of LocationHoldingsReport.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#processor-instance_method" title="#processor (instance method)">#<strong>processor</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query-instance_method" title="#query (instance method)">#<strong>query</strong>(db)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#range_query-instance_method" title="#range_query (instance method)">#<strong>range_query</strong>(db)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#repository_query-instance_method" title="#repository_query (instance method)">#<strong>repository_query</strong>(db)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#single_query-instance_method" title="#single_query (instance method)">#<strong>single_query</strong>(db)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#title-instance_method" title="#title (instance method)">#<strong>title</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="AbstractReport.html" title="AbstractReport (class)">AbstractReport</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="AbstractReport.html#current_user-instance_method" title="AbstractReport#current_user (method)">#current_user</a></span>, <span class='object_link'><a href="AbstractReport.html#get_binding-instance_method" title="AbstractReport#get_binding (method)">#get_binding</a></span>, <span class='object_link'><a href="AbstractReport.html#layout-instance_method" title="AbstractReport#layout (method)">#layout</a></span>, <span class='object_link'><a href="AbstractReport.html#report-instance_method" title="AbstractReport#report (method)">#report</a></span>, <span class='object_link'><a href="AbstractReport.html#scope_by_repo_id-instance_method" title="AbstractReport#scope_by_repo_id (method)">#scope_by_repo_id</a></span>, <span class='object_link'><a href="AbstractReport.html#template-instance_method" title="AbstractReport#template (method)">#template</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ReportManager/Mixin.html" title="ReportManager::Mixin (module)">ReportManager::Mixin</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ReportManager/Mixin.html#included-class_method" title="ReportManager::Mixin.included (method)">included</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(params, job)  &#x21d2; <tt><span class='object_link'><a href="" title="LocationHoldingsReport (class)">LocationHoldingsReport</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of LocationHoldingsReport</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 13</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_job identifier id'>job</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'building'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_@building ivar id'>@building</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'building'</span><span class='rbrack token'>]</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'repository_uri'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_@repository_uri ivar id'>@repository_uri</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'repository_uri'</span><span class='rbrack token'>]</span>
+
+    <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_@repository_uri ivar id'>@repository_uri</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_current_user identifier id'>current_user</span><span class='dot token'>.</span><span class='rubyid_can? fid id'>can?</span><span class='lparen token'>(</span><span class='symbol val'>:view_repository</span><span class='rparen token'>)</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;User does not have access to view the requested repository&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_@start_location ivar id'>@start_location</span> <span class='assign token'>=</span> <span class='rubyid_Location constant id'>Location</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'location_start'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'location_end'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+<span class='rubyid_@end_location ivar id'>@end_location</span> <span class='assign token'>=</span> <span class='rubyid_Location constant id'>Location</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:location</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'location_end'</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>'ref'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="building-instance_method">
+  
+    #<strong>building</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute building</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_building identifier id'>building</span>
+  <span class='rubyid_@building ivar id'>@building</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="end_location-instance_method">
+  
+    #<strong>end_location</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute end_location</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_end_location identifier id'>end_location</span>
+  <span class='rubyid_@end_location ivar id'>@end_location</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="repository_uri-instance_method">
+  
+    #<strong>repository_uri</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute repository_uri</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_repository_uri identifier id'>repository_uri</span>
+  <span class='rubyid_@repository_uri ivar id'>@repository_uri</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="start_location-instance_method">
+  
+    #<strong>start_location</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute start_location</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_start_location identifier id'>start_location</span>
+  <span class='rubyid_@start_location ivar id'>@start_location</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="building_query-instance_method">
+  
+    #<strong>building_query</strong>(db)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 134</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_building_query identifier id'>building_query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+  <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:location__building</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_building identifier id'>building</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="each-instance_method">
+  
+    #<strong>each</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 222</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_each identifier id'>each</span>
+  <span class='rubyid_collection_identifier_fields identifier id'>collection_identifier_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='symbol val'>:resource_identifier</span><span class='comma token'>,</span> <span class='symbol val'>:resource_via_ao_identifier</span><span class='comma token'>,</span> <span class='symbol val'>:accession_identifier</span><span class='rbrack token'>]</span>
+  <span class='rubyid_collection_title_fields identifier id'>collection_title_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='symbol val'>:resource_title</span><span class='comma token'>,</span> <span class='symbol val'>:resource_via_ao_title</span><span class='comma token'>,</span> <span class='symbol val'>:accession_title</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+    <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_query identifier id'>query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_current_entry identifier id'>current_entry</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_enum identifier id'>enum</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_to_enum identifier id'>to_enum</span>
+
+    <span class='rubyid_while while kw'>while</span> <span class='rubyid_true true kw'>true</span>
+      <span class='rubyid_row identifier id'>row</span> <span class='assign token'>=</span> <span class='rubyid_next_row identifier id'>next_row</span><span class='lparen token'>(</span><span class='rubyid_enum identifier id'>enum</span><span class='rparen token'>)</span>
+
+<span class='rubyid_if if kw'>if</span> <span class='rubyid_row identifier id'>row</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_current_entry identifier id'>current_entry</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='symbol val'>:_top_container_id</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_id</span><span class='rbrack token'>]</span>
+  <span class='comment val'># This row can be combined with the previous entry</span>
+  <span class='rubyid_collection_identifier_fields identifier id'>collection_identifier_fields</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span>
+    <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='string val'>'resource_or_accession_id'</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_collection_title_fields identifier id'>collection_title_fields</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span>
+    <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='string val'>'resource_or_accession_title'</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_else else kw'>else</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_current_entry identifier id'>current_entry</span>
+    <span class='comment val'># Yield the old value</span>
+    <span class='rubyid_current_entry identifier id'>current_entry</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:_top_container_id</span><span class='rparen token'>)</span>
+    <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='string val'>'resource_or_accession_id'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='string val'>'resource_or_accession_id'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_s identifier id'>s</span><span class='bitor op'>|</span> <span class='rubyid_format_identifier identifier id'>format_identifier</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'; '</span><span class='rparen token'>)</span>
+    <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='string val'>'resource_or_accession_title'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='string val'>'resource_or_accession_title'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'; '</span><span class='rparen token'>)</span>
+    <span class='rubyid_yield yield kw'>yield</span> <span class='rubyid_current_entry identifier id'>current_entry</span>
+  <span class='rubyid_end end kw'>end</span>
+
+        <span class='comment val'># If we hit the end of our rows, we're all done</span>
+        <span class='rubyid_break break kw'>break</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_row identifier id'>row</span>
+
+  <span class='comment val'># Otherwise, start a new entry for the next row</span>
+        <span class='rubyid_current_entry identifier id'>current_entry</span> <span class='assign token'>=</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_headers identifier id'>headers</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_h identifier id'>h</span><span class='bitor op'>|</span>
+       <span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_processor identifier id'>processor</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_h identifier id'>h</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_processor identifier id'>processor</span><span class='lbrack token'>[</span><span class='rubyid_h identifier id'>h</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='rubyid_h identifier id'>h</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rbrack token'>]</span>
+       <span class='lbrack token'>[</span><span class='rubyid_h identifier id'>h</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='rbrack token'>]</span>
+           <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='string val'>'resource_or_accession_id'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_collection_identifier_fields identifier id'>collection_identifier_fields</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='string val'>'resource_or_accession_title'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_collection_title_fields identifier id'>collection_title_fields</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='rubyid_field identifier id'>field</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+
+  <span class='comment val'># Use the top container ID to combine adjacent rows</span>
+  <span class='rubyid_current_entry identifier id'>current_entry</span><span class='lbrack token'>[</span><span class='symbol val'>:_top_container_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_id</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="headers-instance_method">
+  
+    #<strong>headers</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 39</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_headers identifier id'>headers</span>
+  <span class='lbrack token'>[</span>
+    <span class='string val'>'building'</span><span class='comma token'>,</span> <span class='string val'>'floor_and_room'</span><span class='comma token'>,</span> <span class='string val'>'location_in_room'</span><span class='comma token'>,</span>
+    <span class='string val'>'location_url'</span><span class='comma token'>,</span> <span class='string val'>'location_profile'</span><span class='comma token'>,</span> <span class='string val'>'location_barcode'</span><span class='comma token'>,</span>
+    <span class='string val'>'resource_or_accession_id'</span><span class='comma token'>,</span> <span class='string val'>'resource_or_accession_title'</span><span class='comma token'>,</span>
+    <span class='string val'>'top_container_indicator'</span><span class='comma token'>,</span> <span class='string val'>'top_container_barcode'</span><span class='comma token'>,</span> <span class='string val'>'container_profile'</span><span class='comma token'>,</span>
+    <span class='string val'>'ils_item_id'</span><span class='comma token'>,</span> <span class='string val'>'ils_holding_id'</span><span class='comma token'>,</span> <span class='string val'>'repository'</span>
+  <span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="processor-instance_method">
+  
+    #<strong>processor</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51
+52
+53
+54
+55</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 49</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_processor identifier id'>processor</span>
+  <span class='lbrace token'>{</span>
+    <span class='string val'>'floor_and_room'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='rubyid_floor_and_room identifier id'>floor_and_room</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+    <span class='string val'>'location_in_room'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='rubyid_location_in_room identifier id'>location_in_room</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+    <span class='string val'>'location_url'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span> <span class='rubyid_location_url identifier id'>location_url</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="query-instance_method">
+  
+    #<strong>query</strong>(db)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 57</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_query identifier id'>query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+    <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_building identifier id'>building</span>
+    <span class='rubyid_building_query identifier id'>building_query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+              <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_repository_uri identifier id'>repository_uri</span>
+                <span class='rubyid_repository_query identifier id'>repository_query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+        <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_start_location identifier id'>start_location</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_end_location identifier id'>end_location</span>
+    <span class='rubyid_range_query identifier id'>range_query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+        <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_single_query identifier id'>single_query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># Join location to top containers, repository and (optionally) location and container profiles</span>
+    <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:location_profile_rlshp</span><span class='comma token'>,</span> <span class='symbol val'>:location_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:location__id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:location_profile</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:location_profile_rlshp__location_profile_id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_housed_at_rlshp</span><span class='comma token'>,</span>
+        <span class='symbol val'>:location_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:location__id</span><span class='comma token'>,</span>
+        <span class='symbol val'>:top_container_housed_at_rlshp__status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'current'</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:top_container</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:top_container_housed_at_rlshp__top_container_id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:top_container__repo_id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_profile_rlshp</span><span class='comma token'>,</span> <span class='symbol val'>:top_container_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:top_container_housed_at_rlshp__top_container_id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:container_profile</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:top_container_profile_rlshp__container_profile_id</span><span class='rparen token'>)</span>
+
+    <span class='comment val'># A top container can be linked (via subcontainer) to an instance attached</span>
+    <span class='comment val'># to an archival object, resource or accession.  We'd like to report on the</span>
+    <span class='comment val'># ultimate collection of that linkage--the accession or resource tree that</span>
+    <span class='comment val'># the top container is linked into.</span>
+    <span class='comment val'>#</span>
+    <span class='comment val'># So, here comes more joins...</span>
+    <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_link_rlshp</span><span class='comma token'>,</span> <span class='symbol val'>:top_container_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:top_container__id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:sub_container</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:top_container_link_rlshp__sub_container_id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:sub_container__id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:instance__archival_object_id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:instance__resource_id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:instance__accession_id</span><span class='rparen token'>)</span>
+        <span class='dot token'>.</span><span class='rubyid_left_outer_join identifier id'>left_outer_join</span><span class='lparen token'>(</span><span class='symbol val'>:resource___resource_via_ao</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:archival_object__root_record_id</span><span class='rparen token'>)</span>
+
+    <span class='comment val'># Used so we can combine adjacent rows for accession/resources linkages</span>
+    <span class='comment val'># (i.e. one top container linked to multiple collections)</span>
+    <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_id</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__building</span><span class='comma token'>,</span> <span class='symbol val'>:building</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__floor</span><span class='comma token'>,</span> <span class='symbol val'>:floor</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__room</span><span class='comma token'>,</span> <span class='symbol val'>:room</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__area</span><span class='comma token'>,</span> <span class='symbol val'>:area</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__id</span><span class='comma token'>,</span> <span class='symbol val'>:location_id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__coordinate_1_label</span><span class='comma token'>,</span> <span class='symbol val'>:coordinate_1_label</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__coordinate_1_indicator</span><span class='comma token'>,</span> <span class='symbol val'>:coordinate_1_indicator</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__coordinate_2_label</span><span class='comma token'>,</span> <span class='symbol val'>:coordinate_2_label</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__coordinate_2_indicator</span><span class='comma token'>,</span> <span class='symbol val'>:coordinate_2_indicator</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__coordinate_3_label</span><span class='comma token'>,</span> <span class='symbol val'>:coordinate_3_label</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__coordinate_3_indicator</span><span class='comma token'>,</span> <span class='symbol val'>:coordinate_3_indicator</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location_profile__name</span><span class='comma token'>,</span> <span class='symbol val'>:location_profile</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:location__barcode</span><span class='comma token'>,</span> <span class='symbol val'>:location_barcode</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__indicator</span><span class='comma token'>,</span> <span class='symbol val'>:top_container_indicator</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__barcode</span><span class='comma token'>,</span> <span class='symbol val'>:top_container_barcode</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:container_profile__name</span><span class='comma token'>,</span> <span class='symbol val'>:container_profile</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__id</span><span class='comma token'>,</span> <span class='symbol val'>:top_container_id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__ils_item_id</span><span class='comma token'>,</span> <span class='symbol val'>:ils_item_id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__ils_holding_id</span><span class='comma token'>,</span> <span class='symbol val'>:ils_holding_id</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:repository__name</span><span class='comma token'>,</span> <span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:resource__title</span><span class='comma token'>,</span> <span class='symbol val'>:resource_title</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:resource_via_ao__title</span><span class='comma token'>,</span> <span class='symbol val'>:resource_via_ao_title</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:accession__title</span><span class='comma token'>,</span> <span class='symbol val'>:accession_title</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:resource__identifier</span><span class='comma token'>,</span> <span class='symbol val'>:resource_identifier</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:resource_via_ao__identifier</span><span class='comma token'>,</span> <span class='symbol val'>:resource_via_ao_identifier</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+           <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:accession__identifier</span><span class='comma token'>,</span> <span class='symbol val'>:accession_identifier</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+          <span class='rparen token'>)</span>
+
+    <span class='rubyid_dataset identifier id'>dataset</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="range_query-instance_method">
+  
+    #<strong>range_query</strong>(db)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 161</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_range_query identifier id'>range_query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+  <span class='comment val'># Find the most specific mismatch between the two locations: building -&gt; floor -&gt; room -&gt; area -&gt; c1 -&gt; c2 -&gt; c3</span>
+  <span class='rubyid_properties_to_compare identifier id'>properties_to_compare</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='symbol val'>:building</span><span class='comma token'>,</span> <span class='symbol val'>:floor</span><span class='comma token'>,</span> <span class='symbol val'>:room</span><span class='comma token'>,</span> <span class='symbol val'>:area</span><span class='rbrack token'>]</span>
+
+  <span class='lbrack token'>[</span><span class='integer val'>1</span><span class='comma token'>,</span> <span class='integer val'>2</span><span class='comma token'>,</span> <span class='integer val'>3</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_coordinate identifier id'>coordinate</span><span class='bitor op'>|</span>
+    <span class='rubyid_label identifier id'>label</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;coordinate_#{coordinate}_label&quot;</span>
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_start_location identifier id'>start_location</span><span class='lbrack token'>[</span><span class='rubyid_label identifier id'>label</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_start_location identifier id'>start_location</span><span class='lbrack token'>[</span><span class='rubyid_label identifier id'>label</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_end_location identifier id'>end_location</span><span class='lbrack token'>[</span><span class='rubyid_label identifier id'>label</span><span class='rbrack token'>]</span>
+<span class='rubyid_properties_to_compare identifier id'>properties_to_compare</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;coordinate_#{coordinate}_indicator&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span>
+    <span class='rubyid_else else kw'>else</span>
+<span class='rubyid_break break kw'>break</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_matching_properties identifier id'>matching_properties</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_determinant_property identifier id'>determinant_property</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+
+  <span class='rubyid_properties_to_compare identifier id'>properties_to_compare</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='bitor op'>|</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_start_location identifier id'>start_location</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_end_location identifier id'>end_location</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span>
+
+<span class='rubyid_if if kw'>if</span> <span class='rubyid_start_location identifier id'>start_location</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_end_location identifier id'>end_location</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span>
+  <span class='comment val'># If both locations have the same value for this property, we'll skip it for the purposes of our range calculation</span>
+  <span class='rubyid_matching_properties identifier id'>matching_properties</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_property identifier id'>property</span>
+<span class='rubyid_else else kw'>else</span>
+  <span class='comment val'># But if they have different values, that's what we'll use for the basis of our range</span>
+  <span class='rubyid_determinant_property identifier id'>determinant_property</span> <span class='assign token'>=</span> <span class='rubyid_property identifier id'>property</span>
+  <span class='rubyid_break break kw'>break</span>
+<span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='notop op'>!</span><span class='rubyid_start_location identifier id'>start_location</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_end_location identifier id'>end_location</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span>
+<span class='comment val'># If neither location has a value for this property, skip it</span>
+<span class='rubyid_next next kw'>next</span>
+
+    <span class='rubyid_else else kw'>else</span>
+<span class='comment val'># If we hit a property that only one location has a value for, we can't use it for a range calculation</span>
+<span class='rubyid_break break kw'>break</span>
+    <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_matching_properties identifier id'>matching_properties</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_determinant_property identifier id'>determinant_property</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='comment val'># an empty dataset</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='integer val'>1</span> <span class='eq op'>==</span> <span class='integer val'>0</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_matching_properties identifier id'>matching_properties</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='bitor op'>|</span>
+    <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_start_location identifier id'>start_location</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_determinant_property identifier id'>determinant_property</span>
+    <span class='rubyid_range_start identifier id'>range_start</span><span class='comma token'>,</span> <span class='rubyid_range_end identifier id'>range_end</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_start_location identifier id'>start_location</span><span class='lbrack token'>[</span><span class='rubyid_determinant_property identifier id'>determinant_property</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_end_location identifier id'>end_location</span><span class='lbrack token'>[</span><span class='rubyid_determinant_property identifier id'>determinant_property</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort identifier id'>sort</span>
+    <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span>
+  <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{determinant_property} &gt;= ?&quot;</span><span class='comma token'>,</span> <span class='rubyid_range_start identifier id'>range_start</span><span class='rparen token'>)</span>
+  <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{determinant_property} &lt;= ?&quot;</span><span class='comma token'>,</span> <span class='rubyid_range_end identifier id'>range_end</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_dataset identifier id'>dataset</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="repository_query-instance_method">
+  
+    #<strong>repository_query</strong>(db)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 138</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_repository_query identifier id'>repository_query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+  <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_repository_uri identifier id'>repository_uri</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_location_ids identifier id'>location_ids</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span>
+     <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_housed_at_rlshp</span><span class='comma token'>,</span> <span class='symbol val'>:location_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:location__id</span><span class='rparen token'>)</span>
+     <span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='symbol val'>:top_container</span><span class='comma token'>,</span> <span class='symbol val'>:top_container__id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:top_container_housed_at_rlshp__top_container_id</span><span class='rparen token'>)</span>
+     <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
+     <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:location__id</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_ds identifier id'>ds</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:location__id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_location_ids identifier id'>location_ids</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># We add a filter at this point to only show holdings for the current</span>
+  <span class='comment val'># repository.  This works because we know our dataset will be joined with</span>
+  <span class='comment val'># the top_container table in our `query` method, and Sequel doesn't mind if</span>
+  <span class='comment val'># we add filters for columns that haven't been joined in yet.</span>
+  <span class='comment val'>#</span>
+  <span class='rubyid_ds identifier id'>ds</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="single_query-instance_method">
+  
+    #<strong>single_query</strong>(db)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+157
+158
+159</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 157</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_single_query identifier id'>single_query</span><span class='lparen token'>(</span><span class='rubyid_db identifier id'>db</span><span class='rparen token'>)</span>
+  <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:location</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:location__id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_start_location identifier id'>start_location</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="title-instance_method">
+  
+    #<strong>title</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/location_holdings_report.rb', line 35</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_title identifier id'>title</span>
+  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>'reports.LocationHoldingsReport'</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version v1.5.3.a Documentation Generated on Thu Mar 16 15:24:26 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.0 (ruby-1.9.3).
+</div>
+    </div>
+  </body>
+</html>

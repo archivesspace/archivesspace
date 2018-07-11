@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'zlib'
 
 class User < JSONModel(:user)
 
@@ -23,7 +24,7 @@ class User < JSONModel(:user)
 
 
   def self.store_permissions(permissions, context)
-    context.send(:cookies).signed[:archivesspace_permissions] = ASUtils.to_json(Permissions.pack(permissions))
+    context.send(:cookies).signed[:archivesspace_permissions] = 'ZLIB:' + Zlib::Deflate.deflate(ASUtils.to_json(Permissions.pack(permissions)))
     context.session[:last_permission_refresh] = Time.now.to_i
   end
 
@@ -42,6 +43,7 @@ class User < JSONModel(:user)
 
 
   def self.become_user(context, username)
+    return false if username == "admin"
     uri = JSONModel(:user).uri_for("#{username}/become-user")
 
     response = JSONModel::HTTP.post_form(uri)

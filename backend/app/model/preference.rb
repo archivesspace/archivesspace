@@ -7,7 +7,7 @@ class Preference < Sequel::Model(:preference)
   def self.init
     defs_file = File.join(ASUtils.find_base_directory("common"), "config", "preference_defaults.rb")
     defaults = {}
-    if File.exists?(defs_file)
+    if File.exist?(defs_file)
       found_defs_file = true
       Log.info("Loading preference defaults file at #{defs_file}")
       defaults = eval(File.read(defs_file))

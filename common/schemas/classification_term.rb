@@ -6,6 +6,7 @@
     "parent" => "abstract_classification",
     "uri" => "/repositories/:repo_id/classification_terms",
     "properties" => {
+      "display_string" => {"type" => "string", "readonly" => true},
 
       "position" => {"type" => "integer", "required" => false},
 
@@ -31,7 +32,8 @@
             "type" => "object",
             "readonly" => "true"
           },
-        }
+        },
+        "ifmissing" => "error"
       }
     },
   },

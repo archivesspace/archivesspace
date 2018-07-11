@@ -22,8 +22,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-    json_response({"filename" =>
-                    "#{DigitalObject[params[:id]].digital_object_id}_dc.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(DigitalObject[params[:id]].digital_object_id, "_dc.xml" ),
                    "mimetype" => "application/xml"})
   end
 
@@ -31,11 +30,12 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/digital_objects/mets/:id.xml')
     .description("Get a METS representation of a Digital Object ")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["dmd", String, "DMD Scheme to use", :optional => true])
     .permissions([:view_repository])
     .returns([200, "(:digital_object)"]) \
   do
-    mets = generate_mets(params[:id])
+    mets = generate_mets(params[:id], params[:dmd])
 
     xml_response(mets)
   end
@@ -49,7 +49,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     json_response({"filename" =>
-                    "#{DigitalObject[params[:id]].digital_object_id}_mets.xml".gsub(/\s+/, '_'),
+                    safe_filename(DigitalObject[params[:id]].digital_object_id, "_mets.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -75,7 +75,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     json_response({"filename" =>
-                    "#{DigitalObject[params[:id]].digital_object_id}_mods.xml".gsub(/\s+/, '_'),
+                    safe_filename(DigitalObject[params[:id]].digital_object_id, "_mods.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -83,11 +83,13 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/resources/marc21/:id.xml')
     .description("Get a MARC 21 representation of a Resource")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["include_unpublished_marc", BooleanParam, "Include unpublished notes", :optional => true])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    marc = generate_marc(params[:id])
+
+    marc = generate_marc(params[:id], params[:include_unpublished_marc])
 
     xml_response(marc)
   end
@@ -96,12 +98,13 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.get('/repositories/:repo_id/resources/marc21/:id.:fmt/metadata')
     .description("Get metadata for a MARC21 export")
     .params(["id", :id],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["include_unpublished_marc", BooleanParam, "Include unpublished notes", :optional => true])
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
     json_response({"filename" =>
-                    "#{Resource.id_to_identifier(params[:id])}_marc21.xml".gsub(/\s+/, '_'),
+                    safe_filename(Resource.id_to_identifier(params[:id]), "_marc21.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -117,19 +120,22 @@ class ArchivesSpaceService < Sinatra::Base
              "Use numbered <c> tags in ead", :optional => true],
             ["print_pdf", BooleanParam,
              "Print EAD to pdf", :optional => true],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["ead3", BooleanParam,
+             "Export using EAD3 schema", :optional => true])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    redirect to("/repositories/#{params[:repo_id]}/resource_descriptions/#{params[:id]}.pdf?#{ params.map { |k,v| "#{k}=#{v}" }.join("&") }") if params[:print_pdf] 
+    redirect to("/repositories/#{params[:repo_id]}/resource_descriptions/#{params[:id]}.pdf?#{ params.map { |k,v| "#{k}=#{v}" }.join("&") }") if params[:print_pdf]
     ead_stream = generate_ead(params[:id],
                               (params[:include_unpublished] || false),
                               (params[:include_daos] || false),
-                              (params[:numbered_cs] || false))
+                              (params[:numbered_cs] || false),
+                              (params[:ead3] || false))
 
     stream_response(ead_stream)
   end
-  
+
   Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.pdf')
     .description("Get an EAD representation of a Resource")
     .params(["id", :id],
@@ -141,15 +147,18 @@ class ArchivesSpaceService < Sinatra::Base
              "Use numbered <c> tags in ead", :optional => true],
             ["print_pdf", BooleanParam,
              "Print EAD to pdf", :optional => true],
-            ["repo_id", :repo_id])
+            ["repo_id", :repo_id],
+            ["ead3", BooleanParam,
+             "Export using EAD3 schema", :optional => true])
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
     ead_stream = generate_ead(params[:id],
                               (params[:include_unpublished] || false),
                               (params[:include_daos] || false),
-                              (params[:numbered_cs] || false))
-    
+                              (params[:numbered_cs] || false),
+                              (params[:ead3] || false))
+
     pdf = generate_pdf_from_ead(ead_stream)
     pdf_response(pdf)
   end
@@ -164,10 +173,10 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "The export metadata"]) \
   do
-       
-     
 
-      json_response({"filename" => "#{Resource.id_to_identifier(params[:id])}_ead.#{params[:fmt]}".gsub(/\s+/, '_'),
+
+
+      json_response({"filename" => safe_filename(Resource.id_to_identifier(params[:id]), "_ead.#{params[:fmt]}" ),
                    "mimetype" => "application/#{params[:fmt]}"})
   end
 
@@ -193,7 +202,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The export metadata"]) \
   do
     json_response({"filename" =>
-                    "#{Resource.id_to_identifier(params[:id])}_labels.tsv".gsub(/\s+/, '_'),
+                    safe_filename(Resource.id_to_identifier(params[:id]), "_labels.tsv"),
                     "mimetype" => 'text/tab-separated-values'})
   end
 
@@ -221,7 +230,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentPerson.to_jsonmodel(params[:id])
     aname = agent['display_name']
     fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
-    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(fn, "_eac.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -249,7 +258,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentCorporateEntity.to_jsonmodel(params[:id])
     aname = agent['display_name']
     fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
-    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(fn, "_eac.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -277,7 +286,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentFamily.to_jsonmodel(params[:id])
     aname = agent['display_name']
     fn = [aname['authority_id'], aname['family_name']].compact.join("_")
-    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(fn, "_eac.xml"),
                    "mimetype" => "application/xml"})
   end
 
@@ -305,7 +314,7 @@ class ArchivesSpaceService < Sinatra::Base
     agent = AgentSoftware.to_jsonmodel(params[:id])
     aname = agent['display_name']
     fn = [aname['authority_id'], aname['software_name']].compact.join("_")
-    json_response({"filename" => "#{fn}_eac.xml".gsub(/\s+/, '_'),
+    json_response({"filename" => safe_filename(fn, "_eac.xml"),
                    "mimetype" => "application/xml"})
   end
 

@@ -1,0 +1,56 @@
+<div class="titlepage">
+  <div class="title"><%= h @report.title %></div>
+
+  <dl>
+    <dt><%= t('number_of_records') %></dt>
+    <dd><%= h @report.total_count %></dd>
+    <dt><%= t('total_transferred') %></dt>
+    <dd><%= h @report.total_transferred %></dd>
+  </dl>
+</div>
+
+<% @report.each do |accession| %>
+  <% next if accession.fetch('rightsTransferred') == 0 %>
+
+  <div class="report-record">
+    <div class="identifier"><%= t('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="record-title"><%= h accession.fetch('title') %></div>
+
+    <dl>
+      <dt><%= t('accession_date') %></dt>
+      <dd><%= format_date(accession.fetch('accessionDate')) %></dd>
+      <dt><%= t('processed_date') %></dt>
+      <dd><%= format_date(accession.fetch('accessionProcessedDate')) %></dd>
+      <% if accession.fetch('extentNumber') %>
+        <dt><%= t('extent') %></dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
+      <% end %>
+      <dt><%= t('cataloged') %></dt>
+      <dd><%= format_boolean(accession.fetch('cataloged') == 1) %></dd>
+      <dt><%= t('rights_and_restrictions') %></dt>
+      <dd>
+        <% if accession.fetch('restrictionsApply') == 1 %>
+          <span style="color: red"><%= t('retrictions_apply') %></span>
+        <% else %>
+          <%= t('no_restrictions') %>
+        <% end %>
+      </dd>
+      <dt><%= t('rights_transferred') %></dt>
+      <dd>
+        <% if accession.fetch('rightsTransferred') == 1 %>
+          <%= t('rights_transferred_true') %>
+        <% else %>
+          <%= t('rights_transferred_false') %>
+        <% end %>
+      </dd>
+    </dl>
+
+    <%= text_section(t('rights_transferred_note'), accession.fetch('rightsTransferredNote')) %>
+
+    <%= text_section(t('use_restrictions_note'), accession.fetch('useRestrictionsNote')) %>
+
+    <%= text_section(t('access_restrictions_note'), accession.fetch('accessRestrictionsNote')) %>
+
+    <%= subreport_section(t('linked_resources'), AccessionResourcesSubreport, accession) %>
+  </div>
+<% end %>

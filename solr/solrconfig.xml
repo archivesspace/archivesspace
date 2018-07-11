@@ -8,7 +8,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
   -->
-  <luceneMatchVersion>LUCENE_40</luceneMatchVersion>
+  <luceneMatchVersion>4.10.4</luceneMatchVersion>
 
   
   <!-- Data Directory
@@ -354,9 +354,13 @@
          will be overridden by parameters in the request
       -->
      <lst name="defaults">
+       <str name="defType">edismax</str>
        <str name="echoParams">explicit</str>
        <int name="rows">10</int>
-       <str name="df">text</str>
+       <str name="df">fullrecord</str>
+       <str name="pf">four_part_id^50</str>
+       <str name="qf">title^25 four_part_id^50 fullrecord</str>
+       <str name="bq">primary_type:resource^100 primary_type:accession^100 primary_type:subject^50 primary_type:agent_person^50 primary_type:agent_corporate_entity^30 primary_type:agent_family^30</str>
      </lst>
   </requestHandler>
 
@@ -383,25 +387,16 @@
   </requestHandler>
 
 
-  <!-- Admin Handlers
-
-       Admin Handlers - This will register all the standard admin
-       RequestHandlers.  
-    -->
-  <requestHandler name="/admin/" 
-                  class="solr.admin.AdminHandlers" />
-
-
-  <requestHandler name="/analysis/document" 
-                  class="solr.DocumentAnalysisRequestHandler" 
+  <requestHandler name="/analysis/document"
+                  class="solr.DocumentAnalysisRequestHandler"
                   startup="lazy" />
 
-  <requestHandler name="/analysis/field" 
+  <requestHandler name="/analysis/field"
                   startup="lazy"
                   class="solr.FieldAnalysisRequestHandler" />
 
 
-  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" /> 
+  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
 
 
   <queryResponseWriter name="json" class="solr.JSONResponseWriter">

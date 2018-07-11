@@ -51,6 +51,12 @@ describe "Enumeration controller" do
     JSONModel(:enumeration).find(enum.id).values.count.should eq(2)
   end
 
+  it "can return a single enumeration by name" do
+    get "/config/enumerations/names/test_enum"
+
+    expect(last_response).to be_ok
+    expect(last_response.body).to match(/test_enum/)
+  end
 
   it "can add and remove values (if the value isn't used)" do
     obj = JSONModel(:enumeration).find(@enum_id)
@@ -151,19 +157,53 @@ describe "Enumeration controller" do
     obj.values.should include(val["value"])
     
   end
-  
-  it "can change positions of  values" do
+
+  it "will be keep suppressed values if other changes are made" do
     obj = JSONModel(:enumeration).find(@enum_id)
     
     val = obj.enumeration_values[0]
+    @model.create(:my_enum_id => val['id'])
    
     enum_val = JSONModel(:enumeration_value).find(val['id'])
-    JSONModel::HTTP.post_form("#{enum_val.uri}/position", :position => obj.enumeration_values.length ) 
+    enum_val.set_suppressed(true) 
+    
     
     obj = nil
     obj = JSONModel(:enumeration).find(@enum_id)
-    obj.values.last.should eq(val["value"])
+    obj.values.should_not include(val["value"])
     
+    vals = obj.values
+
+    new_val = "moremoremore" 
+    obj.values += [new_val]
+    obj.save
+    
+    # make sure we refresh 
+    obj = nil 
+    obj = JSONModel(:enumeration).find(@enum_id)
+
+    obj.values.should eq( vals << new_val )
+   
+    obj.enumeration_values.map { |v| v["value"] }.should include(val["value"])
+    
+    
+  end
+
+  
+
+  it "can change positions of  values" do
+    obj = JSONModel(:enumeration).find(@enum_id)
+    val = obj.enumeration_values[0]
+    position = obj.enumeration_values.length 
+
+    enum_val = JSONModel(:enumeration_value).find(val['id'])
+    response = JSON.parse( JSONModel::HTTP.post_form("#{enum_val.uri}/position", :position => position ).body )  
+   
+    response["id"].should eq(val["id"])
+    response["status"].should eq("Updated")
+
+    obj = JSONModel(:enumeration).find(@enum_id)
+    obj.values.last.should eq(val["value"])
   end
     
 

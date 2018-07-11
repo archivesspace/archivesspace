@@ -1,0 +1,492 @@
+//= require jquery.ba-hashchange
+
+var FORM_CHANGED_KEY = 'form_changed';
+var FORM_SUBMITTED_EVENT = 'submitted';
+
+function AjaxTree(tree, $pane) {
+    var self = this;
+
+    this.tree = tree;
+    this.$pane = $pane;
+
+    this._ignore_hash_change = false;
+
+    // load initial pane!
+    var tree_id = this.tree_id_from_hash();
+
+    if (tree_id == null) {
+        tree_id = tree.large_tree.root_tree_id;
+        location.hash = 'tree::' + tree_id;
+    }
+
+    this.tree.large_tree.setCurrentNode(tree_id, function() {
+        self.scroll_to_node(tree_id);
+        if (tree.current().is(':not(.root-row)')) {
+            tree.large_tree.expandNode(tree.current());
+        }
+    });
+
+    tree.large_tree.elt.on('click', 'a.record-title', function (e) {
+        var row = $(this).closest('tr');
+        if (row.is('.current') && row.find('.expandme').css('visibility') !== 'hidden') {
+            /* We've clicked on the title of the current row, which also has children. */
+            if (row.find('.expandme .expanded').length > 0) {
+                /* It was expanded, so we collapse it. */
+                tree.large_tree.collapseNode(tree.current());
+            } else {
+                /* It was collapsed, so we expand it. */
+                tree.large_tree.expandNode(tree.current());
+            }
+        }
+
+        return true;
+    });
+
+    this.loadPaneForId(tree_id);
+    this.setupHashChange();
+}
+
+AjaxTree.prototype.setupHashChange = function() {
+    $(window).hashchange($.proxy(this.handleHashChange, this));
+};
+
+AjaxTree.prototype.tree_id_from_hash = function() {
+    if (!location.hash) {
+        return;
+    }
+
+    var tree_id = location.hash.replace(/^#(tree::)?/, "");
+
+    if (TreeIds.parse_tree_id(tree_id)) {
+        return tree_id;
+    } else {
+        return null;
+    }
+}
+
+AjaxTree.prototype.handleHashChange = function(event) {
+    var self = this;
+
+    if (self._ignore_hash_change) {
+        // ignored! and now stop ignoring..
+        this._ignore_hash_change = false;
+        return false;
+    }
+
+    var tree_id = self.tree_id_from_hash();
+
+    if (tree_id == null) {
+        return false;
+    }
+
+    self.check_for_form_changes(tree_id, function() {
+        self.tree.large_tree.setCurrentNode(tree_id);
+
+        if (tree.current().is(':not(.root-row)')) {
+            tree.large_tree.expandNode(tree.current());
+        }
+
+        self.loadPaneForId(tree_id);
+    });
+
+    return false;
+};
+
+AjaxTree.prototype.loadPaneForId = function(tree_id) {
+    var self = this;
+
+    var params = {};
+    params.inline = true;
+    params[self.tree.large_tree.root_node_type + '_id'] = self.tree.large_tree.root_uri;
+
+    var parsed = TreeIds.parse_tree_id(tree_id);
+    var row_type = parsed.type;
+    var row_id = parsed.id;
+
+    var url = AS.app_prefix(row_type + 's' + '/' + row_id);
+
+    if (!self.tree.large_tree.read_only) {
+        url = url + "/edit";
+    }
+
+    self._ajax_the_pane(url, params, $.noop);
+};
+
+AjaxTree.prototype._ajax_the_pane = function(url, params, callback) {
+    var self = this;
+
+    var initial_location = window.location.hash;
+
+    self.blockout_form();
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: params,
+        success: function(html) {
+            if (window.location.hash != initial_location) {
+                return;
+            }
+
+            self.$pane.html(html);
+            if (!self.tree.large_tree.read_only) {
+                self.setup_ajax_form();
+            }
+            $(document).trigger("loadedrecordform.aspace", [self.$pane]);
+            callback();
+        },
+        error: function(obj, errorText, errorDesc) {
+            $("#object_container").html("<div class='alert alert-error'><p><%= I18n.t('errors.error_tree_pane_ajax') %></p><pre>"+errorDesc+"</pre></div>");
+        }
+    });
+}
+
+
+AjaxTree.prototype.setup_ajax_form = function() {
+    var self = this;
+
+    var $form = $("form", self.$pane);
+
+    $form.ajaxForm({
+        data: {
+            inline: true
+        },
+        beforeSubmit: function(arr, $form) {
+            $(".btn-primary", $form).attr("disabled","disabled");
+
+            if ($form.data("createPlusOne")) {
+                arr.push({
+                    name: "plus_one",
+                    value: "true",
+                    required: false,
+                    type: "text"
+                });
+            }
+        },
+        success: function(response, status, xhr) {
+            var shouldPlusOne =  self.$pane.find('form').data('createPlusOne');
+
+            self.$pane.html(response);
+
+            var $form = self.setup_ajax_form();
+
+            $(document).trigger("loadedrecordform.aspace", [self.$pane]);
+
+            if ($form.find('.error').length > 0) {
+                self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
+                self.on_form_changed();
+                $(".btn-primary, .btn-cancel", $form).removeAttr("disabled");
+            } else {
+                self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: true});
+                $form.data(FORM_CHANGED_KEY, false);
+
+                var uri = $('#uri', $form).val();
+                self.quietly_change_hash(TreeIds.link_url(uri));
+                self.tree.large_tree.redisplayAndShow([uri], function() {
+                    var tree_id = TreeIds.uri_to_tree_id(uri);
+                    self.tree.large_tree.setCurrentNode(tree_id, function() {
+                        self.scroll_to_node(tree_id);
+                        self.tree.toolbar_renderer.notify_form_loaded($form);
+                        if (shouldPlusOne) {
+                            self.add_new_after(tree.current(), tree.current().data('level'));
+                        }
+                    });
+                });
+            }
+
+            if ( $form.data("update-monitor-paused") ) {
+                $form.data("update-monitor-paused", false);
+            }
+
+            // scroll back to the top
+            $.scrollTo("header");
+        },
+        error: function(obj, errorText, errorDesc) {
+            self.$pane.prepend("<div class='alert alert-error'><p><%= I18n.t('errors.error_tree_pane_ajax')%></p><pre>"+errorDesc+"</pre></div>");
+            self.$pane.triggerHandler(FORM_SUBMITTED_EVENT, {success: false});
+            $(".btn-primary", $form).removeAttr("disabled");
+        }
+    });
+
+    $form.on('formchanged.aspace', function() {
+        self.on_form_changed();
+    });
+
+    $form.on('click', '.revert-changes a', function() {
+        var tree_id = tree.large_tree.current_tree_id;
+        self.blockout_form();
+        tree.toolbar_renderer.reset();
+        self.scroll_to_node(tree_id);
+        self.loadPaneForId(tree_id);
+    });
+
+    $form.data('createPlusOne', false);
+    $form.on('click', '.btn-plus-one', function(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        $form.data("createPlusOne", true);
+        $form.triggerHandler("submit");
+    });
+
+    self.tree.toolbar_renderer.notify_form_loaded($form);
+
+    return $form;
+};
+
+AjaxTree.prototype.title_for_new_node = function() {
+    if (this.tree.root_record_type == 'resource') {
+        return "<%= I18n.t('archival_object._frontend.tree.new_record_title') %>";
+    } else if (this.tree.root_record_type == 'classification') {
+        return "<%= I18n.t('classification_term._frontend.tree.new_record_title') %>";
+    } else if (this.tree.root_record_type == 'digital_object') {
+        return "<%= I18n.t('digital_object_component._frontend.tree.new_record_title') %>";
+    } else {
+        throw 'title_for_new_node does not support: ' + this.tree.root_record_type;
+    }
+};
+
+AjaxTree.prototype.add_new_after = function(node, level) {
+    var self = this;
+
+    // update the hash
+    self.quietly_change_hash('new');
+
+    // clear the toolbar
+    $(self.tree.toolbar_renderer.container).empty();
+
+    // create a new table row
+    var $new_tr = $('<tr>');
+    $new_tr.data('last_node', node);
+    var colspan = 0;
+    node.find('td').filter(':not(.title,.drag-handle,.no-drag-handle)').each(function(td) {
+        colspan += $(td).attr('colspan') || 1;
+    });
+    var $drag = $('<td>').addClass('no-drag-handle');
+    $drag.appendTo($new_tr);
+    var $titleCell = $('<td>').addClass('title');
+    var $indentor = $('<span>').addClass('indentor');
+    $indentor.append($('<span>').addClass('glyphicon glyphicon-asterisk'));
+    $indentor.appendTo($titleCell);
+    $titleCell.append($('<span tabindex="0">')
+              .addClass('record-title')
+              .text(self.title_for_new_node()));
+    $titleCell.appendTo($new_tr);
+    $('<td>').attr('colspan', colspan).appendTo($new_tr);
+    node.removeClass('current');
+    $new_tr.addClass('current');
+    $new_tr.attr('id', 'new');
+
+    $new_tr.addClass('indent-level-'+level);
+
+    var target_position = 0;
+    var parent_id = null;
+
+    var root_node = $('#'+this.tree.large_tree.root_tree_id);
+    var root_uri_parts = TreeIds.uri_to_parts(root_node.data('uri'));
+    var node_uri_parts = TreeIds.uri_to_parts(node.data('uri'));
+
+    // add the new row at the end of the target level
+    if (level > node.data('level')) {
+        /* We're adding a new child */
+        parent_id = node_uri_parts.id;
+
+        if (node.data('child_count') == 0) {
+            /* Adding a child to a currently childless element */
+            node.after($new_tr);
+            $new_tr.find('.record-title')[0].focus();
+        } else {
+            /* Adding a child to something with existing children */
+            var callback = function() {
+                var endmarker = node.nextAll('.waypoint.indent-level-'+level+', .end-marker.indent-level-'+level).last();
+                endmarker.after($new_tr);
+                $new_tr.find('.record-title')[0].focus();
+            };
+
+            if (node.data('level') == 0) {
+                /* Adding to a root node.  No need to expand. */
+                callback();
+            } else {
+                self.tree.large_tree.expandNode(node, callback);
+            }
+        }
+    } else {
+        /* We're adding a new sibling to the end of the current level */
+        var endmarker = node.nextAll('.end-marker.indent-level-'+level+':last');
+        endmarker.after($new_tr);
+        $new_tr.find('.record-title')[0].focus();
+
+        parent_id = node.data('parent_id');
+    }
+
+    var params = {
+        inline: true
+    };
+
+    params[root_uri_parts.type + '_id'] = root_uri_parts.id;
+
+    if (parent_id) {
+        params[node_uri_parts.type + '_id'] = parent_id;
+    }
+
+    var url = AS.app_prefix(self._new_node_form_url_for(node.data('jsonmodel_type')));
+
+    self._ajax_the_pane(url, params, function() {
+        // set form_changed = true for this new form
+        self.$pane.find('form').data(FORM_CHANGED_KEY, true);
+
+        self.$pane.find('.btn-cancel').on('click', function(event) {
+            event.preventDefault();
+            var tree_id= node.attr('id');
+            var uri = node.data('uri');
+            self.tree.large_tree.redisplayAndShow([uri], function() {
+                self.tree.large_tree.setCurrentNode(tree_id, function() {
+                    self.scroll_to_node(tree_id);
+                });
+            });
+
+            self.quietly_change_hash('tree::'+tree_id);
+            self.loadPaneForId(tree_id);
+        });
+    });
+};
+
+AjaxTree.prototype.check_for_form_changes = function(target_tree_id, callback) {
+    var self = this;
+    var $form = $("form", self.$pane);
+
+    if ($form.data(FORM_CHANGED_KEY)) {
+        var p = self.confirmChanges(target_tree_id);
+        p.done(function(proceed) {
+            if (proceed) {
+                callback();
+            } else {
+                var current_tree_id = self.tree.large_tree.current_tree_id;
+                self.quietly_change_hash('tree::'+current_tree_id);
+            }
+        });
+        p.fail(function(err) {
+            throw err;
+        });
+    } else {
+        callback();
+    }
+};
+
+AjaxTree.prototype.confirmChanges = function(target_tree_id) {
+    var self = this;
+    var $form = $("form", self.$pane);
+    var current_tree_id = self.tree.large_tree.current_tree_id;
+
+    var d = $.Deferred();
+
+    // open save your changes modal
+    AS.openCustomModal("saveYourChangesModal", "<%= I18n.t('save_changes_modal.save') %>", AS.renderTemplate("save_changes_modal_template"));
+
+    $("#saveChangesButton", "#saveYourChangesModal").on("click", function() {
+        $('.btn', '#saveYourChangesModal').addClass('disabled');
+
+        var onSubmitSuccess = function() {
+            $form.data(FORM_CHANGED_KEY, false);
+            $("#saveYourChangesModal").modal("hide");
+            d.resolve(true);
+        };
+
+        var onSubmitError = function() {
+            $("#saveYourChangesModal").modal("hide");
+            d.resolve(false);
+        };
+
+        self.$pane.one(FORM_SUBMITTED_EVENT, function(event, data) {
+            if (data.success) {
+                onSubmitSuccess();
+            } else {
+                onSubmitError();
+            }
+        });
+
+        $form.triggerHandler("submit");
+    });
+
+    $("#dismissChangesButton", "#saveYourChangesModal").on("click", function() {
+        $form.data("form_changed", false);
+        
+        $("#saveYourChangesModal").modal("hide");
+        var tree_id = self.tree_id_from_hash();
+        var uri = $('#' + tree_id).data('uri');
+
+        self.tree.large_tree.redisplayAndShow([uri], function() {
+            self.tree.large_tree.setCurrentNode(tree_id, function() {
+                self.scroll_to_node(tree_id);
+            });
+        });
+        d.resolve(true);
+    });
+
+    $(".btn-cancel", "#saveYourChangesModal").on("click", function() {
+        d.resolve(false);
+    });
+
+    return d.promise();
+};
+
+AjaxTree.prototype.quietly_change_hash = function(tree_id) {
+    // only change the hash if we need to!
+    if (location.hash != tree_id) {
+        this._ignore_hash_change = true;
+        location.hash = tree_id;
+    }
+};
+
+
+AjaxTree.prototype.hide_form = function() {
+    this.$pane.hide();
+}
+
+AjaxTree.prototype.show_form = function() {
+    this.unblockout_form();
+    this.$pane.show();
+}
+
+AjaxTree.prototype.blockout_form = function() {
+    var self = this;
+    if (self.$pane.has('.blockout').length > 0) {
+        return;
+    }
+    var $blockout = $('<div>').addClass('blockout');
+    $blockout.height(self.$pane.height());
+    // add 30 to take into account for outer margin :/ 
+    $blockout.width(self.$pane.width() + 30);
+    $blockout.css('left', '-15px');
+    self.$pane.prepend($blockout);
+};
+
+AjaxTree.prototype.unblockout_form = function() {
+    this.$pane.find('.blockout').remove();
+};
+
+AjaxTree.prototype.on_form_changed = function() {
+    var $form = this.$pane.find('form');
+    if (!$form.data(FORM_CHANGED_KEY)) {
+        $form.data(FORM_CHANGED_KEY, true);
+        self.tree.toolbar_renderer.notify_form_changed($form);
+    }
+};
+
+AjaxTree.prototype._new_node_form_url_for = function(jsonmodel_type) {
+    if (jsonmodel_type == 'resource' || jsonmodel_type == 'archival_object') {
+        return '<%=  Rails.application.routes.url_helpers.archival_objects_path %>/new';
+    } else if (jsonmodel_type == 'digital_object' || jsonmodel_type == 'digital_object_component') {
+        return '<%=  Rails.application.routes.url_helpers.digital_object_components_path %>/new';
+    } else if (jsonmodel_type == 'classification' || jsonmodel_type == 'classification_term') {
+        return '<%=  Rails.application.routes.url_helpers.classification_terms_path %>/new';
+    } else {
+        throw 'No new form available for: '+ jsonmodel_type;
+    }
+};
+
+AjaxTree.prototype.scroll_to_node = function(tree_id) {
+    var self = this;
+    var midpoint = (self.tree.large_tree.elt.height() - $('#'+tree_id).height()) / 2;
+    self.tree.large_tree.elt.scrollTo('#'+tree_id, 0, {offset: -midpoint});
+}

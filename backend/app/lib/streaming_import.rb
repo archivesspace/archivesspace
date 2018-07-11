@@ -3,55 +3,9 @@ require 'json'
 require 'atomic'
 require 'tempfile'
 
-class StreamingJsonReader
-  attr_reader :count
-
-  def initialize(filename)
-    @filename = filename
-    @count = nil
-  end
-
-
-  def empty?
-    File.size(@filename) <= 2
-  end
-
-
-  def each(determine_count = false)
-    return if empty?
-
-    stream = java.io.FileReader.new(@filename)
-    @count = 0 if determine_count
-
-    begin
-      mapper = org.codehaus.jackson.map.ObjectMapper.new
-
-      # Skip the opening [
-      stream.read
-
-      parser = mapper.getJsonFactory.createJsonParser(stream)
-
-      while parser.nextToken
-        result = parser.readValueAs(java.util.Map.java_class)
-        @count += 1 if determine_count
-        yield(result)
-
-        begin
-          puts parser.nextToken
-        rescue org.codehaus.jackson.JsonParseException
-          # Skip over the pesky commas
-        end
-      end
-    # rescue
-    #   raise JSON::ParserError.new($!)
-
-    ensure
-      stream.close
-    end
-  end
-
-end
-
+require_relative 'dependency_set'
+require_relative 'streaming_json_reader'
+require_relative 'cycle_finder'
 
 class StreamingImport
 
@@ -120,6 +74,18 @@ class StreamingImport
     finished = true
 
     begin
+      with_status("Looking for cyclic relationships") do
+        uris_causing_cycles = []
+
+        CycleFinder.new(@dependencies, @ticker).each do |cycle_uri|
+          uris_causing_cycles << cycle_uri unless uris_causing_cycles.include?(cycle_uri)
+        end
+
+        create_records_without_relationships(uris_causing_cycles)
+      end
+
+      # Now we know our data is acyclic, we can run rounds without thinking
+      # about it.
       while true
         round += 1
 
@@ -138,6 +104,10 @@ class StreamingImport
               # migrate it
               @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
 
+              # Now that it's created, we don't need to see the JSON record for
+              # this again either.  This will speed up subsequent cycles.
+              @jstream.delete_current
+
               progressed = true
             end
 
@@ -153,10 +123,8 @@ class StreamingImport
           break
         end
 
-        with_status("Dealing with circular dependencies: cycle #{round}") do
-          if !progressed
-            run_dependency_breaking_cycle
-          end
+        if !progressed
+          raise "Failed to make any progress on the current import cycle.  This shouldn't happen!"
         end
       end
 
@@ -180,9 +148,9 @@ class StreamingImport
   def load_logical_urls
     logical_urls = {}
 
-    @ticker.tick_estimate = 20000; # made up
+    @ticker.tick_estimate = @jstream.determine_count
 
-    @jstream.each(true) do |rec|
+    @jstream.each do |rec|
 
       if !rec['uri']
         raise ImportException.new(:invalid_object => to_jsonmodel(rec, false),
@@ -202,7 +170,7 @@ class StreamingImport
 
 
   def load_dependencies
-    dependencies = {}
+    dependencies = DependencySet.new
     position_offsets = {}
 
     @ticker.tick_estimate = @jstream.count
@@ -210,13 +178,21 @@ class StreamingImport
     position_maps = {}
 
     @jstream.each do |rec|
-      dependencies[rec['uri']] = extract_logical_urls(rec, @logical_urls) - [rec['uri']]
+
+      # Add this record's references as dependencies
+      extract_logical_urls(rec, @logical_urls).each do |dependency|
+        unless dependency == rec['uri']
+          dependencies.add_dependency(rec['uri'], dependency)
+        end
+      end
+
       check_for_invalid_external_references(rec, @logical_urls)
 
       if rec['position']
         pos = rec['position']
-
-        set_key = (rec['parent'] || rec['resource'] || rec['digital_object'])['ref']
+        set_key = (
+          rec['parent'] || rec['resource'] || rec['digital_object'] || rec['classification']
+        )['ref']
         position_maps[set_key] ||= []
         position_maps[set_key][pos] ||= []
         position_maps[set_key][pos] << rec['uri']
@@ -235,7 +211,7 @@ class StreamingImport
         following = positions[0]
 
         unless positions.empty?
-          dependencies[following] << preceding
+          dependencies.add_dependency(following, preceding)
         end
       end
     end
@@ -283,39 +259,40 @@ class StreamingImport
   end
 
 
-  # Find a record that we're able to create by lopping off its properties causing
-  # dependency cycles.  We'll reattach them with a separate update later.
-  def run_dependency_breaking_cycle
-    progressed = false
-
+  # Create a selection of records (identified by URI) that are known to cause
+  # dependency cycles.  We detach their relationships with other records and
+  # reattach them at the end.
+  #
+  # This gets us around chicken-and-egg problems of two records with mutual
+  # relationships.
+  def create_records_without_relationships(record_uris)
     @jstream.each do |rec|
       uri = rec['uri']
-
-      next if @logical_urls[uri]
+      next unless record_uris.include?(uri)
 
       missing_dependencies = @dependencies[uri].reject {|d| @logical_urls[d]}
 
-      rec.keys.each do |k|
-        if !extract_logical_urls(rec[k], missing_dependencies).empty?
-          @limbs_for_reattaching[uri] ||= []
-          @limbs_for_reattaching[uri] << [k, rec[k]]
-          rec.delete(k)
+      if !missing_dependencies.empty?
+        rec.keys.each do |k|
+          if !extract_logical_urls(rec[k], missing_dependencies).empty?
+            @limbs_for_reattaching[uri] ||= []
+            @limbs_for_reattaching[uri] << [k, rec[k]]
+            rec.delete(k)
+          end
         end
       end
 
-      # Create the cut down record (which might fail)
+      # Create the cut down record--we'll put its relationships back later
       created_uri = do_create(rewrite(rec, @logical_urls), true)
 
       if created_uri
         # It worked!
         @logical_urls[uri] = created_uri
-
-        progressed = true
-        break
+      else
+        raise "Failed to import the record #{uri} without its dependencies." +
+              "  Since it contains circular dependencies with other records, the import cannot continue."
       end
     end
-
-    raise "Can't progress any further.  Freaking out!" if !progressed
   end
 
 
@@ -331,7 +308,43 @@ class StreamingImport
       json = model.to_jsonmodel(obj)
 
       limbs.each do |k, v|
-        json[k.to_s] = rewrite(v, @logical_urls)
+        if json[k.to_s].is_a?(Array)
+          # It's possible that the record we're reattaching relationships to
+          # actually had some relationships added between when we lopped them
+          # off and now.
+          #
+          # For example:
+          #  * record A relates to [B, C]
+          #
+          #  * record A has those relationships detached to break cyclic dependencies
+          #
+          #  * record A is created without the relationships
+          #
+          #  * record D creates created, relating to [A]
+          #
+          #  * now, record A has its relationships attached.  Since the
+          #    relationship is reciprocal, its true list of relationships should
+          #    be [B, C, D], but if we just blindly overwrite with the list we
+          #    stored originally, we'll lose that relationship with D.
+          #
+          # To avoid losing that relationship, we just merge the lists and dedupe the relationships.
+          json[k.to_s] += rewrite(v, @logical_urls)
+          json[k.to_s] = json[k.to_s].uniq
+        else
+          # The same thing can happen in the 1:1 relationship case too.  We just
+          # sanity check things by making sure that, if the relationship was
+          # added through the reciprocal relationship with another record, we
+          # agree on who we're relating to.
+          ref = rewrite(v, @logical_urls)
+
+          if json[k.to_s] && json[k.to_s] != ref
+            raise "Assertion failed: expected relationship #{ref.inspect} to match #{json[k.to_s]} but they differ!" +
+                  "  This shouldn't happen, since it suggests that A thinks it relates to B, but C thinks it relates to A." +
+                  "  No love triangles allowed!"
+          end
+
+          json[k.to_s] = ref
+        end
       end
 
       cleaned = JSONModel(json.class.record_type).from_hash(json.to_hash)
@@ -393,21 +406,27 @@ class StreamingImport
     # transaction is committed.
     #
     # So, do some sneaky updates here to set the mtimes to right now.
+    #
+    # Note: Under Derby (where imports run without transactions), this has a
+    # pretty good chance of deadlocking with an indexing thread that is
+    # currently trying to index these records.  But since Derby imports aren't
+    # running within a transaction, we don't care anyway!
 
-    records_by_type = {}
+    if DB.supports_mvcc?
+      records_by_type = {}
 
-    @logical_urls.values.compact.each do |uri|
-      ref = JSONModel.parse_reference(uri)
+      @logical_urls.values.compact.each do |uri|
+        ref = JSONModel.parse_reference(uri)
 
-      records_by_type[ref[:type]] ||= []
-      records_by_type[ref[:type]] << ref[:id]
+        records_by_type[ref[:type]] ||= []
+        records_by_type[ref[:type]] << ref[:id]
+      end
+
+      records_by_type.each do |type, ids|
+        model = model_for(type)
+        model.update_mtime_for_ids(ids)
+      end
     end
-
-    records_by_type.each do |type, ids|
-      model = model_for(type)
-      model.update_mtime_for_ids(ids)
-    end
-
   end
 
 

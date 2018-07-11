@@ -15,21 +15,5 @@
          </div>
       </div>
     </div>
-
-    <% if @refresh_tree_node
-         node_data = {
-           'id' => @classification.id,
-           'uri' => @classification.uri,
-           'title' => @classification.title,
-           'identifier' => @classification.identifier,
-           'jsonmodel_type' => @classification.jsonmodel_type,
-           'node_type' => @classification.jsonmodel_type,
-           'replace_new_node' => false
-         }
-    %>
-      <script>
-        AS.refreshTreeNode(<%= node_data.to_json.html_safe %>);
-      </script>
-    <% end %>
   <% end %>
 <% end %>

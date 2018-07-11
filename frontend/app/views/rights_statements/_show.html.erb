@@ -12,23 +12,37 @@
             <div class="col-md-1">
               <span class="glyphicon"></span>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
               <%= I18n.t("enumerations.rights_statement_rights_type.#{rights_statement['rights_type']}", :default => rights_statement['rights_type']) %>
             </div>
             <div class="col-md-4">
-              <% if rights_statement['ip_status'] %>
-                <%= I18n.t("enumerations.rights_statement_ip_status.#{rights_statement['ip_status']}", :default => rights_statement['ip_status']) %>
+              <% if rights_statement['status'] %>
+                <%= I18n.t("enumerations.rights_statement_ip_status.#{rights_statement['status']}", :default => rights_statement['ip_status']) %>
               <% end %>
             </div>
-            <div class="col-md-1">
-              <%= I18n.t("rights_statement.active_#{rights_statement['active'].to_s}") %>
+            <div class="col-md-4">
+              <%= rights_statement['start_date'] %>
+              <% if rights_statement['end_date'] %>
+                - <%= rights_statement['end_date'] %>
+              <% end %>
             </div>
           </div>
         </div>
         <div id="rights_statement_<%= index %>" class="accordion-body collapse">
           <%= read_only_view(rights_statement) %>
+          <% if rights_statement['notes'].length > 0 %>
+            <%= readonly_context :rights_statement, rights_statement do |readonly| %>
+              <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => rights_statement['notes'], :context => readonly, :section_id => "rights_statement_#{index}_notes" } %>
+            <% end %>
+          <% end %>
+          <% if rights_statement['acts'].length > 0 %>
+            <%= render_aspace_partial :partial => "rights_statement_acts/show", :locals => { :acts => rights_statement['acts'], :section_id => "rights_statement_#{index}_acts" } %>
+          <% end %>
           <% if rights_statement["external_documents"].length > 0 %>
-            <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => rights_statement["external_documents"], :id => "rights_statement_#{index}_external_documents" } %>
+            <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => rights_statement["external_documents"], :section_id => "rights_statement_#{index}_external_documents", :jsonmodel => :rights_statement_external_document } %>
+          <% end %>
+          <% if rights_statement['linked_agents'].length > 0 %>
+            <%= render_aspace_partial :partial => "linked_agents/show", :locals => { :linked_agents => rights_statement['linked_agents'], :section_id => "rights_statement_#{index}_linked_agents" } %>
           <% end %>
         </div>
       </div>

@@ -21,7 +21,6 @@
           <div class="form-horizontal">
             <% if can_embed?(file_version) %>
               <%= render_aspace_partial :partial => "file_versions/image", :locals => {:file => file_version} %>
-              <%= render_aspace_partial :partial => "file_versions/file_uri", :locals => {:file_uri => URI(file_version['file_uri'])} %>
             <% end %>
             <%= render_aspace_partial :partial => "file_versions/file_uri", :locals => {:file_uri => uri_or_string( file_version['file_uri'] ) } %>
           </div>

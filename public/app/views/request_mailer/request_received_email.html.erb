@@ -1,0 +1,19 @@
+<h1>Thank you for your request</h1>
+
+<div class="request">
+  <h2>Record Requested</h2>
+  <strong>Title</strong>: <%= @request.title %><br>
+  <% url = "#{AppConfig[:public_proxy_url].sub(/\/^/, '')}#{@request.request_uri}" %>
+  <strong>URL</strong>: <%= link_to url, url %>
+</div>
+
+<div class="user">
+  <h2>Your Details</h2>
+  <strong>Name: </strong> <%= @request.user_name %><br>
+  <strong>Email: </strong> <a href="mailto:<%= @request.user_email %>"><%= @request.user_email %></a><br/>
+  <strong>Date: </strong> <%= @request.date %><br>
+  <strong>Notes for Staff: </strong>
+  <div>
+    <%= (@request.note || "").gsub(/[\n\r]/,"<br>\n").html_safe %>
+  </div>
+</div>

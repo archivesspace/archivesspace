@@ -1,0 +1,80 @@
+<a id="summary-information"></a>
+<h2><%= I18n.t('pdf_reports.summary_information') %></h2>
+
+<dl>
+    <dt><%= I18n.t('repository._singular') %></dt>
+    <dd><%= record.resolved_repository['name'] %></dd>
+
+    <% if record.agents %>
+        <% record.agents.each do |role, relationships| %>
+            <% relationships.each do |relationship| %>
+                <dt><%= I18n.t("enumerations.linked_agent_role.#{role}", :default => role) %></dt>
+                <dd><%= relationship['_resolved']['title'] %></dd>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <dt><%= I18n.t('resource._public.finding_aid.title') %></dt><dd><%== record.display_string %></dd>
+
+    <dt><%= I18n.t('resource._public.identifier') %></dt><dd><%= record.identifier %></dd>
+
+    <% record.dates.each do |date| %>
+        <dt><%= I18n.t('resource._public.finding_aid.date') %></dt><dd><%= date['final_expression'] %></dd>
+    <% end %>
+
+    <% record.extents.each do |extent| %>
+        <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= extent['display'] %></dd>
+    <% end %>
+
+    <% record.notes.each do |note_type, note| %>
+        <% if note_type == 'physdesc' %>
+            <a id="note-<%= note_type %>"></a>
+            <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== note['note_text'] %></dd>
+        <% end %>
+    <% end %>
+
+    <% if record.container_display && !record.container_display.empty? %>
+        <dt><%= I18n.t('resource._public.storage') %></dt><dd><%= record.container_display.join(', ') %></dd>
+    <% end %>
+
+    <%= render(:partial => 'digital_object_links', :locals => {
+        :instances => record.instances
+    }) %>
+</dl>
+
+<% record.notes.each do |note_type, note| %>
+    <% next if ['physdesc'].include?(note_type) %>
+    <a id="note-<%= note_type %>"></a>
+    <h2>
+        <% if note['label'] %>
+            <%= note['label'] %>
+        <% else %>
+            <%= I18n.t("enumerations._note_types.#{note_type}") %>
+        <% end %>
+    </h2>
+    <p><%== note['note_text'] %></p>
+<% end %>
+
+<a id="administrative-information"></a>
+<h2><%= I18n.t('pdf_reports.administrative_information') %></h2>
+
+<h3><%= I18n.t('pdf_reports.publication_statement') %></h3>
+
+<%= render(:partial => 'publication_statement', :locals => {
+    :repository_name => record.resolved_repository['name'],
+    :repository_information => record.repository_information
+}) %>
+
+<h2><%= I18n.t('pdf_reports.controlled_access_headings') %></h2>
+
+<ul>
+<% Array(record.subjects).each do |subject| %>
+    <li><%= subject['title'] %></li>
+<% end %>
+</ul>
+
+<div class="collection-inventory">
+<% if has_children %>
+    <a id="collection-inventory"></a>
+    <h2><%= I18n.t('pdf_reports.collection_inventory') %></h2>
+<% end %>

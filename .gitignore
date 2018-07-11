@@ -18,8 +18,10 @@ selenium/webdriver-profile*
 /archivesspace*.zip
 build/target
 build/solr
+build/solr_home/
 build/solr_index
 build/indexer_state
+build/indexer_pui_state
 build/archivesspace_demo_db
 build/*.tmp
 build/.gem
@@ -29,7 +31,7 @@ webdriver-profile*
 common/ARCHIVESSPACE_VERSION
 .yardoc
 API.md
-config/gemnasium.yml
+endpoint_examples*
 build/demo_db_backups
 *.jasper
 .bundle
@@ -37,3 +39,10 @@ build/demo_db_backups
 locales.diff
 */bower_components
 Gemfile.local
+supervisord.*
+mysql-connector*.jar
+common/config/config.rb
+backend/default
+frontend/default
+indexer/default
+public/default

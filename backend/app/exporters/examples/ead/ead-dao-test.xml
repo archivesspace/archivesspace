@@ -45,9 +45,12 @@
                                <extent>2 folders</extent>
                            </physdesc>
                            <daogrp>
-                               <daodesc><p>first daogrp</p></daodesc>
+                             <daodesc><p>first daogrp</p></daodesc>
+                               <arc xlink:to="label1" xlink:actuate="onLoad" xlink:show="new" />
                                <daoloc xlink:href="http://a" xlink:title="imageone" xlink:role="image/jpeg" xlink:label="label1"/>
+                               <arc xlink:to="label2" xlink:actuate="onRequest" xlink:show="embed" />
                                <daoloc xlink:href="http://b" xlink:title="imagetwo" xlink:role="image/jpeg" xlink:label="label2"/>
+                               <arc xlink:to="label3" xlink:actuate="onLoad" xlink:show="new" />
                                <daoloc xlink:href="http://c" xlink:title="imagetwoverso" xlink:role="image/jpeg" xlink:label="label3"/>
                            </daogrp>
                        </did>

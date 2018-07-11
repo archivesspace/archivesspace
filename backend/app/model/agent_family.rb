@@ -10,7 +10,6 @@ class AgentFamily < Sequel::Model(:agent_family)
   include RecordableCataloging
   include Notes
   include Publishable
-  include RightsStatements
 
 
   register_agent_type(:jsonmodel => :agent_family,

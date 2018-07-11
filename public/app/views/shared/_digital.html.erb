@@ -1,0 +1,37 @@
+<%# expects 'dig_objs' as an array of hashes %>
+
+<% unless dig_objs.blank? %>
+<div class="images">
+  <% dig_objs.each do |d_file| %>
+    <% if !d_file['out'].blank? %>
+      <% if d_file['thumb'].blank? %>
+        <div class="objectimage">
+          <div class="panel panel-default">
+            <a class="btn btn-default record-type-badge digital_object" style="width: 100%" href="<%= d_file['out'] %>" target="new" title="<%= t('digital_object._public.link')%>">
+              <i class="fa fa-file-image-o fa-4x"></i><br/>
+              <div class="panel-heading">
+                <%= d_file['caption'].blank? ? "#{t('enumerations.instance_instance_type.digital_object')} #{d_file['material']}" : d_file['caption'].html_safe %>
+              </div>
+            </a>
+          </div>
+        </div>
+      <% else %>
+        <div class="objectimage">
+          <div class="panel panel-default">
+            <a class="thumbnail" href="<%= d_file['out'] %>" target="new" title="<%= t('digital_object._public.link')%>">
+              <img src="<%= d_file['thumb'] %>" alt="<%= strip_mixed_content(d_file['caption'] || t('enumerations.instance_instance_type.digital_object')) %>" />
+            </a>
+	          <div class="panel-heading">
+	            <%= (d_file['caption'] || t('enumerations.instance_instance_type.digital_object')).html_safe %>
+	          </div>
+          </div>
+        </div>
+      <% end %>
+    <% elsif !d_file['thumb'].blank? %>
+      <div class="objectimage">
+        <img src="<%= d_file['thumb'] %>" alt="<%=  strip_mixed_content(d_file['caption'] || t('digital_object._public.thumbnail')) %>" />
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<% end %>

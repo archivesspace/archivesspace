@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: ExtentCalculatorController
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "ExtentCalculatorController";
   relpath = '';
-  framesUrl = "frames.html#!ExtentCalculatorController.html";
 </script>
 
 
@@ -28,56 +27,48 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (E)</a> &raquo;
     
     
     <span class="title">ExtentCalculatorController</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
-
-    <div id="content"><h1>Class: ExtentCalculatorController
+      <div id="content"><h1>Class: ExtentCalculatorController
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName"><span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></span>
       
         <ul class="fullTree">
@@ -92,21 +83,25 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
+
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">frontend/app/controllers/extent_calculator_controller.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>frontend/app/controllers/extent_calculator_controller.rb</dd>
+  </dl>
+  
+</div>
 
 
 
@@ -118,7 +113,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -126,7 +121,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#report-instance_method" title="#report (instance method)">- (Object) <strong>report</strong> </a>
+      <a href="#report-instance_method" title="#report (instance method)">#<strong>report</strong>  &#x21d2; Object </a>
     
 
     
@@ -170,7 +165,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="report-instance_method">
   
-    - (<tt>Object</tt>) <strong>report</strong> 
+    #<strong>report</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -212,21 +207,21 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/extent_calculator_controller.rb', line 5</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_report identifier id'>report</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'record_uri'</span><span class='rbrack token'>]</span>
-    <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/extent_calculator&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>'record_uri'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'record_uri'</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;record_uri&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/extent_calculator&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>&#39;record_uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;record_uri&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
-    <span class='rubyid_extent identifier id'>extent</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'referrer'</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>'referrer'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='string val'>'/edit(\#.*)?\Z'</span><span class='rparen token'>)</span>
+    <span class='rubyid_extent identifier id'>extent</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;referrer&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;referrer&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='string val'>&#39;/edit(\#.*)?\Z&#39;</span><span class='rparen token'>)</span>
                <span class='rubyid_extent identifier id'>extent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:extent</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
-               <span class='rubyid_extent identifier id'>extent</span><span class='dot token'>.</span><span class='rubyid_number identifier id'>number</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>'total_extent'</span><span class='rbrack token'>]</span>
-               <span class='rubyid_if if kw'>if</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>'units'</span><span class='rbrack token'>]</span>
-                 <span class='rubyid_units identifier id'>units</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>'volume'</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>'cubic_'</span> <span class='colon op'>:</span> <span class='string val'>'linear_'</span>
-                 <span class='rubyid_units identifier id'>units</span> <span class='opasgn op'>+=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>'units'</span><span class='rbrack token'>]</span>
+               <span class='rubyid_extent identifier id'>extent</span><span class='dot token'>.</span><span class='rubyid_number identifier id'>number</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;total_extent&#39;</span><span class='rbrack token'>]</span>
+               <span class='rubyid_if if kw'>if</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;units&#39;</span><span class='rbrack token'>]</span>
+                 <span class='rubyid_units identifier id'>units</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;volume&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;cubic_&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;linear_&#39;</span>
+                 <span class='rubyid_units identifier id'>units</span> <span class='opasgn op'>+=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;units&#39;</span><span class='rbrack token'>]</span>
                  <span class='rubyid_extent identifier id'>extent</span><span class='dot token'>.</span><span class='rubyid_extent_type identifier id'>extent_type</span> <span class='assign token'>=</span> <span class='rubyid_units identifier id'>units</span>
                <span class='rubyid_end end kw'>end</span>
-               <span class='rubyid_container_cardinality identifier id'>container_cardinality</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>'container_count'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='integer val'>1</span> <span class='question op'>?</span>
-                                         <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>'extent_calculator.container_summary_type._singular'</span><span class='rparen token'>)</span> <span class='colon op'>:</span>
-                                         <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>'extent_calculator.container_summary_type._plural'</span><span class='rparen token'>)</span>
-               <span class='rubyid_extent identifier id'>extent</span><span class='dot token'>.</span><span class='rubyid_container_summary identifier id'>container_summary</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;(#{results['container_count']} #{container_cardinality})&quot;</span>
+               <span class='rubyid_container_cardinality identifier id'>container_cardinality</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;container_count&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='integer val'>1</span> <span class='question op'>?</span>
+                                         <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;extent_calculator.container_summary_type._singular&#39;</span><span class='rparen token'>)</span> <span class='colon op'>:</span>
+                                         <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;extent_calculator.container_summary_type._plural&#39;</span><span class='rparen token'>)</span>
+               <span class='rubyid_extent identifier id'>extent</span><span class='dot token'>.</span><span class='rubyid_container_summary identifier id'>container_summary</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;(#{results[&#39;container_count&#39;]} #{container_cardinality})&quot;</span>
                <span class='rubyid_extent identifier id'>extent</span>
              <span class='rubyid_end end kw'>end</span>
 
@@ -246,10 +241,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:14 2015 by
+      <div id="footer">
+  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:29 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.12 (ruby-2.3.3).
 </div>
+    </div>
   </body>
 </html>

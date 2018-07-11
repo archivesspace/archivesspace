@@ -1,0 +1,14 @@
+JSON Schema: Range_query
+
+Properties
+
+string	field
+
+string	from
+
+string	to
+
+
+
+
+

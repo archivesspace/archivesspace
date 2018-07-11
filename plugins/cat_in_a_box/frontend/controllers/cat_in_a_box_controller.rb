@@ -3,7 +3,7 @@ require 'nokogiri'
 
 class CatInABoxController < ApplicationController
 
-  skip_before_filter :unauthorised_access
+  skip_before_action :unauthorised_access
  
   def index
     c = Nokogiri::XML(open('http://thecatapi.com/api/images/get?format=xml&category=boxes'))

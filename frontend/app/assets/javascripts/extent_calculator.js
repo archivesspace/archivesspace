@@ -4,7 +4,7 @@ $(function () {
 
   ExtentCalculatorForm.prototype.init_form = function() {
     $('.create-extent-btn').on('click', function (event) {
-      $('[id$=_extents_]').find(".btn")[1].click();
+      $('[id$=_extents_] .subrecord-form-heading .btn').click();
 
       var extent_form = $('[id$=_extents_]').find(".subrecord-form-fields").last();
 
@@ -32,7 +32,7 @@ $(function () {
       $modal = AS.openCustomModal("extentCalculationModal", "Extent Calculation", dialog_content, 'large');
 
       $.ajax({
-        url:"/extent_calculator",
+        url: AS.app_prefix("/extent_calculator"),
         data: {record_uri: $("#extent_calculator_show_calculation_template").attr("record_uri"),
 	       referrer: document.location.href},
         type: "get",

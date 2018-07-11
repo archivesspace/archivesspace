@@ -1,6 +1,7 @@
 class SystemInfoController < ApplicationController
   
   set_access_control  "administer_system" => [ :show, :stream_log]
+  before_action :user_needs_to_be_global_admin
 
   def show 
     @app_context = params[:app_context] ? params[:app_context] : "frontend_info"
@@ -24,10 +25,10 @@ class SystemInfoController < ApplicationController
       @log = open( URI.join(AppConfig[:backend_url], "/system/log" ),
                 "X-ArchivesSpace-Session" => Thread.current[:backend_session] ).read 
     else
-      @log = Rails.logger.backlog
+      @log = Rails.logger.backlog_and_flush
     end
 
-    render :text => @log
+    render :plain => @log
 
   end
 

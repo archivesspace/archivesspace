@@ -2,6 +2,10 @@
 
 plugin="$1"
 
+# We'll provide our own values for these
+unset GEM_HOME
+unset GEM_PATH
+
 export ASPACE_LAUNCHER_BASE="$("`dirname $0`"/find-base.sh)"
 
 cd "$ASPACE_LAUNCHER_BASE/gems/gems"
@@ -26,7 +30,7 @@ done
 
 export GEM_HOME=gems
 
-java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main --1.9 -S gem install bundler -v "$BUNDLER_VERSION"
-java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main --1.9 ../../gems/bin/bundle install --gemfile=Gemfile
+java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main -S gem install bundler -v "$BUNDLER_VERSION"
+java $JAVA_OPTS -cp "../../lib/*$JRUBY" org.jruby.Main ../../gems/bin/bundle install --gemfile=Gemfile
 
 

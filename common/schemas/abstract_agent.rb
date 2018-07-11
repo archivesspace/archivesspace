@@ -31,7 +31,6 @@
       },
 
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
-      "rights_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:rights_statement) object"}},
 
       "system_generated" => {
         "readonly" => true,
@@ -40,12 +39,18 @@
 
       "notes" => {
         "type" => "array",
-        "items" => {"type" => [{"type" => "JSONModel(:note_bioghist) object"}]},
+        "items" => {"type" => [{"type" => "JSONModel(:note_bioghist) object"},
+                               {"type" => "JSONModel(:note_agent_rights_statement) object"}]},
       },
-      
+
+      "used_within_repositories" => {"type" => "array", "items" => {"type" => "JSONModel(:repository) uri"}, "readonly" => true},
+      "used_within_published_repositories" => {"type" => "array", "items" => {"type" => "JSONModel(:repository) uri"}, "readonly" => true},
+
       "dates_of_existence" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
 
       "publish" => {"type" => "boolean"},
+
+      "is_user" => {"readonly" => true, "type" => "string"},
 
     },
   },

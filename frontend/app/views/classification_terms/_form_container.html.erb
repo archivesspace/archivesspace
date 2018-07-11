@@ -1,4 +1,4 @@
-<%= link_to_help :topic => "classification" %>
+<%= link_to_help :topic => "classification_term" %>
 
 <h2>
   <%= @form_title ? @form_title : @classification_term.title.blank? ? I18n.t("classification_term._singular") : @classification_term.title %>
@@ -11,8 +11,9 @@
 
   <%= form.hidden_input "parent", nil, {"data-base-name" => "classification_term[parent]", "class" => "hidden-parent-uri"} %>
   <%= form.hidden_input "classification" %>
-  <%= form.hidden_input "position" %>
+
   <%= hidden_field_tag "id", @classification_term.id %>
+  <%= hidden_field_tag "uri", @classification_term.uri %>
 
   <% define_template("classification_term", jsonmodel_definition(:classification_term)) do |form| %>
     <section id="basic_information">
@@ -23,8 +24,10 @@
       <%= form.label_and_textarea "description" %>
 
       <% form.push("creator", form["creator"] || {}) do %>
-        <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification.creator"), :optional => true, :multiplicity => "one"} %>
+        <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification_term.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>
+
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_records"} %>
 
     </section>
   <% end %>

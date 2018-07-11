@@ -1,0 +1,4 @@
+<h4><%= t('repository.details') %></h4>
+<p> <%= "#{t('repository.part')} #{@repo_info['top']['name']} #{t('repository._singular')}" %></p>
+<%= render partial: 'repositories/full_repo', locals: {:info => @repo_info, :url => @repo_info['top']['url']} %>
+

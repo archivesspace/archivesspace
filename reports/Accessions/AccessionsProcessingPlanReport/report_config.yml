@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: accessions_processing_plan
-description: "Displays only those accessions that have a processing plan.  Report contains accession number, linked resources, title, date range, extent, container summary, and processing plan."

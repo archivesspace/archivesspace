@@ -21,7 +21,7 @@ describe "Events" do
 
     run_index_round
 
-    @driver = Driver.new.login_to_repo(@archivist_user, @repo)
+    @driver = Driver.get.login_to_repo(@archivist_user, @repo)
   end
 
 
@@ -32,7 +32,7 @@ describe "Events" do
 
   it "creates an event and links it to an agent and an agent as a source" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Event").click
+    @driver.click_and_wait_until_gone(:link, "Event")
     @driver.find_element(:id, "event_event_type_").select_option('accession')
     @driver.find_element(:id, "event_outcome_").select_option("pass")
     @driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's another lie: all test subjects perished.")
@@ -46,10 +46,7 @@ describe "Events" do
     @driver.find_element(:id, "event_linked_agents__0__role_").select_option('recipient')
 
     token_input = agent_subform.find_element(:id, "token-input-event_linked_agents__0__ref_")
-    token_input.clear
-    # token_input.click
-    token_input.send_keys("Admin")
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, "Admin" )
 
     @driver.find_element(:id, "event_linked_records__0__role_").select_option('source')
 
@@ -57,10 +54,7 @@ describe "Events" do
       nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
     token_input = record_subform.find_element(:id, "token-input-event_linked_records__0__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys("Geddy")
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select(token_input, "Geddy")
 
     @driver.find_element(:css => "form#new_event button[type='submit']").click
 
@@ -70,51 +64,43 @@ describe "Events" do
     }
     run_all_indexers
 
-    expect {
-      assert(10) {
-        @driver.find_element(:link, "Browse").click
-        @driver.find_element(:link, "Agents").click
+    @driver.get($frontend)
 
-        @driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "Geddy*" )
-        @driver.find_element(:css, ".sidebar input.text-filter-field + div button").click
-        @driver.find_element_with_text('//tr', /Geddy/).find_element(:link, 'View').click
+    @driver.find_element(:link, "Browse").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, "Agents")
 
-        @driver.find_element_with_text('//td', /accession/)
-      }
-    }.not_to raise_error
+    @driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "Geddy*" )
+    @driver.click_and_wait_until_gone(:css, ".sidebar input.text-filter-field + div button")
+    @driver.click_and_wait_until_element_gone(@driver.find_element_with_text('//tr', /Geddy/).find_element(:link, 'View'))
+
+    @driver.find_element_with_text('//td', /accession/)
   end
 
   it "creates an event and links it to an agent and accession" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Event").click
+    @driver.click_and_wait_until_gone(:link, "Event")
     @driver.find_element(:id, "event_event_type_").select_option('virus_check')
     @driver.find_element(:id, "event_outcome_").select_option("pass")
     @driver.clear_and_send_keys([:id, "event_outcome_note_"], "OK, that's a lie: all test subjects perished.")
 
     @driver.find_element(:id, "event_date__date_type_").select_option("single")
     @driver.clear_and_send_keys([:id, "event_date__begin_"], ["2000-01-01", :tab])
+    
 
     agent_subform = @driver.find_element(:id, "event_linked_agents__0__role_").
       nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
-
+    
     @driver.find_element(:id, "event_linked_agents__0__role_").select_option('recipient')
-
     token_input = agent_subform.find_element(:id, "token-input-event_linked_agents__0__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys("Geddy")
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, "Geddy" )   
 
     @driver.find_element(:id, "event_linked_records__0__role_").select_option('source')
 
     record_subform = @driver.find_element(:id, "event_linked_records__0__role_").
-      nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
-
+        nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
     token_input = record_subform.find_element(:id, "token-input-event_linked_records__0__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@accession.title)
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @accession.title )   
 
     @driver.find_element(:css => "form#new_event button[type='submit']").click
 

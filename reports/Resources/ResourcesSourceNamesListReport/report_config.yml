@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: resources_source_names_list
-description: "Displays only those resource(s) having name(s) linked as source. Report contains title, resource identifier, level, date range, and source name."

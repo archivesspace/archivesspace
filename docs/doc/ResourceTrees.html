@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Module: ResourceTrees
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "ResourceTrees";
   relpath = '';
-  framesUrl = "frames.html#!ResourceTrees.html";
 </script>
 
 
@@ -28,72 +27,66 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (R)</a> &raquo;
     
     
     <span class="title">ResourceTrees</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
-
-    <div id="content"><h1>Module: ResourceTrees
+      <div id="content"><h1>Module: ResourceTrees
   
   
   
 </h1>
+<div class="box_info">
+  
 
-<dl class="box">
   
   
-    
-  
-    
   
   
-    <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span></dd>
-    
   
+
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">backend/app/model/resource_trees_ext.rb<span class="defines">,<br />
-  backend/app/model/mixins/resource_trees.rb</span>
-</dd>
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span></dd>
+  </dl>
   
-</dl>
-<div class="clear"></div>
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/mixins/resource_trees.rb</dd>
+  </dl>
+  
+</div>
 
 
 
@@ -105,7 +98,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -113,7 +106,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#build_node_query-instance_method" title="#build_node_query (instance method)">- (Object) <strong>build_node_query</strong> </a>
+      <a href="#build_node_query-instance_method" title="#build_node_query (instance method)">#<strong>build_node_query</strong>  &#x21d2; Object </a>
     
 
     
@@ -136,7 +129,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#load_node_properties-instance_method" title="#load_node_properties (instance method)">- (Object) <strong>load_node_properties</strong>(node, properties, ids_of_interest = :all) </a>
+      <a href="#load_node_properties-instance_method" title="#load_node_properties (instance method)">#<strong>load_node_properties</strong>(node, properties, ids_of_interest = :all)  &#x21d2; Object </a>
     
 
     
@@ -150,7 +143,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>If we&#8217;re being asked to load an entire tree, don&#8217;t bother loading all of the instances that go with each node.</p>
+    <span class="summary_desc"><div class='inline'><p>If we’re being asked to load an entire tree, don’t bother loading all of the instances that go with each node.</p>
 </div></span>
   
 </li>
@@ -159,30 +152,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#load_root_properties-instance_method" title="#load_root_properties (instance method)">- (Object) <strong>load_root_properties</strong>(properties, ids_of_interest = :all) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#set_node_instances-instance_method" title="#set_node_instances (instance method)">- (Object) <strong>set_node_instances</strong>(node, properties) </a>
+      <a href="#load_root_properties-instance_method" title="#load_root_properties (instance method)">#<strong>load_root_properties</strong>(properties, ids_of_interest = :all)  &#x21d2; Object </a>
     
 
     
@@ -205,7 +175,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_node_instances_pre_container_management-instance_method" title="#set_node_instances_pre_container_management (instance method)">- (Object) <strong>set_node_instances_pre_container_management</strong> </a>
+      <a href="#set_node_instances-instance_method" title="#set_node_instances (instance method)">#<strong>set_node_instances</strong>(node, properties)  &#x21d2; Object </a>
     
 
     
@@ -228,7 +198,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_node_level-instance_method" title="#set_node_level (instance method)">- (Object) <strong>set_node_level</strong>(node, properties) </a>
+      <a href="#set_node_level-instance_method" title="#set_node_level (instance method)">#<strong>set_node_level</strong>(node, properties)  &#x21d2; Object </a>
     
 
     
@@ -260,7 +230,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="build_node_query-instance_method">
   
-    - (<tt>Object</tt>) <strong>build_node_query</strong> 
+    #<strong>build_node_query</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -282,7 +252,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_build_node_query identifier id'>build_node_query</span>
   <span class='rubyid_node_query identifier id'>node_query</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_node_query identifier id'>node_query</span><span class='dot token'>.</span><span class='rubyid_eager identifier id'>eager</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:container</span><span class='rparen token'>)</span>
+  <span class='rubyid_node_query identifier id'>node_query</span><span class='dot token'>.</span><span class='rubyid_eager identifier id'>eager</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:sub_container</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -293,7 +263,7 @@
       <div class="method_details ">
   <h3 class="signature " id="load_node_properties-instance_method">
   
-    - (<tt>Object</tt>) <strong>load_node_properties</strong>(node, properties, ids_of_interest = :all) 
+    #<strong>load_node_properties</strong>(node, properties, ids_of_interest = :all)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -301,10 +271,10 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>If we&#8217;re being asked to load an entire tree, don&#8217;t bother loading all of the
+    <p>If we’re being asked to load an entire tree, don’t bother loading all of the
 instances that go with each node.  This is a performance optimisation, since
 there can be tens of thousands of instances.  The only place that pulls down
-the entire tree is the indexer, and it doesn&#8217;t need instance/container
+the entire tree is the indexer, and it doesn’t need instance/container
 information from the tree anyway.</p>
 
 
@@ -319,25 +289,27 @@ information from the tree anyway.</p>
       <pre class="lines">
 
 
-47
-48
-49
-50
-51
-52
-53
-54</pre>
+58
+59
+60
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 58</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_load_node_properties identifier id'>load_node_properties</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='comma token'>,</span> <span class='rubyid_ids_of_interest identifier id'>ids_of_interest</span> <span class='assign token'>=</span> <span class='symbol val'>:all</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
 
   <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:title</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span>
+  <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='symbol val'>:component_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_component_id identifier id'>component_id</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_component_id identifier id'>component_id</span>
 
   <span class='rubyid_set_node_level identifier id'>set_node_level</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_set_node_instances identifier id'>set_node_instances</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_ids_of_interest identifier id'>ids_of_interest</span> <span class='neq op'>!=</span> <span class='symbol val'>:all</span>
+  <span class='rubyid_set_node_instances identifier id'>set_node_instances</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='comment val'>#if ids_of_interest != :all</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -348,7 +320,7 @@ information from the tree anyway.</p>
       <div class="method_details ">
   <h3 class="signature " id="load_root_properties-instance_method">
   
-    - (<tt>Object</tt>) <strong>load_root_properties</strong>(properties, ids_of_interest = :all) 
+    #<strong>load_root_properties</strong>(properties, ids_of_interest = :all)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -360,15 +332,15 @@ information from the tree anyway.</p>
       <pre class="lines">
 
 
-57
-58
-59
-60
-61
-62</pre>
+69
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_load_root_properties identifier id'>load_root_properties</span><span class='lparen token'>(</span><span class='rubyid_properties identifier id'>properties</span><span class='comma token'>,</span> <span class='rubyid_ids_of_interest identifier id'>ids_of_interest</span> <span class='assign token'>=</span> <span class='symbol val'>:all</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -385,7 +357,7 @@ information from the tree anyway.</p>
       <div class="method_details ">
   <h3 class="signature " id="set_node_instances-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_node_instances</strong>(node, properties) 
+    #<strong>set_node_instances</strong>(node, properties)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -397,21 +369,6 @@ information from the tree anyway.</p>
       <pre class="lines">
 
 
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
 18
 19
 20
@@ -428,10 +385,25 @@ information from the tree anyway.</p>
 31
 32
 33
-34</pre>
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/resource_trees_ext.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_node_instances identifier id'>set_node_instances</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
@@ -447,7 +419,7 @@ information from the tree anyway.</p>
       <span class='rubyid_top_container identifier id'>top_container</span> <span class='assign token'>=</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_related_records identifier id'>related_records</span><span class='lparen token'>(</span><span class='symbol val'>:top_container_link</span><span class='rparen token'>)</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_top_container identifier id'>top_container</span><span class='rparen token'>)</span>
-        <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_1&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;Container&quot;</span>
+        <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_1&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span> <span class='orop op'>||</span> <span class='string val'>&quot;Container&quot;</span>
         <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_1&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_indicator identifier id'>indicator</span>
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_top_container identifier id'>top_container</span><span class='dot token'>.</span><span class='rubyid_barcode identifier id'>barcode</span>
           <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_1&quot;</span><span class='rbrack token'>]</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; [#{top_container.barcode}]&quot;</span>
@@ -472,36 +444,9 @@ information from the tree anyway.</p>
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="set_node_instances_pre_container_management-instance_method">
-  
-    - (<tt>Object</tt>) <strong>set_node_instances_pre_container_management</strong> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-2</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/resource_trees_ext.rb', line 2</span>
-
-<span class='rubyid_alias_method identifier id'>alias_method</span> <span class='symbol val'>:set_node_instances_pre_container_management</span><span class='comma token'>,</span> <span class='symbol val'>:set_node_instances</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="set_node_level-instance_method">
   
-    - (<tt>Object</tt>) <strong>set_node_level</strong>(node, properties) 
+    #<strong>set_node_level</strong>(node, properties)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -525,7 +470,7 @@ information from the tree anyway.</p>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_node_level identifier id'>set_node_level</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_level identifier id'>level</span> <span class='eqq op'>===</span> <span class='string val'>'otherlevel'</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_level identifier id'>level</span> <span class='eqq op'>===</span> <span class='string val'>&#39;otherlevel&#39;</span>
     <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='symbol val'>:level</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_other_level identifier id'>other_level</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='symbol val'>:level</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_level identifier id'>level</span>
@@ -541,10 +486,11 @@ information from the tree anyway.</p>
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:53 2015 by
+      <div id="footer">
+  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:12 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.12 (ruby-2.3.3).
 </div>
+    </div>
   </body>
 </html>

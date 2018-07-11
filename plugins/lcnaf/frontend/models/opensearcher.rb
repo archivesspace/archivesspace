@@ -37,20 +37,22 @@ class OpenSearcher
     lccns.each do |lccn|
       lccn.sub!( 'info:lc/authorities/subjects/', '')
       uri = URI("#{@scheme}/#{lccn}.marcxml.xml")
+      p uri
 
-      response = Net::HTTP.get_response(uri)
-      if response.code != '200'
-        raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
+      HTTPRequest.new.get(uri) do |response|
+        if response.code != '200'
+          raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
+        end
+
+        doc = Nokogiri::XML.parse(response.body) do |config|
+          config.default_xml.noblanks
+        end
+
+        doc.remove_namespaces!
+        doc.encoding = 'utf-8'
+
+        tempfile.write(doc.root)
       end
-
-      doc = Nokogiri::XML.parse(response.body) do |config|
-        config.default_xml.noblanks
-      end
-
-      doc.remove_namespaces!
-      doc.encoding = 'utf-8'
-
-      tempfile.write(doc.root)
     end
 
     tempfile.write("\n</collection>")
@@ -65,31 +67,33 @@ class OpenSearcher
   def search(query, page, records_per_page)
     uri = URI(@base_url)
     start_record = calculate_start_record(page, records_per_page)
-    params = default_params.merge('q' => [query.to_s, @scheme],
+    params = default_params.merge('q' => [query.to_s, 'cs:' + @scheme],
                                   'count' => records_per_page,
                                   'start' => start_record)
 
     uri.query = URI.encode_www_form(params)
-
-    response = Net::HTTP.get_response(uri)
-
-    if response.code != '200'
-      raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
-    end
-
-    results = OpenSearchResultSet.new(response.body, query)
-
-    results.entries.each do |entry|
-      marc_uri = URI("#{entry['uri']}.marcxml.xml")
-      response = Net::HTTP.get_response(marc_uri)
+    p uri
+    results = HTTPRequest.new.get(uri) do |response|
       if response.code != '200'
         raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
       end
 
-      entry['xml'] = response.body.force_encoding("iso-8859-1").encode('utf-8')
+      OpenSearchResultSet.new(response.body, query)
+    end
+
+    results.entries.each do |entry|
+      marc_uri = URI("#{entry['uri']}.marcxml.xml")
+
+      HTTPRequest.new.get(marc_uri) do |response|
+        if response.code != '200'
+          raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
+        end
+
+        entry['xml'] = response.body.force_encoding("iso-8859-1").encode('utf-8')
+      end
     end
 
     results
   end
-  
+
 end

@@ -1,5 +1,5 @@
 require 'json'
-require 'net/http'
+require 'ashttp'
 
 class SolrSnapshotter
 
@@ -25,7 +25,7 @@ class SolrSnapshotter
 
     victims.each do |backup_dir|
 
-      if File.exists?(File.join(backup_dir, "indexer_state"))
+      if File.exist?(File.join(backup_dir, "indexer_state"))
         log(:info, "Expiring old Solr snapshot: #{backup_dir}")
         FileUtils.rm_rf(backup_dir)
       else
@@ -42,8 +42,8 @@ class SolrSnapshotter
 
 
   def self.last_snapshot_status
-    response = Net::HTTP.get_response(URI.join(AppConfig[:solr_url],
-                                               "/replication?command=details&wt=json"))
+    response = ASHTTP.get_response(URI.join(AppConfig[:solr_url],
+                                            "/replication?command=details&wt=json"))
 
     if response.code != '200'
       raise "Problem when getting snapshot details: #{response.body}"
@@ -102,7 +102,7 @@ class SolrSnapshotter
       log(:info, "Previous snapshot status: #{most_recent_status}; snapshot: #{most_recent_snapshot}")
 
 
-      response = Net::HTTP.get_response(URI.join(AppConfig[:solr_url],
+      response = ASHTTP.get_response(URI.join(AppConfig[:solr_url],
                                                  "/replication?command=backup&numberToKeep=1"))
 
 

@@ -31,25 +31,19 @@ describe 'Session model' do
   end
 
 
-  it "knows its age" do
-    Time.stub(:now).and_return(Time.at(0))
-    s = Session.new
-    Time.stub(:now).and_return(Time.at(10))
-    s.age.should eq(10)
-  end
-
-
   it "becomes young again when touched" do
-    Time.stub(:now).and_return(Time.at(0))
+    first_time = Time.at(0)
+    next_time = Time.at(10)
+
     s = Session.new
-    Time.stub(:now).and_return(Time.at(10))
-    s.touch
-    Time.stub(:now).and_return(Time.at(100))
-    s.age.should eq(90)
-    Time.stub(:now).and_return(Time.at(110))
-    s.touch
-    Time.stub(:now).and_return(Time.at(111))
-    s.age.should eq(1)
+
+    s.touch; Session.touch_pending_sessions(first_time)
+    first_age = Session.find(s.id).age
+
+    s.touch; Session.touch_pending_sessions(next_time)
+    next_age = Session.find(s.id).age
+
+    (next_age - first_age).abs.should eq(10)
   end
 
 
@@ -57,6 +51,42 @@ describe 'Session model' do
     s = Session.new
     Session.expire(s.id)
     Session.find(s.id).should be_nil
+  end
+
+  it "expires expirable sessions after :session_expire_after_seconds" do
+    short_session = Session.new
+    long_session = Session.new
+
+    short_session[:expirable] = true
+    long_session[:expirable] = false
+
+    short_session.save
+    long_session.save
+
+    allow(AppConfig).to receive(:[]).with(any_args)
+    allow(AppConfig).to receive(:[]).with(:session_expire_after_seconds) { 0 }
+
+    sleep 1
+
+    Session.expire_old_sessions
+    Session.find(short_session.id).should be_nil
+    Session.find(long_session.id).should_not be_nil
+  end
+
+  it "expires non-expirable sessions after :session_nonexpirable_force_expire_after_seconds" do
+    long_session = Session.new
+
+    long_session[:expirable] = false
+
+    long_session.save
+
+    allow(AppConfig).to receive(:[]).with(any_args)
+    allow(AppConfig).to receive(:[]).with(:session_nonexpirable_force_expire_after_seconds) { 0 }
+
+    sleep 1
+
+    Session.expire_old_sessions
+    Session.find(long_session.id).should be_nil
   end
 
 end

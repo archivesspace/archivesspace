@@ -1,0 +1,11 @@
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @top_container, :form => form} %>
+
+<% define_template("top_container", jsonmodel_definition(:top_container)) do |form| %>
+  <%= form.label_and_select "type", form.possible_options_for('type', true) %>
+  <%= form.label_and_textfield("indicator") %>
+  <%= form.label_and_textfield("barcode") %>
+  <%= form.hidden_input("created_for_collection", created_for_collection) %>
+<% end %>
+
+
+<% form.emit_template("top_container") %>

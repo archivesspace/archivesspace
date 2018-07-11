@@ -1,0 +1,67 @@
+<div id="main-content" class="agents">
+
+  <div class="row" id="info_row">
+    <div class="information col-sm-7">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+    </div>
+    <div class="page_actions col-sm-5 right">
+      <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
+    </div>
+  </div>
+
+<div class="row">
+  <div class="col-sm-9">
+    <% if !@result.dates.blank? %>
+      <h4><%= t('agent._public.section.dates_of_existence') %></h4>
+      <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
+    <% end %>
+
+    <%= render partial: 'shared/display_notes' %>
+
+ <% if !@results.blank? && @results['total_hits'] > 0 %>
+     <h3><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h3>
+         <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+         <% @results.records.each do |result| %>
+           <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
+         <% end %>
+         <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+
+   <% end %>
+
+  </div>
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+    <% if @result.json['names'].length > 1 ||
+          (@result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty?) ||
+          ASUtils.wrap(@result.external_documents).length > 0 %>
+
+    <h4><%= t('more_about') %> '<%= @result.display_string %>'</h4>
+    <div class="acc_holder clear" >
+      <div class="panel-group" id="agent_accordion">
+        <% if @result.json['names'].length > 1 %>
+          <% other_names = @result.json['names'].reject{|name| name['is_display_name']}.collect{|name| name['sort_name']} %>
+          <% x = "<p>#{t('agent._public.section.other_names_preamble')}</p>" %>
+          <% x += render partial: 'shared/present_list', locals: {:list =>  other_names, :list_clss => 'other_names'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.other_names'), :p_id => 'other_names_list', :p_body => x.html_safe} %>
+        <% end %>
+        <% if @result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty? %>
+          <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.related_agents, :list_clss => 'related_agents'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.related_agents'), :p_id => 'related_agents_list', :p_body => x} %>
+        <% end %>
+        <% unless @result.external_documents.blank? %>
+          <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
+        <% end %>
+      </div>
+    </div>
+    <script type="text/javascript" >
+        initialize_accordion("#agent_accordion .note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
+    </script>
+
+  <% end %>
+
+  <% if !@facets.blank? || !@filters.blank? %>
+  <%= render partial: 'shared/facets' %>
+  <% end %>
+  </div>
+</div>
+</div>

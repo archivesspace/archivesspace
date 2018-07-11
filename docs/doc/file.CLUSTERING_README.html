@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: CLUSTERING_README
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "CLUSTERING_README";
   relpath = '';
-  framesUrl = "frames.html#!file.CLUSTERING_README.html";
 </script>
 
 
@@ -28,45 +27,37 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index</a> &raquo; 
     <span class="title">File: CLUSTERING_README</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
-
-    <div id="content"><div id='filecontents'><h1 id="running-archivesspace-with-load-balancing-and-multiple-tenants">Running ArchivesSpace with load balancing and multiple tenants</h1>
+      <div id="content"><div id='filecontents'><h1 id="running-archivesspace-with-load-balancing-and-multiple-tenants">Running ArchivesSpace with load balancing and multiple tenants</h1>
 
 <p>This document describes two aspects of running ArchivesSpace in a
 clustered environment: for load-balancing purposes, and for supporting
@@ -180,7 +171,7 @@ files (such as log files and Solr indexes).  Ideally this is just
 a directory on local disk.</p>
   </li>
   <li>
-    <p>Java 1.6 (or above) installed on each machine.</p>
+    <p>Java 1.7 or 1.8 installed on each machine.</p>
   </li>
 </ul>
 
@@ -337,7 +328,7 @@ across machines.</p>
 database.  You can create this from the MySQL shell:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span> <span class='rubyid_default identifier id'>default</span> <span class='rubyid_character identifier id'>character</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_utf8 identifier id'>utf8</span><span class='semicolon token'>;</span>
- <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>'example'</span>@<span class='string val'>'%'</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>'example123'</span><span class='semicolon token'>;</span>
+ <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>&#39;example&#39;</span>@<span class='string val'>&#39;%&#39;</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>&#39;example123&#39;</span><span class='semicolon token'>;</span>
 </code></pre>
 
 <p>In this example, we have a MySQL database called <code>exampletenant</code>, and
@@ -488,10 +479,11 @@ is now accepting requests and forwarding them to your app servers.
 We’re done!</p>
 </div></div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:49 2015 by
+      <div id="footer">
+  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:08 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.12 (ruby-2.3.3).
 </div>
+    </div>
   </body>
 </html>

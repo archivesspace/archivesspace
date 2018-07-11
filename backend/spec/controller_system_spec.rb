@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'System controller' do
 
-  # system events are really simple and i dont think we need a jsonmodel 
+  # system events are really simple and i dont think we need a jsonmodel
   # for them. just return back a jsonized array of the values.
   it "returns a list of the systems events that have been added to the db" do
 
@@ -11,9 +11,7 @@ describe 'System controller' do
       JSON(last_response.body)
     end
 
-    resp.length.should eq(2)
-    resp.first["title"].should eq("CONTAINER_MANAGEMENT_UPGRADE_STARTED")
-    resp.last["title"].should eq("CONTAINER_MANAGEMENT_UPGRADE_COMPLETED")
+    resp.length.should eq(0)
   end
 
 

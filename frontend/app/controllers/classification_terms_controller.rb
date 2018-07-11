@@ -37,8 +37,6 @@ class ClassificationTermsController < ApplicationController
                                       I18n.t("classification_term._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved'], :parent => @classification_term['parent']['_resolved'])) :
                                       I18n.t("classification_term._frontend.messages.created", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved']))
 
-                  @refresh_tree_node = true
-
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
                   else
@@ -66,17 +64,17 @@ class ClassificationTermsController < ApplicationController
                     I18n.t("classification_term._frontend.messages.updated", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved']))
                   flash.now[:success] = success_message
 
-                  @refresh_tree_node = true
-
                   render_aspace_partial :partial => "edit_inline"
                 })
   end
 
 
   def show
-    @classification_id = params['classification_id']
-    @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)
-    render_aspace_partial :partial => "classification_terms/show_inline" if inline?
+    if params[:inline]
+      @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)
+      return render_aspace_partial :partial => "classification_terms/show_inline"
+    end
+      @classification_id = params['classification_id']
   end
 
 

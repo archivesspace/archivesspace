@@ -1,0 +1,30 @@
+<div class="titlepage">
+  <div class="title"><%= h @report.title %></div>
+
+  <dl>
+    <dt><%= t('number_of_records') %></dt>
+    <dd><%= h @report.total_count %></dd>
+    <dt><%= t('number_with_inventories') %></dt>
+    <dd><%= h @report.total_with_inventories %></dd>
+  </dl>
+</div>
+
+<% @report.each do |accession| %>
+  <% next unless accession['inventory'] %>
+
+  <div class="report-record">
+    <div class="identifier"><%= t('identifier_prefix') %> <%= format_4part(accession.fetch('accessionNumber')) %></div>
+    <div class="record-title"><%= h accession.fetch('title') %></div>
+
+    <dl>
+      <% if accession.fetch('extentNumber') %>
+        <dt><%= t('extent') %> </dt>
+        <dd><%= format_number(accession.fetch('extentNumber')) %> <%= accession.fetch('extentType') %></dd>
+      <% end %>
+    </dl>
+
+    <%= text_section(t('inventory'), accession.fetch('inventory')) %>
+
+    <%= subreport_section(t('linked_resources'), AccessionResourcesSubreport, accession) %>
+  </div>
+<% end %>

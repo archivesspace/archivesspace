@@ -9,15 +9,10 @@ the latest distribution `.zip` file from the following URL:
 
   https://github.com/archivesspace/archivesspace/releases
 
-You will need to have Java 1.6 (or newer) installed on your machine.
+You will need to have Java 1.7 or 1.8 installed on your machine.
 You can check your Java version by running the command:
 
      java -version
-
-Currently, if you want to use Java 1.8, you will need to remove the
-jdt-compiler jar library from the java classpath ( lib directory of
-your ArchivesSpace directory). This will disable the use of Jasper
-reports ( but not regular reports).  
 
 When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate
@@ -43,15 +38,17 @@ ArchivesSpace directory is located.
 ## Start ArchivesSpace
 
 The first time it starts, the system will take a minute or so to start
-up.  Once it is ready, confirm that ArchivesSpace is running correctly by 
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by
 accessing the following URLs in your browser:
 
   - http://localhost:8089/ -- the backend
   - http://localhost:8080/ -- the staff interface
   - http://localhost:8081/ -- the public interface
+  - http://localhost:8082/ -- the OAI-PMH server
   - http://localhost:8090/ -- the Solr admin console
 
-To start using the Staff interface application, log in using the adminstrator 
+
+To start using the Staff interface application, log in using the adminstrator
 account:
 
 * Username: `admin`

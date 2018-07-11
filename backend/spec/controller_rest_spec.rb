@@ -112,7 +112,7 @@ describe 'REST interface' do
   it "supports querying Endpoints" do
     endpoint = RESTHelpers::Endpoint.get("/moo")
 
-    endpoint['method'].should eq(:get)
+    endpoint['methods'].should eq([:get])
     endpoint['uri'].should eq('/moo')
   end
 

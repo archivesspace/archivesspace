@@ -1,0 +1,204 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+
+        <style>
+ .title-page {
+     page-break-after: always;
+     position: relative;
+     height: 58em;
+ }
+
+ .toc-page {
+     page-break-after: always;
+ }
+
+ .logo {
+     display: inline-block;
+ }
+
+ ul.toc {
+     list-style-type: none;
+     margin-left: 0;
+     padding-left: 0;
+ }
+
+ a {
+     color: #14A6DC;
+ }
+
+ .toc .level-1 { padding-left: 1em; }
+ .toc .level-2 { padding-left: 2em; }
+ .toc .level-3 { padding-left: 3em; }
+ .toc .level-4 { padding-left: 4em; }
+ .toc .level-5 { padding-left: 5em; }
+ .toc .level-6 { padding-left: 6em; }
+ .toc .level-7 { padding-left: 7em; }
+ .toc .level-8 { padding-left: 8em; }
+ .toc .level-9 { padding-left: 9em; }
+ .toc .level-10 { padding-left: 10em; }
+
+ .toc a {
+     color: black;
+     text-decoration: none;
+ }
+
+ a.record-title {
+     color: black;
+     text-decoration: none;
+ }
+
+ h3 {
+     margin-top: 1em;
+ }
+
+ dl {
+     overflow: hidden;
+ }
+
+ dt, dd { float: left; margin: 0; margin-top: 0.5em; }
+ dt { clear: both; font-weight: bold; width: 20%; text-align: right; margin-right: 1em; }
+ dd { width: 70%; }
+ dt:after { content: ':'; white-space: pre; }
+
+ .title-block {
+     border-bottom: solid 2px black;
+ }
+
+ .title-block h2 {
+     border: 0;
+ }
+
+ .title-page .repository-information {
+     position: absolute;
+     bottom: 0;
+     border: solid 2px gray;
+      width: 95%;
+     padding: 1em;
+
+ }
+
+ .repository-information > * {
+     padding-left: 1em;
+ }
+
+ .repository-information > .repository-name {
+     padding-left: 0;
+ }
+
+ .repository-address {
+     margin: 1em, 0;
+ }
+
+ h2 {
+     padding-top: 0.25em;
+     padding-bottom: 0.25em;
+     border-top: solid 2px #333;
+     border-bottom: dotted 1px #333;
+ }
+
+ ul.toc a::after {
+     content: leader('.') target-counter(attr(href), page);
+ }
+
+ .print-record-border {
+     border-left: dashed 1px #ccc;
+     padding-left: 0.5em;
+     margin: 0;
+
+     /* Get rid of annoying vertical whitespace */
+     margin-top: -8px;
+     padding-top: 8px;
+ }
+
+ .avoid-break {
+     margin-top: 10px;
+     break-inside: avoid;
+     page-break-inside: avoid;
+ }
+
+ .print-record {
+     margin-bottom: 1em;
+     border-top: solid 1px #dedede;
+ }
+
+ .print-record-border.print-record.level-1 { padding-top: 0; margin-top: 1em; }
+
+ .print-record-border.level-1 { margin-left: 1em; }
+ .print-record-border.level-2 { margin-left: 1em }
+ .print-record-border.level-3 { margin-left: 1em; }
+ .print-record-border.level-4 { margin-left: 1em; }
+ .print-record-border.level-5 { margin-left: 1em; }
+ .print-record-border.level-6 { margin-left: 1em; }
+ .print-record-border.level-7 { margin-left: 1em; }
+ .print-record-border.level-8 { margin-left: 1em; }
+ .print-record-border.level-9 { margin-left: 1em; }
+ .print-record-border.level-10 { margin-left: 1em; }
+
+ .print-record h3 {
+     margin: 0;
+ }
+
+ .print-record h4 {
+     margin: 0.25em 0 0.25em 0;
+ }
+
+ .print-record p {
+     margin: 0;
+ }
+
+ .print-record dl {
+     margin: 0 0 0.5em 0;
+ }
+
+ .container-information {
+     font-size: 80%;
+     text-align: right;
+     color: #aaa;
+ }
+
+ .italic {
+     font-style: italic;
+ }
+
+ .inherit {
+     font-style: italic;
+ }
+
+ <%# Don't show headers/footers on the titlepage %>
+ @page :first {
+     @top-center {
+         content: '';
+     }
+
+     @bottom-center {
+         content: '';
+     }
+ }
+
+ @page {
+     <%
+     short_title = record.finding_aid.fetch('title', '')
+     short_title = short_title.gsub(/\n.*/, '').strip
+     %>
+
+     <% if short_title != '' %>
+     @top-center {
+         font-size: 80%;
+         color: #666;
+         content: '<%= short_title %>';
+     }
+     <% end %>
+
+     @bottom-center {
+         font-size: 80%;
+         color: #666;
+         content: '- ' counter(page) ' -';
+     }
+ }
+
+
+        </style>
+    </head>
+    <body>
+

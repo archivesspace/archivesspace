@@ -1,10 +1,12 @@
 require_relative 'relationships'
 require_relative 'related_agents'
-require_relative 'implied_publication'
 require 'set'
 
 
 module AgentManager
+
+  AGENT_MUST_BE_UNIQUE = "Agent must be unique"
+  AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT = /Duplicate entry .* for key 'sha1_agent_person'/
 
   @@registered_agents ||= {}
 
@@ -48,7 +50,6 @@ module AgentManager
 
       base.include(Relationships)
       base.include(RelatedAgents)
-      base.include(ImpliedPublication)
       base.include(Events)
 
       ArchivesSpaceService.loaded_hook do
@@ -89,7 +90,7 @@ module AgentManager
 
     def validate
       super
-      validates_unique([:agent_sha1], :message => "Agent must be unique")
+      validates_unique([:agent_sha1], :message => AGENT_MUST_BE_UNIQUE)
       map_validation_to_json_property([:agent_sha1], :names)
       map_validation_to_json_property([:agent_sha1], :dates_of_existence)
       map_validation_to_json_property([:agent_sha1], :external_documents)
@@ -174,8 +175,13 @@ module AgentManager
                       .and( Sequel.qualify( name_type.intern, :authorized)  => 1 ).select_all(agent_type.intern).first
                       
 
-          else
+          elsif exception.message.end_with?(AGENT_MUST_BE_UNIQUE) || exception.message =~ AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT
+            # If the agent already exists, find and reuse them
             agent = find_matching(json)
+
+          else
+            # If anything else went wrong, report it
+            raise $!
           end
 
           if !agent
@@ -189,7 +195,6 @@ module AgentManager
 
           
           agent
-        
         }
       end
 
@@ -314,12 +319,32 @@ module AgentManager
       def sequel_to_jsonmodel(objs, opts = {})
         jsons = super
 
+        if opts[:calculate_linked_repositories]
+          agents_to_repositories = GlobalRecordRepositoryLinkages.new(self, :linked_agents).call(objs)
+
+          jsons.zip(objs).each do |json, obj|
+            json.used_within_repositories = agents_to_repositories.fetch(obj, []).map {|repo| repo.uri}
+            json.used_within_published_repositories = agents_to_repositories.fetch(obj, []).select{|repo| repo.publish == 1}.map {|repo| repo.uri}
+          end
+        end
+
+        publication_status = ImpliedPublicationCalculator.new.for_agents(objs)
+
+        jsonmodel_type = my_agent_type[:jsonmodel].to_s
+        matching_users = Hash[User
+                                .filter(:agent_record_id => objs.map(&:id),
+                                        :agent_record_type => jsonmodel_type)
+                                .map {|row| [row[:agent_record_id], row[:username]]}]
+
         jsons.zip(objs).each do |json, obj|
-          json.agent_type = my_agent_type[:jsonmodel].to_s
+          json.agent_type = jsonmodel_type
           json.linked_agent_roles = obj.linked_agent_roles
+          json.is_linked_to_published_record = publication_status.fetch(obj)
 
           populate_display_name(json)
           json.title = json['display_name']['sort_name']
+
+          json.is_user = matching_users.fetch(obj.id, nil)
         end
 
         jsons

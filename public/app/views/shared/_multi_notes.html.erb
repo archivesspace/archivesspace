@@ -1,0 +1,9 @@
+<% types.each do  |type|
+   note_struct = @result.note(type)
+   if !note_struct['note_text'].blank? %>
+    <div class="note">
+      <%= render  partial: 'shared/single_note',
+          locals: {:type => type, :note_struct => @result.note(type)}  %>
+    </div>
+   <% end %>
+<% end %>

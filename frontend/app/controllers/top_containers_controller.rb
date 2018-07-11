@@ -1,11 +1,12 @@
 require 'uri'
 require 'barcode_check'
+require 'advanced_query_builder'
 
 class TopContainersController < ApplicationController
 
   set_access_control  "view_repository" => [:show, :typeahead, :bulk_operations_browse],
                       "update_container_record" => [:new, :create, :edit, :update],
-                      "manage_container_record" => [:index, :delete, :batch_delete, :bulk_operations, :bulk_operation_search, :bulk_operation_update, :update_barcodes]
+                      "manage_container_record" => [:index, :delete, :batch_delete, :bulk_operations, :bulk_operation_search, :bulk_operation_update, :update_barcodes, :update_locations]
 
 
   def index
@@ -15,7 +16,13 @@ class TopContainersController < ApplicationController
   def new
     @top_container = JSONModel(:top_container).new._always_valid!
 
-    render_aspace_partial :partial => "top_containers/new" if inline?
+    if inline?
+      render_aspace_partial(:partial => "top_containers/new",
+                            :locals => {
+                              :small => params[:small],
+                              :created_for_collection => params[:created_for_collection]
+                            })
+    end
   end
 
 
@@ -89,6 +96,8 @@ class TopContainersController < ApplicationController
   def typeahead
     search_params = params_for_backend_search
 
+    search_params["q"] = "display_string:#{search_params["q"]}"
+    
     search_params = search_params.merge(search_filter_for(params[:uri]))
     search_params = search_params.merge("sort" => "typeahead_sort_key_u_sort asc")
 
@@ -167,6 +176,31 @@ class TopContainersController < ApplicationController
   end
 
 
+  def update_locations
+    update_uris = params[:update_uris]
+    location_data = {}
+    update_uris.map{|uri| location_data[uri] = params[uri].blank? ? nil : params[uri]['ref']}
+
+    post_uri = "#{JSONModel::HTTP.backend_url}/repositories/#{session[:repo_id]}/top_containers/bulk/locations"
+
+    response = JSONModel::HTTP::post_json(URI(post_uri), location_data.to_json)
+    result = ASUtils.json_parse(response.body) rescue nil
+
+    if response.code =~ /^4/
+      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
+				   :locals => {:exceptions => (result || response.message),
+					       :jsonmodel => "top_container"},
+				   :status => 500
+    elsif response.code =~ /^5/
+      return render_aspace_partial :partial => 'top_containers/bulk_operations/error_messages',
+				   :locals => {:exceptions => response.message},
+				   :status => 500
+    end
+
+    render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_success", :locals => {:result => result}
+  end
+
+
   private
 
   helper_method :can_edit_search_result?
@@ -188,8 +222,23 @@ class TopContainersController < ApplicationController
   def search_filter_for(uri)
     return {} if uri.blank?
 
+    # filter for containers in this collection
+    # or that were created for this collection
+    # if they are currently not associated with any collection
+    # this is helpful in situations like RDE
+    # where the top_container is created and should be linkable
+    # to other records in the collection before any of them are saved
+
+    created_for_query = AdvancedQueryBuilder.new
+    created_for_query.and('created_for_collection_u_sstr', uri, 'text', true)
+    created_for_query.and('collection_uri_u_sstr', '*', 'text', true, true)
+
+    top_or_query = AdvancedQueryBuilder.new
+    top_or_query.or('collection_uri_u_sstr', uri, 'text', true)
+    top_or_query.or(created_for_query)
+
     return {
-      "filter_term[]" => [{"collection_uri_u_sstr" => uri}.to_json]
+      'filter' => AdvancedQueryBuilder.new.and(top_or_query).build.to_json
     }
   end
 
@@ -199,27 +248,53 @@ class TopContainersController < ApplicationController
                                                       'type[]' => ['top_container']
                                                     })
 
-    filters = []
+    builder = AdvancedQueryBuilder.new
 
-    filters.push({'collection_uri_u_sstr' => params['collection_resource']['ref']}.to_json) if params['collection_resource']
-    filters.push({'collection_uri_u_sstr' => params['collection_accession']['ref']}.to_json) if params['collection_accession']
+    if params['collection_resource']
+      builder.and('collection_uri_u_sstr', params['collection_resource']['ref'], 'text', literal = true)
+    end
 
-    filters.push({'container_profile_uri_u_sstr' => params['container_profile']['ref']}.to_json) if params['container_profile']
-    filters.push({'location_uri_u_sstr' => params['location']['ref']}.to_json) if params['location']
+    if params['collection_accession']
+      builder.and('collection_uri_u_sstr', params['collection_accession']['ref'], 'text', literal = true)
+    end
+
+    if params['container_profile']
+      builder.and('container_profile_uri_u_sstr', params['container_profile']['ref'], 'text', literal = true)
+    end
+
+    if params['location']
+      builder.and('location_uri_u_sstr', params['location']['ref'], 'text', literal = true)
+    end
+
     unless params['exported'].blank?
-      filters.push({'exported_u_sbool' => (params['exported'] == "yes" ? true : false)}.to_json)
-    end
-    unless params['empty'].blank?
-      filters.push({'empty_u_sbool' => (params['empty'] == "yes" ? true : false)}.to_json)
+      builder.and('exported_u_sbool',
+                  (params['exported'] == "yes" ? true : false),
+                  'boolean')
     end
 
-    if filters.empty? && params['q'].blank?
+    unless params['empty'].blank?
+      builder.and('empty_u_sbool', (params['empty'] == "yes" ? true : false), 'boolean')
+    end
+
+    unless params['barcodes'].blank?
+      barcode_query = AdvancedQueryBuilder.new
+
+      ASUtils.wrap(params['barcodes'].split(" ")).each do |barcode|
+        barcode_query.or('barcode_u_sstr', barcode)
+      end
+
+      unless barcode_query.empty?
+        builder.and(barcode_query)
+      end
+    end
+
+    if builder.empty? && params['q'].blank?
       raise MissingFilterException.new
     end
 
-    unless filters.empty?
+    unless builder.empty?
       search_params = search_params.merge({
-                                            "filter_term[]" => filters
+                                            "filter" => builder.build.to_json,
                                           })
     end
 

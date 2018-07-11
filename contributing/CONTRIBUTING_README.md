@@ -3,7 +3,7 @@ Contributor License Agreements
 
 ArchivesSpace requires that all project contributors complete a Contributor License
 Agreement (CLA). The CLA clearly defines the terms under which intellectual property is
-being contributed, and allows ArchivesSpace to provide comprehensive governance 
+being contributed, and allows ArchivesSpace to provide comprehensive governance
 over the project.
 
 The Contributor License Agreement enables ArchivesSpace to update the licensing of its
@@ -41,26 +41,26 @@ taking on new projects. Corporations can also provide a concurrent grant as part
 CCLA itself.
 
 
-Projects with pre•existing codebases need to complete Contributor Agreements with all
+Projects with pre-existing codebases need to complete Contributor Agreements with all
 IP holders prior to formal acceptance by ArchivesSpace.
 
 
-Contributor License Agreements may be submitted to ArchivesSpace in the following way:
+Contributor License Agreements may be submitted to ArchivesSpace in the following ways:
 
 
-Postal Mail: 
+Postal Mail:
 ```
 ArchivesSpace
 LYRASIS
-1438 West Peachtree Street, NW Suite 200
+1438 West Peachtree Street, NW Suite 150
 Atlanta, GA 30309
 USA
 ```
 
 Email ( Scanned signed copy in PDF form )
 
-``` 
-licensing@lyrasis.org 
+```
+archivesspacehome@lyrasis.org
 ```
 
 
@@ -68,10 +68,9 @@ Fax
 
 ```
 +1 404.892.7879
-Attention: ArchivesSpace Licensing
+Attention: ArchivesSpace Home
 ```
 
 
 
 The content of this  document was adapted from the Apereo Foundation Contributor License Agreements
-

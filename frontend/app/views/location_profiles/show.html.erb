@@ -1,0 +1,16 @@
+<%= setup_context :object => @location_profile, :title => @location_profile.name %>
+
+<div class="row">
+   <div class="col-md-3">
+     <%= render_aspace_partial :partial => "sidebar" %>
+   </div>
+  <div class="col-md-9">
+    <%= render_aspace_partial :partial => "toolbar" %>
+    <div class="record-pane">
+      <h2><%= @location_profile.name %>  <span class="label label-info"><%= I18n.t("location_profile._singular") %></span></h2>
+      <%= readonly_context :location_profile, @location_profile do |readonly| %>
+        <%= render_aspace_partial :partial => "location_profiles/form", :locals => {:form => readonly} %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -135,4 +135,65 @@ describe 'Location model' do
   end
 
 
+  it "can have an owner repository" do
+    owner_repo = create(:unselected_repo, {:repo_code => "OWNER_REPO"})
+
+    owner_repo_uri = JSONModel(:repository).uri_for(owner_repo.id)
+
+    location = create(:json_location, {:owner_repo => {'ref' => owner_repo_uri}})
+
+    json = Location.to_jsonmodel(location.id)
+    json['owner_repo']['ref'].should eq(owner_repo_uri)
+  end
+
+  it "allows you you delete a location that has a location profile attached" do
+    location_profile = create(:json_location_profile)
+    location = create(:json_location,
+                      :location_profile => {'ref' => location_profile.uri})
+
+    expect { Location[location.id].delete }.to_not raise_error
+
+    Location[location.id].should be(nil)
+  end
+
+  it "allows you you delete a location that has an owner" do
+    owner_repo = create(:unselected_repo, {:repo_code => "OWNER_REPO"})
+    owner_repo_uri = JSONModel(:repository).uri_for(owner_repo.id)
+
+    location = create(:json_location, {:owner_repo => {'ref' => owner_repo_uri}})
+
+    expect { Location[location.id].delete }.to_not raise_error
+
+    Location[location.id].should be(nil)
+  end
+
+
+  describe "functions" do
+
+    let (:arrival_function) { build(:json_location_function,
+                                    :location_function_type => 'arrivals') }
+
+    let (:shared_function) { build(:json_location_function,
+                                   :location_function_type => 'shared') }
+
+    it "can have a bunch of functions" do
+      opts = {:functions => [arrival_function, shared_function]}
+      location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
+
+      json = Location.to_jsonmodel(location.id)
+      json['functions'].length.should eq(2)
+    end
+
+
+    it "only remembers unique functions" do
+      opts = {:functions => [arrival_function, arrival_function, shared_function]}
+      location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
+
+      json = Location.to_jsonmodel(location.id)
+
+      json['functions'].length.should eq(2)
+    end
+
+  end
+
 end

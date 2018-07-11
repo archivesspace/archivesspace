@@ -7,6 +7,20 @@ class Location < Sequel::Model(:location)
 
   set_model_scope :global
 
+  define_relationship(:name => :location_profile,
+                      :json_property => 'location_profile',
+                      :contains_references_to_types => proc {[LocationProfile]},
+                      :is_array => false)
+
+  define_relationship(:name => :owner_repo,
+                      :json_property => 'owner_repo',
+                      :contains_references_to_types => proc {[Repository]},
+                      :is_array => false)
+
+  one_to_many :location_function
+  def_nested_record(:the_property => :functions,
+                    :contains_records_of_type => :location_function,
+                    :corresponding_to_association  => :location_function)
 
   def self.generate_title(json)
     title = ""
@@ -34,22 +48,46 @@ class Location < Sequel::Model(:location)
                 }
 
 
+
+  def self.uniqify_functions(json)
+    found_fns = []
+    json['functions'] = json['functions'].select do |fn|
+      if found_fns.include? fn['location_function_type']
+        false
+      else
+        found_fns << fn['location_function_type']
+        true
+      end
+    end
+  end
+
+
+  def self.create_from_json(json, opts = {})
+    self.uniqify_functions(json)
+    super
+  end
+
+
+  def update_from_json(json, opts = {}, apply_nested_records = true)
+    self.class.uniqify_functions(json)
+    super
+  end
+
+
   def self.create_for_batch(batch)
     locations = generate_locations_for_batch(batch)
     locations.map{|location| self.create_from_json(location)}
   end
   
   def self.batch_update(location)
-    updated_values = location.to_hash.select { |k| [ "building", "floor", "room", "area" ].include?(k) }
-
     location[:record_uris].map do |uri|
       id = JSONModel.parse_reference(uri)[:id]
       json = Location.to_jsonmodel(id)
-      updated_values.each do |key, val|
-        json[key.intern] = val if ( !val.nil? && val.length > 0 )
-      end
-      # a little bit funky, but we want to make sure all hooks run.  
-      Location.get_or_die(id).update_from_json(json)
+      json.update(location.to_hash)
+
+      cleaned = JSONModel(:location).from_hash(json.to_hash)
+
+      Location.get_or_die(id).update_from_json(cleaned)
     end
   end
 
@@ -102,14 +140,67 @@ class Location < Sequel::Model(:location)
 
 
   def delete
-    # only allow delete if the location doesn't have any relationships
+    # only allow delete if the location doesn't have any relationships that should be preserved
     object_graph = self.object_graph
 
-    if object_graph.models.any? {|model| model.is_relationship?}
+    # These relationships should not prevent deletion if the location is otherwise unlinked.
+    ignored_relationships = [Location.find_relationship(:location_profile),
+                             Location.find_relationship(:owner_repo)]
+
+    if object_graph.models.any? {|model| model.is_relationship? && !ignored_relationships.include?(model) }
       raise ConflictException.new("Location cannot be deleted if linked")
     end
 
     super
   end
 
+
+  def self.building_data
+    buildings = {}
+    all = self.where('building IS NOT NULL').order_by(:building, :floor, :room, :area)
+    all.each do |location|
+
+      if !buildings.has_key?(location.building)
+        buildings[location.building] = {}
+      end
+
+      floors = buildings[location.building]
+
+      if location.floor.nil?
+        next
+      elsif !buildings[location.building].has_key?(location.floor)
+        floors[location.floor] = {}
+      end
+
+      rooms = floors[location.floor]
+
+      if location.room.nil?
+        next
+      elsif !rooms.has_key?(location.room)
+        rooms[location.room] = []
+      end
+
+      areas = rooms[location.room]
+
+      if location.area.nil?
+        next
+      elsif !areas.include?(location.area)
+        areas.push(location.area)
+      end
+    end
+
+    buildings
+  end
+
+
+  def self.for_building(building, floor = nil, room = nil, area = nil)
+    query = {
+      :building => building
+    }
+    query[:floor] = floor if floor && floor != ''
+    query[:room] = room if room && room != ''
+    query[:area] = area if area && area != ''
+
+    self.filter(query).all
+  end
 end

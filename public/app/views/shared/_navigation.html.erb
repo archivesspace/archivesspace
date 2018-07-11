@@ -1,0 +1,28 @@
+<section id="navigation">
+  <nav class="navbar navbar-default" aria-label="top-level navigation">
+    <div class="container-fluid navbar-header top-bar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu"
+              aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsemenu">
+        <ul class="nav nav navbar-nav">
+          <%# TODO: add class="active" if we're on that page %>
+          <% $MAIN_MENU.each do |link| %>
+            <li><a href="<%= app_prefix(link[0]) %>"><%= t(link[1]) %></a></li>
+          <% end %>
+          <% unless AppConfig[:pui_hide][:search_tab] %>
+            <li><a href="<%=  app_prefix('/search?reset=true') %>" title="<%= I18n.t('search_tab', :target => t('archive._plural'))%>">
+                <span class="fa fa-search" aria-hidden="true"></span>
+                <span class="sr-only"><%= I18n.t('search_tab', :target => t('archive._plural')) %></span>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>

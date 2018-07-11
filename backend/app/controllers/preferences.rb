@@ -20,7 +20,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, "(defaults)"]) \
   do
-    json_response(Preference.defaults_for(params[:repo_id], params[:username]))
+    json_response(Preference.parsed_defaults_for( :repo_id => params[:repo_id], :user_id => params[:username] ))
   end
 
 

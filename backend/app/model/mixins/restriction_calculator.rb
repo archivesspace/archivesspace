@@ -87,7 +87,7 @@ module RestrictionCalculator
 
       {
         model => rec_ids,
-        model.root_model => model.filter(:id => rec_ids).select(:root_record_id).map(&:root_record_id).uniq
+        model.root_model => model.filter(:id => rec_ids).select(:root_record_id).distinct.map(&:root_record_id)
       }
     end
 

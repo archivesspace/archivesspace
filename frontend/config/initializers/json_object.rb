@@ -53,6 +53,9 @@ if not ENV['DISABLE_STARTUP']
                                :init => 0)
   MemoryLeak::Resources.define(:preferences_system_mtime, proc { Time.now.to_i }, nil,
                                :init => 0)
+  MemoryLeak::Resources.define(:job_types, proc {
+    Hash[JSONModel::HTTP.get_json('/job_types').sort {|x,y| I18n.t("job.types.#{x[0]}", :default => x[0]) <=> I18n.t("job.types.#{y[0]}", :default => y[0]) }]
+                               }, 60)
 
 
   JSONModel::Notification::add_notification_handler("REPOSITORY_CHANGED") do |msg, params|

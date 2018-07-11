@@ -116,6 +116,26 @@ class SearchResultData
       return ClassificationHelper.format_classification(ASUtils.json_parse(facet))
     end
 
+    if facet_group === "assessment_review_required"
+      return I18n.t("assessment._frontend.assessment_review_required.#{facet}_value")
+    end
+
+    if facet_group === "assessment_sensitive_material"
+      return I18n.t("assessment._frontend.assessment_sensitive_material.#{facet}_value")
+    end
+
+    if facet_group === "assessment_inactive"
+      return I18n.t("assessment._frontend.assessment_inactive.#{facet}_value")
+    end
+
+    if facet_group === "assessment_record_types"
+      return I18n.t("#{facet}._singular", :default => facet)
+    end
+
+    if facet_group === "assessment_completed"
+      return I18n.t("assessment._frontend.assessment_completed.#{facet}_value")
+    end
+
     facet
   end
 
@@ -237,7 +257,7 @@ class SearchResultData
   end
 
   def self.LOCATION_FACETS
-    ["temporary"]
+    ["temporary", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"]
   end
 
   def self.SUBJECT_FACETS
@@ -254,6 +274,10 @@ class SearchResultData
 
   def self.CLASSIFICATION_FACETS
     []
+  end
+
+  def self.ASSESSMENT_FACETS
+    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material']
   end
 
 

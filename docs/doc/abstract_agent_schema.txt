@@ -16,15 +16,19 @@ array (string)	linked_agent_roles
 
 array (JSONModel(:external_document) object)	external_documents
 
-array (JSONModel(:rights_statement) object)	rights_statements
-
 boolean	system_generated
 
-array ([{"type"=>"JSONModel(:note_bioghist) object"}])	notes
+array ([{"type"=>"JSONModel(:note_bioghist) object"}, {"type"=>"JSONModel(:note_agent_rights_statement) object"}])	notes
+
+array (JSONModel(:repository) uri)	used_within_repositories
+
+array (JSONModel(:repository) uri)	used_within_published_repositories
 
 array (JSONModel(:date) object)	dates_of_existence
 
 boolean	publish
+
+string	is_user
 
 
 

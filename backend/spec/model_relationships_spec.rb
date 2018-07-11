@@ -142,7 +142,6 @@ describe 'Relationships' do
 
     class Apple < Sequel::Model(:apple)
       include ASModel
-      include Relationships
       set_model_scope :global
       corresponds_to JSONModel(:apple)
       clear_relationships
@@ -153,7 +152,6 @@ describe 'Relationships' do
 
     class Banana < Sequel::Model(:banana)
       include ASModel
-      include Relationships
       set_model_scope :global
       corresponds_to JSONModel(:banana)
 
@@ -359,5 +357,77 @@ describe 'Relationships' do
 
     banana.my_relationships(:friends).first.suppressed.should eq(1)
   end
+  
+  it "will raise a exception if the optisitmic locking fails" do
+    # this is supposed to replicate when a relationship is attempted to be
+    # made, but the Sequel throws an optimisitcLocking error
+    allow(DB).to receive(:increase_lock_version_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))
+    apple = Apple.create_from_json(JSONModel(:apple).new(:name => "IIe"))
 
+    # by default we just try once and raise an error
+    attempt =0  
+    expect {
+      banana_json = JSONModel(:banana).new(:apples => [{
+                                                       :ref => apple.uri,
+                                                       :sauce => "white"
+                                                     }])
+      attempt += 1 
+      Banana.create_from_json(banana_json)
+    }.to raise_error(Sequel::NoExistingObject)
+    attempt.should eq(1)
+  
+  end 
+    
+  it "will retry on optimistic locking failue if told to do so" do  
+    # in some situations ( like EAD imports ), we want to retry
+    allow(DB).to receive(:increase_lock_version_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))
+    apple = Apple.create_from_json(JSONModel(:apple).new(:name => "Lisa"))
+    
+    # we can tell the db to retry ( it will do 10 times by default ) 
+    attempt =0  
+    expect {
+      DB.open(true, :retries => 6, :retry_on_optimistic_locking_fail => true, :retry_delay => 0 )  do
+        banana_json = JSONModel(:banana).new(:apples => [{
+                                                       :ref => apple.uri,
+                                                       :sauce => "black"
+                                                     }])
+        attempt += 1 
+        Banana.create_from_json(banana_json)
+      end
+    }.to raise_error(Sequel::NoExistingObject)
+    attempt.should eq(6)
+  end
+
+
+  it "updates the mtime of all related records, following nested records back to top-level records as required" do
+    # Ditching our fruit salad metaphor for the moment, since this actually
+    # happens in real life...
+
+    # We have a digital object
+    digital_object = create(:json_digital_object)
+
+    # and an archival object that links to it via instance
+    archival_object_json = create(:json_archival_object,
+                                  :instances => [
+                                    build(:json_instance_digital,
+                                          :digital_object => {
+                                            :ref => digital_object.uri
+                                          })
+                                  ])
+
+    archival_object = ArchivalObject[archival_object_json.id]
+
+    start_time = (archival_object[:system_mtime].to_f * 1000).to_i
+    sleep 0.1
+
+    # Touch the digital object
+    digital_object.refetch
+    digital_object.save
+
+    # We want to see the archival object's mtime updated, since that's the
+    # top-level record that should be reindexed.  The original bug: only the
+    # instance's system_mtime was updated.
+    archival_object.refresh
+    (archival_object.system_mtime.to_f * 1000).to_i.should_not eq(start_time)
+  end
 end

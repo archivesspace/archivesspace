@@ -2,6 +2,8 @@ JSON Schema: Classification_term
 /repositories/:repo_id/classification_terms
 Properties
 
+string	display_string
+
 integer	position
 
 object	parent

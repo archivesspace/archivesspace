@@ -1,6 +1,6 @@
 require 'jsonmodel'
-require 'factory_girl'
-require 'spec/lib/factory_girl_helpers'
+require 'factory_bot'
+require 'spec/lib/factory_bot_helpers'
 
 require_relative '../common/backend_client_mixin'
 
@@ -21,7 +21,7 @@ module SeleniumFactories
                     :url => AppConfig[:backend_url],
                     :priority => :high)
 
-    FactoryGirl.define do
+    FactoryBot.define do
 
       to_create{|instance|
         try_again = true
@@ -102,6 +102,7 @@ module SeleniumFactories
 
       factory :collection_management, class: JSONModel(:collection_management) do
         processing_total_extent "10"
+        processing_status "completed"
         processing_total_extent_type "cassettes"
         processing_hours_per_foot_estimate "80"
       end
@@ -136,10 +137,10 @@ module SeleniumFactories
         component_id { generate(:alphanumstr) }
         title { generate :digital_object_component_title }
       end
-      
+
       factory :instance_digital, class: JSONModel(:instance) do
         instance_type 'digital_object'
-        digital_object { { "ref" => create(:digital_object).uri } } 
+        digital_object { { "ref" => create(:digital_object).uri } }
       end
 
       factory :file_version, class: JSONModel(:file_version) do
@@ -232,7 +233,7 @@ module SeleniumFactories
         name { generate(:vocab_name) }
         ref_id { generate(:vocab_refid) }
       end
-      
+
       factory :classification, class: JSONModel(:classification) do
         identifier { generate(:alphanumstr) }
         title { generate(:classification_title) }
@@ -243,6 +244,23 @@ module SeleniumFactories
         identifier { generate(:alphanumstr) }
         title { generate(:classification_term_title) }
         description { generate(:alphanumstr) }
+      end
+
+      factory :container_profile, class: JSONModel(:container_profile) do
+        name { generate(:alphanumstr) }
+        extent_dimension "width"
+        dimension_units "inches"
+        width "10"
+        height "10"
+        depth "10"
+      end
+
+      factory :location_profile, class: JSONModel(:location_profile) do
+        name { generate(:alphanumstr) }
+        dimension_units "inches"
+        width "100"
+        height "20"
+        depth "20"
       end
     end
 

@@ -52,11 +52,6 @@ describe 'Classification models' do
                                              :parent => {'ref' => term.uri})
 
     classification.tree['children'][0]['children'][0]['title'].should eq(second_term.title)
-  
-    expect {
-      ClassificationTerm.resequence( classification.repo_id )
-    }.to_not raise_error
-  
   end
 
 
@@ -124,7 +119,7 @@ describe 'Classification models' do
                                           :identifier => "id#{i}")
     end
 
-    terms.last.update_position_only(nil, 0)
+    terms.last.set_parent_and_position(terms.last.parent_id, 0)
 
     titles = classification.tree['children'].map {|e| e['title']}
 
@@ -145,6 +140,22 @@ describe 'Classification models' do
     titles = ClassificationTerm.to_jsonmodel(term2)['path_from_root'].map {|e| e['title']}
 
     titles.should eq(["top-level classification", "same titles", "same titles"])
+  end
+
+
+  it "includes references to linked archival records" do
+    term = create_classification_term(classification)
+
+    resource = create(:json_resource,
+                      :classifications => [
+                                           {'ref' => classification.uri},
+                                           {'ref' => term.uri}
+                                           ])
+
+    JSONModel(:classification).find(classification.id).linked_records.map {|link| link['ref'] }.should include(resource.uri)
+
+    JSONModel(:classification_term).find(term.id).linked_records.map {|link| link['ref'] }.should include(resource.uri)
+
   end
 
 end

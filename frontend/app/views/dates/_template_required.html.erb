@@ -1,0 +1,150 @@
+<% define_template "date_type_single", jsonmodel_definition(:date) do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="single">
+    <% if form.required?("begin") %>
+      <%= form.label_and_readonly "begin" %>
+    <% else %>
+      <%= form.label_and_req_boolean "begin" %>
+    <% end %>
+  </div>
+<% end %>
+
+<% define_template "date_type_inclusive", jsonmodel_definition(:date) do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="inclusive">
+    <% field_names = ["begin", "end"] %>
+    <% field_names.each do |field_name| %>
+      <% if form.required?(field_name) %>
+        <%= form.label_and_readonly field_name %>
+      <% else %>
+        <%= form.label_and_req_boolean field_name %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<% define_template "date_type_range", jsonmodel_definition(:date) do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="range">
+    <% field_names = ["begin", "end"] %>
+    <% field_names.each do |field_name| %>
+      <% if form.required?(field_name) %>
+        <%= form.label_and_readonly field_name %>
+      <% else %>
+        <%= form.label_and_req_boolean field_name %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<% define_template "date_type_bulk", jsonmodel_definition(:date) do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="bulk">
+    <% field_names = ["begin", "end"] %>
+    <% field_names.each do |field_name| %>
+      <% if form.required?(field_name) %>
+        <%= form.label_and_readonly field_name %>
+      <% else %>
+        <%= form.label_and_req_boolean field_name %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<% define_template "date_type_nil", jsonmodel_definition(:date) do %>
+  <div class="inline-subform date-type-subform">
+    <div class="form-group">
+      <div class="control-label col-sm-2"></div>
+      <div class="controls col-sm-6"><em></em></div>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "existence_date", jsonmodel_definition(:date) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="date-container">
+      <% field_names = ["label", "expression"] %>
+      <% field_names.each do |field_name| %>
+        <% if form.required?(field_name) %>
+          <%= form.label_and_readonly field_name %>
+        <% else %>
+          <%= form.label_and_req_boolean field_name %>
+        <% end %>
+      <% end %>
+			<%= form.label_and_readonly "date_type" %>
+      <% form.emit_template("date_fields") %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "usage_date", jsonmodel_definition(:date) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="date-container">
+      <% field_names = ["label", "expression"] %>
+      <% field_names.each do |field_name| %>
+        <% if form.required?(field_name) %>
+          <%= form.label_and_readonly field_name %>
+        <% else %>
+          <%= form.label_and_req_boolean field_name %>
+        <% end %>
+      <% end %>
+			<%= form.label_and_readonly "date_type" %>
+      <% form.emit_template("date_fields") %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "archival_record_date", jsonmodel_definition(:date) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="date-container">
+      <% field_names = ["label", "expression"] %>
+      <% field_names.each do |field_name| %>
+        <% if form.required?(field_name) %>
+          <%= form.label_and_readonly field_name %>
+        <% else %>
+          <%= form.label_and_req_boolean field_name %>
+        <% end %>
+      <% end %>
+			<%= form.label_and_readonly "date_type" %>
+      <% form.emit_template("date_fields") %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "date", jsonmodel_definition(:date) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="date-container">
+      <% field_names = ["label", "expression"] %>
+      <% field_names.each do |field_name| %>
+        <% if form.required?(field_name) %>
+          <%= form.label_and_readonly field_name %>
+        <% else %>
+          <%= form.label_and_req_boolean field_name %>
+        <% end %>
+      <% end %>
+			<%= form.label_and_readonly "date_type" %>
+      <%form.emit_template("date_fields") %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "date_fields", jsonmodel_definition(:date) do |form| %>
+
+  <% if !form.obj["date_type"].blank? %>
+    <% form.emit_template("date_type_#{form.obj["date_type"]}", form.obj) %>
+  <% elsif form.default_for("date_type") %>
+    <% form.emit_template("date_type_#{form.default_for("date_type")}") %>
+  <% else %>
+    <% form.emit_template("date_type_nil") %>
+  <% end %>
+
+  <% field_names = ["certainty", "era", "calendar"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+  <% end %>
+<% end %>

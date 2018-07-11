@@ -1,8 +1,10 @@
 Running ArchivesSpace under a prefix
 ------------------------------------
 
+**Important Note: Prefixes do NOT work properly in versions between 2.0.1 and 2.2.2**
+
 This document describes a simple approach for those wishing to deviate from the recommended
-practive of running each user-facing ArchivesSpace application on its own subdomain, and instead
+practice of running each user-facing ArchivesSpace application on its own subdomain, and instead
 serve each application under a prefix, e.g.
 
     http://aspace.myarchive.org/staff
@@ -11,9 +13,9 @@ serve each application under a prefix, e.g.
 This configuration described in this document is one possible approach,
 and to keep things simple the following are assumed:
 
-  * ArchivesSpace is running on a single Linux server
+  *ArchivesSpace is running on a single Linux server
 
-  * The server is running the Apache 2.2+ webserver
+  *The server is running the Apache 2.2+ webserver
 
 Unless otherwise stated, it is assumed that you have root access on
 your machines, and all commands are to be run as root (or with sudo).
@@ -23,9 +25,9 @@ your machines, and all commands are to be run as root (or with sudo).
 
 The following edits can be made in the httpd.conf file itself, or in an included file:
 
-    ProxyPass /staff http://localhost:8080/
+    ProxyPass /staff http://localhost:8080/staff
     ProxyPassReverse /staff http://localhost:8080/
-    ProxyPass /public http://localhost:8081/
+    ProxyPass /public http://localhost:8081/public
     ProxyPassReverse /public http://localhost:8081/
 
 Now restart Apache.

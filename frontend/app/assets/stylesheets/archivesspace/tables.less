@@ -3,24 +3,27 @@ table {
   thead {
     #gradient > .vertical(@navbarBackgroundHighlight, @navbarBackground);
     th {
-      white-space: nowrap;
-
       &.highlighted {
         #gradient > .vertical(#f0f7fa, #dcf1fa);
       }
 
       &.required {
-        background-image: asset-url('archivesspace/required_loud.png');
-        background-repeat: no-repeat;
-        background-position: 2px center;
-        padding-left: 16px;
+        &:before {
+          content: '';
+          background-image: asset-url('archivesspace/required_loud.png');
+          background-repeat: no-repeat;
+          background-position: 2px center;
+          padding-right: 16px;
+        }
       }
 
       &.conditionally-required {
-        background-image: asset-url('archivesspace/conditionally_required.png');
-        background-repeat: no-repeat;
-        background-position: 2px center;
-        padding-left: 16px;
+        &:before {
+          font-family: 'Glyphicons Halflings';
+          content: '\002a';
+          color: #aaa;
+          font-size: 0.8em;
+        }
       }
     }
     .col {
@@ -56,6 +59,8 @@ table {
       background-color: @errorBackground !important;
       color: @errorText;
     }
+    /* allow break of words to ensure table doesn't expand beyond layout */
+    word-break: break-word;
   }
   .table-record-actions {
     .btn-group {
@@ -121,6 +126,40 @@ table.table-sortable {
       }
     }
   }
+
+  &.table-sortable{
+    th.header {
+      cursor: pointer;
+
+      &.headerSortUp,
+      &.headerSortDown {
+        padding-right: 20px;
+        position: relative;
+        background-color: #e8f5fa;
+        background-image: -moz-linear-gradient(top, #f0f7fa, #dcf1fa);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f0f7fa), to(#dcf1fa));
+        background-image: -webkit-linear-gradient(top, #f0f7fa, #dcf1fa);
+        background-image: -o-linear-gradient(top, #f0f7fa, #dcf1fa);
+        background-image: linear-gradient(to bottom, #f0f7fa, #dcf1fa);
+      }
+      &.headerSortUp:after,
+      &.headerSortDown:after {
+        content: "";
+        position: absolute;
+        right: 5px;
+        top: 1em;
+        border-width: 0 4px 4px;
+        border-style: solid;
+        border-color: #000 transparent;
+      }
+      &.headerSortUp:after {
+        border-bottom: none !important;
+        border-left: 4px solid transparent !important;
+        border-right: 4px solid transparent !important;
+        border-top: 4px solid #000 !important;
+      }
+    }
+  }
 }
 .table-audit-cell {
   width: 100px;
@@ -135,4 +174,8 @@ table.table-spreadsheet {
     padding-left: 2%;
     padding-right: 2%;
   }
+}
+
+.table > thead > tr > th {
+    vertical-align: top;
 }

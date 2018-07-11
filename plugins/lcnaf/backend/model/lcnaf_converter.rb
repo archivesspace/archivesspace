@@ -22,10 +22,6 @@ class LCNAFConverter < MarcXMLConverter
     end
   end
 
-
-  def self.profile
-    "Import all subjects and agents from a MARC XML file, setting source to LCNAF"
-  end
 end
 
 

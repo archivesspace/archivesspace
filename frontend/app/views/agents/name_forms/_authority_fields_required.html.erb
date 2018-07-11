@@ -1,0 +1,13 @@
+<%= form.hidden_input "is_display_name", form["is_display_name"] ? 1 : 0 %>
+<div class="name-authority-fields">
+  <% field_names = ["authority_id", "source", "rules"] %>
+  <% field_names.each do |field_name| %>
+      <% if form.required?(field_name) %>
+        <%= form.label_and_readonly field_name %>
+      <% else %>
+        <%= form.label_and_req_boolean field_name %>
+      <% end %>
+    <% end %>
+  <%= form.hidden_input "authorized", form["authorized"] ? 1 : 0 %>
+  <hr/>
+</div>

@@ -4,9 +4,9 @@ class UsersController < ApplicationController
                       "manage_repository" => [:manage_access, :edit_groups, :update_groups, :complete],
                       :public => [:new, :create]
 
-  before_filter :account_self_service, :only => [:new, :create]
-  before_filter :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
-  before_filter :user_needs_to_be_a_user, :only => [:show]
+  before_action :account_self_service, :only => [:new, :create]
+  before_action :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
+  before_action :user_needs_to_be_a_user, :only => [:show]
 
 
   def index
@@ -48,11 +48,23 @@ class UsersController < ApplicationController
 
   def edit
     @user = JSONModel(:user).find(params[:id])
+
+    if @user.is_system_user and not user_is_global_admin?
+      flash[:error] = I18n.t("user._frontend.messages.access_denied", JSONModelI18nWrapper.new(:user => @user))
+      redirect_to(:controller => :users, :action => :index) and return
+    end
+
     render action: "edit"
   end
 
   def edit_groups
     @user = JSONModel(:user).from_hash(JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/users/#{params[:id]}"))
+
+    if @user.is_system_user or @user.is_admin
+      flash[:error] = I18n.t("user._frontend.messages.group_not_required", JSONModelI18nWrapper.new(:user => @user))
+      redirect_to(:controller => :users, :action => :manage_access) and return
+    end
+
     @groups = JSONModel(:group).all
     render action: "edit_groups"
   end
@@ -90,24 +102,23 @@ class UsersController < ApplicationController
 
     groups = Array(params[:groups])
 
-    handle_crud(:instance => :user,
-                :obj => JSONModel(:user).from_hash(JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/users/#{params[:id]}")),
-                :save_opts => {
-                  "groups[]" => groups,
-                  :remove_groups => groups.empty?,
-                  :repo_id => session[:repo_id]
-                },
-                :replace => false,
-                :on_invalid => ->(){
-                  flash[:error] = I18n.t("user._frontend.messages.error_update")
-                  @groups = JSONModel(:group).all if user_can?('manage_users')
+    uri = "/users/#{params[:id]}/groups"
+    response = JSONModel::HTTP.post_form(URI(uri),
+                                         'groups[]' => groups,
+                                         :remove_groups => groups.empty?,
+                                         :repo_id => session[:repo_id]
+                                         )
 
-                  render :action => :edit_groups
-                },
-                :on_valid => ->(id){
-                  flash[:success] = I18n.t("user._frontend.messages.updated")
-                  redirect_to :action => :manage_access
-                })
+    if response.code === '200'
+      flash[:success] = I18n.t("user._frontend.messages.updated")
+      redirect_to :action => :manage_access
+    else
+      flash[:error] = I18n.t("user._frontend.messages.error_update")
+      @groups = JSONModel(:group).all if user_can?('manage_repository')
+
+      render :action => :edit_groups
+    end
+
   end
 
 

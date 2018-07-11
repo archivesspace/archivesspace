@@ -1,0 +1,13 @@
+<ul class="classifications_list">
+  <% classifications.each do |c| %>
+    <li>
+      <ul class="breadcrumb">
+      <% c.fetch('breadcrumb').each do |crumb, i| %>
+        <% crumb_uri = crumb.fetch(:uri)
+           crumb_uri = c.fetch('uri') if crumb_uri.blank? %>
+        <li><%= link_to crumb.fetch(:crumb), app_prefix(crumb_uri) %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>

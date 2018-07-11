@@ -4,24 +4,23 @@ module AspaceFormHelper
 
   COMBOBOX_MIN_LIMIT = 50 # if a <select> has equal or more options than this value, output a combobox
 
+  class FormHelpers
+    include ActionView::Helpers::TagHelper
+    include ActionView::Helpers::TextHelper
+    include ActionView::Helpers::FormTagHelper
+    include ActionView::Helpers::FormOptionsHelper
+  end
+
   class FormContext
 
     def initialize(name, values_from, parent)
 
       values = values_from.is_a?(JSONModelType) ? values_from.to_hash(:raw) : values_from
 
-      @forms = Object.new
+      @forms = FormHelpers.new
       @parent = parent
       @context = [[name, values]]
       @path_to_i18n_map = {}
-
-      class << @forms
-        include ActionView::Helpers::TagHelper
-        include ActionView::Helpers::TextHelper
-        include ActionView::Helpers::FormTagHelper
-        include ActionView::Helpers::FormOptionsHelper
-      end
-
     end
 
 
@@ -237,7 +236,7 @@ module AspaceFormHelper
       options = ([""] + options) if opts[:nodefault]
       opts[:field_opts] ||= {}
 
-      opts[:col_size] = 4
+      opts[:col_size] = 9
       widget = options.length < COMBOBOX_MIN_LIMIT ? select(name, options, opts[:field_opts] || {}) : combobox(name, options, opts[:field_opts] || {})
       label_with_field(name, widget, opts)
     end
@@ -254,6 +253,11 @@ module AspaceFormHelper
       label_with_field(name, checkbox(name, opts, default, force_checked), opts)
     end
 
+    def label_and_req_boolean(name, opts = {}, default = false, force_checked = false)
+      opts[:col_size] = 1
+      opts[:controls_class] = "req_checkbox"
+      label_with_field(name, req_checkbox(name, opts, default, force_checked), opts)
+    end
 
     def label_and_readonly(name, default = "", opts = {})
       value = obj[name]
@@ -279,12 +283,14 @@ module AspaceFormHelper
       else
         opts[:class] = "form-control"
       end
-
-      @forms.select_tag(path(name), @forms.options_for_select(options, obj[name] || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
+      selection = obj[name]
+      selection = selection[0...-4] if selection.is_a? String and selection.end_with?("_REQ")
+      @forms.select_tag(path(name), @forms.options_for_select(options, selection || default_for(name) || opts[:default]), {:id => id_for(name)}.merge!(opts))
     end
 
-
     def textarea(name = nil, value = "", opts =  {})
+      value = value[0...-4] if value.is_a? String and value.end_with?("_REQ")
+      value = nil if value === "REQ"
       options = {:id => id_for(name), :rows => 3}
 
       placeholder = I18n.t("#{i18n_for(name)}_placeholder", :default => '')
@@ -297,6 +303,9 @@ module AspaceFormHelper
 
     def textfield(name = nil, value = nil, opts =  {})
       value ||= obj[name] if !name.nil?
+
+      value = value[0...-4] if value.is_a? String and value.end_with?("_REQ")
+      value = nil if value === "REQ"
 
       options = {:id => id_for(name), :type => "text", :value => h(value), :name => path(name)}
 
@@ -369,8 +378,8 @@ module AspaceFormHelper
 
 
     def label(name, opts = {}, classes = [])
-      prefix = '' 
-      prefix << "#{opts[:contextual]}." if opts[:contextual] 
+      prefix = ''
+      prefix << "#{opts[:contextual]}." if opts[:contextual]
       prefix << 'plugins.' if opts[:plugin]
 
       classes << 'control-label'
@@ -393,7 +402,71 @@ module AspaceFormHelper
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => 1}
-      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name] === "true") or (obj[name].nil? and default)
+      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "1") or (obj[name].nil? and default)
+
+      @forms.tag("input", options.merge(opts), false, false)
+    end
+
+    # takes a JSON representation of the current options selected and the list of archival_record_level enums
+    # returns HTML for a set of checkboxes representing current selected and deselected sets for OAI export
+    def checkboxes_for_oai_sets(set_json, value_list)
+      # when called by #new, set_json will be nil.
+      if set_json
+        set_arry = JSON::parse(set_json)
+      else 
+        set_arry = []
+      end
+
+      html = "" 
+
+      html << "<div class='row'>"
+        html << "<div class='col-sm-2'>"
+          html << "<label class='control-label'>#{I18n.t("repository_oai.oai_sets_available")}</label>"
+        html << "</div>"
+        html << "<div class='col-sm-8'>&nbsp;"
+          html << "<ul class='list_group'>"
+            value_list['enumeration_values'].each do |v|
+              # if we have an empty list of checkboxes, assume all sets are enabled.
+              # otherwise, a checkbox is on if it's the in the list we get from the backend.
+              checked = set_arry.include?(v['id'].to_s) || set_arry.length == 0
+
+              html << "<li class='list-group-item'>"
+                html << "<div class='checkbox'>"
+                  html << "<label>"
+                    html << "<input id=\"#{v['id']}\" name=\"sets[#{v['id']}]\" type=\"checkbox\" "
+                    if checked
+                      html << "checked=\"checked\" "
+                    end
+  
+                    if readonly?
+                      html << "disabled />"
+                    else
+                      html << "/>"
+                    end # of checkbox tag
+  
+                    html << "#{v['value']}"
+                  html << "</label>"
+                html << "</div>"
+              html << "</li>"
+            end
+          html << "</ul>"
+        html << "</div>" #col-sm-8
+      html << "</div>" #row
+
+      return html.html_safe
+    end
+
+    def req_checkbox(name, opts = {}, default = true, force_checked = false)
+      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "REQ"}
+      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "REQ") or (obj[name].nil? and default)
+
+      @forms.tag("input", options.merge(opts), false, false)
+    end
+
+
+    def radio(name, value, opts = {})
+      options = {:id => "#{id_for(name)}", :type => "radio", :name => path(name), :value => value}
+      options[:checked] = "checked" if obj[name] == value
 
       @forms.tag("input", options.merge(opts), false, false)
     end
@@ -445,7 +518,7 @@ module AspaceFormHelper
       controls_classes = %w(form-group), [], []
 
       unless opts[:layout] && opts[:layout] == 'stacked'
-        label_classes << 'col-sm-2'
+        label_classes << "col-sm-#{opts[:label_opts].fetch(:col_size, 2)}"
         controls_classes << "col-sm-#{opts[:col_size]}"
       end
       # There must be a better way to say this...
@@ -457,6 +530,7 @@ module AspaceFormHelper
       end
 
       control_group_classes << "required" if required == true
+      control_group_classes << "required" if obj[name].is_a? String and obj[name].end_with?("REQ")
       control_group_classes << "conditionally-required" if required == :conditionally
 
       control_group_classes << "#{opts[:control_class]}" if opts.has_key? :control_class
@@ -507,14 +581,15 @@ module AspaceFormHelper
       opts[:escape] = true unless opts[:escape] == false
       opts[:base_url] ||= "/"
       value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
-      Rails.logger.debug(value)
       value =  @parent.preserve_newlines(value) if opts[:clean] == true
       value = CGI::escapeHTML(value) if opts[:escape]
       value.html_safe
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
-      ((obj[name] === true) || obj[name] === "true") ? "True" : "False"
+      true_i18n = I18n.t("#{i18n_for(name)}_true", :default => I18n.t('boolean.true'))
+      false_i18n = I18n.t("#{i18n_for(name)}_false", :default => I18n.t('boolean.false'))
+      ((obj[name] === true) || obj[name] === "true") ? true_i18n : false_i18n
     end
 
     def label_with_field(name, field_html, opts = {})
@@ -595,8 +670,8 @@ module AspaceFormHelper
 
 
     def required?(name)
-      (jsonmodel_schema_definition(name) &&
-       jsonmodel_schema_definition(name)['ifmissing'] === 'error')
+      ((jsonmodel_schema_definition(name) &&
+       jsonmodel_schema_definition(name)['ifmissing'] === 'error'))
     end
 
 
@@ -716,6 +791,8 @@ module AspaceFormHelper
 
 
   def templates_for_js(jsonmodel_type = nil)
+    @delivering_js_templates = true
+
     result = ""
 
     return result if @templates.blank?
@@ -723,22 +800,51 @@ module AspaceFormHelper
     obj = {}
     obj['jsonmodel_type'] = jsonmodel_type if jsonmodel_type
 
-    @templates.each do |name, template|
-      context = FormContext.new("${path}", obj, self)
+    templates_to_process = @templates.clone
+    templates_processed = []
 
-      def context.id_for(name, qualify = true)
-        name = path(name) if qualify
+    # As processing a template may register further templates that hadn't been
+    # registered previously, keep looping until we have no more templates to
+    # process.
+    #
+    # Because infinite loops are terrifying and a pain to debug, let us reign
+    # in the fear with a 100-loop-count-get-out-of-here-alive limit.
+    i = 0
+    while(true)
+      templates_to_process.each do |name, template|
+        context = FormContext.new("${path}", obj, self)
 
-        name.gsub(/[\[\]]/, '_').gsub('${path}', '${id_path}')
+        def context.id_for(name, qualify = true)
+          name = path(name) if qualify
+
+          name.gsub(/[\[\]]/, '_').gsub('${path}', '${id_path}')
+        end
+
+        context.instance_eval do
+          @active_template = name
+        end
+
+        result << "<div id=\"template_#{name}\"><!--"
+        result << capture(context, &template[:block])
+        result << "--></div>"
+
+        templates_processed << name
       end
 
-      context.instance_eval do
-        @active_template = name
+      if templates_processed.length < @templates.length
+        # some new templates were defined while outputing the js templates
+        templates_to_process = @templates.reject{|name, _| templates_processed.include?(name)}
+      else
+        # we've got them all
+        break
       end
 
-      result << "<div id=\"template_#{name}\"><!--"
-      result << capture(context, &template[:block])
-      result << "--></div>"
+      i += 1
+
+      if i > 100
+        Rails.logger.error("templates_for_js has looped out more that 100 times")
+        break
+      end
     end
 
     result.html_safe

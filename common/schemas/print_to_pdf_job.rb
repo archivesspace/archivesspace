@@ -9,8 +9,10 @@
       "source" => { 
         "type" => "string",
         "ifmissing" => "error"
-      } 
-    
+      },
+
+      "include_unpublished" => { "type" => "boolean" }
+
     }
   }
 }

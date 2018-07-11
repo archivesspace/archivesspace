@@ -2,8 +2,10 @@
    if !defined?(anchor)
      anchor = (property == :none) ? subrecord_type : "#{record_type}_#{property}_"
    end
-   title = I18n.t("#{record_type}._frontend.section.#{subrecord_type}",
-                  :default => I18n.t("#{subrecord_type}._plural"))
+   if !defined?(title)
+      title = I18n.t("#{record_type}._frontend.section.#{subrecord_type}",
+                     :default => I18n.t("#{subrecord_type}._plural"))
+   end
 %>
 
 <li class="sidebar-entry-<%= anchor %>"><a href="#<%= anchor %>"><%= title %> <span class="glyphicon glyphicon-chevron-right"></span></a></li>

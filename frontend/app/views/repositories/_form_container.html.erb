@@ -5,16 +5,24 @@
     <section id="all_fields">
       <%= form.label_and_textfield "repo_code", :field_opts => {:size => 10} %>
       <%= form.label_and_textarea "name" %>
+      <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <hr/>
       <%= form.label_and_textfield "org_code", :field_opts => {:size => 10} %>
       <%= form.label_and_textfield "parent_institution_name" %>
       <%= form.label_and_select "country",  form.possible_options_for("country", true) %>
       <hr/>
+      <%= form.label_and_textarea "description" %>
       <%= form.label_and_textfield "url" %>
       <%= form.label_and_textfield "image_url" %>
     </section>
   <% end %>
-  
+
+  <% define_template("repository_oai", jsonmodel_definition(:repository)) do |form| %>
+    <section id="oai_fields">
+      <%= form.label_and_boolean "oai_is_disabled", {} %>
+      <%= form.checkboxes_for_oai_sets(@repository['repository']['oai_sets_available'], @enum) %>
+    </section>
+  <% end %>
 
   <% define_template("agent_contact", jsonmodel_definition(:agent_contact)) do |item| %>
     <section id="agent_contact">
@@ -38,12 +46,15 @@
     <% form.emit_template("repository") %>
   <% end %>
 
+  <h3><%= I18n.t("repository._frontend.section.oai_fields") %></h3>
+  <% form.push("repository_oai", form['repository']) do |form| %>
+    <% form.emit_template("repository_oai") %>
+  <% end %>
+
   <h3><%= I18n.t("agent_contact._plural") %></h3>
   <% form.push("agent_representation", form['agent_representation'] || {}) do |form| %>
     <%= form.list_for(form['agent_contacts'], "agent_contacts[]") do |item| %>
       <% form.emit_template("agent_contact", item) %>
     <% end %>
   <% end %>
-
-
 </fieldset>

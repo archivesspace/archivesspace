@@ -1,40 +1,61 @@
-ArchivesSpacePublic::Application.configure do
-  # Settings specified here will take precedence over those in config/application.rb
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
-  config.cache_classes = (ENV['ASPACE_INTEGRATION'] == "true")
+  config.cache_classes = false
 
-  # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
+  # Do not eager load code on boot.
+  config.eager_load = true
 
-  # Show full error reports and disable caching
-  config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+  # Show full error reports.
+  config.consider_all_requests_local = true
 
-  # Don't care if the mailer can't send
-  #config.action_mailer.raise_delivery_errors = false
+  # Enable/disable caching. By default caching is disabled.
+  if Rails.root.join('tmp/caching-dev.txt').exist?
+    config.action_controller.perform_caching = true
 
-  # Print deprecation notices to the Rails logger
-  config.active_support.deprecation = :log
+    config.cache_store = :memory_store
+    config.public_file_server.headers = {
+      'Cache-Control' => 'public, max-age=172800'
+    }
+  else
+    config.action_controller.perform_caching = false
 
-  # Only use best-standards-support built into browsers
-  config.action_dispatch.best_standards_support = :builtin
-
-  # config.threadsafe!
-
-  # DEVELOPMENT ONLY - Allow overriding of the static resources via the local folder(s)
-  # N.B. that is supported by the launcher.rb when in production
-  if not ASUtils.find_local_directories.blank?
-    ASUtils.find_local_directories.map{|local_dir| File.join(local_dir, 'public', 'assets')}.reject { |dir| !Dir.exists?(dir) }.each do |static_directory|
-      config.assets.paths.unshift(static_directory)
-    end
+    config.cache_store = :null_store
   end
 
-  # Do not compress assets
-  config.assets.compress = false
+  config.public_file_server.enabled = true
 
-  # Expands the lines which load the assets
+  # Don't care if the mailer can't send.
+  # DISABLED BY MST # config.action_mailer.raise_delivery_errors = false
+
+  # DISABLED BY MST # config.action_mailer.perform_caching = false
+
+  # Print deprecation notices to the Rails logger.
+  config.active_support.deprecation = :log
+
+  # Raise an error on page load if there are pending migrations.
+  # DISABLED BY MST # config.active_record.migration_error = :page_load
+
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
   config.assets.debug = true
+
+  # Suppress logger output for asset requests.
+  config.assets.quiet = true
+
+  # If we're running with a prefix, write our on-the-fly compiled assets to the
+  # right spot.  NOTE: Don't enable this for production, as it's handled
+  # differently there due to precompilation.
+  config.assets.prefix = AppConfig[:public_proxy_prefix] + "assets"
+
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
+
+  # Use an evented file watcher to asynchronously detect changes in source code,
+  # routes, locales, etc. This feature depends on the listen gem.
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end

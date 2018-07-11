@@ -4,6 +4,6 @@
     <%= form.label_and_date "start_date",  :default =>  Time.now.strftime("%Y-%m-%d")  %>
     <%= form.label_and_date "end_date" %>
     <%= form.label_and_textarea "note" %>
-    <%= render_aspace_partial :partial => "locations/linker", :locals => { :form => form }%>
+    <%= render_aspace_partial :partial => "locations/linker", :locals => { :form => form, :enable_space_calculator => true }%>
   </div>
 <% end %>

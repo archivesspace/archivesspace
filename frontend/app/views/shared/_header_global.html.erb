@@ -1,6 +1,6 @@
-<div class="container global-header">
+<div class="container-fluid global-header">
   <nav class="navbar">
-    <div class="container">
+    <div class="container-fluid">
 
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".nav-global-collapse">
@@ -15,8 +15,8 @@
           <%= I18n.t("navbar.login") %>
         </button>
       <% end %>
-      <div class="navbar-collapse nav-global-collapse collapse navbar-right navbar-default">
-        <ul class="nav pull-right navbar-nav">
+      <div class="navbar-collapse nav-global-collapse <%= session[:user] ? '' : 'collapse' %> navbar-right navbar-default">
+        <ul class="nav pull-right navbar-nav navbar-login">
           <%= render "shared/header_user" %>
           <% if ArchivesSpaceHelp.enabled? %>
             <li><%= link_to_help :link_opts => {"data-placement" => (session[:user] ? "left" : "bottom")} %></li>

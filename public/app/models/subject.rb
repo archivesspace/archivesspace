@@ -1,0 +1,2 @@
+class Subject < Record
+end

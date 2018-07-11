@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   Class: Subject
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "Subject";
   relpath = '';
-  framesUrl = "frames.html#!Subject.html";
 </script>
 
 
@@ -28,56 +27,48 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index (S)</a> &raquo;
     
     
     <span class="title">Subject</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
-
-    <div id="content"><h1>Class: Subject
+      <div id="content"><h1>Class: Subject
   
   
   
 </h1>
-
-<dl class="box">
+<div class="box_info">
   
-    <dt class="r1">Inherits:</dt>
-    <dd class="r1">
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
       <span class="inheritName">Sequel::Model</span>
       
         <ul class="fullTree">
@@ -90,42 +81,48 @@
         </ul>
         <a href="#" class="inheritanceTree">show all</a>
       
-      </dd>
-    
+    </dd>
+  </dl>
   
-  
-    
-  
-    
-      <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span>, <span class='object_link'><a href="ImpliedPublication.html" title="ImpliedPublication (module)">ImpliedPublication</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span>, <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></dd>
-      
-    
+
   
   
   
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">backend/app/model/subject.rb</dd>
   
-</dl>
-<div class="clear"></div>
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span>, <span class='object_link'><a href="ExternalDocuments.html" title="ExternalDocuments (module)">ExternalDocuments</a></span>, <span class='object_link'><a href="ExternalIDs.html" title="ExternalIDs (module)">ExternalIDs</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/model/subject.rb</dd>
+  </dl>
+  
+</div>
 
 
 
 
-
-
-
-  <h2>Instance Attribute Summary</h2>
+  <h2>Constant Summary</h2>
   
-  <h3 class="inherited">Attributes included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#cached_relationships-instance_method" title="Relationships#cached_relationships (method)">#cached_relationships</a></span></p>
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#REFERENCE_KEY_REGEX-constant" title="JSONModel::REFERENCE_KEY_REGEX (constant)">JSONModel::REFERENCE_KEY_REGEX</a></span></p>
+
+
+
 
 
   
     <h2>
       Class Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -133,7 +130,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#create_from_json-class_method" title="create_from_json (class method)">+ (Object) <strong>create_from_json</strong>(json, opts = {}) </a>
+      <a href="#create_from_json-class_method" title="create_from_json (class method)">.<strong>create_from_json</strong>(json, opts = {})  &#x21d2; Object </a>
     
 
     
@@ -156,7 +153,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ensure_exists-class_method" title="ensure_exists (class method)">+ (Object) <strong>ensure_exists</strong>(json, referrer) </a>
+      <a href="#ensure_exists-class_method" title="ensure_exists (class method)">.<strong>ensure_exists</strong>(json, referrer)  &#x21d2; Object </a>
     
 
     
@@ -179,7 +176,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#find_matching-class_method" title="find_matching (class method)">+ (Object) <strong>find_matching</strong>(json) </a>
+      <a href="#find_matching-class_method" title="find_matching (class method)">.<strong>find_matching</strong>(json)  &#x21d2; Object </a>
     
 
     
@@ -202,7 +199,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#generate_terms_sha1-class_method" title="generate_terms_sha1 (class method)">+ (Object) <strong>generate_terms_sha1</strong>(json) </a>
+      <a href="#generate_terms_sha1-class_method" title="generate_terms_sha1 (class method)">.<strong>generate_terms_sha1</strong>(json)  &#x21d2; Object </a>
     
 
     
@@ -225,7 +222,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#handle_delete-class_method" title="handle_delete (class method)">+ (Object) <strong>handle_delete</strong>(ids_to_delete) </a>
+      <a href="#handle_delete-class_method" title="handle_delete (class method)">.<strong>handle_delete</strong>(ids_to_delete)  &#x21d2; Object </a>
     
 
     
@@ -248,7 +245,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#sequel_to_jsonmodel-class_method" title="sequel_to_jsonmodel (class method)">+ (Object) <strong>sequel_to_jsonmodel</strong>(objs, opts = {}) </a>
+      <a href="#sequel_to_jsonmodel-class_method" title="sequel_to_jsonmodel (class method)">.<strong>sequel_to_jsonmodel</strong>(objs, opts = {})  &#x21d2; Object </a>
     
 
     
@@ -271,7 +268,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_vocabulary-class_method" title="set_vocabulary (class method)">+ (Object) <strong>set_vocabulary</strong>(json, opts) </a>
+      <a href="#set_vocabulary-class_method" title="set_vocabulary (class method)">.<strong>set_vocabulary</strong>(json, opts)  &#x21d2; Object </a>
     
 
     
@@ -295,7 +292,7 @@
   
     <h2>
       Instance Method Summary
-      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+      <small><a href="#" class="summary_toggle">collapse</a></small>
     </h2>
 
     <ul class="summary">
@@ -303,7 +300,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">- (Object) <strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true) </a>
+      <a href="#update_from_json-instance_method" title="#update_from_json (instance method)">#<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; Object </a>
     
 
     
@@ -326,7 +323,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#validate-instance_method" title="#validate (instance method)">- (Object) <strong>validate</strong> </a>
+      <a href="#validate-instance_method" title="#validate (instance method)">#<strong>validate</strong>  &#x21d2; Object </a>
     
 
     
@@ -360,28 +357,6 @@
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Publishable.html#db_value_for-class_method" title="Publishable.db_value_for (method)">db_value_for</a></span>, <span class='object_link'><a href="Publishable.html#included-class_method" title="Publishable.included (method)">included</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="ImpliedPublication.html" title="ImpliedPublication (module)">ImpliedPublication</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ImpliedPublication.html#included-class_method" title="ImpliedPublication.included (method)">included</a></span>, <span class='object_link'><a href="ImpliedPublication.html#is_published_by_implication%3F-instance_method" title="ImpliedPublication#is_published_by_implication? (method)">#is_published_by_implication?</a></span>, <span class='object_link'><a href="ImpliedPublication.html#relevant_relationships-class_method" title="ImpliedPublication.relevant_relationships (method)">relevant_relationships</a></span></p>
-
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Relationships.html#assimilate-instance_method" title="Relationships#assimilate (method)">#assimilate</a></span>, <span class='object_link'><a href="Relationships.html#cache_relationships-instance_method" title="Relationships#cache_relationships (method)">#cache_relationships</a></span>, <span class='object_link'><a href="Relationships.html#included-class_method" title="Relationships.included (method)">included</a></span>, <span class='object_link'><a href="Relationships.html#my_relationships-instance_method" title="Relationships#my_relationships (method)">#my_relationships</a></span>, <span class='object_link'><a href="Relationships.html#related_records-instance_method" title="Relationships#related_records (method)">#related_records</a></span>, <span class='object_link'><a href="Relationships.html#transfer_to_repository-instance_method" title="Relationships#transfer_to_repository (method)">#transfer_to_repository</a></span>, <span class='object_link'><a href="Relationships.html#trigger_reindex_of_dependants-instance_method" title="Relationships#trigger_reindex_of_dependants (method)">#trigger_reindex_of_dependants</a></span></p>
 
   
   
@@ -436,7 +411,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#check_valid_refs-class_method" title="JSONModel.check_valid_refs (method)">check_valid_refs</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_publish_flags!-class_method" title="JSONModel.set_publish_flags! (method)">set_publish_flags!</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#validate_schema-class_method" title="JSONModel.validate_schema (method)">validate_schema</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
 
   
 
@@ -447,7 +422,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="create_from_json-class_method">
   
-    + (<tt>Object</tt>) <strong>create_from_json</strong>(json, opts = {}) 
+    .<strong>create_from_json</strong>(json, opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -459,13 +434,13 @@
       <pre class="lines">
 
 
-63
-64
-65
-66</pre>
+60
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_set_vocabulary identifier id'>set_vocabulary</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -480,7 +455,7 @@
       <div class="method_details ">
   <h3 class="signature " id="ensure_exists-class_method">
   
-    + (<tt>Object</tt>) <strong>ensure_exists</strong>(json, referrer) 
+    .<strong>ensure_exists</strong>(json, referrer)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -492,6 +467,9 @@
       <pre class="lines">
 
 
+66
+67
+68
 69
 70
 71
@@ -506,13 +484,10 @@
 80
 81
 82
-83
-84
-85
-86</pre>
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 66</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ensure_exists identifier id'>ensure_exists</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_referrer identifier id'>referrer</span><span class='rparen token'>)</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_attempt identifier id'>attempt</span> <span class='lbrace token'>{</span>
@@ -521,10 +496,10 @@
     <span class='rubyid_subject identifier id'>subject</span> <span class='assign token'>=</span> <span class='rubyid_find_matching identifier id'>find_matching</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_subject identifier id'>subject</span>
-      <span class='comment val'># The subject exists but we can't find it.  This could mean it was</span>
+      <span class='comment val'># The subject exists but we can&#39;t find it.  This could mean it was</span>
       <span class='comment val'># created in a currently running transaction.  Abort this one to trigger</span>
       <span class='comment val'># a retry.</span>
-      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Subject '#{json.terms}' seems to have been created by a currently running transaction.  Restarting this one.&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Subject &#39;#{json.terms}&#39; seems to have been created by a currently running transaction.  Restarting this one.&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_sleep identifier id'>sleep</span> <span class='integer val'>5</span>
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_RetryTransaction constant id'>RetryTransaction</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
     <span class='rubyid_end end kw'>end</span>
@@ -541,7 +516,7 @@
       <div class="method_details ">
   <h3 class="signature " id="find_matching-class_method">
   
-    + (<tt>Object</tt>) <strong>find_matching</strong>(json) 
+    .<strong>find_matching</strong>(json)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -553,16 +528,16 @@
       <pre class="lines">
 
 
+86
+87
+88
 89
 90
 91
-92
-93
-94
-95</pre>
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 86</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_find_matching identifier id'>find_matching</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_source_id identifier id'>source_id</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_id_for_value identifier id'>id_for_value</span><span class='lparen token'>(</span><span class='string val'>&quot;subject_source&quot;</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
@@ -580,7 +555,7 @@
       <div class="method_details ">
   <h3 class="signature " id="generate_terms_sha1-class_method">
   
-    + (<tt>Object</tt>) <strong>generate_terms_sha1</strong>(json) 
+    .<strong>generate_terms_sha1</strong>(json)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -592,19 +567,19 @@
       <pre class="lines">
 
 
+53
+54
+55
 56
-57
-58
-59
-60</pre>
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 53</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_terms_sha1 identifier id'>generate_terms_sha1</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_terms identifier id'>terms</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
 
-  <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_terms identifier id'>terms</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_term identifier id'>term</span><span class='lbrack token'>[</span><span class='string val'>'term'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='lbrack token'>[</span><span class='string val'>'term_type'</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span><span class='rparen token'>)</span>
+  <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_terms identifier id'>terms</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_term identifier id'>term</span><span class='lbrack token'>[</span><span class='string val'>&#39;term&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_term identifier id'>term</span><span class='lbrack token'>[</span><span class='string val'>&#39;term_type&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -615,7 +590,7 @@
       <div class="method_details ">
   <h3 class="signature " id="handle_delete-class_method">
   
-    + (<tt>Object</tt>) <strong>handle_delete</strong>(ids_to_delete) 
+    .<strong>handle_delete</strong>(ids_to_delete)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -627,14 +602,14 @@
       <pre class="lines">
 
 
-116
-117
-118
-119
-120</pre>
+126
+127
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 126</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_handle_delete identifier id'>handle_delete</span><span class='lparen token'>(</span><span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:subject_term</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:subject_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
@@ -650,7 +625,7 @@
       <div class="method_details ">
   <h3 class="signature " id="sequel_to_jsonmodel-class_method">
   
-    + (<tt>Object</tt>) <strong>sequel_to_jsonmodel</strong>(objs, opts = {}) 
+    .<strong>sequel_to_jsonmodel</strong>(objs, opts = {})  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -662,6 +637,9 @@
       <pre class="lines">
 
 
+102
+103
+104
 105
 106
 107
@@ -670,16 +648,39 @@
 110
 111
 112
-113</pre>
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 102</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
 
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:calculate_linked_repositories</span><span class='rbrack token'>]</span>
+    <span class='rubyid_subjects_to_repositories identifier id'>subjects_to_repositories</span> <span class='assign token'>=</span> <span class='rubyid_GlobalRecordRepositoryLinkages constant id'>GlobalRecordRepositoryLinkages</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:subject</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_used_within_repositories identifier id'>used_within_repositories</span> <span class='assign token'>=</span> <span class='rubyid_subjects_to_repositories identifier id'>subjects_to_repositories</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_used_within_published_repositories identifier id'>used_within_published_repositories</span> <span class='assign token'>=</span> <span class='rubyid_subjects_to_repositories identifier id'>subjects_to_repositories</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='eq op'>==</span> <span class='integer val'>1</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repo identifier id'>repo</span><span class='bitor op'>|</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+
+  <span class='rubyid_publication_status identifier id'>publication_status</span> <span class='assign token'>=</span> <span class='rubyid_ImpliedPublicationCalculator constant id'>ImpliedPublicationCalculator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid_for_subjects identifier id'>for_subjects</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span>
+
   <span class='rubyid_jsons identifier id'>jsons</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
     <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_vocabulary identifier id'>vocabulary</span> <span class='assign token'>=</span> <span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='symbol val'>:vocabulary</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_vocab_id identifier id'>vocab_id</span><span class='rparen token'>)</span>
+    <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_is_linked_to_published_record identifier id'>is_linked_to_published_record</span> <span class='assign token'>=</span> <span class='rubyid_publication_status identifier id'>publication_status</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_jsons identifier id'>jsons</span>
@@ -693,7 +694,7 @@
       <div class="method_details ">
   <h3 class="signature " id="set_vocabulary-class_method">
   
-    + (<tt>Object</tt>) <strong>set_vocabulary</strong>(json, opts) 
+    .<strong>set_vocabulary</strong>(json, opts)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -705,16 +706,16 @@
       <pre class="lines">
 
 
+44
+45
+46
 47
 48
 49
-50
-51
-52
-53</pre>
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 44</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_set_vocabulary identifier id'>set_vocabulary</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;vocab_id&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -738,7 +739,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="update_from_json-instance_method">
   
-    - (<tt>Object</tt>) <strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true) 
+    #<strong>update_from_json</strong>(json, opts = {}, apply_nested_records = true)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -750,14 +751,14 @@
       <pre class="lines">
 
 
+95
+96
+97
 98
-99
-100
-101
-102</pre>
+99</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_set_vocabulary identifier id'>set_vocabulary</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
@@ -773,7 +774,7 @@
       <div class="method_details ">
   <h3 class="signature " id="validate-instance_method">
   
-    - (<tt>Object</tt>) <strong>validate</strong> 
+    #<strong>validate</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -785,23 +786,23 @@
       <pre class="lines">
 
 
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
 133
 134
 135
-136</pre>
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/subject.rb', line 133</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_super super kw'>super</span>
@@ -827,10 +828,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:25:01 2015 by
+      <div id="footer">
+  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:17 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.12 (ruby-2.3.3).
 </div>
+    </div>
   </body>
 </html>

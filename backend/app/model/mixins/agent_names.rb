@@ -48,6 +48,10 @@ module AgentNames
     end
 
 
+    def associations_to_eagerly_load
+      super + [:name_authority_id]
+    end
+
     def apply_authority_id(obj, json)
       obj.name_authority_id_dataset.delete
 

@@ -1,10 +1,22 @@
 #!/bin/bash
 
 OUT=locales.diff
-VER=${1:-v1.3.0}
+VER=${1:-v1.4.2}
 
-git diff $VER -- common/locales/en.yml > $OUT
-git diff $VER -- common/locales/enums/en.yml >> $OUT
-git diff $VER -- frontend/config/locales/en.yml >> $OUT
-git diff $VER -- frontend/config/locales/help/en.yml >> $OUT
-git diff $VER -- public/config/locales/en.yml >> $OUT
+declare -a locales=(
+  "common/locales/en.yml"
+  "common/locales/enums/en.yml"
+  "frontend/config/locales/en.yml"
+  "frontend/config/locales/help/en.yml"
+  "public/config/locales/en.yml"
+)
+
+truncate -s 0 $OUT
+
+for i in "${locales[@]}"
+do
+   git diff --ignore-space-at-eol -b -w $VER -- "$i" >> $OUT
+done
+
+echo "Created diff: ${OUT}"
+exit 0

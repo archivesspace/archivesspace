@@ -1,22 +1,95 @@
 require_relative 'webdriver'
+require 'mechanize'
+require 'tempfile'
+require 'fileutils'
+
+# Increase Selenium's HTTP read timeout from the default of 60.  Address
+# Net::ReadTimeout errors on Travis.
+module Selenium
+  module WebDriver
+    module Remote
+      module Http
+        class Default < Common
+          def read_timeout
+            120
+          end
+        end
+      end
+    end
+  end
+end
+
 
 class Driver
 
-  def initialize(frontend = $frontend)
-    @frontend = frontend
+  def self.get(frontend = $frontend)
+    instance = Driver.new(frontend)
+
+    @current_instance = instance
+
+    instance
+  end
+
+  def self.current_instance
+    # A bit gross to do this, but we want to be able to access the last instance
+    # for the sake of taking screenshots when things fail.
+    @current_instance
+  end
+  
+  def initialize_ff
     profile = Selenium::WebDriver::Firefox::Profile.new
+    FileUtils.rm("/tmp/firefox_console", :force => true)
+    profile["webdriver.log.file"] = "/tmp/firefox_console"
+
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+    profile["webdriver.log.level"] = "ALL"
     profile["browser.download.dir"] = Dir.tmpdir
     profile["browser.download.folderList"] = 2
     profile["browser.helperApps.alwaysAsk.force"] = false
     profile["browser.helperApps.neverAsk.saveToDisk"] = "application/msword, application/csv, application/pdf, application/xml,  application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed"
     profile['pdfjs.disabled'] = true
 
-
-    if ENV['FIREFOX_PATH']
-      Selenium::WebDriver::Firefox.path = ENV['FIREFOX_PATH']
+    if java.lang.System.getProperty('os.name').downcase == 'linux'
+      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'linux')}:#{ENV['PATH']}"
+    else #osx
+      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
     end
+     
+    options = Selenium::WebDriver::Firefox::Options.new
+    options.profile = profile
+    return Selenium::WebDriver.for :firefox, options: options
+  end
 
-    @driver = Selenium::WebDriver.for :firefox,:profile => profile
+
+  def initialize_chrome
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+    opts = Selenium::WebDriver::Chrome::Options.new(
+             :prefs => { :download => 
+                        { :default_directory => Dir.tmpdir,
+                          :directory_upgrade => true,
+                          :extensions_to_open => "",
+                          :prompt_for_download => false
+                        }},
+              :args => %w[ headless  disable-gpu window-size=1200x800]  
+            )
+    return Selenium::WebDriver.for :chrome, :options => opts
+  end
+
+  def ff_or_chrome
+    if ENV["SELENIUM_CHROME"]
+      initialize_chrome
+    else
+      initialize_ff
+    end
+  end
+
+  def initialize(frontend = $frontend)
+    @frontend = frontend
+
+    prefs = { :download =>  { :default_directory => Dir.tmpdir  } }
+    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+
+    @driver = ff_or_chrome
     @wait   = Selenium::WebDriver::Wait.new(:timeout => 10)
     @driver.manage.window.maximize
   end
@@ -25,30 +98,36 @@ class Driver
     @driver.send(meth, *args)
   end
 
-  def login(user)
+  def login(user, expect_fail = false)
     self.go_home
     @driver.wait_for_ajax
     @driver.find_element(:link, "Sign In").click
     @driver.clear_and_send_keys([:id, 'user_username'], user.username)
     @driver.clear_and_send_keys([:id, 'user_password'], user.password)
-    @driver.find_element(:id, 'login').click
-    @driver.wait_for_ajax
+
+    if expect_fail
+      @driver.find_element(:id, 'login').click
+    else
+      @driver.click_and_wait_until_gone(:id, 'login')
+    end
 
     self
   end
 
 
   def logout
-    tries = 2
+    tries = 5
     begin
       @driver.manage.delete_all_cookies
       @driver.navigate.to @frontend
       @driver.find_element(:link, "Sign In")
     rescue Exception => e
       if tries > 0
+        puts "logout failed... try again! #{tries} tries left."
         tries -=1
         retry
       else
+        puts 'logout failed... no more trying'
         raise e
       end
     end
@@ -83,7 +162,8 @@ class Driver
 
     @driver.find_element(:link, 'Select Repository').click
     @driver.find_element(:css, '.select-a-repository').find_element(:id => "id").select_option_with_text(code)
-    @driver.find_element(:css, '.select-a-repository .btn-primary').click
+    @driver.click_and_wait_until_gone(:css, '.select-a-repository .btn-primary')
+
     if block_given?
       $test_repo_old = $test_repo
       $test_repo_uri_old = $test_repo_uri
@@ -95,6 +175,34 @@ class Driver
       $test_repo = $test_repo_old
       $test_repo_uri = $test_repo_uri_old
     end
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /is now active/)
+  end
+
+  # so chrome in headless mode isn't dt d/l (down to download )
+  # This is a hack that grabs the files and sticks it in the temp directory
+  # pass in a link element... 
+  def download_file( el )
+    if @driver.browser == :chrome
+      mech_agent = Mechanize.new 
+      form = mech_agent.get(@frontend).form
+      form.field_with(name: "username").value = "admin"
+      form.field_with(name: "password").value = "admin"
+      form.submit
+
+      tmp = Tempfile.new('mech')
+      begin 
+        dl = mech_agent.download( el["href"], tmp.path )
+        FileUtils.mv(tmp.path, File.join( Dir.tmpdir, dl.response["content-disposition"].split('=').last ))
+      ensure
+        tmp.close
+        tmp.unlink
+      end
+    # not chrome we can just click it and quit it
+    else
+      el.click
+    end
+
   end
 
 
@@ -122,6 +230,18 @@ class Driver
     self
   end
 
+  SPINNER_RETRIES = 100
+
+  def wait_for_spinner
+    puts "    Awaiting spinner... (#{caller[0]})"
+
+    SPINNER_RETRIES.times do
+      is_spinner_visible = self.execute_script("return $('.spinner').is(':visible')")
+      is_blockout_visible = self.execute_script("return $('.blockout').is(':visible')")
+      break unless is_spinner_visible || is_blockout_visible
+      sleep 0.2
+    end
+  end
 
   def generate_4part_id
     Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1]

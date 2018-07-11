@@ -162,9 +162,10 @@ describe 'Accession model' do
                                                  :rights_statements => [
                                                     {
                                                       "identifier" => "abc123",
-                                                      "rights_type" => "intellectual_property",
-                                                      "ip_status" => "copyrighted",
+                                                      "rights_type" => "copyright",
+                                                      "status" => "copyrighted",
                                                       "jurisdiction" => "AU",
+                                                      "start_date" => '1999-01-01',
                                                     }
                                                   ]
                                                  ),
@@ -172,6 +173,27 @@ describe 'Accession model' do
 
     Accession[accession[:id]].rights_statement.length.should eq(1)
     Accession[accession[:id]].rights_statement[0].identifier.should eq("abc123")
+  end
+
+  it "allows accessions to be created with a rights statement with an external document and identifier type" do
+    accession = Accession.create_from_json(build(:json_accession,
+                                                 :rights_statements => [
+                                                   {
+                                                     "identifier" => "abc123",
+                                                     "rights_type" => "copyright",
+                                                     "status" => "copyrighted",
+                                                     "jurisdiction" => "AU",
+                                                     "start_date" => '1999-01-01',
+                                                     "external_documents" => [build(:json_rights_statement_external_document,
+                                                                                    :identifier_type => 'trove')]
+                                                   }
+                                                 ]
+                                           ),
+                                           :repo_id => $repo_id)
+
+    Accession.to_jsonmodel(accession[:id]).rights_statements.length.should eq(1)
+    Accession.to_jsonmodel(accession[:id]).rights_statements.first['external_documents'].length.should eq(1)
+    Accession.to_jsonmodel(accession[:id]).rights_statements.first['external_documents'].first['identifier_type'].should eq('trove')
   end
 
 
@@ -211,6 +233,16 @@ describe 'Accession model' do
     }.to raise_error(JSONModel::ValidationException)
   end
 
+  it "allows accession's collection management record to have a processing status" do
+    accession = Accession.create_from_json(build(:json_accession,
+                                                 :collection_management =>
+                                                 {
+                                                    "processing_status" => "completed" 
+                                                 }
+                                                 ),
+                                           :repo_id => $repo_id)
+    Accession[accession[:id]].collection_management.processing_status.should eq("completed") 
+  end
 
 
 

@@ -1,0 +1,13 @@
+<table>
+    <tr>
+        <%= t('name') %>
+        <%= t('function') %>
+        <%= t('role') %>
+        <% @report.each do |name| %>
+            <tr>
+                <td><%= h name.fetch('sortName') %></td>
+                <td><%= h name.fetch('nameLinkFunction') %></td>
+                <td><%= h name.fetch('role') %></td>
+            </tr>
+        <% end %>
+</table>

@@ -1,0 +1,335 @@
+// Note!  This file is used both in the frontend (LESS) and pui
+// (SASS).  Keep the rules here as close to vanilla CSS as
+// possible--or, at least, a compatible subset of LESS/SCSS!
+
+.largetree-container {
+    background-color: #EEE;
+    margin-bottom: 1em;
+    overflow-x: auto;
+    overflow-y: auto;
+    padding: 1px; // to allow for outline on current row
+
+    .reparented-highlight .title {
+        background-color: #93d093;
+        transition: all 0.5s linear;
+    }
+
+    .reparented .title {
+        background-color: auto;
+        transition: all 1.5s linear;
+    }
+
+    button.expandme {
+        background: none;
+        border: 0;
+    }
+
+    .waypoint {
+        height: 0;
+        display: table-row;
+    }
+
+    li {
+        padding: 0;
+        margin: 0.5em 0;
+    }
+
+    .waypoint.populated {
+        display: none;
+    }
+
+    .root {
+        width: 100%;
+    }
+
+    table {
+        table-layout: fixed;
+    }
+
+    tr.multiselected-row {
+        outline: 1px solid #0A6AA1;
+
+        td {
+            background-color: #b6def5;
+        }
+
+    }
+
+    td.drag-handle,
+    td.no-drag-handle {
+        display: none;
+    }
+    &.drag-enabled {
+        td.drag-handle,
+        td.no-drag-handle {
+            display: table-cell;
+        }
+        td.no-drag-handle {
+            width: 2em;
+        }
+        td.drag-handle {
+            width: 2em;
+            background-image: asset-url('archivesspace/tree_drag_handle.gif');
+            background-repeat: no-repeat;
+            background-position: 4px 50%;
+            cursor: move;
+        }
+        td.drag-handle.drag-disabled { visibility: hidden; }
+        td.drag-handle.multiselected {
+            width: 2em;
+            background-color: #0A6AA1;
+        }
+    }
+
+    td.resource-level { width: 8%; }
+    td.resource-type { width: 18%; }
+    td.resource-container { width: 28%; }
+
+    td.digital-object-type { width: 12%; }
+    td.file-uri-summary { width: 28%; }
+
+
+    td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        box-sizing: border-box;
+
+        // Don't change this without also changing largetree.js.erb ->
+        // appendWaypoints to match.
+        //
+        // We rely on rows having heights known in advance to do our
+        // height calculations.
+        height: 2em;
+        line-height: 2em;
+    }
+
+    .expandme:focus {
+        border: 0;
+        outline-style: none;
+    }
+
+    .expandme-icon.expanded {
+        transform: rotate(90deg);
+        transition:transform 100ms ease-out;
+    }
+
+    tr.current {
+        outline: 1px solid #0A6AA1;
+
+        td {
+            background-color: #EFFAFF;
+        }
+    }
+
+    .indentor {
+        display: inline-block;
+        height: inherit;
+        text-align: right;
+        background-color: #F1F1F1;
+        background-image: repeating-linear-gradient(90deg, transparent, transparent 23px, #FFFFFF 24px);
+    }
+
+    table.root {
+        tbody {
+            tr:nth-of-type(odd) {
+                background-color: #FAFAFA;
+            }
+            tr:first-child {
+                background-color: #F1F1F1;
+                td.title {
+                    padding-left: 6px
+                }
+            }
+        }
+    }
+
+    .indent-level-0 .indentor { width: 24px }
+    .indent-level-1 .indentor { width: 24px }
+    .indent-level-2 .indentor { width: 48px }
+    .indent-level-3 .indentor { width: 72px }
+    .indent-level-4 .indentor { width: 96px }
+    .indent-level-5 .indentor { width: 120px }
+    .indent-level-6 .indentor { width: 144px }
+    .indent-level-7 .indentor { width: 168px }
+    .indent-level-8 .indentor { width: 192px }
+    .indent-level-9 .indentor { width: 216px }
+    .indent-level-10 .indentor { width: 240px; }
+    .indent-level-11 .indentor { width: 264px; }
+    .indent-level-12 .indentor { width: 288px; }
+    .indent-level-13 .indentor { width: 312px; }
+    .indent-level-14 .indentor { width: 336px; }
+    .indent-level-15 .indentor { width: 360px; }
+    .indent-level-16 .indentor { width: 384px; }
+
+    tr#new {
+        .indentor, .new-title {
+            float: left;
+        }
+        .new-title {
+            margin-left: 4px;
+            line-height: 2em;
+        }
+        .indentor {
+            .glyphicon {
+                line-height: 2em;
+                margin-right: 4px;
+                color: #4cae4c;
+            }
+        }
+    }
+
+    tr.cut {
+        td {
+            background-color: #CCC;
+            box-shadow: inset 0 1px 2px #999;
+        }
+    }
+}
+
+.largetree-progress-indicator {
+    width: 100%;
+    height: 5px;
+    display: block;
+    visibility: hidden;
+}
+
+.ui-resizable-handle.ui-resizable-s {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 8px;
+    background-color: #EEE;
+    background-image: asset-url("archivesspace/drag_handle.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #D9D9D9;
+    cursor: ns-resize;
+
+    &:hover {
+        background-color: #e9e9e9;
+    }
+
+    .tree-resize-toggle {
+        font-family: 'Glyphicons Halflings';
+        position: absolute;
+        font-size: 8px;
+        right: 0;
+        top: 0px;
+        padding: 0 20px;
+        cursor: pointer;
+        background: rgba(0,0,0,0.1);
+        line-height: 8px;
+        color: #888;
+
+        &:before {
+            content: '\e114';
+        }
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    &.maximized {
+        .tree-resize-toggle {
+            &:before {
+                content: '\e113';
+            }
+        }
+    }
+}
+
+.ui-resizable-resizing {
+    .ui-resizable-handle.ui-resizable-s {
+        background-color: #e9e9e9;
+    }
+}
+
+.tree-drag-indicator {
+    position: fixed;
+    display: inline-block;
+    z-index: 1000;
+    background-color: white;
+    padding: 5px;
+    border: solid black 1px;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        padding-left: 1.5em;
+    }
+}
+
+.largetree-container.drag-enabled {
+    tr.drag-drop-over {
+        outline: 1px solid rgb(2, 132, 130);
+        td {
+            background-color: #F0FFF0;
+        }
+    }
+    tr.drag-drop-over-disallowed {
+        outline: 1px solid #c82829;
+        td {
+            background-color: #FFF0F0;
+        }
+    }
+    .drag-annotation {
+        float: right;
+        width: 12px;
+        text-align: center;
+        height: 1.5em;
+        line-height: 1.5em;
+        margin-right: 2px;
+        font-size: 0.8em;
+        color: #FFF;
+    }
+}
+
+.tree-scroll-hotspot {
+    position: absolute;
+    opacity: 0;
+    z-index: 900;
+}
+
+#object_container {
+    .blockout {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(0,0,0,0.2);
+        z-index: 100;
+    }
+}
+.largetree-blockout {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 200;
+    top: 0;
+    left: 0;
+}
+
+#tree-toolbar {
+    padding: 4px 5px 4px 0;
+    background-image: linear-gradient(to bottom, #f3f3f3 0%, #ededed 100%);
+    margin: 0;
+    border-top: 1px solid #EEE;
+    border-bottom: 1px solid #DFDFDF;
+
+    .tree-transfer-form {
+        form {
+            margin: 0;
+        }
+        fieldset {
+            width: 300px;
+            padding: 10px;
+        }
+        .form-actions {
+            margin: 0;
+        }
+    }
+}

@@ -17,10 +17,13 @@
 /build/*.jar
 /build/gems
 
-/public.war
+/frontend.war
 
 /public/assets
 
 # IDE config folders
 /.idea
 
+# Hide shared tree resources
+/vendor/assets/stylesheets/archivesspace/largetree.scss
+/vendor/assets/javascripts/largetree.js.erb

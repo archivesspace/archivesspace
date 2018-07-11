@@ -78,7 +78,7 @@ describe 'Managed Container model' do
   it "doesn't blow up if you don't provide a barcode for a top-level element" do
     expect {
       create(:json_top_container, :barcode => nil)
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to_not raise_error
   end
 
 
@@ -97,7 +97,7 @@ describe 'Managed Container model' do
 
     expect {
       create(:json_top_container, :barcode => "1234")
-    }.to_not raise_error(JSONModel::ValidationException)
+    }.to_not raise_error
 
     expect {
       create(:json_top_container, :barcode => "123")
@@ -197,7 +197,8 @@ describe 'Managed Container model' do
           'ref' => grandparent.uri,
           'identifier' => grandparent.component_id,
           'display_string' => grandparent.display_string,
-          'level_display_string' => 'Series'
+          'level_display_string' => 'Series',
+          'publish' => false
         })
       end
 
@@ -331,7 +332,7 @@ describe 'Managed Container model' do
 
       original_mtime = top_container.refresh.system_mtime
 
-      ArchivalObject[child.id].update_position_only(grandparent.id, 1)
+      ArchivalObject[child.id].set_parent_and_position(grandparent.id, 1)
 
       top_container.refresh.system_mtime.should be > original_mtime
     end
@@ -457,14 +458,13 @@ describe 'Managed Container model' do
       end
 
       it "throws exception when attempt to update to an invalid barcode" do
-
-        stub_barcode_length(4, 6)
-
         container1_json = create(:json_top_container)
         container2_json = create(:json_top_container)
 
         original_barcode_1 = TopContainer[container1_json.id].barcode
         original_barcode_2 = TopContainer[container2_json.id].barcode
+
+        stub_barcode_length(4, 6)
 
         barcode_data = {}
         barcode_data[container1_json.uri] = "7777777"
@@ -500,7 +500,7 @@ describe 'Managed Container model' do
 
         expect {
           TopContainer.bulk_update_barcodes(barcode_data)
-        }.to_not raise_error(Sequel::DatabaseError)
+        }.to_not raise_error
 
         TopContainer[container1_json.id].barcode.should eq("22222222")
         TopContainer[container2_json.id].barcode.should eq("11111111")

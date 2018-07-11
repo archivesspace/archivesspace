@@ -1,54 +1,26 @@
-require "rspec"
+require 'rspec'
 require 'jsonmodel'
-require 'factory_girl'
 
-include FactoryGirl::Syntax::Methods
+class IndexerEnumSource
+  def values_for(*args)
+    args
+  end
 
-
-$backend = ENV['ASPACE_BACKEND_URL']
-
-unless $backend
-  require 'test_utils'
-
-  backend_port = TestUtils::free_port_from(3636)
-  $backend = "http://localhost:#{backend_port}"
-  $server_pids = []
-
-
-  $server_pids << TestUtils::start_backend(backend_port,
-                           {
-                             :realtime_index_backlog_ms => 600000,
-                             :session_expire_after_seconds => 300
-                           })
-
-  def cleanup
-    puts "Shutting down backend"
-    $server_pids.each do |pid|
-      TestUtils::kill(pid)
-    end
+  def valid?(*stuff)
+    true
   end
 end
 
-AppConfig[:backend_url] = $backend
-
-JSONModel::init(:client_mode => true, :strict_mode => true,
-                :url => $backend,
-                :priority => :high)
-
-auth = JSONModel::HTTP.post_form(
-                                 '/users/admin/login', 
-                                 {:password => 'admin'}
-                                 )
-
-JSONModel::HTTP.current_backend_session = JSON.parse(auth.body)['session']
+JSONModel::init(:enum_source => IndexerEnumSource.new)
 
 require_relative '../../backend/spec/factories'
+# require_relative "spec_helper_methods"
 
-def capture_stderr
-  old_stderr, $stderr = $stderr, StringIO.new
-  yield
-  
-  $stderr.string
-ensure 
-  $stderr = old_stderr
+FactoryBot.define do
+  to_create{|instance| instance}
+end
+
+RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+  config.include JSONModel
 end

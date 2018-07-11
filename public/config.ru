@@ -1,7 +1,19 @@
 # This file is used by Rack-based servers to start the application.
 
-require "aspace_gems"
-ASpaceGems.setup
+require_relative 'config/environment'
 
-require ::File.expand_path('../config/environment',  __FILE__)
-run ArchivesSpacePublic::Application
+module Rack
+  class Server
+    alias :options_pre_mizuno :options
+
+    # It seems like there should be an easier way to pass options to the
+    # underlying server, but I'm yet to find it.  So here's this.
+    def options
+      result = options_pre_mizuno
+      result[:reuse_address] = true
+      result
+    end
+  end
+end
+
+run Rails.application

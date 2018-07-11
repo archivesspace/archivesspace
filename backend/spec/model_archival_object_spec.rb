@@ -53,19 +53,16 @@ describe 'ArchivalObject model' do
 
 
   it "allows archival objects to be created with an instance" do
+    instance = build(:json_instance)
+    opts = {:instances => [instance]}
     
-    opts = {:instances => [{
-         "instance_type" => generate(:instance_type),
-         "container" => build(:json_container)
-       }]}
-    
-       ao = ArchivalObject.create_from_json(
-                                             build(:json_archival_object, opts),
-                                             :repo_id => $repo_id)
+    ao = ArchivalObject.create_from_json(
+                                         build(:json_archival_object, opts),
+                                         :repo_id => $repo_id)
 
     ArchivalObject[ao[:id]].instance.length.should eq(1)
-    ArchivalObject[ao[:id]].instance[0].instance_type.should eq(opts[:instances][0]['instance_type'])
-    ArchivalObject.to_jsonmodel(ao[:id])['instances'][0]["container"]["type_1"].should eq(opts[:instances][0]["container"]["type_1"])
+    ArchivalObject[ao[:id]].instance[0].instance_type.should eq(instance['instance_type'])
+    ArchivalObject.to_jsonmodel(ao[:id])['instances'][0]["sub_container"]["type_2"].should eq(instance['sub_container']["type_2"])
   end
 
 
@@ -127,18 +124,12 @@ describe 'ArchivalObject model' do
   
   it "enforces ref_id uniqueness only within a resource" do
     res1 = create(:json_resource)
-    res2 = create(:json_resource)
 
     create(:json_archival_object, {:ref_id => "the_same", :resource => {:ref => res1.uri}})
-    create(:json_archival_object, {:ref_id => "the_same", :resource => nil})
 
     expect {
       create(:json_archival_object, {:ref_id => "the_same", :resource => {:ref => res1.uri}})
     }.to raise_error(JSONModel::ValidationException)
-
-    expect {
-      create(:json_archival_object, {:ref_id => "the_same", :resource => nil})
-    }.to_not raise_error
   end
 
 
@@ -204,21 +195,6 @@ describe 'ArchivalObject model' do
 
     ArchivalObject[ao[:id]].display_string.should eq("#{title}, #{date['expression']}")
   end
-
-
-  it "stores persistent_ids in the database when saving notes" do
-    note = build(:json_note_bibliography,
-                 :content => ["a little note"],
-                 :persistent_id => "something")
-
-    obj = ArchivalObject.create_from_json(build(:json_archival_object,
-                                                'notes' => [note]))
-
-    NotePersistentId.filter(:persistent_id => "something",
-                            :parent_id => obj.id,
-                            :parent_type => 'archival_object').count.should eq(1)
-  end
-
 
 
   it "persistent_ids are stored within the context of the tree root where applicable" do
@@ -322,39 +298,18 @@ describe 'ArchivalObject model' do
     }.to_not raise_error
   
   end
-  
-  it "you can resequence children" do
-    resource = create(:json_resource, :id_0 => rand(1000).to_s )
-    ao = ArchivalObject.create_from_json( build(:json_archival_object, :resource => {:ref => resource.uri}))
 
-    archival_object_1 = build(:json_archival_object)
-    archival_object_2 = build(:json_archival_object)
+  it "won't let you set your parent to a resource that you're not in" do
+    resource_a = create(:json_resource)
+    resource_b = create(:json_resource)
+    parent_in_resource_a = create(:json_archival_object, :resource => {:ref => resource_a.uri})
 
-    children = JSONModel(:archival_record_children).from_hash({
-      "children" => [archival_object_1, archival_object_2]
-    })
-    
-    
     expect {
-      ao.add_children(children) 
-    }.to_not raise_error
-    
-    ao = ArchivalObject.get_or_die(ao.id)
-    ao.children.all.length.should == 2
-    # now add more!
-    archival_object_3 = build(:json_archival_object)
-    archival_object_4 = build(:json_archival_object)
-    
-
-    children = JSONModel(:archival_record_children).from_hash({
-      "children" => [archival_object_3, archival_object_4]
-    })
-    ao.add_children(children) 
-   
-    
-    expect {
-      ArchivalObject.resequence( ao.repo_id )
-    }.to_not raise_error
-  
+    create(:json_archival_object,
+           :parent => {:ref => parent_in_resource_a.uri},
+           # absurd!
+           :resource => {:ref => resource_b.uri})
+    }.to raise_error(RuntimeError, /Consistency check failed/)
   end
+
 end

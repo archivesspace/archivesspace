@@ -1,3 +1,5 @@
+require 'advanced_query_builder'
+
 class ArchivesSpaceService < Sinatra::Base
 
   BASE_SEARCH_PARAMS =
@@ -17,11 +19,13 @@ class ArchivesSpaceService < Sinatra::Base
       [String],
       "The list of the fields to produce facets for",
       :optional => true],
-     ["filter_term", [String], "A json string containing the term/value pairs to be applied as filters.  Of the form: {\"fieldname\": \"fieldvalue\"}.",
+     ["facet_mincount",
+      Integer,
+      "The minimum count for a facet field to be included in the response",
       :optional => true],
-     ["simple_filter", [String], "A simple direct filter to be applied as a filter. Of the form 'primary_type:accession OR primary_type:agent_person'.",
+     ["filter", JSONModel(:advanced_query), "A json string containing the advanced query to filter by",
       :optional => true],
-      ["exclude",
+     ["exclude",
       [String],
       "A list of document IDs that should be excluded from results",
       :optional => true],
@@ -32,10 +36,15 @@ class ArchivesSpaceService < Sinatra::Base
      ["root_record",
       String,
       "Search within a collection of records (defined by the record at the root of the tree)",
-      :optional => true]]
+      :optional => true],
+      [ "dt",
+        String,
+        "Format to return (JSON default)",
+        :optional => true ]
+  ]
 
 
-  Endpoint.get('/repositories/:repo_id/search')
+  Endpoint.get_or_post('/repositories/:repo_id/search')
     .description("Search this repository")
     .params(["repo_id", :repo_id],
             *BASE_SEARCH_PARAMS)
@@ -43,11 +52,15 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, ""]) \
   do
-    json_response(Search.search(params, params[:repo_id]))
+    if params[:dt] && params[:dt] == "csv"
+      stream_response(Search.search_csv(params, params[:repo_id]), "text/csv")
+    else 
+      json_response(Search.search(params, params[:repo_id]))
+    end 
   end
 
 
-  Endpoint.get('/search')
+  Endpoint.get_or_post('/search')
     .description("Search this archive")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([:view_all_records])
@@ -58,7 +71,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/search/repositories')
+  Endpoint.get_or_post('/search/repositories')
     .description("Search across repositories")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([])
@@ -69,7 +82,41 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  Endpoint.get('/search/subjects')
+  Endpoint.get_or_post('/search/records')
+    .description("Return a set of records by URI")
+    .params(["uri",
+             [String],
+             "The list of record URIs to fetch"],
+            ["resolve",
+             [String],
+             "The list of result fields to resolve (if any)",
+             :optional => true])
+    .permissions([:view_all_records])
+    .returns([200, "a JSON map of records"]) \
+  do
+    records = Search.records_for_uris(Array(params[:uri]), Array(params[:resolve]))
+
+    json_response(records)
+  end
+
+  Endpoint.get_or_post('/search/record_types_by_repository')
+    .description("Return the counts of record types of interest by repository")
+    .params(["record_types", [String], "The list of record types to tally"],
+            ["repo_uri",
+             String,
+             "An optional repository URI.  If given, just return counts for the single repository",
+             :optional => true])
+    .permissions([:view_all_records])
+    .returns([200,
+              "If repository is given, returns a map like " +
+              "{'record_type' => <count>}." +
+              "  Otherwise, {'repo_uri' => {'record_type' => <count>}}"]) \
+  do
+    json_response(Search.record_type_counts(params[:record_types], params[:repo_uri]))
+  end
+
+
+  Endpoint.get_or_post('/search/subjects')
     .description("Search across subjects")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([])
@@ -100,11 +147,7 @@ class ArchivesSpaceService < Sinatra::Base
                         set_record_types(['tree_view']).
                         show_suppressed(show_suppressed).
                         show_excluded_docs(true).
-                        set_filter_terms([
-                                          {
-                                            :node_uri => params[:node_uri]
-                                          }.to_json
-                                         ])
+                        set_filter(AdvancedQueryBuilder.new.and('node_uri', params[:node_uri]).build)
 
     search_data = Solr.search(query)
 

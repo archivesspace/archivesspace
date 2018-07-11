@@ -1,4 +1,6 @@
-<%= setup_context(:object => @accession) %>
+<%= setup_context(:object => @accession, :title => @accession.display_string) %>
+
+<%= render_aspace_partial :partial => "transfer/transfer_failures", :locals => { :transfer_errors => @transfer_errors } %>
 
 <div class="row">
    <div class="col-md-3">
@@ -87,11 +89,11 @@
            <%= render_aspace_partial :partial => "collection_management/show", :locals => { :collection_management => @accession.collection_management, :context => readonly, :section_id => "accession_collection_management_" } %>
          <% end %>
 
-        <% if @accession.classifications %>
-          <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @accession.classifications, :context => readonly, :section_id => "accession_classifications_" } %>
-        <% end %>
+         <% if @accession.classifications && !@accession.classifications.empty? %>
+             <%= render_aspace_partial :partial => "classifications/show", :locals => { :classifications => @accession.classifications, :context => readonly, :section_id => "accession_classifications_" } %>
+         <% end %>
 
-        <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
+         <%= render_aspace_partial :partial => "linked_events/show", :locals => { :linked_events => @accession.linked_events, :context => readonly, :section_id => "accession_linked_events_" } %>
 
          <% if @accession.user_defined %>
            <%= render_aspace_partial :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>
@@ -101,6 +103,7 @@
           <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @accession.external_ids, :context => readonly, :section_id => "accession_external_ids_" } %>
         <% end %>
 
+        <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @accession, :filter_term => {"assessment_record_uris" => @accession.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_records")} %>
 
          <%= show_plugins_for(@accession, readonly) %>
 

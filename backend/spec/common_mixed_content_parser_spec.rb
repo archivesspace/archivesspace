@@ -24,4 +24,21 @@ describe 'MixedContentParser' do
     converted.should eq("What the &amp; 'heck' <span class=\"emph render-none\">ok</span>?");
   end
 
+  it "converts emph element correctly", :skip_db_open do
+    text = "<emph render='italic'>emph text</emph>"
+
+    converted = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => false})
+
+    converted.should eq("<span class=\"emph render-italic\">emph text</span>");
+  end
+
+
+  it "converts title element correctly", :skip_db_open do
+    text = "<title render='italic' xlink:type='simple'>title text</title>"
+
+    converted = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => false})
+
+    converted.should eq("<span class=\"emph render-italic\">title text</span>");
+  end
+
 end

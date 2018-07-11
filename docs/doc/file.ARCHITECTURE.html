@@ -1,12 +1,12 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
   File: ARCHITECTURE
   
-    &mdash; Documentation by YARD 0.8.7.6
+    &mdash; Documentation by YARD 0.9.12
   
 </title>
 
@@ -15,9 +15,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = "ARCHITECTURE";
   relpath = '';
-  framesUrl = "frames.html#!file.ARCHITECTURE.html";
 </script>
 
 
@@ -28,45 +27,37 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
   
     <a href="_index.html">Index</a> &raquo; 
     <span class="title">File: ARCHITECTURE</span>
   
-
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
-
-    <div id="content"><div id='filecontents'><h1 id="archivesspace-architecture-overview">ArchivesSpace Architecture overview</h1>
+      <div id="content"><div id='filecontents'><h1 id="archivesspace-architecture-overview">ArchivesSpace Architecture overview</h1>
 
 <h2 id="the-archivesspace-api">The ArchivesSpace API</h2>
 
@@ -117,8 +108,8 @@ hashes:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_myhash identifier id'>myhash</span><span class='rparen token'>)</span>
 
- <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span>  <span class='comment val'># or obj['title']</span>
- <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='string val'>'a new title'</span>  <span class='comment val'># or obj['title'] = 'a new title'</span>
+ <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span>  <span class='comment val'># or obj[&#39;title&#39;]</span>
+ <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='string val'>&#39;a new title&#39;</span>  <span class='comment val'># or obj[&#39;title&#39;] = &#39;a new title&#39;</span>
 
  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid__exceptions identifier id'>_exceptions</span>  <span class='comment val'># Validates the object and reports any issues</span>
 
@@ -164,7 +155,7 @@ authenticated, provide this token with subsequent requests in the
 different “top-level” record types.  Working with records follows a
 fairly standard pattern:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='comment val'># Get a paginated list of accessions from repository '123'</span>
+<pre class="code ruby"><code class="ruby"> <span class='comment val'># Get a paginated list of accessions from repository &#39;123&#39;</span>
  <span class='rubyid_GET constant id'>GET</span> <span class='regexp val'>/repositories/</span><span class='integer val'>123</span><span class='div op'>/</span><span class='rubyid_accessions? fid id'>accessions?</span><span class='rubyid_page identifier id'>page</span><span class='assign token'>=</span><span class='integer val'>1</span>
 
  <span class='comment val'># Create a new accession, returning the ID of the new record</span>
@@ -507,7 +498,7 @@ properties of its own.</p>
 types of records:</p>
 
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_define_relationship identifier id'>define_relationship</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:event_link</span><span class='comma token'>,</span>
-                     <span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'linked_records'</span><span class='comma token'>,</span>
+                     <span class='symbol val'>:json_property</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;linked_records&#39;</span><span class='comma token'>,</span>
                      <span class='symbol val'>:contains_references_to_types</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_proc identifier id'>proc</span> <span class='lbrace token'>{</span><span class='lbrack token'>[</span><span class='rubyid_Accession constant id'>Accession</span><span class='comma token'>,</span> <span class='rubyid_Resource constant id'>Resource</span><span class='comma token'>,</span> <span class='rubyid_ArchivalObject constant id'>ArchivalObject</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 </code></pre>
 
@@ -542,7 +533,7 @@ schema declaration for the <code>linked_records</code> property looks like this:
 an additional “role” property to indicate the nature of the
 relationship.  The corresponding JSON might then be:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='label val'>linked_records:</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='label val'>ref:</span> <span class='string val'>'/repositories/123/accessions/456'</span><span class='comma token'>,</span> <span class='label val'>role:</span> <span class='string val'>'authorizer'</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='dot3 op'>...</span><span class='rbrack token'>]</span>
+<pre class="code ruby"><code class="ruby"><span class='label val'>linked_records:</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='label val'>ref:</span> <span class='string val'>&#39;/repositories/123/accessions/456&#39;</span><span class='comma token'>,</span> <span class='label val'>role:</span> <span class='string val'>&#39;authorizer&#39;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='dot3 op'>...</span><span class='rbrack token'>]</span>
 </code></pre>
 
 <p>The <code>define_relationship</code> definition automatically makes use of the
@@ -780,10 +771,11 @@ newly created records should appear in the browse list by the time a
 user views it.</p>
 </div></div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:49 2015 by
+      <div id="footer">
+  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:08 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.12 (ruby-2.3.3).
 </div>
+    </div>
   </body>
 </html>

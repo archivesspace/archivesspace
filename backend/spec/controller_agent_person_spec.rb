@@ -11,7 +11,7 @@ describe 'Person agent controller' do
     opts = {:names => [build(:json_name_person)]}
 
     id = create_person(opts).id
-    JSONModel(:agent_person).find(id).names.first['primary_name'].should eq(opts[:names][0]['primary_name'])
+    expect(JSONModel(:agent_person).find(id).names.first['primary_name']).to eq(opts[:names][0]['primary_name'])
   end
 
 
@@ -26,18 +26,27 @@ describe 'Person agent controller' do
 
       person.save
 
-      JSONModel(:agent_person).find(id).agent_contacts[n]['name'].should eq(opts[:name])
+      expect(JSONModel(:agent_person).find(id).agent_contacts[n]['name']).to eq(opts[:name])
     end
   end
 
 
   it "can give a list of person agents" do
 
-    start = JSONModel(:agent_person).all(:page => 1)['results'].count
+    page1 = JSONModel(:agent_person).all(:page => 1)['results'].count
+    page2 = JSONModel(:agent_person).all(:page => 2)['results'].count
 
     2.times { create_person }
 
-    JSONModel(:agent_person).all(:page => 1)['results'].count.should eq(start+2)
+    # Account for page size == 10
+    case page1
+    when 10
+      expect(JSONModel(:agent_person).all(:page => 2)['results'].count).to eq(page2+2)
+    when 9
+      expect(JSONModel(:agent_person).all(:page => 2)['results'].count).to eq(page2+1)
+    when 0..8
+      expect(JSONModel(:agent_person).all(:page => 1)['results'].count).to eq(page1+2)
+    end
   end
 
 
@@ -45,7 +54,7 @@ describe 'Person agent controller' do
     opts = {:names => [build(:json_name_person, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
 
     id = create_person(opts).id
-    JSONModel(:agent_person).find(id).names.first['sort_name'].should eq(opts[:names][0]['sort_name'])
+    expect(JSONModel(:agent_person).find(id).names.first['sort_name']).to eq(opts[:names][0]['sort_name'])
   end
 
 
@@ -54,12 +63,12 @@ describe 'Person agent controller' do
 
     agent = JSONModel(:agent_person).find(id)
 
-    agent.names.first['sort_name'].should match(/\AJimi Hendrix,.* Mr/)
+    expect(agent.names.first['sort_name']).to match(/\AJimi Hendrix,.* Mr/)
 
     agent.names.first['name_order'] = "direct"
     agent.save
 
-    JSONModel(:agent_person).find(id).names.first['sort_name'].should match(/\AJimi Hendrix,.* Mr/)
+    expect(JSONModel(:agent_person).find(id).names.first['sort_name']).to match(/\AJimi Hendrix,.* Mr/)
   end
 
 
@@ -71,8 +80,8 @@ describe 'Person agent controller' do
 
     agent = JSONModel(:agent_person).find(id)
 
-    agent.notes.length.should eq(1)
-    agent.notes[0]["label"].should eq(n1.label)
+    expect(agent.notes.length).to eq(1)
+    expect(agent.notes[0]["label"]).to eq(n1.label)
   end
 
 
@@ -90,7 +99,7 @@ describe 'Person agent controller' do
 
     agent = JSONModel(:agent_person).find(id)
 
-    agent.title.should match(/Jimi Hendrix,.* Mr/)
+    expect(agent.title).to match(/Jimi Hendrix,.* Mr/)
   end
 
 
@@ -102,8 +111,8 @@ describe 'Person agent controller' do
 
     agent = JSONModel(:agent_person).find(id)
 
-    agent.dates_of_existence.length.should eq(1)
-    agent.dates_of_existence[0]["expression"].should eq(date.expression)
+    expect(agent.dates_of_existence.length).to eq(1)
+    expect(agent.dates_of_existence[0]["expression"]).to eq(date.expression)
   end
 
 
@@ -117,6 +126,6 @@ describe 'Person agent controller' do
 
     agent = JSONModel(:agent_person).find(id)
 
-    agent.names[0]['use_dates'].length.should eq(1)
+    expect(agent.names[0]['use_dates'].length).to eq(1)
   end
 end

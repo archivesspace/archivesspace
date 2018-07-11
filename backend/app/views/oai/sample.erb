@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= I18n.t('oai.sample_page.title', :oai_repository_name => AppConfig[:oai_repository_name]) %></title>
+  <style>
+    body {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
+    form {margin-bottom: 20px;}
+    fieldset legent {font-size: 1.2em; margin-bottom: 1em; display: block;}
+    fieldset > div {margin-bottom: 0.5em}
+    fieldset label {float:left; width: 200px;}
+    fieldset div input, fieldset select {width: 400px}
+  </style>
+</head>
+<body>
+  <h1><%= I18n.t('oai.sample_page.title', :oai_repository_name => AppConfig[:oai_repository_name]) %></h1>
+
+  <%= I18n.t('oai.sample_page.introduction') %>
+
+  <ul>
+    <li>
+      <a href="<%= AppConfig[:oai_proxy_url] %>/oai?verb=Identify">
+        Identify
+      </a>
+    </li>
+    <li>
+      <a href="<%= AppConfig[:oai_proxy_url] %>/oai?verb=ListSets">
+        ListSets
+      </a>
+    </li>
+    <li>
+      <a href="<%= AppConfig[:oai_proxy_url] %>/oai?verb=ListMetadataFormats">
+        ListMetadataFormats
+      </a>
+    </li>
+  </ul>
+
+  <form action="<%= AppConfig[:oai_proxy_url] %>/oai" method="get">
+    <fieldset>
+      <legent><%= I18n.t('oai.sample_page.form_header', :verb => 'ListIdentifiers') %></legent>
+      <input type="hidden" name="verb" value="ListIdentifiers"/>
+      <div>
+        <label for="metadataPrefix">metadataPrefix</label>
+        <select id="metadataPrefix" name="metadataPrefix">
+          <option></option>
+          <% ArchivesSpaceOaiProvider.formats.keys.each do |format| %>
+            <option><%= format %></option>
+          <% end %>
+        </select>
+      </div>
+      <input class="submit" type="submit" value="<%= I18n.t('oai.sample_page.form_submit') %>"/>
+    </fieldset>
+  </form>
+
+  <form action="<% AppConfig[:oai_proxy_url]  %>/oai" method="get">
+    <fieldset>
+      <legent><%= I18n.t('oai.sample_page.form_header', :verb => 'ListRecords') %></legent>
+      <input type="hidden" name="verb" value="ListRecords"/>
+      <div>
+        <label for="set">set</label>
+        <select id="set" name="set">
+          <% ArchivesSpaceOAIRepository.new.sets.each do |set| %>
+            <option value="<%= set.name %>"><%= set %></option>
+          <% end %>
+        </select>
+      </div>
+      <div>
+        <label for="metadataPrefix">metadataPrefix</label>
+        <select id="metadataPrefix" name="metadataPrefix">
+          <% ArchivesSpaceOaiProvider.formats.keys.each do |format| %>
+            <option><%= format %></option>
+          <% end %>
+        </select>
+      </div>
+      <div>
+        <label for="resumptionToken">resumptionToken</label>
+        <input id="resumptionToken" name="resumptionToken" type="text"/>
+      </div>
+      <input class="submit" type="submit" value="<%= I18n.t('oai.sample_page.form_submit') %>"/>
+    </fieldset>
+  </form>
+
+  <form action="<% AppConfig[:oai_proxy_url]  %>/oai" method="get">
+    <fieldset>
+      <legent><%= I18n.t('oai.sample_page.form_header', :verb => 'GetRecord') %></legent>
+      <input type="hidden" name="verb" value="GetRecord"/>
+      <div>
+        <label for="identifier">identifier</label>
+        <input id="identifier" name="identifier" type="text" value="<%= AppConfig[:oai_record_prefix] %>//"/>
+      </div>
+      <div>
+        <label for="metadataPrefix">metadataPrefix</label>
+        <select id="metadataPrefix" name="metadataPrefix">
+          <% ArchivesSpaceOaiProvider.formats.keys.each do |format| %>
+            <option><%= format %></option>
+          <% end %>
+        </select>
+      </div>
+      <input class="submit" type="submit" value="<%= I18n.t('oai.sample_page.form_submit') %>"/>
+    </fieldset>
+  </form>
+
+  <script>
+    Array.prototype.slice.call(document.getElementsByTagName('form')).forEach(function(form) {
+        form.addEventListener('submit', function(event) {
+          var resumptionToken = form.querySelector('#resumptionToken');
+          if (resumptionToken && resumptionToken.value == "") {
+              resumptionToken.setAttribute('disabled', 'disabled');
+          } 
+          return true;
+        });
+    });
+  </script>
+</body>
+</html>

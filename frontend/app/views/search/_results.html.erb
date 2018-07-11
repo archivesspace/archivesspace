@@ -1,5 +1,6 @@
 <%
   title = I18n.t("search_results.title") if title.nil?
+  @display_context = true
 %>
 
 <div class="row">
@@ -7,13 +8,19 @@
     <%= render_aspace_partial :partial => "search/filter" %>
   </div>
   <div class="col-md-9">
+    <div class="record-toolbar">
+      <div class="btn-group pull-right">
+        <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv}), id: "searchExport",  class:  "btn btn-sm btn-info" %> 
+      </div>   
+      <br style="clear:both" /> 
+    </div>
     <div class="record-pane">
       <%= link_to_help :topic => "search" %>
       <% if !params[:linker] %>
         <h2><%= title %></h2>
       <% end %>
 
-      <%= render_aspace_partial :partial => "listing" %>
+      <%= render_aspace_partial :partial => "search/listing" %>
 
     </div>
   </div>

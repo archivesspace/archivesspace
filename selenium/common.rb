@@ -1,4 +1,4 @@
-require "net/http"
+require 'ashttp'
 require "uri"
 require "json"
 require "selenium-webdriver"
@@ -11,7 +11,7 @@ require 'securerandom'
 
 require_relative 'common/webdriver'
 require_relative 'common/backend_client_mixin'
-require_relative 'common/jstree_helper'
+require_relative 'common/tree_helper'
 require_relative 'common/rspec_class_helpers'
 require_relative 'common/driver'
 
@@ -22,7 +22,7 @@ $sleep_time = 0.0
 module Selenium
   module Config
     def self.retries
-      100
+      200
     end
   end
 end
@@ -70,28 +70,6 @@ def selenium_init(backend_fn, frontend_fn)
     $server_pids << backend_fn.call
     $server_pids << frontend_fn.call
   end
-
-  if ENV['TRAVIS'] && ENV['WITH_FIREFOX']
-    puts "Loading stable version of Firefox and nodejs"
-    Dir.chdir('/var/tmp') do
-      firefox_archive = "firefox-16.0.tar.bz2"
-      if `uname --machine`.strip == "x86_64"
-        firefox_archive = "firefox_x86_64-16.0.tar.bz2"
-      end
-
-      system('wget', "http://aspace.hudmol.com/#{firefox_archive}")
-      system('tar', 'xvjf', firefox_archive)
-      ENV['PATH'] = (File.join(Dir.getwd, 'firefox') + ':' + ENV['PATH'])
-
-
-      puts "Path now: #{ENV['PATH']}"
-      puts "Firefox version:"
-      system('firefox', '--version')
-    end
-  end
-
-  system("rm #{File.join(Dir.tmpdir, '*.pdf')}")
-  system("rm #{File.join(Dir.tmpdir, '*.xml')}")
 end
 
 
@@ -109,7 +87,13 @@ def assert(times = nil, &block)
       retry
     else
       puts "Assert giving up"
-      raise $!
+
+      if ENV['ASPACE_TEST_WITH_PRY']
+        puts "Starting pry"
+        binding.pry
+      else
+        raise $!
+      end
     end
   end
 end
@@ -121,15 +105,44 @@ end
 
 
 
+require 'uri'
+require 'net/http'
+
 module SeleniumTest
+
+  def self.upload_file(path)
+    uri = URI("http://aspace.hudmol.com/cgi-bin/store.cgi")
+
+    req = Net::HTTP::Post.new(uri)
+    req.body_stream = File.open(path, "rb")
+    req.content_type = "application/octet-stream"
+    req['Transfer-Encoding'] = 'chunked'
+
+    ASHTTP.start_uri(uri) do |http|
+      puts http.request(req).body
+    end
+  end
+
   def self.save_screenshot(driver)
-    outfile = "/tmp/#{Time.now.to_i}_#{$$}.png"
+    outfile = File.join( ENV['SCREENSHOT_DIR'] || Dir.tmpdir,  "#{Time.now.to_i}_#{$$}.png" ) 
     puts "Saving screenshot to #{outfile}"
-    if driver.is_a?(Selenium::WebDriver::Element) 
-      driver = driver.send(:bridge)
-      File.open(outfile, 'wb') { |f| f << driver.getScreenshot.unpack("m")[0] } 
-    else 
-      driver.save_screenshot(outfile)
-    end  
+    puts "Saving screenshot from Thread #{java.lang.Thread.currentThread.get_name}"
+
+    driver.save_screenshot(outfile)
+
+    # Send a copy of any screenshots to hudmol from Travis.  Feel free to zap
+    # this if/when HM isn't development partner anymore!
+    if ENV['TRAVIS']
+      puts "Uploading screenshot..."
+      upload_file(outfile)
+
+      if ENV['INTEGRATION_LOGFILE'] &&
+         File.exist?(ENV['INTEGRATION_LOGFILE']) &&
+         !ENV['INTEGRATION_LOGFILE'].start_with?("/dev")
+        upload_file(ENV['INTEGRATION_LOGFILE'])
+      end
+    end
+
+      puts "save_screenshot complete"
   end
 end

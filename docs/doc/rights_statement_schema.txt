@@ -6,33 +6,29 @@ string	rights_type
 
 string (max length: 255)	identifier
 
-boolean	active
+string	status
 
-string (max length: 255)	materials
+date	determination_date
 
-string	ip_status
+date	start_date
 
-date	ip_expiration_date
+date	end_date
 
-string (max length: 255)	license_identifier_terms
+string (max length: 255)	license_terms
 
 string (max length: 255)	statute_citation
 
 string	jurisdiction
 
-string (max length: 255)	type_note
+string	other_rights_basis
 
-string (max length: 65000)	permissions
+array (JSONModel(:rights_statement_external_document) object)	external_documents
 
-string (max length: 65000)	restrictions
+array (JSONModel(:rights_statement_act) object)	acts
 
-date	restriction_start_date
+array (Object (ref, _resolved))	linked_agents
 
-date	restriction_end_date
-
-string (max length: 255)	granted_note
-
-array (JSONModel(:external_document) object)	external_documents
+array (JSONModel(:note_rights_statement) object)	notes
 
 
 

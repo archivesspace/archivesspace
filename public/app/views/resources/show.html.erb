@@ -1,0 +1,67 @@
+<a name="main" title="<%= t('internal_links.main') %>"></a>
+<div id="main-content" class="row resources">
+  <div class="row" id="info_row">
+  <% unless defined?(@no_statement) || !defined?(@search) %>
+  <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
+  <% end %>
+  </div>
+  <div class="information col-sm-7">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+  </div>
+  <div class="page_actions col-sm-5 right">
+    <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
+  </div>
+</div>
+<div class="row">
+    <%= render partial: 'shared/breadcrumbs' %>
+</div>
+
+<%= render partial: 'resources/resource_alltabs' %>
+
+<div class="row" id="notes_row">
+  <div class="col-sm-9">
+    <%= render partial: 'shared/digital', locals: {:dig_objs => @dig} %>
+    <%= render partial: 'shared/record_innards' %>
+  </div>
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar" <% unless @has_children %>style="display: none"<% end %>>
+    <% if defined?(@filters) && defined?(@search) %>
+    <%= render partial: 'shared/facets' %>
+   <% end %>
+
+   <a name="search" title="<%= t('internal_links.search_collection') %>"></a>
+    <div class="search">
+
+	<%= form_tag(app_prefix("#{@result['uri']}/search"), method: 'get', :class=> "form-horizontal") do %>
+	<div class="form-group">
+	  <%= label_tag(:filter_q0,  "#{t('actions.search_in', :type=> t('resource._singular'))}", :class => 'sr-only') %>
+
+          <%= text_field_tag('filter_q[]', nil,:id => 'filter_q0', :placeholder =>  "#{t('actions.search_in', :type => t('resource._singular'))}", :class=> "form-control") %>
+	</div>
+
+	<div class="form-group">
+	  <%= hidden_field_tag('op[]','') %>
+	  <%= hidden_field_tag('field[]','') %>
+	  <%= hidden_field_tag('limit','') %>
+	  <%= hidden_field_tag('q[]','*') %>
+
+    <div class="col-md-6 year_from">
+  	   <%= label_tag(:from_year0, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
+  	   <%= text_field_tag('from_year[]', nil, :id=>'from_year0', :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from_year'),
+              :class=>"form-control") %>
+    </div>
+
+    <div class="col-md-6 year_to">
+        <%= label_tag(:to_year0, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
+        <%= text_field_tag('to_year[]', nil, :size => 4, :maxlength => 4, :class=> "form-control", :id => 'to_year0',
+             :placeholder => t('search_results.filter.to_year')) %>
+    </div>
+	</div>
+        <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary btn-sm') %>
+	<% end %>
+    </div>
+
+    <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
+  </div>
+</div>
+
+<%= render partial: 'shared/modal_actions' %>

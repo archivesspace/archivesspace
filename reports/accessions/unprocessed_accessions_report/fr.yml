@@ -1,0 +1,5 @@
+fr:
+  reports:
+    unprocessed_accessions_report:
+      title: Liste des entrées non traitées
+      description: Affiche un listing de toutes les entrées non traitées

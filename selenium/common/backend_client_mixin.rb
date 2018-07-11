@@ -1,3 +1,5 @@
+require 'ashttp'
+
 module BackendClientMethods
 
   class ASpaceUser
@@ -26,7 +28,7 @@ module BackendClientMethods
 
     req['X-ArchivesSpace-Session'] = @current_session
 
-    Net::HTTP.start(url.host, url.port) do |http|
+    ASHTTP.start_uri(url) do |http|
       http.read_timeout = 1200
       http.request(req)
     end
@@ -43,14 +45,16 @@ module BackendClientMethods
       tries = 5
 
       begin
-
         response = do_http_request(url, request)
-
-        response.code
+        $stderr.puts("Indexer responded with status #{response.code}")
+        return response.code
       rescue Timeout::Error
         tries -= 1
+        $stderr.puts("#{Time.now}: Warning: Retrying index round - #{tries} tries remaining")
         retry if tries > 0
       end
+
+      $stderr.puts("#{Time.now}: Warning: Indexing round looks to have failed due to timeout")
 
     else
       $last_sequence ||= 0
@@ -65,9 +69,17 @@ module BackendClientMethods
       request = Net::HTTP::Post.new(url.request_uri)
       request.content_length = 0
 
-      response = do_http_request(url, request)
+      tries = 5
 
-      response.code
+      begin
+        response = do_http_request(url, request)
+
+        response.code
+      rescue Timeout::Error
+        tries -= 1
+        retry if tries > 0
+      end
+
     else
       $period.run_index_round
     end
@@ -80,7 +92,7 @@ module BackendClientMethods
   end
 
   def admin_backend_request(req)
-    res = Net::HTTP.post_form(URI("#{$backend}/users/admin/login"), :password => "admin")
+    res = ASHTTP.post_form(URI("#{$backend}/users/admin/login"), :password => "admin")
     admin_session = JSON(res.body)["session"]
 
     req["X-ARCHIVESSPACE-SESSION"] = admin_session
@@ -88,7 +100,7 @@ module BackendClientMethods
 
     uri = URI("#{$backend}")
 
-    Net::HTTP.start(uri.hostname, uri.port) do |http|
+    ASHTTP.start_uri(uri) do |http|
       res = http.request(req)
 
       if res.code != "200"
@@ -105,6 +117,7 @@ module BackendClientMethods
     pass = "pass_#{SecureRandom.hex}"
 
     req = Net::HTTP::Post.new("/users?password=#{pass}")
+    req['Content-Type'] = 'text/json'
     req.body = "{\"username\": \"#{user}\", \"name\": \"#{user}\"}"
 
     admin_backend_request(req)
@@ -133,6 +146,7 @@ module BackendClientMethods
     group['member_usernames'] = [user]
 
     req = Net::HTTP::Post.new(uri)
+    req['Content-Type'] = 'text/json'
     req.body = group.to_json
 
     admin_backend_request(req)

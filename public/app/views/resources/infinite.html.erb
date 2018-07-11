@@ -1,0 +1,83 @@
+<a name="main" title="<%= t('internal_links.main') %>"></a>
+
+<div id="main-content" class="row">
+  <div class="information col-sm-7">
+    <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+  </div>
+  <div class="page_actions col-sm-5 right">
+    <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
+  </div>
+</div>
+
+<div class="row">
+  <%= render partial: 'shared/breadcrumbs' %>
+</div>
+
+<%= render partial: 'resources/resource_alltabs' %>
+
+<%= javascript_include_tag 'treesync' %>
+<%= javascript_include_tag 'infinite_scroll' %>
+<%= javascript_include_tag 'largetree' %>
+<%= javascript_include_tag 'tree_renderer' %>
+
+<div class="row" id="tabs">
+  <div class="infinite-record-wrapper col-sm-9">
+      <div class="infinite-record-container">
+          <div class="root">
+              <% waypoint_size = 20 %>
+              <% @ordered_records.each_slice(waypoint_size).each_with_index do |refs, i| %>
+                  <div class="waypoint" data-waypoint-number="<%= i %>" data-waypoint-size=<%= waypoint_size %> data-uris="<%= refs.map {|r| r['ref']}.join(';') %>">&nbsp;</div>
+              <% end %>
+          </div>
+      </div>
+  </div>
+
+  <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar">
+    <div class="infinite-tree-view largetree-container" id='tree-container'></div>
+  </div>
+</div>
+
+<script>
+
+ var syncer = new TreeSync('<%= params[:rid]%>');
+ window.syncer = syncer;
+
+ var scroll = new InfiniteScroll('<%= url_for(:action => :show) %>/infinite',
+                                 $('.infinite-record-wrapper'),
+                                 <%= @ordered_records.length %>,
+                                 function() {
+                                     syncer.infiniteScrollIsReady(scroll);
+                                 });
+
+ /* NOTE: This just here for debugging... */
+ window.scroller = scroll;
+
+ var tree = new LargeTree(new TreeDataSource('<%= url_for(:action => :show) %>/tree'),
+                          $('.infinite-tree-view'),
+                          '<%= @root_uri %>',
+                          true,
+                          new SimpleRenderer(),
+                          function() {
+                              syncer.treeIsReady(tree);
+                          },
+                          function(current_node, tree) {
+                            tree.expandNode(current_node);
+                          });
+
+window.tree = tree;
+</script>
+
+<script>
+  // handle clicks on tree items
+  $('.infinite-record-wrapper').on('click', '.infinite-record-record a.record-title', function(event) {
+      // update the hash so browser-back returns user to the record they clicked
+      var $record = $(this).closest('.infinite-record-record');
+      var uri = $record.data('uri');
+      var tree_id = TreeIds.uri_to_tree_id(uri);
+      location.hash = '#tree::'+tree_id;
+
+      return true;
+  });
+</script>
+
+<%= render partial: 'shared/modal_actions' %>

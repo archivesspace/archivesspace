@@ -100,6 +100,8 @@
         </div>
         <div class="error-summary-list"></div>
       </div>
+
+      <%= form.hidden_input "digital_object[ref]", @digital_object_uri %>
     </td>
 
     <td data-col="colLabel" class="form-group"><%= form.textfield "label" %></td>

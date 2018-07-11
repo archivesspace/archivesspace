@@ -1,10 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  Documentation by YARD 0.8.7.6
+  Documentation by YARD 0.9.12
   
 </title>
 
@@ -13,9 +13,8 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  hasFrames = window.top.frames.main ? true : false;
+  pathId = null;
   relpath = '';
-  framesUrl = "frames.html#!_index.html";
 </script>
 
 
@@ -26,42 +25,34 @@
 
   </head>
   <body>
-    <div id="header">
-      <div id="menu">
-  
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
 
-  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
 </div>
 
-      <div id="search">
+        <div id="search">
   
     <a class="full_list_link" id="class_list_link"
         href="class_list.html">
-      Class List
-    </a>
-  
-    <a class="full_list_link" id="method_list_link"
-        href="method_list.html">
-      Method List
-    </a>
-  
-    <a class="full_list_link" id="file_list_link"
-        href="file_list.html">
-      File List
-    </a>
-  
-    <a class="full_list_link" id="schema_list_link"
-        href="schema_list.html">
-      Schema List
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
     </a>
   
 </div>
-      <div class="clear"></div>
-    </div>
+        <div class="clear"></div>
+      </div>
 
-    <iframe id="search_frame"></iframe>
-
-    <div id="content"><h1 class="noborder title">Documentation by YARD 0.8.7.6</h1>
+      <div id="content"><h1 class="noborder title">Documentation by YARD 0.9.12</h1>
 <div id="listing">
   <h1 class="alphaindex">Alphabetic Index</h1>
   
@@ -69,19 +60,19 @@
   <ul id="files" class="index_inline_list">
   
   
-    <li class="r1"><a href="index.html" title="README">README</a></li>
+    <li class="r1"><a href="index.html" title="README_TUNING">README_TUNING</a></li>
     
   
-    <li class="r2"><a href="file.README_PREFIX.html" title="README_PREFIX">README_PREFIX</a></li>
+    <li class="r2"><a href="file.README.html" title="README">README</a></li>
     
   
-    <li class="r1"><a href="file.README_SOLR.html" title="README_SOLR">README_SOLR</a></li>
+    <li class="r1"><a href="file.README_PREFIX.html" title="README_PREFIX">README_PREFIX</a></li>
     
   
-    <li class="r2"><a href="file.SELENIUM_README.html" title="SELENIUM_README">SELENIUM_README</a></li>
+    <li class="r2"><a href="file.README_SOLR.html" title="README_SOLR">README_SOLR</a></li>
     
   
-    <li class="r1"><a href="file.SELENIUM_PUBLIC_README.html" title="SELENIUM_PUBLIC_README">SELENIUM_PUBLIC_README</a></li>
+    <li class="r1"><a href="file.SELENIUM_README.html" title="SELENIUM_README">SELENIUM_README</a></li>
     
   
     <li class="r2"><a href="file.STYLESHEETS_README.html" title="STYLESHEETS_README">STYLESHEETS_README</a></li>
@@ -93,70 +84,52 @@
     <li class="r2"><a href="file.UPGRADING_1.1.1.html" title="UPGRADING_1.1.1">UPGRADING_1.1.1</a></li>
     
   
-    <li class="r1"><a href="file.API.html" title="API">API</a></li>
+    <li class="r1"><a href="file.UPGRADING_1.5.0.html" title="UPGRADING_1.5.0">UPGRADING_1.5.0</a></li>
     
   
-    <li class="r2"><a href="file.ARCHITECTURE.html" title="ARCHITECTURE">ARCHITECTURE</a></li>
+    <li class="r2"><a href="file.API.html" title="API">API</a></li>
     
   
-    <li class="r1"><a href="file.UPGRADING.html" title="UPGRADING">UPGRADING</a></li>
+    <li class="r1"><a href="file.ARCHITECTURE.html" title="ARCHITECTURE">ARCHITECTURE</a></li>
     
   
-    <li class="r2"><a href="file.CLUSTERING_README.html" title="CLUSTERING_README">CLUSTERING_README</a></li>
+    <li class="r2"><a href="file.UPGRADING.html" title="UPGRADING">UPGRADING</a></li>
     
   
-    <li class="r1"><a href="file.LOCALES_README.html" title="LOCALES_README">LOCALES_README</a></li>
+    <li class="r1"><a href="file.CLUSTERING_README.html" title="CLUSTERING_README">CLUSTERING_README</a></li>
     
   
-    <li class="r2"><a href="file.CONTRIBUTING_README.html" title="CONTRIBUTING_README">CONTRIBUTING_README</a></li>
+    <li class="r2"><a href="file.LOCALES_README.html" title="LOCALES_README">LOCALES_README</a></li>
     
   
-    <li class="r1"><a href="file.FRONTEND_LOCALES_README.html" title="FRONTEND_LOCALES_README">FRONTEND_LOCALES_README</a></li>
+    <li class="r1"><a href="file.CONTRIBUTING_README.html" title="CONTRIBUTING_README">CONTRIBUTING_README</a></li>
     
   
-    <li class="r2"><a href="file.JMETER_README.html" title="JMETER_README">JMETER_README</a></li>
+    <li class="r2"><a href="file.FRONTEND_LOCALES_README.html" title="FRONTEND_LOCALES_README">FRONTEND_LOCALES_README</a></li>
     
   
-    <li class="r1"><a href="file.REPO_EAD_EXPORT_README.html" title="REPO_EAD_EXPORT_README">REPO_EAD_EXPORT_README</a></li>
+    <li class="r1"><a href="file.JMETER_README.html" title="JMETER_README">JMETER_README</a></li>
     
   
-    <li class="r2"><a href="file.PLUGINS_LOCAL_README.html" title="PLUGINS_LOCAL_README">PLUGINS_LOCAL_README</a></li>
+    <li class="r2"><a href="file.REPO_EAD_EXPORT_README.html" title="REPO_EAD_EXPORT_README">REPO_EAD_EXPORT_README</a></li>
     
   
-    <li class="r1"><a href="file.README_NEWRELIC.html" title="README_NEWRELIC">README_NEWRELIC</a></li>
+    <li class="r1"><a href="file.PLUGINS_LOCAL_README.html" title="PLUGINS_LOCAL_README">PLUGINS_LOCAL_README</a></li>
     
   
-    <li class="r2"><a href="file.PLUGINS_README.html" title="PLUGINS_README">PLUGINS_README</a></li>
+    <li class="r2"><a href="file.README_NEWRELIC.html" title="README_NEWRELIC">README_NEWRELIC</a></li>
     
   
-    <li class="r1"><a href="file.README_HTTPS.html" title="README_HTTPS">README_HTTPS</a></li>
+    <li class="r1"><a href="file.PLUGINS_README.html" title="PLUGINS_README">PLUGINS_README</a></li>
     
   
-    <li class="r2"><a href="file.BUILD_README.html" title="BUILD_README">BUILD_README</a></li>
+    <li class="r2"><a href="file.README_HTTPS.html" title="README_HTTPS">README_HTTPS</a></li>
     
   
-    <li class="r1"><a href="file.FRONTEND_README_BOWER.html" title="FRONTEND_README_BOWER">FRONTEND_README_BOWER</a></li>
+    <li class="r1"><a href="file.BUILD_README.html" title="BUILD_README">BUILD_README</a></li>
     
   
-    <li class="r2"><a href="file.FRONTEND_BOWER_COMPONENTS_BOOTSTRAP3-TYPEAHEAD_README.html" title="FRONTEND_BOWER_COMPONENTS_BOOTSTRAP3-TYPEAHEAD_README">FRONTEND_BOWER_COMPONENTS_BOOTSTRAP3-TYPEAHEAD_README</a></li>
-    
-  
-    <li class="r1"><a href="file.FRONTEND_BOWER_COMPONENTS_JQUERY.HOTKEYS_README.html" title="FRONTEND_BOWER_COMPONENTS_JQUERY.HOTKEYS_README">FRONTEND_BOWER_COMPONENTS_JQUERY.HOTKEYS_README</a></li>
-    
-  
-    <li class="r2"><a href="file.FRONTEND_BOWER_COMPONENTS_JQUERY.SCROLLTO_CHANGELOG.html" title="FRONTEND_BOWER_COMPONENTS_JQUERY.SCROLLTO_CHANGELOG">FRONTEND_BOWER_COMPONENTS_JQUERY.SCROLLTO_CHANGELOG</a></li>
-    
-  
-    <li class="r1"><a href="file.FRONTEND_BOWER_COMPONENTS_SORTABLE_CONTRIBUTING.html" title="FRONTEND_BOWER_COMPONENTS_SORTABLE_CONTRIBUTING">FRONTEND_BOWER_COMPONENTS_SORTABLE_CONTRIBUTING</a></li>
-    
-  
-    <li class="r2"><a href="file.FRONTEND_BOWER_COMPONENTS_SORTABLE_README.html" title="FRONTEND_BOWER_COMPONENTS_SORTABLE_README">FRONTEND_BOWER_COMPONENTS_SORTABLE_README</a></li>
-    
-  
-    <li class="r1"><a href="file.FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_README.html" title="FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_README">FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_README</a></li>
-    
-  
-    <li class="r2"><a href="file.FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_EXAMPLE_README.html" title="FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_EXAMPLE_README">FRONTEND_BOWER_COMPONENTS_SORTABLE_METEOR_EXAMPLE_README</a></li>
+    <li class="r2"><a href="file.FRONTEND_README_BOWER.html" title="FRONTEND_README_BOWER">FRONTEND_README_BOWER</a></li>
     
   
     <li class="r1"><a href="file.FRONTEND_CONFIG_LOCALES_FRONTEND_LOCALES_README.html" title="FRONTEND_CONFIG_LOCALES_FRONTEND_LOCALES_README">FRONTEND_CONFIG_LOCALES_FRONTEND_LOCALES_README</a></li>
@@ -165,16 +138,19 @@
     <li class="r2"><a href="file.BACKEND_AUTHENTICATION.html" title="BACKEND_AUTHENTICATION">BACKEND_AUTHENTICATION</a></li>
     
   
-    <li class="r1"><a href="file.BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README.html" title="BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README">BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README</a></li>
+    <li class="r1"><a href="file.BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README.html" title="BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README">BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README</a></li>
     
   
-    <li class="r2"><a href="file.BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README.html" title="BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README">BACKEND_APP_EXPORTERS_EXAMPLES_DIGITAL_OBJECT_README</a></li>
+    <li class="r2"><a href="file.BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README.html" title="BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README">BACKEND_APP_EXPORTERS_EXAMPLES_ACCESSION_README</a></li>
     
   
-    <li class="r1"><a href="file.BACKEND_TESTS_README.html" title="BACKEND_TESTS_README">BACKEND_TESTS_README</a></li>
+    <li class="r1"><a href="file.BACKEND_APP_EXPORTERS_EXAMPLES_ASSESSMENT_README.html" title="BACKEND_APP_EXPORTERS_EXAMPLES_ASSESSMENT_README">BACKEND_APP_EXPORTERS_EXAMPLES_ASSESSMENT_README</a></li>
     
   
-    <li class="r2"><a href="file.COMMON_LOCALES_LOCALES_README.html" title="COMMON_LOCALES_LOCALES_README">COMMON_LOCALES_LOCALES_README</a></li>
+    <li class="r2"><a href="file.BACKEND_TESTS_README.html" title="BACKEND_TESTS_README">BACKEND_TESTS_README</a></li>
+    
+  
+    <li class="r1"><a href="file.COMMON_LOCALES_LOCALES_README.html" title="COMMON_LOCALES_LOCALES_README">COMMON_LOCALES_LOCALES_README</a></li>
     
   
   </ul>
@@ -212,7 +188,19 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="ASHTTP.html" title="ASHTTP (class)">ASHTTP</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="URIResolver/ASModelResolver.html" title="URIResolver::ASModelResolver (class)">ASModelResolver</a></span>
+                
+                  <small>(URIResolver)</small>
                 
               </li>
             
@@ -299,6 +287,11 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="AdvancedQueryString.html" title="AdvancedQueryString (class)">AdvancedQueryString</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="AdvancedSearch.html" title="AdvancedSearch (class)">AdvancedSearch</a></span>
                 
               </li>
@@ -376,13 +369,6 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="SerializeExtraContainerValues/AltRenderCalculator.html" title="SerializeExtraContainerValues::AltRenderCalculator (class)">AltRenderCalculator</a></span>
-                
-                  <small>(SerializeExtraContainerValues)</small>
-                
-              </li>
-            
-              <li>
                 <span class='object_link'><a href="Sequel/Schema/AlterTableGenerator.html" title="Sequel::Schema::AlterTableGenerator (class)">AlterTableGenerator</a></span>
                 
                   <small>(Sequel::Schema)</small>
@@ -390,14 +376,19 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="AnonymousUser.html" title="AnonymousUser (class)">AnonymousUser</a></span>
+                <span class='object_link'><a href="AncestorListing/Ancestor.html" title="AncestorListing::Ancestor (class)">Ancestor</a></span>
+                
+                  <small>(AncestorListing)</small>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="Rails/Application.html" title="Rails::Application (class)">Application</a></span>
+                <span class='object_link'><a href="AncestorListing.html" title="AncestorListing (class)">AncestorListing</a></span>
                 
-                  <small>(Rails)</small>
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="AnonymousUser.html" title="AnonymousUser (class)">AnonymousUser</a></span>
                 
               </li>
             
@@ -429,11 +420,6 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="ArchivalObjectSeries.html" title="ArchivalObjectSeries (module)">ArchivalObjectSeries</a></span>
-                
-              </li>
-            
-              <li>
                 <span class='object_link'><a href="ArchivalObjectsController.html" title="ArchivalObjectsController (class)">ArchivalObjectsController</a></span>
                 
               </li>
@@ -449,7 +435,27 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="ArchivesSpaceOAIRecord.html" title="ArchivesSpaceOAIRecord (class)">ArchivesSpaceOAIRecord</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="ArchivesSpaceOAIRepository.html" title="ArchivesSpaceOAIRepository (class)">ArchivesSpaceOAIRepository</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="ArchivesSpaceOaiProvider.html" title="ArchivesSpaceOaiProvider (class)">ArchivesSpaceOaiProvider</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="ArchivesSpaceReadOnlyDynamicEnumAttribute.html" title="ArchivesSpaceReadOnlyDynamicEnumAttribute (class)">ArchivesSpaceReadOnlyDynamicEnumAttribute</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="ArchivesSpaceResumptionToken.html" title="ArchivesSpaceResumptionToken (class)">ArchivesSpaceResumptionToken</a></span>
                 
               </li>
             
@@ -469,6 +475,11 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="ArchivesSpaceThreadDump.html" title="ArchivesSpaceThreadDump (class)">ArchivesSpaceThreadDump</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="ArchivesSpaceTypeAttribute.html" title="ArchivesSpaceTypeAttribute (class)">ArchivesSpaceTypeAttribute</a></span>
                 
               </li>
@@ -484,7 +495,32 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="AspaceJsonToManagedContainerMapper.html" title="AspaceJsonToManagedContainerMapper (class)">AspaceJsonToManagedContainerMapper</a></span>
+                <span class='object_link'><a href="Assessment.html" title="Assessment (class)">Assessment</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="AssessmentAttributeDefinitions.html" title="AssessmentAttributeDefinitions (class)">AssessmentAttributeDefinitions</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="AssessmentAttributesController.html" title="AssessmentAttributesController (class)">AssessmentAttributesController</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="AssessmentConverter.html" title="AssessmentConverter (class)">AssessmentConverter</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="Assessments.html" title="Assessments (module)">Assessments</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="AssessmentsController.html" title="AssessmentsController (class)">AssessmentsController</a></span>
                 
               </li>
             
@@ -542,6 +578,13 @@
             
               <li>
                 <span class='object_link'><a href="BarcodeCheck.html" title="BarcodeCheck (class)">BarcodeCheck</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="OAI/Provider/Response/Base.html" title="OAI::Provider::Response::Base (class)">Base</a></span>
+                
+                  <small>(OAI::Provider::Response)</small>
                 
               </li>
             
@@ -770,16 +813,16 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="ImpliedPublication/ClassMethods.html" title="ImpliedPublication::ClassMethods (module)">ClassMethods</a></span>
+                <span class='object_link'><a href="RecordableCataloging/ClassMethods.html" title="RecordableCataloging::ClassMethods (module)">ClassMethods</a></span>
                 
-                  <small>(ImpliedPublication)</small>
+                  <small>(RecordableCataloging)</small>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="RecordableCataloging/ClassMethods.html" title="RecordableCataloging::ClassMethods (module)">ClassMethods</a></span>
+                <span class='object_link'><a href="RepresentativeImages/ClassMethods.html" title="RepresentativeImages::ClassMethods (module)">ClassMethods</a></span>
                 
-                  <small>(RecordableCataloging)</small>
+                  <small>(RepresentativeImages)</small>
                 
               </li>
             
@@ -798,13 +841,6 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="MapToAspaceContainer/ClassMethods.html" title="MapToAspaceContainer::ClassMethods (module)">ClassMethods</a></span>
-                
-                  <small>(MapToAspaceContainer)</small>
-                
-              </li>
-            
-              <li>
                 <span class='object_link'><a href="RightsRestrictionNotes/ClassMethods.html" title="RightsRestrictionNotes::ClassMethods (module)">ClassMethods</a></span>
                 
                   <small>(RightsRestrictionNotes)</small>
@@ -815,13 +851,6 @@
                 <span class='object_link'><a href="DirectionalRelationships/ClassMethods.html" title="DirectionalRelationships::ClassMethods (module)">ClassMethods</a></span>
                 
                   <small>(DirectionalRelationships)</small>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="ConverterExtraContainerValues/ClassMethods.html" title="ConverterExtraContainerValues::ClassMethods (module)">ClassMethods</a></span>
-                
-                  <small>(ConverterExtraContainerValues)</small>
                 
               </li>
             
@@ -934,7 +963,9 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="Container.html" title="Container (class)">Container</a></span>
+                <span class='object_link'><a href="SpaceCalculator/LocationPacker/Container.html" title="SpaceCalculator::LocationPacker::Container (class)">Container</a></span>
+                
+                  <small>(SpaceCalculator::LocationPacker)</small>
                 
               </li>
             
@@ -944,19 +975,14 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="ContainerManagementMigration.html" title="ContainerManagementMigration (class)">ContainerManagementMigration</a></span>
+                <span class='object_link'><a href="DBMigrator/ContainerMigrationError.html" title="DBMigrator::ContainerMigrationError (class)">ContainerMigrationError</a></span>
+                
+                  <small>(DBMigrator)</small>
                 
               </li>
             
               <li>
                 <span class='object_link'><a href="ContainerProfile.html" title="ContainerProfile (class)">ContainerProfile</a></span>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="AspaceJsonToManagedContainerMapper/ContainerProfileMismatchException.html" title="AspaceJsonToManagedContainerMapper::ContainerProfileMismatchException (class)">ContainerProfileMismatchException</a></span>
-                
-                  <small>(AspaceJsonToManagedContainerMapper)</small>
                 
               </li>
             
@@ -967,11 +993,6 @@
             
               <li>
                 <span class='object_link'><a href="Converter.html" title="Converter (class)">Converter</a></span>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="ConverterExtraContainerValues.html" title="ConverterExtraContainerValues (module)">ConverterExtraContainerValues</a></span>
                 
               </li>
             
@@ -997,12 +1018,12 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="CreatedAccessionsReport.html" title="CreatedAccessionsReport (class)">CreatedAccessionsReport</a></span>
+                <span class='object_link'><a href="CrudHelpers.html" title="CrudHelpers (module)">CrudHelpers</a></span>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="CrudHelpers.html" title="CrudHelpers (module)">CrudHelpers</a></span>
+                <span class='object_link'><a href="CycleFinder.html" title="CycleFinder (class)">CycleFinder</a></span>
                 
               </li>
             
@@ -1020,9 +1041,9 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="DB/DBAttempt.html" title="DB::DBAttempt (class)">DBAttempt</a></span>
+                <span class='object_link'><a href="DB/DBPool/DBAttempt.html" title="DB::DBPool::DBAttempt (class)">DBAttempt</a></span>
                 
-                  <small>(DB)</small>
+                  <small>(DB::DBPool)</small>
                 
               </li>
             
@@ -1037,12 +1058,24 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="DB/DBPool.html" title="DB::DBPool (class)">DBPool</a></span>
+                
+                  <small>(DB)</small>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="DCModel.html" title="DCModel (class)">DCModel</a></span>
                 
               </li>
             
               <li>
                 <span class='object_link'><a href="DCSerializer.html" title="DCSerializer (class)">DCSerializer</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="DCTermsFormat.html" title="DCTermsFormat (class)">DCTermsFormat</a></span>
                 
               </li>
             
@@ -1057,6 +1090,16 @@
                 <span class='object_link'><a href="ASModel/DatabaseMapping.html" title="ASModel::DatabaseMapping (module)">DatabaseMapping</a></span>
                 
                   <small>(ASModel)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="DateCalculator.html" title="DateCalculator (class)">DateCalculator</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="DateCalculatorController.html" title="DateCalculatorController (class)">DateCalculatorController</a></span>
                 
               </li>
             
@@ -1077,6 +1120,11 @@
             
               <li>
                 <span class='object_link'><a href="DefaultValues.html" title="DefaultValues (class)">DefaultValues</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="DependencySet.html" title="DependencySet (class)">DependencySet</a></span>
                 
               </li>
             
@@ -1116,12 +1164,24 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="DigitalObjects.html" title="DigitalObjects (module)">DigitalObjects</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="DigitalObjectsController.html" title="DigitalObjectsController (class)">DigitalObjectsController</a></span>
                 
               </li>
             
               <li>
                 <span class='object_link'><a href="DigitalRecordChildren.html" title="DigitalRecordChildren (class)">DigitalRecordChildren</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SpaceCalculator/Dimensions.html" title="SpaceCalculator::Dimensions (class)">Dimensions</a></span>
+                
+                  <small>(SpaceCalculator)</small>
                 
               </li>
             
@@ -1164,7 +1224,17 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="EAD3Serializer.html" title="EAD3Serializer (class)">EAD3Serializer</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="EADConverter.html" title="EADConverter (class)">EADConverter</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="EADFormat.html" title="EADFormat (class)">EADFormat</a></span>
                 
               </li>
             
@@ -1355,6 +1425,13 @@
                 
               </li>
             
+              <li>
+                <span class='object_link'><a href="ArchivesSpaceOAIRepository/FormatOptions.html" title="ArchivesSpaceOAIRepository::FormatOptions (class)">FormatOptions</a></span>
+                
+                  <small>(ArchivesSpaceOAIRepository)</small>
+                
+              </li>
+            
           </ul>
         </ul>
       
@@ -1362,6 +1439,11 @@
         <ul id="alpha_G" class="alpha">
           <li class="letter">G</li>
           <ul>
+            
+              <li>
+                <span class='object_link'><a href="GlobalRecordRepositoryLinkages.html" title="GlobalRecordRepositoryLinkages (class)">GlobalRecordRepositoryLinkages</a></span>
+                
+              </li>
             
               <li>
                 <span class='object_link'><a href="Group.html" title="Group (class)">Group</a></span>
@@ -1383,6 +1465,13 @@
         <ul id="alpha_H" class="alpha">
           <li class="letter">H</li>
           <ul>
+            
+              <li>
+                <span class='object_link'><a href="ReportErbRenderer/HTMLCleaner.html" title="ReportErbRenderer::HTMLCleaner (class)">HTMLCleaner</a></span>
+                
+                  <small>(ReportErbRenderer)</small>
+                
+              </li>
             
               <li>
                 <span class='object_link'><a href="HTMLResponse.html" title="HTMLResponse (class)">HTMLResponse</a></span>
@@ -1427,6 +1516,13 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="OAI/Provider/Response/Identify.html" title="OAI::Provider::Response::Identify (class)">Identify</a></span>
+                
+                  <small>(OAI::Provider::Response)</small>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="IfMissingAttribute.html" title="IfMissingAttribute (class)">IfMissingAttribute</a></span>
                 
               </li>
@@ -1446,7 +1542,7 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="ImpliedPublication.html" title="ImpliedPublication (module)">ImpliedPublication</a></span>
+                <span class='object_link'><a href="ImpliedPublicationCalculator.html" title="ImpliedPublicationCalculator (class)">ImpliedPublicationCalculator</a></span>
                 
               </li>
             
@@ -1457,6 +1553,13 @@
             
               <li>
                 <span class='object_link'><a href="ImportException.html" title="ImportException (class)">ImportException</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="EADModel/IndexedArchivalObjectPrefetcher.html" title="EADModel::IndexedArchivalObjectPrefetcher (class)">IndexedArchivalObjectPrefetcher</a></span>
+                
+                  <small>(EADModel)</small>
                 
               </li>
             
@@ -1494,11 +1597,6 @@
           <ul>
             
               <li>
-                <span class='object_link'><a href="JDBCReport.html" title="JDBCReport (class)">JDBCReport</a></span>
-                
-              </li>
-            
-              <li>
                 <span class='object_link'><a href="JSON.html" title="JSON (module)">JSON</a></span>
                 
               </li>
@@ -1521,12 +1619,17 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="JSONModelType.html" title="JSONModelType (class)">JSONModelType</a></span>
+                <span class='object_link'><a href="JSONModelPublishing.html" title="JSONModelPublishing (module)">JSONModelPublishing</a></span>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="JSONReport.html" title="JSONReport (class)">JSONReport</a></span>
+                <span class='object_link'><a href="JSONModelTranslatable.html" title="JSONModelTranslatable (module)">JSONModelTranslatable</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="JSONModelType.html" title="JSONModelType (class)">JSONModelType</a></span>
                 
               </li>
             
@@ -1537,16 +1640,6 @@
             
               <li>
                 <span class='object_link'><a href="JSONSchemaUtils.html" title="JSONSchemaUtils (module)">JSONSchemaUtils</a></span>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="JasperReport.html" title="JasperReport (class)">JasperReport</a></span>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="JasperReportRegister.html" title="JasperReportRegister (class)">JasperReportRegister</a></span>
                 
               </li>
             
@@ -1579,6 +1672,13 @@
             
               <li>
                 <span class='object_link'><a href="JobRunner.html" title="JobRunner (class)">JobRunner</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="JobRunner/JobRunnerError.html" title="JobRunner::JobRunnerError (class)">JobRunnerError</a></span>
+                
+                  <small>(JobRunner)</small>
                 
               </li>
             
@@ -1623,9 +1723,64 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="LargeTree.html" title="LargeTree (class)">LargeTree</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LargeTreeClassification.html" title="LargeTreeClassification (class)">LargeTreeClassification</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LargeTreeDigitalObject.html" title="LargeTreeDigitalObject (class)">LargeTreeDigitalObject</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LargeTreeResource.html" title="LargeTreeResource (class)">LargeTreeResource</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="ASpaceExport/LazyChildEnumerations.html" title="ASpaceExport::LazyChildEnumerations (module)">LazyChildEnumerations</a></span>
                 
                   <small>(ASpaceExport)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="Assessments/LinkedAgent.html" title="Assessments::LinkedAgent (module)">LinkedAgent</a></span>
+                
+                  <small>(Assessments)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="Assessments/LinkedRecord.html" title="Assessments::LinkedRecord (module)">LinkedRecord</a></span>
+                
+                  <small>(Assessments)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="OAI/Provider/Response/ListIdentifiers.html" title="OAI::Provider::Response::ListIdentifiers (class)">ListIdentifiers</a></span>
+                
+                  <small>(OAI::Provider::Response)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="OAI/Provider/Response/ListMetadataFormats.html" title="OAI::Provider::Response::ListMetadataFormats (class)">ListMetadataFormats</a></span>
+                
+                  <small>(OAI::Provider::Response)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="OAI/Provider/Response/ListSets.html" title="OAI::Provider::Response::ListSets (class)">ListSets</a></span>
+                
+                  <small>(OAI::Provider::Response)</small>
                 
               </li>
             
@@ -1635,9 +1790,31 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="AspaceJsonToManagedContainerMapper/LocationMismatchException.html" title="AspaceJsonToManagedContainerMapper::LocationMismatchException (class)">LocationMismatchException</a></span>
+                <span class='object_link'><a href="SpaceCalculator/LocationContainerLookup.html" title="SpaceCalculator::LocationContainerLookup (class)">LocationContainerLookup</a></span>
                 
-                  <small>(AspaceJsonToManagedContainerMapper)</small>
+                  <small>(SpaceCalculator)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LocationFunction.html" title="LocationFunction (class)">LocationFunction</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SpaceCalculator/LocationPacker.html" title="SpaceCalculator::LocationPacker (class)">LocationPacker</a></span>
+                
+                  <small>(SpaceCalculator)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LocationProfile.html" title="LocationProfile (class)">LocationProfile</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LocationProfilesController.html" title="LocationProfilesController (class)">LocationProfilesController</a></span>
                 
               </li>
             
@@ -1648,6 +1825,11 @@
             
               <li>
                 <span class='object_link'><a href="Log.html" title="Log (class)">Log</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="LoginFailedException.html" title="LoginFailedException (class)">LoginFailedException</a></span>
                 
               </li>
             
@@ -1672,6 +1854,11 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="MARCFormat.html" title="MARCFormat (class)">MARCFormat</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="MARCModel.html" title="MARCModel (class)">MARCModel</a></span>
                 
               </li>
@@ -1692,17 +1879,17 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="MODSFormat.html" title="MODSFormat (class)">MODSFormat</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="MODSModel.html" title="MODSModel (class)">MODSModel</a></span>
                 
               </li>
             
               <li>
                 <span class='object_link'><a href="MODSSerializer.html" title="MODSSerializer (class)">MODSSerializer</a></span>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="MapToAspaceContainer.html" title="MapToAspaceContainer (module)">MapToAspaceContainer</a></span>
                 
               </li>
             
@@ -1732,9 +1919,9 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="ContainerManagementMigration/MigrationMapper.html" title="ContainerManagementMigration::MigrationMapper (class)">MigrationMapper</a></span>
+                <span class='object_link'><a href="SpaceCalculator/MissingDimensionException.html" title="SpaceCalculator::MissingDimensionException (class)">MissingDimensionException</a></span>
                 
-                  <small>(ContainerManagementMigration)</small>
+                  <small>(SpaceCalculator)</small>
                 
               </li>
             
@@ -1778,6 +1965,11 @@
                 <span class='object_link'><a href="ASModel/ModelScoping.html" title="ASModel::ModelScoping (module)">ModelScoping</a></span>
                 
                   <small>(ASModel)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="MultipartBufferSetter.html" title="MultipartBufferSetter (class)">MultipartBufferSetter</a></span>
                 
               </li>
             
@@ -1907,6 +2099,31 @@
           <ul>
             
               <li>
+                <span class='object_link'><a href="OAIDCMapper.html" title="OAIDCMapper (class)">OAIDCMapper</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="OAIDCTermsMapper.html" title="OAIDCTermsMapper (class)">OAIDCTermsMapper</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="OAIDeletion.html" title="OAIDeletion (class)">OAIDeletion</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="OAIMODSMapper.html" title="OAIMODSMapper (class)">OAIMODSMapper</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="OAIUtils.html" title="OAIUtils (class)">OAIUtils</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="ObjectGraph/ObjectGraph.html" title="ObjectGraph::ObjectGraph (class)">ObjectGraph</a></span>
                 
                   <small>(ObjectGraph)</small>
@@ -1939,6 +2156,20 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="SearchResolver/PassThroughResolver.html" title="SearchResolver::PassThroughResolver (class)">PassThroughResolver</a></span>
+                
+                  <small>(SearchResolver)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="CycleFinder/Path.html" title="CycleFinder::Path (class)">Path</a></span>
+                
+                  <small>(CycleFinder)</small>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="Permission.html" title="Permission (class)">Permission</a></span>
                 
               </li>
@@ -1952,6 +2183,13 @@
             
               <li>
                 <span class='object_link'><a href="Permissions.html" title="Permissions (class)">Permissions</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SpaceCalculator/LocationPacker/Pile.html" title="SpaceCalculator::LocationPacker::Pile (class)">Pile</a></span>
+                
+                  <small>(SpaceCalculator::LocationPacker)</small>
                 
               </li>
             
@@ -2017,6 +2255,13 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="AdvancedQueryBuilder/RangeValue.html" title="AdvancedQueryBuilder::RangeValue (class)">RangeValue</a></span>
+                
+                  <small>(AdvancedQueryBuilder)</small>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="ASpaceExport/RawXMLHandler.html" title="ASpaceExport::RawXMLHandler (class)">RawXMLHandler</a></span>
                 
                   <small>(ASpaceExport)</small>
@@ -2063,6 +2308,11 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="RecordInheritance.html" title="RecordInheritance (class)">RecordInheritance</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="RecordNotFound.html" title="RecordNotFound (class)">RecordNotFound</a></span>
                 
               </li>
@@ -2082,12 +2332,33 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="OAI/Provider/Response/RecordResponse.html" title="OAI::Provider::Response::RecordResponse (class)">RecordResponse</a></span>
+                
+                  <small>(OAI::Provider::Response)</small>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="EADModel/IndexedArchivalObjectPrefetcher/RecordVersion.html" title="EADModel::IndexedArchivalObjectPrefetcher::RecordVersion (class)">RecordVersion</a></span>
+                
+                  <small>(EADModel::IndexedArchivalObjectPrefetcher)</small>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="RecordableCataloging.html" title="RecordableCataloging (module)">RecordableCataloging</a></span>
                 
               </li>
             
               <li>
                 <span class='object_link'><a href="ReferenceError.html" title="ReferenceError (class)">ReferenceError</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="JobRunner/RegisteredRunner.html" title="JobRunner::RegisteredRunner (class)">RegisteredRunner</a></span>
+                
+                  <small>(JobRunner)</small>
                 
               </li>
             
@@ -2103,6 +2374,11 @@
             
               <li>
                 <span class='object_link'><a href="Relationships.html" title="Relationships (module)">Relationships</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="ReportErbRenderer.html" title="ReportErbRenderer (class)">ReportErbRenderer</a></span>
                 
               </li>
             
@@ -2149,11 +2425,6 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="RepositoryReport.html" title="RepositoryReport (class)">RepositoryReport</a></span>
-                
-              </li>
-            
-              <li>
                 <span class='object_link'><a href="ASModel/RepositoryTransfers.html" title="ASModel::RepositoryTransfers (module)">RepositoryTransfers</a></span>
                 
                   <small>(ASModel)</small>
@@ -2161,7 +2432,17 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="RepresentativeImages.html" title="RepresentativeImages (module)">RepresentativeImages</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="RequestContext.html" title="RequestContext (class)">RequestContext</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="RequestFailedException.html" title="RequestFailedException (class)">RequestFailedException</a></span>
                 
               </li>
             
@@ -2173,7 +2454,14 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="Resequencer.html" title="Resequencer (class)">Resequencer</a></span>
+                <span class='object_link'><a href="RequiredFields.html" title="RequiredFields (class)">RequiredFields</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SearchResolver/ResolveDefinition.html" title="SearchResolver::ResolveDefinition (class)">ResolveDefinition</a></span>
+                
+                  <small>(SearchResolver)</small>
                 
               </li>
             
@@ -2189,6 +2477,13 @@
             
               <li>
                 <span class='object_link'><a href="ResolverHelper.html" title="ResolverHelper (module)">ResolverHelper</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="URIResolver/ResolverType.html" title="URIResolver::ResolverType (class)">ResolverType</a></span>
+                
+                  <small>(URIResolver)</small>
                 
               </li>
             
@@ -2216,6 +2511,13 @@
             
               <li>
                 <span class='object_link'><a href="ResourcesController.html" title="ResourcesController (class)">ResourcesController</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="OAI/Provider/Response.html" title="OAI::Provider::Response (module)">Response</a></span>
+                
+                  <small>(OAI::Provider)</small>
                 
               </li>
             
@@ -2281,6 +2583,26 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="RightsStatementAct.html" title="RightsStatementAct (class)">RightsStatementAct</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="RightsStatementActs.html" title="RightsStatementActs (module)">RightsStatementActs</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="RightsStatementExternalDocument.html" title="RightsStatementExternalDocument (class)">RightsStatementExternalDocument</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="RightsStatementExternalDocuments.html" title="RightsStatementExternalDocuments (module)">RightsStatementExternalDocuments</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="RightsStatements.html" title="RightsStatements (module)">RightsStatements</a></span>
                 
               </li>
@@ -2323,6 +2645,16 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="SearchResolver.html" title="SearchResolver (class)">SearchResolver</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SearchResolverCompactResource.html" title="SearchResolverCompactResource (class)">SearchResolverCompactResource</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="SearchResultData.html" title="SearchResultData (class)">SearchResultData</a></span>
                 
               </li>
@@ -2356,11 +2688,6 @@
             
               <li>
                 <span class='object_link'><a href="SequenceGenerator.html" title="SequenceGenerator (class)">SequenceGenerator</a></span>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="SerializeExtraContainerValues.html" title="SerializeExtraContainerValues (module)">SerializeExtraContainerValues</a></span>
                 
               </li>
             
@@ -2411,6 +2738,16 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="SpaceCalculator.html" title="SpaceCalculator (class)">SpaceCalculator</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SpaceCalculatorController.html" title="SpaceCalculatorController (class)">SpaceCalculatorController</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="StaticAssetFinder.html" title="StaticAssetFinder (class)">StaticAssetFinder</a></span>
                 
               </li>
@@ -2438,16 +2775,6 @@
               </li>
             
               <li>
-                <span class='object_link'><a href="SubContainerToAspaceJsonMapper.html" title="SubContainerToAspaceJsonMapper (class)">SubContainerToAspaceJsonMapper</a></span>
-                
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="SubContainers.html" title="SubContainers (module)">SubContainers</a></span>
-                
-              </li>
-            
-              <li>
                 <span class='object_link'><a href="Subject.html" title="Subject (class)">Subject</a></span>
                 
               </li>
@@ -2464,6 +2791,11 @@
             
               <li>
                 <span class='object_link'><a href="SubnoteMetadata.html" title="SubnoteMetadata (class)">SubnoteMetadata</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="SystemEvent.html" title="SystemEvent (class)">SystemEvent</a></span>
                 
               </li>
             
@@ -2487,6 +2819,13 @@
             
               <li>
                 <span class='object_link'><a href="Telephones.html" title="Telephones (module)">Telephones</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="PDFResponse/TempFileStream.html" title="PDFResponse::TempFileStream (class)">TempFileStream</a></span>
+                
+                  <small>(PDFResponse)</small>
                 
               </li>
             
@@ -2531,12 +2870,31 @@
               </li>
             
               <li>
+                <span class='object_link'><a href="Assessment/TransferRepoAttribute.html" title="Assessment::TransferRepoAttribute (class)">TransferRepoAttribute</a></span>
+                
+                  <small>(Assessment)</small>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="Transferable.html" title="Transferable (module)">Transferable</a></span>
                 
               </li>
             
               <li>
+                <span class='object_link'><a href="TreeDocs.html" title="TreeDocs (class)">TreeDocs</a></span>
+                
+              </li>
+            
+              <li>
                 <span class='object_link'><a href="TreeNodes.html" title="TreeNodes (module)">TreeNodes</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="URIResolver/TreeResolver.html" title="URIResolver::TreeResolver (class)">TreeResolver</a></span>
+                
+                  <small>(URIResolver)</small>
                 
               </li>
             
@@ -2554,19 +2912,21 @@
           <ul>
             
               <li>
-                <span class='object_link'><a href="URIResolver/URIResolver.html" title="URIResolver::URIResolver (class)">URIResolver</a></span>
+                <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span>
+                
+              </li>
+            
+              <li>
+                <span class='object_link'><a href="URIResolver/URIResolverImplementation.html" title="URIResolver::URIResolverImplementation (class)">URIResolverImplementation</a></span>
                 
                   <small>(URIResolver)</small>
                 
               </li>
             
               <li>
-                <span class='object_link'><a href="URIResolver.html" title="URIResolver (module)">URIResolver</a></span>
+                <span class='object_link'><a href="SpaceCalculator/UnsupportedUnitException.html" title="SpaceCalculator::UnsupportedUnitException (class)">UnsupportedUnitException</a></span>
                 
-              </li>
-            
-              <li>
-                <span class='object_link'><a href="UnprocessedAccessionsReport.html" title="UnprocessedAccessionsReport (class)">UnprocessedAccessionsReport</a></span>
+                  <small>(SpaceCalculator)</small>
                 
               </li>
             
@@ -2709,11 +3069,6 @@
           <ul>
             
               <li>
-                <span class='object_link'><a href="XLSXResponse.html" title="XLSXResponse (class)">XLSXResponse</a></span>
-                
-              </li>
-            
-              <li>
                 <span class='object_link'><a href="ASpaceImport/XML.html" title="ASpaceImport::XML (module)">XML</a></span>
                 
                   <small>(ASpaceImport)</small>
@@ -2731,10 +3086,11 @@
 
 </div>
 
-    <div id="footer">
-  ArchivesSpace Version v1.4.5-dev18 Documentation Generated on Mon Nov 23 15:24:47 2015 by
+      <div id="footer">
+  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:05 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-1.9.3).
+  0.9.12 (ruby-2.3.3).
 </div>
+    </div>
   </body>
 </html>

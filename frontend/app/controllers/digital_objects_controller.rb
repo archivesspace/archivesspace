@@ -1,6 +1,6 @@
 class DigitalObjectsController < ApplicationController
 
-  set_access_control  "view_repository" => [:index, :show, :tree],
+  set_access_control  "view_repository" => [:index, :show, :tree_root, :tree_node, :tree_waypoint, :node_from_root],
                       "update_digital_object_record" => [:new, :edit, :create, :update, :publish, :accept_children, :rde, :add_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
@@ -8,9 +8,20 @@ class DigitalObjectsController < ApplicationController
                       "transfer_archival_record" => [:transfer],
                       "manage_repository" => [:defaults, :update_defaults]
 
+  include ExportHelper
 
   def index
-    @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["digital_object", "digital_object_component"] : "digital_object", params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
+    respond_to do |format| 
+      format.html {   
+        @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["digital_object", "digital_object_component"] : "digital_object", params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
+      }
+      format.csv { 
+        search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS})
+        search_params["type[]"] = params[:include_components] === "true" ? ["digital_object", "digital_object_component"] : [ "digital_object" ] 
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, search_params )
+      }  
+    end 
   end
 
 
@@ -21,7 +32,7 @@ class DigitalObjectsController < ApplicationController
       # only fetch the fully resolved record when rendering the full form
       @digital_object = JSONModel(:digital_object).find(params[:id], find_opts)
 
-      flash.now[:info] = I18n.t("digital_object._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:digital_object => @digital_object)) if @digital_object.suppressed
+      flash.now[:info] = I18n.t("digital_object._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root))) if @digital_object.suppressed
 
       return render_aspace_partial :partial => "digital_objects/show_inline"
     end
@@ -31,7 +42,13 @@ class DigitalObjectsController < ApplicationController
 
 
   def transfer
-    handle_transfer(JSONModel(:digital_object))
+    begin
+      handle_transfer(JSONModel(:digital_object))
+    rescue ArchivesSpace::TransferConflictException => e
+      @transfer_errors = e.errors
+      show
+      render :action => :show
+    end
   end
 
 
@@ -119,7 +136,7 @@ class DigitalObjectsController < ApplicationController
                                 :action => :edit,
                                 :id => id
                               },
-                              :flash => {:success => I18n.t("digital_object._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object => @digital_object))})
+                              :flash => {:success => I18n.t("digital_object._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))})
                 })
   end
 
@@ -131,8 +148,7 @@ class DigitalObjectsController < ApplicationController
                   render_aspace_partial :partial => "edit_inline"
                 },
                 :on_valid => ->(id){
-                  @refresh_tree_node = true
-                  flash.now[:success] = I18n.t("digital_object._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object))
+                  flash.now[:success] = I18n.t("digital_object._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
                   render_aspace_partial :partial => "edit_inline"
                 })
   end
@@ -140,9 +156,15 @@ class DigitalObjectsController < ApplicationController
 
   def delete
     digital_object = JSONModel(:digital_object).find(params[:id])
-    digital_object.delete
 
-    flash[:success] = I18n.t("digital_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object => digital_object))
+    begin
+      digital_object.delete
+    rescue ConflictException => e
+      flash[:error] = I18n.t("digital_object._frontend.messages.delete_conflict", :error => I18n.t("errors.#{e.conflicts}", :default => e.message))
+      return redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
+    end
+
+    flash[:success] = I18n.t("digital_object._frontend.messages.deleted", JSONModelI18nWrapper.new(:digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :digital_objects, :action => :index, :deleted_uri => digital_object.uri)
   end
 
@@ -153,7 +175,7 @@ class DigitalObjectsController < ApplicationController
     response = JSONModel::HTTP.post_form("#{digital_object.uri}/publish")
 
     if response.code == '200'
-      flash[:success] = I18n.t("digital_object._frontend.messages.published", JSONModelI18nWrapper.new(:digital_object => digital_object))
+      flash[:success] = I18n.t("digital_object._frontend.messages.published", JSONModelI18nWrapper.new(:digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end
@@ -185,6 +207,7 @@ class DigitalObjectsController < ApplicationController
     flash.clear
 
     @parent = JSONModel(:digital_object).find(params[:id])
+    @digital_object_uri = @parent.uri
     @children = DigitalObjectChildren.new
     @exceptions = []
 
@@ -194,6 +217,7 @@ class DigitalObjectsController < ApplicationController
 
   def add_children
     @parent = JSONModel(:digital_object).find(params[:id])
+    @digital_object_uri = @parent.uri
 
     if params[:digital_record_children].blank? or params[:digital_record_children]["children"].blank?
 
@@ -238,7 +262,7 @@ class DigitalObjectsController < ApplicationController
     digital_object = JSONModel(:digital_object).find(params[:id])
     digital_object.set_suppressed(true)
 
-    flash[:success] = I18n.t("digital_object._frontend.messages.suppressed", JSONModelI18nWrapper.new(:digital_object => digital_object))
+    flash[:success] = I18n.t("digital_object._frontend.messages.suppressed", JSONModelI18nWrapper.new(:digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
   end
 
@@ -247,9 +271,48 @@ class DigitalObjectsController < ApplicationController
     digital_object = JSONModel(:digital_object).find(params[:id])
     digital_object.set_suppressed(false)
 
-    flash[:success] = I18n.t("digital_object._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:digital_object => digital_object))
+    flash[:success] = I18n.t("digital_object._frontend.messages.unsuppressed", JSONModelI18nWrapper.new(:digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
     redirect_to(:controller => :digital_objects, :action => :show, :id => params[:id])
   end
+
+  def tree_root
+    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
+
+    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/root")
+  end
+
+  def node_from_root
+    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
+
+    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/node_from_root",
+                                             'node_ids[]' => params[:node_ids])
+  end
+
+  def tree_node
+    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
+    node_uri = if !params[:node].blank?
+                 params[:node]
+               else
+                 nil
+               end
+
+    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/node",
+                                             :node_uri => node_uri)
+  end
+
+  def tree_waypoint
+    digital_object_uri = JSONModel(:digital_object).uri_for(params[:id])
+    node_uri = if !params[:node].blank?
+                 params[:node]
+               else
+                 nil
+               end
+
+    render :json => JSONModel::HTTP.get_json("#{digital_object_uri}/tree/waypoint",
+                                             :parent_node => node_uri,
+                                             :offset => params[:offset])
+  end
+
 
 
   private

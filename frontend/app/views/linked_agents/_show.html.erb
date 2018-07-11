@@ -35,10 +35,10 @@
               </td>
               <td>
                 <dl>
-                  <% if !link['terms'].empty? %>
+                  <% if !ASUtils.wrap(link['terms']).empty? %>
                     <dt><%= I18n.t("linked_agent.terms") %></dt>
 
-                    <% link['terms'].each do |term| %>
+                    <% ASUtils.wrap(link['terms']).each do |term| %>
                       <dd class="label label-info" title="<%= I18n.t("enumerations.subject_term_type.#{term["term_type"]}") %>">
                         <%= term['term'] %>
                       </dd>

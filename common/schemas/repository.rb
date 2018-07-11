@@ -12,9 +12,16 @@
       "org_code" => {"type" => "string", "maxLength" => 255},
       "country" => {"type" => "string", "required" => false, "dynamic_enum" => "country_iso_3166"},
       "parent_institution_name" => {"type" => "string", "maxLength" => 255},
+      "description" => {"type" => "string", "maxLength" => 65000},
       "url" => {"type" => "string", "maxLength" => 255, "pattern" => "\\Ahttps?:\\/\\/[\\\S]+\\z"},
       "image_url" => {"type" => "string", "maxLength" => 255, "pattern" => "\\Ahttps?:\\/\\/[\\\S]+\\z"},
       "contact_persons" => {"type" => "string", "maxLength" => 65000},
+
+      "publish" => {"type" => "boolean"},
+
+      "display_string" => {"type" => "string", "readonly" => true},
+      "oai_is_disabled" => {"type" => "boolean"},
+      "oai_sets_available" => {"type" => "string"},
 
       "agent_representation" => {
         "type" => "object",

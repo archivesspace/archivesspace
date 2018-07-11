@@ -39,12 +39,12 @@ class Job
 
 
   def self.active
-    JSONModel::HTTP::get_json(JSONModel(:job).uri_for("active"), "resolve[]" => "repository")
+    JSONModel::HTTP::get_json(JSONModel(:job).uri_for("active"), "resolve[]" => "repository") || {'results' => []}
   end
 
 
   def self.archived(page)
-    JSONModel::HTTP::get_json(JSONModel(:job).uri_for("archived"), :page => page, "resolve[]" => "repository")
+    JSONModel::HTTP::get_json(JSONModel(:job).uri_for("archived"), :page => page, "resolve[]" => "repository") || {'results' => []}
   end
 
 

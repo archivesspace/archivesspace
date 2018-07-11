@@ -8,11 +8,12 @@ module Trees
 
 
   def adopt_children(old_parent)
-    self.class.node_model.
-         this_repo.filter(:root_record_id => old_parent.id,
-                          :parent_id => nil).order(:position).each do |root_child|
-                            root_child.set_root(self)
-                          end
+    self.class.node_model.this_repo
+      .filter(:root_record_id => old_parent.id,
+              :parent_id => nil)
+      .order(:position).each do |root_child|
+      root_child.set_root(self)
+    end
   end
 
 
@@ -31,6 +32,14 @@ module Trees
     self.class.node_model.
            this_repo.filter(:root_record_id => self.id,
                             :parent_id => nil)
+  end
+
+
+  def children?
+    self.class.node_model.
+      this_repo.filter(:root_record_id => self.id,
+                       :parent_id => nil)
+               .count > 0
   end
 
 
@@ -94,7 +103,7 @@ module Trees
   end
 
 
-  def tree(ids_of_interest = :all)
+  def tree(ids_of_interest = :all, display_mode = :full)
     links = {}
     properties = {}
 
@@ -141,7 +150,9 @@ module Trees
           properties[node.id]['has_children'] = !!has_children[node.id]
         end
 
-        load_node_properties(node, properties, ids_of_interest)
+        unless display_mode == :sparse
+          load_node_properties(node, properties, ids_of_interest)
+        end
       end
 
       if nodes.empty?
@@ -161,16 +172,106 @@ module Trees
       :children => top_nodes.sort_by(&:first).map {|position, node| self.class.assemble_tree(node, links, properties)},
       :record_uri => self.class.uri_for(root_type, self.id)
     }
-    
-    if  self.respond_to?(:finding_aid_filing_title) && !self.finding_aid_filing_title.nil? && self.finding_aid_filing_title.length > 0
-      result[:finding_aid_filing_title] = self.finding_aid_filing_title
-    end
 
-    load_root_properties(result, ids_of_interest)
+    unless display_mode == :sparse
+      if self.respond_to?(:finding_aid_filing_title) && !self.finding_aid_filing_title.nil? && self.finding_aid_filing_title.length > 0
+        result[:finding_aid_filing_title] = self.finding_aid_filing_title
+      end
+
+      load_root_properties(result, ids_of_interest)
+    end
 
     JSONModel("#{self.class.root_type}_tree".intern).from_hash(result, true, true)
   end
 
+  # Return a depth-first-ordered list of URIs under this tree (starting with the tree itself)
+  def ordered_records
+    if self.publish == 0 || self.suppressed == 1
+      # The whole resource is excluded.
+      return []
+    end
+
+    id_positions = {}
+    id_display_strings = {}
+    id_depths = {nil => 0}
+    parent_to_child_id = {}
+
+    # Any record that is either suppressed or unpublished will be excluded from
+    # our results.  Descendants of an excluded record will also be excluded.
+    excluded_rows = {}
+
+    self.class.node_model
+      .filter(:root_record_id => self.id)
+      .select(:id, :position, :parent_id, :display_string, :publish, :suppressed).each do |row|
+      id_positions[row[:id]] = row[:position]
+      id_display_strings[row[:id]] = row[:display_string]
+      parent_to_child_id[row[:parent_id]] ||= []
+      parent_to_child_id[row[:parent_id]] << row[:id]
+
+      if row[:publish] == 0 || row[:suppressed] == 1
+        excluded_rows[row[:id]] = true
+      end
+    end
+
+    excluded_rows = apply_exclusions_to_descendants(excluded_rows, parent_to_child_id)
+
+    # Our ordered list of record IDs
+    result = []
+
+    # Start with top-level records
+    root_set = [nil]
+    id_positions[nil] = 0
+
+    while !root_set.empty?
+      next_rec = root_set.shift
+      if next_rec.nil?
+        # Our first iteration.  Nothing to add yet.
+      else
+        unless excluded_rows[next_rec]
+          result << next_rec
+        end
+      end
+
+      children = parent_to_child_id.fetch(next_rec, []).sort_by {|child| id_positions[child]}
+      children.reverse.each do |child|
+        id_depths[child] = id_depths[next_rec] + 1
+        root_set.unshift(child)
+      end
+    end
+
+    extra_root_properties = self.class.ordered_record_properties([self.id])
+    extra_node_properties = self.class.node_model.ordered_record_properties(result)
+
+    [{'ref' => self.uri,
+      'display_string' => self.title,
+      'depth' => 0}.merge(extra_root_properties.fetch(self.id, {}))] +
+      result.map {|id| {
+                    'ref' => self.class.node_model.uri_for(self.class.node_type, id),
+                    'display_string' => id_display_strings.fetch(id),
+                    'depth' => id_depths.fetch(id),
+                  }.merge(extra_node_properties.fetch(id, {}))}
+  end
+
+  # Update `excluded_rows` to mark any descendant of an excluded record as
+  # itself excluded.
+  #
+  # `excluded_rows` is a map whose keys are the IDs of records that have been
+  # marked as excluded.  `parent_to_child_id` is a map of record IDs to their
+  # immediate children's IDs.
+  #
+  def apply_exclusions_to_descendants(excluded_rows, parent_to_child_id)
+    remaining = excluded_rows.keys
+
+    while !remaining.empty?
+      excluded_parent = remaining.shift
+      parent_to_child_id.fetch(excluded_parent, []).each do |child_id|
+        excluded_rows[child_id] = true
+        remaining.push(child_id)
+      end
+    end
+
+    excluded_rows
+  end
 
   def transfer_to_repository(repository, transfer_group = [])
     obj = super
@@ -267,6 +368,11 @@ module Trees
       end
 
       super
+    end
+
+    # Default: to be overriden by implementing models
+    def ordered_record_properties(record_ids)
+      {}
     end
   end
 

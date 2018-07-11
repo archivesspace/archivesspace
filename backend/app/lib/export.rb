@@ -5,15 +5,15 @@ require_relative 'AS_fop'
 module ExportHelpers
 
   ASpaceExport::init
-  
+
   def pdf_response(pdf)
     [status, {"Content-Type" => "application/pdf"}, pdf ]
   end
-  
+
   def generate_pdf_from_ead( ead )
     xml = ""
     ead.each { |e| xml << e  }
-    ASFop.new(xml).to_pdf_stream
+    ASFop.new(xml).to_pdf
   end
 
   def xml_response(xml)
@@ -21,8 +21,8 @@ module ExportHelpers
   end
 
 
-  def stream_response(streamer)
-    [status, {"Content-Type" => "application/xml"}, streamer]
+  def stream_response(streamer, content_type = "application/xml")
+    [status, {"Content-Type" => content_type}, streamer]
   end
 
 
@@ -32,8 +32,10 @@ module ExportHelpers
 
 
   def generate_labels(id)
-    obj = resolve_references(Resource.to_jsonmodel(id), ['tree', 'repository'])
-    labels = ASpaceExport.model(:labels).from_resource(JSONModel(:resource).new(obj))
+    resource = Resource.get_or_die(id)
+    obj = resolve_references(Resource.to_jsonmodel(resource), ['repository'])
+    labels = ASpaceExport.model(:labels).from_resource(JSONModel(:resource).new(obj),
+                                                       resource.tree(:all, mode = :sparse))
     ASpaceExport::serialize(labels, :serializer => :tsv)
   end
 
@@ -45,40 +47,68 @@ module ExportHelpers
   end
 
 
-  def generate_mets(id)
-    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository::agent_representation', 'linked_agents', 'subjects', 'tree'])
-    mets = ASpaceExport.model(:mets).from_digital_object(JSONModel(:digital_object).new(obj))
-    ASpaceExport::serialize(mets)
+  def generate_mets(id, dmd = "mods")
+    digital_object = DigitalObject.get_or_die(id)
+    obj = resolve_references(DigitalObject.to_jsonmodel(digital_object),
+                             ['repository::agent_representation', 'linked_agents', 'subjects'])
+
+    # FIXME: This currently still uses the full digital object tree because it
+    # needs access to all file versions.  Maybe there's some other way we could
+    # get this data out?
+    mets = ASpaceExport.model(:mets).from_digital_object(JSONModel(:digital_object).new(obj),
+                                                         digital_object.tree(:all))
+    ASpaceExport::serialize(mets, {:dmd => dmd})
   end
 
 
   def generate_mods(id)
-    obj = resolve_references(DigitalObject.to_jsonmodel(id), ['repository::agent_representation', 'linked_agents', 'subjects', 'tree'])
-    mods = ASpaceExport.model(:mods).from_digital_object(JSONModel(:digital_object).new(obj))
+    digital_object = DigitalObject.get_or_die(id)
+    obj = resolve_references(DigitalObject.to_jsonmodel(digital_object),
+                             ['repository::agent_representation', 'linked_agents', 'subjects'])
+    mods = ASpaceExport.model(:mods).from_digital_object(JSONModel(:digital_object).new(obj),
+                                                         digital_object.tree(:all, mode = :sparse))
     ASpaceExport::serialize(mods)
   end
 
 
-  def generate_marc(id)
+  def generate_marc(id, include_unpublished = false)
     obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects'])
-    marc = ASpaceExport.model(:marc21).from_resource(JSONModel(:resource).new(obj))
+
+    opts = {:include_unpublished => include_unpublished}
+
+    resource = JSONModel(:resource).new(obj)
+    JSONModel::set_publish_flags!(resource)
+    marc = ASpaceExport.model(:marc21).from_resource(resource, opts)
+
     ASpaceExport::serialize(marc)
   end
 
 
-  def generate_ead(id, include_unpublished, include_daos, use_numbered_c_tags)
-    obj = resolve_references(Resource.to_jsonmodel(id), ['repository', 'linked_agents', 'subjects', 'tree', 'digital_object'])
+  def generate_ead(id, include_unpublished, include_daos, use_numbered_c_tags, ead3)
+    resolve = ['repository', 'linked_agents', 'subjects', 'digital_object', 'top_container', 'top_container::container_profile']
+
+    resource = Resource.get_or_die(id)
+
+    jsonmodel = JSONModel(:resource).new(resolve_references(Resource.to_jsonmodel(resource), resolve))
+
     opts = {
       :include_unpublished => include_unpublished,
       :include_daos => include_daos,
-      :use_numbered_c_tags => use_numbered_c_tags
+      :use_numbered_c_tags => use_numbered_c_tags,
+      :ead3 => ead3
     }
 
-    ead = ASpaceExport.model(:ead).from_resource(JSONModel(:resource).new(obj), opts)
-    ASpaceExport::stream(ead)
+    if ead3
+      opts[:serializer] = :ead3
+    end
+
+    # SPECIFY SERIALIZER HERE
+
+    ead = ASpaceExport.model(:ead).from_resource(jsonmodel, resource.tree(:all, mode = :sparse), opts)
+    ASpaceExport::stream(ead, opts)
   end
 
-  
+
   def generate_eac(id, type)
     klass = Kernel.const_get(type.camelize)
     events = []
@@ -107,5 +137,13 @@ module ExportHelpers
     eac = ASpaceExport.model(:eac).from_agent(JSONModel(type.intern).new(obj), events, related_records, repo)
     ASpaceExport::serialize(eac)
   end
+
+  # this takes identifiers and makes sure there's no 'funny' characters.
+  # usefuly for filenaming on exports.
+  def safe_filename(id, suffix = "")
+    filename = "#{id}_#{Time.now.getutc}_#{suffix}"
+    filename.gsub(/\s+/, '_').gsub(/[^0-9A-Za-z_\.]/, '')
+  end
+
 
 end

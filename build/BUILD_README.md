@@ -30,10 +30,27 @@ To run a development instance of all ArchivesSpace components:
 
 These should be run in different terminal sessions and do not need to be run
 in a specific order or are all required.
+
+For added convenience see: supervisord/README.md for a simpler way of running 
+the development servers with output for all servers sent to a single terminal 
+window.
+
 You can also clear your database and search indexes with:
 
      build/run db:nuke
 
+To override configuration defaults create the file `common/config/config.rb`
+and set values as needed (restart the development servers). To use MySQL
+for development you can set the `db_url` in `common/config/config.rb` or set
+the `aspace.config.db_url` property of `JAVA_OPTS`:
+
+```
+export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://127.0.0.1:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
+```
+
+See the [setup instructions](https://github.com/archivesspace/archivesspace/#running-archivesspace-against-mysql) for initializing the database.
+The MySQL connector should be downloaded to `common/lib`. If you restore a
+database to use in development it may not play well with the tests.
 
 ## Running the tests
 
@@ -73,15 +90,8 @@ directory in your ArchivesSpace project directory.
 
 ## Building a distribution
 
-To build an ArchivesSpace release, use the `build_release` script from
-your project directory:
-
-     scripts/build_release
+See: README_RELEASE.md for information on building a distribution.
 
 ## Generating API documentation
 
-To generate documentation for backend endpoints:
-
-    build/run doc:yard
-
-The generated HTML will be placed in the `doc` directory in your archivesspace root.
+See: README_RELEASE.md for information on building the documentation.

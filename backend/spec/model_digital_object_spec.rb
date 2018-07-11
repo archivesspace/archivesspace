@@ -24,8 +24,7 @@ describe 'Digital object model' do
   it "can link a digital object to an accession" do
     digital_object = create(:json_digital_object)
     acc = create(:json_accession,
-                 :instances => [build(:json_instance,
-                                      :instance_type => 'digital_object',
+                 :instances => [build(:json_instance_digital,
                                       :digital_object => {'ref' => digital_object.uri})])
 
     digital_object = JSONModel(:digital_object).find(digital_object.id)
@@ -102,6 +101,40 @@ describe 'Digital object model' do
 
 
     obj.file_versions.first['caption'].should eq("bar one");
+  end
+
+  it "deletes all related instances when digital object is deleted" do
+
+    # Create resource and link to digital instance
+    resource = create(:json_resource,
+                      :instances => [build(:json_instance_digital)])
+
+    # Identify digital object
+    do_id = ((resource.instances[0]['digital_object']['ref']).split('/'))[4].to_i
+    linked_digital_object = DigitalObject.where(:id => do_id).first
+
+    # Identify instance
+    instance = linked_digital_object.related_records(:instance_do_link).map {|sub| sub }.first
+
+    # Delete digital object
+    linked_digital_object = JSONModel(:digital_object).find(linked_digital_object.id)
+    linked_digital_object.delete
+
+    # Digital object should be dead
+    expect {
+      JSONModel(:digital_object).find(linked_digital_object.id)
+    }.to raise_error(RecordNotFound)
+
+    # Instance should be dead
+    expect(
+      Instance.filter(:id => instance.id).all
+    ).to be_empty
+
+    # Confirm all is still well with the resource
+    resource = JSONModel(:resource).find(resource.id)
+    resource.should_not eq(nil)
+    resource.instances.count.should be(0)
+
   end
 
 end

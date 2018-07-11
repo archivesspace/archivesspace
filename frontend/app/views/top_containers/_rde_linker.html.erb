@@ -1,0 +1,63 @@
+<%
+  if form.obj['ref'].blank?
+    selected_json = "{}"
+  else
+    selected_json = form.obj['_resolved'].to_json
+  end
+
+  exclude_ids = [] if exclude_ids.blank?
+
+  allow_create = true if allow_create.nil?
+
+  required = true if required.nil?
+
+  linkable_types = ["top_container"]
+
+  build_typeahead_url = proc {
+    uri = self.instance_variable_get(:"@resource_uri")
+
+    url_for :controller => :top_containers, :action => :typeahead, :format => :json, :uri => uri
+  }
+
+%>
+<div class="form-group <% if required %>required<% end %>">
+  <div class="controls col-sm-10">
+    <div class="input-group linker-wrapper">
+      <input type="text" class="linker"
+             id="<%= form.id_for("ref") %>"
+             data-label="<%= I18n.t("top_container._singular") %>"
+             data-label_plural="<%= I18n.t("top_container._plural") %>"
+             data-name="ref"
+             data-path="<%= form.path %>"
+             data-url="<%= build_typeahead_url.call %>"
+             data-browse-url="<%= url_for :controller => :top_containers, :action => :bulk_operations_browse %>"
+             data-selected="<%= selected_json %>"
+             data-multiplicity="one"
+             data-types='<%= linkable_types.to_json %>'
+             data-exclude='<%= exclude_ids.to_json %>'
+      />
+
+      <% if form.obj.has_key?('_resolved') %>
+
+        <input type="text"
+               class='prelinker'
+               name="<%= form.path %>[_resolved]"
+               value="<%= selected_json %>" />
+
+        <input type="text"
+               class='prelinker'
+               name="<%= form.path %>[ref]"
+               value="<%= form.obj["ref"] %>" />
+
+      <% end %>
+
+      <% if allow_create && user_can?('update_container_record') %>
+
+        <div class="input-group-btn">
+          <a data-target="<%= url_for :controller => :top_containers, :action => :new, :small => true, :inline => true, :created_for_collection => self.instance_variable_get(:"@resource_uri") %>" class="btn btn-default linker-create-btn"><%= I18n.t("actions.create") %></a>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

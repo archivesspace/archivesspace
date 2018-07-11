@@ -1,0 +1,85 @@
+ <%# any result that is going to be presented in a list %>
+ <%# Pry::ColorPrinter.pp(result['json'])%>
+ <% if !props.fetch(:full,false) %>
+   <div class="recordrow" style="clear:both" data-uri="<%= result.uri %>">
+     <% end %>
+     <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
+     <div class="recordsummary" style="clear:both">
+       <% if !result['parent_institution_name'].blank? %>
+       <div><strong><%= t('parent_inst') %>:</strong>
+         <%= result['parent_institution_name'] %>
+       </div>
+       <% end %>
+
+       <% note_struct = result.note('abstract')
+	  if note_struct.blank?
+	    note_struct = result.note('scopecontent')
+          end
+	  if !note_struct['note_text'].blank? %>
+          <div class="abstract single_note"><span class='inline-label'><%= note_struct['label'] %></span>
+           <% if note_struct['note_text'].length > 500 %>
+             <% truncated_note = note_struct['note_text'][0..499] %>
+             <% end_index = truncated_note.rindex(' ') || 499 %>
+             <%= strip_tags(truncated_note[0..end_index - 1]) + '...' %>
+           <% else %>
+	     <%= note_struct['note_text'].html_safe %>
+           <% end %>
+          </div>
+         <% end %>
+       <% unless props.fetch(:no_repo, false) %>
+       <% r_uri = nil
+	  r_name = nil
+	  if result['json']['repository'] && result['json']['repository']['_resolved'] && (!result['json']['repository']['ref'].blank? || !result['json']['repository']['_resolved']['name'].blank?)
+	    r_uri = result['json']['repository']['ref'] || ''
+	    r_name = result['json']['repository']['_resolved']['name'] || ''
+	  elsif result['_resolved_repository'] && result['_resolved_repository']['json']
+	   r_uri =  result['_resolved_repository']['json']['uri'] || ''
+            r_name = result['_resolved_repository']['json']['name'] || ''
+	  end
+       %>
+    <% end %>
+
+    <% if result.resolved_repository %>
+      <div class="result_context">
+        <strong><%= t('context') %>: </strong>
+        <span  class="repo_name">
+          <%= link_to result.resolved_repository.fetch('name'), app_prefix(result.resolved_repository.fetch('uri')) %>
+        </span>
+
+        <% if result.respond_to?(:ancestors) && result.ancestors %>
+          <% result.ancestors.each do |ancestor| %>
+            <%= t('context_delimiter') %>
+            <span class="ancestor">
+            <%= link_to process_mixed_content(ancestor.fetch('title', "[#{ ancestor.fetch('level', 'untitled')}]" )).html_safe, app_prefix(ancestor.fetch('uri')) %>
+            </span>
+          <% end %>
+        <% else %>
+          <% unless props.fetch(:no_res, false) || result.resolved_resource.blank? %>
+            <%= t('context_delimiter') %>
+            <span class="resource_name">
+              <%= link_to process_mixed_content(result.resolved_resource.fetch('title')).html_safe, app_prefix(result.resolved_resource.fetch('uri')) %>
+            </span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
+
+       <% if !props.fetch(:full,false)  && result['primary_type'] == 'repository' %>
+       <div><strong><%= t('number_of', { :type => t('resource._plural') }) %></strong> <%= @counts[result.uri]['resource'] %></div>
+       <% end %>
+
+     <% if result.primary_type == 'classification' && result.classification_terms? %>
+     <div class="classification-subgroups">
+       <button class="btn btn-default btn-sm subgroup-toggle" aria-pressed="false">
+         <i aria-hidden="true" class="fa fa-plus"></i>
+         <%= t('classification._public.actions.show_subgroups') %>
+       </button>
+       <div class="classification-subgroups-tree largetree-container" style="display: none;"></div>
+     </div>
+     <% end %>
+   </div>
+
+<% if !props.fetch(:full,false) %>
+   </div>
+<% end %>

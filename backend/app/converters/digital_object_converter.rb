@@ -25,11 +25,6 @@ class DigitalObjectConverter < Converter
   end
 
 
-  def self.profile
-    "Convert Digital Object Records from a CSV file"
-  end
-
-
   def self.configure
     {
       # 1. Map the cell data to schemas or handlers
@@ -167,7 +162,7 @@ class DigitalObjectConverter < Converter
       'user_defined_enum_4' => 'user_defined.enum_4',
 
       'file_version_file_uri' => 'file_version.file_uri',
-      'file_version_publish' => 'file_version.publish',
+      'file_version_publish' => [normalize_boolean, 'file_version.publish'],
       'file_version_use_statement' => 'file_version.use_statement',
       'file_version_xlink_actuate_attribute' => 'file_version.xlink_actuate_attribute',
       'file_version_xlink_show_attribute' => 'file_version.xlink_show_attribute',

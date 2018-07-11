@@ -49,9 +49,10 @@ class ArchivesSpaceService < Sinatra::Base
     handle_listing(DigitalObject, params)
   end
 
-
   Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree')
     .description("Get a Digital Object tree")
+    .deprecated("Call the */tree/{root,waypoint,node} endpoints to traverse record trees." +
+               "  See backend/app/model/large_tree.rb for further information.")
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
@@ -86,6 +87,78 @@ class ArchivesSpaceService < Sinatra::Base
     digital_object.publish!
 
     updated_response(digital_object)
+  end
+
+  ## Trees!
+
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree/root')
+    .description("Fetch tree information for the top-level digital object record")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+    .permissions([:view_repository])
+    .returns([200, TreeDocs::ROOT_DOCS]) \
+  do
+    json_response(large_tree_for_digital_object.root)
+  end
+
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree/waypoint')
+    .description("Fetch the record slice for a given tree waypoint")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["offset", Integer, "The page of records to return"],
+            ["parent_node", String, "The URI of the parent of this waypoint (none for the root record)", :optional => true],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+    .permissions([:view_repository])
+    .returns([200, TreeDocs::WAYPOINT_DOCS]) \
+  do
+    offset = params[:offset]
+
+    parent_id = if params[:parent_node]
+                  JSONModel.parse_reference(params[:parent_node]).fetch(:id)
+                else
+                  # top-level record
+                  nil
+                end
+
+    json_response(large_tree_for_digital_object.waypoint(parent_id, offset))
+  end
+
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree/node')
+    .description("Fetch tree information for an Digital Object Component record within a tree")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["node_uri", String, "The URI of the Digital Object Component record of interest"],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+    .permissions([:view_repository])
+    .returns([200, TreeDocs::NODE_DOCS]) \
+  do
+    digital_object_component_id = JSONModel.parse_reference(params[:node_uri]).fetch(:id)
+
+    json_response(large_tree_for_digital_object.node(DigitalObjectComponent.get_or_die(digital_object_component_id)))
+  end
+
+  Endpoint.get('/repositories/:repo_id/digital_objects/:id/tree/node_from_root')
+    .description("Fetch tree paths from the root record to Digital Object Components")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["node_ids", [Integer], "The IDs of the Digital Object Component records of interest"],
+            ["published_only", BooleanParam, "Whether to restrict to published/unsuppressed items", :default => false])
+    .permissions([:view_repository])
+    .returns([200, TreeDocs::NODE_FROM_ROOT_DOCS]) \
+  do
+    json_response(large_tree_for_digital_object.node_from_root(params[:node_ids], params[:repo_id]))
+  end
+
+  private
+
+  def large_tree_for_digital_object(largetree_opts = {})
+    digital_object = DigitalObject.get_or_die(params[:id])
+
+    large_tree = LargeTree.new(digital_object, {:published_only => params[:published_only]}.merge(largetree_opts))
+    large_tree.add_decorator(LargeTreeDigitalObject.new)
+
+    large_tree
   end
 
 end

@@ -1,0 +1,22 @@
+<% if @transfer_errors %>
+    <%# Pull in the relevant javascript for the 'show' view to make sure trees are loaded %>
+    <%= javascript_include_tag "#{controller.controller_name}.show" if File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js") ||  File.exist?("#{Rails.root}/app/assets/javascripts/#{controller_name}.show.js.erb") %>
+
+    <div class="alert alert-danger">
+        <h3><%= I18n.t('actions.transfer_failed') %></h3>
+
+        <% if @transfer_errors.values.all? {|e| e['message'] == 'DIGITAL_OBJECT_IN_USE'} %>
+            <p>
+                <%= I18n.t('actions.transfer_failed_records_using_digital_objects') %>:
+                <ul>
+                    <% @transfer_errors.keys.each do |uri| %>
+                        <li><%= link_to uri, {:controller => :resolver, :action => :resolve_readonly, :uri => uri} %></li>
+                    <% end %>
+                </ul>
+            </p>
+        <% else %>
+            <%# Shouldn't happen, but give something to report... %>
+            <%= @transfer_errors.inspect %>
+        <% end %>
+    </div>
+<% end %>

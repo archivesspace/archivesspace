@@ -24,7 +24,7 @@ goto STARTUP
 
 :NOJAVA
 echo *** Could not run your 'java' executable.
-echo *** Please ensure that Java 1.6 (or above) is installed on your machine.
+echo *** Please ensure that Java 1.7 or 1.8 is installed on your machine.
 goto END
 
 
@@ -32,7 +32,7 @@ goto END
 :STARTUP
 
 echo Writing log file to logs\archivesspace.out
-java -Darchivesspace-daemon=yes %JAVA_OPTS% -Xss2m -XX:MaxPermSize=256m -Xmx1024m -Dfile.encoding=UTF-8 -cp "%GEM_HOME%\gems\jruby-rack-1.1.12\lib\*;lib\*;launcher\lib\*!JRUBY!" org.jruby.Main --1.9 "launcher/launcher.rb" > "logs/archivesspace.out" 2>&1
+java -Darchivesspace-daemon=yes %JAVA_OPTS% -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1 -Xss2m -XX:MaxPermSize=256m -Xmx1024m -Dfile.encoding=UTF-8 -cp "%GEM_HOME%\gems\jruby-rack-1.1.12\lib\*;lib\*;launcher\lib\*!JRUBY!" org.jruby.Main "launcher/launcher.rb" > "logs/archivesspace.out" 2>&1
 
 :END
 

@@ -1,0 +1,13 @@
+<table>
+  <tr>
+    <th><%= t('location') %></th>
+    <th><%= t('container') %></th>
+  </tr>
+
+  <% @report.each do |location| %>
+    <tr>
+      <td><%= h location.fetch('location') %></td>
+      <td><%= h location.fetch('container') %></td>
+    </tr>
+  <% end %>
+</table>

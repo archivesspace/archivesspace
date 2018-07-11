@@ -6,6 +6,8 @@ string (max length: 65000)	finding_aid_filing_title
 
 string (max length: 255)	level
 
+string (max length: 255)	component_id
+
 array (string)	instance_types
 
 array (object)	containers

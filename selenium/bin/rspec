@@ -7,4 +7,4 @@ echo $GEM_HOME
 export GEM_PATH=""
 export RUBYLIB="$RUBYLIB:$basedir/common"
 
-exec java $JAVA_OPTS -cp "$basedir/build/*:$basedir/common/lib/*" org.jruby.Main --1.9 --debug $GEM_HOME/bin/rspec "$@"
+exec java $JAVA_OPTS -cp "$basedir/build/*:$basedir/common/lib/*" org.jruby.Main --debug $GEM_HOME/bin/rspec "$@"

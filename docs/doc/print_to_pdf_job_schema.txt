@@ -4,6 +4,8 @@ Properties
 
 string	source
 
+boolean	include_unpublished
+
 
 
 

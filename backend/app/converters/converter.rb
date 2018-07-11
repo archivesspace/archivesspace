@@ -1,5 +1,52 @@
 require_relative 'lib/parse_queue'
+
+#
+# `Converter` is an interface used to implement new importer types.  To
+# implement your own converter, create a subclass of this class and implement
+# the "IMPLEMENT ME" methods marked below.
+#
 class Converter
+
+  # Implement this in your Converter class!
+  #
+  # Returns descriptive metadata for the import type(s) implemented by this
+  # Converter.
+  def self.import_types(show_hidden = false)
+    raise NotImplementedError.new
+
+    # Example:
+    [
+     {
+       :name => "my_import_type",
+       :description => "Description of new importer"
+     }
+    ]
+  end
+
+  # Implement this in your Converter class!
+  #
+  # If this Converter will handle `type` and `input_file`, return an instance.
+  def self.instance_for(type, input_file)
+    raise NotImplementedError.new
+
+    # Example:
+    if type == "my_import_type"
+      self.new(input_file)
+    else
+      nil
+    end
+  end
+
+  # Implement this in your Converter class!
+  #
+  # Process @input_file and load records into @batch.
+  def run
+    raise NotImplementedError.new
+  end
+
+
+  ##
+  ## That's it!  Other implementation bits follow...
 
   class ConverterMappingError < StandardError; end
 

@@ -1,0 +1,7 @@
+<% if ASUtils.wrap(form["functions"]).length > 0 %>
+  <div class="subrecord-form-container">
+    <%= form.list_for(form["functions"], "functions[]") do |item| %>
+      <% form.emit_template("location_function", item) %>
+    <% end %>
+  </div>
+<% end %>

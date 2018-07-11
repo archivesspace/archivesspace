@@ -1,0 +1,35 @@
+<div class="toc-page">
+    <h2><%= I18n.t('pdf_reports.table_of_contents') %></h2>
+
+    <ul class="toc">
+        <li class="level-1"><a href="#summary-information"><%= I18n.t('pdf_reports.summary_information') %></a></li>
+
+        <% resource.notes.each do |note_type, note| %>
+            <% next unless ['physdesc'].include?(note_type) %>
+            <li class="level-1"><a href="#administrative-information"><%= I18n.t("enumerations._note_types.#{note_type}") %></a></li>
+        <% end %>
+
+        <% resource.notes.each do |note_type, note| %>
+            <% next if ['physdesc'].include?(note_type) %>
+            <li class="level-1">
+                <a href="#note-<%= note_type %>">
+                    <% if note['label'] %>
+                        <%= note['label'] %>
+                    <% else %>
+                        <%= I18n.t("enumerations._note_types.#{note_type}") %>
+                    <% end %>
+                </a>
+            </li>
+        <% end %>
+
+        <li class="level-1"><a href="#administrative-information"><%= I18n.t('pdf_reports.administrative_information') %></a></li>
+
+        <% if has_children %>
+            <li class="level-1"><a href="#collection-inventory"><%= I18n.t('pdf_reports.collection_inventory') %></a></li>
+        <% end %>
+
+        <% ordered_aos.each do |entry| %>
+            <li class="level-<%= entry.depth + 1 %>"><a href="#<%= entry.uri %>"><%== process_mixed_content(entry.display_string) %></a></li>
+        <% end %>
+    </ul>
+</div>

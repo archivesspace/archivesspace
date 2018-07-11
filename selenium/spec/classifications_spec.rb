@@ -10,7 +10,7 @@ describe "Classifications" do
     @classification_agent = create(:agent_person)
     @agent_sort_name = @classification_agent.names.first['sort_name']
 
-    @driver = Driver.new.login($admin)
+    @driver = Driver.get.login($admin)
 
     run_index_round
     @driver.select_repo(@repo.repo_code)
@@ -27,16 +27,13 @@ describe "Classifications" do
 
   it "allows you to create a classification tree" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Classification").click
+    @driver.click_and_wait_until_gone(:link, "Classification")
 
     @driver.clear_and_send_keys([:id, 'classification_identifier_'], "10")
     @driver.clear_and_send_keys([:id, 'classification_title_'], test_classification)
 
     token_input = @driver.find_element(:id, "token-input-classification_creator__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@agent_sort_name)
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @agent_sort_name ) 
 
     @driver.click_and_wait_until_gone(:css => "form#classification_form button[type='submit']")
 
@@ -53,10 +50,7 @@ describe "Classifications" do
     @driver.clear_and_send_keys([:id, 'classification_term_title_'], test_classification_term)
 
     token_input = @driver.find_element(:id, "token-input-classification_term_creator__ref_")
-    token_input.clear
-    token_input.click
-    token_input.send_keys(@agent_sort_name)
-    @driver.find_element(:css, "li.token-input-dropdown-item2").click
+    @driver.typeahead_and_select( token_input, @agent_sort_name )
 
     @driver.click_and_wait_until_gone(:css => "form#classification_term_form button[type='submit']")
 
@@ -68,7 +62,7 @@ describe "Classifications" do
 
   it "allows you to link a resource to a classification" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Resource").click
+    @driver.click_and_wait_until_gone(:link, "Resource")
 
     @driver.clear_and_send_keys([:id, "resource_title_"], "a resource")
     @driver.complete_4part_id("resource_id_%d_")
@@ -92,6 +86,7 @@ describe "Classifications" do
     assert(5) {
       @driver.clear_and_send_keys([:id, "token-input-resource_classifications__0__ref_"],
                                   test_classification)
+      sleep 1 
       @driver.find_element(:css, "li.token-input-dropdown-item2").click
     }
     
@@ -99,6 +94,7 @@ describe "Classifications" do
     assert(5) {
       @driver.clear_and_send_keys([:id, "token-input-resource_classifications__1__ref_"],
                                   test_classification_term)
+      sleep 1 
       @driver.find_element(:css, "li.token-input-dropdown-item2").click
     }
 
@@ -112,7 +108,7 @@ describe "Classifications" do
 
   it "allows you to link an accession to a classification" do
     @driver.find_element(:link, "Create").click
-    @driver.find_element(:link, "Accession").click
+    @driver.click_and_wait_until_gone(:link, "Accession")
 
     accession_title = "Tomorrow's Harvest"
     accession_4part_id = @driver.generate_4part_id
@@ -127,9 +123,8 @@ describe "Classifications" do
 
     assert(5) {
       run_index_round
-      @driver.clear_and_send_keys([:id, "token-input-accession_classifications__0__ref_"],
-                                  test_classification)
-      @driver.find_element(:css, "li.token-input-dropdown-item2").click
+      token_input = @driver.find_element(:id, "token-input-accession_classifications__0__ref_")
+      @driver.typeahead_and_select( token_input,  test_classification )
     }
 
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
@@ -152,7 +147,7 @@ describe "Classifications" do
     
     @driver.get_view_page(a_classification)
     @driver.find_element(:css, "#search_embedded").text.should match(/#{a_resource.title}/)
-    @driver.find_element(:id, js_node(a_term).a_id).click
+    tree_click(tree_node(a_term))
     @driver.wait_for_ajax 
     @driver.find_element(:css, "#search_embedded").text.should match(/#{an_accession.title}/)
 

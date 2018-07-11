@@ -44,7 +44,7 @@ function readlink_dash_f {
         i=$[i + 1]
     done
 
-    # Compute the canonicalized name by finding the physical path 
+    # Compute the canonicalized name by finding the physical path
     # for the directory we're in and appending the target file.
     result="`pwd -P`/$target_file"
 
@@ -62,7 +62,7 @@ java -version &>/dev/null
 
 if [ "$?" != "0" ]; then
     echo "Could not run your 'java' executable."
-    echo "Please ensure that Java 1.6 (or above) is installed and on your PATH"
+    echo "Please ensure that Java 1.7 or 1.8 is installed and on your PATH"
     exit
 fi
 
@@ -79,7 +79,6 @@ fi
 
 echo "ArchivesSpace base directory: $ASPACE_LAUNCHER_BASE"
 
-
 # We'll provide our own values for these
 unset GEM_HOME
 unset GEM_PATH
@@ -93,7 +92,7 @@ if [ "$ARCHIVESSPACE_LOGS" = "" ]; then
     ARCHIVESSPACE_LOGS="logs/archivesspace.out"
 fi
 
-export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS"
+export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom"
 
 # Wow.  Not proud of this!
 export JAVA_OPTS="`echo $JAVA_OPTS | sed 's/\([#&;\`|*?~<>^(){}$\,]\)/\\\\\1/g'`"
@@ -110,24 +109,30 @@ if [ "$ASPACE_JAVA_MAXPERMSIZE" = "" ]; then
     ASPACE_JAVA_MAXPERMSIZE="-XX:MaxPermSize=256m"
 fi
 
+if [ "$ASPACE_GC_OPTS" = "" ]; then
+    ASPACE_GC_OPTS="-XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1"
+fi
+
+
 export JRUBY=
 for dir in "$ASPACE_LAUNCHER_BASE"/gems/gems/jruby-*; do
     JRUBY="$JRUBY:$dir/lib/*"
 done
 
+
 startup_cmd="java "$JAVA_OPTS"  \
-        $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS $ASPACE_JAVA_MAXPERMSIZE -Dfile.encoding=UTF-8 \
+        $ASPACE_GC_OPTS $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS $ASPACE_JAVA_MAXPERMSIZE -Dfile.encoding=UTF-8 \
         -cp \"lib/*:launcher/lib/*$JRUBY\" \
-        org.jruby.Main --disable-gems --1.9 \"launcher/launcher.rb\""
+        org.jruby.Main --disable-gems \"launcher/launcher.rb\""
 
-
-export PIDFILE="$ASPACE_LAUNCHER_BASE/data/.archivesspace.pid"
-
+if [ "$ASPACE_PIDFILE" = "" ]; then
+  export ASPACE_PIDFILE="$ASPACE_LAUNCHER_BASE/data/.archivesspace.pid"
+fi
 
 case "$1" in
     start)
-        if [ -e "$PIDFILE" ]; then
-            pid=`cat $PIDFILE 2>/dev/null`
+        if [ -e "$ASPACE_PIDFILE" ]; then
+            pid=`cat $ASPACE_PIDFILE 2>/dev/null`
 
             if [ "$pid" != "" ] && kill -0 $pid &>/dev/null; then
                 echo "There already seems to be an instance running (PID: $pid)"
@@ -144,14 +149,30 @@ case "$1" in
           (
              exec 0<&-; exec 1>&-; exec 2>&-;
              $startup_cmd &> \"$ARCHIVESSPACE_LOGS\" &
-             echo \$! > \"$PIDFILE\"
+             echo \$! > \"$ASPACE_PIDFILE\"
           ) &
           disown $!"
 
         echo "ArchivesSpace started!  See $ARCHIVESSPACE_LOGS for details."
         ;;
+    status)
+        if [ -e "$ASPACE_PIDFILE" ]; then
+            pid=`cat $ASPACE_PIDFILE 2>/dev/null`
+
+            if [ "$pid" != "" ] && kill -0 $pid &>/dev/null; then
+                echo "ArchivesSpace is running as (PID: $pid)"
+                exit
+            else
+                echo "ArchivesSpace is not running"
+                exit 1
+            fi
+        else
+            echo "ArchivesSpace is not running"
+            exit 1
+        fi
+        ;;
     stop)
-        pid=`cat $PIDFILE 2>/dev/null`
+        pid=`cat $ASPACE_PIDFILE 2>/dev/null`
         if [ "$pid" != "" ]; then
             kill -0 $pid &>/dev/null
             if [ "$?" = "0" ]; then
@@ -160,17 +181,21 @@ case "$1" in
                 echo "done"
             fi
 
-            rm -f "$PIDFILE"
+            rm -f "$ASPACE_PIDFILE"
         else
             echo "Couldn't find a running instance to stop"
         fi
+        ;;
+    restart)
+        $0 stop
+        $0 start
         ;;
     "")
         # Run in foreground mode
         (cd "$ASPACE_LAUNCHER_BASE"; bash -c "$startup_cmd 2>&1 | tee '$ARCHIVESSPACE_LOGS'")
         ;;
     *)
-        echo "Usage: $0 [start|stop]"
+        echo "Usage: $0 [start|status|stop|restart]"
         exit 1
         ;;
 

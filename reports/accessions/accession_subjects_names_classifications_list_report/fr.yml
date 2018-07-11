@@ -1,0 +1,10 @@
+fr:
+  reports:
+    accession_subjects_names_classifications_list_report:
+      title: Entrées et sujets liés, noms et classifications
+      description: Affiche les entrées et leurs noms liés, les sujets et les classifications. Rapport comprenant n° d'entrée, ressources liées, date d'entrée, titre, importance matérielle, noms liés, et sujets liés.
+      number_of_records: Nombre de notices
+      identifier_prefix: Entrée
+      names: Noms
+      subjects: Sujets
+      classifications: Classifications

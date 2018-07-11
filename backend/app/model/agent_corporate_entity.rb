@@ -10,7 +10,6 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
   include RecordableCataloging
   include Notes
   include Publishable
-  include RightsStatements
 
 
   register_agent_type(:jsonmodel => :agent_corporate_entity,

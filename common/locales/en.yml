@@ -61,7 +61,7 @@ en:
     external_documents_tooltip: |
         <p>Links to information in other description or management systems, such as donor files, processing plans, etc.</p>
     rights_statements_tooltip: |
-        <p>Information about the rights status of the materials described and whether there are specific restictions or permissions that have been indicated.</p>
+        <p>Information about the rights status of the materials described and whether there are specific restrictions or permissions that have been indicated.</p>
     instances_tooltip: |
         <p>Links description to information about physical or digital instantiations of material.</p>
     deaccessions_tooltip: |
@@ -100,7 +100,7 @@ en:
     level: VRA Core Level
     level_tooltip: |
         <p>Primarily for use in multi-level VRA Core compliant records in order to indicate description is about a collection, a work, or an image.</p>
-    digital_object_type: Type
+    digital_object_type: Digital Object Type
     digital_object_type_tooltip: |
         <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
     language: Language
@@ -129,11 +129,12 @@ en:
     component_id_tooltip: |
         <p>A unique identifier for the Digital Object Component.</p>
     dates: Dates
+    has_unpublished_ancestor: Has Unpublished Ancestor?
     _singular: Digital Object Component
     _plural: Digital Object Components
 
   location: &location_attributes
-    title: Title
+    title: Location
     temporary_question: Temporary?
     temporary: Temporary
     temporary_tooltip: |
@@ -182,6 +183,8 @@ en:
     display_string: Display String
     has_unpublished_ancestor: Has Unpublished Ancestor?
     holdings: Holdings
+    owner_repo: Reserved For
+    owner_repo_tooltip: A repository that has reserved this location
     _singular: Location
     _plural: Locations
 
@@ -197,6 +200,18 @@ en:
     end: Range End
     _singular: Batch Locations
     _plural: Batch Locations
+
+  location_function:
+    location_function_type: Function Type
+    _singular: Function
+    _plural: Functions
+
+  function:
+    _singular: Function
+    _plural: Functions
+    _frontend:
+      action:
+        add: Add Function
 
   container_location:
     status: Status
@@ -231,8 +246,8 @@ en:
         <p>REQUIRED FIELD. An indication of what function (creator, source, or subject) the Agent has in regards to its link to a certain description record.</p>
     relator: Relator
     relator_tooltip: |
-        <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, a Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
-        <p>See MARC Code List for Relators.</p>
+        <p>An indication of what role the Agent has in regards to its function as indicated in how it is linked (e.g., creator, source, or subject) to a certain description record. For example, an Agent may be linked as a creator to a record, but with the more specific role of "illustrator".</p>
+        <p>See MARC Code List for Relators (https://www.loc.gov/marc/relators/).</p>
     ref: Agent
     # ref_tooltip is not displaying
     ref_tooltip: |
@@ -342,7 +357,7 @@ en:
     <<: *section_tooltips
     scope: Portion
     scope_tooltip: |
-        <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
+        <p>REQUIRED FIELD: Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
     description: Description
     description_tooltip: |
         <p>REQUIRED FIELD: Description of the materials that have been deaccessioned.</p>
@@ -454,7 +469,7 @@ en:
         </ul>
     dates: Dates
     dates_tooltip: |
-        <p>DEPRECIATED. PLEASE USE DATES OF EXISTENCE SECTION</p>
+        <p>Use this field for alignment with MARC authority records. These dates, rather than Dates of Existence, are added to the name entry in the display.</p>
         <p>Dates of existence for the named entity.</p>
         <p>Examples:<p>
         <ul>
@@ -572,10 +587,21 @@ en:
     note: Contact Notes
     note_tooltip: |
         <p>Additional notes or contact information for the contact person.</p>
+    telephones: Telephone Numbers
     _singular: Contact
     _plural: Contact Details
 
   telephone: &telephone
+    _plural: Telephone Numbers
+    number_type: Number Type
+    number: Number
+    number_tooltip: |
+        <p>Telephone number for the contact person.</p>
+    ext: Telephone Extension
+    ext_tooltip: |
+        <p>Telephone number extension for the contact person.</p>
+
+  telephone_required: &telephone
     _plural: Telephone Numbers
     number_type: Number Type
     number: Number
@@ -616,6 +642,7 @@ en:
     description: Description
     ref: Related Agent
     date: Date
+    dates: Dates
     _singular: Parent/Child Relationship
 
   agent_relationship_earlierlater:
@@ -623,6 +650,7 @@ en:
     description: Description
     ref: Related Agent
     date: Date
+    dates: Dates
     _singular: Earlier/Later Relationship
 
   agent_relationship_subordinatesuperior:
@@ -630,12 +658,14 @@ en:
     description: Description
     ref: Related Agent
     date: Date
+    dates: Dates
     _singular: Subordinate/Superior Relationship
 
   agent_relationship_associative:
     relator: Relationship Type
     description: Description
     date: Date
+    dates: Dates
     ref: Related Agent
     _singular: Associative Relationship
 
@@ -656,6 +686,9 @@ en:
     note_outline: Outline
     note_text: Text
     note_type: Note Type
+    note_rights_statement: Rights Statement Note
+    note_rights_statement_act: Act Note
+    note_agent_rights_statement: Rights Statement Note (do not use)
     _singular: Note
     _plural: Notes
 
@@ -687,6 +720,15 @@ en:
     sub_notes_singular: Sub Note
 
   note_digital_object:
+    <<: *note_attributes
+
+  note_rights_statement:
+    <<: *note_attributes
+
+  note_rights_statement_act:
+    <<: *note_attributes
+
+  note_agent_rights_statement:
     <<: *note_attributes
 
   note_bibliography:
@@ -729,6 +771,7 @@ en:
 
   note_bioghist:
     <<: *note_attributes
+    subnotes: Sub Notes
 
   note_abstract:
     <<: *note_attributes
@@ -754,6 +797,7 @@ en:
     levels: Levels
 
   instance: &instance_attributes
+    is_representative: Is Representative?
     instance_type: Type
     instance_type_tooltip: |
         <p>A designation of the manifestation for the described materials. The instance designation is optional, but required to open and complete a container record for the material described.</p>
@@ -831,16 +875,15 @@ en:
   extent: &extent_attributes
     portion: Portion
     portion_tooltip: |
-        <p>Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
-        <p>Any described aggregation or object with an extent statement must have an extent statement with Portion set to "whole".</p>
+        <p>REQUIRED FIELD: Used to specify whether an extent statement relates to the whole or part of a given described aggregation or object.</p>
         <p>See DACS 2.5.7</p>
     number: Number
     number_tooltip: |
-        <p>A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
+        <p>REQIURED FIELD: A numeric value for indicating the number of units in the extent statement, e.g, 5, 11.5, 245. Used in conjunction with Extent Type to provide a structured extent statement.</p>
         <p>See DACS 2.5</p>
     extent_type: Type
     extent_type_tooltip: &extent_type_tooltip |
-        <p>A term indicating the type of unit used to measure the extent of materials described.</p>
+        <p>REQUIRED FIELD: A term indicating the type of unit used to measure the extent of materials described.</p>
         <p>Values in this Controlled Value List may be modified.</p>
         <p>See DACS 2.5</p>
     container_summary: Container Summary
@@ -869,49 +912,16 @@ en:
     _plural: Extents
     _singular: Extent
 
-  container: &container_attributes
-    type_1: Container 1 Type
-    type_1_tooltip: &container_type_tooltip |
-        <p>The type of the primary container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    indicator_1: Container 1 Indicator
-    indicator_1_tooltip: &container_indicator_tooltip |
-        <p>An alphanumeric expression for indicating the place of a container in a sequence of containers.</p>
-    barcode_1: Container 1 Barcode
-    barcode_1_tooltip: |
-        <p>A barcode for identifying the primary container.  May be used instead of or in supplement to the Container 1 Type.</p>
-    type_2: Container 2 Type
-    type_2_tooltip: *container_type_tooltip
-    indicator_2: Container 2 Indicator
-    indicator_2_tooltip: *container_indicator_tooltip
-    type_3: Container 3 Type
-    type_3_tooltip: *container_type_tooltip
-    indicator_3: Container 3 Indicator
-    indicator_3_tooltip: *container_indicator_tooltip
-    container_extent: Container Extent
-    container_extent_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: The extent of the container or containers described, usually in linear or volumetric units (e.g. linear feet or cubic meters). Do not confuse with an Extent subrecord.</p>
-        <p>Required if Container Extent Type is specified.</p>
-    container_extent_type: Container Extent Type
-    container_extent_type_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: A term indicating the type of unit used to measure the extent of materials described.
-        <p>Required if Container Extent is specified.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-        <p>See DACS 2.5</p>
-    container_locations: Locations
-    _plural: Containers
-    _singular: Container
-
   external_document: &external_document_attributes
     title: Title
     title_tooltip: |
-        <p>The title of an external document referenced from the accession record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
+        <p>The title of an external document referenced from the record. The document may be of any form or content. A web accessible file, a network accessible file, a file on the same computer as the application, etc.</p>
     location: Location
     location_tooltip: |
         <p>The location of the file, ideally a resolvable URI.</p>
         <p>Examples:</p>
         <ul>
-        <li>http://www.archivesspace.org/membership</li>
+        <li>http://www.archivesspace.org/</li>
         <li>file:///c:/path/to/the%20file.txt</li>
         </ul>
     publish: Publish?
@@ -920,6 +930,12 @@ en:
     document_link: Document Link
     _plural: External Documents
     _singular: External Document
+
+  rights_statement_external_document:
+    <<: *external_document_attributes
+    identifier_type: Identifier Type
+    identifier_type_tooltip: |
+        <p>The identifier type indicates what domain the external document belongs to.</p>
 
   external_id:
     _plural: External IDs
@@ -935,28 +951,18 @@ en:
     identifier_auto_generate_message: "-- auto-generated upon save --"
     rights_type: Rights Type
     rights_type_tooltip: |
-        <p>The basis for the rights statement being made.Four bases are allowed: intellectual property, license, such as donor agreement, legal statutes such as Fair Use or FERPA, and institutional policy.</p>
+        <p>The basis for the rights statement being made.  Four bases are allowed:  Copyright, License, Statute, and Other.  License is for formal and informal licenses, such as donor and purchase agreements.  Statute is for codified laws such as Fair Use or FERPA in the United States.  Other is for institutional policy or other bases other than copyright, license, and statute.  It too may be used for donor and purchase agreements if the repository prefers.</p>
     rights_type_message: Please select a Rights Type
-    active: Active
-    active_tooltip: |
-        <p>Indicates whether a rights record is active or inactive.</p>
-    active_true: Active
-    active_false: Inactive
-    materials: Materials
-    materials_tooltip: |
-        <p>A term or brief phrase describing the materials in the accession, resource or collection to which the rights record applies.</p>
-        <p>Examples:</p>
+    status: Status
+    status_tooltip: |
+        <p>A coded designation for the copyright status of the object at the time the rights statement is recorded.</p>
         <ul>
-        <li>Diaries by Alex Doe</li>
+          <li>Copyrighted = Under copyright.</li>
+          <li>Public domain = In the public domain.</li>
+          <li>Unknown = Copyright status of the resource is unknown</li>
         </ul>
-    ip_status: IP Status
-    ip_status_tooltip: |
-        <p>A term indicating the intellectual property status of the described materials.</p>
-    ip_expiration_date: IP Expiration Date
-    ip_expiration_date_tooltip: |
-        <p>The date the copyright or other intellectual property status is expected to expire.</p>
-    license_identifier_terms: License Identifier Terms
-    license_identifier_terms_tooltip: |
+    license_terms: License Terms
+    license_terms_tooltip: |
         <p>A statement (actual text snippet or summary) of the permissions granted in the license.</p>
     statute_citation: Statute Citation
     statute_citation_tooltip: |
@@ -967,7 +973,9 @@ en:
         </ul>
     jurisdiction: Jurisdiction
     jurisdiction_tooltip: |
-        <p>The political entity authorizing the copyright or statute, e.g. country or region.</p>
+        <p>Copyright: The country whose copyright laws apply.</p>
+        <p>Statute: The country or other political body enacting the statute.</p>
+        <p>Conforms to ISO 3166.</p>
     type_note: Type Note
     type_note_tooltip: |
         <p>Any additional information about the copyright, license, statute, or institutional policy and/or about its application to the materials described.</p>
@@ -975,33 +983,23 @@ en:
         <ul>
         <li>Constraint(s) on Use: This work may be protected by copyright law. Use of this work beyond that allowed by the applicable copyright statute requires the written permission of the copyright holder(s). Responsibility for obtaining permissions for any use and distribution of this work rests exclusively with the user and not the UC San Diego Libraries. Inquiries can be made to the Mandeville Special Collections Library (http://libraries.ucsd.edu/locations/mscl/).</li>
         </ul>
-    permissions: Permissions
-    permissions_tooltip: |
-        <p>A description of what kinds of actions are permissible to the repository and/or the end user.</p>
-    restrictions: Restrictions
-    restrictions_tooltip: |
-        <p>A description of what kinds of actions are not permissible to the repository and/or the end user.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>Photocopying, scanning, or photographing of materials not allowed.</li>
-        </ul>
-    restriction_start_date: Restrictions Start Date
-    restriction_start_date_tooltip: |
-        <p>The date the restriction(s) go into effect.</p>
-    restriction_end_date: Restrictions End Date
-    restriction_end_date_tooltip: |
-        <p>The date the restriction(s) cease to apply.</p>
-    granted_note: Granted Note
-    granted_note_tooltip: |
-        <p>Any qualifying information about the permissions granted or restrictions to be enforced.</p>
-        <p>Examples</p>
-        <ul>
-        <li>Contact donor's family if access is requested before restriction end date arrives.</li>
-        </ul>
+    determination_date: Determination Date
+    determination_date_tooltip: |
+        <p>Copyright: The date the copyright status recorded in copyright status was determined.</p>
+        <p>Statute: The date that the determination was made that the statute authorized the permission(s) noted.</p>
+    start_date: Start Date
+    start_date_tooltip: |
+        <p>The date the rights statement went into effect.</p>
+    end_date: End Date
+    end_date_tooltip: |
+        <p>The date the rights statement ends.</p>
+    other_rights_basis: Other Rights Basis
+    other_rights_basis_tooltip: |
+      <p>Rights Type of other rights statements that are not statutes, licenses, or copyright.</p>
     _plural: Rights Statements
     _singular: Rights Statement
 
-  rights_type_intellectual_property:
+  rights_type_copyright:
     <<: *rights_statement_attributes
 
   rights_type_license:
@@ -1010,7 +1008,7 @@ en:
   rights_type_statute:
     <<: *rights_statement_attributes
 
-  rights_type_institutional_policy:
+  rights_type_other:
     <<: *rights_statement_attributes
 
   date: &date_attributes
@@ -1020,11 +1018,11 @@ en:
         <p>See DACS 2.4 and 2.4.3</p>
     date_type: Type
     date_type_tooltip: |
-        <p>Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
+        <p>REQUIRED FIELD: Indicates the type for normalized date information, either a single date or a date range (inclusive or bulk).</p>
     date_type_message: Select a Type to enter normalized date or date range
     expression: Expression
     expression_tooltip: |
-        <p>CONDITIONALLY REQUIRED FIELD: A natural language expression specifying the date or date range of the materials in the accession. Required when a normalized date is not recorded.</p>
+        <p>CONDITIONALLY REQUIRED FIELD: A natural language expression specifying the date or date range of the materials. Required when a normalized date is not recorded.</p>
         <p>See DACS 2.4</p>
         <p>Examples:</p>
         <ul>
@@ -1087,6 +1085,9 @@ en:
   usage_date:
     <<: *date_attributes
 
+  event_date:
+    <<: *date_attributes
+
   archival_record_date:
     <<: *date_attributes
 
@@ -1107,6 +1108,9 @@ en:
         <p>The internal database number for a specific accession record.</p>
     identifier: Identifier
     id_0: Identifier
+    id_1: Identifier 2
+    id_2: Identifier 3
+    id_3: Identifier 4
     id_0_tooltip: |
         <p>REQUIRED FIELD:  The unique identifier for an accession within a
         repository.</p>
@@ -1144,7 +1148,7 @@ en:
         <p>A catch all note field for any information that does not fit in any of the more specifically defined fields.</p>
     inventory: Inventory
     inventory_tooltip: |
-        <p>A list of the containers and their contents making up an accession. In the AT, the box list may be composed in the field, copied and pasted into the field, or referenced as an external document. The reference to the external document may be recorded here or in an External Documents subrecord.</p>
+        <p>A list of the containers and their contents making up an accession. The box list may be composed in the field, copied and pasted into the field, or referenced as an external document. The reference to the external document may be recorded here or in an External Documents subrecord.</p>
         <p>Example:</p>
         <ul>
         <li>Box 1:   Diaries</li>
@@ -1257,8 +1261,10 @@ en:
     names: Name Forms
     names_tooltip: |
         <p>REQUIRED SUBRECORD: Records different forms of an Agent's name. Each Agent record must have at least one Name Form subrecord.</p>
+    agent_contacts: Contact Details
     contacts_tooltip: |
         <p>Records contact information about a particular Agent.</p>
+    notes: Notes
     notes_tooltip: |
         <p>Records additional descriptive information about an Agent, such as a biographical note or an administrative history.</p>
     related_agents_tooltip: |
@@ -1292,7 +1298,17 @@ en:
     _singular: Corporate Entity
     _plural: Corporate Entities
 
+  related_agents_agent_person:
+    related_agents: Related Agents
+  related_agents_agent_family:
+    related_agents: Related Agents
+  related_agents_agent_software:
+    related_agents: Related Agents
+  related_agents_agent_corporate_entity:
+    related_agents: Related Agents
+
   archival_object: &archival_object_attributes
+    <<: *section_tooltips
     title: Title
     title_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD: The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
@@ -1344,13 +1360,14 @@ en:
         </ul>
     publish: Publish?
     publish_tooltip: |
-        <p>Determines whether this Resource will be published to public (patron) interfaces.</p>
-    restrictions: Restrictions?
+        <p>Determines whether this archival object will be published to public (patron) interfaces.</p>
     restrictions_apply: Restrictions Apply?
-    restrictions_tooltip: |
+    restrictions_apply_tooltip: |
         <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
         <p>See DACS 4.1-4.4</p>
     repository_processing_note: Repository Processing Note
+    repository_processing_note_tooltip: |
+         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     automate_title: Automatically generate title
     language: Language
     language_tooltip: |
@@ -1396,6 +1413,7 @@ en:
       delete_classification_record: delete classifications and classification terms
       merge_agents_and_subjects: merge agent/subject records
       merge_archival_record: merge the major record types in this repository
+      manage_rde_templates: manage RDE templates
       transfer_repository: transfer the entire contents of a repository
       transfer_archival_record: transfer major record types between repositories
       manage_subject_record: create/update/delete subject records
@@ -1406,6 +1424,13 @@ en:
       update_container_record: create/update top container records
       manage_container_record: delete/bulk update top container records
       manage_container_profile_record: create/update/delete container profile records
+      manage_location_profile_record: create/update/delete location profile records
+      create_job: create and run a background job
+      cancel_job: cancel a background job
+      update_assessment_record: create/update assessment records
+      delete_assessment_record: delete assessment records
+      manage_assessment_attributes: create/update/delete repository assessment attributes definitions
+      manage_enumeration_record: create/update/delete controlled value records
     _singular: Group
     _plural: Groups
 
@@ -1452,6 +1477,12 @@ en:
         <p>See DACS 2.5</p>
     related_accessions_tooltip: |
         <p>Used for linking associated Accessions with this Resource.</p>
+    publish_tooltip: |
+        <p>Determines whether this Resource will be published to public (patron) interfaces.</p>
+    restrictions: Restrictions Apply?
+    restrictions_tooltip: |
+        <p>Indicates whether the materials described are restricted in any way. Additional description of the restriction should be provided in appropriate Notes or Rights Statements for the record where the restriction occurs.</p>
+        <p>See DACS 4.1-4.4</p>
     repository_processing_note_tooltip: |
         <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     ead_id: EAD ID
@@ -1576,6 +1607,9 @@ en:
     country: Country
     country_tooltip: |
         <p>The country in which the repository is located, taken from the ISO 3166 code list.</p>
+    description: Description
+    description_tooltip: |
+        <p>An about section or descriptive summary for the repository.</p>
     post_code: Postal Code
     telephone: Telephone
     telephone_ext: Extension
@@ -1591,6 +1625,10 @@ en:
         <p>A URL or other file location identifier referencing a file that contains a branding device to be used in the repository's online finding aids. A typical branding device is a university seal or logo.</p>
     _singular: Repository
     _plural: Repositories
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Repository and any record it contains will be published to public (patron) interfaces.</p>
+
 
   term: &term_attributes
     # tooltips not displaying
@@ -1691,7 +1729,7 @@ en:
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
     processing_hours_total: Total Processing Hours
-    processing_hours_total_short: Total hours
+    processing_hours_total_short: Total Hours
     processing_hours_total_tooltip: |
         <p>The numerical result of multiplying "Processing hours per foot estimate" by "Processing total extent". The value can be overwritten to reflect the actual processing time and not a value based on the estimated processing hrs/unit value.</p>
     processing_plan: Processing Plan
@@ -1780,9 +1818,9 @@ en:
     global_message: Edit these values to set system-wide user preference defaults. These values can be overridden by repository defaults or a user's own preferences.
     repo: User Preference Defaults
     repo_message: Edit these values to set user preference defaults for the current repository. These values can be overridden by a user's own preferences.
-    user_global: My Global Preferences
+    user_global: Global Preferences
     user_global_message: Edit these values to set your system-wide user preferences. These values can be overridden by repository defaults or by your own preferences for a repository.
-    user_repo: My Repository Preferences
+    user_repo: Repository Preferences
     user_repo_message: Edit these values to set your user preferences for this repository. These values cannot be overridden.
     _singular: Preferences
     _plural: Preferences
@@ -1835,21 +1873,20 @@ en:
     _plural: Defaults
 
   reports:
-    CreatedAccessionsReport: Created Accessions
-    UnprocessedAccessionsReport: Unprocessed Accessions
     parameters:
       from: From
       from_tooltip:
       to: To
+      locations: Locations
     formats:
       json: JSON
       csv: CSV
-      xlsx: XLSX (Excel)
       pdf: PDF
       html: HTML
 
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
+    subject_must_be_unique: Subject records cannot be identical
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
@@ -1857,11 +1894,13 @@ en:
     is_required_unless_a_begin_or_end_date_is_given: is required unless a begin or end date is given
     is_required_unless_an_expression_or_an_end_date_is_given: is required unless an expression or an end date is given
     is_required_unless_an_expression_or_a_begin_date_is_given: is required unless an expression or a begin date is given
-
+    must_specify_either_a_date_or_a_timestamp: must specify either a date or a timestamp
     did_not_match_regular_expression: Did not match regular expression %{regexp}
     too_few_characters: Must be at least %{min_length} characters
     too_many_characters: Must be %{max_length} characters or fewer
+    max_length_is_50_characters: Must not exceed 50 characters
     too_few_items: At least %{min_items} item(s) is required
+    must_contain_at_least_one_subnote: Must contain at least one Sub Note
     invalid_value: Invalid value '%{value}'. Must be one of '%{valid_set}'
     wrong_type: Must be a %{desired_type} (you provided a %{actual_type})
     must_be_one_of: Must be one of %{allowed_types} (you provided a %{actual_type})
@@ -1892,11 +1931,22 @@ en:
     must_be_a_number_with_no_more_than_2_decimal_places: Must be a number with no more than 2 decimal places
     length_must_be_within_the_range_set_in_configuration: Length must be within the range set in configuration
     is_required_if_status_is_previous: is required if 'Status' is 'Previous'
+    location_profile_name_not_unique: Location Profile name must be unique
+    must_be_a_positive_integer: Must be a positive integer
+    must_be_unique_to_its_level_in_the_tree: This value must be unique for this level of the hierarchy
+    short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
 
   job:
     _singular: Background Job
     _plural: Background Jobs
     job_type: Job Type
+    types:
+      print_to_pdf_job: Print To PDF
+      import_job: Import Data
+      find_and_replace_job: Batch Find and Replace (Beta)
+      report_job: Reports
+      container_conversion_job: Reports
+      unknown_job_type: Unknown job type
     status: Status
     status_completed: Completed
     status_queued: Queued
@@ -1909,11 +1959,16 @@ en:
     owner: Owner
     show_description: Show Description
 
+  report_job:
+    report_type: Report Type
+    format: Format
+
   import_job:
     _singular: Import Job
-    filenames: Import Files
+    filenames: Files
     import_type: Import Type
     import_type_ead_xml: EAD
+    import_type_assessment_csv: Assessment CSV
     import_type_accession_csv: Accession CSV
     import_type_digital_object_csv: Digital Object CSV
     import_type_eac_xml: EAC
@@ -1929,6 +1984,9 @@ en:
     record_type: Record or subrecord type
     property: Target property
 
+  print_to_pdf_job:
+    include_unpublished: Include Unpublished
+
   advanced_search:
     type:
       text: Text
@@ -1941,6 +1999,9 @@ en:
       creators: Creator
       notes: Notes
       subjects: Subject
+      identifier: Identifier
+      created_by: Created by
+      last_modified_by: Last modified by
     boolean:
       published: Published?
       suppressed: Suppressed?
@@ -1957,3 +2018,177 @@ en:
 
   resource_component:
     _singular: Resource Component
+
+  largetree:
+    reparent_error:
+      title: Unable to perform move
+      message: The move has been disallowed as a parent cannot become its own child.
+
+  rights_statement_act: &rights_statement_act_attributes
+    _singular: Act
+    _plural: Acts
+    act_type: Act Type
+    act_type_tooltip: |
+        <p>The action this rights statement allows.</p>
+    restriction: Restriction
+    restriction_tooltip: |
+        <p>A condition or limitation on the act.</p>
+        <p>Examples:</p>
+        <ul>
+          <li>No more than three</li>
+          <li>Allowed only after one year of archival retention has elapsed</li>
+          <li>Rightsholder must be notified after completion of act</li>
+        </ul>
+    start_date: Start Date
+    start_date_tooltip: |
+        <p>The date the act went into effect.</p>
+    end_date: End Date
+    end_date_tooltip: |
+        <p>The date the act ends.</p>
+
+  act:
+    <<: *rights_statement_act_attributes
+
+  oai:
+    sample_page:
+      title: "%{oai_repository_name} - Sample OAI-PMH requests"
+      introduction: "<p>Sample Requests Using the Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH v 2.0).</p>"
+      form_header: Send a '%{verb}' request
+      form_submit: Submit
+
+  assessment:
+    records: Records
+    records_tooltip: |
+        <p>REQUIRED FIELD: A link to the resource(s), accession(s), archival object(s), or digital object(s) that are the subjects of the assessment.</p>
+    accession_report: Accession Report
+    appraisal: Appraisal
+    container_list: Box/Container List
+    catalog_record: Catalog Record (MARC)
+    collections: Collections
+    control_file: Collection/Control File
+    conservation_note: Conservation Note
+    conservation_note_tooltip: <p>Indicates areas of particular concern with regard to the conservation needs of the collection.</p>
+    deed_of_gift: Deed of Gift
+    existing_description_notes: Existing Description Notes
+    existing_description_notes_tooltip: <p>Any further information on existing description for the materials.</p>
+    finding_aid_ead: Finding Aid (EAD-encoding)
+    finding_aid_online: Finding Aid (online)
+    finding_aid_paper: Finding Aid (paper only)
+    finding_aid_word: Finding Aid (word processing document)
+    finding_aid_spreadsheet: Finding Aid (spreadsheet)
+    id: ID
+    inactive: Inactive?
+    inactive_tooltip: <p>Indicates if the Assessment record is no longer considered “active” and thus should not be included in searches or reports.</p>
+    inactive_true: "Yes"
+    inactive_false: "No"
+    monetary_value: Monetary Value
+    monetary_value_tooltip: <p>Appraised or estimated market value of the assessed materials (numerical value).</p>
+    monetary_value_note: Monetary Value Note
+    monetary_value_note_tooltip: <p>Indicates who provided the monetary value, date of appraisal, and any other relevant information.</p>
+    surveyed_by: Surveyed By
+    surveyed_by_tooltip: |
+        <p>REQUIRED FIELD: Name(s) of the person(s) who performed the assessment. This field is restricted to those with user records in ArchivesSpace.</p>
+    survey_begin: Survey Begin Date
+    survey_begin_tooltip: |
+        <p>REQUIRED FIELD: The date the survey began, in yyyy-mm-dd format.</p>
+    survey_end: Survey Completed Date
+    survey_end_tooltip: <p>The date the survey ended, in yyyy-mm-dd format.</p>
+    surveyed_duration: Time it took to Complete Survey
+    surveyed_duration_tooltip: <p>The time it took to complete the survey, measured in hour increments.</p>
+    surveyed_extent: Extent Surveyed
+    surveyed_extent_tooltip: <p>The extent of the material surveyed in units such as cubic or linear feet.</p>
+    related_eac_records: Related EAC Record(s)
+    research_value: Research Value
+    research_value_tooltip: <p>This value is automatically calculated by adding the value in the Documentation Quality field with the value in the Interest field.</p>
+    review_required: Review Required?
+    review_required_tooltip: <p>Indicates if review is required for the collection because of its format, subject matter, or circumstances.</p>
+    review_required_true: "Yes"
+    review_required_false: "No"
+    review_note: Review Note
+    review_note_tooltip: <p>Explanation of the outcome of any special review.</p>
+    reviewer: Who Needs to Review
+    reviewer_tooltip: <p>Indicates who needs to perform the review. This field is restricted to those with user records in ArchivesSpace.</p>
+    purpose: Purpose of Assessment
+    purpose_tooltip: |
+        <p>Indicates the reason the assessment was undertaken. Examples: conservation priorities; processing priorities; appraisal; etc.</p>
+    scope: Scope of Assessment
+    scope_tooltip: |
+        <p>Indicates the scope of the assessment. Examples: 10% sampling; entirety; a particular format or genre within or across collections; or other constraints or conditions on materials actively reviewed during an assessment.</p>
+    sensitive_material: Sensitive Material?
+    sensitive_material_tooltip: <p>Indicates whether sensitive materials are present.</p>
+    sensitive_material_true: "Yes"
+    sensitive_material_false: "No"
+    general_assessment_note: General Assessment Note
+    general_assessment_note_tooltip: <p>Any further notes on an assessment.</p>
+    special_format_note: Special Format Note
+    special_format_note_tooltip: <p>Additional or explanatory information about the special formats present.</p>
+    exhibition_value_note: Exhibition Value Note
+    exhibition_value_note_tooltip: <p>Indicates whether the collection itself or individual items found in the collection might be especially appropriate for exhibition. For example, this field might note a unique artifact or a letter or photograph of historical significance.</p>
+    rating_attributes_value:
+      rating_none: No Rating
+      rating_1: "1"
+      rating_2: "2"
+      rating_3: "3"
+      rating_4: "4"
+      rating_5: "5"
+    rating_note: "%{label} Note"
+    _singular: Assessment
+    _plural: Assessments
+
+  assessment_attribute:
+    rating:
+      "Reformatting Readiness": Reformatting Readiness
+      "Reformatting Readiness_tooltip": <p>A rating from 1 to 5 that indicates how easily materials can be reformatted.</p>
+      "Housing Quality": Housing Quality
+      "Housing Quality_tooltip": <p>A rating from 1 to 5 intended to describe the overall quality of housing of the materials in a collection; items or groups of materials within a collection may be in better or poorer housing than what the overall rating indicates.</p>
+      "Physical Condition": Physical Condition
+      "Physical Condition_tooltip": <p>A rating from 1 to 5 intended to describe the overall condition of the materials in a collection; items or groups of materials of particular concern will be indicated in the conservation note.</p>
+      "Physical Access (arrangement)": Physical Access (arrangement)
+      "Physical Access (arrangement)_tooltip": <p>A rating from 1 to 5 that applies to a collection’s physical arrangement, taking into account the complexity and size of collection. For example, a small, relatively homogenous collection in rough order is generally more physically accessible than a large, heterogeneous collection in rough order, and the ratings will reflect that fact. (Note that arrangement to the item level may not be desirable for many collections; a rating of 4 may be the top rating that is desirable for a collection.)</p>
+      "Intellectual Access (description)": Intellectual Access (description)
+      "Intellectual Access (description)_tooltip": <p>A rating from 1 to 5 that applies to a collection's intellectual description and the accessability of that description to users.</p>
+      "Interest": Interest
+      "Interest_tooltip": <p>A rating from 1 to 5 that indicates researcher, donor, or local interest in the materials. Interest + Documentation Quality create the "Research Value" score.</p>
+      "Documentation Quality": Documentation Quality
+      "Documentation Quality_tooltip": <p>A rating from 1 to 5 that applies to the richness and depth of documentation available in a collection. Interest + Documentation Quality create the "Research Value" score.</p>
+      "Documentation Quality_values_tooltip": "<ul><li><b>Rating 1</b>: Slight</li><li><b>Rating 2</b>: Incidentally valuable</li><li><b>Rating 3</b>: Moderately rich</li><li><b>Rating 4</b>: Rich</li><li><b>Rating 5</b>: Very rich</li></ul>"
+      "Housing Quality_values_tooltip": "<ul><li><b>Rating 1</b>: Collection housed in non‐archival boxes, might have items loose on the shelf. Majority of material is not in folders and/or boxes are overstuffed or understuffed. For bound volumes, binding is in poor condition, lacking boards or otherwise compromising the text block.</li><li><b>Rating 2</b>: Collection housed in non‐archival boxes and folders. Significant number of boxes and folders might have unreasonable amount of material in them or are not the correct size and type for the materials they house. For bound volumes, binding is in fair condition (boards might be detached).</li><li><b>Rating 3</b>: Collection housed in non‐archival boxes and folders but they are in good condition. Most boxes and folders have reasonable amount of material in them. Most boxes and folders are correct size and type for the materials they house. For bound volumes, binding is in good condition (somewhat the worse for wear yet intact).</li><li><b>Rating 4</b>: Collection housed partially in acid‐free boxes and folders in good condition. Most boxes and folders have reasonable amount of material in them. Most boxes and folders are correct size and type for the materials they house. For bound volumes, binding is in very good condition (expected wear).</li><li><b>Rating 5</b>: Collection housed completely in acid‐free boxes and folders in good condition. Boxes and folders have reasonable amount of material in them. Boxes and folders are correct size and type for the materials they house. For bound volumes, binding is in excellent condition.</li></ul>"
+      "Intellectual Access (description)_values_tooltip": "<ul><li><b>Rating 1</b>: Researcher has no access to collection: Internal documentation such as a donor/control file or brief or inaccessible accession record serves as the only description of the collection. While such internal documentation may vary in quantity and quality, by its nature it is inaccessible to researchers.</li><li><b>Rating 2</b>: Researcher has poor access to collection: Collection has no finding aid or a substandard finding aid. The collection has printed catalog cards or another type of offline collection‐level description, but no collection‐level MARC record in the OPAC or a national bibliographic utility. Collection has no finding aid or a substandard finding aid. The collection has a MARC record in the OPAC or national bibliographic utility, but that does not provide sufficient access because it is a large or complex collection. In either case, the collection may be described in other online or offline sources available to researchers, but because of the complexity of the collection or the inadequacy of the sources, this provides insufficient access.</li><li><b>Rating 3</b>: Researcher has fair access to collection: The finding aid is substandard or there is no finding aid. There is a collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. In the absence of a full MARC record, there is another type of online collection‐level description. The collection‐level description in online or offline sources available to researchers provides sufficient access because it is a small or straightforward collection.</li><li><b>Rating 4</b>: Researcher has good access to collection: There is a good finding aid, but it is not available online. There is a collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. There is a good finding aid, online or offline, but there is no collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. Given the quality of the finding aid, the finding aid alone provides good access. In both cases, the collection may also be described in other online or offline sources that are available to researchers.</li><li><b>Rating 5</b>: Researcher has excellent access to collection: There is a good online finding aid (EAD,HTML, PDF, or other format). There is a collection‐level MARC record for the collection in the institutionʹs OPAC and/or in a national bibliographic utility such as OCLC. The collection may also be described in other online or offline sources that are available to researchers (such as a printed or online guide to collections).</li></ul>"
+      "Interest_values_tooltip": "<ul><li><b>Rating 1</b>: Negligible</li><li><b>Rating 2</b>: Slight</li><li><b>Rating 3</b>: Moderate</li><li><b>Rating 4</b>: High</li><li><b>Rating 5</b>: Very high</li></ul>"
+      "Physical Access (arrangement)_values_tooltip": "<ul><li><b>Rating 1</b>: Totally unarranged; many, sometimes most, documents not yet removed from envelopes, unfolded, and flattened. Completely inaccessible to researcher.</li><li><b>Rating 2</b>: Partial or superficial arrangement and/or non‐standard housing and labeling discourage use except with special staff assistance.</li><li><b>Rating 3</b>: Rough arrangement by date, document type, function, source, or other characteristic; papers not thoroughly screened, but have been unfolded and flattened; series not fully established; files not fully established; researchers often must work through voluminous extraneous material to locate pertinent items. Single volumes might havehad more than one use, or have items pasted in or otherwise be somewhat disorganized.</li><li><b>Rating 4</b>: Arrangement in series to file level. There is generally good order within the files. Single volumes are orderly (i.e. an account book in alphabetical order or a neat scrapbook in thematic order).</li><li><b>Rating 5</b>: Full arrangement to item level in series and, as appropriate, subseries. Single volumes are orderly and indexed (i.e. chronological accounts with a name index).</li></ul>"
+      "Physical Condition_values_tooltip": "<ul><li><b>Rating 1</b>: Poor: Significant damage/deterioration that makes collection difficult to use.</li><li><b>Rating 2</b>: Fair: Somewhat worse than expected deterioration with some further deterioration possible.</li><li><b>Rating 3</b>: Good: Expected deterioration with some further deterioration possible.</li><li><b>Rating 4</b>: Very good: Little damage with some further deterioration possible, due to the mixed quality of the material.</li><li><b>Rating 5</b>: Excellent: Little damage with no further deterioration expected, based on the high quality of the material.</li></ul>"
+      "Reformatting Readiness_values_tooltip": "<ul><li><b>Rating 1</b>: Materials would be extremely difficult to reformat. They might have serious conservation issues, be in an extremely obsolete format, or have intellectual property concerns that restrict reformatting. Metadata might be missing or incomplete.</li><li><b>Rating 2</b>: Materials would be difficult to reformat. They might have conservation issues, be in an obsolete format, or have some intellectual property concerns. Metadata might be missing or incomplete.</li><li><b>Rating 3</b>: Materials would be moderately easy to reformat. They may have some conservation issues, be in an obsolete format, or have monimal intellectual property concerns. Metadata is present or could be created easily.</li><li><b>Rating 4</b>: Materials would be relatively easy to reformat. Conservation issues are minor, formats are not completely obsolete, or there are minimal intellectual property concerns. Metadata is present.</li><li><b>Rating 5</b>: Materials could be reformatted with no difficulty. There are no conservation issues, formats are recent, or there are no intellectual property concerns. Metadata is present and complete.</li></ul>"
+      "Documentation Quality_note_tooltip": "Further information on the documentation quality of the materials."
+      "Housing Quality_note_tooltip": "Indicates areas of particular concern with regard to the housing of the collection."
+      "Intellectual Access_note_tooltip": "Further information on intellectual access to and description of the materials."
+      "Interest_note_tooltip": "Further information on interest in the materials."
+      "Physical Access_note_tooltip": "Further information on physical access to and arrangement of the materials."
+      "Physical Condition_note_tooltip": "Indicates areas of particular concern with regard to the physical condition of the collection."
+      "Reformatting Readiness_note_tooltip": "Indicates areas of concern with regard to the potential digitization or other reformatting of the materials. "
+    format:
+      "Architectural Materials": Architectural Materials
+      "Art Originals": Art Originals
+      "Artifacts": Artifacts
+      "Audio Materials": Audio Materials
+      "Biological Specimens": Biological Specimens
+      "Botanical Specimens": Botanical Specimens
+      "Computer Storage Units": Computer Storage Units
+      "Film (negative, slide, or motion picture)": Film (negative, slide, or motion picture)
+      "Glass": Glass
+      "Photographs": Photographs
+      "Scrapbooks": Scrapbooks
+      "Technical Drawings & Schematics": Technical Drawings & Schematics
+      "Textiles": Textiles
+      "Vellum & Parchment": Vellum & Parchment
+      "Video Materials": Video Materials
+      "Other": Other
+    conservation_issue:
+      "Potential Mold or Mold Damage": Potential Mold or Mold Damage
+      "Recent Pest Damage": Recent Pest Damage
+      "Deteriorating Film Base": Deteriorating Film Base
+      "Brittle Paper": Brittle Paper
+      "Metal Fasteners": Metal Fasteners
+      "Newspaper": Newspaper
+      "Tape": Tape
+      "Heat-Sensitive Paper": Heat-Sensitive Paper
+      "Water Damage": Water Damage

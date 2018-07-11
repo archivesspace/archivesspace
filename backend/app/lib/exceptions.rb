@@ -59,6 +59,10 @@ class TransferConstraintError < StandardError
   def add_conflict(uri, property)
     @conflicts[uri] = property
   end
+
+  def to_s
+    "#<#{self.class}: #{@conflicts.inspect}>"
+  end
 end
 
 
@@ -118,6 +122,10 @@ module Exceptions
           json_response({:error => "Repository not empty"}, 409)
         end
 
+        error Sinatra::NotFound do
+          json_response({:error => request.env['sinatra.error']}, 404)
+        end
+
         error NotFoundException do
           json_response({:error => request.env['sinatra.error']}, 404)
         end
@@ -131,10 +139,12 @@ module Exceptions
         end
 
         error BatchDeleteFailed do
+          Log.exception(request.env['sinatra.error'])
           json_response({:error => {"failures" => request.env['sinatra.error'].errors}}, 403)
         end
 
         error TransferConstraintError do
+          Log.exception(request.env['sinatra.error'])
           json_response({:error => request.env['sinatra.error'].conflicts}, 409)
         end
 
@@ -163,10 +173,12 @@ module Exceptions
         end
 
         error ReferenceError do
+          Log.exception(request.env['sinatra.error'])
           json_response({:error => request.env['sinatra.error']}, 400)
         end
 
         error MergeRequestFailed do
+          Log.exception(request.env['sinatra.error'])
           json_response({:error => request.env['sinatra.error']}, 400)
         end
 
@@ -180,6 +192,7 @@ module Exceptions
         end
 
         error JSON::ParserError do
+          Log.exception(request.env['sinatra.error'])
           json_response({:error => "Had some trouble parsing your request: #{request.env['sinatra.error']}"}, 400)
         end
 
@@ -197,9 +210,16 @@ module Exceptions
 
           res = error_block!(ex.class, ex) || error_block!(status, ex)
 
-          res or raise ex
-        end
+          if res
+            # One of our custom error handlers has saved the day
+            res
+          else
+            Log.error('Unhandled exception!')
+            Log.exception(request.env['sinatra.error'])
 
+            json_response({:error => ex.message}, 500)
+          end
+        end
       end
     end
 

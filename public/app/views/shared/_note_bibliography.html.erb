@@ -1,0 +1,10 @@
+<% Array(note['content']).each do |content| %>
+  <%== process_mixed_content(content).html_safe %>
+  <br/>
+<% end %>
+
+<ul>
+  <% Array(note['items']).each do |item| %>
+    <li><%= process_mixed_content( item ).html_safe %></li>
+  <% end %>
+</ul>

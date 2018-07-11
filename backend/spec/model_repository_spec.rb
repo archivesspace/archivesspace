@@ -11,6 +11,26 @@ describe 'Repository model' do
   end
 
 
+  it "can set OAI off or on" do
+    repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
+                                                                        :name => "My new test repository",
+                                                                        :oai_is_disabled => true))
+
+    repo = Repository.find(:repo_code => "TESTREPO")
+    expect(repo.oai_is_disabled).to eq(1)
+  end
+
+  it "can store settings for sets included in OAI export" do
+    sets = [1, 2, 3]
+    repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
+                                                                        :name => "My new test repository",
+                                                                        :oai_sets_available => sets.to_json))
+
+    repo = Repository.find(:repo_code => "TESTREPO")
+    expect(JSON::parse(repo.oai_sets_available)).to eq([1, 2, 3])
+  end
+
+
   it "enforces ID uniqueness" do
     expect { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
                                                                           :name => "My new test repository")) }.to_not raise_error
@@ -89,7 +109,7 @@ it "can identify and report conflicting identifiers" do
                                                                         :name => "electric boogaloo"))
     JSONModel.set_repository(repo.id)
     a_resource = create(:json_resource, { :extents => [build(:json_extent)] }) 
-    accession = create(:json_accession, :repo_id => repo.id,
+    accession = create(:json_accession,
                         :related_resources => [ {:ref => a_resource.uri } ])
     dobj = create(:json_digital_object ) 
     create(:json_digital_object_component, 

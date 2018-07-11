@@ -285,59 +285,57 @@ describe "Batch Import Controller" do
 
 
   it "manages repeated position numbers in batch" do
-    5.times {
-      resource = build(:json_resource)
-      resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
-      archival_objects = []
-      (0..10).each do  |i|
-        a = build(:json_archival_object)
-        a.title = "AO #{i}"
-        a.uri = a.class.uri_for(rand(100000), {:repo_id => $repo_id})
-        a.resource = {:ref => resource.uri}
-        a.position = i
-        archival_objects[i] = a
-      end
+    resource = build(:json_resource)
+    resource.uri = resource.class.uri_for(123, {:repo_id => $repo_id})
+    archival_objects = []
+    (0..10).each do  |i|
+      a = build(:json_archival_object)
+      a.title = "AO #{i}"
+      a.uri = a.class.uri_for(i, {:repo_id => $repo_id})
+      a.resource = {:ref => resource.uri}
+      a.position = i
+      archival_objects[i] = a
+    end
 
-      correct_order = archival_objects.map{ |a| a['title'] }
+    correct_order = archival_objects.map{ |a| a['title'] }
 
-      # simulate a double entry
-      archival_objects[-3..-1].each do |a|
-        a.position = a.position - 1
-      end
+    # simulate a double entry
+    archival_objects[-3..-1].each do |a|
+      a.position = a.position - 1
+    end
 
-      # add a gap
-      archival_objects[2..-1].each do |a|
-        a.position = a.position + 1
-      end
-      
-      batch_array = [resource.to_hash(:raw)]
-      archival_objects.shuffle.each do |ao|
-        batch_array << ao.to_hash(:raw)
-      end
+    # add a gap
+    archival_objects[2..-1].each do |a|
+      a.position = a.position + 1
+    end
 
-      uri = "/repositories/#{$repo_id}/batch_imports"
-      url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
-      url.query = URI.encode_www_form({:use_transaction => true})
+    batch_array = [resource.to_hash(:raw)]
+    archival_objects.shuffle.each do |ao|
+      batch_array << ao.to_hash(:raw)
+    end
 
-      response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-      response.code.should eq('200')
+    uri = "/repositories/#{$repo_id}/batch_imports"
+    url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
+    url.query = URI.encode_www_form({:use_transaction => true})
 
-      results = ASUtils.json_parse(response.body)
-      r_id = results.last['saved'][resource.uri][1]
+    response = JSONModel::HTTP.post_json(url, batch_array.to_json)
+    response.code.should eq('200')
 
-      r = JSONModel.JSONModel(:resource).find(r_id, "resolve[]" => ['tree'])
-      children = r['tree']['_resolved']['children']
+    results = ASUtils.json_parse(response.body)
+    r_id = results.last['saved'][resource.uri][1]
 
-      result_order = children.map {|child| child['title']}
+    r = JSONModel.JSONModel(:resource).find(r_id, "resolve[]" => ['tree'])
+    children = r['tree']['_resolved']['children']
 
-      # everything up to the double entry should be the same:
-      result_order[0..6].should eq(correct_order[0..6])
+    result_order = children.map {|child| child['title']}
 
-      # everything after the double entry should be the same:
-      result_order[-2..-1].should eq(correct_order[-2..-1])
+    # everything up to the double entry should be the same:
+    result_order[0..6].should eq(correct_order[0..6])
 
-      # (the double-entry members occupy 7 and 8)
-    }
+    # everything after the double entry should be the same:
+    result_order[-2..-1].should eq(correct_order[-2..-1])
+
+    # (the double-entry members occupy 7 and 8)
   end
 
 

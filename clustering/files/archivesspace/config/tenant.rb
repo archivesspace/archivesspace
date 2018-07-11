@@ -4,7 +4,7 @@ $hostname = `hostname`.strip
 load File.join(File.dirname(__FILE__), "config.rb")
 
 host_config = File.join($basedir, "instance_#{$hostname}.rb")
-if File.exists?(host_config)
+if File.exist?(host_config)
   config = eval(File.read(host_config))
   config.each do |setting, value|
     AppConfig[setting] = value

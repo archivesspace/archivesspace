@@ -1,0 +1,119 @@
+[
+    {
+        "agent_type": "agent_person",
+        "display_name": {
+            "authority_id": "creator",
+            "authorized": true,
+            "is_display_name": true,
+            "jsonmodel_type": "name_person",
+            "name_order": "inverted",
+            "primary_name": "Agent",
+            "rest_of_name": "Creator",
+            "rules": "local",
+            "sort_name": "Agent, Creator",
+            "sort_name_auto_generate": true,
+            "source": "local"
+        },
+        "is_linked_to_published_record": true,
+        "jsonmodel_type": "agent_person",
+        "linked_agent_roles": [
+            "creator"
+        ],
+        "names": [
+            {
+                "authority_id": "creator",
+                "authorized": true,
+                "is_display_name": true,
+                "jsonmodel_type": "name_person",
+                "name_order": "inverted",
+                "primary_name": "Agent",
+                "rest_of_name": "Creator",
+                "rules": "local",
+                "sort_name": "Agent, Creator",
+                "sort_name_auto_generate": true,
+                "source": "local"
+            }
+        ],
+        "publish": true,
+        "title": "Agent, Creator",
+        "uri": "/agents/people/import_2"
+    },
+    {
+        "agent_type": "agent_person",
+        "display_name": {
+            "authority_id": "agent subject",
+            "authorized": true,
+            "is_display_name": true,
+            "jsonmodel_type": "name_person",
+            "name_order": "inverted",
+            "primary_name": "Agent",
+            "rest_of_name": "Subject",
+            "rules": "local",
+            "sort_name": "Agent, Subject",
+            "sort_name_auto_generate": true,
+            "source": "local"
+        },
+        "is_linked_to_published_record": true,
+        "jsonmodel_type": "agent_person",
+        "linked_agent_roles": [
+            "subject"
+        ],
+        "names": [
+            {
+                "authority_id": "agent subject",
+                "authorized": true,
+                "is_display_name": true,
+                "jsonmodel_type": "name_person",
+                "name_order": "inverted",
+                "primary_name": "Agent",
+                "rest_of_name": "Subject",
+                "rules": "local",
+                "sort_name": "Agent, Subject",
+                "sort_name_auto_generate": true,
+                "source": "local"
+            }
+        ],
+        "publish": true,
+        "title": "Agent, Subject",
+        "uri": "/agents/people/import_3"
+    },
+    {
+        "agent_type": "agent_person",
+        "display_name": {
+            "authority_id": "UNPUBLISHED creator",
+            "authorized": true,
+            "is_display_name": true,
+            "jsonmodel_type": "name_person",
+            "name_order": "inverted",
+            "primary_name": "UNPUBLISHED Agent",
+            "rest_of_name": "Creator",
+            "rules": "local",
+            "sort_name": "UNPUBLISHED Agent, Creator",
+            "sort_name_auto_generate": true,
+            "source": "local"
+        },
+        "is_linked_to_published_record": true,
+        "jsonmodel_type": "agent_person",
+        "linked_agent_roles": [
+            "creator"
+        ],
+        "names": [
+            {
+                "authority_id": "UNPUBLISHED creator",
+                "authorized": true,
+                "is_display_name": true,
+                "jsonmodel_type": "name_person",
+                "name_order": "inverted",
+                "primary_name": "UNPUBLISHED Agent",
+                "rest_of_name": "Creator",
+                "rules": "local",
+                "sort_name": "UNPUBLISHED Agent, Creator",
+                "sort_name_auto_generate": true,
+                "source": "local"
+            }
+        ],
+        "publish": false,
+        "title": "UNPUBLISHED Agent, Creator",
+        "uri": "/agents/people/import_4"
+    }
+]

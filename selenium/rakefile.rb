@@ -21,7 +21,7 @@ namespace :integration do
     cores = ENV['cores'] || "2"
     dir = ENV['dir'] || 'spec'
 
-    parallel_spec_opts = ["--type", "rspec", "--pattern", pattern]
+    parallel_spec_opts = ["--type", "rspec", "--suffix", pattern]
 
     if ENV['only_group']
       parallel_spec_opts << "--only-group" << ENV['only_group']
@@ -43,15 +43,11 @@ namespace :integration do
     ENV['ASPACE_INDEXER_URL'] = "http://localhost:#{indexer_port}"
 
     begin
-      ParallelTests::CLI.new.run(parallel_spec_opts + ["--test-options", "--format 'ParallelFormatterOut' --format 'ParallelFormatterHTML'", "-n", cores, dir])
+      ParallelTests::CLI.new.run(parallel_spec_opts + ["--test-options", "--fail-fast --format 'ParallelFormatterOut' --format 'ParallelFormatterHTML'", "-n", cores, dir])
 
     ensure
       if standalone
         Rake::Task["servers:stop"].invoke
-      end
-
-      if indexer_thread
-        indexer_thread.kill
       end
     end
 
@@ -63,10 +59,19 @@ namespace :servers do
   task :start do
     if ENV["ASPACE_BACKEND_URL"] and ENV["ASPACE_FRONTEND_URL"]
       puts "Running tests against a server already started"
-    elsif File.exists? '/tmp/backend_test_server.pid'
-      puts "Backend Process already exists"
-    elsif File.exists? '/tmp/frontend_test_server.pid'
-      puts "Frontend Process already exists"
+    # Some versions of Java do not seem to respect the ensure block if STOP is
+    # given in ant, which means sometimes pid files get left behind by
+    # accident. 
+    elsif File.exist? '/tmp/backend_test_server.pid'
+      puts <<MSG
+    WARNING: Backend Process PID file already exists (/tmp/backend_test_server.pid)
+    If this is a mistake, please remove this file and restart the tests.
+MSG
+    elsif File.exist? '/tmp/frontend_test_server.pid'
+      puts <<MSG
+    Frontend Process PID file already exists (/tmp/frontend_test_server.pd)
+    If this is a mistake, please remove this file and restart the tests.
+MSG
     else
       backend_port = TestUtils::free_port_from(3636)
       frontend_port = TestUtils::free_port_from(4545)
@@ -98,11 +103,12 @@ namespace :servers do
       ENV["ASPACE_SOLR_URL"] = solr_url
 
     end
-    puts ENV["ASPACE_BACKEND_URL"]
-    puts ENV["ASPACE_FRONTEND_URL"]
-    puts ENV["ASPACE_SOLR_URL"]
+    puts <<MSG
+    USING BACKEND URL : #{ENV["ASPACE_BACKEND_URL"]}
+    USING FRONTEND URL : #{ENV["ASPACE_FRONTEND_URL"]}
+    USING SOLR URL : #{ENV["ASPACE_SOLR_URL"]}
+MSG
   end
-
 
   namespace :indexer do
 
@@ -112,20 +118,26 @@ namespace :servers do
       AppConfig[:solr_url] = ENV['ASPACE_SOLR_URL']
       AppConfig[:backend_url] = ENV['ASPACE_BACKEND_URL']
 
+      if AppConfig[:solr_url].nil? || AppConfig[:backend_url].nil?
+        puts <<MSG
+    WARNING: The :solr_url or backend_url in your AppConfig is not set.
+    Your indexer may not run correctly.
+MSG
+      end
+
       AppConfig[:indexer_records_per_thread] = 25
       AppConfig[:indexer_thread_count] = 1
       AppConfig[:indexer_solr_timeout_seconds] = 300
-
 
       ENV["ASPACE_INDEXER_URL"] = indexer_url
 
       $indexer = RealtimeIndexer.new(ENV['ASPACE_BACKEND_URL'], nil)
       $last_sequence = 0
-      $period = PeriodicIndexer.new
+      $period = PeriodicIndexer.new(ENV['ASPACE_BACKEND_URL'], nil, 'Selenium Periodic Indexer', false)
 
       indexer = Sinatra.new {
-
         set :port, args[:port]
+        disable :traps
 
         def run_index_round
           $indexer.reset_session
@@ -169,14 +181,14 @@ namespace :servers do
   end
 
   task :stop do
-    if File.exists? '/tmp/backend_test_server.pid'
+    if File.exist? '/tmp/backend_test_server.pid'
       pid = IO.read('/tmp/backend_test_server.pid').strip.to_i
       puts "kill #{pid}"
       TestUtils.kill(pid)
       File.delete '/tmp/backend_test_server.pid'
     end
 
-    if File.exists? '/tmp/frontend_test_server.pid'
+    if File.exist? '/tmp/frontend_test_server.pid'
       pid = IO.read('/tmp/frontend_test_server.pid').strip.to_i
       puts "kill #{pid}"
       TestUtils.kill(pid)

@@ -1,3 +1,0 @@
-report_type: jdbc
-uri_suffix: subject_records
-description: "Displays subject(s) and any linked accession(s), digital object(s), and resource(s). Report contains sort subject term, type, source and any resource records, accession records, and digital object records linked to that subject."

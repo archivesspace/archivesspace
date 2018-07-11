@@ -46,11 +46,6 @@ class MarcXMLConverter < Converter
   end
 
 
-  def self.profile
-    "Convert MARC XML To ArchivesSpace JSONModel records"
-  end
-
-
   def self.configure
     super do |config|
       config.doc_frag_nodes << 'record'

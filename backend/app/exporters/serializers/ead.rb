@@ -1,6 +1,6 @@
+# encoding: utf-8
 require 'nokogiri'
 require 'securerandom'
-require_relative "../lib/serialize_extra_container_values"
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
@@ -18,7 +18,6 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
-  include SerializeExtraContainerValues
 
   def prefix_id(id)
     if id.nil? or id.empty? or id == 'null'
@@ -30,7 +29,19 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
+  def xml_errors(content)
+    # there are message we want to ignore. annoying that java xml lib doesn't
+    # use codes like libxml does...
+    ignore = [ /Namespace prefix .* is not defined/, /The prefix .* is not bound/  ]
+    ignore = Regexp.union(ignore)
+    # the "wrap" is just to ensure that there is a psuedo root element to eliminate a "false" error
+    Nokogiri::XML("<wrap>#{content}</wrap>").errors.reject { |e| e.message =~ ignore  }
+  end
+
+
   def handle_linebreaks(content)
+    # 4archon... 
+    content.gsub!("\n\t", "\n\n")  
     # if there's already p tags, just leave as is
     return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 )
     original_content = content
@@ -40,18 +51,33 @@ class EADSerializer < ASpaceExport::Serializer
     else
       content = "<p>#{content.strip}</p>"
     end
+
+    # first lets see if there are any &
+    # note if there's a &somewordwithnospace , the error is EntityRef and wont
+    # be fixed here...
+    if xml_errors(content).any? { |e| e.message.include?("The entity name must immediately follow the '&' in the entity reference.") }
+      content.gsub!("& ", "&amp; ")
+    end
+
     # in some cases adding p tags can create invalid markup with mixed content
-    # the "wrap" is just to ensure that there is a psuedo root element to eliminate a "false" error
-    content = original_content if Nokogiri::XML("<wrap>#{content}</wrap>").errors.any?
-    content
+    # just return the original content if there's still problems
+    xml_errors(content).any? ? original_content : content
   end
 
   def strip_p(content)
     content.gsub("<p>", "").gsub("</p>", "").gsub("<p/>", '')
   end
 
+  def remove_smart_quotes(content)
+    content = content.gsub(/\xE2\x80\x9C/, '"').gsub(/\xE2\x80\x9D/, '"').gsub(/\xE2\x80\x98/, "\'").gsub(/\xE2\x80\x99/, "\'")
+  end
+
   def sanitize_mixed_content(content, context, fragments, allow_p = false  )
 #    return "" if content.nil?
+
+    # remove smart quotes from text
+    content = remove_smart_quotes(content)
+
     # br's should be self closing
     content = content.gsub("<br>", "<br/>").gsub("</br>", '')
     # lets break the text, if it has linebreaks but no p tags.
@@ -77,15 +103,24 @@ class EADSerializer < ASpaceExport::Serializer
     @stream_handler = ASpaceExport::StreamHandler.new
     @fragments = ASpaceExport::RawXMLHandler.new
     @include_unpublished = data.include_unpublished?
+    @include_daos = data.include_daos?
     @use_numbered_c_tags = data.use_numbered_c_tags?
     @id_prefix = I18n.t('archival_object.ref_id_export_prefix', :default => 'aspace_')
 
     doc = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       begin
 
-      xml.ead(                  'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                 'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
-                 'xmlns:xlink' => 'http://www.w3.org/1999/xlink') {
+      ead_attributes = {
+        'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+        'xsi:schemaLocation' => 'urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd',
+        'xmlns:xlink' => 'http://www.w3.org/1999/xlink'
+      }
+
+      if data.publish === false
+        ead_attributes['audience'] = 'internal'
+      end
+
+      xml.ead( ead_attributes ) {
 
         xml.text (
           @stream_handler.buffer { |xml, new_fragments|
@@ -93,20 +128,9 @@ class EADSerializer < ASpaceExport::Serializer
           })
 
         atts = {:level => data.level, :otherlevel => data.other_level}
-
-        if data.publish === false
-          if @include_unpublished
-            atts[:audience] = 'internal'
-          else
-            return
-          end
-        end
-
         atts.reject! {|k, v| v.nil?}
 
         xml.archdesc(atts) {
-
-
 
           xml.did {
 
@@ -133,13 +157,19 @@ class EADSerializer < ASpaceExport::Serializer
 
             xml.unitid (0..3).map{|i| data.send("id_#{i}")}.compact.join('.')
 
+            if @include_unpublished
+              data.external_ids.each do |exid|
+                xml.unitid  ({ "audience" => "internal", "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+              end
+            end
+
             serialize_extents(data, xml, @fragments)
 
             serialize_dates(data, xml, @fragments)
 
             serialize_did_notes(data, xml, @fragments)
 
-            data.instances_with_containers.each do |instance|
+            data.instances_with_sub_containers.each do |instance|
               serialize_container(instance, xml, @fragments)
             end
 
@@ -208,6 +238,7 @@ class EADSerializer < ASpaceExport::Serializer
   def serialize_child(data, xml, fragments, c_depth = 1)
     begin
     return if data["publish"] === false && !@include_unpublished
+    return if data["suppressed"] === true
 
     tag_name = @use_numbered_c_tags ? :"c#{c_depth.to_s.rjust(2, '0')}" : :c
 
@@ -229,6 +260,12 @@ class EADSerializer < ASpaceExport::Serializer
           xml.unitid data.component_id
         end
 
+        if @include_unpublished
+          data.external_ids.each do |exid|
+            xml.unitid  ({ "audience" => "internal",  "type" => exid['source'], "identifier" => exid['external_id']}) { xml.text exid['external_id']}
+          end
+        end
+
         serialize_origination(data, xml, fragments)
         serialize_extents(data, xml, fragments)
         serialize_dates(data, xml, fragments)
@@ -236,19 +273,15 @@ class EADSerializer < ASpaceExport::Serializer
 
         EADSerializer.run_serialize_step(data, xml, fragments, :did)
 
-        # TODO: Clean this up more; there's probably a better way to do this.
-        # For whatever reason, the old ead_containers method was not working
-        # on archival_objects (see migrations/models/ead.rb).
-
-        data.instances.each do |inst|
-          case
-          when inst.has_key?('container') && !inst['container'].nil?
-            serialize_container(inst, xml, fragments)
-          when inst.has_key?('digital_object') && !inst['digital_object']['_resolved'].nil?
-            serialize_digital_object(inst['digital_object']['_resolved'], xml, fragments)
-          end
+        data.instances_with_sub_containers.each do |instance|
+          serialize_container(instance, xml, @fragments)
         end
 
+        if @include_daos
+          data.instances_with_digital_objects.each do |instance|
+            serialize_digital_object(instance['digital_object']['_resolved'], xml, fragments)
+          end
+        end
       }
 
       serialize_nondid_notes(data, xml, fragments)
@@ -282,18 +315,26 @@ class EADSerializer < ASpaceExport::Serializer
     unless data.creators_and_sources.nil?
       data.creators_and_sources.each do |link|
         agent = link['_resolved']
+        published = agent['publish'] === true
+
+        next if !published && !@include_unpublished
+
         role = link['role']
         relator = link['relator']
         sort_name = agent['display_name']['sort_name']
         rules = agent['display_name']['rules']
         source = agent['display_name']['source']
+        authfilenumber = agent['display_name']['authority_id']
         node_name = case agent['agent_type']
                     when 'agent_person'; 'persname'
                     when 'agent_family'; 'famname'
                     when 'agent_corporate_entity'; 'corpname'
                     end
-        xml.origination(:label => role) {
-         atts = {:role => relator, :source => source, :rules => rules}
+
+        origination_attrs = {:label => role}
+        origination_attrs[:audience] = 'internal' unless published
+        xml.origination(origination_attrs) {
+         atts = {:role => relator, :source => source, :rules => rules, :authfilenumber => authfilenumber}
          atts.reject! {|k, v| v.nil?}
 
           xml.send(node_name, atts) {
@@ -379,34 +420,54 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
+
   def serialize_container(inst, xml, fragments)
-    containers = []
-    @parent_id = nil
-    (1..3).each do |n|
+    atts = {}
+
+    sub = inst['sub_container']
+    top = sub['top_container']['_resolved']
+
+    atts[:id] = prefix_id(SecureRandom.hex)
+    last_id = atts[:id]
+
+    atts[:type] = top['type']
+    text = top['indicator']
+
+    atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}",
+                          :default => inst['instance_type'])
+    atts[:label] << " [#{top['barcode']}]" if top['barcode']
+
+    if (cp = top['container_profile'])
+      atts[:altrender] = cp['_resolved']['url'] || cp['_resolved']['name']
+    end
+
+    xml.container(atts) {
+      sanitize_mixed_content(text, xml, fragments)
+    }
+
+    (2..3).each do |n|
       atts = {}
-      next unless inst['container'].has_key?("type_#{n}") && inst['container'].has_key?("indicator_#{n}")
-      @container_id = prefix_id(SecureRandom.hex)
 
-      atts[:parent] = @parent_id unless @parent_id.nil?
-      atts[:id] = @container_id
-      @parent_id = @container_id
+      next unless sub["type_#{n}"]
 
-      atts[:type] = inst['container']["type_#{n}"]
-      text = inst['container']["indicator_#{n}"]
-      if n == 1 && inst['instance_type']
-        atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}", :default => inst['instance_type'])
-        if inst['container']["barcode_1"]
-          atts[:label] << " (#{inst['container']['barcode_1']})"
-        end
-      end
+      atts[:id] = prefix_id(SecureRandom.hex)
+      atts[:parent] = last_id
+      last_id = atts[:id]
+
+      atts[:type] = sub["type_#{n}"]
+      text = sub["indicator_#{n}"]
+
       xml.container(atts) {
-         sanitize_mixed_content(text, xml, fragments)
+        sanitize_mixed_content(text, xml, fragments)
       }
     end
   end
 
+
   def serialize_digital_object(digital_object, xml, fragments)
     return if digital_object["publish"] === false && !@include_unpublished
+    return if digital_object["suppressed"] === true
+
     file_versions = digital_object['file_versions']
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
@@ -428,23 +489,50 @@ class EADSerializer < ASpaceExport::Serializer
 
 
     if file_versions.empty?
+      atts['xlink:type'] = 'simple'
       atts['xlink:href'] = digital_object['digital_object_id']
       atts['xlink:actuate'] = 'onRequest'
       atts['xlink:show'] = 'new'
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       }
-    else
-      file_versions.each do |file_version|
-        atts['xlink:href'] = file_version['file_uri'] || digital_object['digital_object_id']
-        atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
-        atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
-        xml.dao(atts) {
-          xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
-        }
-      end
-    end
+    elsif file_versions.length == 1
+      publish_file_uri = file_versions.first['file_uri'] && 
+                         (file_versions.first['publish'] == true || @include_unpublished)
 
+      atts['xlink:type'] = 'simple'
+
+      if publish_file_uri
+        atts['xlink:href'] = file_versions.first['file_uri'] 
+      end
+
+      atts['xlink:actuate'] = file_versions.first['xlink_actuate_attribute'] || 'onRequest'
+      atts['xlink:show'] = file_versions.first['xlink_show_attribute'] || 'new'
+      atts['xlink:role'] = file_versions.first['use_statement'] if file_versions.first['use_statement']
+      xml.dao(atts) {
+        xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
+      }
+    else
+      xml.daogrp( atts.merge( { 'xlink:type' => 'extended'} ) ) {
+        xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
+        file_versions.each do |file_version|
+
+
+          publish_file_uri = file_version['file_uri'] && 
+                             (file_version['publish'] == true || @include_unpublished)
+
+          atts['xlink:type'] = 'locator'
+
+          if publish_file_uri
+            atts['xlink:href'] = file_version['file_uri'] 
+          end
+
+          atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
+          atts['xlink:title'] = file_version['caption'] if file_version['caption']
+          xml.daoloc(atts)
+        end
+      }
+    end
   end
 
 

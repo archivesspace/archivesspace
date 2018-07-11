@@ -19,7 +19,6 @@ def build_instance(top_container_json, subcontainer_opts = {})
                                        "ref" => top_container_json.uri
                                      }
                                    }.merge(subcontainer_opts)),
-          "container" => nil
         })
 end
 

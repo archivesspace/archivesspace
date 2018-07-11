@@ -36,13 +36,12 @@ module ComponentTransfer
     # available top-level slot in the target
     json = obj.class.to_jsonmodel(obj)
 
-    json.parent = nil
-
     source_resource_uri = json['resource']['ref']
 
     json.resource['ref'] = target_resource_uri
-    
-    obj.update_from_json(json, {}, false)
+    json.parent = nil
+
+    obj.update_from_json(json, {:force_reposition => true}, false)
 
     # generate an event to mark this component transfer
     event = Event.for_component_transfer(archival_object_uri, source_resource_uri, target_resource_uri)

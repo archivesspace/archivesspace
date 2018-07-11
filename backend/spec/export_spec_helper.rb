@@ -4,11 +4,11 @@ require 'asutils'
 require_relative 'json_record_spec_helper'
 require_relative 'custom_matchers'
 require 'jsonmodel'
-require 'factory_girl'
+require 'factory_bot'
 
 if ENV['ASPACE_BACKEND_URL']
 
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
   I18n.enforce_available_locales = false # do not require locale to be in available_locales for export
   I18n.load_path += ASUtils.find_locales_directories(File.join("enums", "#{AppConfig[:locale]}.yml"))
 
@@ -47,9 +47,9 @@ else
     if response.status == 200
       if raw
         response.body
-      else 
+      else
         Nokogiri::XML::Document.parse(response.body)
-      end 
+      end
     else
       raise "Invalid response from backend for URI #{uri}: #{response.body}"
     end
@@ -58,13 +58,13 @@ else
 end
 
 
-def get_mets(rec)
-  get_xml("/repositories/#{$repo_id}/digital_objects/mets/#{rec.id}.xml")
+def get_mets(rec, dmd = "mods")
+  get_xml("/repositories/#{$repo_id}/digital_objects/mets/#{rec.id}.xml?dmd=#{dmd}")
 end
 
 
-def get_marc(rec)
-  marc = get_xml("/repositories/#{$repo_id}/resources/marc21/#{rec.id}.xml")
+def get_marc(rec, include_unpublished = true)
+  marc = get_xml("/repositories/#{$repo_id}/resources/marc21/#{rec.id}.xml?include_unpublished_marc=#{include_unpublished}")
   marc.instance_eval do
     def df(tag, ind1=nil, ind2=nil)
       selector ="@tag='#{tag}'"
@@ -104,7 +104,7 @@ end
 
 def get_eac(rec, repo_id = $repo_id)
   repo_record = JSONModel(:repository).find($repo_id)
-  
+
   case rec.jsonmodel_type
   when 'agent_person'
     get_xml("/repositories/#{repo_id}/archival_contexts/people/#{rec.id}.xml")
@@ -118,28 +118,29 @@ def get_eac(rec, repo_id = $repo_id)
 end
 
 
-def multipart_note_set
+def multipart_note_set(publish = true)
   ["accruals", "appraisal", "arrangement", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "altformavail", "originalsloc", "fileplan", "odd", "acqinfo", "legalstatus", "otherfindaid", "phystech", "prefercite", "processinfo", "relatedmaterial", "scopecontent", "separatedmaterial"].map do |type|
     build(:json_note_multipart, {
-            :publish => true,
-            :type => type
+            :publish => publish,
+            :type => type,
+            :subnotes =>  [ build(:json_note_text, :publish => publish) ]
           })
   end
 end
 
 
-def singlepart_note_set
+def singlepart_note_set(publish = true)
   ["abstract", "physdesc", "langmaterial", "physloc", "materialspec", "physfacet"].map do |type|
     build(:json_note_singlepart, {
-            :publish => true,
+            :publish => publish,
             :type => type
           })
   end
 end
 
 
-def full_note_set
-  multipart_note_set + singlepart_note_set
+def full_note_set(publish = true)
+  multipart_note_set(publish) + singlepart_note_set(publish)
 end
 
 
@@ -152,4 +153,11 @@ def digital_object_note_set
   end
 end
 
-
+def unpublished_extent_note_set
+  ["dimensions", "physdesc"].map do |type|
+    build(:json_note_digital_object, {
+            :publish => false,
+            :type => type
+          })
+  end
+end

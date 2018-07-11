@@ -1,0 +1,5 @@
+<% define_template("location_function", jsonmodel_definition(:location_function)) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_select "location_function_type", form.possible_options_for("location_function_type") %>
+  </div>
+<% end %>

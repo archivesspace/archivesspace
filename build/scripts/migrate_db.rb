@@ -14,7 +14,7 @@ if ARGV.length > 0 and ARGV[0] == "nuke"
   if (AppConfig[:db_url] =~ /jdbc:derby:(.*?);.*aspacedemo=true$/)
     dir = $1
 
-    if File.directory?(dir) and File.exists?(File.join(dir, "seg0"))
+    if File.directory?(dir) and File.exist?(File.join(dir, "seg0"))
       puts "Nuking demo database: #{dir}"
       sleep(5)
       FileUtils.rm_rf(dir)
@@ -25,23 +25,37 @@ end
 
 
 begin
+  migration_logger = Logger.new($stderr)
+
+  # Just log messages relating to the migration.  Otherwise we get a full SQL
+  # trace...
+  def migration_logger.error(*args)
+    unless args.to_s =~ /SCHEMA_INFO.*does not exist/
+      super
+    end
+  end
+
+  def migration_logger.info(*args)
+    if args[0].is_a?(String) && args[0] =~ /applying migration/
+      super
+    end
+  end
+
   Sequel.connect(AppConfig[:db_url],
                  :max_connections => 1,
-                 #:loggers => [Logger.new($stderr)]
-                 ) do |db|
+                 :loggers => [migration_logger]) do |db|
     if ARGV.length > 0 and ARGV[0] == "nuke"
       DBMigrator.nuke_database(db)
 
       indexer_state = File.join(AppConfig[:data_directory], "indexer_state")
-      if Dir.exists? (indexer_state)
+      if Dir.exist? (indexer_state)
         FileUtils.rm_rf(indexer_state)
       end
-
+    else
+      puts "Running migrations against #{AppConfig[:db_url_redacted]}"
+      DBMigrator.setup_database(db)
+      puts "All done."
     end
-
-    puts "Running migrations against #{AppConfig[:db_url_redacted]}"
-    DBMigrator.setup_database(db)
-    puts "All done."
   end
 rescue Sequel::AdapterNotFound => e
 

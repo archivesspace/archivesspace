@@ -6,9 +6,15 @@ rlwrap="`which rlwrap 2>/dev/null`"
 
 
 
-GEM_HOME=$PWD/../../build/gems $rlwrap java -cp ../../build/jruby-complete-*.jar org.jruby.Main --1.9 \
+GEM_HOME=$PWD/../../build/gems $rlwrap java -cp ../../build/jruby-complete-*.jar org.jruby.Main \
     -I "../spec/" -I "../../common" -r spec_helper.rb -r irb -e '
 selenium_init($backend_start_fn, $frontend_start_fn)
+
+class Fixnum
+  def to_str
+    self.to_s
+  end
+end
 
 class Object
   def method_missing(*stuff)

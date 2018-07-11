@@ -25,11 +25,6 @@ class EACConverter < Converter
     ]
   end
 
-
-  def self.profile
-    "Convert EAC-CPF To ArchivesSpace JSONModel records"
-  end
-
 end
 
 EACConverter.configure do |config|

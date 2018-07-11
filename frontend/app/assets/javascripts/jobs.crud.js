@@ -112,23 +112,22 @@ $(function() {
           });
     };
 
+    $(document).ready(function() {
+      $("#job_form_messages", $form).empty()
 
-    $("#job_job_type_", $form).change(function() {
+      var type = $("#job_type").val();
 
-      if ($(this).val() === "") {
-        $("#job_form_messages", $form)
-          .empty()
+      if (type === "") {
         //
-      } else if ($(this).val() === "report_job") {
+      } else if (type === "report_job") {
         $("#job_form_messages", $form)
-          .empty()
           .html(AS.renderTemplate("template_report_instructions"));
         // we disable to form...
         $('.form-actions .btn-primary').addClass('disabled'); 
         $("#noImportTypeSelected", $form).hide();
         $("#job_type_fields", $form)
           .empty()
-          .html(AS.renderTemplate("template_report_job"));
+          .html(AS.renderTemplate("template_report_job", {id_path: "job_job_params_", path: "job[job_params]"}));
         $(".linker:not(.initialised)").linker();
         $(document).triggerHandler("subrecordcreated.aspace", ["date", $form]); 
         $('.select-record', $form).on("click", function(event) { 
@@ -143,21 +142,17 @@ $(function() {
           $listing.parent().siblings('.report-listing').fadeOut('slow', function() { $(this).remove(); });
         });
       
-      
-      } else if ($(this).val() === "print_to_pdf_job") {
-
-        $("#job_form_messages", $form)
-          .empty()
+        initLocationReportSubForm();
+      } else if (type === "print_to_pdf_job") {
         $("#noImportTypeSelected", $form).hide();
         $("#job_type_fields", $form)
           .empty()
           .html(AS.renderTemplate("template_print_to_pdf_job", {id_path: "print_to_pdf_job", path: "print_to_pdf_job"}));
         $(".linker:not(.initialised)").linker();
 
-      } else if ($(this).val() === "find_and_replace_job") {
+      } else if (type === "find_and_replace_job") {
         $("#noImportTypeSelected", $form).hide();
         $("#job_form_messages", $form)
-          .empty()
           .html(AS.renderTemplate("template_find_and_replace_warning"));
         $("#job_type_fields", $form)
           .empty()
@@ -176,7 +171,7 @@ $(function() {
           if (resourceUri.length) {
             var id = /\d+$/.exec(resourceUri)[0]
             $.ajax({
-              url: "/resources/" + id + "/models_in_graph",
+              url: AS.app_prefix("/resources/" + id + "/models_in_graph"),
               success: function(typeList) {
                 var oldVal = $selectRecordType.val();
                 $selectRecordType.empty();
@@ -202,7 +197,7 @@ $(function() {
         $selectRecordType.change(function() {
           var recordType = $(this).val();
           $.ajax({
-            url: "/schema/" + recordType + "/properties?type=string&editable=true",
+            url: AS.app_prefix("/schema/" + recordType + "/properties?type=string&editable=true"),
             success : function(propertyList) {
               $selectProperty.empty();
 
@@ -217,7 +212,8 @@ $(function() {
           });
         });
 
-      } else if ($(this).val() === "import_job") {
+      } else if (type === "import_job") {
+	  //      } else if ($(this).val() === "import_job") {
         // $("#noImportTypeSelected", $form).hide();
         // $("#noImportTypeSelected", $form).show();
         // $("#job_filenames_", $form).hide();
@@ -248,10 +244,14 @@ $(function() {
         });
         $("#job_import_type_", $form).trigger("change");
 
+      } else {
+        $("#noImportTypeSelected", $form).hide();
+        $("#job_type_fields", $form)
+          .empty()
+          .html(AS.renderTemplate("template_" + type, {id_path: type, path: type}));
+        $(".linker:not(.initialised)").linker();
       }
     });
-
-    $("#job_job_type_", $form).trigger("change");
 
     var handleError = function(errorHTML) {
 
@@ -268,7 +268,7 @@ $(function() {
         $(".btn, a, :input", $form).attr("disabled", "disabled").addClass("disabled");
         $progress.show();
 
-        jobType = $('#job_job_type_', $form).val();
+	var jobType = $("#job_type").val();
 
         if (jobType === 'find_and_replace_job') {
           for (var i=0; i < arr.length; i++) {
@@ -287,6 +287,7 @@ $(function() {
                 arr[i].name = "print_to_pdf_job[source]";
               }
           }
+
         } else if (jobType === 'import_job') {
           console.log("ATTACH");
           $(".import-file.file-attached").each(function() {
@@ -335,12 +336,37 @@ $(function() {
         $progressBar.addClass("bar-success");
         $("#successMessage").show();
 
-        location.href = APP_PATH + "resolve/readonly?uri="+uri_to_resolve;
+        location.href = AS.app_prefix("resolve/readonly?uri="+uri_to_resolve);
       },
       error: function(xhr) {
         handleError(xhr.responseText);
       }
     });
+  };
+
+
+  var initLocationReportSubForm = function () {
+    $(document).on('change', '#location_report_type', function () {
+      var selected_report_type = $(this).val();
+
+      $('.report_type').hide();
+
+      var location_start_linker = $('#report_location_start');
+      var location_end_linker = $('#report_location_end');
+
+      if (selected_report_type === 'single_location') {
+        location_end_linker.hide();
+        location_start_linker.find('label').text(location_start_linker.data('singular-label'));
+      } else if (selected_report_type === 'location_range') {
+        location_start_linker.find('label').text(location_start_linker.data('range-label'));
+        location_end_linker.find('label').text(location_end_linker.data('range-label'));
+        location_end_linker.show();
+      }
+
+      $('.report_type.' + selected_report_type).show();
+    });
+
+    $('#location_report_type').trigger('change');
   };
 
   initImportJobForm();
