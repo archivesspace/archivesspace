@@ -39,7 +39,19 @@ module ASModel
 
         # no title, no name. Generate a random string.
         else
-          self[:slug] = (0...8).map { (65 + rand(26)).chr }.join
+
+          # if Agent, go look in the AgentContact table.
+          if self.class == AgentCorporateEntity ||
+             self.class == AgentPerson ||
+             self.class == AgentFamily ||
+             self.class == AgentSoftware
+
+            self[:slug] = SlugHelpers.get_agent_name(self.id, self.class)
+
+          # otherwise, make something up.
+          else
+            self[:slug] = SlugHelpers.random_name
+          end
         end
       end
 

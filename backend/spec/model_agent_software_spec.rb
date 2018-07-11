@@ -66,4 +66,20 @@ describe 'Agent model' do
     expect(as_json['names'][0]['version']).to eq ASConstants.VERSION
   end
 
+  describe "slug tests" do
+    it "sets software_name as the slug value" do
+      agent = AgentSoftware.create_from_json(build(:json_agent_software))
+
+      agent_name = NameSoftware.where(:agent_software_id => agent[:id]).first
+
+      expected_slug = agent_name[:software_name].gsub(" ", "_")
+                                                .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+
+
+      agent_rec = AgentSoftware.where(:id => agent[:id]).first.update(:is_slug_auto => 1)
+
+      expect(agent_rec[:slug]).to eq(expected_slug)
+    end
+  end    
 end

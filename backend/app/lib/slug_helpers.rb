@@ -136,4 +136,37 @@ module SlugHelpers
       return new_slug
     end
   end
+
+  def self.get_agent_name(id, klass)
+    case klass.to_s
+    when "AgentPerson"
+      table = "name_person"
+      lookup_field_prefix = "agent_person"
+      select_field = "primary_name"
+    when "AgentFamily"
+      table = "name_family"
+      lookup_field_prefix = "agent_family"
+      select_field = "family_name"
+    when "AgentCorporateEntity"
+      table = "name_corporate_entity"
+      lookup_field_prefix = "agent_corporate_entity"
+      select_field = "primary_name"
+    when "AgentSoftware"
+      table = "name_software"
+      lookup_field_prefix = "agent_software"
+      select_field = "software_name"
+    end
+
+    rec = AgentContact.fetch("SELECT #{select_field} FROM #{table} where #{lookup_field_prefix}_id = ?", id).first
+
+    if rec
+      return rec[select_field.to_sym]
+    else
+      return random_name
+    end
+  end
+
+  def self.random_name
+    (0...8).map { (65 + rand(26)).chr }.join
+  end
 end
