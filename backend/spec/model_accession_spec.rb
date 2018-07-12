@@ -389,10 +389,12 @@ describe 'Accession model' do
 
       accession_rec = Accession.where(:id => accession[:id]).first.update(:is_slug_auto => 1)
 
-      expected_slug = accession_rec[:identifier].gsub(" ", "_")
-                                                .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-                                                .gsub('"', '')
-                                                .gsub('null', '')
+      expected_slug = accession_rec[:identifier].gsub("null", '')
+                  .gsub!(/[\[\]]/,'')
+                  .gsub(",", '')
+                  .split('"')
+                  .select {|s| !s.empty?}
+                  .join("-")
 
       expect(accession_rec[:slug]).to eq(expected_slug)
     end

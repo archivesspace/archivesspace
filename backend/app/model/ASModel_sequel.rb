@@ -122,11 +122,19 @@ module ASModel
 
       # auto generate a slug for this instance based on id
       def auto_gen_slug_on_id!
-        # if !self[:identifier].nil? && !self[:identifier].empty?
-        # elsif !self[:digital_object_id].nil? && !self[:digital_object_id].empty?
-        # elsif !self[:repo_code].nil? && !self[:repo_code].empty?
-        if self.class == Resource || self.class == Accession || self.class == Classification
-          self[:slug] = self[:identifier].gsub("null", "").gsub('"', '')
+        if self.class == Resource 
+          if AppConfig[:generate_resource_slugs_with_eadid] && self[:ead_id]
+            # use EADID if configured. Otherwise, use identifier.
+            self[:slug] = self[:ead_id]
+          else
+            self[:slug] = format_multipart_identifier(self[:identifier])
+          end
+
+        elsif self.class == Accession  
+          self[:slug] = format_multipart_identifier(self[:identifier])
+
+        elsif self.class == Classification
+          self[:slug] = self[:identifier]
 
         elsif self.class == DigitalObject
           self[:slug] = self[:digital_object_id]
@@ -142,6 +150,17 @@ module ASModel
         elsif self.class == AgentCorporateEntity || AgentPerson || AgentFamily || AgentSoftware
           self[:slug] = SlugHelpers.get_agent_name(self.id, self.class)
         end
+      end
+
+      # take a string that looks like this: "[\"3422\",\"345FD\",\"3423ASDA\",null]"
+      # and convert it into this: "3422-345FD-3423ASDA"
+      def format_multipart_identifier(identifier)
+        identifier.gsub("null", '')
+                  .gsub!(/[\[\]]/,'')
+                  .gsub(",", '')
+                  .split('"')
+                  .select {|s| !s.empty?}
+                  .join("-")
       end
 
 

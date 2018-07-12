@@ -361,8 +361,9 @@ describe 'Resource model' do
   end
 
   describe "slug tests" do
-    it "autogenerates a slug via title when configured to generate by name" do
+    it "autogenerates a slug via title when configured to generate by title" do
       AppConfig[:auto_generate_slugs_with_id] = false 
+      AppConfig[:generate_resource_slugs_with_eadid] = false
 
       resource = Resource.create_from_json(build(:json_resource))
       
@@ -375,18 +376,54 @@ describe 'Resource model' do
       expect(resource_rec[:slug]).to eq(expected_slug)
     end
 
-    it "autogenerates a slug via identifier when configured to generate by id" do
+    it "autogenerates a slug via eadid when configured to generate by name and eadid" do
       AppConfig[:auto_generate_slugs_with_id] = true
+      AppConfig[:generate_resource_slugs_with_eadid] = true
+
+      resource = Resource.create_from_json(build(:json_resource, {:ead_id => rand(1000000).to_s}))
+      
+
+      resource_rec = Resource.where(:id => resource[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = resource_rec[:ead_id].gsub(" ", "_")
+                                           .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+      expect(resource_rec[:slug]).to eq(expected_slug)
+    end
+
+    it "autogenerates a slug via eadid when configured to generate by name and eadid, but eadid missing" do
+      AppConfig[:auto_generate_slugs_with_id] = true
+      AppConfig[:generate_resource_slugs_with_eadid] = true
+
+      resource = Resource.create_from_json(build(:json_resource, {:ead_id => nil }))
+
+      resource_rec = Resource.where(:id => resource[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = resource_rec[:identifier].gsub("null", '')
+                  .gsub!(/[\[\]]/,'')
+                  .gsub(",", '')
+                  .split('"')
+                  .select {|s| !s.empty?}
+                  .join("-")
+
+      expect(resource_rec[:slug]).to eq(expected_slug)
+    end
+
+    it "autogenerates a slug via identifier when configured to generate by id but not eadid" do
+      AppConfig[:auto_generate_slugs_with_id] = true
+      AppConfig[:generate_resource_slugs_with_eadid] = false
 
       resource = Resource.create_from_json(build(:json_resource))
       
 
       resource_rec = Resource.where(:id => resource[:id]).first.update(:is_slug_auto => 1)
 
-      expected_slug = resource_rec[:identifier].gsub(" ", "_")
-                                               .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-                                               .gsub('"', '')
-                                               .gsub('null', '')
+      expected_slug = resource_rec[:identifier].gsub("null", '')
+                  .gsub!(/[\[\]]/,'')
+                  .gsub(",", '')
+                  .split('"')
+                  .select {|s| !s.empty?}
+                  .join("-")
 
       expect(resource_rec[:slug]).to eq(expected_slug)
     end
