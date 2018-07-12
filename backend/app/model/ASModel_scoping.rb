@@ -42,6 +42,8 @@ module ASModel
         self.class.fire_update(self.class.to_jsonmodel(self.id), self)
       end
 
+      reindex_top_containers
+
       val
     end
 
@@ -55,6 +57,9 @@ module ASModel
 
         model.handle_publish_flag(ids, setting)
       end
+
+      reindex_top_containers
+
     end
 
 
