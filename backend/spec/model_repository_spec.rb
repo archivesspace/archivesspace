@@ -77,7 +77,7 @@ describe 'Repository model' do
   end
 
 
-it "can identify and report conflicting identifiers" do
+  it "can identify and report conflicting identifiers" do
     destination = make_test_repo("destination")
 
     3.times do |i|
@@ -103,49 +103,7 @@ it "can identify and report conflicting identifiers" do
   end
 
 
-  # These slug tests should be in a more generic place. Here out of convienence for now.
-  # TODO: Move slug tests to a generic "ArchiveSpace Slugged Model" test
-  it "automatically strips invalid chars from slug field" do
-    id = make_test_repo("slugtest")
-    repo = Repository.where(:id => id).first.update(:slug => "A Wierd! Slug# To? Use@")
 
-    expect(repo[:slug]).to eq("A_Wierd_Slug_To_Use")
-  end
-
-  it "automatically de-duplicates slug names" do
-    id1 = make_test_repo("slugtest1")
-    id2 = make_test_repo("slugtest2")
-    id3 = make_test_repo("slugtest3")
-
-    repo1 = Repository.where(:id => id1).first.update(:slug => "Original")
-    repo2 = Repository.where(:id => id2).first.update(:slug => "Original")
-    repo3 = Repository.where(:id => id3).first.update(:slug => "Original")
-
-    expect(repo1[:slug]).to eq("Original")
-    expect(repo2[:slug]).to eq("Original_1")
-    expect(repo3[:slug]).to eq("Original_2")
-  end
-
-  it "truncates a slug name longer than 50 chars" do
-    id = make_test_repo("slugtest")
-    repo = Repository.where(:id => id).first.update(:slug => "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugName")
-
-    expected_slug = "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLo"
-
-    expect(repo[:slug]).to eq(expected_slug)
-  end
-
-  it "autogenerates a slug via name when configured" do
-    AppConfig[:auto_generate_slugs_with_id] = false 
-    
-    id = make_test_repo("slugtest")
-
-    repo = Repository.where(:id => id).first.update(:is_slug_auto => 1)
-    expected_slug = repo[:name].gsub(" ", "_")
-                               .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-
-    expect(repo[:slug]).to eq(expected_slug)
-  end
 
   it "can delete a repo even if it has preferences and import jobs and stuff" do
 
@@ -229,5 +187,63 @@ it "can identify and report conflicting identifiers" do
       new_user.delete
     end
 
+  end
+
+  describe "slug tests" do
+    # These slug tests should be in a more generic place. Here out of convienence for now.
+    # TODO: Move slug tests to a generic "ArchiveSpace Slugged Model" test
+    it "automatically strips invalid chars from slug field" do
+      id = make_test_repo("slugtest")
+      repo = Repository.where(:id => id).first.update(:slug => "A Wierd! Slug# To? Use@")
+
+      expect(repo[:slug]).to eq("A_Wierd_Slug_To_Use")
+    end
+
+    it "automatically de-duplicates slug names" do
+      id1 = make_test_repo("slugtest1")
+      id2 = make_test_repo("slugtest2")
+      id3 = make_test_repo("slugtest3")
+
+      repo1 = Repository.where(:id => id1).first.update(:slug => "Original")
+      repo2 = Repository.where(:id => id2).first.update(:slug => "Original")
+      repo3 = Repository.where(:id => id3).first.update(:slug => "Original")
+
+      expect(repo1[:slug]).to eq("Original")
+      expect(repo2[:slug]).to eq("Original_1")
+      expect(repo3[:slug]).to eq("Original_2")
+    end
+
+    it "truncates a slug name longer than 50 chars" do
+      id = make_test_repo("slugtest")
+      repo = Repository.where(:id => id).first.update(:slug => "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugName")
+
+      expected_slug = "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLo"
+
+      expect(repo[:slug]).to eq(expected_slug)
+    end
+
+    it "autogenerates a slug via name when configured to generate by name" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+      
+      id = make_test_repo("slugtest")
+
+      repo = Repository.where(:id => id).first.update(:is_slug_auto => 1)
+      expected_slug = repo[:name].gsub(" ", "_")
+                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+      expect(repo[:slug]).to eq(expected_slug)
+    end
+
+    it "autogenerates a slug via repo_code when configured to generate by id" do
+      AppConfig[:auto_generate_slugs_with_id] = true
+      
+      id = make_test_repo("slugtest")
+
+      repo = Repository.where(:id => id).first.update(:is_slug_auto => 1)
+      expected_slug = repo[:repo_code].gsub(" ", "_")
+                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+      expect(repo[:slug]).to eq(expected_slug)
+    end
   end
 end

@@ -360,5 +360,37 @@ describe 'Resource model' do
 
   end
 
+  describe "slug tests" do
+    it "autogenerates a slug via title when configured to generate by name" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+
+      resource = Resource.create_from_json(build(:json_resource))
+      
+
+      resource_rec = Resource.where(:id => resource[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = resource_rec[:title].gsub(" ", "_")
+                                          .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+      expect(resource_rec[:slug]).to eq(expected_slug)
+    end
+
+    it "autogenerates a slug via identifier when configured to generate by id" do
+      AppConfig[:auto_generate_slugs_with_id] = true
+
+      resource = Resource.create_from_json(build(:json_resource))
+      
+
+      resource_rec = Resource.where(:id => resource[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = resource_rec[:identifier].gsub(" ", "_")
+                                               .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+                                               .gsub('"', '')
+                                               .gsub('null', '')
+
+      expect(resource_rec[:slug]).to eq(expected_slug)
+    end
+  end
+
 
 end

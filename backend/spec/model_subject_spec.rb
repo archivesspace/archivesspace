@@ -168,4 +168,36 @@ describe 'Subject model' do
     acc.save
     expect(JSONModel(:subject).find(subject.id).is_linked_to_published_record).to be_falsey
   end
+
+  describe "slug tests" do
+    it "autogenerates a slug via title when configured to generate by name" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+
+      subject = Subject.create_from_json(build(:json_subject))
+      
+
+      subject_rec = Subject.where(:id => subject[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = subject_rec[:title].gsub(" ", "_")
+                                         .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+      expect(subject_rec[:slug]).to eq(expected_slug)
+    end
+
+    it "autogenerates a slug via title when configured to generate by id" do
+      AppConfig[:auto_generate_slugs_with_id] = true
+
+      subject = Subject.create_from_json(build(:json_subject))
+      
+
+      subject_rec = Subject.where(:id => subject[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = subject_rec[:title].gsub(" ", "_")
+                                              .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+                                              .gsub('"', '')
+                                              .gsub('null', '')
+
+      expect(subject_rec[:slug]).to eq(expected_slug)
+    end
+  end
 end

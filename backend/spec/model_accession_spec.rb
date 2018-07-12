@@ -366,4 +366,36 @@ describe 'Accession model' do
     expect(Accession.to_jsonmodel(bert.id)['related_accessions'].first['ref']).to eq(ernie.uri)
   end
 
+  describe "slug tests" do
+    it "autogenerates a slug via title when configured to generate by name" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+
+      accession = Accession.create_from_json(build(:json_accession))
+      
+
+      accession_rec = Accession.where(:id => accession[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = accession_rec[:title].gsub(" ", "_")
+                                           .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+      expect(accession_rec[:slug]).to eq(expected_slug)
+    end
+
+    it "autogenerates a slug via identifier when configured to generate by id" do
+      AppConfig[:auto_generate_slugs_with_id] = true
+
+      accession = Accession.create_from_json(build(:json_accession))
+      
+
+      accession_rec = Accession.where(:id => accession[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = accession_rec[:identifier].gsub(" ", "_")
+                                                .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+                                                .gsub('"', '')
+                                                .gsub('null', '')
+
+      expect(accession_rec[:slug]).to eq(expected_slug)
+    end
+  end
+
 end
