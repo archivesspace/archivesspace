@@ -142,7 +142,7 @@ class ApplicationController < ActionController::Base
 
     def update_params!
       #Add in additional params as needed, based on the controller
-      if params[:controller] == "objects"
+      if params[:controller] == "objects" && !params[:obj_type]
         params[:obj_type] = "digital_objects"
       end
     end
