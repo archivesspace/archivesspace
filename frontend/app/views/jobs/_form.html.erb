@@ -49,6 +49,31 @@
 
   <% end %>
 
+  <% define_template("generate_slugs_job", jsonmodel_definition(:generate_slugs_job)) do |form| %>
+    <hr/>
+    <br/>
+
+    <div class="alert alert-danger">
+      <p><b>WARNING! </b>Any previously created slugs will be lost!
+    </div>
+    <br/>
+    <p>This job will generate a slug and enable slug autogeneration for all <b>Resources</b>, <b>Digital Objects</b>, <b>Accessions</b>, <b>Classifications</b>, <b>Agents</b>, <b>Subjects</b>, and <b>Repositories</b>.</p>
+    <br/>
+    <p><b>Based on your ArchivesSpace configuration settings in config.rb:</b></p>
+    <% if AppConfig[:auto_generate_slugs_with_id] %>
+      <p>Slugs will be generated using the entity identifier where appropriate.</p>
+    <% else %>
+      <p>Slugs will be generated using the entity name or title.</p>
+    <% end %>
+
+    <% if AppConfig[:generate_resource_slugs_with_eadid] %>
+      <p>Slugs for <b>Resources</b> will be generated using the EAD ID where appropriate.</p>
+    <% end %>
+
+    <input id="generate_slugs_job_jsonmodel_type_" name="generate_slugs_job[jsonmodel_type]" type="hidden" value="generate_slugs_job">
+  <% end %>
+
+
   <% define_template("job", jsonmodel_definition(:job)) do |form| %>
 
     <input id="job_type" name="job[job_type]" type="hidden" value="<%= params['job_type'] %>">
@@ -146,7 +171,8 @@
 
   <%# Now create a template for all job types not handled above - eg from plugins %>
   <% job_types.keys.each do |type| %>
-    <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job'].include?(type) %>
+    <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job'].include?(type) %>
+
     <% define_template(type, jsonmodel_definition(type.intern)) do |form| %>
 
       <% begin %>
