@@ -6,8 +6,6 @@ class CustomReportTemplatesController < ApplicationController
   def new
     @custom_report_template = JSONModel(:custom_report_template).new._always_valid!
     @custom_data = JSONModel::HTTP::get_json("/reports/custom_data")
-
-    render_aspace_partial :partial => "custom_report_templates/new" if inline?
   end
 
 
@@ -24,18 +22,13 @@ class CustomReportTemplatesController < ApplicationController
     handle_crud(:instance => :custom_report_template,
                 :model => JSONModel(:custom_report_template),
                 :on_invalid => ->(){
-                  return render_aspace_partial :partial => "custom_report_templates/new" if inline?
-                  return render :action => :new
+                  @custom_data = JSONModel::HTTP::get_json("/reports/custom_data")
+                  render :action => "new"
                 },
                 :on_valid => ->(id){
-                  if inline?
-                    @custom_report_template.refetch
-                    render :json => @custom_report_template.to_hash if inline?
-                  else
-                    flash[:success] = I18n.t("custom_report_template._frontend.messages.created")
-                    return redirect_to :controller => :custom_report_templates, :action => :new if params.has_key?(:plus_one)
-                    redirect_to(:controller => :custom_report_templates, :action => :index)
-                  end
+                  flash[:success] = I18n.t("custom_report_template._frontend.messages.created")
+                  return redirect_to :controller => :custom_report_templates, :action => :new if params.has_key?(:plus_one)
+                  redirect_to(:controller => :custom_report_templates, :action => :index)
                 })
   end
 

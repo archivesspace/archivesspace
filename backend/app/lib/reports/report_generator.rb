@@ -2,7 +2,7 @@ require 'java'
 require 'csv'
 require_relative 'csv_report_expander'
 
-# java_import org.xhtmlrenderer.pdf.ITextRenderer
+#java_import org.xhtmlrenderer.pdf.ITextRenderer
 
 class ReportGenerator
   attr_accessor :report

@@ -1885,6 +1885,7 @@
     is_required_if_status_is_previous: se necesita si el 'Stado' es 'Previo'
     location_profile_name_not_unique: El nombre del Location Profile tiene que ser único
     must_be_a_positive_integer: Tiene que ser un entero positivo
+    custom_report_template_name_not_unique: El nombre de la plantilla del informe personalizado debe ser único.
 
   job:
     _singular: Tarea en el background

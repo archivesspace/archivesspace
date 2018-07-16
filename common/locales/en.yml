@@ -1937,6 +1937,7 @@ en:
     must_be_a_positive_integer: Must be a positive integer
     must_be_unique_to_its_level_in_the_tree: This value must be unique for this level of the hierarchy
     short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
+    custom_report_template_name_not_unique: The custom report template's name must be unique.
 
   job:
     _singular: Background Job
