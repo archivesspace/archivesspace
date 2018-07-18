@@ -22,7 +22,7 @@ class SubjectListReport < AbstractReport
   end
 
   def fix_row(row)
-    ReportUtils.get_enum_values(row, [:type])
+    ReportUtils.get_enum_values(row, [:type, :source])
   end
 
   def identifier_field
