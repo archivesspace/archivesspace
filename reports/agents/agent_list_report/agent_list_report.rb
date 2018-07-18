@@ -39,6 +39,10 @@ class AgentListReport < AbstractReport
       and not source_id is null)"
   end
 
+  def fix_row(row)
+    ReportUtils.get_enum_values(row, [:name_source])
+  end
+
   def identifier_field
     :sort_name
   end
