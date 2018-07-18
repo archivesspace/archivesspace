@@ -269,6 +269,10 @@ ArchivesSpace::Application.routes.draw do
     match 'assessment_attributes' => 'assessment_attributes#edit', :via => [:get]
     match 'assessment_attributes' => 'assessment_attributes#update', :via => [:post]
 
+    # resources :custom_report_templates
+    # match('custom_report_templates/:id/delete' => 'custom_report_templates#delete', :via => [:post])
+    
+
 
 
     if Plugins.system_menu_items?
