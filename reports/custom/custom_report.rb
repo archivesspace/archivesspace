@@ -228,18 +228,21 @@ class CustomReport < AbstractReport
 	end
 
 	def special_translation(key, subreport_code)
+		# if it is the header for a subreport this is probably
+		# the translation that should be used
+		sub_trans = I18n.t("#{key}._plural", :default => nil)
+
 		if subreport_code
 			model = CustomField.subreport_class(subreport_code)
 			return nil unless model
 			translation_scope = model.translation_scope || model.field_name
-			I18n.t("#{translation_scope}.#{key}", :default => nil)
+			sub_trans || I18n.t("#{translation_scope}.#{key}", :default => nil)
 		else
 			field = CustomField.get_field_by_name(record_type, key)
 			if field
 				translation_scope = field[:translation_scope] || record_type
 				I18n.t("#{translation_scope}.#{key}", :default => nil)
 			else
-				sub_trans = I18n.t("#{key}._plural", :default => nil)
 				I18n.t("#{@record_type}.#{key}", :default => sub_trans)
 			end
 		end
@@ -260,7 +263,7 @@ class CustomReport < AbstractReport
 
 	def agent_type_narrow(template, field_name)
 		@agent_types = template['fields'][field_name]['values']
-		raise if !@agent_types || @agent_types.empty?
+		# raise if !@agent_types || @agent_types.empty?
 		info[field_name] = @agent_types.join(', ')
 	end
 
@@ -275,7 +278,7 @@ class CustomReport < AbstractReport
 		field_name = field[:name]
 		return unless @possible_fields.include? "#{field_name}_id"
 		values = template['fields'][field_name]['values']
-		raise if !values || values.empty?
+		# raise if !values || values.empty?
 		@conditions.push("#{field_name}_id in (#{values.join(', ')})")
 
 		begin
@@ -297,7 +300,7 @@ class CustomReport < AbstractReport
 	def user_narrow(template, field_name)
 		return unless @possible_fields.include? field_name
 		values = template['fields'][field_name]['values']
-		raise if !values || values.empty?
+		# raise if !values || values.empty?
 		value_list = values.collect { |value| "'#{value}'" }.join(', ')
 		@conditions.push("#{field_name} in (#{value_list})")
 		info[field_name] = values.join(', ')

@@ -4,7 +4,8 @@ class LinkedResourceSubreport < AbstractSubreport
 		'deaccession' => 'deaccession', 'subject' => 'subject_rlshp',
 		'classification' => 'classification_rlshp',
 		'rights_statement' => 'rights_statement', 'agent' => 'linked_agents_rlshp',
-		'event' => 'event_link_rlshp', 'accession' => 'spawned_rlshp'
+		'event' => 'event_link_rlshp', 'accession' => 'spawned_rlshp',
+		'archival_object' => 'archival_object'
 	}
 
 	@@extra_fields ||= {'agent' => [{:field => 'role_id as role',
@@ -29,6 +30,11 @@ class LinkedResourceSubreport < AbstractSubreport
 		@link_fields = @@extra_fields[record_type] || []
 		@id_field = @link_table == record_type ? 'id' : "#{id_type}_id"
 		@id = id
+		if record_type == 'archival_object'
+			@resource_id_field = 'root_record_id'
+		else
+			@resource_id_field = 'resource_id'
+		end
 	end
 
 	def query
@@ -42,7 +48,7 @@ class LinkedResourceSubreport < AbstractSubreport
 			#{fields.join(', ')}
 		from resource, #{@link_table}
 		where #{@link_table}.#{@id_field} = #{@id}
-		and #{@link_table}.resource_id = resource.id
+		and #{@link_table}.#{@resource_id_field} = resource.id
 		and resource.repo_id = #{@repo_id}"
 	end
 

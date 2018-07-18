@@ -1938,6 +1938,8 @@ en:
     must_be_unique_to_its_level_in_the_tree: This value must be unique for this level of the hierarchy
     short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
     custom_report_template_name_not_unique: The custom report template's name must be unique.
+    custom_report_must_include_field_or_subreport: The custom report template must include at least one field or subreport.
+    missing_filter_values: Selected to filter results by field but no value(s) given 
 
   job:
     _singular: Background Job

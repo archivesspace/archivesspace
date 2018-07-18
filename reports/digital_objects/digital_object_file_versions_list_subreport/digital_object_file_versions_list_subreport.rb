@@ -1,5 +1,7 @@
 class DigitalObjectFileVersionsListSubreport < AbstractSubreport
 
+  register_subreport('file_version', ['digital_object'])
+
   def initialize(parent_report, digital_object_id)
     super(parent_report)
     @digital_object_id = digital_object_id
@@ -20,6 +22,10 @@ class DigitalObjectFileVersionsListSubreport < AbstractSubreport
       join enumeration_value on use_statement_id = enumeration_value.id
     where digital_object_id = #{@digital_object_id}
       or root_record_id = #{@digital_object_id}"
+  end
+
+  def self.field_name
+    'file_version'
   end
 
 end

@@ -150,3 +150,8 @@ en:
       is_representative: Is Representative?
       sorted_by: Sorted By
       root_record: Root Record
+      name: Name
+      dimension_units: Dimension Units
+      depth: Depth
+      height: Height
+      width: Width

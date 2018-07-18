@@ -33,7 +33,11 @@ class AbstractSubreport
   end
 
   def query
-    raise 'Please specify a query to return your reportable results'
+    db.fetch(query_string)
+  end
+
+  def query_string
+    raise 'Please specify a query string to return your reportable results'
   end
 
   def fix_row(row); end

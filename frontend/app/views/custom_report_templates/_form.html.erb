@@ -83,7 +83,7 @@
 							</div>
 
 							<div class="form-group">
-								<%= form.label 'agent_types', :class => 'col-sm-2 control-label' %>
+								<%= form.label 'values', :class => 'col-sm-2 control-label' %>
 								<% agent_types = ['agent_family', 'agent_person', 'agent_corporate_entity', 'agent_software'] %>
 								<div class="col-sm-9">
 									<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(agent_types.collect {|agent_type| [I18n.t("agent.agent_type.#{agent_type}"), agent_type]}), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
