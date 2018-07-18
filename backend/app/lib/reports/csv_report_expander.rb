@@ -93,7 +93,8 @@ class CsvReportExpander
 
 			@data = [@data[0]] + new_data
 
-			cols_added += fix_json_columns(column, column + json_columns[column].size)
+			cols_added += fix_json_columns(
+				adj_col, adj_col + json_columns[column].size)
 			cols_added += json_columns[column].size - 1
 		end
 
