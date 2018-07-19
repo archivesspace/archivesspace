@@ -91,8 +91,10 @@ class EADConverter < Converter
 
   def self.configure
 
-    with 'ead' do |node|
-      make :resource
+    with 'ead' do |*|
+      make :resource, {
+        :publish => att('audience') != 'internal'
+      }
     end
 
     ignore "titlepage"
@@ -103,10 +105,14 @@ class EADConverter < Converter
     end
 
     with 'archdesc' do |*|
+      publish = if !context_obj.publish || (att('audience') == 'internal')
+                  false
+                else
+                  true
+                end
       set :level, att('level') || 'otherlevel'
       set :other_level, att('otherlevel')
-      set :publish, att('audience') != 'internal'
-      # set :publish, att('audience') == 'external'
+      set :publish, publish
     end
 
 
