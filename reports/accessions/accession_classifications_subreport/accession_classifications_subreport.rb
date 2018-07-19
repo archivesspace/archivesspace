@@ -6,7 +6,7 @@ class AccessionClassificationsSubreport < AbstractSubreport
   end
 
   def query
-    db.fetch(query_string)
+    db.fetch(query_string, accession_id: @accession_id)
   end
 
   def query_string
@@ -19,7 +19,7 @@ class AccessionClassificationsSubreport < AbstractSubreport
       classification_rlshp
         left outer join classification on classification.id = classification_rlshp.classification_id
         left outer join classification_term on classification_term.id = classification_rlshp.classification_term_id
-    where accession_id = #{@accession_id}"
+    where accession_id = :accession_id;"
   end
 
 end
