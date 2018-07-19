@@ -1,12 +1,17 @@
 require 'spec_helper'
 
 describe 'ARK Identifier controller' do
-  it "should redirecto to resource" do
+  it "should resolve a resource" do
     resource = create_resource(:title => generate(:generic_title))
     ark = ARKIdentifier.first(:resource_id => resource.id)
 
     get "/ark:/f00001/#{ark.id}"
-    expect(last_response.status).to eq(302)
+    response_hash = JSON.parse(last_response.body)
+
+    expect(response_hash["id"]).to eq(resource.id)
+    expect(response_hash["repo_id"]).to eq(resource.repo_id)
+    expect(response_hash["type"]).to eq("Resource")
+
     resource.delete
   end
 
@@ -16,7 +21,12 @@ describe 'ARK Identifier controller' do
     ark = ARKIdentifier.first(:accession_id => accession.id)
 
     get "/ark:/f00001/#{ark.id}"
-    expect(last_response.status).to eq(302)
+    response_hash = JSON.parse(last_response.body)
+
+    expect(response_hash["id"]).to eq(accession.id)
+    expect(response_hash["repo_id"]).to eq(accession.repo_id)
+    expect(response_hash["type"]).to eq("Accession")
+
     accession.delete
   end
 
@@ -26,13 +36,20 @@ describe 'ARK Identifier controller' do
     ark = ARKIdentifier.first(:digital_object_id => digital_object.id)
 
     get "/ark:/f00001/#{ark.id}"
-    expect(last_response.status).to eq(302)
+    response_hash = JSON.parse(last_response.body)
+
+    expect(response_hash["id"]).to eq(digital_object.id)
+    expect(response_hash["repo_id"]).to eq(digital_object.repo_id)
+    expect(response_hash["type"]).to eq("DigitalObject")
+
     digital_object.delete
   end
 
   it "should return 404 if ark_id not found" do
     get "/ark:/f00001/42"
-    expect(last_response.status).to eq(404)
+
+    response_hash = JSON.parse(last_response.body)
+    expect(response_hash["type"]).to eq("not_found")
   end
 
   it "should redirect to external_ark_url in resource if defined" do
@@ -41,8 +58,10 @@ describe 'ARK Identifier controller' do
     ark = ARKIdentifier.first(:resource_id => resource.id)
 
     get "/ark:/f00001/#{ark.id}"
-    expect(last_response.status).to eq(302)
-    expect(last_response.location).to eq("http://foo.bar/ark:/123/123")
+    response_hash = JSON.parse(last_response.body)
+
+    expect(response_hash["type"]).to eq("external")
+    expect(response_hash["external_url"]).to eq(resource.external_ark_url)
 
     resource.delete
   end
@@ -52,8 +71,10 @@ describe 'ARK Identifier controller' do
     ark = ARKIdentifier.first(:accession_id => accession.id)
 
     get "/ark:/f00001/#{ark.id}"
-    expect(last_response.status).to eq(302)
-    expect(last_response.location).to eq("http://foo.bar/ark:/123/123")
+    response_hash = JSON.parse(last_response.body)
+
+    expect(response_hash["type"]).to eq("external")
+    expect(response_hash["external_url"]).to eq(accession.external_ark_url)
 
     accession.delete
   end
@@ -64,8 +85,10 @@ describe 'ARK Identifier controller' do
     ark = ARKIdentifier.first(:digital_object_id => digital_object.id)
 
     get "/ark:/f00001/#{ark.id}"
-    expect(last_response.status).to eq(302)
-    expect(last_response.location).to eq("http://foo.bar/ark:/123/123")
+    response_hash = JSON.parse(last_response.body)
+
+    expect(response_hash["type"]).to eq("external")
+    expect(response_hash["external_url"]).to eq(digital_object.external_ark_url)
 
     digital_object.delete
   end
