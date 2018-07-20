@@ -1,7 +1,7 @@
 class CustomReport < AbstractReport
 
-	# register_report(params: [['template', CustomReportTemplate,
-	# 	'Template to use for the custom report.']])
+	register_report(params: [['template', CustomReportTemplate,
+		'Template to use for the custom report.']])
 
 	attr_accessor :record_type, :subreports
 
