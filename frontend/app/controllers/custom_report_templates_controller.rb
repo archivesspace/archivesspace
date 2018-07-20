@@ -4,6 +4,7 @@ class CustomReportTemplatesController < ApplicationController
                      "manage_repository" => [:new, :create, :delete]
 
   def new
+    @data = nil
     @custom_report_template = JSONModel(:custom_report_template).new._always_valid!
     @custom_data = JSONModel::HTTP::get_json("/reports/custom_data")
   end
@@ -14,6 +15,7 @@ class CustomReportTemplatesController < ApplicationController
   end
 
   def create
+    @data = params['custom_report_template']['data'].dup.to_unsafe_h.to_hash
     record_type = params['custom_report_template']['data']['custom_record_type']
     data = params['custom_report_template']['data'][record_type]
       .to_unsafe_h.to_hash

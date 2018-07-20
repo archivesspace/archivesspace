@@ -29,13 +29,13 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  # Endpoint.get('/reports/custom_data')
-  # .description('Get a list of availiable options for custom reports')
-  # .permissions([])
-  # .returns([200], "hash of availiable options") \
-  # do
-  #   json_response(CustomField.registered_fields)
-  # end
+  Endpoint.get('/reports/custom_data')
+  .description('Get a list of availiable options for custom reports')
+  .permissions([])
+  .returns([200], "hash of availiable options") \
+  do
+    json_response(CustomField.registered_fields)
+  end
 
 
 end

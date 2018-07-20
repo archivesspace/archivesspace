@@ -14,7 +14,7 @@
 		<%= form.label 'record_type', :class => "col-sm-2 control-label" %>
 		
 		<div class="col-sm-9">
-			<%= select_tag "custom_report_template[data][custom_record_type]", options_for_select(record_types.collect {|record_type| [I18n.t("#{record_type}._plural"), record_type]}), {:id => "custom_record_type", :class => "form-control"} %>
+			<%= select_tag "custom_report_template[data][custom_record_type]", options_for_select(record_types.collect {|record_type| [I18n.t("#{record_type}._plural"), record_type]}, @data ? @data['custom_record_type'] : nil), {:id => "custom_record_type", :class => "form-control"} %>
 		</div>
 	</div>
 
@@ -37,6 +37,12 @@
 				<% translation_scope = field['translation_scope'] || record_type %>
 				<% field_name = field['name'] %>
 
+				<% field_data = begin %>
+					<% @data[record_type]['fields'][field_name] || {} %>
+				<% rescue %>
+					<% {} %>
+				<% end %>
+
 				<div class="panel panel-default">
 
 					<div class="panel-heading">
@@ -47,7 +53,7 @@
 						<div class="form-group">
 							<%= form.label 'display', :class => "col-sm-2 control-label" %>
 							<div class="col-sm-9 checkbox">
-								<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][include]" %>
+								<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][include]", '1', field_data['include'] %>
 							</div>
 						</div>
 
@@ -56,21 +62,21 @@
 							<div class="form-group">
 								<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
 								<div class="col-sm-9 checkbox">
-									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<%= form.label 'start_date', :class => 'col-sm-2 control-label' %>
 								<div class="col-sm-9">
-									<%= text_field_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][range_start]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd' %>
+									<%= text_field_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][range_start]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :value => field_data['range_start'] %>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<%= form.label 'end_date', :class => 'col-sm-2 control-label' %>
 								<div class="col-sm-9">
-									<%= text_field_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][range_end]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
+									<%= text_field_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][range_end]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :value => field_data['range_end'] %>
 								</div>
 							</div>
 
@@ -78,7 +84,7 @@
 							<div class="form-group">
 								<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
 								<div class="col-sm-9 checkbox">
-									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
 								</div>
 							</div>
 
@@ -86,21 +92,21 @@
 								<%= form.label 'values', :class => 'col-sm-2 control-label' %>
 								<% agent_types = ['agent_family', 'agent_person', 'agent_corporate_entity', 'agent_software'] %>
 								<div class="col-sm-9">
-									<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(agent_types.collect {|agent_type| [I18n.t("agent.agent_type.#{agent_type}"), agent_type]}), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+									<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(agent_types.collect {|agent_type| [I18n.t("agent.agent_type.#{agent_type}"), agent_type]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 								</div>
 							</div>
 						<% when 'Boolean' %>
 							<div class="form-group">
 								<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
 								<div class="col-sm-9 checkbox">
-									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<%= form.label "value", :class => "col-sm-2 control-label" %>
 								<div class="col-sm-9">
-									<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][value]", options_for_select([[I18n.t('custom_report_template.true'), true], [I18n.t('custom_report_template.false'), false]]), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+									<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][value]", options_for_select([[I18n.t('custom_report_template.true'), true], [I18n.t('custom_report_template.false'), false]], field_data['value']), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 								</div>
 							</div>
 						<% when 'Enum' %>
@@ -111,14 +117,14 @@
 								<div class="form-group">
 									<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
 									<div class="col-sm-9 checkbox">
-										<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+										<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<%= form.label 'values', :class => 'col-sm-2 control-label' %>
 									<div class="col-sm-9">
-										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(options.collect {|value| [I18n.t("enumerations.#{enum_name}.#{value['value']}", :default => value['value']), value['id']]}), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(options.collect {|value| [I18n.t("enumerations.#{enum_name}.#{value['value']}", :default => value['value']), value['id']]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 									</div>
 								</div>
 							<% end %>
@@ -126,14 +132,14 @@
 							<div class="form-group">
 								<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
 								<div class="col-sm-9 checkbox">
-									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]" %>
+									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
 								</div>
 							</div>
 
 							<div class="form-group">
 								<%= form.label 'values', :class => 'col-sm-2 control-label' %>
 								<div class="col-sm-9">
-									<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(users), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+									<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(users, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
 								</div>
 							</div>
 						<% end %>
@@ -142,32 +148,39 @@
 			<% end %>
 
 			<h3>Linked Records</h4>
+
 			<% @custom_data[record_type]['subreports'].each do |subreport| %>
 				<% field_name = subreport['name'] %>
 				<% translation = subreport['translation'] || "#{field_name}._plural" %>
+
+				<% subreport_data = begin %>
+					<% @data[record_type]['subreports'][field_name] || {} %>
+				<% rescue %>
+					<% {} %>
+				<% end %>
+
 				<div class="form-group">
 					<label class="col-sm-2 control-label"><%= I18n.t(translation, :default => field_name) %></label>
 					<div class="col-sm-9 checkbox">
-						<%= check_box_tag "custom_report_template[data][#{record_type}][subreports][#{field_name}][include]" %>
+						<%= check_box_tag "custom_report_template[data][#{record_type}][subreports][#{field_name}][include]", '1', subreport_data['include'] %>
 					</div>
 				</div>
 			<% end %>
 
 			<h3><%= I18n.t "custom_report_template._frontend.section.sort_by" %></h4>
+
+			<% sortable_fields = [] %>
+			<% fields.each do |field| %>
+				<% if field['sortable'] %>
+					<% translation_scope = field['translation_scope'] || record_type %>
+					<% sortable_fields.push([I18n.t("#{translation_scope}.#{field['alias'] ||field['name']}"), field['name']]) %>
+				<% end %>
+			<% end %>
+
 			<div class="form-group">
 				<%= form.label 'field', :class => 'col-sm-2 control-label' %>
 				<div class="col-sm-9">
-					<select id="sort_by" name="custom_report_template[data][<%= record_type %>][sort_by]" class="form-control">
-						<option value = ''></option>
-						<% fields.each do |field| %>
-							<% if field['sortable'] %>
-								<% translation_scope = field['translation_scope'] || record_type %>
-								<option value="<%= field['name'] %>">
-									<%= I18n.t("#{translation_scope}.#{field['alias'] ||field['name']}", :default => field['name']) %>
-								</option>
-							<% end %>
-						<% end %>
-					</select>
+					<%= select_tag "custom_report_template[data][#{record_type}][sort_by]", options_for_select(sortable_fields, @data ? @data[record_type]['sort_by'] : nil), {:id => "sort_by", :class => "form-control"} %>
 				</div>
 			</div>
 		</div>
