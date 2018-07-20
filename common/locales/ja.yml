@@ -1464,6 +1464,8 @@ ja:
     must_be_unique_to_its_level_in_the_tree: この値は、このレベルの階層で一意でなければなりません
     short_name_already_in_use: リポジトリのショートネームは、このArchivesSpace内で一意でなければなりません
     custom_report_template_name_not_unique: カスタムレポートテンプレートの名前は一意である必要があります。
+    custom_report_must_include_field_or_subreport: カスタムレポートテンプレートには、少なくとも1つのフィールドまたはサブレポートが含まれている必要があります。
+    missing_filter_values: フィールドで結果をフィルタリングするために選択された値は指定されていません
 
   job:
     _singular: バックグラウンドジョブ

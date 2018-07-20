@@ -6,9 +6,7 @@
 			<tr>
 				<th><%= I18n.t("custom_report_template._singular") %></th>
 				<th><%= I18n.t("custom_report_template.description") %></th>
-				<% if user_can? 'manage_repository' %>
-					<th width="70px"><!-- actions --></th>
-				<% end %>
+				<th width="70px"><!-- actions --></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -16,15 +14,12 @@
 				<tr>
 					<td><%= template.name %></td>
 					<td><%= template.description %></td>
-					<% if user_can? 'manage_repository' %>
-						<td>
-							<div class="btn-group" style="float: right">
-								<div class="btn btn-xs">
-									<%= button_delete_action url_for(:controller => :custom_report_templates, :action => :delete, :id => template.id ), { :"data-title" => I18n.t("actions.delete_confirm_title", :title => template.name) } unless template.id.nil? %>
-								</div>
-							</div>
-						</td>
-					<% end %>
+					<td>
+						<div class="btn-group" style="float: right">
+							<%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => template["uri"]}, :class => "btn btn-xs btn-primary" %>
+							<%= link_to I18n.t("actions.delete"), {:controller => :custom_report_templates, :action => :delete, :id => template.id}, :"data-confirmation" => true, :"data-title" => I18n.t("actions.delete_confirm_title", :title => template.name), :"data-message" => I18n.t("actions.delete_confirm_message"), :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}", :"data-confirm-btn-class" => "btn-danger", :class => "btn btn-xs btn-danger", :"data-authenticity_token" => form_authenticity_token %>
+						</div>
+					</td>
 				</tr>
 			<% end %>
 		</tbody>

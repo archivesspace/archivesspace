@@ -1886,6 +1886,8 @@
     location_profile_name_not_unique: El nombre del Location Profile tiene que ser único
     must_be_a_positive_integer: Tiene que ser un entero positivo
     custom_report_template_name_not_unique: El nombre de la plantilla del informe personalizado debe ser único.
+    custom_report_must_include_field_or_subreport: La plantilla de informe personalizado debe incluir al menos un campo o subinforme.
+    missing_filter_values: Seleccionado para filtrar los resultados por campo pero no se le otorgaron ningún valor
 
   job:
     _singular: Tarea en el background

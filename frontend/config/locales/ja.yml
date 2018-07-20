@@ -1396,6 +1396,7 @@ ja:
       section:
         template_information: テンプレート情報
         basic_information_fields: 基本情報
+        linked_records: リンクされたレコード
         sort_by: 並び替え
       action:
         create: テンプレートを作成する
