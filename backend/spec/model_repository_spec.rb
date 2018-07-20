@@ -213,6 +213,22 @@ describe 'Repository model' do
       expect(repo3[:slug]).to eq("Original_2")
     end
 
+    it "adds a leading underscore to numerical slugs" do
+      id = make_test_repo("digit_test")
+
+      repo = Repository.where(:id => id).first.update(:slug => "12345")
+
+      expect(repo[:slug]).to eq("_12345")
+    end
+
+    it "autogenerates a random slug if processing makes it empty" do
+      id = make_test_repo("digit_test")
+
+      repo = Repository.where(:id => id).first.update(:slug => "??????????")
+
+      expect(repo[:slug]).to match(/^[A-Z]{8}$/)
+    end
+
     it "truncates a slug name longer than 50 chars" do
       id = make_test_repo("slugtest")
       repo = Repository.where(:id => id).first.update(:slug => "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugName")

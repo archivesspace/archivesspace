@@ -90,6 +90,17 @@ module ASModel
         # enforce length limit of 50 chars
         self[:slug] = self[:slug].slice(0, 50)
 
+        # if slug is numeric, add a leading '_' 
+        # this is necessary, because numerical slugs will be interpreted as an id
+        if self[:slug].match(/^(\d)+$/) 
+          self[:slug] = self[:slug].prepend("_")
+        end
+
+        # if slug is empty at this point, make something up.
+        if self[:slug].empty?
+          self[:slug] = SlugHelpers.random_name
+        end
+
         # search for dupes
         if SlugHelpers.slug_in_use?(self[:slug])
           self[:slug] = SlugHelpers.dedupe_slug(self[:slug])
