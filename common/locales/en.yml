@@ -1878,6 +1878,8 @@ en:
       from_tooltip:
       to: To
       locations: Locations
+      scope_by_date: Scope by Date
+      template: Template
     formats:
       json: JSON
       csv: CSV
@@ -1935,6 +1937,9 @@ en:
     must_be_a_positive_integer: Must be a positive integer
     must_be_unique_to_its_level_in_the_tree: This value must be unique for this level of the hierarchy
     short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
+    custom_report_template_name_not_unique: The custom report template's name must be unique.
+    custom_report_must_include_field_or_subreport: The custom report template must include at least one field or subreport.
+    missing_filter_values: Selected to filter results by field but no value(s) given 
 
   job:
     _singular: Background Job
@@ -2192,3 +2197,19 @@ en:
       "Tape": Tape
       "Heat-Sensitive Paper": Heat-Sensitive Paper
       "Water Damage": Water Damage
+
+  custom_report_template:
+    name: Name
+    description: Description
+    record_type: Record Type
+    display: Display?
+    narrow_by: Narrow By?
+    values: Values
+    value: Value
+    "true": "Yes"
+    "false": "No"
+    start_date: Start Date
+    end_date: End Date
+    field: Field
+    _singular: Custom Report Template
+    _plural: Custom Report Templates

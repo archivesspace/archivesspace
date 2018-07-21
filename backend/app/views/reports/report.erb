@@ -1,19 +1,10 @@
-<% if layout? %>
-
-<% if @report.template == 'generic_listing.erb' %>
-  <!-- Listing template should be printed as landscape to fit on the page. -->
-  <% orientation = 'landscape' %>
-<% else %>
-  <% orientation = @report.orientation %>
-<% end %>
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <style media="screen,print">
         /* ArchivesSpace reporting Stylesheet */
-      <% if @report.format.to_sym === :pdf %>
+      <% if report.format.to_sym === :pdf %>
         <% AppConfig[:report_pdf_font_paths].each do |font_path| %>
           @font-face {
             src: url('<%= font_path %>');
@@ -65,11 +56,41 @@
         margin-top: 2em;
         padding-bottom: 2em;
         border-bottom: 2px solid black;
-        page-break-before: always;
+        page-break-inside: <%= report.page_break ? 'auto' : 'avoid' %>;
+        page-break-after: <%= report.page_break ? 'always' : 'auto' %>;
       }
 
-      section > h3 {
-          page-break-after: avoid;
+      .sub-report-title {
+        font-weight: bold;
+        border: 2px solid black;
+        background-color: gray;
+        padding: .5em;
+        page-break-inside: avoid;
+        page-break-after: avoid;
+        width: available;
+      }
+
+      .sub-report-item {
+        border-left: 2px solid gray;
+        border-right: 2px solid gray;
+        border-bottom: 2px solid gray;
+        background-color: #f1f1f1;
+        padding: .5em;
+        width: available;
+        page-break-inside: avoid;
+      }
+
+      ul {
+        margin: 0 0 0;
+      }
+
+      ul dl {
+        margin-top: .5em;
+        margin-bottom: 0em;
+      }
+
+      .pdf ul {
+        list-style-type: none;
       }
 
       dl {
@@ -98,6 +119,7 @@
         margin-bottom: 0.25em;
         font-size: 24pt;
         font-weight: bold;
+        page-break-after: avoid;
       }
 
       .record-title {
@@ -110,27 +132,6 @@
         font-weight: bold;
       }
 
-      table {
-        border-collapse: collapse;
-        border-bottom: 1px solid black;
-        margin-left: 1em;
-        width: 90%;
-        page-break-inside: avoid;
-      }
-
-      table th {
-        border-top: solid 2px black;
-        border-bottom: solid 1px black;
-        text-align: left;
-        padding-left: 0.25em;
-        padding-right: 1em;
-        margin: 0;
-      }
-
-      table td {
-        padding: 0.5em 0.5em 0.5em 0.25em;
-      }     
-
       .report-listing {
         border: 1px solid #AAA;
         border-collapse: collapse;
@@ -139,34 +140,13 @@
         clear: both;
       }
 
-      .report-listing th,
-      .report-listing td {
-        border: 1px solid #AAA;
-        padding: 4px;
-        vertical-align: top;
-        word-break: break-all;
-      }
-
-      .report-listing th {
-        background-color: #F1F1F1;
-      }
-
-      .report-listing tr:nth-child(2n-1) td {
-        background-color: #FaFaFa;
-      }
-
       @page {
-        size: <%= @report.layout %> <%= orientation %>;
+        size: <%= report.layout %> <%= report.orientation %>;
         -fs-flow-bottom: "footer";
       }
 
       thead {
         display: table-header-group;
-      }
-      .pdf table {
-        -fs-table-paginate: paginate;
-        border-collapse: separate;
-        border-spacing: 0px;
       }
 
       .page-break {
@@ -198,23 +178,17 @@
     </style>
   </head>
 
-  <body class="<%= @report.format %>">
-    <%= render(@report.template) %>
+  <body class="<%= report.format %>">
+    <%= do_render('report_content.erb') %>
 
-    <% if @report.format === 'html' or @report.format === 'pdf' %>
-      <% time = DateTime.now %>
-      <div id="footer" class="footer" style="position: running(footer);">
-        <div class="timestamp">
-          <% if @report.repo_id %>Scoped for Repository: <%= h @report.repo_id %><br/><% end %>
-          Report Generated at <%= h time.strftime("%Y-%m-%d %H:%M %Z") %>
-        </div>
+    <div id="footer" class="footer" style="position: running(footer);">
+      <div class="timestamp">
+        <% if report.repo_id %>
+          Scoped for Repository: <%= report.repository %><br/>
+        <% end %>
+        Report Generated at <%= DateTime.now.strftime("%Y-%m-%d %H:%M %Z") %>
       </div>
-    <% end %>
+    </div>
 
   </body>
 </html>
-
-<% else %>
-   <!-- <%= h @report.template %>  -->
-    <%= render(@report.template) %>
-<% end %>

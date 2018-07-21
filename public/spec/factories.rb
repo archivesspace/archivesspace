@@ -64,6 +64,7 @@ module AspaceFactories
       sequence(:ref_id) {|n| "aspace_#{n}"}
       sequence(:id_0) {|n| "#{Time.now.to_i}_#{n}"}
 
+      sequence(:number) { rand(1_000) }
       sequence(:accession_title) { |n| "Accession #{n}" }
       sequence(:resource_title) { |n| "Resource #{n}" }
       sequence(:archival_object_title) {|n| "Archival Object #{n}"}
@@ -71,6 +72,29 @@ module AspaceFactories
       sequence(:digital_object_component_title) {|n| "Digital Object #{n}"}
       sequence(:classification_title) {|n| "Classification #{n}"}
       sequence(:classification_term_title) {|n| "Classification Term #{n}"}
+
+      sequence(:use_statement) { ["application", "application-pdf", "audio-clip",
+                                  "audio-master", "audio-master-edited",
+                                  "audio-service", "image-master",
+                                  "image-master-edited","image-service",
+                                  "image-service-edited", "image-thumbnail",
+                                  "text-codebook","test-data",
+                                  "text-data_definition","text-georeference",
+                                  "text-ocr-edited","text-ocr-unedited",
+                                  "text-tei-transcripted","text-tei-translated",
+                                  "video-clip", "video-master",
+                                  "video-master-edited","video-service",
+                                  "video-streaming"].sample }
+      sequence(:checksum_method) { ["md5", "sha-1", "sha-256", "sha-384", "sha-512"].sample }
+      sequence(:xlink_actuate_attribute) {  ["none", "other", "onLoad", "onRequest"].sample } 
+      sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample } 
+      sequence(:file_format) { %w[aiff avi gif jpeg mp3 pdf tiff txt].sample } 
+
+
+      sequence(:name_rule) {  ["local", "aacr", "dacs", "rda"].sample }
+      sequence(:name_source) { ["local", "naf", "nad", "ulan"].sample }
+      sequence(:generic_name) { SecureRandom.hex }
+      sequence(:sort_name) { SecureRandom.hex }
 
 
       sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
@@ -182,7 +206,7 @@ module AspaceFactories
         use_statement { generate(:use_statement) }
         xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
         xlink_show_attribute { generate(:xlink_show_attribute) }
-        file_format_name { generate(:file_format_name) }
+        file_format_name { generate(:file_format) }
         file_format_version { generate(:alphanumstr) }
         file_size_bytes { generate(:number).to_i }
         checksum { generate(:alphanumstr) }
@@ -270,6 +294,7 @@ module AspaceFactories
 
       factory :classification, class: JSONModel(:classification) do
         identifier { generate(:alphanumstr) }
+        publish true
         title { generate(:classification_title) }
         description { generate(:alphanumstr) }
       end

@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     root to: "welcome#show"
 
     get '/welcome', to: 'welcome#show'
+
+    get '/*ark_tag/:naan/:id' => 'ark_identifier#show', constraints: { ark_tag: 'ark:' }
     
     # I don't think this is used anywhere... 
     post '/cite', to: 'cite#show'

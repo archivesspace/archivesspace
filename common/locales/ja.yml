@@ -1405,6 +1405,8 @@ ja:
       from_tooltip:
       to: に
       locations: 場所
+      scope_by_date: 日付範囲
+      template: テンプレート
     formats:
       json: JSON
       csv: CSV
@@ -1461,6 +1463,7 @@ ja:
     must_be_a_positive_integer: 正の整数である必要があります
     must_be_unique_to_its_level_in_the_tree: この値は、このレベルの階層で一意でなければなりません
     short_name_already_in_use: リポジトリのショートネームは、このArchivesSpace内で一意でなければなりません
+    custom_report_template_name_not_unique: カスタムレポートテンプレートの名前は一意である必要があります。
 
   job:
     _singular: バックグラウンドジョブ
@@ -1742,3 +1745,19 @@ ja:
       Tape: テープ
       Heat-Sensitive Paper: 感熱紙
       Water Damage: 水害
+
+  custom_report_template:
+    name: 名
+    description: 説明
+    record_type: レコードタイプ
+    display: 表示？
+    narrow_by: 狭い？
+    values: 値
+    value: 値
+    "true": "はい"
+    "false": "ノー"
+    start_date: 開始日
+    end_date: 終了日
+    field: フィールド
+    _singular: カスタムレポートテンプレート
+    _plural: カスタムレポートテンプレート

@@ -1877,6 +1877,8 @@ fr:
       from_tooltip:
       to: Au
       locations: Localisations
+      scope_by_date: Portée par date
+      template: Modèle
     formats:
       json: JSON
       csv: CSV
@@ -1934,6 +1936,7 @@ fr:
     must_be_a_positive_integer: Doit être un entier positif
     must_be_unique_to_its_level_in_the_tree: Cette valeur doit être unique à ce niveau de la hiérarchie
     short_name_already_in_use: Le service d'archives doit être unique dans cet ArchivesSpace
+    custom_report_template_name_not_unique: Le nom du modèle de rapport personnalisé doit être unique.
 
   job:
     _singular: Tâche d'arrière-plan
@@ -2191,3 +2194,19 @@ fr:
       "Tape": Bande magnétique
       "Heat-Sensitive Paper": Papier sensible à la chaleur
       "Water Damage": Dommage dû à l'eau
+
+  custom_report_template:
+    name: Nom
+    description: Description
+    record_type: Type de notice ou de sous-notice
+    display: Afficher?
+    narrow_by: Affiner par?
+    values: Valeurs
+    value: Valeur
+    "true": "Oui"
+    "false": "No"
+    start_date: Date de début
+    end_date: Date de fin
+    field: Champ
+    _singular: Modèle de rapport personnalisé
+    _plural: Modèles de rapports personnalisés

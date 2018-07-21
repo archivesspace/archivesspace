@@ -7,7 +7,7 @@ fr:
       identifier_prefix: Entrée
       accession_date: Date d'entrée
       extent: Importance
-      container: Conditionnement 
+      container_summary: Conditionnement
       deaccessions: Aliénations
       locations: Localisations
       general_note: Note générale
@@ -16,16 +16,18 @@ fr:
       bulk_begin_date: Date de début du gros
       bulk_end_date: Date de fin du gros
       date_expression: Expression de date
-      description_section: Description
+      description_note: Description
       names: Noms
       subjects: Sujets
       acquisitions: Acquisitions
-      retention: Conservation
-      condition: Condition
+      retention_rule: Conservation
+      condition_note: Condition
       inventory: Inventaire
       disposition: Disposition
       restrictions_apply: Des restrictions s'appliquent?
+      access_restrictions: Restrictions de consultation?
       access_restrictions_note: Note de restrictions de consultation
-      user_restrictions_note: Note de restrictions d'utilisation
+      use_restrictions: Restrictions d'utilisation?
+      use_restrictions_note: Note de restrictions d'utilisation
       rights_transferred: Droits transférés?
       rights_transferred_note: Note de transfert de droits

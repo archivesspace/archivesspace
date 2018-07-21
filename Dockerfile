@@ -16,7 +16,7 @@ RUN apt-get update && \
 COPY . /source
 
 RUN cd /source && \
-    export ARCHIVESSPACE_VERSION=${SOURCE_BRANCH:-$(git rev-parse --abbrev-ref HEAD 2>/dev/null)} && \
+    export ARCHIVESSPACE_VERSION=`git symbolic-ref -q --short HEAD || git describe --tags --match v*` && \
     ./scripts/build_release $ARCHIVESSPACE_VERSION && \
     mv ./*.zip / && \
     rm -rf /source && \
