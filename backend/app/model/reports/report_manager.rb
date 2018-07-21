@@ -1,6 +1,12 @@
 module ReportManager
+
   @@registered_reports ||= {}
 
+  ALLOWED_REPORT_FORMATS = ["json", "csv", "html", "pdf"]
+
+  def self.allowed_report_formats
+    ALLOWED_REPORT_FORMATS
+  end
 
   def self.register_report(report_class, opts)
     opts[:code] = report_class.code

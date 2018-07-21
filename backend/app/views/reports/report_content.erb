@@ -1,0 +1,48 @@
+<% results = report.get_content %>
+<% xml_clean!(results) if report.format == 'pdf' %>
+<% info = report.info %>
+<% xml_clean!(info) if report.format == 'pdf' %>
+
+<div class="header">
+  <img class="logo" src="<%= @base_url || '/' %>reports/static/images/archivesspace.small.png"/>
+</div>
+
+<div class="titlepage">
+  <div class="title"><%= report.title %></div>
+
+  <dl>
+  <% info.each do |key, value| %>
+    <% unless key.to_s[0] == '_' %>
+      <dt><%= t(key) %></dt>
+    <% end %>
+    <dd><%= value %></dd>
+  <% end %>
+  </dl>
+</div>
+
+<% results.each do |item| %>
+
+  <div class="report-record">
+    <div class="identifier"><%= identifier(item) %></div>
+
+    <dl>
+      <% item.each do |key, value| %>
+        <% if value.kind_of?(Array) %>
+          </dl>
+          <section>
+            <div class="sub-report-title"><%= t(key) %></div>
+            <%= format_sub_report(value) %>
+            <br/>
+          </section>
+          <dl>
+        <% elsif value %>
+          <% unless key.to_s[0] == '_' %>
+            <dt><%= t(key) %></dt>
+          <% end %>
+          <dd><%= value %></dd>
+        <% end %>
+      <% end %>
+    </dl>
+
+  </div>
+<% end %>

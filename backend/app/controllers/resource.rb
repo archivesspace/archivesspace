@@ -76,6 +76,38 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/repositories/:repo_id/resources/:id/top_containers')
+    .description("Get Top Containers linked to a Resource")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["resolve", :resolve])
+    .permissions([:view_repository])
+    .returns([200, "a list of linked top containers"],
+             [404, "Not found"]) \
+  do
+    resource = Resource.get_or_die(params[:id])
+    top_container = []
+    records = resource.ordered_records.map {|record| record = record['ref']}
+
+    records.each do |record|
+      ref = JSONModel.parse_reference(record)
+      case ref[:type]
+      when "resource"
+        obj = Resource.to_jsonmodel(ref[:id])
+      else
+        obj = ArchivalObject.to_jsonmodel(ref[:id])
+      end
+      top_container.push(obj[:instances].map {|instance|
+                    instance['sub_container']['top_container']
+                    })
+
+    end
+
+    json_response(top_container.uniq.flatten)
+
+  end
+
+
   Endpoint.post('/repositories/:repo_id/resources/:id')
     .description("Update a Resource")
     .params(["id", :id],

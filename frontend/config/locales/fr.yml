@@ -1411,3 +1411,16 @@ fr:
         attribute_in_use: Impossible de supprimer un attribut qui sert à une évaluation
       database_value: Valeur de la base de données
       translation: Traduction
+
+  custom_report_template:
+    _frontend:
+      new_title: Nouveau modèle de rapport personnalisé
+      section:
+        template_information: Informations sur le modèle
+        basic_information_fields: Informations de base
+        sort_by: Trier le rapport par
+      action:
+        create: Créer un modèle
+        save: Enregistrer le modèle
+      messages:
+        created: Modèle de rapport personnalisé créé

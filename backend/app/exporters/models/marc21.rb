@@ -340,7 +340,13 @@ class MARCModel < ASpaceExport::ExportModel
     name = creator['display_name']
 
     ind2 = ' '
-    role_info = link['relator'] ? ['4', link['relator']] : ['e', 'creator']
+
+    if link['relator']
+      relator = I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}")
+      role_info = ['4', relator] 
+    else
+      role_info = ['e', 'creator']
+    end
 
     case creator['agent_type']
 
@@ -375,11 +381,11 @@ class MARCModel < ASpaceExport::ExportModel
 
       creator = link['_resolved']
       name = creator['display_name']
-      relator = link['relator']
       terms = link['terms']
       role = link['role']
 
-      if relator
+      if link['relator']
+        relator = I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}")
         relator_sf = ['4', relator]
       elsif role == 'source'
         relator_sf =  ['e', 'former owner']
@@ -425,12 +431,11 @@ class MARCModel < ASpaceExport::ExportModel
 
       subject = link['_resolved']
       name = subject['display_name']
-      relator = link['relator']
       terms = link['terms']
       ind2 = source_to_code(name['source'])
 
-
-      if relator
+      if link['relator']
+        relator = I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}")
         relator_sf = ['4', relator]
       else
         relator_sf = ['e', 'subject']

@@ -600,10 +600,9 @@ AppConfig[:pui_readmore_max_characters] = 450
 # Should be set to institutional NAAN, or any other value valid in URLs.
 AppConfig[:ark_naan] = "f00001"
 
-# URL prefix to use in ARK identifiers. 
+# URL prefix to use in ARK identifiers.
 # In most cases this will be the same as the PUI URL.
-AppConfig[:ark_url_prefix] = proc { AppConfig[:backend_url] }
+AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
 # Flag for turning ARK IDs in exports off and on
 AppConfig[:ark_ids_enabled] = true
-
