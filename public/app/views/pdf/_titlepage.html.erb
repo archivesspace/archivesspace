@@ -6,6 +6,7 @@
         <h2 class="subtitle"><%= record.finding_aid['subtitle'] %></h2>
     <% else %>
         <h1 class="title"><%= record.display_string %></h1>
+    <% end %>
     </div>
 
     <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today %></p>
