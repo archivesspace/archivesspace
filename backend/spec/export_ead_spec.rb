@@ -1030,21 +1030,27 @@ describe "EAD export mappings" do
       # for each digital object generated
       digital_objects.each do |d|
         digital_object_id = d['digital_object_id']
+        visible_file_versions = d['file_versions'].select {|fv| fv['publish'] == true }
 
-        if d['file_versions'].length == 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
-        elsif d['file_versions'].length > 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:daogrp/xmlns:daoloc"
+        if visible_file_versions.length == 0
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+        elsif visible_file_versions.length == 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+        elsif visible_file_versions.length > 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:daogrp/xmlns:daoloc"
         end
 
 
         # for each file version in the digital object
         d['file_versions'].each do |fv|
           file_uri = fv['file_uri']
+          next unless file_uri
+
           publish = fv['publish']
 
           if publish
             @doc_unpub.should have_node(basepath + "[@xlink:href='#{file_uri}']")
+            @doc.should have_node(basepath + "[@xlink:audience='external']")
           else
             @doc_unpub.should_not have_node(basepath + "[@xlink:href='#{file_uri}']")
           end
@@ -1055,17 +1061,31 @@ describe "EAD export mappings" do
     it "always displays file_uri in dao tags if EAD generated with include_unpublished = true" do
       # for each digital object generated
       digital_objects.each do |d|
-        if d['file_versions'].length == 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
-        elsif d['file_versions'].length > 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:daogrp/xmlns:daoloc"
+
+        file_versions = d['file_versions']
+
+        if file_versions.length == 0
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+        elsif file_versions.length == 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+        elsif file_versions.length > 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:daogrp/xmlns:daoloc"
         end
 
         # for each file version in the digital object
-        d['file_versions'].each do |fv|
+        file_versions.each do |fv|
           file_uri = fv['file_uri']
+          next unless file_uri
 
-          @doc.should have_node(basepath + "[@xlink:href='#{file_uri}']")
+          publish = fv['publish']
+
+          if publish
+            @doc.should have_node(basepath + "[@xlink:href='#{file_uri}']")
+            @doc.should have_node(basepath + "[@xlink:audience='external']")
+          else
+            @doc.should have_node(basepath + "[@xlink:href='#{file_uri}']")
+            @doc.should have_node(basepath + "[@xlink:audience='internal']")
+          end
         end
       end
     end
