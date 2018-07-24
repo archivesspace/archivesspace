@@ -86,9 +86,9 @@ module AspaceFactories
                                   "video-master-edited","video-service",
                                   "video-streaming"].sample }
       sequence(:checksum_method) { ["md5", "sha-1", "sha-256", "sha-384", "sha-512"].sample }
-      sequence(:xlink_actuate_attribute) {  ["none", "other", "onLoad", "onRequest"].sample } 
-      sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample } 
-      sequence(:file_format) { %w[aiff avi gif jpeg mp3 pdf tiff txt].sample } 
+      sequence(:xlink_actuate_attribute) {  ["none", "other", "onLoad", "onRequest"].sample }
+      sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample }
+      sequence(:file_format) { %w[aiff avi gif jpeg mp3 pdf tiff txt].sample }
 
 
       sequence(:name_rule) {  ["local", "aacr", "dacs", "rda"].sample }
@@ -102,6 +102,7 @@ module AspaceFactories
 
       sequence(:top_container_indicator) {|n| "Container #{n}"}
       sequence(:building) {|n| "Maggie's #{n}th Farm_#{Time.now.to_i}" }
+      sequence(:url) { |n| "http://example#{n}.com" }
 
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
