@@ -175,10 +175,11 @@ class EADSerializer < ASpaceExport::Serializer
 
             EADSerializer.run_serialize_step(data, xml, @fragments, :did)
 
-            data.digital_objects.each do |dob|
-                  serialize_digital_object(dob, xml, @fragments)
-            end
           }# </did>
+
+          data.digital_objects.each do |dob|
+            serialize_digital_object(dob, xml, @fragments)
+          end
 
           serialize_nondid_notes(data, xml, @fragments)
 

@@ -1033,11 +1033,11 @@ describe "EAD export mappings" do
         visible_file_versions = d['file_versions'].select {|fv| fv['publish'] == true }
 
         if visible_file_versions.length == 0
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
         elsif visible_file_versions.length == 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
         elsif visible_file_versions.length > 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:daogrp/xmlns:daoloc"
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:daogrp/xmlns:daoloc"
         end
 
 
@@ -1065,11 +1065,11 @@ describe "EAD export mappings" do
         file_versions = d['file_versions']
 
         if file_versions.length == 0
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
         elsif file_versions.length == 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
         elsif file_versions.length > 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:daogrp/xmlns:daoloc"
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:daogrp/xmlns:daoloc"
         end
 
         # for each file version in the digital object
