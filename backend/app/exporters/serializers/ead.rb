@@ -40,20 +40,32 @@ class EADSerializer < ASpaceExport::Serializer
     Nokogiri::XML("<wrap>#{content}</wrap>").errors.reject { |e| e.message =~ ignore  }
   end
 
-  # HTML escape and unescape to handle & characters
+  # ANW-716: We may have content with a mix of loose '&' chars that need to be escaped, along with pre-escaped HTML entities
+  # Example:
+  # c                 => "This is the &lt; test & for the <title>Sanford &amp; Son</title>
+  # escape_content(c) => "This is the &lt; test &amp; for the <title>Sanford &amp; Son</title>
+  # we want to leave the pre-escaped entities alone, and escape the loose & chars
+
   def escape_content(content)
-    # turn anything previously escaped back to 'normal'
-    unescaped_content   = CGI.unescapeHTML(content) 
+    puts "++++++++++++++++++++++++++++"
+    puts "ESCAPING: " + content
+    # first, find any pre-escaped entities and "mark" them by replacing & with @@
+    # so something like &lt; becomes @@lt;
+    # and &#1234 becomes @@#1234
 
-    # escape everything all at once. Unfortunately, this will get the brackets in tags in there...
-    content_no_brackets = CGI.escapeHTML(unescaped_content) 
+    content.gsub!(/&\w+;/) {|t| t.gsub('&', '@@')}
+    content.gsub!(/&#\d{4}/) {|t| t.gsub('&', '@@')}
+    content.gsub!(/&#\d{3}/) {|t| t.gsub('&', '@@')}
 
-    # unescape again, just the brackets and quotes
-    content = content_no_brackets.gsub("&lt;", "<")
-                                 .gsub("&gt;", ">")
-                                 .gsub("&#39;", "'")
-                                 .gsub("&quot;", '"')
+    # now we know that all & characters remaining are not part of some pre-escaped entity, and we can escape them safely
+    content.gsub!('&', '&amp;')
 
+    # 'unmark' our pre-escaped entities
+    content.gsub!(/@@\w+;/) {|t| t.gsub('@@', '&')}
+    content.gsub!(/@@#\d{4}/) {|t| t.gsub('@@', '&')}
+    content.gsub!(/@@#\d{3}/) {|t| t.gsub('@@', '&')}
+
+    puts "RESULT: " + content
     return content
   end
 

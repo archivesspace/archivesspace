@@ -1176,7 +1176,7 @@ describe "EAD export mappings" do
     end
 
     it "will correctly handle content with & as punctuation as well as & as pre-escaped characters" do
-      serializer.handle_linebreaks(note_with_different_amps).should eq("<p>The materials are arrange in folders. Mumford&amp;Sons. Mumford &amp; Sons. They are cool&amp;hip. <p>foo, 2 &amp; 2.</p></p>")
+      serializer.handle_linebreaks(note_with_different_amps).should eq("<p>The materials are arrange in folders. Mumford&amp;Sons. Mumford &amp; Sons. They are cool&amp;hip. &lt;p&gt;foo, 2 &amp; 2.&lt;/p&gt;</p>")
     end
 
     it "will replace MSWord-style smart quotes with ASCII characters" do
