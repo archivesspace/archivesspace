@@ -23,7 +23,11 @@ class CustomReport < AbstractReport
 		@enum_fields = []
 		@decimal_fields = []
 
-		table = @record_type == 'agent' ? 'agent_person'.to_sym : @record_type.to_sym
+		table = if @record_type == 'agent'
+			'agent_person'.to_sym
+		else
+			@record_type.to_sym
+		end
 		@possible_fields = db[table].columns.collect {|c| c.to_s}
 
 		@possible_fields.push('name') if @record_type == 'agent'
@@ -49,21 +53,17 @@ class CustomReport < AbstractReport
 			if (ASUtils.present?(template['fields'][field_name]['narrow_by'])) &&
 				(template['fields'][field_name]['narrow_by'])
 
-				begin
-					case field[:data_type]
-					when 'Date'
-						date_narrow(template, field_name)
-					when 'AgentType'
-						agent_type_narrow(template, field_name)
-					when 'Boolean'
-						boolean_narrow(template, field_name)
-					when 'Enum'
-						enum_narrow(template, field)
-					when 'User'
-						user_narrow(template, field_name)
-					end
-				rescue Exception => e
-					raise "Selected to narrow results by #{field_name} but missing values."
+				case field[:data_type]
+				when 'Date'
+					date_narrow(template, field_name)
+				when 'AgentType'
+					agent_type_narrow(template, field_name)
+				when 'Boolean'
+					boolean_narrow(template, field_name)
+				when 'Enum'
+					enum_narrow(template, field)
+				when 'User'
+					user_narrow(template, field_name)
 				end
 			end
 		end
@@ -85,7 +85,8 @@ class CustomReport < AbstractReport
 			field_name = subreport[:name]
 			begin
 				if template['subreports'][field_name]['include']
-					subreport_class = CustomField.subreport_class(subreport[:code])
+					subreport_class = CustomField.subreport_class(
+						subreport[:code])
 					@subreports.push(subreport_class)
 				end
 			rescue NoMethodError => e
@@ -95,7 +96,8 @@ class CustomReport < AbstractReport
 
 		@order_field = template['sort_by'] == '' ? nil : template['sort_by']
 		if @order_field
-			info['sorted_by'] = special_translation(@order_field, nil) || @order_field
+			info['sorted_by'] = (special_translation(@order_field, nil) ||
+				@order_field)
 			field = CustomField.get_field_by_name(@record_type, @order_field)
 			@order_field += '_id' if field[:data_type] == 'Enum'
 			@order_field = nil unless @possible_fields.include? @order_field
@@ -124,8 +126,8 @@ class CustomReport < AbstractReport
 
 	def agent_query_string
 
-		@agent_types ||= ['agent_family', 'agent_person', 'agent_corporate_entity',
-			'agent_software']
+		@agent_types ||= ['agent_family', 'agent_person',
+			'agent_corporate_entity', 'agent_software']
 
 		order_field = @order_field
 		@order_field = nil
@@ -263,7 +265,6 @@ class CustomReport < AbstractReport
 
 	def agent_type_narrow(template, field_name)
 		@agent_types = template['fields'][field_name]['values']
-		# raise if !@agent_types || @agent_types.empty?
 		info[field_name] = @agent_types.join(', ')
 	end
 
@@ -278,7 +279,6 @@ class CustomReport < AbstractReport
 		field_name = field[:name]
 		return unless @possible_fields.include? "#{field_name}_id"
 		values = template['fields'][field_name]['values']
-		# raise if !values || values.empty?
 		@conditions.push("#{field_name}_id in (#{values.join(', ')})")
 
 		begin
@@ -300,7 +300,6 @@ class CustomReport < AbstractReport
 	def user_narrow(template, field_name)
 		return unless @possible_fields.include? field_name
 		values = template['fields'][field_name]['values']
-		# raise if !values || values.empty?
 		value_list = values.collect { |value| "'#{value}'" }.join(', ')
 		@conditions.push("#{field_name} in (#{value_list})")
 		info[field_name] = values.join(', ')
