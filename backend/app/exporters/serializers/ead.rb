@@ -178,7 +178,7 @@ class EADSerializer < ASpaceExport::Serializer
           }# </did>
 
           data.digital_objects.each do |dob|
-                serialize_digital_object(dob, xml, @fragments)
+            serialize_digital_object(dob, xml, @fragments)
           end
 
           serialize_nondid_notes(data, xml, @fragments)
@@ -463,12 +463,23 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
+  # set daoloc audience attr == 'internal' if this is an unpublished && include_unpublished is set
+  def get_audience_flag_for_file_version(file_version)
+    if file_version['file_uri'] && 
+       (file_version['publish'] == false && @include_unpublished)
+      return "internal"
+    else
+      return "external"
+    end
+  end
 
   def serialize_digital_object(digital_object, xml, fragments)
     return if digital_object["publish"] === false && !@include_unpublished
     return if digital_object["suppressed"] === true
 
-    file_versions = digital_object['file_versions']
+    # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set 
+    file_versions_to_display = digital_object['file_versions'].select {|fv| fv['publish'] == true || @include_unpublished }
+
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
 
@@ -488,7 +499,7 @@ class EADSerializer < ASpaceExport::Serializer
     atts['xlink:title'] = digital_object['title'] if digital_object['title']
 
 
-    if file_versions.empty?
+    if file_versions_to_display.empty?
       atts['xlink:type'] = 'simple'
       atts['xlink:href'] = digital_object['digital_object_id']
       atts['xlink:actuate'] = 'onRequest'
@@ -496,39 +507,27 @@ class EADSerializer < ASpaceExport::Serializer
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       }
-    elsif file_versions.length == 1
-      publish_file_uri = file_versions.first['file_uri'] && 
-                         (file_versions.first['publish'] == true || @include_unpublished)
+    elsif file_versions_to_display.length == 1
+      file_version = file_versions_to_display.first
 
       atts['xlink:type'] = 'simple'
-
-      if publish_file_uri
-        atts['xlink:href'] = file_versions.first['file_uri'] 
-      end
-
-      atts['xlink:actuate'] = file_versions.first['xlink_actuate_attribute'] || 'onRequest'
-      atts['xlink:show'] = file_versions.first['xlink_show_attribute'] || 'new'
-      atts['xlink:role'] = file_versions.first['use_statement'] if file_versions.first['use_statement']
+      atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
+      atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
+      atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
+      atts['xlink:href'] = file_version['file_uri'] 
+      atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       }
     else
       xml.daogrp( atts.merge( { 'xlink:type' => 'extended'} ) ) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
-        file_versions.each do |file_version|
-
-
-          publish_file_uri = file_version['file_uri'] && 
-                             (file_version['publish'] == true || @include_unpublished)
-
+        file_versions_to_display.each do |file_version|
           atts['xlink:type'] = 'locator'
-
-          if publish_file_uri
-            atts['xlink:href'] = file_version['file_uri'] 
-          end
-
+          atts['xlink:href'] = file_version['file_uri'] 
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
           atts['xlink:title'] = file_version['caption'] if file_version['caption']
+          atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
           xml.daoloc(atts)
         end
       }
