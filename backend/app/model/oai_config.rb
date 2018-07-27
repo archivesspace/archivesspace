@@ -4,7 +4,7 @@ class OAIConfig < Sequel::Model(:oai_config)
   # validations
   # only one row in table allowed
   # oai_repository_name must have a value
-  # oai_admin_email must have a value
+  # oai_admin_email must have a value and be an email address
   # oai_record_prefix must have a value
 
   def validate
@@ -18,7 +18,8 @@ class OAIConfig < Sequel::Model(:oai_config)
   end
 
   def validate_single_record
-  	unless self.select.count == 0
+  	record_count = OAIConfig.all.count
+  	unless record_count == 0 || record_count == 1
       errors.add(:base, 'Cannot have more than one record in oai_config table.') 
   	end
   end
