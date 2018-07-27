@@ -27,10 +27,6 @@ class LinkedArchivalObjectSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		fields = ['archival_object.component_id', 'archival_object.title',
 			'resource.identifier as root_record']
@@ -38,10 +34,10 @@ class LinkedArchivalObjectSubreport < AbstractSubreport
 		"select
 			#{fields.join(', ')}
 		from archival_object, #{@link_table}, resource
-		where #{@link_table}.#{@id_field} = #{@id}
+		where #{@link_table}.#{@id_field} = #{db.literal(@id)}
 			and #{@link_table}.archival_object_id = archival_object.id
 			and archival_object.root_record_id = resource.id
-			and archival_object.repo_id = #{@repo_id}"
+			and archival_object.repo_id = #{db.literal(@repo_id)}"
 	end
 
 	def fix_row(row)

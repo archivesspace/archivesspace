@@ -9,10 +9,6 @@ class ClassificationSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			ifnull(classification.identifier, root_record.identifier)
@@ -34,7 +30,7 @@ class ClassificationSubreport < AbstractSubreport
 		    left outer join classification as root_record
 				on root_record.id = classification_term.root_record_id
 
-		where classification_rlshp.#{@id_type}_id = #{@id}"
+		where classification_rlshp.#{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)
@@ -54,7 +50,7 @@ class ClassificationSubreport < AbstractSubreport
 	def get_term_identifier(term_id)
 		return [] unless term_id
 		term_data = db.fetch("select parent_id, identifier
-			from classification_term where id = #{term_id}")
+			from classification_term where id = #{db.literal(term_id)}")
 		parent_id = ''
 		identifier = ''
 		term_data.each do |term|

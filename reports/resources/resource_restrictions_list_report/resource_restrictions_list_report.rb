@@ -36,7 +36,7 @@ class ResourceRestrictionsListReport < AbstractReport
         group by resource_id) as extent_cnt
         
     where resource.restrictions
-      and repo_id = #{@repo_id}"
+      and repo_id = #{db.literal(@repo_id)}"
   end
 
   def fix_row(row)

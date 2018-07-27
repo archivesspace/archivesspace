@@ -2,10 +2,6 @@ class DigitalObjectListTableReport < AbstractReport
 
   register_report
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select
       digital_object.digital_object_id as identifier,
@@ -37,7 +33,7 @@ class DigitalObjectListTableReport < AbstractReport
         on resource.id = instance.resource_id
           or resource.id = archival_object.root_record_id
 
-    where digital_object.repo_id = #{@repo_id}
+    where digital_object.repo_id = #{db.literal(@repo_id)}
 
     group by digital_object.id"
   end

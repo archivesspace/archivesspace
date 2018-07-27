@@ -27,10 +27,6 @@ class LinkedDigitalObjectComponentSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		fields = ['digital_object_component.component_id',
 			'digital_object_component.title',
@@ -39,11 +35,11 @@ class LinkedDigitalObjectComponentSubreport < AbstractSubreport
 		"select
 			#{fields.join(', ')}
 		from digital_object_component, #{@link_table}, digital_object
-		where #{@link_table}.#{@id_field} = #{@id}
+		where #{@link_table}.#{@id_field} = #{db.literal(@id)}
 			and #{@link_table}.digital_object_component_id
 			= digital_object_component.id
 			and digital_object_component.root_record_id = digital_object.id
-			and digital_object_component.repo_id = #{@repo_id}"
+			and digital_object_component.repo_id = #{db.literal(@repo_id)}"
 	end
 
 	def fix_row(row)

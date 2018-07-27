@@ -5,10 +5,6 @@ class AccessionNamesSubreport < AbstractSubreport
     @accession_id = accession_id
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select
       ifnull(ifnull(ifnull(name_person.sort_name, name_family.sort_name),
@@ -23,7 +19,7 @@ class AccessionNamesSubreport < AbstractSubreport
       left outer join name_corporate_entity
         on name_corporate_entity.agent_corporate_entity_id = 
         linked_agents_rlshp.agent_corporate_entity_id
-    where accession_id = #{@accession_id}"
+    where accession_id = #{db.literal(@accession_id)}"
   end
 
   def fix_row(row)

@@ -12,7 +12,7 @@ class DigitalObjectFileVersionsReport < AbstractReport
       id,
       digital_object_id as identifier,
       title as record_title
-    from digital_object where repo_id = #{@repo_id}"
+    from digital_object where repo_id = #{db.literal(@repo_id)}"
   end
 
   def fix_row(row)

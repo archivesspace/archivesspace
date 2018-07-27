@@ -8,10 +8,6 @@ class AssessmentConservationIssuesSubreport < AbstractSubreport
     @assessment_id = assessment_id
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select
       label as _format
@@ -20,7 +16,7 @@ class AssessmentConservationIssuesSubreport < AbstractSubreport
         on assessment_attribute_definition.id
         = assessment_attribute.assessment_attribute_definition_id
 
-    where assessment_attribute.assessment_id = #{@assessment_id}
+    where assessment_attribute.assessment_id = #{db.literal(@assessment_id)}
       and assessment_attribute_definition.type = 'conservation_issue'"
   end
 

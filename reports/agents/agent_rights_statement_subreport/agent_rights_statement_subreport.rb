@@ -24,7 +24,7 @@ class AgentRightsStatementSubreport < AbstractSubreport
 		from linked_agents_rlshp, rights_statement
 		where linked_agents_rlshp.rights_statement_id
 			= rights_statement.id
-			and linked_agents_rlshp.#{@id_type}_id = #{@id}"
+			and linked_agents_rlshp.#{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

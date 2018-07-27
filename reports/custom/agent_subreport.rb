@@ -11,10 +11,6 @@ class AgentSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 		  linked_agents_rlshp.role_id as role,
@@ -61,7 +57,7 @@ class AgentSubreport < AbstractSubreport
 			on name_corporate_entity.agent_corporate_entity_id
 			= agent_corporate_entity.id
 		  
-		where #{@id_type}_id = #{@id}
+		where #{@id_type}_id = #{db.literal(@id)}
 		group by linked_agents_rlshp.id"
 	end
 

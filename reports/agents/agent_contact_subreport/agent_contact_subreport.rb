@@ -25,7 +25,7 @@ class AgentContactSubreport < AbstractSubreport
 			email_signature,
 			note
 		from agent_contact
-		where #{@id_type}_id = #{@id}"
+		where #{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

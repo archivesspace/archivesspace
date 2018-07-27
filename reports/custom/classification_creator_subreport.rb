@@ -10,10 +10,6 @@ class ClassificationCreatorSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			concat_ws('; ',
@@ -50,7 +46,7 @@ class ClassificationCreatorSubreport < AbstractSubreport
 			on name_corporate_entity.agent_corporate_entity_id
 			= agent_corporate_entity.id
 			
-		where #{@id_type}_id = #{@id}
+		where #{@id_type}_id = #{db.literal(@id)}
 		group by #{@id_type}_creator_rlshp.id"
 	end
 

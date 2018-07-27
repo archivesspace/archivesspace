@@ -25,7 +25,7 @@ class AccessionDeaccessionsSubreport < AbstractSubreport
     from deaccession
       left outer join date on date.deaccession_id = deaccession.id
       left outer join extent on extent.deaccession_id = deaccession.id
-    where deaccession.accession_id = #{@accession_id}
+    where deaccession.accession_id = #{db.literal(@accession_id)}
     group by deaccession.id"
   end
 

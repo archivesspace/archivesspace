@@ -5,10 +5,6 @@ class ResourceLocationsSubreport < AbstractSubreport
     @resource_id = resource_id
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select distinct
 	    location.title as location,
@@ -23,8 +19,9 @@ class ResourceLocationsSubreport < AbstractSubreport
       left outer join archival_object
         on instance.archival_object_id = archival_object.id
 
-      where instance.resource_id = #{@resource_id}
-        or archival_object.root_record_id = #{@resource_id}) as instances
+      where instance.resource_id = #{db.literal(@resource_id)}
+        or archival_object.root_record_id
+        = #{db.literal(@resource_id)}) as instances
     
       natural join sub_container
     

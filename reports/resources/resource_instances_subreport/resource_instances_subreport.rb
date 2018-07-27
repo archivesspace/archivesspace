@@ -54,8 +54,9 @@ class ResourceInstancesSubreport < AbstractSubreport
       from instance
         left outer join archival_object
           on instance.archival_object_id = archival_object.id
-      where instance.resource_id = #{@resource_id}
-        or archival_object.root_record_id = #{@resource_id}) as instances
+      where instance.resource_id = #{db.literal(@resource_id)}
+        or archival_object.root_record_id
+        = #{db.literal(@resource_id)}) as instances
 
       left outer join sub_container on instances.id = sub_container.instance_id
       
@@ -90,7 +91,7 @@ class ResourceInstancesSubreport < AbstractSubreport
     query_string = "select name from
     container_profile join top_container_profile_rlshp
       on container_profile.id = container_profile_id
-    where top_container_id = #{container_id}"
+    where top_container_id = #{db.literal(container_id)}"
     profiles = db.fetch(query_string)
     profile_string = ''
     profiles.each do |profile_row|

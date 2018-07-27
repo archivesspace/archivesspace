@@ -29,6 +29,11 @@ module CustomField
 		@@registered_fields
 	end
 
+	def self.check_valid_record_type(record_type)
+		data = @@registered_fields[record_type]
+		raise "Invalid record type: #{record_type}" unless data
+	end
+
 	def self.fields_for(record_type)
 		record_fields = @@registered_fields[record_type][:fields]
 		global_fields = @@registered_fields['global'][:fields]

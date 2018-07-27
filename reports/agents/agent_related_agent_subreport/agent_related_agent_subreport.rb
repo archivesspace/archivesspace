@@ -64,8 +64,8 @@ class AgentRelatedAgentSubreport < AbstractSubreport
 				on ce1.agent_corporate_entity_id
 				= agent_corporate_entity_id_1
 
-		where #{@id_type}_id_0 = #{@id}
-			or #{@id_type}_id_1 = #{@id}"
+		where #{@id_type}_id_0 = #{db.literal(@id)}
+			or #{@id_type}_id_1 = #{db.literal(@id)}"
 	end
 	
 	def fix_row(row)

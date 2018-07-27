@@ -7,15 +7,11 @@ class LocationFunctionsSubreport < AbstractSubreport
 		@location_id = location_id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			location_function_type_id as _function_type
 		from location_function
-		where location_id = #{@location_id}"
+		where location_id = #{db.literal(@location_id)}"
 	end
 
 	def fix_row(row)

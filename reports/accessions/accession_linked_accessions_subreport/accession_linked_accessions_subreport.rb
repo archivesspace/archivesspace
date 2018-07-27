@@ -7,10 +7,6 @@ class AccessionInstancesSubreport < AbstractSubreport
     @accession_id = accession_id
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select
       accession0.identifier as id0,
@@ -20,7 +16,8 @@ class AccessionInstancesSubreport < AbstractSubreport
     from related_accession_rlshp
       join accession as accession0 on accession_id_0 = accession0.id
       join accession as accession1 on accession_id_1 = accession1.id
-    where accession_id_0 = #{@accession_id} or accession_id_1 = #{@accession_id}"
+    where accession_id_0 = #{db.literal(@accession_id)}
+      or accession_id_1 = #{db.literal(@accession_id)}"
   end
 
   def fix_row(row)

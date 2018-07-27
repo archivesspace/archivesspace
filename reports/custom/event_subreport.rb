@@ -11,10 +11,6 @@ class EventSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			event.id as id,
@@ -23,7 +19,7 @@ class EventSubreport < AbstractSubreport
 	    event.timestamp
 		from event, event_link_rlshp
 		where event.id = event_link_rlshp.event_id
-			and #{@id_type}_id = #{@id}"
+			and #{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

@@ -24,10 +24,11 @@ class AccessionDeaccessionsListReport < AbstractReport
         accession_id as id,
         sum(number) as extent_number,
         GROUP_CONCAT(distinct extent_type_id SEPARATOR ', ') as extent_type,
-        GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ') as container_summary
+        GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ')
+          as container_summary
       from extent
       group by accession_id) as extent_cnt
-    where repo_id = #{@repo_id}"
+    where repo_id = #{db.literal(@repo_id)}"
   end
 
   def fix_row(row)

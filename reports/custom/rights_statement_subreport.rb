@@ -10,10 +10,6 @@ class RightsStatementSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			rights_type_id as rights_type,
@@ -26,7 +22,7 @@ class RightsStatementSubreport < AbstractSubreport
 			license_terms,
 			other_rights_basis_id as other_rights_basis
 		from rights_statement
-		where #{@id_type}_id = #{@id}"
+		where #{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

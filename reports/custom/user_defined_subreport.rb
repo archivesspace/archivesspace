@@ -9,10 +9,6 @@ class UserDefinedSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			boolean_1,
@@ -37,7 +33,7 @@ class UserDefinedSubreport < AbstractSubreport
 		    date_2,
 		    date_3
 		from user_defined
-		where #{@id_type}_id = #{@id}"
+		where #{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

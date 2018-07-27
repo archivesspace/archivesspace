@@ -42,7 +42,8 @@ class AccessionUnprocessedReport < AbstractReport
           accession_id as id,
           sum(number) as extent_number,
           GROUP_CONCAT(distinct extent_type_id SEPARATOR ', ') as extent_type,
-          GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ') as container_summary
+          GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ')
+            as container_summary
       from extent
       group by accession_id) as extent_cnt
         
@@ -53,10 +54,11 @@ class AccessionUnprocessedReport < AbstractReport
         count(*) != 0 as cataloged
       from event_link_rlshp, event, enumeration_value
         where event_link_rlshp.event_id = event.id
-        and event.event_type_id = enumeration_value.id and enumeration_value.value = 'cataloged'
+        and event.event_type_id = enumeration_value.id
+        and enumeration_value.value = 'cataloged'
       group by event_link_rlshp.accession_id) as cataloged
       
-    where repo_id = #{@repo_id}
+    where repo_id = #{db.literal(@repo_id)}
       and processed is null"
   end
 
@@ -65,7 +67,8 @@ class AccessionUnprocessedReport < AbstractReport
     ReportUtils.fix_extent_format(row)
     ReportUtils.fix_identifier_format(row, :accession_number)
     ReportUtils.fix_boolean_fields(row, [:cataloged])
-    row[:linked_resources] = AccessionResourcesSubreport.new(self, row[:id]).get_content
+    row[:linked_resources] = AccessionResourcesSubreport.new(
+      self, row[:id]).get_content
     row.delete(:id)
   end
 

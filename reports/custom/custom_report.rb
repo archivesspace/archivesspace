@@ -10,10 +10,14 @@ class CustomReport < AbstractReport
 
 		id = Integer(params.fetch('template'))
 		template = RequestContext.open(:repo_id => @repo_id) do
-			ASUtils.json_parse(CustomReportTemplate.get_or_die(id).data)
+			template_record = CustomReportTemplate.get_or_die(id)
+			info[:template_name] = template_record.name
+			info[:template_description] = template_record.description
+			ASUtils.json_parse(template_record.data)
 		end
 
 		@record_type = template['custom_record_type']
+		CustomField.check_valid_record_type(@record_type)
 		info[:custom_record_type] = I18n.t("#{@record_type}._plural",
 			:default => @record_type)
 
@@ -153,7 +157,10 @@ class CustomReport < AbstractReport
 		where = @conditions.collect {|item| "(#{item})"}.join(' and ')
 
 		query_parts = []
+		possible_agent_types = ['agent_person', 'agent_family', 'agent_software',
+			'agent_corporate_entity']
 		@agent_types.each do |agent_type|
+			next unless possible_agent_types.include? agent_type.to_s
 			@record_type = agent_type
 			type_fields = ", '#{agent_type}' as type_code"
 			if include_agent_type
@@ -264,8 +271,8 @@ class CustomReport < AbstractReport
 			'%Y-%m-%d')
 		to = DateTime.parse(range_end).to_time.strftime(
 			'%Y-%m-%d')
-		@conditions.push("#{field_name} > #{from.gsub('-', '')}")
-		@conditions.push("#{field_name} < #{to.gsub('-', '')}")
+		@conditions.push("#{field_name} > #{db.literal(from.gsub('-', ''))}")
+		@conditions.push("#{field_name} < #{db.literal(to.gsub('-', ''))}")
 		info[field_name] = "#{from} - #{to}"
 	end
 
@@ -277,7 +284,7 @@ class CustomReport < AbstractReport
 	def boolean_narrow(template, field_name)
 		return unless @possible_fields.include? field_name
 		value = template['fields'][field_name]['value']
-		@conditions.push("#{field_name} = #{value}")
+		@conditions.push("#{field_name} = #{db.literal(value)}")
 		info[field_name] = value.to_s == 'true' ? 'Yes' : 'No'
 	end
 
@@ -285,6 +292,7 @@ class CustomReport < AbstractReport
 		field_name = field[:name]
 		return unless @possible_fields.include? "#{field_name}_id"
 		values = template['fields'][field_name]['values']
+		values = values.collect {|value| db.literal(value)}
 		@conditions.push("#{field_name}_id in (#{values.join(', ')})")
 
 		begin
@@ -306,7 +314,6 @@ class CustomReport < AbstractReport
 	def user_narrow(template, field_name)
 		return unless @possible_fields.include? field_name
 		values = template['fields'][field_name]['values']
-		value_list = values.collect { |value| "'#{value}'" }.join(', ')
 		@conditions.push("#{field_name} in (#{value_list})")
 		info[field_name] = values.join(', ')
 	end

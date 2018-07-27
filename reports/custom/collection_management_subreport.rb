@@ -10,10 +10,6 @@ class CollectionManagementSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			processing_hours_per_foot_estimate,
@@ -27,7 +23,7 @@ class CollectionManagementSubreport < AbstractSubreport
 			processors,
 			rights_determined
 		from collection_management
-		where #{@id_type}_id = #{@id}"
+		where #{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

@@ -8,10 +8,6 @@ class AssessmentRatingSubreport < AbstractSubreport
     @assessment_id = assessment_id
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select
       label as field,
@@ -28,7 +24,7 @@ class AssessmentRatingSubreport < AbstractSubreport
         and assessment_attribute_note.assessment_attribute_definition_id
         = assessment_attribute_definition.id
 
-    where assessment_attribute.assessment_id = #{@assessment_id}
+    where assessment_attribute.assessment_id = #{db.literal(@assessment_id)}
       and assessment_attribute_definition.type = 'rating'"
   end
 

@@ -11,10 +11,6 @@ class DateSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			date_type_id as date_type,
@@ -26,7 +22,7 @@ class DateSubreport < AbstractSubreport
 			era_id as era,
 			calendar_id as calendar
 		from date
-		where #{@id_type}_id = #{@id}"
+		where #{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

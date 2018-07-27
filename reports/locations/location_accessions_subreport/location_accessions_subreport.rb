@@ -8,10 +8,6 @@ class LocationAccessionsSubreport < AbstractSubreport
     @show_containers = show_containers
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select
       accession.id,
@@ -21,7 +17,7 @@ class LocationAccessionsSubreport < AbstractSubreport
       (select
         top_container_id as id
       from top_container_housed_at_rlshp
-      where location_id = #{@location_id}) as top_ids
+      where location_id = #{db.literal(@location_id)}) as top_ids
 
       join top_container on top_container.id = top_ids.id
 
@@ -34,7 +30,7 @@ class LocationAccessionsSubreport < AbstractSubreport
       join instance on instance.id = sub_container.instance_id
         join accession on accession.id = instance.accession_id
 
-    where accession.repo_id = #{@repo_id}"
+    where accession.repo_id = #{db.literal(@repo_id)}"
   end
 
   def fix_row(row)

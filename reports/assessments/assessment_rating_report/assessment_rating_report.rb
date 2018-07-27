@@ -66,9 +66,9 @@ class AssessmentRatingReport < AbstractReport
   def query_string
     date_condition = if @date_scope
                       "survey_begin > 
-                      #{@from.split(' ')[0].gsub('-', '')} 
+                      #{db.literal(@from.split(' ')[0].gsub('-', ''))} 
                       and survey_begin < 
-                      #{@to.split(' ')[0].gsub('-', '')}"
+                      #{db.literal(@to.split(' ')[0].gsub('-', ''))}"
                     else
                       '1=1'
                     end
@@ -99,17 +99,19 @@ class AssessmentRatingReport < AbstractReport
         assessment_id as id,
         value as rating
       from assessment_attribute
-      where assessment_attribute_definition_id = #{@rating_id}
-        and value in (#{@values_of_interest.join(', ')})) as valid_ratings
+      where assessment_attribute_definition_id = #{db.literal(@rating_id)}
+        and value in (#{@values_of_interest
+        .collect {|value| db.literal(value)}.join(', ')})) as valid_ratings
             
       natural left outer join
       (select
         assessment_id as id,
         note
       from assessment_attribute_note
-        where assessment_attribute_definition_id = #{@rating_id}) as notes
+        where assessment_attribute_definition_id
+          = #{db.literal(@rating_id)}) as notes
 
-    where repo_id = #{@repo_id} and #{date_condition}"
+    where repo_id = #{db.literal(@repo_id)} and #{date_condition}"
   end
 
   def fix_row(row)
