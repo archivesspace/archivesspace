@@ -47,8 +47,6 @@ class EADSerializer < ASpaceExport::Serializer
   # we want to leave the pre-escaped entities alone, and escape the loose & chars
 
   def escape_content(content)
-    puts "++++++++++++++++++++++++++++"
-    puts "ESCAPING: " + content
     # first, find any pre-escaped entities and "mark" them by replacing & with @@
     # so something like &lt; becomes @@lt;
     # and &#1234 becomes @@#1234
@@ -65,7 +63,6 @@ class EADSerializer < ASpaceExport::Serializer
     content.gsub!(/@@#\d{4}/) {|t| t.gsub('@@', '&')}
     content.gsub!(/@@#\d{3}/) {|t| t.gsub('@@', '&')}
 
-    puts "RESULT: " + content
     return content
   end
 
@@ -115,7 +112,7 @@ class EADSerializer < ASpaceExport::Serializer
 
     begin
       if ASpaceExport::Utils.has_html?(content)
-        context.text( fragments << content )
+        context.text (fragments << content )
       else
         context.text content.gsub("&amp;", "&") #thanks, Nokogiri
       end
