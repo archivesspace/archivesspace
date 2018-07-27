@@ -12,7 +12,7 @@ class AgentContactSubreport < AbstractSubreport
 	def query_string
 		"select
 			id,
-			name as record_name,
+			name,
 			salutation_id as salutation,
 			address_1,
 			address_2,

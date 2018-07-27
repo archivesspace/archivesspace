@@ -142,9 +142,9 @@ class CustomReport < AbstractReport
 		end
 
 		name_field = CustomField.get_field_by_name('agent', 'name')
-		include_name = false
+		@include_name = false
 		if @fields.include?(name_field)
-			include_name = true
+			@include_name = true
 			@fields.delete(name_field)
 		end
 
@@ -161,9 +161,10 @@ class CustomReport < AbstractReport
 				type_translation ||= agent_type
 				type_fields += ", '#{type_translation}' as type"
 			end
-			fields = type_fields + select_fields
 			name_table = agent_type.gsub('agent', 'name')
-			fields += ", #{name_table}.sort_name as name" if include_name
+			fields = "#{type_fields},
+			#{name_table}.sort_name as name#{select_fields}"
+			
 			agent_query = "select #{agent_type}.id#{fields}
 							from #{agent_type}
 								left outer join #{name_table}
@@ -221,6 +222,7 @@ class CustomReport < AbstractReport
 		end
 		if record_type.include? 'agent'
 			row.delete(:type_code)
+			row.delete(:name) unless @include_name
 		end
 		row.delete(:id)
 	end
@@ -238,16 +240,20 @@ class CustomReport < AbstractReport
 			model = CustomField.subreport_class(subreport_code)
 			return nil unless model
 			translation_scope = model.translation_scope || model.field_name
-			sub_trans || I18n.t("#{translation_scope}.#{key}", :default => nil)
+			translation = I18n.t("#{translation_scope}.#{key}",
+				:default => sub_trans)
 		else
 			field = CustomField.get_field_by_name(record_type, key)
 			if field
 				translation_scope = field[:translation_scope] || record_type
-				I18n.t("#{translation_scope}.#{key}", :default => nil)
+				translation = I18n.t("#{translation_scope}.#{key}",
+					:default => nil)
 			else
-				I18n.t("#{@record_type}.#{key}", :default => sub_trans)
+				translation = I18n.t("#{@record_type}.#{key}",
+					:default => sub_trans)
 			end
 		end
+		translation.is_a?(Hash) ? nil : translation
 	end
 
 	def date_narrow(template, field_name)

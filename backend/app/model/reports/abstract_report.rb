@@ -57,7 +57,7 @@ class AbstractReport
     array
   end
 
-  def query#(db = @db)
+  def query
     db.fetch(query_string)
   end
 
