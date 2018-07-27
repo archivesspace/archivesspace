@@ -103,10 +103,13 @@ AppConfig[:plugins] = ['local',  'lcnaf']
 AppConfig[:job_thread_count] = 2
 
 # OAI configuration options
-AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
-AppConfig[:oai_record_prefix] = 'oai:archivesspace'
+
+# DEPRECATED 
 AppConfig[:oai_admin_email] = 'admin@example.com'
+AppConfig[:oai_record_prefix] = 'oai:archivesspace'
+AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
+
 
 # In addition to the sets based on level of description, you can define OAI Sets
 # based on repository codes and/or sponsors as follows

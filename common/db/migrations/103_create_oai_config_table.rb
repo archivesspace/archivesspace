@@ -8,6 +8,13 @@ Sequel.migration do
       String :oai_repository_name
       String :oai_record_prefix
       String :oai_admin_email
+
+      String :created_by
+      String :last_modified_by
+      DateTime :create_time
+      DateTime :system_mtime
+      DateTime :user_mtime
+      Integer :lock_version
     end
   end
 
