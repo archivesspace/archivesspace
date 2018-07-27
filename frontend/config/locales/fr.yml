@@ -1425,3 +1425,4 @@ fr:
         save: Enregistrer le modèle
       messages:
         created: Modèle de rapport personnalisé créé
+        updated: Modèle de rapport personnalisé mis à jour

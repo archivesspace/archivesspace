@@ -1258,3 +1258,4 @@
         save: Guardar plantilla
       messages:
         created: Plantilla de informe personalizado creado
+        updated: Plantilla de informe personalizado actualizada
