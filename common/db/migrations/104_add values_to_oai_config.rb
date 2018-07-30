@@ -12,7 +12,12 @@ Sequel.migration do
   
     self[:oai_config].insert(:oai_repository_name => oai_repository_name,
                              :oai_record_prefix   => oai_record_prefix,
-                             :oai_admin_email     => oai_admin_email)
+                             :oai_admin_email     => oai_admin_email,
+                             :lock_version        => 0,
+                             :create_time         => Time.now,
+                             :system_mtime        => Time.now,
+                             :user_mtime          => Time.now,
+                             :created_by          => "admin")
   end
 
   down do

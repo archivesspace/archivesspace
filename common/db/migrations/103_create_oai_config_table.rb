@@ -14,7 +14,7 @@ Sequel.migration do
       DateTime :create_time
       DateTime :system_mtime
       DateTime :user_mtime
-      Integer :lock_version
+      Integer :lock_version, default: 0
     end
   end
 
