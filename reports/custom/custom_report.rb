@@ -12,7 +12,10 @@ class CustomReport < AbstractReport
 		template = RequestContext.open(:repo_id => @repo_id) do
 			template_record = CustomReportTemplate.get_or_die(id)
 			info[:template_name] = template_record.name
-			info[:template_description] = template_record.description
+			unless (template_record.description == nil ||
+				template_record.description.empty?)
+				info[:template_description] = template_record.description
+			end
 			ASUtils.json_parse(template_record.data)
 		end
 
@@ -170,12 +173,17 @@ class CustomReport < AbstractReport
 			end
 			name_table = agent_type.gsub('agent', 'name')
 			fields = "#{type_fields},
-			#{name_table}.sort_name as name#{select_fields}"
+			name.sort_name as name#{select_fields}"
 			
 			agent_query = "select #{agent_type}.id#{fields}
 							from #{agent_type}
-								left outer join #{name_table}
-								on #{name_table}.#{agent_type}_id
+								left outer join 
+								(select
+									sort_name,
+									#{agent_type}_id as id,
+									is_display_name
+								from #{name_table}) as name
+								on name.id
 								= #{agent_type}.id
 							where #{where}
 							#{order_by}"
@@ -292,8 +300,8 @@ class CustomReport < AbstractReport
 		field_name = field[:name]
 		return unless @possible_fields.include? "#{field_name}_id"
 		values = template['fields'][field_name]['values']
-		values = values.collect {|value| db.literal(value)}
-		@conditions.push("#{field_name}_id in (#{values.join(', ')})")
+		values_list = values.collect {|value| db.literal(value)}.join(', ')
+		@conditions.push("#{field_name}_id in (#{values_list})")
 
 		begin
 			enum_name = field[:enum_name] || "#{@record_type}_#{field_name}"
@@ -314,6 +322,7 @@ class CustomReport < AbstractReport
 	def user_narrow(template, field_name)
 		return unless @possible_fields.include? field_name
 		values = template['fields'][field_name]['values']
+		value_list = values.collect {|value| db.literal(value)}.join(', ')
 		@conditions.push("#{field_name} in (#{value_list})")
 		info[field_name] = values.join(', ')
 	end
