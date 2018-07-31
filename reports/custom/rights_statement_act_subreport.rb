@@ -7,10 +7,6 @@ class RightsStatementActSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			act_type_id as act_type,
@@ -18,7 +14,7 @@ class RightsStatementActSubreport < AbstractSubreport
 			start_date,
 			end_date
 		from rights_statement_act
-		where rights_statement_id = #{@id}"
+		where rights_statement_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

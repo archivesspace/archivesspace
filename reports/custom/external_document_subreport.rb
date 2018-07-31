@@ -12,10 +12,6 @@ class ExternalDocumentSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			title as record_title,
@@ -23,7 +19,7 @@ class ExternalDocumentSubreport < AbstractSubreport
 			publish,
 			identifier_type_id as identifier_type
 		from external_document
-		where #{@id_type}_id = #{@id}"
+		where #{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

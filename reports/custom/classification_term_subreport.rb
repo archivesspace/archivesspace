@@ -10,13 +10,9 @@ class ClassificationTermSubreport < AbstractSubreport
 		@parent_term = parent_term
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		parent_condition = if @parent_term
-			"parent_id = #{@parent_term}"
+			"parent_id = #{db.literal(@parent_term)}"
 		else
 			"parent_id is null"
 		end
@@ -26,7 +22,7 @@ class ClassificationTermSubreport < AbstractSubreport
 			title,
 			description
 		from classification_term
-		where root_record_id = #{@classification_id}
+		where root_record_id = #{db.literal(@classification_id)}
 			and #{parent_condition}"
 	end
 

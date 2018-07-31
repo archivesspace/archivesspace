@@ -10,10 +10,6 @@ class SubjectSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
     "select
       subject.title as term,
@@ -28,7 +24,7 @@ class SubjectSubreport < AbstractSubreport
         on subject_term.subject_id = subject.id
       left outer join term
         on subject_term.term_id = term.id
-    where subject_rlshp.#{@id_type}_id = #{@id}
+    where subject_rlshp.#{@id_type}_id = #{db.literal(@id)}
     group by subject.id"
   end
 

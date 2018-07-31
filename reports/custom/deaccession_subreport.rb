@@ -9,10 +9,6 @@ class DeaccessionSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			scope_id as scope,
@@ -21,7 +17,7 @@ class DeaccessionSubreport < AbstractSubreport
 			disposition,
 			notification
 		from deaccession
-		where #{@id_type}_id = #{@id}"
+		where #{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

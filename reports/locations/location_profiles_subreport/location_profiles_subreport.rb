@@ -7,10 +7,6 @@ class LocationProfilesSubreport < AbstractSubreport
 		@location_id = location_id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			name,
@@ -19,7 +15,7 @@ class LocationProfilesSubreport < AbstractSubreport
 			width,
 			depth
 		from location_profile, location_profile_rlshp
-		where location_profile_rlshp.location_id = #{@location_id}
+		where location_profile_rlshp.location_id = #{db.literal(@location_id)}
 			and location_profile_rlshp.location_profile_id
 			= location_profile.id"
 	end

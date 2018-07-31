@@ -37,19 +37,15 @@ class LinkedResourceSubreport < AbstractSubreport
 		end
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		fields = ['resource.identifier', 'resource.title']
 		fields += @link_fields.collect {|f| "#{@link_table}.#{f[:field]}"}
 		"select
 			#{fields.join(', ')}
 		from resource, #{@link_table}
-		where #{@link_table}.#{@id_field} = #{@id}
+		where #{@link_table}.#{@id_field} = #{db.literal(@id)}
 		and #{@link_table}.#{@resource_id_field} = resource.id
-		and resource.repo_id = #{@repo_id}"
+		and resource.repo_id = #{db.literal(@repo_id)}"
 	end
 
 	def fix_row(row)

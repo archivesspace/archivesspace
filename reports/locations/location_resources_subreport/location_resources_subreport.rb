@@ -8,10 +8,6 @@ class LocationResourcesSubreport < AbstractSubreport
     @show_containers = show_containers
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select distinct
       resource.id,
@@ -38,8 +34,8 @@ class LocationResourcesSubreport < AbstractSubreport
       join resource on resource.id = archival_object.root_record_id
         or resource.id = instance.resource_id
     
-    where top_container_housed_at_rlshp.location_id = #{@location_id}
-      and resource.repo_id = #{@repo_id}"
+    where top_container_housed_at_rlshp.location_id = #{db.literal(@location_id)}
+      and resource.repo_id = #{db.literal(@repo_id)}"
   end
 
   def fix_row(row)

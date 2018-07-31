@@ -155,3 +155,5 @@ en:
       depth: Depth
       height: Height
       width: Width
+      template_name: Template Name
+      template_description: Template Description

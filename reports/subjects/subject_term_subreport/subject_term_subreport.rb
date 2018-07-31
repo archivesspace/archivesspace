@@ -7,17 +7,13 @@ class SubjectTermSubreport < AbstractSubreport
 		@subject_id = subject_id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			term.term,
 			term.term_type_id as term_type
 		from subject_term, term
 		where subject_term.term_id = term.id
-			and subject_term.subject_id = #{@subject_id}"
+			and subject_term.subject_id = #{db.literal(@subject_id)}"
 	end
 
 	def fix_row(row)

@@ -1937,6 +1937,8 @@ fr:
     must_be_unique_to_its_level_in_the_tree: Cette valeur doit être unique à ce niveau de la hiérarchie
     short_name_already_in_use: Le service d'archives doit être unique dans cet ArchivesSpace
     custom_report_template_name_not_unique: Le nom du modèle de rapport personnalisé doit être unique.
+    custom_report_must_include_field_or_subreport: Le modèle de rapport personnalisé doit inclure au moins un champ ou sous-rapport.
+    missing_filter_values: Sélectionné pour filtrer les résultats par champ mais aucune valeur donnée
 
   job:
     _singular: Tâche d'arrière-plan

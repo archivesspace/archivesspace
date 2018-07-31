@@ -23,7 +23,7 @@ class NamesSubreport < AbstractSubreport
 			left outer join name_authority_id
 				on name_authority_id.name_#{@agent_type}_id
 				= name_#{@agent_type}.id
-		where agent_#{@agent_type}_id = #{@id}"
+		where agent_#{@agent_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

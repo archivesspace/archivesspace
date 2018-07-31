@@ -1251,9 +1251,11 @@
       section:
         template_information: Información de plantilla
         basic_information_fields: Información básica
+        linked_records: Registros enlazados
         sort_by: Ordenar informe por
       action:
         create: Crear plantilla
         save: Guardar plantilla
       messages:
         created: Plantilla de informe personalizado creado
+        updated: Plantilla de informe personalizado actualizada

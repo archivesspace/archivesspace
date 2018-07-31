@@ -12,18 +12,26 @@ module CustomField
 	end
 
 	def self.register_subreport(subreport, field_name, record_types, options)
+		if @@subreport_classes.has_key?(subreport.code)
+			Log.warn("Subreport with code '#{subreport.code}' already registered")
+		end
+		@@subreport_classes[subreport.code] = subreport
 		record_types.each do |record_type|
 			@@registered_fields[record_type] ||= {:fields => [], :subreports => []}
 			info = options
 			info[:name] = field_name
 			info[:code] = subreport.code
 			@@registered_fields[record_type][:subreports].push(info)
-			@@subreport_classes[subreport.code] = subreport
 		end
 	end
 
 	def self.registered_fields
 		@@registered_fields
+	end
+
+	def self.check_valid_record_type(record_type)
+		data = @@registered_fields[record_type]
+		raise "Invalid record type: #{record_type}" unless data
 	end
 
 	def self.fields_for(record_type)

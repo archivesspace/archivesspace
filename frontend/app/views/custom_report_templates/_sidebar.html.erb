@@ -1,0 +1,11 @@
+<%= render(:layout => '/shared/sidebar',
+	:locals => {
+		:record_type => 'custom_report_template',
+		:record => @custom_report_template,
+		:suppress_basic_information => true
+	}) do |sidebar| %>
+		<%= sidebar.render_for_view_and_edit(:subrecord_type => 'template_information', :property => :none, :anchor => 'template_information') %>
+	 	<%= sidebar.render_for_view_and_edit(:subrecord_type => 'basic_information_fields', :property => :none, :anchor => 'basic_information_fields') %>
+		<%= sidebar.render_for_view_and_edit(:subrecord_type => 'linked_records', :property => :none, :anchor => 'linked_records') %>
+		<%= sidebar.render_for_view_and_edit(:subrecord_type => 'sort_by', :property => :none, :anchor => 'sort_by') %>
+	<% end %>

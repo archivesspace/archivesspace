@@ -1,10 +1,6 @@
 class ShelflistReport < AbstractReport
   register_report
 
-  def query
-  	db.fetch(query_string)
-  end
-
   def query_string
   	"select
 	  id,

@@ -40,7 +40,7 @@ class ResourceDeaccessionsListReport < AbstractReport
       from extent
       group by resource_id) as extent_cnt
         
-    where repo_id = #{@repo_id}"
+    where repo_id = #{db.literal(@repo_id)}"
   end
 
   # Total Extent of Resources

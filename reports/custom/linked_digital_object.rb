@@ -27,19 +27,15 @@ class LinkedDigitalObjectSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		fields = ['digital_object.digital_object_id', 'digital_object.title']
 		fields += @link_fields.collect {|f| "#{@link_table}.#{f[:field]}"}
 		"select
 			#{fields.join(', ')}
 		from digital_object, #{@link_table}
-		where #{@link_table}.#{@id_field} = #{@id}
+		where #{@link_table}.#{@id_field} = #{db.literal(@id)}
 		and #{@link_table}.digital_object_id = digital_object.id
-		and digital_object.repo_id = #{@repo_id}"
+		and digital_object.repo_id = #{db.literal(@repo_id)}"
 	end
 
 	def fix_row(row)

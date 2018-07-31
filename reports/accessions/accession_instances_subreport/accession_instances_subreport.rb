@@ -52,7 +52,7 @@ class AccessionInstancesSubreport < AbstractSubreport
 
     	(select id, instance_type_id, is_representative
       from instance
-      where instance.accession_id = #{@accession_id}) as instances
+      where instance.accession_id = #{db.literal(@accession_id)}) as instances
 
       left outer join sub_container on instances.id = sub_container.instance_id
       
@@ -86,7 +86,7 @@ class AccessionInstancesSubreport < AbstractSubreport
     query_string = "select name from
     container_profile join top_container_profile_rlshp
       on container_profile.id = container_profile_id
-    where top_container_id = #{container_id}"
+    where top_container_id = #{db.literal(container_id)}"
     profiles = db.fetch(query_string)
     profile_string = ''
     profiles.each do |profile_row|

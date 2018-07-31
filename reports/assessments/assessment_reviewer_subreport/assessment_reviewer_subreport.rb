@@ -8,10 +8,6 @@ class AssessmentReviewerSubreport < AbstractSubreport
 		@assessment_id = assessment_id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			name_person.sort_name as _reviewer
@@ -19,7 +15,7 @@ class AssessmentReviewerSubreport < AbstractSubreport
 			join agent_person on agent_person.id
 			= assessment_reviewer_rlshp.agent_person_id
 			join name_person on name_person.agent_person_id = agent_person.id
-		where assessment_id = #{@assessment_id}
+		where assessment_id = #{db.literal(@assessment_id)}
 			and name_person.is_display_name"
 	end
 

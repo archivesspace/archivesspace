@@ -7,16 +7,12 @@ class LocationOwnerRepoSubreport < AbstractSubreport
 		@location_id = location_id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select 
 			repository.name as _name
 		from owner_repo_rlshp, repository
 		where owner_repo_rlshp.repository_id = repository.id
-			and location_id = #{@location_id}"
+			and location_id = #{db.literal(@location_id)}"
 	end
 
 	def self.field_name

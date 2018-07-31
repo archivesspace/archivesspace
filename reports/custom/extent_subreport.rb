@@ -11,9 +11,6 @@ class ExtentSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
 
 	def query_string
 		"select
@@ -24,7 +21,7 @@ class ExtentSubreport < AbstractSubreport
 			physical_details,
 			dimensions
 		from extent
-		where #{@id_type}_id = #{@id}"
+		where #{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

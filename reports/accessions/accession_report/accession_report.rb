@@ -89,7 +89,7 @@ class AccessionReport < AbstractReport
         and event.event_type_id = enumeration_value.id and enumeration_value.value = 'acknowledgement_sent'
       group by event_link_rlshp.accession_id) as acknowledgement_sent
 
-    where accession.repo_id = #{@repo_id}"
+    where accession.repo_id = #{db.literal(@repo_id)}"
   end
 
   def clean_row(row)

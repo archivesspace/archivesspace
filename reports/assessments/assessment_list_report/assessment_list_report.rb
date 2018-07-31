@@ -40,9 +40,9 @@ class AssessmentListReport < AbstractReport
   def query_string
     date_condition = if @date_scope
                       "survey_begin > 
-                      #{@from.split(' ')[0].gsub('-', '')} 
+                      #{db.literal(@from.split(' ')[0].gsub('-', ''))} 
                       and survey_begin < 
-                      #{@to.split(' ')[0].gsub('-', '')}"
+                      #{db.literal(@to.split(' ')[0].gsub('-', ''))}"
                     else
                       '1=1'
                     end
@@ -113,7 +113,7 @@ class AssessmentListReport < AbstractReport
           on assessment_attribute.assessment_attribute_definition_id
             = assessment_attribute_definition.id
       group by assessment_attribute.assessment_id) as attributes
-    where repo_id = #{@repo_id} and #{date_condition}"
+    where repo_id = #{db.literal(@repo_id)} and #{date_condition}"
   end
 
   def fix_row(row)

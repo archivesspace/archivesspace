@@ -1418,9 +1418,11 @@ fr:
       section:
         template_information: Informations sur le modèle
         basic_information_fields: Informations de base
+        linked_records: Notices liées
         sort_by: Trier le rapport par
       action:
         create: Créer un modèle
         save: Enregistrer le modèle
       messages:
         created: Modèle de rapport personnalisé créé
+        updated: Modèle de rapport personnalisé mis à jour

@@ -5,10 +5,6 @@ class ContainerResourcesAccessionsSubreport < AbstractSubreport
     @container_id = container_id
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select distinct 
       'resource' as linked_record_type,
@@ -17,7 +13,7 @@ class ContainerResourcesAccessionsSubreport < AbstractSubreport
     from
       (select sub_container_id as id
         from top_container_link_rlshp 
-        where top_container_id = #{@container_id}) as sub_ids
+        where top_container_id = #{db.literal(@container_id)}) as sub_ids
         
         join sub_container on sub_ids.id = sub_container.id
         
@@ -40,7 +36,7 @@ class ContainerResourcesAccessionsSubreport < AbstractSubreport
         join instance on accession.id = accession_id
         join sub_container on instance.id = instance_id
         join top_container_link_rlshp on sub_container.id = sub_container_id
-    where top_container_id = #{@container_id}"
+    where top_container_id = #{db.literal(@container_id)}"
   end
 
   def fix_row(row)

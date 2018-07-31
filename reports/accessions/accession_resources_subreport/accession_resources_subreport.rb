@@ -5,14 +5,10 @@ class AccessionResourcesSubreport < AbstractSubreport
     @accession_id = accession_id
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select identifier, title
     from resource, spawned_rlshp
-    where spawned_rlshp.accession_id = #{@accession_id}
+    where spawned_rlshp.accession_id = #{db.literal(@accession_id)}
       and spawned_rlshp.resource_id = resource.id"
   end
 

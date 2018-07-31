@@ -41,9 +41,9 @@ class LinkedAccessionSubreport < AbstractSubreport
 		"select
 			#{fields.join(', ')}
 		from accession, #{@link_table}
-		where #{@link_table}.#{@id_field} = #{@id}
+		where #{@link_table}.#{@id_field} = #{db.literal(@id)}
 		and #{@link_table}.accession_id = accession.id
-		and accession.repo_id = #{@repo_id}"
+		and accession.repo_id = #{db.literal(@repo_id)}"
 	end
 
 	def fix_row(row)

@@ -16,10 +16,6 @@ class AssessmentSubreport < AbstractSubreport
 		@id = id
 	end
 
-	def query
-		db.fetch(query_string)
-	end
-
 	def query_string
 		"select
 			assessment.id,
@@ -54,7 +50,7 @@ class AssessmentSubreport < AbstractSubreport
 			assessment.conservation_note
 		from assessment_rlshp, assessment
 		where assessment_rlshp.assessment_id = assessment.id
-			and assessment_rlshp.#{@id_type}_id = #{@id}"
+			and assessment_rlshp.#{@id_type}_id = #{db.literal(@id)}"
 	end
 
 	def fix_row(row)

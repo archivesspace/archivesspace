@@ -26,17 +26,13 @@ class LocationHoldingsReport < AbstractReport
     end
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     condition = if building
-                  "building = '#{building}'"
+                  "building = #{db.literal(building)}"
                 elsif repository_uri
                   '1=1'
                 else
-                  "location_id = #{start_location.id}"
+                  "location_id = #{db.literal(start_location.id)}"
                 end
     "select
       record_title,

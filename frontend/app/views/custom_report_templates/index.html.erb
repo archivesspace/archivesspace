@@ -4,14 +4,12 @@
 	<div class="col-md-3"></div>
 	<div class="col-md-9">
 
-		<% if user_can? 'manage_repository' %>
-			<div class="record-toolbar">
-				<div class="btn-group pull-right">
-					<%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-sm btn-default" %>
-				</div>
-				<br style="clear:both" /> <!-- So dirty! -->
+		<div class="record-toolbar">
+			<div class="btn-group pull-right">
+				<%= link_to I18n.t("custom_report_template._frontend.action.create"), {:controller => :custom_report_templates, :action => :new}, :class => "btn btn-sm btn-default" %>
 			</div>
-		<% end %>
+			<br style="clear:both" /> <!-- So dirty! -->
+		</div>
 
 		<div class="record-pane">
 

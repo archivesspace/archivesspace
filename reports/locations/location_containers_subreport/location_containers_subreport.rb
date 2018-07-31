@@ -4,10 +4,6 @@ class LocationContainersSubreport < AbstractSubreport
     @location_id = location_id
   end
 
-  def query
-    db.fetch(query_string)
-  end
-
   def query_string
     "select
       indicator as top_container_indicator,
@@ -17,9 +13,9 @@ class LocationContainersSubreport < AbstractSubreport
       tbl.id as id
     from
       (select top_container_id as id from top_container_housed_at_rlshp
-      where location_id = #{@location_id}) as tbl
+      where location_id = #{db.literal(@location_id)}) as tbl
       natural join top_container
-    where repo_id = #{@repo_id}"
+    where repo_id = #{db.literal(@repo_id)}"
   end
 
   def fix_row(row)
@@ -33,7 +29,7 @@ class LocationContainersSubreport < AbstractSubreport
     query_string = "select name from
 	container_profile join top_container_profile_rlshp
     on container_profile.id = container_profile_id
-where top_container_id = #{container_id}"
+where top_container_id = #{db.literal(container_id)}"
     profiles = db.fetch(query_string)
     profile_string = ''
     profiles.each do |profile_row|

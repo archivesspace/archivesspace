@@ -41,25 +41,6 @@ class JobsController < ApplicationController
     files = Hash[Array(params['files']).reject(&:blank?).map {|file|
                                   [file.original_filename, file.tempfile]}]
 
-    # begin
-    #   custom_data = params['job']['job_params']['custom_report_data']
-    # rescue NoMethodError
-    #   custom_data = nil
-    # end
-    
-    # if custom_data
-    #   data_file = ASUtils.tempfile('custom_data_')
-    #   params['job']['job_params'].delete('custom_report_data')
-    #   files['custom_report_data'] = data_file.path
-
-    #   record_type = custom_data['custom_record_type']
-    #   template = custom_data[record_type].to_unsafe_h.to_hash
-    #   template['custom_record_type'] = record_type
-      
-    #   data_file.write(ASUtils.to_json(template))
-    #   data_file.close
-    # end
-
     job_params = ASUtils.recursive_reject_key(params['job']['job_params']) { |k| k === '_resolved' }
 
     job_data["repo_id"] ||= session[:repo_id]
