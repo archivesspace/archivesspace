@@ -293,6 +293,7 @@ en:
     hide_advanced_search_button_title: Hide Advanced Search
     plugins: Plug-ins
     repositories_manage: Manage Repositories
+    oai_config: Manage OAI-PMH Settings
     manage_groups: Manage Groups
     manage_users: Manage Users
     manage_container_profiles: Manage Container Profiles
@@ -1432,3 +1433,6 @@ en:
       messages:
         created: Custom Report Template created
         updated: Custom Report Template updated
+
+  oai_config:
+    title: OAI-PMH Settings

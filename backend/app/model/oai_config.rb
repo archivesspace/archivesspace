@@ -1,5 +1,8 @@
 class OAIConfig < Sequel::Model(:oai_config)
   include ASModel
+  corresponds_to JSONModel(:oai_config)
+
+  set_model_scope :global
 
   # validations
   # only one row in table allowed
