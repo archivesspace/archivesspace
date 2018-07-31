@@ -1,0 +1,38 @@
+<%= setup_context(:title => I18n.t("oai_config.title")) %>
+
+<%= form_for @oai_config, :as => "oai_config", :url => {:action => :update}, :html => {:class => 'form-horizontal aspace-record-form'} do |f| %>
+
+  <%= form_context :oai_config, @oai_config do |form| %>
+    <div class="row">
+      <div class="col-md-9 col-md-offset-3">
+        <div class="record-pane">
+          <h2><%= I18n.t("oai_config.title") %></h2>
+          <%# render_aspace_partial :partial => "repositories/form_container", :locals => {:form => form} %>
+
+          <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @oai_config, :form => form} %>
+
+          <fieldset>
+            <% define_template("oai_config", jsonmodel_definition(:oai_config)) do |form| %>
+              <section id="oai_config">
+                <%= form.label_and_textfield "oai_record_prefix" %>
+                <%= form.label_and_textfield "oai_admin_email" %>
+                <%= form.label_and_textfield "oai_repository_name" %>
+              </section>
+            <% end %>
+
+            <% form.push("oai_config", form['oai_config']) do |form| %>
+              <% form.emit_template("oai_config") %>
+            <% end %>
+          </fieldset>
+
+        
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary"><%= I18n.t("repository._frontend.action.save") %></button>
+            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+<% end %>
