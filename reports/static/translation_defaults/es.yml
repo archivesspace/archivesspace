@@ -69,6 +69,7 @@ es:
       instance_type: Tipo de representación
       instances: Representaciones
       inventory: Inventario
+      language: Idioma
       level: Nivel
       linked_records: Registros vinculados
       linked_resources: Recursos vinculados

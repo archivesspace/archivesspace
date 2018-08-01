@@ -10,7 +10,8 @@
 
       "name" => {"type" => "string", "ifmissing" => "error"},
       "description" => {"type" => "string", "maxLength" => 255},
-      "data" => {"type" => "string", "ifmissing" => "error", "maxLength" => 65000}
+      "data" => {"type" => "string", "ifmissing" => "error", "maxLength" => 65000},
+      "limit" => {"type" => "integer", "ifmissing" => "error", "default" => 100}
     },
   },
 }
