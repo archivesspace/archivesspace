@@ -1306,4 +1306,8 @@ module AspaceFormHelper
     end
   end
 
+  def custom_report_template_limit_options
+    [100, 500, 1000, 5000, 10000, 50000]
+  end
+
 end

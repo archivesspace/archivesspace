@@ -1,7 +1,7 @@
 class CustomReport < AbstractReport
 
-	# register_report(params: [['template', CustomReportTemplate,
-	# 	'Template to use for the custom report.']])
+	register_report(params: [['template', CustomReportTemplate,
+		'Template to use for the custom report.']]) if AppConfig[:enable_custom_reports]
 
 	attr_accessor :record_type, :subreports
 
@@ -16,6 +16,7 @@ class CustomReport < AbstractReport
 				template_record.description.empty?)
 				info[:template_description] = template_record.description
 			end
+			@limit = template_record.limit
 			ASUtils.json_parse(template_record.data)
 		end
 
@@ -54,7 +55,7 @@ class CustomReport < AbstractReport
 			begin
 				@fields.push(field) if template['fields'][field_name]['include']
 			rescue NoMethodError => e
-				
+
 			end
 
 			if (ASUtils.present?(template['fields'][field_name]['narrow_by'])) &&
@@ -97,7 +98,7 @@ class CustomReport < AbstractReport
 					@subreports.push(subreport_class)
 				end
 			rescue NoMethodError => e
-				
+
 			end
 		end
 
@@ -112,11 +113,8 @@ class CustomReport < AbstractReport
 	end
 
 	def query
-	results = unless record_type == 'agent'
-							db.fetch(query_string)
-						else
-							db.fetch(agent_query_string)
-						end
+		q = record_type == 'agent' ? agent_query_string : query_string
+		results = db.fetch(q).limit(@limit)
 		info[:total_count] = results.count
 		results
 	end
@@ -174,10 +172,10 @@ class CustomReport < AbstractReport
 			name_table = agent_type.gsub('agent', 'name')
 			fields = "#{type_fields},
 			name.sort_name as name#{select_fields}"
-			
+
 			agent_query = "select #{agent_type}.id#{fields}
 							from #{agent_type}
-								left outer join 
+								left outer join
 								(select
 									sort_name,
 									#{agent_type}_id as id,
@@ -313,7 +311,7 @@ class CustomReport < AbstractReport
 					:default => value)
 				value_names.push(value_name)
 			end
-			info[field_name] = value_names.join(', ')		
+			info[field_name] = value_names.join(', ')
 		rescue Exception => e
 			info[field_name] = values.join(', ')
 		end

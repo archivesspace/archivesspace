@@ -69,6 +69,7 @@ fr:
       instance_type: Type d'instance
       instances: Instances
       inventory: Inventaire
+      language: Langue
       level: Niveau
       linked_records: Enregistrements liés
       linked_resources: Ressource(s) liée(s)
