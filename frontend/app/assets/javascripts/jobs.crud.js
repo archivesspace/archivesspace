@@ -25,33 +25,8 @@ var init = function() {
             $('.report_type.' + selected_report_type).show();
         };
 
-        $(document).on('change', '#job_job_params_location_report_type_', locationReportSubFormChange);
-
-        var formatChange = function() {
-
-            if ($("#job_format_").val() == 'csv') {
-                $('.csv_options').show();
-            } else {
-                $('.csv_options').hide();
-            }
-        };
-
-        formatChange();
-        $(document).on('change', "#job_format_", formatChange);
-
-        var initListing = function(report) {
-            $("#report-fields").html(AS.renderTemplate(
-                "template_" + report,
-                {id_path: "job_job_params", path: "job[job_params]"}));
-            if (report == "location_holdings_report") {
-                locationReportSubFormChange();
-            }
-            $(document).triggerHandler("subrecordcreated.aspace", [report, $("#report-fields")]);
-        }
-
-        $(".unselect-report").hide();
-        $("#format").hide();
-        $('.btn-primary:submit').addClass('disabled');
+        var initFormatReportSubForm = function() {
+            $(document).on('change', "#job_format_", function() {
 
         $(".select-report, .report-title").click(function() {
             var code = $(this).attr("for");
@@ -79,6 +54,11 @@ var init = function() {
             $("#archivesSpaceSidebar li").toggle();
         });
 
+<<<<<<< HEAD
+=======
+        initLocationReportSubForm();
+        initFormatReportSubForm();
+>>>>>>> get rid of unneccesary code
     };
 
     var initSourceJobForm = function() {
