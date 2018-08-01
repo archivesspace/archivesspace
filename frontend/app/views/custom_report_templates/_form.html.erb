@@ -14,6 +14,7 @@
 	
 		<%= form.label_and_textfield "name", :required => true %>
 		<%= form.label_and_textarea "description" %>
+		<%= form.label_and_select "limit", custom_report_template_limit_options %>
 
 		<div class="form-group">
 			<%= form.label 'record_type', :class => "col-sm-2 control-label" %>
@@ -64,7 +65,7 @@
 						<div style="padding-bottom: 10px;">
 							<div class="form-group">
 								<%= form.label 'display', :class => "col-sm-2 control-label" %>
-								<div class="col-sm-9 checkbox">
+								<div class="col-sm-9 display checkbox">
 									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][include]", '1', field_data['include'] %>
 								</div>
 							</div>
@@ -203,4 +204,3 @@
 		</div>
 	<% end %>
 </fieldset>
-

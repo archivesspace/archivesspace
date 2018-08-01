@@ -128,6 +128,7 @@ en:
     rapid_data_entry: Rapid Data Entry
     enable_reorder: Enable Reorder Mode
     reorder_active: Disable Reorder Mode
+    copy: Copy
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -1795,6 +1796,7 @@ en:
         create: Create Template
         save: Save Template
       messages:
+        copied: Custom Report Template copied
         created: Custom Report Template created
         updated: Custom Report Template updated
 
