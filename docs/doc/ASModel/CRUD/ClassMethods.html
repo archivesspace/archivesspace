@@ -1103,12 +1103,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-516
-517
-518</pre>
+525
+526
+527</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 516</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 525</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_delete identifier id'>handle_delete</span><span class='lparen token'>(</span><span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
@@ -1265,12 +1265,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-547
-548
-549</pre>
+556
+557
+558</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 547</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 556</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_is_relationship? fid id'>is_relationship?</span>
   <span class='rubyid_false false kw'>false</span>
@@ -1368,13 +1368,13 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-541
-542
-543
-544</pre>
+550
+551
+552
+553</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 541</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 550</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_repo_unique_constraint identifier id'>repo_unique_constraint</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_constraints identifier id'>constraints</span><span class='rparen token'>)</span>
   <span class='rubyid_@repo_unique_constraints ivar id'>@repo_unique_constraints</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1401,12 +1401,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-536
-537
-538</pre>
+545
+546
+547</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 536</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 545</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_repo_unique_constraints identifier id'>repo_unique_constraints</span>
   <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_@repo_unique_constraints ivar id'>@repo_unique_constraints</span><span class='rparen token'>)</span>
@@ -1479,23 +1479,41 @@ back to our parent(s).  Top-level records just return an empty list.</p>
 510
 511
 512
-513</pre>
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 497</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Integer constant id'>Integer</span>
-    <span class='comment val'># An ID.  Get the Sequel row for it.</span>
+  <span class='rubyid_is_id_query identifier id'>is_id_query</span>     <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Integer constant id'>Integer</span><span class='rparen token'>)</span>
+  <span class='rubyid_is_string_query identifier id'>is_string_query</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:query</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_is_id_query identifier id'>is_id_query</span> <span class='orop op'>||</span> <span class='rubyid_is_string_query identifier id'>is_string_query</span>
     <span class='rubyid_ds identifier id'>ds</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_model_scope identifier id'>model_scope</span> <span class='eq op'>==</span> <span class='symbol val'>:repository</span>
            <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_this_repo identifier id'>this_repo</span>
          <span class='rubyid_else else kw'>else</span>
            <span class='rubyid_self self kw'>self</span>
          <span class='rubyid_end end kw'>end</span>
 
-    <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ds identifier id'>ds</span><span class='dot token'>.</span><span class='rubyid_eager identifier id'>eager</span><span class='lparen token'>(</span><span class='rubyid_get_nested_graph identifier id'>get_nested_graph</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_NotFoundException constant id'>NotFoundException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self} not found&quot;</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span>
+    <span class='comment val'># An ID.  Get the Sequel row for it.</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_is_id_query identifier id'>is_id_query</span>
+      <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ds identifier id'>ds</span><span class='dot token'>.</span><span class='rubyid_eager identifier id'>eager</span><span class='lparen token'>(</span><span class='rubyid_get_nested_graph identifier id'>get_nested_graph</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
 
+    <span class='comment val'># If we have a string and query option, attempt to look up by querying string value against column name.</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_is_string_query identifier id'>is_string_query</span>
+      <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_ds identifier id'>ds</span><span class='dot token'>.</span><span class='rubyid_eager identifier id'>eager</span><span class='lparen token'>(</span><span class='rubyid_get_nested_graph identifier id'>get_nested_graph</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:query</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_NotFoundException constant id'>NotFoundException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{self} not found&quot;</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_obj identifier id'>obj</span>
     <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_eagerly_load! fid id'>eagerly_load!</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -1522,15 +1540,15 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-528
-529
-530
-531
-532
-533</pre>
+537
+538
+539
+540
+541
+542</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 528</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 537</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_mtime_for_ids identifier id'>update_mtime_for_ids</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='rparen token'>)</span>
   <span class='rubyid_now identifier id'>now</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -1559,14 +1577,14 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-521
-522
-523
-524
-525</pre>
+530
+531
+532
+533
+534</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 521</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 530</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_mtime_for_repo_id identifier id'>update_mtime_for_repo_id</span><span class='lparen token'>(</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_model_scope identifier id'>model_scope</span> <span class='eq op'>==</span> <span class='symbol val'>:repository</span>
@@ -1584,7 +1602,7 @@ back to our parent(s).  Top-level records just return an empty list.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:10 2018 by
+  ArchivesSpace Version updated-PUI-search Documentation Generated on Thu Aug  2 06:47:41 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>
