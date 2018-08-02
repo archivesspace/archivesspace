@@ -138,6 +138,8 @@ AppConfig[:oai_admin_email] = 'admin@example.com'
 #   },
 # }
 
+AppConfig[:oai_ead_options] = {}
+# alternate example:  AppConfig[:oai_ead_options] = { :include_daos => true, :use_numbered_c_tags => true }
 
 ##
 ## Other less commonly changed settings are below

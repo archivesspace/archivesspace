@@ -74,6 +74,7 @@ Keep in mind that ArchivesSpace can be hosted on multiple server, either in a <a
   <li>ASPACE_JAVA_XMX : Maximum heap space ( maps to Java’s Xmx, default “Xmx1024m” )</li>
   <li>ASPACE_JAVA_XSS : Thread stack size ( maps to Xss, default “Xss2m” )</li>
   <li>ASPACE_JAVA_MAXPERMSIZE : Maximum Permanent generation space ( map to “XX:MaxPermSize”, default “XX:MaxPermSize=256m” )</li>
+  <li>ASPACE_GC_OPTS : Options used by the Java garbage collector ( default : “-XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1” )</li>
 </ul>
 
 <p>To modify these settings, Linux users can either export an enironment variable ( e.g. $ export ASPACE_JAVA_XMX=”Xmx2048m” ) or edit the archivesspace.sh startup script and modify the defaults.</p>
@@ -94,7 +95,7 @@ Keep in mind that ArchivesSpace can be hosted on multiple server, either in a <a
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:05 2018 by
+  ArchivesSpace Version updated-PUI-search Documentation Generated on Thu Aug  2 06:47:37 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>

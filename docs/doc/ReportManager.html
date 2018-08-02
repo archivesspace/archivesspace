@@ -96,6 +96,17 @@
   
 </p>
 
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="ALLOWED_REPORT_FORMATS-constant" class="">ALLOWED_REPORT_FORMATS =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;json&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;csv&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;html&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;pdf&quot;</span><span class='rbrack token'>]</span>
+</pre></dd>
+    
+  </dl>
+
 
 
 
@@ -109,6 +120,29 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#allowed_report_formats-class_method" title="allowed_report_formats (class method)">.<strong>allowed_report_formats</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -166,7 +200,38 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="register_report-class_method">
+  <h3 class="signature first" id="allowed_report_formats-class_method">
+  
+    .<strong>allowed_report_formats</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/report_manager.rb', line 7</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_allowed_report_formats identifier id'>allowed_report_formats</span>
+  <span class='rubyid_ALLOWED_REPORT_FORMATS constant id'>ALLOWED_REPORT_FORMATS</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="register_report-class_method">
   
     .<strong>register_report</strong>(report_class, opts)  &#x21d2; <tt>Object</tt> 
   
@@ -180,18 +245,18 @@
       <pre class="lines">
 
 
-5
-6
-7
-8
-9
-10
 11
 12
-13</pre>
+13
+14
+15
+16
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/report_manager.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/report_manager.rb', line 11</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_register_report identifier id'>register_report</span><span class='lparen token'>(</span><span class='rubyid_report_class identifier id'>report_class</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:code</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_report_class identifier id'>report_class</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span>
@@ -223,12 +288,12 @@
       <pre class="lines">
 
 
-16
-17
-18</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/reports/report_manager.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/reports/report_manager.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_registered_reports identifier id'>registered_reports</span>
   <span class='rubyid_@@registered_reports ivar id'>@@registered_reports</span>
@@ -244,7 +309,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:13 2018 by
+  ArchivesSpace Version updated-PUI-search Documentation Generated on Thu Aug  2 06:47:44 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>

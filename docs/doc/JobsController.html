@@ -377,14 +377,14 @@
       <pre class="lines">
 
 
-67
-68
-69
-70
-71</pre>
+79
+80
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 79</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cancel identifier id'>cancel</span>
   <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_cancel identifier id'>cancel</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -412,15 +412,6 @@
       <pre class="lines">
 
 
-23
-24
-25
-26
-27
-28
-29
-30
-31
 32
 33
 34
@@ -447,10 +438,22 @@
 55
 56
 57
-58</pre>
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 32</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
 
@@ -460,12 +463,15 @@
   <span class='comment val'># and clean up the job data to match the schema types.</span>
   <span class='rubyid_job_data identifier id'>job_data</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_recursive_reject_key identifier id'>recursive_reject_key</span><span class='lparen token'>(</span><span class='rubyid_job_data identifier id'>job_data</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span> <span class='rubyid_k identifier id'>k</span> <span class='eqq op'>===</span> <span class='string val'>&#39;_resolved&#39;</span> <span class='rbrace token'>}</span>
   <span class='rubyid_job_data identifier id'>job_data</span> <span class='assign token'>=</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span><span class='rubyid_job_data identifier id'>job_data</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;job&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;job_type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
+  
+  <span class='rubyid_files identifier id'>files</span> <span class='assign token'>=</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;files&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:blank?</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_file identifier id'>file</span><span class='bitor op'>|</span>
+                                <span class='lbrack token'>[</span><span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_original_filename identifier id'>original_filename</span><span class='comma token'>,</span> <span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+
   <span class='rubyid_job_params identifier id'>job_params</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_recursive_reject_key identifier id'>recursive_reject_key</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;job&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;job_params&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span> <span class='rubyid_k identifier id'>k</span> <span class='eqq op'>===</span> <span class='string val'>&#39;_resolved&#39;</span> <span class='rbrace token'>}</span>
 
   <span class='rubyid_job_data identifier id'>job_data</span><span class='lbrack token'>[</span><span class='string val'>&quot;repo_id&quot;</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span>
   <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_job identifier id'>job</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;job&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;job_type&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_job_data identifier id'>job_data</span><span class='comma token'>,</span> <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;files&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:blank?</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_file identifier id'>file</span><span class='bitor op'>|</span>
-                                <span class='lbrack token'>[</span><span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_original_filename identifier id'>original_filename</span><span class='comma token'>,</span> <span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='rubyid_job identifier id'>job</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;job&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;job_type&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_job_data identifier id'>job_data</span><span class='comma token'>,</span> <span class='rubyid_files identifier id'>files</span><span class='comma token'>,</span>
                                 <span class='rubyid_job_params identifier id'>job_params</span>
                  <span class='rparen token'>)</span>
 
@@ -509,20 +515,29 @@
       <pre class="lines">
 
 
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109</pre>
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 111</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_file identifier id'>download_file</span>
   <span class='rubyid_@job ivar id'>@job</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:job_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
@@ -531,9 +546,18 @@
       <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&quot;format&quot;</span><span class='rbrack token'>]</span>
   <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='string val'>&quot;pdf&quot;</span>
-  <span class='rubyid_end end kw'>end</span> 
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># this is a hacky solution</span>
+  <span class='comment val'># there should be a better way for jobs to specify file names</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@job ivar id'>@job</span><span class='lbrack token'>[</span><span class='string val'>&#39;job_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;report_job&#39;</span>
+    <span class='rubyid_filename_end identifier id'>filename_end</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{@job.job[&#39;report_type&#39;]}_#{@job[&#39;time_submitted&#39;].split[0]}&quot;</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_filename_end identifier id'>filename_end</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;file_#{params[:id].to_s}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/jobs/#{params[:job_id]}/output_files/#{params[:id]}&quot;</span>
-  <span class='rubyid_stream_file identifier id'>stream_file</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:format</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format identifier id'>format</span><span class='comma token'>,</span> <span class='symbol val'>:filename</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;job_#{params[:job_id].to_s}_file_#{params[:id].to_s}&quot;</span> <span class='rbrace token'>}</span> <span class='rparen token'>)</span> 
+  <span class='rubyid_stream_file identifier id'>stream_file</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:format</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format identifier id'>format</span><span class='comma token'>,</span> <span class='symbol val'>:filename</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;job_#{params[:job_id].to_s}_#{filename_end}&quot;</span> <span class='rbrace token'>}</span> <span class='rparen token'>)</span> 
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -559,7 +583,16 @@
 9
 10
 11
-12</pre>
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 9</span>
@@ -567,6 +600,15 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
   <span class='rubyid_@active_jobs ivar id'>@active_jobs</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_active identifier id'>active</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_archived identifier id'>archived</span><span class='lparen token'>(</span><span class='rubyid_selected_page identifier id'>selected_page</span><span class='rparen token'>)</span>
+  <span class='rubyid_@files ivar id'>@files</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='lparen token'>(</span><span class='rubyid_@active_jobs ivar id'>@active_jobs</span> <span class='plus op'>+</span> <span class='rubyid_@search_data ivar id'>@search_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_job identifier id'>job</span><span class='bitor op'>|</span>
+    <span class='rubyid_@files ivar id'>@files</span><span class='lbrack token'>[</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_files identifier id'>files</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{job[&#39;uri&#39;]}/output_files&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_files identifier id'>files</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_file identifier id'>file</span><span class='bitor op'>|</span>
+      <span class='rubyid_job_id identifier id'>job_id</span> <span class='assign token'>=</span> <span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
+      <span class='rubyid_@files ivar id'>@files</span><span class='lbrack token'>[</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/jobs/#{job_id}/file/#{file}&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -589,16 +631,16 @@
       <pre class="lines">
 
 
-74
-75
-76
-77
-78
-79
-80</pre>
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 86</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_log identifier id'>log</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
@@ -628,17 +670,17 @@
       <pre class="lines">
 
 
-14
-15
-16
-17
-18
-19
-20
-21</pre>
+23
+24
+25
+26
+27
+28
+29
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 14</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 23</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@job ivar id'>@job</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
@@ -669,13 +711,13 @@
       <pre class="lines">
 
 
-112
-113
-114
-115</pre>
+133
+134
+135
+136</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 133</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_records identifier id'>records</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_records identifier id'>records</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
@@ -702,13 +744,13 @@
       <pre class="lines">
 
 
-61
-62
-63
-64</pre>
+73
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@job ivar id'>@job</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
@@ -735,23 +777,23 @@
       <pre class="lines">
 
 
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
 95
-96</pre>
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_status identifier id'>status</span>
   <span class='rubyid_job identifier id'>job</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -778,7 +820,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version fix-date-range-search Documentation Generated on Thu Jun 21 10:19:27 2018 by
+  ArchivesSpace Version updated-PUI-search Documentation Generated on Thu Aug  2 06:47:59 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>
