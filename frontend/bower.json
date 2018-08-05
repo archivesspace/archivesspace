@@ -24,7 +24,8 @@
     "bootstrap-select": "git@github.com:silviomoreto/bootstrap-select.git#v1.6.5",
     "bootstrap3-typeahead": "git@github.com:bassjobsen/Bootstrap-3-Typeahead.git#v3.1.1",
     "Sortable": "git@github.com:RubaXa/Sortable.git#v1.2.0",
-    "jquery.tablesorter": "~2.23.2"
+    "jquery.tablesorter": "~2.23.2",
+    "matchHeight": "matchheight#^0.7.2"
   },
   "install": {
     "path": {
@@ -90,8 +91,14 @@
             "bower_components/jquery.tablesorter/dist/css/theme.bootstrap.min.css": "theme.bootstrap.min.css"
           }
         ]
+      },
+      "matchHeight": {
+        "mapping": [
+        {
+          "bower_components/matchHeight/jquery.matchHeight.js": "../jquery.matchHeight.js"
       }
-
+        ]
+      }
     },
     "ignore": [
       "jquery"

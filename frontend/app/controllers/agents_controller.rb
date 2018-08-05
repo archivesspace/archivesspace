@@ -1,7 +1,7 @@
 class AgentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_agent_record" => [:new, :edit, :create, :update, :merge],
+                      "update_agent_record" => [:new, :edit, :create, :update, :merge, :merge_selector, :merge_detail, :merge_preview],
                       "delete_agent_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults, :required, :update_required]
 
@@ -179,10 +179,67 @@ class AgentsController < ApplicationController
 
 
   def merge
-    handle_merge( params[:refs],
-                  JSONModel(@agent_type).uri_for(params[:id]),
+    merge_list = params[:record_uris]
+    target = merge_list[0]
+    merge_list.shift
+    victims = merge_list
+    target_type = JSONModel.parse_reference(target)[:type]
+    handle_merge( victims,
+                  target,
                   'agent',
-                  {:agent_type => @agent_type})
+                  {:agent_type => target_type})
+  end
+  def merge_selector
+    @agent = JSONModel(@agent_type).find(params[:id], find_opts)
+    if params[:refs].is_a?(Array)
+      flash[:error] = I18n.t("errors.merge_too_many_victims")
+      redirect_to({:action => :show, :id => params[:id]})
+    elsif params[:refs].is_a?(String)
+      victim_details = JSONModel.parse_reference(params[:refs])
+      @victim_type = victim_details[:type].to_sym
+      if @victim_type != @agent_type
+        flash[:error] = I18n.t("errors.merge_different_types")
+        redirect_to({:action => :show, :id => params[:id]})
+      else
+        victim_id = victim_details[:id]
+        @victim = JSONModel(@victim_type).find(victim_id, find_opts)
+        render '_merge_selector'
+      end
+    end
+  end
+  def merge_detail
+    request = JSONModel(:merge_request_detail).new
+    request.target = {'ref' => JSONModel(@agent_type).uri_for(params[:id])}
+    request.victims = Array.wrap({ 'ref' => params['victim_uri'] })
+    request.selections = cleanup_params_for_schema(params['agent'], JSONModel(@agent_type).schema)
+    uri = "#{JSONModel::HTTP.backend_url}/merge_requests/agent_detail"
+    if params["dry_run"]
+      uri += "?dry_run=true"
+      response = JSONModel::HTTP.post_json(URI(uri), request.to_json)
+      merge_response = ASUtils.json_parse(response.body)
+      @agent = JSONModel(@agent_type).from_hash(merge_response, find_opts)
+      render_aspace_partial :partial => "agents/merge_preview", :locals => {:object => @agent}
+    else
+      begin
+        response = JSONModel::HTTP.post_json(URI(uri), request.to_json)
+        if response.message === "OK"
+          flash[:success] = I18n.t("agent._frontend.messages.merged")
+          resolver = Resolver.new(request.target["ref"])
+          redirect_to(resolver.view_uri)
+        else
+          raise (response.message)
+        end
+      rescue ValidationException => e
+        flash[:error] = e.errors.to_s
+        redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+      rescue ConflictException => e
+        flash[:error] = I18n.t("errors.merge_conflict", :message => e.conflicts)
+        redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+      rescue RecordNotFound => e
+        flash[:error] = I18n.t("errors.error_404")
+        redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+      end
+    end
   end
 
 

@@ -1,0 +1,38 @@
+<%
+  plugin = false if plugin.blank?
+  i18n_prefix = plugin ? 'plugins.' : ''
+  singular = name.singularize if singular.blank?
+  section_id = form.id_for(name) if section_id.blank?
+  heading_size = "h3" if heading_size.blank?
+  heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
+  template = singular if template.blank?
+  template_erb = "#{name.to_s}/template" if template_erb.blank?
+  js_template_name = "template_#{template}" if js_template_name.blank?
+  custom_action_template = false if custom_action_template.blank?
+  help_topic = form.help_path_for(name) if help_topic.blank?
+  hidden = false if hidden.blank?
+  section_class = hidden ? "subrecord-form-hidden" : "subrecord-form"
+
+  required = form.required?(name) if required.blank?
+
+  cardinality = :zero_to_many if cardinality.blank?
+%>
+
+<%= render_aspace_partial :partial => template_erb, :locals => {:form => form} %>
+
+
+<section id="<%= section_id %>" class="<%= section_class %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
+
+  <div class="subrecord-form-container">
+    <% if cardinality === :zero_to_one %>
+      <%= form.list_for([form[name]].compact, name) do |item| %>
+        <% form.emit_template(template, item) %>
+      <% end %>
+    <% else %>
+      <%= form.list_for(form[name], "#{name}[]") do |item| %>
+        <% form.emit_template(template, item) %>
+      <% end %>
+    <% end %>
+  </div>
+
+</section>

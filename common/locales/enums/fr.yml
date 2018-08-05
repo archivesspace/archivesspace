@@ -291,10 +291,11 @@
       ingest: Unspecified ingested source
       lcshac: Library of Congress Children's Subject Headings
       local: Local sources
+      lcnaf: Library of Congress Name Authority File
       naf: NACO Authority File
       nad: NAD / ARK II Name Authority Database
       nal: National Agricultural Library subject headings
-      ram: Répertoire d'autorités RAMEAU  
+      ram: Répertoire d'autorités RAMEAU
       rvm: Répertoire de vedettes-matière
       ulan: Union List of Artist Names
     name_rule:
@@ -437,7 +438,7 @@
       nal: National Agricultural Library subject headings
       rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
       rvm: Répertoire de vedettes-matière
-      ram: Répertoire d'autorités RAMEAU  
+      ram: Répertoire d'autorités RAMEAU
       tgn: Getty Thesaurus of Geographic Names
       lcgft: Library of Congress Genre/Form Terms
     event_outcome:

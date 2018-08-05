@@ -1,0 +1,99 @@
+<% define_template "date_type_single", jsonmodel_definition(:date) do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="single">
+    <%= form.label_and_readonly "begin" %>
+  </div>
+<% end %>
+
+<% define_template "date_type_inclusive", jsonmodel_definition(:date) do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="inclusive">
+    <%= form.label_and_readonly "begin" %>
+    <%= form.label_and_readonly "end" %>
+  </div>
+<% end %>
+
+<% define_template "date_type_range", jsonmodel_definition(:date) do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="range">
+    <%= form.label_and_readonly "begin" %>
+    <%= form.label_and_readonly "end" %>
+  </div>
+<% end %>
+
+<% define_template "date_type_bulk", jsonmodel_definition(:date) do |form| %>
+  <div class="inline-subform date-type-subform" data-date-type="bulk">
+    <%= form.label_and_readonly "begin" %>
+    <%= form.label_and_readonly "end" %>
+  </div>
+<% end %>
+
+<% define_template "date_type_nil", jsonmodel_definition(:date) do %>
+  <div class="inline-subform date-type-subform">
+    <div class="form-group">
+      <div class="control-label col-sm-2"></div>
+      <div class="controls col-sm-6"><em><%= I18n.t("date.date_type_message") %></em></div>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "existence_date", jsonmodel_definition(:date) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="date-container">
+      <%= form.label_and_readonly "label" %>
+      <%= form.label_and_readonly "expression" %>
+			<%= form.label_and_readonly "date_type" %>
+      <%form.emit_template("date_fields") %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "usage_date", jsonmodel_definition(:date) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="date-container">
+      <%= form.label_and_readonly "label" %>
+      <%= form.label_and_readonly "expression" %>
+			<%= form.label_and_readonly "date_type" %>
+      <%form.emit_template("date_fields") %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "archival_record_date", jsonmodel_definition(:date) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="date-container">
+      <%= form.label_and_readonly "label" %>
+			<%= form.label_and_readonly "expression" %>
+			<%= form.label_and_readonly "date_type" %>
+      <%form.emit_template("date_fields") %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "date", jsonmodel_definition(:date) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="date-container">
+      <%= form.label_and_readonly "label" %>
+      <%= form.label_and_readonly "expression" %>
+			<%= form.label_and_readonly "date_type" %>
+      <%form.emit_template("date_fields") %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "date_fields", jsonmodel_definition(:date) do |form| %>
+
+  <% if !form.obj["date_type"].blank? %>
+    <% form.emit_template("date_type_#{form.obj["date_type"]}", form.obj) %>
+  <% elsif form.default_for("date_type") %>
+    <% form.emit_template("date_type_#{form.default_for("date_type")}") %>
+  <% else %>
+    <% form.emit_template("date_type_nil") %>
+  <% end %>
+
+  <%= form.label_and_readonly "certainty" %>
+  <%= form.label_and_readonly "era" %>
+  <%= form.label_and_readonly "calendar" %>
+<% end %>

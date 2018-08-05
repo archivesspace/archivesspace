@@ -191,6 +191,17 @@ module ApplicationHelper
     button_tag(label, btn_opts)
   end
 
+  def button_get_selector(label, target, opts = {})
+    btn_opts = {
+      :"data-target" => target,
+      :method => :post,
+      :class => "btn",
+      :"data-confirmation" => true,
+      :"data-authenticity_token" => form_authenticity_token,
+      :type => "button"
+    }.merge(opts)
+    button_tag(label, btn_opts)
+  end
 
   def button_delete_action(url, opts = {})
     button_confirm_action(opts[:label] || I18n.t("actions.delete"),

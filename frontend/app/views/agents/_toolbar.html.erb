@@ -33,7 +33,7 @@
         <% end %>
         <% if user_can?('merge_agent_record') %>
           <%=
-          render_aspace_partial :partial => "shared/merge_dropdown",
+          render_aspace_partial :partial => "agents/merge_dropdown",
           :locals => {:record => @agent,
                       :extra_params => {:agent_type => @agent.agent_type},
                       :controller => :agents,

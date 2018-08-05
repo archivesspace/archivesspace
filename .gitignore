@@ -46,3 +46,5 @@ backend/default
 frontend/default
 indexer/default
 public/default
+docs/Gemfile.lock
+docs/slate/Gemfile.lock

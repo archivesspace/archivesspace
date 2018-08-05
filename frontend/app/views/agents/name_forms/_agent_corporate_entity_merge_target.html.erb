@@ -1,0 +1,20 @@
+<% define_template "name_corporate_entity", jsonmodel_definition(:name_corporate_entity) do |form| %>
+  <div class="subrecord-form-fields">
+    <h4 class="subrecord-form-heading">
+      <span class="badge badge-info is-authoritive-label"><%= I18n.t("name_corporate_entity.authorized") %></span>
+      <span class="badge badge-info is-display-name-label"><%= I18n.t("name_corporate_entity.is_display_name") %></span>
+    </h4>
+
+    <%= render_aspace_partial :partial => "agents/name_forms/authority_fields_merge_target", :locals => {:form => form} %>
+
+    <%= form.label_and_readonly "primary_name" %>
+    <%= form.label_and_readonly "subordinate_name_1" %>
+    <%= form.label_and_readonly "subordinate_name_2" %>
+    <%= form.label_and_readonly "number" %>
+    <%= form.label_and_readonly "dates" %>
+    <hr/>
+    <%= form.label_and_readonly "qualifier" %>
+    <%= form.label_and_readonly "sort_name" %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template_merge_target", :template => "usage_date", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
+  </div>
+<% end %>
