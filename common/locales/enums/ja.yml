@@ -291,6 +291,7 @@ ja:
       ingest: 指定されていないソース
       lcshac: 議会図書館の子供の主題見出し
       local: ローカルソース
+      lcnaf: 議会図書館の権限ファイル
       naf: NACO権限ファイル
       nad: NAD / ARK II名前権限データベース
       nal: 国立農業図書館の見出し見出し

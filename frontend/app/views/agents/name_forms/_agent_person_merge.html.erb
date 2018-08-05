@@ -1,0 +1,24 @@
+<% define_template "name_person", jsonmodel_definition(:name_person) do |form| %>
+  <div class="subrecord-form-fields agent-name-form">
+    <h4 class="subrecord-form-heading">
+      <span class="badge badge-info is-authoritive-label"><%= I18n.t("name_person.authorized") %></span>
+      <span class="badge badge-info is-display-name-label"><%= I18n.t("name_person.is_display_name") %></span>
+    </h4>
+
+    <%= render_aspace_partial :partial => "agents/name_forms/authority_fields_merge", :locals => {:form => form} %>
+
+    <%= form.label_and_merge_select "name_order" %>
+    <%= form.label_and_merge_select "prefix" %>
+    <%= form.label_and_merge_select "title" %>
+    <%= form.label_and_merge_select "primary_name" %>
+    <%= form.label_and_merge_select "rest_of_name" %>
+    <%= form.label_and_merge_select "suffix" %>
+    <%= form.label_and_merge_select "fuller_form" %>
+    <%= form.label_and_merge_select "number" %>
+    <%= form.label_and_merge_select "dates" %>
+    <hr/>
+    <%= form.label_and_merge_select "qualifier" %>
+    <%= form.label_and_readonly "sort_name" %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template_merge", :template => "usage_date", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => {"date_label" => "agents/name_forms/date_labels"}} %>
+  </div>
+<% end %>

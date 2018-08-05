@@ -1,0 +1,23 @@
+<%
+  # define these when nesting notes within a subrecord
+  nested_note_jsonmodel ||= nil
+  nested_in_jsonmodel ||=nil
+  show_apply_note_order_action = true if show_apply_note_order_action.nil?
+
+  section_id = nested_note_jsonmodel unless nested_note_jsonmodel.nil?
+  section_id = "notes" if section_id.blank?
+  header_size = "h3" if header_size.blank?
+  all_note_types ||= nil
+%>
+<%= render_aspace_partial :partial => "notes/template_merge_target", :locals =>  { :all_note_types => all_note_types, :form_note_type => section_id, :nested_in_jsonmodel => nested_in_jsonmodel } %>
+
+<section id="<%= section_id %>"
+         class="subrecord-form notes-form  <%= "note-inline" if inline? %>"
+         <%= "data-template=template_#{nested_note_jsonmodel}_note_type_selector_inline" if nested_note_jsonmodel %>>
+  <div class="subrecord-form-container mixed-content-anchor">
+    <%= form.list_for(form["notes"], "notes[]") do |note| %>
+      <% form.emit_template(note["jsonmodel_type"]) %>
+    <% end %>
+  </div>
+
+</section>
