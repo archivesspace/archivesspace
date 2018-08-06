@@ -73,7 +73,10 @@ module ReportUtils
 
       values.each do |value|
         begin
-          results.push(EnumerationValue.get_or_die(value).value)
+          enum_value = EnumerationValue.get_or_die(value)
+          enumeration = enum_value.enumeration.name
+          results.push(I18n.t("enumerations.#{enumeration}.#{enum_value.value}",
+            :default => enum_value.value))
         rescue Exception => e
           results.push("Missing enum value: #{value}")
         end
