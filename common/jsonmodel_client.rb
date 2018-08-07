@@ -246,6 +246,10 @@ module JSONModel
 
 
     def self.post_json(url, json)
+      puts "++++++++++++++++++++++++++++"
+      puts "IN POST JSON"
+      puts "url: " + url.to_s
+
       req = Net::HTTP::Post.new(url.request_uri)
       req['Content-Type'] = 'text/json'
       req.body = json
