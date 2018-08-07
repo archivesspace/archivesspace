@@ -1436,3 +1436,12 @@ en:
 
   oai_config:
     title: OAI-PMH Settings
+    oai_record_prefix: OAI Record Prefix
+    oai_admin_email: OAI Admin Email
+    oai_repository_name: OAI Repository Name
+    _frontend:
+      action:
+        create: Update OAI-PMH Settings
+        updated: OAI-PMH settings successfully updated!
+
+

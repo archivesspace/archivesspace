@@ -202,11 +202,6 @@ module AspaceFormHelper
     end
 
     def label_and_textfield(name, opts = {})
-      puts "++++++++++++++++++++++++++++"
-      puts "IN HELPER"
-      puts "context: " + @context.inspect
-      puts "context_last: " + @context.last.inspect
-      puts "obj: " + obj.inspect
       label_with_field(name, textfield(name, obj[name], opts[:field_opts] || {}), opts)
     end
 

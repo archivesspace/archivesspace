@@ -4,25 +4,29 @@ class OaiConfigController < ApplicationController
 
   def edit
     @oai_config = JSONModel(:oai_config).all.first
-
-    puts "++++++++++++++++++++++++++++"
-    puts "oai config: " + @oai_config.inspect
   end
 
   def update
-  #handle_repository_oai_params(params)
-  #generate_names(params[:repository])
-  #handle_crud(:instance => :repository,
-              #:model => JSONModel(:repository_with_agent),
-              #:replace => false,
-              #:obj => JSONModel(:repository_with_agent).find(params[:id]),
-              #:on_invalid => ->(){ return render :action => :edit },
-              #:on_valid => ->(id){
-                #MemoryLeak::Resources.refresh(:repository)
-#
-                #flash[:success] = I18n.t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
-                #redirect_to :controller => :repositories, :action => :show, :id => id
-              #})
-  end
+    @oai_config = JSONModel(:oai_config).all.first
+    puts "++++++++++++++++++++++++++++"
+    puts "IN UPDATE"
+    puts "oai_config: " + @oai_config.inspect
+    puts "params: " + params.inspect
+    begin
 
+    handle_crud(:instance => :oai_config,
+                :model => JSONModel(:oai_config),
+                :replace => false,
+                :obj => @oai_config,
+                :on_invalid => ->(){ return render :action => :edit },
+                :on_valid => ->(id){
+                  flash[:success] = I18n.t("oai_config._frontend.action.updated")
+                  redirect_to :controller => :oai_config, :action => :edit
+                })
+  rescue => e
+    puts e.message
+    puts e.backtrace
+  end
+  end
 end
+
