@@ -298,7 +298,7 @@ $(function() {
 
           return $this.data("selected").map(function(item) {
             if (typeof item == 'string') {
-              item = ASUtils.json_parse(item);
+              item = JSON.parse(item);
             }
             return {
               id: item.uri,

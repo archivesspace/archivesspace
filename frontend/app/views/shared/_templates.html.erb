@@ -84,7 +84,7 @@
    <ul class="token-list">
       {for item in search_data.results}
          {var json = item}
-         {if item.json}{var json = ASUtils.json_parse(item.json)}{/if}
+         {if item.json}{var json = JSON.parse(item.json)}{/if}
          <li>
             <label>
                {if config.multiplicity === "one"}
