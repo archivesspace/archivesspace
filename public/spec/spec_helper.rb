@@ -3,6 +3,7 @@ require "uri"
 require "json"
 require "digest"
 require "rspec"
+require 'rspec/retry'
 require 'test_utils'
 require 'config/config-distribution'
 require 'securerandom'
@@ -89,6 +90,12 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include BackendClientMethods
+  
+  # show retry status in spec process
+  config.verbose_retry = true
+  # Try thrice (retry twice)
+  config.default_retry_count = 3
+
 
   [:controller, :view, :request].each do |type|
     config.include ::Rails::Controller::Testing::TestProcess, :type => type

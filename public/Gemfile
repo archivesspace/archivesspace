@@ -68,6 +68,7 @@ end
 
 group :test do
   gem 'rspec', "~> 3.6.0"
+  gem "rspec-retry"
   gem 'rspec-rails'
   gem 'rails-controller-testing'
   gem 'simplecov', "0.7.1"
