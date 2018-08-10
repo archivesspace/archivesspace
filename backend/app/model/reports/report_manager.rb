@@ -2,7 +2,7 @@ module ReportManager
 
   @@registered_reports ||= {}
 
-  ALLOWED_REPORT_FORMATS = ["json", "csv", "html", "pdf"]
+  ALLOWED_REPORT_FORMATS = ["json", "csv", "html", "pdf", "rtf"]
 
   def self.allowed_report_formats
     ALLOWED_REPORT_FORMATS
