@@ -2,31 +2,52 @@ class DigitalObjectListTableReport < AbstractReport
 
   register_report
 
-  def template
-    'generic_listing.erb'
+  def query_string
+    "select
+      digital_object.digital_object_id as identifier,
+      digital_object.title as record_title,
+      digital_object.digital_object_type_id as object_type,
+      group_concat(dates.date_expression separator ', ') as date_expression,
+      group_concat(distinct resource.identifier separator ',,,') as resource_identifier
+    from digital_object
+
+      natural left outer join
+     
+      (select
+        digital_object_id as id,
+        ifnull(expression, if(end is null, begin,
+        concat(begin, ' - ', end))) as date_expression
+      from date
+      where not digital_object_id is null) as dates
+
+      left outer join instance_do_link_rlshp
+        on instance_do_link_rlshp.digital_object_id = digital_object.id
+
+      left outer join instance
+        on instance.id = instance_do_link_rlshp.instance_id
+
+      left outer join archival_object
+        on archival_object.id = instance.archival_object_id
+
+      left outer join resource
+        on resource.id = instance.resource_id
+          or resource.id = archival_object.root_record_id
+
+    where digital_object.repo_id = #{db.literal(@repo_id)}
+
+    group by digital_object.id"
   end
 
-  def headers
-    ['title', 'identifier', 'objectType', 'dateExpression', 'resourceIdentifier']
+  def fix_row(row)
+    ReportUtils.get_enum_values(row, [:object_type])
+    ReportUtils.fix_identifier_format(row, :resource_identifier) if row[:resource_identifier]
   end
 
-  def processor
-    {
-      'resourceIdentifier' => proc{|record| ASUtils.json_parse(record[:resourceIdentifier] || '[]').compact.join('.')}
-    }
+  def page_break
+    false
   end
 
-  def query
-    db[:digital_object].
-      left_outer_join(:instance_do_link_rlshp,
-           :instance_do_link_rlshp__digital_object_id => :digital_object__id).
-      select(Sequel.as(:digital_object__id, :id),
-             Sequel.as(:digital_object__repo_id, :repoId),
-             Sequel.as(:digital_object__digital_object_id, :identifier),
-             Sequel.as(:digital_object__title, :title),
-             Sequel.as(Sequel.lit('GetEnumValueUF(digital_object.digital_object_type_id)'), :objectType),
-             Sequel.as(Sequel.lit('GetDigitalObjectDateExpression(digital_object.id)'), :dateExpression),
-             Sequel.as(Sequel.lit('GetResourceIdentiferForInstance(instance_do_link_rlshp.instance_id)'), :resourceIdentifier)).
-             filter(:repo_id => @repo_id)
+  def identifier_field
+    :record_title
   end
 end

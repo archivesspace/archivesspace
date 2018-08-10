@@ -1,0 +1,1406 @@
+ja:
+  actions:
+    add: 追加
+    add_event: イベントを追加
+    automate: 自動的に生成する
+    batch: バッチ
+    browse: ブラウズ
+    cancel: キャンセル
+    close: 閉じる
+    continue: 持続する
+    confirm: 確認
+    confirm_removal: 削除の確認
+    container_labels: コンテナラベルをダウンロード
+    create: 作成する
+    cut: カット
+    defaults: デフォルト値
+    edit: 編集
+    edit_batch: バッチの編集
+    edit_groups: グループの編集
+    edit_default_values: デフォルト値の編集
+    edit_default_archival_object_values: コンポーネントのデフォルトの編集
+    edit_required_fields: 必須フィールドの編集
+    required: 必須フィールド
+    export: 輸出する
+    view: ビュー
+    spawn: スポーン
+    show_all: すべて表示する
+    transfer_record: 転送
+    more: もっと
+    link_to: リンク先
+    add_prefix: 追加
+    merge_confirm_title: このレコードにマージしますか？
+    merge_subject_confirm_message: 件名 '%{source}'には、選択したレコードがマージされます。選択したすべてのレコードが削除され、リンクされたレコードはすべてこの件名に再リンクされます。
+    merge_agent_confirm_message: エージェント '%{source}'には、選択したレコードがマージされます。選択したレコードはすべて削除され、リンクされたレコードはこのエージェントに再リンクされます。
+    merge_resource_confirm_message: リソース '%{source}'には、選択したレコードがマージされます。選択したすべてのレコードが削除され、リンクされたレコードはすべてこのリソースに再リンクされます。
+    move: 移動
+    move_up_a_level: レベルアップ
+    move_up: アップ
+    move_down: ダウン
+    move_down_into: ダウンして...
+    paste: ペースト
+    remove: 削除する
+    refresh_page: ページの更新
+    new_prefix: 新しい
+    save_prefix: セーブ
+    save_plus_one: "+1"
+    save_anyway: とにかく保存
+    select: 選択
+    set_default: デフォルトとして設定
+    suppress: 抑止
+    suppress_confirm_title: このレコードを抑止しますか？
+    suppress_confirm_message: 抑制されたレコードはデータベースに残っていますが、ほとんどのユーザーには表示されなくなり、ほとんどの機能では使用できなくなります。
+    transfer: 転送
+    transfer_confirm_title: このレコードを転送しますか？
+    transfer_confirm_message: レコード '%{target}'は選択したリポジトリに転送されます
+    transfer_successful: 転送成功。インデックスの再作成中にレコードがターゲットリポジトリに表示されるまでに時間がかかることがあります。
+    transfer_failed: 転送に失敗しました
+    transfer_failed_records_using_digital_objects: 次のレコードは、転送されるデジタルオブジェクトにリンクしますが、そのようにすると、インスタンスリンクが破損します
+    unset_default: 既定の設定を解除する
+    unsuppress: 抑止力
+    unsuppress_confirm_title: この記録を抑止しますか？
+    unsuppress_confirm_message: 偽
+    unable_to_move_message: レコードを移動できません
+    move_ordering_problem_message: レコード移動発注の問題
+    delete: 削除
+    delete_confirm_title: このレコードを削除しますか？ %{title}
+    delete_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。 </p><p>このアクションは、レコードをデータベースから削除します。これには、他のレコードに対する参照も含まれます。
+      </p>"
+    delete_repository_confirm_title: このリポジトリを削除しますか？ %{name}
+    delete_repository_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。
+      </p><p>このアクションは、 <strong>リポジトリ</strong>および関連するすべてのレコードをデータベースから削除し<strong>ます</strong>
+      。これには、他のレコードへの参照も含まれます。 </p><p>続行するには、下記の '%{repository}'を入力してください：
+      </p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_multiple: レコードの削除
+    delete_multiple_confirm_title: レコードを削除しますか？
+    delete_multiple_confirm_message: "<p> <strong>この操作を元に戻すことはできませんので</strong>ご注意ください。
+      </p><p>このアクションは、他のレコードに対する参照を含めて、これらのレコードをデータベースから削除します。 </p>"
+    edit_multiple: レコードを編集する
+    edit_multiple_confirm_title: レコードを編集する？
+    edit_multiple_confirm_message: "<p>これにより、複数のレコードを一括更新します。 </p>"
+    export_eac: EAC-CPFをダウンロード
+    export_ead: EADをダウンロード
+    export_mods: MODSをダウンロード
+    export_mets: METSをダウンロード
+    export_marc: MARCXMLをダウンロード
+    export_dc: DCをダウンロード
+    export_csv: CSVをダウンロード
+    loading: 読み込んでいます...
+    revert: 変更を元に戻す
+    finish_editing: レコードを閉じる
+    merge: 行きます
+    form_changes_message: "<small><span class='muted'>保存していない変更があります</span></small>"
+    toolbar_disabled_message: "<small><span class='muted'>変更を保存していない - 保存または元に戻してツールバーとレコードツリーにアクセスする</span></small>"
+    publish: すべてを公開
+    publish_confirm_title: 公開しますか？
+    publish_confirm_message: "<p>このアクションを実行すると、このレコード、サブレコード（外部文書、注釈など）および階層内のすべてのコンポーネントが公開されます。
+      </p>"
+    view_search_results: 検索結果に移動
+    view_published: ビューの公開
+    print_to_pdf: PDFへのリソースの印刷
+    resource_to_pdf: 印刷するリソース
+    download_pdf: PDFをダウンロード
+    download_report: ダウンロードレポート
+    click_to_show: クリックしてレコードをロードしてください。
+    rapid_data_entry: 迅速なデータ入力
+    enable_reorder: 並べ替えモードを有効にする
+    reorder_active: リオーダーモードを無効にする
+
+  database_warning:
+    message: "<p> <strong>データベース警告：</strong>現在組み込みデータベース（Apache Derby）を使用しています。組込みデータベースは、テスト/デモ目的のみのものです。実稼働環境に移行する予定のテストインスタンス内のデータを含む、実稼働用の任意のデータにMySQLを使用する必要があります。
+      </p>"
+
+  states:
+    auto_generated: 保存時にシステムが生成される
+
+  export_options:
+    include_unpublished: 未発表を含める
+    include_daos: "&lt;dao&gt;タグを含める"
+    numbered_cs: 番号付きの&lt;c&gt;タグを使用する
+    print_pdf: PDFへの印刷
+    ead3: EAD3スキーマ
+    use_mods: MODSを使用する
+    use_dc: ダブリンコアを使用する
+
+  pagination:
+    first: 最初
+    last: 最終
+    previous: "«"
+    previous_label: 前
+    next: "»"
+    next_label: 次
+    summary_prefix: 見せる
+    summary_offset_connector: "-"
+    summary_total_connector: の
+    summary_suffix: 結果
+    page_prefix: ページ
+    page_connector: の
+
+  search_results:
+    title: の検索結果
+    context: 見つかった
+    no_results: レコードが見つかりません
+    no_results_prefix: の検索結果はありませんでした
+    result_type: レコードタイプ
+    result_title: タイトル
+    result_identifier: 識別
+    filtered_by: フィルタリングされた
+    modified: 最終更新者
+    created: によって作成された
+    text_placeholder: テキストで絞り込む
+    clear_all: すべてクリア
+    component_switch: コンポーネントを表示する
+    filter:
+      query: テキスト
+      subjects: 件名
+      primary_type: レコードタイプ
+      digital_object_type: タイプ
+      level: レベル
+      classification_path: 分類
+      accession_date_year: 受付日
+      creators: クリエイター
+      source: ソース
+      rules: ルール
+      parent_type: レコードタイプ
+      processing_priority: 処理優先度
+      processing_status: 状態
+      publish: 発行済み
+      temporary: 一時的
+      outcome: 結果
+      event_type: タイプ
+      first_term_type: 期間型（First）
+      classification_uri: 分類
+      location_uris: ロケーション
+      agents: エージェント
+      fullrecord: キーワード
+      subjects_text: 件名
+      title: タイトル
+      creators_text: クリエイター
+      notes: ノート
+      container_profile_width_u_sstr: 幅
+      container_profile_height_u_sstr: 高さ
+      container_profile_depth_u_sstr: 深さ
+      container_profile_dimension_units_u_sstr: 寸法単位
+      building: 建物
+      floor: 床
+      room: ルーム
+      area: エリア
+      location_profile_display_string_u_ssort: ロケーションプロファイル
+      location_profile_width_u_sstr: 幅
+      location_profile_height_u_sstr: 高さ
+      location_profile_depth_u_sstr: 深さ
+      location_profile_dimension_units_u_sstr: 寸法単位
+      rights_statement_agent_uris: 権利ステートメントエージェント
+      assessment_surveyors: 調査者
+      assessment_review_required: レビューが必要です
+      assessment_sensitive_material: センシティブマテリアル
+      assessment_reviewer_uris: レビューア
+      assessment_surveyed_by_uris: 調査者
+      assessment_reviewers: レビューア
+      assessment_inactive: 非アクティブ
+      assessment_survey_year: 調査年
+      assessment_record_types: レコードタイプ
+      assessment_completed: 完了しました
+    help:
+      row_selection: 一括操作のために行をクリックして選択します。 Altキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
+
+  search_sorting:
+    sort_by: 並び替え：
+    and: そして：
+    asc: 上昇
+    desc: 降順
+    relevance: 関連性
+    title_sort: タイトル
+    user_mtime: 変更された
+    primary_type: レコードタイプ
+    processing_priority: 処理優先度
+    processing_status: 処理ステータス
+    processing_hours_total: 合計時間
+    parent_id: レコードタイプ
+    create_time: 作成した
+    authority_id: オーソリティID
+    source: ソース
+    rules: ルール
+    outcome: 結果
+    event_type: タイプ
+    identifier: 識別
+    select: 選択
+    building: 建物
+    floor: 床
+    room: ルーム
+    area: エリア
+    resource_type: リソースタイプ
+    acquisition_type: 獲得タイプ
+    accession_date: 受付日
+    restrictions_apply: 制限が適用されます
+    access_restrictions: アクセス制限
+    use_restrictions: 使用制限
+    level: 説明のレベル
+    language: 言語
+    restrictions: 制限事項
+    ead_id: EAD ID
+    finding_aid_status: 援助の状況を見つける
+    digital_object_id: デジタルオブジェクトID
+    digital_object_type: デジタルオブジェクトタイプ
+    publish: 公開する
+    location_profile_display_string_u_ssort: ロケーションプロファイル
+    assessment_survey_begin: 調査開始日
+    assessment_survey_end: 調査完了日
+    assessment_id: ID
+
+  advanced_search:
+    operator:
+      AND: AND
+      OR: OR
+      NOT: NOT
+    date_operator:
+      equal: 等しい
+      greater_than: より大きい
+      lesser_than: 未満
+      empty: 割り当てられていない
+    boolean_field:
+      true_value: 真
+      false_value: 偽
+    button_text: サーチ
+    reset: クリア
+    nav_switcher:
+      show: 高度な表示
+      hide: 上級者を隠す
+    index_switcher:
+      show: 高度な検索を表示する
+      hide: 高度な検索を隠す
+    text_operator:
+      contains: 含まれる
+      empty: 空です
+    enum_field:
+      empty: 割り当てられていない
+
+  become-user:
+    become-user: ユーザーになる
+    failed: 指定されたユーザーに切り替えることができませんでした
+    success: ユーザーの切り替えが成功しました
+
+  navbar:
+    become-user: ユーザーになる
+    brand: アーカイブススペース
+    create: 作成する
+    import: インポート
+    import_eac: EACファイル
+    import_ead: EADファイル
+    import_marcxml: MARCXML
+    import_marcxml_subjects_and_agents: MARCXML（被験者とエージェントのみ）
+    import_accession_csv: 加盟CSV
+    import_digital_object_csv: デジタルオブジェクトCSV
+    search_all: すべてのレコード
+    search_placeholder: すべてのレコードを検索
+    search_button_title: すべてのレコードを検索
+    show_advanced_search_button_title: 高度な検索を表示する
+    hide_advanced_search_button_title: 高度な検索を隠す
+    plugins: プラグイン
+    repositories_manage: リポジトリの管理
+    manage_groups: グループの管理
+    manage_users: ユーザーの管理
+    manage_container_profiles: コンテナプロファイルの管理
+    manage_location_profiles: ロケーションプロファイルを管理する
+    manage_top_containers: トップコンテナを管理する
+    manage_enumerations: 管理された値リストの管理
+    global_preferences: グローバル設定
+    user_repo_preferences: リポジトリの設定
+    repo_preferences: ユーザー設定
+    manage_user_access: ユーザーアクセスを管理する
+    logout: ログアウト
+    login: サインイン
+    login_expired_link: "%{link}してください。"
+    login_fail: ログイン試行に失敗しました
+    login_success: ログイン成功。リダイレクト中...
+    register: 今すぐ登録
+    register_prefix: アカウントが必要です？
+    list_reports: レポート
+    global_admin: システム
+    system_info: システムインフォメーション
+    unpublished: 未発表
+    manage_assessment_attributes: アセスメント属性の管理
+  session:
+    gone: バックエンドセッションが見つかりませんでした
+    expired: あなたのセッションは非アクティブのため失効しました
+    inline_login_title: セッションの有効期限が切れ
+
+  batch_delete:
+    archival_records:
+      success: レコードが削除された
+      error: レコードを削除できません：
+    subjects:
+      success: 削除された科目
+      error: 件名を削除できません：
+    agents:
+      success: エージェントが削除されました
+      error: エージェントを削除できません：
+    locations:
+      success: 場所が削除されました
+      error: 場所を削除できません：
+    assessments:
+      success: 評価が削除されました
+      error: 評価を削除できません：
+
+  welcome:
+    heading: ArchivesSpaceへようこそ
+    message: フレンドリーなアーカイブ管理ツール。
+    message_logged_in: フレンドリーなアーカイブ管理ツール。
+
+  breadcrumb:
+    home: ホーム
+
+  save_changes_modal:
+    body: あなたには顕著な変化があります。続行するには、これらの変更を保存または却下してください。
+    save: 変更内容を保存
+    dismiss: 変更を閉じる
+
+  linker:
+    link_to_prefix: リンク先
+    create_and_link_to_prefix: 作成してリンクする
+    hint_text: 利用可能なレコードを検索するために入力してください..
+    placeholder: 利用可能なレコードを検索するために入力してください..
+    no_results: 一致する結果はありません。 「ブラウズ」を試みてください。
+    searching: 検索中...
+    delete: "×"
+
+  mixed_content:
+    wrap_prefix: ラップ：
+    help: 混在コンテンツを有効にする - 要素を'<'と入力するか、折り返すテキストをハイライト表示します
+
+  import:
+    eac_title: EACファイルをインポートする
+    ead_title: EADファイルをインポートする
+    marcxml_title: MARCXMLファイルにインポートする
+    marcxml_subjects_and_agents_title: MARCXMLファイルからサブジェクトとエージェントをインポートする
+    accession_csv_title: CSVファイルからアクセッションレコードをインポートする
+    digital_object_csv_title: CSVファイルからデジタルオブジェクトレコードをインポートする
+    import_report: レポートのインポート
+    import_another: 別のファイルをインポートする
+    file_select: アップロードするファイルを選択する
+    submit: インポート
+    submit_busy_message: インポート中...
+    messages:
+      missing_repo: インポートする前にリポジトリを選択する必要があります
+      missing_file: アップロードするEADファイルを選択してください
+      error_prefix: ファイルのインポート中にエラー
+      complete: インポート完了
+
+  default_values:
+    form_title:
+      archival_object: コンポーネントレコードのデフォルト
+      resource: リソースレコードのデフォルト
+      accession: アクセッションレコードのデフォルト
+      subject: 件名レコードの既定値
+      agent_person: エージェントレコードのデフォルト（人）
+      agent_family: エージェントレコードの既定値（ファミリ）
+      agent_corporate_entity: エージェントレコードのデフォルト（企業エンティティ）
+      agent_software: エージェントレコードのデフォルト（ソフトウェア）
+      digital_object: デジタルオブジェクトのデフォルト
+      digital_object_component: デジタルオブジェクトコンポーネントのデフォルト
+      location: ロケーションレコードのデフォルト
+      event: イベント記録のデフォルト
+      classification: 分類レコードのデフォルト
+      classification_term: 分類用語のデフォルト
+    messages:
+      defaults_updated: 更新されたデフォルト
+
+  required_fields:
+    form_title:
+      agent_person: エージェントレコードの必須フィールド（Person）
+      agent_family: エージェントレコード必須フィールド（ファミリ）
+      agent_corporate_entity: エージェント記録必須フィールド（企業エンティティ）
+      agent_software: エージェントレコードの必須フィールド（ソフトウェア）
+    messages:
+      required_fields_updated: 更新された必須フィールド
+
+  tree:
+    drag_and_drop_actions:
+      before: 項目を前に追加する
+      after: 後に項目を追加
+      as_child: 子供としてアイテムを追加する
+    unexpected_failure: おっとっと！このツリーを取得する際に問題が発生しています。ページをリフレッシュしてみてください。
+
+  errors:
+    sidebar_label: エラーと警告
+    error_403: ページにアクセスできない
+    error_403_message: アクセスしようとしたページが存在しないか、ページを表示する権限がない可能性があります。
+    error_404: 記録が見当たりませんでした
+    error_404_message: アクセスしようとしたレコードが存在しなくなったり、アクセス権を持っていない可能性があります。
+    error_tree_pane_ajax: このフォームの読み込み中にエラーが発生しました。
+    merge_conflict: エージェントをマージできませんでした： %{message}
+    linked_to_assessment: レコードは評価にリンクされているため削除できません
+
+  accession:
+    _frontend:
+      messages:
+        created: アクセッション<strong>%{accession.display_string}</strong>作成されました
+        unsuppressed: アクセシビリティ<strong>%{accession.display_string}</strong>抑制されていません
+        updated: アクセス権<strong>%{accession.display_string}</strong>更新されました
+        suppressed: アクセシビリティ<strong>%{accession.display_string}</strong>抑制されました
+        suppressed_info: アクセッションは抑制され、編集できません
+        deleted: アクセッション<strong>%{accession.display_string}</strong>削除されました
+        transfer_description: このアクセス権を以下に転送します...
+        transfer_target: 移行するリポジトリを選択する
+        spawned: このアクセッションはAccession <strong>%{accession.display_string}</strong>から生成されました<strong>%{accession.display_string}</strong>
+        delete_conflict: アクセッションを削除できませんでした： <pre> %{error} </pre>
+      section:
+        basic_information: 基本情報
+      action:
+        create: 登録を作成する
+        save: 登録を保存
+
+  agent: &agent_attributes
+    _frontend:
+      messages:
+        created: 作成されたエージェント
+        updated: エージェントが保存されました
+        deleted: エージェントが削除されました
+        delete_conflict: エージェントを削除できませんでした： <pre> %{error} </pre>
+        merge_description: マージするエージェントを以下から選択
+        merged: エージェントが結合されました
+        please_select_a_agent_to_merge: エージェントを選択してください
+      section:
+        basic_information: 基本情報
+        dates_of_existence: 存在の日付
+        name: 名前フォーム
+        contacts: 連絡先の詳細
+        search_embedded: リンクされたレコード
+        linked_via_rights_statement: 権利声明によるリンクされたレコード
+      action:
+        create: エージェントを作成する
+
+  agent_contact:
+    _frontend:
+      action:
+        add: 連絡先を追加
+
+  telephone:
+    _frontend:
+      action:
+        add: 電話番号を追加
+
+  agent_corporate_entity:
+    _frontend:
+      action:
+        save: 企業エンティティを保存する
+
+  agent_family:
+    _frontend:
+      action:
+        save: 家族を救う
+
+  agent_person:
+    _frontend:
+      action:
+        save: 人を保存する
+
+  agent_software:
+    _frontend:
+      action:
+        save: ソフトウェアを保存する
+
+  archival_object:
+    _frontend:
+      messages:
+        created: リソース<strong>%{resource.title}</strong>アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>が作成されました
+        created_with_parent: リソース<strong>%{resource.title}</strong>上の<strong>%{parent.display_string}</strong>子として作成されたアーカイブオブジェクト<strong>%{archival_object.display_string}</strong>
+          <strong>%{resource.title}</strong>
+        updated: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>更新されました
+        updated_with_parent: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>更新されました
+        please_select_a_resource_for_transfer: リソースを選択してください
+        transfer_success: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>をリソース<strong>%{resource.title}</strong>転送しました<strong>%{resource.title}</strong>
+        transfer_error: エラーまたは競合のためアーカイブオブジェクトを転送できません： <pre> %{exception} </pre>
+        deleted: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>削除されました
+        unsuppressed: アーカイブオブジェクト<strong>%{archival_object.title}</strong>抑制されていません
+        suppressed: アーカイブオブジェクト<strong>%{archival_object.title}</strong>され<strong>%{archival_object.title}</strong>
+        suppressed_info: アーカイブオブジェクトは抑制されており、編集できません
+        has_unpublished_ancestor: このレコードには未発表の祖先があることにご注意ください。
+        delete_conflict: アーカイブオブジェクトを削除できませんでした： <pre> %{error} </pre>
+      section:
+        basic_information: 基本情報
+      action:
+        add_child: 子を追加
+        add_sibling: 兄弟を追加
+        save: アーカイブオブジェクトを保存する
+      tree:
+        new_record_title: 新しいアーカイブオブジェクト
+
+  classification:
+    _frontend:
+      messages:
+        created: 分類<strong>%{classification.title}</strong>作成されました
+        updated: 分類<strong>%{classification.title}</strong>更新されました
+        deleted: 分類<strong>%{classification.title}</strong>削除されました
+      section:
+        basic_information: 基本情報
+        search_embedded: リンクされたレコード
+      action:
+        add_child: 子を追加
+        create: 分類を作成する
+        save: 分類を保存
+        add: 分類を追加する
+
+  classification_term:
+    _frontend:
+      messages:
+        created: 分類用語<strong>%{classification_term.title}</strong>作成されました
+        created_with_parent: 分類用語<strong>%{classification_term.title}</strong>作成されました
+        updated: 分類用語<strong>%{classification_term.title}</strong>更新されました
+        updated_with_parent: 分類用語<strong>%{classification_term.title}</strong>更新されました
+        deleted: 分類用語<strong>%{classification_term.title}</strong>削除されました
+      section:
+        basic_information: 基本情報
+        search_embedded: リンクされたレコード
+      action:
+        add_child: 子を追加
+        add_sibling: 兄弟を追加
+        save: 分類分類を保存する
+      tree:
+        new_record_title: 新しい分類期間
+
+  collection_management: &collection_management_attributes
+    _frontend:
+      title_prefix: 処理
+      action:
+        add: コレクション管理フィールドを追加する
+
+  container:
+    _frontend:
+      action:
+        add: コンテナを追加
+
+  container_location:
+    _frontend:
+      action:
+        add: 場所を追加
+
+  date:
+    _frontend:
+      action:
+        add: 日付を追加
+
+  dates_of_existence:
+    _frontend:
+      action:
+        add: 日付を追加
+
+  deaccession:
+    _frontend:
+      action:
+        add: デアクセスを追加
+
+  digital_object:
+    _frontend:
+      messages:
+        created: デジタルオブジェクト<strong>%{digital_object.title}</strong>作成
+        updated: デジタルオブジェクト<strong>%{digital_object.title}</strong>更新
+        deleted: デジタルオブジェクト<strong>%{digital_object.title}</strong>削除されました
+        published: デジタルオブジェクト<strong>%{digital_object.title}</strong> 、そのサブレコードとコンポーネントが公開されました
+        merge_description: 以下のデジタルオブジェクトを選択してマージする
+        please_select_a_digital_object_to_merge: デジタルオブジェクトを選択してください
+        merged: デジタルオブジェクトが結合されました
+        transfer_description: このリソースを転送する...
+        transfer_target: 移行するリポジトリを選択する
+        unsuppressed: デジタルオブジェクト<strong>%{digital_object.title}</strong>抑制されていません
+        suppressed: デジタルオブジェクト<strong>%{digital_object.title}</strong>され<strong>%{digital_object.title}</strong>
+        suppressed_info: デジタルオブジェクトが抑制され、編集できない
+        delete_conflict: デジタルオブジェクトを削除できませんでした： <pre> %{error} </pre>
+      section:
+        basic_information: 基本情報
+      action:
+        add_child: 子を追加
+        create: デジタルオブジェクトを作成する
+        save: デジタルオブジェクトを保存する
+
+  digital_object_component:
+    _frontend:
+      messages:
+        created_with_parent: デジタルオブジェクト<strong>%{digital_object_component.display_string}</strong>の<strong>%{parent.display_string}</strong>子として作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object.title}</strong>
+        created: デジタルオブジェクト<strong>%{digital_object_component.display_string}</strong>作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>
+          <strong>%{digital_object.title}</strong>
+        updated_with_parent: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>更新されました
+        updated: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>更新されました
+        deleted: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>削除されました
+        unsuppressed: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>抑制されていません
+        suppressed: デジタルオブジェクトコンポーネント<strong>%{digital_object_component.display_string}</strong>抑制されました
+        suppressed_info: デジタルオブジェクトコンポーネントは非表示で編集できません
+        has_unpublished_ancestor: このレコードには未発表の祖先があることにご注意ください。
+      section:
+        basic_information: 基本情報
+      action:
+        add_child: 子を追加
+        add_sibling: 兄弟を追加
+        save: デジタルオブジェクトコンポーネントを保存する
+      tree:
+        new_record_title: 新しいデジタルオブジェクトコンポーネント
+
+  enumeration:
+    _frontend:
+      messages:
+        value_updated: 値の更新
+        deleted: 値が削除されました
+        delete_error: 値の削除に失敗しました
+        delete_conflict: レコードによって現在参照されている値を削除できません
+        default_set: デフォルト値セット
+        created: 作成された値
+        create_error: 値の作成に失敗しました
+        merged: バリュー・マージド
+        merge_tip: この値は、別の値とマージされてもよい
+        merge_error: 値をマージできませんでした
+        no_selection: 管理された値リストを選択してください
+        name_selector: リスト名
+        name_selector_tooltip: "<p>編集する制御値リスト。 </p>"
+        no_name_provided: 新しい値を作成する前に値リストを選択する
+      action:
+        create_value: 値を作成
+        delete_value: 値の削除
+        merge_value: マージ値
+
+  event:
+    _frontend:
+      messages:
+        created: 作成されたイベント
+        updated: 保存されたイベント
+        deleted: イベントが削除されました
+        suppressed_info: イベントは抑止され、編集できません
+      section:
+        basic_information: 基本情報
+        date: イベントの日付/時刻
+      action:
+        save: イベントを保存する
+        create: イベントの作成
+    linked_agents: エージェントのリンク
+
+  extent:
+    _frontend:
+      action:
+        add: エクステントを追加
+
+  external_document:
+    _frontend:
+      action:
+        add: 外部文書の追加
+
+  file_version:
+    _frontend:
+      action:
+        add: ファイルバージョンを追加
+        make_representative: 代表者にする
+
+  group:
+    _frontend:
+      action:
+        create: グループを作る
+        save: グループを保存
+
+  instance:
+    _frontend:
+      messages:
+        select_a_type: インスタンスタイプを選択してください
+      action:
+        add_digital_object: デジタルオブジェクトを追加する
+        add: インスタンスを追加する
+
+  linked_agent:
+    _frontend:
+      action:
+        add: エージェントリンクを追加
+
+  linked_record:
+    _frontend:
+      action:
+        add: レコードリンクを追加
+
+  location:
+    _frontend:
+      messages:
+        created: 場所の作成
+        updated: 場所が保存されました
+        deleted: 場所が削除されました
+      section:
+        basic_information: 基本情報
+        search_embedded: リンクされたレコード
+      action:
+        add_child: サブコンポーネントの追加
+        add_sibling: 兄弟を追加
+        create: 場所を作成する
+        batch: バッチ場所の作成
+        batch_edit: バッチ場所の編集
+        save: 位置を保存
+        single: 単一の場所
+        delete_confirm_message: "<p> <strong>この操作を元に戻す</strong>こと<strong>はできませんので</strong>ご注意ください<strong>。</strong>
+          。 </p><p>この場所が現在1つ以上のインスタンスにリンクされている場合、削除することはできません。 </p>"
+        show_space_calculator: スペース計算機で探す
+
+  location_batch:
+    _frontend:
+      section:
+        location: 基地の場所
+        ranges: 座標範囲
+      messages:
+        created: "<strong>%{number_created}</strong>作成された<strong>場所</strong>"
+        updated: "<strong>%{number_created}場所が</strong>更新されました"
+        location_batch_info: 下の<strong>座標範囲</strong>から生成されたすべての場所に適用される基準値を定義します。
+        location_batch_update_info: 適用する値を入力してください。
+        ranges_info: 上記の<strong>ベースロケーションに</strong>入力された座標フィールドは、以下の範囲で生成された値に置き換えられます。最大%{max_range}場所が作成されます。
+        number_to_create: 場所の数
+        warning: 範囲のサイズによっては、このプロセスが完了するまでに数分かかる場合があります。
+      action:
+        create: 場所の作成
+        update: アップデートの場所
+        preview: プレビューの場所
+        preview_short: プレビュー
+        creating: バッチ処理中...
+
+  name:
+    _frontend:
+      section:
+        use_date: 名前使用の日付
+      action:
+        add: 名前フォームを追加
+        make_authorized: 権限のある名前を作る
+        make_display_name: 表示名を作る
+
+  note:
+    _frontend:
+      preview:
+        raw: 生
+        raw_title: 生のノートの内容
+        parsed: フォーマット済み
+        parsed_title: パブリックアプリケーションでノートをレンダリングする方法
+      messages:
+        select_a_note_type: "<em>ノートタイプを選択してください</em>"
+      action:
+        add: メモを追加
+        add_content_item: コンテンツアイテムを追加する
+        add_note_orderedlist: アイテムを追加
+        add_sub_note: サブノートを追加
+        add_note_index_item: アイテムを追加
+        add_note_chronology_item: イベントを追加
+        add_event: イベントを追加
+        add_note_bibliography_item: アイテムを追加
+        add_note_outline_level_item: アイテムを追加
+        add_note_outline_level_level: レベルを追加
+        note_definedlist_item: アイテムを追加
+        expand: 展開する
+        collapse: 崩壊
+        apply_note_order: スタンダードノートオーダーを適用する
+
+  related_accession:
+    _frontend:
+      action:
+        add: 関連するアクセス権を追加する
+
+  related_agent:
+    _frontend:
+      messages:
+        select_a_type: "<em>関係タイプを選択してください</em>"
+      action:
+        add: 関連するエージェントを追加する
+
+  related_resource:
+    _frontend:
+      action:
+        add: 関連リソースを追加
+
+  revision_statement:
+    _frontend:
+      action:
+        add: リビジョンステートメントの追加
+
+  repository:
+    _frontend:
+      messages:
+        created: 作成されたリポジトリ
+        updated: リポジトリの保存
+        deleted: リポジトリが削除されました
+        selected: リポジトリは現在選択されています
+        selected_short: 選択された
+        changed: リポジトリ<strong>%{repository.repo_code}</strong>がアクティブになりました
+        create_first_repository: 最初のリポジトリを作成するには、上記の「 <strong>システム」</strong>メニューをクリックしてから、「リポジトリの管理」をクリック<strong>します</strong>
+          。
+        no_access_to_repositories: "<p>リポジトリにアクセスすることはできません。 </p><p>システム管理者に連絡してアクセスをリクエストしてください。
+          </p>"
+        continue_with_transfer: 転送を続行しますか？
+        transfer_failed: 次のエラーが原因で転送が完了できませんでした
+        transfer_target: 移行するリポジトリを選択する
+        transfer_warning: "<strong>警告：</strong>このリポジトリを転送すると、 <strong>すべて</strong>のレコードが選択したリポジトリに移動<strong>し</strong>ます。
+          <strong>この操作は元に戻すことはできません</strong>"
+        cannot_delete_nonempty: 削除できません - リポジトリは空ではありません
+      section:
+        all_fields: リポジトリフィールド
+        transfer: 転送リポジトリ
+      action:
+        select: リポジトリを選択
+        create: リポジトリの作成
+        save: リポジトリを保存
+
+  resource:
+    _frontend:
+      messages:
+        created: リソース<strong>%{resource.title}</strong>作成されました
+        updated: リソース<strong>%{resource.title}</strong>更新されました
+        spawned: アクセシビリティ<strong>%{accession.display_string}</strong>から新しいリソースが生成されました<strong>%{accession.display_string}</strong>
+        deleted: リソース<strong>%{resource.title}</strong>削除されました
+        published: リソース<strong>%{resource.title}</strong> 、そのサブレコードとコンポーネントが公開されました
+        merge_description: 以下のリソースを選択してマージする
+        please_select_a_resource_to_merge: リソースを選択してください
+        merged: 結合されたリソース
+        transfer_description: このリソースを転送する...
+        transfer_target: 移行するリポジトリを選択する
+        unsuppressed: リソース<strong>%{resource.title}</strong>抑制されていません
+        suppressed: リソース<strong>%{resource.title}</strong>されません
+        suppressed_info: リソースは抑制され、編集できません
+        delete_conflict: リソースを削除できませんでした： <pre> %{error} </pre>
+      section:
+        basic_information: 基本情報
+        finding_aid: 援助データの検索
+      action:
+        add_child: 子を追加
+        create: リソースの作成
+        save: リソースを保存
+        delete_multiple: リソースを削除する
+
+  preference:
+    _frontend:
+      messages:
+        updated: プリファレンスの更新
+
+  rights_statement:
+    _frontend:
+      action:
+        add: 権利ステートメントの追加
+
+  term:
+    _frontend:
+      messages:
+        preview_pending: 主題のプレビュー
+      action:
+        add: 期間/サブディビジョンを追加
+
+  transfer:
+    ref: 宛先リポジトリ
+
+  subject:
+    _frontend:
+      messages:
+        created: 作成された科目
+        updated: サブジェクトが保存されました
+        deleted: 件名が削除されました
+        merged: 結合された主題
+        merge_description: 次のサブジェクトを選択してマージする
+        please_select_a_subject_to_merge: 件名を選択してください
+      section:
+        basic_information: 基本情報
+        terms: 用語と細分
+        search_embedded: リンクされたレコード
+      action:
+        create: 件名を作成する
+        save: 件名を保存
+        add: 件名を追加
+
+  user:
+    _frontend:
+      messages:
+        access_denied: アクセスが拒否されました。この操作を実行するには、管理ユーザーとしてログインします。
+        created: 作成されたユーザー
+        updated: 保存されたユーザー
+        deleted: ユーザーが削除されました
+        error_update: ユーザーは保存されません
+        error_create: ユーザーは作成されません
+        group_not_required: ユーザーは管理者またはシステムユーザーです。グループの選択は不要です。
+      section:
+        manage_access: ユーザーアクセスを管理する
+        account: アカウント
+        edit_account: アカウントの編集
+        edit_account_submit: アカウントを更新する
+      action:
+        create_account: アカウントを作成する
+        update_account: アカウントを更新する
+        create: ユーザーを作成
+
+  user_defined:
+    _frontend:
+      action:
+        add: ユーザー定義フィールドの追加
+
+  use_date:
+    _frontend:
+      action:
+        add: 使用日付を追加
+
+  rde:
+    date_type: 日付の種類
+    instance_type: インスタンスの種類
+    column_label: カラム
+    sections:
+      basic_information: 基本情報
+      date: 日付
+      extent: エクステント
+      instance: インスタンス
+      notes: ノート
+      file_version: ファイルのバージョン
+    actions:
+      add_row: 行を追加する
+      add_rows: 行を追加
+      submit: 行を保存
+      reset: リセット
+      showhide_prefix: 列：
+      showhide_suffix: 目に見える
+      showhide_none: すべての列がフィルタリングされる
+      fill_toggle: 列を塗りつぶす
+      reorder_toggle: 列の並べ替え
+      validate_rows: 行の検証
+      inline_errors_toggle: インラインエラーを表示する
+      save_template: テンプレートとして保存する
+      select_template: テンプレートを選択
+      manage_templates: テンプレートを削除
+    fill_column:
+      basic: ベーシック
+      sequence: シーケンス
+      fill_value: 塗りつぶし値
+      select_a_column: 列を選択してください
+      apply_basic_fill: 塗りつぶしを適用
+      apply_sequence_fill: 適用順序
+      sequence_count_warning: シーケンス内に項目があるよりも多くの行があります。
+      preview_sequence: シーケンス値のプレビュー
+      sequence_summary: シーケンス内の%{count}個のアイテム：
+      sequence_summary_with_maxsize: "%{limit}行の%{count}シーケンスの値は次のとおりです。"
+      sequence_from_required: "〜が必要です"
+      sequence_to_required: には必須です
+    reorder_columns:
+      apply_order: 列の順序を適用する
+    save_template:
+      save_template: テンプレートを保存
+      template_name: テンプレート名
+      confirm_removal: 削除の確認
+    templates:
+      listing: テンプレート
+      no_templates: テンプレートが定義されていない
+    default_template: デフォルトテンプレート
+    messages:
+      error_prefix: 行
+      success: "<div class='alert alert-success'>作成された子供。ページを更新中... </div>"
+      no_rows: 少なくとも1行の値を入力してください
+      rows_with_errors: エラーのある%{count}行 - その行のエラーを表示するには、行フィールドをクリックしてください
+      rows_no_errors: すべての行が有効です
+      error_summary_header: 行内のエラー：
+      select_prompt: RDEテンプレートを適用する
+    help:
+      keyboard_shortcuts: <div> <strong>キーボードショートカット</strong> </div><div class="row">
+        <small><span class="span3">セルからセルへジャンプ：</span> SHIFT +矢印キー</small> </div><div
+        class="row"> <small><span class="span3">最後の行から新しい行を作成する：</span> SHIFT + Return</small>
+        </div>
+      sticky_columns: "<div> <strong>スティッキー列</strong> </div><div> <small>強調表示された列はスティッキーで、新しい行が追加されるとレプリケートされます。対応する表の見出しをクリックして、「スティッキー」を切り替えます。</small>
+        </div><div> <small>[ <strong>Add Row</strong> ] <strong>を</strong>クリックすると、最後の行から値がコピーされます。行の<strong>+</strong>ボタンは、現在フォーカスされている行の値をコピーします。</small>
+        </div>"
+      fill_column: "<div> <strong>行の塗りつぶし - 基本</strong> </div><div> <small>単一の値を持つ列を埋めるために、
+        <strong>列を塗りつぶし</strong>クリックし、[ <strong>基本</strong>設定]タブの下で、ターゲット<strong>列を</strong>選択し、目的の<strong>フィル値を</strong>入力して、
+        <strong>塗りつぶしを適用</strong> ] <strong>を</strong>クリックします。</small> </div><br/><div>
+        <strong>行の塗りつぶし - シーケンス</strong> </div><div> <small>シーケンスを列に適用するには、[ <strong>列</strong>を<strong>塗りつぶす</strong>
+        ]をクリックし、[ <strong>シーケンス</strong> ]タブで目的の<strong>列</strong>を選択し、[ <strong>塗りつぶし値]</strong>フィールドを入力して目的のシーケンスを生成します。生成されたシーケンスがフォームの行数を満たさない場合、警告が表示されます。</small>
+        </div>"
+      resize_and_reorder_columns: "<div> <strong>列の並べ替え</strong> </div><div> <small>[
+        <strong>列の並べ替え]を</strong>クリックして、 <strong>並べ替え</strong>たい行を選択し、上下の矢印ボタンを使用してリスト内の位置を変更します。新しいオーダーに満足したら、「
+        <strong>オーダーの適用</strong> 」をクリックします</small> </div>"
+      reset: "<div> <strong>フォームをリセット</strong> </div><div> <small>[ <strong>リセット]</strong>をクリックしてフォームを消去し、カラムのスティッキー、表示および順序をデフォルト値に戻します。</small>
+        </div>"
+
+  update_monitor:
+    save_failed: "<strong>変更を保存できませんでした</strong>"
+    stale_record: このレコードは別のユーザーによって更新されました。最新バージョンにアクセスするには、ページを更新してください。
+    other_editors: このレコードは現在、別のユーザーによって編集中です。競合が発生しないように、次のユーザーにご連絡ください： <strong>%{user_ids}</strong>
+    repository_changed: アクティブなリポジトリが変更されたため、このレコードを保存することはできません。このレコードを保存するには、別のウィンドウを開き、アクティブなリポジトリをリセットします。
+
+  job:
+    _frontend:
+      audit_data: 監査データ
+      actions:
+        create: ジョブの作成
+        save: キュージョブ
+        new: 新しいバックグラウンドジョブ
+        cancel: ジョブをキャンセルする
+        add_file: ファイルを追加する
+        follow_log: ログに従う
+      section:
+        basic_information: 基本情報
+        status: 仕事の状況
+        logs: ログ
+        generated_uris: 新しい＆変更されたレコード
+        active_jobs: アクティブなジョブ
+        archived_jobs: アーカイブされたジョブ
+        files: ファイル
+      messages:
+        status_changed_running: ジョブが実行され始めました。ページを更新中...
+        status_changed_completed: ジョブが完了しました。
+        status_changed_failed: ジョブが失敗しました。
+        status_changed_canceled: ジョブがキャンセルされました。
+        no_active_jobs: アクティブなジョブはありません。
+        no_archived_jobs: アーカイブされたジョブはありません。
+        upload_successful: アップロードが成功しました。ジョブページにリダイレクトしています...
+        import_type_missing: インポートタイプを選択してください
+        queue_position_next: このジョブは次のキューにあります。
+        queue_position: このジョブはキュー内の%{position}です。
+        drag_and_drop_hint: ここにファイルをドラッグ＆ドロップする
+        find_and_replace_warning: 検索と置換ジョブは、データベースに大きな変更を加えることができます。先に進む前に、データベースをバックアップし、テストインスタンスでジョブを実行することを<strong>強く</strong>お勧めします。
+          「取り消し」はありません。
+        find_and_replace_instructions: この検索および置換操作の範囲を指定するベースレコードを選択します。ターゲットとなるレコードタイプとそのタイプのプロパティを選択します。操作は、ベースレコードのツリー内のすべてのターゲットレコード、またはターゲットタイプが「リソース」の場合はベースレコード自体で実行されます。
+        report_instructions: 選択ボタンを使用して実行するレポートを<b>選択し</b>ます。
+
+  shortcuts:
+    quick_reference_window: クイックリファレンス：キーボードショートカット
+    actions:
+      this_reference: このショートカットリファレンス
+      close_modal: モーダルウィンドウを閉じる（例：このウィンドウ）
+      toggle_shortcuts: キーボードショートカットを有効/無効にする
+      save_record: 編集中のレコードを保存する
+      close_record: 編集中のレコードを閉じる
+      open_browse: ブラウズメニューを開く
+      open_create: 作成メニューを開く
+
+  instance_container:
+    container: コンテナ
+
+  sub_container:
+    top_container: トップコンテナ
+    top_container_tooltip: "<p>必要なフィールド。記載された材料が収容されている最高レベルの容器。 </p><p>先行タイプまたは参照機能を使用して既存のトップコンテナのリストから選択するか、または作成機能を使用して作成することができます。
+      </p>"
+    type_2: 子供のタイプ
+    type_2_tooltip: "<p>記載された材料が格納されている第2レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
+      </p>"
+    indicator_2: 子指標
+    indicator_2_tooltip: "<p>第2レベルコンテナのIDを示すための英数字式。コンテナのシーケンス内の第2レベルコンテナの位置を示すこともあります。第2レベルコンテナのバルク範囲も許容されます（たとえば、フォルダ1〜16）。
+      </p>"
+    type_3: 孫型
+    type_3_tooltip: "<p>記載された材料が格納されている第3レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
+      </p>"
+    indicator_3: 孫のインジケータ
+    indicator_3_tooltip: "<p>第3レベルのコンテナのIDを示すための英数字式。このコンテナのシーケンス内の第2レベルのコンテナの位置も示すことができます。第3レベルコンテナのバルク範囲も許容されます（例：フォルダ1〜16）。
+      </p>"
+    _singular: サブコンテナ
+    _plural: サブコンテナ
+    _frontend:
+      action:
+        add: コンテナインスタンスの追加
+
+  top_container:
+    container_profile: コンテナプロファイル
+    container_profile_tooltip: "<p>次元を含む特定の種類のコンテナのさまざまな特性の説明。 </p>"
+    indicator: インジケータ
+    indicator_tooltip: "<p>必要なフィールド。最高レベルのコンテナの場所を示す英数字式。コンテナのシーケンス内のコンテナの位置でもあります。
+      </p>"
+    barcode: バーコード
+    barcode_tooltip: "<p>最高レベルのコンテナを一意に識別するバーコードを記録するために使用されます。 </p>"
+    type: コンテナタイプ
+    type_tooltip: "<p>最高レベルのコンテナのタイプ。 <p>この管理された値リストの値は変更することができます。 </p>"
+    ils_holding_id: ILSホールディングID
+    ils_holding_id_tooltip: "<p>ライブラリILS内の関連する保持レコードの識別子</p>"
+    ils_item_id: ILSアイテムID
+    ils_item_id_tooltip: "<p>ライブラリILS（システム項目：マニュアルで編集することはできません）内の関連する項目レコードに対して、APIが提供する識別子</p>"
+    exported_to_ils: ILSにエクスポート
+    not_exported: エクスポートされません
+    restricted: 制限されていますか？
+    parent: 親コンテナ
+    managed_container_2_type: 子コンテナタイプ
+    managed_container_2_type_tooltip: "<p>記載された材料が格納されている第2レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
+      </p>"
+    managed_container_2_indicator: 子コンテナインジケータ
+    managed_container_2_indicator_tooltip: "<p>第2レベルコンテナのIDを示すための英数字式。コンテナのシーケンス内の第2レベルコンテナの位置を示すこともあります。第2レベルコンテナのバルク範囲も許容されます（たとえば、フォルダ1〜16）。
+      </p>"
+    managed_container_3_type: お孫さんコンテナタイプ
+    managed_container_3_type_tooltip: "<p>記載された材料が格納されている第3レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
+      </p>"
+    managed_container_3_indicator: 孫のコンテナインジケータ
+    managed_container_3_indicator_tooltip: "<p>第3レベルのコンテナのIDを示すための英数字式。このコンテナのシーケンス内の第2レベルのコンテナの位置も示すことができます。第3レベルコンテナのバルク範囲も許容されます（例：フォルダ1〜16）。
+      </p>"
+    barcode_length_for_this_repository: このリポジトリのバーコード長：
+    characters: 文字
+    batch_delete:
+      success: 上位コンテナが正常に削除されました
+      error: トップコンテナを削除する際に問題が発生しました
+    _singular: トップコンテナ
+    _plural: トップコンテナ
+    _frontend:
+      section:
+        active_restrictions: アクティブな制限
+        linked_records: リンクされたレコード
+        basic_information: コンテナ情報
+      action:
+        add: トップコンテナを追加
+        create: 一番上のコンテナを作成する
+        save: 一番上のコンテナを保存
+      messages:
+        created: 作成されたトップコンテナ
+        updated: 更新されたトップコンテナ
+        filter_required: フィルタを用意してください
+        max_results_limit_reached: すべての結果がリストされているわけではありません。検索を絞り込んでください。
+        max_results_limit_details: "<strong>%{num_found}</strong>一致する結果の<strong>%{visible}</strong>を<strong>%{visible}</strong>ます"
+        results_summary: 一致する結果： <strong>%{num_found}</strong>
+        bulk_selection_sort_help: 並べ替え順序を設定する列をクリックします。 Shiftキーを押しながら複数の列で並べ替えます。
+        bulk_action_success: 上位のコンテナが正常に更新されました
+        bulk_action_success_info: 変更が検索結果に反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
+        no_active_restrictions: アクティブな制限はありません
+      bulk_operations:
+        title: バルク操作
+        collection_singular: リソース/アクセス権
+        collection_plural: リソース/アクセス
+        collection_resource_singular: リソース
+        collection_resource_plural: リソース
+        collection_accession_singular: 受託
+        collection_accession_plural: 受託
+        series: シリーズ
+        current_location: 現在位置
+        keyword_criteria: キーワード
+        barcodes_criteria: バーコード
+        exported_to_ils_true: はい
+        exported_to_ils_false: いいえ
+        empty: 関連付けられていないコンテナ
+        empty_true: はい
+        empty_false: いいえ
+        search: サーチ
+        update_ils_holding_ids: ILS保有IDを更新する
+        update_ils_holding_ids_help: 選択したすべてのコンテナのILS保留IDの値を入力します。
+        update_container_profiles: コンテナプロファイルの更新
+        update_container_profiles_help: 選択したすべてのコンテナのコンテナプロファイルを選択します。
+        update_locations_singular: 更新場所：単一の場所
+        update_locations_singular_help: 選択したすべてのコンテナの場所を選択します。
+        update_locations_multiple: 更新場所：複数の場所
+        update_locations_multiple_help: 選択した各コンテナの場所を選択します。
+        rapid_barcode_entry: 迅速なバーコード入力
+        rapid_barcode_entry_existing_barcode: 既存のバーコード
+        rapid_barcode_entry_new_barcode: 新しいバーコード
+        batch_delete: トップコンテナの削除
+        batch_delete_help: 選択したすべてのコンテナを削除します。
+        update_n_records: "%{n}レコードを更新する"
+        delete_n_records: "%{n}レコードを削除する"
+        update_locations_current_location: 現在位置
+        update_locations_new_location: 新しい場所
+
+  container_profile:
+    _singular: コンテナプロファイル
+    _plural: コンテナプロファイル
+    _frontend:
+      action:
+        save: コンテナプロファイルを保存する
+        edit: コンテナプロファイルの編集
+        create: コンテナプロファイルの作成
+        space_calculator: スペース計算機
+      messages:
+        created: 作成されたコンテナプロファイル
+        updated: 更新されたコンテナプロファイル
+      section:
+        basic_information: 基本情報
+    name: 名
+    name_tooltip: "<p>必要なフィールド。コンテナプロファイルの名前。ジェネリックまたは特定のものがあります。 </p><p>例： </p><ul><li>ドキュメントボックス</li><li>ページ15
+      </li><li>小さなカードのファイルボックス</li></ul>"
+    url: URL
+    url_tooltip: "<p>コンテナの外部説明のハイパーリンク。 </p>"
+    dimension_units: 寸法単位
+    dimension_units_tooltip: "<p>寸法の測定単位。 </p><p>この管理された値リストの値は変更することができます。 </p>"
+    extent_dimension: エクステントディメンション
+    extent_dimension_tooltip: "<p>コンテナ内のマテリアルのエクステント次元を計算および記述するために使用されるディメンション。これは、エクステント計算機によって測定される次元を決定するのに役立ちます。
+      </p>"
+    extent_dimension_depth: 深さ
+    extent_dimension_depth_tooltip: "<p>コンテナの深さ（前後の寸法）の数値。 </p>"
+    extent_dimension_height: 高さ
+    extent_dimension_height_tooltip: "<p>コンテナの高さ（上端から下端までの寸法）の数値。 </p>"
+    extent_dimension_width: 幅
+    extent_dimension_width_tooltip: "<p>コンテナの幅（左右の寸法）の数値。 </p>"
+    depth: 深さ
+    depth_tooltip: "<p>コンテナの深さ（前後の寸法）の数値。 </p>"
+    height: 高さ
+    height_tooltip: "<p>コンテナの高さ（上端から下端までの寸法）の数値。 </p>"
+    width: 幅
+    width_tooltip: "<p>コンテナの幅（左右の寸法）の数値。 </p>"
+    stacking_limit: スタッキング限界
+    stacking_limit_tooltip: "<p>互いに積み重ねられるこれらの容器の数。制限がない場合は空白のままにします。正の整数でなければなりません。
+      </p>"
+
+  rights_restriction:
+    begin: 制限開始
+    begin_tooltip: "<p>時間制限の場合は、アクセス制限の開始日。 YYYY-MM-DDの形式で単一の日付である必要があります。期限切れになったら容器から切り離されます。メモのテキストを使用して、精度の低い日付または日付スパンを指定します。
+      </p>"
+    end: 制限終了
+    end_tooltip: "<p>時間制限の制限の場合、アクセス制限の終了日。 YYYY-MM-DDの形式で単一の日付である必要があります。期限切れになったら容器から切り離されます。メモのテキストを使用して、精度の低い日付または日付スパンを指定します。
+      </p>"
+    local_access_restriction_type: ローカルアクセス制限タイプ
+    local_access_restriction_type_inline_help: CTRL（Windows）/ Command（Mac）を押しながら複数のオプションを選択するか、オプションを選択解除する
+    local_access_restriction_type_tooltip: "<p>時間制限のない制限については、制限の理由を示します。 </p><p>この管理された値リストの値は変更することができます。
+      </p>"
+    linked_records: リンクされたレコード
+    restriction_note_type: ノートタイプ
+
+  extent_calculator:
+    no_object_message: エクステント計算を実行するオブジェクトを指定してください。
+    report_title: 計算されたエクステントレポート
+    container_profile_header: コンテナプロファイル
+    count_header: カウント
+    extent_header: エクステント
+    no_profile: <span class="text-error">プロフィールなし</span>
+    all_containers_label: すべてのコンテナ
+    timestamp_label: 生成されたレポート
+    extent_record_header: エクステントレコード
+    create_extent: エクステントの作成
+    calculate_extent: エクステントの計算
+    create_extent_record_message: エクステント電卓を編集モードで実行すると、レポートに基づいてエクステント・レコードを作成するオプションがあります。
+    waiting_for_report_message: エクステントの計算...
+    container_summary_type:
+      _singular: コンテナ
+      _plural: コンテナ
+
+  location_profile:
+    _singular: ロケーションプロファイル
+    _plural: ロケーションプロファイル
+    _frontend:
+      action:
+        save: ロケーションプロファイルを保存
+        edit: ロケーションプロファイルを編集する
+        create: ロケーションプロファイルを作成する
+      messages:
+        created: 作成されたロケーションプロファイル
+        updated: ロケーションプロファイルが更新されました
+        fields_required_for_calculator: 寸法単位、奥行き、高さ、幅はすべてスペース計算機で必要です。これらの値のいずれかが見つからない場合は、結果から場所が除外されます。
+      section:
+        basic_information: 基本情報
+    name: 名
+    dimension_units: 寸法単位
+    depth: 深さ
+    height: 高さ
+    width: 幅
+
+  space_calculator:
+    modal_title: スペース計算機
+    modal_loading: 読み込んでいます...
+    message_container_profile_required: スペース計算機では、コンテナプロファイルを設定する必要があります。
+    message_locations_required: スペース計算機では、1つ以上の場所を設定する必要があります。
+    message_select_locations: 次の場所でスペースを確認してください：
+    message_no_locations_with_space: スペースのある場所が見つかりません
+    message_total_spaces: このコンテナタイプで使用可能なスペースの合計数： %{total_spaces}
+    message_total_containers: これらの場所で見つかったこのタイプのコンテナの合計数： %{total_containers}
+    message_loading: 読み込んでいます...
+    count: 使用可能なスペース（コンテナタイプの）
+    reason:
+      location_lacks_a_profile: 場所にプロファイルがありません
+      location_lacks_dimension_data: ロケーションプロファイルにディメンションデータがありません
+      container_is_bigger: コンテナは、少なくとも1つの次元の場所よりも大きい
+      container_at_location_lacks_profile: 現在その場所にあるコンテナの少なくとも1つにプロファイルがありません
+      containers_at_location_dont_fit: 現在その場所にあるコンテナは適合しません
+      location_cannot_fit_container: 場所は現在このタイプのコンテナには適合しません
+    calculate_space: スペースを確認する
+    locations_without_space_details: スペースのない場所の確認
+    by_locations: ロケーション別
+    by_building: 建物別
+    result_filter: 結果をフィルタリングする
+    summary:
+      locations_with_space: 使用可能なスペースがある場所： <strong>%{count}</strong>
+      locations_without_space: 使用可能なスペースがない場所： <strong>%{count}</strong>
+      uncalculatable_locations: 計算できません： <strong>%{count}</strong>
+    view_all_toggle: スペースのない場所を表示する
+
+  date_calculator:
+    toolbar_button: 日付を計算する
+    calculate_button: 日付レコードの計算
+    modal_title: 日付を計算する
+    all_labels: すべての日付を計算する
+    no_object_message: 記録が見当たりませんでした
+    results_title: 計算された日付レコード
+    create_date_button: 日付レコードの登録
+    generic_create_error: 日付が無効で、作成できませんでした
+    create_success: 作成された日付。ページを更新中...
+    no_dates: 適切な日付が見つかりません
+    no_dates_for_label: 適切な%{label}日付が見つかりません
+
+  act:
+    _frontend:
+      action:
+        add: 法を追加する
+
+  assessment:
+    _frontend:
+      form_header: 評価%{display_string}
+      formats: 材料の種類/フォーマット
+      ratings: 評価
+      conservation_issues: 保存問題
+      record_types: レコードタイプ
+      action:
+        create: アセスメントの作成
+        save: 評価を保存する
+        add_rating_note: メモを追加
+        remove_rating_note: ノートを削除
+        create_for_record: アセスメントの作成
+      section:
+        basic_information: 基本情報
+        existing_description: 既存の説明
+        rating_attributes: アセスメント情報
+        rating_attributes_empty: 評価情報が入力されていません
+        rating_attributes_additional: その他の評価
+        format_attributes: マテリアルタイプ/フォーマットのリスト
+        format_attributes_empty: 品目タイプ/書式が入力されていません
+        format_attributes_additional: 追加の品目タイプ/書式
+        conservation_issue_attributes: 保存問題
+        conservation_issue_attributes_empty: 保全の問題はない
+        conservation_issue_attributes_additional: 追加的な保存の問題
+      messages:
+        created: 作成された評価
+        updated: 更新された評価
+        deleted: 評価が削除されました
+        attributes_hint: "%{attribute_type}を追加するには管理者に連絡してください%{attribute_type}"
+        manage_attributes_hint: このリポジトリの追加の%{attribute_type}を管理します
+      assessment_review_required:
+        true_value: はい
+        false_value: いいえ
+      assessment_sensitive_material:
+        true_value: はい
+        false_value: いいえ
+      assessment_inactive:
+        true_value: はい
+        false_value: いいえ
+      assessment_completed:
+        true_value: はい
+        false_value: いいえ
+      browse_reviewers: レビューア
+      linked_records:
+        heading: リンクされたレコード
+        loading: 読み込んでいます...
+        linked_via_assessment_records: アセスメント
+        linked_via_assessment_surveyed_by: 評価 - 調査者
+        linked_via_assessment_reviewer: 評価 - レビュアー
+      ratings_list:
+        rating: 評価
+        score: スコア
+        note: 注意
+
+  assessment_attribute_definitions:
+    _frontend:
+      title: 評価アトリビュート
+      section:
+        formats: 材料の種類/フォーマット
+        ratings: 評価
+        conservation_issues: 保存問題
+      global: グローバル%{type}
+      repository: リポジトリ%{type}
+      action:
+        save: アセスメント属性を保存する
+      messages:
+        updated: 評価アトリビュートが更新されました
+        error: アセスメント属性の更新中にエラーが発生しました
+        conflict: アセスメント属性の更新中にエラーが発生しました。次のラベルは既存のエントリと衝突します： %{conflicts}
+        attribute_in_use: 評価で現在使用されている属性を削除できません
+      database_value: データベース値
+      translation: 翻訳
+
+  custom_report_template:
+    _frontend:
+      new_title: 新しいカスタムレポートテンプレート
+      section:
+        template_information: テンプレート情報
+        basic_information_fields: 基本情報
+        linked_records: リンクされたレコード
+        sort_by: 並び替え
+      action:
+        create: テンプレートを作成する
+        save: テンプレートを保存
+      messages:
+        created: 作成されたカスタムレポートテンプレート
+        updated: カスタムレポートテンプレートが更新されました

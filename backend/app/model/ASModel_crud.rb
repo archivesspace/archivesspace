@@ -495,17 +495,26 @@ module ASModel
 
 
       def to_jsonmodel(obj, opts = {})
-        if obj.is_a? Integer
-          # An ID.  Get the Sequel row for it.
+        is_id_query     = obj.is_a?(Integer)
+        is_string_query = obj.is_a?(String) && opts[:query]
+
+        if is_id_query || is_string_query
           ds = if self.model_scope == :repository
                  self.this_repo
                else
                  self
                end
 
-          obj = ds.eager(get_nested_graph).filter(:id => obj).all[0]
-          raise NotFoundException.new("#{self} not found") unless obj
+          # An ID.  Get the Sequel row for it.
+          if is_id_query
+            obj = ds.eager(get_nested_graph).filter(:id => obj).all[0]
 
+          # If we have a string and query option, attempt to look up by querying string value against column name.
+          elsif is_string_query
+            obj = ds.eager(get_nested_graph).filter(opts[:query].to_sym => obj).all[0]
+          end
+
+          raise NotFoundException.new("#{self} not found") unless obj
           obj.eagerly_load!
         end
 

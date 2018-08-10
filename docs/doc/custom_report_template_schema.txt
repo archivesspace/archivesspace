@@ -1,0 +1,16 @@
+JSON Schema: Custom_report_template
+/repositories/:repo_id/custom_report_templates
+Properties
+
+string	uri
+
+string	name
+
+string (max length: 255)	description
+
+string (max length: 65000)	data
+
+
+
+
+

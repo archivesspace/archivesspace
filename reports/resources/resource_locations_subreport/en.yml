@@ -1,5 +1,3 @@
 en:
   reports:
     resource_locations_subreport:
-      location: Location
-      container: Container

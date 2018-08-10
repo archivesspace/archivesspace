@@ -1244,3 +1244,18 @@
       container_at_location_lacks_profile: Al menos uno de los contenedores actualmente en la ubicación carece de un perfil
       containers_at_location_dont_fit: Los contenedores en la ubicacion no se ajustan
       location_cannot_fit_container: La ubicación no se ajusta a ningún contenedor de este tipo
+
+  custom_report_template:
+    _frontend:
+      new_title: Nueva plantilla de informe personalizado
+      section:
+        template_information: Información de plantilla
+        basic_information_fields: Información básica
+        linked_records: Registros enlazados
+        sort_by: Ordenar informe por
+      action:
+        create: Crear plantilla
+        save: Guardar plantilla
+      messages:
+        created: Plantilla de informe personalizado creado
+        updated: Plantilla de informe personalizado actualizada

@@ -26,6 +26,10 @@ boolean	publish
 
 string	display_string
 
+boolean	oai_is_disabled
+
+string	oai_sets_available
+
 object	agent_representation
 
 

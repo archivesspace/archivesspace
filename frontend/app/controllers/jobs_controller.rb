@@ -9,6 +9,15 @@ class JobsController < ApplicationController
   def index
     @active_jobs = Job.active
     @search_data = Job.archived(selected_page)
+    @files = {}
+    (@active_jobs + @search_data['results']).each do |job|
+      @files[job['uri']] = []
+      files = JSONModel::HTTP::get_json("#{job['uri']}/output_files")
+      files.each do |file|
+        job_id = job['uri'].split('/').last
+        @files[job['uri']].push("/jobs/#{job_id}/file/#{file}")
+      end
+    end
   end
 
   def new
@@ -28,12 +37,15 @@ class JobsController < ApplicationController
     # and clean up the job data to match the schema types.
     job_data = ASUtils.recursive_reject_key(job_data) { |k| k === '_resolved' }
     job_data = cleanup_params_for_schema(job_data, JSONModel(params['job']['job_type'].intern).schema)
+    
+    files = Hash[Array(params['files']).reject(&:blank?).map {|file|
+                                  [file.original_filename, file.tempfile]}]
+
     job_params = ASUtils.recursive_reject_key(params['job']['job_params']) { |k| k === '_resolved' }
 
     job_data["repo_id"] ||= session[:repo_id]
     begin
-      job = Job.new(params['job']['job_type'], job_data, Hash[Array(params['files']).reject(&:blank?).map {|file|
-                                  [file.original_filename, file.tempfile]}],
+      job = Job.new(params['job']['job_type'], job_data, files,
                                   job_params
                    )
 
@@ -103,9 +115,18 @@ class JobsController < ApplicationController
         format = @job.job["format"]
     else
         format = "pdf"
-    end 
+    end
+
+    # this is a hacky solution
+    # there should be a better way for jobs to specify file names
+    if @job['job_type'] == 'report_job'
+      filename_end = "#{@job.job['report_type']}_#{@job['time_submitted'].split[0]}"
+    else
+      filename_end = "file_#{params[:id].to_s}"
+    end
+
     url = "/repositories/#{JSONModel::repository}/jobs/#{params[:job_id]}/output_files/#{params[:id]}"
-    stream_file(url, {:format => format, :filename => "job_#{params[:job_id].to_s}_file_#{params[:id].to_s}" } ) 
+    stream_file(url, {:format => format, :filename => "job_#{params[:job_id].to_s}_#{filename_end}" } ) 
   end
   
   

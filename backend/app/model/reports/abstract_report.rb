@@ -1,79 +1,73 @@
 require_relative 'report_manager'
+require_relative '../../lib/reports/report_utils'
+require 'erb'
 
 class AbstractReport
   include ReportManager::Mixin
+  include JSONModel
 
   attr_accessor :repo_id
   attr_accessor :format
   attr_accessor :params
   attr_accessor :db
-  attr_reader :job
+  attr_accessor :job
+  attr_accessor :info
+  attr_accessor :page_break
+  attr_accessor :expand_csv
 
   def initialize(params, job, db)
-    # sanity check, please.
-    params = params.inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
-    @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ""
-    @format = params[:format] if params.has_key?(:format) && params[:format] != ""
+    @repo_id = params[:repo_id] if params.has_key?(:repo_id) && params[:repo_id] != ''
+    @format = params[:format] if params.has_key?(:format) && params[:format] != ''
+    @expand_csv = !(params.has_key?('csv_show_json') ? params['csv_show_json'] : false)
     @params = params
-    @job = job
     @db = db
+    @job = job
+    @info = {}
+  end
+
+  def page_break
+    true
   end
 
   def title
     I18n.t("reports.#{code}.title", :default => code)
   end
 
-  def new_subreport(subreport_model, params)
-    subreport_model.new(params.merge(:format => 'html'), job, db)
-  end
-
-  def get_binding
-    binding
-  end
-
-  def report
-    self
-  end
-
-  def headers
-    query.columns.map(&:to_s)
-  end
-
-  def template
-    'generic_listing.erb'
+  def orientation
+    'portrait'
   end
 
   def layout
     AppConfig[:report_page_layout]
   end
 
-  def orientation
-    "portrait"
-  end
-
-  def processor
-    {}
-  end
-
   def current_user
     @job.owner
   end
 
-  def query(db = @db)
-    raise "Please specify a query to return your reportable results"
-  end
-
-  def each(db = @db)
-    dataset = query
-    dataset.where(:repo_id => @repo_id) if @repo_id
-
-    dataset.each do |row|
-      yield(Hash[(headers + processor.keys).uniq.map { |h|
-        val = (processor.has_key?(h))?processor[h].call(row):row[h.intern]
-        [h, val]
-      }])
+  def get_content
+    array = []
+    query.each do |result|
+      row = result.to_hash
+      fix_row(row)
+      array.push(row)
     end
+    info[:repository] = repository
+    after_tasks
+    array
   end
+
+  def query
+    db.fetch(query_string)
+  end
+
+  def query_string
+    raise 'Please specify a query string to return your reportable results'
+  end
+
+  def fix_row(row); end
+
+  def after_tasks; end
 
   def code
     self.class.code
@@ -83,9 +77,15 @@ class AbstractReport
     self.name.gsub(/(.)([A-Z])/,'\1_\2').downcase
   end
 
-  # Number of Records
-  def total_count
-    @total_count ||= self.query.count
+  def identifier_field
+    nil
   end
 
+  def repository
+    Repository.get_or_die(repo_id).name
+  end
+
+  def special_translation(key, subreport_code)
+    nil
+  end
 end

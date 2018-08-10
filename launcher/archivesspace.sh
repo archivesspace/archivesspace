@@ -109,6 +109,11 @@ if [ "$ASPACE_JAVA_MAXPERMSIZE" = "" ]; then
     ASPACE_JAVA_MAXPERMSIZE="-XX:MaxPermSize=256m"
 fi
 
+if [ "$ASPACE_GC_OPTS" = "" ]; then
+    ASPACE_GC_OPTS="-XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1"
+fi
+
+
 export JRUBY=
 for dir in "$ASPACE_LAUNCHER_BASE"/gems/gems/jruby-*; do
     JRUBY="$JRUBY:$dir/lib/*"
@@ -116,7 +121,7 @@ done
 
 
 startup_cmd="java "$JAVA_OPTS"  \
-        $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS $ASPACE_JAVA_MAXPERMSIZE -Dfile.encoding=UTF-8 \
+        $ASPACE_GC_OPTS $ASPACE_JAVA_XMX $ASPACE_JAVA_XSS $ASPACE_JAVA_MAXPERMSIZE -Dfile.encoding=UTF-8 \
         -cp \"lib/*:launcher/lib/*$JRUBY\" \
         org.jruby.Main --disable-gems \"launcher/launcher.rb\""
 

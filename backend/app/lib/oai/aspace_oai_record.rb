@@ -22,7 +22,7 @@ class ArchivesSpaceOAIRecord
     raise OAI::FormatException.new unless @jsonmodel_record['jsonmodel_type'] == 'resource'
 
     RequestContext.open(:repo_id => @sequel_record.repo_id) do
-      ead = ASpaceExport.model(:ead).from_resource(@jsonmodel_record, @sequel_record.tree(:all, mode = :sparse), {})
+      ead = ASpaceExport.model(:ead).from_resource(@jsonmodel_record, @sequel_record.tree(:all, mode = :sparse), AppConfig[:oai_ead_options])
 
       record = []
       ASpaceExport::stream(ead).each do |chunk|

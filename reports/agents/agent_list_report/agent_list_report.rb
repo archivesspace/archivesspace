@@ -2,44 +2,49 @@ class AgentListReport < AbstractReport
 
   register_report
 
-  def template
-    'generic_listing.erb'
+  def query_string
+    "(select
+      sort_name,
+      'Person' as name_type,
+      source_id as name_source
+    from name_person
+      left outer join user
+        on user.agent_record_id = name_person.agent_person_id
+    where is_display_name
+      and not source_id is null
+      and user.id is null)
+    
+    union
+        
+    (select
+      sort_name,
+        'Family' as name_type,
+        source_id as name_source
+    from name_family
+    where is_display_name
+      and not source_id is null)
+        
+    union
+
+    (select
+      sort_name,
+        'Corporate' as name_type,
+        source_id as name_source
+    from name_corporate_entity
+    where is_display_name
+      and not source_id is null)"
   end
 
-  def headers
-    ['sortName', 'nameType', 'nameSource']
+  def fix_row(row)
+    ReportUtils.get_enum_values(row, [:name_source])
   end
 
-  def query
-    people = db[:name_person]
-              .filter(:name_person__is_display_name => 1)
-              .filter(Sequel.~(:name_person__source_id => nil))
-              .filter(db[:user]
-                        .filter(:user__agent_record_id => :name_person__agent_person_id)
-                        .select(:agent_record_id) => nil)
-              .select(Sequel.as(:agent_person_id, :agentId),
-                      Sequel.as(:sort_name, :sortName),
-                      Sequel.as('Person', :nameType),
-                      Sequel.as(Sequel.lit('GetEnumValueUF(name_person.source_id)'), :nameSource))
-
-    families = db[:name_family]
-                .filter(:name_family__is_display_name => 1)
-                .filter(Sequel.~(:name_family__source_id => nil))
-                .select(Sequel.as(:agent_family_id, :agentId),
-                        Sequel.as(:sort_name, :sortName),
-                        Sequel.as('Family', :nameType),
-                        Sequel.as(Sequel.lit('GetEnumValueUF(name_family.source_id)'), :nameSource))
-
-    corporate = db[:name_corporate_entity]
-                 .filter(:name_corporate_entity__is_display_name => 1)
-                 .filter(Sequel.~(:name_corporate_entity__source_id => nil))
-                 .select(Sequel.as(:agent_corporate_entity_id, :agentId),
-                         Sequel.as(:sort_name, :sortName),
-                         Sequel.as('Corporate', :nameType),
-                         Sequel.as(Sequel.lit('GetEnumValueUF(name_corporate_entity.source_id)'), :nameSource))
-
-    people
-      .union(families)
-      .union(corporate)
+  def identifier_field
+    :sort_name
   end
+
+  def page_break
+    false
+  end
+  
 end

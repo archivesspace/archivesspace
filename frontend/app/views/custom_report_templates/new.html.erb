@@ -1,0 +1,28 @@
+<%= setup_context :type => :custom_report_template, :title => I18n.t('custom_report_template._frontend.new_title') %>
+
+<%= form_for @custom_report_template, :as => "custom_report_template", :url => {:action => :create}, :html => {:class => 'form-horizontal aspace-record-form public-form'} do |f| %>
+
+	<div class="row">
+		<div class="col-md-3">
+			<%= render_aspace_partial :partial => "sidebar" %>
+		</div>
+		<div class="col-md-9">
+			<%= render_aspace_partial :partial => "toolbar" %>
+			<div class="record-pane">
+				<%= link_to_help :topic => "custom_report_template" %>
+				<h2><%= I18n.t("actions.new_prefix") %> <%= I18n.t("custom_report_template._singular") %></h2>
+				<%= form_context :custom_report_template, @custom_report_template do |form| %>
+					<%= render_aspace_partial :partial => "custom_report_templates/form", :locals => {:form => form} %>
+
+					<div class="form-actions">
+						<div class="btn-group">
+							<button id="create_template" type="submit" class="btn btn-primary"><%= I18n.t("custom_report_template._frontend.action.save") %></button>
+							<button type="submit" id="createPlusOne" name="plus_one" class="btn btn-primary createPlusOneBtn"><%= I18n.t("actions.save_plus_one") %></button>
+						</div>
+						<%= link_to I18n.t("actions.cancel"), {:controller => :welcome}, :class => "btn btn-cancel btn-default" %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+<% end %>

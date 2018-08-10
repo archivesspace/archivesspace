@@ -1,5 +1,6 @@
+<% pager_id ||= 'paging' %>
 <% if pager && pager.pages.last > 1 %>
-<div id="paging">
+<div id="<%= pager_id %>">
   
   <ul class="pagination">
     <% if pager.need_prev %>

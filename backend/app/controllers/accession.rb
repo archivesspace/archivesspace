@@ -48,6 +48,22 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/repositories/:repo_id/accessions/:id/top_containers')
+    .description("Get Top Containers linked to an Accession")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["resolve", :resolve])
+    .permissions([:view_repository])
+    .returns([200, "a list of linked top containers"],
+             [404, "Not found"]) \
+  do
+    accession = Accession.to_jsonmodel(params[:id])
+    json_response(accession[:instances].map {|instance|
+                  instance['sub_container']['top_container']
+                  })
+  end
+
+
   Endpoint.delete('/repositories/:repo_id/accessions/:id')
     .description("Delete an Accession")
     .params(["id", :id],

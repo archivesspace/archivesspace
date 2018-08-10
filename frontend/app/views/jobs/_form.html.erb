@@ -85,11 +85,17 @@
                 <div id="reportListing_<%= report["code"] %>" class="accordion-body collapse">
                   <div class="accordion-inner">
                     <p><%= I18n.t("reports.#{report["code"]}.description", :default => report["code"]) %></p>
-                    <hr/>
+
                     <input id='report_type_' name='report_job[report_type]' type='hidden' value='<%= report['code'] %>' />
                     <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
 
-                    <% if report_params.length > 0 %>
+                    <% if report['code'] == 'custom_report' && false %>
+                      <hr/>
+                      <div class="form-group">
+                        <%= render_aspace_partial :partial => "jobs/report_partials/customfields", :locals => {:object => @job, :form => form, :custom_data => report_params[0][3]} %>
+                      </div>
+                    <% elsif report_params.length > 0 %>
+                      <hr/>
                        <% report_params.each do | param | %>
                         <div class="form-group">
                           <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
@@ -102,6 +108,8 @@
                                              )) %>
                             <% elsif param[1] === "String" %>
                               <%= text_field_tag "job[job_params][#{param[0]}]", nil  , :class => 'form-control' %>
+                            <% elsif param[1] === "Boolean" %>
+                              <%= check_box_tag "job[job_params][#{param[0]}]" %>
                             <% else %>
                               <%# Custom types will be rendered using a partial with the corresponding name %>
                               <%= render_aspace_partial :partial => "jobs/report_partials/#{param[1].downcase}", :locals => {:object => @job, :form => form, :name => param[0]} %>
@@ -117,7 +125,14 @@
                         <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
                         <%= select_tag("report_job[format]", options_for_select(formats.map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]}, nil), :class => 'form-control') %>
                       </div>
+                      <div class="csv_options" hidden="true">
+                        <label class="col-sm-2 control-label">Linked Records in JSON</label>
+                        <div class="col-sm-1 checkbox">
+                          <%= check_box_tag("job[job_params][csv_show_json]") %>
+                        </div>
+                      </div>
                     </div>
+                    <hr/>
 
                   </div>
                 </div>
