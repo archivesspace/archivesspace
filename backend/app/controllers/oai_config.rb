@@ -19,6 +19,25 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:create_repository])
     .returns([200, :updated]) \
   do
+    update_oai_config(params)
+  end
+
+  # update oai_config record 
+  # same as above, but update the single record in table 
+  # no matter what ID is passed in 
+  Endpoint.post('/oai_config/:id')
+    .description("Update the OAI config record")
+    .params(["oai_config",
+             JSONModel(:oai_config),
+             "The updated record",
+             :body => true])
+    .permissions([:create_repository])
+    .returns([200, :updated]) \
+  do
+    update_oai_config(params)
+  end
+
+  def update_oai_config(params)
     oc = OAIConfig.first
     json = params[:oai_config]
 
