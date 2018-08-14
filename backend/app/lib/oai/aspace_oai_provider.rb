@@ -13,10 +13,13 @@ Dir.glob(File.join(File.dirname(__FILE__), "oai_gem_patches", "*.rb")).sort.each
 end
 
 class ArchivesSpaceOaiProvider < OAI::Provider::Base
-  repository_name AppConfig[:oai_repository_name]
+  # ANW-674: retrieve OAI config vars from database instead of config file
+  oai_config = OAIConfig.all.first
+
+  repository_name oai_config[:oai_repository_name]
   repository_url AppConfig[:oai_proxy_url]
-  record_prefix AppConfig[:oai_record_prefix]
-  admin_email AppConfig[:oai_admin_email]
+  record_prefix oai_config[:oai_record_prefix]
+  admin_email oai_config[:oai_admin_email]
   sample_id '/repositories/2/resources/1'
 
   deletion_support OAI::Const::Delete::PERSISTENT

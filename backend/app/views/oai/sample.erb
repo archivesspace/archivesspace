@@ -1,7 +1,9 @@
+<% oai_config = OAIConfig.all.first %>
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= I18n.t('oai.sample_page.title', :oai_repository_name => AppConfig[:oai_repository_name]) %></title>
+  <title><%= I18n.t('oai.sample_page.title', :oai_repository_name => oai_config[:oai_repository_name]) %></title>
   <style>
     body {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;}
     form {margin-bottom: 20px;}
@@ -12,7 +14,7 @@
   </style>
 </head>
 <body>
-  <h1><%= I18n.t('oai.sample_page.title', :oai_repository_name => AppConfig[:oai_repository_name]) %></h1>
+  <h1><%= I18n.t('oai.sample_page.title', :oai_repository_name => oai_config[:oai_repository_name]) %></h1>
 
   <%= I18n.t('oai.sample_page.introduction') %>
 
@@ -85,7 +87,7 @@
       <input type="hidden" name="verb" value="GetRecord"/>
       <div>
         <label for="identifier">identifier</label>
-        <input id="identifier" name="identifier" type="text" value="<%= AppConfig[:oai_record_prefix] %>//"/>
+        <input id="identifier" name="identifier" type="text" value="<%= oai_config[:oai_record_prefix] %>//"/>
       </div>
       <div>
         <label for="metadataPrefix">metadataPrefix</label>
