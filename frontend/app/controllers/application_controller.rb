@@ -133,9 +133,6 @@ class ApplicationController < ActionController::Base
       else
         id = obj.save
       end
-      puts "++++++++++++++++++++++++++++"
-      puts "IN HANDLE CRUD"
-      puts "opts class: " + opts[:on_valid].class.to_s
 
       opts[:on_valid].call(id)
     rescue ConflictException
