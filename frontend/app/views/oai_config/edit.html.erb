@@ -21,8 +21,28 @@
         
           <div class="form-actions">
             <button type="submit" class="btn btn-primary"><%= I18n.t("oai_config._frontend.action.create") %></button>
-            <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>
+
+          <hr />
+          <h2><%= I18n.t("oai_config.title_repo_section") %></h2>
+          <table class="table table-striped table-bordered table-condensed">
+            <thead>
+              <th>Name</th>
+              <th>&nbsp;</th>
+            </thead>
+            <tbody>
+              <% @repositories.each do |r| %>
+                <tr>
+                  <td><%= r[:name] %>
+                  <td class='table-record-actions'>
+                    <div class='btn-group'>
+                      <a class="btn btn-xs btn-primary" href="<%= r[:uri] + "/edit#oai_settings" %>" ><%= I18n.t('actions.edit_oai') %></a>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

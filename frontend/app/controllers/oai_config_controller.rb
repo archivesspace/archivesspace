@@ -4,6 +4,7 @@ class OaiConfigController < ApplicationController
 
   def edit
     @oai_config = JSONModel(:oai_config).all.first
+    @repositories = JSONModel(:repository).all
   end
 
   def update
