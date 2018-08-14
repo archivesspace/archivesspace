@@ -1940,6 +1940,7 @@ en:
     custom_report_template_name_not_unique: The custom report template's name must be unique.
     custom_report_must_include_field_or_subreport: The custom report template must include at least one field or subreport.
     missing_filter_values: Selected to filter results by field but no value(s) given 
+    must_be_a_valid_email_address: Email address field must contain a valid address.
 
   job:
     _singular: Background Job
