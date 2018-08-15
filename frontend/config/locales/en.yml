@@ -101,7 +101,6 @@ en:
     rapid_data_entry: Rapid Data Entry
     enable_reorder: Enable Reorder Mode
     reorder_active: Disable Reorder Mode
-    leave_repo_form: This will leave current form without saving changes.
 
   database_warning:
     message: "<p><strong>Database Warning:</strong> You are currently using the embedded database (Apache Derby). The embedded database is for testing/demo purposes only. You should use MySQL for any data intended for production, including data in a test instance that you intend to move over to a production instance.</p>"
@@ -1443,6 +1442,7 @@ en:
     oai_record_prefix: OAI Record Prefix
     oai_admin_email: OAI Admin Email
     oai_repository_name: OAI Repository Name
+    oai_leave_repo_form: These options affect OAI-PMH for this repository only. Click below to view/edit global OAI options. This will leave current form without saving changes.
     _frontend:
       action:
         create: Update OAI-PMH Settings
