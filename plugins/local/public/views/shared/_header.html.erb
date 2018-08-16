@@ -1,0 +1,15 @@
+<section  id="header">
+  <div class="row">
+    <div class="col-sm-9 h1"><% unless request.original_fullpath == '/' %>
+        <a title="<%=t('brand.title_link_text') %>" href="<%= AppConfig[:public_proxy_url] %>"><% end %> <%= t('brand.title') %><% unless request.original_fullpath == '/' %></a><% end %> </div>
+    <div class="col-sm-3 hidden-xs"><img class="logo" src="<%= asset_path(AppConfig[:pui_branding_img]) %>" alt="University of Iowa Special Collections" usemap="#logomap" /></div>
+
+
+     <map name="logomap">
+        <area shape="rect" coords="0,0,215,65" href="//lib.uiowa.edu" alt="University of Iowa Libraries Home">
+        <area shape="rect" coords="0,65,215,85" href="//lib.uiowa.edu/sc" alt="Special Collections Home">
+    </map>
+
+
+  </div>
+</section>
