@@ -1,0 +1,32 @@
+<section id="navigation">
+  <nav class="navbar navbar-default" aria-label="top-level navigation">
+    <div class="navbar-header top-bar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu"
+              aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsemenu">
+        <ul class="nav nav navbar-nav">
+                    <li><a href="/repositories">Repositories</a></li>
+<li><a href="/repositories/resources">Collections</a></li>
+<li><a href="/objects?limit=digital_object">Digital Materials</a></li>
+<li><a href="/subjects">Subjects</a></li>
+<li><a href="/agents">Names</a></li>
+<li><a href="//lib.uiowa.edu/sc" target="_blank">Special Collections</a></li>
+      
+          <% unless AppConfig[:pui_hide][:search_tab] %>
+            <li>
+              <%= link_to({:controller => :search, :action => :search, :reset => 'true'}, {:title => I18n.t('search_tab', :target => t('archive._plural'))}) do %>
+                <span class="fa fa-search" aria-hidden="true"></span>
+                <span class="sr-only"><%= I18n.t('search_tab', :target => t('archive._plural')) %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>

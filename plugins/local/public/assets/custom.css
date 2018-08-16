@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+
+h1 { color: #000; }
+
+body {background-color: #f5f5f5; }
+
+.navbar {border-radius: none; }
+
+.tabbing.navbar-default {
+	background-color: #f5f5f5;
+	border: none;
+	border-bottom: solid 2px;
+	border-bottom-color: #000;
+}
+
+.panel-collapse .note_panel .collapse .in {
+	background-color: #f9f9f9;
+}
+
+.upper-record-details {
+	background-color: #f9f9f9;
+}
+
+#header .logo { height: 85px; }
+
+#header .row {
+      border-bottom: 0.25rem solid #ffcd00;
+      background-color: #000;
+}
+
+#header a {color: #ffcd00; }
+
+.h1 {color: #ffcd00; }
+
+
