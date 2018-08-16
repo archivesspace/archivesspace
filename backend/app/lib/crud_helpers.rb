@@ -117,6 +117,7 @@ module CrudHelpers
         :first_page => dataset.page_range.first,
         :last_page => dataset.page_range.last,
         :this_page => dataset.current_page,
+        :total => dataset.pagination_record_count,
         :results => results
       }
     else

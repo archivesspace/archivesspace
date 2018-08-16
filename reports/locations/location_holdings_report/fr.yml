@@ -2,6 +2,7 @@ fr:
   reports:
     location_holdings_report:
       title: Stockages
+      identifier_prefix: Localisation
       description: Rapport sur les conditionnements entreposés dans une ou plusieurs localisations
       repository_report_type: Service
       building_report_type: Bâtiment

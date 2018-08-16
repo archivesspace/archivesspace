@@ -1,0 +1,32 @@
+<%= render_aspace_partial :partial => "shared/flash_messages" %>
+
+<% if @search_data['results'].length %>
+	<table class="table table-striped table-bordered table-condensed">
+		<thead>
+			<tr>
+				<th><%= I18n.t("custom_report_template._singular") %></th>
+				<th><%= I18n.t("custom_report_template.description") %></th>
+				<th width="70px"><!-- actions --></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @search_data['results'].each do |template| %>
+				<tr>
+					<td><%= template.name %></td>
+					<td><%= template.description %></td>
+					<td>
+						<div class="btn-group" style="float: right">
+							<%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => template["uri"]}, :class => "btn btn-xs btn-primary" %>
+							<%= link_to I18n.t("actions.delete"), {:controller => :custom_report_templates, :action => :delete, :id => template.id}, :"data-confirmation" => true, :"data-title" => I18n.t("actions.delete_confirm_title", :title => template.name), :"data-message" => I18n.t("actions.delete_confirm_message"), :"data-confirm-btn-label" => "#{I18n.t("actions.delete")}", :"data-confirm-btn-class" => "btn-danger", :class => "btn btn-xs btn-danger", :"data-authenticity_token" => form_authenticity_token %>
+						</div>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<%= render_aspace_partial :partial => "shared/pagination" %>
+<% else %>
+	<p class="alert alert-info">
+		No Custom Report Templates.
+	</p>
+<% end %>

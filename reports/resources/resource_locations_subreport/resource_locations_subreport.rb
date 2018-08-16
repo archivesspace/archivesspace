@@ -1,29 +1,45 @@
-class ResourceLocationsSubreport < AbstractReport
+class ResourceLocationsSubreport < AbstractSubreport
 
-  def template
-    'resource_locations_subreport.erb'
+  def initialize(parent_report, resource_id)
+    super(parent_report)
+    @resource_id = resource_id
   end
 
-  def query
-    resource_id = @params.fetch(:resourceId)
-    all_children_ids = db[:archival_object]
-                        .filter(:root_record_id => resource_id)
-                        .select(:id)
-    db[:instance]
-      .inner_join(:sub_container, :instance_id => :instance__id)
-      .inner_join(:top_container_link_rlshp, :sub_container_id => :sub_container__id)
-      .inner_join(:top_container, :id => :top_container_link_rlshp__top_container_id)
-      .left_outer_join(:top_container_profile_rlshp, :top_container_id => :top_container__id)
-      .left_outer_join(:container_profile, :id => :top_container_profile_rlshp__container_profile_id)
-      .inner_join(:top_container_housed_at_rlshp, :top_container_id => :top_container__id)
-      .inner_join(:location, :id => :top_container_housed_at_rlshp__location_id)
-      .group_by(:location__id)
-      .filter {
-        Sequel.|({:instance__resource_id => resource_id},
-                 :instance__archival_object_id => all_children_ids)
-      }
-      .select(Sequel.as(:location__title, :location),
-              Sequel.as(Sequel.lit("GROUP_CONCAT(CONCAT(COALESCE(container_profile.name, ''), ' ', top_container.indicator) SEPARATOR ', ')"), :container))
+  def query_string
+    "select distinct
+	    location.title as location,
+      GROUP_CONCAT(distinct if(container_type is null, top_container.indicator, 
+        CONCAT(container_type, ' ', top_container.indicator))
+        SEPARATOR ', ') as containers
+
+    from
+    
+	    (select instance.id as instance_id from instance
+
+      left outer join archival_object
+        on instance.archival_object_id = archival_object.id
+
+      where instance.resource_id = #{db.literal(@resource_id)}
+        or archival_object.root_record_id
+        = #{db.literal(@resource_id)}) as instances
+    
+      natural join sub_container
+    
+      join top_container_link_rlshp
+        on sub_container.id = top_container_link_rlshp.sub_container_id
+    
+      join top_container
+        on top_container_link_rlshp.top_container_id = top_container.id
+    
+      join top_container_housed_at_rlshp
+        on top_container.id = top_container_housed_at_rlshp.top_container_id
+    
+      join location on top_container_housed_at_rlshp.location_id = location.id
+    
+      natural left outer join
+      (select id as type_id, value as container_type from enumeration_value) as enum
+
+    group by location.id"
   end
 
 end

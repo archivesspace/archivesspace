@@ -1,18 +1,23 @@
-class AccessionClassificationsSubreport < AbstractReport
+class AccessionClassificationsSubreport < AbstractSubreport
 
-  def template
-    "accession_classifications_subreport.erb"
+  def initialize(parent_report, accession_id)
+    super(parent_report)
+    @accession_id = accession_id
   end
 
-  def query
-    db[:classification_rlshp]
-      .left_outer_join(:classification, :classification__id => :classification_rlshp__classification_id)
-      .left_outer_join(:classification_term, :classification_term__id => :classification_rlshp__classification_term_id)
-      .filter(:accession_id => @params.fetch(:accessionId))
-      .select(Sequel.as(:classification__identifier, :classificationIdentifier),
-              Sequel.as(:classification__title, :classificationTitle),
-              Sequel.as(:classification_term__identifier, :classificationTermIdentifier),
-              Sequel.as(:classification_term__title, :classificationTermTitle))
+  def query_string
+    "select
+      classification.identifier,
+      classification.title,
+      classification_term.identifier as term_identifier,
+      classification_term.title as term_title
+    from
+      classification_rlshp
+        left outer join classification on classification.id
+          = classification_rlshp.classification_id
+        left outer join classification_term on classification_term.id
+          = classification_rlshp.classification_term_id
+    where accession_id = #{db.literal(@accession_id)}"
   end
 
 end

@@ -1,0 +1,3 @@
+<% templates = JSONModel::HTTP.get_json(JSONModel(:custom_report_template).uri_for, :all_ids => true).collect {|id| [JSONModel(:custom_report_template).find(id).name, id]} %>
+
+<%= select_tag "job[job_params][template]", options_for_select(templates), {:id => "custom_report_template_selection", :class => "form-control"} %>

@@ -48,8 +48,6 @@ ANEAD
     get_tempfile_path(src)
   }
 
-
-
   it "should add to a sub_container when it finds a parent attribute on a container" do
     converter = EADConverter.new(test_doc_1)
     converter.run
@@ -739,6 +737,58 @@ ANEAD
     end
   end
 
+  describe "@audience is mapped on <ead> as well as <archdesc>" do
+    def test_doc
+      src = <<ANEAD
+<ead audience="internal">
+  <archdesc level="collection">
+  <did>
+       <descgrp>
+          <processinfo/>
+      </descgrp>
+      <unittitle>Resource--Title-AT</unittitle>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+      <unitid>Resource.ID.AT</unitid>
+      <physdesc>
+       (folders 14–15 of 15 folders)
+        <extent>5.0 Linear feet</extent>
+        <extent>Resource-ContainerSummary-AT</extent>
+      </physdesc>
+    </did>
+    <dsc>
+    <c id="1" level="file" audience="internal">
+      <unittitle>oh well</unittitle>
+      <unitdate normal="1907/1911" era="ce" calendar="gregorian" type="inclusive">1907-1911</unitdate>
+    </c>
+    <c id="2" level="file" audience="external">
+      <unittitle>whatever</unittitle>
+      <container id="cid3" type="Box" label="Text">FOO</container>
+    </c>
+    </dsc>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    end
+
+    before do
+      parsed = convert(test_doc)
+      @resource = parsed.find{|r| r['jsonmodel_type'] == 'resource'}
+      @components = parsed.select{|r| r['jsonmodel_type'] == 'archival_object'}
+    end
+
+    it "uses archdesc/@audience to set resource publish property" do
+      @resource['publish'].should be false
+    end
+
+    it "uses c/@audience to set component publish property" do
+      @components[0]['publish'].should be false
+      @components[1]['publish'].should be true
+    end
+  end
+
+
   describe "Non redundant mapping" do
     def test_doc
       src = <<ANEAD
@@ -1302,5 +1352,7 @@ ANEAD
     end
 
   end
+
+
 
 end

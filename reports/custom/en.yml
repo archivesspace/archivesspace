@@ -1,0 +1,5 @@
+en:
+  reports:
+    custom_report:
+      title: Custom Report
+      description: Create a custom report by choosing record type, fields, and linked record types.

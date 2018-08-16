@@ -1,4 +1,5 @@
 require 'capybara/rails'
+require 'launchy'
 
 # Headless chrome
 Capybara.register_driver(:selenium_chrome) do |app|

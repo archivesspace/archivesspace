@@ -18,7 +18,6 @@ namespace :doc do
     require_relative '../common/log.rb'
     require_relative '../backend/app/lib/streaming_import.rb'
     require_relative '../backend/app/lib/component_transfer.rb'
-    require_relative '../backend/app/lib/reports/report_helper.rb'
 
 
     class ArchivesSpaceService < Sinatra::Base

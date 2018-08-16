@@ -2,43 +2,78 @@ class AccessionUnprocessedReport < AbstractReport
 
   register_report
 
-  def template
-    'accession_unprocessed_report.erb'
-  end
-
   def query
-    db[:accession].
-      select(Sequel.as(:id, :accessionId),
-             Sequel.as(:repo_id, :repo_id),
-             Sequel.as(:identifier, :accessionNumber),
-             Sequel.as(:title, :title),
-             Sequel.as(:accession_date, :accessionDate),
-             Sequel.as(Sequel.lit('GetAccessionContainerSummary(id)'), :containerSummary),
-             Sequel.as(Sequel.lit('GetAccessionProcessed(id)'), :accessionProcessed),
-             Sequel.as(Sequel.lit('GetAccessionProcessedDate(id)'), :accessionProcessedDate),
-             Sequel.as(Sequel.lit('GetAccessionCataloged(id)'), :cataloged),
-             Sequel.as(Sequel.lit('GetAccessionExtent(id)'), :extentNumber),
-             Sequel.as(Sequel.lit('GetAccessionExtentType(id)'), :extentType)).
-       filter(:repo_id => @repo_id)
+    results = db.fetch(query_string)
+    info[:total_count] = db[:accession].count
+    info[:total_unprocessed] = results.count
+    info[:scoped_by_date_range] = "#{results.min(:accession_date)} & #{results.max(:accession_date)}"
+    info[:total_extent] = results.sum(:extent_number)
+    ReportUtils.fix_decimal_format(info, [:total_extent])
+    results
   end
 
-  # Unprocessed Accessions
-  def total_unprocessed
-    @total_processed ||= db.from(self.query).where(Sequel.~(:accessionProcessed => 1)).count
+  def query_string
+    "select
+      id,
+      identifier as accession_number,
+      title as record_title,
+      accession_date,
+      container_summary,
+      ifnull(cataloged, false) as cataloged,
+      extent_number,
+      extent_type
+
+    from accession
+  
+      natural left outer join
+      
+      (select
+        accession_id as id,
+        true as processed
+      from event_link_rlshp, event, enumeration_value
+      where event_link_rlshp.event_id = event.id
+        and event.event_type_id = enumeration_value.id
+        and enumeration_value.value = 'processed'
+      group by accession_id) as processed
+      
+      natural left outer join
+      
+      (select
+          accession_id as id,
+          sum(number) as extent_number,
+          GROUP_CONCAT(distinct extent_type_id SEPARATOR ', ') as extent_type,
+          GROUP_CONCAT(distinct extent.container_summary SEPARATOR ', ')
+            as container_summary
+      from extent
+      group by accession_id) as extent_cnt
+        
+      natural left outer join
+      
+      (select
+        event_link_rlshp.accession_id as id,
+        count(*) != 0 as cataloged
+      from event_link_rlshp, event, enumeration_value
+        where event_link_rlshp.event_id = event.id
+        and event.event_type_id = enumeration_value.id
+        and enumeration_value.value = 'cataloged'
+      group by event_link_rlshp.accession_id) as cataloged
+      
+    where repo_id = #{db.literal(@repo_id)}
+      and processed is null"
   end
 
-  # Accessioned Between - From Date
-  def from_date
-    @from_date ||= self.query.min(:accession_date)
+  def fix_row(row)
+    ReportUtils.get_enum_values(row, [:extent_type])
+    ReportUtils.fix_extent_format(row)
+    ReportUtils.fix_identifier_format(row, :accession_number)
+    ReportUtils.fix_boolean_fields(row, [:cataloged])
+    row[:linked_resources] = AccessionResourcesSubreport.new(
+      self, row[:id]).get_content
+    row.delete(:id)
   end
 
-  # Accessioned Between - To Date
-  def to_date
-    @to_date ||= self.query.max(:accession_date)
+  def identifier_field
+    :accession_number
   end
 
-  #Total Extent of Unprocessed Accessions
-  def total_extent_of_unprocessed
-    @total_extent_of_processed ||= db.from(self.query).where(Sequel.~(:accessionProcessed => 1)).sum(:extentNumber)
-  end
 end

@@ -1,21 +1,48 @@
-class LocationAccessionsSubreport < AbstractReport
+class LocationAccessionsSubreport < AbstractSubreport
 
-  def template
-    "location_accessions_subreport.erb"
+  register_subreport('accession', ['location'])
+
+  def initialize(parent_report, location_id, show_containers=true)
+    super(parent_report)
+    @location_id = location_id
+    @show_containers = show_containers
   end
 
-  def query
-    db[:location]
-      .inner_join(:top_container_housed_at_rlshp, :top_container_housed_at_rlshp__location_id => :location__id)
-      .inner_join(:top_container, :top_container__id => :top_container_housed_at_rlshp__top_container_id)
-      .inner_join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :top_container__id)
-      .inner_join(:sub_container, :sub_container__id => :top_container_link_rlshp__sub_container_id)
-      .inner_join(:instance, :instance__id => :sub_container__instance_id)
-      .inner_join(:accession, :accession__id => :instance__accession_id)
-      .filter(:location__id => @params.fetch(:location_id))
-      .select(Sequel.as(:accession__id, :id),
-              Sequel.as(:accession__identifier, :identifier),
-              Sequel.as(:accession__title, :title))
+  def query_string
+    "select
+      accession.id,
+      accession.identifier as identifier,
+        accession.title as title
+    from 
+      (select
+        top_container_id as id
+      from top_container_housed_at_rlshp
+      where location_id = #{db.literal(@location_id)}) as top_ids
+
+      join top_container on top_container.id = top_ids.id
+
+      join top_container_link_rlshp
+        on top_container_link_rlshp.top_container_id = top_container.id
+
+      join sub_container
+        on sub_container.id = top_container_link_rlshp.sub_container_id
+
+      join instance on instance.id = sub_container.instance_id
+        join accession on accession.id = instance.accession_id
+
+    where accession.repo_id = #{db.literal(@repo_id)}"
   end
 
+  def fix_row(row)
+    ReportUtils.fix_identifier_format(row)
+    if @show_containers
+      row[:containers] = LocationAccessionsContainersSubreport.new(
+        self, @location_id, row[:id]).get_content
+    end
+    row.delete(:id)
+  end
+
+  def self.field_name
+    'accession'
+  end
 end

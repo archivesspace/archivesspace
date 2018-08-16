@@ -18,6 +18,8 @@ These settings are:
 *   ASPACE_JAVA_XMX : Maximum heap space ( maps to Java’s Xmx, default “Xmx1024m” )
 *   ASPACE_JAVA_XSS : Thread stack size ( maps to Xss, default “Xss2m” )
 *   ASPACE_JAVA_MAXPERMSIZE : Maximum Permanent generation space ( map to “XX:MaxPermSize”, default “XX:MaxPermSize=256m” )
+*   ASPACE_GC_OPTS : Options used by the Java garbage collector ( default : "-XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1" )
+
 
 To modify these settings, Linux users can either export an enironment variable ( e.g. $ export ASPACE_JAVA_XMX=”Xmx2048m” ) or edit the archivesspace.sh startup script and modify the defaults.
 

@@ -1,19 +1,31 @@
 class DigitalObjectFileVersionsReport < AbstractReport
-
   register_report
 
-  def template
-    'digital_object_file_versions_report.erb'
-  end
-
-
   def query
-    db[:digital_object].
-      select(Sequel.as(:id, :digitalObjectId),
-             Sequel.as(:repo_id, :repo_id),
-             Sequel.as(:digital_object_id, :identifier),
-             Sequel.as(:title, :title)).
-       filter(:repo_id => @repo_id)
+    results = db.fetch(query_string)
+    info['total_count'] = results.count
+    results
   end
 
+  def query_string
+    "select 
+      id,
+      digital_object_id as identifier,
+      title as record_title
+    from digital_object where repo_id = #{db.literal(@repo_id)}"
+  end
+
+  def fix_row(row)
+    row[:file_versions] = DigitalObjectFileVersionsListSubreport
+                          .new(self, row[:id]).get_content
+    row.delete(:id)
+  end
+
+  def page_break
+    false
+  end
+
+  def identifier_field
+    :identifier
+  end
 end

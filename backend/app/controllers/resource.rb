@@ -63,7 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/resources/:id/ordered_records')
-    .description("Get the list of URIs of this resource and all archival objects contained within." +
+    .description("Get the list of URIs of this published resource and all published archival objects contained within." +
                  "Ordered by tree order (i.e. if you fully expanded the record tree and read from top to bottom)")
     .params(["id", :id],
             ["repo_id", :repo_id])
@@ -73,6 +73,38 @@ class ArchivesSpaceService < Sinatra::Base
     resource = Resource.get_or_die(params[:id])
 
     json_response(JSONModel(:resource_ordered_records).from_hash({:uris => resource.ordered_records}, raise_errors = true, trusted = true))
+  end
+
+
+  Endpoint.get('/repositories/:repo_id/resources/:id/top_containers')
+    .description("Get Top Containers linked to a published resource and published archival ojbects contained within.")
+    .params(["id", :id],
+            ["repo_id", :repo_id],
+            ["resolve", :resolve])
+    .permissions([:view_repository])
+    .returns([200, "a list of linked top containers"],
+             [404, "Not found"]) \
+  do
+    resource = Resource.get_or_die(params[:id])
+    top_container = []
+    records = resource.ordered_records.map {|record| record = record['ref']}
+
+    records.each do |record|
+      ref = JSONModel.parse_reference(record)
+      case ref[:type]
+      when "resource"
+        obj = Resource.to_jsonmodel(ref[:id])
+      else
+        obj = ArchivalObject.to_jsonmodel(ref[:id])
+      end
+      top_container.push(obj[:instances].map {|instance|
+                    instance['sub_container']['top_container']
+                    })
+
+    end
+
+    json_response(top_container.uniq.flatten)
+
   end
 
 

@@ -1,14 +1,11 @@
-require 'csv'
-
 class AssessmentRatingReport < AbstractReport
 
   # Gives us each_slice, used below
   include Enumerable
 
-  attr_reader :values_of_interest
-
   register_report({
-                    :params => [["from", Date, "The start of report range"],
+                    :params => [['scope_by_date', 'Boolean', 'Scope records by a date range'],
+                                ["from", Date, "The start of report range"],
                                 ["to", Date, "The start of report range"],
                                 ["rating", "Rating", "The assessment rating to report on"],
                                 ["values", "RatingValues", "The assessment rating values to include"]]
@@ -31,137 +28,107 @@ class AssessmentRatingReport < AbstractReport
       raise "Need a rating and at least one value of interest"
     end
 
-    from = params["from"].to_s.empty? ? Time.at(0).to_s : params["from"]
-    to = params["to"].to_s.empty? ? Time.parse('9999-01-01').to_s : params["to"]
+    @date_scope = params['scope_by_date']
 
-    @from = DateTime.parse(from).to_time.strftime("%Y-%m-%d %H:%M:%S")
-    @to = DateTime.parse(to).to_time.strftime("%Y-%m-%d %H:%M:%S")
-  end
+    if @date_scope
+      from = params['from']
+      to = params['to']
 
-  def template
-    'assessment_rating_report.erb'
-  end
+      raise 'Date range not specified.' if from === '' || to === ''
 
-  def rating_name
-    label, type = db[:assessment_attribute_definition].filter(:id => @rating_id).get([:label, :type])
-    I18n.t("assessment_attribute.rating.#{label}", :default => label)
-  end
+      @from = DateTime.parse(from).to_time.strftime('%Y-%m-%d %H:%M:%S')
+      @to = DateTime.parse(to).to_time.strftime('%Y-%m-%d %H:%M:%S')
 
-  HEADERS = ['assessment_number', 'linked_record_type', 'linked_record_title', 'rating', 'rating_note', 'general_assessment_note', 'surveyors', 'surveyed_extent', 'survey_end']
-  FIELDS = ['assessment_id', 'record_type', 'title', 'rating', 'rating_note', 'general_assessment_note', 'surveyors', 'surveyed_extent', 'survey_end']
-
-  def orientation
-    'landscape'
-  end
-
-  def to_a
-    result = []
-
-    renderer = ReportErbRenderer.new(self, {})
-
-    each do |record|
-      hash = {}
-
-      record['surveyors'] = extract_surveyor_names(record['assessment_id']).join('; ')
-
-      HEADERS.zip(FIELDS).each do |header, field|
-        translated_header = renderer.t(header)
-
-        if field == 'record_type'
-          # We call .strip here because Derby seems to end up with a bunch of
-          # padding on the literal string I gave it.  Maybe a Sequel bug?
-          hash[translated_header] = I18n.t(record[field].strip + '._singular')
-        elsif field == 'rating'
-          hash[rating_name + ' ' + translated_header] = record[field]
-        elsif field == 'rating_note'
-          hash[rating_name + ' ' + translated_header] = record[field]
-        else
-          hash[translated_header] = record[field]
-        end
-      end
-
-      result << hash
+      info[:scoped_by_date_range] = "#{@from} & #{@to}"
     end
 
-    result
+    info[:scoped_by_rating] = get_attribute_name
+    info[:showing_values] = @values_of_interest.join(', ')
   end
 
-  def to_json
-    ASUtils.to_json(to_a)
-  end
-
-  def to_csv
-    result = to_a
-
-    return "" if result.empty?
-
-    headers = result[0].keys
-
-    CSV.generate do |csv|
-      csv << headers
-
-      result.each do |row|
-        csv << headers.map {|header| row[header]}
+  def get_attribute_name
+    if info[:rating_name]
+      name = info[:rating_name]
+    else
+      db.fetch("select label
+               from assessment_attribute_definition
+               where id = #{@rating_id}").each do |result|
+        name = result[:label]
       end
     end
+    name
   end
 
   def query
-    base_query = db[:assessment]
-                   .join(:assessment_attribute, :assessment_id => :assessment__id)
-                   .join(:assessment_rlshp, :assessment_id => :assessment_id)
-                   .join(:assessment_attribute_definition, :id => :assessment_attribute__assessment_attribute_definition_id)
-                   .left_join(:assessment_attribute_note, :assessment_id => :assessment__id)
-                   .filter(:assessment_attribute_definition__id => @rating_id)
-                   .filter(:assessment_attribute__value => @values_of_interest.map(&:to_s))
-                   .filter(Sequel.~(:assessment__inactive => 1))
-                   .filter(:assessment__survey_begin => (@from..@to))
-
-
-    base_selection = [
-      Sequel.as(:assessment_attribute__value, :rating),
-      Sequel.as(:assessment__id, :assessment_id),
-      :assessment__survey_begin,
-      :assessment__survey_end,
-      Sequel.as(:assessment_attribute_note__note, :rating_note),
-      :assessment__general_assessment_note,
-      :assessment__surveyed_extent,
-    ]
-
-    accessions = base_query
-                   .join(:accession, :id => :assessment_rlshp__accession_id)
-                   .select(*(base_selection + [Sequel.as(:accession__display_string, :title),
-                                               Sequel.as('accession', :record_type)]))
-
-    resources = base_query
-                   .join(:resource, :id => :assessment_rlshp__resource_id)
-                   .select(*(base_selection + [Sequel.as(:resource__title, :title),
-                                               Sequel.as('resource', :record_type)]))
-
-    archival_objects = base_query
-                   .join(:archival_object, :id => :assessment_rlshp__archival_object_id)
-                   .select(*(base_selection + [Sequel.as(:archival_object__display_string, :title),
-                                               Sequel.as('archival_object', :record_type)]))
-
-    digital_objects = base_query
-                        .join(:digital_object, :id => :assessment_rlshp__digital_object_id)
-                        .select(*(base_selection + [Sequel.as(:digital_object__title, :title),
-                                                    Sequel.as('digital_object', :record_type)]))
-
-
-    accessions.union(resources, :all => true).union(archival_objects, :all => true).union(digital_objects, :all => true).order(Sequel.asc(Sequel.cast(:rating, Integer)), Sequel.asc(:assessment_id))
+    db.fetch(query_string)
   end
 
-  private
+  def query_string
+    date_condition = if @date_scope
+                      "survey_begin > 
+                      #{db.literal(@from.split(' ')[0].gsub('-', ''))} 
+                      and survey_begin < 
+                      #{db.literal(@to.split(' ')[0].gsub('-', ''))}"
+                    else
+                      '1=1'
+                    end
+    "select
+      null as linked_records,
+      id,
+      rating as rating_name,
+      note as rating_note,
+      general_assessment_note,
+      surveyed_by,
+      surveyed_extent,
+      survey_begin,
+      survey_end
 
-  def extract_surveyor_names(assessment_id)
-    db[:surveyed_by_rlshp]
-    .join(:agent_person, :agent_person__id => :surveyed_by_rlshp__agent_person_id)
-    .join(:name_person, :name_person__agent_person_id => :agent_person__id)
-    .filter(:surveyed_by_rlshp__assessment_id => assessment_id)
-    .filter(:name_person__is_display_name => 1)
-    .select(:sort_name)
-    .map {|row| row[:sort_name] }
+    from assessment
+
+      natural left outer join
+      (select
+        assessment_id as id,
+        group_concat(name_person.sort_name separator ', ') as surveyed_by
+      from surveyed_by_rlshp
+        join agent_person on agent_person.id = surveyed_by_rlshp.agent_person_id
+        join name_person on name_person.agent_person_id = agent_person.id  
+      group by assessment_id) as surveyers
+        
+      natural join
+      (select
+        assessment_id as id,
+        value as rating
+      from assessment_attribute
+      where assessment_attribute_definition_id = #{db.literal(@rating_id)}
+        and value in (#{@values_of_interest
+        .collect {|value| db.literal(value)}.join(', ')})) as valid_ratings
+            
+      natural left outer join
+      (select
+        assessment_id as id,
+        note
+      from assessment_attribute_note
+        where assessment_attribute_definition_id
+          = #{db.literal(@rating_id)}) as notes
+
+    where repo_id = #{db.literal(@repo_id)} and #{date_condition}"
+  end
+
+  def fix_row(row)
+    row[:linked_records] = AssessmentLinkedRecordsSubreport.new(self, row[:id])
+                                                           .get_content
+  end
+
+  def special_translation(key, subreport_code)
+    if key == :rating_name
+      get_attribute_name
+    else
+      nil
+    end
+  end
+
+  def identifier_field
+    :id
   end
 
 end

@@ -64,6 +64,7 @@ module AspaceFactories
       sequence(:ref_id) {|n| "aspace_#{n}"}
       sequence(:id_0) {|n| "#{Time.now.to_i}_#{n}"}
 
+      sequence(:number) { rand(1_000) }
       sequence(:accession_title) { |n| "Accession #{n}" }
       sequence(:resource_title) { |n| "Resource #{n}" }
       sequence(:archival_object_title) {|n| "Archival Object #{n}"}
@@ -72,12 +73,36 @@ module AspaceFactories
       sequence(:classification_title) {|n| "Classification #{n}"}
       sequence(:classification_term_title) {|n| "Classification Term #{n}"}
 
+      sequence(:use_statement) { ["application", "application-pdf", "audio-clip",
+                                  "audio-master", "audio-master-edited",
+                                  "audio-service", "image-master",
+                                  "image-master-edited","image-service",
+                                  "image-service-edited", "image-thumbnail",
+                                  "text-codebook","test-data",
+                                  "text-data_definition","text-georeference",
+                                  "text-ocr-edited","text-ocr-unedited",
+                                  "text-tei-transcripted","text-tei-translated",
+                                  "video-clip", "video-master",
+                                  "video-master-edited","video-service",
+                                  "video-streaming"].sample }
+      sequence(:checksum_method) { ["md5", "sha-1", "sha-256", "sha-384", "sha-512"].sample }
+      sequence(:xlink_actuate_attribute) {  ["none", "other", "onLoad", "onRequest"].sample }
+      sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample }
+      sequence(:file_format) { %w[aiff avi gif jpeg mp3 pdf tiff txt].sample }
+
+
+      sequence(:name_rule) {  ["local", "aacr", "dacs", "rda"].sample }
+      sequence(:name_source) { ["local", "naf", "nad", "ulan"].sample }
+      sequence(:generic_name) { SecureRandom.hex }
+      sequence(:sort_name) { SecureRandom.hex }
+
 
       sequence(:rde_template_name) {|n| "RDE Template #{n}_#{Time.now.to_i}"}
       sequence(:four_part_id) { Digest::MD5.hexdigest("#{Time.now}#{SecureRandom.uuid}#{$$}").scan(/.{6}/)[0...1] }
 
       sequence(:top_container_indicator) {|n| "Container #{n}"}
       sequence(:building) {|n| "Maggie's #{n}th Farm_#{Time.now.to_i}" }
+      sequence(:url) { |n| "http://example#{n}.com" }
 
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
@@ -182,7 +207,7 @@ module AspaceFactories
         use_statement { generate(:use_statement) }
         xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
         xlink_show_attribute { generate(:xlink_show_attribute) }
-        file_format_name { generate(:file_format_name) }
+        file_format_name { generate(:file_format) }
         file_format_version { generate(:alphanumstr) }
         file_size_bytes { generate(:number).to_i }
         checksum { generate(:alphanumstr) }
@@ -215,24 +240,79 @@ module AspaceFactories
         } }
       end
 
-
       factory :name_person, class: JSONModel(:name_person) do
         rules { generate(:name_rule) }
         source { generate(:name_source) }
         primary_name { generate(:generic_name) }
-        rest_of_name { generate(:generic_name) }
         sort_name { generate(:sort_name) }
         name_order { %w(direct inverted).sample }
         number { generate(:alphanumstr) }
         sort_name_auto_generate true
         dates { generate(:alphanumstr) }
         qualifier { generate(:alphanumstr) }
+        fuller_form { generate(:alphanumstr) }
+        prefix { [nil, generate(:alphanumstr)].sample }
+        title { [nil, generate(:alphanumstr)].sample }
+        suffix { [nil, generate(:alphanumstr)].sample }
+        rest_of_name { [nil, generate(:alphanumstr)].sample }
+        authority_id { generate(:url) }
       end
 
       factory :agent_person, class: JSONModel(:agent_person) do
         agent_type 'agent_person'
         names { [build(:name_person)] }
         dates_of_existence { [build(:date, :label => 'existence')] }
+      end
+
+      factory :agent_family, class: JSONModel(:agent_family) do
+        agent_type 'agent_family'
+        names { [build(:name_family)] }
+        dates_of_existence { [build(:json_date, :label => 'existence')] }
+      end
+
+      factory :agent_software, class: JSONModel(:agent_software) do
+        agent_type 'agent_software'
+        names { [build(:name_software)] }
+        dates_of_existence { [build(:json_date, :label => 'existence')] }
+      end
+
+      factory :agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
+        agent_type 'agent_corporate_entity'
+        names { [build(:name_corporate_entity)] }
+        dates_of_existence { [build(:json_date, :label => 'existence')] }
+      end
+
+      factory :name_corporate_entity, class: JSONModel(:name_corporate_entity) do
+        rules { generate(:name_rule) }
+        primary_name { generate(:generic_name) }
+        subordinate_name_1 { generate(:alphanumstr) }
+        subordinate_name_2 { generate(:alphanumstr) }
+        number { generate(:alphanumstr) }
+        sort_name { generate(:sort_name) }
+        sort_name_auto_generate true
+        dates { generate(:alphanumstr) }
+        qualifier { generate(:alphanumstr) }
+        authority_id { generate(:url) }
+        source { generate(:name_source) }
+      end
+
+      factory :name_family, class: JSONModel(:name_family) do
+        rules { generate(:name_rule) }
+        family_name { generate(:generic_name) }
+        sort_name { generate(:sort_name) }
+        sort_name_auto_generate true
+        dates { generate(:alphanumstr) }
+        qualifier { generate(:alphanumstr) }
+        prefix { generate(:alphanumstr) }
+        authority_id { generate(:url) }
+        source { generate(:name_source) }
+      end
+
+      factory :name_software, class: JSONModel(:name_software) do
+        rules { generate(:name_rule) }
+        software_name { generate(:generic_name) }
+        sort_name { generate(:sort_name) }
+        sort_name_auto_generate true
       end
 
       factory :subject, class: JSONModel(:subject) do
@@ -270,6 +350,7 @@ module AspaceFactories
 
       factory :classification, class: JSONModel(:classification) do
         identifier { generate(:alphanumstr) }
+        publish true
         title { generate(:classification_title) }
         description { generate(:alphanumstr) }
       end

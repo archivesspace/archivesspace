@@ -1,0 +1,206 @@
+<%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
+
+<% custom_data = JSONModel::HTTP::get_json("/reports/custom_data") %>
+
+<% data = @custom_report_template['data'] ? ASUtils.json_parse(@custom_report_template['data']) : {} %>
+
+<fieldset>
+
+	<% record_types = custom_data.keys %>
+	<% record_types.delete('global') %>
+
+	<div id="template_information">
+		<h3><%= I18n.t "custom_report_template._frontend.section.template_information" %></h3>
+	
+		<%= form.label_and_textfield "name", :required => true %>
+		<%= form.label_and_textarea "description" %>
+
+		<div class="form-group">
+			<%= form.label 'record_type', :class => "col-sm-2 control-label" %>
+			
+			<div class="col-sm-9">
+				<%= select_tag "custom_report_template[data][custom_record_type]", options_for_select(record_types.collect {|record_type| [I18n.t("#{record_type}._plural"), record_type]}, data['custom_record_type']), {:id => "custom_record_type", :class => "form-control"} %>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<% enums = JSONModel(:enumeration).all %>
+
+	<% users = [] %>
+	<% JSONModel::HTTP::get_json("/users", :all_ids => true).each do |id| %>
+		<% user = JSONModel(:user).find(id) %>
+		<% users.push([user.name, user.username]) %>
+	<% end %>
+
+	<% record_types.each do |record_type| %>
+
+		<% record_data = record_type == data['custom_record_type'] ? data : {} %>
+
+		<% fields = (custom_data[record_type]['fields'] + custom_data['global']['fields']) %>
+		<div class="record_type <%= record_type %>">
+
+			<div id="<%= record_type %>_basic_information_fields">
+
+				<h3><%= I18n.t "custom_report_template._frontend.section.basic_information_fields" %></h3>
+
+				<% fields.each do |field| %>
+					<% translation_scope = field['translation_scope'] || record_type %>
+					<% field_name = field['name'] %>
+
+					<% field_data = begin %>
+						<% record_data['fields'][field_name] || {} %>
+					<% rescue %>
+						<% {} %>
+					<% end %>
+
+					<div class="panel panel-default">
+
+						<div class="panel-heading">
+							<%= I18n.t("#{translation_scope}.#{field['alias'] || field_name}", :default => field_name) %>
+						</div>
+
+						<div style="padding-bottom: 10px;">
+							<div class="form-group">
+								<%= form.label 'display', :class => "col-sm-2 control-label" %>
+								<div class="col-sm-9 checkbox">
+									<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][include]", '1', field_data['include'] %>
+								</div>
+							</div>
+
+							<% case field['data_type'] %>
+							<% when 'Date' %>
+								<div class="form-group">
+									<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
+									<div class="col-sm-9 checkbox">
+										<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<%= form.label 'start_date', :class => 'col-sm-2 control-label' %>
+									<div class="col-sm-9">
+										<%= text_field_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][range_start]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :value => field_data['range_start'] %>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<%= form.label 'end_date', :class => 'col-sm-2 control-label' %>
+									<div class="col-sm-9">
+										<%= text_field_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][range_end]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd', :value => field_data['range_end'] %>
+									</div>
+								</div>
+
+							<% when 'AgentType' %>
+								<div class="form-group">
+									<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
+									<div class="col-sm-9 checkbox">
+										<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<%= form.label 'values', :class => 'col-sm-2 control-label' %>
+									<% agent_types = ['agent_family', 'agent_person', 'agent_corporate_entity', 'agent_software'] %>
+									<div class="col-sm-9">
+										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(agent_types.collect {|agent_type| [I18n.t("agent.agent_type.#{agent_type}"), agent_type]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+									</div>
+								</div>
+							<% when 'Boolean' %>
+								<div class="form-group">
+									<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
+									<div class="col-sm-9 checkbox">
+										<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<%= form.label "value", :class => "col-sm-2 control-label" %>
+									<div class="col-sm-9">
+										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][value]", options_for_select([[I18n.t('custom_report_template.true'), true], [I18n.t('custom_report_template.false'), false]], field_data['value']), :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+									</div>
+								</div>
+							<% when 'Enum' %>
+								<% enum_name = field['enum_name'] || "#{record_type}_#{field_name}" %>
+								<% enum = enums.find {|obj| obj.name == enum_name} %>
+								<% if enum %>
+									<% options = enum['enumeration_values'] %>
+									<div class="form-group">
+										<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
+										<div class="col-sm-9 checkbox">
+											<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<%= form.label 'values', :class => 'col-sm-2 control-label' %>
+										<div class="col-sm-9">
+											<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(options.collect {|value| [I18n.t("enumerations.#{enum_name}.#{value['value']}", :default => value['value']), value['id']]}, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+										</div>
+									</div>
+								<% end %>
+							<% when 'User' %>
+								<div class="form-group">
+									<%= form.label "narrow_by", :class => "col-sm-2 control-label" %>
+									<div class="col-sm-9 checkbox">
+										<%= check_box_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][narrow_by]", '1', field_data['narrow_by'] %>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<%= form.label 'values', :class => 'col-sm-2 control-label' %>
+									<div class="col-sm-9">
+										<%= select_tag "custom_report_template[data][#{record_type}][fields][#{field_name}][values]", options_for_select(users, field_data['values']), :multiple => true, :style => "width: auto; max-with: 100%;", :class=>"form-control" %>
+									</div>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
+			</div>
+
+			<div id="<%= record_type %>_linked_records">
+				<h3><%= I18n.t "custom_report_template._frontend.section.linked_records" %></h3>
+
+				<% custom_data[record_type]['subreports'].each do |subreport| %>
+					<% field_name = subreport['name'] %>
+					<% translation = subreport['translation'] || "#{field_name}._plural" %>
+
+					<% subreport_data = begin %>
+						<% record_data['subreports'][field_name] || {} %>
+					<% rescue %>
+						<% {} %>
+					<% end %>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label"><%= I18n.t(translation, :default => field_name) %></label>
+						<div class="col-sm-9 checkbox">
+							<%= check_box_tag "custom_report_template[data][#{record_type}][subreports][#{field_name}][include]", '1', subreport_data['include'] %>
+						</div>
+					</div>
+				<% end %>
+			</div>
+
+			<div id="<%= record_type %>_sort_by">
+				<h3><%= I18n.t "custom_report_template._frontend.section.sort_by" %></h3>
+
+				<% sortable_fields = [] %>
+				<% fields.each do |field| %>
+					<% if field['sortable'] %>
+						<% translation_scope = field['translation_scope'] || record_type %>
+						<% sortable_fields.push([I18n.t("#{translation_scope}.#{field['alias'] ||field['name']}"), field['name']]) %>
+					<% end %>
+				<% end %>
+
+				<div class="form-group">
+					<%= form.label 'field', :class => 'col-sm-2 control-label' %>
+					<div class="col-sm-9">
+						<%= select_tag "custom_report_template[data][#{record_type}][sort_by]", options_for_select(sortable_fields, record_data['sort_by']), {:id => "sort_by", :class => "form-control"} %>
+					</div>
+				</div>
+			</div>
+		</div>
+	<% end %>
+</fieldset>
+
