@@ -18,6 +18,8 @@ class OAIConfig < Sequel::Model(:oai_config)
   	validates_presence :oai_repository_name
 
     validate_oai_admin_email_is_email
+    validate_repo_set_fields
+    validate_sponsor_set_fields
   end
 
   def validate_single_record
@@ -36,6 +38,18 @@ class OAIConfig < Sequel::Model(:oai_config)
   def validate_oai_admin_email_is_email
     unless self.oai_admin_email =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
       errors.add(:oai_admin_email, 'must be a valid email address.') 
+    end
+  end
+
+  def validate_repo_set_fields
+    if self.repo_set_codes && !self.repo_set_description
+      errors.add(:repo_set_description, 'must be present if repository codes are present') 
+    end
+  end
+
+  def validate_sponsor_set_fields
+    if self.sponsor_set_names && !self.sponsor_set_description
+      errors.add(:sponsor_set_description, 'must be present if repository codes are present') 
     end
   end
 
