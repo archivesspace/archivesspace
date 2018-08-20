@@ -12,9 +12,31 @@
 
           <fieldset>
               <section id="oai_config">
+                <h3><%= I18n.t("oai_config.general_section") %></h3>
                 <%= form.label_and_textfield "oai_record_prefix", :required => true %>
                 <%= form.label_and_textfield "oai_admin_email", :required => true %>
                 <%= form.label_and_textfield "oai_repository_name", :required => true %>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary"><%= I18n.t("oai_config._frontend.action.create") %></button>
+                </div>
+
+                <hr/>
+                <h3><%= I18n.t("oai_config.repo_set_section") %></h3>
+                <p><%= I18n.t("oai_config.repo_set_desc") %></p>
+                <%= form.oai_config_repo_set_codes_field(@oai_config['repo_set_codes'], @repositories) %>
+                <%# form.checkboxes_for_oai_sets(@repository['repository']['oai_sets_available'], @enum) %>
+                <%= form.label_and_textarea "repo_set_description" %>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary"><%= I18n.t("oai_config._frontend.action.create") %></button>
+                </div>
+
+                <hr/>
+                <h3><%= I18n.t("oai_config.sponsor_set_section") %></h3>
+                <p><%= I18n.t("oai_config.sponsor_set_desc") %></p>
+                <%= form.oai_config_sponsor_set_names_field "sponsor_set_names" %>
+                <%= form.label_and_textarea "sponsor_set_description" %>
               </section>
           </fieldset>
 

@@ -1439,9 +1439,19 @@ en:
   oai_config:
     title: OAI-PMH Settings
     title_repo_section: Per Repository OAI-PMH Settings
+    general_section: General Settings
+    repo_set_section: Repository Set
+    sponsor_set_section: Sponsor Set
+    repo_set_desc: In addition to sets based on level of description, you can define an OAI Set based on repositories.
+    sponsor_set_desc: In addition to sets based on level of description, you can define an OAI Set based on sponsor names.
+    oai_record_prefix: OAI Record Prefix
     oai_record_prefix: OAI Record Prefix
     oai_admin_email: OAI Admin Email
     oai_repository_name: OAI Repository Name
+    repo_set_codes: Repositories in Set
+    repo_set_description: Repository Set Description
+    sponsor_set_names: Sponsor Names
+    sponsor_set_description: Sponsor Set Description
     oai_leave_repo_form: These options affect OAI-PMH for this repository only. Click below to view/edit global OAI options. This will leave current form without saving changes.
     _frontend:
       action:

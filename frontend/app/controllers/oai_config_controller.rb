@@ -8,6 +8,7 @@ class OaiConfigController < ApplicationController
   end
 
   def update
+    handle_oai_config_params(params)
     @oai_config = JSONModel(:oai_config).all.first
 
     handle_crud(:instance => :oai_config,
@@ -20,5 +21,26 @@ class OaiConfigController < ApplicationController
                   redirect_to :controller => :oai_config, :action => :edit
                 })
   end
+
+  private
+
+ 
+    # Because of the form structure, our params for OAI settings are coming into params in separate hashes. 
+    # This method updates the params hash to pull the data from the right places and serializes them for the DB update.
+    # The params hash is a complicated data structure, sorry about the confusing hash references!
+
+    # params["repo_set_codes"] ==> contains the results of the repository OAI set of checkboxes
+    # params["oai_config"] ==> contains the rest of the OAI config hash
+    def handle_oai_config_params(params)
+      repo_set_codes_hash = params["repo_set_codes"]
+      oai_config_hash = params["oai_config"]
+
+      if repo_set_codes_hash 
+        oai_config_hash['repo_set_codes'] = params["repo_set_codes"].keys.to_json
+      else
+        oai_config_hash['repo_set_codes'] = "[]"
+      end
+
+    end
 end
 

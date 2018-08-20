@@ -456,6 +456,48 @@ module AspaceFormHelper
       return html.html_safe
     end
 
+    def oai_config_repo_set_codes_field(set_json, repositories)
+      #label_and_textfield(name, opts)
+      set_arry = JSON::parse(set_json)
+
+      html = "" 
+
+      html << "<div class='row'>"
+        html << "<div class='col-sm-2'>"
+          html << "<label class='control-label'>#{I18n.t("oai_config.repo_set_section")}</label>"
+        html << "</div>"
+        html << "<div class='col-sm-8'>&nbsp;"
+          html << "<ul class='list_group'>"
+            repositories.each do |r|
+              # a checkbox is on if it's the in the list we get from the backend.
+              checked = set_arry.include?(r['repo_code'].to_s) 
+
+              html << "<li class='list-group-item'>"
+                html << "<div class='checkbox'>"
+                  html << "<label>"
+                    html << "<input id=\"#{r['repo_code']}\" name=\"repo_set_codes[#{r['repo_code']}]\" type=\"checkbox\" "
+                    if checked
+                      html << "checked=\"checked\" "
+                    end
+  
+                    html << "/>"
+  
+                    html << "#{r['repo_code']}"
+                  html << "</label>"
+                html << "</div>"
+              html << "</li>"
+            end
+          html << "</ul>"
+        html << "</div>" #col-sm-8
+      html << "</div>" #row
+
+      return html.html_safe
+    end
+
+    def oai_config_sponsor_set_names_field(name, opts = {})
+      label_and_textfield(name, opts)
+    end
+
     def req_checkbox(name, opts = {}, default = true, force_checked = false)
       options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "REQ"}
       options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "REQ") or (obj[name].nil? and default)

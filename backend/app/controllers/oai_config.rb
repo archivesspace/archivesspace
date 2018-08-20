@@ -41,9 +41,14 @@ class ArchivesSpaceService < Sinatra::Base
     oc = OAIConfig.first
     json = params[:oai_config]
 
-    oc.update(:oai_repository_name => json["oai_repository_name"], 
-              :oai_admin_email     => json["oai_admin_email"], 
-              :oai_record_prefix   => json["oai_record_prefix"]) 
+    oc.update(:oai_repository_name     => json["oai_repository_name"], 
+              :oai_admin_email         => json["oai_admin_email"], 
+              :oai_record_prefix       => json["oai_record_prefix"],
+              :repo_set_codes          => json["repo_set_codes"],
+              :sponsor_set_names       => json["sponsor_set_names"],
+              :repo_set_description    => json["repo_set_description"],
+              :sponsor_set_description => json["sponsor_set_description"]
+              ) 
 
     updated_response(oc, json)
   end
