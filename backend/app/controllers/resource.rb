@@ -63,7 +63,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/resources/:id/ordered_records')
-    .description("Get the list of URIs of this resource and all archival objects contained within." +
+    .description("Get the list of URIs of this published resource and all published archival objects contained within." +
                  "Ordered by tree order (i.e. if you fully expanded the record tree and read from top to bottom)")
     .params(["id", :id],
             ["repo_id", :repo_id])
@@ -77,7 +77,7 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/resources/:id/top_containers')
-    .description("Get Top Containers linked to a Resource")
+    .description("Get Top Containers linked to a published resource and published archival ojbects contained within.")
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["resolve", :resolve])
