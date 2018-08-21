@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails', '5.0.1'
 gem "activesupport", "5.0.1"
-gem 'loofah', '2.0.3'
+gem 'loofah', '>= 2.2.2'
 gem "i18n", "0.9.1"
-
+gem 'rails-html-sanitizer', '~> 1.0.4'
 gem 'sprockets-rails', '2.3.3'
 
 gem 'tzinfo-data'
