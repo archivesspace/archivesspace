@@ -494,8 +494,18 @@ module AspaceFormHelper
       return html.html_safe
     end
 
-    def oai_config_sponsor_set_names_field(name, opts = {})
-      label_and_textfield(name, opts)
+    def oai_config_sponsor_set_names_field(set_json, opts = {})
+      #label_and_textfield("sponsor_set_names", opts)
+      html = ""
+
+      html << "<div class='form-group'>"
+        html << "<label class='col-sm-2 control-label' for='oai_config_sponsor_set_names_'>Sponsor Names</label>"
+        html << "<div class='col-sm-9'>"
+          html << "<input id='oai_config_sponsor_set_names_' type='text' value='#{set_json}' name='oai_config[sponsor_set_names]'' class='form-control js-taggable' datarole='tagsinput'>"
+          html << "</div>"
+      html << "</div>"
+
+      return html.html_safe
     end
 
     def req_checkbox(name, opts = {}, default = true, force_checked = false)

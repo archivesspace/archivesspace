@@ -35,7 +35,7 @@
                 <hr/>
                 <h3><%= I18n.t("oai_config.sponsor_set_section") %></h3>
                 <p><%= I18n.t("oai_config.sponsor_set_desc") %></p>
-                <%= form.oai_config_sponsor_set_names_field "sponsor_set_names" %>
+                <%= form.oai_config_sponsor_set_names_field @oai_config['sponsor_set_names'] %>
                 <%= form.label_and_textarea "sponsor_set_description" %>
               </section>
           </fieldset>
