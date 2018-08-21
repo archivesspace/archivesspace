@@ -41,6 +41,15 @@ class OaiConfigController < ApplicationController
         oai_config_hash['repo_set_codes'] = "[]"
       end
 
+      # The sponsor set name param looks like:
+      # "Sponsor 1,Sponsor 2"
+      # Turn into a serialized array for DB
+      if oai_config_hash['sponsor_set_names']
+        oai_config_hash['sponsor_set_names'] = oai_config_hash['sponsor_set_names'].split(",").to_json
+      else
+        oai_config_hash['sponsor_set_names'] = "[]"
+      end
+
     end
 end
 
