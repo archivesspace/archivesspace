@@ -245,32 +245,22 @@ describe 'OAI handler' do
 
 
     it "supports OAI sets based on sponsors" do
-      allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
-      allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+      oc = OAIConfig.first
+      oc.update(:sponsor_set_names       => ['sponsor_0'].to_json,
+                :sponsor_set_description => "sponsor_set_description")
 
-      allow(AppConfig).to receive(:[]).with(any_args).and_call_original
-      allow(AppConfig).to receive(:[]).with(:oai_sets)
-                            .and_return('sponsor_0' => {
-                                          :sponsors => ['sponsor_0']
-                                        })
-
-      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_0'})
+      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_set'})
 
       response.records.all? {|record| record.jsonmodel_record.resource['ref'] == @test_resource_record}
         .should be(true)
     end
 
     it "supports OAI sets based on repositories" do
-      allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
-      allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+      oc = OAIConfig.first
+      oc.update(:repo_set_codes       => ['oai_test'].to_json, 
+                :repo_set_description => "repo_set_description")
 
-      allow(AppConfig).to receive(:[]).with(any_args).and_call_original
-      allow(AppConfig).to receive(:[]).with(:oai_sets)
-                            .and_return('by_repo' => {
-                                          :repo_codes => ['oai_test']
-                                        })
-
-      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'by_repo'})
+      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'repository_set'})
       response.records.all? {|record| record.sequel_record.repo_id == @oai_repo_id}
         .should be(true)
     end
@@ -288,16 +278,11 @@ describe 'OAI handler' do
       }
 
       it "supports OAI sets based on sponsors for resource records too" do
-        allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
-        allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+        oc = OAIConfig.first
+        oc.update(:sponsor_set_names       => ['sponsor_0'].to_json, 
+                  :sponsor_set_description => "sponsor_set_description")
 
-        allow(AppConfig).to receive(:[]).with(any_args).and_call_original
-        allow(AppConfig).to receive(:[]).with(:oai_sets)
-                              .and_return('sponsor_0' => {
-                                            :sponsors => ['sponsor_0']
-                                          })
-
-        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_0'})
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_set'})
 
         # Just matched the single collection
         response.records.length.should eq(1)
@@ -307,19 +292,13 @@ describe 'OAI handler' do
       end
 
       it "supports OAI sets based on repositories for resource records too" do
-        allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
-        allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+        oc = OAIConfig.first
+        oc.update(:repo_set_codes          => ['oai_test'].to_json, 
+                  :repo_set_description    => "repo_set_description")
 
-        allow(AppConfig).to receive(:[]).with(any_args).and_call_original
-        allow(AppConfig).to receive(:[]).with(:oai_sets)
-                              .and_return('by_repo' => {
-                                            :repo_codes => ['oai_test']
-                                          })
-
-        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'by_repo'})
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'repository_set'})
         response.records.count.should eq(5)
       end
-
     end
 
     it "doesn't reveal published or suppressed records" do
