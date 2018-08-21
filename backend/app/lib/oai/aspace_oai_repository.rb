@@ -42,20 +42,31 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
   def sets
     available_levels = BackendEnumSource.values_for("archival_record_level")
 
+    # ANW-674: 
+    # Get set values from OAIConfig table instead of config file
+    oai_config          = OAIConfig.all.first
+    repo_set_codes      = oai_config[:repo_set_codes] ? JSON.parse(oai_config[:repo_set_codes]) : []
+    sponsor_set_names   = oai_config[:sponsor_set_names] ? JSON.parse(oai_config[:sponsor_set_names]) : []
+    repo_description    = oai_config[:repo_set_description]
+    sponsor_description = oai_config[:sponsor_set_description]
+
     config_sets = []
 
-    if AppConfig.has_key?(:oai_sets)
-      config_sets = AppConfig[:oai_sets].map {|set_name, values|
-        unless available_levels.include?(set_name)
-          set_properties = {:name => set_name, :spec => set_name}
 
-          if (description = values.fetch(:description, nil))
-            set_properties[:description] = build_set_description(description)
-          end
+    if repo_set_codes.any? && !available_levels.include?("repository_set")
+      repo_oai_set = OAI::Set.new({:name => "repository_set",
+                                   :spec => "repository_set",
+                                   :description => build_set_description(repo_description)})
 
-          OAI::Set.new(set_properties)
-        end
-      }.compact
+      config_sets.push(repo_oai_set)
+    end
+
+    if sponsor_set_names.any? && !available_levels.include?("sponsor_set")
+      repo_sponsor_set = OAI::Set.new({:name => "sponsor_set",
+                                       :spec => "sponsor_set",
+                                       :description => build_set_description(sponsor_description)})
+
+      config_sets.push(repo_sponsor_set)
     end
 
     level_sets = available_levels.map {|level|

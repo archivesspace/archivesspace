@@ -78,6 +78,20 @@ describe 'OAI handler' do
       }.to_not raise_error
     end
 
+    it "includes sets defined in OAIConfig table in ListSets request" do
+      oc = OAIConfig.first
+      oc.update(:repo_set_codes       => ['foo', 'bar'].to_json, 
+                :repo_set_description => "foobar",
+                :sponsor_set_names    => ['bim', 'baz'].to_json, 
+                :sponsor_set_description => "bimbaz",
+                ) 
+      
+      result = ArchivesSpaceOaiProvider.new.process_request(:verb => 'ListSets')
+      expect(result).to match(/<setSpec>sponsor_set<\/setSpec><setName>sponsor_set<\/setName>/)
+      expect(result).to match(/<setSpec>repository_set<\/setSpec><setName>repository_set<\/setName>/)
+      expect(result).to match(/<oai_dc:description>bimbaz<\/oai_dc:description>/)
+      expect(result).to match(/<oai_dc:description>foobar<\/oai_dc:description>/)
+    end
 
     RESOURCE_BASED_FORMATS.each do |prefix|
       it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
