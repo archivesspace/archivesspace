@@ -19,7 +19,7 @@ GEM
     multipart-post (2.0.0)
     net-http-persistent (3.0.0)
       connection_pool (~> 2.2)
-    nokogiri (1.8.1-java)
+    nokogiri (1.8.4-java)
     rufus-lru (1.1.0)
     thread_safe (0.3.6-java)
     tzinfo (1.2.4)

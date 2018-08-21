@@ -97,7 +97,7 @@ GEM
     multipart-post (1.2.0)
     net-http-persistent (2.8)
     nio4r (1.2.1-java)
-    nokogiri (1.8.1-java)
+    nokogiri (1.8.4-java)
     parallel (1.12.1)
     parser (2.5.1.0)
       ast (~> 2.4.0)

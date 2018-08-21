@@ -11,7 +11,7 @@ gem "bcrypt", "3.1.7"
 gem 'json', "1.8.6"
 gem "json-schema", "1.0.10"
 gem "jruby-jars", "= 9.1.8.0"
-gem 'nokogiri', '1.8.1' # because of https://github.com/sparklemotion/nokogiri/issues/1673
+gem 'nokogiri', '1.8.4' # because of https://github.com/sparklemotion/nokogiri/issues/1673
 gem "saxerator", "= 0.9.2"
 gem 'saxon-xslt', '~> 0.8', '>= 0.8.2.1'
 gem 'tzinfo'

@@ -41,7 +41,7 @@ GEM
     multipart-post (1.2.0)
     net-http-digest_auth (1.4.1)
     net-http-persistent (2.8)
-    nokogiri (1.8.1-java)
+    nokogiri (1.8.4-java)
     ntlm-http (0.1.1)
     parallel (1.12.1)
     parallel_tests (2.14.3)
