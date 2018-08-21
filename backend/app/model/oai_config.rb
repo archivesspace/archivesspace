@@ -45,11 +45,19 @@ class OAIConfig < Sequel::Model(:oai_config)
     if self.repo_set_codes && self.repo_set_codes != "[]" && !self.repo_set_description
       errors.add(:repo_set_description, 'must be present if repository codes are present') 
     end
+
+    if self.repo_set_codes && self.repo_set_codes != "[]" && !self.repo_set_name
+      errors.add(:repo_set_name, 'must be present if repository codes are present') 
+    end
   end
 
   def validate_sponsor_set_fields
     if self.sponsor_set_names && self.sponsor_set_names != "[]" && !self.sponsor_set_description
       errors.add(:sponsor_set_description, 'must be present if repository codes are present') 
+    end
+
+    if self.sponsor_set_names && self.sponsor_set_names != "[]" && !self.sponsor_set_name
+      errors.add(:sponsor_set_name, 'must be present if repository codes are present') 
     end
   end
 

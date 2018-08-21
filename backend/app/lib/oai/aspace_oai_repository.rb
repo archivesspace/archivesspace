@@ -22,6 +22,8 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     @sponsor_set_names   = @oai_config[:sponsor_set_names] ? JSON.parse(@oai_config[:sponsor_set_names]) : []
     @repo_description    = @oai_config[:repo_set_description]
     @sponsor_description = @oai_config[:sponsor_set_description]
+    @repo_set_name       = @oai_config[:repo_set_name]
+    @sponsor_set_name    = @oai_config[:sponsor_set_name]
   end
 
   # If a given record type supports deletes, we'll need a way to look up its
@@ -55,17 +57,17 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     # Get set values from OAIConfig table instead of config file
     config_sets = []
 
-    if @repo_set_codes.any? && !available_levels.include?("repository_set")
-      repo_oai_set = OAI::Set.new({:name => "repository_set",
-                                   :spec => "repository_set",
+    if @repo_set_codes.any? && !available_levels.include?(@repo_set_name)
+      repo_oai_set = OAI::Set.new({:name => @repo_set_name,
+                                   :spec => @repo_set_name,
                                    :description => build_set_description(@repo_description)})
 
       config_sets.push(repo_oai_set)
     end
 
-    if @sponsor_set_names.any? && !available_levels.include?("sponsor_set")
-      repo_sponsor_set = OAI::Set.new({:name => "sponsor_set",
-                                       :spec => "sponsor_set",
+    if @sponsor_set_names.any? && !available_levels.include?(@sponsor_set_name)
+      repo_sponsor_set = OAI::Set.new({:name => @sponsor_set_name,
+                                       :spec => @sponsor_set_name,
                                        :description => build_set_description(@sponsor_description)})
 
       config_sets.push(repo_sponsor_set)
@@ -376,14 +378,14 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     # Otherwise, look for manually defined sets in the OAIConfig table
     get_oai_config_values
 
-    if @repo_set_codes.any? && set == "repository_set"
+    if @repo_set_codes.any? && set == @repo_set_name
       dataset = dataset.filter(:repo_id => Repository.filter(:repo_code => @repo_set_codes).select(:id))
 
     # We work off the SHA1 of the sponsor here because Derby doesn't make it
     # easy to compare CLOBs with strings without DB-specific stuff.  And since
     # we don't know how long people's sponsor text might be in the wild, it
     # seemed risky to change the column type.
-    elsif @sponsor_set_names.any? && set == "sponsor_set"
+    elsif @sponsor_set_names.any? && set == @sponsor_set_name
       sponsor_hashes = @sponsor_set_names.map {|sponsor| Digest::SHA1.hexdigest(sponsor)}
 
       if model == Resource

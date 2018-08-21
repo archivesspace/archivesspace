@@ -8,9 +8,6 @@ describe 'OAI config controller' do
     expect(oai_config["oai_record_prefix"]).to eq(oai_config_json["oai_record_prefix"])
     expect(oai_config["oai_admin_email"]).to eq(oai_config_json["oai_admin_email"])
     expect(oai_config["oai_record_prefix"]).to eq(oai_config_json["oai_record_prefix"])
-
-    puts oai_config.inspect
-    puts oai_config_json.inspect
   end
 
   it "updates the OAI config record" do

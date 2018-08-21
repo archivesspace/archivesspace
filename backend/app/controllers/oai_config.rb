@@ -47,7 +47,9 @@ class ArchivesSpaceService < Sinatra::Base
               :repo_set_codes          => json["repo_set_codes"],
               :sponsor_set_names       => json["sponsor_set_names"],
               :repo_set_description    => json["repo_set_description"],
-              :sponsor_set_description => json["sponsor_set_description"]
+              :sponsor_set_description => json["sponsor_set_description"],
+              :repo_set_name           => json["repo_set_name"],
+              :sponsor_set_name        => json["sponsor_set_name"]
               ) 
 
     updated_response(oc, json)

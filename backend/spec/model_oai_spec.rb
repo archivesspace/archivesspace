@@ -82,13 +82,15 @@ describe 'OAI handler' do
       oc = OAIConfig.first
       oc.update(:repo_set_codes       => ['foo', 'bar'].to_json, 
                 :repo_set_description => "foobar",
+                :repo_set_name        => "repo_set_name",
                 :sponsor_set_names    => ['bim', 'baz'].to_json, 
                 :sponsor_set_description => "bimbaz",
+                :sponsor_set_name        => "sponsor_set_name",
                 ) 
       
       result = ArchivesSpaceOaiProvider.new.process_request(:verb => 'ListSets')
-      expect(result).to match(/<setSpec>sponsor_set<\/setSpec><setName>sponsor_set<\/setName>/)
-      expect(result).to match(/<setSpec>repository_set<\/setSpec><setName>repository_set<\/setName>/)
+      expect(result).to match(/<setSpec>sponsor_set_name<\/setSpec><setName>sponsor_set_name<\/setName>/)
+      expect(result).to match(/<setSpec>repo_set_name<\/setSpec><setName>repo_set_name<\/setName>/)
       expect(result).to match(/<oai_dc:description>bimbaz<\/oai_dc:description>/)
       expect(result).to match(/<oai_dc:description>foobar<\/oai_dc:description>/)
     end
@@ -258,9 +260,10 @@ describe 'OAI handler' do
     it "supports OAI sets based on repositories" do
       oc = OAIConfig.first
       oc.update(:repo_set_codes       => ['oai_test'].to_json, 
+                :repo_set_name        => "repo_set_name",
                 :repo_set_description => "repo_set_description")
 
-      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'repository_set'})
+      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'repo_set_name'})
       response.records.all? {|record| record.sequel_record.repo_id == @oai_repo_id}
         .should be(true)
     end
@@ -280,9 +283,10 @@ describe 'OAI handler' do
       it "supports OAI sets based on sponsors for resource records too" do
         oc = OAIConfig.first
         oc.update(:sponsor_set_names       => ['sponsor_0'].to_json, 
+                  :sponsor_set_name        => "sponsor_set_name",
                   :sponsor_set_description => "sponsor_set_description")
 
-        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_set'})
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_set_name'})
 
         # Just matched the single collection
         response.records.length.should eq(1)
@@ -294,9 +298,10 @@ describe 'OAI handler' do
       it "supports OAI sets based on repositories for resource records too" do
         oc = OAIConfig.first
         oc.update(:repo_set_codes          => ['oai_test'].to_json, 
+                  :repo_set_name        => "repo_set_name",
                   :repo_set_description    => "repo_set_description")
 
-        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'repository_set'})
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'repo_set_name'})
         response.records.count.should eq(5)
       end
     end

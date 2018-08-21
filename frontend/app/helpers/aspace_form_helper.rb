@@ -419,12 +419,10 @@ module AspaceFormHelper
 
       html = "" 
 
-      html << "<div class='row'>"
-        html << "<div class='col-sm-2'>"
-          html << "<label class='control-label'>#{I18n.t("repository_oai.oai_sets_available")}</label>"
-        html << "</div>"
-        html << "<div class='col-sm-8'>&nbsp;"
-          html << "<ul class='list_group'>"
+      html << "<div class='form-group'>"
+        html << "<label class='control-label col-sm-2'>#{I18n.t("repository_oai.oai_sets_available")}</label>"
+        html << "<div class='col-sm-9'>"
+          html << "<ul class='checkbox-list'>"
             value_list['enumeration_values'].each do |v|
               # if we have an empty list of checkboxes, assume all sets are enabled.
               # otherwise, a checkbox is on if it's the in the list we get from the backend.
@@ -450,8 +448,8 @@ module AspaceFormHelper
               html << "</li>"
             end
           html << "</ul>"
-        html << "</div>" #col-sm-8
-      html << "</div>" #row
+        html << "</div>" #col-sm-9
+      html << "</div>" #form-group
 
       return html.html_safe
     end
@@ -462,12 +460,10 @@ module AspaceFormHelper
 
       html = "" 
 
-      html << "<div class='row'>"
-        html << "<div class='col-sm-2'>"
-          html << "<label class='control-label'>#{I18n.t("oai_config.repo_set_section")}</label>"
-        html << "</div>"
-        html << "<div class='col-sm-8'>&nbsp;"
-          html << "<ul class='list_group'>"
+      html << "<div class='form-group'>"
+          html << "<label class='col-sm-2 control-label'>#{I18n.t("oai_config.repo_set_section")}</label>"
+        html << "<div class='col-sm-9'>"
+          html << "<ul class='checkbox-list'>"
             repositories.each do |r|
               # a checkbox is on if it's the in the list we get from the backend.
               checked = set_arry.include?(r['repo_code'].to_s) 
@@ -488,8 +484,8 @@ module AspaceFormHelper
               html << "</li>"
             end
           html << "</ul>"
-        html << "</div>" #col-sm-8
-      html << "</div>" #row
+        html << "</div>" #col-sm-9
+      html << "</div>" #form-group
 
       return html.html_safe
     end

@@ -12,7 +12,9 @@
       "repo_set_codes" => {"type" => "string"},
       "sponsor_set_names" => {"type" => "string"},
       "repo_set_description" => {"type" => "string"},
-      "sponsor_set_description" => {"type" => "string"}
+      "sponsor_set_description" => {"type" => "string"},
+      "repo_set_name" => {"type" => "string"},
+      "sponsor_set_name" => {"type" => "string"}
     },
   },
 }

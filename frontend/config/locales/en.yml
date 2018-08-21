@@ -1448,8 +1448,10 @@ en:
     oai_record_prefix: OAI Record Prefix
     oai_admin_email: OAI Admin Email
     oai_repository_name: OAI Repository Name
+    repo_set_name: Repository Set Name
     repo_set_codes: Repositories in Set
     repo_set_description: Repository Set Description
+    sponsor_set_name: Sponsor Set Name
     sponsor_set_names: Sponsor Names
     sponsor_set_description: Sponsor Set Description
     oai_leave_repo_form: These options affect OAI-PMH for this repository only. Click below to view/edit global OAI options. This will leave current form without saving changes.
