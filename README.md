@@ -260,7 +260,7 @@ schema and data to a file.  It's a good idea to run this with the
 `--single-transaction` option to avoid locking your database tables
 while your backups run. It is also essential to use the `--routines`
 flag, which will include functions and stored procedures in the
-backup (which ArchivesSpace uses at least for reports). The `mysqldump` 
+backup. The `mysqldump` 
 utility is widely used, and there are many tutorials available. As an example,
 something like this in your `crontab` would backup your database twice daily:
 
