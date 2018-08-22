@@ -835,6 +835,9 @@ en:
         create: Create Repository
         save: Save Repository
         create: Create Repository
+    _sidebar:
+      oai_settings:
+        _plural: OAI Harvest Settings
 
   resource:
     _frontend:
@@ -1456,8 +1459,17 @@ en:
     sponsor_set_description: Sponsor Set Description
     oai_leave_repo_form: These options affect OAI-PMH for this repository only. Click below to view/edit global OAI options. This will leave current form without saving changes.
     _frontend:
+      section:
+        basic_information: General Settings
       action:
         create: Update OAI-PMH Settings
         updated: OAI-PMH settings successfully updated!
+    _sidebar:
+      repo_set_section:
+        _plural: Repository Set
+      sponsor_set_section:
+        _plural: Sponsor Set
+      repo_settings:
+        _plural: Per Repository OAI-PMH Settings 
 
 

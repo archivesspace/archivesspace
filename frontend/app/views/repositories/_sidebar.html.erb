@@ -7,5 +7,6 @@
            }) do |sidebar| %>
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'all_fields', :property => :none, :anchor => 'all_fields') %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'repository._sidebar.oai_settings', :property => :none, :anchor => 'oai_settings') %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_contact', :property => :none, :anchor => 'agent_contact') %>
 <% end %>
