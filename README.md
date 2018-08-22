@@ -320,7 +320,7 @@ need to restore:
   * Your database (either the demo database or MySQL)
   * The search indexes and related indexer files (optional)
 
-Of the two, the database backup is the most crucial, your ArhivesSpace records
+Of the two, the database backup is the most crucial, your ArchivesSpace records
 are all stored in your MySQL database. The solr search indexes
 are worth restoring if you have backups, but they can be recreated
 from scratch if necessary.
