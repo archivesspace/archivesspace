@@ -26,6 +26,8 @@ gem "warbler", "2.0.4", :group => :build
 gem "oai", "0.4.0"
 gem "activesupport", "5.0.1"
 
+gem "rrtf"
+
 group :test do
   gem "factory_bot"
   gem "rspec", "~> 3.6.0"

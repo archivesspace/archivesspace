@@ -1885,6 +1885,7 @@ en:
       csv: CSV
       pdf: PDF
       html: HTML
+      rtf: RTF
 
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
