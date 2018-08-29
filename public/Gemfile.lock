@@ -201,6 +201,8 @@ GEM
       rspec-expectations (~> 3.6.0)
       rspec-mocks (~> 3.6.0)
       rspec-support (~> 3.6.0)
+    rspec-retry (0.6.1)
+      rspec-core (> 3.3)
     rspec-support (3.6.0)
     rubocop (0.54.0)
       parallel (~> 1.10)
@@ -291,6 +293,7 @@ DEPENDENCIES
   rails-controller-testing
   rspec (~> 3.6.0)
   rspec-rails
+  rspec-retry
   rubocop (~> 0.54.0)
   sass-rails (~> 5.0, >= 5.0.6)
   selenium-webdriver
