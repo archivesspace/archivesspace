@@ -21,7 +21,6 @@ Sequel.migration do
   end
 
   down do
-    self[:oai_config].select.first.delete
   end
 
 end
