@@ -14,7 +14,6 @@ module ASpaceExport
     def substitute_fragments(xml_string)
       @fragments.each do |id, fragment|
         xml_string.gsub!(/:aspace_fragment_#{id}/, fragment)
-        xml_string.gsub!(/[&]([^a])/, '&amp;\1')
       end
 
       xml_string

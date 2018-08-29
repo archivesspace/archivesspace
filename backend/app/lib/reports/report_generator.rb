@@ -1,5 +1,6 @@
 require 'java'
 require 'csv'
+require_relative 'rtf_generator'
 require_relative 'csv_report_expander'
 
 #java_import org.xhtmlrenderer.pdf.ITextRenderer
@@ -23,6 +24,8 @@ class ReportGenerator
       generate_html(file)
     when 'pdf'
       generate_pdf(file)
+    when 'rtf'
+      generate_rtf(file)
     else
       generate_csv(file)
     end
@@ -55,6 +58,11 @@ class ReportGenerator
 
     xml.unlink
     output_stream.close
+  end
+
+  def generate_rtf(file)
+    rtf = RtfGenerator.new(self).generate
+    file.write(rtf.to_rtf)
   end
 
   def generate_csv(file)
@@ -148,6 +156,14 @@ class ReportGenerator
     sub_report_code_stack.pop
     sub_report_data_stack.pop
     render
+  end
+
+  def rtf_subreport(value)
+    sub_report_code_stack.push(value.pop)
+    sub_report_data_stack.push(value)
+    yield(value)
+    sub_report_code_stack.pop
+    sub_report_data_stack.pop
   end
 
   def template_path(file)

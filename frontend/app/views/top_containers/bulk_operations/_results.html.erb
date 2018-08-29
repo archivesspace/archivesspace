@@ -27,6 +27,7 @@
       <th><%= I18n.t("top_container._frontend.bulk_operations.collection_singular") %></th>
       <th><%= I18n.t("top_container._frontend.bulk_operations.series") %></th>
       <th><%= I18n.t("container_profile._singular") %></th>
+      <th><%= I18n.t("top_container.type") %></th>
       <th><%= I18n.t("top_container.indicator") %></th>
       <th><%= I18n.t("top_container.barcode") %></th>
       <th><%= I18n.t("top_container._frontend.bulk_operations.current_location") %></th>
@@ -66,6 +67,7 @@
           <% end %>
         </td>
         <td class="top-container-profile"><%= Array(doc['container_profile_display_string_u_sstr']).first %></td>
+        <td class="top-container-type"><%= container_json['type'] %></td>
         <td class="top-container-indicator"><%= container_json['indicator'] %></td>
         <td class="top-container-barcode"><%= container_json['barcode'] %></td>
         <td class="top-container-current-location"><%= Array(doc['location_display_string_u_sstr']).first %></td>

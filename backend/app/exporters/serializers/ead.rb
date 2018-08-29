@@ -1,6 +1,8 @@
 # encoding: utf-8
 require 'nokogiri'
 require 'securerandom'
+require 'cgi'
+
 class EADSerializer < ASpaceExport::Serializer
   serializer_for :ead
 
@@ -38,6 +40,32 @@ class EADSerializer < ASpaceExport::Serializer
     Nokogiri::XML("<wrap>#{content}</wrap>").errors.reject { |e| e.message =~ ignore  }
   end
 
+  # ANW-716: We may have content with a mix of loose '&' chars that need to be escaped, along with pre-escaped HTML entities
+  # Example:
+  # c                 => "This is the &lt; test & for the <title>Sanford &amp; Son</title>
+  # escape_content(c) => "This is the &lt; test &amp; for the <title>Sanford &amp; Son</title>
+  # we want to leave the pre-escaped entities alone, and escape the loose & chars
+
+  def escape_content(content)
+    # first, find any pre-escaped entities and "mark" them by replacing & with @@
+    # so something like &lt; becomes @@lt;
+    # and &#1234 becomes @@#1234
+
+    content.gsub!(/&\w+;/) {|t| t.gsub('&', '@@')}
+    content.gsub!(/&#\d{4}/) {|t| t.gsub('&', '@@')}
+    content.gsub!(/&#\d{3}/) {|t| t.gsub('&', '@@')}
+
+    # now we know that all & characters remaining are not part of some pre-escaped entity, and we can escape them safely
+    content.gsub!('&', '&amp;')
+
+    # 'unmark' our pre-escaped entities
+    content.gsub!(/@@\w+;/) {|t| t.gsub('@@', '&')}
+    content.gsub!(/@@#\d{4}/) {|t| t.gsub('@@', '&')}
+    content.gsub!(/@@#\d{3}/) {|t| t.gsub('@@', '&')}
+
+    return content
+  end
+
 
   def handle_linebreaks(content)
     # 4archon... 
@@ -47,19 +75,13 @@ class EADSerializer < ASpaceExport::Serializer
     original_content = content
     blocks = content.split("\n\n").select { |b| !b.strip.empty? }
     if blocks.length > 1
-      content = blocks.inject("") { |c,n| c << "<p>#{n.chomp}</p>"  }
+      content = blocks.inject("") do |c,n| 
+        c << "<p>#{escape_content(n.chomp)}</p>"  
+      end
     else
-      content = "<p>#{content.strip}</p>"
+      content = "<p>#{escape_content(content.strip)}</p>"
     end
 
-    # first lets see if there are any &
-    # note if there's a &somewordwithnospace , the error is EntityRef and wont
-    # be fixed here...
-    if xml_errors(content).any? { |e| e.message.include?("The entity name must immediately follow the '&' in the entity reference.") }
-      content.gsub!("& ", "&amp; ")
-    end
-
-    # in some cases adding p tags can create invalid markup with mixed content
     # just return the original content if there's still problems
     xml_errors(content).any? ? original_content : content
   end
@@ -90,7 +112,7 @@ class EADSerializer < ASpaceExport::Serializer
 
     begin
       if ASpaceExport::Utils.has_html?(content)
-        context.text( fragments << content )
+        context.text (fragments << content )
       else
         context.text content.gsub("&amp;", "&") #thanks, Nokogiri
       end
