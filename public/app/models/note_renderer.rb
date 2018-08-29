@@ -50,15 +50,17 @@ class MultipartNoteRenderer < NoteRenderer
 
     notes = []
     ASUtils.wrap(note['subnotes']).each do |sub|
-      rendered_subnote = {}
-      NoteRenderer.for(sub['jsonmodel_type']).render(sub['jsonmodel_type'], sub, rendered_subnote)
+      unless sub['publish'] == false
+        rendered_subnote = {}
+        NoteRenderer.for(sub['jsonmodel_type']).render(sub['jsonmodel_type'], sub, rendered_subnote)
 
-      notes << rendered_subnote['note_text']
-      result['subnotes'] ||= []
-      result['subnotes'] << sub.merge({
-                                        '_text' => rendered_subnote['note_text'],
-                                        '_title' => sub['title']
-                                      })
+        notes << rendered_subnote['note_text']
+        result['subnotes'] ||= []
+        result['subnotes'] << sub.merge({
+                                          '_text' => rendered_subnote['note_text'],
+                                          '_title' => sub['title']
+                                        })
+      end
     end
 
     result['note_text'] = notes.join('<br/>')
