@@ -3,7 +3,7 @@
   <div class="col-sm-12">
      <%= render partial: 'shared/breadcrumbs' %>
   <% if defined?(@search_title) %>
-  <h1><%= @search_title %></h1>
+  <h2><%= @search_title %></h2>
   <% end %>
 
   <% if defined?(@reset) && @reset %>
@@ -18,7 +18,7 @@
                                                                        ["#{t('search_results.filter.subjects')}",'subjects_text'],
                                                                        ["#{t('search_results.filter.notes')}", 'notes'],
                                                                        ["#{t('search_results.filter.identifier')}", 'four_part_id'] ],
-                                                    :header_size => '1',
+                                                    :header_size => '2',
                                                     :show_header => true } %>
   <% else %>
 

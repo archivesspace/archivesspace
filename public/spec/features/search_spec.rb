@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'rails_helper'
 
 describe 'Search', js: true do
-  it 'should got to the correct page' do
+  it 'should go to the correct page' do
     visit('/')
     click_link 'Search The Archives'
     expect(current_path).to eq ('/search')

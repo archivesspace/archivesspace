@@ -1,9 +1,9 @@
 <% if @search_data.filtered_terms? or @search_data.query? %>
   <div class="well">
-    <h5>
+    <h3>
       <%= I18n.t "search_results.filtered_by" %>
       <%= link_to I18n.t("search_results.clear_all"), build_search_params({"q" => "", "filter_term" => []}), :class => "btn btn-xs pull-right" %>
-    </h5>
+    </h3>
     <ul>
       <% if @search_data.query? %>
         <li>
@@ -43,7 +43,7 @@
 <% end %>
 
 <% @search_data.facets_for_filter.each do |facet_group, facets| %>
-  <h5><%= I18n.t("search_results.filter.#{facet_group}", :default => facet_group) %></h5>
+  <h3><%= I18n.t("search_results.filter.#{facet_group}", :default => facet_group) %></h3>
   <ul>
     <% facets.each do |facet, facet_map| %>
       <li>

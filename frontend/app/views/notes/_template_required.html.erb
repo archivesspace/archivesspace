@@ -41,7 +41,7 @@
   form_note_type ||= nil
   nested_in_jsonmodel ||= nil
 %>
-  
+
 <% if (inline? && form_note_type) || defined?(nested_in_jsonmodel) %>
   <% define_template "#{form_note_type}_note_type_selector_inline" do |form, item| %>
     <% if item %>
@@ -53,7 +53,7 @@
           <div class="col-sm-4">
             <select class="form-control top-level-note-type">
               <option></option>
-              <% model_note_types = all_note_types ? all_note_types : note_types_for(nested_in_jsonmodel || form['jsonmodel_type']) %> 
+              <% model_note_types = all_note_types ? all_note_types : note_types_for(nested_in_jsonmodel || form['jsonmodel_type']) %>
               <% model_note_types.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
                 <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
               <% end %>
@@ -140,13 +140,13 @@
 
 <% define_template "note_singlepart", jsonmodel_definition(:note_singlepart) do |form| %>
   <div class="subrecord-form-fields" data-type="note_singlepart">
-    <h4 class="subrecord-form-heading">
+    <h3 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("enumerations.note_singlepart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_singlepart") %>
       <% end %>
-    </h4>
+    </h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_singlepart") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -164,7 +164,7 @@
 
 <% define_template "note_orderedlist", jsonmodel_definition(:note_orderedlist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_orderedlist">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_orderedlist") %></h4>
+    <h3 class="subrecord-form-heading"><%= I18n.t("note.note_orderedlist") %></h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_orderedlist") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -204,13 +204,13 @@
 
 <% define_template "note_multipart", jsonmodel_definition(:note_multipart) do |form| %>
   <div class="subrecord-form-fields" data-type="note_multipart">
-    <h4 class="subrecord-form-heading">
+    <h3 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("enumerations.note_multipart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_multipart") %>
       <% end %>
-    </h4>
+    </h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_multipart") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -232,12 +232,12 @@
       </section>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
-        <h5 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading">
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <button class="btn btn-sm btn-default add-sub-note-btn pull-right"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
           <% end %>
-        </h5>
+        </h4>
         <div class="subrecord-form-container">
           <% form.obj["subnotes"] = [JSONModel(:note_text).new.to_hash(:raw)] if form["subnotes"].blank? %>
 
@@ -278,9 +278,9 @@
 
 <% define_template "note_bioghist", jsonmodel_definition(:note_bioghist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_bioghist">
-    <h4 class="subrecord-form-heading">
+    <h3 class="subrecord-form-heading">
       <%= I18n.t("note.note_bioghist") %>
-    </h4>
+    </h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_bioghist") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -294,14 +294,14 @@
       <% end %>
 
       <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
-        <h5 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading">
           <%= I18n.t("note_multipart.sub_notes") %>
           <% if not form.readonly? %>
             <div class="btn-group pull-right">
               <button class="btn btn-sm btn-default add-sub-note-btn"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
             </div>
           <% end %>
-        </h5>
+        </h4>
         <div class="subrecord-form-container">
           <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
             <% form.emit_template(subnote["jsonmodel_type"]) %>
@@ -327,7 +327,7 @@
 
 <% define_template "note_citation", jsonmodel_definition(:note_citation) do |form| %>
   <div class="subrecord-form-fields" data-type="note_citation">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_citation") %></h4>
+    <h3 class="subrecord-form-heading"><%= I18n.t("note.note_citation") %></h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_citation") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -337,7 +337,7 @@
       <% form.emit_template("content_items", :required => form.required?('content')) %>
 
       <section class="subrecord-form">
-        <h5 class="subrecord-form-heading"><%= I18n.t("note_citation.xlink") %></h5>
+        <h4 class="subrecord-form-heading"><%= I18n.t("note_citation.xlink") %></h4>
         <div class="subrecord-form-container">
           <div class="subrecord-form-fields">
             <% form.emit_template "note_citation_xlink" %>
@@ -351,7 +351,7 @@
 
 <% define_template "note_abstract", jsonmodel_definition(:note_abstract) do |form| %>
   <div class="subrecord-form-fields" data-type="note_abstract">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_abstract") %></h4>
+    <h3 class="subrecord-form-heading"><%= I18n.t("note.note_abstract") %></h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_abstract") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -392,7 +392,7 @@
 
 <% define_template "note_outline", jsonmodel_definition(:note_outline) do |form| %>
   <div class="subrecord-form-fields" data-type="note_outline">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_outline") %></h4>
+    <h3 class="subrecord-form-heading"><%= I18n.t("note.note_outline") %></h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_outline") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -402,19 +402,19 @@
 
 <% define_template "note_definedlist", jsonmodel_definition(:note_definedlist) do |form| %>
   <div class="subrecord-form-fields" data-type="note_definedlist">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_definedlist") %></h4>
+    <h3 class="subrecord-form-heading"><%= I18n.t("note.note_definedlist") %></h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_definedlist") %>
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_req_boolean("title") %>
 
       <section class="subrecord-form">
-        <h5 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading">
           <%= I18n.t("note_definedlist.items") %>
           <% if not form.readonly? %>
             <button class="btn btn-xs btn-default pull-right add-item-btn"><%= I18n.t("note._frontend.action.note_definedlist_item") %></button>
           <% end %>
-        </h5>
+        </h4>
         <div class="subrecord-form-container">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("definedlist_item", item) %>
@@ -440,7 +440,7 @@
 
 <% define_template "note_index", jsonmodel_definition(:note_index) do |form| %>
   <div class="subrecord-form-fields" data-type="note_index">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_index") %></h4>
+    <h3 class="subrecord-form-heading"><%= I18n.t("note.note_index") %></h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_index") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -450,12 +450,12 @@
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <section class="subrecord-form">
-        <h5 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading">
           <%= I18n.t("note_index.items") %>
           <% if not form.readonly? %>
             <button class="btn btn-xs btn-default pull-right add-item-btn"><%= I18n.t("note._frontend.action.add_note_index_item") %></button>
           <% end %>
-        </h5>
+        </h4>
         <div class="subrecord-form-container">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("note_index_item", item) %>
@@ -478,19 +478,19 @@
 
 <% define_template "note_chronology", jsonmodel_definition(:note_chronology) do |form| %>
   <div class="subrecord-form-fields" data-type="note_chronology">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_chronology") %></h4>
+    <h3 class="subrecord-form-heading"><%= I18n.t("note.note_chronology") %></h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_chronology") %>
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_req_boolean("title") %>
 
       <section class="subrecord-form">
-        <h5 class="subrecord-form-heading">
+        <h4 class="subrecord-form-heading">
           <%= I18n.t("note_chronology.items") %>
           <% if not form.readonly? %>
             <button class="btn btn-xs btn-default pull-right add-item-btn"><%= I18n.t("note._frontend.action.add_note_chronology_item") %></button>
           <% end %>
-        </h5>
+        </h4>
         <div class="subrecord-form-container">
           <%= form.list_for(form["items"], "items[]") do |item| %>
             <% form.emit_template("chronology_item", item) %>
@@ -517,7 +517,7 @@
 
 <% define_template "note_bibliography", jsonmodel_definition(:note_bibliography) do |form| %>
   <div class="subrecord-form-fields" data-type="note_bibliography">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_bibliography") %></h4>
+    <h3 class="subrecord-form-heading"><%= I18n.t("note.note_bibliography") %></h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_bibliography") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -552,13 +552,13 @@
 
 <% define_template "note_digital_object", jsonmodel_definition(:note_digital_object) do |form| %>
   <div class="subrecord-form-fields" data-type="note_digital_object">
-    <h4 class="subrecord-form-heading">
+    <h3 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("enumerations.note_digital_object_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_digital_object") %>
       <% end %>
-    </h4>
+    </h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_digital_object") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -575,7 +575,7 @@
 
 <% define_template "note_text", jsonmodel_definition(:note_text) do |form| %>
   <div class="subrecord-form-fields" data-type="note_text">
-    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_text") %></h4>
+    <h3 class="subrecord-form-heading"><%= I18n.t("note.note_text") %></h3>
     <div class="subrecord-form-container">
       <% if form.readonly? %>
         <div class="subrecord-form-fields notes-readonly">
@@ -612,13 +612,13 @@
 
 <% define_template "note_rights_statement", jsonmodel_definition(:note_rights_statement) do |form| %>
   <div class="subrecord-form-fields" data-type="note_rights_statement">
-    <h4 class="subrecord-form-heading">
+    <h3 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("enumerations.note_rights_statement_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_rights_statement") %>
       <% end %>
-    </h4>
+    </h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_rights_statement") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -634,13 +634,13 @@
 
 <% define_template "note_rights_statement_act", jsonmodel_definition(:note_rights_statement_act) do |form| %>
   <div class="subrecord-form-fields" data-type="note_rights_statement_act">
-    <h4 class="subrecord-form-heading">
+    <h3 class="subrecord-form-heading">
       <% if form.readonly? %>
         <%= I18n.t("enumerations.note_rights_statement_act_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_rights_statement_act") %>
       <% end %>
-    </h4>
+    </h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_rights_statement_act") %>
       <%= form.hidden_input("ingest_problem") %>
@@ -656,9 +656,9 @@
 
 <% define_template "note_agent_rights_statement", jsonmodel_definition(:note_agent_rights_statement) do |form| %>
   <div class="subrecord-form-fields" data-type="note_agent_rights_statement">
-    <h4 class="subrecord-form-heading">
+    <h3 class="subrecord-form-heading">
       <%= I18n.t("note.note_agent_rights_statement") %>
-    </h4>
+    </h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_agent_rights_statement") %>
       <%= form.hidden_input("ingest_problem") %>

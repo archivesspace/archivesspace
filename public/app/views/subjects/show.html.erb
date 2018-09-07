@@ -32,7 +32,7 @@
     <%= render partial: 'shared/display_notes' %>
 
   <% unless @results.blank? || @results['total_hits'] == 0 %>
-     <h3><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h3>
+     <h2><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h2>
          <% @results.records.each do |result| %>
            <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
          <% end %>
@@ -42,7 +42,7 @@
 
    </div>
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-   <h4><%= t('more_about') %> '<%= @result.display_string %>'</h4>
+   <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
 
     <div class="acc_holder clear" >
       <div class="panel-group" id="res_accordion">

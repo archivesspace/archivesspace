@@ -16,25 +16,25 @@
   <br/>
 
   <% if @result.content_description %>
-    <h4><%= t('accession._public.section.content_description') %></h4>
+    <h2><%= t('accession._public.section.content_description') %></h2>
     <p><%= @result.content_description %></p>
   <% end %>
 
   <% if @result.acquisition_type %>
-    <h4><%= t('accession._public.section.acquisition_type') %></h4>
+    <h2><%= t('accession._public.section.acquisition_type') %></h2>
     <p><%= @result.acquisition_type %></p>
   <% end %>
 
   <% if @result.provenance %>
-    <h4><%= t('accession._public.section.provenance') %></h4>
+    <h2><%= t('accession._public.section.provenance') %></h2>
     <p><%= @result.provenance %></p>
   <% end %>
 
-  <h4><%= t('accession._public.section.restrictions_apply') %></h4>
+  <h2><%= t('accession._public.section.restrictions_apply') %></h2>
   <p><%= I18n.t("boolean.#{@result.restrictions_apply?}") %></p>
 
   <% if @result.access_restrictions_apply? %>
-    <h4><%= t('accession._public.section.access_restrictions') %></h4>
+    <h2><%= t('accession._public.section.access_restrictions') %></h2>
     <% if @result.access_restrictions_note %>
       <p><%= @result.access_restrictions_note %></p>
     <% else %>
@@ -43,7 +43,7 @@
   <% end %>
 
   <% if @result.use_restrictions_apply? %>
-    <h4><%= t('accession._public.section.use_restrictions') %></h4>
+    <h2><%= t('accession._public.section.use_restrictions') %></h2>
     <% if @result.use_restrictions_note %>
       <p><%= @result.use_restrictions_note %></p>
     <% else %>
