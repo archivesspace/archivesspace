@@ -16,7 +16,7 @@
 
       <%= form.label_and_textfield "identifier" %>
       <%= form.label_and_textfield "title" %>
-      <%= form.label_and_textfield "slug" %>
+      <%= form.label_and_textfield "slug", :field_opts => {:disabled => @classification.is_slug_auto } %>
       <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
       <%= form.label_and_textarea "description" %>
 
