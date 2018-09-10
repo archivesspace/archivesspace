@@ -15,6 +15,7 @@ class GenerateSlugsRunner < JobRunner
 
       Repository.each do |r|
         @job.write_output("Generating slug for repository id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
@@ -24,6 +25,7 @@ class GenerateSlugsRunner < JobRunner
 
       Resource.any_repo.each do |r|
         @job.write_output("Generating slug for resource id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
@@ -33,6 +35,7 @@ class GenerateSlugsRunner < JobRunner
 
       Accession.any_repo.each do |r|
         @job.write_output("Generating slug for accession id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
@@ -42,6 +45,7 @@ class GenerateSlugsRunner < JobRunner
 
       DigitalObject.any_repo.each do |r|
         @job.write_output("Generating slug for digital object id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
@@ -51,6 +55,7 @@ class GenerateSlugsRunner < JobRunner
 
       Classification.any_repo.each do |r|
         @job.write_output("Generating slug for classification id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
@@ -60,6 +65,7 @@ class GenerateSlugsRunner < JobRunner
 
       AgentCorporateEntity.each do |r|
         @job.write_output("Generating slug for agent_corporate_entity id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
@@ -69,6 +75,7 @@ class GenerateSlugsRunner < JobRunner
 
       AgentFamily.each do |r|
         @job.write_output("Generating slug for agent_family id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
@@ -78,6 +85,7 @@ class GenerateSlugsRunner < JobRunner
 
       AgentPerson.each do |r|
         @job.write_output("Generating slug for agent_person id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
@@ -87,6 +95,7 @@ class GenerateSlugsRunner < JobRunner
 
       AgentSoftware.each do |r|
         @job.write_output("Generating slug for agent_software id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
@@ -96,6 +105,7 @@ class GenerateSlugsRunner < JobRunner
 
       Subject.each do |r|
         @job.write_output("Generating slug for subject id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
         r.update(:is_slug_auto => 1)
       end
 
