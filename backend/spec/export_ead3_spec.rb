@@ -80,6 +80,7 @@ describe "EAD3 export mappings" do
                       :subjects => @subjects.map{|ref, s| {:ref => ref}},
                       :instances => instances,
                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
+                      :finding_aid_author => 'Rubenstein Staff + Landskröner',
                       :finding_aid_filing_title => "this is a filing title",
                       :finding_aid_series_statement => "here is the series statement",
                       :publish => true,
@@ -265,7 +266,7 @@ describe "EAD3 export mappings" do
     end
 
     it "maps resource.finding_aid_author to filedesc/titlestmt/author" do
-      data = @resource.finding_aid_author ? "Finding aid prepared by #{@resource.finding_aid_author}" : nil
+      data = @resource.finding_aid_author ? "#{@resource.finding_aid_author}" : nil
       mt(data, "control/filedesc/titlestmt/author")
     end
 

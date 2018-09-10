@@ -171,13 +171,18 @@ class PUIIndexer < PeriodicIndexer
     add_infscroll_docs(tree_uris.select {|uri| JSONModel.parse_reference(uri).fetch(:type) == 'resource'},
                        batch)
 
-    LargeTreeDocIndexer.new(batch).add_largetree_docs(tree_uris)
+    tree_indexer = LargeTreeDocIndexer.new(batch)
+    tree_indexer.add_largetree_docs(tree_uris)
 
     if batch.length > 0
       log "Indexed #{batch.length} additional PUI records in repository #{repository.repo_code}"
 
       index_batch(batch, nil, :parent_id_field => 'pui_parent_id')
       send_commit
+    end
+
+    if tree_indexer.deletes.length > 0
+      delete_records(tree_indexer.deletes, :parent_id_field => 'pui_parent_id')
     end
 
     handle_deletes(:parent_id_field => 'pui_parent_id')

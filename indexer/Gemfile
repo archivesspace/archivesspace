@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
+gem 'nokogiri', '1.8.4'
 gem "atomic", '= 1.0.1'
 gem "json", "1.8.6"
 gem "sinatra", '1.4.7', :require => false
