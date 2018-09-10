@@ -9,6 +9,7 @@
     <fieldset>
        <%= form.label_and_textarea "title" %>
        <%= form.label_and_fourpartid %>
+      <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
       <%= form.label_and_textfield "slug", :field_opts => {:disabled => @accession.is_slug_auto } %>
        <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
        <%= form.label_and_date "accession_date" %>

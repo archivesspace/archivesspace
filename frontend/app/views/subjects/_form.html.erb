@@ -13,6 +13,7 @@
       <%= form.label_and_textfield "authority_id" %>
       <%= form.label_and_select "source", form.possible_options_for("source", true) %>
       <%= form.label_and_textarea "scope_note" %>
+      <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
       <%= form.label_and_textfield "slug", :field_opts => {:disabled => @subject.is_slug_auto } %>
       <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
     </section>
