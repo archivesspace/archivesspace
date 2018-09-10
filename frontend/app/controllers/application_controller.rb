@@ -332,9 +332,12 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def self.session_repo(session, repo)
+  # ANW-617: To generate public URLs correctly in the show pages for various entities, we need access to the repository slug.
+  # Since the JSON objects for these don't have this info, we load it into the session along with other repo data when a repo is selected for convienience. 
+  def self.session_repo(session, repo, repo_slug = nil)
     session[:repo] = repo
     session[:repo_id] = JSONModel(:repository).id_for(repo)
+    session[:repo_slug] = repo_slug if repo_slug
     self.user_preferences(session)
   end
 
