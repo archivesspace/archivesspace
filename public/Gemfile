@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails
 gem 'rails', '5.0.1'
 
-gem 'loofah', '2.0.3'
+gem 'loofah', '>= 2.2.2'
 gem "i18n", "0.9.1"
 
 # Use jdbcsqlite3 as the database for Active Record
