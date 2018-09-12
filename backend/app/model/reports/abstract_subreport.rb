@@ -27,7 +27,7 @@ class AbstractSubreport
     if array.empty?
       nil
     else
-      array.push(code) if format == 'pdf' || format == 'html'
+      array.push(code) if ['pdf', 'html', 'rtf'].include? format
       array
     end
   end

@@ -1,6 +1,8 @@
 require 'net/http'
 require 'uri'
 require 'thread'
+require 'asutils'
+
 
 # This class provides access to the basic ArchivesSpace API endpoints.  A single
 # instance will be shared between all running request threads, so it should be
@@ -39,7 +41,7 @@ class ArchivesSpaceClient
     results = search_all_results("primary_type:repository")
 
     results.map { |result|
-      Repository.from_json(JSON.parse(result['json']))
+      Repository.from_json(ASUtils.json_parse(result['json']))
     }
       .each { |r| repos[r['uri']] = r }
     repos
@@ -106,7 +108,7 @@ class ArchivesSpaceClient
     url =  build_url('/search/published_tree', {:node_uri => node_uri})
     begin
       results = do_search(url, true)
-      tree = JSON.parse(results['tree_json'])
+      tree = ASUtils.json_parse(results['tree_json'])
     rescue  RequestFailedException => error
       Rails.logger.error("Tree search failed on #{node_uri} : #{error}")
     end
@@ -147,7 +149,7 @@ class ArchivesSpaceClient
       Rails.logger.debug("Code: #{response.code}")
       raise RequestFailedException.new("#{response.code}: #{response.body}")
     end
-    results = JSON.parse(response.body)
+    results = ASUtils.json_parse(response.body)
     results
   end
 
@@ -177,7 +179,7 @@ class ArchivesSpaceClient
           raise LoginFailedException.new("#{response.code}: #{response.body}")
         end
 
-        @session = JSON(response.body).fetch('session')
+        @session = ASUtils.json_parse(response.body).fetch('session')
       rescue
         raise LoginFailedException.new($!.message)
       end

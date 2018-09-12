@@ -88,7 +88,7 @@ For example, to reference this logo from the custom branding file, use
 markup such as:
 
      <div class="container branding">
-       <img src="<%= #{AppConfig[:frontend_proxy_prefix]} %>assets/my_logo.png"/>
+       <img src="<%= #{AppConfig[:frontend_proxy_prefix]} %>assets/my_logo.png" alt="My logo" />
      </div>
 
 

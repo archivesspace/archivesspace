@@ -1884,6 +1884,7 @@ fr:
       csv: CSV
       pdf: PDF
       html: HTML
+      rtf: RTF
 
   validation_errors:
     agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques

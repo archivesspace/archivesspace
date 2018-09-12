@@ -136,7 +136,7 @@ module SearchHelper
       if result.has_key? identifier
         identifier = result[identifier]
       else
-        json       = JSON.parse(result["json"])
+        json       = ASUtils.json_parse(result["json"])
         identifier = json.fetch(identifier, "")
       end
     end

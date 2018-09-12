@@ -1412,6 +1412,7 @@ ja:
       csv: CSV
       pdf: PDF
       html: HTML
+      rtf: RTF
 
   validation_errors:
     agent_must_be_unique: エージェントレコードは同一ではありません

@@ -97,10 +97,6 @@
 
             var scrollAmount = e.originalEvent.deltaY;
 
-            if (Math.abs(scrollAmount) < 50) {
-                scrollAmount = (scrollAmount < 0 ? -1 : 1) * 55;
-            }
-
             self.scrollBy(scrollAmount);
         });
     };
