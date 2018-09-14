@@ -638,8 +638,13 @@ class MARCModel < ASpaceExport::ExportModel
       joint = name['name_order'] == 'direct' ? ' ' : ', '
       name_parts = [name['primary_name'], name['rest_of_name']].reject{|i| i.nil? || i.empty?}.join(joint)
 
-      subfield_e = role_info[0] == "e" ? role_info : nil
-      subfield_4 = role_info[0] == "4" ? role_info : nil
+      if role_info.nil? || role_info.empty?
+        subfield_e = nil
+        subfield_4 = nil
+      else
+        subfield_e = role_info[0] == "e" ? role_info : nil
+        subfield_4 = role_info[0] == "4" ? role_info : nil
+      end
 
       number      = name['number'] rescue nil
       extras      = %w(prefix title suffix).map {|prt| name[prt]}.compact.join(', ') rescue nil
@@ -698,8 +703,13 @@ class MARCModel < ASpaceExport::ExportModel
 
 
     def gather_agent_family_subfield_mappings(name, role_info, agent)
-      subfield_e = role_info[0] == "e" ? role_info : nil
-      subfield_4 = role_info[0] == "4" ? role_info : nil
+      if role_info.nil? || role_info.empty?
+        subfield_e = nil
+        subfield_4 = nil
+      else
+        subfield_e = role_info[0] == "e" ? role_info : nil
+        subfield_4 = role_info[0] == "4" ? role_info : nil
+      end
 
       family_name = name['family_name'] rescue nil
       qualifier   = name['qualifier'] rescue nil
@@ -769,8 +779,13 @@ class MARCModel < ASpaceExport::ExportModel
 
 
     def gather_agent_corporate_subfield_mappings(name, role_info, agent)
-      subfield_e = role_info[0] == "e" ? role_info : nil
-      subfield_4 = role_info[0] == "4" ? role_info : nil
+      if role_info.nil? || role_info.empty?
+        subfield_e = nil
+        subfield_4 = nil
+      else
+        subfield_e = role_info[0] == "e" ? role_info : nil
+        subfield_4 = role_info[0] == "4" ? role_info : nil
+      end
 
       primary_name = name['primary_name'] rescue nil
       sub_name1    = name['subordinate_name_1'] rescue nil
