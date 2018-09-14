@@ -1,10 +1,9 @@
 # ANW-267:
 # This class has the same purpose as ASFop: Turn an XML document into a PDF via Apache FOP.
-# However, due to issues with FOP generating garbled PDF in Windows when running under JRuby, this class calls FOP externally, using backticks, bypassing JRuby.
+# However, due to issues with FOP generating garbled PDF in Windows when running under JRuby, this class calls FOP externally, using system(), bypassing JRuby.
 
 require 'saxon-xslt'
 require 'stringio'
-require 'pry'
 
 class ASFopExternal
 
@@ -33,14 +32,14 @@ class ASFopExternal
     # our command is of the form
     # java -jar PATH_TO_FOP_JAR org.apache.fop.cli.Main -fo PATH_TO_INPUT_XML -pdf PATH_TO_OUTPUT_XML
     command = "cd #{path_to_fop_jar} #{multiple_command_operator} #{AppConfig[:path_to_java]} -jar fop.jar org.apache.fop.cli.Main -fo #{@fo.path} -pdf #{@output_path}"
-    STDERR.puts "Executing: #{command}"
+    STDOUT.puts "Executing: #{command}"
     success = system(command)
 
     @fo.unlink
 
     # return a file handle to our output file
     if success
-      output = File.open(@output_path, "r+")
+      output = File.open(@output_path, "rb")
       output.close
 
       return output
@@ -53,13 +52,25 @@ class ASFopExternal
 
     # path to fop.jar file could be a few different things, depending on whether server is running in dev or prod mode
     def path_to_fop_jar
-      if File.exists?("../common/lib/fop.jar")
+      # On the Windows system tested, this is the branch (go up 5 levels and then into lib) expected to find the fop.jar file when running in prod mode.
+      # The searching around with the other elsifs are a bit overkill, but added in to try to improve robustness
+      if File.exists?("../../../../../lib/fop.jar")
+        return "../../../../../lib"
+      elsif File.exists?("../common/lib/fop.jar")
         return "../common/lib"
       elsif File.exists?("../lib/fop.jar")
         return "../lib"
+      elsif File.exists?("../../lib/fop.jar")
+        return "../../lib"
+      elsif File.exists?("../../../lib/fop.jar")
+        return "../../../lib"
+      elsif File.exists?("../../../../lib/fop.jar")
+        return "../../../../lib"
+      elsif File.exists?("../../../../../../lib/fop.jar")
+         return "../../../../../../lib"
       elsif File.exists?("lib/fop.jar")
         return "lib"
-      else 
+      else
         raise "fop.jar not found."
       end
     end

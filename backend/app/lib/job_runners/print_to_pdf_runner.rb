@@ -38,12 +38,17 @@ class PrintToPDFRunner < JobRunner
         xml = ""
         ASpaceExport.stream(ead).each { |x| xml << x }
 
-        #pdf = ASFop.new(xml).to_pdf
-        pdf = ASFopExternal.new(xml).to_pdf
+        # ANW-267: For windows machines, run FOP to generate PDF externally with a system() call instead of through JRuby to fix PDF corruption issues
+        if RbConfig::CONFIG['host_os'] =~ /win32/
+          pdf = ASFopExternal.new(xml).to_pdf
+        else
+          pdf = ASFop.new(xml).to_pdf
+        end
 
         job_file = @job.add_file( pdf )
         @job.write_output("File generated at #{job_file[:file_path].inspect} ")
 
+        # pdf will be either a Tempfile or File object, depending on whether it was created externally.
         if pdf.class == Tempfile
           pdf.unlink
         elsif pdf.class == File
