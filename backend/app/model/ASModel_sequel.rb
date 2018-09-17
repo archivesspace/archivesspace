@@ -25,17 +25,13 @@ module ASModel
       super
     end
 
-    # Slugs:
-    # autogenerate a slug based on name/title if flag is set.
-    # make sure slug has no invalid chars and is valid length
-    # make sure slug is de-duped.
     def before_save
       if self[:is_slug_auto] == 1
         auto_gen_slug!
       end
 
       if self[:slug]
-        self[:slug] = SlugHelpers.clean_slug(self[:slug])
+        self[:slug] = SlugHelpers.clean_slug(self[:slug], self.class)
       end
     end
 

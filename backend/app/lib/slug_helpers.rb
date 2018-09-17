@@ -100,7 +100,7 @@ module SlugHelpers
 
   # given a slug, return true if slug is used by another entitiy.
   # return false otherwise.
-  def self.slug_in_use?(slug)
+  def self.slug_in_use?(slug, klass)
     repo_count           = Repository.where(:slug => slug).count
     resource_count       = Resource.where(:slug => slug).count
     subject_count        = Subject.where(:slug => slug).count
@@ -112,6 +112,34 @@ module SlugHelpers
     agent_corp_count     = AgentCorporateEntity.where(:slug => slug).count
     agent_software_count = AgentSoftware.where(:slug => slug).count
 
+    # We don't want to count a slug as in use if it's being used by 
+    # the record we're calling this method for. 
+    # To fix that false positive case:
+    # if a count for a class is > 0 and that's the same class that's de-duping
+    # decrement the count by one to account for the calling object
+
+    case klass
+    when Repository
+      repo_count -= 1 if repo_count > 0
+    when Resource
+      resource_count -= 1 if resource_count > 0
+    when Subject
+      subject_count -= 1 if subject_count > 0
+    when DigitalObject
+      digital_object_count -= 1 if digital_object_count > 0
+    when Accession
+      acccession_count -= 1 if accession_count > 0
+    when Classification
+      classification_count -= 1 if classification_count > 0
+    when AgentPerson
+      agent_person_count -= 1 if agent_person_count > 0
+    when AgentFamily
+      agent_family_count -= 1 if agent_family_count > 0
+    when AgentCorporateEntity
+      agent_corp_count -= 1 if agent_corp_count > 0
+    when AgentSoftware
+      agent_software_count -= 1 if agent_software_count > 0
+    end
 
     return repo_count + 
            resource_count + 
@@ -171,7 +199,7 @@ module SlugHelpers
   end
 
   # remove invalid chars, truncate, and dedupe slug if necessary
-  def self.clean_slug(slug)
+  def self.clean_slug(slug, klass)
     # replace spaces with underscores
     slug = slug.gsub(" ", "_")
 
@@ -193,7 +221,7 @@ module SlugHelpers
     end
 
     # search for dupes
-    if SlugHelpers.slug_in_use?(slug)
+    if SlugHelpers.slug_in_use?(slug, klass)
       slug = SlugHelpers.dedupe_slug(slug)
     end
 
