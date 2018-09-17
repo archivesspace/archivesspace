@@ -31,15 +31,11 @@ module ASModel
     # make sure slug is de-duped.
     def before_save
       if self[:is_slug_auto] == 1
-        if AppConfig[:auto_generate_slugs_with_id]
-          auto_gen_slug_on_id!
-        else
-          auto_gen_slug_on_name!
-        end
+        auto_gen_slug!
       end
 
       if self[:slug]
-        clean_slug!
+        self[:slug] = SlugHelpers.clean_slug(self[:slug])
       end
     end
 
@@ -79,101 +75,13 @@ module ASModel
 
     private 
 
-      # remove invalid chars, truncate, and dedupe slug if necessary
-      def clean_slug!
-        # replace spaces with underscores
-        self[:slug] = self[:slug].gsub(" ", "_")
-
-        # remove URL-reserved chars
-        self[:slug] = self[:slug].gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!.]/, "")
-
-        # enforce length limit of 50 chars
-        self[:slug] = self[:slug].slice(0, 50)
-
-        # if slug is numeric, add a leading '_' 
-        # this is necessary, because numerical slugs will be interpreted as an id
-        if self[:slug].match(/^(\d)+$/) 
-          self[:slug] = self[:slug].prepend("_")
-        end
-
-        # if slug is empty at this point, make something up.
-        if self[:slug].empty?
-          self[:slug] = SlugHelpers.random_name
-        end
-
-        # search for dupes
-        if SlugHelpers.slug_in_use?(self[:slug])
-          self[:slug] = SlugHelpers.dedupe_slug(self[:slug])
-        end
-      end
-
-      # auto generate a slug for this instance based on name
-      def auto_gen_slug_on_name!
-        if !self[:title].nil? && !self[:title].empty?
-          self[:slug] = self[:title]
-
-        elsif !self[:name].nil? && !self[:name].empty?
-          self[:slug] = self[:name]
-
+      def auto_gen_slug!
+        if AppConfig[:auto_generate_slugs_with_id]
+          SlugHelpers.generate_slug_by_id!(self)
         else
-          # if Agent, go look in the AgentContact table.
-          if self.class == AgentCorporateEntity ||
-             self.class == AgentPerson ||
-             self.class == AgentFamily ||
-             self.class == AgentSoftware
-
-            self[:slug] = SlugHelpers.get_agent_name(self.id, self.class)
-
-          # otherwise, make something up.
-          else
-            self[:slug] = SlugHelpers.random_name
-          end
+          SlugHelpers.generate_slug_by_name!(self)
         end
       end
-
-      # auto generate a slug for this instance based on id
-      def auto_gen_slug_on_id!
-        if self.class == Resource 
-          if AppConfig[:generate_resource_slugs_with_eadid] && self[:ead_id]
-            # use EADID if configured. Otherwise, use identifier.
-            self[:slug] = self[:ead_id]
-          else
-            self[:slug] = format_multipart_identifier(self[:identifier])
-          end
-
-        elsif self.class == Accession  
-          self[:slug] = format_multipart_identifier(self[:identifier])
-
-        elsif self.class == Classification
-          self[:slug] = self[:identifier]
-
-        elsif self.class == DigitalObject
-          self[:slug] = self[:digital_object_id]
-
-        elsif self.class == Repository
-          self[:slug] = self[:repo_code]
-
-        # no identifier here!
-        elsif self.class == Subject
-          self[:slug] = self[:title]
-
-        # or here
-        elsif self.class == AgentCorporateEntity || AgentPerson || AgentFamily || AgentSoftware
-          self[:slug] = SlugHelpers.get_agent_name(self.id, self.class)
-        end
-      end
-
-      # take a string that looks like this: "[\"3422\",\"345FD\",\"3423ASDA\",null]"
-      # and convert it into this: "3422-345FD-3423ASDA"
-      def format_multipart_identifier(identifier)
-        identifier.gsub("null", '')
-                  .gsub!(/[\[\]]/,'')
-                  .gsub(",", '')
-                  .split('"')
-                  .select {|s| !s.empty?}
-                  .join("-")
-      end
-
 
     module BlobHack
       def self.extended(base)
