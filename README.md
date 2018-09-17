@@ -16,7 +16,6 @@ ArchivesSpace README
 
 * Java 1.7 or 1.8.
 * At least 1024 MB RAM allocated to the application; at least 2 GB for optimal performance.
-* A [supported browser](https://archivesspace.atlassian.net/wiki/display/ADC/Supported+Browsers)
 
 ArchivesSpace has been tested on Ubuntu Linux, Mac OS X, and
 Windows.
@@ -246,6 +245,7 @@ ArchivesSpace requires.  Run this with:
 You can now follow the instructions in the "Getting Started" section to start
 your ArchivesSpace application.
 
+**NOTE: For MySQL 8. MySQL 8 uses a new method (caching_sha2_password) as the default authentication plugin instead of the old mysql_native_password that MySQL 5.7 and older used. This may require starting a MySQL 8 server with the `--default-authentication-plugin=mysql_native_password` option. You may also be able to change the auth mechanism on a per user basis by logging into mysql and running `ALTER USER 'archivesspace' IDENTIFIED WITH mysql_native_password BY '123456';`. Also be sure to have the LATEST [MySQL Connector for Java](http://dev.mysql.com/downloads/connector/j/) from MySQL in your /lib/ directory for ArchivesSpace. 
 
 # Backup and recovery
 
