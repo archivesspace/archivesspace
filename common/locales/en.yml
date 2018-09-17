@@ -1941,7 +1941,14 @@ en:
     custom_report_template_name_not_unique: The custom report template's name must be unique.
     custom_report_must_include_field_or_subreport: The custom report template must include at least one field or subreport.
     missing_filter_values: Selected to filter results by field but no value(s) given 
-    must_be_a_valid_email_address: Email address field must contain a valid address.
+    must_be_a_valid_email_address: Email address field must contain a valid address
+    repo_set_desc_required: Repository set description is required for creating an OAI repository set
+    repo_set_name_required: Repository set name is required for creating an OAI repository set
+    is_not_present: Required field missing
+    must_be_a_valid_email_address: Must contain a valid address
+    sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
+    sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
+
 
   job:
     _singular: Background Job

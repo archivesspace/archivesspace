@@ -37,27 +37,27 @@ class OAIConfig < Sequel::Model(:oai_config)
 
   def validate_oai_admin_email_is_email
     unless self.oai_admin_email =~ /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-      errors.add(:oai_admin_email, 'must be a valid email address.') 
+      errors.add(:oai_admin_email, 'must be a valid email address') 
     end
   end
 
   def validate_repo_set_fields
     if self.repo_set_codes && self.repo_set_codes != "[]" && !self.repo_set_description
-      errors.add(:repo_set_description, 'must be present if repository codes are present') 
+      errors.add(:repo_set_description, 'repo_set_desc_required') 
     end
 
     if self.repo_set_codes && self.repo_set_codes != "[]" && !self.repo_set_name
-      errors.add(:repo_set_name, 'must be present if repository codes are present') 
+      errors.add(:repo_set_name, 'repo_set_name_required') 
     end
   end
 
   def validate_sponsor_set_fields
     if self.sponsor_set_names && self.sponsor_set_names != "[]" && !self.sponsor_set_description
-      errors.add(:sponsor_set_description, 'must be present if repository codes are present') 
+      errors.add(:sponsor_set_description, 'sponsor_set_desc_required') 
     end
 
     if self.sponsor_set_names && self.sponsor_set_names != "[]" && !self.sponsor_set_name
-      errors.add(:sponsor_set_name, 'must be present if repository codes are present') 
+      errors.add(:sponsor_set_name, 'sponsor_set_name_required') 
     end
   end
 
