@@ -1,5 +1,6 @@
 //= require subrecord.crud 
 //= require form
+//= require slug
 //
 
 $(document).on("shown.bs.modal", function() { 
