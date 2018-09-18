@@ -645,6 +645,11 @@ module AspaceFormHelper
       control_group_classes << "conditionally-required" if required == :conditionally
 
       control_group_classes << "#{opts[:control_class]}" if opts.has_key? :control_class
+
+      # ANW-617: add JS classes to slug fields
+      control_group_classes << "js-slug_textfield" if name == "slug"
+      control_group_classes << "js-slug_auto_checkbox" if name == "is_slug_auto"
+
       controls_classes << "#{opts[:controls_class]}" if opts.has_key? :controls_class
 
       control_group = "<div class=\"#{control_group_classes.join(' ')}\">"
