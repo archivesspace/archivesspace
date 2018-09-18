@@ -15,6 +15,10 @@
       "other_level" => {"type" => "string", "maxLength" => 255},
 
       "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
+
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"},
+      
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "restrictions_apply" => {"type" => "boolean", "default" => false},

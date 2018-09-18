@@ -513,6 +513,8 @@ en:
         save: Save Software
 
   archival_object:
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
     _frontend:
       messages:
         created: Archival Object <strong>%{archival_object.display_string}</strong> on Resource <strong>%{resource.title}</strong> created
@@ -629,6 +631,8 @@ en:
         save: Save Digital Object
 
   digital_object_component:
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
     _frontend:
       messages:
         created_with_parent: Digital Object Component <strong>%{digital_object_component.display_string}</strong> created as child of <strong>%{parent.display_string}</strong> on Digital Object <strong>%{digital_object.title}</strong>

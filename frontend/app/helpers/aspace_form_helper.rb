@@ -799,6 +799,12 @@ module AspaceFormHelper
       when 'subject'
         scope = :global
         route = "subjects"
+      when 'archival_object'
+        scope = :repo
+        route = "archival_objects"
+      when 'digital_object_component'
+        scope = :repo
+        route = "digital_object_components"
       end
 
       # For repo scoped objects,

@@ -28,6 +28,9 @@
       <%= form.label_and_textfield "label", :required => :conditionally %>
       <%= form.label_and_textarea "title", :required => :conditionally %>
       <%= form.label_and_textfield "component_id" %>
+      <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
+      <%= form.label_and_textfield "slug", :field_opts => {:disabled => @digital_object_component.is_slug_auto } %>
+      <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
       <div class="form-group">
         <%= form.label "publish", :class => 'control-label col-sm-2' %>
         <div class="checkbox col-sm-9">
@@ -62,3 +65,6 @@
   <%= form_plugins_for("digital_object_component", form) %>
 
 </fieldset>
+<%= javascript_tag do %>
+  activate_slug_checkbox();
+<% end %>

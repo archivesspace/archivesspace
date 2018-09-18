@@ -111,6 +111,8 @@ module SlugHelpers
     agent_family_count   = AgentFamily.where(:slug => slug).count
     agent_corp_count     = AgentCorporateEntity.where(:slug => slug).count
     agent_software_count = AgentSoftware.where(:slug => slug).count
+    archival_obj_count   = ArchivalObject.where(:slug => slug).count
+    do_component_count   = DigitalObjectComponent.where(:slug => slug).count
 
     # We don't want to count a slug as in use if it's being used by 
     # the record we're calling this method for. 
@@ -139,6 +141,10 @@ module SlugHelpers
       agent_corp_count -= 1 if agent_corp_count > 0
     when AgentSoftware
       agent_software_count -= 1 if agent_software_count > 0
+    when ArchivalObject
+      archival_obj_count -= 1 if archival_obj_count > 0
+    when DigitalObjectComponent
+      do_component_count -= 1 if do_component_count > 0
     end
 
     return repo_count + 
@@ -150,7 +156,9 @@ module SlugHelpers
            agent_family_count + 
            agent_corp_count + 
            agent_software_count + 
-           digital_object_count > 0
+           digital_object_count 
+           archival_obj_count +
+           do_component_count > 0
   end
 
   # dupe_slug is already in use. Recusively find a suffix (e.g., slug_1)
@@ -273,6 +281,12 @@ module SlugHelpers
 
     elsif thing.class == Repository
       thing[:slug] = thing[:repo_code]
+
+    elsif thing.class == ArchivalObject
+      thing[:slug] = thing[:ref_id]
+
+    elsif thing.class == DigitalObjectComponent
+      thing[:slug] = thing[:component_id]
 
     # no identifier here!
     elsif thing.class == Subject

@@ -11,4 +11,36 @@ describe 'DigitalObjectComponent model' do
     expect(DigitalObjectComponent[doc.id].title).to eq(doc.title)
   end
 
+  describe "slug tests" do
+    it "autogenerates a slug via title when configured to generate by name" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+
+      digital_object = DigitalObjectComponent.create_from_json(build(:json_digital_object_component))
+      
+
+      digital_object_rec = DigitalObjectComponent.where(:id => digital_object[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = digital_object_rec[:title].gsub(" ", "_")
+                                           .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+      expect(digital_object_rec[:slug]).to eq(expected_slug)
+    end
+
+    it "autogenerates a slug via digital_object_id when configured to generate by id" do
+      AppConfig[:auto_generate_slugs_with_id] = true
+
+      digital_object = DigitalObjectComponent.create_from_json(build(:json_digital_object_component))
+      
+
+      digital_object_rec = DigitalObjectComponent.where(:id => digital_object[:id]).first.update(:is_slug_auto => 1)
+
+      expected_slug = digital_object_rec[:componenet_id].gsub(" ", "_")
+                                                .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+                                                .gsub('"', '')
+                                                .gsub('null', '')
+
+      expect(digital_object_rec[:slug]).to eq(expected_slug)
+    end
+  end
+
 end
