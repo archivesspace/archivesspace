@@ -34,10 +34,15 @@ describe 'DigitalObjectComponent model' do
 
       digital_object_rec = DigitalObjectComponent.where(:id => digital_object[:id]).first.update(:is_slug_auto => 1)
 
-      expected_slug = digital_object_rec[:componenet_id].gsub(" ", "_")
+      expected_slug = digital_object_rec[:component_id].gsub(" ", "_")
                                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
                                                 .gsub('"', '')
                                                 .gsub('null', '')
+
+      # numeric slugs will be prepended by an underscore
+      if expected_slug =~ /^\d+$/
+        expected_slug = "_#{expected_slug}"
+      end
 
       expect(digital_object_rec[:slug]).to eq(expected_slug)
     end

@@ -156,18 +156,18 @@ module SlugHelpers
            agent_family_count + 
            agent_corp_count + 
            agent_software_count + 
-           digital_object_count 
+           digital_object_count +
            archival_obj_count +
            do_component_count > 0
   end
 
   # dupe_slug is already in use. Recusively find a suffix (e.g., slug_1)
   # that isn't used by anything else
-  def self.dedupe_slug(dupe_slug, count = 1)
+  def self.dedupe_slug(dupe_slug, count = 1, klass)
     new_slug = dupe_slug + "_" + count.to_s
 
-    if slug_in_use?(new_slug)
-      dedupe_slug(dupe_slug, count + 1)
+    if slug_in_use?(new_slug, klass)
+      dedupe_slug(dupe_slug, count + 1, klass)
     else
       return new_slug
     end
@@ -230,7 +230,7 @@ module SlugHelpers
 
     # search for dupes
     if SlugHelpers.slug_in_use?(slug, klass)
-      slug = SlugHelpers.dedupe_slug(slug)
+      slug = SlugHelpers.dedupe_slug(slug, 1, klass)
     end
 
     return slug
