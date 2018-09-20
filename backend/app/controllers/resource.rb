@@ -28,6 +28,21 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/repositories/:repo_id/resources/:id/children')
+    .description("Get the children of an Archival Object")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "a list of archival object references"],
+             [404, "Not found"]) \
+  do
+    resource = Resource.get_or_die(params[:id])
+    json_response(resource.children.map {|child|
+                    ArchivalObject.to_jsonmodel(child)
+                  })
+  end
+
+
   Endpoint.get('/repositories/:repo_id/resources/:id/tree')
     .description("Get a Resource tree")
     .deprecated("Call the */tree/{root,waypoint,node} endpoints to traverse record trees." +
