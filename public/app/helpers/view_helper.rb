@@ -116,4 +116,24 @@ module ViewHelper
 
 		return url
 	end
+
+	def object_base_url(result)
+		if result.json['slug']
+			if AppConfig[:repo_name_in_slugs] 
+				if result.resolved_repository["slug"]
+					url = "repositories/#{result.resolved_repository["slug"]}/archival_objects/" + result.json['slug']
+				else
+					url = result['uri']
+				end
+
+			# otherwise, generate URL without repo slug
+			else
+				url = "archival_objects/" + result.json['slug']
+			end
+		else
+			url = result['uri']
+		end
+
+		return url	
+	end
 end
