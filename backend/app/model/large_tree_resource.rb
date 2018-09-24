@@ -37,6 +37,9 @@ class LargeTreeResource
         response['containers'] << container_data
     end
 
+    STDERR.puts "++++++++++++++++++++++++++++"
+    STDERR.puts "LARGE TREE!"
+    STDERR.puts "large tree resource: " + response.inspect
     response
   end
 

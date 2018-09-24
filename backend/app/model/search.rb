@@ -94,6 +94,12 @@ class Search
 
     results = Solr.search(query)
 
+
+    puts "++++++++++++++++++++++++++++"
+    puts "IN RECORDS FOR URIs"
+    puts results.inspect
+    puts query.inspect
+
     resolver = SearchResolver.new(resolve)
     resolver.resolve(results)
 

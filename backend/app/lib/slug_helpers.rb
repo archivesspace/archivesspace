@@ -45,6 +45,10 @@ module SlugHelpers
       "accession"
     when "classifications"
       "classification"
+    else
+      puts "++++++++++++++++++++++++++++"
+      puts "controller: " + controller.to_s
+
     end
 
     if repo.nil?
