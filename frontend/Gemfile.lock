@@ -177,7 +177,7 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-debug-base (0.10.6-java)
     ruby-progressbar (1.10.0)
-    rubyzip (1.2.1)
+    rubyzip (1.2.2)
     sass (3.5.7)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -252,7 +252,7 @@ DEPENDENCIES
   rspec (~> 3.6.0)
   rspec-rails
   rubocop (~> 0.54.0)
-  rubyzip (~> 1.2.1)
+  rubyzip (~> 1.2.2)
   sass-rails (~> 5.0, >= 5.0.6)
   simplecov (= 0.7.1)
   sprockets-rails (= 2.3.3)

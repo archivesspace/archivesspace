@@ -49,7 +49,7 @@ gem 'multi_json', '~> 1.13.1'
 gem "rjack-jackson", "1.8.11.0"
 
 
-gem "rubyzip", "~> 1.2.1" # because of https://github.com/rubyzip/rubyzip/issues/315
+gem 'rubyzip', '~> 1.2.2'
 gem "zip-zip", "0.3"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
