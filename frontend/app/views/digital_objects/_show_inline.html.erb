@@ -6,13 +6,13 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <% define_template "digital_object", jsonmodel_definition(:digital_object) do |readonly, digital_object| %>
-        <h2><%= clean_mixed_content(digital_object.title) %> <span class="label label-info"><%= I18n.t("digital_object._singular") %></span></h2>
+        <h3><%= clean_mixed_content(digital_object.title) %> <span class="label label-info"><%= I18n.t("digital_object._singular") %></span></h3>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
         <section id="basic_information">
-          <h3><%= I18n.t("digital_object._frontend.section.basic_information") %></h3>
-  
+          <h4><%= I18n.t("digital_object._frontend.section.basic_information") %></h4>
+
           <%= readonly.label_and_textarea "title" %>
           <%= readonly.label_and_textfield "digital_object_id" %>
           <%= readonly.label_and_boolean "publish" %>
@@ -41,7 +41,7 @@
 
         <% if digital_object.linked_instances.length > 0 %>
           <section id="digital_object_linked_instances" class="subrecord-form-dummy">
-            <h3><%= I18n.t("linked_record._plural") %></h3>
+            <h4><%= I18n.t("linked_record._plural") %></h4>
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">
                 <div class="row label-and-value">

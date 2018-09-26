@@ -79,4 +79,5 @@ group :test do
   gem 'selenium-webdriver'
   gem 'capybara'
   gem 'launchy'
+  gem 'axe-matchers'
 end

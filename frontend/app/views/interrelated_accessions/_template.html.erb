@@ -24,7 +24,7 @@
 <% jsonmodel_definition(:accession).allowable_types_for("related_accessions").each do |relationship_type| %>
   <% define_template "#{relationship_type}", jsonmodel_definition(relationship_type.intern) do |form, opts = {}| %>
     <div class="subrecord-form-fields">
-      <h4 class="subrecord-form-heading"><%= I18n.t("#{relationship_type}._singular") %></h4>
+      <h3 class="subrecord-form-heading"><%= I18n.t("#{relationship_type}._singular") %></h3>
       <div class="subrecord-form-container">
         <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
         <%= form.label_and_select("relator", form.possible_options_for("relator")) %>

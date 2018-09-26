@@ -1,9 +1,9 @@
 <section>
-  <h5><%= I18n.t("container_location._plural") %></h5>
+  <h3><%= I18n.t("container_location._plural") %></h3>
 
   <div class="container-subrecord">
     <% container_locations.each_with_index do |container_location, index| %>
-      <% 
+      <%
         container_location["jsonmodel_type"] = "container_location"
       %>
       <%= read_only_view(container_location, :label_css => "col-md-4") %>

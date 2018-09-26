@@ -7,14 +7,14 @@
     <div class="record-pane">
       <%= readonly_context :resource, @resource do |readonly| %>
 
-        <h2><%= clean_mixed_content(@resource.title) %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h2>
+        <h3><%= clean_mixed_content(@resource.title) %> <span class="label label-info"><%= I18n.t("resource._singular") %></span></h3>
 
         <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => readonly} %>
 
         <% define_template "resource", jsonmodel_definition(:resource) do |readonly, resource| %>
           <section id="basic_information">
-            <h3><%= I18n.t("resource._frontend.section.basic_information") %></h3>
-    
+            <h4><%= I18n.t("resource._frontend.section.basic_information") %></h4>
+
             <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
             <% if resource.id_0 %><%= readonly.label_and_fourpartid %><% end %>
             <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
@@ -34,7 +34,7 @@
           <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
 
           <section id="finding_aid" class="subrecord-form-dummy">
-            <h3><%= I18n.t("resource._frontend.section.finding_aid") %></h3>
+            <h4><%= I18n.t("resource._frontend.section.finding_aid") %></h4>
             <div class="subrecord-form-container">
               <div class="subrecord-form-fields">
                 <% if resource.ead_id or resource.ead_location %>
