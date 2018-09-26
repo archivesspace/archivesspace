@@ -104,7 +104,7 @@ a {
    margin-right: 0;
    background-color: $secondary-color;
    color: $white;
-   border-radius: 0; 
+   border-radius: 0;
 }
 .tabbing.nav-pills > li:first-child a {
   border-top-left-radius: 40px;
@@ -120,7 +120,7 @@ a {
   color: $white;
 }
 .tabbing-item li:first-child a{
-   border-bottom-right-radius: 0; 
+   border-bottom-right-radius: 0;
    border-top-right-radius: 0;
    border-bottom-left-radius: 30px;
    border-top-left-radius: 30px;
@@ -148,7 +148,7 @@ a {
   border-color: $nvBgHighlight;
   .navbar-brand {
     color: $nvColDefault;
-    &:hover, &:focus { 
+    &:hover, &:focus {
       color: $nvColHighlight; }}
   .navbar-text {
     color: $nvColDefault; }
@@ -244,7 +244,7 @@ a {
 #whats-in-container {
   margin-top: rem-calc(20);
   padding-bottom: rem-calc(20);
-  padding-left: rem-calc(20); 
+  padding-left: rem-calc(20);
   margin-bottom: rem-calc(10);
   border: 1px solid $border;
   > h3 {
@@ -593,7 +593,7 @@ button.subject {          /* class subject also turns up in finding aid transfor
    text-decoration: none;
   line-height: inherit;
   cursor: pointer;
-  border: 1px solid $light-neutral; 
+  border: 1px solid $light-neutral;
 }
 .page_action:hover, .page_action:focus {
      color: $accent_color;
@@ -743,7 +743,7 @@ i.giant {
     width: 50%;
     float:right;
     margin: 0 0 1em 1em;
-  
+
 }
 .objectimage img {
    margin: 0 auto;
@@ -881,4 +881,18 @@ span.head {
 
 .skipnav a:focus {
   position: absolute;
+}
+
+@media print {
+   a[href]:after {
+      display: none;
+   }
+   div {
+     #paging_bottom {
+       display: none;
+     }
+     #paging {
+       display: none;
+     }
+   }
 }
