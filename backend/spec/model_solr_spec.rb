@@ -168,16 +168,16 @@ describe 'Solr model' do
                         pagination(1, 10).
                         set_repo_id(@repo_id) }
 
-    it 'does not include op parameter in solr url when not configured' do
+    it 'does not include q.op parameter in solr url when not configured' do
         AppConfig[:solr_params] = { }
         url = query.to_solr_url
-        expect(url.query).not_to include('&op=')
+        expect(url.query).not_to include('&q.op=')
     end
 
-    it 'includes op parameter in solr url when configured' do
-      AppConfig[:solr_params] = { "op" => "AND" }
+    it 'includes q.op parameter in solr url when configured' do
+      AppConfig[:solr_params] = { "q.op" => "AND" }
       url = query.to_solr_url
-      expect(url.query).to include('&op=AND')
+      expect(url.query).to include('&q.op=AND')
     end
   end
 
