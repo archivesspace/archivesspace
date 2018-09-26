@@ -19,6 +19,7 @@ function ResizableSidebar($sidebar) {
 ResizableSidebar.prototype.add_handle = function() {
     var $handle = $('<a>').attr('href', 'javascript:void(0);');
     $handle.attr('aria-hidden', 'true');
+    $handle.attr('aria-label', 'resizable sidebar handle');
     $handle.addClass('resizable-sidebar-handle');
 
     this.$sidebar.append($handle);
