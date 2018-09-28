@@ -417,7 +417,9 @@ class EAD3Serializer < EADSerializer
       end
     end
 
-    fragment = Nokogiri::XML::DocumentFragment.parse(content)
+    temp_doc = Nokogiri::XML::Document.new
+    temp_doc.encoding = "UTF-8"
+    fragment = Nokogiri::XML::DocumentFragment.new(temp_doc, content)
 
     process_fragment = lambda do |f|
       apply_changes.(strip_attribute_namespace_prefixes, f)
