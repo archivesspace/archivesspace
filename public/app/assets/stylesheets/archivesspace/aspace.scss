@@ -896,3 +896,9 @@ span.head {
      }
    }
 }
+
+// Do not show this to the user
+.honeypot {
+  position: absolute;
+  left: -9999px;
+}
