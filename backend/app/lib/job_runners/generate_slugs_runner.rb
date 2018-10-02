@@ -5,9 +5,7 @@ class GenerateSlugsRunner < JobRunner
                         :cancel_permissions => :manage_repository, 
                         :allow_reregister => true})
 
-
   def run
-
     begin
       # REPOSITORIES
       @job.write_output("Generating slugs for Repositories")
@@ -109,6 +107,25 @@ class GenerateSlugsRunner < JobRunner
         r.update(:is_slug_auto => 1)
       end
 
+      # Archival Object
+      @job.write_output("Generating slugs for Archival Objects")
+      @job.write_output("================================")
+
+      ArchivalObject.any_repo.each do |r|
+        @job.write_output("Generating slug for archival_object id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
+        r.update(:is_slug_auto => 1)
+      end
+
+      # Digital Object Component
+      @job.write_output("Generating slugs for Digital Object Components")
+      @job.write_output("================================")
+
+      DigitalObjectComponent.any_repo.each do |r|
+        @job.write_output("Generating slug for digital object component id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
+        r.update(:is_slug_auto => 1)
+      end
 
       self.success!
     rescue
