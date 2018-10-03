@@ -22,8 +22,6 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "(:resource)"]) \
   do
-    STDOUT.puts "++++++++++++++++++++++++++++"
-    STDOUT.puts "GET"
     json = Resource.to_jsonmodel(params[:id])
 
     json_response(resolve_references(json, params[:resolve]))
@@ -41,8 +39,6 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "OK"]) \
   do
 
-    puts "++++++++++++++++++++++++++++"
-    puts "Tree route!"
     resource = Resource.get_or_die(params[:id])
 
     tree = if params[:limit_to] && !params[:limit_to].empty?
@@ -189,8 +185,6 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, TreeDocs::ROOT_DOCS]) \
   do
-    puts "++++++++++++++++++++++++++++"
-    puts "TREE ROOT!"
     json_response(large_tree_for_resource.root)
   end
 
@@ -245,8 +239,6 @@ class ArchivesSpaceService < Sinatra::Base
   private
 
   def large_tree_for_resource(largetree_opts = {})
-    puts "++++++++++++++++++++++++++++"
-    puts "LargeTree for resource!"
     resource = Resource.get_or_die(params[:id])
 
     large_tree = LargeTree.new(resource, {:published_only => params[:published_only]}.merge(largetree_opts))

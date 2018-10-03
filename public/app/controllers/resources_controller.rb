@@ -215,9 +215,6 @@ class ResourcesController < ApplicationController
 
   def tree_node
 		@root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
-    puts "++++++++++++++++++++++++++++"
-    puts "IN PUBLIC TREE NODE:"
-    puts archivesspace.get_raw_record(@root_uri + '/tree/node_' + params[:node]).inspect
 		render json: archivesspace.get_raw_record(@root_uri + '/tree/node_' + params[:node])
 	rescue RecordNotFound
 		render json: {}, status: 404

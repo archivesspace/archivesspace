@@ -53,9 +53,6 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, ""]) \
   do
 
-    STDERR.puts "++++++++++++++++++++++++++++"
-    STDERR.puts "IN PUBLISHED /repoid/search"
-
     if params[:dt] && params[:dt] == "csv"
       stream_response(Search.search_csv(params, params[:repo_id]), "text/csv")
     else 
@@ -71,10 +68,6 @@ class ArchivesSpaceService < Sinatra::Base
     .paginated(true)
     .returns([200, ""]) \
   do
-
-    STDERR.puts "++++++++++++++++++++++++++++"
-    STDERR.puts "IN PUBLISHED /search"
-    STDERR.puts params
     json_response(Search.search(params, nil))
   end
 
@@ -102,13 +95,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_all_records])
     .returns([200, "a JSON map of records"]) \
   do
-
-    STDERR.puts "++++++++++++++++++++++++++++"
-    STDERR.puts "IN PUBLISHED /search/records"
-    STDERR.puts params
     records = Search.records_for_uris(Array(params[:uri]), Array(params[:resolve]))
-
-    puts records.inspect
 
     json_response(records)
   end
@@ -148,9 +135,6 @@ class ArchivesSpaceService < Sinatra::Base
   .returns([200, "OK"],
            [404, "Not found"]) \
   do
-
-    STDERR.puts "++++++++++++++++++++++++++++"
-    STDERR.puts "IN PUBLISHED TREE SEARCH!"
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
     node_info = JSONModel.parse_reference(params[:node_uri])

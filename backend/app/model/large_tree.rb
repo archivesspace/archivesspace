@@ -65,9 +65,6 @@ class LargeTree
     @node_table = @node_type = root_record.class.node_type.intern
 
     @published_only = opts.fetch(:published_only, false)
-
-    puts "++++++++++++++++++++++++++++"
-    STDERR.puts "INITIALIZED!"
   end
 
   def add_decorator(decorator)

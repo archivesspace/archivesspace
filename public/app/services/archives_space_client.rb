@@ -94,9 +94,6 @@ class ArchivesSpaceClient
 
     raise RecordNotFound.new if results.empty?
 
-    puts "++++++++++++++++++++++++++++"
-    puts "IN PUBLIC get_record"
-    puts results.inspect
     results.first
   end
 
