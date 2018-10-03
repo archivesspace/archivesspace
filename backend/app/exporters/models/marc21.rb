@@ -794,10 +794,15 @@ class MARCModel < ASpaceExport::ExportModel
       number       = name['number'] rescue nil
       qualifier    = name['qualifier'] rescue nil
 
+      if sub_name.nil? || sub_name.empty?
+        subfield_b = nil
+      else
+        subfield_b = sub_name == "b" ? sub_name : nil
+      end
 
       name_fields = [
                       ['a', primary_name],
-                      ['b', sub_name],
+                      subfield_b,
                       subfield_e,
                       ['n', number],
                       ['g', qualifier]
