@@ -17,7 +17,7 @@ class ArchivesSpaceService < Sinatra::Base
       end
     }.compact
 
-    refs = IDLookup.new.find_by_ids(Resource, :identifier => identifiers)
+    refs = IDLookup.new.find_by_ids(Resource, params, :identifier => identifiers)
     json_response(resolve_references({'resources' => refs}, params[:resolve]))
   end
 
@@ -30,7 +30,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "JSON array of refs"]) \
   do
-    refs = IDLookup.new.find_by_ids(ArchivalObject, :ref_id => params[:ref_id], :component_id => params[:component_id])
+    refs = IDLookup.new.find_by_ids(ArchivalObject, params, :ref_id => params[:ref_id], :component_id => params[:component_id])
     json_response(resolve_references({'archival_objects' => refs}, params[:resolve]))
   end
 
@@ -43,7 +43,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "JSON array of refs"]) \
   do
-    refs = IDLookup.new.find_by_ids(DigitalObjectComponent, :component_id => params[:component_id])
+    refs = IDLookup.new.find_by_ids(DigitalObjectComponent, params, :component_id => params[:component_id])
     json_response(resolve_references({'digital_object_components' => refs}, params[:resolve]))
   end
 
@@ -55,7 +55,7 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "JSON array of refs"]) \
   do
-    refs = IDLookup.new.find_by_ids(DigitalObject, :digital_object_id => params[:digital_object_id])
+    refs = IDLookup.new.find_by_ids(DigitalObject, params, :digital_object_id => params[:digital_object_id])
     json_response(resolve_references({'digital_objects' => refs}, params[:resolve]))
   end
 
