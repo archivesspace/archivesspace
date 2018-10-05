@@ -88,8 +88,12 @@ class LargeTree
                     .filter(published_filter)
                     .count
 
+      # SLUG GOES HERE??
+      # IS THIS OVERWRITING THINGS?
       response = waypoint_response(child_count).merge("title" => @root_record.title,
                                                       "uri" => @root_record.uri,
+                                                      "slug" => @root_record.slug,
+                                                      "slugged_url" => "foo",
                                                       "jsonmodel_type" => @root_table.to_s,
                                                       "parsed_title" => MixedContentParser.parse(@root_record.title, '/'))
       @decorators.each do |decorator|
@@ -119,8 +123,10 @@ class LargeTree
                       .where { position < my_position }
                       .count + 1
 
+      # SLUG GOES HERE??
       response = waypoint_response(child_count).merge("title" => node_record.display_string,
                                                       "uri" => node_record.uri,
+                                                      "slug" => node_record.slug,
                                                       "position" => node_position,
                                                       "jsonmodel_type" => @node_table.to_s)
 
@@ -229,6 +235,7 @@ class LargeTree
     record_ids = []
     records = {}
 
+    # SLUG GOES HERE??
     DB.open do |db|
       db[@node_table]
         .filter(:root_record_id => @root_record.id,
@@ -255,7 +262,10 @@ class LargeTree
         row = records[id]
         child_count = child_counts.fetch(id, 0)
 
+        # SLUG GOES HERE??
         waypoint_response(child_count).merge("title" => row[:title],
+                                             "slug" => row[:slug],
+                                             "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(row[:repo_id], row[:slug]),
                                              "parsed_title" => MixedContentParser.parse(row[:title], '/'),
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
                                              "position" => (offset * WAYPOINT_SIZE) + idx,

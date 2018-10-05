@@ -301,6 +301,13 @@ module SlugHelpers
       thing[:slug] = SlugHelpers.get_agent_name(thing.id, thing.class)
     end
   end
+
+  def self.get_slugged_url_for_largetree(repo_id, slug)
+    puts "++++++++++++++++++++++++++++"
+    puts "IN CREATE SLUGGED URL!"
+    puts "repo_id: " + repo_id.to_s
+    return "foo/#{slug}"
+  end
   
   private 
 
