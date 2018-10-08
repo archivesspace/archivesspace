@@ -108,6 +108,7 @@
 
 
 
+
   <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
   <ul class="summary">
     
@@ -216,6 +217,7 @@
 
     
   </ul>
+
 
 
 
@@ -894,7 +896,7 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_array identifier id'>array</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_array identifier id'>array</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_code identifier id'>code</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_format identifier id'>format</span> <span class='eq op'>==</span> <span class='string val'>&#39;pdf&#39;</span> <span class='orop op'>||</span> <span class='rubyid_format identifier id'>format</span> <span class='eq op'>==</span> <span class='string val'>&#39;html&#39;</span>
+    <span class='rubyid_array identifier id'>array</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_code identifier id'>code</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lbrack token'>[</span><span class='string val'>&#39;pdf&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;html&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;rtf&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_format identifier id'>format</span>
     <span class='rubyid_array identifier id'>array</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -971,7 +973,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.0.a Documentation Generated on Thu Aug  9 12:12:01 2018 by
+  ArchivesSpace Version security Documentation Generated on Mon Oct  8 08:54:17 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>

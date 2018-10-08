@@ -106,6 +106,8 @@
 
 
 
+
+
   
     <h2>
       Instance Method Summary
@@ -216,13 +218,13 @@
       <pre class="lines">
 
 
+26
 27
 28
-29
-30</pre>
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/streaming_xml.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/streaming_xml.rb', line 26</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span>
   <span class='rubyid_@sections ivar id'>@sections</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -256,14 +258,14 @@
       <pre class="lines">
 
 
+32
 33
 34
 35
-36
-37</pre>
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/streaming_xml.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/streaming_xml.rb', line 32</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_buffer identifier id'>buffer</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_SecureRandom constant id'>SecureRandom</span><span class='dot token'>.</span><span class='rubyid_hex identifier id'>hex</span>
@@ -291,6 +293,7 @@
       <pre class="lines">
 
 
+38
 39
 40
 41
@@ -315,11 +318,10 @@
 60
 61
 62
-63
-64</pre>
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/streaming_xml.rb', line 39</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/streaming_xml.rb', line 38</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_stream_out identifier id'>stream_out</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_y identifier id'>y</span><span class='comma token'>,</span> <span class='rubyid_depth identifier id'>depth</span><span class='assign token'>=</span><span class='integer val'>0</span><span class='rparen token'>)</span>
   <span class='rubyid_xml_text identifier id'>xml_text</span> <span class='assign token'>=</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span><span class='lparen token'>(</span><span class='symbol val'>:encoding</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;utf-8&#39;</span><span class='rparen token'>)</span>
@@ -358,7 +360,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.0.a Documentation Generated on Thu Aug  9 12:12:00 2018 by
+  ArchivesSpace Version security Documentation Generated on Mon Oct  8 08:54:15 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>

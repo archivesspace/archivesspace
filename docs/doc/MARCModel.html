@@ -107,6 +107,7 @@
 </div>
 
 
+
   <h2>Constant Summary</h2>
   <dl class="constants">
     
@@ -189,6 +190,7 @@
 
     
   </ul>
+
 
 
 
@@ -978,7 +980,7 @@
   <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;country&#39;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;country&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
-    <span class='comment val'># US is a special case, because ASpace has no knowledge of states, the </span>
+    <span class='comment val'># US is a special case, because ASpace has no knowledge of states, the</span>
     <span class='comment val'># correct value is &#39;xxu&#39;</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;country&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;US&quot;</span>
       <span class='rubyid_string identifier id'>string</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;xxu&quot;</span>
@@ -1263,7 +1265,7 @@
 
    <span class='rubyid_if if kw'>if</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;700&quot;</span> <span class='orop op'>||</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;710&quot;</span><span class='rparen token'>)</span>
      <span class='rubyid_@datafields ivar id'>@datafields</span><span class='lbrack token'>[</span><span class='rubyid_rand identifier id'>rand</span><span class='lparen token'>(</span><span class='integer val'>10000</span><span class='rparen token'>)</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@@datafield ivar id'>@@datafield</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
-   <span class='rubyid_else else kw'>else</span> 
+   <span class='rubyid_else else kw'>else</span>
      <span class='rubyid_@datafields ivar id'>@datafields</span><span class='lbrack token'>[</span><span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span>
    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_else else kw'>else</span>
@@ -1385,9 +1387,7 @@
 474
 475
 476
-477
-478
-479</pre>
+477</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 422</span>
@@ -1410,8 +1410,6 @@
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span>
       <span class='rubyid_relator identifier id'>relator</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.linked_agent_archival_record_relators.#{link[&#39;relator&#39;]}&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_relator_sf identifier id'>relator_sf</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;4&#39;</span><span class='comma token'>,</span> <span class='rubyid_relator identifier id'>relator</span><span class='rbrack token'>]</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_relator_sf identifier id'>relator_sf</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;e&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subject&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_end end kw'>end</span>
 
     <span class='rubyid_case case kw'>case</span> <span class='rubyid_subject identifier id'>subject</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_type&#39;</span><span class='rbrack token'>]</span>
@@ -1538,6 +1536,8 @@
       <pre class="lines">
 
 
+567
+568
 569
 570
 571
@@ -1550,12 +1550,10 @@
 578
 579
 580
-581
-582
-583</pre>
+581</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 569</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 567</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_ead_loc identifier id'>handle_ead_loc</span><span class='lparen token'>(</span><span class='rubyid_ead_loc identifier id'>ead_loc</span><span class='rparen token'>)</span>
   <span class='rubyid_ead_loc_present identifier id'>ead_loc_present</span> <span class='assign token'>=</span> <span class='rubyid_ead_loc identifier id'>ead_loc</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_ead_loc identifier id'>ead_loc</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -1593,6 +1591,8 @@
       <pre class="lines">
 
 
+553
+554
 555
 556
 557
@@ -1602,12 +1602,10 @@
 561
 562
 563
-564
-565
-566</pre>
+564</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 555</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 553</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_extents identifier id'>handle_extents</span><span class='lparen token'>(</span><span class='rubyid_extents identifier id'>extents</span><span class='rparen token'>)</span>
   <span class='rubyid_extents identifier id'>extents</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_ext identifier id'>ext</span><span class='bitor op'>|</span>
@@ -1706,6 +1704,8 @@
       <pre class="lines">
 
 
+480
+481
 482
 483
 484
@@ -1774,12 +1774,10 @@
 547
 548
 549
-550
-551
-552</pre>
+550</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 482</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/marc21.rb', line 480</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_notes identifier id'>handle_notes</span><span class='lparen token'>(</span><span class='rubyid_notes identifier id'>notes</span><span class='rparen token'>)</span>
 
@@ -1842,10 +1840,10 @@
 
     <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_marc_args identifier id'>marc_args</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
       <span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='rubyid_prefix identifier id'>prefix</span> <span class='integer val'>? </span><span class='dstring node'>&quot;#{prefix}: &quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;&quot;</span>
-      <span class='rubyid_text identifier id'>text</span> <span class='opasgn op'>+=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_extract_note_text identifier id'>extract_note_text</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_@include_unpublished ivar id'>@include_unpublished</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> 
+      <span class='rubyid_text identifier id'>text</span> <span class='opasgn op'>+=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_Utils constant id'>Utils</span><span class='dot token'>.</span><span class='rubyid_extract_note_text identifier id'>extract_note_text</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_@include_unpublished ivar id'>@include_unpublished</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
 
       <span class='comment val'># only create a tag if there is text to show (e.g., marked published or exporting unpublished)</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_text identifier id'>text</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span> 
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_text identifier id'>text</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
         <span class='rubyid_df! fid id'>df!</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_marc_args identifier id'>marc_args</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='integer val'>-1</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_marc_args identifier id'>marc_args</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_text identifier id'>text</span><span class='rparen token'>)</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
@@ -1962,7 +1960,7 @@ this method is very similair to handle_primary_creator and handle_agents</p>
       <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;710&#39;</span>
       <span class='rubyid_ind1 identifier id'>ind1</span> <span class='assign token'>=</span> <span class='string val'>&#39;2&#39;</span>
       <span class='rubyid_sfs identifier id'>sfs</span> <span class='assign token'>=</span> <span class='rubyid_gather_agent_corporate_subfield_mappings identifier id'>gather_agent_corporate_subfield_mappings</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_relator_sf identifier id'>relator_sf</span><span class='comma token'>,</span> <span class='rubyid_creator identifier id'>creator</span><span class='rparen token'>)</span>
-   
+
     <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_person&#39;</span>
       <span class='rubyid_ind1 identifier id'>ind1</span>  <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;name_order&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;direct&#39;</span> <span class='question op'>?</span> <span class='string val'>&#39;0&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;1&#39;</span>
       <span class='rubyid_code identifier id'>code</span> <span class='assign token'>=</span> <span class='string val'>&#39;700&#39;</span>
@@ -2053,7 +2051,7 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_relator identifier id'>relator</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.linked_agent_archival_record_relators.#{link[&#39;relator&#39;]}&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_role_info identifier id'>role_info</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;4&#39;</span><span class='comma token'>,</span> <span class='rubyid_relator identifier id'>relator</span><span class='rbrack token'>]</span> 
+    <span class='rubyid_role_info identifier id'>role_info</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;4&#39;</span><span class='comma token'>,</span> <span class='rubyid_relator identifier id'>relator</span><span class='rbrack token'>]</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_role_info identifier id'>role_info</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;e&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrack token'>]</span>
   <span class='rubyid_end end kw'>end</span>
@@ -2175,7 +2173,7 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_repo identifier id'>repo</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;country&#39;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;country&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
 
-    <span class='comment val'># US is a special case, because ASpace has no knowledge of states, the </span>
+    <span class='comment val'># US is a special case, because ASpace has no knowledge of states, the</span>
     <span class='comment val'># correct value is &#39;xxu&#39;</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_repo identifier id'>repo</span><span class='lbrack token'>[</span><span class='string val'>&#39;country&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;US&quot;</span>
       <span class='rubyid_df identifier id'>df</span><span class='lparen token'>(</span><span class='string val'>&#39;044&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_with_sfs identifier id'>with_sfs</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;a&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;xxu&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -2357,7 +2355,7 @@ this method is very similair to handle_primary_creator and handle_agents</p>
   <span class='rubyid_creator identifier id'>creator</span> <span class='assign token'>=</span> <span class='rubyid_linked_agents identifier id'>linked_agents</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span><span class='rbrace token'>}</span>
   <span class='rubyid_date_codes identifier id'>date_codes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 
-  <span class='comment val'># process dates first, if defined. </span>
+  <span class='comment val'># process dates first, if defined.</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_dates identifier id'>dates</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='rubyid_dates identifier id'>dates</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrack token'>[</span><span class='string val'>&quot;single&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;inclusive&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;range&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;bulk&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_types identifier id'>types</span><span class='bitor op'>|</span>
       <span class='rubyid_dates identifier id'>dates</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_date identifier id'>date</span><span class='bitor op'>|</span> <span class='rubyid_types identifier id'>types</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_date identifier id'>date</span><span class='lbrack token'>[</span><span class='string val'>&#39;date_type&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
@@ -2482,7 +2480,7 @@ this method is very similair to handle_primary_creator and handle_agents</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.0.a Documentation Generated on Thu Aug  9 12:11:58 2018 by
+  ArchivesSpace Version security Documentation Generated on Mon Oct  8 08:54:13 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>
