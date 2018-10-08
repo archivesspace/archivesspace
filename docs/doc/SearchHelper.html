@@ -1379,7 +1379,7 @@
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span> <span class='rubyid_identifier identifier id'>identifier</span>
       <span class='rubyid_identifier identifier id'>identifier</span> <span class='assign token'>=</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rbrack token'>]</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_json identifier id'>json</span>       <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&quot;json&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_json identifier id'>json</span>       <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&quot;json&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
       <span class='rubyid_identifier identifier id'>identifier</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_identifier identifier id'>identifier</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -1746,7 +1746,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.0.a Documentation Generated on Thu Aug  9 12:11:49 2018 by
+  ArchivesSpace Version security Documentation Generated on Mon Oct  8 08:54:04 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>

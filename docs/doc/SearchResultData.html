@@ -106,6 +106,8 @@
 
 
 
+
+
   
     <h2>
       Class Method Summary
@@ -1693,7 +1695,7 @@
       <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_facet_label_for_filter identifier id'>facet_label_for_filter</span><span class='lparen token'>(</span><span class='rubyid_filter identifier id'>filter</span><span class='rparen token'>)</span>
-  <span class='rubyid_filter_json identifier id'>filter_json</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_filter identifier id'>filter</span><span class='rparen token'>)</span>
+  <span class='rubyid_filter_json identifier id'>filter_json</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_filter identifier id'>filter</span><span class='rparen token'>)</span>
   <span class='rubyid_facet identifier id'>facet</span> <span class='assign token'>=</span> <span class='rubyid_filter_json identifier id'>filter_json</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
   <span class='rubyid_term identifier id'>term</span> <span class='assign token'>=</span> <span class='rubyid_filter_json identifier id'>filter_json</span><span class='lbrack token'>[</span><span class='rubyid_facet identifier id'>facet</span><span class='rbrack token'>]</span>
 
@@ -2709,7 +2711,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.0.a Documentation Generated on Thu Aug  9 12:12:03 2018 by
+  ArchivesSpace Version security Documentation Generated on Mon Oct  8 08:54:18 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12 (ruby-2.3.3).
 </div>
