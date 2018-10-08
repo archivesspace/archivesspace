@@ -40,7 +40,7 @@ class PrintToPDFRunner < JobRunner
 
         # ANW-267: For windows machines, run FOP to generate PDF externally with a system() call instead of through JRuby to fix PDF corruption issues
         if RbConfig::CONFIG['host_os'] =~ /win32/
-          pdf = ASFopExternal.new(xml).to_pdf
+          pdf = ASFopExternal.new(xml, @job).to_pdf
         else
           pdf = ASFop.new(xml).to_pdf
         end
