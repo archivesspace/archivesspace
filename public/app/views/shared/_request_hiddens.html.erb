@@ -7,9 +7,9 @@
   <% next if value.nil? %>
     <% if value.kind_of? Array %>
       <% value.each do |v| %>
-      <input type='hidden' name='<%= "#{attr.to_s}[]" %>' value='<%= v %>' />
+      <input type='hidden' name='<%= "#{attr.to_s}[]" %>' value='<%= sanitize v %>' />
     <% end %>
   <% else %>
-    <input type='hidden' name='<%= attr.to_s %>' value='<%= value %>' />
+    <input type='hidden' name='<%= attr.to_s %>' value='<%= sanitize value %>' />
   <% end %>
 <% end %>

@@ -4,7 +4,7 @@ require 'search'
 require 'zlib'
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :exception
 
   helper :all
 
@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
 
       instance = cleanup_params_for_schema(params[opts[:instance]], model.schema)
 
-      
+
 
       if opts[:replace] || opts[:replace].nil?
         obj.replace(instance)
@@ -197,7 +197,7 @@ class ApplicationController < ActionController::Base
   def find_opts
     {
       "resolve[]" => ["subjects", "related_resources", "linked_agents",
-                      "revision_statements", 
+                      "revision_statements",
                       "container_locations", "digital_object", "classifications",
                       "related_agents", "resource", "parent", "creator",
                       "linked_instances", "linked_records", "related_accessions",
@@ -221,11 +221,11 @@ class ApplicationController < ActionController::Base
   def user_needs_to_be_a_user
     unauthorised_access if not session['user']
   end
-  
+
   def user_needs_to_be_a_user_manager
     unauthorised_access if not user_can? 'manage_users'
   end
-  
+
   def user_needs_to_be_a_user_manager_or_new_user
     unauthorised_access if session['user'] and not user_can? 'manage_users'
   end
@@ -242,7 +242,7 @@ class ApplicationController < ActionController::Base
         if required[key].length > obj[key].length
           min_items << {"name" => key, "num" => required[key].length}
         elsif required[key].length === obj[key].length
-          
+
           required[key].zip(obj[key]).each_with_index do |(required_a, obj_a), index|
             required_a.keys.each do |nested_key|
               if required_a[nested_key].is_a? Array and obj_a[nested_key].is_a? Array
@@ -284,7 +284,7 @@ class ApplicationController < ActionController::Base
     if required_a[nested_key].length > obj_a[nested_key].length
       min_items << {"name" => "#{key}/#{index}/#{nested_key}", "num" => required_a[nested_key].length}
     elsif required_a[nested_key].length === obj_a[nested_key].length
-                  
+
       required_a[nested_key].zip(obj_a[nested_key]).each_with_index do |(required_a2, obj_a2), index2|
         required_a2.keys.each do |nested_key2|
           if required_a2[nested_key2].is_a? Hash
@@ -676,7 +676,7 @@ class ApplicationController < ActionController::Base
 
       if query["type"] == "text"
         query["comparator"] = params["top#{i}"]
-        query["empty"] = query["comparator"] == "empty" 
+        query["empty"] = query["comparator"] == "empty"
       end
 
       if query["op"] === "NOT"
@@ -691,7 +691,7 @@ class ApplicationController < ActionController::Base
 
       if query["type"] == "boolean"
         query["value"] = query["value"] == "empty" ? "empty" : query["value"] == "true"
-        query["empty"] = query["value"] == "empty" 
+        query["empty"] = query["value"] == "empty"
       end
 
       if query["type"] == "enum"
