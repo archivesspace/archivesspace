@@ -4,6 +4,7 @@
 
 require 'saxon-xslt'
 require 'stringio'
+require 'open3'
 
 class ASFopExternal
 
@@ -35,8 +36,8 @@ class ASFopExternal
     command = "cd \"#{path_to_fop_jar}\" #{multiple_command_operator} \"#{AppConfig[:path_to_java]}\" -jar fop.jar org.apache.fop.cli.Main -fo \"#{@fo.path}\" -pdf \"#{@output_path}\""
     @job.write_output("Executing: #{command}")
 
-    output = `#{command}`
-    success = $?.success?
+    output, status = Open3.capture2e(command)
+    success =  status == 0
 
     @fo.unlink
 
