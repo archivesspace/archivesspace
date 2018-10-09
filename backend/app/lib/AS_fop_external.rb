@@ -4,7 +4,6 @@
 
 require 'saxon-xslt'
 require 'stringio'
-require 'open3'
 
 class ASFopExternal
 
@@ -33,11 +32,11 @@ class ASFopExternal
     # execute command to convert PDF to tempfile specified
     # our command is of the form
     # java -jar PATH_TO_FOP_JAR org.apache.fop.cli.Main -fo PATH_TO_INPUT_XML -pdf PATH_TO_OUTPUT_XML
-    command = "cd \"#{path_to_fop_jar}\" #{multiple_command_operator} \"#{AppConfig[:path_to_java]}\" -jar fop.jar org.apache.fop.cli.Main -fo \"#{@fo.path}\" -pdf \"#{@output_path}\""
+    command = "cd #{path_to_fop_jar} #{multiple_command_operator} \"#{AppConfig[:path_to_java]}\" -jar fop.jar org.apache.fop.cli.Main -fo \"#{@fo.path}\" -pdf \"#{@output_path}\" 2>&1"
     @job.write_output("Executing: #{command}")
 
-    output, status = Open3.capture2e(command)
-    success =  status == 0
+    output = `#{command}`
+    success = $?.success?
 
     @fo.unlink
 
