@@ -9,6 +9,7 @@ class TopContainer < Sequel::Model(:top_container)
   set_model_scope :repository
 
   include RestrictionCalculator
+  include TouchRecords
 
   SERIES_LEVELS = ['series']
   OTHERLEVEL_SERIES_LEVELS = ['accession']
@@ -52,25 +53,10 @@ class TopContainer < Sequel::Model(:top_container)
 
     # Resource linked directly
     resource_ids = []
-    resource_ids += Resource
-             .join(:instance, :instance__resource_id => :resource__id)
-             .join(:sub_container, :sub_container__instance_id => :instance__id)
-             .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
-             .filter(:top_container_link_rlshp__top_container_id => self.id)
-             .select(:resource__id)
-             .distinct
-             .all.map{|row| row[:id]}
+    resource_ids += self.class.resource_ids_linked_directly(self.id)
 
     # Resource linked via AO
-    resource_ids += Resource
-             .join(:archival_object, :archival_object__root_record_id => :resource__id)
-             .join(:instance, :instance__archival_object_id => :archival_object__id)
-             .join(:sub_container, :sub_container__instance_id => :instance__id)
-             .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
-             .filter(:top_container_link_rlshp__top_container_id => self.id)
-             .select(:resource__id)
-             .distinct
-             .all.map{|row| row[:id]}
+    resource_ids += self.class.resource_ids_linked_via_ao(self.id)
 
     result += Resource
               .filter(:id => resource_ids.uniq)
@@ -489,8 +475,37 @@ class TopContainer < Sequel::Model(:top_container)
                    select(Sequel.qualify(model.table_name, :id)).map {|row| row[:id] }
       model.update_mtime_for_ids(linked_ids)
 
-    end  
+    end
   end
 
+  def self.resource_ids_linked_directly(id)
+    Resource
+     .join(:instance, :instance__resource_id => :resource__id)
+     .join(:sub_container, :sub_container__instance_id => :instance__id)
+     .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
+     .filter(:top_container_link_rlshp__top_container_id => id)
+     .select(:resource__id)
+     .distinct
+     .all.map{|row| row[:id]}
+  end
+
+  def self.resource_ids_linked_via_ao(id)
+    Resource
+     .join(:archival_object, :archival_object__root_record_id => :resource__id)
+     .join(:instance, :instance__archival_object_id => :archival_object__id)
+     .join(:sub_container, :sub_container__instance_id => :instance__id)
+     .join(:top_container_link_rlshp, :top_container_link_rlshp__sub_container_id => :sub_container__id)
+     .filter(:top_container_link_rlshp__top_container_id => id)
+     .select(:resource__id)
+     .distinct
+     .all.map{|row| row[:id]}
+  end
+
+  def self.touch_records(obj)
+    [{
+      type: Resource,
+      ids: (resource_ids_linked_directly(obj.id) + resource_ids_linked_via_ao(obj.id)).uniq
+    }]
+  end
 
 end
