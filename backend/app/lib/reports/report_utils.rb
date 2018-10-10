@@ -110,4 +110,9 @@ module ReportUtils
         '%Y-%m-%d %H:%M:%S')
     end
   end
+
+  def self.normalize_label(label)
+    label.strip.downcase.gsub(/[^a-z0-9]+/, '_').gsub(/_+$/, '')
+  end
+
 end
