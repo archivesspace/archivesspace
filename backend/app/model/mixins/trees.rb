@@ -170,7 +170,7 @@ module Trees
       :title => self.title,
       :id => self.id,
       :slug => self.slug,
-      :slugged_url => SlugHelpers.get_slugged_url_for_largetree(self.repo_id, self.slug),
+      :slugged_url => SlugHelpers.get_slugged_url_for_largetree(root_type.to_s, self.repo_id, self.slug),
       :node_type => root_type.to_s,
       :publish => self.respond_to?(:publish) ? self.publish===1 : true,
       :suppressed => self.respond_to?(:suppressed) ? self.suppressed===1 : false,

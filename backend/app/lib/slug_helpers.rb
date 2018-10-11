@@ -302,11 +302,21 @@ module SlugHelpers
     end
   end
 
-  def self.get_slugged_url_for_largetree(repo_id, slug)
-    puts "++++++++++++++++++++++++++++"
-    puts "IN CREATE SLUGGED URL!"
-    puts "repo_id: " + repo_id.to_s
-    return "foo/#{slug}"
+  def self.get_slugged_url_for_largetree(jsonmodel_type, repo_id, slug)
+    if slug
+      if AppConfig[:repo_name_in_slugs] 
+        repo = Repository.first(:id => repo_id)
+        repo_slug = repo.slug.to_s
+
+        # TODO: fix case where repo has no slug
+
+        return "#{AppConfig[:public_proxy_url]}/repositories/#{repo_slug}/#{jsonmodel_type.underscore}s/#{slug}"
+      else
+        return "#{AppConfig[:public_proxy_url]}/#{jsonmodel_type.underscore}/#{slug}"
+      end
+    else
+      return ""
+    end
   end
   
   private 

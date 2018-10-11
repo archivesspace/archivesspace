@@ -94,6 +94,7 @@ class LargeTree
                                                       "uri" => @root_record.uri,
                                                       "slug" => @root_record.slug,
                                                       "slugged_url" => "foo",
+                                                      "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
                                                       "jsonmodel_type" => @root_table.to_s,
                                                       "parsed_title" => MixedContentParser.parse(@root_record.title, '/'))
       @decorators.each do |decorator|
@@ -242,7 +243,7 @@ class LargeTree
                 :parent_id => parent_id)
         .filter(published_filter)
         .order(:position)
-        .select(:id, :repo_id, :title, :position)
+        .select(:id, :repo_id, :title, :position, :slug)
         .offset(offset * WAYPOINT_SIZE)
         .limit(WAYPOINT_SIZE)
         .each do |row|
@@ -265,7 +266,7 @@ class LargeTree
         # SLUG GOES HERE??
         waypoint_response(child_count).merge("title" => row[:title],
                                              "slug" => row[:slug],
-                                             "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(row[:repo_id], row[:slug]),
+                                             "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
                                              "parsed_title" => MixedContentParser.parse(row[:title], '/'),
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
                                              "position" => (offset * WAYPOINT_SIZE) + idx,

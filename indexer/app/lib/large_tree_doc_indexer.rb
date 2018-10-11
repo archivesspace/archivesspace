@@ -39,6 +39,9 @@ class LargeTreeDocIndexer
                                       :parent_node => parent_uri,
                                       :published_only => true)
 
+      puts "++++++++++++++++++++++++++++++"
+      puts "IN ADD_WAYPOINTS"
+      puts json.inspect
 
       batch << {
         'id' => "#{root_record_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
@@ -64,6 +67,10 @@ class LargeTreeDocIndexer
       json = JSONModel::HTTP.get_json(root_record_uri + '/tree/node',
                                       :node_uri => record_uri,
                                       :published_only => true)
+
+      puts "++++++++++++++++++++++++++++++"
+      puts "IN ADD_NODES"
+      puts json.inspect
 
       # We might bomb out if a record was deleted out from under us.
       return if json.nil?
