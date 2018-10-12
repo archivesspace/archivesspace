@@ -137,7 +137,6 @@ module Trees
           top_nodes << [node.position, node.id]
         end
 
-        # SLUG GOES HERE??
         properties[node.id] = {
           :title => node[:title],
           :id => node.id,
@@ -205,7 +204,6 @@ module Trees
     # our results.  Descendants of an excluded record will also be excluded.
     excluded_rows = {}
 
-    # SLUG GOES HERE?
     self.class.node_model
       .filter(:root_record_id => self.id)
       .select(:id, :position, :parent_id, :display_string, :publish, :suppressed, :slug).each do |row|

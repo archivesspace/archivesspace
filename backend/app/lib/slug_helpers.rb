@@ -302,17 +302,20 @@ module SlugHelpers
     end
   end
 
+  # Generates URLs for display in hirearchial tree links in public interface for Archival Objects and Digital object components
   def self.get_slugged_url_for_largetree(jsonmodel_type, repo_id, slug)
     if slug
       if AppConfig[:repo_name_in_slugs] 
         repo = Repository.first(:id => repo_id)
-        repo_slug = repo.slug.to_s
+        repo_slug = repo && repo.slug ? repo.slug : ""
 
-        # TODO: fix case where repo has no slug
-
-        return "#{AppConfig[:public_proxy_url]}/repositories/#{repo_slug}/#{jsonmodel_type.underscore}s/#{slug}"
+        if repo_slug.empty?        
+          return "#{AppConfig[:public_proxy_url]}/#{jsonmodel_type.underscore}s/#{slug}"
+        else
+          return "#{AppConfig[:public_proxy_url]}/repositories/#{repo_slug}/#{jsonmodel_type.underscore}s/#{slug}"
+        end
       else
-        return "#{AppConfig[:public_proxy_url]}/#{jsonmodel_type.underscore}/#{slug}"
+        return "#{AppConfig[:public_proxy_url]}/#{jsonmodel_type.underscore}s/#{slug}"
       end
     else
       return ""
