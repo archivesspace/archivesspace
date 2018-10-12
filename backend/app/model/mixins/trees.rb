@@ -140,7 +140,7 @@ module Trees
         properties[node.id] = {
           :title => node[:title],
           :id => node.id,
-          :slug => node.slug,
+          :slug => node.respond_to?(:slug) ? node.slug : "",
           :slugged_url => "foobar",
           :record_uri => self.class.uri_for(node_type, node.id),
           :publish => node.respond_to?(:publish) ? node.publish===1 : true,

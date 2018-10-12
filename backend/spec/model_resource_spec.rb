@@ -385,8 +385,8 @@ describe 'Resource model' do
 
       resource_rec = Resource.where(:id => resource[:id]).first.update(:is_slug_auto => 1)
 
-      expected_slug = resource_rec[:ead_id].gsub(" ", "_")
-                                           .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+      expected_slug = "_" + resource_rec[:ead_id].gsub(" ", "_")
+                                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
 
       expect(resource_rec[:slug]).to eq(expected_slug)
     end
