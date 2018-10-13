@@ -115,4 +115,9 @@ module ReportUtils
     label.strip.downcase.gsub(/[^a-z0-9]+/, '_').gsub(/_+$/, '')
   end
 
+  def self.fix_id(row)
+    row[:record_id] = normalize_label(row[:linked_record_type].to_s) + '_' + row[:record_id].to_s
+    row.delete(:linked_record_type)
+  end
+
 end
