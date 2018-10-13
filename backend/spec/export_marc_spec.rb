@@ -125,7 +125,7 @@ end
     end
 
     it "maps primary_name to subfield 'a'" do
-      @marc.should have_tag "datafield[@tag='110']/subfield[@code='a']" => @name.primary_name
+      @marc.should have_tag "datafield[@tag='110']/subfield[@code='a']" => @name.primary_name + "." || @name.primary_name + ","
     end
   end
 
@@ -913,9 +913,14 @@ end
       df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
 
       a_text = df.at("subfield[@code='a']").text
+      b_text = df.at("subfield[@code='b']").text
       n_text = df.at("subfield[@code='n']").text
 
-      expect(a_text[-1]).to eq(",")
+      if b_text.nil?
+        expect(a_text[-1]).to eq(",")
+      elsif !b_text.nil?
+        expect(a_text[-1]).to eq(".")
+      end
 
       expect(n_text[-1]).to eq(".")
       expect(n_text =~ /\(.*\)/).to_not eq(nil)

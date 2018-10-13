@@ -749,10 +749,10 @@ class MARCModel < ASpaceExport::ExportModel
         name_fields[n_index][1] = "(#{name_fields[n_index][1]})"
       end
 
-      #If subfield $b is present, the value of the preceding subfield must end in a colon.
-      #If subfield $n is present, the value of the preceding subfield must end in a colon.
-      #If subfield $g is present, the value of the preceding subfield must end in a colon.
-      ['b', 'n', 'g'].each do |subfield|
+      #If subfield $e is present, the value of the preceding subfield must end in a comma.
+      #If subfield $n is present, the value of the preceding subfield must end in a comma.
+      #If subfield $g is present, the value of the preceding subfield must end in a comma.
+      ['e', 'n', 'g'].each do |subfield|
         s_index = name_fields.find_index{|a| a[0] == subfield}
 
         # check if $subfield is present
@@ -767,7 +767,21 @@ class MARCModel < ASpaceExport::ExportModel
         end
       end
 
+      # Each part of the name (the a and the b’s) ends in a period, until the name itself is complete, unless there's a subfield after it that takes a different mark of punctuation before it, like an e or it's got term subdivisons like $b LYRASIS $y 21th century.
 
+      ['a', 'b'].each do |subfield|
+        s_index = name_fields.find_index{|a| a[0] == subfield}
+
+        # check if $subfield is present
+
+        unless !s_index
+
+          # find field and append a period if there isn't one there already
+          unless name_fields[s_index][1][-1] == "." || name_fields[s_index][1][-1] == ","
+            name_fields[s_index][1] << "."
+          end
+        end
+      end
 
       #The value of the final subfield must end in a period."
       unless name_fields[-1][1][-1] == "."
@@ -776,7 +790,6 @@ class MARCModel < ASpaceExport::ExportModel
 
       return name_fields
     end
-
 
     def gather_agent_corporate_subfield_mappings(name, role_info, agent)
       if role_info.nil? || role_info.empty?
@@ -790,19 +803,30 @@ class MARCModel < ASpaceExport::ExportModel
       primary_name = name['primary_name'] rescue nil
       sub_name1    = name['subordinate_name_1'] rescue nil
       sub_name2    = name['subordinate_name_2'] rescue nil
-      sub_name     = "#{sub_name1} #{sub_name2}"
       number       = name['number'] rescue nil
       qualifier    = name['qualifier'] rescue nil
 
-      if sub_name.nil? || sub_name.empty?
-        subfield_b = nil
+      # 610s subfield b is repeatable and SubordinateName1 and SubordinateName2 should be separate subfield b’s
+
+      # Not particularly elegant, but seems to catch all the possibilities
+      if sub_name1.nil? || (sub_name1.nil? && sub_name2.nil?)
+        subfield_b_1 = nil
+        subfield_b_2 = nil
+      elsif !sub_name1.nil? && sub_name2.nil?
+        subfield_b_1 = sub_name1
+        subfield_b_2 = nil
+      elsif sub_name1.nil? && !sub_name2.nil?
+        subfield_b_1 = sub_name2
+        subfield_b_2 = nil
       else
-        subfield_b = sub_name == "b" ? sub_name : nil
+        subfield_b_1 = sub_name1
+        subfield_b_2 = sub_name2
       end
 
       name_fields = [
                       ['a', primary_name],
-                      subfield_b,
+                      ['b', subfield_b_1],
+                      ['b', subfield_b_2],
                       subfield_e,
                       ['n', number],
                       ['g', qualifier]
