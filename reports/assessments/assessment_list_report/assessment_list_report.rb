@@ -18,6 +18,7 @@ class AssessmentListReport < AbstractReport
 
     @date_scope = params['scope_by_date']
     @form = params[:format]
+    @att_defs = assessment_att_defs
 
     if @date_scope
       from = params['from']
@@ -114,25 +115,14 @@ class AssessmentListReport < AbstractReport
           on assessment_attribute.assessment_attribute_definition_id
             = assessment_attribute_definition.id
       group by assessment_attribute.assessment_id) as attributes
-    where repo_id = #{db.literal(@repo_id)} and #{date_condition}"
+    where repo_id = #{db.literal(@repo_id)} and #{date_condition} and (inactive = 0 or inactive IS NULL)"
   end
 
   def fix_row(row)
     ReportUtils.fix_boolean_fields(row, BOOLEAN_FIELDS)
     ReportUtils.fix_decimal_format(row, [:monetary_value])
     if @form == 'csv'
-      assess_defs = AssessmentAttributeDefinitions.get(@repo_id)['definitions']
-      assess_defs.each do | ad |
-        if ad[:type] == "rating"
-          rate_label = ad[:label] + ' Rating'
-          note_label = ad[:label] + ' Note'
-          row[ReportUtils.normalize_label(rate_label).to_sym] = ''
-          row[ReportUtils.normalize_label(note_label).to_sym] = ''
-        else
-          row[ReportUtils.normalize_label(ad[:label]).to_sym] = ''
-          row[ReportUtils.normalize_label(ad[:label]).to_sym] = ''
-        end
-      end
+      row.merge!(@att_defs)
       formats_hash = AssessmentMaterialTypesFormatsSubreport.new(
         self, row[:id]).get_content
       unless formats_hash.nil?
@@ -153,9 +143,9 @@ class AssessmentListReport < AbstractReport
       unless ratings_hash.nil?
         ratings_hash.each do | ra |
           rate_label = ra[:field] + ' Rating'
-          note_label = ra[:field] + ' Note'
+          note_label = ra[:field] + ' Note' if ra[:label] != "Research Value"
           row[ReportUtils.normalize_label(rate_label).to_sym] = ra[:rating]
-          row[ReportUtils.normalize_label(note_label).to_sym] = ra[:note]
+          row[ReportUtils.normalize_label(note_label).to_sym] = ra[:note] if ra[:label] != "Research Value"
         end
       end
     else
@@ -167,5 +157,28 @@ class AssessmentListReport < AbstractReport
 
   def identifier_field
     :id
+  end
+
+  def assessment_att_defs
+    att_def = {}
+    rating_def = {}
+    format_def = {}
+    cons_iss_def = {}
+    assess_defs = AssessmentAttributeDefinitions.get(@repo_id)['definitions']
+    assess_defs.each do | ad |
+      if ad[:type] == "rating"
+        rate_label = ad[:label] + ' Rating'
+        note_label = ad[:label] + ' Note' if ad[:label] != "Research Value"
+        rating_def[ReportUtils.normalize_label(rate_label).to_sym] = ''
+        rating_def[ReportUtils.normalize_label(note_label).to_sym] = '' if ad[:label] != "Research Value"
+      elsif ad[:type] == "format"
+        format_def[ReportUtils.normalize_label(ad[:label]).to_sym] = ''
+      elsif ad[:type] == "conservation_issue"
+        cons_iss_def[ReportUtils.normalize_label(ad[:label]).to_sym] = ''
+      end
+    end
+    att_def.merge!(format_def)
+    att_def.merge!(cons_iss_def)
+    att_def.merge!(rating_def)
   end
 end
