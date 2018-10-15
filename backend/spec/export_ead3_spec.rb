@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'nokogiri'
+# require 'nokogiri'
 require 'spec_helper'
 require_relative 'export_spec_helper'
 
@@ -1213,6 +1213,8 @@ describe "EAD3 export mappings" do
     let(:note_with_ref) {"Blah blah <ref>blah</ref>"}
     let(:note_with_namespaced_attributes) { "Blah <ref xlink:href=\"boo\">blah</ref> <ref ns2:foo=\"goo\">blah</ref>." }
     let(:note_with_unnamespaced_attributes) { "Blah <ref href=\"boo\">blah</ref> <ref foo=\"goo\">blah</ref>." }
+    let(:note_with_different_amps) {"The materials are arranged in folders. Mumford&Sons. Mumford & Sons. They are cool&hip. &lt;p&gt;foo, 2 & 2.&lt;/p&gt;"}
+    let(:note_with_entities) {"&lt;p&gt;This is &copy;2018 Joe & Co. &amp; &quot;Joe&apos;s mama&quot;"}
     let(:serializer) { EAD3Serializer.new }
     let(:note_with_type_attributes) { "Blah <name type=\"blah\">blah</name> blah <date type=\"blah\">1999</date>." }
     let(:note_with_localtype_attributes) { "Blah <name localtype=\"blah\"><part>blah</part></name> blah <date localtype=\"blah\">1999</date>." }
@@ -1260,6 +1262,14 @@ describe "EAD3 export mappings" do
 
     it "will add <p> tags to content with linebreaks and mixed content even there are weird namespace prefixes" do
       serializer.structure_children(note_with_linebreaks_and_xml_namespaces).should eq("<p>Something, something,</p><p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite></p>")
+    end
+
+    it "will correctly handle content with & as punctuation as well as & as pre-escaped characters" do
+      serializer.structure_children(note_with_different_amps).should eq("<p>The materials are arranged in folders. Mumford&amp;Sons. Mumford &amp; Sons. They are cool&amp;hip. &lt;p&gt;foo, 2 &amp; 2.&lt;/p&gt;</p>")
+    end
+
+    it "will only allow predefined XML entities and escape ampersands for others" do
+      serializer.escape_ampersands(note_with_entities).should eq("&lt;p&gt;This is &amp;copy;2018 Joe &amp; Co. &amp; &quot;Joe&apos;s mama&quot;")
     end
 
     it "will replace MSWord-style smart quotes with ASCII characters" do

@@ -1,0 +1,35 @@
+## High Level Contributing Guidelines
+
+1.	Be consistent
+2.	Don't rewrite existing code just to follow these guidelines
+3.	Refactoring should be kept separate from functional updates, to make it easier to review.
+4.	Smaller updates are better and much easier to review.  It is OK to submit a chain of small updates that build off each other.
+5.	Don't violate a guideline without good reason. If you do, expect to be asked to defend the reasoning.
+6.	A reason is good when you can convince another core committer and the violated guideline should be reviewed if it needs to be changed.
+
+## Contributing Guidelines and Flow
+
+1.	Make sure that you have completed and submitted an Individual Contributor License Agreement and that your institution has completed and submitted a Corporate Contributor License Agreement.
+2.	Find or create a bug report or feature request ticket in JIRA or GitHub (to make sure you’re not duplicating work and document the intent of your contribution). It helps to explain both the existing behavior and the desired behavior that your change will implement. Assign the ticket to yourself prior to starting the work so that others in the community know that you have taken responsibility for implementing the solution.
+3.	Set up a GitHub account if you have not done so before.
+4.	Fork the ArchivesSpace repository on GitHub. The advantage of forking existing codebases is that you can do so without asking anyone and get started quickly. The disadvantage is that there's a risk of writing code that only lives in your fork, which -- if you wind up running this in production, or pointing other production code at your fork -- is a surefire way to make your work difficult to upgrade.
+5.	Create a feature branch. Do not work directly on the master branch, which is a protected branch. It is helpful to start the name of the branch with the JIRA ticket or Github issue number.
+6.	As you start working on your contribution, feel free to make commits as often as makes sense to you since no one will see these until you push your code up to GitHub; there will be an opportunity later to squash your commits and make sure your commit message is written succinctly and with sufficient detail. (Your commit message will be pulled in as the default description of your PR, so investing some time in writing a high-quality commit message will help you, and code reviewers, later.)
+7.	We also recommend writing tests early and running them often, making small commits as you go. This gives you frequent checkpoints to make sure you do not dig yourself into a deep hole or become bogged down towards the end of working on your changes.
+8.	Make changes in your fork. We advise contributors to follow these guidelines to expedite the contribution review process.
+  a.	Include the JIRA ticket or Github Issue number in your commit message.
+  b.	Follow established style guidelines
+    *	Rails: https://github.com/bbatsov/rails-style-guide
+    *	JRuby: https://github.com/jruby/jruby/wiki/JRubyStyleGuide
+    *	RSpec: http://betterspecs.org/
+  c.	Include unit tests sufficient to cover the feature(s) you add or bug(s) you fix, and make sure the test suite passes when you run it locally.
+  d.	Make sure the code is
+    *	stable and has no stability or security concerns
+    *	properly using existing APIs, etc.
+    *	not too specific to one institution's local policies or workflows. We will review the code to ensure it looks to be generally useful to most institutions, or configurable enough such that others can change it to match their own local policies/workflows.
+  e.	Any third-party tools/libraries used by your code have compatible open source licenses.
+  f.	If you’re adding a feature or otherwise changing documented behavior, modify the documentation to reflect your changes.
+9.	Once your work is done, squash the commits in your branch — see One Commit per Pull Request for some guidelines — and rebase it to the latest in the upstream master branch. We appreciate succinct but explanatory commit messages – see A Note About Git Commit Messages.
+10.	Push your updated branch to your fork.
+11.	Create a Pull Request on GitHub. We have found that it is best when pull requests are small; targeted at a specific issue; and pushed up quickly for review.
+12.	Respond to feedback as the community reviews your contribution.

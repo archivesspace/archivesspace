@@ -4,41 +4,28 @@ layout: en
 permalink: /user/backup-and-recovery/ 
 ---
 
-## Creating backups using the provided script
-
-ArchivesSpace provides some simple scripts for backing up a single
-instance to a `.zip` file.  You can run:
-
-     scripts/backup.sh --output /path/to/backup-yyyymmdd.zip
-
-and the script will generate a file containing:
-
-  * A snapshot of the demo database (if you're using the demo
-    database)
-  * A snapshot of the Solr index and related indexer files
-
-If you are running against MySQL and have `mysqldump` installed, you
-can also provide the `--mysqldump` option.  This will read the
-database settings from your configuration file and add a dump of your
-MySQL database to the resulting `.zip` file.
-
-
 ## Managing your own backups
 
-If you want more control over your backups, you can develop your own
-scripts.  ArchivesSpace stores all persistent data in the database, so
-as long as you have backups of your database then you can always
-recover.
+Performing regular backups of your MySQL database is critical.  ArchivesSpace stores 
+all of you records data in the database, so as long as you have 
+backups of your database then you can always recover from errors and failures.
 
 If you are running MySQL, the `mysqldump` utility can dump the database
 schema and data to a file.  It's a good idea to run this with the
 `--single-transaction` option to avoid locking your database tables
 while your backups run. It is also essential to use the `--routines`
 flag, which will include functions and stored procedures in the
-backup (which ArchivesSpace uses at least for reports).
+backup. The `mysqldump` 
+utility is widely used, and there are many tutorials available. As an example,
+something like this in your `crontab` would backup your database twice daily:
 
-If you are running with the demo database, you can create periodic
-database snapshots using the following configuration settings:
+     # Dump archivesspace database 6am and 6pm
+     30 06,18 * * * mysqldump -u as -pas123 archivesspace | gzip > ~/backups/db.$(date +%F.%H%M%S).sql.gz
+
+You should store backups in a safe location. 
+
+If you are running with the demo database (NEVER run the demo database in production),
+you can create periodic database snapshots using the following configuration settings:
 
      # In this example, we create a snapshot at 4am each day and keep
      # 7 days' worth of backups
@@ -50,14 +37,34 @@ database snapshots using the following configuration settings:
 
 Solr indexes can always be recreated from the contents of the
 database, but backing them up can reduce your recovery time if
-disaster strikes.  You can create periodic Solr snapshots using the
-following configuration settings:
+disaster strikes on a large site.  You can create periodic Solr 
+snapshots using the following configuration settings:
 
      # Create one snapshot per hour and keep only one.
      #
      # Solr snapshots are written to 'data/solr_backups' by default.
      AppConfig[:solr_backup_schedule] = "0 * * * *"
      AppConfig[:solr_backup_number_to_keep] = 1
+
+## Creating backups using the provided script
+
+ArchivesSpace provides some simple scripts for backing up a single
+instance to a `.zip` file.  You can run:
+
+     scripts/backup.sh --output /path/to/backup-yyyymmdd.zip
+
+and the script will generate a file containing:
+
+  * A snapshot of the demo database (if you're using the demo
+    database). NEVER use the demo database in production. 
+  * A snapshot of the Solr index and related indexer files
+
+If you are running against MySQL and have `mysqldump` installed, you
+can also provide the `--mysqldump` option.  This will read the
+database settings from your configuration file and add a dump of your
+MySQL database to the resulting `.zip` file.
+
+     scripts/backup.sh --mysqldump --output ~/backups/backup-yyyymmdd.zip
 
 
 ## Recovering from backup
@@ -66,9 +73,10 @@ When recovering an ArchivesSpace installation from backup, you will
 need to restore:
 
   * Your database (either the demo database or MySQL)
-  * The search indexes and related indexer files
+  * The search indexes and related indexer files (optional)
 
-Of the two, the database backup is the most crucial--search indexes
+Of the two, the database backup is the most crucial, your ArchivesSpace records
+are all stored in your MySQL database. The solr search indexes
 are worth restoring if you have backups, but they can be recreated
 from scratch if necessary.
 

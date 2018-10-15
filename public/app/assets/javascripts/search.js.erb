@@ -11,17 +11,19 @@ var minusFACss = "fa fa-minus";
 var fn_plusminus = function(e){
     e.stopPropagation;
     if ($(this).attr('title') === plusText) {
-	$(this).html("<i aria-hidden='true' class='" + minusFACss + "'></i>");
-	$(this).attr('title', minusText);
-	var $row = new_row_from_template();
-	$(this).parents('.search_row').after($row);
-	$row.find(".bool select").focus();
+    	$(this).html("<i aria-hidden='true' class='" + minusFACss + "'></i>");
+    	$(this).attr('title', minusText);
+      $(this).attr('aria-label', minusText);
+    	var $row = new_row_from_template();
+    	$(this).parents('.search_row').after($row);
+    	$row.find(".bool select").focus();
     }
     else {
         $(this).parents(".search_row").next(".search_row").remove();
         if ($(this).closest('.search_row').index() == $as.find('.search_row').length) {
             $(this).html("<i aria-hidden='true' class='" + plusFACss + "'></i>");
             $(this).attr('title', plusText);
+            $(this).attr('aria-label', plusText);
         }
     }
     return false;
@@ -63,14 +65,14 @@ function initialize_search() {
     $template.find('> .col-sm-3:first').addClass('col-sm-6').removeClass('col-sm-3');
 
     return true;
-}       
+}
 
 function new_button($row, show_add) {
     var $plus = $row.find(".plusminus");
     if (show_add) {
-        $plus.html("<button class='btn btn-default' title='" + plusText + "'><i aria-hidden='true' class='" + plusFACss + "'></i></button>");
+        $plus.html("<button class='btn btn-default' title='" + plusText + "' aria-label='" + plusText + "'><i aria-hidden='true' class='" + plusFACss + "'></i></button>");
     } else {
-        $plus.html("<button class='btn btn-default' title='" + minusText + "'><i aria-hidden='true' class='" + minusFACss + "'></i></button>");
+        $plus.html("<button class='btn btn-default' title='" + minusText + "' aria-label='" + minusText + "'><i aria-hidden='true' class='" + minusFACss + "'></i></button>");
     }
     $plus.find("button").click(fn_plusminus);
     return true;

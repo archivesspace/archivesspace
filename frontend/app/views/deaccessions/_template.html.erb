@@ -8,10 +8,10 @@
 
     <div class="subrecord-form-container">
       <section id="deaccession_date" class="subrecord-form">
-        <h4>
+        <h3>
           <%= I18n.t("deaccession.dates") %>
           <%= link_to_help :topic => "deaccession_deaccession_date" %>
-        </h4>
+        </h3>
         <div class="subrecord-form-container">
           <%= form.fields_for(form.obj["date"] || {"label" => "deaccession"}, "date") do | date | %>
             <% render_aspace_partial :partial => "dates/template", :locals => {:form => form} %>

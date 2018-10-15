@@ -740,8 +740,11 @@
                 title.append($('<a class="record-title" />').prop('href', TreeIds.link_url(node.uri)).text(node.title));
                 title.attr('title', strippedTitle);
 
+                var ex = row.find('.expandme');
+                ex.attr('aria-label', 'expand element');
                 if (node.child_count === 0) {
-                    row.find('.expandme').css('visibility', 'hidden');
+                    ex.css('visibility', 'hidden');
+                    ex.attr('aria-hidden', 'true');
                 }
 
                 self.renderer.add_node_columns(row, node);

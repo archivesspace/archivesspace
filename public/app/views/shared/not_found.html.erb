@@ -1,8 +1,8 @@
 <div id="main-content" class="row">
 
-  
+
  <div class="warning col-sm-12">
-   <h4><%= t('errors.error_404_message', :type => @type) %></h4>
+   <h2><%= t('errors.error_404_message', :type => @type) %></h2>
    <p><b><%= @uri %></b></p>
    <% unless @back_url.blank? %>
    <p><a href="<%= @back_url %>" title="<%= t('actions.backup_abbr')%>"><%= t('actions.backup') %></a></p>

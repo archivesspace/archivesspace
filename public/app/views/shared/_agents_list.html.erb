@@ -1,5 +1,5 @@
 <% list.each do |role, relationships| %>
-  <h4><%= I18n.t("enumerations.linked_agent_role.#{role}", :default => role) %></h4>
+  <h3><%= I18n.t("enumerations.linked_agent_role.#{role}", :default => role) %></h3>
   <ul class="present_list agents_list">
     <% relationships.each do |relationship| %>
       <% agent = relationship.fetch('_resolved') %>

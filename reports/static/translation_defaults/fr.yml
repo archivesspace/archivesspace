@@ -94,6 +94,7 @@ fr:
       purpose: Purpose of Assessment
       rating: Rating
       ratings: Ratings
+      record_id: ID d'enregistrement
       linked_record_type: Record Type
       related_eac_records: Related EAC Record(s)
       repository: Services d'archives
