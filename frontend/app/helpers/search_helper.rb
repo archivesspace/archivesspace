@@ -222,7 +222,7 @@ module SearchHelper
     when result['primary_type'] == 'digital_object_component'
       ancestors = result['digital_object'].split
     else
-      ancestors = nil
+      ancestors = ['']
     end
   end
 
