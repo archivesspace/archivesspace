@@ -80,9 +80,6 @@ class ArchivesSpaceClient
     search_opts = set_search_opts(search_opts)
     url = build_url('/search/records', search_opts.merge("uri[]" => ASUtils.wrap(uri)))
     results = do_search(url)
-    puts "++++++++++++++++++++++++++++"
-    puts "GET RAW RECORD"
-    puts results.inspect
 
     raise RecordNotFound.new if results.fetch('results', []).empty?
 
