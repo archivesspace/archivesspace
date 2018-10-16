@@ -38,9 +38,6 @@ Rails.application.routes.draw do
     get  "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
 
     #DIGITAL OBJECTS
-    get "digital_objects/:slug_or_id"  => 'objects#show'
-    get "repositories/:repo_slug/digital_objects/:slug_or_id"  => 'objects#show'
-
     get "repositories/:rid/digital_objects" => 'objects#index'
     get "repositories/:rid/digital_objects/:id/tree/root"  => 'digital_objects#tree_root'
     get "repositories/:rid/digital_objects/:id/tree/waypoint"  => 'digital_objects#tree_waypoint'
@@ -80,13 +77,9 @@ Rails.application.routes.draw do
     get '/repositories', to: 'repositories#index'
     get "repositories/:slug_or_id/search" => 'search#search'
 
-    # ARCHIVAL OBJECTS
-    get "archival_objects/:slug_or_id"  => 'objects#show'
-    get "repositories/:repo_slug/archival_objects/:slug_or_id"  => 'objects#show'
-
-    # DIGITAL OBJECT COMPONENTS
-    get "digital_object_components/:slug_or_id"  => 'objects#show'
-    get "repositories/:repo_slug/digital_object_components/:slug_or_id"  => 'objects#show'
+    # SLUGGED OBJECTS (# ARCHIVAL OBJECTS, DIGITAL OBJECTS, DIGITAL OBJECT COMPONENTS)
+    get ":obj_type/:slug_or_id"  => 'objects#show'
+    get "repositories/:repo_slug/:obj_type/:slug_or_id"  => 'objects#show'
 
     #OBJECTS (generic, pass in the object_type as a param)
     get 'objects/search' => 'objects#search'
