@@ -615,7 +615,8 @@ AppConfig[:pui_page_custom_actions] = []
 AppConfig[:pui_readmore_max_characters] = 450
 
 # Use the repository in slug based URLs
-AppConfig[:repo_name_in_slugs] = false
+# Warning: setting repo_name_in_slugs to true when it has previously been set to false will break links, unless all slugs are regenerated.
+AppConfig[:repo_name_in_slugs] = true
 
 # Autogenerate slugs based on IDs. If this is set to false, then slugs will autogenerate based on name.
 AppConfig[:auto_generate_slugs_with_id] = false

@@ -81,8 +81,12 @@ Rails.application.routes.draw do
     get "repositories/:slug_or_id/search" => 'search#search'
 
     # ARCHIVAL OBJECTS
-    #get "archival_objects/:slug_or_id"  => 'objects#show'
-    #get "repositories/:repo_slug/archival_objects/:slug_or_id"  => 'objects#show'
+    get "archival_objects/:slug_or_id"  => 'objects#show'
+    get "repositories/:repo_slug/archival_objects/:slug_or_id"  => 'objects#show'
+
+    # DIGITAL OBJECT COMPONENTS
+    get "digital_object_components/:slug_or_id"  => 'objects#show'
+    get "repositories/:repo_slug/digital_object_components/:slug_or_id"  => 'objects#show'
 
     #OBJECTS (generic, pass in the object_type as a param)
     get 'objects/search' => 'objects#search'

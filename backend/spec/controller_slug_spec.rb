@@ -124,6 +124,31 @@ describe 'Slug controller' do
       expect(response["id"].to_s).to eq(agent_software_id)
       expect(response["table"]).to eq("agent_software")     
     end
+
+    it "finds archival_objects by slug for 'objects' controller" do
+      ao = ArchivalObject.create_from_json(
+        build(:json_archival_object, {:slug => "SlugArchivalObject"})
+      )
+
+      get "/slug?slug=SlugArchivalObject&controller=objects&action=show"
+      response = JSON.parse(last_response.body)
+
+      expect(response["id"]).to eq(ao.id)
+      expect(response["table"]).to eq("archival_object")
+    end
+
+    it "finds digital_object_components by slug for 'objects' controller" do
+      doc = DigitalObjectComponent.create_from_json(
+        build(:json_digital_object_component, {:slug => "SlugDOC"})
+      )
+
+      get "/slug?slug=SlugDOC&controller=objects&action=show"
+      response = JSON.parse(last_response.body)
+
+      expect(response["id"]).to eq(doc.id)
+      expect(response["table"]).to eq("digital_object_component")
+    end
+
   end
 
   describe 'repo_name_in_slugs enabled' do
@@ -190,6 +215,62 @@ describe 'Slug controller' do
 
       expect(response["id"]).to eq(-1)
       expect(response["table"]).to eq("digital_object")
+      expect(response["repo_id"]).to eq(-1)
+    end
+
+    it "finds archival_objects by slug for 'objects' controller" do
+      ao = ArchivalObject.create_from_json(
+        build(:json_archival_object, {:slug => "SlugArchivalObject"}), 
+          :repo_id => @repo.id
+      )
+
+      get "/slug_with_repo?slug=SlugArchivalObject&controller=objects&action=show&repo_slug=sluggie"
+      response = JSON.parse(last_response.body)
+
+      expect(response["id"]).to eq(ao.id)
+      expect(response["table"]).to eq("archival_object")
+      expect(response["repo_id"]).to eq(@repo.id)
+    end
+
+    it "does not find archival_objects by slug for 'objects' controller if wrong repo is specified" do
+      ao = ArchivalObject.create_from_json(
+        build(:json_archival_object, {:slug => "SlugArchivalObject"}), 
+          :repo_id => @repo.id
+      )
+
+      get "/slug_with_repo?slug=SlugArchivalObject&controller=objects&action=show&repo_slug=slugtastic"
+      response = JSON.parse(last_response.body)
+
+      expect(response["id"]).to eq(-1)
+      expect(response["table"]).to eq("archival_object")
+      expect(response["repo_id"]).to eq(-1)
+    end
+
+    it "finds digital_object_components by slug for 'objects' controller" do
+      doc = DigitalObjectComponent.create_from_json(
+        build(:json_digital_object_component, {:slug => "SlugDOC"}), 
+          :repo_id => @repo.id
+      )
+
+      get "/slug_with_repo?slug=SlugDOC&controller=objects&action=show&repo_slug=sluggie"
+      response = JSON.parse(last_response.body)
+
+      expect(response["id"]).to eq(doc.id)
+      expect(response["table"]).to eq("digital_object_component")
+      expect(response["repo_id"]).to eq(@repo.id)
+    end
+
+    it "does not finds digital_object_components by slug for 'objects' controller if wrong repo is specified" do
+      doc = DigitalObjectComponent.create_from_json(
+        build(:json_digital_object_component, {:slug => "SlugDOC"}), 
+          :repo_id => @repo.id
+      )
+
+      get "/slug_with_repo?slug=SlugDOC&controller=objects&action=show&repo_slug=slugnotsnail"
+      response = JSON.parse(last_response.body)
+
+      expect(response["id"]).to eq(-1)
+      expect(response["table"]).to eq("digital_object_component")
       expect(response["repo_id"]).to eq(-1)
     end
 

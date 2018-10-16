@@ -1,8 +1,10 @@
 module SlugHelpers
   # Find the record given the slug, return id, repo_id, and table name.
-  def self.get_id_from_slug(slug, controller, action, repo_slug)
+  # This is a gnarly descision tree because the query we'll run depends on which 
+  # controller is asking, and whether we're scoping by repo slug or not.
 
-    # global scope tables first
+  def self.get_id_from_slug(slug, controller, action, repo_slug)
+    # First, we'll check if we're looking for a non-repo scoped entity, since these are straight queries.
     if controller == "repositories"
       rec = Repository.where(:slug => slug).first 
       table = "repository"
@@ -12,11 +14,19 @@ module SlugHelpers
       rec = Subject.where(:slug => slug).first 
       table = "subject"
 
-    # repo scope tables
+    # All other entities can be repo scoped or not, so we'll call either the repo sensitive or insensitive method depending on the config setting.
     elsif AppConfig[:repo_name_in_slugs] 
-      rec, table = find_in_repo(slug, controller, action, repo_slug)
+      if controller == "objects"
+        rec, table = self.find_slug_in_object_tables_with_repo(slug, repo_slug)
+      else
+        rec, table = find_in_repo(slug, controller, action, repo_slug)
+      end
     else
-      rec, table = find_any_repo(slug, controller, action)
+      if controller == "objects"
+        rec, table = self.find_slug_in_object_tables_without_repo(slug)
+      else
+        rec, table = find_any_repo(slug, controller, action)
+      end
     end
 
   	if rec
@@ -39,16 +49,10 @@ module SlugHelpers
     table = case controller
     when "resources"
       "resource"
-    when "objects"
-      "digital_object"
     when "accessions"
       "accession"
     when "classifications"
       "classification"
-    else
-      puts "++++++++++++++++++++++++++++"
-      puts "controller: " + controller.to_s
-
     end
 
     if repo.nil?
@@ -63,8 +67,6 @@ module SlugHelpers
     return case controller
     when "resources"
       [Resource.any_repo.where(:slug => slug).first, "resource"]
-    when "objects"
-      [DigitalObject.any_repo.where(:slug => slug).first, "digital_object"]
     when "accessions"
       [Accession.any_repo.where(:slug => slug).first, "accession"]
     when "classifications"
@@ -101,6 +103,89 @@ module SlugHelpers
 
     return [agent, found_in]
   end
+
+
+  # Find slug could be in one of three tables.
+
+  # find slug in one of the object tables, only in the specified repo.
+
+  # FIXME: Queries like: ArchivalObject.where(:slug => slug, :repo_id => repo.id)
+  # fail with "missing repo_id for request" error (in ASModel_CRUD) for some reason. Using SQL queries to get around this for now. 
+
+  def self.find_slug_in_object_tables_with_repo(slug, repo_slug)
+    repo = Repository.where(:slug => repo_slug).first
+    found_in = nil
+
+    # NO REPO - find the right table so that public interface knows what route to render
+    if repo.nil?
+      obj = Repository.fetch("SELECT * FROM archival_object where slug = ?", slug).first
+      found_in = "archival_object" if obj
+
+      unless found_in
+        obj = Repository.fetch("SELECT * FROM digital_object where slug = ?", slug).first
+        found_in = "digital_object" if obj
+      end
+
+      unless found_in
+        obj = Repository.fetch("SELECT * FROM digital_object_component where slug = ?", slug).first
+        found_in = "digital_object_component" if obj
+      end
+
+      unless found_in
+        obj = nil
+      end
+
+      return [nil, found_in]
+
+    # REPO FOUND - find entity
+    else
+      found_in = nil
+
+      obj = Repository.fetch("SELECT * FROM archival_object where slug = ? and repo_id = ?", slug, repo.id).first
+      found_in = "archival_object" if obj
+
+      unless found_in
+        obj = Repository.fetch("SELECT * FROM digital_object where slug = ? and repo_id = ?", slug, repo.id).first
+        found_in = "digital_object" if obj
+      end
+
+      unless found_in
+        obj = Repository.fetch("SELECT * FROM digital_object_component where slug = ? and repo_id = ?", slug, repo.id).first
+        found_in = "digital_object_component" if obj
+      end
+
+      unless found_in
+        obj = nil
+      end
+
+      return [obj, found_in]
+    end
+  end
+
+  # find slug in one of the object tables in any repo.
+  def self.find_slug_in_object_tables_without_repo(slug)
+    found_in = nil
+
+    obj = ArchivalObject.any_repo.where(:slug => slug).first
+    found_in = "archival_object" if obj
+
+    unless found_in
+      obj = DigitalObject.any_repo.where(:slug => slug).first
+      found_in = "digital_object" if obj
+    end
+
+    unless found_in
+      obj = DigitalObjectComponent.any_repo.where(:slug => slug).first
+      found_in = "digital_object_component" if obj
+    end
+
+    unless found_in
+      obj = nil
+    end
+
+    return [obj, found_in]
+  end
+
 
   # given a slug, return true if slug is used by another entitiy.
   # return false otherwise.

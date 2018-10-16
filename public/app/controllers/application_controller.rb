@@ -81,7 +81,6 @@ class ApplicationController < ActionController::Base
 
     end
 
-    update_params!
     return params
   end
 
@@ -138,12 +137,16 @@ class ApplicationController < ActionController::Base
           params[:eid] = "software"
         end
       end
-    end
 
-    def update_params!
-      #Add in additional params as needed, based on the controller
-      if params[:controller] == "objects" && !params[:obj_type]
-        params[:obj_type] = "digital_objects"
+      if params[:controller] == "objects"
+        case json_response["table"]
+        when "digital_object"
+          params[:obj_type] = "digital_objects"
+        when "archival_object"
+          params[:obj_type] = "archival_objects"
+        when "digital_object_component"
+          params[:obj_type] = "digital_object_components"
+        end
       end
     end
 

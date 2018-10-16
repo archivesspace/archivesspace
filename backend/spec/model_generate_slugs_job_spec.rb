@@ -15,6 +15,8 @@ describe "Generate slugs job" do
     @resource  = Resource.create_from_json(build(:json_resource))
     @accession = Accession.create_from_json(build(:json_accession))
     @digital_object = DigitalObject.create_from_json(build(:json_digital_object))
+    @archival_object = ArchivalObject.create_from_json(build(:json_archival_object))
+    @digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component))
     @classification = Classification.create_from_json(build(:json_classification))
     @repository_id = make_test_repo("slug_job_test")
     @subject = Subject.create_from_json(build(:json_subject))
@@ -33,6 +35,14 @@ describe "Generate slugs job" do
     end
 
     DigitalObject.any_repo.each do |r|
+      expect(r[:is_slug_auto]).to eq(1)
+    end
+
+    ArchivalObject.any_repo.each do |r|
+      expect(r[:is_slug_auto]).to eq(1)
+    end
+
+    DigitalObjectComponent.any_repo.each do |r|
       expect(r[:is_slug_auto]).to eq(1)
     end
 
@@ -73,6 +83,8 @@ describe "Generate slugs job" do
     @resource  = Resource.create_from_json(build(:json_resource))
     @accession = Accession.create_from_json(build(:json_accession))
     @digital_object = DigitalObject.create_from_json(build(:json_digital_object))
+    @archival_object = ArchivalObject.create_from_json(build(:json_archival_object))
+    @digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component))
     @classification = Classification.create_from_json(build(:json_classification))
     @repository_id = make_test_repo("slug_job_test")
     @subject = Subject.create_from_json(build(:json_subject))
@@ -91,6 +103,14 @@ describe "Generate slugs job" do
     end
 
     DigitalObject.any_repo.each do |r|
+      expect(r[:slug]).to_not eq(nil)
+    end
+
+    ArchivalObject.any_repo.each do |r|
+      expect(r[:slug]).to_not eq(nil)
+    end
+
+    DigitalObjectComponent.any_repo.each do |r|
       expect(r[:slug]).to_not eq(nil)
     end
 

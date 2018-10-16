@@ -8,10 +8,6 @@ class ObjectsController <  ApplicationController
 
   skip_before_action  :verify_authenticity_token
 
-  #before_filter(:only => [:show]) {
-    #process_slug_or_id(params)
-  #}
-
   before_filter(:only => [:show]) {
     process_slug_or_id(params)
   }

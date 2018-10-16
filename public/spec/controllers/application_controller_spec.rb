@@ -242,13 +242,31 @@ describe ObjectsController, type: :controller do
     AppConfig[:repo_name_in_slugs] = true
   end
 
-  it "should set id params based on response from backend" do
+  it "should set id params based on response from backend for digital objects" do
     HTTP.stub(:get_response) { SlugQueryResponseMock.new(6, "digital_object", 5) }
 
     response = get :show, params: {:slug_or_id => "foobar"}
     expect(controller.params[:id]).to eq(6)
     expect(controller.params[:rid]).to eq(5)
     expect(controller.params[:obj_type]).to eq("digital_objects")
+  end
+
+  it "should set id params based on response from backend for archival objects" do
+    HTTP.stub(:get_response) { SlugQueryResponseMock.new(6, "archival_object", 5) }
+
+    response = get :show, params: {:slug_or_id => "foobar"}
+    expect(controller.params[:id]).to eq(6)
+    expect(controller.params[:rid]).to eq(5)
+    expect(controller.params[:obj_type]).to eq("archival_objects")
+  end
+
+  it "should set id params based on response from backend for digital object components" do
+    HTTP.stub(:get_response) { SlugQueryResponseMock.new(6, "digital_object_components", 5) }
+
+    response = get :show, params: {:slug_or_id => "foobar"}
+    expect(controller.params[:id]).to eq(6)
+    expect(controller.params[:rid]).to eq(5)
+    expect(controller.params[:obj_type]).to eq("digital_object_components")
   end
 end
 
