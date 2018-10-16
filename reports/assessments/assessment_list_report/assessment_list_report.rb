@@ -143,9 +143,9 @@ class AssessmentListReport < AbstractReport
       unless ratings_hash.nil?
         ratings_hash.each do | ra |
           rate_label = ra[:field] + ' Rating'
-          note_label = ra[:field] + ' Note' if ra[:label] != "Research Value"
+          note_label = ra[:field] + ' Note' if ra[:field] != "Research Value"
           row[ReportUtils.normalize_label(rate_label).to_sym] = ra[:rating]
-          row[ReportUtils.normalize_label(note_label).to_sym] = ra[:note] if ra[:label] != "Research Value"
+          row[ReportUtils.normalize_label(note_label).to_sym] = ra[:note] if ra[:field] != "Research Value"
         end
       end
     else
