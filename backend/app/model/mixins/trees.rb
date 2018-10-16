@@ -141,7 +141,6 @@ module Trees
           :title => node[:title],
           :id => node.id,
           :slug => node.respond_to?(:slug) ? node.slug : "",
-          :slugged_url => "foobar",
           :record_uri => self.class.uri_for(node_type, node.id),
           :publish => node.respond_to?(:publish) ? node.publish===1 : true,
           :suppressed => node.respond_to?(:suppressed) ? node.suppressed===1 : false,
