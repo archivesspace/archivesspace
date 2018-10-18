@@ -3,7 +3,7 @@ module TouchRecords
   # Implement 'touch' functionality to bump related records system_mtime values
   # as 'this' record is modified in the system.
 
-  # To implmenent a model should include the mixin and define the class method:
+  # To implement a model should include the mixin and define the class method:
   # `touch_records`: [ { type: Resource, ids: [1, 3, 10] } ]
 
   # NOTE: this does not apply to _rlshp records which update related records
