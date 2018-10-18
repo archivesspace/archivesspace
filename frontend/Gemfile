@@ -22,6 +22,8 @@ gem 'coffee-script-source'
 gem 'uglifier', '3.0.4'
 gem 'therubyrhino'
 
+gem 'less-rails-bootstrap'
+
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem "json", "1.8.6"
