@@ -11,10 +11,12 @@
         <% define_template "classification", jsonmodel_definition(:classification) do |form, classification| %>
           <section id="basic_information">
             <h3><%= I18n.t("classification._frontend.section.basic_information") %></h3>
-    
+
             <%= form.label_and_textarea "identifier" %>
             <%= form.label_and_textarea "title" %>
             <%= form.label_and_textarea "description" %>
+
+            <%= render_aspace_partial :partial => "shared/record_uri", :locals => { :record => @classification } %>
 
             <% if !readonly["creator"].blank? %>
               <div class="token-list">

@@ -13,6 +13,10 @@
 
       <%= read_only_view(@location.to_hash) %>
 
+      <div class="form-horizontal">
+        <%= render_aspace_partial :partial => "shared/record_uri", :locals => { :record => @location } %>
+      </div>
+
       <% if @location['location_profile'] %>
         <div class="form-horizontal">
           <div class="form-group token-list">

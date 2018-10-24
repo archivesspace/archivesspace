@@ -73,6 +73,8 @@
         <% end %>
       <% end %>
 
+      <%= render_aspace_partial :partial => "shared/record_uri", :locals => { :record => @assessment } %>
+
       <h4><%= I18n.t("assessment._frontend.section.existing_description") %></h4>
 
       <% if form.readonly? %>
@@ -247,7 +249,7 @@
 
                       <% rating_values_tooltip = rating_values_tooltip(rating) %>
                       <% if rating_values_tooltip %>
-                        <label class="pull-right ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label" 
+                        <label class="pull-right ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label"
                                data-trigger="manual"
                                data-html="true"
                                title="<%= rating_values_tooltip %>"
@@ -335,7 +337,7 @@
 
                         <% rating_values_tooltip = rating_values_tooltip(rating) %>
                         <% if rating_values_tooltip %>
-                          <label class="pull-right ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label" 
+                          <label class="pull-right ratings-value-tooltip glyphicon glyphicon-question-sign has-tooltip control-label"
                                  data-trigger="manual"
                                  data-html="true"
                                  title="<%= rating_values_tooltip %>"

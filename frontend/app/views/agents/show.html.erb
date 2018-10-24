@@ -21,6 +21,9 @@
             <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
           </div>
           <%= readonly.label_and_boolean "publish" %>
+
+          <%= render_aspace_partial :partial => "shared/record_uri", :locals => { :record => @agent } %>
+
           <%= display_audit_info(@agent) %>
         </section>
 
