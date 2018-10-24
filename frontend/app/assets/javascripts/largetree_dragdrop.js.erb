@@ -184,7 +184,7 @@
         $(largetree.elt).on('mousedown', '.drag-handle', function (event) {
             var selection = $(this);
 
-            if (event.ctrlKey || event.metaKey) {
+            if (self.isMultiSelectKeyHeld(event)) {
                 return self.handleMultiSelect(selection);
             } else if (event.shiftKey) {
                 return self.handleShiftSelect(selection);
@@ -238,7 +238,8 @@
         });
 
         $(document).on('mousedown', function (event) {
-            if (!event.ctrlKey &&
+            if (!self.isMultiSelectKeyHeld(event) &&
+
                 /* Not clicking on a drag handle */
                 !$(event.target).hasClass('drag-handle') &&
 
@@ -392,6 +393,11 @@
 
             return true;
         });
+    };
+
+
+    LargeTreeDragDrop.prototype.isMultiSelectKeyHeld = function (mouseEvent) {
+        return (mouseEvent.ctrlKey || mouseEvent.metaKey);
     };
 
 
