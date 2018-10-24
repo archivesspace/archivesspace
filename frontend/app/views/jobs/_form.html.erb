@@ -66,7 +66,7 @@
   <% define_template("report_job", jsonmodel_definition(:report_job)) do |form| %>
 
       <div class="col-md-12">
-          <h2>Reports</h2>
+          <h3>Reports</h3>
 
           <div class="accordion" id="reportListing">
 
@@ -164,7 +164,7 @@
     <%= form_context :job, @job do |form| %>
           <div class="record-pane">
             <%= link_to_help :topic => "job" %>
-            <h2><%= I18n.t("job._frontend.actions.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type])  %> </h2>
+            <h3><%= I18n.t("job._frontend.actions.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type])  %> </h3>
 
             <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @job, :form => form} %>
             <% form.emit_template("job") %>

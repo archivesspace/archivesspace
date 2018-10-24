@@ -4,6 +4,9 @@ class RequestsController < ApplicationController
   def make_request
     @request = RequestItem.new(params)
     errs = @request.validate
+    if params["comment"].present?
+      errs << I18n.t('request.failed')
+    end
     if errs.blank?
       flash[:notice] = I18n.t('request.submitted')
 

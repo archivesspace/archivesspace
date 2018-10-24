@@ -107,10 +107,10 @@ module AspaceFactories
       factory :repo, class: JSONModel(:repository) do
         repo_code { generate :repo_code }
         name { generate :repo_name }
-        publish true
-        org_code "123"
-        image_url "http://foo.com/bar"
-        url "http://foo.com"
+        publish { true }
+        org_code { "123" }
+        image_url { "http://foo.com/bar" }
+        url { "http://foo.com" }
       end
 
       factory :user, class: JSONModel(:user) do
@@ -124,19 +124,19 @@ module AspaceFactories
         id_1 { generate(:accession_id) }
         id_2 { generate(:accession_id) }
         id_3 { generate(:accession_id) }
-        publish true
-        content_description "9 guinea pigs"
-        condition_description "furious"
-        accession_date "1990-01-01"
+        publish { true }
+        content_description { "9 guinea pigs" }
+        condition_description { "furious" }
+        accession_date { "1990-01-01" }
       end
 
       factory :json_date_single, class: JSONModel(:date) do
-        date_type 'single'
-        label 'creation'
+        date_type { 'single' }
+        label { 'creation' }
         self.begin { generate(:yyyy_mm_dd) }
-        self.certainty 'inferred'
-        self.era 'ce'
-        self.calendar 'gregorian'
+        self.certainty { 'inferred' }
+        self.era { 'ce' }
+        self.calendar { 'gregorian' }
         expression { generate(:alphanumstr) }
       end
 
@@ -152,7 +152,7 @@ module AspaceFactories
         id_1 { generate(:accession_id) }
         id_2 { generate(:accession_id) }
         id_3 { generate(:accession_id) }
-        publish true
+        publish { true }
         content_description { generate(:generic_description) }
         condition_description { generate(:generic_description) }
         accession_date { generate(:yyyy_mm_dd) }
@@ -160,10 +160,10 @@ module AspaceFactories
       end
 
       factory :collection_management, class: JSONModel(:collection_management) do
-        processing_total_extent "10"
-        processing_status "completed"
-        processing_total_extent_type "cassettes"
-        processing_hours_per_foot_estimate "80"
+        processing_total_extent { "10" }
+        processing_status { "completed" }
+        processing_total_extent_type { "cassettes" }
+        processing_hours_per_foot_estimate { "80" }
       end
 
 
@@ -172,14 +172,14 @@ module AspaceFactories
         id_0 { generate :id_0 }
         extents { [build(:extent)] }
         dates { [build(:date)] }
-        level "collection"
-        language "eng"
+        level { "collection" }
+        language { "eng" }
       end
 
       factory :archival_object, class: JSONModel(:archival_object) do
         title { generate(:archival_object_title) }
         ref_id { generate(:ref_id) }
-        level "item"
+        level { "item" }
       end
 
 
@@ -198,12 +198,12 @@ module AspaceFactories
       end
 
       factory :instance_digital, class: JSONModel(:instance) do
-        instance_type 'digital_object'
+        instance_type { 'digital_object' }
         digital_object { { "ref" => create(:digital_object).uri } }
       end
 
       factory :file_version, class: JSONModel(:file_version) do
-        file_uri "http://example.com/1"
+        file_uri { "http://example.com/1" }
         use_statement { generate(:use_statement) }
         xlink_actuate_attribute { generate(:xlink_actuate_attribute) }
         xlink_show_attribute { generate(:xlink_show_attribute) }
@@ -216,23 +216,23 @@ module AspaceFactories
 
 
       factory :extent, class: JSONModel(:extent) do
-        portion "whole"
-        number "1"
-        extent_type "linear_feet"
+        portion { "whole" }
+        number { "1" }
+        extent_type { "linear_feet" }
       end
 
       factory :date, class: JSONModel(:date) do
-        date_type "inclusive"
-        label 'creation'
-        self.begin "1900-01-01"
-        self.end "1999-12-31"
-        expression "1900s"
+        date_type { "inclusive" }
+        label { 'creation' }
+        self.begin { "1900-01-01" }
+        self.end { "1999-12-31" }
+        expression { "1900s" }
       end
 
       factory :rde_template, class: JSONModel(:rde_template) do
-        record_type "archival_object"
+        record_type { "archival_object" }
         name { generate(:rde_template_name) }
-        order []
+        order { [] }
         visible { ["colLevel", "colOtherLevel", "colTitle", "colCompId", "colLang", "colExpr", "colDType", "colDBegin", "colDEnd", "colIType", "colCType1", "colCInd1", "colCBarc1", "colCType2", "colCInd2", "colCType3", "colCInd3", "colNType1", "colNCont1", "colNType2", "colNCont2", "colNType3", "colNCont3"]}
         defaults { {
           "colTitle" => "DEFAULT TITLE",
@@ -247,7 +247,7 @@ module AspaceFactories
         sort_name { generate(:sort_name) }
         name_order { %w(direct inverted).sample }
         number { generate(:alphanumstr) }
-        sort_name_auto_generate true
+        sort_name_auto_generate { true }
         dates { generate(:alphanumstr) }
         qualifier { generate(:alphanumstr) }
         fuller_form { generate(:alphanumstr) }
@@ -259,25 +259,25 @@ module AspaceFactories
       end
 
       factory :agent_person, class: JSONModel(:agent_person) do
-        agent_type 'agent_person'
+        agent_type { 'agent_person' }
         names { [build(:name_person)] }
         dates_of_existence { [build(:date, :label => 'existence')] }
       end
 
       factory :agent_family, class: JSONModel(:agent_family) do
-        agent_type 'agent_family'
+        agent_type { 'agent_family' }
         names { [build(:name_family)] }
         dates_of_existence { [build(:json_date, :label => 'existence')] }
       end
 
       factory :agent_software, class: JSONModel(:agent_software) do
-        agent_type 'agent_software'
+        agent_type { 'agent_software' }
         names { [build(:name_software)] }
         dates_of_existence { [build(:json_date, :label => 'existence')] }
       end
 
       factory :agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
-        agent_type 'agent_corporate_entity'
+        agent_type { 'agent_corporate_entity' }
         names { [build(:name_corporate_entity)] }
         dates_of_existence { [build(:json_date, :label => 'existence')] }
       end
@@ -289,7 +289,7 @@ module AspaceFactories
         subordinate_name_2 { generate(:alphanumstr) }
         number { generate(:alphanumstr) }
         sort_name { generate(:sort_name) }
-        sort_name_auto_generate true
+        sort_name_auto_generate { true }
         dates { generate(:alphanumstr) }
         qualifier { generate(:alphanumstr) }
         authority_id { generate(:url) }
@@ -300,7 +300,7 @@ module AspaceFactories
         rules { generate(:name_rule) }
         family_name { generate(:generic_name) }
         sort_name { generate(:sort_name) }
-        sort_name_auto_generate true
+        sort_name_auto_generate { true }
         dates { generate(:alphanumstr) }
         qualifier { generate(:alphanumstr) }
         prefix { generate(:alphanumstr) }
@@ -312,7 +312,7 @@ module AspaceFactories
         rules { generate(:name_rule) }
         software_name { generate(:generic_name) }
         sort_name { generate(:sort_name) }
-        sort_name_auto_generate true
+        sort_name_auto_generate { true }
       end
 
       factory :subject, class: JSONModel(:subject) do
@@ -334,13 +334,13 @@ module AspaceFactories
       end
 
       factory :container_location, class: JSONModel(:container_location) do
-        status "current"
-        start_date "2015-01-01"
+        status { "current" }
+        start_date { "2015-01-01" }
       end
 
       factory :location, class: JSONModel(:location) do
         building { generate(:building) }
-        barcode "8675309"
+        barcode { "8675309" }
       end
 
       factory :vocab, class: JSONModel(:vocabulary) do
@@ -350,7 +350,7 @@ module AspaceFactories
 
       factory :classification, class: JSONModel(:classification) do
         identifier { generate(:alphanumstr) }
-        publish true
+        publish { true }
         title { generate(:classification_title) }
         description { generate(:alphanumstr) }
       end
@@ -363,19 +363,19 @@ module AspaceFactories
 
       factory :container_profile, class: JSONModel(:container_profile) do
         name { generate(:alphanumstr) }
-        extent_dimension "width"
-        dimension_units "inches"
-        width "10"
-        height "10"
-        depth "10"
+        extent_dimension { "width" }
+        dimension_units { "inches" }
+        width { "10" }
+        height { "10" }
+        depth { "10" }
       end
 
       factory :location_profile, class: JSONModel(:location_profile) do
         name { generate(:alphanumstr) }
-        dimension_units "inches"
-        width "100"
-        height "20"
-        depth "20"
+        dimension_units { "inches" }
+        width { "100" }
+        height { "20" }
+        depth { "20" }
       end
     end
 

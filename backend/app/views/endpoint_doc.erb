@@ -5,7 +5,7 @@
     list-style: none;
     padding: 0;
   }
-  .endpoints h3 {
+  .endpoints h2 {
     margin: 0;
     background-color: #FAFAFA;
     padding: 10px;
@@ -29,14 +29,14 @@
 <ul class="endpoints">
 <% ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}.each do | e | %>
   <li>
-    <h3><span class="method"><%= e[:method] %></span> <span class="uri"><%= e[:uri] %></span></h3>
+    <h2><span class="method"><%= e[:method] %></span> <span class="uri"><%= e[:uri] %></span></h2>
     <div class="details">
       <strong>Description:</strong>
       <blockquote><%= e[:description] %></blockquote>
 
       <b>Parameters:</b>
       <blockquote>
-      <% e[:params].each do |param| 
+      <% e[:params].each do |param|
         opts = (param[3] or {})
         vs = opts[:validation] ? " -- #{opts[:validation][0]}" : ""
       %>

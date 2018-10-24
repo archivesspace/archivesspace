@@ -7,6 +7,7 @@ class AssessmentLinkedRecordsSubreport < AbstractSubreport
 
   def query_string
     "(select
+      resource.id as record_id,
       'Resource' as linked_record_type,
       resource.title as record_title,
       resource.identifier as identifier
@@ -17,6 +18,7 @@ class AssessmentLinkedRecordsSubreport < AbstractSubreport
     union
 
     (select
+      resource.id as record_id,
       'Archival Object' as linked_record_type,
       ifnull(archival_object.title, archival_object.display_string) as record_title,
       resource.identifier as identifier
@@ -28,6 +30,7 @@ class AssessmentLinkedRecordsSubreport < AbstractSubreport
     union
 
     (select
+      accession.id as record_id,
       'Accession' as linked_record_type,
       accession.title as record_title,
       accession.identifier as identifier
@@ -38,6 +41,7 @@ class AssessmentLinkedRecordsSubreport < AbstractSubreport
     union
 
     (select
+      digital_object.id as record_id,
       'Digital Object' as linked_record_type,
       digital_object.title as record_title,
       digital_object.digital_object_id as identifier
@@ -48,6 +52,7 @@ class AssessmentLinkedRecordsSubreport < AbstractSubreport
 
   def fix_row(row)
     ReportUtils.fix_identifier_format(row) unless row[:linked_record_type] == 'Digital Object'
+    ReportUtils.fix_id(row)
   end
 
 end

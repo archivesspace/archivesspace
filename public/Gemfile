@@ -6,6 +6,7 @@ gem 'rails', '5.0.1'
 
 gem 'loofah', '>= 2.2.2'
 gem "i18n", "0.9.1"
+gem 'rubyzip', '~> 1.2.2'
 
 # Use jdbcsqlite3 as the database for Active Record
 # gem 'activerecord-jdbcsqlite3-adapter'
@@ -78,4 +79,5 @@ group :test do
   gem 'selenium-webdriver'
   gem 'capybara'
   gem 'launchy'
+  gem 'axe-matchers'
 end

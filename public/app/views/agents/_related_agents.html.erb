@@ -7,13 +7,13 @@
 %>
 
 <% grouped_relationships.each do |type, relationships| %>
-  <h5><%= I18n.t("#{type}._singular") %></h5>
+  <h3><%= I18n.t("#{type}._singular") %></h3>
   <ul class="present_list">
     <% relationships.each do |relationship| %>
       <% agent = relationship['_resolved'] %>
       <li>
         <%= link_to agent['display_name']['sort_name'], app_prefix(agent['uri']) %>
-        (<%= I18n.t("enumerations.#{type}_relator.#{relationship['relator']}", :default => relationship['relator']) %>, 
+        (<%= I18n.t("enumerations.#{type}_relator.#{relationship['relator']}", :default => relationship['relator']) %>,
          <%= I18n.t("#{agent['jsonmodel_type']}._singular") %>)
          <% if relationship['description'] || ASUtils.wrap(relationship['dates']).length > 0 %>
            <dl>

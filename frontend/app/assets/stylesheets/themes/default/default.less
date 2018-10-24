@@ -54,3 +54,11 @@ body {
   background-color: #aaa;
 }
 
+@media print {
+   a[href]:after {
+      display: none;
+   }
+   .pagination {
+     display: none;
+   }
+}

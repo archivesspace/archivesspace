@@ -1,4 +1,4 @@
-<h4><%= t('resource._public.related_accessions.accessions') %></h4>
+<h3><%= t('resource._public.related_accessions.accessions') %></h3>
 <ul>
   <% accessions.each do |accession| %>
     <li>
@@ -9,7 +9,7 @@
 
       <% unless accession.deaccessions.empty? %>
         <div>
-          <h5><%= t('resource._public.related_accessions.deaccessions') %></h5>
+          <h3><%= t('resource._public.related_accessions.deaccessions') %></h3>
           <ul>
             <% accession.deaccessions.each do |deaccession| %>
               <li><%= deaccession['description'] %></li>
