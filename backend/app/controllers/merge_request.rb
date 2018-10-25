@@ -219,11 +219,66 @@ class ArchivesSpaceService < Sinatra::Base
       elsif path_fix[0] === 'notes'
         target['notes'].push(victim['notes'][path_fix[1]])
       end
-    target['title'] = target['names'][0]['sort_name']
+      target['title'] = target['names'][0]['sort_name']
     end
     if dry_run == true
+      target['title'] = preview_sort_name(target['names'][0])
+      target['names'][0]['sort_name'] = target['title']
       target['related_agents'] = (target['related_agents'] + victim['related_agents']).uniq
     end
     target
+  end
+
+  # NOTE: this code is a duplicate of the auto_generate code for creating sort name
+  # in the name_person, name_family, name_software, name_corporate_entity models
+  # Consider refactoring when continued work done on the agents model enhancements
+  def preview_sort_name(target)
+    result = ""
+
+    case target['jsonmodel_type']
+    when 'name_person'
+      if target["name_order"] === "inverted"
+        result << target["primary_name"] if target["primary_name"]
+        result << ", #{target["rest_of_name"]}" if target["rest_of_name"]
+      elsif target["name_order"] === "direct"
+        result << target["rest_of_name"] if target["rest_of_name"]
+        result << " #{target["primary_name"]}" if target["primary_name"]
+      else
+        result << target["primary_name"] if target["primary_name"]
+      end
+
+      result << ", #{target["prefix"]}" if target["prefix"]
+      result << ", #{target["suffix"]}" if target["suffix"]
+      result << ", #{target["title"]}" if target["title"]
+      result << ", #{target["number"]}" if target["number"]
+      result << " (#{target["fuller_form"]})" if target["fuller_form"]
+      result << ", #{target["dates"]}" if target["dates"]
+    when 'name_corporate_entity'
+      result << "#{target["primary_name"]}" if target["primary_name"]
+      result << ". #{target["subordinate_name_1"]}" if target["subordinate_name_1"]
+      result << ". #{target["subordinate_name_2"]}" if target["subordinate_name_2"]
+
+      grouped = [target["number"], target["dates"]].reject{|v| v.nil?}
+      result << " (#{grouped.join(" : ")})" if not grouped.empty?
+    when 'name_family'
+      result << target["family_name"] if target["family_name"]
+      result << ", #{target["prefix"]}" if target["prefix"]
+      result << ", #{target["dates"]}" if target["dates"]
+    when 'name_software'
+      result << "#{target["manufacturer"]} " if target["manufacturer"]
+      result << "#{target["software_name"]}" if target["software_name"]
+      result << " #{target["version"]}" if target["version"]
+    end
+
+    result << " (#{target["qualifier"]})" if target["qualifier"]
+
+    result.lstrip!
+
+    if result.length > 255
+      return result[0..254]
+    else
+      return result
+    end
+
   end
 end

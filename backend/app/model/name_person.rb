@@ -26,7 +26,9 @@ class NamePerson < Sequel::Model(:name_person)
     %w(primary_name title name_order prefix rest_of_name suffix fuller_form number qualifier )
   end
 
-
+  # NOTE: this code is duplicated in the merge_request preview_sort_name method
+  # If the code is changed here, please change it there as well
+  # Consider refactoring when continued work done on the agents model enhancements
   auto_generate :property => :sort_name,
                 :generator => proc  { |json|
                   result = ""
@@ -49,7 +51,7 @@ class NamePerson < Sequel::Model(:name_person)
                   result << ", #{json["dates"]}" if json["dates"]
                   result << " (#{json["qualifier"]})" if json["qualifier"]
 
-                  result.lstrip!    
+                  result.lstrip!
                   result.length > 255 ? result[0..254] : result
                 },
                 :only_if => proc { |json| json["sort_name_auto_generate"] }
