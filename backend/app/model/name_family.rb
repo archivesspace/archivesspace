@@ -27,7 +27,9 @@ class NameFamily < Sequel::Model(:name_family)
     %w(family_name prefix qualifier)
   end
 
-
+  # NOTE: this code is duplicated in the merge_request preview_sort_name method
+  # If the code is changed here, please change it there as well
+  # Consider refactoring when continued work done on the agents model enhancements
   auto_generate :property => :sort_name,
                 :generator => proc  { |json|
                   result = ""
