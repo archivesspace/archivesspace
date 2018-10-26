@@ -155,8 +155,10 @@ module RESTHelpers
       end
       if docs
         @documentation = docs
-        @prepend_to_autodoc = prepend
       end
+      
+      @prepend_to_autodoc = prepend
+      
       self
     end
 
