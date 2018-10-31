@@ -149,7 +149,11 @@ class ApplicationController < ActionController::Base
     request = JSONModel(:merge_request).new
     request.target = {'ref' => target_uri}
     request.victims = Array.wrap(victims).map { |victim| { 'ref' => victim  } }
-
+    if params[:id]
+      id = params[:id]
+    else
+      id = target_uri.split('/')[-1]
+    end
     begin
       request.save(:record_type => merge_type)
       flash[:success] = I18n.t("#{merge_type}._frontend.messages.merged")
@@ -158,13 +162,13 @@ class ApplicationController < ActionController::Base
       redirect_to(resolver.view_uri)
     rescue ValidationException => e
       flash[:error] = e.errors.to_s
-      redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+      redirect_to({:action => :show, :id => id}.merge(extra_params))
     rescue ConflictException => e
       flash[:error] = I18n.t("errors.merge_conflict", :message => e.conflicts)
-      redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+      redirect_to({:action => :show, :id => id}.merge(extra_params))
     rescue RecordNotFound => e
       flash[:error] = I18n.t("errors.error_404")
-      redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
+      redirect_to({:action => :show, :id => id}.merge(extra_params))
     end
   end
 

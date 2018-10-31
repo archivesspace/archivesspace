@@ -1,7 +1,7 @@
 <% define_template "telephone", jsonmodel_definition(:telephone) do |form| %>
   <div class="subrecord-form-inline subrecord-form-fields">
     <div class="row">
-      <%= form.label_and_select "number_type",  form.possible_options_for("number_type", true) %> 
+      <%= form.label_and_select "number_type",  form.possible_options_for("number_type", true) %>
       <%= form.label_and_textfield "number" %>
       <%= form.label_and_textfield "ext" %>
     </div>
@@ -19,6 +19,24 @@
           <%= form.label_and_req_boolean field_name %>
         <% end %>
       <% end %>
+    </div>
+  </div>
+<% end %>
+<% define_template "telephone_merge", jsonmodel_definition(:telephone) do |form| %>
+  <div class="subrecord-form-inline subrecord-form-fields">
+    <div class="row">
+      <%= form.label_and_merge_select "number_type" %>
+      <%= form.label_and_merge_select "number" %>
+      <%= form.label_and_merge_select "ext" %>
+    </div>
+  </div>
+<% end %>
+<% define_template "telephone_merge_target", jsonmodel_definition(:telephone) do |form| %>
+  <div class="subrecord-form-inline subrecord-form-fields">
+    <div class="row">
+      <%= form.label_and_readonly "number_type" %>
+      <%= form.label_and_readonly "number" %>
+      <%= form.label_and_readonly "ext" %>
     </div>
   </div>
 <% end %>

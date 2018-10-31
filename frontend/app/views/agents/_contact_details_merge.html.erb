@@ -1,0 +1,19 @@
+<%= render_aspace_partial :partial => "telephones/template" %>
+
+
+<% define_template "agent_contact", jsonmodel_definition(:agent_contact) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_merge_select "name" %>
+    <%= form.label_and_merge_select "salutation" %>
+    <%= form.label_and_merge_select "address_1" %>
+    <%= form.label_and_merge_select "address_2" %>
+    <%= form.label_and_merge_select "address_3" %>
+    <%= form.label_and_merge_select "city" %>
+    <%= form.label_and_merge_select "region" %>
+    <%= form.label_and_merge_select "country" %>
+    <%= form.label_and_merge_select "post_code" %>
+    <%= form.label_and_merge_select "email" %>
+    <%= form.label_and_merge_select "note" %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => { :form => form,  :name => "telephones", :template => "telephone_merge", :heading_size => "h5" } %>
+  </div>
+<% end %>

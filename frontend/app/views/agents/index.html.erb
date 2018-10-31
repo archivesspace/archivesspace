@@ -62,6 +62,20 @@
           <% if user_can?('delete_agent_record') %>
             <%= button_delete_multiple_action(:agents) %>
           <% end %>
+          <% if user_can?('merge_agent_record') %>
+            <%=
+               button_confirm_action(I18n.t("actions.merge"),
+                url_for({:controller => :agents, :action => :merge}),
+                  {
+                    :class => "btn btn-sm btn-default merge-button multiselect-enabled",
+                    :"data-multiselect" => "#tabledSearchResults",
+                    :"data-title" => "#{I18n.t("actions.merge_from_browse_confirm_title")}",
+                    :"data-message" => "#{I18n.t("actions.merge_agent_from_browse_confirm_message")}",
+                    :"data-confirm-btn-label" => "#{I18n.t("actions.merge")}",
+                    :"data-confirm-btn-class" => "btn btn-default"
+                  })
+            %>
+          <% end %>
         </div>
         <br style="clear:both" />
       </div>

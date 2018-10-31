@@ -1,0 +1,10 @@
+<%= render_aspace_partial :partial => "related_agents/template_merge_target" %>
+
+<section id="related_agents" class="subrecord-form">
+  <div class="subrecord-form-container">
+    <%= context.list_for(context["related_agents"], "related_agents[]") do |related_agent| %>
+      <% context.emit_template(related_agent["jsonmodel_type"], :readonly => true) %>
+    <% end %>
+  </div>
+</section>
+

@@ -1,0 +1,65 @@
+<% render_aspace_partial :partial => "dates/template" %>
+
+<% define_template "related_agents_selector" do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="form-group">
+      <label class="control-label col-sm-2"><%= I18n.t("related_agent.relationship_type") %></label>
+      <div class="col-sm-4">
+        <select class="related-agent-type form-control">
+          <option value="related_agents_type_nil"></option>
+          <% jsonmodel_definition(@agent.agent_type).allowable_types_for("related_agents").sort_by {|type| I18n.t("#{type}._singular")}.each do |type| %>
+            <option value="<%= type %>"><%= I18n.t("#{type}._singular") %></option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+    <div class="selected-container">
+      <% form.emit_template("related_agents_type_nil") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "related_agents_type_nil" do |form| %>
+  <div class="inline-subform">
+    <div class="form-group">
+      <div class="control-label"></div>
+      <div class="controls"><%= I18n.t("related_agent._frontend.messages.select_a_type") %></div>
+    </div>
+  </div>
+<% end %>
+
+<% jsonmodel_definition(@agent.agent_type).allowable_types_for("related_agents").each do |relationship_type| %>
+  <% define_template "#{relationship_type}", jsonmodel_definition(relationship_type.intern) do |form, opts = {}| %>
+    <div class="subrecord-form-fields">
+      <h4 class="subrecord-form-heading"><%= I18n.t("#{relationship_type}._singular") %><%= form.merge_checkbox('append') %></h4>
+      <div class="subrecord-form-container">
+        <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
+        <%= form.label_and_readonly("relator") %>
+        <% if opts[:readonly] %>
+          <div class="token-list <%= form['_resolved']['agent_type'] %>">
+            <%= form.label_with_field(:ref, render_token(:object => form,
+                                                         :label => form["_resolved"]["title"],
+                                                         :type => form["_resolved"]["agent_type"],
+                                                         :uri => form["_resolved"]["uri"])) %>
+          </div>
+        <% else %>
+          <%= render_aspace_partial :partial => "agents/linker",
+                     :locals => {
+                         :form => form,
+                         :linker_label => I18n.t("#{relationship_type}.ref"),
+                         :allowed_types => form.allowable_types_for("ref"),
+                         :exclude_ids => @agent.uri ? [@agent.uri] : [],
+                         :multiplicity => :one
+                     }
+           %>
+        <% end %>
+
+        <%= form.label_and_readonly("description") %>
+
+        <% if !form.readonly? || !form['dates'].blank? %>
+          <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "dates", :template_erb => "dates/template_merge_target", :template => "date", :cardinality => :zero_to_one} %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

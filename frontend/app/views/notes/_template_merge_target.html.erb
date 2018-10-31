@@ -1,0 +1,673 @@
+<%
+  def local_access_restriction_types_for_options
+    JSONModel.enum_values("restriction_type").map {|type|
+      [I18n.t("enumerations.restriction_type.#{type}", :default => type), type]
+    }.sort_by(&:first)
+  end
+%>
+
+
+<% define_template "rights_restriction", jsonmodel_definition(:rights_restriction) do |form| %>
+  <%= form.label_and_date("begin") %>
+  <%= form.label_and_date("end") %>
+  <div class="control-group">
+    <%= form.label("local_access_restriction_type") %>
+    <div class="controls">
+      <% if form.readonly? %>
+        <ul>
+          <% Array.wrap(form.obj['local_access_restriction_type']).
+                   map{|type| I18n.t("enumerations.restriction_type.#{type}",type)}.
+                   sort.each do |type| %>
+            <li><%= type %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= select_tag(form.path("local_access_restriction_type[]"),
+                       options_for_select(local_access_restriction_types_for_options, form.obj['local_access_restriction_type']),
+                       {
+                         :id => form.id_for("local_access_restriction_type"),
+                         :multiple => "multiple",
+                         :class => "span12",
+                         :size => local_access_restriction_types_for_options.length
+                       })
+        %>
+        <span class="help-inline"><%= I18n.t("rights_restriction.local_access_restriction_type_inline_help") %></span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%
+  form_note_type ||= nil
+  nested_in_jsonmodel ||= nil
+%>
+  
+<% if (inline? && form_note_type) || defined?(nested_in_jsonmodel) %>
+  <% define_template "#{form_note_type}_note_type_selector_inline" do |form, item| %>
+    <% if item %>
+      <% form.emit_template(item["jsonmodel_type"]) %>
+    <% else %>
+      <div class="subrecord-form-fields">
+        <div class="form-group required">
+          <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+          <div class="col-sm-4">
+            <select class="form-control top-level-note-type">
+              <option></option>
+              <% model_note_types = all_note_types ? all_note_types : note_types_for(nested_in_jsonmodel || form['jsonmodel_type']) %> 
+              <% model_note_types.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+                <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+        <div class="selected-container">
+          <% form.emit_template("note_type_nil") %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% define_template "note_type_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="form-group required">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="col-sm-4">
+          <select class="form-control top-level-note-type">
+            <option></option>
+            <% note_types_for(form['jsonmodel_type']).sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="selected-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% define_template "note_type_nil" do |form | %>
+  <div class="inline-subform">
+    <div class="form-group">
+      <div class="control-label"></div>
+      <div class="controls"><%= I18n.t("note._frontend.messages.select_a_note_type") %></div>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "content_item" do |form, item| %>
+  <div class="subrecord-form-fields">
+  <% if form.readonly? %>
+    <div class="tabbable tabs-below">
+      <div class="tab-content">
+        <div class="tab-pane active" id="<%= form.id_for("item") %>_raw">
+          <%= form.textarea(nil, item, { :escape => false, :class => "mixed-content"}) %>
+        </div>
+        <div class="tab-pane" id="<%= form.id_for("item") %>_parsed">
+          <%= clean_note(item).html_safe %>
+        </div>
+      </div>
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#<%= form.id_for("item") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+        <li><a href="#<%= form.id_for("item") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
+      </ul>
+    </div>
+  <% else %>
+    <%= form.textarea_ro(nil, item, :class => "mixed-content") %>
+  <% end %>
+  </div>
+<% end %>
+
+
+<% define_template "content_items" do |form, opts = {}| %>
+  <div class="form-group <% if opts[:required] %>required<% end %>">
+    <label class="control-label"><%= I18n.t("content_items.content") %></label>
+    <div class="controls content-list">
+      <%= form.list_for((form["content"] || [""]), "content[]") do |item| %>
+        <% form.emit_template("content_item", item) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "note_singlepart", jsonmodel_definition(:note_singlepart) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_singlepart">
+    <h4 class="subrecord-form-heading">
+      <% if form.readonly? %>
+        <%= I18n.t("enumerations.note_singlepart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+      <% else %>
+        <%= I18n.t("note.note_singlepart") %>
+      <% end %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_singlepart") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_select("type",
+          singlepart_notes.sort_by {|value, hash| hash[:i18n]}.map {|value, hash| [hash[:i18n], value]},
+          :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_orderedlist", jsonmodel_definition(:note_orderedlist) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_orderedlist">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_orderedlist") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_orderedlist") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("title") %>
+      <%= form.label_and_readonly("enumeration") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <div class="form-group">
+        <label class="control-label"><%= I18n.t("note_orderedlist.items") %></label>
+        <div class="controls">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("orderedlist_item", item) %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+
+<% define_template "orderedlist_item" do |form, item| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item, :escape => false) %></div>
+<% end %>
+
+
+<% define_template "note_multipart_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="form-group required">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="controls col-sm-4">
+          <select class="form-control multipart-note-type">
+            <option></option>
+            <% multipart_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="selected-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% define_template "note_multipart", jsonmodel_definition(:note_multipart) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_multipart">
+    <h4 class="subrecord-form-heading">
+      <% if form.readonly? %>
+        <%= I18n.t("enumerations.note_multipart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+      <% else %>
+        <%= I18n.t("note.note_multipart") %>
+      <% end %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_multipart") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_select("type",
+          multipart_notes.map {|value, hash| [hash[:i18n], value]},
+          :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <% if form.readonly? && ["accessrestrict", "userestrict"].include?(form.obj["type"]) %>
+        <section id="notes_restriction">
+      <% else %>
+        <section id="notes_restriction" style="display: none">
+      <% end %>
+        <% form.push("rights_restriction", form.obj["rights_restriction"] || {}) do |form| %>
+          <% form.emit_template("rights_restriction") %>
+        <% end %>
+      </section>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+          <% if not form.readonly? %>
+            <button class="btn btn-sm btn-default add-sub-note-btn pull-right"><%= I18n.t("note._frontend.action.add_sub_note") %></button>
+          <% end %>
+        </h5>
+        <div class="subrecord-form-container">
+          <% form.obj["subnotes"] = [JSONModel(:note_text).new.to_hash(:raw)] if form["subnotes"].blank? %>
+
+
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "note_bioghist_selector" do |form, item| %>
+  <% if item %>
+    <% form.emit_template(item["jsonmodel_type"]) %>
+  <% else %>
+    <div class="subrecord-form-fields">
+      <div class="form-group required">
+        <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
+        <div class="controls col-sm-4">
+          <select class="form-control bioghist-note-type">
+            <option></option>
+            <% bioghist_subnotes.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
+              <option value="<%= hash[:value] %>"><%= hash[:i18n] %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="selected-container">
+        <% form.emit_template("note_type_nil") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
+<% define_template "note_bioghist", jsonmodel_definition(:note_bioghist) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_bioghist">
+    <h4 class="subrecord-form-heading">
+      <%= I18n.t("note.note_bioghist") %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_bioghist") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("label") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <section class="subrecord-form" id="<%= form.id_for('subnotes')%>">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_multipart.sub_notes") %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["subnotes"], "subnotes[]") do |subnote| %>
+            <% form.emit_template(subnote["jsonmodel_type"]) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_citation_xlink" do | xlink_form | %>
+  <% xlink_form.push "xlink", xlink_form["xlink"] || {} do | xlink_form | %>
+    <%= xlink_form.label_and_readonly "actuate" %>
+    <%= xlink_form.label_and_readonly "arcrole" %>
+    <%= xlink_form.label_and_readonly "href" %>
+    <%= xlink_form.label_and_readonly "role" %>
+    <%= xlink_form.label_and_readonly "show" %>
+    <%= xlink_form.label_and_readonly "title" %>
+    <%= xlink_form.label_and_readonly "type" %>
+  <% end %>
+<% end %>
+
+<% define_template "note_citation", jsonmodel_definition(:note_citation) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_citation">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_citation") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_citation") %>
+      <%= form.hidden_input("ingest_problem") %>
+
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading"><%= I18n.t("note_citation.xlink") %></h5>
+        <div class="subrecord-form-container">
+          <div class="subrecord-form-fields">
+            <% form.emit_template "note_citation_xlink" %>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_abstract", jsonmodel_definition(:note_abstract) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_abstract">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_abstract") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_abstract") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("publish") %>
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_outline_string" do |form, item| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item) %></div>
+<% end %>
+
+<% define_template "note_outline_level" do |form, level| %>
+  <div class="subrecord-form-fields" data-type="note_outline_level">
+    <%= form.hidden_input(:jsonmodel_type, "note_outline_level") %>
+    <section class="subrecord-form">
+      <% if not form.readonly? %>
+        <div class="subrecord-form-heading">
+          </div>
+        </div>
+      <% end %>
+      <div class="subrecord-form-container">
+        <%= form.list_for(form["items"], "items[]") do |item| %>
+          <% if item.kind_of? String %>
+            <% form.emit_template("note_outline_string", item) %>
+          <% else %>
+            <% form.emit_template("note_outline_level", item) %>
+          <% end %>
+        <% end %>
+      </div>
+    </section>
+  </div>
+<% end %>
+
+<% define_template "note_outline", jsonmodel_definition(:note_outline) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_outline">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_outline") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_outline") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <div class="form-group">
+        <label class="control-label"><%= I18n.t("note_outline.levels") %></label>
+        <div class="controls note-outline-levels">
+          <%= form.list_for((form["levels"] || []), "levels[]") do |item| %>
+            <% form.emit_template("note_outline_level", item) %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_definedlist", jsonmodel_definition(:note_definedlist) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_definedlist">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_definedlist") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_definedlist") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("title") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_definedlist.items") %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("definedlist_item", item) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "definedlist_item" do |form, item| %>
+  <div class="subrecord-form-fields" data-type="definedlist_item">
+    <%= form.label_and_readonly "label" %>
+    <%= form.label_and_readonly "value" %>
+  </div>
+<% end %>
+
+<% define_template "note_index", jsonmodel_definition(:note_index) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_index">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_index") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_index") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("label") %>
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+      <%= form.label_and_readonly("publish") %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_index.items") %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("note_index_item", item) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_index_item", jsonmodel_definition(:note_index_item) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_index_item">
+    <%= form.hidden_input(:jsonmodel_type, "note_index_item") %>
+    <%= form.label_and_readonly "value" %>
+    <%= form.label_and_readonly("type") %>
+    <%= form.label_and_readonly "reference" %>
+    <%= form.label_and_readonly "reference_text" %>
+  </div>
+<% end %>
+
+<% define_template "note_chronology", jsonmodel_definition(:note_chronology) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_chronology">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_chronology") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_chronology") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("title") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <section class="subrecord-form">
+        <h5 class="subrecord-form-heading">
+          <%= I18n.t("note_chronology.items") %>
+        </h5>
+        <div class="subrecord-form-container">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("chronology_item", item) %>
+          <% end %>
+        </div>
+      </section>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "chronology_item" do |form, item| %>
+  <div class="subrecord-form-fields" data-type="chronology_item">
+    <%= form.label_and_readonly("event_date") %>
+    <div class="form-group">
+      <label class="control-label"><%= I18n.t("chronology_item.events") %></label>
+      <div class="controls">
+        <%= form.list_for(form["events"], "events[]") do |event| %>
+          <% form.emit_template("chronology_item_event", event) %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "chronology_item_event" do |form, event| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, event, { :escape => false }) %></div>
+<% end %>
+
+<% define_template "bib_item" do |form, item| %>
+  <div class="subrecord-form-inline"><%= form.textfield(nil, item, { :escape => false }) %></div>
+<% end %>
+
+<% define_template "note_bibliography", jsonmodel_definition(:note_bibliography) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_bibliography">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_bibliography") %></h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_bibliography") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("label") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+
+      <hr/>
+
+      <div class="form-group">
+        <label class="control-label"><%= I18n.t("note_bibliography.items") %></label>
+        <div class="controls">
+          <%= form.list_for(form["items"], "items[]") do |item| %>
+            <% form.emit_template("bib_item", item) %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+
+
+<%
+   digital_object_note_types = note_types_for(:note_digital_object)
+%>
+
+<% define_template "note_digital_object", jsonmodel_definition(:note_digital_object) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_digital_object">
+    <h4 class="subrecord-form-heading">
+      <% if form.readonly? %>
+        <%= I18n.t("enumerations.note_digital_object_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+      <% else %>
+        <%= I18n.t("note.note_digital_object") %>
+      <% end %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_digital_object") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_select("type", digital_object_note_types.map {|value, hash| [hash[:i18n], value]}, :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+    </div>
+  </div>
+<% end %>
+
+
+<% define_template "note_text", jsonmodel_definition(:note_text) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_text">
+    <h4 class="subrecord-form-heading"><%= I18n.t("note.note_text") %></h4>
+    <div class="subrecord-form-container">
+      <% if form.readonly? %>
+        <div class="subrecord-form-fields notes-readonly">
+          <div class="tabbable tabs-below">
+            <div class="tab-content">
+              <div class="tab-pane active" id="<%= form.id_for("content") %>_raw">
+                <%= form.textarea(nil, form["content"], :class => "mixed-content") %>
+              </div>
+              <div class="tab-pane" id="<%= form.id_for("content") %>_parsed">
+                <%= clean_note(form["content"]).html_safe %>
+              </div>
+            </div>
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#<%= form.id_for("content") %>_raw" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.raw_title") %>"><%= I18n.t("note._frontend.preview.raw") %></a></li>
+              <li><a href="#<%= form.id_for("content") %>_parsed" data-toggle="tab" title="<%= I18n.t("note._frontend.preview.parsed_title") %>"><%= I18n.t("note._frontend.preview.parsed") %></a></li>
+            </ul>
+          </div>
+        </div>
+      <% else %>
+        <%= form.hidden_input(:jsonmodel_type, "note_text") %>
+        <%= form.hidden_input("ingest_problem") %>
+
+        <%= form.label_and_readonly('content') %>
+
+        <%= form.label_and_readonly("publish") %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%
+  rights_statement_note_types = note_types_for('rights_statement')
+  rights_statement_act_note_types = note_types_for('rights_statement_act')
+%>
+
+<% define_template "note_rights_statement", jsonmodel_definition(:note_rights_statement) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_rights_statement">
+    <h4 class="subrecord-form-heading">
+      <% if form.readonly? %>
+        <%= I18n.t("enumerations.note_rights_statement_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+      <% else %>
+        <%= I18n.t("note.note_rights_statement") %>
+      <% end %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_rights_statement") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_select("type", rights_statement_note_types.map {|value, hash| [hash[:i18n], value]}, :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_rights_statement_act", jsonmodel_definition(:note_rights_statement_act) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_rights_statement_act">
+    <h4 class="subrecord-form-heading">
+      <% if form.readonly? %>
+        <%= I18n.t("enumerations.note_rights_statement_act_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+      <% else %>
+        <%= I18n.t("note.note_rights_statement_act") %>
+      <% end %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_rights_statement_act") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_textfield("persistent_id") %>
+      <%= form.label_and_textfield("label") %>
+      <%= form.label_and_select("type", rights_statement_act_note_types.map {|value, hash| [hash[:i18n], value]}, :field_opts => {:class => "note-type"}) %>
+      <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "note_agent_rights_statement", jsonmodel_definition(:note_agent_rights_statement) do |form| %>
+  <div class="subrecord-form-fields" data-type="note_agent_rights_statement">
+    <h4 class="subrecord-form-heading">
+      <%= I18n.t("note.note_agent_rights_statement") %>
+    </h4>
+    <div class="subrecord-form-container">
+      <%= form.hidden_input(:jsonmodel_type, "note_agent_rights_statement") %>
+      <%= form.hidden_input("ingest_problem") %>
+      <%= form.label_and_readonly("persistent_id") %>
+      <%= form.label_and_readonly("label") %>
+      <%= form.label_and_readonly("publish") %>
+
+      <% form.emit_template("content_items", :required => form.required?('content')) %>
+    </div>
+  </div>
+<% end %>

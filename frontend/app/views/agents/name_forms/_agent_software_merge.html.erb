@@ -1,0 +1,19 @@
+<% define_template "name_software", jsonmodel_definition(:name_software) do |form| %>
+  <div class="subrecord-form-fields">
+    <h4 class="subrecord-form-heading">
+      <span class="badge badge-info is-authoritive-label"><%= I18n.t("name_software.authorized") %></span>
+      <span class="badge badge-info is-display-name-label"><%= I18n.t("name_software.is_display_name") %></span>
+    </h4>
+
+    <%= render_aspace_partial :partial => "agents/name_forms/authority_fields_merge", :locals => {:form => form} %>
+
+    <%= form.label_and_merge_select "software_name" %>
+    <%= form.label_and_merge_select "version" %>
+    <%= form.label_and_merge_select "manufacturer" %>
+    <%= form.label_and_merge_select "dates" %>
+    <hr/>
+    <%= form.label_and_merge_select "qualifier" %>
+    <%= form.label_and_readonly "sort_name" %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template_merge", :template => "usage_date", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
+  </div>
+<% end %>

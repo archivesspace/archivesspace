@@ -27,7 +27,9 @@ class NameCorporateEntity < Sequel::Model(:name_corporate_entity)
     %w(primary_name subordinate_name_1 subordinate_name_2 number qualifier)
   end
 
-
+  # NOTE: this code is duplicated in the merge_request preview_sort_name method
+  # If the code is changed here, please change it there as well
+  # Consider refactoring when continued work done on the agents model enhancements
   auto_generate :property => :sort_name,
                 :generator => proc  { |json|
                   result = ""
