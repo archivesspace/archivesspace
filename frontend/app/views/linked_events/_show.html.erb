@@ -18,7 +18,7 @@
             <% record = event['_resolved'] %>
             <tr>
               <td><%= I18n.t("enumerations.event_event_type.#{record['event_type']}", :default => record['event_type']) %></td>
-              <td><%= I18n.t("enumerations.event_outcome.#{record['outcome']}", :default => record['outcome']) %></td>
+              <td><%= record['outcome'] ? I18n.t("enumerations.event_outcome.#{record['outcome']}", :default => record['outcome']) : '' %></td>
               <td>
                 <% record['linked_agents'].each do |link| %>
                   <div><%= I18n.t("enumerations.linked_agent_event_roles.#{link['role']}", :default => link['role']) %>:
