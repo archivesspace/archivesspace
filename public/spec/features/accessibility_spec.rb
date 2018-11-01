@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rails_helper'
 
-describe 'Accessibility', js: true do
+describe 'Accessibility' do
   before (:each) do
     visit('/')
   end
