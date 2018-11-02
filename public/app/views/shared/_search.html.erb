@@ -5,7 +5,7 @@
 <div class="search" role="search">
   <a name="search" id="search"></a>
   <% if show_header %>
-  <h<%= header_size %>><%=  t('actions.search') %>  <%= title %> </h<%= header_size %>>
+  <h<%= header_size %>><%=  t('actions.search_header') %></h<%= header_size %>>
   <% end %>
   <% @search = Search.new unless defined?(@search) %>
   <%= form_tag(app_prefix("#{search_url}"), method: 'get', :id => 'advanced_search') do %>
