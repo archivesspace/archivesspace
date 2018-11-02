@@ -597,3 +597,6 @@ AppConfig[:pui_request_use_repo_email] = false
 
 #The number of characters to truncate before showing the 'Read More' link on notes
 AppConfig[:pui_readmore_max_characters] = 450
+
+# Path to system Java -- used to external tool creation of PDFs
+AppConfig[:path_to_java] = "java"
