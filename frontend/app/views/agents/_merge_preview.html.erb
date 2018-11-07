@@ -1,0 +1,103 @@
+<%= setup_context :object => @agent, :controller => :agents,  :agent_type => @agent.agent_type %>
+
+<div class="row">
+
+   <div class="col">
+    <div class="record-pane">
+     <%= readonly_context @agent.agent_type.intern, @agent do |readonly| %>
+        <h2><%= @agent.title %>  <span class="label label-info"><%= I18n.t("agent._singular") %></span></h2>
+
+        <%= render_aspace_partial :partial => "shared/flash_messages" %>
+
+
+        <section id="basic_information">
+          <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
+            <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
+          </div>
+          <%= readonly.label_and_boolean "publish" %>
+          <%= display_audit_info(@agent) %>
+        </section>
+
+
+        <% if @agent.dates_of_existence.length > 0 %>
+          <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @agent.dates_of_existence, :section_title => I18n.t("agent.dates_of_existence"), :section_id => "dates_of_existence", :context => readonly } %>
+        <% end %>
+
+        <section id="<%= @agent.agent_type %>_names">
+          <h3><%= I18n.t("agent_name._plural") %></h3>
+          <% @agent.names.each_with_index do | name, index | %>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-md-1">
+                    <span class="glyphicon"></span>
+                  </div>
+                  <div class="col-md-6">
+                    <%= name['sort_name'] %>
+                  </div>
+                  <div class="col-md-4">
+                    <% if name['authorized'] %><span class="badge"><%= I18n.t("name_person.authorized") %></span><% end %>
+                    <% if name['is_display_name'] %><span class="badge badge-info"><%= I18n.t("name_person.is_display_name") %></span><% end %>
+                  </div>
+                </div>
+              </div>
+              <div id="agent_name_<%= index %>">
+                <%= read_only_view(name.to_hash) %>
+                <% if name['use_dates'].length > 0 %>
+                  <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => name['use_dates'], :section_id => "name_use_dates", :section_title => I18n.t("agent_name.use_dates"), :context => readonly } %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </section>
+
+
+        <% if @agent.agent_contacts.length > 0 %>
+          <%= render_aspace_partial :partial => "agents/contact_details" %>
+
+          <section id="<%= @agent.agent_type %>_contact_details">
+            <h3><%= I18n.t("agent_contact._plural") %></h3>
+            <% @agent.agent_contacts.each_with_index do | contact, index | %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-1">
+                      <span class="glyphicon"></span>
+                    </div>
+                    <div class="col-md-7">
+                      <%= contact['name'] %>
+                    </div>
+                  </div>
+                </div>
+                <div id="agent_contact_<%= index %>">
+                  <%= readonly_context :agent_contact, contact do |readonly_contact| %>
+                    <%= readonly_contact.emit_template("agent_contact") %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </section>
+
+        <% end %>
+
+        <% if @agent.notes.length > 0 %>
+          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => @agent.notes, :context => readonly, :section_id => "#{@agent.agent_type}_notes" } %>
+        <% end %>
+
+        <% if !@agent['related_agents'].blank? %>
+          <%= render_aspace_partial :partial => "related_agents/show", :locals => { :related_agents => @agent.related_agents, :context => readonly } %>
+        <% end %>
+
+        <% if @agent.external_documents.length > 0 %>
+          <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "#{@agent.agent_type}_external_documents" } %>
+        <% end %>
+
+        <%= show_plugins_for(@agent, readonly) %>
+
+      <% end %>
+    </div>
+  </div>
+</div>

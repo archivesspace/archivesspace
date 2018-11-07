@@ -464,6 +464,22 @@ ja:
     ext: 電話番号の延長
     ext_tooltip: "<p>連絡担当者の電話番号の内線番号。 </p>"
 
+  telephone_merge: &telephone
+    _plural: 電話番号
+    number_type: 番号タイプ
+    number: 数
+    number_tooltip: "<p>連絡先の電話番号。 </p>"
+    ext: 電話番号の延長
+    ext_tooltip: "<p>連絡担当者の電話番号の内線番号。 </p>"
+
+  telephone_merge_target: &telephone
+    _plural: 電話番号
+    number_type: 番号タイプ
+    number: 数
+    number_tooltip: "<p>連絡先の電話番号。 </p>"
+    ext: 電話番号の延長
+    ext_tooltip: "<p>連絡担当者の電話番号の内線番号。 </p>"
+
   note_attributes: &note_attributes
     label: ラベル
     label_tooltip: "<p>特定のノートのラベルまたは見出し。ラベルが使用されていない場合、ノートタイプは必要な場合は常にラベルとして使用されます。

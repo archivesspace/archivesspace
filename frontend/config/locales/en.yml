@@ -29,9 +29,13 @@ en:
     more: More
     link_to: Link To
     add_prefix: Add
+    merge_replace: Replace
+    merge_add: Add
     merge_confirm_title: Merge into this record?
+    merge_from_browse_confirm_title: Merge selected records?
     merge_subject_confirm_message: "The subject '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this subject."
     merge_agent_confirm_message: "The agent '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this agent."
+    merge_agent_from_browse_confirm_message: "The first agent selected will have the subsequently selected records merged into it. All subsequently selected records will be deleted and any linked records will be re-linked to the first agent selected."
     merge_resource_confirm_message: "The resource '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
     move: Move
     move_up_a_level: Up a Level
@@ -424,6 +428,8 @@ en:
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
     error_tree_pane_ajax: An error occurred loading this form.
     merge_conflict: "Merging agent(s) could not complete: %{message}"
+    merge_too_many_victims: Only one agent may be selected for detailed merge.
+    merge_different_types: Agents selected for detailed merge must be of the same type.
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
   accession:
@@ -462,8 +468,11 @@ en:
         contacts: Contact Details
         search_embedded: Linked Records
         linked_via_rights_statement: Linked Records via Rights Statement
+        target_record: This record will be updated
+        victim_record: This record will be deleted
       action:
         create: Create Agent
+        preview: Merge Preview
 
   agent_contact:
     _frontend:

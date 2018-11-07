@@ -25,4 +25,4 @@
 //= require lodash
 //= require bootstrap-select
 //= require bootstrap3-typeahead
-
+//= require jquery.matchHeight

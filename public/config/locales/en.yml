@@ -33,6 +33,7 @@ en:
 
   actions:
     search: Search
+    search_header: Search The Archives
     search_within: Search within results
     search_in: "Search %{type}"
     new_search: New Search

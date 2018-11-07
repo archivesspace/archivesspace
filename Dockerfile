@@ -39,6 +39,6 @@ USER archivesspace
 EXPOSE 8080 8081 8089 8090 8092
 
 HEALTHCHECK --interval=1m --timeout=5s --start-period=5m --retries=2 \
-  CMD curl -f http://localhost:8089/ || exit 1
+  CMD wget -q --spider http://localhost:8089/ || exit 1
 
 CMD ["/archivesspace/startup.sh"]

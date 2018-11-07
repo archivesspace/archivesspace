@@ -29,9 +29,13 @@ ja:
     more: もっと
     link_to: リンク先
     add_prefix: 追加
+    merge_replace: 置換
+    merge_add: 追加
     merge_confirm_title: このレコードにマージしますか？
+    merge_from_browse_confirm_title: 選択したレコードをマージしますか?
     merge_subject_confirm_message: 件名 '%{source}'には、選択したレコードがマージされます。選択したすべてのレコードが削除され、リンクされたレコードはすべてこの件名に再リンクされます。
     merge_agent_confirm_message: エージェント '%{source}'には、選択したレコードがマージされます。選択したレコードはすべて削除され、リンクされたレコードはこのエージェントに再リンクされます。
+    merge_agent_from_browse_confirm_message: "選択された最初のエージェントには、後で選択されたレコードがマージされます。その後選択されたすべてのレコードは削除され、リンクされたレコードは選択された最初のエージェントに再リンクされます."
     merge_resource_confirm_message: リソース '%{source}'には、選択したレコードがマージされます。選択したすべてのレコードが削除され、リンクされたレコードはすべてこのリソースに再リンクされます。
     move: 移動
     move_up_a_level: レベルアップ
@@ -429,6 +433,8 @@ ja:
     error_404_message: アクセスしようとしたレコードが存在しなくなったり、アクセス権を持っていない可能性があります。
     error_tree_pane_ajax: このフォームの読み込み中にエラーが発生しました。
     merge_conflict: エージェントをマージできませんでした： %{message}
+    merge_too_many_victims: 詳細なマージのために選択できるエージェントは1つだけです.
+    merge_different_types: 詳細なマージのために選択されたエージェントは、同じタイプでなければなりません.
     linked_to_assessment: レコードは評価にリンクされているため削除できません
 
   accession:
@@ -467,8 +473,11 @@ ja:
         contacts: 連絡先の詳細
         search_embedded: リンクされたレコード
         linked_via_rights_statement: 権利声明によるリンクされたレコード
+        target_record: このレコードは更新されます
+        victim_record: このレコードは削除されます
       action:
         create: エージェントを作成する
+        preview: マージプレビュー
 
   agent_contact:
     _frontend:

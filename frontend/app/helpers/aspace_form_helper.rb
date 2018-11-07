@@ -261,7 +261,21 @@ module AspaceFormHelper
 
     def label_and_readonly(name, default = "", opts = {})
       value = obj[name]
+      if !(value.is_a? String)
+        value = value.to_s
+      end
 
+      begin
+        jsonmodel_type = obj["jsonmodel_type"]
+        prefix = opts[:plugin] ? 'plugins.' : ''
+        schema = JSONModel(jsonmodel_type).schema
+        if (schema["properties"][name].has_key?('dynamic_enum'))
+          value = I18n.t({:enumeration => schema["properties"][name]["dynamic_enum"], :value => value}, :default => value)
+        elsif schema["properties"][name].has_key?("enum")
+          value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
+        end
+      rescue
+      end
       if opts.has_key? :controls_class
         opts[:controls_class] << " label-only"
       else
@@ -271,6 +285,38 @@ module AspaceFormHelper
       label_with_field(name, value.blank? ? default : value , opts)
     end
 
+    def label_and_merge_select(name, default = "", opts = {})
+      value = obj[name]
+      begin
+        jsonmodel_type = obj["jsonmodel_type"]
+        prefix = opts[:plugin] ? 'plugins.' : ''
+        schema = JSONModel(jsonmodel_type).schema
+        if (schema["properties"][name].has_key?('dynamic_enum'))
+          value = I18n.t({:enumeration => schema["properties"][name]["dynamic_enum"], :value => value}, :default => value)
+        elsif schema["properties"][name].has_key?("enum")
+          value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
+        end
+      rescue
+      end
+      if opts.has_key? :controls_class
+        opts[:controls_class] << " label-only"
+      else
+        opts[:controls_class] = " label-only"
+      end
+      if value.blank?
+        label_with_field(name, value.blank? ? default : value , opts)
+      else
+        label_with_field(name, merge_select(name, value, opts[:field_opts] || {}), opts)
+      end
+    end
+    def merge_select(name, value, opts = {})
+      value += "<label>".html_safe
+      value += merge_checkbox("#{name}", {
+        :class => "merge-toggle"}, false, false)
+      value += "&#160;<small>".html_safe
+      value += I18n.t("actions.merge_replace")
+      value += "</small></label>".html_safe
+    end
 
     def combobox(name, options, opts = {})
       select(name, options, opts.merge({:"data-combobox" => true}))
@@ -300,6 +346,15 @@ module AspaceFormHelper
       @forms.text_area_tag(path(name), h(value),  options.merge(opts))
     end
 
+    def textarea_ro(name = nil, value = "", opts =  {})
+      return "" if value.blank?
+      opts[:escape] = true unless opts[:escape] == false
+      opts[:base_url] ||= "/"
+      value = clean_mixed_content(value, opts[:base_url]) if opts[:clean] == true
+      value =  @parent.preserve_newlines(value) if opts[:clean] == true
+      value = CGI::escapeHTML(value) if opts[:escape]
+      value.html_safe
+    end
 
     def textfield(name = nil, value = nil, opts =  {})
       value ||= obj[name] if !name.nil?
@@ -463,7 +518,12 @@ module AspaceFormHelper
       @forms.tag("input", options.merge(opts), false, false)
     end
 
+    def merge_checkbox(name, opts = {}, default = false, force_checked = false)
+      options = {:id => "#{id_for(name)}", :type => "checkbox", :name => path(name), :value => "REPLACE"}
+      options[:checked] = "checked" if force_checked or (obj[name] === true) or (obj[name].is_a? String and obj[name].start_with?("true")) or (obj[name] === "REPLACE") or (obj[name].nil? and default)
 
+      @forms.tag("input", options.merge(opts), false, false)
+    end
     def radio(name, value, opts = {})
       options = {:id => "#{id_for(name)}", :type => "radio", :name => path(name), :value => value}
       options[:checked] = "checked" if obj[name] == value
@@ -546,7 +606,38 @@ module AspaceFormHelper
     end
   end
 
+  def merge_victim_view(hash, opts = {})
+    jsonmodel_type = hash["jsonmodel_type"]
+    schema = JSONModel(jsonmodel_type).schema
+    prefix = opts[:plugin] ? 'plugins.' : ''
+    html = "<div class='form-horizontal'>"
 
+    hash.reject {|k,v| PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW.include?(k)}.each do |property, value|
+      if schema and schema["properties"].has_key?(property)
+        if (schema["properties"][property].has_key?('dynamic_enum'))
+          value = I18n.t({:enumeration => schema["properties"][property]["dynamic_enum"], :value => value}, :default => value)
+        elsif schema["properties"][property].has_key?("enum")
+          value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
+        elsif schema["properties"][property]["type"] === "boolean"
+          value = value === true ? "True" : "False"
+        elsif schema["properties"][property]["type"] === "date"
+          value = value.blank? ? "" : Date.strptime(value, "%Y-%m-%d")
+        elsif schema["properties"][property]["type"] === "array"
+          # this view doesn't support arrays
+          next
+        elsif value.kind_of? Hash
+          # can't display an object either
+          next
+        end
+      end
+      html << "<div class='form-group'>"
+      html << "<div class='control-label col-sm-2'>#{I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='label-only col-sm-8'>#{value}</div>"
+      html << "</div>"
+    end
+    html << "</div>"
+    html.html_safe
+  end
   class ReadOnlyContext < FormContext
 
     def readonly?

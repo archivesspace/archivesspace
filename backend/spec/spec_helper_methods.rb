@@ -34,6 +34,14 @@ module SpecHelperMethods
   end
 
 
+  def create_archival_object(opts = {})
+    ArchivalObject.create_from_json(
+      build(:json_archival_object, opts),
+      :repo_id => $repo_id
+    )
+  end
+
+
   def create_event(opts = {})
     Event.create_from_json(build(:json_event, opts),
                            :repo_id => $repo_id)
@@ -47,6 +55,13 @@ module SpecHelperMethods
 
   def create_digital_object(opts = {})
     DigitalObject.create_from_json(build(:json_digital_object, opts), :repo_id => $repo_id)
+  end
+
+
+  def create_digital_object_component(opts = {})
+    DigitalObjectComponent.create_from_json(
+      build(:json_digital_object_component, opts), :repo_id => $repo_id
+    )
   end
 
 

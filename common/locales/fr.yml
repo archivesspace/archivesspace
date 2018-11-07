@@ -611,6 +611,26 @@ fr:
     ext_tooltip: |
         <p>Numéro du poste de la personne à contacter.</p>
 
+  telephone_merge: &telephone
+    _plural: Numéros de téléphone
+    number_type: Type de numéro
+    number: Numéro
+    number_tooltip: |
+        <p>Numéro de téléphone de la personne à contacter.</p>
+    ext: Extension
+    ext_tooltip: |
+        <p>Numéro du poste de la personne à contacter.</p>
+
+  telephone_merge_target: &telephone
+    _plural: Numéros de téléphone
+    number_type: Type de numéro
+    number: Numéro
+    number_tooltip: |
+        <p>Numéro de téléphone de la personne à contacter.</p>
+    ext: Extension
+    ext_tooltip: |
+        <p>Numéro du poste de la personne à contacter.</p>
+
   note_attributes: &note_attributes
     label: Label
     label_tooltip: |
@@ -2096,7 +2116,7 @@ fr:
     survey_begin: Début du passage en revue
     survey_begin_tooltip: |
         <p>CHAMP OBLIGATOIRE. Date de début du passage en revue, au format aaaa-mm-jj.</p>
-    survey_end: Fin du passage en revue 
+    survey_end: Fin du passage en revue
     survey_end_tooltip: <p>Date à laquelle le passage en revue s'est terminé, au format aaaa-mm-jj.</p>
     surveyed_duration: Temps passé au passage en revue complet
     surveyed_duration_tooltip: <p>Temps passé au passage en revue complet, par incrément d'une heure.</p>

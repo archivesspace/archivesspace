@@ -18,7 +18,6 @@
     <hr/>
     <%= form.label_and_req_boolean "qualifier" %>
     <%= form.label_and_readonly "sort_name"%>
-    <%= form.label_and_readonly "sort_name" %>
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "use_dates", :template_erb => "dates/template_required", :template => "date", :heading_text => I18n.t("name._frontend.section.use_date"), :heading_size => "h4", :template_overrides => "agents/name_forms/date_labels"} %>
   </div>
 <% end %>

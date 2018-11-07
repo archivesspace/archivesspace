@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'ID Lookup controller' do
 
   let (:archival_objects) {(0..5).map {|_| create(:json_archival_object, :component_id => SecureRandom.hex)}}
+  let (:resources) {(0..5).map {|_| create(:json_resource, :id_0 => SecureRandom.hex)}}
   let (:digital_object_components) {(0..5).map {|_| create(:json_digital_object_component, :component_id => SecureRandom.hex)}}
 
   it "lets you find archival objects by ref_id or component_id" do
@@ -36,6 +37,16 @@ describe 'ID Lookup controller' do
     ao_lookup = ASUtils.json_parse(last_response.body)
 
     ao_lookup['archival_objects'][0]['_resolved']['title'].should eq(ao['title'])
+  end
+
+  it "only returns one resource for a given identifier" do
+    resources.each do |resource|
+      get "#{$repo}/find_by_id/resources", {"identifier[]" => ["#{resource['id_0'].split}"]}
+      last_response.should be_ok
+      res_lookup = ASUtils.json_parse(last_response.body)
+
+      expect(res_lookup['resources'].count).to eq(1)
+    end
   end
 
 end
