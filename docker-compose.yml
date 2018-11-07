@@ -22,7 +22,6 @@ services:
       # testing plugin initialization on startup
       ASPACE_INITIALIZE_PLUGINS: 'newrelic'
     volumes:
-      - ./common/config/config.rb:/archivesspace/config/config.rb
       - ./plugins/newrelic:/archivesspace/plugins/newrelic
   db:
     image: mysql:5.7

@@ -291,6 +291,7 @@ en:
       ingest: Unspecified ingested source
       lcshac: Library of Congress Children's Subject Headings
       local: Local sources
+      lcnaf: Library of Congress Name Authority File
       naf: NACO Authority File
       nad: NAD / ARK II Name Authority Database
       nal: National Agricultural Library subject headings

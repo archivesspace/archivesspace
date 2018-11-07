@@ -10,7 +10,7 @@ module ASpaceExport
       note_text = (Array(note['content']) +
                   subnotes.map { |sn|
                     sn['content'] if (sn['jsonmodel_type'] == 'note_text' && include_unpublished || sn["publish"])
-                  }.compact).join(" ")
+                  }.compact).join(" ").strip
 
       # ANW-654: Check if last character of the note_text is terminal punctuation.
       # If not, append a period to the end of the note.

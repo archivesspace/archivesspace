@@ -27,9 +27,13 @@
     transfer_record: Transferir
     link_to: Enlazar a
     add_prefix: Añadir
+    merge_replace: Reemplazar
+    merge_add: Añadir
     merge_confirm_title: ¿Se combinan en este registro?
+    merge_from_browse_confirm_title: Fusionar registros seleccionados?
     merge_subject_confirm_message: "La materia '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a esta materia."
     merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad."
+    merge_agent_from_browse_confirm_message: "El primer agente seleccionado tendrá los registros seleccionados posteriormente fusionados en él. Todos los registros seleccionados posteriormente se eliminarán y los registros vinculados se volverán a vincular al primer agente seleccionado.."
     merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este fondo."
     move: Mover
     move_up_a_level: Un nivel
@@ -374,6 +378,9 @@
     error_403_message: "Has intentado acceder a la página ya no existan o que no tenga permiso para verlo."
     error_404: Registros no encontrados
     error_404_message: "El récord que has intentado acceder ya no existan o que no tenga permiso para ver."
+    merge_conflict: "Los agentes fusionados no pudieron completar: %{message}"
+    merge_too_many_victims: Solo se puede seleccionar un agente para una fusión detallada.
+    merge_different_types: Los agentes seleccionados para la fusión detallada deben ser del mismo tipo.
 
   accession:
     _frontend:
@@ -408,8 +415,12 @@
         name: Formas conocidas
         contacts: Los datos de contacto
         search_embedded: Registros vinculados
+        linked_via_rights_statement: Registros vinculados mediante declaración de derechos
+        target_record: Este registro será actualizado
+        victim_record: Este registro será eliminado
       action:
         create: Crear autoridad
+        preview: Vista previa de combinación
 
   agent_contact:
     _frontend:

@@ -162,13 +162,41 @@ class EAD3Serializer < EADSerializer
   end
 
 
+  def escape_ampersands(content)
+    # first, find any pre-escaped entities and "mark" them by replacing & with @@
+    # so something like &lt; becomes @@lt;
+    # and &#1234 becomes @@#1234
+
+    content.gsub!(/&\w+;/) {|t| t.gsub('&', '@@')}
+    content.gsub!(/&#\d{4}/) {|t| t.gsub('&', '@@')}
+    content.gsub!(/&#\d{3}/) {|t| t.gsub('&', '@@')}
+
+    # now we know that all & characters remaining are not part of some pre-escaped entity, and we can escape them safely
+    content.gsub!('&', '&amp;')
+
+    # 'unmark' our pre-escaped entities
+    content.gsub!(/@@\w+;/) {|t| t.gsub('@@', '&')}
+    content.gsub!(/@@#\d{4}/) {|t| t.gsub('@@', '&')}
+    content.gsub!(/@@#\d{3}/) {|t| t.gsub('@@', '&')}
+
+    # only allow predefined XML entities, otherwise convert ampersand so XML will validate
+    valid_entities = ['&quot;', '&amp;', '&apos;', '&lt;', '&gt;']
+    content.gsub!(/&\w+;/) { |t| valid_entities.include?(t) ? t : t.gsub(/&/,'&amp;') }
+
+    return content
+  end
+
+
   def structure_children(content, parent_name = nil)
+
     # 4archon...
     content.gsub!("\n\t", "\n\n")
 
     content.strip!
 
     original_content = content
+
+    content = escape_ampersands(content)
 
     valid_children = valid_children_of_unmixed_elements(parent_name)
 
@@ -185,7 +213,6 @@ class EAD3Serializer < EADSerializer
       end
       return text
     end
-
 
     # this should only be called if the text fragment only has element children
     p_wrap_invalid_children = lambda do |text|
@@ -206,7 +233,6 @@ class EAD3Serializer < EADSerializer
       end
     end
 
-
     if !has_unwrapped_text?(content)
       content = p_wrap_invalid_children.call(content)
     else
@@ -223,22 +249,23 @@ class EAD3Serializer < EADSerializer
       content = new_content
     end
 
-
+    ## REMOVED 2018-09 - leaving here for future reference
     # first lets see if there are any &
     # note if there's a &somewordwithnospace , the error is EntityRef and wont
     # be fixed here...
-    if xml_errors(content).any? { |e| e.message.include?("The entity name must immediately follow the '&' in the entity reference.") }
-      content.gsub!("& ", "&amp; ")
-    end
+    # if xml_errors(content).any? { |e| e.message.include?("The entity name must immediately follow the '&' in the entity reference.") }
+    #   content.gsub!("& ", "&amp; ")
+    # end
+    # END - REMOVED 2018-09
 
     # in some cases adding p tags can create invalid markup with mixed content
     # just return the original content if there's still problems
     xml_errors(content).any? ? original_content : content
-
   end
 
 
   def strip_p(content)
+    content = escape_ampersands(content)
     content.gsub("<p>", "").gsub("</p>", "").gsub("<p/>", '')
   end
 
@@ -249,13 +276,15 @@ class EAD3Serializer < EADSerializer
 
 
   def sanitize_mixed_content(content, context, fragments, allow_p = false  )
-    # return "" if content.nil?
-
     # remove smart quotes from text
     content = remove_smart_quotes(content)
 
     # br's should be self closing
     content = content.gsub("<br>", "<br/>").gsub("</br>", '')
+
+    ## moved this to structure_children and strop_p for easier testablity
+    ## leaving this reference here in case you thought it should go here
+    # content = escape_ampersands(content)
 
     if allow_p
       content = structure_children(content, context.parent.name)
@@ -263,7 +292,13 @@ class EAD3Serializer < EADSerializer
       content = strip_p(content)
     end
 
+    # convert & to @@ before generating XML fragments for processing
+    content.gsub!(/&/,'@@')
+
     content = convert_ead2002_markup(content)
+
+    # convert @@ back to & on return value
+    content.gsub!(/@@/,'&')
 
     begin
       if ASpaceExport::Utils.has_html?(content)
@@ -382,7 +417,9 @@ class EAD3Serializer < EADSerializer
       end
     end
 
-    fragment = Nokogiri::XML::DocumentFragment.parse(content)
+    temp_doc = Nokogiri::XML::Document.new
+    temp_doc.encoding = "UTF-8"
+    fragment = Nokogiri::XML::DocumentFragment.new(temp_doc, content)
 
     process_fragment = lambda do |f|
       apply_changes.(strip_attribute_namespace_prefixes, f)
@@ -522,9 +559,7 @@ class EAD3Serializer < EADSerializer
                   MESSAGE: #{e.message.inspect}  \n
                   TRACE: #{e.backtrace.inspect} \n "
       end
-
     end
-
 
     # Add xml-model for rng
     # Make this conditional if XSD or DTD are requested
@@ -532,15 +567,12 @@ class EAD3Serializer < EADSerializer
       type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"'
 
     xmlmodel = Nokogiri::XML::ProcessingInstruction.new(builder.doc, "xml-model", xmlmodel_content)
-
     builder.doc.root.add_previous_sibling(xmlmodel)
-
     builder.doc.root.add_namespace nil, 'http://ead3.archivists.org/schema/'
 
     Enumerator.new do |y|
       @stream_handler.stream_out(builder, @fragments, y)
     end
-
   end # END stream
 
 
@@ -673,12 +705,9 @@ class EAD3Serializer < EADSerializer
             }
           }
         end
-
       } # END filedesc
 
-
       xml.maintenancestatus( { value: 'derived' } )
-
 
       maintenanceagency_atts = {
         countrycode: data.repo.country
@@ -699,7 +728,6 @@ class EAD3Serializer < EADSerializer
         }
       }
 
-
       unless data.finding_aid_language.nil?
         xml.languagedeclaration() {
 
@@ -714,7 +742,6 @@ class EAD3Serializer < EADSerializer
         }
       end
 
-
       unless data.finding_aid_description_rules.nil?
         xml.conventiondeclaration {
           xml.abbr {
@@ -726,7 +753,6 @@ class EAD3Serializer < EADSerializer
         }
       end
 
-
       unless data.finding_aid_status.nil?
         xml.localcontrol( { localtype: 'findaidstatus'} ) {
           xml.term() {
@@ -735,12 +761,8 @@ class EAD3Serializer < EADSerializer
         }
       end
 
-
-
       xml.maintenancehistory() {
-
         xml.maintenanceevent() {
-
           xml.eventtype( { value: 'derived' } ) {}
           xml.eventdatetime() {
             xml.text(DateTime.now.to_s)
@@ -753,7 +775,6 @@ class EAD3Serializer < EADSerializer
             xml.text("This finding aid was produced using ArchivesSpace on #{ DateTime.now.strftime('%A %B %e, %Y at %H:%M') }")
           }
         }
-
 
         if data.revision_statements.length > 0
           data.revision_statements.each do |rs|
@@ -771,7 +792,6 @@ class EAD3Serializer < EADSerializer
           end
         end
       }
-
     }
   end # END serialize_control
 
@@ -831,7 +851,6 @@ class EAD3Serializer < EADSerializer
             sanitize_mixed_content( e['container_summary'], xml, fragments)
           }
         end
-
       end
     end
   end
@@ -886,7 +905,6 @@ class EAD3Serializer < EADSerializer
               end
             }
           end
-
         }
 
         if date['begin'] && date['end'] && date['expression']
@@ -896,15 +914,16 @@ class EAD3Serializer < EADSerializer
       elsif date['expression']
         add_unitdate.call(date['expression'], xml, fragments, date_atts)
       end
-
     end
-
   end
 
 
   def strip_invalid_children_from_note_content(content, parent_element_name)
+    # convert & to @@ before generating XML fragment for processing
+    content.gsub!(/&/,'@@')
     fragment = Nokogiri::XML::DocumentFragment.parse(content)
     children = fragment.element_children
+
     if !children.empty?
       if valid_children = valid_children_of_mixed_elements(parent_element_name)
         children.each do |e|
@@ -914,7 +933,9 @@ class EAD3Serializer < EADSerializer
         end
       end
     end
-    fragment.inner_html
+
+    # convert @@ back to & on return value
+    fragment.inner_html.gsub(/@@/,'&')
   end
 
 
@@ -932,9 +953,7 @@ class EAD3Serializer < EADSerializer
 
       append_note_content = Proc.new do |note, context, fragments, parent_element_name|
         content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
-
         content = strip_invalid_children_from_note_content(content, parent_element_name)
-
         sanitize_mixed_content( content, context, fragments, ASpaceExport::Utils.include_p?(note['type']) )
       end
 
@@ -1026,8 +1045,6 @@ class EAD3Serializer < EADSerializer
   end
 
 
-
-
   # this extracts <head> content and returns it. optionally, you can provide a
   # backup text node that will be returned if there is no <head> nodes in the
   # content
@@ -1073,7 +1090,6 @@ class EAD3Serializer < EADSerializer
           end
         end
 
-
         serialize_origination(data, xml, fragments)
         serialize_extents(data, xml, fragments)
         serialize_dates(data, xml, fragments)
@@ -1093,13 +1109,9 @@ class EAD3Serializer < EADSerializer
       }
 
       serialize_nondid_notes(data, xml, fragments)
-
       serialize_bibliographies(data, xml, fragments)
-
       serialize_indexes(data, xml, fragments)
-
       serialize_controlaccess(data, xml, fragments)
-
       EADSerializer.run_serialize_step(data, xml, fragments, :archdesc)
 
       data.children_indexes.each do |i|
@@ -1160,7 +1172,6 @@ class EAD3Serializer < EADSerializer
       } #</controlaccess>
     end
   end
-
 
 
   def serialize_subnotes(subnotes, xml, fragments, include_p = true)
@@ -1228,13 +1239,10 @@ class EAD3Serializer < EADSerializer
     top = sub['top_container']['_resolved']
 
     # top container
-
     atts[:id] = prefix_id(SecureRandom.hex)
     last_id = atts[:id]
-
     atts[:localtype] = top['type']
     text = top['indicator']
-
     atts[:label] = I18n.t("enumerations.instance_instance_type.#{inst['instance_type']}",
                           :default => inst['instance_type'])
     if top['barcode']
@@ -1250,7 +1258,6 @@ class EAD3Serializer < EADSerializer
     }
 
     # sub container
-
     (2..3).each do |n|
       atts = {}
 
@@ -1395,7 +1402,5 @@ class EAD3Serializer < EADSerializer
       }
     end
   end
-
-
 
 end

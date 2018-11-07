@@ -5,7 +5,7 @@
 <div class="search" role="search">
   <a name="search" id="search"></a>
   <% if show_header %>
-  <h<%= header_size %>><%=  t('actions.search') %>  <%= title %> </h<%= header_size %>>
+  <h<%= header_size %>><%=  t('actions.search_header') %></h<%= header_size %>>
   <% end %>
   <% @search = Search.new unless defined?(@search) %>
   <%= form_tag(app_prefix("#{search_url}"), method: 'get', :id => 'advanced_search') do %>
@@ -18,7 +18,7 @@
     </div>
     <div class="<%= i == 0 ? "col-sm-3" : "col-sm-6" %> form-group form-inline">
       <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'sr-only repeats') %>
-      <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}", 
+      <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
             :class=> 'form-control repeats fill-column') %>
     </div>
     <% if i == 0 %>
@@ -30,7 +30,7 @@
     <div class="col-sm-5 form-group form-inline">
       <%= label_tag(:"field#{i}", t('search-field'),:class => 'sr-only repeats') %>
       <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-control repeats') %>
- 
+
       <span class="inline-label repeats"><%= t('search_results.filter.years') %>:</span>
       <%= label_tag(:"from_year#{i}", "#{t('search_results.filter.from_year')}", :class => 'sr-only repeats') %>
       <%= text_field_tag('from_year[]', @search[:from_year][i], :size => 4,:maxlength => 4, :id=>"from_year#{i}",
@@ -38,7 +38,7 @@
 
       <span class="inline-label repeats"><%= t('search_results.filter.to') %></span>
       <%= label_tag(:"to_year#{i}", "#{t('search_results.filter.to_year')}", :class=> 'sr-only repeats') %>
-      <%= text_field_tag('to_year[]', @search[:to_year][i], :size => 4, :maxlength => 4, :id => "to_year#{i}", 
+      <%= text_field_tag('to_year[]', @search[:to_year][i], :size => 4, :maxlength => 4, :id => "to_year#{i}",
                :class=> 'form-control repeats', :placeholder => t('search_results.filter.to')) %>
     <span class="plusminus"></span>
 

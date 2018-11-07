@@ -18,8 +18,11 @@ docker-compose build # needed whenever the branch is changed and ready to test
 docker-compose up
 
 # running specific containers
-docker-compose up db solr web
-docker-compose run app bash # access app terminal
+docker-compose up -d db solr # in background
+docker-compose up app web # in foreground
+
+# to access running container
+docker exec -it archivesspace_app_1 bash
 ```
 
 ## Sharing an image

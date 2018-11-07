@@ -1,11 +1,11 @@
 <% define_template "name_software", jsonmodel_definition(:name_software) do |form| %>
   <div class="subrecord-form-fields">
-    <h4 class="subrecord-form-heading">
+    <h3 class="subrecord-form-heading">
       <span class="badge badge-info is-authoritive-label"><%= I18n.t("name_software.authorized") %></span>
       <button class="btn btn-small btn-authoritive-name-toggle"><%= I18n.t("name._frontend.action.make_authorized") %></button>
       <span class="badge badge-info is-display-name-label"><%= I18n.t("name_software.is_display_name") %></span>
       <button class="btn btn-small btn-display-name-toggle"><%= I18n.t("name._frontend.action.make_display_name") %></button>
-    </h4>
+    </h3>
 
     <%= render_aspace_partial :partial => "agents/name_forms/authority_fields", :locals => {:form => form} %>
 

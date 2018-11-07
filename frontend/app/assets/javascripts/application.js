@@ -26,4 +26,4 @@
 //= require bootstrap-select
 //= require bootstrap3-typeahead
 //= require bootstrap-tagsinput
-
+//= require jquery.matchHeight

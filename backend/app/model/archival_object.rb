@@ -25,6 +25,7 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include RightsRestrictionNotes
   include RepresentativeImages
   include Assessments::LinkedRecord
+  include TouchRecords
 
   enable_suppression
 
@@ -96,6 +97,10 @@ class ArchivalObject < Sequel::Model(:archival_object)
     end
 
     result
+  end
+
+  def self.touch_records(obj)
+    [{ type: Resource, ids: [obj.root_record_id] }]
   end
 
 end

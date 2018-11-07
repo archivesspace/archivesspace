@@ -1,5 +1,6 @@
 require_relative "../../exporters/lib/exporter"
 require_relative '../AS_fop'
+require_relative '../AS_fop_external'
 
 
 class PrintToPDFRunner < JobRunner
@@ -36,10 +37,24 @@ class PrintToPDFRunner < JobRunner
         ead = ASpaceExport.model(:ead).from_resource(record, resource.tree(:all, mode = :sparse), opts)
         xml = ""
         ASpaceExport.stream(ead).each { |x| xml << x }
-        pdf = ASFop.new(xml).to_pdf
+
+        # ANW-267: For windows machines, run FOP to generate PDF externally with a system() call instead of through JRuby to fix PDF corruption issues
+        if RbConfig::CONFIG['host_os'] =~ /win32/
+          pdf = ASFopExternal.new(xml, @job).to_pdf
+        else
+          pdf = ASFop.new(xml).to_pdf
+        end
+
         job_file = @job.add_file( pdf )
         @job.write_output("File generated at #{job_file[:file_path].inspect} ")
-        pdf.unlink
+
+        # pdf will be either a Tempfile or File object, depending on whether it was created externally.
+        if pdf.class == Tempfile
+          pdf.unlink
+        elsif pdf.class == File
+          File.unlink(pdf.path)
+        end
+        
         @job.record_modified_uris( [@json.job["source"]] )
         @job.write_output("All done. Please click refresh to view your download link.")
         self.success!

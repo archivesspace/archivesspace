@@ -16,6 +16,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
   include ComponentsAddChildren
   include Events
   include Publishable
+  include TouchRecords
 
   enable_suppression
 
@@ -51,6 +52,10 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
                      :message => "A Digital Object Component ID must be unique to its Digital Object")
     map_validation_to_json_property([:root_record_id, :component_id], :component_id)
     super
+  end
+
+  def self.touch_records(obj)
+    [{ type: DigitalObject, ids: [obj.root_record_id] }]
   end
 
 end

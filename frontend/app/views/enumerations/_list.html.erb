@@ -8,7 +8,7 @@
 
 <% end %>
 
-<h2><%= I18n.t("enumeration._singular") %>: <%= I18n.t("enumeration_names.#{@enumeration['name']}") %> (<%= @enumeration["name"] %>)</h2>
+<h3><%= I18n.t("enumeration._singular") %>: <%= I18n.t("enumeration_names.#{@enumeration['name']}") %> (<%= @enumeration["name"] %>)</h3>
 <div class="enumeration-list">
   <table class="table table-striped table-bordered table-condensed">
     <thead>
@@ -27,23 +27,23 @@
         <tr>
           <td><%= enum_value["value"] %></td>
           <td><%= I18n.t({:enumeration => @enumeration['name'], :value => enum_value['value']}, :default => enum_value['value']) %></td>
-          <td> 
-            <%= enum_value["position"] %> 
-            <% unless i == 0 %>   
-              <%= link_to( { :controller => :enumerations, :action => :update_value, 
-                :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], 
+          <td>
+            <%= enum_value["position"] %>
+            <% unless i == 0 %>
+              <%= link_to( { :controller => :enumerations, :action => :update_value,
+                :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"],
                 :position => enum_value["position"] - 1} , :method => :post , :class=> "btn btn-xs btn-default position-up") do %>
                   <span class='glyphicon glyphicon-arrow-up' />
               <% end %>
             <% end %>
             <% unless i  == @enumeration["enumeration_values"].length - 1 %>
-              <%= link_to({ :controller => :enumerations, :action => :update_value, 
-                :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"], 
+              <%= link_to({ :controller => :enumerations, :action => :update_value,
+                :id => JSONModel(:enumeration).id_for(@enumeration["uri"]), :enumeration_value_id => enum_value["id"],
                 :position => enum_value["position"] + 1} , :method => :post, :class=> "btn btn-xs btn-default position-down") do %>
                   <span class='glyphicon glyphicon-arrow-down' />
               <% end %>
-            <% end %> 
-          </td> 
+            <% end %>
+          </td>
           <td>
             <% if enum_value["suppressed"] %>
               &#x2713;
@@ -73,11 +73,11 @@
             </div>
           </td>
           <td>
-            <% if @enumeration['relationships'].length > 0 and @enumeration['name'] != 'job_type' %>  
+            <% if @enumeration['relationships'].length > 0 and @enumeration['name'] != 'job_type' %>
               <div class='enum-value-search' data-url="<%= url_for({:controller => :search, :action => :do_search, :aq =>
                 enumeration_advanced_query(@enumeration['relationships'], enum_value['value'] ) }) %>"><i class='spinner'></i>
-              </div> 
-            <% end %> 
+              </div>
+            <% end %>
           </td>
         </tr>
       <% end %>

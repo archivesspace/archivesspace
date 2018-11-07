@@ -214,8 +214,9 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "Returns the file"]) \
   do
     file = JobFile.filter(  :id => params[:file_id], :job_id => params[:id] ).select(:file_path).first
-    stream_response(IO.read(file[:file_path]))
-  
+    # ANW-267: Windows will corrupt PDFs with DOS line endings unless we return the file as a binary.
+    content_type 'application/octect-stream'
+    IO.binread(file[:file_path])
   end
 
   Endpoint.get('/repositories/:repo_id/jobs/:id/records')

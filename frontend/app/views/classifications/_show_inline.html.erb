@@ -6,12 +6,12 @@
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
       <%= readonly_context :classification, @classification do |readonly| %>
-        <h2><%= @classification.title %> <span class="label label-info"><%= I18n.t("classification._singular") %></span></h2>
+        <h3><%= @classification.title %> <span class="label label-info"><%= I18n.t("classification._singular") %></span></h3>
 
         <% define_template "classification", jsonmodel_definition(:classification) do |form, classification| %>
           <section id="basic_information">
-            <h3><%= I18n.t("classification._frontend.section.basic_information") %></h3>
-    
+            <h4><%= I18n.t("classification._frontend.section.basic_information") %></h4>
+
             <%= form.label_and_textarea "identifier" %>
             <%= form.label_and_textarea "title" %>
             <%= form.label_and_textarea "description" %>

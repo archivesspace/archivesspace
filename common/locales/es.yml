@@ -599,6 +599,36 @@
     ext_tooltip: |
         <p>Extensión del número de teléfono de la persona de contacto.</p>
 
+  telephone_required: &telephone
+    _plural: Números de teléfono
+    number_type: Tipo de número
+    number: Número
+    number_tooltip: |
+        <p>Número de teléfono de la persona de contacto.</p>
+    ext: Extension telefónica
+    ext_tooltip: |
+        <p>Extensión del número de teléfono de la persona de contacto.</p>
+
+  telephone_merge: &telephone
+    _plural: Números de teléfono
+    number_type: Tipo de número
+    number: Número
+    number_tooltip: |
+        <p>Número de teléfono de la persona de contacto.</p>
+    ext: Extension telefónica
+    ext_tooltip: |
+        <p>Extensión del número de teléfono de la persona de contacto.</p>
+
+  telephone_merge_target: &telephone
+    _plural: Números de teléfono
+    number_type: Tipo de número
+    number: Número
+    number_tooltip: |
+        <p>Número de teléfono de la persona de contacto.</p>
+    ext: Extension telefónica
+    ext_tooltip: |
+        <p>Extensión del número de teléfono de la persona de contacto.</p>
+
   note_attributes: &note_attributes
     label: Etiqueta
     label_tooltip: |
