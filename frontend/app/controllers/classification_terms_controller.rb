@@ -91,6 +91,11 @@ class ClassificationTermsController < ApplicationController
   end
 
 
+  def current_record
+    @classification_term
+  end
+
+
   def show
     if params[:inline]
       @classification_term = JSONModel(:classification_term).find(params[:id], find_opts)

@@ -101,6 +101,10 @@ class RepositoriesController < ApplicationController
                 })
   end
 
+  def current_record
+    @repository
+  end
+
   def show
     @repository = JSONModel(:repository_with_agent).find(params[:id])
     flash.now[:info] = I18n.t("repository._frontend.messages.selected") if @repository.id === session[:repo_id]

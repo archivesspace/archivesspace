@@ -64,6 +64,11 @@ class JobsController < ApplicationController
   end
 
 
+  def current_record
+    @job
+  end
+
+
   def show
     @job = JSONModel(:job).find(params[:id], "resolve[]" => "repository")
     @files = JSONModel::HTTP::get_json("#{@job['uri']}/output_files")
