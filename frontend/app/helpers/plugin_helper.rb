@@ -44,4 +44,16 @@ module PluginHelper
     result.html_safe
   end
 
+  def render_plugin_partials(name, locals = {})
+    result = ''
+
+    ASUtils.find_local_directories("frontend/views/_#{name}.html.erb").each do |partial|
+      next unless File.exist?(partial)
+
+      result << render(:file => partial, :locals => locals)
+    end
+
+    result.html_safe
+  end
+
 end
