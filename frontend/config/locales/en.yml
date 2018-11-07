@@ -1447,7 +1447,6 @@ en:
       messages:
         created: Custom Report Template created
         updated: Custom Report Template updated
-<<<<<<< HEAD
 
   oai_config:
     title: OAI-PMH Settings
@@ -1481,7 +1480,3 @@ en:
         _plural: Sponsor Set
       repo_settings:
         _plural: Per Repository OAI-PMH Settings 
-
-
-=======
->>>>>>> master
