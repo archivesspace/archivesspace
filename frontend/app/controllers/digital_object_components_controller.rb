@@ -93,6 +93,11 @@ class DigitalObjectComponentsController < ApplicationController
   end
 
 
+  def current_record
+    @digital_object_component
+  end
+
+
   def show
     @digital_object_id = params['digital_object_id']
     @digital_object_component = JSONModel(:digital_object_component).find(params[:id], find_opts)

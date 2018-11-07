@@ -25,6 +25,10 @@ class ResourcesController < ApplicationController
     end
   end
 
+  def current_record
+    @resource
+  end
+
   def show
     flash.keep
 

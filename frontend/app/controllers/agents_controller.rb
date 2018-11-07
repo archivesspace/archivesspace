@@ -26,6 +26,10 @@ class AgentsController < ApplicationController
     end
   end
 
+  def current_record
+    @agent
+  end
+
   def show
     @agent = JSONModel(@agent_type).find(params[:id], find_opts)
   end

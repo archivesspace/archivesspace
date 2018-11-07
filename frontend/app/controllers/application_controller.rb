@@ -789,4 +789,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_record
+    raise "method 'current_record' not implemented for controller: #{self}"
+  end
+
+  def controller_supports_current_record?
+    self.method(:current_record).owner != ApplicationController
+  end
+
+  helper_method :current_record
+  helper_method :'controller_supports_current_record?'
+
 end

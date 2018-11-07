@@ -26,6 +26,9 @@ class ContainerProfilesController < ApplicationController
     end
   end
 
+  def current_record
+    @container_profile
+  end
 
   def show
     @container_profile = JSONModel(:container_profile).find(params[:id])

@@ -22,6 +22,10 @@ class OaiConfigController < ApplicationController
                 })
   end
 
+  def current_record
+    @oai_config
+  end
+
   private
 
 
