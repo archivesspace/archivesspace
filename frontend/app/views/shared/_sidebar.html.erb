@@ -42,5 +42,12 @@
       <% end %>
     <% end %>
   </ul>
+
+  <%=
+  render_plugin_partials("sidebar_footer",
+                         :record => record,
+                         :record_type => record_type)
+  %>
+
 </div>
 
