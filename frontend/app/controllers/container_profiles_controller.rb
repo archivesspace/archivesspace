@@ -21,6 +21,9 @@ class ContainerProfilesController < ApplicationController
     @search_data = Search.for_type(session[:repo_id], "container_profile", params_for_backend_search.merge({"facet[]" => FACETS}))
   end
 
+  def current_record
+    @container_profile
+  end
 
   def show
     @container_profile = JSONModel(:container_profile).find(params[:id])

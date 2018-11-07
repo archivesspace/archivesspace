@@ -706,6 +706,11 @@ class ApplicationController < ActionController::Base
     }
   end
 
+  def current_record
+    raise "method 'current_record' not implemented for controller: #{self}"
+  end
+
+  helper_method :current_record
 
 
 end

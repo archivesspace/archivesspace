@@ -8,6 +8,10 @@ class CollectionManagementRecordsController < ApplicationController
     @search_data = JSONModel(:collection_management).all(:page => 1)
   end
 
+  def current_record
+    @collection_management
+  end
+
   def show
     @collection_management = JSONModel(:collection_management).find(params[:id], "resolve[]" => ["linked_records"])
   end
