@@ -11,8 +11,7 @@
 ##
 
 # Set your database name and credentials here.  Example:
-#
-#AppConfig[:db_url] = "jdbc:mysql://127.0.0.1:3306/aspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123"
+# AppConfig[:db_url] = "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
 #
 AppConfig[:db_url] = proc { AppConfig.demo_db_url }
 
@@ -98,11 +97,11 @@ AppConfig[:locale] = :en
 AppConfig[:plugins] = ['local',  'lcnaf']
 
 # The number of concurrent threads available to run background jobs
-# Introduced for AR-1619 - long running jobs were blocking the queue
-# Resist the urge to set this to a big number!
+# Resist the urge to set this to a big number as it will affect performance
 AppConfig[:job_thread_count] = 2
 
-# OAI configuration options
+# OAI-PMH Configuration Settings
+#
 AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 AppConfig[:oai_record_prefix] = 'oai:archivesspace'
@@ -332,7 +331,8 @@ AppConfig[:show_external_ids] = false
 AppConfig[:jetty_response_buffer_size_bytes] = 64 * 1024
 AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 
-# Container management configuration fields
+# Container Management Configuration Settings
+#
 # :container_management_barcode_length defines global and repo-level barcode validations
 # (validating on length only).  Barcodes that have either no value, or a value between :min
 # and :max, will validate on save.  Set global constraints via :system_default, and use
@@ -352,10 +352,13 @@ AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 # Example:
 # AppConfig[:container_management_extent_calculator] = { :report_volume => true, :unit => :feet, :decimal_places => 3 }
 
+# Public User Interface (PUI) Settings
+#
+# PUI Inheritance
 # Define the fields for a record type that are inherited from ancestors
 # if they don't have a value in the record itself.
 # This is used in common/record_inheritance.rb and was developed to support
-# the new public UI application.
+# the public UI application.
 # Note - any changes to record_inheritance config will require a reindex of pui
 # records to take affect. To do this remove files from indexer_pui_state
 AppConfig[:record_inheritance] = {
@@ -459,18 +462,18 @@ AppConfig[:record_inheritance] = {
 #    :inherit_directly => false
 #  },
 
-# PUI Configurations
+# PUI General Configurations
 # TODO: Clean up configuration options
 
 AppConfig[:pui_search_results_page_size] = 10
 AppConfig[:pui_branding_img] = 'archivesspace.small.png'
-AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain
+AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain
 AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface
 
-# The number of PDFs we'll generate (in the background) at the same time.
+# The number of PDFs that can be generated (in the background) at the same time.
 #
-# PDF generation can be a little memory intensive for large collections, so we
-# set this fairly low out of the box.
+# PDF generation can be a little memory intensive for large collections, so this is
+# set fairly low out of the box.
 AppConfig[:pui_max_concurrent_pdfs] = 2
 # You can set this to nil or zero to prevent a timeout
 AppConfig[:pui_pdf_timeout] = 600
@@ -501,7 +504,20 @@ AppConfig[:pui_hide][:container_inventory] = false
 # Don't display the accession ("unprocessed material") link on the main navigation menu
 # AppConfig[:pui_hide][:accessions] = true
 
-# the following determine when the request button is displayed
+# Whether to display linked decaccessions
+AppConfig[:pui_display_deaccessions] = true
+
+#The number of characters to truncate before showing the 'Read More' link on notes
+AppConfig[:pui_readmore_max_characters] = 450
+
+# Enable / disable PUI resource/archival object page actions
+AppConfig[:pui_page_actions_cite] = true
+AppConfig[:pui_page_actions_bookmark] = true
+AppConfig[:pui_page_actions_request] = true
+AppConfig[:pui_page_actions_print] = true
+
+# PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)                            
+# the following determine on what kinds of records the request button is displayed
 AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
 
@@ -514,50 +530,6 @@ AppConfig[:pui_repos] = {}
 # AppConfig[:pui_repos]['foo'][:request_email] = {email address} # the email address to send any repository requests
 # AppConfig[:pui_repos]['foo'][:hide] = {}
 # AppConfig[:pui_repos]['foo'][:hide][:counts] = true
-
-AppConfig[:pui_display_deaccessions] = true
-
-# Enable / disable PUI resource/archival object page actions
-AppConfig[:pui_page_actions_cite] = true
-AppConfig[:pui_page_actions_bookmark] = true
-AppConfig[:pui_page_actions_request] = true
-AppConfig[:pui_page_actions_print] = true
-
-# Add page actions via the configuration
-AppConfig[:pui_page_custom_actions] = []
-# Examples:
-# Javascript action example:
-# AppConfig[:pui_page_custom_actions] << {
-#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
-#   'label' => 'actions.do_something', # the I18n path for the action button
-#   'icon' => 'fa-paw', # the font-awesome icon CSS class
-#   'onclick_javascript' => 'alert("do something grand");',
-# }
-# # Hyperlink action example:
-# AppConfig[:pui_page_custom_actions] << {
-#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
-#   'label' => 'actions.do_something', # the I18n path for the action button
-#   'icon' => 'fa-paw', # the font-awesome icon CSS class
-#   'url_proc' => proc {|record| 'http://example.com/aspace?uri='+record.uri},
-# }
-# # Form-POST action example:
-# AppConfig[:pui_page_custom_actions] << {
-#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
-#   'label' => 'actions.do_something', # the I18n path for the action button
-#   'icon' => 'fa-paw', # the font-awesome icon CSS class
-#   # 'post_params_proc' returns a hash of params which populates a form with hidden inputs ('name' => 'value')
-#   'post_params_proc' => proc {|record| {'uri' => record.uri, 'display_string' => record.display_string} },
-#   # 'url_proc' returns the URL for the form to POST to
-#   'url_proc' => proc {|record| 'http://example.com/aspace?uri='+record.uri},
-#   # 'form_id' as string to be used as the form's ID
-#   'form_id' => 'my_grand_action',
-# }
-# # ERB action example:
-# AppConfig[:pui_page_custom_actions] << {
-#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
-#   # 'erb_partial' returns the path to an erb template from which the action will be rendered
-#   'erb_partial' => 'shared/my_special_action',
-# }
 
 # PUI email settings (logs emails when disabled)
 AppConfig[:pui_email_enabled] = false
@@ -595,8 +567,38 @@ AppConfig[:pui_request_use_repo_email] = false
 #AppConfig[:pui_email_perform_deliveries] = true
 #AppConfig[:pui_email_raise_delivery_errors] = true
 
-#The number of characters to truncate before showing the 'Read More' link on notes
-AppConfig[:pui_readmore_max_characters] = 450
-
-# Path to system Java -- used to external tool creation of PDFs
-AppConfig[:path_to_java] = "java"
+# Add page actions via the configuration
+AppConfig[:pui_page_custom_actions] = []
+# Examples:
+# Javascript action example:
+# AppConfig[:pui_page_custom_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   'label' => 'actions.do_something', # the I18n path for the action button
+#   'icon' => 'fa-paw', # the font-awesome icon CSS class
+#   'onclick_javascript' => 'alert("do something grand");',
+# }
+# # Hyperlink action example:
+# AppConfig[:pui_page_custom_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   'label' => 'actions.do_something', # the I18n path for the action button
+#   'icon' => 'fa-paw', # the font-awesome icon CSS class
+#   'url_proc' => proc {|record| 'http://example.com/aspace?uri='+record.uri},
+# }
+# # Form-POST action example:
+# AppConfig[:pui_page_custom_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   'label' => 'actions.do_something', # the I18n path for the action button
+#   'icon' => 'fa-paw', # the font-awesome icon CSS class
+#   # 'post_params_proc' returns a hash of params which populates a form with hidden inputs ('name' => 'value')
+#   'post_params_proc' => proc {|record| {'uri' => record.uri, 'display_string' => record.display_string} },
+#   # 'url_proc' returns the URL for the form to POST to
+#   'url_proc' => proc {|record| 'http://example.com/aspace?uri='+record.uri},
+#   # 'form_id' as string to be used as the form's ID
+#   'form_id' => 'my_grand_action',
+# }
+# # ERB action example:
+# AppConfig[:pui_page_custom_actions] << {
+#   'record_type' => ['resource', 'archival_object'], # the jsonmodel type to show for
+#   # 'erb_partial' returns the path to an erb template from which the action will be rendered
+#   'erb_partial' => 'shared/my_special_action',
+# }
