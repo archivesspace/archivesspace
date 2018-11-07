@@ -7,6 +7,10 @@ class AssessmentAttributesController < ApplicationController
     @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
   end
 
+  def current_record
+    @assessment_attribute_definitions
+  end
+
   def update
     @assessment_attribute_definitions = AssessmentAttributeDefinitions.find(nil)
 

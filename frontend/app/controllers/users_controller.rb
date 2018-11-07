@@ -19,6 +19,10 @@ class UsersController < ApplicationController
     render :action => "index"
   end
 
+  def current_record
+    @user
+  end
+
   def show
     @user = JSONModel(:user).find(params[:id])
     render action: "show"

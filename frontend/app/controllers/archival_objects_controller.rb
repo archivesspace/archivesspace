@@ -97,6 +97,9 @@ class ArchivalObjectsController < ApplicationController
                 })
   end
 
+  def current_record
+    @archival_object
+  end
 
   def show
     @resource_id = params['resource_id']

@@ -16,6 +16,11 @@ class EnumerationsController < ApplicationController
   end
 
 
+  def current_record
+    @enumeration
+  end
+
+
   def delete
     @merge = !params["merge"].blank?
     @enumeration = JSONModel(:enumeration).find(params[:id])

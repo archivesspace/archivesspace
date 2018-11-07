@@ -45,6 +45,11 @@ class TopContainersController < ApplicationController
   end
 
 
+  def current_record
+    @top_container
+  end
+
+
   def show
     @top_container = JSONModel(:top_container).find(params[:id], find_opts)
   end
