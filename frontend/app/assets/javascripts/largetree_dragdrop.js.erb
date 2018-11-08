@@ -32,7 +32,7 @@
         var self = this;
 
         /* If any of our rowsToMove selections are no longer visible, deselect them. */
-        var selectionToKeep = []
+        var selectionToKeep = [];
 
         $(self.rowsToMove).each(function (idx, selectedRow) {
             if ($(selectedRow).is(':visible')) {
@@ -137,7 +137,7 @@
         var self = this;
 
         var row = selection.closest('tr');
-        var lastSelection = self.rowsToMove[self.rowsToMove.length - 1]
+        var lastSelection = self.rowsToMove[self.rowsToMove.length - 1];
 
         if (lastSelection) {
             var start = $(lastSelection);
@@ -156,7 +156,7 @@
             rowsInRange.each(function (i, row) {
                 if ($(row).is('.largetree-node')) {
                     if (!$(row).is('.multiselected') && $(row).data('level') === targetLevel) {
-                        $(row).find('.drag-handle').addClass('multiselected')
+                        $(row).find('.drag-handle').addClass('multiselected');
                         self.rowsToMove.push(row);
                     }
                 }
@@ -184,7 +184,7 @@
         $(largetree.elt).on('mousedown', '.drag-handle', function (event) {
             var selection = $(this);
 
-            if (event.ctrlKey || event.metaKey) {
+            if (self.isMultiSelectKeyHeld(event)) {
                 return self.handleMultiSelect(selection);
             } else if (event.shiftKey) {
                 return self.handleShiftSelect(selection);
@@ -238,7 +238,8 @@
         });
 
         $(document).on('mousedown', function (event) {
-            if (!event.ctrlKey &&
+            if (!self.isMultiSelectKeyHeld(event) &&
+
                 /* Not clicking on a drag handle */
                 !$(event.target).hasClass('drag-handle') &&
 
@@ -395,6 +396,11 @@
     };
 
 
+    LargeTreeDragDrop.prototype.isMultiSelectKeyHeld = function (mouseEvent) {
+        return (mouseEvent.ctrlKey || mouseEvent.metaKey);
+    };
+
+
     LargeTreeDragDrop.prototype.resetState = function () {
         var self = this;
 
@@ -420,7 +426,7 @@
         // blockout the page
         self.blockout = $('<div>').addClass('largetree-blockout');
         $(document.body).append(self.blockout);
-        
+
         // insert a menu!
         self.menu = $('<ul>').addClass('dropdown-menu largetree-dropdown-menu');
         if (!dropTarget.is('.root-row')) {
@@ -473,11 +479,11 @@
             });
         }).on('click', '.add-items-as-children', function() {
             self.largetree.reparentNodes(dropTarget, self.rowsToMove, dropTarget.data('child_count')).done(function() {
-                self.resetState()
+                self.resetState();
             });
         }).on('click', '.add-items-after', function() {
             self.largetree.reparentNodes(getParent(dropTarget), self.rowsToMove, dropTarget.data('position') + 1).done(function() {
-                self.resetState()
+                self.resetState();
             });
         });
     };
@@ -491,6 +497,6 @@
     };
 
     exports.LargeTreeDragDrop = LargeTreeDragDrop;
-    exports.DRAGDROP_HOTSPOT_HEIGHT = HOTSPOT_HEIGHT
+    exports.DRAGDROP_HOTSPOT_HEIGHT = HOTSPOT_HEIGHT;
 
 }(window));
