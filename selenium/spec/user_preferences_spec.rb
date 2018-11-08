@@ -23,7 +23,7 @@ describe "User Preferences" do
   it "allows you to configure browse columns" do
     @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
     @driver.wait_for_dropdown
-    @driver.find_element(:link, "My Repository Preferences").click
+    @driver.find_element(:link, "Repository Preferences").click
 
     @driver.find_element(:id => "preference_defaults__accession_browse_column_1_").select_option_with_text("Acquisition Type")
     @driver.click_and_wait_until_gone(:css => 'button[type="submit"]')
@@ -34,7 +34,7 @@ describe "User Preferences" do
     @driver.find_element(:link => "Create Accession")
 
     cells = @driver.find_elements(:css, "table th")
-    cells[1].text.should eq("Title")
-    cells[2].text.should eq("Acquisition Type")
+    expect(cells[1].text).to eq("Title")
+    expect(cells[2].text).to eq("Acquisition Type")
   end
 end

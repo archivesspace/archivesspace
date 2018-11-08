@@ -11,7 +11,7 @@ describe 'System controller' do
       JSON(last_response.body)
     end
 
-    resp.length.should eq(0)
+    expect(resp.length).to eq(0)
   end
 
 

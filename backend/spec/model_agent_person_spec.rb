@@ -9,7 +9,7 @@ describe 'Agent model' do
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [n1, n2]))
 
-    AgentPerson[agent[:id]].name_person.length.should eq(2)
+    expect(AgentPerson[agent[:id]].name_person.length).to eq(2)
   end
 
 
@@ -19,7 +19,7 @@ describe 'Agent model' do
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [n1]))
 
-    AgentPerson[agent[:id]].name_person.first[:sort_name].should match(Regexp.new("^#{n1.primary_name}.*"))
+    expect(AgentPerson[agent[:id]].name_person.first[:sort_name]).to match(Regexp.new("^#{n1.primary_name}.*"))
   end
 
 
@@ -29,8 +29,8 @@ describe 'Agent model' do
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, :agent_contacts => [c1]))
 
-    AgentPerson[agent[:id]].agent_contact.length.should eq(1)
-    AgentPerson[agent[:id]].agent_contact[0][:name].should eq(c1.name)
+    expect(AgentPerson[agent[:id]].agent_contact.length).to eq(1)
+    expect(AgentPerson[agent[:id]].agent_contact[0][:name]).to eq(c1.name)
   end
 
 
@@ -49,7 +49,7 @@ describe 'Agent model' do
 
 
   it "for unauthorized names, no requirement for source or rules" do
-    expect { n1 = build(:json_name_person, :rules => nil, :source => nil, :authorized => false, :authority_id => nil).to_hash }.to_not raise_error
+    expect { n1 = build(:json_name_person, :rules => nil, :source => nil, :authorized => false, :authority_id => nil).to_hash }.not_to raise_error
   end
 
 
@@ -59,7 +59,7 @@ describe 'Agent model' do
 
     JSONModel.strict_mode(false)
 
-    expect { n1 = build(:json_name_person, :authority_id => 'wooo').to_hash }.to_not raise_error
+    expect { n1 = build(:json_name_person, :authority_id => 'wooo').to_hash }.not_to raise_error
 
     JSONModel.strict_mode(true)
 
@@ -75,11 +75,11 @@ describe 'Agent model' do
                 }
               )
 
-    expect { n1.to_hash }.to_not raise_error
+    expect { n1.to_hash }.not_to raise_error
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [n1]))
 
-    AgentPerson[agent[:id]].name_person.length.should eq(1)
+    expect(AgentPerson[agent[:id]].name_person.length).to eq(1)
   end
 
 
@@ -95,7 +95,7 @@ describe 'Agent model' do
                  )
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, :names => [name]))
-    JSONModel(:agent_person).find(agent[:id]).names[0]['sort_name'].length.should eq(255)
+    expect(JSONModel(:agent_person).find(agent[:id]).names[0]['sort_name'].length).to eq(255)
   end
 
 
@@ -107,7 +107,7 @@ describe 'Agent model' do
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, {:names => [n], :dates_of_existence => [d1]}))
 
-    JSONModel(:agent_person).find(agent[:id]).dates_of_existence.length.should eq(1)
+    expect(JSONModel(:agent_person).find(agent[:id]).dates_of_existence.length).to eq(1)
 
     expect { AgentPerson.create_from_json(build(:json_agent_person, {:names => [n], :dates_of_existence => [d2]})) }.to raise_error(JSONModel::ValidationException)
   end
@@ -125,9 +125,9 @@ describe 'Agent model' do
 
     target_agent.assimilate([victim_agent])
 
-    JSONModel(:accession).find(acc.id).linked_agents[0]['ref'].should eq(target_agent.uri)
+    expect(JSONModel(:accession).find(acc.id).linked_agents[0]['ref']).to eq(target_agent.uri)
 
-    victim_agent.exists?.should be(false)
+    expect(victim_agent.exists?).to be_falsey
   end
 
 
@@ -142,7 +142,7 @@ describe 'Agent model' do
 
     # Merging victim into target updates the related agent relationship too
     target_agent.assimilate([victim_agent])
-    JSONModel(:agent_person).find(related_agent.id).related_agents[0]['ref'].should eq(target_agent.uri)
+    expect(JSONModel(:agent_person).find(related_agent.id).related_agents[0]['ref']).to eq(target_agent.uri)
   end
 
 
@@ -157,9 +157,9 @@ describe 'Agent model' do
                                                       }])
 
     target_agent.assimilate([victim_agent])
-    JSONModel(:accession).find(acc.id).linked_agents[0]['ref'].should eq(target_agent.uri)
+    expect(JSONModel(:accession).find(acc.id).linked_agents[0]['ref']).to eq(target_agent.uri)
 
-    victim_agent.exists?.should be(false)
+    expect(victim_agent.exists?).to be_falsey
   end
 
 
@@ -177,7 +177,7 @@ describe 'Agent model' do
     target_agent = AgentPerson[db_id]
 
     target_agent.assimilate([victim_agent])
-    victim_agent.exists?.should be(false)
+    expect(victim_agent.exists?).to be_falsey
   end
 
 
@@ -190,7 +190,7 @@ describe 'Agent model' do
                                                       }])
 
 
-    person_agent.linked_agent_roles.should eq(['source'])
+    expect(person_agent.linked_agent_roles).to eq(['source'])
   end
 
 
@@ -201,8 +201,8 @@ describe 'Agent model' do
 
     agent = AgentPerson.to_jsonmodel(person_agent.id)
 
-    agent.names[0]['authorized'].should be(false)
-    agent.names[1]['authorized'].should be(true)
+    expect(agent.names[0]['authorized']).to be_falsey
+    expect(agent.names[1]['authorized']).to be_truthy
   end
 
 
@@ -224,8 +224,8 @@ describe 'Agent model' do
                                                           build(:json_name_person,
                                                                 'authorized' => false)]))
 
-    AgentPerson.to_jsonmodel(agent.id).names[0]['authorized'].should be(true)
-    AgentPerson.to_jsonmodel(agent.id).names[1]['authorized'].should be(false)
+    expect(AgentPerson.to_jsonmodel(agent.id).names[0]['authorized']).to be_truthy
+    expect(AgentPerson.to_jsonmodel(agent.id).names[1]['authorized']).to be_falsey
   end
 
 
@@ -253,7 +253,7 @@ describe 'Agent model' do
     a1 =    AgentPerson.create_from_json(json)
     a2 =    AgentPerson.ensure_exists(json2, nil)
 
-    a1.should eq(a2) # the names should still be the same as the first authority_id names
+    expect(a1).to eq(a2) # the names should still be the same as the first authority_id names
   end
 
 
@@ -267,7 +267,7 @@ describe 'Agent model' do
                                                                 'authorized' => true,
                                                                 'is_display_name' => false)]))
 
-    AgentPerson.to_jsonmodel(agent.id).display_name['primary_name'].should eq(display_name['primary_name'])
+    expect(AgentPerson.to_jsonmodel(agent.id).display_name['primary_name']).to eq(display_name['primary_name'])
   end
 
 
@@ -291,7 +291,7 @@ describe 'Agent model' do
                                                :names => [build(:json_name_person, 'authorized' => false),
                                                           authorized_name]))
 
-    AgentPerson.to_jsonmodel(agent.id).display_name['primary_name'].should eq(authorized_name['primary_name'])
+    expect(AgentPerson.to_jsonmodel(agent.id).display_name['primary_name']).to eq(authorized_name['primary_name'])
   end
 
 
@@ -307,7 +307,7 @@ describe 'Agent model' do
     agent = AgentPerson.create_from_json(build(:json_agent_person,
                                                :names => [unique_name, duplicated_name, another_duplicated_name]))
 
-    AgentPerson.to_jsonmodel(agent.id).names.length.should eq(2)
+    expect(AgentPerson.to_jsonmodel(agent.id).names.length).to eq(2)
   end
 
 
@@ -350,34 +350,34 @@ describe 'Agent model' do
 
     it "will ensure an agent exists if you ask nicely" do
       agent_too = AgentPerson.ensure_exists(agent, nil)
-      agent_too.id.should eq(@agent_obj.id)
+      expect(agent_too.id).to eq(@agent_obj.id)
     end
 
     it "will accept two agents differing only in one contact field" do
       post_code = agent.agent_contacts[0]['post_code'] || "a"
       agent.agent_contacts[0]['post_code'] = post_code + "x"
 
-      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+      expect { AgentPerson.create_from_json(agent) }.not_to raise_error
     end
 
     it "will accept two agents differing only in one name field" do
       dates = agent.names[0]['dates'] || "a"
       agent.names[0]['dates'] = dates + "x"
 
-      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+      expect { AgentPerson.create_from_json(agent) }.not_to raise_error
     end
 
     it "will accept two agents differing only in one external document field" do
       ext_doc_loc = agent.external_documents[0]['location'] || "a"
       agent.external_documents[0]['location'] = ext_doc_loc + "x"
 
-      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+      expect { AgentPerson.create_from_json(agent) }.not_to raise_error
     end
 
     it "will accept two agents differing only in a note field" do
       agent.notes[0]['subnotes'][0]['levels'][0]['items'][0] << "x"
 
-      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+      expect { AgentPerson.create_from_json(agent) }.not_to raise_error
     end
 
     it "will *not* consider authority_id when comparing agents" do
@@ -385,7 +385,7 @@ describe 'Agent model' do
       expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
 
       agent.names[0]['primary_name'] += 'x'
-      expect { AgentPerson.create_from_json(agent) }.to_not raise_error
+      expect { AgentPerson.create_from_json(agent) }.not_to raise_error
 
       agent.names[0]['authority_id'] = 'y'
       expect { AgentPerson.create_from_json(agent) }.to raise_error(Sequel::ValidationFailed)
@@ -418,7 +418,7 @@ describe 'Agent model' do
         RequestContext.in_global_repo do
           agent_obj.update_from_json(JSONModel(:agent_person).from_hash(agent.to_hash))
         end
-      }.to_not raise_error
+      }.not_to raise_error
     end
   end
 

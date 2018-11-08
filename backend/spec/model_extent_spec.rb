@@ -12,9 +12,9 @@ describe 'Extent model' do
                                              "extent_type" => "reels",
                                            }))
 
-    Extent[extent[:id]].portion.should eq("whole")
-    Extent[extent[:id]].number.should eq("5 or so")
-    Extent[extent[:id]].extent_type.should eq("reels")
+    expect(Extent[extent[:id]].portion).to eq("whole")
+    expect(Extent[extent[:id]].number).to eq("5 or so")
+    expect(Extent[extent[:id]].extent_type).to eq("reels")
   end
 
 

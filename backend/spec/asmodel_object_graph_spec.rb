@@ -13,12 +13,12 @@ describe 'ASModel Object Graph' do
                                                               })
 
 
-    resource.object_graph.models.length.should eq(2)
+    expect(resource.object_graph.models.length).to eq(2)
 
-    resource.object_graph.each.
+    expect(resource.object_graph.each.
              map {|_, values| values}.
              flatten.
-             sort.should eq([resource.id, relationship.id].sort)
+             sort).to eq([resource.id, relationship.id].sort)
   end
 
 
@@ -34,8 +34,8 @@ describe 'ASModel Object Graph' do
                                             :parent => {'ref' => top_ao.uri}))
     end
 
-    resource.object_graph.each.map {|_, ids| ids.to_a}.flatten.length.should eq(count + 2)
-    top_ao.object_graph.each.map {|_, ids| ids.to_a}.flatten.length.should eq(count + 1)
+    expect(resource.object_graph.each.map {|_, ids| ids.to_a}.flatten.length).to eq(count + 2)
+    expect(top_ao.object_graph.each.map {|_, ids| ids.to_a}.flatten.length).to eq(count + 1)
   end
 
 
@@ -43,7 +43,7 @@ describe 'ASModel Object Graph' do
     resource = Resource.create_from_json(build(:json_resource,
                                                :extents => [build(:json_extent)]))
 
-    resource.object_graph.each.map {|model, _| model}.include?(Extent).should be_truthy
+    expect(resource.object_graph.each.map {|model, _| model}.include?(Extent)).to be_truthy
   end
 
 

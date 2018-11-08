@@ -12,7 +12,7 @@ describe 'MixedContentParser' do
 
     converted = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => true})
 
-    converted.gsub(/\s/, "").should eq("<p>foo</p><p>bar</p>")
+    expect(converted.gsub(/\s/, "")).to eq("<p>foo</p><p>bar</p>")
   end
 
 
@@ -21,7 +21,7 @@ describe 'MixedContentParser' do
 
     converted = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => false})
 
-    converted.should eq("What the &amp; 'heck' <span class=\"emph render-none\">ok</span>?");
+    expect(converted).to eq("What the &amp; 'heck' <span class=\"emph render-none\">ok</span>?");
   end
 
   it "converts emph element correctly", :skip_db_open do
@@ -29,7 +29,7 @@ describe 'MixedContentParser' do
 
     converted = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => false})
 
-    converted.should eq("<span class=\"emph render-italic\">emph text</span>");
+    expect(converted).to eq("<span class=\"emph render-italic\">emph text</span>");
   end
 
 
@@ -38,7 +38,7 @@ describe 'MixedContentParser' do
 
     converted = MixedContentParser.parse(text, "http://example.com", {:wrap_blocks => false})
 
-    converted.should eq("<span class=\"emph render-italic\">title text</span>");
+    expect(converted).to eq("<span class=\"emph render-italic\">title text</span>");
   end
 
 end

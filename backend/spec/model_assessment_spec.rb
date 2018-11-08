@@ -18,12 +18,12 @@ describe 'Assessment model' do
                                                    }))
 
     json = Assessment.to_jsonmodel(assessment.id)
-    json.should_not be_nil
-    json.records.should_not be_empty
-    json.records.first['ref'].should eq(resource.uri)
+    expect(json).not_to be_nil
+    expect(json.records).not_to be_empty
+    expect(json.records.first['ref']).to eq(resource.uri)
 
-    json.surveyed_by.should_not be_empty
-    json.surveyed_by.first['ref'].should eq(surveyor.uri)
+    expect(json.surveyed_by).not_to be_empty
+    expect(json.surveyed_by.first['ref']).to eq(surveyor.uri)
   end
 
 
@@ -35,9 +35,9 @@ describe 'Assessment model' do
     }))
 
     json = Assessment.to_jsonmodel(assessment.id)
-    json.should_not be_nil
-    json.reviewer.should_not be_empty
-    json.reviewer.first['ref'].should eq(reviewer.uri)
+    expect(json).not_to be_nil
+    expect(json.reviewer).not_to be_empty
+    expect(json.reviewer.first['ref']).to eq(reviewer.uri)
   end
 
 
@@ -49,8 +49,8 @@ describe 'Assessment model' do
 
     json = Assessment.to_jsonmodel(assessment.id)
 
-    json.ratings.length.should eq(1)
-    json.ratings[0]['value'].should be(nil)
+    expect(json.ratings.length).to eq(1)
+    expect(json.ratings[0]['value']).to be_nil
   end
 
 
@@ -72,11 +72,11 @@ describe 'Assessment model' do
 
     json = Assessment.to_jsonmodel(assessment.id)
 
-    json.ratings.length.should eq(1)
-    json.conservation_issues.length.should eq(1)
-    json.formats.length.should eq(1)
+    expect(json.ratings.length).to eq(1)
+    expect(json.conservation_issues.length).to eq(1)
+    expect(json.formats.length).to eq(1)
 
-    json.ratings[0]['value'].should eq('5')
+    expect(json.ratings[0]['value']).to eq('5')
   end
 
 
@@ -117,7 +117,7 @@ describe 'Assessment model' do
         'survey_begin' => '1969-07-20',
         'survey_end' => '',
       }))
-    }.to_not raise_error
+    }.not_to raise_error
 
     # begin and end the saem is also fine
     expect {
@@ -127,7 +127,7 @@ describe 'Assessment model' do
         'survey_begin' => '1963-11-22',
         'survey_end' => '1963-11-22',
       }))
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -158,9 +158,9 @@ describe 'Assessment model' do
         'monetary_value' => '10.1',
       }))
 
-      Assessment.to_jsonmodel(assessment.id).monetary_value.should eq('10.10')
+      expect(Assessment.to_jsonmodel(assessment.id).monetary_value).to eq('10.10')
 
-    }.to_not raise_error
+    }.not_to raise_error
 
     # perfect!
     expect {
@@ -169,7 +169,7 @@ describe 'Assessment model' do
         'surveyed_by' => [{'ref' => surveyor.uri}],
         'monetary_value' => '10.12',
       }))
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -180,8 +180,8 @@ describe 'Assessment model' do
       'monetary_value' => '10.12',
     }))
 
-    Assessment[assessment.id].monetary_value.should eq(10.12)
-    Assessment.to_jsonmodel(assessment.id).monetary_value.should eq('10.12')
+    expect(Assessment[assessment.id].monetary_value).to eq(10.12)
+    expect(Assessment.to_jsonmodel(assessment.id).monetary_value).to eq('10.12')
   end
 
 
@@ -193,7 +193,7 @@ describe 'Assessment model' do
 
     assessment.delete
 
-    Assessment[assessment.id].should be(nil)
+    expect(Assessment[assessment.id]).to be_nil
   end
 
 
@@ -211,7 +211,7 @@ describe 'Assessment model' do
 
     expect {
       resource.delete
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -229,7 +229,7 @@ describe 'Assessment model' do
 
     expect {
       surveyor.delete
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -248,7 +248,7 @@ describe 'Assessment model' do
 
     expect {
       reviewer.delete
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -259,8 +259,8 @@ describe 'Assessment model' do
     }))
 
     json = Assessment.to_jsonmodel(assessment.id)
-    json.collections.length.should eq(1)
-    json.collections.first['ref'].should eq(resource.uri)
+    expect(json.collections.length).to eq(1)
+    expect(json.collections.first['ref']).to eq(resource.uri)
   end
 
 
@@ -275,8 +275,8 @@ describe 'Assessment model' do
     }))
 
     json = Assessment.to_jsonmodel(assessment.id)
-    json.collections.length.should eq(1)
-    json.collections.first['ref'].should eq(resource.uri)
+    expect(json.collections.length).to eq(1)
+    expect(json.collections.first['ref']).to eq(resource.uri)
   end
 
 
@@ -385,9 +385,9 @@ describe 'Assessment model' do
 
       json = Assessment.to_jsonmodel(assessment.id)
 
-      json.ratings.length.should eq(2) # one global, one repo
-      json.formats.length.should eq(2)
-      json.conservation_issues.length.should eq(2)
+      expect(json.ratings.length).to eq(2) # one global, one repo
+      expect(json.formats.length).to eq(2)
+      expect(json.conservation_issues.length).to eq(2)
 
       # Set a value
       json.formats[0]['value'] = 'true'
@@ -395,7 +395,7 @@ describe 'Assessment model' do
       Assessment[assessment.id].update_from_json(json)
 
       json = Assessment.to_jsonmodel(assessment.id)
-      json.formats[0]['value'].should eq('true')
+      expect(json.formats[0]['value']).to eq('true')
     end
 
 
@@ -414,7 +414,7 @@ describe 'Assessment model' do
 
       Assessment[assessment.id].delete
 
-      Assessment[assessment.id].should be(nil)
+      expect(Assessment[assessment.id]).to be_nil
     end
   end
 
@@ -441,7 +441,7 @@ describe 'Assessment model' do
                                                        'surveyed_by' => [{'ref' => surveyor.uri}]
                                                      }))
 
-      get_research_value(assessment).should be_nil
+      expect(get_research_value(assessment)).to be_nil
     end
 
     it "calculated correctly when there is only Interest rating" do
@@ -456,7 +456,7 @@ describe 'Assessment model' do
                                                        ],
                                                      }))
 
-      get_research_value(assessment).should eq('5')
+      expect(get_research_value(assessment)).to eq('5')
     end
 
     it "calculated correctly when there is only Documentation Quality rating" do
@@ -471,7 +471,7 @@ describe 'Assessment model' do
                                                        ],
                                                      }))
 
-      get_research_value(assessment).should eq('4')
+      expect(get_research_value(assessment)).to eq('4')
     end
 
     it "calculated correctly when both ratings provided" do
@@ -490,7 +490,7 @@ describe 'Assessment model' do
                                                        ],
                                                      }))
 
-      get_research_value(assessment).should eq('9')
+      expect(get_research_value(assessment)).to eq('9')
     end
   end
 

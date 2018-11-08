@@ -18,7 +18,7 @@ describe "Users and authentication" do
                                  :password => "daisy"),
                   expect_fail = true)
 
-    @driver.find_element(:css => "p.alert-danger").text.should eq('Login attempt failed')
+    expect(@driver.find_element(:css => "p.alert-danger").text).to eq('Login attempt failed')
 
     @driver.find_element(:link, "Sign In").click
   end
@@ -35,7 +35,7 @@ describe "Users and authentication" do
 
     @driver.find_element(:id, 'create_account').click
 
-    assert(5) { @driver.find_element(:css => "span.user-label").text.should match(/#{@user.username}/) }
+    assert(5) { expect(@driver.find_element(:css => "span.user-label").text).to match(/#{@user.username}/) }
   end
 
 

@@ -1,8 +1,8 @@
 require_relative 'export_spec_helper'
 
 # Background: These specs are the result of an attempt to interpret
-# mappings included in documentation for the Archivists' Toolkit. 
-# Where it was  possible to do so, they have been transposed from a 
+# mappings included in documentation for the Archivists' Toolkit.
+# Where it was  possible to do so, they have been transposed from a
 # file downloaded from:
 # http://archiviststoolkit.org/sites/default/files/ATexports_2008_10_08.xls
 
@@ -65,7 +65,7 @@ describe "Exported METS document" do
   end
 
   it "has the correct namespaces" do
-    @mets.should have_namespaces({
+    expect(@mets).to have_namespaces({
                                    "xmlns" => "http://www.loc.gov/METS/",
                                    "xmlns:mods"=> "http://www.loc.gov/mods/v3",
                                    "xmlns:dc"=> "http://purl.org/dc/elements/1.1/",
@@ -76,22 +76,22 @@ describe "Exported METS document" do
 
 
   it "has the correct schema location" do
-    @mets.should have_schema_location "http://www.loc.gov/standards/mets/mets.xsd"
+    expect(@mets).to have_schema_location "http://www.loc.gov/standards/mets/mets.xsd"
   end
 
 
   describe "metsHdr" do
 
     it "has a CREATEDATE attribute" do
-      @mets.should have_tag "metsHdr[@CREATEDATE]"
+      expect(@mets).to have_tag "metsHdr[@CREATEDATE]"
     end
 
 
     it "has an agent statement" do
-      @mets.should have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/name" => @repo.name
+      expect(@mets).to have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/name" => @repo.name
 
-      @mets.should have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/note" => @repo.url
-      @mets.should have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/note" => "Produced by ArchivesSpace"
+      expect(@mets).to have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/note" => @repo.url
+      expect(@mets).to have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/note" => "Produced by ArchivesSpace"
     end
   end
 
@@ -100,34 +100,34 @@ describe "Exported METS document" do
 
     # TODO: Describe MODS and DC Mappings / Choice
     it "creates a dmdSec for the top-level digital object" do
-      @mets.should have_tag "dmdSec[@ID='#{@digital_object.id}']/mdWrap/xmlData/mods:mods"
-      @mets.should have_tag "dmdSec/mdWrap[@MDTYPE='MODS']"
-      @mets.should_not have_tag "dmdSec/mdWrap[not(@MDTYPE)]"
+      expect(@mets).to have_tag "dmdSec[@ID='#{@digital_object.id}']/mdWrap/xmlData/mods:mods"
+      expect(@mets).to have_tag "dmdSec/mdWrap[@MDTYPE='MODS']"
+      expect(@mets).not_to have_tag "dmdSec/mdWrap[not(@MDTYPE)]"
     end
 
 
     it "doesn't traverse the tree to build out relatedItem tags" do
-      @mets.should_not have_tag "mods:mods/mods:relatedItem"
+      expect(@mets).not_to have_tag "mods:mods/mods:relatedItem"
     end
 
 
     it "creates a dmdSec for each component" do
       @components.each do |rec|
-        @mets.should have_tag "dmdSec[@ID='#{rec.id}']"
+        expect(@mets).to have_tag "dmdSec[@ID='#{rec.id}']"
       end
     end
   end
 
   describe "dmdSec - DC" do
     it "creates a DC dmdSec for the top-level digital object if DC is chosen" do
-      @dc_mets.should have_tag "dmdSec[@ID='#{@digital_object.id}']/mdWrap/xmlData/dc:dc"
-      @dc_mets.should have_tag "dmdSec/mdWrap[@MDTYPE='DC']"
-      @dc_mets.should_not have_tag "dmdSec/mdWrap[@MDTYPE='MODS']"
+      expect(@dc_mets).to have_tag "dmdSec[@ID='#{@digital_object.id}']/mdWrap/xmlData/dc:dc"
+      expect(@dc_mets).to have_tag "dmdSec/mdWrap[@MDTYPE='DC']"
+      expect(@dc_mets).not_to have_tag "dmdSec/mdWrap[@MDTYPE='MODS']"
     end
 
     it "creates a DC dmdSec for each component" do
       @components.each do |rec|
-        @dc_mets.should have_tag "dmdSec[@ID='#{rec.id}']/mdWrap[@MDTYPE='DC']"
+        expect(@dc_mets).to have_tag "dmdSec[@ID='#{rec.id}']/mdWrap[@MDTYPE='DC']"
       end
     end
   end
@@ -135,25 +135,25 @@ describe "Exported METS document" do
 
   describe "fileSec" do
 
-    it "creates one fileGrp for every unique use_statement value in the set of file_versions" do 
+    it "creates one fileGrp for every unique use_statement value in the set of file_versions" do
       use_statement_count = @file_versions.map {|fv| fv.use_statement}.uniq.count
 
-      @mets.should have_tag("fileSec/fileGrp[#{use_statement_count}]")
-      @mets.should_not have_tag("fileSec/fileGrp[#{use_statement_count + 1}]")
+      expect(@mets).to have_tag("fileSec/fileGrp[#{use_statement_count}]")
+      expect(@mets).not_to have_tag("fileSec/fileGrp[#{use_statement_count + 1}]")
     end
 
 
     it "creates one file for every file_version in the set" do
       @file_versions.each do |file_version|
         us = I18n.t("enumerations.file_version_use_statement.#{file_version['use_statement']}")
-        @mets.should have_tag "fileGrp[@USE='#{us}']/file/FLocat[@xlink:href='#{file_version.file_uri}']"
+        expect(@mets).to have_tag "fileGrp[@USE='#{us}']/file/FLocat[@xlink:href='#{file_version.file_uri}']"
       end
     end
 
 
     it "maps the digital object ID to the GROUPID of the file" do
       [@digital_object, @components[0]].each do |dob|
-        @mets.should have_tag "fileGrp/file[@GROUPID=#{dob.id}]"
+        expect(@mets).to have_tag "fileGrp/file[@GROUPID=#{dob.id}]"
       end
     end
   end
@@ -162,15 +162,15 @@ describe "Exported METS document" do
   describe "structMap logical" do
 
     it "maps the component hierarchy to nested <div> tags" do
-      @mets.should have_tag("structMap[@TYPE='logical']/div[@ORDER='1'][@LABEL='#{@digital_object.title}']")
-      @mets.should have_tag("structMap[@TYPE='logical']/div/div/div/div[@LABEL='#{@components.last.title}']")
+      expect(@mets).to have_tag("structMap[@TYPE='logical']/div[@ORDER='1'][@LABEL='#{@digital_object.title}']")
+      expect(@mets).to have_tag("structMap[@TYPE='logical']/div/div/div/div[@LABEL='#{@components.last.title}']")
     end
 
 
     it "creates a fptr tag for each file version" do
       count = @components.last.file_versions.count
-      @mets.should have_tag("structMap[@TYPE='logical']/div/div/div/div/fptr[#{count}]")
-      @mets.should_not have_tag("structMap[@TYPE='logical']/div/div/div/div/fptr[#{count + 1}]")
+      expect(@mets).to have_tag("structMap[@TYPE='logical']/div/div/div/div/fptr[#{count}]")
+      expect(@mets).not_to have_tag("structMap[@TYPE='logical']/div/div/div/div/fptr[#{count + 1}]")
     end
   end
 
@@ -179,8 +179,8 @@ describe "Exported METS document" do
 
     it "creates a <div> hierarchy that ignores components without file_version elements" do
       # one div should drop out of the hierarchy
-      @mets.should have_tag("structMap[@TYPE='physical']/div/div/div[@LABEL='#{@components.last.title}']")
-      @mets.should_not have_tag("structMap[@TYPE='physical']/div/div/div/div")
+      expect(@mets).to have_tag("structMap[@TYPE='physical']/div/div/div[@LABEL='#{@components.last.title}']")
+      expect(@mets).not_to have_tag("structMap[@TYPE='physical']/div/div/div/div")
     end
   end
 end

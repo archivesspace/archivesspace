@@ -58,7 +58,7 @@ describe "Digital Objects" do
     @driver.click_and_wait_until_gone(:css => "form#new_digital_object button[type='submit']")
 
     # The new Digital Object shows up on the tree
-    @driver.find_element(:css => "tr.root-row .title").text.strip.should match(/#{digital_object_title}/)
+    expect(@driver.find_element(:css => "tr.root-row .title").text.strip).to match(/#{digital_object_title}/)
   end
 
   it "can handle multiple file versions and file system and network path types" do
@@ -132,7 +132,7 @@ describe "Digital Objects" do
     elements = @driver.blocking_find_elements(:css => ".largetree-node.indent-level-1").map{|li| li.text.strip}
 
     ["PNG format", "GIF format", "BMP format"].each do |thing|
-      elements.any? {|elt| elt =~ /#{thing}/}.should be_truthy
+      expect(elements.any? {|elt| elt =~ /#{thing}/}).to be_truthy
     end
 
   end

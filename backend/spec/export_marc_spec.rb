@@ -28,10 +28,10 @@ describe 'MARC Export' do
 
     return unless notes.count > 0
     xml_content = marc.df(*dfcodes).sf_t(sfcode)
-    xml_content.should_not be_empty
+    expect(xml_content).not_to be_empty
     note_string = notes.map{|n| note_content(n)}.join('')
     xml_content.gsub!(".", "") # code to append punctuation can interfere with this test.
-    xml_content.should match(/#{note_string}/)
+    expect(xml_content).to match(/#{note_string}/)
   end
 
 
@@ -88,7 +88,7 @@ describe "datafield element order" do
     # loop through all tags. make sure that datafield[@tag] is a smaller number than the preceeding one.
     0.upto(datafield_element_count - 1) do |i|
       this_tag = @marc.xpath("//marc:record/marc:datafield")[i]["tag"].to_i
-      expect(this_tag >= last_tag).to eq(true)
+      expect(this_tag >= last_tag).to be_truthy
       last_tag = this_tag
     end
   end
@@ -125,7 +125,7 @@ end
     end
 
     it "maps primary_name to subfield 'a'" do
-      @marc.should have_tag "datafield[@tag='110']/subfield[@code='a']" => @name.primary_name + "." || @name.primary_name + ","
+      expect(@marc).to have_tag "datafield[@tag='110']/subfield[@code='a']" => @name.primary_name + "." || @name.primary_name + ","
     end
   end
 
@@ -156,9 +156,9 @@ end
       date = @dates.find{|d| d.date_type == 'inclusive'}
 
       if date.expression
-        @marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.expression}"
+        expect(@marc).to have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.expression}"
       else
-        @marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.begin} - #{date.end}"
+        expect(@marc).to have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{date.begin} - #{date.end}"
       end
     end
 
@@ -171,21 +171,21 @@ end
       date = @dates.find{|d| d.date_type == 'bulk'}
 
       if date.expression
-        @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.expression}"
+        expect(@marc).to have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.expression}"
       else
-        @marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.begin} - #{date.end}"
+        expect(@marc).to have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{date.begin} - #{date.end}"
       end
     end
 
 
     it "doesn't create more than two dates" do
       %w(f g).each do |code|
-        @marc.should_not have_tag "datafield[@tag='245']/subfield[@code='#{code}'][2]"
+        expect(@marc).not_to have_tag "datafield[@tag='245']/subfield[@code='#{code}'][2]"
       end
     end
 
     it "sets first indicator to 0 if the resource has no creator" do
-      @marc.should have_tag "datafield[@tag='245' and @ind1='0']"
+      expect(@marc).to have_tag "datafield[@tag='245' and @ind1='0']"
     end
   end
 
@@ -239,8 +239,8 @@ end
       resource = create(:json_resource, :dates => dates)
       marc = get_marc(resource)
 
-      marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "1981ish"
-      marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "1991ish"
+      expect(marc).to have_tag "datafield[@tag='245']/subfield[@code='f']" => "1981ish"
+      expect(marc).to have_tag "datafield[@tag='245']/subfield[@code='g']" => "1991ish"
     end
 
     it "should follow the format for single dates" do
@@ -249,8 +249,8 @@ end
       resource = create(:json_resource, :dates => dates)
       marc = get_marc(resource)
 
-      marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]}"
-      marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]}"
+      expect(marc).to have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]}"
+      expect(marc).to have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]}"
     end
 
     it "should follow the format for ranged dates" do
@@ -259,8 +259,8 @@ end
       resource = create(:json_resource, :dates => dates)
       marc = get_marc(resource)
 
-      marc.should have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]} - #{@range[1]}"
-      marc.should have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]} - #{@range[1]}"
+      expect(marc).to have_tag "datafield[@tag='245']/subfield[@code='f']" => "#{@range[0]} - #{@range[1]}"
+      expect(marc).to have_tag "datafield[@tag='245']/subfield[@code='g']" => "#{@range[0]} - #{@range[1]}"
     end
   end
 
@@ -283,30 +283,30 @@ end
     end
 
     it "creates a 300 field for each extent" do
-      @marc.should have_tag "datafield[@tag='300'][#{@extents.count}]"
-      @marc.should_not have_tag "datafield[@tag='300'][#{@extents.count + 1}]"
+      expect(@marc).to have_tag "datafield[@tag='300'][#{@extents.count}]"
+      expect(@marc).not_to have_tag "datafield[@tag='300'][#{@extents.count + 1}]"
     end
 
 
     it "maps extent number to subfield a, and type to subfield f" do
       type = I18n.t("enumerations.extent_extent_type.#{@extents[0].extent_type}")
       extent = "#{@extents[0].number} #{type}"
-      @marc.should have_tag "datafield[@tag='300'][1]/subfield[@code='a']" => @extents[0].number
-      @marc.should have_tag "datafield[@tag='300'][1]/subfield[@code='f']" => type
+      expect(@marc).to have_tag "datafield[@tag='300'][1]/subfield[@code='a']" => @extents[0].number
+      expect(@marc).to have_tag "datafield[@tag='300'][1]/subfield[@code='f']" => type
     end
 
 
     it "maps container summary to subfield f" do
       @extents.each do |e|
         next unless e.container_summary
-        @marc.should have_tag "datafield[@tag='300']/subfield[@code='f']" => e.container_summary
+        expect(@marc).to have_tag "datafield[@tag='300']/subfield[@code='f']" => e.container_summary
       end
     end
 
 
     it "maps arrangement and fileplan notes to datafield 351, and appends trailing punctuation" do
       @notes.each do |note|
-        @marc.should have_tag "datafield[@tag='351']/subfield[@code='a'][1]" => note_content(note) + "."
+        expect(@marc).to have_tag "datafield[@tag='351']/subfield[@code='a'][1]" => note_content(note) + "."
       end
     end
   end
@@ -348,7 +348,7 @@ end
       #puts xmlnotes.map{|n| n.inner_text }.inspect
       #puts @subjects.map{|s| s.to_hash }.inspect
 
-      xmlnotes.length.should eq(@subjects.length)
+      expect(xmlnotes.length).to eq(@subjects.length)
     end
   end
 
@@ -377,7 +377,7 @@ end
     end
 
     it "should strip out the mixed content in title" do
-      @marc.should have_tag "datafield[@tag='245']/subfield[@code='a']"
+      expect(@marc).to have_tag "datafield[@tag='245']/subfield[@code='a']"
       expect(@marc.at("datafield[@tag='245']/subfield[@code='a']/text()").to_s).to match(/Foo  BAR  Jones/)
     end
   end
@@ -406,11 +406,11 @@ end
     end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xx" do
-      @marc1.at("record/controlfield").should have_inner_text(/^.{15}xx/)
+      expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}xx/)
     end
 
     it "datafield[@tag='044'] not present if repo has no country code" do
-      @marc1.should_not have_tag("datafield[@tag='044']")
+      expect(@marc1).not_to have_tag("datafield[@tag='044']")
     end
   end
 
@@ -438,11 +438,11 @@ end
     end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
-      @marc1.at("record/controlfield").should have_inner_text(/^.{15}xxu/)
+      expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}xxu/)
     end
 
     it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
-      @marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text("xxu")
+      expect(@marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text("xxu")
     end
   end
 
@@ -470,11 +470,11 @@ end
     end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
-      @marc1.at("record/controlfield").should have_inner_text(/^.{15}th/)
+      expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}th/)
     end
 
     it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
-      @marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text("th")
+      expect(@marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text("th")
     end
   end
 
@@ -506,8 +506,8 @@ end
 
     it "df 852: if parent name defined, $a gets parent org, $b gets repo name" do
       df = @marc1.df('852', ' ', ' ')
-      df.sf_t('a').should include(@parent_institution_name)
-      df.sf_t('b').should eq(@name)
+      expect(df.sf_t('a')).to include(@parent_institution_name)
+      expect(df.sf_t('b')).to eq(@name)
     end
   end
 
@@ -538,7 +538,7 @@ end
 
     it "df 852: if parent org and repo_code UNdefined, $a repo name" do
       df = @marc1.df('852', ' ', ' ')
-      df.sf_t('a').should eq(@name)
+      expect(df.sf_t('a')).to eq(@name)
     end
   end
 
@@ -579,77 +579,77 @@ end
     end
 
     it "provides default values for record/leader: 00000np$ a2200000 u 4500" do
-      @marc1.at("record/leader").should have_inner_text(/00000np.aa2200000\su\s4500/)
+      expect(@marc1.at("record/leader")).to have_inner_text(/00000np.aa2200000\su\s4500/)
     end
 
 
     it "assigns 'm' to the 7th leader character for resources with level 'item'" do
-      @marc1.at("record/leader").should have_inner_text(/^.{7}c.*/)
-      @marc2.at("record/leader").should have_inner_text(/^.{7}m.*/)
+      expect(@marc1.at("record/leader")).to have_inner_text(/^.{7}c.*/)
+      expect(@marc2.at("record/leader")).to have_inner_text(/^.{7}m.*/)
 
     end
 
     it "maps resource record mtime to record/controlfield[@tag='008']/text()[0..5]" do
-      @marc1.at("record/controlfield[@tag='008']").should have_inner_text(/^\d{6}/)
+      expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^\d{6}/)
     end
 
     it "sets record/controlfield[@tag='008']/text()[6] according to resource.level" do
-      @marc1.at("record/controlfield[@tag='008']").should have_inner_text(/^.{6}i/)
-      @marc2.at("record/controlfield[@tag='008']").should have_inner_text(/^.{6}s/)
-      @marc3.at("record/controlfield[@tag='008']").should have_inner_text(/^.{6}i/)
+      expect(@marc1.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
+      expect(@marc2.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}s/)
+      expect(@marc3.at("record/controlfield[@tag='008']")).to have_inner_text(/^.{6}i/)
     end
 
 
     it "sets record/controlfield[@tag='008']/text()[7..10] with resource.dates[0]['begin']" do
-      @marc2.at("record/controlfield").should have_inner_text(/^.{7}1900/)
+      expect(@marc2.at("record/controlfield")).to have_inner_text(/^.{7}1900/)
     end
 
 
     it "sets record/controlfield[@tag='008']/text()[11..14] with resource.dates[0]['end']" do
-      @marc3.at("record/controlfield").should have_inner_text(/^.{11}1850/)
+      expect(@marc3.at("record/controlfield")).to have_inner_text(/^.{11}1850/)
     end
 
 
     it "sets record/controlfield[@tag='008']/text()[35..37] with resource.language" do
-      @marc1.at("record/controlfield").should have_inner_text(Regexp.new("^.{35}#{@resource1.language}"))
+      expect(@marc1.at("record/controlfield")).to have_inner_text(Regexp.new("^.{35}#{@resource1.language}"))
     end
 
     it "sets record/controlfield[@tag='008']/text()[38..39] with ' d'" do
-      @marc1.at("record/controlfield").should have_inner_text(/.{38}\sd/)
+      expect(@marc1.at("record/controlfield")).to have_inner_text(/.{38}\sd/)
     end
 
     it "maps repository.org_code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfields a and c" do
       org_code = JSONModel(:repository).find($repo_id).org_code
-      @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text(org_code)
-      @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='c']").should have_inner_text(org_code)
+      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(org_code)
+      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='c']")).to have_inner_text(org_code)
     end
 
     it "maps language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
       org_code = JSONModel(:repository).find($repo_id).org_code
-      @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']").should have_inner_text(@resource1.language)
+      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']")).to have_inner_text(@resource1.language)
     end
 
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
-      @marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='e']").should have_inner_text(@resource1.finding_aid_description_rules)
+      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='e']")).to have_inner_text(@resource1.finding_aid_description_rules)
     end
 
 
     it "maps resource.language to df[@tag='041' and @ind1='0' and @ind2='7']/sf[@code='a']" do
-      @marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a']").should have_inner_text(@resource1.language)
-      @marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='2']").should have_inner_text('iso639-2b')
+      expect(@marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a']")).to have_inner_text(@resource1.language)
+      expect(@marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='2']")).to have_inner_text('iso639-2b')
     end
 
 
     it "maps resource.id_\\d to df[@tag='099' and @ind1=' ' and @ind2=' ']/sf[@code='a']" do
       ids = (0..3).map {|i|@resource1.send("id_#{i}") }.compact.join('.')
-      @marc1.at("datafield[@tag='099'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text(ids)
+      expect(@marc1.at("datafield[@tag='099'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(ids)
     end
 
     it "df 852: $a should get org_code if org_code defined and parent_institution_name not" do
       repo = JSONModel(:repository).find($repo_id)
 
       df = @marc1.df('852', ' ', ' ')
-      df.sf_t('a').should include(repo.org_code)
+      expect(df.sf_t('a')).to include(repo.org_code)
     end
   end
 
@@ -695,9 +695,9 @@ end
     end
 
     it "should create elements for unpublished agents if include_unpublished is true" do
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{100}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{610}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{600}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{100}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{610}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{600}']").length > 0).to be_truthy
     end
   end
 
@@ -766,12 +766,12 @@ end
       name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
 
       df = @marcs[0].at("datafield[@tag='100'][@ind1='#{inverted}'][@ind2=' ']")
-      df.at("subfield[@code='a']").should have_inner_text(/#{name_string}/)
-      df.at("subfield[@code='b']").should have_inner_text(/#{name['number']}/)
-      df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
-      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
-      df.at("subfield[@code='q']").should have_inner_text(/#{name['fuller_form']}/)
-      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
+      expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
+      expect(df.at("subfield[@code='q']")).to have_inner_text(/#{name['fuller_form']}/)
+      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
     end
 
     it "agent has no authority_id, it should not create a subfield $0" do
@@ -779,7 +779,7 @@ end
       name_string = %w(primary_ rest_of_).map{|p| name["#{p}name"]}.reject{|n| n.nil? || n.empty?}.join(name['name_order'] == 'direct' ? ' ' : ', ')
       df = @marcs[0].at("datafield[@tag='700']/subfield[@code='a'][text()='#{name_string}']")
       parent_node = df.parent
-      parent_node.at("subfield[@code='0']").should eq(nil)
+      expect(parent_node.at("subfield[@code='0']")).to be_nil
     end
 
     it "should add required punctuation to 100 tag agent-person subfields" do
@@ -805,7 +805,7 @@ end
 
       expect(g_text[-1]).to eq(".")
 
-      expect(q_text =~ /\(.*\)/).to_not eq(nil)
+      expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
 
@@ -814,13 +814,13 @@ end
 
       df = @marcs[1].at("datafield[@tag='110'][@ind1='2'][@ind2=' ']")
 
-      df.at("subfield[@code='a']").should have_inner_text(/#{name['primary_name']}/)
+      expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
       subfield_b = df.at("subfield[@code='b']")
       if !subfield_b.nil?
-        subfield_b.should have_inner_text(/#{name['subordinate_name_1']}/)
+        expect(subfield_b).to have_inner_text(/#{name['subordinate_name_1']}/)
       end
-      df.at("subfield[@code='n']").should have_inner_text(/#{name['number']}/)
-      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
+      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
     end
 
 
@@ -829,10 +829,10 @@ end
 
       df = @marcs[2].at("datafield[@tag='100'][@ind1='3'][@ind2=' ']")
 
-      df.at("subfield[@code='a']").should have_inner_text(/#{name['family_name']}/)
-      df.at("subfield[@code='c']").should have_inner_text(/#{name['qualifier']}/)
-      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
-      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['family_name']}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{name['qualifier']}/)
+      expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
+      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
     end
 
 
@@ -845,15 +845,15 @@ end
 
       df = @marcs[1].at("datafield[@tag='600'][@ind1='#{inverted}'][@ind2='#{ind2}']")
 
-      df.at("subfield[@code='a']").should have_inner_text(/#{name_string}/)
-      df.at("subfield[@code='b']").should have_inner_text(/#{name['number']}/)
-      df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
-      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
-      df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
-      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
+      expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
+      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
 
       if ind2 == '7'
-        df.at("subfield[@code='2']").should have_inner_text(/#{name['source']}/)
+        expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
       end
     end
 
@@ -882,7 +882,7 @@ end
 
       expect(g_text[-1]).to eq(".")
 
-      expect(q_text =~ /\(.*\)/).to_not eq(nil)
+      expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
 
@@ -892,17 +892,17 @@ end
 
       df = @marcs[0].at("datafield[@tag='610'][@ind1='2'][@ind2='#{ind2}']")
 
-      df.at("subfield[@code='a']").should have_inner_text(/#{name['primary_name']}/)
+      expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['primary_name']}/)
       subfield_b = df.at("subfield[@code='b']")
       if !subfield_b.nil?
-        subfield_b.should have_inner_text(/#{name['subordinate_name_1']}/)
+        expect(subfield_b).to have_inner_text(/#{name['subordinate_name_1']}/)
       end
-      df.at("subfield[@code='n']").should have_inner_text(/#{name['number']}/)
-      df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
-      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='n']")).to have_inner_text(/#{name['number']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
+      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
 
       if ind2 == '7'
-        df.at("subfield[@code='2']").should have_inner_text(/#{name['source']}/)
+        expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
       end
     end
 
@@ -923,7 +923,7 @@ end
       end
 
       expect(n_text[-1]).to eq(".")
-      expect(n_text =~ /\(.*\)/).to_not eq(nil)
+      expect(n_text =~ /\(.*\)/).not_to be_nil
     end
 
 
@@ -933,14 +933,14 @@ end
 
       df = @marcs[0].at("datafield[@tag='600'][@ind1='3'][@ind2='#{ind2}']")
 
-      df.at("subfield[@code='a']").should have_inner_text(/#{name['family_name']}/)
-      df.at("subfield[@code='c']").should have_inner_text(/#{name['qualifier']}/)
-      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
-      df.at("subfield[@code='4']").should have_inner_text(/#{name['relator']}/)
-      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name['family_name']}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{name['qualifier']}/)
+      expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
+      expect(df.at("subfield[@code='4']")).to have_inner_text(/#{name['relator']}/)
+      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
 
       if ind2 == '7'
-        df.at("subfield[@code='2']").should have_inner_text(/#{name['source']}/)
+        expect(df.at("subfield[@code='2']")).to have_inner_text(/#{name['source']}/)
       end
     end
 
@@ -967,11 +967,11 @@ end
 
       df = @marcs[1].at("datafield[@tag='700'][@ind1='#{inverted}'][@ind2=' ']")
 
-      df.at("subfield[@code='a']").should have_inner_text(/#{name_string}/)
-      df.at("subfield[@code='b']").should have_inner_text(/#{name['number']}/)
-      df.at("subfield[@code='c']").should have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
-      df.at("subfield[@code='d']").should have_inner_text(/#{name['dates']}/)
-      df.at("subfield[@code='0']").should have_inner_text(/#{name['authority_id']}/)
+      expect(df.at("subfield[@code='a']")).to have_inner_text(/#{name_string}/)
+      expect(df.at("subfield[@code='b']")).to have_inner_text(/#{name['number']}/)
+      expect(df.at("subfield[@code='c']")).to have_inner_text(/#{%w(prefix title suffix).map{|p| name[p]}.compact.join(', ')}/)
+      expect(df.at("subfield[@code='d']")).to have_inner_text(/#{name['dates']}/)
+      expect(df.at("subfield[@code='0']")).to have_inner_text(/#{name['authority_id']}/)
     end
 
     it "should add required punctuation to 700 tag agent-person subfields" do
@@ -998,12 +998,12 @@ end
 
       expect(g_text[-1]).to eq(".")
 
-      expect(q_text =~ /\(.*\)/).to_not eq(nil)
+      expect(q_text =~ /\(.*\)/).not_to be_nil
     end
 
     # opposite case of spec found on line 143
     it "245 tag: sets first indicator to 1 if the resource has an creator" do
-      @marcs[0].should have_tag "marc:datafield[@tag='245' and @ind1='1']"
+      expect(@marcs[0]).to have_tag "marc:datafield[@tag='245' and @ind1='1']"
     end
 
     it "stores qualifier in $c for secondary family creators " do
@@ -1058,7 +1058,7 @@ end
         end
         string = prefix ? "#{prefix}: " : ""
         string += note_content(note)
-        xml_content.should include(string)
+        expect(xml_content).to include(string)
       end
     end
 
@@ -1130,8 +1130,8 @@ end
 
     it "maps resource.ead_location to df 856 ('4', '2'), sf u" do
       df = @marc.df('856', '4', '2')
-      df.sf_t('u').should eq(@resource.ead_location)
-      df.sf_t('z').should eq("Finding aid online:")
+      expect(df.sf_t('u')).to eq(@resource.ead_location)
+      expect(df.sf_t('z')).to eq("Finding aid online:")
     end
 
 
@@ -1197,16 +1197,16 @@ end
     end
 
     it "should create elements for unpublished notes if include_unpublished is true" do
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{506}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{524}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{535}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{540}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{541}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{544}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{545}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{561}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{583}']").length > 0).to eq(true)
-      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{584}']").length > 0).to eq(true)
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{506}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{524}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{535}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{540}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{541}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{544}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{545}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{561}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{583}']").length > 0).to be_truthy
+      expect(@marc_unpub_incl.xpath("//marc:datafield[@tag = '#{584}']").length > 0).to be_truthy
     end
 
   end
@@ -1252,7 +1252,7 @@ end
 
 
     it "maps org_code to 049 tag" do
-      @marc.at("datafield[@tag='049'][@ind1=' '][@ind2=' ']/subfield[@code='a']").should have_inner_text(@org_code)
+      expect(@marc.at("datafield[@tag='049'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(@org_code)
     end
   end
 

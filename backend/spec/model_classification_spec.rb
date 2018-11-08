@@ -33,25 +33,25 @@ describe 'Classification models' do
 
 
   it "allows a classification to be created" do
-    classification.title.should eq("top-level classification")
-    Classification.to_jsonmodel(classification)['creator']['ref'].should eq(creator.uri)
+    expect(classification.title).to eq("top-level classification")
+    expect(Classification.to_jsonmodel(classification)['creator']['ref']).to eq(creator.uri)
   end
 
 
   it "allows a tree of classification_terms to be created" do
     term = create_classification_term(classification)
-    term.title.should eq("classification A")
+    expect(term.title).to eq("classification A")
 
-    classification.tree['children'].count.should eq(1)
-    classification.tree['children'].first['title'].should eq(term.title)
-    classification.tree['children'].first['record_uri'].should eq(term.uri)
+    expect(classification.tree['children'].count).to eq(1)
+    expect(classification.tree['children'].first['title']).to eq(term.title)
+    expect(classification.tree['children'].first['record_uri']).to eq(term.uri)
 
     second_term = create_classification_term(classification,
                                              :title => "child of the last term",
                                              :identifier => "another",
                                              :parent => {'ref' => term.uri})
 
-    classification.tree['children'][0]['children'][0]['title'].should eq(second_term.title)
+    expect(classification.tree['children'][0]['children'][0]['title']).to eq(second_term.title)
   end
 
 
@@ -87,7 +87,7 @@ describe 'Classification models' do
                                  :title => "same titles",
                                  :identifier => "same IDs",
                                  :parent => {'ref' => term1.uri})
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -104,7 +104,7 @@ describe 'Classification models' do
 
     expect {
       classification.delete
-    }.to_not raise_error
+    }.not_to raise_error
 
     expect { term1.refresh }.to raise_error(Sequel::Error)
     expect { term2.refresh }.to raise_error(Sequel::Error)
@@ -123,7 +123,7 @@ describe 'Classification models' do
 
     titles = classification.tree['children'].map {|e| e['title']}
 
-    titles.should eq(["title 4", "title 0", "title 1", "title 2", "title 3"])
+    expect(titles).to eq(["title 4", "title 0", "title 1", "title 2", "title 3"])
   end
 
 
@@ -139,7 +139,7 @@ describe 'Classification models' do
 
     titles = ClassificationTerm.to_jsonmodel(term2)['path_from_root'].map {|e| e['title']}
 
-    titles.should eq(["top-level classification", "same titles", "same titles"])
+    expect(titles).to eq(["top-level classification", "same titles", "same titles"])
   end
 
 
@@ -152,9 +152,9 @@ describe 'Classification models' do
                                            {'ref' => term.uri}
                                            ])
 
-    JSONModel(:classification).find(classification.id).linked_records.map {|link| link['ref'] }.should include(resource.uri)
+    expect(JSONModel(:classification).find(classification.id).linked_records.map {|link| link['ref'] }).to include(resource.uri)
 
-    JSONModel(:classification_term).find(term.id).linked_records.map {|link| link['ref'] }.should include(resource.uri)
+    expect(JSONModel(:classification_term).find(term.id).linked_records.map {|link| link['ref'] }).to include(resource.uri)
 
   end
 

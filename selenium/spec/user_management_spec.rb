@@ -29,7 +29,7 @@ describe "User management" do
 
   it "can create a user account" do
     @driver.login($admin)
-    
+
     @driver.find_element(:link, 'System').click
     @driver.find_element(:link, "Manage Users").click
 
@@ -56,7 +56,7 @@ describe "User management" do
     run_index_round
     @driver.login(@test_user)
 
-    @driver.find_element(:css => "span.user-label").text.should match(/#{@test_user.username}/)
+    expect(@driver.find_element(:css => "span.user-label").text).to match(/#{@test_user.username}/)
 
     @driver.logout.login($admin)
 
@@ -66,10 +66,10 @@ describe "User management" do
     @driver.find_paginated_element(:xpath => "//td[contains(text(), '#{@test_user.username}')]/following-sibling::td/div/a").click
 
     @user_props.each do |k,val|
-      assert(5) { @driver.find_element(:css=> "#user_#{k.to_s}_").attribute('value').should match(val) }
+      assert(5) { expect(@driver.find_element(:css=> "#user_#{k.to_s}_").attribute('value')).to match(val) }
     end
 
-    @driver.find_element(:id, "user_is_admin_" ).attribute("checked").should be_truthy
+    expect(@driver.find_element(:id, "user_is_admin_" ).attribute("checked")).to be_truthy
   end
 
   it "doesn't allow another user to edit the global admin or a system account" do
@@ -88,7 +88,7 @@ describe "User management" do
 
     assert (5) {
       @driver.navigate.to("#{$frontend}/users/1/edit")
-      @driver.find_element(:id, "user_username_").attribute("readonly").should eq("true")
+      expect(@driver.find_element(:id, "user_username_").attribute("readonly")).to eq("true")
     }
   end
 

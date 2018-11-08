@@ -12,7 +12,7 @@ describe 'Collection Management model' do
                                            :repo_id => $repo_id)
 
     cm = CollectionManagement.to_jsonmodel(accession.collection_management.id)
-    cm['parent']['ref'].should eq(accession.uri)
+    expect(cm['parent']['ref']).to eq(accession.uri)
   end
 
 end

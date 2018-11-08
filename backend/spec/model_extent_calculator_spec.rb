@@ -51,14 +51,14 @@ describe 'Extent Calculator model' do
   it "can calculate the total extent for a resource" do
     (resource, grandparent, parent, child) = create_tree(a_bigbox)
     ext_cal = ExtentCalculator.new(resource)
-    ext_cal.total_extent.should eq(bigbox_extent)
+    expect(ext_cal.total_extent).to eq(bigbox_extent)
   end
 
 
   it "can tell you the dimension units it used" do
     (resource, grandparent, parent, child) = create_tree(a_bigbox)
     ext_cal = ExtentCalculator.new(resource)
-    ext_cal.units.should eq(:inches)
+    expect(ext_cal.units).to eq(:inches)
   end
 
 
@@ -66,16 +66,16 @@ describe 'Extent Calculator model' do
     (resource, grandparent, parent, child) = create_tree(a_bigbox)
     ext_cal = ExtentCalculator.new(resource)
     ext_cal.units = :centimeters
-    ext_cal.total_extent.should eq(bigbox_extent*inch_to_cm)
+    expect(ext_cal.total_extent).to eq(bigbox_extent*inch_to_cm)
     ext_cal.units = :feet
-    ext_cal.total_extent.should eq(bigbox_extent*inch_to_feet)
+    expect(ext_cal.total_extent).to eq(bigbox_extent*inch_to_feet)
   end
 
 
   it "tells you how many of each kind of container it found" do
     (resource, grandparent, parent, child) = create_tree(a_bigbox)
     ext_cal = ExtentCalculator.new(resource)
-    ext_cal.containers("big box [18d, 12h, 15w inches] extent measured by width")[:count].should eq(1)
+    expect(ext_cal.containers("big box [18d, 12h, 15w inches] extent measured by width")[:count]).to eq(1)
   end
 
 
@@ -84,7 +84,7 @@ describe 'Extent Calculator model' do
     boxes = create_containers(bigbox_profile, 100)
     create_ao_with_instances(resource, child, boxes)
     ext_cal = ExtentCalculator.new(resource)
-    ext_cal.total_extent.should eq(bigbox_extent*101)
+    expect(ext_cal.total_extent).to eq(bigbox_extent*101)
   end
 
 
@@ -98,11 +98,11 @@ describe 'Extent Calculator model' do
 
     ext_cal = ExtentCalculator.new(resource)
     ext_cal.units = :centimeters
-    ext_cal.total_extent.should eq(bigbox_extent*11*inch_to_cm+21*1.5)
-    ext_cal.containers(big_box_name)[:count].should eq(11)
-    ext_cal.containers(big_box_name)[:extent].should eq(bigbox_extent*11*inch_to_cm)
-    ext_cal.containers(tiny_box_name)[:count].should eq(21)
-    ext_cal.containers(tiny_box_name)[:extent].should eq(21*1.5)
+    expect(ext_cal.total_extent).to eq(bigbox_extent*11*inch_to_cm+21*1.5)
+    expect(ext_cal.containers(big_box_name)[:count]).to eq(11)
+    expect(ext_cal.containers(big_box_name)[:extent]).to eq(bigbox_extent*11*inch_to_cm)
+    expect(ext_cal.containers(tiny_box_name)[:count]).to eq(21)
+    expect(ext_cal.containers(tiny_box_name)[:extent]).to eq(21*1.5)
   end
 
 
@@ -110,7 +110,7 @@ describe 'Extent Calculator model' do
     (resource, grandparent, parent, child) = create_tree(a_bigbox)
     create_ao_with_instances(resource, child, [a_bigbox])
     ext_cal = ExtentCalculator.new(resource)
-    ext_cal.total_extent.should eq(bigbox_extent)
+    expect(ext_cal.total_extent).to eq(bigbox_extent)
   end
 
 
@@ -121,9 +121,9 @@ describe 'Extent Calculator model' do
     more_boxes = create_containers(bigbox_profile, 10)
     egg = create_ao_with_instances(resource, baby, more_boxes)
     ext_cal = ExtentCalculator.new(ArchivalObject[baby.id])
-    ext_cal.total_extent.should eq(bigbox_extent*20)
+    expect(ext_cal.total_extent).to eq(bigbox_extent*20)
     ext_cal = ExtentCalculator.new(ArchivalObject[egg.id])
-    ext_cal.total_extent.should eq(bigbox_extent*10)
+    expect(ext_cal.total_extent).to eq(bigbox_extent*10)
   end
 
 
@@ -134,12 +134,12 @@ describe 'Extent Calculator model' do
     baby = create_ao_with_instances(resource, child, boxes)
     tiny_boxes = create_containers(tinybox_profile, 21)
     create_ao_with_instances(resource, baby, tiny_boxes)
-    
+
     ext_cal = ExtentCalculator.new(ArchivalObject[parent.id])
     ext_cal.units = :centimeters
 
     ec_hash = ext_cal.to_hash
-    ec_hash[:container_count].should eq(32)
+    expect(ec_hash[:container_count]).to eq(32)
   end
 
 
@@ -155,7 +155,7 @@ describe 'Extent Calculator model' do
   it "warns if it finds one or more containers that don't have container profiles" do
     (resource, grandparent, parent, child) = create_tree(a_box_without_a_profile)
     ext_cal = ExtentCalculator.new(ArchivalObject[child.id])
-    ext_cal.to_hash[:container_without_profile_count].should eq(1)    
+    expect(ext_cal.to_hash[:container_without_profile_count]).to eq(1)
   end
 
 
@@ -173,8 +173,8 @@ describe 'Extent Calculator model' do
 
     (resource, grandparent, parent, child) = create_tree(a_bigbox)
     ext_cal = ExtentCalculator.new(resource)
-    ext_cal.units.should eq(:centimeters)
-    ext_cal.total_extent.should eq(bigbox_extent*inch_to_cm)
+    expect(ext_cal.units).to eq(:centimeters)
+    expect(ext_cal.total_extent).to eq(bigbox_extent*inch_to_cm)
   end
 
 
@@ -185,7 +185,7 @@ describe 'Extent Calculator model' do
     (resource, grandparent, parent, child) = create_tree(a_bigbox)
     ext_cal = ExtentCalculator.new(resource)
     ext_cal.units = :meters
-    ext_cal.total_extent.should eq((bigbox_extent*inch_to_cm/100).round(4))
+    expect(ext_cal.total_extent).to eq((bigbox_extent*inch_to_cm/100).round(4))
   end
 
 
@@ -205,14 +205,14 @@ describe 'Extent Calculator model' do
 
     ext_cal = ExtentCalculator.new(resource)
 
-    ext_cal.total_extent.should eq(metric_box_volume_in_cubic_meters.round(3))
+    expect(ext_cal.total_extent).to eq(metric_box_volume_in_cubic_meters.round(3))
   end
 
 
   it "behaves nicely if there are no containers to count" do
     accession = create_accession()
     ext_cal = ExtentCalculator.new(accession)
-    ext_cal.total_extent.should eq(0)
+    expect(ext_cal.total_extent).to eq(0)
   end
 
 end

@@ -9,7 +9,7 @@ describe "Accessions" do
 
     @coll_mgmt_accession = create(:accession)
     @other_accession = create(:accession, :title => "Link to me")
-   
+
     @archivist_user = create_user(@repo => ['repository-archivists'])
     @manager_user = create_user(@repo => ['repository-managers'])
 
@@ -91,14 +91,14 @@ describe "Accessions" do
 
     # Success!
     assert(5) {
-      @driver.find_element_with_text('//div', /Accession Charles Darwin's second paperclip collection created/).should_not be_nil
+      expect(@driver.find_element_with_text('//div', /Accession Charles Darwin's second paperclip collection created/)).not_to be_nil
     }
 
     @driver.click_and_wait_until_gone(:link => "Charles Darwin's second paperclip collection")
 
     # date should have come across
     date_headings = @driver.blocking_find_elements(:css => '#accession_dates_ .panel-heading')
-    date_headings.length.should eq (1)
+    expect(date_headings.length).to eq (1)
 
     # rights and external doc shouldn't
     @driver.ensure_no_such_element(:id, "accession_rights_statements_")
@@ -118,7 +118,7 @@ describe "Accessions" do
 
     @driver.click_and_wait_until_gone(:link => @accession_title)
 
-    assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
+    assert(5) { expect(@driver.find_element(:css => '.record-pane h2').text).to eq("#{@accession_title} Accession") }
   end
 
 
@@ -130,7 +130,7 @@ describe "Accessions" do
 
     @driver.click_and_wait_until_gone(:link => @accession_title)
 
-    assert(5) { @driver.find_element(:css => 'body').text.should match(/Here is a description of this accession/) }
+    assert(5) { expect(@driver.find_element(:css => 'body').text).to match(/Here is a description of this accession/) }
   end
 
 
@@ -140,7 +140,7 @@ describe "Accessions" do
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
-    }.to_not raise_error
+    }.not_to raise_error
 
     # cancel first to back out bad change
     @driver.click_and_wait_until_gone(:link => "Cancel")
@@ -162,17 +162,17 @@ describe "Accessions" do
 
     @driver.click_and_wait_until_gone(:link => @accession_title)
 
-    assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession") }
+    assert(5) { expect(@driver.find_element(:css => '.record-pane h2').text).to eq("#{@accession_title} Accession") }
   end
 
 
   it "can see two extents on the saved Accession" do
     extent_headings = @driver.blocking_find_elements(:css => '#accession_extents_ .panel-heading')
 
-    extent_headings.length.should eq (2)
+    expect(extent_headings.length).to eq (2)
 
-    assert(5) { extent_headings[0].text.should eq ("5 Volumes") }
-    assert(5) { extent_headings[1].text.should eq ("10 Cassettes") }
+    assert(5) { expect(extent_headings[0].text).to eq ("5 Volumes") }
+    assert(5) { expect(extent_headings[1].text).to eq ("10 Cassettes") }
   end
 
 
@@ -186,13 +186,13 @@ describe "Accessions" do
     @driver.click_and_wait_until_gone(:link => @accession_title)
 
     extent_headings = @driver.blocking_find_elements(:css => '#accession_extents_ .panel-heading')
-    extent_headings.length.should eq (1)
-    assert(5) { extent_headings[0].text.should eq ("10 Cassettes") }
+    expect(extent_headings.length).to eq (1)
+    assert(5) { expect(extent_headings[0].text).to eq ("10 Cassettes") }
   end
 
 
   it "can link an accession to an agent as a subject" do
-    create(:agent_person, 
+    create(:agent_person,
            :names => [build(:name_person,
                             :name_order => "inverted",
                             :primary_name => "Subject Agent #{@me}",
@@ -207,7 +207,7 @@ describe "Accessions" do
     @driver.find_element(:id => "accession_linked_agents__0__role_").select_option("subject")
 
     token_input = @driver.find_element(:id, "token-input-accession_linked_agents__0__ref_")
-    @driver.typeahead_and_select( token_input, "Subject Agent" ) 
+    @driver.typeahead_and_select( token_input, "Subject Agent" )
 
     @driver.find_element(:css, "#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)").click
     @driver.find_element(:css, "#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)").click
@@ -219,7 +219,7 @@ describe "Accessions" do
 
     @driver.click_and_wait_until_gone(:link => @accession_title)
 
-    @driver.find_element(:id => 'accession_linked_agents_').text.should match(/LinkedAgentTerm/)
+    expect(@driver.find_element(:id => 'accession_linked_agents_').text).to match(/LinkedAgentTerm/)
   end
 
 
@@ -232,7 +232,7 @@ describe "Accessions" do
 
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - That ID is already in use/)
-    }.to_not raise_error
+    }.not_to raise_error
 
     @driver.click_and_wait_until_gone(:link => "Cancel")
     @driver.click_and_wait_until_gone(:link => "Cancel")
@@ -273,7 +273,7 @@ describe "Accessions" do
     # fail!
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /must not be before begin/)
-    }.to_not raise_error
+    }.not_to raise_error
 
     # fix!
     @driver.clear_and_send_keys([:id, "accession_dates__1__end_"], "2013-05-14")
@@ -285,7 +285,7 @@ describe "Accessions" do
 
     # check dates
     date_headings = @driver.blocking_find_elements(:css => '#accession_dates_ .panel-heading')
-    date_headings.length.should eq (2)
+    expect(date_headings.length).to eq (2)
   end
 
 
@@ -302,7 +302,7 @@ describe "Accessions" do
     # check remaining date
     @driver.click_and_wait_until_gone(:link => @dates_accession_title)
     date_headings = @driver.blocking_find_elements(:css => '#accession_dates_ .panel-heading')
-    date_headings.length.should eq (1)
+    expect(date_headings.length).to eq (1)
   end
 
 
@@ -338,7 +338,7 @@ describe "Accessions" do
 
     # check external documents
     external_document_sections = @driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
-    external_document_sections.length.should eq (2)
+    expect(external_document_sections.length).to eq (2)
     external_document_sections[0].find_element(:link => "http://archivesspace.org")
   end
 
@@ -357,7 +357,7 @@ describe "Accessions" do
 
     # check remaining external documents
     external_document_sections = @driver.blocking_find_elements(:css => '#accession_external_documents_ .external-document')
-    external_document_sections.length.should eq (1)
+    expect(external_document_sections.length).to eq (1)
   end
 
 
@@ -390,7 +390,7 @@ describe "Accessions" do
 
     @driver.click_and_wait_until_gone(:link => @exdocs_accession_title)
 
-    assert(5) { @driver.find_element(:css => "#accession_subjects_ .token").text.should eq("#{@me}AccessionTermABC -- #{@me}AccessionTermDEF") }
+    assert(5) { expect(@driver.find_element(:css => "#accession_subjects_ .token").text).to eq("#{@me}AccessionTermABC -- #{@me}AccessionTermDEF") }
   end
 
 
@@ -475,7 +475,7 @@ describe "Accessions" do
   end
 
 
-  it "can create an accession which is linked to another accession" do   
+  it "can create an accession which is linked to another accession" do
     @driver.go_home
     @driver.find_element(:link, "Create").click
     @driver.click_and_wait_until_gone(:link, "Accession")
@@ -511,7 +511,7 @@ describe "Accessions" do
       @driver.find_element_with_text('//td', /#{@accession_title}/)
       @driver.find_element_with_text('//td', /#{@dates_accession_title}/)
       @driver.find_element_with_text('//td', /#{@exdocs_accession_title}/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -533,12 +533,12 @@ describe "Accessions" do
     @driver.find_element(:css, ".record-toolbar .btn.multiselect-enabled").click
     @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
 
-    assert(5) { @driver.find_element(:css => ".alert.alert-success").text.should eq("Records deleted") }
+    assert(5) { expect(@driver.find_element(:css => ".alert.alert-success").text).to eq("Records deleted") }
 
     # refresh the indexer and the page to make sure it stuck
     run_index_round
     @driver.navigate.refresh
-    assert(5) { @driver.find_element(:css => ".alert.alert-info").text.should eq("No records found") }
+    assert(5) { expect(@driver.find_element(:css => ".alert.alert-info").text).to eq("No records found") }
   end
 
 end

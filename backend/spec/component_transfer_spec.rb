@@ -24,17 +24,17 @@ describe "Resource Component Transfer Endpoint" do
 
     object = create(:json_archival_object, :resource => {:ref => @resource_alpha.uri})
 
-    object.resource['ref'].should eq(@resource_alpha.uri)
+    expect(object.resource['ref']).to eq(@resource_alpha.uri)
 
     response = transfer(@resource_beta, object)
 
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     refreshed_object = JSONModel(:archival_object).find(object.id)
 
-    refreshed_object.resource['ref'].should eq(@resource_beta.uri)
+    expect(refreshed_object.resource['ref']).to eq(@resource_beta.uri)
 
-    JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id).children.length.should eq(1)
+    expect(JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id).children.length).to eq(1)
 
   end
 
@@ -45,8 +45,8 @@ describe "Resource Component Transfer Endpoint" do
 
     response = transfer(@resource_alpha, build(:json_archival_object, :uri => fake_uri))
 
-    response.code.should eq('404')
-    response.body.should match(/That which does not exist cannot be moved/)
+    expect(response.code).to eq('404')
+    expect(response.body).to match(/That which does not exist cannot be moved/)
   end
 
 
@@ -59,8 +59,8 @@ describe "Resource Component Transfer Endpoint" do
 
     response = transfer(@resource_beta, object_alpha)
 
-    response.code.should eq('400')
-    response.body.should match (/unique to its resource/)
+    expect(response.code).to eq('400')
+    expect(response.body).to match (/unique to its resource/)
   end
 
 
@@ -71,7 +71,7 @@ describe "Resource Component Transfer Endpoint" do
 
     transfer(@resource_beta, parent)
 
-    JSONModel(:archival_object).find(child.id).resource['ref'].should eq(@resource_beta.uri)
+    expect(JSONModel(:archival_object).find(child.id).resource['ref']).to eq(@resource_beta.uri)
 
   end
 
@@ -83,11 +83,11 @@ describe "Resource Component Transfer Endpoint" do
 
     transfer(@resource_beta, child)
 
-    JSONModel(:archival_object).find(child.id).resource['ref'].should eq(@resource_beta.uri)
+    expect(JSONModel(:archival_object).find(child.id).resource['ref']).to eq(@resource_beta.uri)
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id)
 
-    tree.children.length.should eq(1)
+    expect(tree.children.length).to eq(1)
   end
 
   it "can move objects to the next available spot in the tree" do
@@ -95,12 +95,12 @@ describe "Resource Component Transfer Endpoint" do
     parent = create(:json_archival_object, :resource => {:ref => @resource_alpha.uri})
     child = create(:json_archival_object, :parent => {:ref => parent.uri}, :resource => {:ref => @resource_alpha.uri})
 
-    transfer(@resource_beta, child).code.should eq('200')
-    transfer(@resource_beta, parent).code.should eq('200')
+    expect(transfer(@resource_beta, child).code).to eq('200')
+    expect(transfer(@resource_beta, parent).code).to eq('200')
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource_beta.id)
 
-    tree.children.length.should eq(2)
+    expect(tree.children.length).to eq(2)
   end
 
 
@@ -112,11 +112,11 @@ describe "Resource Component Transfer Endpoint" do
 
     event = JSONModel(:event).find_by_uri(transfer_result['event'])
 
-    event.event_type.should eq("component_transfer")
-    event.linked_records.length.should eq(3)
-    event.linked_records.select{|link| link["role"] === "source"}.first["ref"].should eq(@resource_alpha.uri)
-    event.linked_records.select{|link| link["role"] === "outcome"}.first["ref"].should eq(@resource_beta.uri)
-    event.linked_records.select{|link| link["role"] === "transfer"}.first["ref"].should eq(archival_object.uri)
+    expect(event.event_type).to eq("component_transfer")
+    expect(event.linked_records.length).to eq(3)
+    expect(event.linked_records.select{|link| link["role"] === "source"}.first["ref"]).to eq(@resource_alpha.uri)
+    expect(event.linked_records.select{|link| link["role"] === "outcome"}.first["ref"]).to eq(@resource_beta.uri)
+    expect(event.linked_records.select{|link| link["role"] === "transfer"}.first["ref"]).to eq(archival_object.uri)
   end
 
 
@@ -133,18 +133,18 @@ describe "Resource Component Transfer Endpoint" do
     first_child = JSONModel(:archival_object).find(children.first.id)
     last_child = JSONModel(:archival_object).find(children.last.id)
 
-    last_child.position.should eq(9)
+    expect(last_child.position).to eq(9)
 
     first_child.title = "something else"
 
     expect {
       ArchivalObject[first_child.id].update_from_json(first_child)
-    }.to_not raise_error
+    }.not_to raise_error
 
     expect {
       ArchivalObject[last_child.id].update_from_json(last_child)
-    }.to_not raise_error
+    }.not_to raise_error
 
-    last_child.position.should eq(9)
+    expect(last_child.position).to eq(9)
   end
 end

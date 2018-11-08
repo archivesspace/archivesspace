@@ -49,12 +49,12 @@ describe 'Authentication manager' do
 
 
     it "successfully logs in to a custom provider" do
-      AuthenticationManager.authenticate("hello", "world").should_not eq(nil)
+      expect(AuthenticationManager.authenticate("hello", "world")).not_to be_nil
     end
 
 
     it "handles failed logins against a custom provider" do
-      AuthenticationManager.authenticate("hello", "wrongpass").should eq(nil)
+      expect(AuthenticationManager.authenticate("hello", "wrongpass")).to be_nil
     end
 
 
@@ -76,7 +76,7 @@ describe 'Authentication manager' do
         end
       end
 
-      threads.map(&:value).flatten.find_all(&:nil?).count.should eq(0)
+      expect(threads.map(&:value).flatten.find_all(&:nil?).count).to eq(0)
     end
 
   end
@@ -89,11 +89,11 @@ describe 'Authentication manager' do
 
 
     it "can find a matching user" do
-      AuthenticationManager.matching_usernames("hel").should eq(["hello"])
+      expect(AuthenticationManager.matching_usernames("hel")).to eq(["hello"])
     end
 
     it "can handle no matches" do
-      AuthenticationManager.matching_usernames("garbage").should eq([])
+      expect(AuthenticationManager.matching_usernames("garbage")).to eq([])
     end
   end
 
@@ -110,7 +110,7 @@ describe 'Authentication manager' do
                                             ]
 
       # Still fine
-      AuthenticationManager.authenticate("hello", "world").should_not eq(nil)
+      expect(AuthenticationManager.authenticate("hello", "world")).not_to be_nil
     end
   end
 end

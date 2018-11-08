@@ -8,7 +8,7 @@ describe "Search" do
 
     @accession = create(:accession,
                         :title => "A test accession #{Time.now.to_i}_#{$$}")
-    
+
     @accession2 = create(:accession,
                         :title => "Another test accession #{Time.now.to_i}_#{$$}",
                         :content_description => "old moldy newspapers found in a dumpster")
@@ -41,14 +41,14 @@ describe "Search" do
     assert(5) { @driver.find_element_with_text("//td", /#{@accession.title}/) }
     assert(5) { @driver.find_element_with_text("//td", /#{@accession2.title}/) }
   end
-  
+
   it "supports some basic fulltext search globally" do
     @driver.clear_and_send_keys([:id => "global-search-box"], 'newspapers')
     @driver.find_element(:id, 'global-search-button').click
     assert(5) { @driver.find_element_with_text('//div', /Showing 1.* of.*Results/) }
     assert(5) { @driver.find_element_with_text("//td", /#{@accession2.title}/) }
   end
-    
+
 
 end
 
@@ -178,7 +178,7 @@ describe "Advanced Search" do
   it "clear resets the fields" do
     @driver.click_and_wait_until_gone(:css => ".advanced-search .reset-advanced-search")
 
-    @driver.find_element(:id => "v0").attribute("value").should eq("")
+    expect(@driver.find_element(:id => "v0").attribute("value")).to eq("")
   end
 
   it "allow adding of mulitple rows of the same type" do

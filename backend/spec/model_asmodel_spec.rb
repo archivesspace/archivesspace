@@ -18,7 +18,7 @@ describe 'ASModel' do
     expect {
       TestModel.set_model_scope(:global)
       TestModel.set_model_scope(:repository)
-    }.to_not raise_error
+    }.not_to raise_error
 
     expect {
       TestModel.set_model_scope(:banana)
@@ -57,7 +57,7 @@ describe 'ASModel' do
     URIResolver.resolve_references(Resource.to_jsonmodel(resource[:id]), ['top_container'])['instances'][0]["sub_container"]['top_container']['_resolved']
     posttime = res['system_mtime']
 
-    expect(pretime).to_not match(posttime)
+    expect(pretime).not_to match(posttime)
   end
 
 
@@ -72,7 +72,7 @@ describe 'ASModel' do
       rep2 = make_test_repo("anotherrepo")
       create(:user, :username => 'nobody')
       as_test_user('nobody') do
-        Accession.any_repo[acc.id].should eq(nil)
+        expect(Accession.any_repo[acc.id]).to be_nil
       end
     ensure
       RequestContext.put(:enforce_suppression, enf_sup_orig)

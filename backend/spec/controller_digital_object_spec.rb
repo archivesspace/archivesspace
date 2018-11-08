@@ -5,7 +5,7 @@ describe 'Digital Objects controller' do
   it "lets you create a digital object and get it back" do
     id = create_digital_object("title" => "a digital object").id
 
-    JSONModel(:digital_object).find(id).title.should eq("a digital object")
+    expect(JSONModel(:digital_object).find(id).title).to eq("a digital object")
   end
 
 
@@ -17,14 +17,14 @@ describe 'Digital Objects controller' do
     digital_object.title = "an updated digital object"
     digital_object.save
 
-    JSONModel(:digital_object).find(id).title.should eq("an updated digital object")
+    expect(JSONModel(:digital_object).find(id).title).to eq("an updated digital object")
   end
 
 
   it "can give a list of digital objects" do
     create(:json_digital_object)
     create(:json_digital_object)
-    JSONModel(:digital_object).all(:page => 1)['results'].count.should eq(3)
+    expect(JSONModel(:digital_object).all(:page => 1)['results'].count).to eq(3)
   end
 
 
@@ -47,8 +47,8 @@ describe 'Digital Objects controller' do
 
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id).to_hash
 
-    tree['children'][0]['record_uri'].should eq(docs[0].uri)
-    tree['children'][0]['children'][0]['record_uri'].should eq(docs[1].uri)
+    expect(tree['children'][0]['record_uri']).to eq(docs[0].uri)
+    expect(tree['children'][0]['children'][0]['record_uri']).to eq(docs[1].uri)
   end
 
 
@@ -65,7 +65,7 @@ describe 'Digital Objects controller' do
     doc2.save
 
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
-    tree.children.length.should eq(2)
+    expect(tree.children.length).to eq(2)
   end
 
 
@@ -76,8 +76,8 @@ describe 'Digital Objects controller' do
 
     created = JSONModel(:digital_object).find(digital_object.id)
 
-    created.file_versions.count.should eq(1)
-    created.file_versions[0]['file_uri'].should eq(version.file_uri)
+    expect(created.file_versions.count).to eq(1)
+    expect(created.file_versions[0]['file_uri']).to eq(version.file_uri)
   end
 
 
@@ -92,7 +92,7 @@ describe 'Digital Objects controller' do
     digobj.title = "updated"
     digobj.save
 
-    JSONModel(:resource).find(resource.id).instances.count.should be(1)
+    expect(JSONModel(:resource).find(resource.id).instances.count).to be(1)
   end
 
 
@@ -119,16 +119,16 @@ describe 'Digital Objects controller' do
 
 
     digital_object = JSONModel(:digital_object).find(digital_object.id)
-    digital_object.publish.should eq(true)
-    digital_object.external_documents[0]["publish"].should eq(true)
-    digital_object.file_versions[0]["publish"].should eq(true)
-    digital_object.notes[0]["publish"].should eq(true)
+    expect(digital_object.publish).to be_truthy
+    expect(digital_object.external_documents[0]["publish"]).to be_truthy
+    expect(digital_object.file_versions[0]["publish"]).to be_truthy
+    expect(digital_object.notes[0]["publish"]).to be_truthy
 
     component = JSONModel(:digital_object_component).find(component.id)
-    component.publish.should eq(true)
-    component.external_documents[0]["publish"].should eq(true)
-    component.file_versions[0]["publish"].should eq(true)
-    component.notes[0]["publish"].should eq(true)
+    expect(component.publish).to be_truthy
+    expect(component.external_documents[0]["publish"]).to be_truthy
+    expect(component.file_versions[0]["publish"]).to be_truthy
+    expect(component.notes[0]["publish"]).to be_truthy
   end
 
 
@@ -142,19 +142,19 @@ describe 'Digital Objects controller' do
     response = JSONModel::HTTP::post_form("#{digital_object.uri}/accept_children", {"children[]" => [child_1.uri, child_2.uri], "position" => 0})
     json_response = ASUtils.json_parse(response.body)
 
-    json_response["status"].should eq("Updated")
+    expect(json_response["status"]).to eq("Updated")
 
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
 
-    tree.children.length.should eq(3)
-    tree.children[0]["title"].should eq(child_1["title"])
-    tree.children[0]["record_uri"].should eq(child_1.uri)
+    expect(tree.children.length).to eq(3)
+    expect(tree.children[0]["title"]).to eq(child_1["title"])
+    expect(tree.children[0]["record_uri"]).to eq(child_1.uri)
 
-    tree.children[1]["title"].should eq(child_2["title"])
-    tree.children[1]["record_uri"].should eq(child_2.uri)
+    expect(tree.children[1]["title"]).to eq(child_2["title"])
+    expect(tree.children[1]["record_uri"]).to eq(child_2.uri)
 
-    tree.children[2]["title"].should eq(doc["title"])
-    tree.children[2]["record_uri"].should eq(doc.uri)
+    expect(tree.children[2]["title"]).to eq(doc["title"])
+    expect(tree.children[2]["record_uri"]).to eq(doc.uri)
   end
 
 
@@ -172,15 +172,15 @@ describe 'Digital Objects controller' do
     response = JSONModel::HTTP.post_json(url, children.to_json)
     json_response = ASUtils.json_parse(response.body)
 
-    json_response["status"].should eq("Updated")
+    expect(json_response["status"]).to eq("Updated")
 
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
-    tree.children.length.should eq(2)
+    expect(tree.children.length).to eq(2)
 
     sorted_by_id = tree.children.sort_by{ |x| x["id"]}
 
-    sorted_by_id[0]["title"].should eq(doc_1["title"])
-    sorted_by_id[1]["title"].should eq(doc_2["title"])
+    expect(sorted_by_id[0]["title"]).to eq(doc_1["title"])
+    expect(sorted_by_id[1]["title"]).to eq(doc_2["title"])
   end
 
 
@@ -200,7 +200,7 @@ describe 'Digital Objects controller' do
       sacrificial_do.linked_instances = [{'ref' => resource.uri}, {'ref' => archival_object.uri}]
       sacrificial_do.save
 
-      sacrificial_do.linked_instances.count.should be(2)
+      expect(sacrificial_do.linked_instances.count).to be(2)
 
       sacrificial_do.delete
 
@@ -209,11 +209,11 @@ describe 'Digital Objects controller' do
       }.to raise_error(RecordNotFound)
 
       resource = JSONModel(:resource).find(resource.id)
-      resource.should_not eq(nil)
-      resource.instances.count.should be(0)
+      expect(resource).not_to be_nil
+      expect(resource.instances.count).to be(0)
 
       archival_object = JSONModel(:archival_object).find(archival_object.id)
-      archival_object.should_not eq(nil)
-      archival_object.instances.count.should be(0)
+      expect(archival_object).not_to be_nil
+      expect(archival_object.instances.count).to be(0)
     end
 end

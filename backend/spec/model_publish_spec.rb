@@ -9,8 +9,8 @@ describe 'Record Publishing' do
                                                 'resource' => {'ref' => resource.uri},
                                                 'publish' => true))
 
-    ArchivalObject.to_jsonmodel(obj).publish.should be_truthy
-    ArchivalObject.to_jsonmodel(obj).has_unpublished_ancestor.should be_truthy
+    expect(ArchivalObject.to_jsonmodel(obj).publish).to be_truthy
+    expect(ArchivalObject.to_jsonmodel(obj).has_unpublished_ancestor).to be_truthy
   end
 
 
@@ -26,10 +26,10 @@ describe 'Record Publishing' do
                                                   'parent' => {'ref' => parent.uri},
                                                   'publish' => true))
 
-    ArchivalObject.to_jsonmodel(parent).publish.should be_falsey
-    ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor.should be_falsey
-    ArchivalObject.to_jsonmodel(child).publish.should be_truthy
-    ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor.should be_truthy
+    expect(ArchivalObject.to_jsonmodel(parent).publish).to be_falsey
+    expect(ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor).to be_falsey
+    expect(ArchivalObject.to_jsonmodel(child).publish).to be_truthy
+    expect(ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor).to be_truthy
   end
 
 
@@ -40,8 +40,8 @@ describe 'Record Publishing' do
                                                 'digital_object' => {'ref' => digital_object.uri},
                                                 'publish' => true))
 
-    DigitalObjectComponent.to_jsonmodel(obj).publish.should be_truthy
-    DigitalObjectComponent.to_jsonmodel(obj).has_unpublished_ancestor.should be_truthy
+    expect(DigitalObjectComponent.to_jsonmodel(obj).publish).to be_truthy
+    expect(DigitalObjectComponent.to_jsonmodel(obj).has_unpublished_ancestor).to be_truthy
   end
 
 
@@ -57,10 +57,10 @@ describe 'Record Publishing' do
                                                   'parent' => {'ref' => parent.uri},
                                                   'publish' => true))
 
-    DigitalObjectComponent.to_jsonmodel(parent).publish.should be_falsey
-    DigitalObjectComponent.to_jsonmodel(parent).has_unpublished_ancestor.should be_falsey
-    DigitalObjectComponent.to_jsonmodel(child).publish.should be_truthy
-    DigitalObjectComponent.to_jsonmodel(child).has_unpublished_ancestor.should be_truthy
+    expect(DigitalObjectComponent.to_jsonmodel(parent).publish).to be_falsey
+    expect(DigitalObjectComponent.to_jsonmodel(parent).has_unpublished_ancestor).to be_falsey
+    expect(DigitalObjectComponent.to_jsonmodel(child).publish).to be_truthy
+    expect(DigitalObjectComponent.to_jsonmodel(child).has_unpublished_ancestor).to be_truthy
   end
 
 
@@ -78,10 +78,10 @@ describe 'Record Publishing' do
 
     resource.set_suppressed(true)
 
-    ArchivalObject.to_jsonmodel(parent).publish.should be_truthy
-    ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor.should be_truthy
-    ArchivalObject.to_jsonmodel(child).publish.should be_truthy
-    ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor.should be_truthy
+    expect(ArchivalObject.to_jsonmodel(parent).publish).to be_truthy
+    expect(ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor).to be_truthy
+    expect(ArchivalObject.to_jsonmodel(child).publish).to be_truthy
+    expect(ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor).to be_truthy
   end
 
 
@@ -99,10 +99,10 @@ describe 'Record Publishing' do
 
     parent.set_suppressed(true)
 
-    ArchivalObject.to_jsonmodel(parent).publish.should be_truthy
-    ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor.should be_falsey
-    ArchivalObject.to_jsonmodel(child).publish.should be_truthy
-    ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor.should be_truthy
+    expect(ArchivalObject.to_jsonmodel(parent).publish).to be_truthy
+    expect(ArchivalObject.to_jsonmodel(parent).has_unpublished_ancestor).to be_falsey
+    expect(ArchivalObject.to_jsonmodel(child).publish).to be_truthy
+    expect(ArchivalObject.to_jsonmodel(child).has_unpublished_ancestor).to be_truthy
   end
 
 end

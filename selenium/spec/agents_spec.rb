@@ -111,7 +111,7 @@ describe "Agents" do
 
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
-    assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("My Custom Sort Name Agent") }
+    assert(5) { expect(@driver.find_element(:css => '.record-pane h2').text).to eq("My Custom Sort Name Agent") }
   end
 
 
@@ -142,14 +142,14 @@ describe "Agents" do
     @driver.find_element(:css => "select.related-agent-type").select_option("agent_relationship_associative")
 
     token_input = @driver.find_element(:id, "token-input-agent_related_agents__1__ref_")
-    @driver.typeahead_and_select( token_input, @other_agent.names.first['sort_name'] ) 
+    @driver.typeahead_and_select( token_input, @other_agent.names.first['sort_name'] )
 
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Agent Saved/)
     linked = @driver.find_element(:id, "_agents_people_#{@other_agent.id}").text.sub(/\n.*/, '')
 
-    linked.should eq(@other_agent.names[0]['sort_name'])
+    expect(linked).to eq(@other_agent.names[0]['sort_name'])
   end
 
 
@@ -179,7 +179,7 @@ describe "Agents" do
 
     # check external documents
     external_document_sections = @driver.blocking_find_elements(:css => '#agent_person_external_documents .external-document')
-    external_document_sections.length.should eq (1)
+    expect(external_document_sections.length).to eq (1)
     external_document_sections[0].find_element(:link => "http://archivesspace.org")
   end
 
@@ -231,15 +231,15 @@ describe "Agents" do
     notes[0].find_element(:css => '.collapse-subrecord-toggle').click
 
     # Add a sub note
-    @driver.scroll_into_view(notes[0])  
-    sleep 1 
-    i = 0 
-    begin 
-      notes[0].find_element(:css => '.subrecord-form-heading .btn.add-sub-note-btn:not(.show-all)').click 
+    @driver.scroll_into_view(notes[0])
+    sleep 1
+    i = 0
+    begin
+      notes[0].find_element(:css => '.subrecord-form-heading .btn.add-sub-note-btn:not(.show-all)').click
       el = notes[0].find_element_orig(:css => 'select.bioghist-note-type')
       el.select_option('note_outline')
     rescue Selenium::WebDriver::Error::NoSuchElementError => e
-      if i < 5 
+      if i < 5
         i+= 1
         redo
       else
@@ -276,7 +276,7 @@ describe "Agents" do
 
     expect {
       @driver.find_paginated_element(:xpath => "//td[contains(text(), 'My Custom Sort Name')]")
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 

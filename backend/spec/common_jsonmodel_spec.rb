@@ -51,12 +51,12 @@ describe 'JSON model' do
 
 
   it "can give a list of models" do
-    JSONModel.models.keys.should include("testschema")
+    expect(JSONModel.models.keys).to include("testschema")
   end
 
 
   it "rreturns nil  if you ask it for a schema source for a non-existent schema" do
-    JSONModel.schema_src("somenonexistenttestschema").should be_nil
+    expect(JSONModel.schema_src("somenonexistenttestschema")).to be_nil
   end
 
 
@@ -74,9 +74,9 @@ describe 'JSON model' do
 
   it "flags errors on invalid values" do
 
-    lambda {
+    expect(lambda {
       JSONModel(:testschema).from_hash({"elt_0" => "/!$"})
-    }.should raise_error(JSONModel::ValidationException)
+    }).to raise_error(JSONModel::ValidationException)
 
   end
 
@@ -89,7 +89,7 @@ describe 'JSON model' do
 
     obj.elt_0 = "a new string"
 
-    JSON[obj.to_json]["elt_0"].should eq("a new string")
+    expect(JSON[obj.to_json]["elt_0"]).to eq("a new string")
 
   end
 
@@ -103,13 +103,13 @@ describe 'JSON model' do
       exception = e
     end
 
-    exception.should_not be_falsey
+    expect(exception).not_to be_falsey
 
     # You can still get at your invalid object if you really want.
-    exception.invalid_object.elt_0.should eq("/!$")
+    expect(exception.invalid_object.elt_0).to eq("/!$")
 
     # And you can get a list of its problems too
-    exception.errors["elt_0"][0].should eq "Did not match regular expression: ^[a-zA-Z0-9 ]*$"
+    expect(exception.errors["elt_0"][0]).to eq "Did not match regular expression: ^[a-zA-Z0-9 ]*$"
 
   end
 
@@ -119,7 +119,7 @@ describe 'JSON model' do
     JSONModel::strict_mode(false)
     model = JSONModel(:testschema).from_hash({})
 
-    model._warnings.keys.should eq(["elt_0"])
+    expect(model._warnings.keys).to eq(["elt_0"])
     JSONModel::strict_mode(true)
 
   end
@@ -146,7 +146,7 @@ describe 'JSON model' do
     JSONModel::strict_mode(false)
 
     model = JSONModel(:strictschema).from_hash({:container => {'lenient' => 'ok'}}, false)
-    model._exceptions[:errors].keys.should eq(["container/strict"])
+    expect(model._exceptions[:errors].keys).to eq(["container/strict"])
 
     JSONModel::strict_mode(true)
   end
@@ -166,7 +166,7 @@ describe 'JSON model' do
 
   it "can have its validation disabled" do
     ts = JSONModel(:testschema).new._always_valid!
-    ts._exceptions.should eq({})
+    expect(ts._exceptions).to eq({})
   end
 
 
@@ -176,7 +176,7 @@ describe 'JSON model' do
 
 
   it "can give a string representation of itself" do
-    JSONModel(:testschema).to_s.should eq "JSONModel(:testschema)"
+    expect(JSONModel(:testschema).to_s).to eq "JSONModel(:testschema)"
   end
 
 
@@ -185,7 +185,7 @@ describe 'JSON model' do
                                             "elt_0" => "helloworld",
                                             "elt_1" => "thisisatest"
                                           })
-    ts.to_s.should match /\#<JSONModel\(:testschema\).*"elt_0"=>"helloworld".*>/
+    expect(ts.to_s).to match /\#<JSONModel\(:testschema\).*"elt_0"=>"helloworld".*>/
   end
 
 
@@ -203,7 +203,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:elt_2] = "a value has been set"
-    ts[:elt_2].should eq "a value has been set"
+    expect(ts[:elt_2]).to eq "a value has been set"
 
   end
 
@@ -214,8 +214,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts.add_error("elt_0", "'hello world' is two words, you squashed them together")
-    ts._exceptions[:errors]["elt_0"].include?("'hello world' is two words, you squashed them together")
-      .should be_truthy
+    expect(ts._exceptions[:errors]["elt_0"].include?("'hello world' is two words, you squashed them together")).to be_truthy
   end
 
 
@@ -233,7 +232,7 @@ describe 'JSON model' do
 
   it "can set the current backend session token and get it back" do
     JSONModel::HTTP.current_backend_session = 'moo'
-    JSONModel::HTTP.current_backend_session.should eq('moo')
+    expect(JSONModel::HTTP.current_backend_session).to eq('moo')
   end
 
 
@@ -244,7 +243,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:no_shorty] = "meep"
-    ts._exceptions[:errors].keys.should eq (["no_shorty"])
+    expect(ts._exceptions[:errors].keys).to eq (["no_shorty"])
 
   end
 
@@ -256,7 +255,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:shorty] = "waaaaaaaay too long dude"
-    ts._exceptions[:errors].keys.should eq (["shorty"])
+    expect(ts._exceptions[:errors].keys).to eq (["shorty"])
 
   end
 
@@ -268,7 +267,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:wants_integer] = "meep"
-    ts._exceptions[:errors].keys.should eq (["wants_integer"])
+    expect(ts._exceptions[:errors].keys).to eq (["wants_integer"])
 
   end
 
@@ -280,7 +279,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:wants_testschema_object] = "actually just a string"
-    ts._exceptions[:errors].keys.should eq (["wants_testschema_object"])
+    expect(ts._exceptions[:errors].keys).to eq (["wants_testschema_object"])
 
   end
 
@@ -292,7 +291,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:wants_this_or_that_schema] = "actually just a string"
-    ts._exceptions[:errors].keys.should eq (["wants_this_or_that_schema"])
+    expect(ts._exceptions[:errors].keys).to eq (["wants_this_or_that_schema"])
   end
 
 
@@ -303,7 +302,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:wants_red_green_or_blue] = "yellow"
-    ts._exceptions[:errors].keys.should eq (["wants_red_green_or_blue"])
+    expect(ts._exceptions[:errors].keys).to eq (["wants_red_green_or_blue"])
   end
 
 
@@ -312,7 +311,7 @@ describe 'JSON model' do
     begin
       JSONModel(:testschema).from_hash({"elt_0" => "/!$"})
     rescue JSONModel::ValidationException => ve
-      ve.to_s.should match /^\#<:ValidationException: /
+      expect(ve.to_s).to match /^\#<:ValidationException: /
     end
 
   end
@@ -325,7 +324,7 @@ describe 'JSON model' do
                                             "elt_1" => "thisisatest"
                                           })
     ts[:wants_uri_or_object] = ["not", "a", "string", "or", "a", "hash"]
-    ts._exceptions[:errors].keys.should eq(["wants_uri_or_object"])
+    expect(ts._exceptions[:errors].keys).to eq(["wants_uri_or_object"])
 
   end
 
@@ -339,7 +338,7 @@ describe 'JSON model' do
 
     # it's not clear to me how @errors would legitimately be set
     ts.instance_variable_set(:@errors, {"a_terrible_thing" => "happened earlier"})
-    ts._exceptions[:errors].keys.should eq(["a_terrible_thing"])
+    expect(ts._exceptions[:errors].keys).to eq(["a_terrible_thing"])
 
   end
 
@@ -372,7 +371,7 @@ describe 'JSON model' do
                                                        "dimensions" => ""}]})
 
     rescue JSONModel::ValidationException => e
-      e.errors.keys.sort.should eq(["notes/0/content",
+      expect(e.errors.keys.sort).to eq(["notes/0/content",
                                     "notes/1/subnotes/0/items/0" # wrong type
                                    ])
     end
@@ -390,7 +389,7 @@ describe 'JSON model' do
                                                     "vocabulary" => "/vocabularies/1"
                                                   }]})
     rescue JSONModel::ValidationException => e
-      e.errors.keys.sort.should eq(["terms/0/term"])
+      expect(e.errors.keys.sort).to eq(["terms/0/term"])
     end
 
   end
@@ -401,7 +400,7 @@ describe 'JSON model' do
     begin
       create(:json_resource, {:language => nil})
     rescue JSONModel::ValidationException => ve
-      ve.to_s.should match /^\#<:ValidationException: /
+      expect(ve.to_s).to match /^\#<:ValidationException: /
     end
 
     # Abstract archival object don't allow language to be klingon
@@ -412,7 +411,7 @@ describe 'JSON model' do
     # Abstract archival objects do allow language to be nil
     expect {
       create(:json_archival_object, {:language => nil})
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -427,7 +426,7 @@ describe 'JSON model' do
     term.term_type = 'other_unmapped'
     expect {
       term.to_hash
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -473,7 +472,7 @@ describe 'JSON model' do
 
     threads.each do |t|
       t.join
-      t.value.should eq(:ok)
+      expect(t.value).to eq(:ok)
     end
   end
 
@@ -514,8 +513,8 @@ describe 'JSON model' do
 
     hash = obj.to_hash_with_translated_enums(['language_iso639_2', 'linked_agent_role'])
 
-    hash['language'].should eq("English")
-    hash['linked_agents'].first['role'].should eq("Creator");
+    expect(hash['language']).to eq("English")
+    expect(hash['linked_agents'].first['role']).to eq("Creator");
   end
 
 end

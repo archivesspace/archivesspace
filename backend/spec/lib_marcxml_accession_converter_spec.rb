@@ -169,42 +169,42 @@ END
       @subjects = parsed.select{|r| r['jsonmodel_type'] == 'subject'}
 
       parsed2 = convert(test_doc_2)
-      @accession2 = parsed2.last      
+      @accession2 = parsed2.last
     end
 
 
     it "creates an Accession instead of a Resource" do
-      @accession['jsonmodel_type'].should eq("accession")
+      expect(@accession['jsonmodel_type']).to eq("accession")
     end
 
     it "maps field 506 to accession['access_restrictions_note']" do
-      @accession['access_restrictions_note'].should eq("SF 3 SF C SF X")
+      expect(@accession['access_restrictions_note']).to eq("SF 3 SF C SF X")
     end
 
     it "maps field 245 to accession['title']" do
-      @accession['title'].should eq("SF A : [SF H] SF N / SF C")
+      expect(@accession['title']).to eq("SF A : [SF H] SF N / SF C")
     end
 
     it "maps field 520 to accession.content_description" do
-      @accession['content_description'].should eq("SF A SF B SF C");
+      expect(@accession['content_description']).to eq("SF A SF B SF C");
     end
 
     it "maps field 540 to accession.use_restrictions_note" do
-      @accession['use_restrictions_note'].should eq("SF A");
+      expect(@accession['use_restrictions_note']).to eq("SF A");
     end
 
     it "maps field 541 and 561 to accession.content_description" do
-      @accession['provenance'].should eq("541 SF A 561 SF A");
+      expect(@accession['provenance']).to eq("541 SF A 561 SF A");
     end
 
     it "sets use_restrictions based on 540" do
-      @accession['use_restrictions'].should be_truthy
-      @accession2['use_restrictions'].should be_falsey
+      expect(@accession['use_restrictions']).to be_truthy
+      expect(@accession2['use_restrictions']).to be_falsey
     end
 
     it "sets access_restrictions based on 506@ind1" do
-      @accession['access_restrictions'].should be_falsey
-      @accession2['access_restrictions'].should be_truthy
+      expect(@accession['access_restrictions']).to be_falsey
+      expect(@accession2['access_restrictions']).to be_truthy
     end
   end
 end

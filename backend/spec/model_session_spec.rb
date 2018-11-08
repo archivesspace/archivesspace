@@ -10,7 +10,7 @@ describe 'Session model' do
     mysession.save
 
     samesession = Session.find(id)
-    samesession["hello"].should eq("world")
+    expect(samesession["hello"]).to eq("world")
   end
 
 
@@ -26,7 +26,7 @@ describe 'Session model' do
 
     session_data.each do |session_id, stored_data|
       s = Session.find(session_id)
-      s["data"].should eq stored_data
+      expect(s["data"]).to eq stored_data
     end
   end
 
@@ -43,14 +43,14 @@ describe 'Session model' do
     s.touch; Session.touch_pending_sessions(next_time)
     next_age = Session.find(s.id).age
 
-    (next_age - first_age).abs.should eq(10)
+    expect((next_age - first_age).abs).to eq(10)
   end
 
 
   it "can be expired" do
     s = Session.new
     Session.expire(s.id)
-    Session.find(s.id).should be_nil
+    expect(Session.find(s.id)).to be_nil
   end
 
   it "expires expirable sessions after :session_expire_after_seconds" do
@@ -69,8 +69,8 @@ describe 'Session model' do
     sleep 1
 
     Session.expire_old_sessions
-    Session.find(short_session.id).should be_nil
-    Session.find(long_session.id).should_not be_nil
+    expect(Session.find(short_session.id)).to be_nil
+    expect(Session.find(long_session.id)).not_to be_nil
   end
 
   it "expires non-expirable sessions after :session_nonexpirable_force_expire_after_seconds" do
@@ -86,7 +86,7 @@ describe 'Session model' do
     sleep 1
 
     Session.expire_old_sessions
-    Session.find(long_session.id).should be_nil
+    expect(Session.find(long_session.id)).to be_nil
   end
 
 end

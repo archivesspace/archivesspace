@@ -7,7 +7,7 @@ describe 'Container Profile controller' do
     cp.name = "cp-01"
     cp.save
 
-    JSONModel(:container_profile).find(cp.id).name.should eq("cp-01")
+    expect(JSONModel(:container_profile).find(cp.id).name).to eq("cp-01")
 
   end
 
@@ -21,7 +21,7 @@ describe 'Container Profile controller' do
     cp_retrieved.name = "cp-02"
     cp_retrieved.save
 
-    JSONModel(:container_profile).find(cp_retrieved.id).name.should eq("cp-02")
+    expect(JSONModel(:container_profile).find(cp_retrieved.id).name).to eq("cp-02")
   end
 
 
@@ -29,7 +29,7 @@ it "allows container profiles to be deleted" do
     cp = create(:json_container_profile)
     cp.name = "cp-01"
     cp.save
-    JSONModel(:container_profile).find(cp.id).name.should eq("cp-01")
+    expect(JSONModel(:container_profile).find(cp.id).name).to eq("cp-01")
     cp.delete
 
     expect {
@@ -47,10 +47,10 @@ it "allows container profiles to be deleted" do
 
 
   it "can give a list of container profiles" do
-    5.times do 
+    5.times do
       create(:json_container_profile)
-    end  
-    JSONModel(:container_profile).all(:page => 1)['results'].count.should eq(5)
+    end
+    expect(JSONModel(:container_profile).all(:page => 1)['results'].count).to eq(5)
   end
 
 end

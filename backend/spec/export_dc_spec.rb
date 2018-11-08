@@ -1,8 +1,8 @@
 require_relative 'export_spec_helper'
 
 # Background: These specs are the result of an attempt to interpret
-# mappings included in documentation for the Archivists' Toolkit. 
-# Where it was  possible to do so, they have been transposed from a 
+# mappings included in documentation for the Archivists' Toolkit.
+# Where it was  possible to do so, they have been transposed from a
 # file downloaded from:
 # http://archiviststoolkit.org/sites/default/files/ATexports_2008_10_08.xls
 
@@ -99,7 +99,7 @@ describe "Exported Dublin Core metadata" do
 
 
   it "has the correct namespaces" do
-    @dc.should have_namespaces({
+    expect(@dc).to have_namespaces({
                                    "xmlns" => "http://purl.org/dc/elements/1.1/",
                                    "xmlns:dcterms" => "http://purl.org/dc/terms/",
                                    "xmlns:xlink" => "http://www.w3.org/1999/xlink",
@@ -110,92 +110,92 @@ describe "Exported Dublin Core metadata" do
 
   it "points to the right schemas" do
     schema_locations = "http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/qdc/2006/01/06/dc.xsd http://purl.org/dc/terms/ http://dublincore.org/schemas/xmls/qdc/2006/01/06/dcterms.xsd".split(" ").sort.join(" ")
-    @dc.xpath("xmlns:dc", @dc.namespaces).attr("xsi:schemaLocation").value.split(" ").sort.join(" ").should eq(schema_locations)
+    expect(@dc.xpath("xmlns:dc", @dc.namespaces).attr("xsi:schemaLocation").value.split(" ").sort.join(" ")).to eq(schema_locations)
   end
 
 
   describe "Dublin Core mappings" do
 
     it "maps language to language" do
-      @dc.should have_tag "dc/language" => @digital_object.language
+      expect(@dc).to have_tag "dc/language" => @digital_object.language
     end
 
 
     it "maps dates to date" do
       @digital_object.dates.each do |date|
         date_value = date['expression'] ? date['expression'] : [date['begin'], date['end']].compact.join(" - ")
-        @dc.should have_tag "dc/date" => date_value
+        expect(@dc).to have_tag "dc/date" => date_value
       end
     end
 
 
     it "maps creator agent to creator" do
       @agent_person.names.each do |name|
-        @dc.should have_tag "dc/creator" => name['sort_name']
+        expect(@dc).to have_tag "dc/creator" => name['sort_name']
       end
     end
 
 
     it "maps subject agent to subject" do
       @subject_person.names.each do |name|
-        @dc.should have_tag "dc/subject" => name['sort_name']
+        expect(@dc).to have_tag "dc/subject" => name['sort_name']
       end
     end
 
 
     it "maps note of type bioghist to description" do
       bioghist_note = get_notes_by_type(@digital_object, 'bioghist')[0]
-      @dc.should have_tag "dc/description" => note_content(bioghist_note)
+      expect(@dc).to have_tag "dc/description" => note_content(bioghist_note)
     end
 
 
     it "maps note of type prefercite to description" do
       prefercite_note = get_notes_by_type(@digital_object, 'prefercite')[0]
-      @dc.should have_tag "dc/description" => note_content(prefercite_note)
+      expect(@dc).to have_tag "dc/description" => note_content(prefercite_note)
     end
 
 
     it "maps note of type accessrestrict to rights" do
       accessrestrict_note = get_notes_by_type(@digital_object, 'accessrestrict')[0]
-      @dc.should have_tag "dc/rights" => note_content(accessrestrict_note)
+      expect(@dc).to have_tag "dc/rights" => note_content(accessrestrict_note)
     end
 
 
     it "maps note of type userestrict to rights" do
       userrestrict_note = get_notes_by_type(@digital_object, 'userestrict')[0]
-      @dc.should have_tag "dc/rights" => note_content(userrestrict_note)
+      expect(@dc).to have_tag "dc/rights" => note_content(userrestrict_note)
     end
 
 
     it "maps note of type dimensions to format" do
       userrestrict_note = get_notes_by_type(@digital_object, 'dimensions')[0]
-      @dc.should have_tag "dc/format" => note_content(userrestrict_note)
+      expect(@dc).to have_tag "dc/format" => note_content(userrestrict_note)
     end
 
 
     it "maps note of type physdesc to format" do
       userrestrict_note = get_notes_by_type(@digital_object, 'physdesc')[0]
-      @dc.should have_tag "dc/format" => note_content(userrestrict_note)
+      expect(@dc).to have_tag "dc/format" => note_content(userrestrict_note)
     end
 
 
     it "maps note of type originalsloc to source" do
       userrestrict_note = get_notes_by_type(@digital_object, 'originalsloc')[0]
-      @dc.should have_tag "dc/source" => note_content(userrestrict_note)
+      expect(@dc).to have_tag "dc/source" => note_content(userrestrict_note)
     end
 
 
     it "maps note of type relatedmaterial to relation" do
       userrestrict_note = get_notes_by_type(@digital_object, 'relatedmaterial')[0]
-      @dc.should have_tag "dc/relation" => note_content(userrestrict_note)
+      expect(@dc).to have_tag "dc/relation" => note_content(userrestrict_note)
     end
 
 
     it "maps repository info to description" do
       repo_info = "Digital object made available by #{@repo.name} (#{@repo.url})"
-      @dc.should have_tag "dc/description" => repo_info
+      expect(@dc).to have_tag "dc/description" => repo_info
     end
 
   end
-    
+
 end

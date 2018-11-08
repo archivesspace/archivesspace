@@ -12,13 +12,13 @@ describe 'DB Model' do
       end
     }.to raise_error(RetryTransaction)
 
-    attempt.should eq(5)
+    expect(attempt).to eq(5)
   end
-  
+
   it "Retries transactions on NoExistingObject/OptimisticLocking exception if told to retry on optimistic locking fail" do
 
     attempt = 0
-    
+
     expect {
       supports_mvcc = true
       DB.open( supports_mvcc,  :retry_delay => 0 ) do
@@ -28,7 +28,7 @@ describe 'DB Model' do
     }.to raise_error(Sequel::NoExistingObject)
 
     # the default it 10
-    attempt.should eq(1)
+    expect(attempt).to eq(1)
     attempt = 0
 
     expect {
@@ -40,7 +40,7 @@ describe 'DB Model' do
     }.to raise_error(Sequel::NoExistingObject)
 
     # the default it 10
-    attempt.should eq(10)
+    expect(attempt).to eq(10)
   end
 
 end

@@ -47,7 +47,7 @@ describe 'Enumerations model' do
 
     # As if by magic, the string 'battlemage' has been resolved to an ID linking
     # to the enumeration.
-    obj.values[:role_id].should eq(EnumerationValue[:value => 'battlemage'].id)
+    expect(obj.values[:role_id]).to eq(EnumerationValue[:value => 'battlemage'].id)
   end
 
 
@@ -68,7 +68,7 @@ describe 'Enumerations model' do
     expect {
       Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'another_tomato_enum',
                                                                 :values => ['tomato']))
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -76,7 +76,7 @@ describe 'Enumerations model' do
     tomato = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'not_another_tomato_enum',
                                                                 :values => ['Tomato']))
 
-    Enumeration.to_jsonmodel(tomato)['values'].include?('Tomato').should be(true)
+    expect(Enumeration.to_jsonmodel(tomato)['values'].include?('Tomato')).to be_truthy
   end
 
 
@@ -89,20 +89,20 @@ describe 'Enumerations model' do
     end
 
     RequestContext.open(:create_enums => true) do
-      BackendEnumSource.valid?('case_test_role_enum', 'camel').should be(true)
-      BackendEnumSource.valid?('case_test_role_enum', 'Camel').should be(true)
+      expect(BackendEnumSource.valid?('case_test_role_enum', 'camel')).to be_truthy
+      expect(BackendEnumSource.valid?('case_test_role_enum', 'Camel')).to be_truthy
     end
 
     expect {
       model.new(:role => 'camel')
-    }.to_not raise_error
+    }.not_to raise_error
 
     expect {
       model.new(:role => 'Camel')
-    }.to_not raise_error
+    }.not_to raise_error
 
-    Enumeration.to_jsonmodel(@enum3)['values'].include?('camel').should be(true)
-    Enumeration.to_jsonmodel(@enum3)['values'].include?('Camel').should be(true)
+    expect(Enumeration.to_jsonmodel(@enum3)['values'].include?('camel')).to be_truthy
+    expect(Enumeration.to_jsonmodel(@enum3)['values'].include?('Camel')).to be_truthy
   end
 
 
@@ -113,7 +113,7 @@ describe 'Enumerations model' do
     Enumeration[:name => 'test_role_enum'].migrate('sea cow', 'battlemage')
 
     obj.refresh
-    obj.role.should eq('battlemage')
+    expect(obj.role).to eq('battlemage')
   end
 
 
@@ -167,7 +167,7 @@ describe 'Enumerations model' do
                                 update(:readonly => 1)
 
 
-    Enumeration.to_jsonmodel(enum)['readonly_values'].include?('readonly_apple').should be(true)
+    expect(Enumeration.to_jsonmodel(enum)['readonly_values'].include?('readonly_apple')).to be_truthy
   end
 
 
@@ -181,13 +181,13 @@ describe 'Enumerations model' do
 
     it "can query Enumerations by ID" do
       json = Enumeration.to_jsonmodel(1)
-      expect(json).to_not eq(nil)
+      expect(json).not_to be_nil
       expect(json['id']).to eq(1)
     end
 
     it "allows a query by string" do
       json = Enumeration.to_jsonmodel("test_enum", :query => "name" )
-      expect(json).to_not eq(nil)
+      expect(json).not_to be_nil
       expect(json['name']).to eq('test_enum')
     end
   end

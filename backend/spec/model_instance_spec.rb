@@ -8,8 +8,8 @@ describe 'Instance model' do
 
     instance = Instance.create_from_json(json)
 
-    Instance[instance[:id]].instance_type.should eq(json[:instance_type])
-    Instance[instance[:id]].sub_container.first.type_2.should eq(json[:sub_container][:type_2])
+    expect(Instance[instance[:id]].instance_type).to eq(json[:instance_type])
+    expect(Instance[instance[:id]].sub_container.first.type_2).to eq(json[:sub_container][:type_2])
   end
 
 
@@ -20,8 +20,8 @@ describe 'Instance model' do
 
     instance = Instance.create_from_json(json)
 
-    Instance[instance[:id]].instance_type.should eq(json["instance_type"])
-    Instance[instance[:id]].related_records(:instance_do_link).id.should eq(digital_object.id)
+    expect(Instance[instance[:id]].instance_type).to eq(json["instance_type"])
+    expect(Instance[instance[:id]].related_records(:instance_do_link).id).to eq(digital_object.id)
   end
 
 
@@ -62,7 +62,7 @@ describe 'Instance model' do
 
     create_nobody_user
     as_test_user("nobody") do
-      ArchivalObject.to_jsonmodel(archival_object.id)['instances'].should eq([])
+      expect(ArchivalObject.to_jsonmodel(archival_object.id)['instances']).to eq([])
     end
   end
 
@@ -80,7 +80,7 @@ describe 'Instance model' do
 
     obj = ArchivalObject.find(:id => archival_object.id)
 
-    expect { obj.update_from_json(archival_object) }.to_not raise_error
+    expect { obj.update_from_json(archival_object) }.not_to raise_error
   end
 
 

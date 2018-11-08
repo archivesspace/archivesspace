@@ -38,22 +38,22 @@ describe 'Managed Container restrictions' do
 
     add_restriction_to_record(child)
 
-    box_record.restrictions.count.should eq(1)
+    expect(box_record.restrictions.count).to eq(1)
   end
 
   it "can find active restrictions on a record linked directly to a top container" do
     (resource, grandparent, parent, child) = create_tree(box_json)
     add_restriction_to_record(child, '1990-01-01', '1995-01-01')
 
-    box_record.active_restrictions(double( :today  =>  Date.parse('1993-01-01'))).count.should eq(1)
-    box_record.active_restrictions(double( :today => Date.parse('2000-01-01'))).count.should eq(0)
+    expect(box_record.active_restrictions(double( :today => Date.parse('1993-01-01'))).count).to eq(1)
+    expect(box_record.active_restrictions(double( :today => Date.parse('2000-01-01'))).count).to eq(0)
   end
 
 
   it "applies restrictions from further up the record tree (from an archival object)" do
     (resource, grandparent, parent, child) = create_tree(box_json)
     add_restriction_to_record(grandparent)
-    box_record.restrictions.count.should eq(1)
+    expect(box_record.restrictions.count).to eq(1)
   end
 
 
@@ -61,7 +61,7 @@ describe 'Managed Container restrictions' do
     (resource, grandparent, parent, child) = create_tree(box_json)
 
     add_restriction_to_record(Resource.to_jsonmodel(resource.id))
-    box_record.restrictions.count.should eq(1)
+    expect(box_record.restrictions.count).to eq(1)
   end
 
 
@@ -72,7 +72,7 @@ describe 'Managed Container restrictions' do
     resource_json["instances"] = [build_instance(box_json).to_hash]
     resource.update_from_json(resource_json)
     add_restriction_to_record(Resource.to_jsonmodel(resource.id))
-    box_record.restrictions.count.should eq(1)
+    expect(box_record.restrictions.count).to eq(1)
   end
 
 
@@ -84,12 +84,12 @@ describe 'Managed Container restrictions' do
 
     restriction = json['active_restrictions'].first
 
-    restriction['begin'].should eq('2000-01-01')
-    restriction['end'].should eq('2020-01-01')
-    restriction['local_access_restriction_type'].should eq(["RestrictedSpecColl", "RestrictedCurApprSpecColl",
+    expect(restriction['begin']).to eq('2000-01-01')
+    expect(restriction['end']).to eq('2020-01-01')
+    expect(restriction['local_access_restriction_type']).to eq(["RestrictedSpecColl", "RestrictedCurApprSpecColl",
                                                             "RestrictedFragileSpecColl", "InProcessSpecColl",
                                                             "ColdStorageBrbl"])
-    restriction['linked_records']['ref'].should eq(grandparent.uri)
+    expect(restriction['linked_records']['ref']).to eq(grandparent.uri)
   end
 
 
@@ -105,8 +105,8 @@ describe 'Managed Container restrictions' do
                               nil,
                               nil)
 
-    box_record.restrictions.count.should eq(1)
-    box_record.active_restrictions( double( :today =>  Date.parse('2010-01-01'))).count.should eq(1)
+    expect(box_record.restrictions.count).to eq(1)
+    expect(box_record.active_restrictions( double( :today => Date.parse('2010-01-01'))).count).to eq(1)
   end
 
 
@@ -122,8 +122,8 @@ describe 'Managed Container restrictions' do
                               '2020-01-01',
                               nil)
 
-    box_record.restrictions.count.should eq(1)
-    box_record.active_restrictions( double( :today => Date.parse('2010-01-01'))).count.should eq(1)
+    expect(box_record.restrictions.count).to eq(1)
+    expect(box_record.active_restrictions( double( :today => Date.parse('2010-01-01'))).count).to eq(1)
   end
 
 
@@ -135,8 +135,8 @@ describe 'Managed Container restrictions' do
                               nil,
                               ["RestrictedSpecColl"])
 
-    box_record.restrictions.count.should eq(1)
-    box_record.active_restrictions( double( :today => Date.parse('2010-01-01'))).count.should eq(1)
+    expect(box_record.restrictions.count).to eq(1)
+    expect(box_record.active_restrictions( double( :today => Date.parse('2010-01-01'))).count).to eq(1)
   end
 
 
@@ -148,8 +148,8 @@ describe 'Managed Container restrictions' do
                               '2010-01-01',
                               nil)
 
-    box_record.restrictions.count.should eq(1)
-    box_record.active_restrictions( double( :today => Date.parse('2020-01-01'))).should be_empty
+    expect(box_record.restrictions.count).to eq(1)
+    expect(box_record.active_restrictions( double( :today => Date.parse('2020-01-01')))).to be_empty
   end
 
 
@@ -161,8 +161,8 @@ describe 'Managed Container restrictions' do
                               '2010-01-01',
                               ["RestrictedSpecColl"])
 
-    box_record.restrictions.count.should eq(1)
-    box_record.active_restrictions( double( :today => Date.parse('2020-01-01'))).should be_empty
+    expect(box_record.restrictions.count).to eq(1)
+    expect(box_record.active_restrictions( double( :today => Date.parse('2020-01-01')))).to be_empty
   end
 
 
@@ -174,6 +174,6 @@ describe 'Managed Container restrictions' do
                               '2010-01-01',
                               ["RestrictedSpecColl"])
 
-    box_record.restrictions.first.restriction_note_type.should eq("accessrestrict")
+    expect(box_record.restrictions.first.restriction_note_type).to eq("accessrestrict")
   end
 end

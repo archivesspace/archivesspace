@@ -6,13 +6,13 @@ describe 'Digital Object Component controller' do
     opts = {:title => 'The digital object component title'}
 
     created = create(:json_digital_object_component, opts).id
-    JSONModel(:digital_object_component).find(created).title.should eq(opts[:title])
+    expect(JSONModel(:digital_object_component).find(created).title).to eq(opts[:title])
   end
 
 
   it "lets you list all digital object components" do
     create_list(:json_digital_object_component, 5)
-    JSONModel(:digital_object_component).all(:page => 1)['results'].count.should eq(5)
+    expect(JSONModel(:digital_object_component).all(:page => 1)['results'].count).to eq(5)
   end
 
 
@@ -28,10 +28,10 @@ describe 'Digital Object Component controller' do
                    })
 
     get "#{$repo}/digital_object_components/#{parent.id}/children"
-    last_response.should be_ok
+    expect(last_response).to be_ok
 
     children = JSON(last_response.body)
-    children[0]['title'].should eq('Child')
+    expect(children[0]['title']).to eq('Child')
   end
 
 
@@ -44,7 +44,7 @@ describe 'Digital Object Component controller' do
     doc.title = opts[:title]
     doc.save
 
-    JSONModel(:digital_object_component).find(created.id).title.should eq(opts[:title])
+    expect(JSONModel(:digital_object_component).find(created.id).title).to eq(opts[:title])
   end
 
 
@@ -56,8 +56,8 @@ describe 'Digital Object Component controller' do
 
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
 
-    tree.children[0]["title"].should eq("DOC1")
-    tree.children[1]["title"].should eq("DOC2")
+    expect(tree.children[0]["title"]).to eq("DOC1")
+    expect(tree.children[1]["title"]).to eq("DOC2")
 
     doc_1 = JSONModel(:digital_object_component).find(doc_1.id)
     doc_1.position = 1
@@ -65,8 +65,8 @@ describe 'Digital Object Component controller' do
 
     tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id)
 
-    tree.children[0]["title"].should eq("DOC2")
-    tree.children[1]["title"].should eq("DOC1")
+    expect(tree.children[0]["title"]).to eq("DOC2")
+    expect(tree.children[1]["title"]).to eq("DOC1")
   end
 
 
@@ -77,8 +77,8 @@ describe 'Digital Object Component controller' do
 
     created = JSONModel(:digital_object_component).find(digital_object_component.id)
 
-    created.file_versions.count.should eq(1)
-    created.file_versions[0]['file_uri'].should eq(version.file_uri)
+    expect(created.file_versions.count).to eq(1)
+    expect(created.file_versions[0]['file_uri']).to eq(version.file_uri)
   end
 
 
@@ -92,20 +92,20 @@ describe 'Digital Object Component controller' do
     response = JSONModel::HTTP::post_form("#{target.uri}/accept_children", {"children[]" => [sibling_1.uri, sibling_2.uri], "position" => 0})
     json_response = ASUtils.json_parse(response.body)
 
-    json_response["status"].should eq("Updated")
+    expect(json_response["status"]).to eq("Updated")
     get "#{$repo}/digital_object_components/#{target.id}/children"
-    last_response.should be_ok
+    expect(last_response).to be_ok
 
     children = ASUtils.json_parse(last_response.body)
 
-    children.length.should eq(2)
-    children[0]["title"].should eq(sibling_1["title"])
-    children[0]["parent"]["ref"].should eq(target.uri)
-    children[0]["digital_object"]["ref"].should eq(digital_object.uri)
+    expect(children.length).to eq(2)
+    expect(children[0]["title"]).to eq(sibling_1["title"])
+    expect(children[0]["parent"]["ref"]).to eq(target.uri)
+    expect(children[0]["digital_object"]["ref"]).to eq(digital_object.uri)
 
-    children[1]["title"].should eq(sibling_2["title"])
-    children[1]["parent"]["ref"].should eq(target.uri)
-    children[1]["digital_object"]["ref"].should eq(digital_object.uri)
+    expect(children[1]["title"]).to eq(sibling_2["title"])
+    expect(children[1]["parent"]["ref"]).to eq(target.uri)
+    expect(children[1]["digital_object"]["ref"]).to eq(digital_object.uri)
   end
 
 
@@ -121,10 +121,10 @@ describe 'Digital Object Component controller' do
     })
 
     get "#{$repo}/digital_object_components/#{parent.id}/children"
-    last_response.should be_ok
+    expect(last_response).to be_ok
 
     children = JSON(last_response.body)
-    children[0]['title'].should eq('Child')
+    expect(children[0]['title']).to eq('Child')
   end
 
 
@@ -143,19 +143,19 @@ describe 'Digital Object Component controller' do
     response = JSONModel::HTTP.post_json(url, children.to_json)
     json_response = ASUtils.json_parse(response.body)
 
-    json_response["status"].should eq("Updated")
+    expect(json_response["status"]).to eq("Updated")
     get "#{$repo}/digital_object_components/#{json_response["id"]}/children"
-    last_response.should be_ok
+    expect(last_response).to be_ok
 
     children = JSON(last_response.body)
 
-    children.length.should eq(2)
-    children[0]["title"].should eq(doc_1["title"])
-    children[0]["parent"]["ref"].should eq(parent_component.uri)
-    children[0]["digital_object"]["ref"].should eq(digital_object.uri)
+    expect(children.length).to eq(2)
+    expect(children[0]["title"]).to eq(doc_1["title"])
+    expect(children[0]["parent"]["ref"]).to eq(parent_component.uri)
+    expect(children[0]["digital_object"]["ref"]).to eq(digital_object.uri)
 
-    children[1]["title"].should eq(doc_2["title"])
-    children[1]["parent"]["ref"].should eq(parent_component.uri)
-    children[1]["digital_object"]["ref"].should eq(digital_object.uri)
+    expect(children[1]["title"]).to eq(doc_2["title"])
+    expect(children[1]["parent"]["ref"]).to eq(parent_component.uri)
+    expect(children[1]["digital_object"]["ref"]).to eq(digital_object.uri)
   end
 end

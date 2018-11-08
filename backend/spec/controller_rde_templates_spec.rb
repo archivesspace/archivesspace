@@ -27,8 +27,8 @@ describe "RDE Templates" do
     id = template.save
     obj = JSONModel(:rde_template).find(id)
 
-    obj.defaults['colTitle'].should eq('DEFAULT TITLE')
-    obj.name.should eq('MY TEMPLATE')
+    expect(obj.defaults['colTitle']).to eq('DEFAULT TITLE')
+    expect(obj.name).to eq('MY TEMPLATE')
 
   end
 
@@ -39,7 +39,7 @@ describe "RDE Templates" do
     templates = JSONModel(:rde_template).all
 
     %w(one two three).each do |name|
-      templates.any? {|res| res.name == name}.should == true
+      expect(templates.any? {|res| res.name == name}).to be_truthy
     end
 
   end

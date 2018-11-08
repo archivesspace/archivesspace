@@ -40,7 +40,7 @@ describe 'Implied publication' do
 
       jsons = AgentPerson.sequel_to_jsonmodel([AgentPerson[agent.id], AgentPerson[agent2.id]])
 
-      jsons.all? {|json| json['is_linked_to_published_record']}.should be(true)
+      expect(jsons.all? {|json| json['is_linked_to_published_record']}).to be_truthy
     end
 
     it "a subject record is published if linked to a published record" do
@@ -60,7 +60,7 @@ describe 'Implied publication' do
 
       jsons = Subject.sequel_to_jsonmodel([Subject[subject.id], Subject[subject2.id]])
 
-      jsons.all? {|json| json['is_linked_to_published_record']}.should be(true)
+      expect(jsons.all? {|json| json['is_linked_to_published_record']}).to be_truthy
     end
 
 
@@ -99,7 +99,7 @@ describe 'Implied publication' do
 
       json =  Subject.sequel_to_jsonmodel([Subject[subject.id]])[0]
 
-      json['is_linked_to_published_record'].should be(false)
+      expect(json['is_linked_to_published_record']).to be_falsey
     end
 
 
@@ -148,7 +148,7 @@ describe 'Implied publication' do
 
       json =  Subject.sequel_to_jsonmodel([Subject[subject.id]])[0]
 
-      json['is_linked_to_published_record'].should be(true)
+      expect(json['is_linked_to_published_record']).to be_truthy
     end
 
 
@@ -185,7 +185,7 @@ describe 'Implied publication' do
 
       json = AgentPerson.sequel_to_jsonmodel([AgentPerson[agent.id]])[0]
 
-      json['is_linked_to_published_record'].should be(false)
+      expect(json['is_linked_to_published_record']).to be_falsey
     end
 
 
@@ -202,7 +202,7 @@ describe 'Implied publication' do
 
       json = AgentPerson.sequel_to_jsonmodel([AgentPerson[agent.id]])[0]
 
-      json['is_linked_to_published_record'].should be(false)
+      expect(json['is_linked_to_published_record']).to be_falsey
     end
 
 
@@ -223,7 +223,7 @@ describe 'Implied publication' do
 
       json = AgentPerson.sequel_to_jsonmodel([AgentPerson[agent.id]])[0]
 
-      json['is_linked_to_published_record'].should be(false)
+      expect(json['is_linked_to_published_record']).to be_falsey
     end
 
 
@@ -246,7 +246,7 @@ describe 'Implied publication' do
 
       json = AgentPerson.sequel_to_jsonmodel([AgentPerson[agent.id]])[0]
 
-      json['is_linked_to_published_record'].should be(false)
+      expect(json['is_linked_to_published_record']).to be_falsey
     end
 
 
@@ -284,7 +284,7 @@ describe 'Implied publication' do
 
       json = AgentPerson.sequel_to_jsonmodel([AgentPerson[agent.id]])[0]
 
-      json['is_linked_to_published_record'].should be(true)
+      expect(json['is_linked_to_published_record']).to be_truthy
     end
 
     it "an top container record is unpublished if linked to a unpublished record and a suppressed record" do
@@ -327,7 +327,7 @@ describe 'Implied publication' do
 
       json = TopContainer.sequel_to_jsonmodel([TopContainer[top_container.id]])[0]
 
-      json['is_linked_to_published_record'].should be(false)
+      expect(json['is_linked_to_published_record']).to be_falsey
     end
 
 
@@ -372,7 +372,7 @@ describe 'Implied publication' do
 
       json = TopContainer.sequel_to_jsonmodel([TopContainer[top_container.id]])[0]
 
-      json['is_linked_to_published_record'].should be(true)
+      expect(json['is_linked_to_published_record']).to be_truthy
     end
   end
 
@@ -405,7 +405,7 @@ describe 'Implied publication' do
 
       json =  Subject.sequel_to_jsonmodel([Subject[subject.id]])[0]
 
-      json['is_linked_to_published_record'].should be(false)
+      expect(json['is_linked_to_published_record']).to be_falsey
     end
 
 
@@ -421,7 +421,7 @@ describe 'Implied publication' do
                                          }))
       json = AgentPerson.sequel_to_jsonmodel([AgentPerson[agent.id]])[0]
 
-      json['is_linked_to_published_record'].should be(false)
+      expect(json['is_linked_to_published_record']).to be_falsey
     end
 
 
@@ -449,7 +449,7 @@ describe 'Implied publication' do
 
         json = TopContainer.sequel_to_jsonmodel([TopContainer[top_container.id]])[0]
 
-        json['is_linked_to_published_record'].should be(false)
+        expect(json['is_linked_to_published_record']).to be_falsey
     end
   end
 end

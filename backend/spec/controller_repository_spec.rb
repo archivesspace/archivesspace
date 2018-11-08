@@ -8,8 +8,8 @@ describe 'Repository controller' do
 
       repos = JSONModel(:repository).all
 
-      repos.any? { |repo| repo.repo_code == repo_code }.should == true
-      repos.any? { |repo| repo.repo_code == generate(:repo_code) }.should == false
+      expect(repos.any? { |repo| repo.repo_code == repo_code }).to be_truthy
+      expect(repos.any? { |repo| repo.repo_code == generate(:repo_code) }).to be_falsey
     end
   end
 
@@ -17,7 +17,7 @@ describe 'Repository controller' do
   it "supports creating a repository" do
     repo = create(:json_repo)
 
-    JSONModel(:repository).find(repo.id).repo_code.should eq(repo.repo_code)
+    expect(JSONModel(:repository).find(repo.id).repo_code).to eq(repo.repo_code)
   end
 
 
@@ -26,14 +26,14 @@ describe 'Repository controller' do
     repo.name = "A new name"
     repo.save
 
-    JSONModel(:repository).find(repo.id).name.should eq("A new name")
+    expect(JSONModel(:repository).find(repo.id).name).to eq("A new name")
   end
 
 
   it "can get back a single repository" do
     repo = create(:repo)
 
-    JSONModel(:repository).find(repo.id).repo_code.should eq(repo.repo_code)
+    expect(JSONModel(:repository).find(repo.id).repo_code).to eq(repo.repo_code)
   end
 
 
@@ -58,22 +58,22 @@ describe 'Repository controller' do
     request = Net::HTTP::Get.new(url.request_uri)
     response = JSONModel::HTTP.do_http_request(url, request)
 
-    response.code.should eq("404")
+    expect(response.code).to eq("404")
 
     url = URI("#{JSONModel::HTTP.backend_url}/repositories/#{non_existing_id}")
     request = Net::HTTP::Get.new(url.request_uri)
     response = JSONModel::HTTP.do_http_request(url, request)
 
-    response.code.should eq("404")
+    expect(response.code).to eq("404")
   end
 
 
   it "creating a repository automatically creates the standard set of groups" do
     groups = JSONModel(:group).all.map {|group| group.group_code}
 
-    groups.include?("repository-managers").should == true
-    groups.include?("repository-archivists").should == true
-    groups.include?("repository-viewers").should == true
+    expect(groups.include?("repository-managers")).to be_truthy
+    expect(groups.include?("repository-archivists")).to be_truthy
+    expect(groups.include?("repository-viewers")).to be_truthy
   end
 
 
@@ -91,7 +91,7 @@ describe 'Repository controller' do
       as_test_user(user) do
         expect {
           JSONModel(:enumeration).new('name' => 'hello', 'values' => ['world']).save
-        }.not_to raise_error(AccessDeniedException)
+        }.not_to raise_error
       end
     end
 
@@ -105,7 +105,7 @@ describe 'Repository controller' do
         # No problem requesting a location
         fetched_loc = JSONModel(:location).find(loc.id)
 
-        fetched_loc.building.should eq(loc.building)
+        expect(fetched_loc.building).to eq(loc.building)
 
         # but update isn't allowed
         expect {
@@ -163,8 +163,8 @@ describe 'Repository controller' do
 
       victim_repo.delete
 
-      Repository[:id => victim_repo.id].should be(nil)
-      Group.filter(:repo_id => victim_repo.id).count.should be(0)
+      expect(Repository[:id => victim_repo.id]).to be_nil
+      expect(Group.filter(:repo_id => victim_repo.id).count).to be(0)
     end
 
 
@@ -175,9 +175,9 @@ describe 'Repository controller' do
 
       expect {
         JSONModel(:repository).find(victim_repo).delete
-      }.to_not raise_error
+      }.not_to raise_error
 
-      Repository[:id => victim_repo].should be(nil)
+      expect(Repository[:id => victim_repo]).to be_nil
     end
 
   end

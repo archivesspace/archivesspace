@@ -49,7 +49,7 @@ describe 'Preference model' do
 
   it "supports creating a new preference" do
     pref = Preference.create_from_json(build(:json_preference, :defaults => @pref))
-    ASUtils.json_parse(Preference[pref[:id]].defaults)['color'].should eq(@pref['color'])
+    expect(ASUtils.json_parse(Preference[pref[:id]].defaults)['color']).to eq(@pref['color'])
   end
 
 
@@ -97,10 +97,9 @@ describe 'Preference model' do
     Preference.create_from_json(build(:json_preference, :defaults => @repo_user_pref),
                                 :user_id => user_id)
 
-#    Preference.global_defaults['color'].should eq(@glob_pref['color'])
-    Preference.user_global_defaults['color'].should eq(@glob_user_pref['color'])
-    Preference.repo_defaults['length'].should eq(@repo_pref['length'])
-    Preference.defaults['happy'].should eq(@repo_user_pref['happy'])
+    expect(Preference.user_global_defaults['color']).to eq(@glob_user_pref['color'])
+    expect(Preference.repo_defaults['length']).to eq(@repo_pref['length'])
+    expect(Preference.defaults['happy']).to eq(@repo_user_pref['happy'])
   end
 
 end

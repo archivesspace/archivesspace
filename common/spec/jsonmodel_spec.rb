@@ -122,66 +122,66 @@ describe JSONModel do
 
   it "should supply a class for a loaded schema" do
 
-    @klass.JSONModel(:stub).to_s.should eq('JSONModel(:stub)')
+    expect(@klass.JSONModel(:stub).to_s).to eq('JSONModel(:stub)')
 
   end
 
   it "should create an instance when given a hash" do
 
     jo = @klass.JSONModel(:stub).from_hash({"ref_id" => "abc", "title"=> "Stub Object"})
-    jo.ref_id.should eq("abc")
+    expect(jo.ref_id).to eq("abc")
 
   end
 
   it "should be able to determine the uri for a class instance give an id and a repo_id" do
 
-    @klass.JSONModel(:stub).uri_for(500, :repo_id => "1").should eq('/repositories/1/stubs/500')
+    expect(@klass.JSONModel(:stub).uri_for(500, :repo_id => "1")).to eq('/repositories/1/stubs/500')
 
   end
 
   it "should be able to save an instance of a model" do
     jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
     jo.save("repo_id" => 2)
-    jo.to_hash.has_key?('uri').should be_truthy
+    expect(jo.to_hash.has_key?('uri')).to be_truthy
   end
 
   it "should create an instance when given a hash using symbols for keys" do
 
     jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
-    jo.ref_id.should eq("abc")
+    expect(jo.ref_id).to eq("abc")
 
   end
 
   it "should have its repo id in its uri after being saved" do
     jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
     jo.save("repo_id" => 2)
-    jo.uri.should eq('/repositories/2/stubs/999')
+    expect(jo.uri).to eq('/repositories/2/stubs/999')
   end
 
   it "should inherit properties from the inherited object via extend/$ref" do
-    @klass.JSONModel(:child_stub).to_s.should eq('JSONModel(:child_stub)')
+    expect(@klass.JSONModel(:child_stub).to_s).to eq('JSONModel(:child_stub)')
     child_jo = @klass.JSONModel(:child_stub).from_hash({:title => "hello", :ref_id => "abc", :childproperty => "yeah", :ignoredproperty => "oh no"})
     child_jo.save("repo_id" => 2)
-    child_jo.to_hash.has_key?('childproperty').should be_truthy
-    child_jo.to_hash.has_key?('uri').should be_truthy
-    child_jo.to_hash.has_key?('ignoredproperty').should be_falsey
+    expect(child_jo.to_hash.has_key?('childproperty')).to be_truthy
+    expect(child_jo.to_hash.has_key?('uri')).to be_truthy
+    expect(child_jo.to_hash.has_key?('ignoredproperty')).to be_falsey
   end
 
   it "can query its schema for the types of things" do
-    @klass.JSONModel(:stub).type_of("names/items").should eq @klass.JSONModel(:stub)
+    expect(@klass.JSONModel(:stub).type_of("names/items")).to eq @klass.JSONModel(:stub)
   end
 
   it "should return an empty array for nil properties of type array" do
     jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
-    jo.names.class.should eq(Array)
-    jo.names.length.should eq(0)
+    expect(jo.names.class).to eq(Array)
+    expect(jo.names.length).to eq(0)
   end
 
 
   it "should support streaming" do
     JSONModel::HTTP::stream('/', {}) do |response|
       # response
-      response.should_not be(nil)
+      expect(response).not_to be_nil
     end
   end
 
@@ -193,29 +193,29 @@ describe JSONModel do
 
 
         @np_resource = @klass.JSONModel(:stub).from_hash(
-          {"ref_id" => "abc", 
-           "title"=> "Stub Object", 
+          {"ref_id" => "abc",
+           "title"=> "Stub Object",
            "publish" => false,
            "subjects" => [@p_false, @p_true]}
         )
 
         @p_resource = @klass.JSONModel(:stub).from_hash(
-          {"ref_id" => "abc", 
-           "title"=> "Stub Object", 
+          {"ref_id" => "abc",
+           "title"=> "Stub Object",
            "publish" => true,
            "subjects" => [@p_false, @p_true]}
         )
 
         @p_nested_resource = @klass.JSONModel(:stub).from_hash(
-          {"ref_id" => "abc", 
-           "title"=> "Stub Object", 
+          {"ref_id" => "abc",
+           "title"=> "Stub Object",
            "publish" => true,
            "subjects" => [@p_resource, @np_resource]}
         )
 
         @np_nested_resource = @klass.JSONModel(:stub).from_hash(
-          {"ref_id" => "abc", 
-           "title"=> "Stub Object", 
+          {"ref_id" => "abc",
+           "title"=> "Stub Object",
            "publish" => false,
            "subjects" => [@p_resource, @np_resource]}
         )
@@ -224,40 +224,40 @@ describe JSONModel do
       it "set publish flags based on parent if parent publish == false" do
         JSONModel.set_publish_flags!(@np_resource)
 
-        expect(@np_resource['subjects'][0]['publish']).to eq(false)
-        expect(@np_resource['subjects'][1]['publish']).to eq(false)
+        expect(@np_resource['subjects'][0]['publish']).to be_falsey
+        expect(@np_resource['subjects'][1]['publish']).to be_falsey
       end
 
       it "leave publish flags alone if parent publish == true" do
         JSONModel.set_publish_flags!(@p_resource)
 
-        expect(@p_resource['subjects'][0]['publish']).to eq(false)
-        expect(@p_resource['subjects'][1]['publish']).to eq(true)
+        expect(@p_resource['subjects'][0]['publish']).to be_falsey
+        expect(@p_resource['subjects'][1]['publish']).to be_truthy
       end
 
       it "set publish flags based on parent if parent publish == false (doubly nested)" do
         JSONModel.set_publish_flags!(@np_nested_resource)
 
-        expect(@np_nested_resource['subjects'][0]['publish']).to eq(false)
-        expect(@np_nested_resource['subjects'][1]['publish']).to eq(false)
+        expect(@np_nested_resource['subjects'][0]['publish']).to be_falsey
+        expect(@np_nested_resource['subjects'][1]['publish']).to be_falsey
 
-        expect(@np_nested_resource['subjects'][0]['subjects'][0]['publish']).to eq(false)
-        expect(@np_nested_resource['subjects'][0]['subjects'][1]['publish']).to eq(false)
-        expect(@np_nested_resource['subjects'][1]['subjects'][0]['publish']).to eq(false)
-        expect(@np_nested_resource['subjects'][1]['subjects'][1]['publish']).to eq(false)
+        expect(@np_nested_resource['subjects'][0]['subjects'][0]['publish']).to be_falsey
+        expect(@np_nested_resource['subjects'][0]['subjects'][1]['publish']).to be_falsey
+        expect(@np_nested_resource['subjects'][1]['subjects'][0]['publish']).to be_falsey
+        expect(@np_nested_resource['subjects'][1]['subjects'][1]['publish']).to be_falsey
       end
 
       it "set publish flags based on parent if parent publish == false (doubly nested)" do
         JSONModel.set_publish_flags!(@p_nested_resource)
 
-        expect(@p_nested_resource['subjects'][0]['publish']).to eq(true)
-        expect(@p_nested_resource['subjects'][1]['publish']).to eq(false)
+        expect(@p_nested_resource['subjects'][0]['publish']).to be_truthy
+        expect(@p_nested_resource['subjects'][1]['publish']).to be_falsey
 
-        expect(@p_nested_resource['subjects'][0]['subjects'][0]['publish']).to eq(false)
-        expect(@p_nested_resource['subjects'][0]['subjects'][1]['publish']).to eq(true)
-        expect(@p_nested_resource['subjects'][1]['subjects'][0]['publish']).to eq(false)
-        expect(@p_nested_resource['subjects'][1]['subjects'][1]['publish']).to eq(false)
+        expect(@p_nested_resource['subjects'][0]['subjects'][0]['publish']).to be_falsey
+        expect(@p_nested_resource['subjects'][0]['subjects'][1]['publish']).to be_truthy
+        expect(@p_nested_resource['subjects'][1]['subjects'][0]['publish']).to be_falsey
+        expect(@p_nested_resource['subjects'][1]['subjects'][1]['publish']).to be_falsey
       end
     end
-  end 
+  end
 end
