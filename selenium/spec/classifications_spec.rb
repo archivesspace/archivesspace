@@ -3,7 +3,7 @@ require_relative 'spec_helper'
 describe "Classifications" do
 
   before(:all) do
-    
+
     @repo = create(:repo, :repo_code => "classification_test_#{Time.now.to_i}")
     set_repo(@repo)
 
@@ -33,13 +33,13 @@ describe "Classifications" do
     @driver.clear_and_send_keys([:id, 'classification_title_'], test_classification)
 
     token_input = @driver.find_element(:id, "token-input-classification_creator__ref_")
-    @driver.typeahead_and_select( token_input, @agent_sort_name ) 
+    @driver.typeahead_and_select( token_input, @agent_sort_name )
 
     @driver.click_and_wait_until_gone(:css => "form#classification_form button[type='submit']")
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Classification.*created/i)
 
-    @driver.find_element(:css, "div.agent_person").text.should eq(@agent_sort_name)
+    expect(@driver.find_element(:css, "div.agent_person").text).to eq(@agent_sort_name)
   end
 
 
@@ -56,7 +56,7 @@ describe "Classifications" do
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Classification Term.*created/i)
 
-    @driver.find_element(:css, "div.agent_person").text.should eq(@agent_sort_name)
+    expect(@driver.find_element(:css, "div.agent_person").text).to eq(@agent_sort_name)
   end
 
 
@@ -86,23 +86,23 @@ describe "Classifications" do
     assert(5) {
       @driver.clear_and_send_keys([:id, "token-input-resource_classifications__0__ref_"],
                                   test_classification)
-      sleep 1 
+      sleep 1
       @driver.find_element(:css, "li.token-input-dropdown-item2").click
     }
-    
+
     @driver.find_element(:css => '#resource_classifications_ .subrecord-form-heading .btn:not(.show-all)').click
     assert(5) {
       @driver.clear_and_send_keys([:id, "token-input-resource_classifications__1__ref_"],
                                   test_classification_term)
-      sleep 1 
+      sleep 1
       @driver.find_element(:css, "li.token-input-dropdown-item2").click
     }
 
     @driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
     @driver.click_and_wait_until_gone(:link, "Close Record")
 
-    @driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
-    @driver.find_element(:css => 'div.token.classification_term').text.should match(/#{test_classification_term}/)
+    expect(@driver.find_element(:css => 'div.token.classification').text).to match(/#{test_classification}/)
+    expect(@driver.find_element(:css => 'div.token.classification_term').text).to match(/#{test_classification_term}/)
   end
 
 
@@ -131,7 +131,7 @@ describe "Classifications" do
 
     @driver.click_and_wait_until_gone(:link => accession_title)
 
-    @driver.find_element(:css => 'div.token.classification').text.should match(/#{test_classification}/)
+    expect(@driver.find_element(:css => 'div.token.classification').text).to match(/#{test_classification}/)
   end
 
   it "has the linked records on the classifications view page" do
@@ -144,12 +144,12 @@ describe "Classifications" do
     an_accession = create(:accession, { :classifications => [ { :ref => a_term.uri } ] })
 
     run_all_indexers
-    
+
     @driver.get_view_page(a_classification)
-    @driver.find_element(:css, "#search_embedded").text.should match(/#{a_resource.title}/)
+    expect(@driver.find_element(:css, "#search_embedded").text).to match(/#{a_resource.title}/)
     tree_click(tree_node(a_term))
-    @driver.wait_for_ajax 
-    @driver.find_element(:css, "#search_embedded").text.should match(/#{an_accession.title}/)
+    @driver.wait_for_ajax
+    expect(@driver.find_element(:css, "#search_embedded").text).to match(/#{an_accession.title}/)
 
   end
 

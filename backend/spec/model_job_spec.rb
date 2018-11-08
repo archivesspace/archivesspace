@@ -75,24 +75,24 @@ describe 'Background jobs' do
 
 
     it 'can get the status of a job' do
-      job.status.should eq('queued')
+      expect(job.status).to eq('queued')
     end
 
 
     it "can get the owner of a job" do
-      job.owner.username.should eq("nobody")
+      expect(job.owner.username).to eq("nobody")
     end
 
 
     it "can record created URIs for a job" do
       job.record_created_uris((1..10).map {|n| "/repositories/#{$repo_id}/accessions/#{n}"})
-      job.created_records.count.should eq(10)
+      expect(job.created_records.count).to eq(10)
     end
 
 
     it "can record modified URIs for a job" do
       job.record_modified_uris((1..10).map {|n| "/repositories/#{$repo_id}/accessions/#{n}"})
-      job.modified_records.count.should eq(10)
+      expect(job.modified_records.count).to eq(10)
     end
 
 
@@ -104,12 +104,12 @@ describe 'Background jobs' do
       job.add_file(StringIO.new)
       job.add_file(StringIO.new)
 
-      job.job_files.map(&:file_path).should eq(["stored_path", "stored_path"])
+      expect(job.job_files.map(&:file_path)).to eq(["stored_path", "stored_path"])
     end
 
 
     it 'can get the right runner for the job' do
-      JobRunner.for(job).class.should eq(NugatoryJobRunner)
+      expect(JobRunner.for(job).class).to eq(NugatoryJobRunner)
     end
 
 
@@ -122,42 +122,42 @@ describe 'Background jobs' do
 
     it 'can give you the registered runner for a job type' do
       runner = JobRunner.registered_runner_for('nugatory_job')
-      runner.type.should eq('nugatory_job')
+      expect(runner.type).to eq('nugatory_job')
     end
 
 
     it 'knows if a job type allows concurrency' do
-      JobRunner.registered_runner_for('nugatory_job').run_concurrently.should be false
-      JobRunner.registered_runner_for('concurrent_job').run_concurrently.should be true
+      expect(JobRunner.registered_runner_for('nugatory_job').run_concurrently).to be_falsey
+      expect(JobRunner.registered_runner_for('concurrent_job').run_concurrently).to be_truthy
     end
 
 
     it 'knows the permissions required to create or cancel a job' do
       runner = JobRunner.registered_runner_for('nugatory_job')
-      runner.create_permissions.should eq []
-      runner.cancel_permissions.should eq []
+      expect(runner.create_permissions).to eq []
+      expect(runner.cancel_permissions).to eq []
 
       runner = JobRunner.registered_runner_for('permissions_job')
-      runner.create_permissions.should eq ['god_like']
-      runner.cancel_permissions.should eq ['death', 'destruction']
+      expect(runner.create_permissions).to eq ['god_like']
+      expect(runner.cancel_permissions).to eq ['death', 'destruction']
     end
 
 
     it 'can give you a list of registered job types and their permissions' do
       types = JobRunner.registered_job_types
-      types['nugatory_job'][:create_permissions].should eq []
+      expect(types['nugatory_job'][:create_permissions]).to eq []
     end
 
 
     it 'will not tell you about hidden job types' do
       types = JobRunner.registered_job_types
-      types['hidden_job'].should be_nil
+      expect(types['hidden_job']).to be_nil
     end
 
 
     it 'will give you the registered runner for a hidden job type' do
       runner = JobRunner.registered_runner_for('hidden_job')
-      runner.type.should eq('hidden_job')
+      expect(runner.type).to eq('hidden_job')
     end
 
 
@@ -165,7 +165,7 @@ describe 'Background jobs' do
       runner = JobRunner.for(job)
       runner.cancelation_signaler(Atomic.new(false))
       runner.run
-      runner.canceled?.should == false
+      expect(runner.canceled?).to be_falsey
     end
   end
 
@@ -211,13 +211,13 @@ describe 'Background jobs' do
       end
 
       job_id = @job.id
-      @job.status.should eq('queued')
+      expect(@job.status).to eq('queued')
 
       q.run_pending_job
 
       sleep(0.5)
 
-      Job.any_repo[job_id].status.should eq('completed')
+      expect(Job.any_repo[job_id].status).to eq('completed')
     end
 
 
@@ -239,7 +239,7 @@ describe 'Background jobs' do
       end
 
       job_id = @job.id
-      @job.status.should eq('queued')
+      expect(@job.status).to eq('queued')
 
       cancel_thread = Thread.new do
         sleep(0.5)
@@ -253,9 +253,9 @@ describe 'Background jobs' do
 
       job = Job.any_repo[job_id]
 
-      job.status.should eq('canceled')
-      job.time_finished.should_not be_nil
-      job.time_finished.should < Time.now
+      expect(job.status).to eq('canceled')
+      expect(job.time_finished).not_to be_nil
+      expect(job.time_finished).to be < Time.now
     end
   end
 end

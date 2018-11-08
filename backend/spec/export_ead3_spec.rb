@@ -137,16 +137,16 @@ describe "EAD3 export mappings" do
     val = nil
 
     if data
-      doc.should have_node(path)
+      expect(doc).to have_node(path)
       if trib.nil?
-        node.should have_inner_text(data)
+        expect(node).to have_inner_text(data)
       elsif trib == :markup
-        node.should have_inner_markup(data)
+        expect(node).to have_inner_markup(data)
       else
-        node.should have_attribute(trib, data)
+        expect(node).to have_attribute(trib, data)
       end
     elsif node && trib
-      node.should_not have_attribute(trib)
+      expect(node).not_to have_attribute(trib)
     end
   end
 
@@ -215,19 +215,11 @@ describe "EAD3 export mappings" do
       end
     end
 
-
-
-
-    # @doc.errors.length.should == 0
-
-
-
-
     # if the word Nokogiri appears in the XML file, we'll assume something
     # has gone wrong
-    @doc.to_xml.should_not include("Nokogiri")
-    @doc.to_xml.should_not include("#&amp;")
-    @doc.to_xml.should_not include("ASPACE EXPORT ERROR")
+    expect(@doc.to_xml).not_to include("Nokogiri")
+    expect(@doc.to_xml).not_to include("#&amp;")
+    expect(@doc.to_xml).not_to include("ASPACE EXPORT ERROR")
   end
 
 
@@ -805,7 +797,7 @@ describe "EAD3 export mappings" do
           mt(content, "#{full_path}/p")
 
           note['items'].each_with_index do |item, i|
-            index_item_type_map.keys.should include(item['type'])
+            expect(index_item_type_map.keys).to include(item['type'])
             item_path = "#{full_path}/indexentry[#{i+1}]"
             mt(item['value'], "#{item_path}/#{index_item_type_map[item['type']]}")
             mt(item['reference'], "#{item_path}/ref", 'target')
@@ -967,7 +959,7 @@ describe "EAD3 export mappings" do
           # https://archivesspace.atlassian.net/browse/AR-985?focusedCommentId=17531&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-17531
           if link_role == 'creator'
             path = "#{desc_path}/controlaccess/#{node_name}/part[contains(text(), '#{agent.names[0]['sort_name']}')]"
-            doc.should_not have_node(path)
+            expect(doc).not_to have_node(path)
           end
 
           next unless %w(source subject).include?(link_role)
@@ -1014,7 +1006,7 @@ describe "EAD3 export mappings" do
 
           path = "#{desc_path}/did/origination/#{node_name}/part[contains(text(), '#{agent.names[0]['sort_name']}')]"
 
-          doc.should have_node(path)
+          expect(doc).to have_node(path)
         end
       end
 
@@ -1160,7 +1152,7 @@ describe "EAD3 export mappings" do
       let(:nspath) { "//xmlns:c[@id='#{ref_id}']"}
 
       it "maps archival_object.ref_id to //c[@id]" do
-        doc.should have_node(path)
+        expect(doc).to have_node(path)
       end
 
 
@@ -1228,91 +1220,91 @@ describe "EAD3 export mappings" do
     let(:note_with_ordered_list_ead3) { "<list listtype=\"ordered\" numeration=\"decimal\"><item>foo</item></list>" }
 
     it "can strip <p> tags from content when disallowed" do
-      serializer.strip_p(note_with_p).should eq("A NOTE!")
+      expect(serializer.strip_p(note_with_p)).to eq("A NOTE!")
     end
 
     it "can leave <p> tags in content" do
-      serializer.structure_children(note_with_p).should eq(note_with_p)
+      expect(serializer.structure_children(note_with_p)).to eq(note_with_p)
     end
 
     it "will add <p> tags to content with linebreaks" do
-      serializer.structure_children(note_with_linebreaks).should eq("<p>Something, something,</p><p>something.</p>")
+      expect(serializer.structure_children(note_with_linebreaks)).to eq("<p>Something, something,</p><p>something.</p>")
     end
 
 
     it "will add <p> tags to content with linebreaks and mixed content, leaving elements alone that are valid children of passed parent element" do
-      serializer.structure_children(note_with_linebreaks_and_good_mixed_content, 'accessrestrict').should eq("<p>Something, something,</p><blockquote>something.</blockquote>")
+      expect(serializer.structure_children(note_with_linebreaks_and_good_mixed_content, 'accessrestrict')).to eq("<p>Something, something,</p><blockquote>something.</blockquote>")
     end
 
 
     it "will leave valid element children as is and wrap invalid children and cdata in <p>" do
       note_in = "<head>blah</head>\n\n blah blah \n\n <p>blah</p><blockquote>blah</blockquote>\n\nblah"
       note_out = "<head>blah</head><p>blah blah</p><p>blah</p><blockquote>blah</blockquote><p>blah</p>"
-      serializer.structure_children(note_in, 'scopecontent').should eq(note_out)
+      expect(serializer.structure_children(note_in, 'scopecontent')).to eq(note_out)
     end
 
 
     it "will return original content when linebreaks and mixed content produce invalid markup" do
-      serializer.structure_children(note_with_linebreaks_and_evil_mixed_content).should eq(note_with_linebreaks_and_evil_mixed_content)
+      expect(serializer.structure_children(note_with_linebreaks_and_evil_mixed_content)).to eq(note_with_linebreaks_and_evil_mixed_content)
     end
 
     it "will add <p> tags to content with linebreaks and mixed content even if those evil &'s are present in the text" do
-      serializer.structure_children(note_with_linebreaks_but_something_xml_nazis_hate).should eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
+      expect(serializer.structure_children(note_with_linebreaks_but_something_xml_nazis_hate)).to eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
     end
 
     it "will add <p> tags to content with linebreaks and mixed content even there are weird namespace prefixes" do
-      serializer.structure_children(note_with_linebreaks_and_xml_namespaces).should eq("<p>Something, something,</p><p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite></p>")
+      expect(serializer.structure_children(note_with_linebreaks_and_xml_namespaces)).to eq("<p>Something, something,</p><p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite></p>")
     end
 
     it "will correctly handle content with & as punctuation as well as & as pre-escaped characters" do
-      serializer.structure_children(note_with_different_amps).should eq("<p>The materials are arranged in folders. Mumford&amp;Sons. Mumford &amp; Sons. They are cool&amp;hip. &lt;p&gt;foo, 2 &amp; 2.&lt;/p&gt;</p>")
+      expect(serializer.structure_children(note_with_different_amps)).to eq("<p>The materials are arranged in folders. Mumford&amp;Sons. Mumford &amp; Sons. They are cool&amp;hip. &lt;p&gt;foo, 2 &amp; 2.&lt;/p&gt;</p>")
     end
 
     it "will only allow predefined XML entities and escape ampersands for others" do
-      serializer.escape_ampersands(note_with_entities).should eq("&lt;p&gt;This is &amp;copy;2018 Joe &amp; Co. &amp; &quot;Joe&apos;s mama&quot;")
+      expect(serializer.escape_ampersands(note_with_entities)).to eq("&lt;p&gt;This is &amp;copy;2018 Joe &amp; Co. &amp; &quot;Joe&apos;s mama&quot;")
     end
 
     it "will replace MSWord-style smart quotes with ASCII characters" do
-      serializer.remove_smart_quotes(note_with_smart_quotes).should eq("This note has \"smart quotes\" and \'smart apostrophes\' from MSWord.")
+      expect(serializer.remove_smart_quotes(note_with_smart_quotes)).to eq("This note has \"smart quotes\" and \'smart apostrophes\' from MSWord.")
     end
 
     it "will replace <extref> with <ref>" do
-      serializer.convert_ead2002_markup(note_with_extref).should eq(note_with_ref)
+      expect(serializer.convert_ead2002_markup(note_with_extref)).to eq(note_with_ref)
     end
 
     it "will converts list attributes" do
-      serializer.convert_ead2002_markup(note_with_ordered_list_2002).should eq(note_with_ordered_list_ead3)
+      expect(serializer.convert_ead2002_markup(note_with_ordered_list_2002)).to eq(note_with_ordered_list_ead3)
     end
 
     it "removes namespace prefixes from attributes" do
-      serializer.convert_ead2002_markup(note_with_namespaced_attributes).should eq(note_with_unnamespaced_attributes)
+      expect(serializer.convert_ead2002_markup(note_with_namespaced_attributes)).to eq(note_with_unnamespaced_attributes)
     end
 
     it "converts @type to @localtype when appropriate" do
-      serializer.convert_ead2002_markup(note_with_type_attributes).should eq(note_with_localtype_attributes)
+      expect(serializer.convert_ead2002_markup(note_with_type_attributes)).to eq(note_with_localtype_attributes)
     end
 
     it "wraps text children of access elements in <part>" do
-      serializer.convert_ead2002_markup(note_with_access_elements_with_text_children).should eq(note_with_access_elements_with_part_children)
+      expect(serializer.convert_ead2002_markup(note_with_access_elements_with_text_children)).to eq(note_with_access_elements_with_part_children)
     end
 
     it "downcases values of all attributes with closed lists" do
-      serializer.convert_ead2002_markup(note_with_elements_with_mixed_case_attributes).should eq(note_with_elements_without_mixed_case_attributes)
+      expect(serializer.convert_ead2002_markup(note_with_elements_with_mixed_case_attributes)).to eq(note_with_elements_without_mixed_case_attributes)
     end
 
     it "strips invalid children of p" do
       invalid = note_with_invalid_children_of_p
       valid = note_without_invalid_children_of_p
-      serializer.convert_ead2002_markup( invalid ).should eq( valid )
+      expect(serializer.convert_ead2002_markup(invalid)).to eq( valid )
     end
 
     it "can identify content that includes unwrapped text" do
       enclosed_content = "<blockquote>blah blah blah</blockquote>"
       wrapped_content = "<head>blah</head>\n <p>blah</p>\n <blockquote>blah</blockquote>"
       mixed_content = "blah blah <subject>blah</subject>"
-      serializer.has_unwrapped_text?(enclosed_content).should be_falsey
-      serializer.has_unwrapped_text?(wrapped_content).should be_falsey
-      serializer.has_unwrapped_text?(mixed_content).should be_truthy
+      expect(serializer.has_unwrapped_text?(enclosed_content)).to be_falsey
+      expect(serializer.has_unwrapped_text?(wrapped_content)).to be_falsey
+      expect(serializer.has_unwrapped_text?(mixed_content)).to be_truthy
     end
 
 
@@ -1362,26 +1354,26 @@ describe "EAD3 export mappings" do
     }
 
     it "does not set <ead> attribute audience 'internal' when resource is published" do
-      @doc_nsless.at_xpath('//ead').should_not have_attribute('audience', 'internal')
+      expect(@doc_nsless.at_xpath('//ead')).not_to have_attribute('audience', 'internal')
     end
 
     it "sets <ead> attribute audience 'internal' when resource is not published" do
-      @xml_including_unpublished.at_xpath('//ead').should have_attribute('audience', 'internal')
-      @xml_not_including_unpublished.at_xpath('//ead').should have_attribute('audience', 'internal')
+      expect(@xml_including_unpublished.at_xpath('//ead')).to have_attribute('audience', 'internal')
+      expect(@xml_not_including_unpublished.at_xpath('//ead')).to have_attribute('audience', 'internal')
     end
 
     it "includes unpublished items when include_unpublished option is false" do
-      @xml_including_unpublished.xpath('//c').length.should eq(2)
-      @xml_including_unpublished.xpath("//c[@id='aspace_#{@published_archival_object.ref_id}'][not(@audience='internal')]").length.should eq(1)
-      @xml_including_unpublished.xpath("//c[@id='aspace_#{@unpublished_archival_object.ref_id}'][@audience='internal']").length.should eq(1)
+      expect(@xml_including_unpublished.xpath('//c').length).to eq(2)
+      expect(@xml_including_unpublished.xpath("//c[@id='aspace_#{@published_archival_object.ref_id}'][not(@audience='internal')]").length).to eq(1)
+      expect(@xml_including_unpublished.xpath("//c[@id='aspace_#{@unpublished_archival_object.ref_id}'][@audience='internal']").length).to eq(1)
     end
 
     it "does not include unpublished items when include_unpublished option is false" do
       items = @xml_not_including_unpublished.xpath('//c')
-      items.length.should eq(1)
+      expect(items.length).to eq(1)
 
       item = items.first
-      item.should_not have_attribute('audience', 'internal')
+      expect(item).not_to have_attribute('audience', 'internal')
     end
   end
 
@@ -1449,9 +1441,9 @@ describe "EAD3 export mappings" do
     }
 
     it "excludes suppressed items" do
-      @xml.xpath('//c').length.should eq(2)
-      @xml.xpath("//c[@id='aspace_#{@unsuppressed_series.ref_id}']").length.should eq(1)
-      @xml.xpath("//c[@id='aspace_#{@unsuppressed_series_unsuppressed_child.ref_id}']").length.should eq(1)
+      expect(@xml.xpath('//c').length).to eq(2)
+      expect(@xml.xpath("//c[@id='aspace_#{@unsuppressed_series.ref_id}']").length).to eq(1)
+      expect(@xml.xpath("//c[@id='aspace_#{@unsuppressed_series_unsuppressed_child.ref_id}']").length).to eq(1)
     end
   end
 

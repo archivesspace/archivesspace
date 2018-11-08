@@ -40,8 +40,8 @@ describe 'Date Calculator model' do
     })
 
     calculator = DateCalculator.new(resource)
-    calculator.min_begin.should eq('1990-01-01')
-    calculator.max_end.should eq('2000-05-02')
+    expect(calculator.min_begin).to eq('1990-01-01')
+    expect(calculator.max_end).to eq('2000-05-02')
   end
 
   it "can calculate the date range for a resource, all date types and a bunch of dates" do
@@ -69,8 +69,8 @@ describe 'Date Calculator model' do
                                      })
 
     calculator = DateCalculator.new(resource)
-    calculator.min_begin.should eq('1985-10')
-    calculator.max_end.should eq('2010')
+    expect(calculator.min_begin).to eq('1985-10')
+    expect(calculator.max_end).to eq('2010')
   end
 
 
@@ -99,8 +99,8 @@ describe 'Date Calculator model' do
                                       })
 
     calculator = DateCalculator.new(resource, 'creation')
-    calculator.min_begin.should eq('1985-10')
-    calculator.max_end.should eq('1999-01-02')
+    expect(calculator.min_begin).to eq('1985-10')
+    expect(calculator.max_end).to eq('1999-01-02')
   end
 
   it "can calculate the date range for a component" do
@@ -128,8 +128,8 @@ describe 'Date Calculator model' do
                                       })
 
     calculator = DateCalculator.new(parent)
-    calculator.min_begin.should eq('1985-10')
-    calculator.max_end.should eq('2010')
+    expect(calculator.min_begin).to eq('1985-10')
+    expect(calculator.max_end).to eq('2010')
   end
 
 
@@ -158,8 +158,8 @@ describe 'Date Calculator model' do
                                     })
 
     calculator = DateCalculator.new(parent, 'creation')
-    calculator.min_begin.should eq('1991-07-10')
-    calculator.max_end.should eq('2010-01-02')
+    expect(calculator.min_begin).to eq('1991-07-10')
+    expect(calculator.max_end).to eq('2010-01-02')
   end
 
   it "returns the correct report data for a resource" do
@@ -188,15 +188,15 @@ describe 'Date Calculator model' do
 
     report = DateCalculator.new(resource).to_hash
 
-    report.fetch(:object).fetch(:uri).should eq(resource.uri)
-    report.fetch(:object).fetch(:jsonmodel_type).should eq('resource')
-    report.fetch(:object).fetch(:title).should eq(resource.title)
-    report.fetch(:object).fetch(:id).should eq(resource.id)
-    report.fetch(:label).should be_nil
-    report.fetch(:min_begin).should eq('1985-10')
-    report.fetch(:min_begin_date).should eq(Date.strptime('1985-10-01', '%Y-%m-%d'))
-    report.fetch(:max_end).should eq('2010')
-    report.fetch(:max_end_date).should eq(Date.strptime('2010-12-31', '%Y-%m-%d'))
+    expect(report.fetch(:object).fetch(:uri)).to eq(resource.uri)
+    expect(report.fetch(:object).fetch(:jsonmodel_type)).to eq('resource')
+    expect(report.fetch(:object).fetch(:title)).to eq(resource.title)
+    expect(report.fetch(:object).fetch(:id)).to eq(resource.id)
+    expect(report.fetch(:label)).to be_nil
+    expect(report.fetch(:min_begin)).to eq('1985-10')
+    expect(report.fetch(:min_begin_date)).to eq(Date.strptime('1985-10-01', '%Y-%m-%d'))
+    expect(report.fetch(:max_end)).to eq('2010')
+    expect(report.fetch(:max_end_date)).to eq(Date.strptime('2010-12-31', '%Y-%m-%d'))
   end
 
 
@@ -226,19 +226,19 @@ describe 'Date Calculator model' do
 
     report = DateCalculator.new(parent, 'creation').to_hash
 
-    report.fetch(:object).fetch(:uri).should eq(parent.uri)
-    report.fetch(:object).fetch(:jsonmodel_type).should eq('archival_object')
-    report.fetch(:object).fetch(:title).should eq(parent.title)
-    report.fetch(:object).fetch(:id).should eq(parent.id)
+    expect(report.fetch(:object).fetch(:uri)).to eq(parent.uri)
+    expect(report.fetch(:object).fetch(:jsonmodel_type)).to eq('archival_object')
+    expect(report.fetch(:object).fetch(:title)).to eq(parent.title)
+    expect(report.fetch(:object).fetch(:id)).to eq(parent.id)
 
-    report.fetch(:resource).fetch(:uri).should eq(resource.uri)
-    report.fetch(:resource).fetch(:title).should eq(resource.title)
+    expect(report.fetch(:resource).fetch(:uri)).to eq(resource.uri)
+    expect(report.fetch(:resource).fetch(:title)).to eq(resource.title)
 
-    report.fetch(:label).should eq('creation')
-    report.fetch(:min_begin).should eq('1985-10')
-    report.fetch(:min_begin_date).should eq(Date.strptime('1985-10-01', '%Y-%m-%d'))
-    report.fetch(:max_end).should eq('2010-01-02')
-    report.fetch(:max_end_date).should eq(Date.strptime('2010-01-02', '%Y-%m-%d'))
+    expect(report.fetch(:label)).to eq('creation')
+    expect(report.fetch(:min_begin)).to eq('1985-10')
+    expect(report.fetch(:min_begin_date)).to eq(Date.strptime('1985-10-01', '%Y-%m-%d'))
+    expect(report.fetch(:max_end)).to eq('2010-01-02')
+    expect(report.fetch(:max_end_date)).to eq(Date.strptime('2010-01-02', '%Y-%m-%d'))
   end
 
 
@@ -267,7 +267,7 @@ describe 'Date Calculator model' do
                                       })
 
     calculator = DateCalculator.new(resource)
-    calculator.min_begin.should eq('1989-05-22')
-    calculator.max_end.should eq('2017-05-17')
+    expect(calculator.min_begin).to eq('1989-05-22')
+    expect(calculator.max_end).to eq('2017-05-17')
   end
 end

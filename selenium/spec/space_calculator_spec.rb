@@ -65,9 +65,9 @@ describe "Space Calculator" do
 
     row = @driver.find_element(:css => "#tabledSearchResults tr.has-space")
     row.find_element(:css => ".space .glyphicon-ok-sign.text-success")
-    row.find_element(:css => ".location").text.should eq(@location.title)
-    row.find_element(:css => ".location-profile").text.should match(/^#{@location_profile.name}/)
-    row.find_element(:css => ".count").text.should eq("20")
+    expect(row.find_element(:css => ".location").text).to eq(@location.title)
+    expect(row.find_element(:css => ".location-profile").text).to match(/^#{@location_profile.name}/)
+    expect(row.find_element(:css => ".count").text).to eq("20")
 
     @driver.click_and_wait_until_gone(:css => "#spaceCalculatorModal .modal-footer .btn-primary")
   end
@@ -89,16 +89,16 @@ describe "Space Calculator" do
     @driver.find_element(:link => "By Location(s)").click
     @driver.clear_and_send_keys([:id, "token-input-location"], @location.title)
     input_token = @driver.find_element(:id, "token-input-location")
-    @driver.typeahead_and_select( input_token, @location.title ) 
+    @driver.typeahead_and_select( input_token, @location.title )
 
 
     @driver.find_element(:css => "#spaceCalculatorModal #space_calculator .btn.btn-primary").click
 
     row = @driver.find_element(:css => "#tabledSearchResults tr.has-space")
     row.find_element(:css => ".space .glyphicon-ok-sign.text-success")
-    row.find_element(:css => ".location").text.should eq(@location.title)
-    row.find_element(:css => ".location-profile").text.should match(/^#{@location_profile.name}/)
-    row.find_element(:css => ".count").text.should eq("20")
+    expect(row.find_element(:css => ".location").text).to eq(@location.title)
+    expect(row.find_element(:css => ".location-profile").text).to match(/^#{@location_profile.name}/)
+    expect(row.find_element(:css => ".count").text).to eq("20")
   end
 
   it "can select a location from the calculator results to populate the Container's Location field" do
@@ -116,7 +116,7 @@ describe "Space Calculator" do
 
     # the add button will now be enabled
     @driver.find_element(:css => "#spaceCalculatorModal .modal-footer #addSelectedButton:not([disabled])").click
-    @driver.find_element(:css, "#top_container_container_locations_ ul.token-input-list").text.should match(/#{Regexp.quote(@location.title)}/)
+    expect(@driver.find_element(:css, "#top_container_container_locations_ ul.token-input-list").text).to match(/#{Regexp.quote(@location.title)}/)
     @driver.find_element(:css => ".record-pane .form-actions .btn.btn-primary").click
   end
 end

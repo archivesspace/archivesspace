@@ -109,7 +109,7 @@ describe 'Record inheritance' do
   it "provides refs to a record's ancestors" do
     json = ArchivalObject.to_jsonmodel(grandchild.id)
 
-    json['ancestors'].should eq([
+    expect(json['ancestors']).to eq([
                                   {
                                     'ref' => child.uri,
                                     'level' => child.level,
@@ -129,31 +129,31 @@ describe 'Record inheritance' do
   it "configurably merges field values from ancestors into a record" do
     merged = record_inheritance.merge([json]).first
 
-    merged['title'].should eq('mine all mine')
-    merged['component_id'].should eq('ABC')
+    expect(merged['title']).to eq('mine all mine')
+    expect(merged['component_id']).to eq('ABC')
   end
 
 
   it "merges only directly inherited fields if asked" do
     merged = record_inheritance.merge(json, :direct_only => true)
 
-    merged['title'].should eq('mine all mine')
-    merged['component_id'].should be_nil
+    expect(merged['title']).to eq('mine all mine')
+    expect(merged['component_id']).to be_nil
   end
 
 
   it "supports selective inheritance from array values" do
     merged = record_inheritance.merge([json]).first
-    
-    merged['linked_agents'].select {|a| a['role'] == 'subject'}.should_not be_empty
-    merged['linked_agents'].select {|a| a['role'] == 'enemy'}.should be_empty
+
+    expect(merged['linked_agents'].select {|a| a['role'] == 'subject'}).not_to be_empty
+    expect(merged['linked_agents'].select {|a| a['role'] == 'enemy'}).to be_empty
   end
 
 
   it "supports skipping fields" do
     merged = record_inheritance.merge(json)
-    
-    merged['notes'].select {|a| a['type'] == 'skippable'}.should be_empty
+
+    expect(merged['notes'].select {|a| a['type'] == 'skippable'}).to be_empty
   end
 
 
@@ -161,27 +161,27 @@ describe 'Record inheritance' do
     merged = record_inheritance.merge([json]).first
 
     scope = merged['notes'].select {|a| a['type'] == 'scopecontent'}.first
-    scope['_inherited'].should_not be_nil
-    scope['_inherited']['ref'].should eq('/repositories/2/resources/1')
-    scope['_inherited']['level'].should eq('Collection')
-    scope['_inherited']['direct'].should be false
+    expect(scope['_inherited']).not_to be_nil
+    expect(scope['_inherited']['ref']).to eq('/repositories/2/resources/1')
+    expect(scope['_inherited']['level']).to eq('Collection')
+    expect(scope['_inherited']['direct']).to be_falsey
 
     subject = merged['linked_agents'].select {|a| a['role'] == 'subject'}.first
-    subject['_inherited']['ref'].should eq('/repositories/2/archival_objects/1')
-    subject['_inherited']['level'].should eq('Series')
-    subject['_inherited']['direct'].should be true
+    expect(subject['_inherited']['ref']).to eq('/repositories/2/archival_objects/1')
+    expect(subject['_inherited']['level']).to eq('Series')
+    expect(subject['_inherited']['direct']).to be_truthy
 
-    merged['component_id_inherited']['ref'].should eq('/repositories/2/archival_objects/1')
-    merged['component_id_inherited']['level'].should eq('Series')
-    merged['component_id_inherited']['direct'].should be false
+    expect(merged['component_id_inherited']['ref']).to eq('/repositories/2/archival_objects/1')
+    expect(merged['component_id_inherited']['level']).to eq('Series')
+    expect(merged['component_id_inherited']['direct']).to be_falsey
 
-    merged.has_key?('title_inherited').should be false
+    expect(merged.has_key?('title_inherited')).to be_falsey
   end
 
 
   it "adds a composite identifier" do
     merged = record_inheritance.merge(json)
 
-    merged['_composite_identifier'].should eq('RES.1. Series ABC')
+    expect(merged['_composite_identifier']).to eq('RES.1. Series ABC')
   end
 end

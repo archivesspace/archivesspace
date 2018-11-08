@@ -7,7 +7,7 @@ describe 'Resource model' do
 
     resource = create_resource(opts)
 
-    Resource[resource[:id]].title.should eq(opts[:title])
+    expect(Resource[resource[:id]].title).to eq(opts[:title])
   end
 
 
@@ -42,7 +42,7 @@ describe 'Resource model' do
                                          }),
                                    :repo_id => repo_id)
       end
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -51,8 +51,8 @@ describe 'Resource model' do
 
     resource = create_resource(opts)
 
-    Resource[resource[:id]].date.length.should eq(1)
-    Resource[resource[:id]].date[0].begin.should eq(opts[:dates][0]['begin'])
+    expect(Resource[resource[:id]].date.length).to eq(1)
+    expect(Resource[resource[:id]].date[0].begin).to eq(opts[:dates][0]['begin'])
   end
 
 
@@ -83,11 +83,11 @@ describe 'Resource model' do
                                                          :top_container => {:ref => top.uri}))]}
     resource = create_resource(opts)
     res = Resource[resource[:id]]
-    res.instance.length.should eq(1)
-    res.instance[0].instance_type.should eq(opts[:instances][0]['instance_type'])
+    expect(res.instance.length).to eq(1)
+    expect(res.instance[0].instance_type).to eq(opts[:instances][0]['instance_type'])
 
     res = URIResolver.resolve_references(Resource.to_jsonmodel(resource[:id]), ['top_container'])
-    res['instances'][0]["sub_container"]['top_container']['_resolved']["type"].should eq(top["type"])
+    expect(res['instances'][0]["sub_container"]['top_container']['_resolved']["type"]).to eq(top["type"])
   end
 
 
@@ -108,7 +108,7 @@ describe 'Resource model' do
   it "allows long titles" do
     expect {
       res = create(:resource, {:repo_id => $repo_id, :title => 200.times.map { 'moo'}.join})
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -130,7 +130,7 @@ describe 'Resource model' do
     classification = Classification.create_from_json(classification)
     resource = create_resource(:classifications =>[   {'ref' => classification.uri} ])
 
-    resource.related_records(:classification).first.title.should eq("top-level classification")
+    expect(resource.related_records(:classification).first.title).to eq("top-level classification")
   end
 
   # See https://gist.github.com/anarchivist/7477913
@@ -155,7 +155,7 @@ describe 'Resource model' do
 
     json[:lock_version] = 0
 
-    expect { resource.update_from_json(json) }.to_not raise_error
+    expect { resource.update_from_json(json) }.not_to raise_error
   end
 
   it "defaults the representative image to the first 'image-service' file_version it is linked to through its instances" do
@@ -199,7 +199,7 @@ describe 'Resource model' do
 
     r = Resource.to_jsonmodel(resource.id)
 
-    Resource.to_jsonmodel(resource.id).representative_image['file_uri'].should match(/bar3/)
+    expect(Resource.to_jsonmodel(resource.id).representative_image['file_uri']).to match(/bar3/)
 
   end
 
@@ -223,7 +223,7 @@ describe 'Resource model' do
 
     r = Resource.to_jsonmodel(resource.id)
 
-    Resource.to_jsonmodel(resource.id).representative_image.should be_falsey
+    expect(Resource.to_jsonmodel(resource.id).representative_image).to be_falsey
 
   end
 
@@ -247,7 +247,7 @@ describe 'Resource model' do
 
     r = Resource.to_jsonmodel(resource.id)
 
-    Resource.to_jsonmodel(resource.id).representative_image.should be_falsey
+    expect(Resource.to_jsonmodel(resource.id).representative_image).to be_falsey
 
   end
 
@@ -286,7 +286,7 @@ describe 'Resource model' do
 
     r = Resource.to_jsonmodel(resource.id)
 
-    Resource.to_jsonmodel(resource.id).representative_image['file_uri'].should match(/bar2/)
+    expect(Resource.to_jsonmodel(resource.id).representative_image['file_uri']).to match(/bar2/)
 
   end
 
@@ -316,7 +316,7 @@ describe 'Resource model' do
 
     r = Resource.to_jsonmodel(resource.id)
 
-    Resource.to_jsonmodel(resource.id).representative_image['file_uri'].should match(/bar2/)
+    expect(Resource.to_jsonmodel(resource.id).representative_image['file_uri']).to match(/bar2/)
   end
 
 

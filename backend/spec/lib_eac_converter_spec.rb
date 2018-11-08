@@ -18,8 +18,7 @@ describe 'EAC converter' do
   it "did something" do
     record = convert(test_file).first
 
-    record.should_not be(nil)
-    record['names'][0]['primary_name'].should eq("Feynman, Richard Phillips, 1918-1988.")
+    expect(record).not_to be_nil
+    expect(record['names'][0]['primary_name']).to eq("Feynman, Richard Phillips, 1918-1988.")
   end
 end
-

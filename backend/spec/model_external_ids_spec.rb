@@ -12,7 +12,7 @@ describe 'External ID model' do
 
     record = Accession.create_from_json(obj)
 
-    Accession.to_jsonmodel(record).external_ids.first['external_id'].should eq('40440444')
+    expect(Accession.to_jsonmodel(record).external_ids.first['external_id']).to eq('40440444')
   end
 
 
@@ -26,7 +26,7 @@ describe 'External ID model' do
 
     record = Accession.create_from_json(obj)
 
-    record.external_id.count.should eq(1)
+    expect(record.external_id.count).to eq(1)
     external_id = record.external_id.first
 
     record.delete

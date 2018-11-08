@@ -19,10 +19,10 @@ describe "System Information" do
     @driver.login_to_repo(@archivist_user, @repo)
 
     @driver.find_element(:link, "System").click
-    @driver.find_elements(:link, "System Information").length.should eq(0)
+    expect(@driver.find_elements(:link, "System Information").length).to eq(0)
     @driver.get(URI.join($frontend, "/system_info"))
     assert(5) {
-      @driver.find_element(:css => ".alert.alert-danger h2").text.should eq("Unable to Access Page")
+      expect(@driver.find_element(:css => ".alert.alert-danger h2").text).to eq("Unable to Access Page")
     }
 
   end
@@ -33,7 +33,7 @@ describe "System Information" do
     @driver.find_element(:link, "System").click
     @driver.find_element(:link, "System Information").click
     assert(5) {
-      @driver.find_element(:css => "h3.subrecord-form-heading").text.should eq("Frontend System Information")
+      expect(@driver.find_element(:css => "h3.subrecord-form-heading").text).to eq("Frontend System Information")
     }
   end
 end

@@ -31,8 +31,8 @@ describe "Tree UI" do
 
   it "can add a sibling" do
 
-    @driver.find_elements(:css => ".root-row").length.should eq(1)
-    @driver.find_elements(:css => ".largetree-node").length.should eq(3)
+    expect(@driver.find_elements(:css => ".root-row").length).to eq(1)
+    expect(@driver.find_elements(:css => ".largetree-node").length).to eq(3)
 
     tree_click(tree_node(@a3))
 
@@ -43,14 +43,14 @@ describe "Tree UI" do
     @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
     @driver.wait_for_ajax
 
-    @driver.find_elements(:css => ".largetree-node").length.should eq(4)
+    expect(@driver.find_elements(:css => ".largetree-node").length).to eq(4)
 
     # reload the parent form to make sure the changes stuck
     @driver.get("#{$frontend}/#{@r.uri.sub(/\/repositories\/\d+/, '')}/edit")
     @driver.wait_for_ajax
 
-    @driver.find_elements(:css => ".root-row").length.should eq(1)
-    @driver.find_elements(:css => ".largetree-node").length.should eq(4)
+    expect(@driver.find_elements(:css => ".root-row").length).to eq(1)
+    expect(@driver.find_elements(:css => ".largetree-node").length).to eq(4)
   end
 
 

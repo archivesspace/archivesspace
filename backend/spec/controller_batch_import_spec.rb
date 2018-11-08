@@ -24,15 +24,15 @@ describe "Batch Import Controller" do
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
 
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(10)
+    expect(results.last['saved'].length).to eq(10)
   end
-  
+
   it "can import a batch of JSON objects from a migrator and not slam the database with checks if position is provided" do
 
-    ArchivalObject.any_instance.should_not_receive(:set_position_in_list)
+    expect_any_instance_of(ArchivalObject).not_to receive(:set_position_in_list)
     batch_array = []
 
    resource = create(:json_resource)
@@ -48,21 +48,21 @@ describe "Batch Import Controller" do
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
 
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(10)
+    expect(results.last['saved'].length).to eq(10)
   end
 
   it "can import a batch of hierarchical JSON objects not from a migrator and will check positioning" do
 
-    ArchivalObject.any_instance.should_receive(:set_position_in_list)
+    expect_any_instance_of(ArchivalObject).to receive(:set_position_in_list).at_least(:once)
     batch_array = []
 
    resource = create(:json_resource)
 
     1.times do |i|
-	obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "B#{i.to_s}", :position => 1)
+	    obj = build(:json_archival_object, :resource => {:ref => resource.uri}, :title => "B#{i.to_s}", :position => 1)
         obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
         batch_array << obj
     end
@@ -72,9 +72,9 @@ describe "Batch Import Controller" do
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
 
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(1)
+    expect(results.last['saved'].length).to eq(1)
   end
 
   it "can import a batch of JSON objects with unknown enum values" do
@@ -89,7 +89,7 @@ describe "Batch Import Controller" do
 
       enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
 
-      enum.values.should_not include('spaghetti')
+      expect(enum.values).not_to include('spaghetti')
 
       obj = build(:json_resource, :resource_type => 'spaghetti')
       obj.uri = obj.class.uri_for(rand(100000), {:repo_id => $repo_id})
@@ -101,14 +101,14 @@ describe "Batch Import Controller" do
 
       response = JSONModel::HTTP.post_json(url, batch_array.to_json)
 
-      response.code.should eq('200')
+      expect(response.code).to eq('200')
 
       results = ASUtils.json_parse(response.body)
-      results.last['saved'].length.should eq(1)
+      expect(results.last['saved'].length).to eq(1)
 
       enum = JSONModel::JSONModel(:enumeration).all.find {|obj| obj.name == 'resource_resource_type' }
 
-      enum.values.should include('spaghetti')
+      expect(enum.values).to include('spaghetti')
     ensure
       # set things back as they were enum-source wise
       JSONModel.init_args[:enum_source] = old_enum_source
@@ -136,17 +136,17 @@ describe "Batch Import Controller" do
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(1)
+    expect(results.last['saved'].length).to eq(1)
 
     real_id = results.last['saved'][resource.uri][-1]
 
     resource_reloaded = JSONModel(:resource).find(real_id, "resolve[]" => ['subjects', 'related_accessions'])
 
-    resource_reloaded.subjects[0]['ref'].should eq(subject.uri)
-    resource_reloaded.related_accessions[0]['ref'].should eq(accession.uri)
+    expect(resource_reloaded.subjects[0]['ref']).to eq(subject.uri)
+    expect(resource_reloaded.related_accessions[0]['ref']).to eq(accession.uri)
 
   end
 
@@ -163,10 +163,10 @@ describe "Batch Import Controller" do
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(1)
+    expect(results.last['saved'].length).to eq(1)
   end
 
 
@@ -188,12 +188,12 @@ describe "Batch Import Controller" do
     url.query = URI.encode_www_form({:use_transaction => true})
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
 
-    results.last['errors'].length.should eq(1)
-    results.last['errors'][0].should match(/Inter\-repository links/)
+    expect(results.last['errors'].length).to eq(1)
+    expect(results.last['errors'][0]).to match(/Inter\-repository links/)
 
     # try again - ensure the resource wasn't saved the first time
 
@@ -202,10 +202,10 @@ describe "Batch Import Controller" do
     batch_array = [resource.to_hash(:raw)]
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(1)
+    expect(results.last['saved'].length).to eq(1)
   end
 
 
@@ -225,12 +225,12 @@ describe "Batch Import Controller" do
     url.query = URI.encode_www_form({:use_transaction => true})
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
 
-    results.last['errors'].length.should eq(1)
-    results.last['errors'][0].should match(/Reference does not exist/)
+    expect(results.last['errors'].length).to eq(1)
+    expect(results.last['errors'][0]).to match(/Reference does not exist/)
 
     # try again - ensure the resource wasn't saved the first time
 
@@ -239,15 +239,15 @@ describe "Batch Import Controller" do
     batch_array = [resource.to_hash(:raw)]
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(1)
+    expect(results.last['saved'].length).to eq(1)
   end
 
 
   it "creates a well-ordered resource tree" do
-    
+
     resource = build(:json_resource)
     resource.uri = resource.class.uri_for(rand(100000), {:repo_id => $repo_id})
 
@@ -271,16 +271,16 @@ describe "Batch Import Controller" do
     url.query = URI.encode_www_form({:use_transaction => true})
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(4)
+    expect(results.last['saved'].length).to eq(4)
     r_id = results.last['saved'][resource.uri][1]
 
     r = JSONModel.JSONModel(:resource).find(r_id, "resolve[]" => ['tree'])
     children = r['tree']['_resolved']['children']
 
-    children.map {|child| child['title']}.should eq [a1, a2, a3].map {|a| a.title}
+    expect(children.map {|child| child['title']}).to eq [a1, a2, a3].map {|a| a.title}
   end
 
 
@@ -319,7 +319,7 @@ describe "Batch Import Controller" do
     url.query = URI.encode_www_form({:use_transaction => true})
 
     response = JSONModel::HTTP.post_json(url, batch_array.to_json)
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     results = ASUtils.json_parse(response.body)
     r_id = results.last['saved'][resource.uri][1]
@@ -330,10 +330,10 @@ describe "Batch Import Controller" do
     result_order = children.map {|child| child['title']}
 
     # everything up to the double entry should be the same:
-    result_order[0..6].should eq(correct_order[0..6])
+    expect(result_order[0..6]).to eq(correct_order[0..6])
 
     # everything after the double entry should be the same:
-    result_order[-2..-1].should eq(correct_order[-2..-1])
+    expect(result_order[-2..-1]).to eq(correct_order[-2..-1])
 
     # (the double-entry members occupy 7 and 8)
   end
@@ -348,15 +348,15 @@ describe "Batch Import Controller" do
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
     response = JSONModel::HTTP.post_json(url, [obj].to_json)
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
     results = ASUtils.json_parse(response.body)
-    results.last['saved'].length.should eq(1)
+    expect(results.last['saved'].length).to eq(1)
 
     real_id = results.last['saved'][obj.uri][-1]
 
     obj_reloaded = JSONModel(:resource).find(real_id)
 
-    obj_reloaded.publish.should eq(Preference.defaults['publish'])
+    expect(obj_reloaded.publish).to eq(Preference.defaults['publish'])
   end
 
 end

@@ -3,14 +3,14 @@ require 'spec_helper'
 describe 'Sequence model' do
 
   it "Allows sequences to be retrieved" do
-    Sequence.get("new_sequence").should eq(0)
-    Sequence.get("new_sequence").should eq(1)
+    expect(Sequence.get("new_sequence")).to eq(0)
+    expect(Sequence.get("new_sequence")).to eq(1)
   end
 
 
   it "Lets you initialise a sequence to a number" do
     Sequence.init("another_sequence", 5)
-    Sequence.get("another_sequence").should eq(6)
+    expect(Sequence.get("another_sequence")).to eq(6)
   end
 
 
@@ -29,7 +29,7 @@ describe 'Sequence model' do
     }
 
     # Wow.  Take that, LawOfDemeter!
-    threads.map {|thread| thread.value}.flatten.uniq.count.should eq(test_threads * 100)
+    expect(threads.map {|thread| thread.value}.flatten.uniq.count).to eq(test_threads * 100)
   end
 
 end

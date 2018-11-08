@@ -4,9 +4,9 @@ describe 'Archival Object controller' do
 
   it "lets you create an archival object and get it back" do
     opts = {:title => 'The archival object title'}
-    
+
     created = create(:json_archival_object, opts).id
-    JSONModel(:archival_object).find(created).title.should eq(opts[:title])
+    expect(JSONModel(:archival_object).find(created).title).to eq(opts[:title])
   end
 
   it "returns nil if the archival object is not in this repository" do
@@ -21,11 +21,11 @@ describe 'Archival Object controller' do
 
   it "lets you list all archival objects" do
     create_list(:json_archival_object, 5)
-    JSONModel(:archival_object).all(:page => 1)['results'].count.should eq(5)
+    expect(JSONModel(:archival_object).all(:page => 1)['results'].count).to eq(5)
   end
 
   it "gives you a better error if a uri is jacked" do
-    expect { 
+    expect {
       create(:json_archival_object, :resource => {:ref => "/bad/uri"}, :title => "AO1")
     }.to raise_error(JSONModel::ValidationException)
   end
@@ -40,9 +40,9 @@ describe 'Archival Object controller' do
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
-    tree.children[0]["title"].should eq("AO1")
-    tree.children[1]["title"].should eq("AO2")
-    tree.children[2]["title"].should eq("AO3")
+    expect(tree.children[0]["title"]).to eq("AO1")
+    expect(tree.children[1]["title"]).to eq("AO2")
+    expect(tree.children[2]["title"]).to eq("AO3")
 
     ao_1 = JSONModel(:archival_object).find(ao_1.id)
     ao_1.position = 1  # the second position
@@ -50,9 +50,9 @@ describe 'Archival Object controller' do
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
-    tree.children[0]["title"].should eq("AO2")
-    tree.children[1]["title"].should eq("AO1")
-    tree.children[2]["title"].should eq("AO3")
+    expect(tree.children[0]["title"]).to eq("AO2")
+    expect(tree.children[1]["title"]).to eq("AO1")
+    expect(tree.children[2]["title"]).to eq("AO3")
   end
 
 
@@ -65,9 +65,9 @@ describe 'Archival Object controller' do
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
-    tree.children[0]["title"].should eq("AO1")
-    tree.children[1]["title"].should eq("AO3")
-    tree.children[2]["title"].should eq("AO2")
+    expect(tree.children[0]["title"]).to eq("AO1")
+    expect(tree.children[1]["title"]).to eq("AO3")
+    expect(tree.children[2]["title"]).to eq("AO2")
   end
 
 
@@ -79,8 +79,8 @@ describe 'Archival Object controller' do
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
 
-    tree.children[0]["title"].should eq("AO1")
-    tree.children[1]["title"].should eq("AO2")
+    expect(tree.children[0]["title"]).to eq("AO1")
+    expect(tree.children[1]["title"]).to eq("AO2")
   end
 
 
@@ -92,12 +92,12 @@ describe 'Archival Object controller' do
     opts = {:ref_id => 'xyz'}
 
     create(:json_archival_object, opts.merge(:resource => {:ref => alpha.uri}))
-    
-    expect { 
-      create(:json_archival_object, opts.merge(:resource => {:ref => beta.uri}))
-    }.to_not raise_error
 
-    expect { 
+    expect {
+      create(:json_archival_object, opts.merge(:resource => {:ref => beta.uri}))
+    }.not_to raise_error
+
+    expect {
       create(:json_archival_object, opts.merge(:resource => {:ref => alpha.uri}))
     }.to raise_error(JSONModel::ValidationException)
   end
@@ -105,16 +105,16 @@ describe 'Archival Object controller' do
 
   it "handles updates for an existing archival object" do
     created = create(:json_archival_object)
-    
+
     opts = {:title => 'A brand new title'}
 
     ao = JSONModel(:archival_object).find(created.id)
     ao.title = opts[:title]
     ao.save
 
-    JSONModel(:archival_object).find(created.id).title.should eq(opts[:title])
+    expect(JSONModel(:archival_object).find(created.id).title).to eq(opts[:title])
   end
-  
+
 
   it "lets you create an archival object with a subject" do
     vocab = create(:json_vocab)
@@ -123,28 +123,28 @@ describe 'Archival Object controller' do
 
     created = create(:json_archival_object, :subjects => [{:ref => subject.uri}])
 
-    JSONModel(:archival_object).find(created.id).subjects[0]['ref'].should eq(subject.uri)
+    expect(JSONModel(:archival_object).find(created.id).subjects[0]['ref']).to eq(subject.uri)
   end
 
 
   it "can resolve subjects for you" do
     vocab = create(:json_vocab)
-    
+
     opts = {:term => generate(:term)}
 
-    subject = create(:json_subject, {:terms => 
+    subject = create(:json_subject, {:terms =>
                                         [build(
-                                          :json_term, 
+                                          :json_term,
                                           opts.merge(:vocabulary => vocab.uri)
                                           )
-                                        ], 
+                                        ],
                                      :vocabulary => vocab.uri})
 
     created = create(:json_archival_object, :subjects => [{:ref => subject.uri}])
 
     ao = JSONModel(:archival_object).find(created.id, "resolve[]" => "subjects")
 
-    ao['subjects'][0]['_resolved']["terms"][0]["term"].should eq(opts[:term])
+    expect(ao['subjects'][0]['_resolved']["terms"][0]["term"]).to eq(opts[:term])
   end
 
 
@@ -154,12 +154,12 @@ describe 'Archival Object controller' do
     ao = JSONModel(:archival_object).find(created.id)
     ref_id = ao.ref_id
 
-    ref_id.should_not be_nil
+    expect(ref_id).not_to be_nil
 
     ao.ref_id = "foo"
     ao.save
 
-    JSONModel(:archival_object).find(created.id).ref_id.should eq(ref_id)
+    expect(JSONModel(:archival_object).find(created.id).ref_id).to eq(ref_id)
   end
 
 
@@ -176,21 +176,21 @@ describe 'Archival Object controller' do
                    })
 
     get "#{$repo}/archival_objects/#{parent.id}/children"
-    last_response.should be_ok
+    expect(last_response).to be_ok
 
     children = JSON(last_response.body)
-    children[0]['title'].should eq('Child')
+    expect(children[0]['title']).to eq('Child')
   end
 
 
   it "will have the auto-generated ref_id refetched upon save" do
     archival_object = build(:json_archival_object, "ref_id" => nil)
 
-    archival_object.ref_id.should be_nil
+    expect(archival_object.ref_id).to be_nil
 
     archival_object.save
 
-    archival_object.ref_id.should_not be_nil
+    expect(archival_object.ref_id).not_to be_nil
   end
 
 
@@ -202,11 +202,11 @@ describe 'Archival Object controller' do
                                                                             ]
                                                    })
 
-    archival_object.rights_statements[0]["identifier"].should be_nil
+    expect(archival_object.rights_statements[0]["identifier"]).to be_nil
 
     archival_object.save
 
-    archival_object.rights_statements[0]["identifier"].should_not be_nil
+    expect(archival_object.rights_statements[0]["identifier"]).not_to be_nil
   end
 
 
@@ -225,11 +225,11 @@ describe 'Archival Object controller' do
 
     ao = JSONModel(:archival_object).find(created.id, "resolve[]" => "subjects")
 
-    ao['subjects'][0]['_resolved']["terms"][0]["term"].should eq(opts[:term])
+    expect(ao['subjects'][0]['_resolved']["terms"][0]["term"]).to eq(opts[:term])
 
     ao.refetch
 
-    ao['subjects'][0]['_resolved']["terms"][0]["term"].should eq(opts[:term])
+    expect(ao['subjects'][0]['_resolved']["terms"][0]["term"]).to eq(opts[:term])
   end
 
 
@@ -241,7 +241,7 @@ describe 'Archival Object controller' do
     archival_object.notes = [notes]
     archival_object.save
 
-    JSONModel(:archival_object).find(archival_object.id)[:notes].first['content'].should eq(notes.to_hash['content'])
+    expect(JSONModel(:archival_object).find(archival_object.id)[:notes].first['content']).to eq(notes.to_hash['content'])
   end
 
 
@@ -255,9 +255,9 @@ describe 'Archival Object controller' do
     archival_object.save
 
     ArchivalObject[archival_object.id].publish!
-    ArchivalObject[archival_object.id].note.all? {|note|
+    expect(ArchivalObject[archival_object.id].note.all? {|note|
       note.publish == 1
-    }.should be_truthy
+    }).to be_truthy
   end
 
 
@@ -271,7 +271,7 @@ describe 'Archival Object controller' do
 
     expect {
       ArchivalObject[archival_object.id].publish!
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -279,7 +279,7 @@ describe 'Archival Object controller' do
     ref_id = ':crazy.times:'
     ao = create(:json_archival_object, :ref_id => ref_id)
 
-    JSONModel(:archival_object).find(ao.id)[:ref_id].should eq(ref_id)
+    expect(JSONModel(:archival_object).find(ao.id)[:ref_id]).to eq(ref_id)
   end
 
 
@@ -298,20 +298,20 @@ describe 'Archival Object controller' do
     response = JSONModel::HTTP.post_json(url, children.to_json)
     json_response = ASUtils.json_parse(response.body)
 
-    json_response["status"].should eq("Updated")
+    expect(json_response["status"]).to eq("Updated")
     get "#{$repo}/archival_objects/#{json_response["id"]}/children"
-    last_response.should be_ok
+    expect(last_response).to be_ok
 
     children = JSON(last_response.body)
 
-    children.length.should eq(2)
-    children[0]["title"].should eq(archival_object_1["title"])
-    children[0]["parent"]["ref"].should eq(parent_archival_object.uri)
-    children[0]["resource"]["ref"].should eq(resource.uri)
+    expect(children.length).to eq(2)
+    expect(children[0]["title"]).to eq(archival_object_1["title"])
+    expect(children[0]["parent"]["ref"]).to eq(parent_archival_object.uri)
+    expect(children[0]["resource"]["ref"]).to eq(resource.uri)
 
-    children[1]["title"].should eq(archival_object_2["title"])
-    children[1]["parent"]["ref"].should eq(parent_archival_object.uri)
-    children[1]["resource"]["ref"].should eq(resource.uri)
+    expect(children[1]["title"]).to eq(archival_object_2["title"])
+    expect(children[1]["parent"]["ref"]).to eq(parent_archival_object.uri)
+    expect(children[1]["resource"]["ref"]).to eq(resource.uri)
   end
 
   it "lets you create an archival object with an instance with a container with a location (and the location is resolved)" do
@@ -336,8 +336,8 @@ describe 'Archival Object controller' do
     obj = JSONModel(:archival_object).find(archival_object.id, "resolve[]" => "top_container::container_locations")
 
     loc = obj.instances[0]["sub_container"]['top_container']['_resolved']["container_locations"][0]
-    loc["status"].should eq(status)
-    loc["_resolved"]["building"].should eq(location.building)
+    expect(loc["status"]).to eq(status)
+    expect(loc["_resolved"]["building"]).to eq(location.building)
   end
 
 
@@ -351,20 +351,20 @@ describe 'Archival Object controller' do
     response = JSONModel::HTTP::post_form("#{target.uri}/accept_children", {"children[]" => [sibling_1.uri, sibling_2.uri], "position" => 0})
     json_response = ASUtils.json_parse(response.body)
 
-    json_response["status"].should eq("Updated")
+    expect(json_response["status"]).to eq("Updated")
     get "#{$repo}/archival_objects/#{target.id}/children"
-    last_response.should be_ok
+    expect(last_response).to be_ok
 
     children = ASUtils.json_parse(last_response.body)
 
-    children.length.should eq(2)
-    children[0]["title"].should eq(sibling_1["title"])
-    children[0]["parent"]["ref"].should eq(target.uri)
-    children[0]["resource"]["ref"].should eq(resource.uri)
+    expect(children.length).to eq(2)
+    expect(children[0]["title"]).to eq(sibling_1["title"])
+    expect(children[0]["parent"]["ref"]).to eq(target.uri)
+    expect(children[0]["resource"]["ref"]).to eq(resource.uri)
 
-    children[1]["title"].should eq(sibling_2["title"])
-    children[1]["parent"]["ref"].should eq(target.uri)
-    children[1]["resource"]["ref"].should eq(resource.uri)
+    expect(children[1]["title"]).to eq(sibling_2["title"])
+    expect(children[1]["parent"]["ref"]).to eq(target.uri)
+    expect(children[1]["resource"]["ref"]).to eq(resource.uri)
   end
 
 end

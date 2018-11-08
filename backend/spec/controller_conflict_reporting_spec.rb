@@ -29,8 +29,8 @@ describe "Conflicting record handling" do
                     e
                   end
 
-      exception.should_not be(nil)
-      exception.errors['conflicting_record'].should eq([subject.uri])
+      expect(exception).not_to be_nil
+      expect(exception.errors['conflicting_record']).to eq([subject.uri])
     end
 
 
@@ -46,8 +46,8 @@ describe "Conflicting record handling" do
                     e
                   end
 
-      exception.should_not be(nil)
-      exception.errors['conflicting_record'].should eq([subject_a.uri])
+      expect(exception).not_to be_nil
+      expect(exception.errors['conflicting_record']).to eq([subject_a.uri])
     end
   end
 
@@ -79,8 +79,8 @@ describe "Conflicting record handling" do
                       e
                     end
 
-        exception.should_not be(nil)
-        exception.errors['conflicting_record'].should eq([agent_a.uri])
+        expect(exception).not_to be_nil
+        expect(exception.errors['conflicting_record']).to eq([agent_a.uri])
       end
     end
 
@@ -100,8 +100,8 @@ describe "Conflicting record handling" do
                       e
                     end
 
-        exception.should_not be(nil), "No exception on update for #{agent_type}"
-        exception.errors['conflicting_record'].should eq([agent_a.uri])
+        expect(exception).not_to be_nil, "No exception on update for #{agent_type}"
+        expect(exception.errors['conflicting_record']).to eq([agent_a.uri])
       end
     end
   end

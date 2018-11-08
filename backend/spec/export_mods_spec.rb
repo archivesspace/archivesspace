@@ -27,7 +27,7 @@ describe "Exported MODS metadata" do
     @agent_person = create(:json_agent_person,
                            :names => names)
 
-    @agent_corporation = create(:json_agent_corporate_entity, 
+    @agent_corporation = create(:json_agent_corporate_entity,
                                 :names => [build(:json_name_corporate_entity,
                                     :authority_id => rand(1000000).to_s
                                   )]
@@ -38,8 +38,8 @@ describe "Exported MODS metadata" do
     @subjects = (0..7).map { create(:json_subject) }
 
     # ensure at least one subject will be of type 'technique' and 'function'
-    @subjects[6]['term_type'] = 'technique' 
-    @subjects[7]['term_type'] = 'function' 
+    @subjects[6]['term_type'] = 'technique'
+    @subjects[7]['term_type'] = 'function'
 
     linked_agents = [{
                        :role => 'creator',
@@ -123,19 +123,19 @@ describe "Exported MODS metadata" do
 
     it "maps each name to a name tag" do
       @agent_person.names.each do |name|
-        @mods.should have_tag "mods/name[@type='personal'][@authority='#{name['source']}']/namePart[@type='family']" => name['primary_name']
+        expect(@mods).to have_tag "mods/name[@type='personal'][@authority='#{name['source']}']/namePart[@type='family']" => name['primary_name']
       end
     end
 
 
     it "creates a role for each name" do
-      @mods.should have_tag "mods/name[@type='personal']/role/roleTerm[@type='text'][@authority='marcrelator']" => "creator"
+      expect(@mods).to have_tag "mods/name[@type='personal']/role/roleTerm[@type='text'][@authority='marcrelator']" => "creator"
     end
 
     it "should put authority_id and source in the name tag for corporate agents" do
       authority_id = @agent_corporation['names'][0]['authority_id']
       source       = @agent_corporation['names'][0]['source']
-      @mods.should have_tag "name[@type='corporate'][@valueURI='#{authority_id}'][@authority='#{source}']"
+      expect(@mods).to have_tag "name[@type='corporate'][@valueURI='#{authority_id}'][@authority='#{source}']"
     end
   end
 
@@ -143,7 +143,7 @@ describe "Exported MODS metadata" do
   describe "names of subjects" do
 
     it "wraps agents related as subjects in a subject tag" do
-      @mods.should have_tag "mods/subject/name/namePart" => @subject_person.names[0]['primary_name']
+      expect(@mods).to have_tag "mods/subject/name/namePart" => @subject_person.names[0]['primary_name']
     end
 
   end
@@ -153,21 +153,21 @@ describe "Exported MODS metadata" do
 
     it "maps each subject to a subject tag" do
       @subjects.each do |subject|
-      @mods.should have_tag "mods/subject[@authority='#{subject['source']}']"
+      expect(@mods).to have_tag "mods/subject[@authority='#{subject['source']}']"
         subject['terms'].each do |term|
           case term['term_type']
           when 'geographic', 'cultural_context'
-            @mods.should have_tag "subject/geographic" => term['term']
+            expect(@mods).to have_tag "subject/geographic" => term['term']
           when 'temporal'
-            @mods.should have_tag "subject/temporal" => term['term']
+            expect(@mods).to have_tag "subject/temporal" => term['term']
           when 'uniform_title'
-            @mods.should have_tag "subject/titleInfo" => term['term']
+            expect(@mods).to have_tag "subject/titleInfo" => term['term']
           when 'genre_form', 'style_period', 'technique', 'function'
-            @mods.should have_tag "subject/genre" => term['term']
+            expect(@mods).to have_tag "subject/genre" => term['term']
           when 'occupation'
-            @mods.should have_tag "subject/occupation" => term['term']
+            expect(@mods).to have_tag "subject/occupation" => term['term']
           else
-            @mods.should have_tag "subject/topic" => term['term']
+            expect(@mods).to have_tag "subject/topic" => term['term']
           end
         end
       end
@@ -176,84 +176,84 @@ describe "Exported MODS metadata" do
 
   describe "dates" do
     it "maps to dateCreated (expression date)" do
-      @mods.should have_tag "dateCreated" => "1970s-ish"
+      expect(@mods).to have_tag "dateCreated" => "1970s-ish"
     end
 
     it "maps to dateIssued (begin only)" do
-      @mods.should have_tag "dateIssued[@point='start']" => "04-01-2018"
-      @mods.should have_tag "dateIssued[@point='start']" => "05-01-2018"
-      @mods.should have_tag "dateIssued[@point='start']" => "06-01-2018"
+      expect(@mods).to have_tag "dateIssued[@point='start']" => "04-01-2018"
+      expect(@mods).to have_tag "dateIssued[@point='start']" => "05-01-2018"
+      expect(@mods).to have_tag "dateIssued[@point='start']" => "06-01-2018"
     end
 
     it "maps to dateCaptured (begin only)" do
-      @mods.should have_tag "dateIssued[@point='start']" => "06-01-2018"
+      expect(@mods).to have_tag "dateIssued[@point='start']" => "06-01-2018"
     end
 
     it "maps to copyrightDate as two tags with start and end" do
-      @mods.should have_tag "copyrightDate[@point='start']" => "10-10-1998"
-      @mods.should have_tag "copyrightDate[@point='end']" => "10-10-2008"
+      expect(@mods).to have_tag "copyrightDate[@point='start']" => "10-10-1998"
+      expect(@mods).to have_tag "copyrightDate[@point='end']" => "10-10-2008"
     end
 
     it "maps to dateModified (expression date)" do
-      @mods.should have_tag "dateModified" => "Last week"
+      expect(@mods).to have_tag "dateModified" => "Last week"
     end
 
     it "maps to dateOther (begin only)" do
-      @mods.should have_tag "dateOther[@point='start']" => "07-01-2018"
+      expect(@mods).to have_tag "dateOther[@point='start']" => "07-01-2018"
     end
 
     it "should to correct qualifier tag" do
-      @mods.should have_tag "dateCreated[@qualifier='questionable']"
-      @mods.should have_tag "dateCaptured[@qualifier='inferred']"
-      @mods.should have_tag "copyrightDate[@qualifier='approximate']"
+      expect(@mods).to have_tag "dateCreated[@qualifier='questionable']"
+      expect(@mods).to have_tag "dateCaptured[@qualifier='inferred']"
+      expect(@mods).to have_tag "copyrightDate[@qualifier='approximate']"
     end
 
     it "should set encoding, keyDate attributes correctly" do
-      @mods.should have_tag "dateCaptured[@encoding='w3cdtf'][@keyDate='yes']"
-      @mods.should have_tag "copyrightDate[@encoding='w3cdtf'][@keyDate='yes']"
-      @mods.should have_tag "dateIssued[@encoding='w3cdtf'][@keyDate='yes']"
-      @mods.should have_tag "dateOther[@encoding='w3cdtf'][@keyDate='yes']"
+      expect(@mods).to have_tag "dateCaptured[@encoding='w3cdtf'][@keyDate='yes']"
+      expect(@mods).to have_tag "copyrightDate[@encoding='w3cdtf'][@keyDate='yes']"
+      expect(@mods).to have_tag "dateIssued[@encoding='w3cdtf'][@keyDate='yes']"
+      expect(@mods).to have_tag "dateOther[@encoding='w3cdtf'][@keyDate='yes']"
 
       # expression dates should not have encoding, keydate or point attrs
-      @mods.should_not have_tag "dateCreated[@encoding='w3cdtf']"
-      @mods.should_not have_tag "dateCreated[@keyDate='yes']"
-      @mods.should_not have_tag "dateCreated[@point]"
+      expect(@mods).not_to have_tag "dateCreated[@encoding='w3cdtf']"
+      expect(@mods).not_to have_tag "dateCreated[@keyDate='yes']"
+      expect(@mods).not_to have_tag "dateCreated[@point]"
 
-      @mods.should_not have_tag "dateModified[@encoding='w3cdtf']"
-      @mods.should_not have_tag "dateModified[@keyDate='yes']"
-      @mods.should_not have_tag "dateModified[@point]"
+      expect(@mods).not_to have_tag "dateModified[@encoding='w3cdtf']"
+      expect(@mods).not_to have_tag "dateModified[@keyDate='yes']"
+      expect(@mods).not_to have_tag "dateModified[@point]"
     end
   end
 
   describe "extents" do
     it "should export extents in a physicalDescription/extent tag" do
-      @mods.should have_tag "physicalDescription/extent" => @digital_object['extents'][0]['number'] + " " + @digital_object['extents'][0]['extent_type']
+      expect(@mods).to have_tag "physicalDescription/extent" => @digital_object['extents'][0]['number'] + " " + @digital_object['extents'][0]['extent_type']
     end
 
     it "should map contents of extent['dimensions'] to a note tag" do
-      @mods.should have_tag "physicalDescription/note[@type='dimensions'][@displayLabel='Dimensions']" => @digital_object['extents'][0]['dimensions']
+      expect(@mods).to have_tag "physicalDescription/note[@type='dimensions'][@displayLabel='Dimensions']" => @digital_object['extents'][0]['dimensions']
     end
 
     it "should map contents of extent['physical_details'] to a note tag" do
-      @mods.should have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => @digital_object['extents'][0]['physical_details']
+      expect(@mods).to have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => @digital_object['extents'][0]['physical_details']
     end
   end
 
   describe "mods_inner" do
     it "creates an identifier tag for the digitial object id" do
-      @mods.should have_tag "identifier" => @digital_object['digital_object_id']
+      expect(@mods).to have_tag "identifier" => @digital_object['digital_object_id']
     end
 
     it "creates a typeOfResource tag for the digital object type" do
-      @mods.should have_tag "typeOfResource" => I18n.t("enumerations.digital_object_digital_object_type." + @digital_object['digital_object_type'])
+      expect(@mods).to have_tag "typeOfResource" => I18n.t("enumerations.digital_object_digital_object_type." + @digital_object['digital_object_type'])
     end
 
     it "creates a language/languageTerm tag for the language term" do
-      @mods.should have_tag "language/languageTerm[@type='text'][@authority='iso639-2b']" => I18n.t("enumerations.language_iso639_2." + @digital_object['language'])
+      expect(@mods).to have_tag "language/languageTerm[@type='text'][@authority='iso639-2b']" => I18n.t("enumerations.language_iso639_2." + @digital_object['language'])
     end
 
     it "creates a language/languageTerm tag for the language code" do
-      @mods.should have_tag "language/languageTerm[@type='code'][@authority='iso639-2b']" => 'fre'
+      expect(@mods).to have_tag "language/languageTerm[@type='code'][@authority='iso639-2b']" => 'fre'
     end
 
     it "does not create a language/languageTerm tag if language is not specified" do
@@ -261,7 +261,7 @@ describe "Exported MODS metadata" do
                               :digital_object_type => "notated_music")
 
       mods = get_mods(digital_object)
-      mods.should_not have_tag "language/languageTerm"
+      expect(mods).not_to have_tag "language/languageTerm"
     end
   end
 
@@ -273,23 +273,23 @@ describe "Exported MODS metadata" do
         content = note_content(note)
         case note['type']
         when 'abstract', 'scopecontent'
-          @mods.should have_tag "abstract" => content
+          expect(@mods).to have_tag "abstract" => content
         when 'bioghist', 'odd'
-          @mods.should have_tag "note" => content
+          expect(@mods).to have_tag "note" => content
         when 'acquinfo'
-          @mods.should have_tag "note[@type='acquisition']" => content
+          expect(@mods).to have_tag "note[@type='acquisition']" => content
         when 'citation'
-          @mods.should have_tag "note[@type='citation']" => content
+          expect(@mods).to have_tag "note[@type='citation']" => content
         when 'accessrestrict'
-          @mods.should have_tag "accessCondition[@type='restrictionOnAccess']" => content
+          expect(@mods).to have_tag "accessCondition[@type='restrictionOnAccess']" => content
         when 'userestrict'
-          @mods.should have_tag "accessCondition[@type='useAndReproduction']" => content
+          expect(@mods).to have_tag "accessCondition[@type='useAndReproduction']" => content
         when 'legalstatus'
-          @mods.should have_tag "accessCondition" => content
+          expect(@mods).to have_tag "accessCondition" => content
         when 'physdesc'
-          @mods.should have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => content
+          expect(@mods).to have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => content
         when 'dimensions'
-          @mods.should have_tag "physicalDescription/note[@type='dimensions'][@displayLabel='Dimensions']" => content
+          expect(@mods).to have_tag "physicalDescription/note[@type='dimensions'][@displayLabel='Dimensions']" => content
         end
       end
     end
@@ -307,7 +307,7 @@ describe "Exported MODS metadata" do
                       @repo_contact.country].compact.join(', ')
       note_content << " (#{@repo.url})" if @repo.url
 
-      @mods.should have_tag "note[@displayLabel='Digital object made available by']" => note_content
+      expect(@mods).to have_tag "note[@displayLabel='Digital object made available by']" => note_content
     end
   end
 
@@ -315,8 +315,8 @@ describe "Exported MODS metadata" do
   describe "related items" do
 
     it "maps each digital object component to a related item" do
-      @mods.should have_tag "relatedItem[@type='constituent'][#{@components.count}]"
-      @mods.should_not have_tag "relatedItem[@type='constituent'][#{@components.count + 1}]"
+      expect(@mods).to have_tag "relatedItem[@type='constituent'][#{@components.count}]"
+      expect(@mods).not_to have_tag "relatedItem[@type='constituent'][#{@components.count + 1}]"
     end
   end
 end
@@ -328,16 +328,16 @@ describe "unpublished extent notes" do
     @physdesc_note = notes.select {|n| n['type'] == 'physdesc' }
 
     @digital_object_unpub = create(:json_digital_object,
-                                    :notes => notes) 
+                                    :notes => notes)
 
     @mods = get_mods(@digital_object_unpub)
   end
 
   it "should not export extent notes if unpublished" do
-    @mods.should_not have_tag "physicalDescription/note[@type='dimensions'][@displayLabel='Dimensions']" => note_content(@dimension_note[0])
+    expect(@mods).not_to have_tag "physicalDescription/note[@type='dimensions'][@displayLabel='Dimensions']" => note_content(@dimension_note[0])
   end
 
   it "should not export physical_description note if it is unpublished" do
-    @mods.should_not have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => note_content(@physdesc_note[0])
+    expect(@mods).not_to have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => note_content(@physdesc_note[0])
   end
 end

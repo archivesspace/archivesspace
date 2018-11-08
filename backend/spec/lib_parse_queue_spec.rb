@@ -18,13 +18,13 @@ describe 'ParseQueue' do
       batch << test_record
     end
 
-    batch.working_area.length.should eq(5)
+    expect(batch.working_area.length).to eq(5)
   end
 
 
   it "stores records in a file when the working area is flushed" do
     file = double
-    file.should_receive(:write).exactly(4).times
+    expect(file).to receive(:write).exactly(4).times
 
     batch = ASpaceImport::RecordBatch.new(:working_file => file)
 
@@ -32,9 +32,9 @@ describe 'ParseQueue' do
       batch << test_record
     end
 
-    batch.working_area.length.should eq(2)
+    expect(batch.working_area.length).to eq(2)
     batch.flush
-    batch.working_area.length.should eq(0)
+    expect(batch.working_area.length).to eq(0)
   end
 
 
@@ -54,7 +54,7 @@ describe 'ParseQueue' do
     it "won't let two identical date subrecords go through" do
       batch << test_record
 
-      batch.working_area.last.dates.length.should eq(1)
+      expect(batch.working_area.last.dates.length).to eq(1)
     end
 
   end

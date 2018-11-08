@@ -13,20 +13,20 @@ describe 'Subject controller' do
 
   it "lets you create a subject and get it back" do
     subject = create(:json_subject, :terms => [build(:json_term, "term" => "1981 Heroes")], :scope_note => "scopenote")
-    JSONModel(:subject).find(subject.id).terms[0]["term"].should eq("1981 Heroes")
-    JSONModel(:subject).find(subject.id).scope_note.should eq("scopenote")
+    expect(JSONModel(:subject).find(subject.id).terms[0]["term"]).to eq("1981 Heroes")
+    expect(JSONModel(:subject).find(subject.id).scope_note).to eq("scopenote")
   end
 
 
   it "lets you list all subjects" do
     create(:json_subject)
-    JSONModel(:subject).all(:page => 1)['results'].count.should be > 0
+    expect(JSONModel(:subject).all(:page => 1)['results'].count).to be > 0
   end
 
 
   it "knows its own URI" do
     id = create(:json_subject).id
-    JSONModel(:subject).find(id).uri.should eq("/subjects/#{id}")
+    expect(JSONModel(:subject).find(id).uri).to eq("/subjects/#{id}")
   end
 
 
@@ -35,7 +35,7 @@ describe 'Subject controller' do
     subject['authority_id'] = "CustomIdentifier123"
     subject.save
 
-    JSONModel(:subject).find(subject.id).authority_id.should eq("CustomIdentifier123")
+    expect(JSONModel(:subject).find(subject.id).authority_id).to eq("CustomIdentifier123")
   end
 
 
@@ -43,7 +43,7 @@ describe 'Subject controller' do
     id = create(:json_subject).id
     subject = JSONModel(:subject).find(id)
 
-    JSONModel(:subject).id_for(subject['uri']).should eq(id)
+    expect(JSONModel(:subject).id_for(subject['uri'])).to eq(id)
   end
 
 end

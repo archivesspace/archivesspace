@@ -54,19 +54,19 @@ describe "Resource instances and containers" do
 
     results = @driver.find_element(:id => "bulk_operation_results")
 
-    results.find_elements(:css => "tbody tr").length.should eq(5)
+    expect(results.find_elements(:css => "tbody tr").length).to eq(5)
 
     # Now sort by indicator
     @driver.find_element(:css => "#bulk_operation_results th:nth-child(5)").click
 
     @driver.wait_for_ajax
 
-    
-    @driver.find_element(:css => "#bulk_operation_results tbody tr:first-child td.top-container-indicator").text.should eq('Letter E')
+
+    expect(@driver.find_element(:css => "#bulk_operation_results tbody tr:first-child td.top-container-indicator").text).to eq('Letter A')
 
     @driver.find_element(:css => "#bulk_operation_results tbody tr:first-child td:first-child input").click
 
-    # Now bulk update Letter E's ILD #
+    # Now bulk update Letter A's ILD #
     @driver.find_element(:css => ".bulk-operation-toolbar:first-child a.dropdown-toggle").click
     @driver.wait_for_dropdown
 
@@ -82,13 +82,13 @@ describe "Resource instances and containers" do
 
     expect {
       modal.find_element_with_text('//div[contains(@class, "alert-success")]', /Top .+ updated/)
-    }.to_not raise_error
+    }.not_to raise_error
 
     modal.find_element(:css => ".modal-footer button").click
 
     @driver.click_and_wait_until_gone(:css => "#bulk_operation_results tbody tr:first-child td:last-child a:first-child")
 
-    @driver.find_element(:css => ".form-group:nth-child(3) div.label-only").text.should eq("xyzpdq")
+    expect(@driver.find_element(:css => ".form-group:nth-child(3) div.label-only").text).to eq("xyzpdq")
   end
 
 
@@ -129,11 +129,11 @@ describe "Resource instances and containers" do
     elt.find_element(:css => 'h3 > button').click
 
     assert(5) {
-      elt.find_element(:css => '#top_container_container_locations__0__start_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
+      expect(elt.find_element(:css => '#top_container_container_locations__0__start_date_').attribute('value')).to eq(Time.now.strftime("%Y-%m-%d"))
     }
 
     assert(5) {
-      elt.find_element(:css => '#top_container_container_locations__0__end_date_').attribute('value').should eq("")
+      expect(elt.find_element(:css => '#top_container_container_locations__0__end_date_').attribute('value')).to eq("")
     }
 
     @driver.scroll_into_view(elt.find_element(:css, ".dropdown-toggle.locations")).click
@@ -158,7 +158,7 @@ describe "Resource instances and containers" do
 
     expect {
       @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource .+ updated/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
   it "can also attach instances to accessions and create containers and locations along the way" do
@@ -182,11 +182,11 @@ describe "Resource instances and containers" do
     elt.find_element(:css => 'h3 > button').click
 
     assert(5) {
-      elt.find_element(:css => '#top_container_container_locations__0__start_date_').attribute('value').should eq(Time.now.strftime("%Y-%m-%d"))
+      expect(elt.find_element(:css => '#top_container_container_locations__0__start_date_').attribute('value')).to eq(Time.now.strftime("%Y-%m-%d"))
     }
 
     assert(5) {
-      elt.find_element(:css => '#top_container_container_locations__0__end_date_').attribute('value').should eq("")
+      expect(elt.find_element(:css => '#top_container_container_locations__0__end_date_').attribute('value')).to eq("")
     }
 
     @driver.scroll_into_view(elt.find_element(:css, ".dropdown-toggle.locations")).click
@@ -210,7 +210,7 @@ describe "Resource instances and containers" do
 
     expect {
       @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Accession .+ updated/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -226,14 +226,14 @@ describe "Resource instances and containers" do
     new_loc.find_element(:id, "top_container_container_locations__1__status_").select_option_with_text('Previous')
 
     token_input = new_loc.find_element(:css => "li.token-input-input-token input")
-     @driver.typeahead_and_select( token_input, @location_b.building ) 
+     @driver.typeahead_and_select( token_input, @location_b.building )
 
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
     # it won't let you save a 'Previous' location without an end date
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /End Date.*Status.*Previous.*/)
-    }.to_not raise_error
+    }.not_to raise_error
 
     new_loc = @driver.find_element(:css => "li.sort-enabled[data-index='1']")
 
@@ -243,55 +243,55 @@ describe "Resource instances and containers" do
 
     expect {
       @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Top Container Updated/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
-  
+
 
   it "can calculate extents" do
 
     @driver.navigate.to("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
     @driver.find_element(:link, 'More').click
     @driver.find_element(:link, 'Calculate Extent').click
-    
+
     modal = @driver.find_element(:id => "extentCalculationModal")
     modal.find_element(:id => "extent_extent_type_").select_option("volumes")
     modal.find_element(:link, "Create Extent").click
 
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
-    @driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/).should_not be_nil
-    
+    expect(@driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/)).not_to be_nil
+
      @driver.find_element(:link, 'Close Record').click
 
     # it can see two Extents on the saved Resource
     extent_headings = @driver.blocking_find_elements(:css => '#resource_extents_ .panel-heading')
 
-    extent_headings.length.should eq (2)
-    assert(5) { extent_headings[0].text.should match (/^\d.*/) }
-    assert(5) { extent_headings[1].text.should match (/^\d.*/) }
+    expect(extent_headings.length).to eq (2)
+    assert(5) { expect(extent_headings[0].text).to match (/^\d.*/) }
+    assert(5) { expect(extent_headings[1].text).to match (/^\d.*/) }
 
   end
-  
+
   it "& fer accessions too!" do
 
     @driver.navigate.to("#{$frontend}#{@accession.uri.sub(/\/repositories\/\d+/, '')}/edit")
     @driver.find_element(:link, 'More').click
     @driver.find_element(:link, 'Calculate Extent').click
-    
+
     modal = @driver.find_element(:id => "extentCalculationModal")
     modal.find_element(:id => "extent_extent_type_").select_option("volumes")
     modal.find_element(:link, "Create Extent").click
 
     @driver.find_element(:css => "form#accession_form button[type='submit']").click
-    @driver.find_element_with_text('//div', /\bAccession\b.*\bupdated\b/).should_not be_nil
-    
+    expect(@driver.find_element_with_text('//div', /\bAccession\b.*\bupdated\b/)).not_to be_nil
+
     @driver.navigate.to("#{$frontend}#{@accession.uri.sub(/\/repositories\/\d+/, '')}")
-    
+
 
     # it can see two Extents on the saved Accesion
     extent_headings = @driver.blocking_find_elements(:css => '#accession_extents_ .panel-heading')
 
-    extent_headings.length.should eq (1)
-    assert(5) { extent_headings[0].text.should match (/^\d.*/) }
+    expect(extent_headings.length).to eq (1)
+    assert(5) { expect(extent_headings[0].text).to match (/^\d.*/) }
 
   end
 

@@ -46,17 +46,17 @@ describe 'URIResolver' do
   end
 
   it "handles an empty records and empty resolve list" do
-    resolve([], []).should eq ([])
+    expect(resolve([], [])).to eq ([])
   end
 
   it "makes no change if given a record but no properties to resolve" do
-    resolve(minimal_record, []).should eq(minimal_record)
+    expect(resolve(minimal_record, [])).to eq(minimal_record)
   end
 
   it "resolves a single record" do
     resolved = resolve(minimal_record, ['linked_record'])
 
-    resolved['linked_record']['_resolved'].should eq(linked_minimal_record)
+    expect(resolved['linked_record']['_resolved']).to eq(linked_minimal_record)
   end
 
   it "resolves an array of records" do
@@ -64,7 +64,7 @@ describe 'URIResolver' do
                        ['linked_record'])
 
     resolved.each do |record|
-      record['linked_record']['_resolved'].should eq(linked_minimal_record)
+      expect(record['linked_record']['_resolved']).to eq(linked_minimal_record)
     end
   end
 
@@ -72,23 +72,23 @@ describe 'URIResolver' do
     resolved = resolve(record_with_array_of_refs,
                        ['linked_record'])
 
-    resolved['linked_record']
+    expect(resolved['linked_record']
       .map {|ref| ref['_resolved']}
-      .sort_by {|rec| rec['uri']}
-      .should eq([minimal_record, linked_minimal_record])
+      .sort_by {|rec| rec['uri']})
+      .to eq([minimal_record, linked_minimal_record])
   end
 
   it "only resolves the properties requested" do
     resolved = resolve(minimal_record, ['linked_record'])
 
-    resolved['another_linked_record'].has_key?('_resolved').should be(false)
+    expect(resolved['another_linked_record'].has_key?('_resolved')).to be_falsey
   end
 
   it "resolves nested properties at each level provided" do
     # Resolve from 3 to 1 to 2
     resolved = resolve(record_with_array_of_refs, ["linked_record::linked_record"])
 
-    resolved['linked_record'][0]['_resolved']['linked_record']['_resolved'].should eq(linked_minimal_record)
+    expect(resolved['linked_record'][0]['_resolved']['linked_record']['_resolved']).to eq(linked_minimal_record)
   end
 
   it "resolves tree URIs" do
@@ -109,7 +109,7 @@ describe 'URIResolver' do
 
     expect {
       URIResolver.ensure_reference_is_valid("/repositories/2/resources/1")
-    }.to_not raise_error
+    }.not_to raise_error
 
     expect {
       URIResolver.ensure_reference_is_valid("/repositories/2/resources/999")
@@ -121,7 +121,7 @@ describe 'URIResolver' do
 
     resolved = resolve(resource, ["invalid_property"])
 
-    resolved.should eq(resource.to_hash(:trusted))
+    expect(resolved).to eq(resource.to_hash(:trusted))
   end
 
   it "converts an array of JSONModel records to regular hashes if provided" do
@@ -130,7 +130,7 @@ describe 'URIResolver' do
 
     resolved = resolve([resource1, resource2], ["invalid_property"])
 
-    resolved.should eq([resource1.to_hash(:trusted), resource2.to_hash(:trusted)])
+    expect(resolved).to eq([resource1.to_hash(:trusted), resource2.to_hash(:trusted)])
   end
 
   class MockResolver < URIResolver::ResolverType

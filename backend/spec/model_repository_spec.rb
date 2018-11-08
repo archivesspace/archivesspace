@@ -7,7 +7,7 @@ describe 'Repository model' do
                                                                         :name => "My new test repository"))
 
     repo = Repository.find(:repo_code => "TESTREPO")
-    repo.name.should eq("My new test repository")
+    expect(repo.name).to eq("My new test repository")
   end
 
 
@@ -33,7 +33,7 @@ describe 'Repository model' do
 
   it "enforces ID uniqueness" do
     expect { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
-                                                                          :name => "My new test repository")) }.to_not raise_error
+                                                                          :name => "My new test repository")) }.not_to raise_error
 
     expect { Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO",
                                                                           :name => "Another description")) }.to raise_error(Sequel::ValidationFailed)
@@ -51,12 +51,12 @@ describe 'Repository model' do
     destination = make_test_repo("destination")
     source = make_test_repo("source")
     user_id = User[:username => RequestContext.get(:current_username)].id
-    
+
     RequestContext.open(:repo_id => destination) do
       Preference.create_from_json(build(:json_preference),
                                   :user_id => user_id)
     end
-    
+
     RequestContext.open(:repo_id => source) do
       Preference.create_from_json(build(:json_preference),
                                   :user_id => user_id)
@@ -71,7 +71,7 @@ describe 'Repository model' do
 
     RequestContext.open(:repo_id => destination) do
       records.each do |model, id|
-        model.this_repo[id].id.should eq(id)
+        expect(model.this_repo[id].id).to eq(id)
       end
     end
   end
@@ -93,34 +93,34 @@ it "can identify and report conflicting identifiers" do
     expect {
       Repository[destination].assimilate(Repository[source])
     }.to raise_error {|e|
-      e.should be_a(TransferConstraintError)
-      e.conflicts.length.should eq(3)
+      expect(e).to be_a(TransferConstraintError)
+      expect(e.conflicts.length).to eq(3)
       resource_ids.each do |resource_id|
         uri = "/repositories/#{source}/resources/#{resource_id}"
-        e.conflicts[uri][0][:json_property].should eq(:ead_id)
+        expect(e.conflicts[uri][0][:json_property]).to eq(:ead_id)
       end
     }
   end
-  
+
 
   it "can delete a repo even if it has preferences and import jobs and stuff" do
 
     repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO2",
                                                                         :name => "electric boogaloo"))
     JSONModel.set_repository(repo.id)
-    a_resource = create(:json_resource, { :extents => [build(:json_extent)] }) 
+    a_resource = create(:json_resource, { :extents => [build(:json_extent)] })
     accession = create(:json_accession,
                         :related_resources => [ {:ref => a_resource.uri } ])
-    dobj = create(:json_digital_object ) 
-    create(:json_digital_object_component, 
+    dobj = create(:json_digital_object )
+    create(:json_digital_object_component,
             :digital_object => { :ref => dobj.uri })
-    
-    resource = create(:json_resource, {                                                                                                                                                     
-                        :extents => [build(:json_extent)],                                                                                                                                  
-                        :related_accessions => [{ :ref => accession.uri }]                                                                                                                                                                  
-    }) 
+
+    resource = create(:json_resource, {
+                        :extents => [build(:json_extent)],
+                        :related_accessions => [{ :ref => accession.uri }]
+    })
     create(:json_archival_object, :resource => {:ref => resource.uri}, :title => "AO1"  )
-  
+
     classification = create(:json_classification,
              :title => "top-level classification",
              :identifier => "abcdef",
@@ -132,7 +132,7 @@ it "can identify and report conflicting identifiers" do
     group = Group.create_from_json(build(:json_group), :repo_id => repo.id)
     new_user = create(:user)
     new_user.add_to_groups(group)
-   
+
     # ripping off from job spec
     converter = Class.new(Converter) do
       def self.instance_for(type, input_file)
@@ -147,43 +147,43 @@ it "can identify and report conflicting identifiers" do
         @batch << obj
         @batch.flush
       end
-    
+
     end
-    # new we register it. 
+    # new we register it.
     Converter.register_converter(converter)
-   
+
     # let's add a temp file
     tmp = ASUtils.tempfile("doc-#{Time.now.to_i}")
     tmp.write("foobar")
     tmp.rewind
-   
+
     # build out our job
     json = build(:json_job,
                 :job_type => 'import_job',
-                :job => build(:json_import_job, 
-                              :filenames => [tmp.path], 
-                              :import_type => 'nonce'))  
-    jobber = create_nobody_user  
+                :job => build(:json_import_job,
+                              :filenames => [tmp.path],
+                              :import_type => 'nonce'))
+    jobber = create_nobody_user
     job = Job.create_from_json(json, :repo_id => repo.id, :user => jobber)
-    job.add_file(tmp) # add the temp file 
+    job.add_file(tmp) # add the temp file
 
-    # run the job. We should now have 
+    # run the job. We should now have
     job_runner = JobRunner.for(job)
     job_runner.run
-  
+
     # we should have a JobCreatedRecord and a JobFile record
-    job.created_records.count.should eq(1)
-   
+    expect(job.created_records.count).to eq(1)
+
     # let's make a preference too
     RequestContext.open(:repo_id => repo.id) do
       Preference.create_from_json(build(:json_preference, :user_id => new_user.id))
     end
-   
+
     #now let's delete this sucka
     RequestContext.open(:repo_id => repo.id) do
       repo.delete
       new_user.delete
     end
-  
+
   end
 end

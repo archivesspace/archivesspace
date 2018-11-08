@@ -79,35 +79,35 @@ END
 
 
     it "maps field 245 to resource['title']" do
-      @resource['title'].should eq("SF A : [SF H] SF N / SF C")
+      expect(@resource['title']).to eq("SF A : [SF H] SF N / SF C")
     end
 
     it "maps field 342 to resource['notes']" do
       note = @resource['notes'].find{|n| n['type'] == 'odd'}
-      note['subnotes'][0]['content'].should eq("False easting--SF I; Zone identifier--SF P; Ellipsoid name--SF Q")
-      note['label'].should eq("Geospatial Reference Dimension: Vertical coordinate system--Geodetic model")
+      expect(note['subnotes'][0]['content']).to eq("False easting--SF I; Zone identifier--SF P; Ellipsoid name--SF Q")
+      expect(note['label']).to eq("Geospatial Reference Dimension: Vertical coordinate system--Geodetic model")
     end
 
     # "Indicator 1 {@ind1} --$3: $a : $b : $c ($x)"
     it "maps field 510 to resource['notes']" do
       note = @resource['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}
-      note['content'][0].should eq("Coverage is selective -- SF 3: SF C (SF X)")
+      expect(note['content'][0]).to eq("Coverage is selective -- SF 3: SF C (SF X)")
     end
 
     it "maps field 630 to resource['subjects']" do
-      @subjects[1]['terms'].map {|t| t['term_type']}.sort.should eq(%w(uniform_title topical).sort)
+      expect(@subjects[1]['terms'].map {|t| t['term_type']}.sort).to eq(%w(uniform_title topical).sort)
     end
 
     it "maps field 69* to resource['subjects']" do
-      @subjects[0]['terms'][0]['term'].should eq("SF 3")
-      @subjects[0]['terms'][1]['term'].should eq("SF A")
-      @subjects[0]['terms'][2]['term'].should eq("SF D")
-      @subjects[0]['terms'][3]['term'].should eq("SF X")
-      @subjects[0]['terms'][4]['term'].should eq("SF XII")
+      expect(@subjects[0]['terms'][0]['term']).to eq("SF 3")
+      expect(@subjects[0]['terms'][1]['term']).to eq("SF A")
+      expect(@subjects[0]['terms'][2]['term']).to eq("SF D")
+      expect(@subjects[0]['terms'][3]['term']).to eq("SF X")
+      expect(@subjects[0]['terms'][4]['term']).to eq("SF XII")
     end
 
     it "maps field 040 subfield e to resource.finding_aid_description_rules" do
-      @resource['finding_aid_description_rules'].should eq("dacs")
+      expect(@resource['finding_aid_description_rules']).to eq("dacs")
     end
 
 
@@ -163,187 +163,187 @@ END
       end
 
       it "maps field 008 correctly" do
-        @resource['language'].should eq('eng')
+        expect(@resource['language']).to eq('eng')
         date = @resource['dates'].find {|d| d['date_type'] == 'inclusive' && d['begin'] == '1960' && d['end'] == '1970'}
-        date.should_not be_nil
+        expect(date).not_to be_nil
       end
 
       it "maps datafield[@tag='600'] to agent_family and agent_person linked as 'subject'" do
         links = @resource['linked_agents'].select {|a| @families.uris_for_name('FNames-FamilyName-AT').include?(a['ref'])}
-        links.select {|l| l['role'] == 'subject'}.count.should eq(1)
+        expect(links.select {|l| l['role'] == 'subject'}.count).to eq(1)
 
         links = @resource['linked_agents'].select {|a| @people.uris_for_name('PNames-Primary-AT, PNames-RestOfName-AT').include?(a['ref'])}
-        links.select {|l| l['role'] == 'subject'}.count.should eq(1)
+        expect(links.select {|l| l['role'] == 'subject'}.count).to eq(1)
       end
 
       it "maps datafield[@tag='700'][@ind1='1'][@subfield[@code='e']='Donor (dnr)'] to agent_person linked as 'source'" do
         links = @resource['linked_agents'].select {|a| @people.uris_for_name('PNames-Primary-AT, PNames-RestOfName-AT').include?(a['ref'])}
-        links.select {|l| l['role'] == 'source'}.count.should eq(1)
+        expect(links.select {|l| l['role'] == 'source'}.count).to eq(1)
       end
 
       it "maps datafield[@tag='700'][@ind1='1'][@subfield[@code='e']] to agent_person linked as 'creator'" do
         links = @resource['linked_agents'].select {|a| @people.uris_for_name('PNames-Primary-AT, PNames-RestOfName-AT').include?(a['ref'])}
-        links.select {|l| l['role'] == 'creator'}.count.should eq(1)
+        expect(links.select {|l| l['role'] == 'creator'}.count).to eq(1)
       end
 
       it "maps datafield[@tag='600']/subfield[@code='2'] to agent_(family|person).names[].source" do
-        @families.select {|f| f['names'][0]['source'] == 'NACO Authority File'}.count.should eq(1)
+        expect(@families.select {|f| f['names'][0]['source'] == 'NACO Authority File'}.count).to eq(1)
       end
 
       it "maps datafield[@tag='600' or @tag='700']/subfield[@code='b'] to agent_(family|person).names[].number" do
-        @people.select{|p| p['names'][0]['number'] == 'PName-Number-AT'}.count.should eq(3)
+        expect(@people.select{|p| p['names'][0]['number'] == 'PName-Number-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='600' or @tag='700']/subfield[@code='c'] to agent_person.names[].title or agent_family.names[].qualifier" do
-        @people.select{|p| p['names'][0]['title'] == 'PNames-Prefix-AT, PNames-Title-AT, PNames-Suffix-AT'}.count.should eq(3)
-        @families.select{|f| f['names'][0]['qualifier'].match(/^FNames-Prefix-AT/)}.count.should eq(3)
+        expect(@people.select{|p| p['names'][0]['title'] == 'PNames-Prefix-AT, PNames-Title-AT, PNames-Suffix-AT'}.count).to eq(3)
+        expect(@families.select{|f| f['names'][0]['qualifier'].match(/^FNames-Prefix-AT/)}.count).to eq(3)
       end
 
       it "maps datafield[@tag='600' or @tag='700']/subfield[@code='d'] to agent_(family|person).names[].dates" do
-        @people.select{|p| p['names'][0]['dates'] == 'PNames-Dates-AT'}.count.should eq(3)
+        expect(@people.select{|p| p['names'][0]['dates'] == 'PNames-Dates-AT'}.count).to eq(3)
       end
 
       it "prepends and maps datafield[@tag='600']/subfield[@code='g'] to agent_(family|person).names[].qualifier" do
-        @people.select{|p| p['names'][0]['qualifier'].match(/Miscellaneous information: PNames-Qualifier-AT\./)}.count.should eq(3)
+        expect(@people.select{|p| p['names'][0]['qualifier'].match(/Miscellaneous information: PNames-Qualifier-AT\./)}.count).to eq(3)
       end
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710'] to agent_corporate_entity" do
-        @corps.count.should eq(4)
+        expect(@corps.count).to eq(4)
       end
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710'] to agent_corporate_entity with source 'ingest'" do
-        @corps.select {|f| f['names'][0]['source'] == 'ingest'}.count.should eq(3)
+        expect(@corps.select {|f| f['names'][0]['source'] == 'ingest'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='610']/subfield[@code='2'] to agent_corporate_entity.names[].source" do
-        @corps.select {|f| f['names'][0]['source'] == 'NACO Authority File'}.count.should eq(1)
+        expect(@corps.select {|f| f['names'][0]['source'] == 'NACO Authority File'}.count).to eq(1)
       end
 
       it "maps datafield[@tag='610'] to agent_corporate_entity linked as 'subject'" do
         links = @resource['linked_agents'].select {|a| @corps.map{|c| c['uri']}.include?(a['ref'])}
-        links.select {|l| l['role'] == 'subject'}.count.should eq(1)
+        expect(links.select {|l| l['role'] == 'subject'}.count).to eq(1)
       end
 
       it "maps datafield[@tag='110'][subfield[@code='e']='Creator (cre)'] and datafield[@tag='710'][subfield[@code='e']='source'] or no $e/$4 to agent_corporate_entity linked as 'creator'" do
         links = @resource['linked_agents'].select {|a| @corps.map{|c| c['uri']}.include?(a['ref'])}
-        links.select {|l| l['role'] == 'creator'}.count.should eq(3)
+        expect(links.select {|l| l['role'] == 'creator'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='a'] to agent_corporate_entity.names[].primary_name" do
-        @corps.select{|c| c['names'][0]['primary_name'] == 'CNames-PrimaryName-AT'}.count.should eq(3)
+        expect(@corps.select{|c| c['names'][0]['primary_name'] == 'CNames-PrimaryName-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='b'][1] to agent_corporate_entity.names[].subordinate_name_1" do
-        @corps.select{|c| c['names'][0]['subordinate_name_1'] == 'CNames-Subordinate1-AT'}.count.should eq(3)
+        expect(@corps.select{|c| c['names'][0]['subordinate_name_1'] == 'CNames-Subordinate1-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='b'][2] to agent_corporate_entity.names[].subordinate_name_2" do
         # not a typo, per the tracer DB:
-        @corps.select{|c| c['names'][0]['subordinate_name_2'] == 'CNames-Subordiate2-AT'}.count.should eq(3)
+        expect(@corps.select{|c| c['names'][0]['subordinate_name_2'] == 'CNames-Subordiate2-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='610' or @tag='110' or @tag='710']/subfield[@tag='b'] to linked_agent_corporate_entity.relator" do
         links = @resource['linked_agents'].select {|a| @corps.map{|c| c['uri']}.include?(a['ref'])}
-        links.map {|l| l['relator']}.compact.sort.should eq(['source','Creator (cre)'].sort)
+        expect(links.map {|l| l['relator']}.compact.sort).to eq(['source','Creator (cre)'].sort)
       end
 
       it "prepends and maps datafield[@tag='110' or @tag='610' or @tag='710']/subfield[@code='g'] to agent_corporate_entity.names[].qualifier" do
-        @corps.select{|p| p['names'][0]['qualifier'] == "Miscellaneous information: CNames-Qualifier-AT."}.count.should eq(3)
+        expect(@corps.select{|p| p['names'][0]['qualifier'] == "Miscellaneous information: CNames-Qualifier-AT."}.count).to eq(3)
       end
 
       it "maps datafield[@tag='110' or @tag='610' or @tag='710']/subfield[@code='n'] to agent_corporate_entity.names[].number" do
-        @corps.select{|p| p['names'][0]['number'] == 'CNames-Number-AT'}.count.should eq(3)
+        expect(@corps.select{|p| p['names'][0]['number'] == 'CNames-Number-AT'}.count).to eq(3)
       end
 
       it "maps datafield[@tag='110' or @tag='710'] with no $e or $4 to creator agent_corporate_entity" do
         creator = @corps.select{|c| c['names'][0]['primary_name'] == 'DNames-PrimaryName-AT'}
-        creator.length.should eq(1)
+        expect(creator.length).to eq(1)
         link = @resource['linked_agents'].select{|a| a['ref'] == creator[0]['uri']}
-        link.length.should eq(1)
-        link[0]['role'].should eq('creator')
+        expect(link.length).to eq(1)
+        expect(link[0]['role']).to eq('creator')
       end
 
       it "maps datafield[@tag='245'] to resource.title using template '$a : $b [$h] $k , $n , $p , $s / $c' " do
-        @resource['title'].should eq("Resource--Title-AT")
+        expect(@resource['title']).to eq("Resource--Title-AT")
       end
 
       it "maps datafield[@tag='245']/subfield[@code='f' or @code='g'] to resources.dates[]" do
-        @resource['dates'][0]['expression'].should eq("Resource-Date-Expression-AT-1960 - 1970")
+        expect(@resource['dates'][0]['expression']).to eq("Resource-Date-Expression-AT-1960 - 1970")
       end
 
       it "maps datafield[@tag='300'] to resource.extents[].container_summary using template '$3: $a ; $b, $c ($e, $f, $g)'" do
-        @resource['extents'][0]['container_summary'].should eq("5.0 Linear feet (Resource-ContainerSummary-AT)")
-        @resource['extents'][0]['number'].should eq("5.0")
-        @resource['extents'][0]['extent_type'].should eq("Linear feet")
+        expect(@resource['extents'][0]['container_summary']).to eq("5.0 Linear feet (Resource-ContainerSummary-AT)")
+        expect(@resource['extents'][0]['number']).to eq("5.0")
+        expect(@resource['extents'][0]['extent_type']).to eq("Linear feet")
       end
 
       it "maps datafield[@tag='260'] to resource.notes[] using template '$a'" do
-        @notes.should include('1889-1945')
+        expect(@notes).to include('1889-1945')
       end
 
       it "maps datafield[@tag='351'] to resource.notes[] using template '$3: $a. $b. $c'" do
-        @notes.should include('Resource-Arrangement-Note Resource-FilePlan-AT.')
+        expect(@notes).to include('Resource-Arrangement-Note Resource-FilePlan-AT.')
       end
 
       it "maps datafield[@tag='500'] to resource.notes[] using template '$3: $a'" do
-        @notes.should include('Material Specific Details:Resource-MaterialSpecificDetails-AT')
+        expect(@notes).to include('Material Specific Details:Resource-MaterialSpecificDetails-AT')
       end
 
       it "maps datafield[@tag='505'] to resource.notes[] using template '$a'" do
-        @notes.should include('CumulativeIndexFindingAidsNote-AT')
+        expect(@notes).to include('CumulativeIndexFindingAidsNote-AT')
       end
 
       it "maps datafield[@tag='506'] to resource.notes[] using template '$a'" do
-        @notes.should include('Resource-ConditionsGoverningAccess-AT.')
+        expect(@notes).to include('Resource-ConditionsGoverningAccess-AT.')
       end
 
       it "maps datafield[@tag='520'] to resource.notes[] using template '$3:  $a. ($u) [line break] $b.'" do
-        @notes.should include('Resource-Abstract-AT.')
+        expect(@notes).to include('Resource-Abstract-AT.')
       end
 
       it "maps datafield[@tag='524'] to resource.notes[] using template '$3: $a. $2.'" do
-        @notes.should include('Resource-PreferredCitation-AT.')
+        expect(@notes).to include('Resource-PreferredCitation-AT.')
       end
 
       it "maps datafield[@tag='535'] to resource.notes[] using template 'Indicator 1 [Holder of originals | Holder of duplicates]: $3--$a. $b, $c. $d ($g).'" do
-        @notes.should include('Holder of originals: Resource-ExistenceLocationOriginals-AT.')
+        expect(@notes).to include('Holder of originals: Resource-ExistenceLocationOriginals-AT.')
       end
 
       it "maps datafield[@tag='540'] to resource.notes[] using template '$3: $a. $b. $c. $d ($u).'" do
-        @notes.should include('Resource-ConditionsGoverningUse-AT.')
+        expect(@notes).to include('Resource-ConditionsGoverningUse-AT.')
       end
 
       it "maps datafield[@tag='541'] to resource.notes[] using template '#3: Source of acquisition--$a. Address--$b. Method of acquisition--$c; Date of acquisition--$d. Accession number--$e: Extent--$n; Type of unit--$o. Owner--$f. Purchase price--$h.'" do
-        @notes.should include('Source of acquisition--Resource-ImmediateSourceAcquisition.')
+        expect(@notes).to include('Source of acquisition--Resource-ImmediateSourceAcquisition.')
       end
 
       it "maps datafield[@tag='544'] to resource.notes[] using template 'Indicator 1 [ Associated Materials | Related Materials]--$3: Title--$t. Custodian--$a: Address--$b, Country--$c. Provenance--$e. Note--$n.'" do
-        @notes.should include('Custodian--Resource-RelatedArchivalMaterials-AT.')
+        expect(@notes).to include('Custodian--Resource-RelatedArchivalMaterials-AT.')
       end
 
       it "maps datafield[@tag='545'] to resource.notes[] using template '$a ($u). [Line break] $b.'" do
-        @notes.should include('Resource-BiographicalHistorical-AT.')
+        expect(@notes).to include('Resource-BiographicalHistorical-AT.')
       end
 
       it "maps datafield[@tag='546'] to resource.notes[] using template '$3: $a ($b).'" do
-        @notes.should include('Resource-LanguageMaterials-AT.')
+        expect(@notes).to include('Resource-LanguageMaterials-AT.')
       end
 
       it "maps datafield[@tag='561'] to resource.notes[] using template '$3: $a.'" do
-        @notes.should include('Resource--CustodialHistory-AT.')
+        expect(@notes).to include('Resource--CustodialHistory-AT.')
       end
 
       it "maps datafield[@tag='630'] to subject" do
         s = @subjects.select{|s| s['terms'][0]['term'] == 'Subjects--Uniform Title--AT'}
-        s.count.should eq(1)
-        s.last['source'].should eq('Local sources')
+        expect(s.count).to eq(1)
+        expect(s.last['source']).to eq('Local sources')
       end
 
       it "maps datafield[@tag='650'] to subject" do
         s = @subjects.select{|s| s['terms'][0]['term'] == 'Subjects--Topical Term--AT'}
-        s.last['terms'][0]['term_type'].should eq('topical')
-        s.count.should eq(1)
-        s.last['source'].should eq('Local sources')
+        expect(s.last['terms'][0]['term_type']).to eq('topical')
+        expect(s.count).to eq(1)
+        expect(s.last['source']).to eq('Local sources')
       end
     end
   end
@@ -357,41 +357,41 @@ END
       converter.run
       json = JSON(IO.read(converter.get_output_path))
       # we should only get one agent record
-      json.count.should eq(1)
+      expect(json.count).to eq(1)
 
       agent = json.first
-      agent['publish'].should be_truthy
+      expect(agent['publish']).to be_truthy
 
-      agent['dates_of_existence'].count.should eq(1)
-      agent['dates_of_existence'][0]['expression'].should eq('18990101-19611201')
-      agent['dates_of_existence'][0]['begin'].should eq('1899')
-      agent['dates_of_existence'][0]['end'].should eq('1961')
+      expect(agent['dates_of_existence'].count).to eq(1)
+      expect(agent['dates_of_existence'][0]['expression']).to eq('18990101-19611201')
+      expect(agent['dates_of_existence'][0]['begin']).to eq('1899')
+      expect(agent['dates_of_existence'][0]['end']).to eq('1961')
 
-      agent['notes'].count.should eq(1)
-      agent['notes'][0]['subnotes'][0]['content'].should eq(
+      expect(agent['notes'].count).to eq(1)
+      expect(agent['notes'][0]['subnotes'][0]['content']).to eq(
         'Biographical or historical data. Expansion ... Uniform Resource Identifier'
       )
 
-      agent['names'][0]['name_order'].should eq("inverted")
-      agent['names'][0]['authority_id'].should eq('n88218900')
-      agent['names'][0]['authorized'].should be_truthy
-      agent['names'][0]['is_display_name'].should be_truthy
-      agent['names'][0]['source'].should eq('naf')
-      agent['names'][0]['rules'].should eq('aacr')
-      agent['names'][0]['primary_name'].should eq("Davis")
-      agent['names'][0]['rest_of_name'].should eq("John W.")
-      agent['names'][0]['fuller_form'].should eq("John William")
-      agent['names'][0]['dates'].should eq("1873-1955")
+      expect(agent['names'][0]['name_order']).to eq("inverted")
+      expect(agent['names'][0]['authority_id']).to eq('n88218900')
+      expect(agent['names'][0]['authorized']).to be_truthy
+      expect(agent['names'][0]['is_display_name']).to be_truthy
+      expect(agent['names'][0]['source']).to eq('naf')
+      expect(agent['names'][0]['rules']).to eq('aacr')
+      expect(agent['names'][0]['primary_name']).to eq("Davis")
+      expect(agent['names'][0]['rest_of_name']).to eq("John W.")
+      expect(agent['names'][0]['fuller_form']).to eq("John William")
+      expect(agent['names'][0]['dates']).to eq("1873-1955")
 
       # Unauthorized names are added too
-      agent['names'][1]['name_order'].should eq("inverted")
-      agent['names'][1]['authority_id'].should be_nil
-      agent['names'][1]['authorized'].should be_falsey
-      agent['names'][1]['source'].should eq('naf')
-      agent['names'][1]['rules'].should eq('aacr')
-      agent['names'][1]['is_display_name'].should be_falsey
-      agent['names'][1]['primary_name'].should eq("Davis")
-      agent['names'][1]['rest_of_name'].should eq("John William")
+      expect(agent['names'][1]['name_order']).to eq("inverted")
+      expect(agent['names'][1]['authority_id']).to be_nil
+      expect(agent['names'][1]['authorized']).to be_falsey
+      expect(agent['names'][1]['source']).to eq('naf')
+      expect(agent['names'][1]['rules']).to eq('aacr')
+      expect(agent['names'][1]['is_display_name']).to be_falsey
+      expect(agent['names'][1]['primary_name']).to eq("Davis")
+      expect(agent['names'][1]['rest_of_name']).to eq("John William")
     end
   end
 
@@ -404,15 +404,15 @@ END
       converter.run
       json = JSON(IO.read(converter.get_output_path))
       # we should only get one subject record
-      json.count.should eq(1)
+      expect(json.count).to eq(1)
 
       subject = json.first
-      subject['publish'].should be_truthy
-      subject['authority_id'].should eq('no2006087900')
-      subject['source'].should eq("Library of Congress Subject Headings")
-      subject['scope_note'].should eq('Works on cyberpunk in the genre Science Fiction. May be combined with geographic name in the form Cyberpunk fiction-Japan.')
-      subject['terms'].count.should eq(1)
-      subject['terms'][0]['term'].should eq('Cyberpunk')
+      expect(subject['publish']).to be_truthy
+      expect(subject['authority_id']).to eq('no2006087900')
+      expect(subject['source']).to eq("Library of Congress Subject Headings")
+      expect(subject['scope_note']).to eq('Works on cyberpunk in the genre Science Fiction. May be combined with geographic name in the form Cyberpunk fiction-Japan.')
+      expect(subject['terms'].count).to eq(1)
+      expect(subject['terms'][0]['term']).to eq('Cyberpunk')
     end
 
     it "can import a subject authority record with lcgft source" do
@@ -423,10 +423,10 @@ END
       converter.run
       json = JSON(IO.read(converter.get_output_path))
       # we should only get one subject record
-      json.count.should eq(1)
+      expect(json.count).to eq(1)
 
       subject = json.first
-      subject['source'].should eq("lcgft")
+      expect(subject['source']).to eq("lcgft")
     end
   end
 
@@ -459,7 +459,7 @@ marc
     it "doesn't try to set an end date if the controlfield has blank values" do
       parsed = convert(test_doc)
       @resource = parsed.last
-      @resource['dates'][0]['end'].should be_nil
+      expect(@resource['dates'][0]['end']).to be_nil
     end
   end
 
@@ -539,12 +539,12 @@ ROTFL
     end
 
     it "imports name_person subrecords with the correct name_order" do
-      @names.map{|name| name['name_order']}.should eq(%w(inverted direct inverted direct inverted direct))
+      expect(@names.map{|name| name['name_order']}).to eq(%w(inverted direct inverted direct inverted direct))
     end
 
     it "splits primary_name and rest_of_name" do
-      @names[0]['primary_name'].should eq('a1')
-      @names[0]['rest_of_name'].should eq('foo')
+      expect(@names[0]['primary_name']).to eq('a1')
+      expect(@names[0]['rest_of_name']).to eq('foo')
     end
   end
 
@@ -590,12 +590,12 @@ OMFG
     end
 
     it "will combine the data in 245f and controlfield 008 into a single date" do
-      @resource['dates'].count.should eq(1)
+      expect(@resource['dates'].count).to eq(1)
       date = @resource['dates'][0]
-      date['expression'].should eq('1980.')
-      date['date_type'].should eq('single')
-      date['begin'].should eq('1980')
-      date['end'].should eq('1980')
+      expect(date['expression']).to eq('1980.')
+      expect(date['date_type']).to eq('single')
+      expect(date['begin']).to eq('1980')
+      expect(date['end']).to eq('1980')
     end
   end
 
@@ -643,16 +643,16 @@ MARC
     it "ignores namespaces declared at the record node" do
       parsed = convert(record_doc)
       @resource = parsed.last
-      @resource.should_not be_nil
-      @resource['level'].should == 'item'
-      @resource['title'].should_not be_nil
+      expect(@resource).not_to be_nil
+      expect(@resource['level']).to eq('item')
+      expect(@resource['title']).not_to be_nil
     end
 
     it "ignores namespaces declared at the collection node" do
       parsed = convert(collection_doc)
       @resource = parsed.last
-      @resource.should_not be_nil
-      @resource['title'].should_not be_nil
+      expect(@resource).not_to be_nil
+      expect(@resource['title']).not_to be_nil
     end
   end
 
@@ -693,7 +693,7 @@ MARC
           if resource.dates.nil? || resource.dates.empty?
             resource.dates << ASpaceImport::JSONModel(:date).from_hash({:expression => "1945", :label => "creation", "date_type" => "single"})
           end
-          
+
           if resource.extents.nil? || resource.extents.empty?
             resource.extents << ASpaceImport::JSONModel(:extent).from_hash({:portion => 'whole', :number => '1', :extent_type => 'linear_feet'})
           end
@@ -715,7 +715,7 @@ MARC
 
       # our cram converter should produce a valid record
       subconverter = subclass.new(test_doc)
-      expect { subconverter.run }.to_not raise_error
+      expect { subconverter.run }.not_to raise_error
 
       # regular converter should still produce an invalid record
       converter = MarcXMLConverter.new(test_doc)

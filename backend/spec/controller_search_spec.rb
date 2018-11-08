@@ -15,7 +15,7 @@ describe 'Search controller' do
     end
 
     as_test_user(User.SEARCH_USERNAME) do
-      JSONModel(:accession).find(accession.id).should_not eq(nil)
+      expect(JSONModel(:accession).find(accession.id)).not_to be_nil
     end
   end
 
@@ -36,12 +36,12 @@ describe 'Search controller' do
 
     it "responds to GET requests" do
       get '/search'
-      last_response.status.should_not eq(404)
+      expect(last_response.status).not_to eq(404)
     end
 
     it "responds to POST requests" do
       post '/search'
-      last_response.status.should_not eq(404)
+      expect(last_response.status).not_to eq(404)
     end
 
   end

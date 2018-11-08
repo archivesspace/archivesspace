@@ -22,21 +22,21 @@ describe 'Assessment controller' do
     created = create_assessment
     fetched = JSONModel(:assessment).find(created.id)
 
-    fetched.records[0]['ref'].should eq(resource.uri)
-    fetched.surveyed_by[0]['ref'].should eq(surveyor.uri)
+    expect(fetched.records[0]['ref']).to eq(resource.uri)
+    expect(fetched.surveyed_by[0]['ref']).to eq(surveyor.uri)
   end
 
   it 'updates an assessment record' do
     created = create_assessment('survey_begin' => '1970-01-01', 'survey_end' => '2000-01-01')
 
     fetched = JSONModel(:assessment).find(created.id)
-    fetched['survey_end'].should eq('2000-01-01')
+    expect(fetched['survey_end']).to eq('2000-01-01')
 
     fetched['survey_end'] = '2017-01-01'
     fetched.save
 
     fetched.refetch
-    fetched['survey_end'].should eq('2017-01-01')
+    expect(fetched['survey_end']).to eq('2017-01-01')
   end
 
   it 'lists assessment records' do
@@ -44,7 +44,7 @@ describe 'Assessment controller' do
       create_assessment
     end
 
-    JSONModel(:assessment).all(:page => 1, :page_size => 10)['results'].count.should eq(5)
+    expect(JSONModel(:assessment).all(:page => 1, :page_size => 10)['results'].count).to eq(5)
   end
 
   it 'deletes an assessment record' do

@@ -5,7 +5,7 @@ describe 'Group controller' do
   it "lets you create a group and get it back" do
     opts = {:description => generate(:generic_description)}
     group = create(:json_group, opts)
-    JSONModel(:group).find(group.id).description.should eq(opts[:description])
+    expect(JSONModel(:group).find(group.id).description).to eq(opts[:description])
   end
 
 
@@ -19,12 +19,12 @@ describe 'Group controller' do
     group.member_usernames = ["herman"]
     group.save
 
-    JSONModel(:group).find(group.id).member_usernames.should eq(["herman"])
+    expect(JSONModel(:group).find(group.id).member_usernames).to eq(["herman"])
 
     group.member_usernames = ["guybrush", "elaine"]
     group.save
 
-    JSONModel(:group).find(group.id).member_usernames.sort.should eq(["elaine", "guybrush"])
+    expect(JSONModel(:group).find(group.id).member_usernames.sort).to eq(["elaine", "guybrush"])
   end
 
 
@@ -38,16 +38,16 @@ describe 'Group controller' do
     group.member_usernames = ["herman"]
     group.save
 
-    JSONModel(:group).find(group.id).member_usernames.should eq(["herman"])
+    expect(JSONModel(:group).find(group.id).member_usernames).to eq(["herman"])
 
     group.member_usernames = ["guybrush", "elaine"]
     group.save(:with_members => false)
 
     # untouched
-    JSONModel(:group).find(group.id).member_usernames.should eq(["herman"])
+    expect(JSONModel(:group).find(group.id).member_usernames).to eq(["herman"])
 
     # And no members at all if we add that to our query
-    JSONModel(:group).find(group.id, :with_members => false).member_usernames.length.should eq(0)
+    expect(JSONModel(:group).find(group.id, :with_members => false).member_usernames.length).to eq(0)
   end
 
 
@@ -61,8 +61,8 @@ describe 'Group controller' do
     group.grants_permissions = ["swashbuckle"]
     group.save
 
-    User[:username => "guybrush"].can?("swashbuckle",
-                                       :repo_id => $repo_id).should eq(true)
+    expect(User[:username => "guybrush"].can?("swashbuckle",
+                                       :repo_id => $repo_id)).to be_truthy
   end
 
 
@@ -75,7 +75,7 @@ describe 'Group controller' do
 
     groups = JSONModel(:group).all({}, {:repo_id => repo_one.id})
 
-    groups.map(&:group_code).include?("group-in-repo2").should be_falsey
+    expect(groups.map(&:group_code).include?("group-in-repo2")).to be_falsey
   end
 
 
@@ -121,23 +121,23 @@ describe 'Group controller' do
 
 
   it "gives a list of all groups" do
-    
+
     group = create(:json_group, {:group_code => 'supergroup'})
     group = create(:json_group, {:group_code => 'groupthink'})
     group = create(:json_group, {:group_code => 'groupygroup'})
 
     groups = JSONModel(:group).all
 
-    groups.any? { |group| group.group_code == "supergroup" }.should be_truthy
-    groups.any? { |group| group.group_code == "groupthink" }.should be_truthy
-    groups.any? { |group| group.group_code == "groupygroup" }.should be_truthy
+    expect(groups.any? { |group| group.group_code == "supergroup" }).to be_truthy
+    expect(groups.any? { |group| group.group_code == "groupthink" }).to be_truthy
+    expect(groups.any? { |group| group.group_code == "groupygroup" }).to be_truthy
   end
 
 
   it "allows repository managers to view the group list" do
     create(:user, {:username => 'newmanager'})
     create(:user, {:username => 'underling'})
-    
+
     managers = JSONModel(:group).all(:group_code => "repository-managers").first
     managers.member_usernames = ["newmanager"]
     managers.save
@@ -146,8 +146,8 @@ describe 'Group controller' do
       as_test_user("newmanager") do
         JSONModel(:group).all
       end
-    }.to_not raise_error
-    
+    }.not_to raise_error
+
     expect {
       as_test_user('underling') do
         JSONModel(:group).all

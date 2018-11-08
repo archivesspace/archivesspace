@@ -6,8 +6,8 @@ describe 'Location model' do
     location = Location.create_from_json(build(:json_location, :building => "129 West 81st Street"),
                                          :repo_id => $repo_id)
 
-    Location[location[:id]].building.should eq("129 West 81st Street")
-    Location[location[:id]].barcode.should match(/[0,1]?/)
+    expect(Location[location[:id]].building).to eq("129 West 81st Street")
+    expect(Location[location[:id]].barcode).to match(/[0,1]?/)
   end
 
 
@@ -16,20 +16,20 @@ describe 'Location model' do
             :coordinate_1_indicator => "A1BB99",
             :coordinate_2_label => "Position ABC",
             :coordinate_2_indicator => "Z55"}
-    
+
     location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
 
-    Location[location[:id]].coordinate_1_label.should eq("Position XYZ")
-    Location[location[:id]].coordinate_2_indicator.should eq("Z55")
+    expect(Location[location[:id]].coordinate_1_label).to eq("Position XYZ")
+    expect(Location[location[:id]].coordinate_2_indicator).to eq("Z55")
   end
 
 
   it "can be created with a classification" do
     opts = {:classification => "Foo Foo Foo Foo"}
-    
+
     location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
 
-    Location[location[:id]].classification.should eq("Foo Foo Foo Foo")
+    expect(Location[location[:id]].classification).to eq("Foo Foo Foo Foo")
   end
 
 
@@ -41,7 +41,7 @@ describe 'Location model' do
 
     location = Location.create_from_json(build(:json_location, {:building => building, :barcode => barcode, :floor => nil, :room => nil, :area => area}), :repo_id => $repo_id)
 
-    Location[location[:id]].title.should eq("#{building}, #{area} [#{barcode}]")
+    expect(Location[location[:id]].title).to eq("#{building}, #{area} [#{barcode}]")
   end
 
 
@@ -64,10 +64,10 @@ describe 'Location model' do
 
     ids = Location.generate_indicators(batch["coordinate_1_range"])
 
-    ids[0].should eq("Oogabooga-A")
-    ids[1].should eq("Oogabooga-B")
-    ids[2].should eq("Oogabooga-C")
-    ids[3].should eq("Oogabooga-D")
+    expect(ids[0]).to eq("Oogabooga-A")
+    expect(ids[1]).to eq("Oogabooga-B")
+    expect(ids[2]).to eq("Oogabooga-C")
+    expect(ids[3]).to eq("Oogabooga-D")
   end
 
   it "generates identifiers for a batch location coordinate definition (integers)" do
@@ -82,10 +82,10 @@ describe 'Location model' do
 
     ids = Location.generate_indicators(batch["coordinate_1_range"])
 
-    ids[0].should eq("3-woozle")
-    ids[1].should eq("4-woozle")
-    ids[2].should eq("5-woozle")
-    ids[3].should eq("6-woozle")
+    expect(ids[0]).to eq("3-woozle")
+    expect(ids[1]).to eq("4-woozle")
+    expect(ids[2]).to eq("5-woozle")
+    expect(ids[3]).to eq("6-woozle")
   end
 
 
@@ -110,28 +110,28 @@ describe 'Location model' do
 
     locations = Location.create_for_batch(batch)
 
-    locations.length.should eq(910)
+    expect(locations.length).to eq(910)
 
-    locations[0].coordinate_1_label.should eq("Range")
-    locations[0].coordinate_1_indicator.should eq("1")
-    locations[0].coordinate_2_label.should eq("Section")
-    locations[0].coordinate_2_indicator.should eq("A")
-    locations[0].coordinate_3_label.should eq("Shelf")
-    locations[0].coordinate_3_indicator.should eq("1")
+    expect(locations[0].coordinate_1_label).to eq("Range")
+    expect(locations[0].coordinate_1_indicator).to eq("1")
+    expect(locations[0].coordinate_2_label).to eq("Section")
+    expect(locations[0].coordinate_2_indicator).to eq("A")
+    expect(locations[0].coordinate_3_label).to eq("Shelf")
+    expect(locations[0].coordinate_3_indicator).to eq("1")
 
-    locations[1].coordinate_1_label.should eq("Range")
-    locations[1].coordinate_1_indicator.should eq("1")
-    locations[1].coordinate_2_label.should eq("Section")
-    locations[1].coordinate_2_indicator.should eq("A")
-    locations[1].coordinate_3_label.should eq("Shelf")
-    locations[1].coordinate_3_indicator.should eq("2")
+    expect(locations[1].coordinate_1_label).to eq("Range")
+    expect(locations[1].coordinate_1_indicator).to eq("1")
+    expect(locations[1].coordinate_2_label).to eq("Section")
+    expect(locations[1].coordinate_2_indicator).to eq("A")
+    expect(locations[1].coordinate_3_label).to eq("Shelf")
+    expect(locations[1].coordinate_3_indicator).to eq("2")
 
-    locations[909].coordinate_1_label.should eq("Range")
-    locations[909].coordinate_1_indicator.should eq("10")
-    locations[909].coordinate_2_label.should eq("Section")
-    locations[909].coordinate_2_indicator.should eq("M")
-    locations[909].coordinate_3_label.should eq("Shelf")
-    locations[909].coordinate_3_indicator.should eq("7")
+    expect(locations[909].coordinate_1_label).to eq("Range")
+    expect(locations[909].coordinate_1_indicator).to eq("10")
+    expect(locations[909].coordinate_2_label).to eq("Section")
+    expect(locations[909].coordinate_2_indicator).to eq("M")
+    expect(locations[909].coordinate_3_label).to eq("Shelf")
+    expect(locations[909].coordinate_3_indicator).to eq("7")
   end
 
 
@@ -143,7 +143,7 @@ describe 'Location model' do
     location = create(:json_location, {:owner_repo => {'ref' => owner_repo_uri}})
 
     json = Location.to_jsonmodel(location.id)
-    json['owner_repo']['ref'].should eq(owner_repo_uri)
+    expect(json['owner_repo']['ref']).to eq(owner_repo_uri)
   end
 
   it "allows you you delete a location that has a location profile attached" do
@@ -151,9 +151,9 @@ describe 'Location model' do
     location = create(:json_location,
                       :location_profile => {'ref' => location_profile.uri})
 
-    expect { Location[location.id].delete }.to_not raise_error
+    expect { Location[location.id].delete }.not_to raise_error
 
-    Location[location.id].should be(nil)
+    expect(Location[location.id]).to be_nil
   end
 
   it "allows you you delete a location that has an owner" do
@@ -162,9 +162,9 @@ describe 'Location model' do
 
     location = create(:json_location, {:owner_repo => {'ref' => owner_repo_uri}})
 
-    expect { Location[location.id].delete }.to_not raise_error
+    expect { Location[location.id].delete }.not_to raise_error
 
-    Location[location.id].should be(nil)
+    expect(Location[location.id]).to be_nil
   end
 
 
@@ -181,7 +181,7 @@ describe 'Location model' do
       location = Location.create_from_json(build(:json_location, opts), :repo_id => $repo_id)
 
       json = Location.to_jsonmodel(location.id)
-      json['functions'].length.should eq(2)
+      expect(json['functions'].length).to eq(2)
     end
 
 
@@ -191,7 +191,7 @@ describe 'Location model' do
 
       json = Location.to_jsonmodel(location.id)
 
-      json['functions'].length.should eq(2)
+      expect(json['functions'].length).to eq(2)
     end
 
   end

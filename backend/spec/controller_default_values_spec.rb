@@ -18,11 +18,11 @@ describe 'Default Values' do
 
     response = JSONModel::HTTP.post_json(url, ASUtils.to_json(resource_defaults))
 
-    response.status.should eq(200)
+    expect(response.status).to eq(200)
 
     defaults = JSONModel::HTTP.get_json(uri)
 
-    defaults['defaults']['title'].should eq('TITLE')
+    expect(defaults['defaults']['title']).to eq('TITLE')
   end
 
 
@@ -39,15 +39,14 @@ describe 'Default Values' do
 
     response = JSONModel::HTTP.post_json(url, ASUtils.to_json(defaults))
 
-    response.status.should eq(200)
+    expect(response.status).to eq(200)
 
     defaults = JSONModel::HTTP.get_json(uri)
 
-    defaults['defaults']['title'].should eq('NEW TITLE')
+    expect(defaults['defaults']['title']).to eq('NEW TITLE')
 
   end
 
-  
+
 
 end
-

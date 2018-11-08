@@ -46,7 +46,7 @@ describe 'Record Suppression' do
       test_accession.save
 
       # Attempted change to suppress status got ignored
-      JSONModel(:accession).find(test_accession.id).should_not eq(nil)
+      expect(JSONModel(:accession).find(test_accession.id)).not_to be_nil
     end
   end
 

@@ -10,7 +10,7 @@ describe 'ArchivalObject model' do
                                                 ),
                                           :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].title.should eq('A new archival object')
+    expect(ArchivalObject[ao[:id]].title).to eq('A new archival object')
   end
 
 
@@ -20,49 +20,49 @@ describe 'ArchivalObject model' do
 
 
   it "allow archival objects to be created with an extent" do
-    
+
     opts = {:extents => [{
       "portion" => "whole",
       "number" => "5 or so",
       "extent_type" => generate(:extent_type),
     }]}
-    
+
     ao = ArchivalObject.create_from_json(
                                           build(:json_archival_object, opts),
                                           :repo_id => $repo_id)
-    ArchivalObject[ao[:id]].extent.length.should eq(1)
-    ArchivalObject[ao[:id]].extent[0].extent_type.should eq(opts[:extents][0]['extent_type'])
+    expect(ArchivalObject[ao[:id]].extent.length).to eq(1)
+    expect(ArchivalObject[ao[:id]].extent[0].extent_type).to eq(opts[:extents][0]['extent_type'])
   end
 
 
   it "allows archival objects to be created with a date" do
-    
+
     opts = {:dates => [{
          "date_type" => "single",
          "label" => "creation",
          "begin" => generate(:yyyy_mm_dd),
       }]}
-    
+
     ao = ArchivalObject.create_from_json(
                                           build(:json_archival_object, opts),
                                           :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].date.length.should eq(1)
-    ArchivalObject[ao[:id]].date[0].begin.should eq(opts[:dates][0]['begin'])
+    expect(ArchivalObject[ao[:id]].date.length).to eq(1)
+    expect(ArchivalObject[ao[:id]].date[0].begin).to eq(opts[:dates][0]['begin'])
   end
 
 
   it "allows archival objects to be created with an instance" do
     instance = build(:json_instance)
     opts = {:instances => [instance]}
-    
+
     ao = ArchivalObject.create_from_json(
                                          build(:json_archival_object, opts),
                                          :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].instance.length.should eq(1)
-    ArchivalObject[ao[:id]].instance[0].instance_type.should eq(instance['instance_type'])
-    ArchivalObject.to_jsonmodel(ao[:id])['instances'][0]["sub_container"]["type_2"].should eq(instance['sub_container']["type_2"])
+    expect(ArchivalObject[ao[:id]].instance.length).to eq(1)
+    expect(ArchivalObject[ao[:id]].instance[0].instance_type).to eq(instance['instance_type'])
+    expect(ArchivalObject.to_jsonmodel(ao[:id])['instances'][0]["sub_container"]["type_2"]).to eq(instance['sub_container']["type_2"])
   end
 
 
@@ -70,13 +70,13 @@ describe 'ArchivalObject model' do
     ao = ArchivalObject.create_from_json(build(:json_archival_object),
                                          :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].ref_id.should_not be_nil
+    expect(ArchivalObject[ao[:id]].ref_id).not_to be_nil
   end
 
 
   it "will generate a label if requested" do
     opts = {
-      :title => "", 
+      :title => "",
       :dates => [{
                    "date_type" => "single",
                    "label" => "creation",
@@ -87,7 +87,7 @@ describe 'ArchivalObject model' do
     ao = ArchivalObject.create_from_json(build(:json_archival_object, opts),
                                          :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].display_string.should_not be_nil
+    expect(ArchivalObject[ao[:id]].display_string).not_to be_nil
   end
 
 
@@ -99,18 +99,18 @@ describe 'ArchivalObject model' do
                                 build(:json_archival_object, opts),
                                 :repo_id => $repo_id)
     }.to raise_error(JSONModel::ValidationException)
-    
+
     JSONModel::strict_mode(false)
-    
+
     expect { ArchivalObject.create_from_json(
                                 build(:json_archival_object, opts),
                                 :repo_id => $repo_id)
-    }.to_not raise_error
-    
+    }.not_to raise_error
+
     JSONModel::strict_mode(true)
-    
+
   end
-  
+
   it "throws an error if you attempt to add a value to the archival_record_level" do
 
     opts = {:level => "HAMBURGER!"}
@@ -119,9 +119,9 @@ describe 'ArchivalObject model' do
                                 build(:json_archival_object, opts),
                                 :repo_id => $repo_id)
     }.to raise_error(JSONModel::ValidationException)
-    
+
   end
-  
+
   it "enforces ref_id uniqueness only within a resource" do
     res1 = create(:json_resource)
 
@@ -143,7 +143,7 @@ describe 'ArchivalObject model' do
                :resource => {:ref => res1.uri},
                :position => 0
              })
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
   it "auto generates a 'label' based on the title (when no date)" do
@@ -155,7 +155,7 @@ describe 'ArchivalObject model' do
           }),
           :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].display_string.should eq(title)
+    expect(ArchivalObject[ao[:id]].display_string).to eq(title)
   end
 
   it "auto generates a 'label' based on the date (when no title)" do
@@ -168,7 +168,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].display_string.should eq(date['expression'])
+    expect(ArchivalObject[ao[:id]].display_string).to eq(date['expression'])
 
     # try with begin and end
     date = build(:json_date, :expression => nil)
@@ -179,7 +179,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].display_string.should eq("#{date['begin']} - #{date['end']}")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("#{date['begin']} - #{date['end']}")
   end
 
   it "auto generates a 'label' based on the date and title when both are present" do
@@ -193,7 +193,7 @@ describe 'ArchivalObject model' do
       }),
       :repo_id => $repo_id)
 
-    ArchivalObject[ao[:id]].display_string.should eq("#{title}, #{date['expression']}")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date['expression']}")
   end
 
 
@@ -209,9 +209,9 @@ describe 'ArchivalObject model' do
                                                 'notes' => [note]))
 
 
-    NotePersistentId.filter(:persistent_id => "something",
+    expect(NotePersistentId.filter(:persistent_id => "something",
                             :parent_id => resource.id,
-                            :parent_type => 'resource').count.should eq(1)
+                            :parent_type => 'resource').count).to eq(1)
   end
 
 
@@ -235,7 +235,7 @@ describe 'ArchivalObject model' do
                                                                                              :reference => "something")])
                                                                      ]))
 
-    ArchivalObject.to_jsonmodel(ao_with_index).notes[0]['items'][0]['reference_ref']['ref'].should eq(obj.uri)
+    expect(ArchivalObject.to_jsonmodel(ao_with_index).notes[0]['items'][0]['reference_ref']['ref']).to eq(obj.uri)
   end
 
 
@@ -248,7 +248,7 @@ describe 'ArchivalObject model' do
 
     expect {
       ArchivalObject[id].save
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -264,9 +264,9 @@ describe 'ArchivalObject model' do
 
     expect {
       ArchivalObject.sequel_to_jsonmodel(recs)
-    }.to_not raise_error
+    }.not_to raise_error
   end
-  
+
   it "you can add children" do
     resource = create(:json_resource)
     ao = ArchivalObject.create_from_json( build(:json_archival_object, :resource => {:ref => resource.uri}))
@@ -277,14 +277,14 @@ describe 'ArchivalObject model' do
     children = JSONModel(:archival_record_children).from_hash({
       "children" => [archival_object_1, archival_object_2]
     })
-    
-    
+
+
     expect {
-      ao.add_children(children) 
-    }.to_not raise_error
-    
+      ao.add_children(children)
+    }.not_to raise_error
+
     ao = ArchivalObject.get_or_die(ao.id)
-    ao.children.all.length.should == 2
+    expect(ao.children.all.length).to eq(2)
     # now add more!
     archival_object_3 = build(:json_archival_object)
     archival_object_4 = build(:json_archival_object)
@@ -292,11 +292,11 @@ describe 'ArchivalObject model' do
     children = JSONModel(:archival_record_children).from_hash({
       "children" => [archival_object_3, archival_object_4]
     })
-    
+
     expect {
-      ao.add_children(children) 
-    }.to_not raise_error
-  
+      ao.add_children(children)
+    }.not_to raise_error
+
   end
 
   it "won't let you set your parent to a resource that you're not in" do

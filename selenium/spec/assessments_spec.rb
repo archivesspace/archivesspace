@@ -53,10 +53,10 @@ describe "Assessments" do
     @driver.click_and_wait_until_gone(:css => "form#assessment_attributes_form button[type='submit']")
 
     # Check they saved
-    @driver.find_elements(:id, 'ratings__label')[0].attribute('value').should eq('Danceability')
-    @driver.find_elements(:id, 'ratings__label')[1].attribute('value').should eq('Grooviness')
-    @driver.find_element(:id, 'formats__label').attribute('value').should eq('Vinyl Record')
-    @driver.find_element(:id, 'conservation_issues__label').attribute('value').should eq('Scratched')
+    expect(@driver.find_elements(:id, 'ratings__label')[0].attribute('value')).to eq('Danceability')
+    expect(@driver.find_elements(:id, 'ratings__label')[1].attribute('value')).to eq('Grooviness')
+    expect(@driver.find_element(:id, 'formats__label').attribute('value')).to eq('Vinyl Record')
+    expect(@driver.find_element(:id, 'conservation_issues__label').attribute('value')).to eq('Scratched')
   end
 
 
@@ -65,9 +65,9 @@ describe "Assessments" do
 
     @driver.click_and_wait_until_gone(:css => "form#assessment_attributes_form button[type='submit']")
 
-    @driver.find_elements(:id, 'ratings__label')[0].attribute('value').should eq('Danceability')
-    @driver.find_element(:id, 'formats__label').attribute('value').should eq('Vinyl Record')
-    @driver.find_element(:id, 'conservation_issues__label').attribute('value').should eq('Scratched')
+    expect(@driver.find_elements(:id, 'ratings__label')[0].attribute('value')).to eq('Danceability')
+    expect(@driver.find_element(:id, 'formats__label').attribute('value')).to eq('Vinyl Record')
+    expect(@driver.find_element(:id, 'conservation_issues__label').attribute('value')).to eq('Scratched')
   end
 
 
@@ -118,16 +118,16 @@ describe "Assessments" do
 
     # Check all were saved
     linked_records = @driver.find_elements(:css, "input[name='assessment[records][ref][]']")
-    linked_records[0].attribute('value').should eq(@accession.uri)
-    linked_records[1].attribute('value').should eq(@digital_object.uri)
-    linked_records[2].attribute('value').should eq(@archival_object.uri)
-    @driver.find_element(:css, ".token-input-token .accession").text.should match(/Accession to assess/)
-    @driver.find_element(:css, ".token-input-token .digital_object").text.should match(/Digital Object to assess/)
-    @driver.find_element(:css, ".token-input-token .archival_object").text.should match(/Archival Object to assess/)
+    expect(linked_records[0].attribute('value')).to eq(@accession.uri)
+    expect(linked_records[1].attribute('value')).to eq(@digital_object.uri)
+    expect(linked_records[2].attribute('value')).to eq(@archival_object.uri)
+    expect(@driver.find_element(:css, ".token-input-token .accession").text).to match(/Accession to assess/)
+    expect(@driver.find_element(:css, ".token-input-token .digital_object").text).to match(/Digital Object to assess/)
+    expect(@driver.find_element(:css, ".token-input-token .archival_object").text).to match(/Archival Object to assess/)
 
     linked_agents = @driver.find_elements(:css, ".token-input-token .agent_person")
-    linked_agents[0].text.should match(/#{@archivist_user.username}/)
-    linked_agents[1].text.should match(/#{@manager_user.username}/)
+    expect(linked_agents[0].text).to match(/#{@archivist_user.username}/)
+    expect(linked_agents[1].text).to match(/#{@manager_user.username}/)
   end
 
 
@@ -223,14 +223,14 @@ describe "Assessments" do
     @driver.click_and_wait_until_gone(:link, 'View')
 
     # linked records
-    @driver.find_element(:css, ".token.accession").text.should match(/#{@accession.title}/)
-    @driver.find_element(:css, ".token.archival_object").text.should match(/#{@archival_object.title}/)
-    @driver.find_element(:css, ".token.digital_object").text.should match(/#{@digital_object.title}/)
+    expect(@driver.find_element(:css, ".token.accession").text).to match(/#{@accession.title}/)
+    expect(@driver.find_element(:css, ".token.archival_object").text).to match(/#{@archival_object.title}/)
+    expect(@driver.find_element(:css, ".token.digital_object").text).to match(/#{@digital_object.title}/)
 
     # linked agents
     linked_agents = @driver.find_elements(:css, ".token.agent_person")
-    linked_agents[0].text.should match(/#{@archivist_user.username}/)
-    linked_agents[1].text.should match(/#{@manager_user.username}/)
+    expect(linked_agents[0].text).to match(/#{@archivist_user.username}/)
+    expect(linked_agents[1].text).to match(/#{@manager_user.username}/)
 
     # ratings
     expect(@driver.execute_script("return $('#rating_attributes_table').find('td:contains(\"Documentation Quality\")').parent().find('td')[1].innerText")).to eq('1')
@@ -241,7 +241,7 @@ describe "Assessments" do
     expect(@driver.execute_script("return $('#rating_attributes_table').find('td:contains(\"Physical Condition\")').parent().find('td')[1].innerText")).to eq('1')
     expect(@driver.execute_script("return $('#rating_attributes_table').find('td:contains(\"Reformatting Readiness\")').parent().find('td')[1].innerText")).to eq('2')
     expect(@driver.execute_script("return $('#rating_attributes_table').find('td:contains(\"Danceability\")').parent().find('td')[1].innerText")).to eq('5')
-    expect(@driver.execute_script("return $('#rating_attributes_table').find('td:contains(\"Research Value\")').parent().find('td')[1].innerText")).to eq('5') # Interest + Documentation Quality 
+    expect(@driver.execute_script("return $('#rating_attributes_table').find('td:contains(\"Research Value\")').parent().find('td')[1].innerText")).to eq('5') # Interest + Documentation Quality
     expect(@driver.execute_script("return $('#rating_attributes_table').find('td:contains(\"Danceability\")').parent().find('td')[2].innerText")).to eq('Get your boogie on')
 
     # formats
@@ -257,20 +257,20 @@ describe "Assessments" do
   it 'shows linked assessments on accession page' do
     @driver.navigate.to("#{$frontend}/resolve/readonly?uri=#{@accession.uri}")
     @driver.wait_for_ajax
-    @driver.find_elements(:css, "#linked_assessments #tabledSearchResults tbody tr").length.should eq(1)
+    expect(@driver.find_elements(:css, "#linked_assessments #tabledSearchResults tbody tr").length).to eq(1)
   end
 
 
   it 'shows linked assessments on archival object page' do
     @driver.navigate.to("#{$frontend}/resolve/readonly?uri=#{@archival_object.uri}")
     @driver.wait_for_ajax
-    @driver.find_elements(:css, "#linked_assessments #tabledSearchResults tbody tr").length.should eq(1)
+    expect(@driver.find_elements(:css, "#linked_assessments #tabledSearchResults tbody tr").length).to eq(1)
   end
 
 
   it 'shows linked assessments on digital object page' do
     @driver.navigate.to("#{$frontend}/resolve/readonly?uri=#{@digital_object.uri}")
     @driver.wait_for_ajax
-    @driver.find_elements(:css, "#linked_assessments #tabledSearchResults tbody tr").length.should eq(1)
+    expect(@driver.find_elements(:css, "#linked_assessments #tabledSearchResults tbody tr").length).to eq(1)
   end
 end

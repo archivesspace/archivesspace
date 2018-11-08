@@ -19,20 +19,20 @@ describe 'Agent model' do
 
     agent = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, test_opts))
 
-    AgentCorporateEntity[agent[:id]].name_corporate_entity.length.should eq(2)
+    expect(AgentCorporateEntity[agent[:id]].name_corporate_entity.length).to eq(2)
   end
 
 
   it "allows agents to have a linked contact details" do
-    
+
     contact_name = 'Business hours contact'
 
     test_opts = {:agent_contacts => [build(:json_agent_contact, :name => contact_name)]}
 
     agent = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, test_opts))
 
-    AgentCorporateEntity[agent[:id]].agent_contact.length.should eq(1)
-    AgentCorporateEntity[agent[:id]].agent_contact[0][:name].should eq(contact_name)
+    expect(AgentCorporateEntity[agent[:id]].agent_contact.length).to eq(1)
+    expect(AgentCorporateEntity[agent[:id]].agent_contact[0][:name]).to eq(contact_name)
   end
 
 
@@ -47,11 +47,11 @@ describe 'Agent model' do
                       ]
                 }
 
-    expect { 
+    expect {
       agent = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, test_opts))
      }.to raise_error(JSONModel::ValidationException)
   end
-  
+
   it "returns the existing agent if an name authority id is already in place " do
     json =    build( :json_agent_corporate_entity,
                      :names => [build(:json_name_corporate_entity,
@@ -65,8 +65,8 @@ describe 'Agent model' do
                      )])
     a1 = AgentCorporateEntity.create_from_json(json)
     a2 = AgentCorporateEntity.ensure_exists(json2, nil)
-    
-    a1.should eq(a2) # the names should still be the same as the first authority_id names 
+
+    expect(a1).to eq(a2) # the names should still be the same as the first authority_id names
   end
 
 end

@@ -29,7 +29,7 @@ describe 'Merge request controller' do
 
     expect {
       JSONModel(:subject).find(target.id)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -99,12 +99,12 @@ describe 'Merge request controller' do
 
     # The children were moved
     merged_tree = JSONModel(:resource_tree).find(nil, :resource_id => target.id)
-    merged_tree.children.any? {|child| child['record_uri'] == victim_ao.uri}.should be(true)
+    expect(merged_tree.children.any? {|child| child['record_uri'] == victim_ao.uri}).to be_truthy
 
     # An event was created
-    Event.this_repo.all.any? {|event|
-      event.outcome_note.should match(/#{victim.title}/)
-    }.should be(true)
+    expect(Event.this_repo.all.any? {|event|
+      expect(event.outcome_note).to match(/#{victim.title}/)
+    }).to be_truthy
   end
 
 
@@ -128,12 +128,12 @@ describe 'Merge request controller' do
 
     # The children were moved
     merged_tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => target.id)
-    merged_tree.children.any? {|child| child['record_uri'] == victim_doc.uri}.should be(true)
+    expect(merged_tree.children.any? {|child| child['record_uri'] == victim_doc.uri}).to be_truthy
 
     # An event was created
-    Event.this_repo.all.any? {|event|
-      event.outcome_note.should match(/#{victim.title}/)
-    }.should be(true)
+    expect(Event.this_repo.all.any? {|event|
+      expect(event.outcome_note).to match(/#{victim.title}/)
+    }).to be_truthy
   end
 
 

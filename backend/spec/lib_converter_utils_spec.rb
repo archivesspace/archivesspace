@@ -15,8 +15,8 @@ describe ASpaceImport::Utils do
 
     it "generates a type label for a property in a schema" do
       a = JSONModel::JSONModel(:archival_object).new
-      ASpaceImport::Utils.get_property_type(a.class.schema['properties']['title']).should eq([:string, nil])
-      ASpaceImport::Utils.get_property_type(a.class.schema['properties']['subjects']).should eq([:record_ref_list, 'subject'])
+      expect(ASpaceImport::Utils.get_property_type(a.class.schema['properties']['title'])).to eq([:string, nil])
+      expect(ASpaceImport::Utils.get_property_type(a.class.schema['properties']['subjects'])).to eq([:record_ref_list, 'subject'])
     end
 
     it "raises an exception if it can't generate a label for a schema property" do
@@ -46,12 +46,12 @@ describe ASpaceImport::Utils do
       expect(a2.parent['ref']).to eq(a_parent.uri)
 
       a_parent.uri = a_parent.class.uri_for(ASpaceImport::Utils.mint_id, :repo_id => 2)
-      expect(a_parent.uri).to_not eq(old_uri)
+      expect(a_parent.uri).not_to eq(old_uri)
 
       a1 = ASpaceImport::Utils.update_record_references(a1.to_hash(:raw), {old_uri => a_parent.uri})
 
       expect(a1['parent']['ref']).to eq(a_parent.uri)
-      expect(a2['parent']['ref']).to_not eq(a_parent.uri)
+      expect(a2['parent']['ref']).not_to eq(a_parent.uri)
     end
   end
 

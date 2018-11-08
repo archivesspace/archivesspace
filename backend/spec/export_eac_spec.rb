@@ -5,39 +5,39 @@ describe 'EAC Export' do
   describe "nameEntryParallel tag" do
     it "wraps two or more name entries in a nameEntryParallel tag" do
       rec = create(:json_agent_family,
-                    :names => [ 
+                    :names => [
                                build(:json_name_family),
                                build(:json_name_family)
                               ]
                     )
       eac = get_eac(rec)
 
-      eac.should have_tag("identity/nameEntryParallel")
-      eac.should_not have_tag("identity/nameEntry")
+      expect(eac).to have_tag("identity/nameEntryParallel")
+      expect(eac).not_to have_tag("identity/nameEntry")
     end
 
 
     it "doesn't wrap one name entry in a nameEntryParallel tag" do
       rec = create(:json_agent_family,
-                    :names => [ 
+                    :names => [
                                build(:json_name_family),
                               ]
                     )
       eac = get_eac(rec)
 
-      eac.should have_tag("identity/nameEntry")
-      eac.should_not have_tag("identity/nameEntryParallel")
+      expect(eac).to have_tag("identity/nameEntry")
+      expect(eac).not_to have_tag("identity/nameEntryParallel")
     end
   end
 
 
   describe 'agent_person' do
     before(:all) do
-      @rec = create(:json_agent_person, 
+      @rec = create(:json_agent_person,
                     :names => [
-                               build(:json_name_person, 
+                               build(:json_name_person,
                                      :prefix => 'abcdefg'
-                                     ), 
+                                     ),
                                build(:json_name_person)
                               ]
                     )
@@ -51,7 +51,7 @@ describe 'EAC Export' do
 
 
     it "exports EAC with the correct namespaces" do
-      @eac.should have_namespaces({
+      expect(@eac).to have_namespaces({
         "xmlns"=> "urn:isbn:1-931666-33-4",
         "xmlns:html" => "http://www.w3.org/1999/xhtml",
         "xmlns:xlink" => "http://www.w3.org/1999/xlink",
@@ -63,16 +63,16 @@ describe 'EAC Export' do
     it "maps name.rules to authorizedForm" do
       rule1 = @rec.names[0]['rules']
       rule2 = @rec.names[1]['rules']
-      @eac.should have_tag('nameEntry[1]/authorizedForm' => rule1)
-      @eac.should have_tag('nameEntry[2]/authorizedForm' => rule2)
+      expect(@eac).to have_tag('nameEntry[1]/authorizedForm' => rule1)
+      expect(@eac).to have_tag('nameEntry[2]/authorizedForm' => rule2)
     end
 
 
     it "maps name.source to authorizedForm" do
       source1 = @rec.names[0]['source']
       source2 = @rec.names[1]['source']
-      @eac.should have_tag('nameEntry[1]/authorizedForm' => source1)
-      @eac.should have_tag('nameEntry[2]/authorizedForm' => source2)
+      expect(@eac).to have_tag('nameEntry[1]/authorizedForm' => source1)
+      expect(@eac).to have_tag('nameEntry[2]/authorizedForm' => source2)
     end
 
 
@@ -80,9 +80,9 @@ describe 'EAC Export' do
       val = @rec.names[0]['prefix']
       tag = "nameEntry[1]/part[@localType='prefix']"
       if val
-        @eac.should have_tag(tag => val)
+        expect(@eac).to have_tag(tag => val)
       else
-        @eac.should_not have_tag(tag)
+        expect(@eac).not_to have_tag(tag)
       end
     end
 
@@ -90,10 +90,10 @@ describe 'EAC Export' do
     it "maps name.title to nameEntry/part[@localType='title']" do
       val = @rec.names[0]['title']
       tag = "nameEntry[1]/part[@localType='title']"
-      if val        
-        @eac.should have_tag(tag => val)
+      if val
+        expect(@eac).to have_tag(tag => val)
       else
-        @eac.should_not have_tag(tag)
+        expect(@eac).not_to have_tag(tag)
       end
     end
 
@@ -101,7 +101,7 @@ describe 'EAC Export' do
     it "maps name.primary_name to nameEntry/part[@localType='surname']" do
       val = @rec.names[0]['primary_name']
       tag = "nameEntry[1]/part[@localType='surname']"
-      @eac.should have_tag(tag => val)
+      expect(@eac).to have_tag(tag => val)
     end
 
 
@@ -109,9 +109,9 @@ describe 'EAC Export' do
       val = @rec.names[0]['rest_of_name']
       tag = "nameEntry[1]/part[@localType='forename']"
       if val
-        @eac.should have_tag(tag => val)
+        expect(@eac).to have_tag(tag => val)
       else
-        @eac.should_not have_tag(tag)
+        expect(@eac).not_to have_tag(tag)
       end
     end
 
@@ -120,9 +120,9 @@ describe 'EAC Export' do
       val = @rec.names[0]['suffix']
       tag = "nameEntry[1]/part[@localType='suffix']"
       if val
-        @eac.should have_tag(tag => val)
+        expect(@eac).to have_tag(tag => val)
       else
-        @eac.should_not have_tag(tag)
+        expect(@eac).not_to have_tag(tag)
       end
     end
 
@@ -130,26 +130,26 @@ describe 'EAC Export' do
     it "maps name.number to nameEntry/part[@localType='number']" do
       val = @rec.names[0]['number']
       tag = "nameEntry[1]/part[@localType='number']"
-      @eac.should have_tag(tag => val)
+      expect(@eac).to have_tag(tag => val)
     end
 
 
     it "maps name.fuller_form to nameEntry/part[@localType='fullerForm']" do
       val = @rec.names[0]['fuller_form']
       tag = "nameEntry[1]/part[@localType='fullerForm']"
-      @eac.should have_tag(tag => val)
+      expect(@eac).to have_tag(tag => val)
     end
 
 
     it "maps name qualifier to nameEntry/part[@localType='qualifier']" do
       val = @rec.names[0]['qualifier']
       tag = "nameEntry[1]/part[@localType='qualifier']"
-      @eac.should have_tag(tag => val)
+      expect(@eac).to have_tag(tag => val)
     end
 
 
     it "maps agent_person records to EAC docs with entityType = person" do
-      @eac.should have_tag('entityType' => 'person')
+      expect(@eac).to have_tag('entityType' => 'person')
     end
 
   end
@@ -174,9 +174,9 @@ describe 'EAC Export' do
                     :begin => '2014-01-01',
                     )
 
-      @rec = create(:json_agent_corporate_entity, 
+      @rec = create(:json_agent_corporate_entity,
                     :names => [
-                               build(:json_name_corporate_entity, 
+                               build(:json_name_corporate_entity,
                                      :use_dates => [
                                                     date1,
                                                     date2,
@@ -197,50 +197,50 @@ describe 'EAC Export' do
     it "maps name.primary_name to nameEntry/part[@localType='primaryPart']" do
       val = @rec.names[0]['primary_name']
       tag = "nameEntry[1]/part[@localType='primaryPart']"
-      @eac.should have_tag(tag => val)
+      expect(@eac).to have_tag(tag => val)
     end
 
 
     it "maps name.subordinate_name_1 to nameEntry/part[@localType='secondaryPart']" do
       val = @rec.names[0]['subordinate_name_1']
       tag = "nameEntry[1]/part[@localType='secondaryPart']"
-      @eac.should have_tag(tag => val)
+      expect(@eac).to have_tag(tag => val)
     end
 
 
     it "maps name.subordinate_name_2 to nameEntry/part[@localType='tertiaryPart']" do
       val = @rec.names[0]['subordinate_name_2']
       tag = "nameEntry[1]/part[@localType='tertiaryPart']"
-      @eac.should have_tag(tag => val)
+      expect(@eac).to have_tag(tag => val)
     end
 
 
     it "maps name.number to nameEntry/part[@localType='number']" do
       val = @rec.names[0]['number']
       tag = "nameEntry[1]/part[@localType='number']"
-      @eac.should have_tag(tag => val)
+      expect(@eac).to have_tag(tag => val)
     end
 
 
     it "maps name qualifier to nameEntry/part[@localType='qualifier']" do
       val = @rec.names[0]['qualifier']
       tag = "nameEntry[1]/part[@localType='qualifier']"
-      @eac.should have_tag(tag => val)
+      expect(@eac).to have_tag(tag => val)
     end
 
 
     it "maps each name.use_dates[] to a useDates tag" do
-      @eac.should have_tag("nameEntry[1]/useDates[3]")
-      @eac.should_not have_tag("nameEntry[1]/useDates[4]")
+      expect(@eac).to have_tag("nameEntry[1]/useDates[3]")
+      expect(@eac).not_to have_tag("nameEntry[1]/useDates[4]")
     end
 
 
     it "creates a from- and to-Date for 'bulk' dates" do
          from = @rec.names[0]['use_dates'][0]['begin']
          to = @rec.names[0]['use_dates'][0]['end']
-   
-         @eac.should have_tag("nameEntry[1]/useDates[1]/dateRange/fromDate[@standardDate=\"#{from}\"]" => "#{from}")
-         @eac.should have_tag("nameEntry[1]/useDates[1]/dateRange/toDate[@standardDate=\"#{to}\"]" => "#{to}")
+
+         expect(@eac).to have_tag("nameEntry[1]/useDates[1]/dateRange/fromDate[@standardDate=\"#{from}\"]" => "#{from}")
+         expect(@eac).to have_tag("nameEntry[1]/useDates[1]/dateRange/toDate[@standardDate=\"#{to}\"]" => "#{to}")
     end
 
 
@@ -248,19 +248,19 @@ describe 'EAC Export' do
       from = @rec.names[0]['use_dates'][1]['begin']
       to = @rec.names[0]['use_dates'][1]['end']
 
-      @eac.should have_tag("nameEntry[1]/useDates[2]/dateRange/fromDate[@standardDate=\"#{from}\"]" => "#{from}")
-      @eac.should have_tag("nameEntry[1]/useDates[2]/dateRange/toDate[@standardDate=\"#{to}\"]" => "#{to}")
+      expect(@eac).to have_tag("nameEntry[1]/useDates[2]/dateRange/fromDate[@standardDate=\"#{from}\"]" => "#{from}")
+      expect(@eac).to have_tag("nameEntry[1]/useDates[2]/dateRange/toDate[@standardDate=\"#{to}\"]" => "#{to}")
     end
 
 
     it "does not create a from- or to-Date 'single' dates" do
-      @eac.should_not have_tag("nameEntry[1]/useDates[3]/dateRange/fromDate")
-      @eac.should_not have_tag("nameEntry[1]/useDates[3]/dateRange/toDate")
+      expect(@eac).not_to have_tag("nameEntry[1]/useDates[3]/dateRange/fromDate")
+      expect(@eac).not_to have_tag("nameEntry[1]/useDates[3]/dateRange/toDate")
     end
 
 
     it "creates a date tag for 'single' dates" do
-      @eac.should have_tag("nameEntry[1]/useDates[3]/dateRange/date" => @rec.names[0]['use_dates'][2]['begin'])
+      expect(@eac).to have_tag("nameEntry[1]/useDates[3]/dateRange/date" => @rec.names[0]['use_dates'][2]['begin'])
     end
 
   end
@@ -272,10 +272,10 @@ describe 'EAC Export' do
       $old_repo_id = $repo_id
       $repo_id = @repo.id
       JSONModel.set_repository($repo_id)
-      
-      @rec = create(:json_agent_family, 
+
+      @rec = create(:json_agent_family,
                     :names => [
-                               build(:json_name_family), 
+                               build(:json_name_family),
                                build(:json_name_family)
                               ]
                     )
@@ -294,9 +294,9 @@ describe 'EAC Export' do
       val = @rec.names[0]['prefix']
       tag = "nameEntry[1]/part[@localType='prefix']"
       if val
-        @eac.should have_tag(tag => val)
+        expect(@eac).to have_tag(tag => val)
       else
-        @eac.should_not have_tag(tag)
+        expect(@eac).not_to have_tag(tag)
       end
     end
 
@@ -305,9 +305,9 @@ describe 'EAC Export' do
       val = @rec.names[0]['family_name']
       tag = "nameEntry[1]/part[@localType='familyName']"
       if val
-        @eac.should have_tag(tag => val)
+        expect(@eac).to have_tag(tag => val)
       else
-        @eac.should_not have_tag(tag)
+        expect(@eac).not_to have_tag(tag)
       end
     end
   end
@@ -333,25 +333,25 @@ describe 'EAC Export' do
     end
 
     it "creates an existDates tag for the first date of existence" do
-      @eac.should have_tag("description/existDates[1]")
-      @eac.should_not have_tag("description/existDates[2]")
+      expect(@eac).to have_tag("description/existDates[1]")
+      expect(@eac).not_to have_tag("description/existDates[2]")
     end
 
 
     it "maps date.expression to dateRange" do
-      @eac.should have_tag("description/existDates/dateRange" =>
+      expect(@eac).to have_tag("description/existDates/dateRange" =>
                            @rec.dates_of_existence[0]['expression'])
     end
 
 
     it "maps date.begin to fromDate" do
-      @eac.should have_tag("existDates/dateRange[2]/fromDate[@standardDate=\"#{@rec.dates_of_existence[0]['begin']}\"]" =>
+      expect(@eac).to have_tag("existDates/dateRange[2]/fromDate[@standardDate=\"#{@rec.dates_of_existence[0]['begin']}\"]" =>
                            @rec.dates_of_existence[0]['begin'])
     end
 
 
     it "maps date.end to toDate" do
-      @eac.should have_tag("existDates/dateRange[2]/toDate[@standardDate=\"#{@rec.dates_of_existence[0]['end']}\"]" =>
+      expect(@eac).to have_tag("existDates/dateRange[2]/toDate[@standardDate=\"#{@rec.dates_of_existence[0]['end']}\"]" =>
                            @rec.dates_of_existence[0]['end'])
     end
   end
@@ -368,7 +368,7 @@ describe 'EAC Export' do
                   :note_text,
                   :note_outline
                  ]
-        
+
 
       @rec = create(:json_agent_person,
                     :notes => [ build(:json_note_bioghist,
@@ -377,7 +377,7 @@ describe 'EAC Export' do
                                               :publish => true)
                                       },
                                       :publish => true
-                                      ) 
+                                      )
                               ]
                     )
       @eac = get_eac(@rec)
@@ -399,7 +399,7 @@ describe 'EAC Export' do
                    )
       eac = get_eac(rec)
 
-      eac.should have_tag("biogHist[2]")
+      expect(eac).to have_tag("biogHist[2]")
     end
 
 
@@ -411,12 +411,12 @@ describe 'EAC Export' do
 
       eac = get_eac(rec)
 
-      eac.should_not have_tag("biogHist")
+      expect(eac).not_to have_tag("biogHist")
     end
 
 
     it "maps 'abstract' subnotes to abstract tags" do
-      @eac.should have_tag("biogHist/abstract" => 
+      expect(@eac).to have_tag("biogHist/abstract" =>
                            @subnotes[:note_abstract]['content'].join('--'))
     end
 
@@ -425,14 +425,14 @@ describe 'EAC Export' do
       xlink_values = @subnotes[:note_citation]['xlink']
       citation_text = @subnotes[:note_citation]['content'].join('--')
 
-      @eac.should have_tag("biogHist/citation[@xlink:actuate=\"#{xlink_values['actuate']}\"]") 
-      @eac.should have_tag("biogHist/citation[@xlink:arcrole='#{xlink_values['arcrole']}']")
-      @eac.should have_tag("biogHist/citation[@xlink:href='#{xlink_values['href']}']")
-      @eac.should have_tag("biogHist/citation[@xlink:role='#{xlink_values['role']}']")
-      @eac.should have_tag("biogHist/citation[@xlink:show='#{xlink_values['show']}']")
-      @eac.should have_tag("biogHist/citation[@xlink:title='#{xlink_values['title']}']")
- 
-      @eac.should have_tag("biogHist/citation" => citation_text)
+      expect(@eac).to have_tag("biogHist/citation[@xlink:actuate=\"#{xlink_values['actuate']}\"]")
+      expect(@eac).to have_tag("biogHist/citation[@xlink:arcrole='#{xlink_values['arcrole']}']")
+      expect(@eac).to have_tag("biogHist/citation[@xlink:href='#{xlink_values['href']}']")
+      expect(@eac).to have_tag("biogHist/citation[@xlink:role='#{xlink_values['role']}']")
+      expect(@eac).to have_tag("biogHist/citation[@xlink:show='#{xlink_values['show']}']")
+      expect(@eac).to have_tag("biogHist/citation[@xlink:title='#{xlink_values['title']}']")
+
+      expect(@eac).to have_tag("biogHist/citation" => citation_text)
     end
 
 
@@ -440,9 +440,9 @@ describe 'EAC Export' do
       list_title = @subnotes[:note_definedlist]['title']
       list_items = @subnotes[:note_definedlist]['items']
 
-      @eac.should have_tag("biogHist/list[@localType='defined:#{list_title}']/item[#{list_items.count}]")
-      @eac.should_not have_tag("biogHist/list[@localType='defined:#{list_title}']/item[#{list_items.count + 1}]")
-      @eac.should have_tag("biogHist/list/item[@localType='#{list_items.last['label']}']" => list_items.last['value'])
+      expect(@eac).to have_tag("biogHist/list[@localType='defined:#{list_title}']/item[#{list_items.count}]")
+      expect(@eac).not_to have_tag("biogHist/list[@localType='defined:#{list_title}']/item[#{list_items.count + 1}]")
+      expect(@eac).to have_tag("biogHist/list/item[@localType='#{list_items.last['label']}']" => list_items.last['value'])
     end
 
 
@@ -451,9 +451,9 @@ describe 'EAC Export' do
       list_items = @subnotes[:note_orderedlist]['items']
       enumeration = @subnotes[:note_orderedlist]['enumeration']
 
-      @eac.should have_tag("biogHist/list[@localType='ordered:#{list_title}']/item[#{list_items.count}]")
-      @eac.should_not have_tag("biogHist/list[@localType='ordered:#{list_title}']/item[#{list_items.count + 1}]")
-      @eac.should have_tag("biogHist/list/item[@localType='#{enumeration}']" => list_items.last)
+      expect(@eac).to have_tag("biogHist/list[@localType='ordered:#{list_title}']/item[#{list_items.count}]")
+      expect(@eac).not_to have_tag("biogHist/list[@localType='ordered:#{list_title}']/item[#{list_items.count + 1}]")
+      expect(@eac).to have_tag("biogHist/list/item[@localType='#{enumeration}']" => list_items.last)
     end
 
 
@@ -461,10 +461,10 @@ describe 'EAC Export' do
       chron_title = @subnotes[:note_chronology]['title']
 
       if chron_title
-        @eac.should have_tag("biogHist/chronList[@localType='#{chron_title}']")
+        expect(@eac).to have_tag("biogHist/chronList[@localType='#{chron_title}']")
       else
-        @eac.should_not have_tag("biogHist/chronList[@localType]")
-        @eac.should have_tag("biogHist/chronList")
+        expect(@eac).not_to have_tag("biogHist/chronList[@localType]")
+        expect(@eac).to have_tag("biogHist/chronList")
       end
     end
 
@@ -472,8 +472,8 @@ describe 'EAC Export' do
     it "maps every 'event' of every 'item' in a 'chronology' to a 'chronitem' tag" do
       events = @subnotes[:note_chronology]['items'].map{|i| i['events'].map{|e| [i['event_date'], e] } }.flatten(1)
 
-      @eac.should have_tag("chronList/chronItem[#{events.count}]")
-      @eac.should_not have_tag("chronList/chronItem[#{events.count + 1}]")
+      expect(@eac).to have_tag("chronList/chronItem[#{events.count}]")
+      expect(@eac).not_to have_tag("chronList/chronItem[#{events.count + 1}]")
     end
 
 
@@ -482,10 +482,10 @@ describe 'EAC Export' do
 
       events.each do |event| # date, event pair
         if event[0] && event[0].length
-          @eac.should have_tag("chronList/chronItem[@standardDate='#{event[0]}']/event" => event[1])
+          expect(@eac).to have_tag("chronList/chronItem[@standardDate='#{event[0]}']/event" => event[1])
         else
-          @eac.should have_tag("chronList/chronItem/event" => event[1])
-          @eac.should_not have_tag("chronList/chronItem[@standardDate]/event" => event[1])
+          expect(@eac).to have_tag("chronList/chronItem/event" => event[1])
+          expect(@eac).not_to have_tag("chronList/chronItem[@standardDate]/event" => event[1])
         end
       end
     end
@@ -507,14 +507,14 @@ describe 'EAC Export' do
       eac = get_eac(rec)
 
       outline = get_subnotes_by_type(rec.notes[0], 'note_outline')[0]
-      eac.should have_tag("outline/level[#{outline['levels'].count}]")
-      eac.should_not have_tag("outline/level[#{outline['levels'].count + 1}]")
+      expect(eac).to have_tag("outline/level[#{outline['levels'].count}]")
+      expect(eac).not_to have_tag("outline/level[#{outline['levels'].count + 1}]")
 
       outline['levels'].sample['items'].each do |item|
         if item.is_a?(String)
-          eac.should have_tag("outline/level/item" => item)
+          expect(eac).to have_tag("outline/level/item" => item)
         else
-          eac.should have_tag("outline/level/level/item" => item['items'][0])
+          expect(eac).to have_tag("outline/level/level/item" => item['items'][0])
         end
       end
     end
@@ -535,7 +535,7 @@ describe 'EAC Export' do
                                                   :location => "not a url")
                                            ]
                     )
-      @resource, @digital_object = [:json_resource, :json_digital_object].map {|type| 
+      @resource, @digital_object = [:json_resource, :json_digital_object].map {|type|
         create(type,
                :linked_agents => [{
                  'role' => %w(creator subject).sample,
@@ -576,29 +576,29 @@ describe 'EAC Export' do
     end
 
     it "maps related agents to cpfRelation" do
-      @eac.should have_tag("relations/cpfRelation[@cpfRelationType='is_parent_of'][@xlink:href='#{@linked_agent.uri}']/relationEntry" =>
+      expect(@eac).to have_tag("relations/cpfRelation[@cpfRelationType='is_parent_of'][@xlink:href='#{@linked_agent.uri}']/relationEntry" =>
 @linked_agent.names[0]['primary_name'])
     end
 
 
     it "maps related resources and components to resourceRelation" do
       role = @resource.linked_agents[0]['role'] + "Of"
-      @eac.should have_tag("relations/resourceRelation[@resourceRelationType='#{role}']/relationEntry" => @resource.title)
-      @eac.should have_tag("relations/resourceRelation/relationEntry" => @resource_component.title)
+      expect(@eac).to have_tag("relations/resourceRelation[@resourceRelationType='#{role}']/relationEntry" => @resource.title)
+      expect(@eac).to have_tag("relations/resourceRelation/relationEntry" => @resource_component.title)
     end
 
 
     it "maps related digital objects and components to resourceRelation" do
       role = @digital_object.linked_agents[0]['role'] + "Of"
-      @eac.should have_tag("relations/resourceRelation[@resourceRelationType='#{role}']/relationEntry" => @digital_object.title)
-      @eac.should have_tag("relations/resourceRelation/relationEntry" => @digital_object_component.title)
+      expect(@eac).to have_tag("relations/resourceRelation[@resourceRelationType='#{role}']/relationEntry" => @digital_object.title)
+      expect(@eac).to have_tag("relations/resourceRelation/relationEntry" => @digital_object_component.title)
     end
 
 
     it "maps external documents to resourceRelation" do
-      @eac.should have_tag("relations/resourceRelation[@resourceRelationType='other'][1]")
+      expect(@eac).to have_tag("relations/resourceRelation[@resourceRelationType='other'][1]")
       # bad locations don't get exported
-      @eac.should_not have_tag("relations/resourceRelation[@resourceRelationType='other'][2]")
+      expect(@eac).not_to have_tag("relations/resourceRelation[@resourceRelationType='other'][2]")
     end
   end
 
@@ -613,8 +613,8 @@ describe 'EAC Export' do
       rec = create(:json_agent_family)
       eac = get_eac(rec, repo.id)
 
-      eac.should have_tag "control/maintenanceAgency/agencyCode" => repo.org_code
-      eac.should have_tag "control/maintenanceAgency/agencyName" => repo.name
+      expect(eac).to have_tag "control/maintenanceAgency/agencyCode" => repo.org_code
+      expect(eac).to have_tag "control/maintenanceAgency/agencyName" => repo.name
     end
 
   end
@@ -640,7 +640,7 @@ describe 'EAC Export' do
                    )
       eac = get_eac(rec)
 
-      eac.should_not have_tag("dateRange" => "")
+      expect(eac).not_to have_tag("dateRange" => "")
     end
   end
 

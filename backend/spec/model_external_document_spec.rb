@@ -11,8 +11,8 @@ describe 'External Document model' do
                                              "location" => "http://www.foobar.com",
                                            }))
 
-    ExternalDocument[doc[:id]].title.should eq("My external document")
-    ExternalDocument[doc[:id]].location.should eq("http://www.foobar.com")
+    expect(ExternalDocument[doc[:id]].title).to eq("My external document")
+    expect(ExternalDocument[doc[:id]].location).to eq("http://www.foobar.com")
   end
 
 

@@ -53,8 +53,8 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    parsed.length.should eq(6)
-    parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['sub_container']['type_2'].should eq('Folder')
+    expect(parsed.length).to eq(6)
+    expect(parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['sub_container']['type_2']).to eq('Folder')
   end
 
   it "should find a top_container barcode in a container label" do
@@ -62,12 +62,10 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['instance_type'].should eq('text')
-    parsed.find{|r|
-      r['uri'] == parsed.find{|r|
-        r['ref_id'] == '1'
-      }['instances'][0]['sub_container']['top_container']['ref']
-    }['barcode'].should eq('B@RC0D3')
+    expect(parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['instance_type']).to eq('text')
+    expect(parsed.find{|r|
+      r['uri'] == parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['sub_container']['top_container']['ref']
+    }['barcode']).to eq('B@RC0D3')
   end
 
   it "should remove unitdate from unittitle" do
@@ -75,9 +73,9 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    parsed.length.should eq(6)
-    parsed.find{|r| r['ref_id'] == '1'}['title'].should eq('oh well')
-    parsed.find{|r| r['ref_id'] == '1'}['dates'][0]['expression'].should eq("1907-1911")
+    expect(parsed.length).to eq(6)
+    expect(parsed.find{|r| r['ref_id'] == '1'}['title']).to eq('oh well')
+    expect(parsed.find{|r| r['ref_id'] == '1'}['dates'][0]['expression']).to eq("1907-1911")
 
   end
 
@@ -101,7 +99,7 @@ ANEAD
     new_agent = AgentPerson.ensure_exists(record, nil)
 
 
-    agent.should eq(new_agent)
+    expect(agent).to eq(new_agent)
   end
 
 
@@ -138,7 +136,7 @@ ANEAD
       @archival_objects.each do |k, v|
         if k.to_i > 1
           parent_key = sprintf '%02d', k.to_i - 1
-          v['parent']['ref'].should eq(@archival_objects[parent_key]['uri'])
+          expect(v['parent']['ref']).to eq(@archival_objects[parent_key]['uri'])
         end
       end
     end
@@ -156,12 +154,12 @@ ANEAD
     # RESOURCE
     it "maps '<date>' correctly" do
       #   IF nested in <chronitem>
-      get_subnotes_by_type(get_note(@archival_objects['12'], 'ref53'), 'note_chronology')[0]['items'][0]['event_date'].should eq('1895')
+      expect(get_subnotes_by_type(get_note(@archival_objects['12'], 'ref53'), 'note_chronology')[0]['items'][0]['event_date']).to eq('1895')
 
-      get_subnotes_by_type(get_note(@archival_objects['12'], 'ref53'), 'note_chronology')[0]['items'][1]['event_date'].should eq('1995')
+      expect(get_subnotes_by_type(get_note(@archival_objects['12'], 'ref53'), 'note_chronology')[0]['items'][1]['event_date']).to eq('1995')
 
       #   IF nested in <publicationstmt>
-      @resource['finding_aid_date'].should eq('Resource-FindingAidDate-AT')
+      expect(@resource['finding_aid_date']).to eq('Resource-FindingAidDate-AT')
 
       #   ELSE
     end
@@ -169,92 +167,92 @@ ANEAD
     it "maps '<physdesc>' correctly" do
       # <extent> tag mapping
       #   IF value starts with a number followed by a space and can be parsed
-      @resource['extents'][0]['number'].should eq("5.0")
-      @resource['extents'][0]['extent_type'].should eq("Linear feet")
+      expect(@resource['extents'][0]['number']).to eq("5.0")
+      expect(@resource['extents'][0]['extent_type']).to eq("Linear feet")
 
       #   ELSE
-      @resource['extents'][0]['container_summary'].should eq("Resource-ContainerSummary-AT")
+      expect(@resource['extents'][0]['container_summary']).to eq("Resource-ContainerSummary-AT")
 
 
       # further physdesc tags - dimensions and physfacet tags are mapped appropriately
-      @resource['extents'][0]['dimensions'].should eq("Resource-Dimensions-AT")
-      @resource['extents'][0]['physical_details'].should eq("Resource-PhysicalFacet-AT")
+      expect(@resource['extents'][0]['dimensions']).to eq("Resource-Dimensions-AT")
+      expect(@resource['extents'][0]['physical_details']).to eq("Resource-PhysicalFacet-AT")
 
       # physdesc altrender mapping
-      @resource['extents'][0]['portion'].should eq("part")
+      expect(@resource['extents'][0]['portion']).to eq("part")
     end
 
 
     it "maps '<unitdate>' correctly" do
-      @resource['dates'][0]['expression'].should eq("Bulk, 1960-1970")
-      @resource['dates'][0]['date_type'].should eq("bulk")
+      expect(@resource['dates'][0]['expression']).to eq("Bulk, 1960-1970")
+      expect(@resource['dates'][0]['date_type']).to eq("bulk")
 
-      @resource['dates'][1]['expression'].should eq("Resource-Title-AT")
-      @resource['dates'][1]['date_type'].should eq("inclusive")
+      expect(@resource['dates'][1]['expression']).to eq("Resource-Title-AT")
+      expect(@resource['dates'][1]['date_type']).to eq("inclusive")
     end
 
     it "maps '<unitid>' correctly" do
       #   IF nested in <archdesc><did>
-      @resource["id_0"].should eq("Resource.ID.AT")
+      expect(@resource["id_0"]).to eq("Resource.ID.AT")
 
       #   IF nested in <c><did>
     end
 
     it "maps '<unittitle>' correctly" do
       #   IF nested in <archdesc><did>
-      @resource["title"].should eq('Resource--<title render="italic">Title</title>-AT')
+      expect(@resource["title"]).to eq('Resource--<title render="italic">Title</title>-AT')
       #   IF nested in <c><did>
-      @archival_objects['12']['title'].should eq("Resource-C12-AT")
+      expect(@archival_objects['12']['title']).to eq("Resource-C12-AT")
     end
 
 
     # FINDING AID ELEMENTS
     it "maps '<author>' correctly" do
-      @resource['finding_aid_author'].should eq('Finding aid prepared by Resource-FindingAidAuthor-AT')
+      expect(@resource['finding_aid_author']).to eq('Finding aid prepared by Resource-FindingAidAuthor-AT')
     end
 
     it "maps '<descrules>' correctly" do
-      @resource['finding_aid_description_rules'].should eq('Describing Archives: A Content Standard')
+      expect(@resource['finding_aid_description_rules']).to eq('Describing Archives: A Content Standard')
     end
 
     it "maps '<eadid>' correctly" do
-      @resource['ead_id'].should eq('Resource-EAD-ID-AT')
+      expect(@resource['ead_id']).to eq('Resource-EAD-ID-AT')
     end
 
     it "maps '<eadid @url>' correctly" do
-      @resource['ead_location'].should eq('Resource-EAD-Location-AT')
+      expect(@resource['ead_location']).to eq('Resource-EAD-Location-AT')
     end
 
     it "maps '<editionstmt>' correctly" do
-      @resource['finding_aid_edition_statement'].should eq("Resource-FindingAidEdition-AT")
+      expect(@resource['finding_aid_edition_statement']).to eq("Resource-FindingAidEdition-AT")
     end
 
     it "maps '<seriesstmt>' correctly" do
-      @resource['finding_aid_series_statement'].should eq("Resource-FindingAidSeries-AT")
+      expect(@resource['finding_aid_series_statement']).to eq("Resource-FindingAidSeries-AT")
     end
 
     it "maps '<sponsor>' correctly" do
-      @resource['finding_aid_sponsor'].should eq('Resource-Sponsor-AT')
+      expect(@resource['finding_aid_sponsor']).to eq('Resource-Sponsor-AT')
     end
 
     it "maps '<subtitle>' correctly" do
     end
 
     it "maps '<titleproper>' correctly" do
-      @resource['finding_aid_title'].should eq("Resource-FindingAidTitle-AT <num>Resource.ID.AT</num>")
+      expect(@resource['finding_aid_title']).to eq("Resource-FindingAidTitle-AT <num>Resource.ID.AT</num>")
     end
 
     it "maps '<titleproper type=\"filing\">' correctly" do
-      @resource['finding_aid_filing_title'].should eq('Resource-FindingAidFilingTitle-AT')
+      expect(@resource['finding_aid_filing_title']).to eq('Resource-FindingAidFilingTitle-AT')
     end
 
     it "maps '<langusage>' correctly" do
-      @resource['finding_aid_language'].should eq('Resource-FindingAidLanguage-AT')
+      expect(@resource['finding_aid_language']).to eq('Resource-FindingAidLanguage-AT')
     end
 
     it "maps '<revisiondesc>' correctly" do
-      @resource['revision_statements'][0]['description'].should eq("Resource-FindingAidRevisionDescription-AT")
-      @resource['revision_statements'][0]['date'].should eq("Resource-FindingAidRevisionDate-AT")
+      expect(@resource['revision_statements'][0]['description']).to eq("Resource-FindingAidRevisionDescription-AT")
+      expect(@resource['revision_statements'][0]['date']).to eq("Resource-FindingAidRevisionDate-AT")
     end
 
     # NAMES
@@ -262,22 +260,22 @@ ANEAD
       #   IF nested in <origination> OR <controlaccess>
       #   IF nested in <origination>
       c1 = @corps.find {|corp| corp['names'][0]['primary_name'] == "CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT)"}
-      c1.should_not be_nil
+      expect(c1).not_to be_nil
 
       linked = @resource['linked_agents'].find {|a| a['ref'] == c1['uri']}
-      linked['role'].should eq('creator')
+      expect(linked['role']).to eq('creator')
       #   IF nested in <controlaccess>
       c2 = @corps.find {|corp| corp['names'][0]['primary_name'] == "CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT) -- Archives"}
-      c2.should_not be_nil
+      expect(c2).not_to be_nil
 
       linked = @resource['linked_agents'].find {|a| a['ref'] == c2['uri']}
-      linked['role'].should eq('subject')
+      expect(linked['role']).to eq('subject')
 
       #   ELSE
       #   IF @rules != NULL ==> name_corporate_entity.rules
-      [c1, c2].map {|c| c['names'][0]['rules']}.uniq.should eq(['dacs'])
+      expect([c1, c2].map {|c| c['names'][0]['rules']}.uniq).to eq(['dacs'])
       #   IF @source != NULL ==> name_corporate_entity.source
-        [c1, c2].map {|c| c['names'][0]['source']}.uniq.should eq(['naf'])
+      expect([c1, c2].map {|c| c['names'][0]['source']}.uniq).to eq(['naf'])
       #   IF @authfilenumber != NULL
     end
 
@@ -289,29 +287,29 @@ ANEAD
 
       #   IF nested in <origination>
       n1 = fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'creator' }['ref'] }['names'][0]['family_name']
-      n1.should eq("FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT")
+      expect(n1).to eq("FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT")
       #   IF nested in <controlaccess>
       n2 = fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'subject' }['ref'] }['names'][0]['family_name']
-      n2.should eq("FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Pictorial works")
+      expect(n2).to eq("FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Pictorial works")
       #   ELSE
       #   IF @rules != NULL
-      fams.map{|f| f['names'][0]['rules']}.uniq.should eq(['aacr'])
+      expect(fams.map{|f| f['names'][0]['rules']}.uniq).to eq(['aacr'])
       #   IF @source != NULL
-      fams.map{|f| f['names'][0]['source']}.uniq.should eq(['naf'])
+      expect(fams.map{|f| f['names'][0]['source']}.uniq).to eq(['naf'])
       #   IF @authfilenumber != NULL
     end
 
     it "maps '<persname>' correctly" do
       #   IF nested in <origination> OR <controlaccess>
       #   IF nested in <origination>
-      @archival_objects['01']['linked_agents'].find {|l| @people.map{|p| p['uri'] }.include?(l['ref'])}['role'].should eq('creator')
+      expect(@archival_objects['01']['linked_agents'].find {|l| @people.map{|p| p['uri'] }.include?(l['ref'])}['role']).to eq('creator')
       #   IF nested in <controlaccess>
-      @archival_objects['06']['linked_agents'].reverse.find {|l| @people.map{|p| p['uri'] }.include?(l['ref'])}['role'].should eq('subject')
+      expect(@archival_objects['06']['linked_agents'].reverse.find {|l| @people.map{|p| p['uri'] }.include?(l['ref'])}['role']).to eq('subject')
       #   ELSE
       #   IF @rules != NULL
-      @people.map {|p| p['names'][0]['rules']}.uniq.should eq(['local'])
+      expect(@people.map {|p| p['names'][0]['rules']}.uniq).to eq(['local'])
       #   IF @source != NULL
-      @people.map {|p| p['names'][0]['source']}.uniq.should eq(['local'])
+      expect(@people.map {|p| p['names'][0]['source']}.uniq).to eq(['local'])
       #   IF @authfilenumber != NULL
     end
 
@@ -320,10 +318,10 @@ ANEAD
       #   IF nested in <controlaccess>
       subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'function'}
         [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
-        a['subjects'].select{|s| s['ref'] == subject['uri']}.count.should eq(1)
+        expect(a['subjects'].select{|s| s['ref'] == subject['uri']}.count).to eq(1)
       end
       #   @source
-      subject['source'].should eq('local')
+      expect(subject['source']).to eq('local')
       #   ELSE
       #   IF @authfilenumber != NULL
     end
@@ -332,10 +330,10 @@ ANEAD
       #   IF nested in <controlaccess>
       subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'genre_form'}
       [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
-        a['subjects'].select{|s| s['ref'] == subject['uri']}.count.should eq(1)
+        expect(a['subjects'].select{|s| s['ref'] == subject['uri']}.count).to eq(1)
       end
       #   @source
-      subject['source'].should eq('local')
+      expect(subject['source']).to eq('local')
       #   ELSE
       #   IF @authfilenumber != NULL
     end
@@ -344,10 +342,10 @@ ANEAD
       #   IF nested in <controlaccess>
       subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'geographic'}
       [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
-        a['subjects'].select{|s| s['ref'] == subject['uri']}.count.should eq(1)
+        expect(a['subjects'].select{|s| s['ref'] == subject['uri']}.count).to eq(1)
       end
       #   @source
-      subject['source'].should eq('local')
+      expect(subject['source']).to eq('local')
       #   ELSE
       #   IF @authfilenumber != NULL
     end
@@ -355,10 +353,10 @@ ANEAD
     it "maps '<occupation>' correctly" do
       subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'occupation'}
       [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
-        a['subjects'].select{|s| s['ref'] == subject['uri']}.count.should eq(1)
+        expect(a['subjects'].select{|s| s['ref'] == subject['uri']}.count).to eq(1)
       end
       #   @source
-      subject['source'].should eq('local')
+      expect(subject['source']).to eq('local')
       #   ELSE
       #   IF @authfilenumber != NULL
     end
@@ -367,10 +365,10 @@ ANEAD
       #   IF nested in <controlaccess>
       subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'topical'}
         [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
-        a['subjects'].select{|s| s['ref'] == subject['uri']}.count.should eq(1)
+        expect(a['subjects'].select{|s| s['ref'] == subject['uri']}.count).to eq(1)
       end
       #   @source
-      subject['source'].should eq('local')
+      expect(subject['source']).to eq('local')
       #   ELSE
       #   IF @authfilenumber != NULL
     end
@@ -387,7 +385,7 @@ ANEAD
 
       # Simple Notes
     it "maps '<abstract>' correctly" do
-      note_content(get_note_by_type(@resource, 'abstract')).should eq("Resource-Abstract-AT")
+      expect(note_content(get_note_by_type(@resource, 'abstract'))).to eq("Resource-Abstract-AT")
     end
 
     it "maps '<accessrestrict>' correctly" do
@@ -395,149 +393,149 @@ ANEAD
         note_content(note)
       }.flatten
 
-      nc[0].should eq("Resource-ConditionsGoverningAccess-AT")
-      nc[1].should eq("<legalstatus>Resource-LegalStatus-AT</legalstatus>")
+      expect(nc[0]).to eq("Resource-ConditionsGoverningAccess-AT")
+      expect(nc[1]).to eq("<legalstatus>Resource-LegalStatus-AT</legalstatus>")
     end
 
     it "maps '<accruals>' correctly" do
-      note_content(get_note_by_type(@resource, 'accruals')).should eq("Resource-Accruals-AT")
+      expect(note_content(get_note_by_type(@resource, 'accruals'))).to eq("Resource-Accruals-AT")
     end
 
     it "maps '<acqinfo>' correctly" do
-      note_content(get_note_by_type(@resource, 'acqinfo')).should eq("Resource-ImmediateSourceAcquisition")
+      expect(note_content(get_note_by_type(@resource, 'acqinfo'))).to eq("Resource-ImmediateSourceAcquisition")
     end
 
     it "maps '<altformavail>' correctly" do
-      note_content(get_note_by_type(@resource, 'altformavail')).should eq("Resource-ExistenceLocationCopies-AT")
+      expect(note_content(get_note_by_type(@resource, 'altformavail'))).to eq("Resource-ExistenceLocationCopies-AT")
     end
 
     it "maps '<appraisal>' correctly" do
-      note_content(get_note_by_type(@resource, 'appraisal')).should eq("Resource-Appraisal-AT")
+      expect(note_content(get_note_by_type(@resource, 'appraisal'))).to eq("Resource-Appraisal-AT")
     end
 
     it "maps '<arrangement>' correctly" do
-      note_content(get_note_by_type(@resource, 'arrangement')).should eq("Resource-Arrangement-Note")
+      expect(note_content(get_note_by_type(@resource, 'arrangement'))).to eq("Resource-Arrangement-Note")
     end
 
     it "maps '<bioghist>' correctly" do
-      @archival_objects['06']['notes'].find{|n| n['type'] == 'bioghist'}['persistent_id'].should eq('ref50')
-      @archival_objects['12']['notes'].find{|n| n['type'] == 'bioghist'}['persistent_id'].should eq('ref53')
-      @resource['notes'].select{|n| n['type'] == 'bioghist'}.map{|n| n['persistent_id']}.sort.should eq(['ref47', 'ref7'])
+      expect(@archival_objects['06']['notes'].find{|n| n['type'] == 'bioghist'}['persistent_id']).to eq('ref50')
+      expect(@archival_objects['12']['notes'].find{|n| n['type'] == 'bioghist'}['persistent_id']).to eq('ref53')
+      expect(@resource['notes'].select{|n| n['type'] == 'bioghist'}.map{|n| n['persistent_id']}.sort).to eq(['ref47', 'ref7'])
     end
 
     it "maps '<custodhist>' correctly" do
-      note_content(get_note_by_type(@resource, 'custodhist')).should eq("Resource--CustodialHistory-AT")
+      expect(note_content(get_note_by_type(@resource, 'custodhist'))).to eq("Resource--CustodialHistory-AT")
     end
 
     it "maps '<dimensions>' correctly" do
-      note_content(get_note_by_type(@resource, 'dimensions')).should eq("Resource-Dimensions-AT")
+      expect(note_content(get_note_by_type(@resource, 'dimensions'))).to eq("Resource-Dimensions-AT")
     end
 
     it "maps '<fileplan>' correctly" do
-      note_content(get_note_by_type(@resource, 'fileplan')).should eq("Resource-FilePlan-AT")
+      expect(note_content(get_note_by_type(@resource, 'fileplan'))).to eq("Resource-FilePlan-AT")
     end
 
     it "maps '<langmaterial>' correctly" do
-      @archival_objects['06']['language'].should eq('eng')
+      expect(@archival_objects['06']['language']).to eq('eng')
     end
 
     it "maps '<legalstatus>' correctly" do
-      note_content(get_note_by_type(@resource, 'legalstatus')).should eq("Resource-LegalStatus-AT")
+      expect(note_content(get_note_by_type(@resource, 'legalstatus'))).to eq("Resource-LegalStatus-AT")
     end
 
     it "maps '<materialspec>' correctly" do
-      get_note_by_type(@resource, 'materialspec')['persistent_id'].should eq("ref22")
+      expect(get_note_by_type(@resource, 'materialspec')['persistent_id']).to eq("ref22")
     end
 
     it "maps '<note>' correctly" do
       #   IF nested in <archdesc> OR <c>
 
       #   ELSE, IF nested in <notestmnt>
-      @resource['finding_aid_note'].should eq("Resource-FindingAidNote-AT\n\nResource-FindingAidNote-AT2\n\nResource-FindingAidNote-AT3\n\nResource-FindingAidNote-AT4")
+      expect(@resource['finding_aid_note']).to eq("Resource-FindingAidNote-AT\n\nResource-FindingAidNote-AT2\n\nResource-FindingAidNote-AT3\n\nResource-FindingAidNote-AT4")
     end
 
     it "maps '<odd>' correctly" do
-      @resource['notes'].select{|n| n['type'] == 'odd'}.map{|n| n['persistent_id']}.sort.should eq(%w(ref45 ref44 ref15).sort)
+      expect(@resource['notes'].select{|n| n['type'] == 'odd'}.map{|n| n['persistent_id']}.sort).to eq(%w(ref45 ref44 ref15).sort)
     end
 
     it "maps '<originalsloc>' correctly" do
-      get_note_by_type(@resource, 'originalsloc')['persistent_id'].should eq("ref13")
+      expect(get_note_by_type(@resource, 'originalsloc')['persistent_id']).to eq("ref13")
     end
 
     it "maps '<otherfindaid>' correctly" do
-      get_note_by_type(@resource, 'otherfindaid')['persistent_id'].should eq("ref23")
+      expect(get_note_by_type(@resource, 'otherfindaid')['persistent_id']).to eq("ref23")
     end
 
     it "maps '<physfacet>' correctly" do
-      note_content(get_note_by_type(@resource, 'physfacet')).should eq("Resource-PhysicalFacet-AT")
+      expect(note_content(get_note_by_type(@resource, 'physfacet'))).to eq("Resource-PhysicalFacet-AT")
     end
 
     it "maps '<physloc>' correctly" do
-      get_note_by_type(@resource, 'physloc')['persistent_id'].should eq("ref21")
+      expect(get_note_by_type(@resource, 'physloc')['persistent_id']).to eq("ref21")
     end
 
     it "maps '<phystech>' correctly" do
-      get_note_by_type(@resource, 'phystech')['persistent_id'].should eq("ref24")
+      expect(get_note_by_type(@resource, 'phystech')['persistent_id']).to eq("ref24")
     end
 
     it "maps '<prefercite>' correctly" do
-      get_note_by_type(@resource, 'prefercite')['persistent_id'].should eq("ref26")
+      expect(get_note_by_type(@resource, 'prefercite')['persistent_id']).to eq("ref26")
     end
 
     it "maps '<processinfo>' correctly" do
-      get_note_by_type(@resource, 'prefercite')['persistent_id'].should eq("ref26")
+      expect(get_note_by_type(@resource, 'processinfo')['persistent_id']).to eq("ref27")
     end
 
     it "maps '<relatedmaterial>' correctly" do
-      get_note_by_type(@resource, 'prefercite')['persistent_id'].should eq("ref26")
+      expect(get_note_by_type(@resource, 'relatedmaterial')['persistent_id']).to eq("ref28")
     end
 
     it "maps '<scopecontent>' correctly" do
-      get_note_by_type(@resource, 'scopecontent')['persistent_id'].should eq("ref29")
-      @archival_objects['01']['notes'].find{|n| n['type'] == 'scopecontent'}['persistent_id'].should eq("ref43")
+      expect(get_note_by_type(@resource, 'scopecontent')['persistent_id']).to eq("ref29")
+      expect(@archival_objects['01']['notes'].find{|n| n['type'] == 'scopecontent'}['persistent_id']).to eq("ref43")
     end
 
     it "maps '<separatedmaterial>' correctly" do
-      get_note_by_type(@resource, 'separatedmaterial')['persistent_id'].should eq("ref30")
+      expect(get_note_by_type(@resource, 'separatedmaterial')['persistent_id']).to eq("ref30")
     end
 
     it "maps '<userestrict>' correctly" do
-      get_note_by_type(@resource, 'userestrict')['persistent_id'].should eq("ref9")
+      expect(get_note_by_type(@resource, 'userestrict')['persistent_id']).to eq("ref9")
     end
 
     # Structured Notes
     it "maps '<bibliography>' correctly" do
       #     IF nested in <archdesc>  OR <c>
-      @resource['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}['persistent_id'].should eq("ref6")
-      @archival_objects['06']['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}['persistent_id'].should eq("ref48")
-      @archival_objects['12']['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}['persistent_id'].should eq("ref51")
+      expect(@resource['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}['persistent_id']).to eq("ref6")
+      expect(@archival_objects['06']['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}['persistent_id']).to eq("ref48")
+      expect(@archival_objects['12']['notes'].find{|n| n['jsonmodel_type'] == 'note_bibliography'}['persistent_id']).to eq("ref51")
       #     <head>
-      @archival_objects['06']['notes'].find{|n| n['persistent_id'] == 'ref48'}['label'].should eq("Resource--C06-Bibliography")
+      expect(@archival_objects['06']['notes'].find{|n| n['persistent_id'] == 'ref48'}['label']).to eq("Resource--C06-Bibliography")
       #     <p>
-      @archival_objects['06']['notes'].find{|n| n['persistent_id'] == 'ref48'}['content'][0].should eq("Resource--C06--Bibliography--Head")
+      expect(@archival_objects['06']['notes'].find{|n| n['persistent_id'] == 'ref48'}['content'][0]).to eq("Resource--C06--Bibliography--Head")
       #     <bibref>
-      @archival_objects['06']['notes'].find{|n| n['persistent_id'] == 'ref48'}['items'][0].should eq("c06 bibItem2")
-      @archival_objects['06']['notes'].find{|n| n['persistent_id'] == 'ref48'}['items'][1].should eq("c06 bibItem1")
+      expect(@archival_objects['06']['notes'].find{|n| n['persistent_id'] == 'ref48'}['items'][0]).to eq("c06 bibItem2")
+      expect(@archival_objects['06']['notes'].find{|n| n['persistent_id'] == 'ref48'}['items'][1]).to eq("c06 bibItem1")
       #     other nested and inline elements
     end
 
     it "maps '<index>' correctly" do
       #   IF nested in <archdesc>  OR <c>
       ref52 = get_note(@archival_objects['12'], 'ref52')
-      ref52['jsonmodel_type'].should eq('note_index')
+      expect(ref52['jsonmodel_type']).to eq('note_index')
       #     <head>
-      ref52['label'].should eq("Resource-c12-Index")
+      expect(ref52['label']).to eq("Resource-c12-Index")
       #     <p>
-      ref52['content'][0].should eq("Resource-c12-index-note")
+      expect(ref52['content'][0]).to eq("Resource-c12-index-note")
       #     <indexentry>
       #         <name>
 
       #         <persname>
 
       #         <famname>
-      ref52['items'].find{|i| i['type'] == 'family'}['value'].should eq('Bike 2')
+      expect(ref52['items'].find{|i| i['type'] == 'family'}['value']).to eq('Bike 2')
       #         <corpname>
-      ref52['items'].find{|i| i['type'] == 'corporate_entity'}['value'].should eq('Bike 3')
+      expect(ref52['items'].find{|i| i['type'] == 'corporate_entity'}['value']).to eq('Bike 3')
       #         <subject>
 
       #         <function>
@@ -545,7 +543,7 @@ ANEAD
       #         <occupation>
 
       #         <genreform>
-      ref52['items'].find{|i| i['type'] == 'genre_form'}['value'].should eq('Bike 1')
+      expect(ref52['items'].find{|i| i['type'] == 'genre_form'}['value']).to eq('Bike 1')
       #         <title>
 
       #         <geogname>
@@ -562,13 +560,13 @@ ANEAD
       #         <date>
       #         <event>
       ref53 = get_note(@archival_objects['12'], 'ref53')
-      get_subnotes_by_type(ref53, 'note_chronology')[0]['items'][0]['events'][0].should eq('first date')
-      get_subnotes_by_type(ref53, 'note_chronology')[0]['items'][1]['events'][0].should eq('second date')
+      expect(get_subnotes_by_type(ref53, 'note_chronology')[0]['items'][0]['events'][0]).to eq('first date')
+      expect(get_subnotes_by_type(ref53, 'note_chronology')[0]['items'][1]['events'][0]).to eq('second date')
 
       #         <eventgrp><event>
       ref50 = get_subnotes_by_type(get_note(@archival_objects['06'], 'ref50'), 'note_chronology')[0]
       item = ref50['items'].find{|i| i['event_date'] && i['event_date'] == '1895'}
-      item['events'].sort.should eq(['Event1', 'Event2'])
+      expect(item['events'].sort).to eq(['Event1', 'Event2'])
       #         other nested and inline elements
     end
 
@@ -577,19 +575,19 @@ ANEAD
       ref47 = get_note(@resource, 'ref47')
       note_dl = ref47['subnotes'].find{|n| n['jsonmodel_type'] == 'note_definedlist'}
       #     <head>
-      note_dl['title'].should eq("Resource-BiogHist-structured-top-part3-listDefined")
+      expect(note_dl['title']).to eq("Resource-BiogHist-structured-top-part3-listDefined")
       #     <defitem>	WHEN <list> @type = deflist
       #         <label>
-      note_dl['items'].map {|i| i['label']}.sort.should eq(['MASI SLP', 'Yeti Big Top', 'Intense Spider 29'].sort)
+      expect(note_dl['items'].map {|i| i['label']}.sort).to eq(['MASI SLP', 'Yeti Big Top', 'Intense Spider 29'].sort)
       #         <item>
-      note_dl['items'].map {|i| i['value']}.sort.should eq(['2K', '2500 K', '4500 K'].sort)
+      expect(note_dl['items'].map {|i| i['value']}.sort).to eq(['2K', '2500 K', '4500 K'].sort)
       # ELSE WHEN @type != deflist AND <defitem> not present
       ref44 = get_note(@resource, 'ref44')
       note_ol = get_subnotes_by_type(ref44, 'note_orderedlist')[0]
       #     <head>
-      note_ol['title'].should eq('Resource-GeneralNoteMULTIPARTLISTTitle-AT')
+      expect(note_ol['title']).to eq('Resource-GeneralNoteMULTIPARTLISTTitle-AT')
       #     <item>
-      note_ol['items'].sort.should eq(['Resource-GeneralNoteMULTIPARTLISTItem1-AT', 'Resource-GeneralNoteMULTIPARTLISTItem2-AT'])
+      expect(note_ol['items'].sort).to eq(['Resource-GeneralNoteMULTIPARTLISTItem1-AT', 'Resource-GeneralNoteMULTIPARTLISTItem2-AT'])
     end
 
     # CONTAINER INFORMATION
@@ -598,50 +596,50 @@ ANEAD
 
     it "maps '<container>' correctly" do
       instance = @archival_objects['02']['instances'][0]
-      instance['instance_type'].should eq('text')
+      expect(instance['instance_type']).to eq('text')
       sub = instance['sub_container']
-      sub['type_2'].should eq('Folder')
-      sub['indicator_2'].should eq('2')
+      expect(sub['type_2']).to eq('Folder')
+      expect(sub['indicator_2']).to eq('2')
 
       top = @top_containers.select{|t| t['uri'] == sub['top_container']['ref']}.first
-      top['type'].should eq('Box')
-      top['indicator'].should eq('2')
+      expect(top['type']).to eq('Box')
+      expect(top['indicator']).to eq('2')
     end
 
     # DAO's
     it "maps '<dao>' correctly" do
-      @digital_objects.length.should eq(12)
+      expect(@digital_objects.length).to eq(12)
       links = @archival_objects['01']['instances'].select{|i| i.has_key?('digital_object')}.map{|i| i['digital_object']['ref']}
-      links.sort.should eq(@digital_objects.map{|d| d['uri']}.sort)
+      expect(links.sort).to eq(@digital_objects.map{|d| d['uri']}.sort)
       #   @titles
-      @digital_objects.map {|d| d['title']}.include?("DO.Child2Title-AT").should be(true)
+      expect(@digital_objects.map {|d| d['title']}.include?("DO.Child2Title-AT")).to be_truthy
       #   @role
       uses = @digital_objects.map {|d| d['file_versions'].map {|f| f['use_statement']}}.flatten
-      uses.uniq.sort.should eq(["Image-Service", "Image-Master", "Image-Thumbnail"].sort)
+      expect(uses.uniq.sort).to eq(["Image-Service", "Image-Master", "Image-Thumbnail"].sort)
       #   @href
       uris = @digital_objects.map {|d| d['file_versions'].map {|f| f['file_uri']}}.flatten
-      (uris.include?('DO.Child1URI2-AT')).should be(true)
+      expect((uris.include?('DO.Child1URI2-AT'))).to be_truthy
       #   @actuate
-      @digital_objects.select{|d| d['file_versions'][0]['xlink_actuate_attribute'] == 'onRequest'}.length.should eq(9)
+      expect(@digital_objects.select{|d| d['file_versions'][0]['xlink_actuate_attribute'] == 'onRequest'}.length).to eq(9)
       #   @show
-      @digital_objects.select{|d| d['file_versions'][0]['xlink_show_attribute'] == 'new'}.length.should eq(3)
+      expect(@digital_objects.select{|d| d['file_versions'][0]['xlink_show_attribute'] == 'new'}.length).to eq(3)
     end
 
     # FORMAT & STRUCTURE
     it "maps '<archdesc>' correctly" do
       #   @level	IF != NULL
-      @resource['level'].should eq("collection")
+      expect(@resource['level']).to eq("collection")
       #   ELSE
       #   @otherlevel
     end
 
     it "maps '<c>' correctly" do
       #   @level	IF != NULL
-      @archival_objects['04']['level'].should eq('file')
+      expect(@archival_objects['04']['level']).to eq('file')
       #   ELSE
       #   @otherlevel
       #   @id
-      @archival_objects['05']['ref_id'].should eq('ref34')
+      expect(@archival_objects['05']['ref_id']).to eq('ref34')
     end
   end
 
@@ -728,12 +726,12 @@ ANEAD
     end
 
     it "uses archdesc/@audience to set resource publish property" do
-      @resource['publish'].should be false
+      expect(@resource['publish']).to be_falsey
     end
 
     it "uses c/@audience to set component publish property" do
-      @components[0]['publish'].should be false
-      @components[1]['publish'].should be true
+      expect(@components[0]['publish']).to be_falsey
+      expect(@components[1]['publish']).to be_truthy
     end
   end
 
@@ -779,12 +777,12 @@ ANEAD
     end
 
     it "uses archdesc/@audience to set resource publish property" do
-      @resource['publish'].should be false
+      expect(@resource['publish']).to be_falsey
     end
 
     it "uses c/@audience to set component publish property" do
-      @components[0]['publish'].should be false
-      @components[1]['publish'].should be true
+      expect(@components[0]['publish']).to be_falsey
+      expect(@components[1]['publish']).to be_truthy
     end
   end
 
@@ -843,17 +841,17 @@ ANEAD
     end
 
     it "only maps <language> content to one place" do
-      @resource['language'].should eq 'eng'
-      get_note_by_type(@resource, 'langmaterial').should be_nil
+      expect(@resource['language']).to eq 'eng'
+      expect(get_note_by_type(@resource, 'langmaterial')).to be_nil
 
-      @component['language'].should eq 'eng'
-      get_note_by_type(@component, 'langmaterial').should be_nil
+      expect(@component['language']).to eq 'eng'
+      expect(get_note_by_type(@component, 'langmaterial')).to be_nil
     end
 
     it "maps <head> tag to note label, but not to note content" do
       n = get_note_by_type(@resource, 'accruals')
-      n['label'].should eq('foo')
-      note_content(n).should_not match(/foo/)
+      expect(n['label']).to eq('foo')
+      expect(note_content(n)).not_to match(/foo/)
     end
 
   end
@@ -883,7 +881,7 @@ ANEAD
     it "maps the unittitle tag correctly" do
       json = convert(test_doc)
       resource = json.find{|r| r['jsonmodel_type'] == 'resource'}
-      resource['title'].should eq("一般行政文件 [2]")
+      expect(resource['title']).to eq("一般行政文件 [2]")
     end
 
   end
@@ -916,10 +914,10 @@ ANEAD
     it "should map the langcode to language, and the language text to a note" do
       json = convert(test_doc)
       resource = json.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
-      resource['language'].should eq('eng')
+      expect(resource['language']).to eq('eng')
 
       langmaterial = get_note_by_type(resource, 'langmaterial')
-      note_content(langmaterial).should eq('English')
+      expect(note_content(langmaterial)).to eq('English')
     end
   end
 
@@ -1005,18 +1003,18 @@ ANEAD
     end
 
     it "creates a single extent record for each physdec/extent[1] node" do
-      @resource1['extents'].count.should eq(2)
-      @resource2['extents'].count.should eq(1)
+      expect(@resource1['extents'].count).to eq(2)
+      expect(@resource2['extents'].count).to eq(1)
     end
 
     it "puts additional extent records in extent.container_summary" do
-      @resource2['extents'][0]['container_summary'].should eq('1 record carton')
+      expect(@resource2['extents'][0]['container_summary']).to eq('1 record carton')
     end
 
     it "maps a physdec node to a note unless it only contains extent tags" do
-      get_notes_by_type(@resource1, 'physdesc').length.should eq(0)
-      get_notes_by_type(@resource2, 'physdesc').length.should eq(0)
-      get_notes_by_type(@resource3, 'physdesc').length.should eq(1)
+      expect(get_notes_by_type(@resource1, 'physdesc').length).to eq(0)
+      expect(get_notes_by_type(@resource2, 'physdesc').length).to eq(0)
+      expect(get_notes_by_type(@resource3, 'physdesc').length).to eq(1)
     end
 
   end
@@ -1036,23 +1034,23 @@ ANEAD
    end
 
     it "should make all the digital, archival objects and resources" do
-      @digital_objects.length.should == 5
-      @archival_objects.length.should == 8
-      @resources.length.should == 1
-      @file_versions.length.should == 11
+      expect(@digital_objects.length).to eq(5)
+      expect(@archival_objects.length).to eq(8)
+      expect(@resources.length).to eq(1)
+      expect(@file_versions.length).to eq(11)
     end
 
     it "should honor xlink:show and xlink:actuate from arc elements" do
-      @file_versions[0..2].map {|fv| fv['xlink_actuate_attribute']}.should == %w|onLoad onRequest onLoad|
-      @file_versions[0..2].map{|fv| fv['xlink_show_attribute']}.should == %w|new embed new|
+      expect(@file_versions[0..2].map {|fv| fv['xlink_actuate_attribute']}).to eq(%w|onLoad onRequest onLoad|)
+      expect(@file_versions[0..2].map{|fv| fv['xlink_show_attribute']}).to eq(%w|new embed new|)
     end
 
     it "should turn all the daodsc into notes" do
-      @notes.length.should == 3
+      expect(@notes.length).to eq(3)
       notes_content = @notes.inject([]) { |c, note| c +  note["content"]  }
-      notes_content.should include('<p>first daogrp</p>')
-      notes_content.should include('<p>second daogrp</p>')
-      notes_content.should include('<p>dao no grp</p>')
+      expect(notes_content).to include('<p>first daogrp</p>')
+      expect(notes_content).to include('<p>second daogrp</p>')
+      expect(notes_content).to include('<p>dao no grp</p>')
     end
 
   end
@@ -1069,24 +1067,24 @@ ANEAD
     end
 
     it "shouldn't overwrite the finding_aid_title/titleproper from frontpage" do
-      @resource["finding_aid_title"].should eq("Proper Title")
-      @resource["finding_aid_title"].should_not eq("TITLEPAGE titleproper")
+      expect(@resource["finding_aid_title"]).to eq("Proper Title")
+      expect(@resource["finding_aid_title"]).not_to eq("TITLEPAGE titleproper")
     end
 
     it "should not have any of the titlepage content" do
-      @parsed.to_s.should_not include("TITLEPAGE")
+      expect(@parsed.to_s).not_to include("TITLEPAGE")
     end
 
     it "should have instances grouped by their container @id/@parent relationships" do
       instances = @archival_objects.first["instances"]
-      instances.length.should eq(3)
+      expect(instances.length).to eq(3)
 
-      instances[1]['sub_container']['type_2'].should eq('Folder')
-      instances[1]['sub_container']['indicator_2'].should eq('3')
-      instances[2]['sub_container']['type_2'].should eq('Cassette')
-      instances[2]['sub_container']['indicator_2'].should eq('4')
-      instances[2]['sub_container']['type_3'].should eq('Cassette')
-      instances[2]['sub_container']['indicator_3'].should eq('5')
+      expect(instances[1]['sub_container']['type_2']).to eq('Folder')
+      expect(instances[1]['sub_container']['indicator_2']).to eq('3')
+      expect(instances[2]['sub_container']['type_2']).to eq('Cassette')
+      expect(instances[2]['sub_container']['indicator_2']).to eq('4')
+      expect(instances[2]['sub_container']['type_3']).to eq('Cassette')
+      expect(instances[2]['sub_container']['indicator_3']).to eq('5')
     end
 
   end
@@ -1131,19 +1129,19 @@ ANEAD
     end
 
     it "should create an extent tag with dimensions data" do
-      @record['extents'].length.should eq(1)
+      expect(@record['extents'].length).to eq(1)
     end
 
     it "should not create any notes from physdesc data" do
-      @record['notes'].length.should eq(0)
+      expect(@record['notes'].length).to eq(0)
     end
 
     it "should map physdesc/dimensions to extent.dimensions" do
-      @record['extents'][0]['dimensions'].should eq('8 x 10 inches')
+      expect(@record['extents'][0]['dimensions']).to eq('8 x 10 inches')
     end
 
     it "should map physdesc/physfacet to extent.physical_details" do
-      @record['extents'][0]['physical_details'].should eq('gelatin silver')
+      expect(@record['extents'][0]['physical_details']).to eq('gelatin silver')
     end
 
     let (:records_with_extents) {
@@ -1154,66 +1152,66 @@ ANEAD
     it "maps no extent, single dimensions, single physfacet to notes" do
       rec = records_with_extents.fetch('No extent, single dimensions, single physfacet')
 
-      rec['extents'].should be_empty
-      rec['notes'][0]['content'].should eq(['gelatin silver'])
-      rec['notes'][1]['subnotes'][0]['content'].should eq('8 x 10 inches')
+      expect(rec['extents']).to be_empty
+      expect(rec['notes'][0]['content']).to eq(['gelatin silver'])
+      expect(rec['notes'][1]['subnotes'][0]['content']).to eq('8 x 10 inches')
     end
 
     it "maps single extent and single dimensions to extent record" do
       rec = records_with_extents.fetch('Test single extent and single dimensions')
 
-      rec['extents'].length.should eq(1)
-      rec['extents'][0]['extent_type'].should eq('photograph')
-      rec['extents'][0]['dimensions'].should eq('8 x 10 inches')
+      expect(rec['extents'].length).to eq(1)
+      expect(rec['extents'][0]['extent_type']).to eq('photograph')
+      expect(rec['extents'][0]['dimensions']).to eq('8 x 10 inches')
     end
 
     it "maps single extent and single physfacet to extent record" do
       rec = records_with_extents.fetch('Test single extent and single physfacet')
 
-      rec['extents'].length.should eq(1)
-      rec['extents'][0]['extent_type'].should eq('photograph')
-      rec['extents'][0]['number'].should eq('1')
-      rec['extents'][0]['portion'].should eq('whole')
-      rec['extents'][0]['physical_details'].should eq('gelatin silver')
+      expect(rec['extents'].length).to eq(1)
+      expect(rec['extents'][0]['extent_type']).to eq('photograph')
+      expect(rec['extents'][0]['number']).to eq('1')
+      expect(rec['extents'][0]['portion']).to eq('whole')
+      expect(rec['extents'][0]['physical_details']).to eq('gelatin silver')
     end
 
     it "maps single extent, single dimensions, single physfacet to extent record" do
       rec = records_with_extents.fetch('Test single extent, single dimensions, single physfacet')
 
-      rec['extents'].length.should eq(1)
-      rec['extents'][0]['extent_type'].should eq('photograph')
-      rec['extents'][0]['number'].should eq('1')
-      rec['extents'][0]['portion'].should eq('whole')
-      rec['extents'][0]['physical_details'].should eq('gelatin silver')
-      rec['extents'][0]['dimensions'].should eq('8 x 10 inches')
+      expect(rec['extents'].length).to eq(1)
+      expect(rec['extents'][0]['extent_type']).to eq('photograph')
+      expect(rec['extents'][0]['number']).to eq('1')
+      expect(rec['extents'][0]['portion']).to eq('whole')
+      expect(rec['extents'][0]['physical_details']).to eq('gelatin silver')
+      expect(rec['extents'][0]['dimensions']).to eq('8 x 10 inches')
     end
 
     it "maps single extent and two physfacet to extent record" do
       rec = records_with_extents.fetch('Test single extent and two physfacet')
 
-      rec['extents'].length.should eq(1)
-      rec['extents'][0]['extent_type'].should eq('photograph')
-      rec['extents'][0]['number'].should eq('1')
-      rec['extents'][0]['portion'].should eq('whole')
-      rec['extents'][0]['physical_details'].should eq('black and white; gelatin silver')
+      expect(rec['extents'].length).to eq(1)
+      expect(rec['extents'][0]['extent_type']).to eq('photograph')
+      expect(rec['extents'][0]['number']).to eq('1')
+      expect(rec['extents'][0]['portion']).to eq('whole')
+      expect(rec['extents'][0]['physical_details']).to eq('black and white; gelatin silver')
     end
 
     it "maps single extent and two dimensions to extent record" do
       rec = records_with_extents.fetch('Test single extent and two dimensions')
 
-      rec['extents'].length.should eq(1)
-      rec['extents'][0]['extent_type'].should eq('photograph')
-      rec['extents'][0]['number'].should eq('1')
-      rec['extents'][0]['portion'].should eq('whole')
-      rec['extents'][0]['dimensions'].should eq('8 x 10 inches (photograph); 11 x 14 inches (support)')
+      expect(rec['extents'].length).to eq(1)
+      expect(rec['extents'][0]['extent_type']).to eq('photograph')
+      expect(rec['extents'][0]['number']).to eq('1')
+      expect(rec['extents'][0]['portion']).to eq('whole')
+      expect(rec['extents'][0]['dimensions']).to eq('8 x 10 inches (photograph); 11 x 14 inches (support)')
     end
 
     it "maps text physdesc element to note" do
       rec = records_with_extents.fetch('Physdesc only')
 
-      rec['extents'].should be_empty
-      rec['notes'].should_not be_empty
-      rec['notes'][0]['content'].should eq(["1 photograph: 8 x 10 inches (photograph) 11 x 14 inches (support)"])
+      expect(rec['extents']).to be_empty
+      expect(rec['notes']).not_to be_empty
+      expect(rec['notes'][0]['content']).to eq(["1 photograph: 8 x 10 inches (photograph) 11 x 14 inches (support)"])
     end
 
   end
@@ -1309,46 +1307,46 @@ ANEAD
     end
 
     it "should create a note for a <note> tag inside a <did> for a collection" do
-      @resource['notes'].select{|n|
+      expect(@resource['notes'].select{|n|
         n['type'] == 'odd' && n['subnotes'][0]['content'] == 'COLLECTION LEVEL NOTE INSIDE DID'
-      }.should_not be_empty
+      }).not_to be_empty
     end
 
 
     it "should create a note for a <note> tag outside a <did> for a collection" do
-      @resource['notes'].select{|n|
+      expect(@resource['notes'].select{|n|
         n['type'] == 'odd' && n['subnotes'][0]['content'] == 'Collection level note outside did'
-      }.should_not be_empty
+      }).not_to be_empty
     end
 
 
     it "should not create collection notes for <note> tags in components" do
-      @resource['notes'].select{|n| n['type'] == 'odd'}.length.should eq(2)
+      expect(@resource['notes'].select{|n| n['type'] == 'odd'}.length).to eq(2)
     end
 
 
     it "should not create 'odd' notes for notestmt/note tags" do
-      @resource['notes'].select{|n|
+      expect(@resource['notes'].select{|n|
         n['type'] == 'odd' && n['subnotes'][0]['content'] == 'A notestmt note'
-      }.should be_empty
+      }).to be_empty
     end
 
 
     it "should create a note for a <note> tag inside a <did> for a component" do
-      @series['notes'].select{|n|
+      expect(@series['notes'].select{|n|
         n['type'] == 'odd' && n['subnotes'][0]['content'] == 'Component Note text inside did'
-      }.should_not be_empty
+      }).not_to be_empty
 
-      @file['notes'].select{|n|
+      expect(@file['notes'].select{|n|
         n['type'] == 'odd' && n['subnotes'][0]['content'] == 'Component note text inside did'
-      }.should_not be_empty
+      }).not_to be_empty
     end
 
 
     it "should create a note for a <note> tag outside a <did> for a component" do
-      @file['notes'].select{|n|
+      expect(@file['notes'].select{|n|
         n['type'] == 'odd' && n['subnotes'][0]['content'] == 'Component note text outside did'
-      }.should_not be_empty
+      }).not_to be_empty
     end
 
   end

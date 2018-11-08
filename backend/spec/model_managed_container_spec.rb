@@ -50,10 +50,10 @@ describe 'Managed Container model' do
     box_id = TopContainer.create_from_json(top_container, :repo_id => $repo_id).id
 
     box = TopContainer.to_jsonmodel(box_id)
-    box.barcode.should eq(barcode)
-    box.ils_holding_id.should eq(ils_holding_id)
-    box.ils_item_id.should eq(ils_item_id)
-    box.exported_to_ils.should eq(exported_to_ils)
+    expect(box.barcode).to eq(barcode)
+    expect(box.ils_holding_id).to eq(ils_holding_id)
+    expect(box.ils_item_id).to eq(ils_item_id)
+    expect(box.exported_to_ils).to eq(exported_to_ils)
   end
 
 
@@ -71,14 +71,14 @@ describe 'Managed Container model' do
                                      'container_locations' => [container_location])
 
     json = TopContainer.to_jsonmodel(container_with_location.id)
-    json['container_locations'][0]['ref'].should eq(test_location.uri)
+    expect(json['container_locations'][0]['ref']).to eq(test_location.uri)
   end
 
 
   it "doesn't blow up if you don't provide a barcode for a top-level element" do
     expect {
       create(:json_top_container, :barcode => nil)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -97,7 +97,7 @@ describe 'Managed Container model' do
 
     expect {
       create(:json_top_container, :barcode => "1234")
-    }.to_not raise_error
+    }.not_to raise_error
 
     expect {
       create(:json_top_container, :barcode => "123")
@@ -117,7 +117,7 @@ describe 'Managed Container model' do
                                     'container_profile' => {'ref' => test_container_profile.uri})
 
     json = TopContainer.to_jsonmodel(container_with_profile.id)
-    json['container_profile']['ref'].should eq(test_container_profile.uri)
+    expect(json['container_profile']['ref']).to eq(test_container_profile.uri)
   end
 
 
@@ -137,8 +137,8 @@ describe 'Managed Container model' do
 
     acc1 = Accession[acc1.id]
     acc2 = Accession[acc2.id]
-    acc1.instance.length.should eq(1)
-    acc2.instance.length.should eq(2)
+    expect(acc1.instance.length).to eq(1)
+    expect(acc2.instance.length).to eq(2)
   end
 
 
@@ -148,7 +148,7 @@ describe 'Managed Container model' do
     let (:top_container) { TopContainer[box.id] }
 
     it "can show a display string for a top container that isn't linked to anything" do
-      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
     end
 
 
@@ -156,10 +156,10 @@ describe 'Managed Container model' do
       accession = create_accession({"instances" => [build_instance(box)]})
 
       collection = top_container.collections.first
-      collection.should be_instance_of(Accession)
-      collection.id.should eq(accession.id)
+      expect(collection).to be_instance_of(Accession)
+      expect(collection.id).to eq(accession.id)
 
-      top_container.series.should be_empty
+      expect(top_container.series).to be_empty
     end
 
 
@@ -167,10 +167,10 @@ describe 'Managed Container model' do
       resource = create_resource({"instances" => [build_instance(box)]})
 
       collection = top_container.collections.first
-      collection.should be_instance_of(Resource)
-      collection.id.should eq(resource.id)
+      expect(collection).to be_instance_of(Resource)
+      expect(collection.id).to eq(resource.id)
 
-      top_container.series.should be_empty
+      expect(top_container.series).to be_empty
     end
 
 
@@ -180,8 +180,8 @@ describe 'Managed Container model' do
         (resource, grandparent, parent, child) = create_tree(box)
 
         series = top_container.series.first
-        series.should be_instance_of(ArchivalObject)
-        series.id.should eq(grandparent.id)
+        expect(series).to be_instance_of(ArchivalObject)
+        expect(series.id).to eq(grandparent.id)
       end
 
 
@@ -193,7 +193,7 @@ describe 'Managed Container model' do
                                                              })
 
         json = TopContainer.to_jsonmodel(top_container.id)
-        json.series.first.should eq({
+        expect(json.series.first).to eq({
           'ref' => grandparent.uri,
           'identifier' => grandparent.component_id,
           'display_string' => grandparent.display_string,
@@ -206,8 +206,8 @@ describe 'Managed Container model' do
         (resource, grandparent, parent, child) = create_tree(box)
 
         collection = top_container.collections.first
-        collection.should be_instance_of(Resource)
-        collection.id.should eq(resource.id)
+        expect(collection).to be_instance_of(Resource)
+        expect(collection.id).to eq(resource.id)
       end
 
     end
@@ -220,7 +220,7 @@ describe 'Managed Container model' do
                                                              'component_id' => "3",
                                                            })
 
-      top_container.display_string.should eq("#{top_container.type.capitalize} 1: Series 3 [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Series 3 [123]")
     end
 
     it "doesn't show a display string for a non-series other-level AO" do
@@ -231,7 +231,7 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Handbag'
                                                            })
 
-      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
     end
 
 
@@ -242,7 +242,7 @@ describe 'Managed Container model' do
                                                              'level' => 'series'
                                                            })
 
-      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
     end
 
 
@@ -254,20 +254,20 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Accession'
                                                            })
 
-      top_container.display_string.should eq("#{top_container.type.capitalize} 1: Accession 9 [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Accession 9 [123]")
     end
 
     it "shows a display string for a linked accession" do
       accession = create_accession({"instances" => [build_instance(box)]})
 
-      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
     end
 
 
     it "shows a display string for a linked resource" do
       resource = create_resource({"instances" => [build_instance(box)]})
 
-      top_container.display_string.should eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
     end
 
   end
@@ -296,7 +296,7 @@ describe 'Managed Container model' do
       container_profile.update_from_json(json)
 
       top_container.refresh
-      top_container.system_mtime.should be > original_mtime
+      expect(top_container.system_mtime).to be > original_mtime
     end
 
 
@@ -310,7 +310,7 @@ describe 'Managed Container model' do
 
       accession.update_from_json(json)
 
-      top_container.refresh.system_mtime.should be > original_mtime
+      expect(top_container.refresh.system_mtime).to be > original_mtime
     end
 
 
@@ -323,7 +323,7 @@ describe 'Managed Container model' do
       json.title = "A better title"
       ArchivalObject[grandparent.id].update_from_json(json)
 
-      top_container.refresh.system_mtime.should be > original_mtime
+      expect(top_container.refresh.system_mtime).to be > original_mtime
     end
 
 
@@ -334,7 +334,7 @@ describe 'Managed Container model' do
 
       ArchivalObject[child.id].set_parent_and_position(grandparent.id, 1)
 
-      top_container.refresh.system_mtime.should be > original_mtime
+      expect(top_container.refresh.system_mtime).to be > original_mtime
     end
 
 
@@ -343,7 +343,7 @@ describe 'Managed Container model' do
 
       original_mtime = top_container.refresh.system_mtime
       ArchivalObject[child.id].delete
-      top_container.refresh.system_mtime.should be > original_mtime
+      expect(top_container.refresh.system_mtime).to be > original_mtime
     end
 
 
@@ -362,8 +362,8 @@ describe 'Managed Container model' do
 
       resource1.assimilate([resource2])
 
-      container1.refresh.system_mtime.should be > container1_original_mtime
-      container2.refresh.system_mtime.should be > container2_original_mtime
+      expect(container1.refresh.system_mtime).to be > container1_original_mtime
+      expect(container2.refresh.system_mtime).to be > container2_original_mtime
     end
 
 
@@ -382,8 +382,8 @@ describe 'Managed Container model' do
 
       ComponentTransfer.transfer(resource2.uri, parent1.uri)
 
-      container1.refresh.system_mtime.should be > container1_original_mtime
-      container2.refresh.system_mtime.should be > container2_original_mtime
+      expect(container1.refresh.system_mtime).to be > container1_original_mtime
+      expect(container2.refresh.system_mtime).to be > container2_original_mtime
     end
 
 
@@ -398,7 +398,7 @@ describe 'Managed Container model' do
 
       top_container.refresh.update_from_json(json)
 
-      ao.refresh.system_mtime.should be > original_mtime
+      expect(ao.refresh.system_mtime).to be > original_mtime
     end
 
 
@@ -414,7 +414,7 @@ describe 'Managed Container model' do
       TopContainer.bulk_update_container_profile([json.id],
                                                  container_profile.uri)
 
-      ao.refresh.system_mtime.should be > original_mtime
+      expect(ao.refresh.system_mtime).to be > original_mtime
     end
 
 
@@ -431,7 +431,7 @@ describe 'Managed Container model' do
 
       TopContainer.bulk_update_barcodes(barcode_data)
 
-      ao.refresh.system_mtime.should be > original_mtime
+      expect(ao.refresh.system_mtime).to be > original_mtime
     end
 
   end
@@ -451,10 +451,10 @@ describe 'Managed Container model' do
         barcode_data[container2_json.uri] = "876543210"
 
         results = TopContainer.bulk_update_barcodes(barcode_data)
-        results.should include(container1_json.id, container2_json.id)
+        expect(results).to include(container1_json.id, container2_json.id)
 
-        TopContainer[container1_json.id].barcode.should eq("987654321")
-        TopContainer[container2_json.id].barcode.should eq("876543210")
+        expect(TopContainer[container1_json.id].barcode).to eq("987654321")
+        expect(TopContainer[container2_json.id].barcode).to eq("876543210")
       end
 
       it "throws exception when attempt to update to an invalid barcode" do
@@ -500,10 +500,10 @@ describe 'Managed Container model' do
 
         expect {
           TopContainer.bulk_update_barcodes(barcode_data)
-        }.to_not raise_error
+        }.not_to raise_error
 
-        TopContainer[container1_json.id].barcode.should eq("22222222")
-        TopContainer[container2_json.id].barcode.should eq("11111111")
+        expect(TopContainer[container1_json.id].barcode).to eq("22222222")
+        expect(TopContainer[container2_json.id].barcode).to eq("11111111")
       end
 
     end
@@ -527,10 +527,10 @@ describe 'Managed Container model' do
         results = TopContainer.bulk_update_container_profile([container1.id, container2.id, container3.id, container4.id],
                                                              container_profile2.uri)
 
-        results[:records_updated].should eq(4)
+        expect(results[:records_updated]).to eq(4)
 
         json = JSONModel(:top_container).find(container1.id)
-        json['container_profile']['ref'].should eq(container_profile2.uri)
+        expect(json['container_profile']['ref']).to eq(container_profile2.uri)
       end
 
 
@@ -545,7 +545,7 @@ describe 'Managed Container model' do
         results = TopContainer.bulk_update_container_profile([container1.id, container2.id],
                                                              "/container_profiles/99")
 
-        results[:error].should_not be_nil
+        expect(results[:error]).not_to be_nil
       end
 
 
@@ -559,10 +559,10 @@ describe 'Managed Container model' do
 
         results = TopContainer.bulk_update_container_profile([container1.id, container2.id], "")
 
-        results[:records_updated].should eq(2)
+        expect(results[:records_updated]).to eq(2)
 
         json = JSONModel(:top_container).find(container1.id)
-        json['container_profile'].should be_nil
+        expect(json['container_profile']).to be_nil
       end
 
     end
@@ -584,15 +584,15 @@ describe 'Managed Container model' do
         results = TopContainer.bulk_update_location([container1.id, container2.id, container3.id, container4.id],
                                                     location2.uri)
 
-        results[:records_updated].should eq(4)
+        expect(results[:records_updated]).to eq(4)
 
         json = JSONModel(:top_container).find(container1.id)
-        json['container_locations'].length.should eq(1)
-        json['container_locations'][0]['ref'].should eq(location2.uri)
+        expect(json['container_locations'].length).to eq(1)
+        expect(json['container_locations'][0]['ref']).to eq(location2.uri)
 
         json = JSONModel(:top_container).find(container4.id)
-        json['container_locations'].length.should eq(1)
-        json['container_locations'][0]['ref'].should eq(location2.uri)
+        expect(json['container_locations'].length).to eq(1)
+        expect(json['container_locations'][0]['ref']).to eq(location2.uri)
       end
 
 
@@ -610,9 +610,9 @@ describe 'Managed Container model' do
         results = TopContainer.bulk_update_location([container1.id], location2.uri)
 
         json = JSONModel(:top_container).find(container1.id)
-        json['container_locations'].length.should eq(2)
-        json['container_locations'].map{|v| v['ref']}.include?(location2.uri).should eq(true)
-        json['container_locations'].map{|v| v['ref']}.include?(temp_location.uri).should eq(true)
+        expect(json['container_locations'].length).to eq(2)
+        expect(json['container_locations'].map{|v| v['ref']}.include?(location2.uri)).to be_truthy
+        expect(json['container_locations'].map{|v| v['ref']}.include?(temp_location.uri)).to be_truthy
       end
 
 
@@ -630,15 +630,15 @@ describe 'Managed Container model' do
         results = TopContainer.bulk_update_location([container1.id], location3.uri)
 
         json = JSONModel(:top_container).find(container1.id)
-        json['container_locations'].length.should eq(1)
-        json['container_locations'][0]['ref'].should eq(location3.uri)
+        expect(json['container_locations'].length).to eq(1)
+        expect(json['container_locations'][0]['ref']).to eq(location3.uri)
       end
 
 
       it "complains if the new location doesn't exist" do
         container1 = create(:json_top_container, 'container_locations' => [])
         results = TopContainer.bulk_update_location([container1.id], '/locations/duff')
-        results[:error].should_not be_nil
+        expect(results[:error]).not_to be_nil
       end
 
     end
@@ -661,7 +661,7 @@ describe 'Managed Container model' do
 
       TopContainer[box.id].update_from_json(box)
 
-      mtimes.should_not eq(accessions.map {|accession| accession.refresh.system_mtime})
+      expect(mtimes).not_to eq(accessions.map {|accession| accession.refresh.system_mtime})
     end
 
 

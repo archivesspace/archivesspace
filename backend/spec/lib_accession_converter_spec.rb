@@ -16,35 +16,34 @@ describe 'Accession converter' do
 
     @records = convert(test_file)
     @accessions = @records.select {|r| r['jsonmodel_type'] == 'accession' }
-    @agents = @records.select { |a| a['jsonmodel_type'].include?('agent_')  } 
-    @subjects = @records.select { |a| a['jsonmodel_type'] == 'subject'  } 
-    @dates = [] 
-    @accessions.each { |a| @dates = @dates +  a['dates'] } 
+    @agents = @records.select { |a| a['jsonmodel_type'].include?('agent_')  }
+    @subjects = @records.select { |a| a['jsonmodel_type'] == 'subject'  }
+    @dates = []
+    @accessions.each { |a| @dates = @dates +  a['dates'] }
   end
 
   it "created one Accession record for each row in the CSV file" do
-    @accessions.count.should eq(10)
+    expect(@accessions.count).to eq(10)
   end
 
   it "created a  Agent record if one is in the row" do
-    @agents.count.should eq(5)
+    expect(@agents.count).to eq(5)
   end
-  
+
   it "created a Subject record if one is in the row" do
-    @subjects.count.should eq(8)
+    expect(@subjects.count).to eq(8)
   end
-  
+
   it "created a Date record if one is in the row" do
-    @dates.count.should eq(2)
+    expect(@dates.count).to eq(2)
   end
 
   it "sets the publish status correctly" do
-    @accessions[0]['publish'].should eq(true)
-    @accessions[1]['publish'].should eq(nil)
-    @accessions[2]['publish'].should eq(true)
-    @accessions[3]['publish'].should eq(nil)
+    expect(@accessions[0]['publish']).to be_truthy
+    expect(@accessions[1]['publish']).to be_nil
+    expect(@accessions[2]['publish']).to be_truthy
+    expect(@accessions[3]['publish']).to be_nil
   end
 
 
 end
-

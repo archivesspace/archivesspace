@@ -25,8 +25,8 @@ describe 'Events controller' do
 
     event = JSONModel(:event).find(e.id, "resolve[]" => ["linked_agents", "linked_records"])
 
-    event['linked_agents'][0]['_resolved']['names'][0]['primary_name'].should eq(@test_agent.names[0]['primary_name'])
-    event['linked_records'][0]['_resolved']['title'].should eq(@test_accession.title)
+    expect(event['linked_agents'][0]['_resolved']['names'][0]['primary_name']).to eq(@test_agent.names[0]['primary_name'])
+    expect(event['linked_records'][0]['_resolved']['title']).to eq(@test_accession.title)
   end
 
 
@@ -42,8 +42,8 @@ describe 'Events controller' do
                                }]
     event.save
 
-    JSONModel(:event).find(event.id)['linked_records'].count.should eq(1)
-    JSONModel(:event).find(event.id)['linked_records'][0]['ref'].should eq(new_accession.uri)
+    expect(JSONModel(:event).find(event.id)['linked_records'].count).to eq(1)
+    expect(JSONModel(:event).find(event.id)['linked_records'][0]['ref']).to eq(new_accession.uri)
   end
 
 
@@ -62,8 +62,8 @@ describe 'Events controller' do
     event.save
 
     event = JSONModel(:event).find(e.id)
-    event['event_type'].should eq(new_type)
-    event['date']['begin'].should eq(new_begin_date)
+    expect(event['event_type']).to eq(new_type)
+    expect(event['date']['begin']).to eq(new_begin_date)
   end
 
 
@@ -72,7 +72,7 @@ describe 'Events controller' do
       create(:json_event)
     end
 
-    JSONModel(:event).all(:page => 1)['results'].length.should eq(5)
+    expect(JSONModel(:event).all(:page => 1)['results'].length).to eq(5)
   end
 
 
@@ -80,10 +80,10 @@ describe 'Events controller' do
     event = create(:json_event)
 
     event.suppress
-    JSONModel(:event).find(event.id).suppressed.should eq(true)
+    expect(JSONModel(:event).find(event.id).suppressed).to be_truthy
 
     event.unsuppress
-    JSONModel(:event).find(event.id).suppressed.should eq(false)
+    expect(JSONModel(:event).find(event.id).suppressed).to be_falsey
   end
 
 end

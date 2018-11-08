@@ -16,8 +16,8 @@ describe 'Record transfers' do
 
 
     it "allows an accession to be transferred from one repository to another" do
-      JSONModel::HTTP::post_form("/repositories/#{$repo_id}/accessions/#{@acc_id}/transfer",
-                                 {"target_repo" => @target_repo.uri}).code.should eq('200')
+      expect(JSONModel::HTTP::post_form("/repositories/#{$repo_id}/accessions/#{@acc_id}/transfer",
+                                 {"target_repo" => @target_repo.uri}).code).to eq('200')
     end
 
 
@@ -27,8 +27,8 @@ describe 'Record transfers' do
 
       as_test_user('archivist') do
         # No permission in @target_repo
-        JSONModel::HTTP::post_form("/repositories/#{$repo_id}/accessions/#{@acc_id}/transfer",
-                                   {"target_repo" => @target_repo.uri}).code.should eq('403')
+        expect(JSONModel::HTTP::post_form("/repositories/#{$repo_id}/accessions/#{@acc_id}/transfer",
+                                   {"target_repo" => @target_repo.uri}).code).to eq('403')
       end
 
       # Grant permission
@@ -38,8 +38,8 @@ describe 'Record transfers' do
 
       as_test_user('archivist') do
         # Fine now!
-        JSONModel::HTTP::post_form("/repositories/#{$repo_id}/accessions/#{@acc_id}/transfer",
-                                   {"target_repo" => @target_repo.uri}).code.should eq('200')
+        expect(JSONModel::HTTP::post_form("/repositories/#{$repo_id}/accessions/#{@acc_id}/transfer",
+                                   {"target_repo" => @target_repo.uri}).code).to eq('200')
       end
 
     end
@@ -52,7 +52,7 @@ describe 'Record transfers' do
     it "accepts a transfer request for the admin user" do
       response = JSONModel::HTTP::post_form("/repositories/#{$repo_id}/transfer",
                                             {"target_repo" => @target_repo.uri})
-      response.should be_ok
+      expect(response).to be_ok
     end
 
 
@@ -61,8 +61,8 @@ describe 'Record transfers' do
 
       as_test_user('archivist') do
         # No permission in either repo
-        JSONModel::HTTP::post_form("/repositories/#{$repo_id}/transfer",
-                                   {"target_repo" => @target_repo.uri}).code.should eq('403')
+        expect(JSONModel::HTTP::post_form("/repositories/#{$repo_id}/transfer",
+                                   {"target_repo" => @target_repo.uri}).code).to eq('403')
       end
 
       # Grant transfer permission in the source repo but not the target one
@@ -73,8 +73,8 @@ describe 'Record transfers' do
 
       as_test_user('archivist') do
         # Still failing due to missing permission in the target repo
-        JSONModel::HTTP::post_form("/repositories/#{$repo_id}/transfer",
-                                   {"target_repo" => @target_repo.uri}).code.should eq('403')
+        expect(JSONModel::HTTP::post_form("/repositories/#{$repo_id}/transfer",
+                                   {"target_repo" => @target_repo.uri}).code).to eq('403')
       end
 
 
@@ -87,8 +87,8 @@ describe 'Record transfers' do
 
 
       # It works!
-      JSONModel::HTTP::post_form("/repositories/#{$repo_id}/transfer",
-                                 {"target_repo" => @target_repo.uri}).code.should eq('200')
+      expect(JSONModel::HTTP::post_form("/repositories/#{$repo_id}/transfer",
+                                 {"target_repo" => @target_repo.uri}).code).to eq('200')
 
     end
 
@@ -105,10 +105,10 @@ describe 'Record transfers' do
       response = JSONModel::HTTP::post_form("/repositories/#{$repo_id}/transfer",
                                             {"target_repo" => @target_repo.uri})
 
-      response.code.should eq('409')
+      expect(response.code).to eq('409')
       err = ASUtils.json_parse(response.body)
 
-      err['error'][source_acc.uri][0]['json_property'].should eq('id_0')
+      expect(err['error'][source_acc.uri][0]['json_property']).to eq('id_0')
     end
 
   end

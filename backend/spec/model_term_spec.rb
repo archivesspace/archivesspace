@@ -20,13 +20,13 @@ describe 'Term model' do
                                              "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                            }))
 
-    Term[term[:id]].term.should eq("a test term")
-    Term[term[:id]].term_type.should eq("cultural_context")
+    expect(Term[term[:id]].term).to eq("a test term")
+    expect(Term[term[:id]].term_type).to eq("cultural_context")
   end
 
 
   it "Enforces term uniqueness" do
-    lambda {
+    expect(lambda {
       2.times do
         Term.create_from_json(JSONModel(:term).
                               from_hash({
@@ -35,7 +35,7 @@ describe 'Term model' do
                                           "vocabulary" => JSONModel(:vocabulary).uri_for(@vocab_id)
                                         }))
       end
-    }.should raise_error(Sequel::ValidationFailed)
+    }).to raise_error(Sequel::ValidationFailed)
   end
 
 end

@@ -28,14 +28,14 @@ describe 'Classification controllers' do
 
   it "allows a tree of classification_terms to be created" do
     term = create_classification_term(classification)
-    term.title.should eq("classification A")
+    expect(term.title).to eq("classification A")
 
     tree = JSONModel(:classification_tree).find(nil,
                                                 :classification_id => classification.id)
 
-    tree['children'].count.should eq(1)
-    tree['children'].first['title'].should eq(term.title)
-    tree['children'].first['record_uri'].should eq(term.uri)
+    expect(tree['children'].count).to eq(1)
+    expect(tree['children'].first['title']).to eq(term.title)
+    expect(tree['children'].first['record_uri']).to eq(term.uri)
 
     second_term = create_classification_term(classification,
                                              :title => "child of the last term",
@@ -44,7 +44,7 @@ describe 'Classification controllers' do
 
     tree = JSONModel(:classification_tree).find(nil, :classification_id => classification.id)
 
-    tree['children'][0]['children'][0]['title'].should eq(second_term.title)
+    expect(tree['children'][0]['children'][0]['title']).to eq(second_term.title)
   end
 
 
@@ -60,7 +60,7 @@ describe 'Classification controllers' do
 
     expect {
       classification.delete
-    }.to_not raise_error
+    }.not_to raise_error
 
     expect { JSONModel(:classification_term).find(term1.id) }.to raise_error(RecordNotFound)
     expect { JSONModel(:classification_term).find(term2.id) }.to raise_error(RecordNotFound)

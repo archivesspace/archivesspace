@@ -13,14 +13,14 @@ describe 'Vocabulary controller' do
 
   it "lets you create a vocabulary and get it back" do
     id = create_vocabulary
-    JSONModel(:vocabulary).find(id).name.should eq("ABC")
+    expect(JSONModel(:vocabulary).find(id).name).to eq("ABC")
   end
 
 
   it "lets you list all vocabularies" do
     vocab_count = JSONModel(:vocabulary).all.count
     create_vocabulary
-    JSONModel(:vocabulary).all.count.should eq(vocab_count + 1)
+    expect(JSONModel(:vocabulary).all.count).to eq(vocab_count + 1)
   end
 
 
@@ -42,14 +42,14 @@ describe 'Vocabulary controller' do
     vocabulary.name = "XYZ"
     vocabulary.save
 
-    JSONModel(:vocabulary).find(id).name.should eq("XYZ")
+    expect(JSONModel(:vocabulary).find(id).name).to eq("XYZ")
   end
 
 
   it "knows its own URI" do
     id = create_vocabulary
 
-    JSONModel(:vocabulary).find(id).uri.should eq("/vocabularies/#{id}")
+    expect(JSONModel(:vocabulary).find(id).uri).to eq("/vocabularies/#{id}")
   end
 
   it "can return a vocabulary record based on a ref_id" do
@@ -65,7 +65,7 @@ describe 'Vocabulary controller' do
     v2.save
 
     set = JSONModel(:vocabulary).all({:ref_id => "xyz"})
-    set.count.should eq 1
+    expect(set.count).to eq(1)
   end
 
 
@@ -74,7 +74,7 @@ describe 'Vocabulary controller' do
     vocab_uri = JSONModel(:vocabulary).uri_for(id)
 
     subject = JSONModel(:subject).from_hash(
-                                            "source" => "local", 
+                                            "source" => "local",
                                             "terms" => [{
                                                           "term" => "1981 Heroes",
                                                           "term_type" => "cultural_context",
@@ -85,7 +85,7 @@ describe 'Vocabulary controller' do
     subject.save
 
     response = get "#{vocab_uri}/terms"
-    JSON(response.body).length.should eq(1)
+    expect(JSON(response.body).length).to eq(1)
   end
 
 end

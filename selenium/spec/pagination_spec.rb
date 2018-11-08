@@ -32,12 +32,12 @@ describe "Pagination" do
     @driver.click_and_wait_until_gone(:link, "Accessions")
     expect {
       @driver.find_element_with_text('//div', /Showing 1 - #{AppConfig[:default_page_size]}/)
-    }.to_not raise_error
+    }.not_to raise_error
 
     @driver.click_and_wait_until_gone(:xpath, '//a[@title="Next"]')
     expect {
       @driver.find_element_with_text('//div', /Showing #{AppConfig[:default_page_size] + 1}/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
   it "can navigate through pages of digital objects " do
@@ -45,12 +45,12 @@ describe "Pagination" do
     @driver.click_and_wait_until_gone(:link, "Digital Objects")
     expect {
       @driver.find_element_with_text('//div', /Showing 1 - #{AppConfig[:default_page_size]}/)
-    }.to_not raise_error
+    }.not_to raise_error
 
     @driver.click_and_wait_until_gone(:xpath, '//a[@title="Next"]')
     expect {
       @driver.find_element_with_text('//div', /Showing #{AppConfig[:default_page_size] + 1}/)
-    }.to_not raise_error
+    }.not_to raise_error
 
   end
 end

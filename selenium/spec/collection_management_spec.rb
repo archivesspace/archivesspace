@@ -18,7 +18,7 @@ describe "Collection Management" do
   it "should be fine with no records" do
     @driver.find_element(:link, "Browse").click
     @driver.click_and_wait_until_gone(:link, "Collection Management")
-    @driver.find_element(:css => ".alert.alert-info").text.should eq("No records found")
+    expect(@driver.find_element(:css => ".alert.alert-info").text).to eq("No records found")
   end
 
 
@@ -34,7 +34,7 @@ describe "Collection Management" do
     @driver.find_element(:css => '#accession_collection_management_ .subrecord-form-heading .btn:not(.show-all)').click
     @driver.find_element(:id => "accession_collection_management__processing_priority_").select_option("high")
     @driver.find_element(:id => "accession_collection_management__processing_status_").select_option("completed")
-    
+
     # save changes (twice to trigger an update also)
     2.times {
       @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
@@ -89,7 +89,7 @@ describe "Collection Management" do
     @driver.clear_and_send_keys([:id, "accession_collection_management__processing_hours_per_foot_estimate_"], "a lot")
     @driver.clear_and_send_keys([:id, "accession_collection_management__processing_total_extent_"], "even more")
     @driver.find_element(:id => "accession_collection_management__processing_total_extent_type_").select_option("cassettes")
-    
+
     @driver.find_element(:id => "accession_collection_management__processing_status_").select_option("completed")
 
     # save changes
@@ -98,14 +98,14 @@ describe "Collection Management" do
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Processing hrs\/unit Estimate - Must be a number with no more than nine digits and five decimal places\./)
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Processing Total Extent - Must be a number with no more than nine digits and five decimal places\./)
-    }.to_not raise_error
+    }.not_to raise_error
 
     @driver.clear_and_send_keys([:id, "accession_collection_management__processing_hours_per_foot_estimate_"], "10")
     @driver.clear_and_send_keys([:id, "accession_collection_management__processing_total_extent_"], "40")
 
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
 
-    @driver.find_element(:css => '.record-pane h2').text.should eq("#{@accession_title} Accession")
+    expect(@driver.find_element(:css => '.record-pane h2').text).to eq("#{@accession_title} Accession")
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Processing hrs\/unit Estimate - Must be a number with no more than nine digits and five decimal places\./, false, true)
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Processing Total Extent - Must be a number with no more than nine digits and five decimal places\./, false, true)

@@ -48,7 +48,7 @@ describe "Jobs" do
 
     expect {
       @driver.find_element_with_text("//h2", /Find and Replace/)
-    }.to_not raise_error
+    }.not_to raise_error
 
   end
 
@@ -70,7 +70,7 @@ describe "Jobs" do
 
     expect {
       @driver.find_element_with_text("//h2", /print_to_pdf_job/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
   it "can create a report job" do

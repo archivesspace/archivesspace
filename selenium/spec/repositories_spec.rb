@@ -23,7 +23,7 @@ describe "Repositories" do
     @driver.clear_and_send_keys([:id, "repository_repository__name_"], "missing repo code")
     @driver.click_and_wait_until_gone(:css => "form#new_repository button[type='submit']")
 
-    assert(5) { @driver.find_element(:css => "div.alert.alert-danger").text.should eq('Repository Short Name - Property is required but was missing') }
+    assert(5) { expect(@driver.find_element(:css => "div.alert.alert-danger").text).to eq('Repository Short Name - Property is required but was missing') }
   end
 
 
@@ -35,29 +35,29 @@ describe "Repositories" do
 
   it "can add telephone numbers" do
     @driver.click_and_wait_until_gone(:link, 'Edit')
-    
+
     @driver.find_element_with_text('//button', /Add Telephone Number/).click
-    
+
     @driver.clear_and_send_keys([:id, "repository_agent_representation__agent_contacts__0__telephones__0__number_"], "555-5555")
     @driver.clear_and_send_keys([:id, "repository_agent_representation__agent_contacts__0__telephones__0__ext_"], "66")
-    
+
     @driver.find_element_with_text('//button', /Add Telephone Number/).click
 
     @driver.clear_and_send_keys([:id, "repository_agent_representation__agent_contacts__0__telephones__1__number_"], "999-9999")
 
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Repository Saved/)
-   
-    assert(5) { @driver.find_element(:id => "repository_agent_representation__agent_contacts__0__telephones__0_").text.should
-                                                          match(/555\-5555/) 
+
+    assert(5) { expect(@driver.find_element(:id => "repository_agent_representation__agent_contacts__0__telephones__0_").text).to
+                                                          match(/555\-5555/)
     }
-    
-    assert(5) { @driver.find_element(:id => "repository_agent_representation__agent_contacts__0__telephones__0_").text.should
-                                                          match(/66/) 
+
+    assert(5) { expect(@driver.find_element(:id => "repository_agent_representation__agent_contacts__0__telephones__0_").text).to
+                                                          match(/66/)
     }
-    
-    assert(5) { @driver.find_element(:id => "repository_agent_representation__agent_contacts__0__telephones__1_").text.should
-                                                          match(/999\-9999/) 
+
+    assert(5) { expect(@driver.find_element(:id => "repository_agent_representation__agent_contacts__0__telephones__1_").text).to
+                                                          match(/999\-9999/)
     }
 
   end
@@ -92,7 +92,7 @@ describe "Repositories" do
     @driver.wait_for_ajax
 
     @driver.find_element(:css, "#confirmChangesModal #confirmButton").click
-    assert(5) { @driver.find_element(:css => "div.alert.alert-success").text.should eq("Repository Deleted") }
+    assert(5) { expect(@driver.find_element(:css => "div.alert.alert-success").text).to eq("Repository Deleted") }
   end
 
 
@@ -109,17 +109,17 @@ describe "Repositories" do
     @driver.find_element(:link, 'Select Repository').click
     @driver.find_element(:css, '.select-a-repository select').select_option_with_text(@test_repo_code_2)
     @driver.click_and_wait_until_gone(:css, '.select-a-repository .btn-primary')
-    @driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_2
+    expect(@driver.find_element(:css, 'span.current-repository-id').text).to eq @test_repo_code_2
 
     @driver.find_element(:link, 'Select Repository').click
     @driver.find_element(:css, '.select-a-repository select').select_option_with_text(@test_repo_code_1)
     @driver.click_and_wait_until_gone(:css, '.select-a-repository .btn-primary')
-    @driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_1
+    expect(@driver.find_element(:css, 'span.current-repository-id').text).to eq @test_repo_code_1
 
     @driver.find_element(:link, 'Select Repository').click
     @driver.find_element(:css, '.select-a-repository select').select_option_with_text(@test_repo_code_2)
     @driver.click_and_wait_until_gone(:css, '.select-a-repository .btn-primary')
-    @driver.find_element(:css, 'span.current-repository-id').text.should eq @test_repo_code_2
+    expect(@driver.find_element(:css, 'span.current-repository-id').text).to eq @test_repo_code_2
   end
 
   it "automatically refreshes the repository list when a new repo gets added" do
@@ -138,7 +138,7 @@ describe "Repositories" do
       end
     end
 
-    success.should eq(true)
+    expect(success).to be_truthy
   end
 
 end

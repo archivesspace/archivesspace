@@ -16,8 +16,8 @@ describe 'Related agents' do
     earlier_company = JSONModel(:agent_corporate_entity).find(earlier_company.id)
     later_company = JSONModel(:agent_corporate_entity).find(later_company.id)
 
-    earlier_company.related_agents[0]['relator'].should eq ('is_earlier_form_of')
-    later_company.related_agents[0]['relator'].should eq ('is_later_form_of')
+    expect(earlier_company.related_agents[0]['relator']).to eq ('is_earlier_form_of')
+    expect(later_company.related_agents[0]['relator']).to eq ('is_later_form_of')
   end
 
 
@@ -33,12 +33,12 @@ describe 'Related agents' do
     child = create(:json_agent_person, "related_agents" => [relationship.to_hash])
 
     child = JSONModel(:agent_person).find(child.id)
-    child.related_agents.first['dates']['begin'].should eq(date['begin'])
+    expect(child.related_agents.first['dates']['begin']).to eq(date['begin'])
 
     # Updates work too
-    lambda {
+    expect(lambda {
       child.save
-    }.should_not raise_error
+    }).not_to raise_error
   end
 
 end
