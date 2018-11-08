@@ -13,6 +13,8 @@
 
       <%= read_only_view(@location.to_hash) %>
 
+      <%= display_audit_info(@location) %>
+
       <% if @location['location_profile'] %>
         <div class="form-horizontal">
           <div class="form-group token-list">
