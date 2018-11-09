@@ -52,7 +52,6 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, ""]) \
   do
-
     if params[:dt] && params[:dt] == "csv"
       stream_response(Search.search_csv(params, params[:repo_id]), "text/csv")
     else 
@@ -135,6 +134,7 @@ class ArchivesSpaceService < Sinatra::Base
   .returns([200, "OK"],
            [404, "Not found"]) \
   do
+    
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
     node_info = JSONModel.parse_reference(params[:node_uri])

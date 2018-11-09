@@ -18,4 +18,5 @@ $(function () {
 
   $(document).triggerHandler("loadedrecordform.aspace", [$("#form_accession")]);
 
+
 });

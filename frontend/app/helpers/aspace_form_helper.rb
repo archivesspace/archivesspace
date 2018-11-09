@@ -901,7 +901,6 @@ module AspaceFormHelper
     def label_and_date(name, opts = {})
       label_with_field(name, "#{obj[name]}")
     end
-
   end
 
 
@@ -981,6 +980,7 @@ module AspaceFormHelper
       end
     end
 
+
     def allowable_types_for(name)
       defn = jsonmodel_schema_definition(name)
 
@@ -993,6 +993,7 @@ module AspaceFormHelper
         []
       end
     end
+
 
     def options_for(context, property, add_empty_options = false, opts = {})
       options = []
@@ -1024,7 +1025,6 @@ module AspaceFormHelper
       options
       #options.sort {|a,b| a[0] <=> b[0]}
     end
-
 
     private
 

@@ -103,8 +103,6 @@ describe 'Repository model' do
   end
 
 
-
-
   it "can delete a repo even if it has preferences and import jobs and stuff" do
 
     repo = Repository.create_from_json(JSONModel(:repository).from_hash(:repo_code => "TESTREPO2",

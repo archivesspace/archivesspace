@@ -38,7 +38,6 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:view_repository])
     .returns([200, "OK"]) \
   do
-
     resource = Resource.get_or_die(params[:id])
 
     tree = if params[:limit_to] && !params[:limit_to].empty?
