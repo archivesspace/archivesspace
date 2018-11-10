@@ -144,7 +144,6 @@ class ResourcesController < ApplicationController
       @criteria['resolve[]']  = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id', 'digital_object_uris:id']
 
       tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
-
       @has_children = tree_root && tree_root['child_count'] > 0
       @has_containers = has_containers?(uri)
 
