@@ -1,6 +1,6 @@
 <%= setup_context(:title => I18n.t("location._plural")) %>
 <%
-   @show_multiselect_column = user_can?("administer_system")
+   @show_multiselect_column = user_can?("update_location_record")
 
    title_column_header(I18n.t("location.title"))
    %w(building floor room area).each do |place|
