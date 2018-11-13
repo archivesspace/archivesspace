@@ -582,6 +582,7 @@ en:
       chv: Chuvash
       chy: Cheyenne
       cmc: Chamic languages
+      cnr: Montenegrin
       cop: Coptic
       cor: Cornish
       cos: Corsican
@@ -844,7 +845,6 @@ en:
       pra: Prakrit languages
       pro: "Provençal, Old (to 1500)"
       pus: Pushto; Pashto
-      qaa-qtz: "Reserved for local use"
       que: Quechua
       raj: Rajasthani
       rap: Rapanui
@@ -972,6 +972,7 @@ en:
       zap: Zapotec
       zbl: Blissymbols; Blissymbolics; Bliss
       zen: Zenaga
+      zgh: Standard Moroccan Tamazight
       zha: Zhuang; Chuang
       znd: Zande languages
       zul: Zulu
