@@ -2242,3 +2242,21 @@ en:
     field: Field
     _singular: Custom Report Template
     _plural: Custom Report Templates
+
+  repository_oai:
+    oai_is_disabled_tooltip: OAI is disabled tooltip
+    oai_sets_available_tooltip: OAI sets available tooltip
+
+  oai_config:
+    oai_record_prefix_tooltip: OAI Record Prefix Tooltip
+    oai_admin_email_tooltip: OAI Admin Email tooltip
+    oai_repository_name_tooltip: OAI Repository name tooltip
+    repo_set_name_tooltip: Repo Set name tooltip
+    repo_set_section_tooltip: Repo Set section tooltip
+    repo_set_description_tooltip: Repo set description tooltip
+    sponsor_set_name_tooltip: Sponsor set name tooltip
+    sponsor_set_names_tooltip: Sponsor set names tooltip
+    sponsor_set_description_tooltip: Sponsor set description tooltip
+
+
+

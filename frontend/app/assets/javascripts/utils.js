@@ -918,6 +918,6 @@ AS.app_prefix = function(path) {
 // Enable bootstrap-tagsinput for any elements with class 'js-taggable'
 $(function() {
   $(document).ready(function() {
-    $('.js-taggable').tagsinput();
-  })
-})
+    $('.js-taggable').tagsinput({confirmKeys: [13], delimiter: '|' });
+  });
+});
