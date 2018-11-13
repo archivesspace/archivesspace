@@ -273,7 +273,10 @@
       self.$element.val(val, true);
 
       if (self.options.triggerChange)
-        self.$element.trigger('change');
+        // save string to return with specified delimiter
+        self.$element.val(val.join(self.options.delimiter), true).trigger('change');
+        // original code:
+        //self.$element.trigger('change');
     },
 
     /**

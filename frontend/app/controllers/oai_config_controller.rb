@@ -45,7 +45,7 @@ class OaiConfigController < ApplicationController
       # "Sponsor 1,Sponsor 2"
       # Turn into a serialized array for DB
       if oai_config_hash['sponsor_set_names']
-        oai_config_hash['sponsor_set_names'] = oai_config_hash['sponsor_set_names'].split(",").to_json
+        oai_config_hash['sponsor_set_names'] = oai_config_hash['sponsor_set_names'].split("|").to_json
       else
         oai_config_hash['sponsor_set_names'] = "[]"
       end

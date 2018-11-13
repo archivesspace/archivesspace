@@ -493,15 +493,15 @@ module AspaceFormHelper
     def oai_config_sponsor_set_names_field(set_json, opts = {})
       # turn array from DB into a comma delimited list for UI
       set_arry = JSON::parse(set_json)
-      value = set_arry.join(",")
+      value = set_arry.join("|")
 
       html = ""
 
       html << "<div class='form-group'>"
         html << "<label class='col-sm-2 control-label' for='oai_config_sponsor_set_names_'>Sponsor Names</label>"
         html << "<div class='col-sm-9'>"
-          html << "<input id='oai_config_sponsor_set_names_' type='text' value='#{value}' name='oai_config[sponsor_set_names]'' class='form-control js-taggable' datarole='tagsinput'>"
-          html << "</div>"
+          html << "<input id='oai_config_sponsor_set_names_' type='text' value='#{value}' name='oai_config[sponsor_set_names]' class='form-control js-taggable' datarole='tagsinput'>"
+        html << "</div>"
       html << "</div>"
 
       return html.html_safe
