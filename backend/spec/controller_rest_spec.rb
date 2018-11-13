@@ -39,7 +39,7 @@ describe 'REST interface' do
                                         "condition_description" => "The condition description",
                                         "accession_date" => "2012-05-03").save
       end
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -66,9 +66,9 @@ describe 'REST interface' do
       JSONModel(:accession).all(:modified_since => -1)
     }.to raise_error(ArgumentError)
 
-    JSONModel(:accession).all(:page => 1, :page_size => too_many)['results'].size.should eq(nice_amount)
+    expect(JSONModel(:accession).all(:page => 1, :page_size => too_many)['results'].size).to eq(nice_amount)
 
-    JSONModel(:accession).all(:page => 10, :page_size => nice_amount)['results'].size.should eq(0)
+    expect(JSONModel(:accession).all(:page => 10, :page_size => nice_amount)['results'].size).to eq(0)
   end
 
 
@@ -83,7 +83,7 @@ describe 'REST interface' do
 
     expect {
       JSONModel(:group).find(id, 'with_members' => nil)
-    }.to_not raise_error
+    }.not_to raise_error
 
   end
 
@@ -102,18 +102,18 @@ describe 'REST interface' do
   it "returns a list of all Endpoints" do
     expect {
       endpoint = RESTHelpers::Endpoint.all.first
-      endpoint[:uri].nil?.should == false
-      endpoint[:method].nil?.should == false
-      endpoint[:returns].nil?.should == false
-    }.to_not raise_error
+      expect(endpoint[:uri].nil?).to be_falsey
+      expect(endpoint[:method].nil?).to be_falsey
+      expect(endpoint[:returns].nil?).to be_falsey
+    }.not_to raise_error
   end
 
 
   it "supports querying Endpoints" do
     endpoint = RESTHelpers::Endpoint.get("/moo")
 
-    endpoint['methods'].should eq([:get])
-    endpoint['uri'].should eq('/moo')
+    expect(endpoint['methods']).to eq([:get])
+    expect(endpoint['uri']).to eq('/moo')
   end
 
 end

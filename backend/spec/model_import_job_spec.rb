@@ -5,7 +5,7 @@ require 'stringio'
 
 describe 'Import job model' do
 
-  
+
   before(:all) do
     converter = Class.new(Converter) do
       def self.instance_for(type, input_file)
@@ -53,7 +53,7 @@ describe 'Import job model' do
   end
 
   it "can create an import job" do
-    job.should_not be(nil)
+    expect(job).not_to be_nil
   end
 
 
@@ -61,9 +61,9 @@ describe 'Import job model' do
     job_runner = JobRunner.for(job)
     job_runner.run
 
-    job.created_records.count.should eq(1)
-    job.created_records.first[:record_uri].should match(/accessions\/\d+$/)
-    Accession[JSONModel(:accession).id_for(job.created_records.first[:record_uri])].title.should eq('foobar')
+    expect(job.created_records.count).to eq(1)
+    expect(job.created_records.first[:record_uri]).to match(/accessions\/\d+$/)
+    expect(Accession[JSONModel(:accession).id_for(job.created_records.first[:record_uri])].title).to eq('foobar')
   end
 
 end

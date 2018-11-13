@@ -21,7 +21,7 @@ describe "Locations" do
     @driver.find_element(:link, "Create").click
     @driver.find_element(:link, "Location").click
     @driver.click_and_wait_until_gone(:link, "Single Location")
-    @driver.find_element(:css, "h2").text.should eq("New Location Location")
+    expect(@driver.find_element(:css, "h2").text).to eq("New Location Location")
   end
 
 
@@ -77,7 +77,7 @@ describe "Locations" do
     @driver.clear_and_send_keys([:css, ".sidebar input.text-filter-field"], "129*" )
     @driver.click_and_wait_until_gone(:css, ".sidebar input.text-filter-field + div button")
     @driver.click_and_wait_until_gone(:link, "Edit")
-    assert(5) { @driver.find_element(:css, '.record-pane h2').text.should match(/129 W\. 81st St/) }
+    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to match(/129 W\. 81st St/) }
   end
 
   it "allows creation of a location with plus one stickies" do
@@ -107,14 +107,14 @@ describe "Locations" do
     }.not_to raise_error
 
     # these are sticky
-    assert(5) { @driver.find_element(:id, "location_building_").attribute('value').should eq("123 Fake St") }
-    assert(5) { @driver.find_element(:id, "location_floor_").attribute('value').should eq("13") }
-    assert(5) { @driver.find_element(:id, "location_room_").attribute('value').should eq("237") }
-    assert(5) { @driver.find_element(:id, "location_area_").attribute('value').should eq("37") }
+    assert(5) { expect(@driver.find_element(:id, "location_building_").attribute('value')).to eq("123 Fake St") }
+    assert(5) { expect(@driver.find_element(:id, "location_floor_").attribute('value')).to eq("13") }
+    assert(5) { expect(@driver.find_element(:id, "location_room_").attribute('value')).to eq("237") }
+    assert(5) { expect(@driver.find_element(:id, "location_area_").attribute('value')).to eq("37") }
 
     # these are not
-    assert(5) { @driver.find_element(:id, "location_coordinate_1_label_").attribute('value').should eq("") }
-    assert(5) { @driver.find_element(:id, "location_coordinate_1_indicator_").attribute('value').should eq("") }
+    assert(5) { expect(@driver.find_element(:id, "location_coordinate_1_label_").attribute('value')).to eq("") }
+    assert(5) { expect(@driver.find_element(:id, "location_coordinate_1_indicator_").attribute('value')).to eq("") }
 
   end
 
@@ -160,7 +160,7 @@ describe "Locations" do
 
     expect {
       @driver.find_paginated_element(:xpath => "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
-      }.to_not raise_error
+      }.not_to raise_error
   end
 
   describe "Location batch" do
@@ -301,11 +301,11 @@ describe "Locations" do
 
       @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Locations Created/)
       # these are sticky
-      assert(5) { @driver.find_element(:id, "location_batch_building_").attribute('value').should eq("555 Fake Street") }
+      assert(5) { expect(@driver.find_element(:id, "location_batch_building_").attribute('value')).to eq("555 Fake Street") }
 
-      assert(5) { @driver.find_element(:id,  "location_batch_floor_").attribute('value').should eq("2nd") }
-      assert(5) { @driver.find_element(:id,  "location_batch_room_").attribute('value').should eq("201") }
-      assert(5) { @driver.find_element(:id, "location_batch_area_").attribute('value').should eq("Corner") }
+      assert(5) { expect(@driver.find_element(:id,  "location_batch_floor_").attribute('value')).to eq("2nd") }
+      assert(5) { expect(@driver.find_element(:id,  "location_batch_room_").attribute('value')).to eq("201") }
+      assert(5) { expect(@driver.find_element(:id, "location_batch_area_").attribute('value')).to eq("Corner") }
 
     end
   end

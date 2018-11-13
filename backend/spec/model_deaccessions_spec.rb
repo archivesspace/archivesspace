@@ -13,10 +13,10 @@ describe 'Deaccessions model' do
                                                                                                 "end" => "2012-05-14"),
                                                          }))
 
-    Deaccession[deaccession[:id]].description.should eq("A description of this deaccession")
-    Deaccession[deaccession[:id]].scope.should eq("part")
-    Deaccession[deaccession[:id]].notification.should eq(0)
-    Deaccession[deaccession[:id]].date.begin.should eq("2012-05-14")
+    expect(Deaccession[deaccession[:id]].description).to eq("A description of this deaccession")
+    expect(Deaccession[deaccession[:id]].scope).to eq("part")
+    expect(Deaccession[deaccession[:id]].notification).to eq(0)
+    expect(Deaccession[deaccession[:id]].date.begin).to eq("2012-05-14")
   end
 
 end

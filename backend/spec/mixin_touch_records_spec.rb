@@ -27,8 +27,8 @@ describe 'Touch Records mixin' do
 
     resource.refresh
 
-    resource.system_mtime.should_not eq(resource_mt)
-    resource.system_mtime.utc.round.should be >= obj.system_mtime.utc.round
+    expect(resource.system_mtime).not_to eq(resource_mt)
+    expect(resource.system_mtime.utc.round).to be >= obj.system_mtime.utc.round
   end
 
   it 'can update resource system_mtime value when related ao updated' do
@@ -39,8 +39,8 @@ describe 'Touch Records mixin' do
 
     resource.refresh
 
-    obj.system_mtime.should_not eq(obj_mt)
-    resource.system_mtime.utc.round.should be >= obj.system_mtime.utc.round
+    expect(obj.system_mtime).not_to eq(obj_mt)
+    expect(resource.system_mtime.utc.round).to be >= obj.system_mtime.utc.round
   end
 
   it 'can update resource system_mtime value when related ao deleted' do
@@ -53,7 +53,7 @@ describe 'Touch Records mixin' do
 
     resource.refresh
 
-    resource.system_mtime.utc.round.should be >= obj_mt.utc.round
+    expect(resource.system_mtime.utc.round).to be >= obj_mt.utc.round
   end
 
   it 'works the same for digital objects and components' do
@@ -64,8 +64,8 @@ describe 'Touch Records mixin' do
 
     digital_object.refresh
 
-    doc.system_mtime.should_not eq(doc_mt)
-    digital_object.system_mtime.utc.round.should be >= doc.system_mtime.utc.round
+    expect(doc.system_mtime).not_to eq(doc_mt)
+    expect(digital_object.system_mtime.utc.round).to be >= doc.system_mtime.utc.round
   end
 
 end

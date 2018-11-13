@@ -153,20 +153,8 @@ class MARCModel < ASpaceExport::ExportModel
 
   def df(*args)
     if @datafields.has_key?(args.to_s)
-      # Manny Rodriguez: 3/16/18
-      # Bugfix for ANW-146
-      # Separate creators should go in multiple 700 fields in the output MARCXML file. This is not happening because the different 700 fields are getting mashed in under the same key in the hash below, instead of having a new hash entry created.
-      # So, we'll get around that by using a different hash key if the code is 700.
-      # based on MARCModel#datafields, it looks like the hash keys are thrown away outside of this class, so we can use anything as a key.
-      # At the moment, we don't want to change this behavior too much in case something somewhere else is relying on the original behavior.
-
-     if(args[0] == "700" || args[0] == "710")
-       @datafields[rand(10000)] = @@datafield.new(*args)
-     else
-       @datafields[args.to_s]
-     end
+      @datafields[args.to_s]
     else
-
       @datafields[args.to_s] = @@datafield.new(*args)
       @datafields[args.to_s]
     end
@@ -376,7 +364,7 @@ class MARCModel < ASpaceExport::ExportModel
     creators = linked_agents.select{|a| a['role'] == 'creator'}[1..-1] || []
     creators = creators + linked_agents.select{|a| a['role'] == 'source'}
 
-    creators.each do |link|
+    creators.each_with_index do |link, i|
       next unless link["_resolved"]["publish"] || @include_unpublished
 
       creator = link['_resolved']
@@ -414,7 +402,7 @@ class MARCModel < ASpaceExport::ExportModel
 
       end
 
-      df(code, ind1, ind2).with_sfs(*sfs)
+      df(code, ind1, ind2, i).with_sfs(*sfs)
     end
   end
 

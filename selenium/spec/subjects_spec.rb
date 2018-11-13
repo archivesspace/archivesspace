@@ -34,7 +34,7 @@ describe "Subjects" do
     # check messages
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Terms - At least 1 item\(s\) is required/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -55,7 +55,7 @@ describe "Subjects" do
     @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], "just a term really #{now}")
     @driver.clear_and_send_keys([:id, "subject_terms__1__term_"], "really")
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
-    assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("just a term really #{now} -- really Subject") }
+    assert(5) { expect(@driver.find_element(:css => '.record-pane h2').text).to eq("just a term really #{now} -- really Subject") }
   end
 
   it "can reorder the terms and have them maintain order" do
@@ -74,7 +74,7 @@ describe "Subjects" do
     @driver.clear_and_send_keys([:id, "subject_terms__0__term_"], first)
     @driver.clear_and_send_keys([:id, "subject_terms__1__term_"], second)
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
-    assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("#{first} -- #{second} Subject") }
+    assert(5) { expect(@driver.find_element(:css => '.record-pane h2').text).to eq("#{first} -- #{second} Subject") }
 
     #drag to become sibling of parent
     source = @driver.find_element( :css => "#subject_terms__1_ .drag-handle" )
@@ -93,12 +93,12 @@ describe "Subjects" do
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
 
-    assert(5) { @driver.find_element(:css => '.record-pane h2').text.should eq("#{second} -- #{first} Subject") }
+    assert(5) { expect(@driver.find_element(:css => '.record-pane h2').text).to eq("#{second} -- #{first} Subject") }
 
     # refresh the page and verify that the change really stuck
     @driver.navigate.refresh
-    target = @driver.find_element( :css => "#subject_terms__0__term_" ).attribute('value').should eq(second)
-    target = @driver.find_element( :css => "#subject_terms__1__term_" ).attribute('value').should eq(first)
+    expect(target = @driver.find_element( :css => "#subject_terms__0__term_" ).attribute('value')).to eq(second)
+    expect(target = @driver.find_element( :css => "#subject_terms__1__term_" ).attribute('value')).to eq(first)
 
   end
 
@@ -112,9 +112,9 @@ describe "Subjects" do
 
     expect {
       @driver.find_element_with_text('//tr', /just a term really/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
-  
+
 
   it "can use plus+1 submit to quickly add another" do
     @driver.get($frontend)
@@ -129,9 +129,9 @@ describe "Subjects" do
     @driver.find_element(:css => "form #createPlusOne").click
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Subject Created/)
-    @driver.find_element(:id, "subject_terms__0__term_").attribute("value").should eq("")
+    expect(@driver.find_element(:id, "subject_terms__0__term_").attribute("value")).to eq("")
   end
-  
+
   it "can export a csv of browse list Subjects" do
     run_index_round
 
@@ -141,10 +141,10 @@ describe "Subjects" do
     el = @driver.find_element(:link => "Download CSV")
     @driver.download_file( el )
     sleep(1)
-    assert(5) { Dir.glob(File.join( Dir.tmpdir,"*.csv" )).length.should eq(1) } 
-    assert(5) { IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?(@repo.name)  }  
-    assert(5) { IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?("just a term really")  }  
-  
+    assert(5) { expect(Dir.glob(File.join( Dir.tmpdir,"*.csv" )).length).to eq(1) }
+    assert(5) { IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?(@repo.name)  }
+    assert(5) { IO.read( Dir.glob(File.join( Dir.tmpdir,"*.csv" )).first ).include?("just a term really")  }
+
   end
 
 end

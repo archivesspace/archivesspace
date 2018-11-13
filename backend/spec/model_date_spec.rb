@@ -11,7 +11,7 @@ describe 'Date model' do
     opts = {:expression => generate(:alphanumstr)}
     date = create_date(opts)
 
-    ASDate[date[:id]].expression.should eq(opts[:expression])
+    expect(ASDate[date[:id]].expression).to eq(opts[:expression])
   end
 
 
@@ -24,15 +24,15 @@ describe 'Date model' do
 
   it "allows incomplete dates in compliance with ISO 8601" do
     opts = {:begin => '0123', :end => '0123'}
-    expect { create_date(opts) }.to_not raise_error
+    expect { create_date(opts) }.not_to raise_error
 
     opts = {:begin => '2012-12', :end => '2012-12'}
-    expect { create_date(opts) }.to_not raise_error
+    expect { create_date(opts) }.not_to raise_error
   end
 
 
   it "BC?  NP!" do
-    expect { create_date(:begin => '-0100-01-01', :end => '-0050-01-01') }.to_not raise_error
+    expect { create_date(:begin => '-0100-01-01', :end => '-0050-01-01') }.not_to raise_error
     expect { create_date(:begin => '1996-01-01', :end => '-0050-01-01', :date_type => 'inclusive') }.to raise_error(JSONModel::ValidationException)
   end
 
@@ -52,7 +52,7 @@ describe 'Date model' do
   it "ensures end is not before begin" do
     # ok if begin and end are the same
     opts = {:begin => "2000-01-01", :end => "2000-01-01"}
-    expect { create_date(opts) }.to_not raise_error
+    expect { create_date(opts) }.not_to raise_error
 
     # not ok if end is before begin
     opts = {:begin => "2000-01-01", :end => "1999-12-31"}
@@ -68,11 +68,11 @@ describe 'Date model' do
 
     # and at different levels of specificity in the same year
     opts = {:begin => "1999", :end => "1999-12"}
-    expect { create_date(opts) }.to_not raise_error
+    expect { create_date(opts) }.not_to raise_error
 
     # and at different levels of specificity in the same month
     opts = {:begin => "1999-12-01", :end => "1999-12"}
-    expect { create_date(opts) }.to_not raise_error
+    expect { create_date(opts) }.not_to raise_error
   end
 
 

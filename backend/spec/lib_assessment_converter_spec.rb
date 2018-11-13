@@ -52,7 +52,7 @@ describe 'Assessment converter' do
       records = convert( csv_path)
 
       # One record per CSV data row
-      records.length.should eq(data.length)
+      expect(records.length).to eq(data.length)
     end
   end
 
@@ -60,7 +60,7 @@ describe 'Assessment converter' do
     with_sample_csv_file do |_headers, data, csv_path|
       records = convert(csv_path)
       records.each do |record|
-        ['2005-12-31', '2000-01-01'].should include(record['survey_end'])
+        expect(['2005-12-31', '2000-01-01']).to include(record['survey_end'])
       end
     end
   end

@@ -1,13 +1,13 @@
 <%= link_to_help :topic => "digital_object_component" %>
 
-<h3>
+<h2>
   <% if @digital_object_component.display_string.blank? %>
     <%= I18n.t("digital_object_component._singular") %>
   <% else %>
     <%= clean_mixed_content(@digital_object_component.display_string) %>
   <% end %>
   <span class="label label-info"><%= I18n.t("digital_object_component._singular") %></span>
-</h3>
+</h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
@@ -21,10 +21,10 @@
 
   <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>
     <section id="basic_information">
-      <h3>
+      <h2>
         <%= I18n.t("digital_object_component._frontend.section.basic_information") %>
         <%= link_to_help :topic => "digital_object_component_basic_information" %>
-      </h3>
+      </h2>
       <%= form.label_and_textfield "label", :required => :conditionally %>
       <%= form.label_and_textarea "title", :required => :conditionally %>
       <%= form.label_and_textfield "component_id" %>

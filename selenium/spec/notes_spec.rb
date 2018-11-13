@@ -2,7 +2,7 @@ require_relative 'spec_helper'
 
 describe "Notes" do
 
-  before(:all) do   
+  before(:all) do
     @repo = create(:repo, :repo_code => "notes_test_#{Time.now.to_i}")
     set_repo @repo
 
@@ -32,7 +32,7 @@ describe "Notes" do
       add_note.call("note_multipart")
     end
 
-    @driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(3)
+    expect(@driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length).to eq(3)
   end
 
 
@@ -48,7 +48,7 @@ describe "Notes" do
     notes[1].find_element(:css => '.subrecord-form-remove').click
 
     # Verify that the first confirmation is now gone
-    @driver.find_elements(:css => '.subrecord-form-removal-confirmation').length.should be < 2
+    expect(@driver.find_elements(:css => '.subrecord-form-removal-confirmation').length).to be < 2
 
     # Confirm
     @driver.click_and_wait_until_gone(:css => '.subrecord-form-removal-confirmation .btn-primary')
@@ -58,7 +58,7 @@ describe "Notes" do
     @driver.click_and_wait_until_gone(:css => '.subrecord-form-removal-confirmation .btn-primary')
 
     # One left!
-    @driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(1)
+    expect(@driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length).to eq(1)
 
     # Fill it out
     @driver.clear_and_send_keys([:id, 'resource_notes__2__label_'],
@@ -121,7 +121,7 @@ describe "Notes" do
 
 
   it "can add a top-level bibliography too" do
-    
+
     @driver.get_edit_page(@resource)
 
     bibliography_content = "Top-level bibliography content"
@@ -134,7 +134,7 @@ describe "Notes" do
     @driver.execute_script("$('#resource_notes__6__content__0_').data('CodeMirror').save()")
 
     @driver.execute_script("$('#resource_notes__6__content__0_').data('CodeMirror').toTextArea()")
-    @driver.find_element(:id => "resource_notes__6__content__0_").attribute("value").should eq(bibliography_content)
+    expect(@driver.find_element(:id => "resource_notes__6__content__0_").attribute("value")).to eq(bibliography_content)
 
     form = @driver.find_element(:id => 'resource_notes__6__label_').nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
@@ -161,7 +161,7 @@ describe "Notes" do
     @driver.find_element(:css => "select.mixed-content-wrap-action").select_option("blockquote")
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').save()")
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
-    @driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq("<blockquote>ABC</blockquote>")
+    expect(@driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value")).to eq("<blockquote>ABC</blockquote>")
 
     # Save the resource
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
@@ -174,7 +174,7 @@ describe "Notes" do
 
     @driver.find_element(:css => '#resource_deaccessions_ .subrecord-form-heading .btn:not(.show-all)').click
 
-    @driver.find_element(:id => 'resource_deaccessions__0__date__label_').get_select_value.should eq("deaccession")
+    expect(@driver.find_element(:id => 'resource_deaccessions__0__date__label_').get_select_value).to eq("deaccession")
 
     @driver.clear_and_send_keys([:id, 'resource_deaccessions__0__description_'], "Lalala describing the deaccession")
     @driver.find_element(:css => "#resource_deaccessions__0__date__date_type_").select_option("single")
@@ -184,7 +184,7 @@ describe "Notes" do
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
     @driver.find_element(:link, 'Close Record').click
 
-    @driver.blocking_find_elements(:css => '#resource_deaccessions_').length.should eq(1)
+    expect(@driver.blocking_find_elements(:css => '#resource_deaccessions_').length).to eq(1)
   end
 
 
@@ -200,14 +200,14 @@ describe "Notes" do
     # note types should be rights note type only
     @driver.find_elements(:css => '#rights_statement_notes .top-level-note-type option').each_with_index do |option_element, i|
       if i == 0
-        option_element.attribute('value').should eq("")
+        expect(option_element.attribute('value')).to eq("")
       else
-        option_element.attribute('value').should eq("note_rights_statement")
+        expect(option_element.attribute('value')).to eq("note_rights_statement")
       end
     end
 
     @driver.find_element(:css, "#rights_statement_notes .top-level-note-type").select_option_with_text("Additional Information")
-    @driver.find_element(:id, "resource_rights_statements__0__notes__0__type_").get_select_value.should eq("additional_information")
+    expect(@driver.find_element(:id, "resource_rights_statements__0__notes__0__type_").get_select_value).to eq("additional_information")
 
     # add rights statement act
     @driver.find_element(:css => '#resource_rights_statements__0__acts_ .subrecord-form-heading button').click
@@ -218,44 +218,44 @@ describe "Notes" do
     # note types should be act note type only
     @driver.find_elements(:css => '#resource_rights_statements__0__acts_ .top-level-note-type option').each_with_index do |option_element, i|
       if i == 0
-        option_element.attribute('value').should eq("")
+        expect(option_element.attribute('value')).to eq("")
       else
-        option_element.attribute('value').should eq("note_rights_statement_act")
+        expect(option_element.attribute('value')).to eq("note_rights_statement_act")
       end
     end
 
     @driver.find_element(:css, "#resource_rights_statements__0__acts_ .top-level-note-type").select_option_with_text("Additional Information")
-    @driver.find_element(:id, "resource_rights_statements__0__acts__0__notes__0__type_").get_select_value.should eq("additional_information")
+    expect(@driver.find_element(:id, "resource_rights_statements__0__acts__0__notes__0__type_").get_select_value).to eq("additional_information")
 
     # Force a save
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
 
     # And check things again
-    @driver.find_element(:id, "resource_rights_statements__0__notes__0__type_").get_select_value.should eq("additional_information")
-    @driver.find_element(:id, "resource_rights_statements__0__acts__0__notes__0__type_").get_select_value.should eq("additional_information")
+    expect(@driver.find_element(:id, "resource_rights_statements__0__notes__0__type_").get_select_value).to eq("additional_information")
+    expect(@driver.find_element(:id, "resource_rights_statements__0__acts__0__notes__0__type_").get_select_value).to eq("additional_information")
 
     # Add a second note, are they cool?
     @driver.find_element(:css => '#rights_statement_notes .subrecord-form-heading .add-note').click
     @driver.find_elements(:css => '#rights_statement_notes .top-level-note-type option').each_with_index do |option_element, i|
       if i == 0
-        option_element.attribute('value').should eq("")
+        expect(option_element.attribute('value')).to eq("")
       else
-        option_element.attribute('value').should eq("note_rights_statement")
+        expect(option_element.attribute('value')).to eq("note_rights_statement")
       end
     end
     @driver.find_element(:css, "#rights_statement_notes .top-level-note-type").select_option_with_text("Additional Information")
-    @driver.find_element(:id, "resource_rights_statements__0__notes__2__type_").get_select_value.should eq("additional_information")
+    expect(@driver.find_element(:id, "resource_rights_statements__0__notes__2__type_").get_select_value).to eq("additional_information")
 
     @driver.find_element(:css => '#rights_statement_act_notes.initialised .add-note').click
     @driver.find_elements(:css => '#resource_rights_statements__0__acts_ .top-level-note-type option').each_with_index do |option_element, i|
       if i == 0
-        option_element.attribute('value').should eq("")
+        expect(option_element.attribute('value')).to eq("")
       else
-        option_element.attribute('value').should eq("note_rights_statement_act")
+        expect(option_element.attribute('value')).to eq("note_rights_statement_act")
       end
     end
     @driver.find_element(:css, "#resource_rights_statements__0__acts_ .top-level-note-type").select_option_with_text("Additional Information")
-    @driver.find_element(:id, "resource_rights_statements__0__acts__0__notes__2__type_").get_select_value.should eq("additional_information")
+    expect(@driver.find_element(:id, "resource_rights_statements__0__acts__0__notes__2__type_").get_select_value).to eq("additional_information")
 
 
     @driver.click_and_wait_until_gone(:css => '.btn.btn-cancel.btn-default')
@@ -302,7 +302,7 @@ describe "Notes" do
       add_note.call("note_multipart")
     end
 
-    @driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length.should eq(3)
+    expect(@driver.blocking_find_elements(:css => '#notes > .subrecord-form-container > .subrecord-form-list > li').length).to eq(3)
 
 
     @driver.click_and_wait_until_gone(:css => '.btn.btn-cancel.btn-default')
@@ -327,7 +327,7 @@ describe "Notes" do
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').save()")
 
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').toTextArea()")
-    @driver.find_element(:id => "digital_object_notes__0__content__0_").attribute("value").should eq("Summary content")
+    expect(@driver.find_element(:id => "digital_object_notes__0__content__0_").attribute("value")).to eq("Summary content")
 
     @driver.click_and_wait_until_gone(:css => "form#new_digital_object button[type='submit']")
   end

@@ -58,7 +58,7 @@ describe "Groups" do
     @driver.find_element(:css => "form#new_group button[type='submit']").click
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Group code - Property is required but was missing/)
-    }.to_not raise_error
+    }.not_to raise_error
     @driver.click_and_wait_until_gone(:link, "Cancel")
   end
 
@@ -71,7 +71,7 @@ describe "Groups" do
     @driver.click_and_wait_until_gone(:css => "form#new_group button[type='submit']")
     expect {
       @driver.find_element_with_text('//tr', /goo/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -81,7 +81,7 @@ describe "Groups" do
     @driver.find_element(:css => "form#new_group button[type='submit']").click
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Description - Property is required but was missing/)
-    }.to_not raise_error
+    }.not_to raise_error
     @driver.click_and_wait_until_gone(:link, "Cancel")
   end
 
@@ -94,13 +94,13 @@ describe "Groups" do
     @driver.click_and_wait_until_gone(:css => "form#new_group button[type='submit']")
     expect {
       @driver.find_element_with_text('//tr', /Group to gather goo/)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
   it "can get a list of usernames matching a string" do
     @driver.get(URI.join($frontend, "/users/complete?query=#{URI.escape(@user.username)}"))
-    @driver.page_source.should match(/#{@user.username}/)
+    expect(@driver.page_source).to match(/#{@user.username}/)
     @driver.get(URI.join($frontend))
   end
 
@@ -115,7 +115,7 @@ describe "Groups" do
     @driver.clear_and_send_keys([:id, 'user_password'], @user.password)
     @driver.click_and_wait_until_gone(:id, 'login')
 
-    assert(5) { @driver.find_element(:css => "span.user-label").text.should match(/#{@user.username}/) }
+    assert(5) { expect(@driver.find_element(:css => "span.user-label").text).to match(/#{@user.username}/) }
   end
 
 
@@ -123,7 +123,7 @@ describe "Groups" do
     @driver.select_repo(@repo_to_manage)
 
     # Wait until it's selected
-    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /#{@repo_to_manage.repo_code}/)   
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /#{@repo_to_manage.repo_code}/)
     @driver.find_element(:link, "Create")
   end
 
@@ -195,7 +195,7 @@ describe "Groups" do
       if admin_row
         expect {
           admin_row.find_element(:css, 'a.disabled')
-        }.to_not raise_error
+        }.not_to raise_error
         break
       end
     end

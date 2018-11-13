@@ -1,8 +1,8 @@
 <%= link_to_help :topic => "resource" %>
 
-<h3>
+<h2>
    <%= @form_title ? @form_title : @resource.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("resource._singular")}" : clean_mixed_content( @resource.title)  %>  <span class="label label-info"><%= I18n.t("resource._singular") %></span>
-</h3>
+</h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
@@ -13,10 +13,10 @@
   <% define_template("resource", jsonmodel_definition(:resource)) do |form| %>
 
   <section id="basic_information">
-    <h4>
+    <h3>
       <%= I18n.t("resource._frontend.section.basic_information") %>
       <%= link_to_help :topic => "resource_basic_information" %>
-    </h4>
+    </h3>
 
     <fieldset>
       <%= form.label_and_textarea "title" %>
@@ -35,10 +35,10 @@
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
   <section id="finding_aid" class="subrecord-form-dummy">
-    <h4>
+    <h3>
       <%= I18n.t("resource._frontend.section.finding_aid") %>
       <%= link_to_help :topic => "resource_finding_aid" %>
-    </h4>
+    </h3>
     <div class="subrecord-form-container">
       <div class="subrecord-form-fields">
         <fieldset>

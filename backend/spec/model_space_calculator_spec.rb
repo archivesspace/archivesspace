@@ -89,7 +89,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(bigbox_profile, [a_bigshelf])
     result = space_calculator.to_hash
 
-    result['locations_with_space'][0]['count'].should eq(21)
+    expect(result['locations_with_space'][0]['count']).to eq(21)
   end
 
 
@@ -97,7 +97,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(bigbox_profile, [a_bigshelf, another_bigshelf])
     result = space_calculator.to_hash
 
-    result['total_spaces_available'].should eq(42)
+    expect(result['total_spaces_available']).to eq(42)
   end
 
 
@@ -111,7 +111,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(bigbox_profile, [a_bigshelf, another_bigshelf])
     result = space_calculator.to_hash
 
-    result['total_containers_of_type'].should eq(4)
+    expect(result['total_containers_of_type']).to eq(4)
   end
 
 
@@ -136,7 +136,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(bigbox_profile, [a_smallshelf])
     result = space_calculator.to_hash
 
-    result['locations_without_space'].length.should eq(1)
+    expect(result['locations_without_space'].length).to eq(1)
   end
 
 
@@ -144,7 +144,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(bigbox_profile, [a_profilelessshelf])
     result = space_calculator.to_hash
 
-    result['uncalculatable_locations'].length.should eq(1)
+    expect(result['uncalculatable_locations'].length).to eq(1)
   end
 
 
@@ -152,7 +152,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(bigbox_profile, [an_uncertainshelf])
     result = space_calculator.to_hash
 
-    result['uncalculatable_locations'].length.should eq(1)
+    expect(result['uncalculatable_locations'].length).to eq(1)
   end
 
 
@@ -162,7 +162,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(bigbox_profile, [a_bigshelf])
     result = space_calculator.to_hash
 
-    result['uncalculatable_locations'].length.should eq(1)
+    expect(result['uncalculatable_locations'].length).to eq(1)
   end
 
 
@@ -172,7 +172,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(tinybox_profile, [a_smallshelf])
     result = space_calculator.to_hash
 
-    result['uncalculatable_locations'].length.should eq(1)
+    expect(result['uncalculatable_locations'].length).to eq(1)
   end
 
 
@@ -180,7 +180,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(bigbox_profile, [a_nounitshelf])
     result = space_calculator.to_hash
 
-    result['locations_with_space'][0]['count'].should eq(1)
+    expect(result['locations_with_space'][0]['count']).to eq(1)
   end
 
 
@@ -188,7 +188,7 @@ describe 'Space Calculator model' do
     space_calculator = SpaceCalculator.new(unstackablebox_profile, [a_bigshelf])
     result = space_calculator.to_hash
 
-    result['locations_with_space'][0]['count'].should eq(7)
+    expect(result['locations_with_space'][0]['count']).to eq(7)
 
   end
 

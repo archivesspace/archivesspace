@@ -18,29 +18,29 @@ describe 'Realtime indexing' do
     it "records updates" do
       updates = RealtimeIndexing.updates_since(0)
 
-      updates.count.should eq(2)
+      expect(updates.count).to eq(2)
 
-      updates[0][:uri].should eq(acc.uri)
-      updates[1][:uri].should eq(acc2.uri)
+      expect(updates[0][:uri]).to eq(acc.uri)
+      expect(updates[1][:uri]).to eq(acc2.uri)
     end
 
 
     it "gives out incrementing sequence numbers" do
       updates = RealtimeIndexing.updates_since(0)
-      updates[0][:sequence].should eq(updates[1][:sequence] - 1)
+      expect(updates[0][:sequence]).to eq(updates[1][:sequence] - 1)
     end
 
 
     it "skips over updates that the caller has seen already" do
       updates = RealtimeIndexing.updates_since(0)
 
-      RealtimeIndexing.updates_since(updates[1][:sequence]).count.should eq(0)
+      expect(RealtimeIndexing.updates_since(updates[1][:sequence]).count).to eq(0)
     end
 
 
     it "records millisecond timestamps for entries in the list" do
       updates = RealtimeIndexing.updates_since(0)
-      updates[0][:timestamp].should be < updates[1][:timestamp]
+      expect(updates[0][:timestamp]).to be < updates[1][:timestamp]
     end
 
   end
@@ -77,7 +77,7 @@ describe 'Realtime indexing' do
 
       threads.each {|thread| thread.join}
 
-      RealtimeIndexing.updates_since(0).count.should eq(thread_count * count)
+      expect(RealtimeIndexing.updates_since(0).count).to eq(thread_count * count)
     end
 
 
@@ -92,8 +92,8 @@ describe 'Realtime indexing' do
 
       result = waiter.join
 
-      result.value[0].should_not be(nil)
-      result.value[0][:uri].should eq(acc.uri)
+      expect(result.value[0]).not_to be_nil
+      expect(result.value[0][:uri]).to eq(acc.uri)
     end
 
   end

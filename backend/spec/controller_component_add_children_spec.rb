@@ -16,7 +16,7 @@ describe 'Component Add Children controllers' do
 
   def get_ao_tree(id)
     get "#{$repo}/archival_objects/#{id}/children"
-    last_response.should be_ok
+    expect(last_response).to be_ok
     JSON(last_response.body)
   end
 
@@ -25,16 +25,16 @@ describe 'Component Add Children controllers' do
     3.times { children << create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri}).uri  }
     response = JSONModel::HTTP::post_form("#{resource.uri}/accept_children", {"children[]" => children, "position" => 0})
     json_response = ASUtils.json_parse(response.body)
-    json_response["status"].should eq("Updated")
+    expect(json_response["status"]).to eq("Updated")
 
     tree = JSONModel(:resource_tree).find(nil, :resource_id => resource.id)
-    tree.children.length.should eq(4)
+    expect(tree.children.length).to eq(4)
 
-    # we've moved the children up a level to be with their original parent. 
-    children << ao.uri 
-    
+    # we've moved the children up a level to be with their original parent.
+    children << ao.uri
+
     tree.children.each_with_index do |child, i|
-      child["record_uri"].should eq children[i]
+      expect(child["record_uri"]).to eq children[i]
     end
 
   end
@@ -43,35 +43,35 @@ describe 'Component Add Children controllers' do
     children = []
     100.times { children << create(:json_archival_object, :resource => {:ref => resource.uri}, :parent => {:ref => ao.uri}).uri  }
 
-    tree = get_ao_tree(ao.id) 
-    tree.length.should eq(100)
+    tree = get_ao_tree(ao.id)
+    expect(tree.length).to eq(100)
 
     # let's delete a chunk
     victims = children.slice!(19..38)
     perform_delete(victims)
-    
-    tree = get_ao_tree(ao.id) 
-    tree.length.should eq(80)
-    
+
+    tree = get_ao_tree(ao.id)
+    expect(tree.length).to eq(80)
+
     tree.each_with_index do |child, i|
-      child["uri"].should eq(children[i])
+      expect(child["uri"]).to eq(children[i])
     end
 
     #now let's move some things around.
     movers = children.pop(10)
     the_move = JSONModel::HTTP::post_form("#{ao.uri}/accept_children", {"children[]" => movers, "position" => 20})
-    the_move.should be_ok 
+    expect(the_move).to be_ok
 
     # we've delete 20 ( from position 20) and moved 10 from the bottom to
     # postion 20
-    new_order = children.slice(0..19) + movers + children.drop(20) 
-    # let's check out tree 
-    
-    tree = get_ao_tree(ao.id) 
-    tree.length.should eq(80)
-    # check the new order 
+    new_order = children.slice(0..19) + movers + children.drop(20)
+    # let's check out tree
+
+    tree = get_ao_tree(ao.id)
+    expect(tree.length).to eq(80)
+    # check the new order
     tree.each_with_index do |child, i|
-      child["uri"].should eq(new_order[i])
+      expect(child["uri"]).to eq(new_order[i])
     end
 
     # one more time, but moving down the tree
@@ -81,16 +81,16 @@ describe 'Component Add Children controllers' do
     # take the first 10 and move them
     movers = children.shift(10)
     the_move = JSONModel::HTTP::post_form("#{ao.uri}/accept_children", {"children[]" => movers, "position" => 20})
-    the_move.should be_ok 
+    expect(the_move).to be_ok
 
     new_order = children.slice(0..19) + movers + children.drop(20)
-    
-    # let's check out tree again 
-    tree = get_ao_tree(ao.id) 
-    tree.length.should eq(80)
-    # check the new order 
+
+    # let's check out tree again
+    tree = get_ao_tree(ao.id)
+    expect(tree.length).to eq(80)
+    # check the new order
     tree.each_with_index do |child, i|
-      child["uri"].should eq(new_order[i])
+      expect(child["uri"]).to eq(new_order[i])
     end
 
   end
@@ -108,7 +108,7 @@ describe 'Component Add Children controllers' do
 
     response = JSONModel::HTTP::post_form("#{grandchild.uri}/accept_children", {"children[]" => [parent.uri], "position" => 0})
 
-    response.status.should eq(409)
+    expect(response.status).to eq(409)
   end
 
 

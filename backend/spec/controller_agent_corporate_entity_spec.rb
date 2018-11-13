@@ -12,7 +12,7 @@ describe 'Corporate entity agent controller' do
             :agent_contacts => [build(:json_agent_contact)]}
 
     ce = create_corporate_entity(opts)
-    JSONModel(:agent_corporate_entity).find(ce.id).names.first['primary_name'].should eq(opts[:names][0]['primary_name'])
+    expect(JSONModel(:agent_corporate_entity).find(ce.id).names.first['primary_name']).to eq(opts[:names][0]['primary_name'])
   end
 
 
@@ -27,7 +27,7 @@ describe 'Corporate entity agent controller' do
 
     corporate_entity.save
 
-    JSONModel(:agent_corporate_entity).find(id).agent_contacts[0]['name'].should eq(opts[:name])
+    expect(JSONModel(:agent_corporate_entity).find(id).agent_contacts[0]['name']).to eq(opts[:name])
   end
 
 
@@ -40,7 +40,7 @@ describe 'Corporate entity agent controller' do
       agent = create(:json_agent_corporate_entity,
                      :external_documents => [build(:json_external_document)])
 
-      agent.external_documents.length.should eq(1)
+      expect(agent.external_documents.length).to eq(1)
     end
   end
 
@@ -53,7 +53,7 @@ describe 'Corporate entity agent controller' do
     create_corporate_entity
 
     # There's a corporate entity created in the test setup too.
-    JSONModel(:agent_corporate_entity).all(:page => 1)['results'].count.should eq(count + 3)
+    expect(JSONModel(:agent_corporate_entity).all(:page => 1)['results'].count).to eq(count + 3)
   end
 
 
@@ -61,7 +61,7 @@ describe 'Corporate entity agent controller' do
     opts = {:names => [build(:json_name_corporate_entity, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
 
     id = create_corporate_entity(opts).id
-    JSONModel(:agent_corporate_entity).find(id).names.first['sort_name'].should eq(opts[:names][0]['sort_name'])
+    expect(JSONModel(:agent_corporate_entity).find(id).names.first['sort_name']).to eq(opts[:names][0]['sort_name'])
   end
 
 
@@ -70,12 +70,12 @@ describe 'Corporate entity agent controller' do
 
     agent = JSONModel(:agent_corporate_entity).find(id)
 
-    agent.names.first['sort_name'].should match(/\AArchivesSpace/)
+    expect(agent.names.first['sort_name']).to match(/\AArchivesSpace/)
 
     agent.names.first['qualifier'] = "Global"
     agent.save
 
-    JSONModel(:agent_corporate_entity).find(id).names.first['sort_name'].should match(/\AArchivesSpace.* \(Global\)/)
+    expect(JSONModel(:agent_corporate_entity).find(id).names.first['sort_name']).to match(/\AArchivesSpace.* \(Global\)/)
   end
 
 

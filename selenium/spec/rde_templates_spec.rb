@@ -47,7 +47,7 @@ describe "RDE Templates" do
 
     expect {
       @driver.find_element_with_text('//span', /MY TEMPLATE/)
-    }.to_not raise_error
+    }.not_to raise_error
 
   end
 
@@ -60,10 +60,10 @@ describe "RDE Templates" do
 
     @driver.find_element(:css => "button[data-id='rde_select_template']").click
     @driver.wait_for_ajax
-    
+
     @driver.find_element_with_text('//span', /#{template.name}/).click
 
-    @driver.find_element(:id => "archival_record_children_children__0__title_").attribute('value').should eq('XX')
+    expect(@driver.find_element(:id => "archival_record_children_children__0__title_").attribute('value')).to eq('XX')
   end
 
 
@@ -78,7 +78,7 @@ describe "RDE Templates" do
 
     expect {
       @driver.find_element_with_text('//span', /#{template.name}/)
-    }.to_not raise_error
+    }.not_to raise_error
 
     @driver.find_element(:css => "button.manage-templates").click
 
@@ -90,7 +90,7 @@ describe "RDE Templates" do
     @driver.wait_for_ajax
 
     assert(10) {
-      @driver.find_elements(:css => "select#rde_select_template option").map {|x| x.attribute("value") }.include?(template.id).should be_falsey
+      expect(@driver.find_elements(:css => "select#rde_select_template option").map {|x| x.attribute("value") }.include?(template.id)).to be_falsey
     }
 
   end

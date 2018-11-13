@@ -9,7 +9,7 @@ describe 'Record Suppression' do
     create(:user, :username => 'nobody')
 
     as_test_user('nobody') do
-      Accession.this_repo[accession.id].should eq(nil)
+      expect(Accession.this_repo[accession.id]).to be_nil
     end
   end
 
@@ -21,7 +21,7 @@ describe 'Record Suppression' do
     create(:user, :username => 'nobody')
 
     as_test_user('nobody') do
-      Resource.this_repo[resource.id].should eq(nil)
+      expect(Resource.this_repo[resource.id]).to be_nil
     end
   end
 
@@ -33,13 +33,13 @@ describe 'Record Suppression' do
     create_nobody_user
 
     as_test_user('nobody') do
-      Accession.this_repo[accession.id].should be(nil)
+      expect(Accession.this_repo[accession.id]).to be_nil
     end
 
     accession.set_suppressed(false)
 
     as_test_user('nobody') do
-      Accession.this_repo[accession.id].should_not be(nil)
+      expect(Accession.this_repo[accession.id]).not_to be_nil
     end
   end
 
@@ -51,7 +51,7 @@ describe 'Record Suppression' do
     create(:user, :username => 'nobody')
 
     as_test_user('nobody') do
-      ArchivalObject.this_repo[archival_object.id].should eq(nil)
+      expect(ArchivalObject.this_repo[archival_object.id]).to be_nil
     end
   end
 
@@ -67,7 +67,7 @@ describe 'Record Suppression' do
     accession.set_suppressed(true)
 
     as_test_user('nobody') do
-      Accession.this_repo.all.count.should eq(3)
+      expect(Accession.this_repo.all.count).to eq(3)
     end
   end
 
@@ -79,7 +79,7 @@ describe 'Record Suppression' do
     create(:user, :username => 'nobody')
 
     as_test_user('nobody') do
-      DigitalObject.this_repo[digital_object.id].should eq(nil)
+      expect(DigitalObject.this_repo[digital_object.id]).to be_nil
     end
   end
 
@@ -91,7 +91,7 @@ describe 'Record Suppression' do
     create(:user, :username => 'nobody')
 
     as_test_user('nobody') do
-      DigitalObjectComponent.this_repo[digital_object_component.id].should eq(nil)
+      expect(DigitalObjectComponent.this_repo[digital_object_component.id]).to be_nil
     end
   end
 
@@ -105,7 +105,7 @@ describe 'Record Suppression' do
     create(:user, :username => 'nobody')
 
     as_test_user('nobody') do
-      ArchivalObject.this_repo[archival_object.id].should eq(nil)
+      expect(ArchivalObject.this_repo[archival_object.id]).to be_nil
     end
   end
 
@@ -120,7 +120,7 @@ describe 'Record Suppression' do
     create(:user, :username => 'nobody')
 
     as_test_user('nobody') do
-      ArchivalObject.this_repo[archival_object_child.id].should eq(nil)
+      expect(ArchivalObject.this_repo[archival_object_child.id]).to be_nil
     end
   end
 
@@ -134,7 +134,7 @@ describe 'Record Suppression' do
     create(:user, :username => 'nobody')
 
     as_test_user('nobody') do
-      DigitalObjectComponent.this_repo[digital_object_component.id].should eq(nil)
+      expect(DigitalObjectComponent.this_repo[digital_object_component.id]).to be_nil
     end
   end
 
@@ -148,7 +148,7 @@ describe 'Record Suppression' do
     create(:user, :username => 'nobody')
 
     as_test_user('nobody') do
-      DigitalObjectComponent.this_repo[digital_object_component_child.id].should eq(nil)
+      expect(DigitalObjectComponent.this_repo[digital_object_component_child.id]).to be_nil
     end
   end
 
@@ -157,7 +157,7 @@ describe 'Record Suppression' do
     accession = create_accession
     accession.set_suppressed(true)
 
-    Accession.this_repo[accession.id].should_not be(nil)
+    expect(Accession.this_repo[accession.id]).not_to be_nil
   end
 
 
@@ -177,7 +177,7 @@ describe 'Record Suppression' do
     create_nobody_user
 
     as_test_user('nobody') do
-      Event.this_repo[event.id].should_not be(nil)
+      expect(Event.this_repo[event.id]).not_to be_nil
     end
 
     # Suppressing the accession suppresses the event too
@@ -185,7 +185,7 @@ describe 'Record Suppression' do
     test_accession.set_suppressed(true)
 
     as_test_user('nobody') do
-      Event.this_repo[event.id].should be(nil)
+      expect(Event.this_repo[event.id]).to be_nil
     end
 
 
@@ -194,9 +194,8 @@ describe 'Record Suppression' do
     test_accession.set_suppressed(false)
 
     as_test_user('nobody') do
-      Event.this_repo[event.id].should_not be(nil)
+      expect(Event.this_repo[event.id]).not_to be_nil
     end
   end
 
 end
-

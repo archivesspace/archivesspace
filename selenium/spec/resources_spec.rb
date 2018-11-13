@@ -36,7 +36,7 @@ describe "Resources and archival objects" do
     @driver.find_element(:link, "Resource").click
 
     # The relationship back to the original accession is prepopulated
-    @driver.find_element(:css => 'div.accession').text.should match(@accession.title)
+    expect(@driver.find_element(:css => 'div.accession').text).to match(@accession.title)
 
     @driver.complete_4part_id("resource_id_%d_")
     combo = @driver.find_element(:xpath => '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]');
@@ -48,7 +48,7 @@ describe "Resources and archival objects" do
     @driver.find_element(:id, "resource_level_").select_option("collection")
 
     # no collection managment
-    @driver.find_elements(:id, "resource_collection_management__cataloged_note_").length.should eq(0)
+    expect(@driver.find_elements(:id, "resource_collection_management__cataloged_note_").length).to eq(0)
 
     # condition and content descriptions have come across as notes fields
     notes_toggle = @driver.blocking_find_elements(:css => "#notes .collapse-subrecord-toggle")
@@ -57,11 +57,11 @@ describe "Resources and archival objects" do
 
     @driver.find_element_orig(:css, '#resource_notes__0__subnotes__0__content_').wait_for_class("initialised")
     @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
-    assert(5) { @driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value").should eq(@accession.content_description) }
+    assert(5) { expect(@driver.find_element(:id => "resource_notes__0__subnotes__0__content_").attribute("value")).to eq(@accession.content_description) }
 
     notes_toggle[1].click
 
-    @driver.find_element(:id => "resource_notes__1__content__0_").text.should match(@accession.condition_description)
+    expect(@driver.find_element(:id => "resource_notes__1__content__0_").text).to match(@accession.condition_description)
 
     @driver.find_element(:id => "resource_dates__0__date_type_").select_option("single")
     @driver.clear_and_send_keys([:id, "resource_dates__0__begin_"], "1978")
@@ -72,8 +72,8 @@ describe "Resources and archival objects" do
     @driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
 
     # Success!
-    @driver.find_element_with_text('//div', /Resource .* created/).should_not be_nil
-    @driver.find_element(:id, "resource_dates__0__begin_" ).attribute("value").should eq("1978")
+    expect(@driver.find_element_with_text('//div', /Resource .* created/)).not_to be_nil
+    expect(@driver.find_element(:id, "resource_dates__0__begin_" ).attribute("value")).to eq("1978")
   end
 
   it "reports errors and warnings when creating an invalid Resource" do
@@ -117,11 +117,11 @@ describe "Resources and archival objects" do
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
 
     # The new Resource shows up on the tree
-    assert(5) { 
+    assert(5) {
       sleep 2
-      tree_current.text.strip.should match(resource_regex)
+      expect(tree_current.text.strip).to match(resource_regex)
     }
-  
+
   end
 
 
@@ -130,18 +130,18 @@ describe "Resources and archival objects" do
 
     @driver.find_element(:id, "resource_title_")
     @driver.clear_and_send_keys([:id, "resource_title_"],"")
-    
+
     sleep(5)
     if  @driver.find_element(:css => "form#resource_form button[type='submit']").enabled?
-      $stderr.puts "Can't find the button" 
+      $stderr.puts "Can't find the button"
       sleep(5)
       @driver.find_elements(:css => "form#resource_form button[type='submit']")[1].click
     end
-    
-    
+
+
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
-    }.to_not raise_error
+    }.not_to raise_error
 
     @driver.click_and_wait_until_gone(:css, "a.btn.btn-cancel")
   end
@@ -219,7 +219,7 @@ describe "Resources and archival objects" do
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').save()")
 
     @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').toTextArea()")
-    @driver.find_element(:id => "digital_object_notes__0__content__0_").attribute("value").should eq("Summary content")
+    expect(@driver.find_element(:id => "digital_object_notes__0__content__0_").attribute("value")).to eq("Summary content")
 
     modal.find_element(:id, "createAndLinkButton").click
     @driver.click_and_wait_until_gone(:css => "form#resource_form button[type='submit']")
@@ -227,7 +227,7 @@ describe "Resources and archival objects" do
     @driver.find_element(:css, ".token-input-token .digital_object").click
 
     # so the subject is here now
-    assert(5) { @driver.find_element(:css, ".token-input-token .digital_object").text.should match(/digital_object_title/) }
+    assert(5) { expect(@driver.find_element(:css, ".token-input-token .digital_object").text).to match(/digital_object_title/) }
   end
 
 
@@ -259,7 +259,7 @@ describe "Resources and archival objects" do
     elements = tree_nodes_at_level(1).map{|li| li.text.strip}
 
     ["January", "February", "December"].each do |month|
-      elements.any? {|elt| elt =~ /#{month}/}.should be_truthy
+      expect(elements.any? {|elt| elt =~ /#{month}/}).to be_truthy
     end
 
     @driver.click_and_wait_until_gone(:css, "a.btn.btn-cancel")
@@ -294,7 +294,7 @@ describe "Resources and archival objects" do
 
     expect {
       @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
-    }.to_not raise_error
+    }.not_to raise_error
     tree_click(tree_node(@resource))
     @driver.click_and_wait_until_gone(:id, "dismissChangesButton")
   end
@@ -308,8 +308,8 @@ describe "Resources and archival objects" do
     @driver.clear_and_send_keys([:id, "archival_object_title_"], "save this please")
     @driver.find_element(:css => "form .record-pane button[type='submit']").click
     @driver.wait_for_ajax
-    assert(5) { @driver.find_element(:css, "h2").text.should eq("save this please Archival Object") }
-    assert(5) { @driver.find_element(:css => "div.alert.alert-success").text.should eq('Archival Object save this please updated') }
+    assert(5) { expect(@driver.find_element(:css, "h2").text).to eq("save this please Archival Object") }
+    assert(5) { expect(@driver.find_element(:css => "div.alert.alert-success").text).to eq('Archival Object save this please updated') }
     @driver.clear_and_send_keys([:id, "archival_object_title_"], @archival_object.title)
     @driver.click_and_wait_until_gone(:css => "form .record-pane button[type='submit']")
   end
@@ -346,7 +346,7 @@ describe "Resources and archival objects" do
     @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
 
     # so the subject is here now
-    assert(5) { @driver.find_element(:css, "#archival_object_subjects_ ul.token-input-list").text.should match(/#{$$}FooTerm456/) }
+    assert(5) { expect(@driver.find_element(:css, "#archival_object_subjects_ ul.token-input-list").text).to match(/#{$$}FooTerm456/) }
   end
 
 
@@ -356,7 +356,7 @@ describe "Resources and archival objects" do
 
     @driver.find_element(:link, 'Close Record').click
 
-    assert(5) { @driver.find_element(:css, ".record-pane h2").text.should eq("#{@archival_object.title} Archival Object") }
+    assert(5) { expect(@driver.find_element(:css, ".record-pane h2").text).to eq("#{@archival_object.title} Archival Object") }
   end
 
 
@@ -366,7 +366,7 @@ describe "Resources and archival objects" do
     @driver.find_element(:link, "Export").click
     response = @driver.find_element(:link, "Download EAD").click
     @driver.wait_for_ajax
-    assert(5) { Dir.glob(File.join( Dir.tmpdir,"*_ead.xml" )).length.should eq(1) }
+    assert(5) { expect(Dir.glob(File.join( Dir.tmpdir,"*_ead.xml" )).length).to eq(1) }
     system("rm -f #{File.join(Dir.tmpdir, '*_ead.xml')}")
   end
 
@@ -392,16 +392,16 @@ describe "Resources and archival objects" do
 
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
 
-    @driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/).should_not be_nil
+    expect(@driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/)).not_to be_nil
 
     @driver.find_element(:link, 'Close Record').click
 
     # it can see two Extents on the saved Resource
     extent_headings = @driver.blocking_find_elements(:css => '#resource_extents_ .panel-heading')
 
-    extent_headings.length.should eq (2)
-    assert(5) { extent_headings[0].text.should match (/^\d.*/) }
-    assert(5) { extent_headings[1].text.should match (/^\d.*/) }
+    expect(extent_headings.length).to eq (2)
+    assert(5) { expect(extent_headings[0].text).to match (/^\d.*/) }
+    assert(5) { expect(extent_headings[1].text).to match (/^\d.*/) }
 
     # it can remove an Extent when editing a Resource
     @driver.get("#{$frontend}#{@resource.uri.sub(/\/repositories\/\d+/, '')}/edit")
@@ -414,8 +414,8 @@ describe "Resources and archival objects" do
 
     extent_headings = @driver.blocking_find_elements(:css => '#resource_extents_ .panel-heading')
 
-    extent_headings.length.should eq (1)
-    assert(5) { extent_headings[0].text.should match (/^\d.*/) }
+    expect(extent_headings.length).to eq (1)
+    assert(5) { expect(extent_headings[0].text).to match (/^\d.*/) }
   end
 
   it "can have a lot of associated records that do not show in the field but are not lost" do
@@ -462,7 +462,7 @@ describe "Resources and archival objects" do
     @driver.find_element(:css => "form#resource_form button[type='submit']").click
 
     # no errors!
-    @driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/).should_not be_nil
+    expect(@driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/)).not_to be_nil
 
     # let's open all all the too-manys and make sure everything is still
     # there..
@@ -470,21 +470,18 @@ describe "Resources and archival objects" do
 
     [subjects, accessions, classifications, dos].each do |klass|
       klass.each do |a|
-        @driver.find_element(:id => a[:uri].gsub("/", "_" )).text.should match(/#{ a[:display_title] }/)
+        expect(@driver.find_element(:id => a[:uri].gsub("/", "_" )).text).to match(/#{ a[:display_title] }/)
       end
     end
 
     # agents are weird.
     linked_agents.each_with_index do |a, i|
-      assert(5) { @driver.find_element(:css => "#resource_linked_agents__#{i.to_s}__role_").get_select_value.should eq(a[:role]) }
+      assert(5) { expect(@driver.find_element(:css => "#resource_linked_agents__#{i.to_s}__role_").get_select_value).to eq(a[:role]) }
       if (a.has_key?(:title))
-        assert(5) { @driver.find_element(:css => "#resource_linked_agents__#{i.to_s}__title_").attribute('value').should eq(a[:title]) }
+        assert(5) { expect(@driver.find_element(:css => "#resource_linked_agents__#{i.to_s}__title_").attribute('value')).to eq(a[:title]) }
       end
-      # y this no work?
-      # @driver.find_element(:css, "input[name='resource\[linked_agents\]\[#{i.to_s}\]\[relator\]']" ).attribute("value").should eq(a[:relator])
-      # fu.
-      assert(5) { @driver.find_input_by_name("resource[linked_agents][#{i.to_s}][relator]" ).attribute('value').should eq(a[:relator]) }
-      assert(5) { @driver.find_element(:css => "#resource_linked_agents__#{i.to_s}_ .linker-wrapper .token-input-token").text.should match(/#{  agents[i][:primary_name] }/) }
+      assert(5) { expect(@driver.find_input_by_name("resource[linked_agents][#{i.to_s}][relator]" ).attribute('value')).to eq(a[:relator]) }
+      assert(5) { expect(@driver.find_element(:css => "#resource_linked_agents__#{i.to_s}_ .linker-wrapper .token-input-token").text).to match(/#{  agents[i][:primary_name] }/) }
     end
 
   end

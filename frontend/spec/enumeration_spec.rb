@@ -31,7 +31,7 @@ describe "Frontend enumerations" do
       I18n.t("enumeration_names.#{enum}") =~ /translation missing/
     }
 
-    missing_translations.should eq([])
+    expect(missing_translations).to eq([])
   end
 
 end

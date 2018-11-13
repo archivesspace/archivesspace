@@ -7,13 +7,13 @@ describe 'Accession controller' do
     opts = {:title => 'The accession title'}
 
     id = create(:json_accession, opts).id
-    JSONModel(:accession).find(id).title.should eq(opts[:title])
+    expect(JSONModel(:accession).find(id).title).to eq(opts[:title])
   end
 
 
   it "lets you list all accessions" do
     create(:json_accession)
-    JSONModel(:accession).all(:page => 1)['results'].count.should eq(1)
+    expect(JSONModel(:accession).all(:page => 1)['results'].count).to eq(1)
   end
 
 
@@ -34,7 +34,7 @@ describe 'Accession controller' do
       acc = JSONModel(:accession).from_hash("id_0" => "abcdef")
     rescue JSONModel::ValidationException => e
       errors = ["accession_date"]
-      (e.errors.keys.sort.should eq(errors.sort))
+      (expect(e.errors.keys.sort).to eq(errors.sort))
     end
 
     JSONModel::strict_mode(true)
@@ -47,13 +47,13 @@ describe 'Accession controller' do
     acc.id_1 = "5678"
     acc.save
 
-    JSONModel(:accession).find(acc.id).id_1.should eq("5678")
+    expect(JSONModel(:accession).find(acc.id).id_1).to eq("5678")
   end
 
 
   it "knows its own URI" do
     acc = create(:json_accession)
-    JSONModel(:accession).find(acc.id).uri.should eq("#{$repo}/accessions/#{acc.id}")
+    expect(JSONModel(:accession).find(acc.id).uri).to eq("#{$repo}/accessions/#{acc.id}")
   end
 
 
@@ -91,8 +91,8 @@ describe 'Accession controller' do
                                               "start_date" => "1999-01-01",
                                             }
                                           ]).save
-    JSONModel(:accession).find(acc).rights_statements.length.should eq(1)
-    JSONModel(:accession).find(acc).rights_statements[0]["identifier"].should eq("abc123")
+    expect(JSONModel(:accession).find(acc).rights_statements.length).to eq(1)
+    expect(JSONModel(:accession).find(acc).rights_statements[0]["identifier"]).to eq("abc123")
   end
 
 
@@ -113,18 +113,18 @@ describe 'Accession controller' do
                                                           },
                                             }
                                           ]).save
-    JSONModel(:accession).find(acc).deaccessions.length.should eq(1)
-    JSONModel(:accession).find(acc).deaccessions[0]["scope"].should eq("whole")
-    JSONModel(:accession).find(acc).deaccessions[0]["date"]["begin"].should eq("2012-05-14")
+    expect(JSONModel(:accession).find(acc).deaccessions.length).to eq(1)
+    expect(JSONModel(:accession).find(acc).deaccessions[0]["scope"]).to eq("whole")
+    expect(JSONModel(:accession).find(acc).deaccessions[0]["date"]["begin"]).to eq("2012-05-14")
   end
 
 
   it "doesn't show accessions for other repositories when listing " do
     create(:json_accession)
-    JSONModel(:accession).all(:page => 1)['results'].count.should eq(1)
+    expect(JSONModel(:accession).all(:page => 1)['results'].count).to eq(1)
 
     create(:repo)
-    JSONModel(:accession).all(:page => 1)['results'].count.should eq(0)
+    expect(JSONModel(:accession).all(:page => 1)['results'].count).to eq(0)
   end
 
 
@@ -134,11 +134,11 @@ describe 'Accession controller' do
     page1_ids = JSONModel(:accession).all(:page => 1, :page_size => 5)['results'].map {|obj| obj.id}
     page2_ids = JSONModel(:accession).all(:page => 2, :page_size => 5)['results'].map {|obj| obj.id}
 
-    page1_ids.length.should eq(5)
-    page2_ids.length.should eq(5)
+    expect(page1_ids.length).to eq(5)
+    expect(page2_ids.length).to eq(5)
 
     # No overlaps between the contents of our two pages
-    (page1_ids - page2_ids).length.should eq(5)
+    expect((page1_ids - page2_ids).length).to eq(5)
   end
 
 
@@ -148,11 +148,11 @@ describe 'Accession controller' do
     sleep 1
     ts = Time.now.to_i
 
-    JSONModel(:accession).all(:page => 1, :modified_since => ts)['results'].count.should eq(0)
+    expect(JSONModel(:accession).all(:page => 1, :modified_since => ts)['results'].count).to eq(0)
 
     test_accession.save
 
-    JSONModel(:accession).all(:page => 1, :modified_since => ts)['results'].count.should eq(1)
+    expect(JSONModel(:accession).all(:page => 1, :modified_since => ts)['results'].count).to eq(1)
   end
 
 
@@ -178,11 +178,11 @@ describe 'Accession controller' do
 
     acc = JSONModel(:accession).find(accession.id)
 
-    acc.linked_agents.length.should eq(2)
-    acc.linked_agents[0]['ref'].should eq(agent1.uri)
-    acc.linked_agents[1]['ref'].should eq(agent2.uri)
+    expect(acc.linked_agents.length).to eq(2)
+    expect(acc.linked_agents[0]['ref']).to eq(agent1.uri)
+    expect(acc.linked_agents[1]['ref']).to eq(agent2.uri)
 
-    acc.linked_agents[0]['title'].should eq('the title')
+    expect(acc.linked_agents[0]['title']).to eq('the title')
   end
 
 
@@ -193,7 +193,7 @@ describe 'Accession controller' do
                                            'external_id' => '12345'
                                          }])
 
-    JSONModel(:accession).find(accession.id).external_ids[0]['source'].should eq('brain')
+    expect(JSONModel(:accession).find(accession.id).external_ids[0]['source']).to eq('brain')
   end
 
 
@@ -220,8 +220,8 @@ describe 'Accession controller' do
     }.to raise_error(RecordNotFound)
 
     resource = JSONModel(:resource).find(resource.id)
-    resource.should_not eq(nil)
-    resource.related_accessions.count.should be(0)
+    expect(resource).not_to be_nil
+    expect(resource.related_accessions.count).to be(0)
   end
 
 

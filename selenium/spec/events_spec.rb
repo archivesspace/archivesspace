@@ -60,7 +60,7 @@ describe "Events" do
 
     # Success!
     assert(5) {
-      @driver.find_element_with_text('//div', /Event Created/).should_not be_nil
+      expect(@driver.find_element_with_text('//div', /Event Created/)).not_to be_nil
     }
     run_all_indexers
 
@@ -86,27 +86,27 @@ describe "Events" do
 
     @driver.find_element(:id, "event_date__date_type_").select_option("single")
     @driver.clear_and_send_keys([:id, "event_date__begin_"], ["2000-01-01", :tab])
-    
+
 
     agent_subform = @driver.find_element(:id, "event_linked_agents__0__role_").
       nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
-    
+
     @driver.find_element(:id, "event_linked_agents__0__role_").select_option('recipient')
     token_input = agent_subform.find_element(:id, "token-input-event_linked_agents__0__ref_")
-    @driver.typeahead_and_select( token_input, "Geddy" )   
+    @driver.typeahead_and_select( token_input, "Geddy" )
 
     @driver.find_element(:id, "event_linked_records__0__role_").select_option('source')
 
     record_subform = @driver.find_element(:id, "event_linked_records__0__role_").
         nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
     token_input = record_subform.find_element(:id, "token-input-event_linked_records__0__ref_")
-    @driver.typeahead_and_select( token_input, @accession.title )   
+    @driver.typeahead_and_select( token_input, @accession.title )
 
     @driver.find_element(:css => "form#new_event button[type='submit']").click
 
     # Success!
     assert(5) {
-      @driver.find_element_with_text('//div', /Event Created/).should_not be_nil
+      expect(@driver.find_element_with_text('//div', /Event Created/)).not_to be_nil
     }
   end
 
@@ -119,7 +119,7 @@ describe "Events" do
 
     # check external documents
     external_document_sections = @driver.blocking_find_elements(:css => '#event_external_documents_ .subrecord-form-wrapper')
-    external_document_sections.length.should eq (1)
+    expect(external_document_sections.length).to eq (1)
     external_document_sections[0].find_element(:link => "http://archivesspace.org")
   end
 
@@ -128,7 +128,7 @@ describe "Events" do
     run_index_round
     @driver.find_element(:id, 'global-search-button').click
     @driver.find_element(:link, "Event").click
-    assert(5) { @driver.find_element_with_text("//h2", /Search Results/) }
+    assert(5) { @driver.find_element_with_text("//h3", /Search Results/) }
   end
 
 end

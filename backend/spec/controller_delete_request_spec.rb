@@ -22,7 +22,7 @@ describe 'Delete request controller' do
     url = URI("#{JSONModel::HTTP.backend_url}#{uri}")
 
     response = perform_delete([record_1.uri, record_2.uri, record_3.uri, record_4.uri, record_5.uri])
-    response.code.should eq('200')
+    expect(response.code).to eq('200')
 
     expect {
       JSONModel(:resource).find(record_1.id)
@@ -51,11 +51,11 @@ describe 'Delete request controller' do
 
     response = perform_delete([a_404_uri])
 
-    response.code.should eq('403')
+    expect(response.code).to eq('403')
 
     response_json = ASUtils.json_parse(response.body)
 
-    response_json["error"]["failures"][0]["uri"].should eq(a_404_uri)
+    expect(response_json["error"]["failures"][0]["uri"]).to eq(a_404_uri)
   end
 
 end

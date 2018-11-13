@@ -21,7 +21,7 @@ describe 'Record transfers' do
     RequestContext.open(:repo_id => @target_repo.id) do
       json = Accession.to_jsonmodel(acc_id)
 
-      JSONModel.parse_reference(json['uri'])[:repository].should eq(@target_repo.uri)
+      expect(JSONModel.parse_reference(json['uri'])[:repository]).to eq(@target_repo.uri)
     end
 
   end
@@ -38,7 +38,7 @@ describe 'Record transfers' do
     RequestContext.open(:repo_id => @target_repo.id) do
       json = Accession.to_jsonmodel(acc_id)
 
-      json['subjects'][0]['ref'].should eq(subject.uri)
+      expect(json['subjects'][0]['ref']).to eq(subject.uri)
     end
   end
 
@@ -54,7 +54,7 @@ describe 'Record transfers' do
     RequestContext.open(:repo_id => @target_repo.id) do
       json = Accession.to_jsonmodel(acc_id)
 
-      json['related_resources'].should eq([])
+      expect(json['related_resources']).to eq([])
     end
   end
 
@@ -67,7 +67,7 @@ describe 'Record transfers' do
 
     acc.transfer_to_repository(@target_repo)
 
-    Tombstone.filter(:uri => old_uri).count.should eq(1)
+    expect(Tombstone.filter(:uri => old_uri).count).to eq(1)
   end
 
 
@@ -97,7 +97,7 @@ describe 'Record transfers' do
     acc.transfer_to_repository(@target_repo)
 
     RequestContext.open(:repo_id => @target_repo.id) do
-      JSONModel.parse_reference(Event.to_jsonmodel(event.id).uri)[:repository].should eq(@target_repo.uri)
+      expect(JSONModel.parse_reference(Event.to_jsonmodel(event.id).uri)[:repository]).to eq(@target_repo.uri)
     end
   end
 
@@ -119,14 +119,14 @@ describe 'Record transfers' do
 
     # The original event now has a single linked record
     original_event = Event.to_jsonmodel(event.id)
-    original_event['linked_records'].length.should eq(1)
-    original_event['linked_records'][0]['ref'].should eq(unrelated_accession.uri)
+    expect(original_event['linked_records'].length).to eq(1)
+    expect(original_event['linked_records'][0]['ref']).to eq(unrelated_accession.uri)
 
     # And there's a parallel event in the target repository that cloned the
     # original event.
-    Event.any_repo.all.any? {|e|
+    expect(Event.any_repo.all.any? {|e|
       (e.repo_id == @target_repo.id) && (e.outcome_note == "a test outcome note")
-    }.should be(true)
+    }).to be_truthy
   end
 
 
@@ -148,8 +148,8 @@ describe 'Record transfers' do
     RequestContext.open(:repo_id => @target_repo.id) do
       tree = Resource[resource.id].tree
 
-      tree['children'][0]['title'].should eq('hello')
-      tree['children'][0]['children'][0]['title'].should eq('world')
+      expect(tree['children'][0]['title']).to eq('hello')
+      expect(tree['children'][0]['children'][0]['title']).to eq('world')
     end
   end
 
@@ -172,21 +172,21 @@ describe 'Record transfers' do
 
     RequestContext.open(:repo_id => @target_repo.id) do
       instances = ArchivalObject.to_jsonmodel(ao1.id)["instances"]
-      instances.length.should eq(2)
+      expect(instances.length).to eq(2)
 
       moved_box1 = TopContainer.this_repo[:barcode => 'box1_barcode']
       moved_box2 = TopContainer.this_repo[:barcode => 'box2_barcode']
 
       # They have indeed moved
-      moved_box1.repo_id.should eq(@target_repo.id)
-      moved_box2.repo_id.should eq(@target_repo.id)
+      expect(moved_box1.repo_id).to eq(@target_repo.id)
+      expect(moved_box2.repo_id).to eq(@target_repo.id)
 
       # And they have the same ID as the original box
-      moved_box1.id.should eq(box1.id)
-      moved_box2.id.should eq(box2.id)
+      expect(moved_box1.id).to eq(box1.id)
+      expect(moved_box2.id).to eq(box2.id)
 
-      instances.map {|instance| instance['sub_container']['top_container']['ref']}.should include(moved_box1.uri)
-      instances.map {|instance| instance['sub_container']['top_container']['ref']}.should include(moved_box2.uri)
+      expect(instances.map {|instance| instance['sub_container']['top_container']['ref']}).to include(moved_box1.uri)
+      expect(instances.map {|instance| instance['sub_container']['top_container']['ref']}).to include(moved_box2.uri)
     end
   end
 
@@ -217,12 +217,12 @@ describe 'Record transfers' do
     Resource[resource.id].transfer_to_repository(@target_repo)
 
     # The unrelated accession and resource should not have changed...
-    Accession.to_jsonmodel(acc.id)["instances"].length.should eq(2)
-    Resource.to_jsonmodel(unrelated_resource.id)["instances"].length.should eq(2)
+    expect(Accession.to_jsonmodel(acc.id)["instances"].length).to eq(2)
+    expect(Resource.to_jsonmodel(unrelated_resource.id)["instances"].length).to eq(2)
 
     # and the original top containers are still intact
-    TopContainer[box1.id].should_not be_nil
-    TopContainer[box2.id].should_not be_nil
+    expect(TopContainer[box1.id]).not_to be_nil
+    expect(TopContainer[box2.id]).not_to be_nil
 
     # In the target repository, the instances have been moved over and point to
     # cloned versions of the top containers
@@ -231,10 +231,10 @@ describe 'Record transfers' do
       box1_clone = TopContainer.this_repo[:barcode => 'box1_barcode'].uri
       box2_clone = TopContainer.this_repo[:barcode => 'box2_barcode'].uri
 
-      instances.length.should eq(2)
+      expect(instances.length).to eq(2)
 
-      instances.map {|instance| instance['sub_container']['top_container']['ref']}.should include(box1_clone)
-      instances.map {|instance| instance['sub_container']['top_container']['ref']}.should include(box2_clone)
+      expect(instances.map {|instance| instance['sub_container']['top_container']['ref']}).to include(box1_clone)
+      expect(instances.map {|instance| instance['sub_container']['top_container']['ref']}).to include(box2_clone)
     end
   end
 
@@ -263,9 +263,9 @@ describe 'Record transfers' do
       moved_digital_object = DigitalObject.this_repo[digital_object.id]
 
       instances = ArchivalObject.to_jsonmodel(ao.id)["instances"]
-      instances.length.should eq(1)
+      expect(instances.length).to eq(1)
 
-      instances[0]['digital_object']['ref'].should eq moved_digital_object.uri
+      expect(instances[0]['digital_object']['ref']).to eq moved_digital_object.uri
     end
   end
 
@@ -295,8 +295,8 @@ describe 'Record transfers' do
       error = $!
     end
 
-    error.should_not be(nil)
-    error.conflicts[unrelated_accession.uri][:message].should eq('DIGITAL_OBJECT_IN_USE')
+    expect(error).not_to be_nil
+    expect(error.conflicts[unrelated_accession.uri][:message]).to eq('DIGITAL_OBJECT_IN_USE')
   end
 
   it "allows a digital object to be transferred from one repository to another" do
@@ -317,8 +317,8 @@ describe 'Record transfers' do
     RequestContext.open(:repo_id => @target_repo.id) do
       tree = DigitalObject[digital_object.id].tree
 
-      tree['children'][0]['title'].should eq('hello')
-      tree['children'][0]['children'][0]['title'].should eq('world')
+      expect(tree['children'][0]['title']).to eq('hello')
+      expect(tree['children'][0]['children'][0]['title']).to eq('world')
     end
   end
 
@@ -340,7 +340,7 @@ describe 'Record transfers' do
     # Would previously raise NotFoundException: TopContainer not found
     expect {
       Resource[resource.id].transfer_to_repository(@target_repo)
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
   it "reports an error if a barcode conflict would stop a top container from being transferred" do
@@ -401,11 +401,11 @@ describe 'Record transfers' do
       Resource[resource.id].transfer_to_repository(@target_repo)
 
       # This record is gone from the original repository
-      Assessment.any_repo.filter(:id => assessment.id, :repo_id => $repo_id).count.should eq(0)
+      expect(Assessment.any_repo.filter(:id => assessment.id, :repo_id => $repo_id).count).to eq(0)
 
       # But is now present in the new one
       RequestContext.open(:repo_id => @target_repo.id) do
-        expect { Assessment[assessment.id] }.to_not raise_error
+        expect { Assessment[assessment.id] }.not_to raise_error
       end
     end
 
@@ -439,20 +439,20 @@ describe 'Record transfers' do
     end
 
     def ensure_test_attributes_are_present(assessment_json)
-      assessment_json.formats.find {|a|
+      expect(assessment_json.formats.find {|a|
         a['label'] == 'A Test Format' &&
           a['value'] == '3' &&
-          a['note'] == 'test note' }.should_not be_nil
+          a['note'] == 'test note' }).not_to be_nil
 
-      assessment_json.conservation_issues.find {|a|
+      expect(assessment_json.conservation_issues.find {|a|
         a['label'] == 'A Test Conservation Issue' &&
           a['value'] == '3' &&
-          a['note'] == 'test note' }.should_not be_nil
+          a['note'] == 'test note' }).not_to be_nil
 
-      assessment_json.ratings.find {|a|
+      expect(assessment_json.ratings.find {|a|
         a['label'] == 'A Test Rating' &&
           a['value'] == '3' &&
-          a['note'] == 'test note' }.should_not be_nil
+          a['note'] == 'test note' }).not_to be_nil
     end
 
     it "attempts to preserve repository-specific attributes when transferring an assessment" do
@@ -489,12 +489,12 @@ describe 'Record transfers' do
       Resource[resource.id].transfer_to_repository(@target_repo)
 
       # This record is still present in the original repository
-      Assessment.any_repo.filter(:id => assessment.id, :repo_id => $repo_id).count.should eq(1)
+      expect(Assessment.any_repo.filter(:id => assessment.id, :repo_id => $repo_id).count).to eq(1)
 
       # But the target repository also contains an assessment that links to our transferred record
       RequestContext.open(:repo_id => @target_repo.id) do
         new_assessment = Assessment.find_relationship(:assessment).who_participates_with(Resource[resource.id]).first
-        new_assessment.should_not be_nil
+        expect(new_assessment).not_to be_nil
       end
     end
 

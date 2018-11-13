@@ -6,7 +6,7 @@ describe 'Managed Container Profile model' do
   it "can be created from a JSON module" do
     cp = ContainerProfile.create_from_json(build(:json_container_profile, :name => "Big black bag"))
 
-    ContainerProfile[cp[:id]].name.should eq("Big black bag")
+    expect(ContainerProfile[cp[:id]].name).to eq("Big black bag")
   end
 
 
@@ -26,7 +26,7 @@ describe 'Managed Container Profile model' do
 
     ContainerProfile[container_profile.id].delete
 
-    TopContainer.to_jsonmodel(box.id)['container_profile'].should be_nil
+    expect(TopContainer.to_jsonmodel(box.id)['container_profile']).to be_nil
   end
 
 
@@ -61,7 +61,7 @@ describe 'Managed Container Profile model' do
 
     cp = ContainerProfile[jcp.id]
 
-    cp.display_string.should eq("Manuscript [8d, 13h, 5.5w inches] extent measured by width")
+    expect(cp.display_string).to eq("Manuscript [8d, 13h, 5.5w inches] extent measured by width")
   end
 
 end

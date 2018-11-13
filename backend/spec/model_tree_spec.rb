@@ -58,7 +58,7 @@ describe 'Tree mixins' do
       series_2_child_2.uri,
     ]
 
-    Resource[resource.id].ordered_records.map {|r| r['ref']}.should eq(ordered_uris)
+    expect(Resource[resource.id].ordered_records.map {|r| r['ref']}).to eq(ordered_uris)
   end
 
   it "excludes unpublished records" do
@@ -72,7 +72,7 @@ describe 'Tree mixins' do
       series_2_child_2.uri,
     ]
 
-    Resource[resource.id].ordered_records.map {|r| r['ref']}.should eq(ordered_uris)
+    expect(Resource[resource.id].ordered_records.map {|r| r['ref']}).to eq(ordered_uris)
   end
 
   it "excludes suppressed records" do
@@ -85,26 +85,26 @@ describe 'Tree mixins' do
       series_2_child_2.uri,
     ]
 
-    Resource[resource.id].ordered_records.map {|r| r['ref']}.should eq(ordered_uris)
+    expect(Resource[resource.id].ordered_records.map {|r| r['ref']}).to eq(ordered_uris)
   end
 
   it "excludes unpublished root records" do
     resource.publish = false
     resource.save
 
-    Resource[resource.id].ordered_records.should eq([])
+    expect(Resource[resource.id].ordered_records).to eq([])
   end
 
   it "excludes suppressed root records" do
     resource.suppress
 
-    Resource[resource.id].ordered_records.should eq([])
+    expect(Resource[resource.id].ordered_records).to eq([])
   end
 
 
   it "knows if the top record has children" do
-    Resource[resource.id].children?.should be true
-    Resource[create(:json_resource).id].children?.should be false
+    expect(Resource[resource.id].children?).to be_truthy
+    expect(Resource[create(:json_resource).id].children?).to be_falsey
   end
 
 end

@@ -99,7 +99,7 @@ module ApplicationHelper
     popover_template = "<div class='popover token-popover'><div class='arrow'></div><div class='popover-inner'><div class='popover-content'><p></p></div></div></div>"
 
     html = "<div class='"
-    html += "token " if not opts[:inside_token_editor] 
+    html += "token " if not opts[:inside_token_editor]
     html += "#{opts[:type]} has-popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover)}\" data-template=\"#{popover_template}\" tabindex='1'>"
     html += "<span class='icon-token'></span>"
     html += opts[:label]
@@ -118,10 +118,10 @@ module ApplicationHelper
     title = (opts.has_key? :topic) ? I18n.t("help.topics.#{opts[:topic]}", :default => I18n.t("help.default_tooltip", :default => "")) : I18n.t("help.default_tooltip", :default => "")
 
     link_to(
-            label.html_safe, 
-            href, 
+            label.html_safe,
+            href,
             {
-              :target => "_blank", 
+              :target => "_blank",
               :title => title,
               :class => "context-help has-tooltip",
               "data-placement" => "left",
@@ -226,11 +226,11 @@ module ApplicationHelper
       :disabled => "disabled"
     })
   end
-  
+
   def button_edit_multiple_action(target_controller, target_action = :batch, opts = {} )
-    label = opts[:label] || I18n.t("actions.edit_batch") 
-    btn_opts = { 
-      :"data-target" => url_for(:controller => target_controller, :action => target_action), 
+    label = opts[:label] || I18n.t("actions.edit_batch")
+    btn_opts = {
+      :"data-target" => url_for(:controller => target_controller, :action => target_action),
       :class => "btn btn-sm btn-default multiselect-enabled edit-batch",
       :method => "post",
       :type => "button",
@@ -252,9 +252,13 @@ module ApplicationHelper
     if hash['create_time'] and hash['user_mtime']
       if fmt == 'wide'
         html << "<strong>#{I18n.t("search_results.created")} #{hash['created_by']}</strong>"
-        html << " #{Time.parse(hash['create_time']).getlocal}, "
+        html << " #{Time.parse(hash['create_time']).getlocal}"
+        html << ' | '
         html << "<strong>#{I18n.t("search_results.modified")} #{hash['last_modified_by']}</strong>"
         html << " #{Time.parse(hash['user_mtime']).getlocal}"
+        html << ' | '
+        html << "<strong>URI:</strong> "
+        html << hash['uri']
       else
         html << "<dl>"
         html << "<dt>#{I18n.t("search_results.created")} #{hash['created_by']}</dt>"
@@ -282,10 +286,10 @@ module ApplicationHelper
     defaults = {:formats => [:html], :handlers => [:erb]}
     return render(defaults.merge(args))
   end
-  
+
   def clean_mixed_content(content)
     content = content.to_s
-    return content if content.blank? 
+    return content if content.blank?
     MixedContentParser::parse(content, url_for(:root), { :wrap_blocks => false } ).to_s.html_safe
   end
 
@@ -295,9 +299,9 @@ module ApplicationHelper
 
   def add_new_event_url(record)
     if record.jsonmodel_type == "agent"
-      url_for(:controller => :events, :action => :new, :agent_uri => record.uri,  :event_type => "${event_type") 
+      url_for(:controller => :events, :action => :new, :agent_uri => record.uri,  :event_type => "${event_type")
     else
-      url_for(:controller => :events, :action => :new, :record_uri => record.uri, :record_type => record.jsonmodel_type, :event_type => "${event_type}") 
+      url_for(:controller => :events, :action => :new, :record_uri => record.uri, :record_type => record.jsonmodel_type, :event_type => "${event_type}")
     end
   end
 
@@ -306,32 +310,32 @@ module ApplicationHelper
   end
 
   def export_csv(search_data)
-    results = search_data["results"] 
-    
+    results = search_data["results"]
+
     headers = results.inject([]) { |h, r| h | r.keys }
     headers.delete("json")
-   
+
     CSV.generate do |csv|
       csv << headers
       results.each do |result|
-        data = [] 
+        data = []
         headers.each do |h|
           unless result.include?(h)
-            data << nil 
+            data << nil
             next
           end
           v = result[h]
-          v = v.join(";") if v.is_a?(Array) 
-          v = v.to_s 
+          v = v.join(";") if v.is_a?(Array)
+          v = v.to_s
           v.gsub!('\"', '""')
           v.delete!("\n")
           v.delete!(",")
           data << v
         end
-        csv << data 
+        csv << data
       end
     end
-  
+
   end
 
   # Merge new_params into params and generate a link.

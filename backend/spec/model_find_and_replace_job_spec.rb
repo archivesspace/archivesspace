@@ -35,9 +35,9 @@ describe 'Find and Replace job model' do
                                :repo_id => $repo_id,
                                :user => user)
 
-    job.should_not be(nil)
-    job.job_type.should eq('find_and_replace_job')
-    job.owner.username.should eq('nobody')
+    expect(job).not_to be_nil
+    expect(job.job_type).to eq('find_and_replace_job')
+    expect(job.owner.username).to eq('nobody')
   end
 
 
@@ -73,13 +73,13 @@ describe 'Find and Replace job model' do
     job_runner = JobRunner.for(job)
     job_runner.run
 
-    Resource.to_jsonmodel(resource1.id).extents[0]['container_summary'].should eq('a box of bars')
-    Resource.to_jsonmodel(resource2.id).extents[0]['container_summary'].should eq('a box of foos')
-    ArchivalObject.to_jsonmodel(component1.id).extents[0]['container_summary'].should eq('a box of bars')
-    ArchivalObject.to_jsonmodel(component2.id).extents[0]['container_summary'].should be_nil
+    expect(Resource.to_jsonmodel(resource1.id).extents[0]['container_summary']).to eq('a box of bars')
+    expect(Resource.to_jsonmodel(resource2.id).extents[0]['container_summary']).to eq('a box of foos')
+    expect(ArchivalObject.to_jsonmodel(component1.id).extents[0]['container_summary']).to eq('a box of bars')
+    expect(ArchivalObject.to_jsonmodel(component2.id).extents[0]['container_summary']).to be_nil
 
-    Resource.to_jsonmodel(resource1.id).extents[0]['last_modified_by'].should eq('nobody')
-    Resource.to_jsonmodel(resource2.id).extents[0]['last_modified_by'].should eq('admin')
+    expect(Resource.to_jsonmodel(resource1.id).extents[0]['last_modified_by']).to eq('nobody')
+    expect(Resource.to_jsonmodel(resource2.id).extents[0]['last_modified_by']).to eq('admin')
 
   end
 end

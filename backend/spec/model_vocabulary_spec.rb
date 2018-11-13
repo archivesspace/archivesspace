@@ -10,12 +10,12 @@ describe 'Vocabulary model' do
                                                          "ref_id" => "123"
                                                        }))
 
-    Vocabulary[vocabulary[:id]].name.should eq("ABC")
+    expect(Vocabulary[vocabulary[:id]].name).to eq("ABC")
   end
 
 
   it "Enforces name uniqueness" do
-    lambda {
+    expect(lambda {
       2.times do
         Vocabulary.create_from_json(JSONModel(:vocabulary).
                                     from_hash({
@@ -23,11 +23,11 @@ describe 'Vocabulary model' do
                                                 "ref_id" => "#{(0...4).map{ ('a'..'z').to_a[rand(26)] }.join}"
                                               }))
       end
-    }.should raise_error(Sequel::DatabaseError)
+    }).to raise_error(Sequel::DatabaseError)
   end
 
   it "Enforces ref_id uniqueness" do
-    lambda {
+    expect(lambda {
       2.times do
         Vocabulary.create_from_json(JSONModel(:vocabulary).
                                     from_hash({
@@ -35,7 +35,7 @@ describe 'Vocabulary model' do
                                                 "ref_id" => "aabb"
                                               }))
       end
-    }.should raise_error(Sequel::DatabaseError)
+    }).to raise_error(Sequel::DatabaseError)
   end
 
   it "Can lookup a vocabulary by refid" do
@@ -50,8 +50,8 @@ describe 'Vocabulary model' do
                                             "ref_id" => "schwing"
                                           }))
     vocab = Vocabulary.set({:ref_id => "schwing"})
-    vocab.count.should eq 1
-    vocab.first.name.should eq("Wayne's Taxonomy")
+    expect(vocab.count).to eq 1
+    expect(vocab.first.name).to eq("Wayne's Taxonomy")
 
   end
 

@@ -35,9 +35,9 @@ describe 'Tree positioning' do
 
 
   it "gives a sensible initial ordering" do
-    @parent.position.should eq(0)
+    expect(@parent.position).to eq(0)
 
-    [@child1, @child2, @child3].map {|record| record.position}.should eq([0, 1, 2])
+    expect([@child1, @child2, @child3].map {|record| record.position}).to eq([0, 1, 2])
   end
 
 
@@ -47,7 +47,7 @@ describe 'Tree positioning' do
 
     refresh!
 
-    [@child1, @child2, @child3].sort_by(&:position).should eq([@child1, @child2, @child3])
+    expect([@child1, @child2, @child3].sort_by(&:position)).to eq([@child1, @child2, @child3])
   end
 
 
@@ -58,7 +58,7 @@ describe 'Tree positioning' do
 
     refresh!
 
-    [@child1, @child2, @child3].sort_by(&:position).should eq([@child2, @child3, @child1])
+    expect([@child1, @child2, @child3].sort_by(&:position)).to eq([@child2, @child3, @child1])
   end
 
 
@@ -69,7 +69,7 @@ describe 'Tree positioning' do
 
     refresh!
 
-    [@child1, @child2, @child3].sort_by(&:position).should eq([@child1, @child2, @child3])
+    expect([@child1, @child2, @child3].sort_by(&:position)).to eq([@child1, @child2, @child3])
 
   end
 
@@ -118,7 +118,7 @@ describe 'Tree positioning' do
 
     refresh!
 
-    [@child1, @child2, @child3].sort_by(&:position).should eq([@child3, @child2, @child1])
+    expect([@child1, @child2, @child3].sort_by(&:position)).to eq([@child3, @child2, @child1])
   end
 
 

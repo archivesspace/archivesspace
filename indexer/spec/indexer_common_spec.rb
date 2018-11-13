@@ -25,10 +25,10 @@ describe "indexer common" do
       expect(@ic.instance_variable_get(:@current_session)).to be_nil
     end
     it "initializes @extra_documents_hooks to nil" do
-      expect(@ic.instance_variable_get(:@extra_documents_hooks)).to_not be_nil
+      expect(@ic.instance_variable_get(:@extra_documents_hooks)).not_to be_nil
     end
     it "initializes @document_prepare_hooks to nil" do
-      expect(@ic.instance_variable_get(:@document_prepare_hooks)).to_not be_nil
+      expect(@ic.instance_variable_get(:@document_prepare_hooks)).not_to be_nil
     end
     it "initializes @@records_with_children to an empty array" do
       expect(IndexerCommon.class_variable_get(:@@records_with_children)).to include("collection_management")
@@ -59,7 +59,7 @@ describe "indexer common" do
   describe "add_attribute_to_resolve" do
     describe "additional attribute not already on resolved_attributes list" do
       it "adds additional attribute to resolve list" do
-        expect(IndexerCommon.class_variable_get(:@@resolved_attributes)).to_not include('test_attr')
+        expect(IndexerCommon.class_variable_get(:@@resolved_attributes)).not_to include('test_attr')
         expect(IndexerCommon.class_variable_get(:@@resolved_attributes).length).to eq(19)
         IndexerCommon.add_attribute_to_resolve('test_attr')
         expect(IndexerCommon.class_variable_get(:@@resolved_attributes)).to include('test_attr')

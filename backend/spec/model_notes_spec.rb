@@ -12,7 +12,7 @@ describe 'ArchivalObject notes mixin' do
 
     ao.publish!
 
-    ArchivalObject.to_jsonmodel(ao.id)['notes'][0]['subnotes'][0]['publish'].should eq(true)
+    expect(ArchivalObject.to_jsonmodel(ao.id)['notes'][0]['subnotes'][0]['publish']).to be_truthy
   end
 
 
@@ -26,7 +26,7 @@ describe 'ArchivalObject notes mixin' do
 
     ao.delete
 
-    ArchivalObject[ao.id].should be(nil)
+    expect(ArchivalObject[ao.id]).to be_nil
   end
 
 
@@ -42,7 +42,7 @@ describe 'ArchivalObject notes mixin' do
 
     ao.unpublish!
 
-    ArchivalObject.to_jsonmodel(ao.id)['notes'][0]['subnotes'][0]['publish'].should eq(false)
+    expect(ArchivalObject.to_jsonmodel(ao.id)['notes'][0]['subnotes'][0]['publish']).to be_falsey
   end
 
 

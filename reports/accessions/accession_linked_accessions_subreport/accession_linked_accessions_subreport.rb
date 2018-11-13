@@ -1,4 +1,4 @@
-class AccessionInstancesSubreport < AbstractSubreport
+class AccessionLinkedAccessionsSubreport < AbstractSubreport
 
   register_subreport('interrelated_accession', ['accession'])
 

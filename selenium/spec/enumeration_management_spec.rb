@@ -18,7 +18,7 @@ describe "Enumeration Management" do
     @driver.find_element(:link, 'System').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, "Manage Controlled Value Lists")
-   
+
     sleep(0.5)
     enum_select = @driver.find_element(:id => "enum_selector")
     enum_select.select_option_with_text("Accession Acquisition Type (accession_acquisition_type)")
@@ -48,7 +48,7 @@ describe "Enumeration Management" do
     @driver.clear_and_send_keys([:id, "enumeration_value_"], manna)
 
     @driver.click_and_wait_until_gone(:css, '.modal-footer .btn-primary')
-    
+
     manna = @driver.find_element_with_text('//td', /#{manna}/)
     manna.find_element(:xpath, "./..").find_element(:link, 'Delete').click
     @driver.click_and_wait_until_gone(:css => "form#delete_enumeration button[type='submit']")
@@ -117,7 +117,7 @@ describe "Enumeration Management" do
     selected_type = date_type_select.get_select_value
 
     # make sure the new default takes effect
-    selected_type.should eq new_default_type
+    expect(selected_type).to eq new_default_type
 
     @driver.click_and_wait_until_gone(:css => "form#accession_form button[type='submit']")
   end
@@ -216,8 +216,8 @@ describe "Enumeration Management" do
     foo = @driver.find_element_with_text('//tr', /fooman/)
     @driver.click_and_wait_until_element_gone(foo.find_element(:link, "Suppress"))
 
-    @driver.find_element_with_text('//tr', /fooman/).find_element(:link, "Unsuppress").should_not be_nil
-    @driver.find_element_with_text('//tr', /fooman/).find_elements(:link, 'Delete').length.should eq(0)
+    expect(@driver.find_element_with_text('//tr', /fooman/).find_element(:link, "Unsuppress")).not_to be_nil
+    expect(@driver.find_element_with_text('//tr', /fooman/).find_elements(:link, 'Delete').length).to eq(0)
 
     # now lets make sure it's there
     @driver.find_element(:link, "Create").click

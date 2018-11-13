@@ -12,15 +12,15 @@ describe 'Permissions controller' do
 
     repo_permissions = {}
     repository_permissions.each do |permission|
-      permission.level.should eq('repository')
+      expect(permission.level).to eq('repository')
       repo_permissions[permission.permission_code] = true
     end
 
-    repository_permissions.any? {|permission| permission.permission_code == "new_permission"}.should == true
+    expect(repository_permissions.any? {|permission| permission.permission_code == "new_permission"}).to be_truthy
 
     (Set.new(all_permissions) - Set.new(repository_permissions)).all? {|permission|
       if not repo_permissions[permission.permission_code]
-        permission.level.should eq('global')
+        expect(permission.level).to eq('global')
       end
     }
   end

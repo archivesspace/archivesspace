@@ -69,7 +69,7 @@ describe "RDE" do
     @driver.clear_and_send_keys([:id, "archival_record_children_children__0__dates__0__begin_"], "2013")
 
     @driver.click_and_wait_until_gone(:css => ".modal-footer .btn-primary")
-    
+
     sleep(2)
     expect {
       node = tree_node_for_title('My AO, 2013')
@@ -104,15 +104,15 @@ describe "RDE" do
     @driver.clear_and_send_keys([:id, "archival_record_children_children__0__title_"], "Child 1")
 
     @driver.find_element_with_text("//div[@id='rapidDataEntryModal']//th", /Title/).click
-    
+
     @modal.find_element(:css, ".btn.add-rows-dropdown").click
     @modal.find_element(:css, ".btn.add-row").click
-    
-    @modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("fonds")
-    @modal.find_element(:id, "archival_record_children_children__1__dates__0__date_type_").get_select_value.should eq("single")
-    @modal.find_element(:id, "archival_record_children_children__1__publish_" ).attribute("checked").should be_truthy
-    @modal.find_element(:id, "archival_record_children_children__1__dates__0__begin_").attribute("value").should eq("2013")
-    @modal.find_element(:id, "archival_record_children_children__1__title_").attribute("value").should eq("Child 1")
+
+    expect(@modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value).to eq("fonds")
+    expect(@modal.find_element(:id, "archival_record_children_children__1__dates__0__date_type_").get_select_value).to eq("single")
+    expect(@modal.find_element(:id, "archival_record_children_children__1__publish_" ).attribute("checked")).to be_truthy
+    expect(@modal.find_element(:id, "archival_record_children_children__1__dates__0__begin_").attribute("value")).to eq("2013")
+    expect(@modal.find_element(:id, "archival_record_children_children__1__title_").attribute("value")).to eq("Child 1")
 
     @driver.clear_and_send_keys([:id, "archival_record_children_children__1__title_"], "Child 2")
 
@@ -124,11 +124,11 @@ describe "RDE" do
       tree_node_for_title('Child 1, 2013')
       tree_node_for_title('Child 2, 2013')
     }.not_to raise_error
-    
+
   end
 
   it "can add multiple rows in one action" do
-    
+
     @driver.find_element(:link, "Rapid Data Entry").click
     modal = @driver.find_element(:id => "rapidDataEntryModal")
 
@@ -139,35 +139,35 @@ describe "RDE" do
     @driver.wait_for_ajax
 
     @driver.clear_and_send_keys([:css, ".add-rows-form input"], "9")
-    
+
     @driver.open_rde_add_row_dropdown
     stupid = modal.find_element(:css, ".add-rows-form input").attribute('value')
-   
+
     $stderr.puts stupid
     unless stupid == '9'
       9.times { modal.find_element(:css, ".add-rows-form input").send_keys(:arrow_up) }
     end
-    
+
     @driver.wait_for_ajax
     modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
     @driver.wait_for_ajax
 
     # there should be 10 rows now :)
-    modal.find_elements(:css, "table tbody tr").length.should eq(10)
+    expect(modal.find_elements(:css, "table tbody tr").length).to eq(10)
 
     # all should have fonds as the level
-    modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("fonds")
-    modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value.should eq("fonds")
-    modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value.should eq("fonds")
-    modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value.should eq("fonds")
-    modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value.should eq("fonds")
-    modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value.should eq("fonds")
-    modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value.should eq("fonds")
-    modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value.should eq("fonds")
-    modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("fonds")
+    expect(modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value).to eq("fonds")
+    expect(modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value).to eq("fonds")
+    expect(modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value).to eq("fonds")
+    expect(modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value).to eq("fonds")
+    expect(modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value).to eq("fonds")
+    expect(modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value).to eq("fonds")
+    expect(modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value).to eq("fonds")
+    expect(modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value).to eq("fonds")
+    expect(modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value).to eq("fonds")
 
     (1..9).each do |id|
-      modal.find_element(:id, "archival_record_children_children__#{id}__publish_" ).attribute("checked").should be_truthy
+      expect(modal.find_element(:id, "archival_record_children_children__#{id}__publish_" ).attribute("checked")).to be_truthy
     end
 
   end
@@ -181,16 +181,16 @@ describe "RDE" do
     @driver.find_element(:css, "#fill_basic .btn-primary").click
 
     # all should have item as the level
-    modal.find_element(:id, "archival_record_children_children__0__level_").get_select_value.should eq("item")
-    modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value.should eq("item")
-    modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value.should eq("item")
-    modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value.should eq("item")
-    modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value.should eq("item")
-    modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value.should eq("item")
-    modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value.should eq("item")
-    modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value.should eq("item")
-    modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value.should eq("item")
-    modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value.should eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__0__level_").get_select_value).to eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__1__level_").get_select_value).to eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__2__level_").get_select_value).to eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__3__level_").get_select_value).to eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__4__level_").get_select_value).to eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__5__level_").get_select_value).to eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__6__level_").get_select_value).to eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__7__level_").get_select_value).to eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__8__level_").get_select_value).to eq("item")
+    expect(modal.find_element(:id, "archival_record_children_children__9__level_").get_select_value).to eq("item")
   end
 
   it "can perform a sequence fill" do
@@ -206,23 +206,23 @@ describe "RDE" do
     @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     # message should be displayed "not enough in the sequence" or thereabouts..
-    @driver.wait_for_ajax 
+    @driver.wait_for_ajax
     modal.find_element(:id, "sequenceTooSmallMsg")
 
     @driver.clear_and_send_keys([:id, "sequenceFillTo"], "10")
     @driver.find_element(:css, "#fill_sequence .btn-primary").click
 
     # check the component id for each row matches the sequence
-    modal.find_element(:id, "archival_record_children_children__0__component_id_").attribute("value").should eq("ABC1")
-    modal.find_element(:id, "archival_record_children_children__1__component_id_").attribute("value").should eq("ABC2")
-    modal.find_element(:id, "archival_record_children_children__2__component_id_").attribute("value").should eq("ABC3")
-    modal.find_element(:id, "archival_record_children_children__3__component_id_").attribute("value").should eq("ABC4")
-    modal.find_element(:id, "archival_record_children_children__4__component_id_").attribute("value").should eq("ABC5")
-    modal.find_element(:id, "archival_record_children_children__5__component_id_").attribute("value").should eq("ABC6")
-    modal.find_element(:id, "archival_record_children_children__6__component_id_").attribute("value").should eq("ABC7")
-    modal.find_element(:id, "archival_record_children_children__7__component_id_").attribute("value").should eq("ABC8")
-    modal.find_element(:id, "archival_record_children_children__8__component_id_").attribute("value").should eq("ABC9")
-    modal.find_element(:id, "archival_record_children_children__9__component_id_").attribute("value").should eq("ABC10")
+    expect(modal.find_element(:id, "archival_record_children_children__0__component_id_").attribute("value")).to eq("ABC1")
+    expect(modal.find_element(:id, "archival_record_children_children__1__component_id_").attribute("value")).to eq("ABC2")
+    expect(modal.find_element(:id, "archival_record_children_children__2__component_id_").attribute("value")).to eq("ABC3")
+    expect(modal.find_element(:id, "archival_record_children_children__3__component_id_").attribute("value")).to eq("ABC4")
+    expect(modal.find_element(:id, "archival_record_children_children__4__component_id_").attribute("value")).to eq("ABC5")
+    expect(modal.find_element(:id, "archival_record_children_children__5__component_id_").attribute("value")).to eq("ABC6")
+    expect(modal.find_element(:id, "archival_record_children_children__6__component_id_").attribute("value")).to eq("ABC7")
+    expect(modal.find_element(:id, "archival_record_children_children__7__component_id_").attribute("value")).to eq("ABC8")
+    expect(modal.find_element(:id, "archival_record_children_children__8__component_id_").attribute("value")).to eq("ABC9")
+    expect(modal.find_element(:id, "archival_record_children_children__9__component_id_").attribute("value")).to eq("ABC10")
   end
 
   it "can perform a column reorder" do
@@ -241,7 +241,7 @@ describe "RDE" do
 
     new_position = modal.find_elements(:css, "table .fieldset-labels th").index {|cell| cell.attribute("id") === "colLevel"}
 
-    old_position.should be < new_position
+    expect(old_position).to be < new_position
   end
 end
 
@@ -320,7 +320,7 @@ describe "Digital Object RDE" do
     expect {
       tree_node_for_title('My DO')
     }.not_to raise_error
-  
+
   end
 
   it "can access the RDE form when editing an digital object" do
@@ -340,7 +340,7 @@ describe "Digital Object RDE" do
     @driver.clear_and_send_keys([:id, "digital_record_children_children__0__title_"], "Child 1")
     modal.find_element(:css, ".btn.add-row").click
 
-    modal.find_element(:id, "digital_record_children_children__1__title_").attribute("value").should eq("Child 1")
+    expect(modal.find_element(:id, "digital_record_children_children__1__title_").attribute("value")).to eq("Child 1")
 
     @driver.clear_and_send_keys([:id, "digital_record_children_children__1__title_"], "Child 2")
 
@@ -352,7 +352,7 @@ describe "Digital Object RDE" do
       tree_node_for_title('Child 1')
       tree_node_for_title('Child 2')
     }.not_to raise_error
-  
+
   end
 
   it "can add multiple rows in one action" do
@@ -377,18 +377,18 @@ describe "Digital Object RDE" do
     modal.find_element(:css, ".add-rows-form .btn.btn-primary").click
 
     # there should be 10 rows now :)
-    modal.find_elements(:css, "table tbody tr").length.should eq(10)
+    expect(modal.find_elements(:css, "table tbody tr").length).to eq(10)
 
     # all should have level "DO_LABEL"
-    modal.find_element(:id, "digital_record_children_children__1__label_").attribute("value").should eq("DO_LABEL")
-    modal.find_element(:id, "digital_record_children_children__2__label_").attribute("value").should eq("DO_LABEL")
-    modal.find_element(:id, "digital_record_children_children__3__label_").attribute("value").should eq("DO_LABEL")
-    modal.find_element(:id, "digital_record_children_children__4__label_").attribute("value").should eq("DO_LABEL")
-    modal.find_element(:id, "digital_record_children_children__5__label_").attribute("value").should eq("DO_LABEL")
-    modal.find_element(:id, "digital_record_children_children__6__label_").attribute("value").should eq("DO_LABEL")
-    modal.find_element(:id, "digital_record_children_children__7__label_").attribute("value").should eq("DO_LABEL")
-    modal.find_element(:id, "digital_record_children_children__8__label_").attribute("value").should eq("DO_LABEL")
-    modal.find_element(:id, "digital_record_children_children__9__label_").attribute("value").should eq("DO_LABEL")
+    expect(modal.find_element(:id, "digital_record_children_children__1__label_").attribute("value")).to eq("DO_LABEL")
+    expect(modal.find_element(:id, "digital_record_children_children__2__label_").attribute("value")).to eq("DO_LABEL")
+    expect(modal.find_element(:id, "digital_record_children_children__3__label_").attribute("value")).to eq("DO_LABEL")
+    expect(modal.find_element(:id, "digital_record_children_children__4__label_").attribute("value")).to eq("DO_LABEL")
+    expect(modal.find_element(:id, "digital_record_children_children__5__label_").attribute("value")).to eq("DO_LABEL")
+    expect(modal.find_element(:id, "digital_record_children_children__6__label_").attribute("value")).to eq("DO_LABEL")
+    expect(modal.find_element(:id, "digital_record_children_children__7__label_").attribute("value")).to eq("DO_LABEL")
+    expect(modal.find_element(:id, "digital_record_children_children__8__label_").attribute("value")).to eq("DO_LABEL")
+    expect(modal.find_element(:id, "digital_record_children_children__9__label_").attribute("value")).to eq("DO_LABEL")
   end
 
   it "can perform a basic fill" do
@@ -401,16 +401,16 @@ describe "Digital Object RDE" do
 
     # all should have item as the level
     assert {
-      modal.find_element(:id, "digital_record_children_children__0__label_").attribute("value").should eq("NEW_LABEL")
-      modal.find_element(:id, "digital_record_children_children__1__label_").attribute("value").should eq("NEW_LABEL")
-      modal.find_element(:id, "digital_record_children_children__2__label_").attribute("value").should eq("NEW_LABEL")
-      modal.find_element(:id, "digital_record_children_children__3__label_").attribute("value").should eq("NEW_LABEL")
-      modal.find_element(:id, "digital_record_children_children__4__label_").attribute("value").should eq("NEW_LABEL")
-      modal.find_element(:id, "digital_record_children_children__5__label_").attribute("value").should eq("NEW_LABEL")
-      modal.find_element(:id, "digital_record_children_children__6__label_").attribute("value").should eq("NEW_LABEL")
-      modal.find_element(:id, "digital_record_children_children__7__label_").attribute("value").should eq("NEW_LABEL")
-      modal.find_element(:id, "digital_record_children_children__8__label_").attribute("value").should eq("NEW_LABEL")
-      modal.find_element(:id, "digital_record_children_children__9__label_").attribute("value").should eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__0__label_").attribute("value")).to eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__1__label_").attribute("value")).to eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__2__label_").attribute("value")).to eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__3__label_").attribute("value")).to eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__4__label_").attribute("value")).to eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__5__label_").attribute("value")).to eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__6__label_").attribute("value")).to eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__7__label_").attribute("value")).to eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__8__label_").attribute("value")).to eq("NEW_LABEL")
+      expect(modal.find_element(:id, "digital_record_children_children__9__label_").attribute("value")).to eq("NEW_LABEL")
     }
   end
 
@@ -435,16 +435,16 @@ describe "Digital Object RDE" do
     @driver.wait_for_ajax
 
     # check the component id for each row matches the sequence
-    modal.find_element(:id, "digital_record_children_children__0__title_").attribute("value").should eq("ABC1")
-    modal.find_element(:id, "digital_record_children_children__1__title_").attribute("value").should eq("ABC2")
-    modal.find_element(:id, "digital_record_children_children__2__title_").attribute("value").should eq("ABC3")
-    modal.find_element(:id, "digital_record_children_children__3__title_").attribute("value").should eq("ABC4")
-    modal.find_element(:id, "digital_record_children_children__4__title_").attribute("value").should eq("ABC5")
-    modal.find_element(:id, "digital_record_children_children__5__title_").attribute("value").should eq("ABC6")
-    modal.find_element(:id, "digital_record_children_children__6__title_").attribute("value").should eq("ABC7")
-    modal.find_element(:id, "digital_record_children_children__7__title_").attribute("value").should eq("ABC8")
-    modal.find_element(:id, "digital_record_children_children__8__title_").attribute("value").should eq("ABC9")
-    modal.find_element(:id, "digital_record_children_children__9__title_").attribute("value").should eq("ABC10")
+    expect(modal.find_element(:id, "digital_record_children_children__0__title_").attribute("value")).to eq("ABC1")
+    expect(modal.find_element(:id, "digital_record_children_children__1__title_").attribute("value")).to eq("ABC2")
+    expect(modal.find_element(:id, "digital_record_children_children__2__title_").attribute("value")).to eq("ABC3")
+    expect(modal.find_element(:id, "digital_record_children_children__3__title_").attribute("value")).to eq("ABC4")
+    expect(modal.find_element(:id, "digital_record_children_children__4__title_").attribute("value")).to eq("ABC5")
+    expect(modal.find_element(:id, "digital_record_children_children__5__title_").attribute("value")).to eq("ABC6")
+    expect(modal.find_element(:id, "digital_record_children_children__6__title_").attribute("value")).to eq("ABC7")
+    expect(modal.find_element(:id, "digital_record_children_children__7__title_").attribute("value")).to eq("ABC8")
+    expect(modal.find_element(:id, "digital_record_children_children__8__title_").attribute("value")).to eq("ABC9")
+    expect(modal.find_element(:id, "digital_record_children_children__9__title_").attribute("value")).to eq("ABC10")
 
   end
 

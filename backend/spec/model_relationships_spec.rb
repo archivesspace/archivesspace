@@ -197,12 +197,12 @@ describe 'Relationships' do
     banana = Banana.create_from_json(banana_json)
 
     # Check the forwards relationship
-    Banana.to_jsonmodel(banana).apples[0]['ref'].should eq(apple.uri)
-    Banana.to_jsonmodel(banana).apples[0]['sauce'].should eq('yogurt')
+    expect(Banana.to_jsonmodel(banana).apples[0]['ref']).to eq(apple.uri)
+    expect(Banana.to_jsonmodel(banana).apples[0]['sauce']).to eq('yogurt')
 
     # And the reciprocal one
-    Apple.to_jsonmodel(apple).bananas[0]['ref'].should eq(banana.uri)
-    Apple.to_jsonmodel(apple).bananas[0]['sauce'].should eq('yogurt')
+    expect(Apple.to_jsonmodel(apple).bananas[0]['ref']).to eq(banana.uri)
+    expect(Apple.to_jsonmodel(apple).bananas[0]['sauce']).to eq('yogurt')
   end
 
 
@@ -220,8 +220,8 @@ describe 'Relationships' do
     banana = Banana.create_from_json(banana_json)
 
     # Check the forwards relationship
-    Banana.to_jsonmodel(banana).apples[0]['ref'].should eq(apple.uri)
-    Banana.to_jsonmodel(banana).apples[0]['sauce'].should eq('yogurt')
+    expect(Banana.to_jsonmodel(banana).apples[0]['ref']).to eq(apple.uri)
+    expect(Banana.to_jsonmodel(banana).apples[0]['sauce']).to eq('yogurt')
 
     # Clear the relationship by updating the apple to remove the banana
     apple.refresh
@@ -230,7 +230,7 @@ describe 'Relationships' do
 
     # Now the banana has no apples listed
     banana.refresh
-    Banana.to_jsonmodel(banana).apples.should eq([])
+    expect(Banana.to_jsonmodel(banana).apples).to eq([])
   end
 
 
@@ -244,13 +244,13 @@ describe 'Relationships' do
 
 
     # Now you see it
-    banana.my_relationships(:fruit_salad).count.should_not be(0)
+    expect(banana.my_relationships(:fruit_salad).count).not_to be(0)
 
     apple.delete
 
     # Now you don't
     banana.reload
-    banana.my_relationships(:fruit_salad).count.should eq(0)
+    expect(banana.my_relationships(:fruit_salad).count).to eq(0)
   end
 
 
@@ -263,7 +263,7 @@ describe 'Relationships' do
     time = Time.now.to_f
     banana = Banana.create_from_json(banana_json)
 
-    banana.my_relationships(:fruit_salad)[0][:system_mtime].to_f.should be >= time
+    expect(banana.my_relationships(:fruit_salad)[0][:system_mtime].to_f).to be >= time
   end
 
 
@@ -281,10 +281,10 @@ describe 'Relationships' do
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "granny smith"))
     banana = Banana.create_from_json(JSONModel(:banana).new(:friends => [{:ref => apple.uri}]))
 
-    banana.related_records(:friends).count.should eq(1)
+    expect(banana.related_records(:friends).count).to eq(1)
     apple.delete
     banana.reload
-    banana.related_records(:friends).count.should eq(0)
+    expect(banana.related_records(:friends).count).to eq(0)
   end
 
 
@@ -293,7 +293,7 @@ describe 'Relationships' do
     banana2 = Banana.create_from_json(JSONModel(:banana).new(:friends => [{:ref => banana1.uri}]))
     banana1.refresh
 
-    banana2.related_records(:friends)[0].should eq(banana1)
+    expect(banana2.related_records(:friends)[0]).to eq(banana1)
   end
 
 
@@ -324,7 +324,7 @@ describe 'Relationships' do
 
     expect {
       cherry.save
-    }.to_not raise_error
+    }.not_to raise_error
   end
 
 
@@ -343,7 +343,7 @@ describe 'Relationships' do
     cherry.update_from_json(JSONModel(:cherry).from_hash(:lock_version => 0))
     banana.refresh
 
-    (banana.system_mtime.to_f * 1000).to_i.should_not eq(time)
+    expect((banana.system_mtime.to_f * 1000).to_i).not_to eq(time)
   end
 
 
@@ -355,9 +355,9 @@ describe 'Relationships' do
                                                               :ref => cherry.uri
                                                             }]))
 
-    banana.my_relationships(:friends).first.suppressed.should eq(1)
+    expect(banana.my_relationships(:friends).first.suppressed).to eq(1)
   end
-  
+
   it "will raise a exception if the optisitmic locking fails" do
     # this is supposed to replicate when a relationship is attempted to be
     # made, but the Sequel throws an optimisitcLocking error
@@ -365,37 +365,37 @@ describe 'Relationships' do
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "IIe"))
 
     # by default we just try once and raise an error
-    attempt =0  
+    attempt =0
     expect {
       banana_json = JSONModel(:banana).new(:apples => [{
                                                        :ref => apple.uri,
                                                        :sauce => "white"
                                                      }])
-      attempt += 1 
+      attempt += 1
       Banana.create_from_json(banana_json)
     }.to raise_error(Sequel::NoExistingObject)
-    attempt.should eq(1)
-  
-  end 
-    
-  it "will retry on optimistic locking failue if told to do so" do  
+    expect(attempt).to eq(1)
+
+  end
+
+  it "will retry on optimistic locking failue if told to do so" do
     # in some situations ( like EAD imports ), we want to retry
     allow(DB).to receive(:increase_lock_version_or_fail).and_raise(Sequel::Plugins::OptimisticLocking::Error.new("Couldn't create version of blah"))
     apple = Apple.create_from_json(JSONModel(:apple).new(:name => "Lisa"))
-    
-    # we can tell the db to retry ( it will do 10 times by default ) 
-    attempt =0  
+
+    # we can tell the db to retry ( it will do 10 times by default )
+    attempt =0
     expect {
       DB.open(true, :retries => 6, :retry_on_optimistic_locking_fail => true, :retry_delay => 0 )  do
         banana_json = JSONModel(:banana).new(:apples => [{
                                                        :ref => apple.uri,
                                                        :sauce => "black"
                                                      }])
-        attempt += 1 
+        attempt += 1
         Banana.create_from_json(banana_json)
       end
     }.to raise_error(Sequel::NoExistingObject)
-    attempt.should eq(6)
+    expect(attempt).to eq(6)
   end
 
 
@@ -428,6 +428,6 @@ describe 'Relationships' do
     # top-level record that should be reindexed.  The original bug: only the
     # instance's system_mtime was updated.
     archival_object.refresh
-    (archival_object.system_mtime.to_f * 1000).to_i.should_not eq(start_time)
+    expect((archival_object.system_mtime.to_f * 1000).to_i).not_to eq(start_time)
   end
 end

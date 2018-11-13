@@ -15,9 +15,9 @@ describe 'Update feed controller' do
     created_accession = create(:json_accession)
 
     consumer.join
-    consumer.value.count.should be == 1
+    expect(consumer.value.count).to eq(1)
 
-    consumer.value.first['record']['title'].should eq(created_accession.title)
+    expect(consumer.value.first['record']['title']).to eq(created_accession.title)
   end
 
 
@@ -36,16 +36,16 @@ describe 'Update feed controller' do
       JSON(last_response.body)
     end
 
-    resp['results'].length.should eq(1)
-    resp['results'].first.should eq(acc2.uri)
+    expect(resp['results'].length).to eq(1)
+    expect(resp['results'].first).to eq(acc2.uri)
   end
 
 
   it "requires special permission" do
     as_anonymous_user do
       get '/update-feed'
-      last_response.should_not be_ok
-      last_response.status.should eq(403)
+      expect(last_response).not_to be_ok
+      expect(last_response.status).to eq(403)
     end
   end
 

@@ -7,14 +7,14 @@ describe 'Location controller' do
     loc.room = "2-26"
     loc.save
 
-    JSONModel(:location).find(loc.id).room.should eq("2-26")
+    expect(JSONModel(:location).find(loc.id).room).to eq("2-26")
 
   end
 
 
   it "can give a list of locations" do
     create(:json_location)
-    JSONModel(:location).all(:page => 1)['results'].count.should eq(1)
+    expect(JSONModel(:location).all(:page => 1)['results'].count).to eq(1)
   end
 
 
@@ -43,8 +43,8 @@ describe 'Location controller' do
 
     batch_response = ASUtils.json_parse(response.body)
 
-    batch_response.length.should eq(910)
-    batch_response[0]["uri"].should eq(nil)
+    expect(batch_response.length).to eq(910)
+    expect(batch_response[0]["uri"]).to be_nil
   end
 
 
@@ -73,28 +73,28 @@ describe 'Location controller' do
 
     batch_response = ASUtils.json_parse(response.body)
 
-    batch_response.length.should eq(910)
-    JSONModel.parse_reference(batch_response[0])[:type].should eq("location")
+    expect(batch_response.length).to eq(910)
+    expect(JSONModel.parse_reference(batch_response[0])[:type]).to eq("location")
   end
 
 
   it "shows all locations from all repositories" do
     create(:json_location)
-    JSONModel(:location).all(:page => 1)['results'].count.should eq(1)
+    expect(JSONModel(:location).all(:page => 1)['results'].count).to eq(1)
 
     make_test_repo('Next1');
-    JSONModel(:location).all(:page => 1)['results'].count.should eq(1)
+    expect(JSONModel(:location).all(:page => 1)['results'].count).to eq(1)
     create(:json_location)
     create(:json_location)
 
     make_test_repo('Next2')
     create(:json_location)
-    JSONModel(:location).all(:page => 1)['results'].count.should eq(4)
+    expect(JSONModel(:location).all(:page => 1)['results'].count).to eq(4)
   end
 
  it "can update locations in batches" do
     make_test_repo('Batch Edit')
-    locations = [] 
+    locations = []
     3.times do
       location =  create(:json_location)
       locations << location[:uri]
@@ -102,14 +102,14 @@ describe 'Location controller' do
 
     batch = JSONModel(:location_batch_update).from_hash(build(:json_location).to_hash.merge({
                                                    "record_uris"  => locations,
-                                                   "building" => "Batch Edited", 
-                                                   "floor" => "13th" 
+                                                   "building" => "Batch Edited",
+                                                   "floor" => "13th"
                                                  }))
     JSONModel::HTTP.post_json(URI("#{JSONModel::HTTP.backend_url}/locations/batch_update"),
                                          batch.to_json)
-    Location.all.each do |location| 
-      location[:building].should eq("Batch Edited")
-      location[:floor].should eq("13th")
+    Location.all.each do |location|
+      expect(location[:building]).to eq("Batch Edited")
+      expect(location[:floor]).to eq("13th")
     end
  end
 

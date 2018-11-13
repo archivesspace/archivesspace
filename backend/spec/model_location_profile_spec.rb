@@ -6,7 +6,7 @@ describe 'Location Profile model' do
   it "can be created from a JSON module" do
     cp = LocationProfile.create_from_json(build(:json_location_profile, :name => "Large shelf"))
 
-    LocationProfile[cp[:id]].name.should eq("Large shelf")
+    expect(LocationProfile[cp[:id]].name).to eq("Large shelf")
   end
 
 
@@ -24,7 +24,7 @@ describe 'Location Profile model' do
     location = create(:json_location,
                       :location_profile => {'ref' => location_profile.uri})
 
-    Location.to_jsonmodel(location.id)['location_profile']['ref'].should eq(location_profile.uri)
+    expect(Location.to_jsonmodel(location.id)['location_profile']['ref']).to eq(location_profile.uri)
   end
 
 
@@ -35,7 +35,7 @@ describe 'Location Profile model' do
 
     LocationProfile[location_profile.id].delete
 
-    Location.to_jsonmodel(location.id)['location_profile'].should be_nil
+    expect(Location.to_jsonmodel(location.id)['location_profile']).to be_nil
   end
 
 
@@ -69,7 +69,7 @@ describe 'Location Profile model' do
 
     lp = LocationProfile[jlp.id]
 
-    lp.display_string.should eq("Large shelf [8d, 13h, 5.5w Inches]")
+    expect(lp.display_string).to eq("Large shelf [8d, 13h, 5.5w Inches]")
   end
 
 end

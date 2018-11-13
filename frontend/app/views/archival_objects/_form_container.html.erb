@@ -1,13 +1,13 @@
 <%= link_to_help :topic => "archival_object" %>
 
-<h3>
+<h2>
   <% if @archival_object.display_string.blank? %>
     <%= I18n.t("archival_object._singular") %>
   <% else %>
     <%= clean_mixed_content(@archival_object.display_string) %>
   <% end %>
   <span class="label label-info"><%= I18n.t("archival_object._singular") %></span>
-</h3>
+</h2>
 
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
@@ -20,10 +20,10 @@
 
   <% define_template("archival_object", jsonmodel_definition(:archival_object)) do |form| %>
     <section id="basic_information">
-      <h4>
+      <h3>
         <%= I18n.t("archival_object._frontend.section.basic_information") %>
         <%= link_to_help :topic => "archival_object_basic_information" %>
-      </h4>
+      </h3>
 
       <fieldset>
         <%= form.label_and_textarea("title", :required => :conditionally)%>

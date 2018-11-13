@@ -141,16 +141,16 @@ describe "EAD export mappings" do
     val = nil
 
     if data
-      doc.should have_node(path)
+      expect(doc).to have_node(path)
       if trib.nil?
-        node.should have_inner_text(data)
+        expect(node).to have_inner_text(data)
       elsif trib == :markup
-        node.should have_inner_markup(data)
+        expect(node).to have_inner_markup(data)
       else
-        node.should have_attribute(trib, data)
+        expect(node).to have_attribute(trib, data)
       end
     elsif node && trib
-      node.should_not have_attribute(trib)
+      expect(node).not_to have_attribute(trib)
     end
   end
 
@@ -223,13 +223,13 @@ describe "EAD export mappings" do
       end
     end
 
-    @doc.errors.length.should == 0
+    expect(@doc.errors.length).to eq(0)
 
     # if the word Nokogiri appears in the XML file, we'll assume something
     # has gone wrong
-    @doc.to_xml.should_not include("Nokogiri")
-    @doc.to_xml.should_not include("#&amp;")
-    @doc.to_xml.should_not include("ASPACE EXPORT ERROR")
+    expect(@doc.to_xml).not_to include("Nokogiri")
+    expect(@doc.to_xml).not_to include("#&amp;")
+    expect(@doc.to_xml).not_to include("ASPACE EXPORT ERROR")
   end
 
 
@@ -240,7 +240,7 @@ describe "EAD export mappings" do
     it "resolves all required fields for the EAD model" do
       missing_fields = (EADModel::RESOLVE - IndexerCommonConfig.resolved_attributes)
 
-      missing_fields.should eq([])
+      expect(missing_fields).to eq([])
     end
   end
 
@@ -365,7 +365,7 @@ describe "EAD export mappings" do
           mt(content, "./#{path}/p/text()[contains( '#{content}')]")
 
           note['items'].each_with_index do |item, i|
-            index_item_type_map.keys.should include(item['type'])
+            expect(index_item_type_map.keys).to include(item['type'])
             item_path = "#{full_path}/indexentry[#{i+1}]"
             mt(item['value'], "#{item_path}/#{index_item_type_map[item['type']]}")
             mt(item['reference'], "#{item_path}/ref", 'target')
@@ -660,6 +660,7 @@ describe "EAD export mappings" do
 
       it "maps notes of type 'physfacet' to did/physdesc/physfacet" do
         notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
+          puts "LANEY note #{note.inspect} i #{i.inspect}"
           path = "#{desc_path}/did/physdesc[physfacet][#{i}]/physfacet"
           mt(note_content(note), path)
           if !note['persistent_id'].nil?
@@ -700,7 +701,7 @@ describe "EAD export mappings" do
           # https://archivesspace.atlassian.net/browse/AR-985?focusedCommentId=17531&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-17531
           if link_role == 'creator'
             path = "#{desc_path}/controlaccess/#{node_name}[contains(text(), '#{agent.names[0]['sort_name']}')]"
-            doc.should_not have_node(path)
+            expect(doc).not_to have_node(path)
           end
 
           next unless %w(source subject).include?(link_role)
@@ -745,7 +746,7 @@ describe "EAD export mappings" do
                       end
 
           path = "#{desc_path}/did/origination/#{node_name}[contains(text(), '#{agent.names[0]['sort_name']}')]"
-          doc.should have_node(path)
+          expect(doc).to have_node(path)
         end
       end
 
@@ -1049,10 +1050,10 @@ describe "EAD export mappings" do
           publish = fv['publish']
 
           if publish
-            @doc_unpub.should have_node(basepath + "[@xlink:href='#{file_uri}']")
-            @doc.should have_node(basepath + "[@xlink:audience='external']")
+            expect(@doc_unpub).to have_node(basepath + "[@xlink:href='#{file_uri}']")
+            expect(@doc).to have_node(basepath + "[@xlink:audience='external']")
           else
-            @doc_unpub.should_not have_node(basepath + "[@xlink:href='#{file_uri}']")
+            expect(@doc_unpub).not_to have_node(basepath + "[@xlink:href='#{file_uri}']")
           end
         end
       end
@@ -1080,11 +1081,11 @@ describe "EAD export mappings" do
           publish = fv['publish']
 
           if publish
-            @doc.should have_node(basepath + "[@xlink:href='#{file_uri}']")
-            @doc.should have_node(basepath + "[@xlink:audience='external']")
+            expect(@doc).to have_node(basepath + "[@xlink:href='#{file_uri}']")
+            expect(@doc).to have_node(basepath + "[@xlink:audience='external']")
           else
-            @doc.should have_node(basepath + "[@xlink:href='#{file_uri}']")
-            @doc.should have_node(basepath + "[@xlink:audience='internal']")
+            expect(@doc).to have_node(basepath + "[@xlink:href='#{file_uri}']")
+            expect(@doc).to have_node(basepath + "[@xlink:audience='internal']")
           end
         end
       end
@@ -1101,7 +1102,7 @@ describe "EAD export mappings" do
       let(:nspath) { "//xmlns:c[@id='#{ref_id}']"}
 
       it "maps archival_object.ref_id to //c[@id]" do
-        doc.should have_node(path)
+        expect(doc).to have_node(path)
       end
 
       it_behaves_like "archival object desc mappings" do
@@ -1148,39 +1149,39 @@ describe "EAD export mappings" do
     let(:serializer) { EADSerializer.new }
 
     it "can strip <p> tags from content when disallowed" do
-      serializer.strip_p(note_with_p).should eq("A NOTE!")
+      expect(serializer.strip_p(note_with_p)).to eq("A NOTE!")
     end
 
     it "can leave <p> tags in content" do
-      serializer.handle_linebreaks(note_with_p).should eq(note_with_p)
+      expect(serializer.handle_linebreaks(note_with_p)).to eq(note_with_p)
     end
 
     it "will add <p> tags to content with linebreaks" do
-      serializer.handle_linebreaks(note_with_linebreaks).should eq("<p>Something, something,</p><p>something.</p>")
+      expect(serializer.handle_linebreaks(note_with_linebreaks)).to eq("<p>Something, something,</p><p>something.</p>")
     end
 
     it "will add <p> tags to content with linebreaks and mixed content" do
-      serializer.handle_linebreaks(note_with_linebreaks_and_good_mixed_content).should eq("<p>Something, something,</p><p><bioghist>something.</bioghist></p>")
+      expect(serializer.handle_linebreaks(note_with_linebreaks_and_good_mixed_content)).to eq("<p>Something, something,</p><p><bioghist>something.</bioghist></p>")
     end
 
     it "will return original content when linebreaks and mixed content produce invalid markup" do
-      serializer.handle_linebreaks(note_with_linebreaks_and_evil_mixed_content).should eq(note_with_linebreaks_and_evil_mixed_content)
+      expect(serializer.handle_linebreaks(note_with_linebreaks_and_evil_mixed_content)).to eq(note_with_linebreaks_and_evil_mixed_content)
     end
 
     it "will add <p> tags to content with linebreaks and mixed content even if those evil &'s are present in the text" do
-      serializer.handle_linebreaks(note_with_linebreaks_but_something_xml_nazis_hate).should eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
+      expect(serializer.handle_linebreaks(note_with_linebreaks_but_something_xml_nazis_hate)).to eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
     end
 
     it "will add <p> tags to content with linebreaks and mixed content even there are weird namespace prefixes" do
-      serializer.handle_linebreaks(note_with_linebreaks_and_xml_namespaces).should eq("<p>Something, something,</p><p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite></p>")
+      expect(serializer.handle_linebreaks(note_with_linebreaks_and_xml_namespaces)).to eq("<p>Something, something,</p><p><prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite></p>")
     end
 
     it "will correctly handle content with & as punctuation as well as & as pre-escaped characters" do
-      serializer.handle_linebreaks(note_with_different_amps).should eq("<p>The materials are arrange in folders. Mumford&amp;Sons. Mumford &amp; Sons. They are cool&amp;hip. &lt;p&gt;foo, 2 &amp; 2.&lt;/p&gt;</p>")
+      expect(serializer.handle_linebreaks(note_with_different_amps)).to eq("<p>The materials are arrange in folders. Mumford&amp;Sons. Mumford &amp; Sons. They are cool&amp;hip. &lt;p&gt;foo, 2 &amp; 2.&lt;/p&gt;</p>")
     end
 
     it "will replace MSWord-style smart quotes with ASCII characters" do
-      serializer.remove_smart_quotes(note_with_smart_quotes).should eq("This note has \"smart quotes\" and \'smart apostrophes\' from MSWord.")
+      expect(serializer.remove_smart_quotes(note_with_smart_quotes)).to eq("This note has \"smart quotes\" and \'smart apostrophes\' from MSWord.")
     end
   end
 
@@ -1234,39 +1235,39 @@ describe "EAD export mappings" do
     }
 
     it "does not set <ead> attribute audience 'internal' when resource is published" do
-      @doc_nsless.at_xpath('//ead').should_not have_attribute('audience', 'internal')
+      expect(@doc_nsless.at_xpath('//ead')).not_to have_attribute('audience', 'internal')
     end
 
     it "sets <ead> attribute audience 'internal' when resource is not published" do
-      @xml_including_unpublished.at_xpath('//ead').should have_attribute('audience', 'internal')
-      @xml_not_including_unpublished.at_xpath('//ead').should have_attribute('audience', 'internal')
+      expect(@xml_including_unpublished.at_xpath('//ead')).to have_attribute('audience', 'internal')
+      expect(@xml_not_including_unpublished.at_xpath('//ead')).to have_attribute('audience', 'internal')
     end
 
     it "includes unpublished items when include_unpublished option is false" do
-      @xml_including_unpublished.xpath('//c').length.should eq(2)
-      @xml_including_unpublished.xpath("//c[@id='aspace_#{@published_archival_object.ref_id}'][not(@audience='internal')]").length.should eq(1)
-      @xml_including_unpublished.xpath("//c[@id='aspace_#{@unpublished_archival_object.ref_id}'][@audience='internal']").length.should eq(1)
+      expect(@xml_including_unpublished.xpath('//c').length).to eq(2)
+      expect(@xml_including_unpublished.xpath("//c[@id='aspace_#{@published_archival_object.ref_id}'][not(@audience='internal')]").length).to eq(1)
+      expect(@xml_including_unpublished.xpath("//c[@id='aspace_#{@unpublished_archival_object.ref_id}'][@audience='internal']").length).to eq(1)
     end
 
     it "does not include unpublished items when include_unpublished option is false" do
       items = @xml_not_including_unpublished.xpath('//c')
-      items.length.should eq(1)
+      expect(items.length).to eq(1)
 
       item = items.first
-      item.should_not have_attribute('audience', 'internal')
+      expect(item).not_to have_attribute('audience', 'internal')
     end
 
     it "include the unpublished agent with audience internal when include_unpublished is true" do
       creators = @xml_including_unpublished.xpath('//origination')
-      creators.length.should eq(1)
+      expect(creators.length).to eq(1)
       creator = creators.first
-      creator.should have_attribute('label', 'creator')
-      creator.should have_attribute('audience', 'internal')
+      expect(creator).to have_attribute('label', 'creator')
+      expect(creator).to have_attribute('audience', 'internal')
     end
 
     it "does not include the unpublished agent with audience internal when include_unpublished is false" do
       creators = @xml_not_including_unpublished.xpath('//origination')
-      creators.length.should eq(0)
+      expect(creators.length).to eq(0)
     end
   end
 
@@ -1332,9 +1333,9 @@ describe "EAD export mappings" do
     }
 
     it "excludes suppressed items" do
-      @xml.xpath('//c').length.should eq(2)
-      @xml.xpath("//c[@id='aspace_#{@unsuppressed_series.ref_id}']").length.should eq(1)
-      @xml.xpath("//c[@id='aspace_#{@unsuppressed_series_unsuppressed_child.ref_id}']").length.should eq(1)
+      expect(@xml.xpath('//c').length).to eq(2)
+      expect(@xml.xpath("//c[@id='aspace_#{@unsuppressed_series.ref_id}']").length).to eq(1)
+      expect(@xml.xpath("//c[@id='aspace_#{@unsuppressed_series_unsuppressed_child.ref_id}']").length).to eq(1)
     end
   end
 end

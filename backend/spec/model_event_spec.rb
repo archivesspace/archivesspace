@@ -10,35 +10,35 @@ describe 'Event model' do
 
     expect {
       create(:json_event, :linked_agents => [])
-    }.to raise_error(JSONModel::ValidationException)   
-    
+    }.to raise_error(JSONModel::ValidationException)
+
     expect {
       create(:json_event)
-    }.to_not raise_error
-    
+    }.not_to raise_error
+
   end
 
 
   it "permits a mixture of linked record types" do
-    
+
     opts = {:linked_records => []}
-    
+
     [:resource, :accession, :archival_object].each do |type|
       record = create("json_#{type}".intern)
       opts[:linked_records].push({'ref' => record.uri, 'role' => generate(:record_role)})
     end
-    
+
     expect {
       create(:json_event, opts)
-    }.to_not raise_error
+    }.not_to raise_error
 
   end
 
 
   it "but not any old record type!" do
-    
+
     opts = {:linked_records => [{'ref' => JSONModel(:repository).uri_for(2), 'role' => generate(:record_role)}]}
-    
+
     expect {
       create(:json_event, opts)
     }.to raise_error(JSONModel::ValidationException)
@@ -51,12 +51,12 @@ describe 'Event model' do
 
     json = Accession.to_jsonmodel(accession.id)
 
-    json['linked_events'].length.should eq(1)
+    expect(json['linked_events'].length).to eq(1)
     updated = json.to_hash
     updated.delete('linked_events')
     Accession[accession.id].update_from_json(JSONModel(:accession).from_hash(updated))
 
-    Accession.to_jsonmodel(accession.id)['linked_events'].length.should eq(1)
+    expect(Accession.to_jsonmodel(accession.id)['linked_events'].length).to eq(1)
   end
 
 
@@ -72,8 +72,8 @@ describe 'Event model' do
                                               ["linked_events", "linked_events::linked_records"])
 
 
-    resolved['linked_events'][0]['_resolved']['outcome_note'].should eq('testing')
-    resolved['linked_events'][0]['_resolved']['linked_records'][0]['_resolved']['title'].should eq(accession.title)
+    expect(resolved['linked_events'][0]['_resolved']['outcome_note']).to eq('testing')
+    expect(resolved['linked_events'][0]['_resolved']['linked_records'][0]['_resolved']['title']).to eq(accession.title)
   end
 
 end

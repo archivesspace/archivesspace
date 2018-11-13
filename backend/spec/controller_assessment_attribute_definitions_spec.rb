@@ -18,7 +18,7 @@ describe 'Assessment attribute definitions controller' do
 
     aad = JSONModel(:assessment_attribute_definitions).find(nil)
 
-    aad.definitions.map {|d| d['label']}.should eq(sample_definitions.map {|d| d['label']})
+    expect(aad.definitions.map {|d| d['label']}).to eq(sample_definitions.map {|d| d['label']})
   end
 
   it "updates definitions and gets the order right" do
@@ -33,9 +33,9 @@ describe 'Assessment attribute definitions controller' do
 
     aad.save
 
-    JSONModel(:assessment_attribute_definitions).find(nil)
-      .definitions.reject {|d| d['global']}.map {|d| d['label']}
-      .should eq(aad.definitions.reject {|d| d['global']}.map {|d| d['label']})
+    expect(JSONModel(:assessment_attribute_definitions).find(nil)
+      .definitions.reject {|d| d['global']}.map {|d| d['label']})
+      .to eq(aad.definitions.reject {|d| d['global']}.map {|d| d['label']})
   end
 
   it "implicitly removes (unused) definitions if you omit them from an update" do
@@ -59,14 +59,14 @@ describe 'Assessment attribute definitions controller' do
 
     # The new definition shares a position with the original entry, but that's
     # OK.  As long as they're both kept.
-    JSONModel(:assessment_attribute_definitions).find(nil).definitions.map {|d| d['label']}
-      .should eq(global_labels + ['New Definition'])
+    expect(JSONModel(:assessment_attribute_definitions).find(nil).definitions.map {|d| d['label']})
+      .to eq(global_labels + ['New Definition'])
   end
 
   it "returns the global definitions too" do
     aad = JSONModel(:assessment_attribute_definitions).find(nil)
 
-    aad.definitions.length.should be > 0
+    expect(aad.definitions.length).to be > 0
 
     aad.definitions.all? {|d| d['repo_id'] == 1}
   end

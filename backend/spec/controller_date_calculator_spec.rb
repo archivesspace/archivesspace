@@ -16,21 +16,21 @@ describe 'Date Calculator controller' do
     resource = create_resource
 
     response = perform_calculate(resource.uri)
-    response.code.should eq("200")
+    expect(response.code).to eq("200")
 
     report = ASUtils.json_parse(response.body)
 
-    report.keys.should include('object')
-    report.keys.should include('resource')
-    report.keys.should include('label')
-    report.keys.should include('min_begin')
-    report.keys.should include('min_begin_date')
-    report.keys.should include('max_end')
-    report.keys.should include('max_end_date')
+    expect(report.keys).to include('object')
+    expect(report.keys).to include('resource')
+    expect(report.keys).to include('label')
+    expect(report.keys).to include('min_begin')
+    expect(report.keys).to include('min_begin_date')
+    expect(report.keys).to include('max_end')
+    expect(report.keys).to include('max_end_date')
 
-    report.fetch('object').fetch('uri').should eq(resource.uri)
-    report.fetch('object').fetch('id').should eq(resource.id)
-    report.fetch('object').fetch('jsonmodel_type').should eq('resource')
+    expect(report.fetch('object').fetch('uri')).to eq(resource.uri)
+    expect(report.fetch('object').fetch('id')).to eq(resource.id)
+    expect(report.fetch('object').fetch('jsonmodel_type')).to eq('resource')
   end
 
   it "throws an error when user cannot access the repository" do
@@ -38,11 +38,11 @@ describe 'Date Calculator controller' do
     resource = create_resource
 
     as_anonymous_user do
-      perform_calculate(resource.uri).code.should eq("403")
+      expect(perform_calculate(resource.uri).code).to eq("403")
     end
 
-    as_test_user('noaccess') do 
-      perform_calculate(resource.uri).code.should eq("403")
+    as_test_user('noaccess') do
+      expect(perform_calculate(resource.uri).code).to eq("403")
     end
   end
 

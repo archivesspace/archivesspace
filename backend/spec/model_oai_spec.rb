@@ -63,19 +63,19 @@ describe 'OAI handler' do
     it "responds to an OAI Identify request" do
       expect {
         check_oai_request_against_fixture('identify', :verb => 'Identify')
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it "responds to an OAI ListMetadataFormats request" do
       expect {
         check_oai_request_against_fixture('list_metadata_formats', :verb => 'ListMetadataFormats')
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it "responds to an OAI ListSets request" do
       expect {
         check_oai_request_against_fixture('list_sets', :verb => 'ListSets')
-      }.to_not raise_error
+      }.not_to raise_error
     end
 
     it "includes sets defined in OAIConfig table in ListSets request" do
@@ -102,7 +102,7 @@ describe 'OAI handler' do
                                             :verb => 'GetRecord',
                                             :identifier => 'oai:archivesspace/' + @test_resource_record,
                                             :metadataPrefix => prefix)
-        }.to_not raise_error
+        }.not_to raise_error
       end
     end
 
@@ -119,7 +119,7 @@ describe 'OAI handler' do
     #                                         :verb => 'GetRecord',
     #                                         :identifier => 'oai:archivesspace/' + @test_resource_record,
     #                                         :metadataPrefix => prefix)
-    #     }.to_not raise_error
+    #     }.not_to raise_error
     #   end
     # end
   end
@@ -173,20 +173,20 @@ describe 'OAI handler' do
 
     it "supports an unqualified ListRecords request" do
       response = oai_repo.find(:all, {:metadata_prefix => "oai_dc"})
-      response.records.length.should eq(page_size)
+      expect(response.records.length).to eq(page_size)
     end
 
     it "supports resumption tokens" do
       page1_response = oai_repo.find(:all, {:metadata_prefix => "oai_dc"})
       page1_uris = page1_response.records.map(&:jsonmodel_record).map(&:uri)
 
-      page1_response.token.should_not be_nil
+      expect(page1_response.token).not_to be_nil
 
       page2_response = oai_repo.find(:all, {:resumption_token => page1_response.token.serialize})
       page2_uris = page2_response.records.map(&:jsonmodel_record).map(&:uri)
 
       # We got some different URIs on the next page
-      (page2_uris + page1_uris).length.should eq(page1_uris.length + page2_uris.length)
+      expect((page2_uris + page1_uris).length).to eq(page1_uris.length + page2_uris.length)
     end
 
     it "supports date ranges when listing records" do
@@ -208,7 +208,7 @@ describe 'OAI handler' do
                                       :from => start_time,
                                       :until => end_time})
 
-      response.records.length.should eq(record_count)
+      expect(response.records.length).to eq(record_count)
     end
 
     it "lists deletes" do
@@ -224,7 +224,7 @@ describe 'OAI handler' do
 
         if response.is_a?(Array)
           # Our final page of results--which should be entirely deletes
-          response.all?(&:deleted?).should be(true)
+          expect(response.all?(&:deleted?)).to be_truthy
 
           break
         elsif response.token
@@ -240,9 +240,9 @@ describe 'OAI handler' do
 
     it "supports OAI sets based on levels" do
       response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'fonds'})
-      response.records.length.should be > 0
+      expect(response.records.length).to be > 0
 
-      response.records.map(&:jsonmodel_record).map(&:level).uniq.should eq(['fonds'])
+      expect(response.records.map(&:jsonmodel_record).map(&:level).uniq).to eq(['fonds'])
     end
 
 
@@ -253,8 +253,8 @@ describe 'OAI handler' do
 
       response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_set'})
 
-      response.records.all? {|record| record.jsonmodel_record.resource['ref'] == @test_resource_record}
-        .should be(true)
+      expect(response.records.all? {|record| record.jsonmodel_record.resource['ref'] == @test_resource_record})
+        .to be_truthy
     end
 
     it "supports OAI sets based on repositories" do
@@ -289,10 +289,10 @@ describe 'OAI handler' do
         response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_set_name'})
 
         # Just matched the single collection
-        response.records.length.should eq(1)
+        expect(response.records.length).to eq(1)
 
         resource = response.records.first
-        resource.jsonmodel_record['finding_aid_sponsor'].should eq('sponsor_0')
+        expect(resource.jsonmodel_record['finding_aid_sponsor']).to eq('sponsor_0')
       end
 
       it "supports OAI sets based on repositories for resource records too" do
@@ -359,8 +359,8 @@ describe 'OAI handler' do
         expect(response.body).to match(/<dc:rights>conditions governing access note<\/dc:rights>/)
         expect(response.body).to match(/<dc:rights>conditions governing use note<\/dc:rights>/)
 
-        expect(response.body).to_not match(/<dc:relation>conditions governing access note<\/dc:relation>/)
-        expect(response.body).to_not match(/<dc:relation>conditions governing use note<\/dc:relation>/)
+        expect(response.body).not_to match(/<dc:relation>conditions governing access note<\/dc:relation>/)
+        expect(response.body).not_to match(/<dc:relation>conditions governing use note<\/dc:relation>/)
       end
 
       it "should map Extents to dc:format, not dc:extent" do
@@ -372,9 +372,9 @@ describe 'OAI handler' do
         expect(response.body).to match(/<dc:format>physical description note<\/dc:format>/)
         expect(response.body).to match(/<dc:format>dimensions note<\/dc:format>/)
 
-        expect(response.body).to_not match(/<dc:extent>10 Volumes; Container summary<\/dc:extent>/)
-        expect(response.body).to_not match(/<dc:extent>physical description note<\/dc:extent>/)
-        expect(response.body).to_not match(/<dc:extent>dimensions note<\/dc:extent>/)
+        expect(response.body).not_to match(/<dc:extent>10 Volumes; Container summary<\/dc:extent>/)
+        expect(response.body).not_to match(/<dc:extent>physical description note<\/dc:extent>/)
+        expect(response.body).not_to match(/<dc:extent>dimensions note<\/dc:extent>/)
       end
     end
   end
@@ -383,25 +383,25 @@ describe 'OAI handler' do
     it "should respect publish flags for dc exports" do
       uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dc"
       response = get uri
-      expect(response.body).to_not match(/note with unpublished parent node/)
+      expect(response.body).not_to match(/note with unpublished parent node/)
     end
 
     it "should respect publish flags for ead exports" do
       uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_ead"
       response = get uri
-      expect(response.body).to_not match(/note with unpublished parent node/)
+      expect(response.body).not_to match(/note with unpublished parent node/)
     end
 
     it "should respect publish flags for marc exports" do
       uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_marc"
       response = get uri
-      expect(response.body).to_not match(/note with unpublished parent node/)
+      expect(response.body).not_to match(/note with unpublished parent node/)
     end
 
     it "should respect publish flags for mods exports" do
       uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_mods"
       response = get uri
-      expect(response.body).to_not match(/note with unpublished parent node/)
+      expect(response.body).not_to match(/note with unpublished parent node/)
     end
 
   end
@@ -454,7 +454,7 @@ describe 'OAI handler' do
       # should not have any non-tombstone results in xml
       expect(doc.xpath("//xmlns:header[not(@status='deleted')]").length).to eq(0)
     end
-  
+
     it "returns an object if set included in OAI in repo" do
         # query explicitly for only fonds objects
         uri = "/oai?verb=ListRecords&set=fonds&metadataPrefix=oai_dc"

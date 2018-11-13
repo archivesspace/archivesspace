@@ -31,8 +31,8 @@ describe 'Top Container model' do
 
     # Confirm all is still well with the resource
     resource = JSONModel(:resource).find(resource.id)
-    resource.should_not eq(nil)
-    resource.instances.count.should be(0)
+    expect(resource).not_to be_nil
+    expect(resource.instances.count).to be(0)
 
   end
 

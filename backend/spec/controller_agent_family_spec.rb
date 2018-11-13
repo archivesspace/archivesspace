@@ -13,7 +13,7 @@ describe 'Family agent controller' do
             }
 
     id = create_family(opts).id
-    JSONModel(:agent_family).find(id).names.first['family_name'].should eq(opts[:names][0]['family_name'])
+    expect(JSONModel(:agent_family).find(id).names.first['family_name']).to eq(opts[:names][0]['family_name'])
   end
 
 
@@ -28,7 +28,7 @@ describe 'Family agent controller' do
 
       family.save
 
-      JSONModel(:agent_family).find(id).agent_contacts[n]['name'].should eq(opts[:name])
+      expect(JSONModel(:agent_family).find(id).agent_contacts[n]['name']).to eq(opts[:name])
     end
   end
 
@@ -36,7 +36,7 @@ describe 'Family agent controller' do
     opts = {:names => [build(:json_name_family, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
 
     id = create_family(opts).id
-    JSONModel(:agent_family).find(id).names.first['sort_name'].should eq(opts[:names][0]['sort_name'])
+    expect(JSONModel(:agent_family).find(id).names.first['sort_name']).to eq(opts[:names][0]['sort_name'])
   end
 
 
@@ -46,12 +46,12 @@ describe 'Family agent controller' do
 
     agent = JSONModel(:agent_family).find(id)
 
-    agent.names.first['sort_name'].should match(/\AHendrix/)
+    expect(agent.names.first['sort_name']).to match(/\AHendrix/)
 
     agent.names.first['qualifier'] = "FACT123"
     agent.save
 
-    JSONModel(:agent_family).find(id).names.first['sort_name'].should match(/\AHendrix.*\(FACT123\)/)
+    expect(JSONModel(:agent_family).find(id).names.first['sort_name']).to match(/\AHendrix.*\(FACT123\)/)
   end
 
 
@@ -59,7 +59,7 @@ describe 'Family agent controller' do
     uris = (1...4).map {|_| create_family.uri}
     results = JSONModel(:agent_family).all(:page => 1)['results'].map {|rec| rec['uri']}
 
-    (uris - results).length.should eq(0)
+    expect((uris - results).length).to eq(0)
   end
 
 end
