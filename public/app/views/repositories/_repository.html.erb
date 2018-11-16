@@ -2,7 +2,7 @@
    <div class="recordrow">
 <% end %>
 
-<%= (full ? '<h1>' : '<h3>').html_safe %>
+<%= (full ? '<h1>' : '<h2>').html_safe %>
 
 <% if !full %><a class="record-title" href="<%= repository_base_url(result) %>"><% end %><%= result['name']%>
 <% if !full %></a><% end %>
