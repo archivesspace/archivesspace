@@ -810,7 +810,7 @@ module AspaceFormHelper
       # For repo scoped objects,
       # if we have access to the repo slug in the session and the repo scoped URLs are enabled
       # generate link with repo slug
-      if obj['slug']
+      if obj['slug'] && AppConfig[:slugs] == :show
         if scope == :repo
           if generate_url_with_repo_slug && repo_slug
             url << "/" + "repositories" + "/"

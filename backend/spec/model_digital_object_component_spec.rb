@@ -46,6 +46,18 @@ describe 'DigitalObjectComponent model' do
 
       expect(digital_object_rec[:slug]).to eq(expected_slug)
     end
+
+    it "generates a slug for largetree if show slug is set to show" do
+      AppConfig[:slugs] = :show
+
+      expect(SlugHelpers.get_slugged_url_for_largetree("DigitalObjectComponent", $repo_id, "doc_slug")).to eq( AppConfig[:public_proxy_url] + "/digital_object_components/doc_slug")
+    end
+
+    it "does not generate a slug for largetree if show slug is set to hide" do
+      AppConfig[:slugs] = :hide
+
+      expect(SlugHelpers.get_slugged_url_for_largetree("DigitalObjectComponent", $repo_id, "doc_slug").empty?).to eq( true )
+    end
   end
 
 end

@@ -347,6 +347,17 @@ describe 'ArchivalObject model' do
 
       expect(digital_object_rec[:slug]).to eq(expected_slug)
     end
-  end
 
+    it "generates a slug for largetree if show slug is set to show" do
+      AppConfig[:slugs] = :show
+
+      expect(SlugHelpers.get_slugged_url_for_largetree("ArchivalObject", $repo_id, "ao_slug")).to eq( AppConfig[:public_proxy_url] + "/archival_objects/ao_slug")
+    end
+
+    it "does not generate a slug for largetree if show slug is set to hide" do
+      AppConfig[:slugs] = :hide
+
+      expect(SlugHelpers.get_slugged_url_for_largetree("ArchivalObject", $repo_id, "ao_slug").empty?).to eq( true )
+    end
+  end
 end
