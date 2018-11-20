@@ -72,7 +72,9 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
                               .select(:oai_sets_available)
                               .map {|r| JSON::parse(r[:oai_sets_available]) rescue [] }
 
-    # if oai_sets_enabled array is blank, then all sets are enabled for that repo
+    # if oai_sets_available array is blank, then all sets are enabled for that repository.
+    # if a repository is restricted to certain sets, then those set_ids will be in the oai_sets_available array.
+    # So, we're looking to see if there is at least one repository with an empty set OR this set_id in the oai_sets_available array.
     set_id = BackendEnumSource.id_for_value("archival_record_level", set.name).to_s
 
     repos_enabling_set = sets_in_repos.select {|r| r.length == 0 || r.include?(set_id)}
