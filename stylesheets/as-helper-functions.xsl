@@ -532,7 +532,6 @@
                 <xsl:when test="@langcode = 'raj'">Rajasthani</xsl:when>
                 <xsl:when test="@langcode = 'rap'">Rapanui</xsl:when>
                 <xsl:when test="@langcode = 'rar'">Rarotongan</xsl:when>
-                <xsl:when test="@langcode = 'qaa-qtz'">Reserved for local user</xsl:when>
                 <xsl:when test="@langcode = 'roa'">Romance (Other)</xsl:when>
                 <xsl:when test="@langcode = 'rom'">Romani</xsl:when>
                 <xsl:when test="@langcode = 'rum'">Romanian</xsl:when>
