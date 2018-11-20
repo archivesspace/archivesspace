@@ -7,7 +7,7 @@
   <div class="col-md-9">
     <%= render_aspace_partial :partial => "toolbar" %>
     <div class="record-pane">
-      <a name="basic_information" id="basic_information"></a>
+      <section id="basic_information">
       <%= readonly_context :top_container, @top_container do |readonly| %>
         <h2><%= @top_container.display_string %> <span class="label label-info"><%= I18n.t("top_container._singular") %></span></h2>
 
