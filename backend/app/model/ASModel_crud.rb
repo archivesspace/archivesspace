@@ -391,9 +391,20 @@ module ASModel
           # We don't index records without URIs, so no point digging them out of the database either.
           return unless uri
 
-          hash = model.to_jsonmodel(sequel_obj.id).to_hash(:trusted)
+          record_id = sequel_obj.id
+          repo_id = RequestContext.get(:repo_id)
+
           DB.after_commit do
-            RealtimeIndexing.record_update(hash, uri)
+            RequestContext.open(:repo_id => repo_id) do
+              # if the record was created in a transaction that was rolled back
+              # then it won't exist after the rollback, so we make sure it's there
+              # before trying to fire the update
+              record = model.any_repo.filter(:id => record_id).first
+              if record
+                hash = model.to_jsonmodel(record).to_hash(:trusted)
+                RealtimeIndexing.record_update(hash, uri)
+              end
+            end
           end
         end
       end
