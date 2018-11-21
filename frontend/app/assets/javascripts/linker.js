@@ -365,7 +365,7 @@ $(function() {
         setTimeout(function() {
           $this.tokenInput(config.url, tokenInputConfig);
 
-          $("> :input[type=text]", $(".token-input-input-token", $this.parent())).attr("placeholder", AS.linker_locales.hintText);
+          $("> :input[type=text]", $(".token-input-input-token", $this.parent())).attr("placeholder", AS.linker_locales.hintText).attr("aria-label", config.label);
           $("> :input[type=text]", $(".token-input-input-token", $this.parent())).addClass('form-control');
 
           $this.parent().addClass("multiplicity-"+config.multiplicity);

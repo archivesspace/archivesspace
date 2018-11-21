@@ -1,7 +1,7 @@
 <table class="table table-striped table-bordered table-condensed table-spreadsheet">
   <thead>
   <tr>
-    <th></th>
+    <th><span class="sr-only">Selected?</span></th>
     <th class="required"><%= I18n.t("location_batch.label") %></th>
     <th><%= I18n.t("location_batch.prefix") %></th>
     <th class="highlighted required"><%= I18n.t("location_batch.start") %></th>
@@ -13,31 +13,31 @@
   <% form.push("coordinate_1_range", @location_batch["coordinate_1_range"] || {}) do %>
     <tr>
       <td><span id="location_batch_coordinate_1_range_"><%= I18n.t("location_batch.coordinate_1_range") %></span></td>
-      <td><%= form.textfield "label" %></td>
-      <td><%= form.textfield "prefix" %></td>
-      <td><%= form.textfield "start" %></td>
-      <td><%= form.textfield "end" %></td>
-      <td><%= form.textfield "suffix" %></td>
+      <td><%= form.textfield "label", nil, :'aria-label' => "Label" %></td>
+      <td><%= form.textfield "prefix", nil, :'aria-label' => "Prefix"  %></td>
+      <td><%= form.textfield "start", nil, :'aria-label' => "Start"  %></td>
+      <td><%= form.textfield "end", nil, :'aria-label' => "End"  %></td>
+      <td><%= form.textfield "suffix", nil, :'aria-label' => "Suffix"  %></td>
     </tr>
   <% end %>
   <% form.push("coordinate_2_range", @location_batch["coordinate_2_range"] || {}) do %>
     <tr>
       <td><span id="location_batch_coordinate_2_range_"><%= I18n.t("location_batch.coordinate_2_range") %></span></td>
-      <td><%= form.textfield "label" %></td>
-      <td><%= form.textfield "prefix" %></td>
-      <td><%= form.textfield "start" %></td>
-      <td><%= form.textfield "end" %></td>
-      <td><%= form.textfield "suffix" %></td>
+      <td><%= form.textfield "label", nil, :'aria-label' => "Label" %></td>
+      <td><%= form.textfield "prefix", nil, :'aria-label' => "Prefix"  %></td>
+      <td><%= form.textfield "start", nil, :'aria-label' => "Start"  %></td>
+      <td><%= form.textfield "end", nil, :'aria-label' => "End"  %></td>
+      <td><%= form.textfield "suffix", nil, :'aria-label' => "Suffix"  %></td>
     </tr>
   <% end %>
   <% form.push("coordinate_3_range", @location_batch["coordinate_3_range"] || {}) do %>
     <tr>
       <td><span id="location_batch_coordinate_3_range_"><%= I18n.t("location_batch.coordinate_3_range") %></span></td>
-      <td ><%= form.textfield "label" %></td>
-      <td><%= form.textfield "prefix" %></td>
-      <td><%= form.textfield "start" %></td>
-      <td><%= form.textfield "end" %></td>
-      <td><%= form.textfield "suffix" %></td>
+      <td><%= form.textfield "label", nil, :'aria-label' => "Label" %></td>
+      <td><%= form.textfield "prefix", nil, :'aria-label' => "Prefix"  %></td>
+      <td><%= form.textfield "start", nil, :'aria-label' => "Start"  %></td>
+      <td><%= form.textfield "end", nil, :'aria-label' => "End"  %></td>
+      <td><%= form.textfield "suffix", nil, :'aria-label' => "Suffix"  %></td>
     </tr>
   <% end %>
   </tbody>

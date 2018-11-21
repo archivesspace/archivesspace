@@ -805,7 +805,7 @@ $(function() {
       var $alert = $(this);
 
       // add a close icon to the alert
-      var $close = $("<a>").attr("href", "javascript:void(0);").addClass("hide-alert");
+      var $close = $("<button>").attr("title", "Close alert").attr("aria-label", "Close alert").addClass("hide-alert");
       $close.append($("<span>").addClass("glyphicon glyphicon-remove"));
       $close.click(handleCloseAlert);
 
