@@ -142,7 +142,7 @@ module ObjectGraph
           if association[:type] != :many_to_many
             nested_model = Kernel.const_get(association[:class_name])
 
-            ids = nested_model.filter(association[:key] => object_graph.ids_for(model)).
+            ids = opts.fetch(nested_model, nested_model).filter(association[:key] => object_graph.ids_for(model)).
                                select(:id).map {|row|
               row[:id]
             }

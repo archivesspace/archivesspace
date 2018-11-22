@@ -111,42 +111,45 @@ module ASModel
         end
 
         if value == :repository
-          model = self
-          orig_ds = self.dataset.clone
 
-          # Provide a new '.this_repo' method on this model class that only
-          # returns records that belong to the current repository.
-          def_dataset_method(:this_repo) do
-            filter = model.columns.include?(:repo_id) ? {:repo_id => model.active_repository} : {}
+          dataset_module do
 
-            if model.suppressible? && model.enforce_suppression?
-              filter[Sequel.qualify(model.table_name, :suppressed)] = 0
+            # Provide a new '.this_repo' method on this model class that only
+            # returns records that belong to the current repository.
+            def this_repo
+              filter = model.columns.include?(:repo_id) ? {:repo_id => model.active_repository} : {}
+
+              if model.suppressible? && model.enforce_suppression?
+                filter[Sequel.qualify(model.table_name, :suppressed)] = 0
+              end
+
+              out = model.dataset.filter(filter)
+
+              # Replace the default row_proc with one that fetches the request row,
+              # but blows up if that row isn't from the currently active repository.
+              orig_row_proc = out.row_proc
+              out.row_proc = proc do |row|
+                if row.has_key?(:repo_id) && row[:repo_id] != model.active_repository
+                  raise ("ASSERTION FAILED: #{row.inspect} has a repo_id of " +
+                         "#{row[:repo_id]} but the active repository is #{model.active_repository}")
+                end
+
+                orig_row_proc.call(row)
+              end
+
+              out
             end
 
-            orig_ds.filter(filter)
-          end
 
-
-          # And another that will return records from any repository
-          def_dataset_method(:any_repo) do
-            if model.suppressible? && model.enforce_suppression?
-              orig_ds.filter(Sequel.qualify(model.table_name, :suppressed) => 0)
-            else
-              orig_ds
-            end
-          end
-
-
-          # Replace the default row_proc with one that fetches the request row,
-          # but blows up if that row isn't from the currently active repository.
-          orig_row_proc = self.dataset.row_proc
-          self.dataset.row_proc = proc do |row|
-            if row.has_key?(:repo_id) && row[:repo_id] != model.active_repository
-              raise ("ASSERTION FAILED: #{row.inspect} has a repo_id of " +
-                     "#{row[:repo_id]} but the active repository is #{model.active_repository}")
+            def any_repo(dataset = false)
+              my_ds = dataset || model.dataset
+              if model.suppressible? && model.enforce_suppression?
+                my_ds.filter(Sequel.qualify(model.table_name, :suppressed) => 0)
+              else
+                my_ds
+              end
             end
 
-            orig_row_proc.call(row)
           end
 
         else

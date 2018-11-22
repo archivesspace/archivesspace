@@ -318,7 +318,7 @@ module Notes
 
       column = "#{self.table_name}_id".intern
 
-      ids = Note.filter(column => object_graph.ids_for(self)).
+      ids = opts.fetch(Note, Note).filter(column => object_graph.ids_for(self)).
                  map {|row| row[:id]}
 
       object_graph.add_objects(Note, ids)

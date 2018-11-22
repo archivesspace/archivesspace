@@ -41,7 +41,7 @@ module AgentNames
       # Add the rows for authority IDs too
       column = "#{self.table_name}_id".intern
 
-      ids = NameAuthorityId.filter(column => object_graph.ids_for(self)).
+      ids = opts.fetch(NameAuthorityId, NameAuthorityId).filter(column => object_graph.ids_for(self)).
                             map {|row| row[:id]}
 
       object_graph.add_objects(NameAuthorityId, ids)

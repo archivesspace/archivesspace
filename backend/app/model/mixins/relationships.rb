@@ -201,14 +201,14 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
   # Return the list of relationships involving any of the records named in
   # 'participant_ids'
-  def self.find_by_participant_ids(participant_model, participant_ids)
+  def self.find_by_participant_ids(participant_model, participant_ids, opts = {})
     result = []
 
     return result if participant_ids.empty?
     reference_columns = self.reference_columns_for(participant_model)
 
     reference_columns.each do |col|
-      self.filter(col => participant_ids).each do |relationship|
+      opts.fetch(self, self).filter(col => participant_ids).each do |relationship|
         result << relationship
       end
     end
@@ -456,7 +456,7 @@ module Relationships
         object_graph.each do |model, id_list|
           next unless relationship_defn.participating_models.include?(model)
 
-          linked_relationships = relationship_defn.find_by_participant_ids(model, id_list).map {|row|
+          linked_relationships = relationship_defn.find_by_participant_ids(model, id_list, opts).map {|row|
             row[:id]
           }
 

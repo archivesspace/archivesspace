@@ -358,8 +358,7 @@ module Trees
     def calculate_object_graph(object_graph, opts = {})
       object_graph.each do |model, id_list|
         next if self != model
-
-        ids = node_model.any_repo.filter(:root_record_id => id_list).
+        ids = node_model.any_repo(opts.fetch(node_model, nil)).filter(:root_record_id => id_list).
                          select(:id).map {|row|
           row[:id]
         }
