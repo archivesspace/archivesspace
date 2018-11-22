@@ -111,9 +111,58 @@ module ASModel
         end
 
         if value == :repository
+          # Replace the default row_proc with one that fetches the request row,
+          # but blows up if that row isn't from the currently active repository.
+          #
+          # The idea here is as follows:
+          #
+          #  * You have a repository-scoped model whose records you are going to
+          #    fetch.
+          #
+          #  * Depending on your query, it's possible to return records that
+          #    belong to a different repository to the one that's active for the
+          #    current request.  We want to avoid this!
+          #
+          #  * So, if you use model.this_repo, we'll add the right filters to
+          #    scope to the current repository and you don't have to think about
+          #    it further.
+          #
+          #  * Or you can use model.any_repo to explicitly say that you'll be
+          #    returning records from multiple repositories and know what you're
+          #    doing.
+          #
+          #  * If you don't use either of these dataset methods, we'll fall back
+          #    to checking the records pulled back at runtime to catch any
+          #    cross-repository accesses.  We do this using a Sequel `row_proc`
+          #    function.  If this ever fails, it's a programming error.
+          #
 
+          # First we stash away the original (unchecked) dataset for use internally.
           dataset_module do
+            # Give ourselves an instance variable on the model to hang the original dataset...
+            attr_accessor :raw_dataset
+          end
 
+          # ... and use it
+          self.raw_dataset = self.dataset.clone
+
+          # Then mutate the default dataset to include our row_proc that will
+          # provide the fallback repository checking we want.
+          orig_row_proc = self.dataset.row_proc
+          repo_scoped_model = self
+
+          self.dataset.row_proc = proc do |row|
+            if row.has_key?(:repo_id) && row[:repo_id] != repo_scoped_model.active_repository
+              raise ("ASSERTION FAILED: #{row.inspect} has a repo_id of " +
+                     "#{row[:repo_id]} but the active repository is #{repo_scoped_model.active_repository}")
+            end
+
+            orig_row_proc.call(row)
+          end
+
+          # Finally, define our accessors.  They use the raw dataset to bypass
+          # the row_proc check we just added, since they're "pre-screened".
+          dataset_module do
             # Provide a new '.this_repo' method on this model class that only
             # returns records that belong to the current repository.
             def this_repo
@@ -123,26 +172,12 @@ module ASModel
                 filter[Sequel.qualify(model.table_name, :suppressed)] = 0
               end
 
-              out = model.dataset.filter(filter)
-
-              # Replace the default row_proc with one that fetches the request row,
-              # but blows up if that row isn't from the currently active repository.
-              orig_row_proc = out.row_proc
-              out.row_proc = proc do |row|
-                if row.has_key?(:repo_id) && row[:repo_id] != model.active_repository
-                  raise ("ASSERTION FAILED: #{row.inspect} has a repo_id of " +
-                         "#{row[:repo_id]} but the active repository is #{model.active_repository}")
-                end
-
-                orig_row_proc.call(row)
-              end
-
-              out
+              model.raw_dataset.filter(filter)
             end
 
 
             def any_repo(dataset = false)
-              my_ds = dataset || model.dataset
+              my_ds = dataset || model.raw_dataset
               if model.suppressible? && model.enforce_suppression?
                 my_ds.filter(Sequel.qualify(model.table_name, :suppressed) => 0)
               else
