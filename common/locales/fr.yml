@@ -1450,9 +1450,9 @@ fr:
       update_assessment_record: créer/actualiser des notices d'évaluation
       delete_assessment_record: supprimer des notices d'évaluation
       manage_assessment_attributes: créer/mettre à jour/supprimer des définitions d'attributs d'évaluation du service
-      manage_enumeration_record: créer/mettre à jour/supprimer des enregistrements de valeurs contrôlées
-    _singular: Group
-    _plural: Groups
+      manage_enumeration_record: créer/mettre à jour/supprimer des notices de valeurs contrôlées
+    _singular: Groupe
+    _plural: Groupes
 
   resource:
     <<: *archival_object_attributes

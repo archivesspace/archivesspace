@@ -847,7 +847,6 @@ fr:
     _sidebar:
       oai_settings:
         _plural: Paramètres de récolte OAI
-
   resource:
     _frontend:
       messages:
