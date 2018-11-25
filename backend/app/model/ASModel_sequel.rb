@@ -11,7 +11,7 @@ module ASModel
     # top-level records upon save.  Pure-nested records don't need refreshing,
     # so skip them.
     def _save_refresh
-      if self.class.top_level?
+      if self.class.is_a?(ASModel) && self.class.top_level?
         _refresh(this.opts[:server] ? this : this.server(:default))
       end
     end
