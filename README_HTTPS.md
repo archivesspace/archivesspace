@@ -110,6 +110,8 @@ requests to the actual application urls. Example:
        ProxyPassReverse / http://localhost:8081/
      </VirtualHost>
 
+You may optionally set the `Set-Cookie: Secure attribute` by adding `Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure`. When a cookie has the Secure attribute, the user agent will include the cookie in an HTTP request only if the request is transmitted over a secure channel.
+
 More information about configuring Apache for SSL can be found at
 http://httpd.apache.org/docs/current/ssl/ssl_howto.html.  You should read
 that documentation before attempting to configure SSL.
