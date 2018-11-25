@@ -914,3 +914,10 @@ $(function() {
 AS.app_prefix = function(path) {
     return APP_PATH + path.replace(/^\//, '');
 };
+
+// Enable bootstrap-tagsinput for any elements with class 'js-taggable'
+$(function() {
+  $(document).ready(function() {
+    $('.js-taggable').tagsinput({confirmKeys: [13], delimiter: '|' });
+  });
+});

@@ -78,6 +78,22 @@ describe 'OAI handler' do
       }.not_to raise_error
     end
 
+    it "includes sets defined in OAIConfig table in ListSets request" do
+      oc = OAIConfig.first
+      oc.update(:repo_set_codes       => ['foo', 'bar'].to_json, 
+                :repo_set_description => "foobar",
+                :repo_set_name        => "repo_set_name",
+                :sponsor_set_names    => ['bim', 'baz'].to_json, 
+                :sponsor_set_description => "bimbaz",
+                :sponsor_set_name        => "sponsor_set_name",
+                ) 
+      
+      result = ArchivesSpaceOaiProvider.new.process_request(:verb => 'ListSets')
+      expect(result).to match(/<setSpec>sponsor_set_name<\/setSpec><setName>sponsor_set_name<\/setName>/)
+      expect(result).to match(/<setSpec>repo_set_name<\/setSpec><setName>repo_set_name<\/setName>/)
+      expect(result).to match(/<oai_dc:description>bimbaz<\/oai_dc:description>/)
+      expect(result).to match(/<oai_dc:description>foobar<\/oai_dc:description>/)
+    end
 
     RESOURCE_BASED_FORMATS.each do |prefix|
       it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
@@ -231,34 +247,25 @@ describe 'OAI handler' do
 
 
     it "supports OAI sets based on sponsors" do
-      allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
-      allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+      oc = OAIConfig.first
+      oc.update(:sponsor_set_names       => ['sponsor_0'].to_json,
+                :sponsor_set_description => "sponsor_set_description")
 
-      allow(AppConfig).to receive(:[]).with(any_args).and_call_original
-      allow(AppConfig).to receive(:[]).with(:oai_sets)
-                            .and_return('sponsor_0' => {
-                                          :sponsors => ['sponsor_0']
-                                        })
-
-      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_0'})
+      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_set'})
 
       expect(response.records.all? {|record| record.jsonmodel_record.resource['ref'] == @test_resource_record})
         .to be_truthy
     end
 
     it "supports OAI sets based on repositories" do
-      allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
-      allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+      oc = OAIConfig.first
+      oc.update(:repo_set_codes       => ['oai_test'].to_json, 
+                :repo_set_name        => "repo_set_name",
+                :repo_set_description => "repo_set_description")
 
-      allow(AppConfig).to receive(:[]).with(any_args).and_call_original
-      allow(AppConfig).to receive(:[]).with(:oai_sets)
-                            .and_return('by_repo' => {
-                                          :repo_codes => ['oai_test']
-                                        })
-
-      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'by_repo'})
-      expect(response.records.all? {|record| record.sequel_record.repo_id == @oai_repo_id})
-        .to be_truthy
+      response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'repo_set_name'})
+      response.records.all? {|record| record.sequel_record.repo_id == @oai_repo_id}
+        .should be(true)
     end
 
     describe "OAI sets for resource records" do
@@ -274,16 +281,12 @@ describe 'OAI handler' do
       }
 
       it "supports OAI sets based on sponsors for resource records too" do
-        allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
-        allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+        oc = OAIConfig.first
+        oc.update(:sponsor_set_names       => ['sponsor_0'].to_json, 
+                  :sponsor_set_name        => "sponsor_set_name",
+                  :sponsor_set_description => "sponsor_set_description")
 
-        allow(AppConfig).to receive(:[]).with(any_args).and_call_original
-        allow(AppConfig).to receive(:[]).with(:oai_sets)
-                              .and_return('sponsor_0' => {
-                                            :sponsors => ['sponsor_0']
-                                          })
-
-        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_0'})
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'sponsor_set_name'})
 
         # Just matched the single collection
         expect(response.records.length).to eq(1)
@@ -293,19 +296,14 @@ describe 'OAI handler' do
       end
 
       it "supports OAI sets based on repositories for resource records too" do
-        allow(AppConfig).to receive(:has_key?).with(any_args).and_call_original
-        allow(AppConfig).to receive(:has_key?).with(:oai_sets).and_return(true)
+        oc = OAIConfig.first
+        oc.update(:repo_set_codes          => ['oai_test'].to_json, 
+                  :repo_set_name        => "repo_set_name",
+                  :repo_set_description    => "repo_set_description")
 
-        allow(AppConfig).to receive(:[]).with(any_args).and_call_original
-        allow(AppConfig).to receive(:[]).with(:oai_sets)
-                              .and_return('by_repo' => {
-                                            :repo_codes => ['oai_test']
-                                          })
-
-        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'by_repo'})
-        expect(response.records.count).to eq(5)
+        response = oai_repo.find(:all, {:metadata_prefix => "oai_dc", :set => 'repo_set_name'})
+        response.records.count.should eq(5)
       end
-
     end
 
     it "doesn't reveal published or suppressed records" do

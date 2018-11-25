@@ -1961,6 +1961,14 @@ en:
     custom_report_template_name_not_unique: The custom report template's name must be unique.
     custom_report_must_include_field_or_subreport: The custom report template must include at least one field or subreport.
     missing_filter_values: Selected to filter results by field but no value(s) given 
+    must_be_a_valid_email_address: Email address field must contain a valid address
+    repo_set_desc_required: Repository set description is required for creating an OAI repository set
+    repo_set_name_required: Repository set name is required for creating an OAI repository set
+    is_not_present: Required field missing
+    must_be_a_valid_email_address: Must contain a valid address
+    sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
+    sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
+
 
   job:
     _singular: Background Job
@@ -2234,3 +2242,21 @@ en:
     field: Field
     _singular: Custom Report Template
     _plural: Custom Report Templates
+
+  repository_oai:
+    oai_is_disabled_tooltip: OAI is disabled tooltip
+    oai_sets_available_tooltip: OAI sets available tooltip
+
+  oai_config:
+    oai_record_prefix_tooltip: OAI Record Prefix Tooltip
+    oai_admin_email_tooltip: OAI Admin Email tooltip
+    oai_repository_name_tooltip: OAI Repository name tooltip
+    repo_set_name_tooltip: Repo Set name tooltip
+    repo_set_section_tooltip: Repo Set section tooltip
+    repo_set_description_tooltip: Repo set description tooltip
+    sponsor_set_name_tooltip: Sponsor set name tooltip
+    sponsor_set_names_tooltip: Sponsor set names tooltip
+    sponsor_set_description_tooltip: Sponsor set description tooltip
+
+
+

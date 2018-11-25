@@ -18,6 +18,15 @@
   <% end %>
 
   <% define_template("repository_oai", jsonmodel_definition(:repository)) do |form| %>
+    <% if params[:action] == "edit" %>
+      <a name="oai_settings"></a>
+      <div class='form-actions'>
+        <br />
+        <p><%= I18n.t("oai_config.oai_leave_repo_form") %></p>
+        <a class="btn btn-warning" href="<%= url_for(:controller => :oai_config, :action => :edit) %>"><%= I18n.t("actions.edit_global_oai") %></a>
+      </div>
+      <hr />
+    <% end %>
     <section id="oai_fields">
       <%= form.label_and_boolean "oai_is_disabled", {} %>
       <%= form.checkboxes_for_oai_sets(@repository['repository']['oai_sets_available'], @enum) %>

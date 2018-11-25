@@ -474,12 +474,10 @@ module AspaceFormHelper
 
       html = "" 
 
-      html << "<div class='row'>"
-        html << "<div class='col-sm-2'>"
-          html << "<label class='control-label'>#{I18n.t("repository_oai.oai_sets_available")}</label>"
-        html << "</div>"
-        html << "<div class='col-sm-8'>&nbsp;"
-          html << "<ul class='list_group'>"
+      html << "<div class='form-group'>"
+        html << label("oai_sets_available", {}, ["control-label", "col-sm-2"])
+        html << "<div class='col-sm-9'>"
+          html << "<ul class='checkbox-list'>"
             value_list['enumeration_values'].each do |v|
               # if we have an empty list of checkboxes, assume all sets are enabled.
               # otherwise, a checkbox is on if it's the in the list we get from the backend.
@@ -505,8 +503,61 @@ module AspaceFormHelper
               html << "</li>"
             end
           html << "</ul>"
-        html << "</div>" #col-sm-8
-      html << "</div>" #row
+        html << "</div>" #col-sm-9
+      html << "</div>" #form-group
+
+      return html.html_safe
+    end
+
+    def oai_config_repo_set_codes_field(set_json, repositories)
+      #label_and_textfield(name, opts)
+      set_arry = JSON::parse(set_json)
+
+      html = "" 
+
+      html << "<div class='form-group'>"
+          html << label("repo_set_section", {}, ["control-label", "col-sm-2"])
+        html << "<div class='col-sm-9'>"
+          html << "<ul class='checkbox-list'>"
+            repositories.each do |r|
+              # a checkbox is on if it's the in the list we get from the backend.
+              checked = set_arry.include?(r['repo_code'].to_s) 
+
+              html << "<li class='list-group-item'>"
+                html << "<div class='checkbox'>"
+                  html << "<label>"
+                    html << "<input id=\"#{r['repo_code']}\" name=\"repo_set_codes[#{r['repo_code']}]\" type=\"checkbox\" "
+                    if checked
+                      html << "checked=\"checked\" "
+                    end
+  
+                    html << "/>"
+  
+                    html << "#{r['repo_code']}"
+                  html << "</label>"
+                html << "</div>"
+              html << "</li>"
+            end
+          html << "</ul>"
+        html << "</div>" #col-sm-9
+      html << "</div>" #form-group
+
+      return html.html_safe
+    end
+
+    def oai_config_sponsor_set_names_field(set_json, opts = {})
+      # turn array from DB into a comma delimited list for UI
+      set_arry = JSON::parse(set_json)
+      value = set_arry.join("|")
+
+      html = ""
+
+      html << "<div class='form-group'>"
+        html << label("sponsor_set_names", {}, ["control-label", "col-sm-2"])
+        html << "<div class='col-sm-9'>"
+          html << "<input id='oai_config_sponsor_set_names_' type='text' value='#{value}' name='oai_config[sponsor_set_names]' class='form-control js-taggable' datarole='tagsinput'>"
+        html << "</div>"
+      html << "</div>"
 
       return html.html_safe
     end

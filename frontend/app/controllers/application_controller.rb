@@ -133,6 +133,7 @@ class ApplicationController < ActionController::Base
       else
         id = obj.save
       end
+
       opts[:on_valid].call(id)
     rescue ConflictException
       instance_variable_set(:"@record_is_stale".intern, true)
