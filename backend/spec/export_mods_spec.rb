@@ -109,6 +109,8 @@ describe "Exported MODS metadata" do
 
 
   after(:all) do
+    JSONModel.set_repository(@repo_with_agent.id)
+
     [@agent_person, @subject_person, @subjects, @components, @digital_object, @digital_object_unpub].flatten.each do |rec|
       next if rec.nil?
       rec.delete
@@ -339,5 +341,9 @@ describe "unpublished extent notes" do
 
   it "should not export physical_description note if it is unpublished" do
     @mods.should_not have_tag "physicalDescription/note[@type='physical_description'][@displayLabel='Physical Details']" => note_content(@physdesc_note[0])
+  end
+
+  after(:all) do
+    @digital_object_unpub.delete
   end
 end

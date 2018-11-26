@@ -84,15 +84,15 @@ describe "Exported Dublin Core metadata" do
 
 
   after(:all) do
-    RequestContext.open(:repo_id => @repo_with_agent.id) do
-      @digital_object.delete
-      @components.each do |c|
-        c.delete
-      end
+    JSONModel.set_repository(@repo_with_agent.id)
+    @digital_object.delete
 
-      [@agent_person, @subject_person, @subjects].flatten.each do |rec|
-        rec.delete
-      end
+    @components.each do |c|
+      c.delete
+    end
+
+    [@agent_person, @subject_person, @subjects].flatten.each do |rec|
+      rec.delete
     end
   end
 

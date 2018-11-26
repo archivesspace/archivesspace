@@ -54,7 +54,9 @@ describe "Exported METS document" do
   end
 
   after(:all) do
-    [@digital_objects, @components].flatten.each do |rec|
+    JSONModel.set_repository(@repo.id)
+
+    [[@digital_object], @components].flatten.each do |rec|
       next if rec.nil?
       rec.delete
     end
