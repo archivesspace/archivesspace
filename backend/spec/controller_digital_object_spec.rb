@@ -24,7 +24,7 @@ describe 'Digital Objects controller' do
   it "can give a list of digital objects" do
     create(:json_digital_object)
     create(:json_digital_object)
-    JSONModel(:digital_object).all(:page => 1)['results'].count.should eq(3)
+    JSONModel(:digital_object).all(:page => 1)['results'].count.should eq(2)
   end
 
 
