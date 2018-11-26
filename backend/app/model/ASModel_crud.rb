@@ -363,7 +363,7 @@ module ASModel
           record_id = sequel_obj.id
 
           DB.after_commit do
-            hash = model.any_repo.to_jsonmodel(record_id).to_hash(:trusted)
+            hash = model.to_jsonmodel(model.any_repo.filter(:id => record_id).first).to_hash(:trusted)
             RealtimeIndexing.record_update(hash, uri)
           end
         end
