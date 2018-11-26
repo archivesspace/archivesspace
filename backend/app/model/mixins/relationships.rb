@@ -535,6 +535,11 @@ module Relationships
           model.include(Relationships)
           model.add_relationship_dependency(opts[:name], base)
         end
+
+        # Give the new relationship class a name to help with debugging
+        # Example: Relationships::ResourceSubject
+        Relationships.const_set(self.name + opts[:name].to_s.camelize, clz)
+
       end
     end
 

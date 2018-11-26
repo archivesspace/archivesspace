@@ -59,6 +59,11 @@ describe 'Relationships' do
     $testdb.drop_table(:cherry)
     $testdb.drop_table(:fruit_salad_rlshp)
     $testdb.drop_table(:friends_rlshp)
+
+    Relationships.send(:remove_const, :BananaFruitSalad)
+    Relationships.send(:remove_const, :BananaFriends)
+    Relationships.send(:remove_const, :AppleFruitSalad)
+    Relationships.send(:remove_const, :AppleFriends)
   end
 
 
@@ -430,4 +435,13 @@ describe 'Relationships' do
     archival_object.refresh
     (archival_object.system_mtime.to_f * 1000).to_i.should_not eq(start_time)
   end
+
+
+  it "gives defined relationship classes names" do
+    expect{Relationships::BananaFruitSalad}.to_not raise_error
+    expect{Relationships::BananaFriends}.to_not raise_error
+    expect{Relationships::AppleFruitSalad}.to_not raise_error
+    expect{Relationships::AppleFriends}.to_not raise_error
+  end
+
 end
