@@ -115,12 +115,10 @@ module ApplicationHelper
 
     label = opts[:label] || I18n.t("help.icon")
 
-    label_text = "<span class='sr-only'> Visit the " + I18n.t("help.help_center") + "</span>"
-
     title = (opts.has_key? :topic) ? I18n.t("help.topics.#{opts[:topic]}", :default => I18n.t("help.default_tooltip", :default => "")) : I18n.t("help.default_tooltip", :default => "")
 
     link_to(
-            label.html_safe + label_text.html_safe,
+            label.html_safe,
             href,
             {
               :target => "_blank",
