@@ -10,13 +10,14 @@ describe 'Assessment controller' do
   let(:resource) { create_resource }
   let(:surveyor) { create(:json_agent_person) }
 
+
   def create_assessment(additional_properties = {})
-    create(:json_assessment,
-           {
-             'records' => [{'ref' => resource.uri}],
-             'surveyed_by' => [{'ref' => surveyor.uri}]
-           }.merge(additional_properties))
+    Assessment.create_from_json(build(:json_assessment, {
+                                        'records' => [{'ref' => resource.uri}],
+                                        'surveyed_by' => [{'ref' => surveyor.uri}],
+                                      }.merge(additional_properties)))
   end
+
 
   it 'creates an assessment and gets it back' do
     created = create_assessment
