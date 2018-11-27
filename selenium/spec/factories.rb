@@ -110,7 +110,8 @@ module SeleniumFactories
 
       factory :resource, class: JSONModel(:resource) do
         title { generate :resource_title }
-        id_0 { generate :id_0 }
+        id_0 { generate(:alphanumstr) }
+        id_1 { generate(:alphanumstr) }
         extents { [build(:extent)] }
         dates { [build(:date)] }
         level { "collection" }
@@ -157,9 +158,9 @@ module SeleniumFactories
 
 
       factory :extent, class: JSONModel(:extent) do
-        portion { "whole" }
-        number { "1" }
-        extent_type { "linear_feet" }
+        portion "whole"
+        number "1"
+        extent_type "linear feet"
       end
 
       factory :date, class: JSONModel(:date) do

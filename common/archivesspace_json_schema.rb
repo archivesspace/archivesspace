@@ -141,7 +141,10 @@ class ArchivesSpaceDynamicEnumAttribute < JSON::Schema::TypeAttribute
       message = ("The property '#{build_fragment(fragments)}' value #{data.inspect} " +
                  "did not match one of the following configurable values: #{possible_values.join(', ')}")
      
-      if JSONModel.init_args[:enum_source].editable?(enum_name)
+      # 11/26/18: added this check because many Selenium tests were failing here with a NoMethodError
+      enum_source = JSONModel.init_args[:enum_source]
+      if enum_source.respond_to?(:editable?) && 
+         enum_source.editable?(enum_name)
         klass = self
       else
         klass = ArchivesSpaceReadOnlyDynamicEnumAttribute
