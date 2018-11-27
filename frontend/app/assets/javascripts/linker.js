@@ -20,6 +20,7 @@ $(function() {
       var config = {
         url: decodeURIComponent($this.data("url")),
         browse_url: decodeURIComponent($this.data("browse-url")),
+        span_class: $this.data("span-class"),
         format_template: $this.data("format_template"),
         format_template_id: $this.data("format_template_id"),
         format_property: $this.data("format_property"),
@@ -312,7 +313,6 @@ $(function() {
       // ANW-521: For subjects, we want to have specialized icons based on the subjects' term type.
       var tag_subjects_by_term_type = function(obj) {
         if(obj.json.jsonmodel_type == "subject") {
-          //return obj.json.first_term_type;
           switch(obj.json.first_term_type) {
             case "cultural_context":
               return "subject_type_cultural_context";
@@ -355,6 +355,7 @@ $(function() {
           zindex: 1100,
           tokenFormatter: function(item) {
             var tokenEl = $(AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config}));
+            tokenEl.children("div").children(".icon-token").addClass(config.span_class); 
             $("input[name*=resolved]", tokenEl).val(JSON.stringify(item.json));
             return tokenEl;
           },
