@@ -36,6 +36,8 @@
 
           <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
 
+          <%= render_aspace_partial :partial => "languages/show", :locals => { :languages => @resource.languages, :section_id => "resource_languages_" } %>
+
           <section id="finding_aid" class="subrecord-form-dummy">
             <h3><%= I18n.t("resource._frontend.section.finding_aid") %></h3>
             <div class="subrecord-form-container">

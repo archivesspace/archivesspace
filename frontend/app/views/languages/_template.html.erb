@@ -1,0 +1,8 @@
+<% define_template "language", jsonmodel_definition(:language) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= form.label_and_select("language", form.possible_options_for("language", true)) %>
+    <%= form.label_and_select("script", form.possible_options_for("script", true)) %>
+    <hr/>
+    <%= form.label_and_textarea("note") %>
+  </div>
+<% end %>
