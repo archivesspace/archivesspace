@@ -148,7 +148,7 @@ class JSONModelType
     end
 
     pattern = self.schema['uri']
-    pattern = pattern.gsub(/\/:[a-zA-Z_]+\//, '/[^/ ]+/')
+    pattern = pattern.gsub(/\/:[a-zA-Z_]+(\/|$)/, '/[^/ ]+\1')
 
     if uri =~ /#{pattern}\/#{ID_REGEXP}(\#.*)?$/
       return id_to_int($1)
