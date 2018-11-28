@@ -709,6 +709,11 @@ en:
         add_digital_object: Add Digital Object
         add: Add Instance
 
+  language:
+    _frontend:
+      action:
+        add: Add Language
+
   linked_agent:
     _frontend:
       action:
