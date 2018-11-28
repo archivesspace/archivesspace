@@ -361,10 +361,13 @@ module ASModel
           return unless uri
 
           record_id = sequel_obj.id
+          repo_id = RequestContext.get(:repo_id)
 
           DB.after_commit do
-            hash = model.to_jsonmodel(model.any_repo.filter(:id => record_id).first).to_hash(:trusted)
-            RealtimeIndexing.record_update(hash, uri)
+            RequestContext.open(:repo_id => repo_id) do
+              hash = model.to_jsonmodel(model.any_repo.filter(:id => record_id).first).to_hash(:trusted)
+              RealtimeIndexing.record_update(hash, uri)
+            end
           end
         end
       end
