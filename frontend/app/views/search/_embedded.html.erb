@@ -3,9 +3,10 @@
   html_search_url = url_for({:controller => :search, :action => :do_search}.merge(build_search_params({"add_filter_term" => filter_term})))
 
   heading_text = "Linked Records" if heading_text.blank?
+  section_id = "search_embedded" if section_id.blank?
 %>
 
-<section id="search_embedded" class="subrecord-form-dummy">
+<section id="<%= section_id %>" class="subrecord-form-dummy">
   <h3 class="subrecord-form-heading">
     <%= heading_text %>
     <%= link_to I18n.t("actions.view_search_results"), html_search_url, :class => "btn btn-sm btn-default pull-right" %>
