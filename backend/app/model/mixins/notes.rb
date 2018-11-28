@@ -313,13 +313,13 @@ module Notes
     end
 
 
-    def calculate_object_graph(object_graph, opts = {})
+    def calculate_object_graph(object_graph, filters = {})
       super
 
       column = "#{self.table_name}_id".intern
 
-      ids = opts.fetch(Note, Note).filter(column => object_graph.ids_for(self)).
-                 map {|row| row[:id]}
+      ids = filters.fetch(Note, Note).filter(column => object_graph.ids_for(self)).
+                    map {|row| row[:id]}
 
       object_graph.add_objects(Note, ids)
     end

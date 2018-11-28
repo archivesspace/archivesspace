@@ -52,7 +52,16 @@
 # method.  For example, the mixins for handling record trees can handle the
 # .calculate_object_graph call by extracting the IDs of child records and adding
 # them to the object graph.
-
+#
+# The .calculate_object_graph method accepts an optional 'filters' argument.
+# This is a hash whose keys are model classes and whose values are datasets
+# on the respective model. This allows for filtering out objects from the graph.
+#
+# For example:
+#   Resource[id].object_graph({ArchivalObject => ArchivalObject.filter(:publish => 1)})
+#
+# This call to .object_graph will only return published ArchivalObjects. All other
+# models in the graph will be unaffected.
 
 require 'set'
 
@@ -113,14 +122,14 @@ module ObjectGraph
   end
 
 
-  def object_graph(opts = {})
+  def object_graph(filters = {})
     graph = ObjectGraph.new(self.class => [self.id])
 
     while true
       version = graph.version
 
       graph.models.each do |model|
-        model.calculate_object_graph(graph, opts)
+        model.calculate_object_graph(graph, filters)
       end
 
       break unless graph.changed_since?(version)
@@ -132,7 +141,7 @@ module ObjectGraph
 
   module ClassMethods
 
-    def calculate_object_graph(object_graph, opts = {})
+    def calculate_object_graph(object_graph, filters = {})
 
       object_graph.models.each do |model|
         next unless model.respond_to?(:nested_records)
@@ -142,8 +151,8 @@ module ObjectGraph
           if association[:type] != :many_to_many
             nested_model = Kernel.const_get(association[:class_name])
 
-            ids = opts.fetch(nested_model, nested_model).filter(association[:key] => object_graph.ids_for(model)).
-                               select(:id).map {|row|
+            ids = filters.fetch(nested_model, nested_model).filter(association[:key] => object_graph.ids_for(model)).
+                          select(:id).map {|row|
               row[:id]
             }
 

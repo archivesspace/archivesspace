@@ -35,13 +35,13 @@ module AgentNames
 
   module ClassMethods
 
-    def calculate_object_graph(object_graph, opts = {})
+    def calculate_object_graph(object_graph, filters = {})
       super
 
       # Add the rows for authority IDs too
       column = "#{self.table_name}_id".intern
 
-      ids = opts.fetch(NameAuthorityId, NameAuthorityId).filter(column => object_graph.ids_for(self)).
+      ids = filters.fetch(NameAuthorityId, NameAuthorityId).filter(column => object_graph.ids_for(self)).
                             map {|row| row[:id]}
 
       object_graph.add_objects(NameAuthorityId, ids)
