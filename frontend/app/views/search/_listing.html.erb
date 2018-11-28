@@ -6,7 +6,7 @@
     <thead>
     <tr>
       <% if allow_multi_select? %>
-        <th></th>
+        <th><span class="sr-only">Selected?</span></th>
       <% end %>
       <% if params[:linker]==='true' %>
         <th></th>
@@ -42,9 +42,9 @@
           </th>
         <% end %>
       <% end %>
-      <th class="col audit-info"></th>
+      <th class="col audit-info"><span class="sr-only">Audit information</span></th>
       <% if !params[:linker] || params[:linker] === 'false' %>
-        <th class="col actions"><!-- actions --></th>
+        <th class="col actions"><span class="sr-only">Actions</span><!-- actions --></th>
       <% end %>
     </tr>
     </thead>
@@ -55,7 +55,10 @@
       <tr class="<%= "deleted" if deleted %>">
         <% if allow_multi_select? %>
           <td class="multiselect-column">
-            <%= check_box_tag "multiselect-item", result["id"], false %>
+            <label>
+              <span class="sr-only">Selected?</span>
+              <%= check_box_tag "multiselect-item", result["id"], false %>
+            </label>
           </td>
         <% end %>
         <% if params[:linker] === 'true' %>

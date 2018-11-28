@@ -6,7 +6,7 @@ This is a complete copy of the search/listing partial except the edit record per
     <thead>
     <tr>
       <% if allow_multi_select? %>
-        <th></th>
+        <th><span class="sr-only">Selected?</span></th>
       <% end %>
       <% if params[:linker]==='true' %>
         <th></th>
@@ -32,9 +32,9 @@ This is a complete copy of the search/listing partial except the edit record per
           </th>
         <% end %>
       <% end %>
-      <th class="col audit-info"></th>
+      <th class="col audit-info"><span class="sr-only">Audit information</span></th>
       <% if !params[:linker] || params[:linker] === 'false' %>
-        <th class="col actions"><!-- actions --></th>
+        <th class="col actions"><span class="sr-only">Actions</span><!-- actions --></th>
       <% end %>
     </tr>
     </thead>
