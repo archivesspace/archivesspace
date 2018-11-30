@@ -37,6 +37,12 @@ group :test do
   gem 'rspec', "~> 3.6.0"
   gem 'rspec-rails'
   gem 'simplecov', "0.7.1"
+
+  # selenium stuff
+  gem "rspec-retry"
+  gem "selenium-webdriver", "= 3.6.0"
+  gem "factory_bot"
+  gem "parallel_tests", "~> 2.14.0"
 end
 
 group :development, :test do
