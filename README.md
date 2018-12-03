@@ -252,7 +252,7 @@ your ArchivesSpace application.
 ## Managing your own backups
 
 Performing regular backups of your MySQL database is critical.  ArchivesSpace stores 
-all of you records data in the database, so as long as you have 
+all of your records data in the database, so as long as you have 
 backups of your database then you can always recover from errors and failures.
 
 If you are running MySQL, the `mysqldump` utility can dump the database
