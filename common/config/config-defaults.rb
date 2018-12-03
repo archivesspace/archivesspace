@@ -611,9 +611,6 @@ AppConfig[:pui_page_custom_actions] = []
 #   'erb_partial' => 'shared/my_special_action',
 # }
 
-#The number of characters to truncate before showing the 'Read More' link on notes
-AppConfig[:pui_readmore_max_characters] = 450
-
 # If AppConfig[:slugs] is set to :show, slugged URLs will be generated in the public interface.
 # If set to :hide, ID based URLs will be generated in the public interface.
 # Changing this option will not remove or clear any slugs that exist currently. 
