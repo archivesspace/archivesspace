@@ -138,18 +138,20 @@
     </div>
     ${AS.renderTemplate("template_advanced_search_"+field_data.type+"_fields", field_data)}
     <div class="col-md-1">
-      <a href="#" class="btn btn-danger advanced-search-remove-row"><span class="glyphicon glyphicon-trash glyphicon-white"></span></a>
+      <a href="#" class="btn btn-danger advanced-search-remove-row" title="Remove row" aria-label="Remove row"><span class="glyphicon glyphicon-trash glyphicon-white"></span></a>
     </div>
   </div>
 --></div>
 
 <div id="template_advanced_search_op_select"><!--
   {if first}
+  <label for="op${index}" class="sr-only">Operator</label>
   <select name="op${index}" id="op${index}" class="advanced-search-row-op-input form-control">
     <option></option>
     <% values_for_operator.select{|op| op[1] == "NOT"}.each do |op| %><option value="<%= op[1] %>" {if query.op == "<%= op[1] %>" || (query.negated && "NOT" == "<%= op[1] %>")}selected{/if}><%= op[0] %></option><% end %>
   </select>
   {else}
+  <label for="op${index}" class="sr-only">Advanced search operator</label>
   <select name="op${index}" id="op${index}" class="advanced-search-row-op-input form-control">
     <% values_for_operator.each do |op| %><option value="<%= op[1] %>" {if query.op == "<%= op[1] %>" || (query.negated && "NOT" == "<%= op[1] %>")}selected{/if}><%= op[0] %></option><% end %>
   </select>
@@ -159,6 +161,7 @@
 
 <div id="template_advanced_search_text_fields"><!--
   <div class="col-md-3">
+    <label for="f${index}" class="sr-only">Advanced search text</label>
     <select name="f${index}" id="f${index}" class="form-control" <% if values_for[:text].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
       <% values_for[:text].each do |op| %>
         <%= emit_option(op) %>
@@ -168,11 +171,13 @@
   <div class="col-md-6">
     <div class="input-group">
       <div class="input-group-addon">
+        <label for="top${index}" class="sr-only">Advanced search comparator</label>
         <select name="top${index}" id="top${index}">
           <option value="contains" {if query.comparator == "contains" || query.comparator == null}selected{/if}><%= I18n.t("advanced_search.text_operator.contains") %></option>
           <option value="empty" {if query.empty}selected{/if}><%= I18n.t("advanced_search.text_operator.empty") %></option>
         </select>
       </div>
+      <label for="v${index}" class="sr-only">Advanced search text field</label>
       <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => 'form-control'%>
     </div>
   </div>
@@ -180,6 +185,7 @@
 
 <div id="template_advanced_search_date_fields"><!--
   <div class="col-md-3">
+    <label for="f${index}" class="sr-only">Advanced search date field</label>
     <select name="f${index}" id="f${index}" class="form-control" <% if values_for[:date].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
       <% values_for[:date].each do |op| %>
         <%= emit_option(op) %>
@@ -189,6 +195,7 @@
   <div class="col-md-6 advanced-search-date-fields">
     <div class="input-group">
       <div class="input-group-addon">
+        <label for="dop${index}" class="sr-only">Advanced search comparator</label>
         <select name="dop${index}" id="dop${index}">
           <% values_for_date_comparators.each do |op| %>
             <option value="<%= op[1] %>" {if query.comparator == "<%= op[1] %>"}selected{/if}><%= op[0] %></option>
@@ -202,6 +209,7 @@
 
 <div id="template_advanced_search_boolean_fields"><!--
   <div class="col-md-3">
+    <label for="f${index}" class="sr-only">Advanced search boolean</label>
     <select name="f${index}" id="f${index}" class="form-control"<% if values_for[:boolean].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %>  data-combobox="true"<% end %>>
       <% values_for[:boolean].each do |op| %>
         <%= emit_option(op) %>
@@ -210,6 +218,7 @@
   </div>
   <% bool_default = JSONModel(:boolean_field_query).schema['properties']['value']['default'] %>
   <div class="col-md-6 advanced-search-boolean-field">
+    <label for="v${index}" class="sr-only">Advanced search boolean</label>
     <select name="v${index}" id="v${index}" class="form-control">
       <option value="true" {if query.value <% if bool_default %>|| query.value == null<% end %>}selected{/if}><%= I18n.t("advanced_search.boolean_field.true_value") %></option>
       <option value="false" {if query.value == false <% if !bool_default %>|| query.value == null<% end %>}selected{/if}><%= I18n.t("advanced_search.boolean_field.false_value") %></option>
@@ -220,6 +229,7 @@
 
 <div id="template_advanced_search_enum_fields"><!--
   <div class="col-md-3">
+    <label for="f${index}" class="sr-only">Advanced search enumerations</label>
     <select name="f${index}" id="f${index}" class="form-control" <% if values_for[:enum].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
       <% values_for[:enum].each do |op| %>
         <%= emit_option(op) %>
@@ -243,7 +253,7 @@
     </div>
     <div class="col-md-1">
       <div class="btn-group">
-        <a class="btn btn-success dropdown-toggle advanced-search-add-row-dropdown" data-toggle="dropdown" href="#">
+        <a class="btn btn-success dropdown-toggle advanced-search-add-row-dropdown" data-toggle="dropdown" href="#" title="Add row" aria-label="Add row">
           <span class="glyphicon glyphicon-plus glyphicon-white"></span>
           <span class="caret"></span>
         </a>

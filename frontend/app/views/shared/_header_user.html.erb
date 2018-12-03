@@ -6,6 +6,7 @@
         <li>
           <%= form_tag({:controller => :repositories, :action => :select}) do |f| %>
             <fieldset>
+              <label for="id" class="sr-only">Select Repository</label>
               <%= select_tag "id", options_for_select(@repositories.map {|repo| [repo.repo_code, repo.id]}, session[:repo_id]), :class=>"form-control" %>
             </fieldset>
             <br />
@@ -74,7 +75,7 @@
       </button>
 
       <div class="btn-group">
-        <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+        <a class="btn btn-default navbar-btn dropdown-toggle last" data-toggle="dropdown" href="#" title="Global settings" aria-label="Global settings"><span class="caret"></span></a>
         <ul class="dropdown-menu pull-right">
 
           <% if user_can?('administer_system') %>
