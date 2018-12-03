@@ -36,7 +36,16 @@ module ASModel
     base.include(ObjectGraph)
     base.include(Relationships)
 
+    base.extend(ClassMethods)
+
     @@all_models << base
+  end
+
+
+  module ClassMethods
+    def top_level?
+      respond_to?(:has_jsonmodel?) && has_jsonmodel? && my_jsonmodel.schema.has_key?('uri')
+    end
   end
 
 end
