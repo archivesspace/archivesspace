@@ -341,10 +341,14 @@ describe "indexer common" do
     end
   end
   describe "do_http_request" do
-    it "does http request" do
-      # def do_http_request(url, req)
+    it "should report if there's a timeout but not fail" do
+      solr_url = @ic.solr_url
+      req = Net::HTTP::Post.new("#{solr_url.path}/update")
+      ASHTTP.should_receive(:start_uri).and_raise(Timeout::Error)
+      @ic.do_http_request(solr_url, req)
     end
   end
+
   describe "reset_session" do
     it "resets the session" do
       # def reset_session
@@ -396,8 +400,9 @@ describe "indexer common" do
     end
   end
   describe "send_commit" do
-    it "send commit" do
-      # def send_commit(type = :hard)
+    it "report if there's a timeout but not fail" do
+      ASHTTP.should_receive(:start_uri).and_raise(Timeout::Error)
+      @ic.send_commit
     end
   end
   describe "paused?" do
