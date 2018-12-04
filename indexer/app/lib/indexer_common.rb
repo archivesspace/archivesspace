@@ -14,7 +14,7 @@ require 'record_inheritance'
 require_relative 'index_batch'
 require_relative 'indexer_common_config'
 require_relative 'indexer_timing'
-
+require_relative 'fake_solr_timeout_response'
 
 class IndexerCommon
 
@@ -749,6 +749,8 @@ class IndexerCommon
     ASHTTP.start_uri(url, opts) do |http|
       http.request(req)
     end
+  rescue Timeout::Error
+    FakeSolrTimeoutResponse.new(req)
   end
 
 
@@ -821,7 +823,10 @@ class IndexerCommon
     response = do_http_request(solr_url, req)
     Log.info "Deleted #{records.length} documents: #{response}"
 
-    if response.code != '200'
+
+    if response.code == '408'
+      Log.error response.body
+    elsif response.code != '200'
       raise "Error when deleting records: #{response.body}"
     end
   end
@@ -975,7 +980,9 @@ class IndexerCommon
         stream.close
         batch.destroy
 
-        if response.code != '200'
+        if response.code == '408'
+          Log.error response.body
+        elsif response.code != '200'
           raise "Error when indexing records: #{response.body}"
         end
       end
@@ -990,7 +997,9 @@ class IndexerCommon
 
     response = do_http_request(solr_url, req)
 
-    if response.code != '200'
+    if response.code == '408'
+      Log.error response.body
+    elsif response.code != '200'
       if response.body =~ /exceeded limit of maxWarmingSearchers/
         Log.info "INFO: #{response.body}"
       else
