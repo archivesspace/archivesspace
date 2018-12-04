@@ -139,8 +139,6 @@ module SlugHelpers
 
     # REPO FOUND - find entity
     else
-      found_in = nil
-
       obj = Repository.fetch("SELECT * FROM archival_object where slug = ? and repo_id = ?", slug, repo.id).first
       found_in = "archival_object" if obj
 
@@ -187,7 +185,7 @@ module SlugHelpers
   end
 
 
-  # given a slug, return true if slug is used by another entitiy.
+  # given a slug, return true if slug is used by another entity.
   # return false otherwise.
   def self.slug_in_use?(slug, klass)
     repo_count           = Repository.where(:slug => slug).count
@@ -250,7 +248,7 @@ module SlugHelpers
            do_component_count > 0
   end
 
-  # dupe_slug is already in use. Recusively find a suffix (e.g., slug_1)
+  # dupe_slug is already in use. Recursively find a suffix (e.g., slug_1)
   # that isn't used by anything else
   def self.dedupe_slug(dupe_slug, count = 1, klass)
     new_slug = dupe_slug + "_" + count.to_s

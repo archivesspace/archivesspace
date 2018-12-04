@@ -91,7 +91,6 @@ class LargeTree
       response = waypoint_response(child_count).merge("title" => @root_record.title,
                                                       "uri" => @root_record.uri,
                                                       "slug" => @root_record.slug,
-                                                      "slugged_url" => "foo",
                                                       "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
                                                       "jsonmodel_type" => @root_table.to_s,
                                                       "parsed_title" => MixedContentParser.parse(@root_record.title, '/'))
