@@ -15,7 +15,11 @@ class ClientEnumSource
   end
   
   def editable?(name)
-    MemoryLeak::Resources.get(:enumerations).fetch(name).editable?
+    if MemoryLeak::Resources.get(:enumerations).fetch(name).respond_to?(:editable?)
+      MemoryLeak::Resources.get(:enumerations).fetch(name).editable?
+    else
+      false
+    end
   end
 
 
