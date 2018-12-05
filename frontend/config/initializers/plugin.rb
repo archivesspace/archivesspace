@@ -31,6 +31,7 @@ module Plugins
     end
 
     @sections = []
+    @fields_to_resolve = []
   end
 
 
@@ -66,6 +67,16 @@ module Plugins
 
   def self.plugins_for(parent)
     @config[:parents][parent] || []
+  end
+
+
+  def self.add_resolve_field(field_name)
+    @fields_to_resolve += ASUtils.wrap(field_name)
+  end
+
+
+  def self.fields_to_resolve
+    @fields_to_resolve
   end
 
 
