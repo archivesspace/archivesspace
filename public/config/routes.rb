@@ -59,7 +59,7 @@ Rails.application.routes.draw do
     get "repositories/:rid/classifications/:id/tree/node_from_root"  => 'classifications#tree_node_from_root'
 
     #CLASSIFICATION TERMS
-    get  "repositories/:rid/classification_terms/:slug_or_id" => 'classifications#term'
+    get  "repositories/:repo_slug/classification_terms/:slug_or_id" => 'classifications#term'
     get  "classification_terms/:slug_or_id" => 'classifications#term'
 
     #SUBJECTS
