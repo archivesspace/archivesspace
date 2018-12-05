@@ -1,7 +1,7 @@
 <div class="container-fluid footer">
    <div class="row">
       <div class="col-md-12">
-        <p><% if AppConfig[:enable_public] and not proxy_localhost? %>View <a href="<%= AppConfig[:public_proxy_url] %>">Public Interface</a> | <% end %>Visit <a href="http://archivesspace.org">ArchivesSpace.org</a> | <%= ASConstants.VERSION %> |<% if AppConfig[:feedback_url] && !AppConfig[:feedback_url].blank? %> <a id='aspaceFeedbackLink' href='http://archivesspace.org/feedback' target='_blank'>Send Feedback or Report a Problem</a> <% end %></p>
+        <p><% if AppConfig[:enable_public] %>View <a href="<%= AppConfig[:public_proxy_url] %>">Public Interface</a> | <% end %>Visit <a href="http://archivesspace.org">ArchivesSpace.org</a> | <%= ASConstants.VERSION %> |<% if AppConfig[:feedback_url] && !AppConfig[:feedback_url].blank? %> <a id='aspaceFeedbackLink' href='http://archivesspace.org/feedback' target='_blank'>Send Feedback or Report a Problem</a> <% end %></p>
       </div>
    </div>
 </div>
