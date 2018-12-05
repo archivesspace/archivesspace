@@ -32,6 +32,7 @@ module Plugins
 
     @sections = []
     @fields_to_resolve = []
+    @edit_roles = []
   end
 
 
@@ -77,6 +78,17 @@ module Plugins
 
   def self.fields_to_resolve
     @fields_to_resolve
+  end
+
+
+  EditRole = Struct.new(:jsonmodel_type, :role)
+  def self.register_edit_role_for_type(jsonmodel_type, role)
+    @edit_roles << EditRole.new(jsonmodel_type, role)
+  end
+
+
+  def self.edit_roles
+    @edit_roles
   end
 
 
