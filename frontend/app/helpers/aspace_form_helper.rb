@@ -69,6 +69,9 @@ module AspaceFormHelper
       when 'classification'
         scope = :repo
         route = "classifications"
+      when 'classification_term'
+        scope = :repo
+        route = "classification_terms"
       when 'digital_object'
         scope = :repo
         route = "digital_objects"

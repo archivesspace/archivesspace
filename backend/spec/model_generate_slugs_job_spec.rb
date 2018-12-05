@@ -18,6 +18,7 @@ describe "Generate slugs job" do
     @archival_object = ArchivalObject.create_from_json(build(:json_archival_object))
     @digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component))
     @classification = Classification.create_from_json(build(:json_classification))
+    @classification_term = ClassificationTerm.create_from_json(build(:json_classification_term))
     @repository_id = make_test_repo("slug_job_test")
     @subject = Subject.create_from_json(build(:json_subject))
     @agent_person = AgentPerson.create_from_json(build(:json_agent_person, :names => [build(:json_name_person, 'authorized' => false)]))
@@ -51,6 +52,10 @@ describe "Generate slugs job" do
     end
 
     Classification.any_repo.each do |r|
+      expect(r[:is_slug_auto]).to eq(1)
+    end
+
+    ClassificationTerm.any_repo.each do |r|
       expect(r[:is_slug_auto]).to eq(1)
     end
 

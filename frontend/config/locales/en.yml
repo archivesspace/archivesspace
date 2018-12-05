@@ -557,6 +557,8 @@ en:
         add: Add Classification
 
   classification_term:
+    slug: Slug
+    is_slug_auto: Automatically generate Slug?
     _frontend:
       messages:
         created: "Classification Term <strong>%{classification_term.title}</strong> created"

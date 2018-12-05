@@ -57,6 +57,16 @@ class GenerateSlugsRunner < JobRunner
         r.update(:is_slug_auto => 1)
       end
 
+      # CLASSIFICATION TERMS
+      @job.write_output("Generating slugs for Classification Terms")
+      @job.write_output("================================")
+
+      ClassificationTerm.any_repo.each do |r|
+        @job.write_output("Generating slug for classification term id: #{r[:id]}")
+        r.update(:is_slug_auto => 0, :slug => "")
+        r.update(:is_slug_auto => 1)
+      end
+
       # AGENT - CORPORATE
       @job.write_output("Generating slugs for Agents (Corporate Entities)")
       @job.write_output("================================")

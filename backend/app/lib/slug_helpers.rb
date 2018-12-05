@@ -194,6 +194,7 @@ module SlugHelpers
     digital_object_count = DigitalObject.where(:slug => slug).count
     accession_count      = Accession.where(:slug => slug).count
     classification_count = Classification.where(:slug => slug).count
+    class_term_count     = ClassificationTerm.where(:slug => slug).count
     agent_person_count   = AgentPerson.where(:slug => slug).count
     agent_family_count   = AgentFamily.where(:slug => slug).count
     agent_corp_count     = AgentCorporateEntity.where(:slug => slug).count
@@ -220,6 +221,8 @@ module SlugHelpers
       acccession_count -= 1 if accession_count > 0
     when Classification
       classification_count -= 1 if classification_count > 0
+    when ClassificationTerm
+      class_term_count -= 1 if class_term_count > 0
     when AgentPerson
       agent_person_count -= 1 if agent_person_count > 0
     when AgentFamily
@@ -239,6 +242,7 @@ module SlugHelpers
            subject_count + 
            accession_count + 
            classification_count + 
+           class_term_count + 
            agent_person_count + 
            agent_family_count + 
            agent_corp_count + 
@@ -360,7 +364,7 @@ module SlugHelpers
     elsif thing.class == Accession  
       thing[:slug] = format_multipart_identifier(thing[:identifier])
 
-    elsif thing.class == Classification
+    elsif thing.class == Classification || thing.class == ClassificationTerm
       thing[:slug] = thing[:identifier]
 
     elsif thing.class == DigitalObject
