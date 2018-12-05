@@ -145,6 +145,10 @@ module SearchHelper
 
 
   def can_edit_search_result?(record)
+    Plugins.edit_roles.each do |edit_role|
+      return user_can?(edit_role.role, record['id']) if record['primary_type'] === edit_role.jsonmodel_type
+    end
+
     return user_can?('update_container_record', record['id']) if record['primary_type'] === "top_container"
     return user_can?('manage_repository', record['id']) if record['primary_type'] === "repository"
     return user_can?('update_location_record') if record['primary_type'] === "location"
