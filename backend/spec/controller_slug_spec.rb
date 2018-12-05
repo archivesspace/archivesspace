@@ -81,6 +81,17 @@ describe 'Slug controller' do
       expect(response["table"]).to eq("classification")
     end
 
+    it "finds classification_terms by slug for 'classifications' controller and 'terms' action" do
+      ct = create(:json_classification_term, :slug => "SlugClassificationTerm")
+      ct_id = ct[:uri].split("/")[-1]
+
+      get "/slug?slug=SlugClassificationTerm&controller=classifications&action=term"
+      response = JSON.parse(last_response.body)
+
+      expect(response["id"].to_s).to eq(ct_id)
+      expect(response["table"]).to eq("classification_term")
+    end
+
     it "finds agent_persons by slug for 'agents' controller" do
       agent_person = create(:json_agent_person, :slug => "SlugAgentPerson")
       agent_person_id = agent_person[:uri].split("/")[-1]
@@ -330,6 +341,43 @@ describe 'Slug controller' do
 
       expect(response["id"]).to eq(-1)
       expect(response["table"]).to eq("classification")
+      expect(response["repo_id"]).to eq(-1)
+    end
+
+    it "finds classification_terms by slug for 'classifications' controller and 'terms' action" do
+      ct = create(:json_classification_term, :slug => "SlugClassificationTerm")
+      ct_id = ct[:uri].split("/")[-1]
+
+      # find our repository, and give it a slug.
+      # for classification_terms, specifing a repo_id in the constructor hash doesn't work.
+      repo_id = ct[:repository]["ref"].split("/")[-1].to_i
+      repo = Repository[repo_id]
+      repo.update(:slug => "black_slug")
+
+      get "/slug_with_repo?slug=SlugClassificationTerm&controller=classifications&action=term&repo_slug=black_slug"
+      response = JSON.parse(last_response.body)
+
+      expect(response["id"].to_s).to eq(ct_id)
+      expect(response["table"]).to eq("classification_term")
+      expect(response["repo_id"]).to eq(repo_id)
+    end
+
+    it "does not find classification_terms by slug if wrong repo is specified" do
+      ct = create(:json_classification_term, :slug => "SlugClassificationTerm")
+      ct_id = ct[:uri].split("/")[-1]
+
+
+      # find our repository, and give it a slug.
+      # for classification_terms, specifing a repo_id in the constructor hash doesn't work.
+      repo_id = ct[:repository]["ref"].split("/")[-1].to_i
+      repo = Repository[repo_id]
+      repo.update(:slug => "black_slug")
+
+      get "/slug_with_repo?slug=SlugClassificationTerm&controller=classifications&action=term&repo_slug=sluggie"
+      response = JSON.parse(last_response.body)
+
+      expect(response["id"].to_s).to eq("-1")
+      expect(response["table"]).to eq("classification_term")
       expect(response["repo_id"]).to eq(-1)
     end
   end

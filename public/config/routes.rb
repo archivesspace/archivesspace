@@ -58,6 +58,10 @@ Rails.application.routes.draw do
     get "repositories/:rid/classifications/:id/tree/node"  => 'classifications#tree_node'
     get "repositories/:rid/classifications/:id/tree/node_from_root"  => 'classifications#tree_node_from_root'
 
+    #CLASSIFICATION TERMS
+    get  "repositories/:rid/classification_terms/:slug_or_id" => 'classifications#term'
+    get  "classification_terms/:slug_or_id" => 'classifications#term'
+
     #SUBJECTS
     get "subjects/:slug_or_id" => 'subjects#show'
     get 'subjects/search' => 'subjects#search'
@@ -97,7 +101,6 @@ Rails.application.routes.draw do
     
     get  "repositories/:rid/top_containers/:id" => 'containers#show'
     
-    get  "repositories/:rid/classification_terms/:id" => 'classifications#term'
     
     get '/search', to: 'search#search'
   end

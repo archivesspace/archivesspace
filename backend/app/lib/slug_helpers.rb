@@ -52,7 +52,11 @@ module SlugHelpers
     when "accessions"
       "accession"
     when "classifications"
-      "classification"
+      if action == "term"
+        "classification_term"
+      else
+        "classification"
+      end
     end
 
     if repo.nil?
@@ -70,7 +74,11 @@ module SlugHelpers
     when "accessions"
       [Accession.any_repo.where(:slug => slug).first, "accession"]
     when "classifications"
-      [Classification.any_repo.where(:slug => slug).first, "classification"]
+      if action == "term"
+        [ClassificationTerm.any_repo.where(:slug => slug).first, "classification_term"]
+      else
+        [Classification.any_repo.where(:slug => slug).first, "classification"]
+      end
     end
   end
 

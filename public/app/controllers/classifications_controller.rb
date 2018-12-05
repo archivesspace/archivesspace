@@ -4,7 +4,7 @@ class ClassificationsController <  ApplicationController
 
   skip_before_action  :verify_authenticity_token
 
-  before_filter(:only => [:show]) {
+  before_filter(:only => [:show, :term]) {
     process_slug_or_id(params)
   }
 
