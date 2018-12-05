@@ -208,7 +208,7 @@ class ApplicationController < ActionController::Base
                       "linked_events", "linked_events::linked_records",
                       "linked_events::linked_agents",
                       "top_container", "container_profile", "location_profile",
-                      "owner_repo"]
+                      "owner_repo"] + Plugins.fields_to_resolve
     }
   end
 
