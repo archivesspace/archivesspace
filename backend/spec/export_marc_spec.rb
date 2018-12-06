@@ -1134,6 +1134,24 @@ end
       expect(df.sf_t('z')).to eq("Finding aid online:")
     end
 
+    it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are enabled" do
+      resource = create(:json_resource_blank_ead_location)
+      marc = get_marc(resource)
+      ark_url = ARKIdentifier.get_ark_url(resource.id, :resource)
+      df = marc.df('856', '4', '2')
+      expect(df.sf_t('u')).to eq(ark_url)
+      expect(df.sf_t('z')).to eq("Finding aid online:")
+      resource.delete
+    end
+    it "does not map ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are disabled" do
+      resource = create(:json_resource_blank_ead_location)
+      AppConfig[:ark_ids_enabled] = false
+      marc = get_marc(resource)
+      ark_url = ARKIdentifier.get_ark_url(resource.id, :resource)
+      expect(marc).not_to have_tag "datafield[@tag='856']"
+      AppConfig[:ark_ids_enabled] = true
+      resource.delete
+    end
 
     it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
       note_test(@resource, @marc, %w(custodhist), ['561', '1', ' '], 'a', {'publish' => true})

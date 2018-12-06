@@ -32,6 +32,11 @@ class MODSSerializer < ASpaceExport::Serializer
 
     xml.identifier mods.identifier
 
+    if AppConfig[:ark_ids_enabled]
+      xml.location {
+        xml.url mods.ark_identifier
+      }
+    end
     xml.typeOfResource mods.type_of_resource
 
 

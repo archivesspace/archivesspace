@@ -605,3 +605,11 @@ AppConfig[:pui_page_custom_actions] = []
 #   # 'erb_partial' returns the path to an erb template from which the action will be rendered
 #   'erb_partial' => 'shared/my_special_action',
 # }
+# NAAN value to use in ARK identifiers.
+# Should be set to institutional NAAN, or any other value valid in URLs.
+AppConfig[:ark_naan] = "f00001"
+# URL prefix to use in ARK identifiers.
+# In most cases this will be the same as the PUI URL.
+AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
+# Flag for turning ARK IDs in exports off and on
+AppConfig[:ark_ids_enabled] = true

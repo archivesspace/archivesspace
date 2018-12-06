@@ -21,6 +21,7 @@
     <fieldset>
       <%= form.label_and_textarea "title" %>
       <%= form.label_and_fourpartid %>
+      <%= form.label_and_textfield "external_ark_url" %>
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_textfield "other_level", :required => true %>
       <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
