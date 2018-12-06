@@ -27,7 +27,7 @@ class OAIMODSMapper
         end
 
         # Populate ARK URL, if enabled
-        if AppConfig[:ark_ids_enabled] 
+        if AppConfig[:ark_ids_enabled]
           case jsonmodel['jsonmodel_type']
           when "resource"
             ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :resource)
@@ -35,15 +35,17 @@ class OAIMODSMapper
             ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :digital_object)
           when "accession"
             ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :accession)
-          else 
+          else
             ark_identifier = ""
           end
+
           unless ark_identifier.empty?
             xml.location {
               xml.url ark_identifier
             }
           end
         end
+
         # Creator -> name/namePart
         Array(jsonmodel['linked_agents']).each do |link|
           next unless link['_resolved']['publish']

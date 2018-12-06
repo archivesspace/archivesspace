@@ -104,7 +104,7 @@ AppConfig[:job_thread_count] = 2
 #AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 
-# DEPRECATED 
+# DEPRECATED
 AppConfig[:oai_admin_email] = 'admin@example.com'
 AppConfig[:oai_record_prefix] = 'oai:archivesspace'
 AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
@@ -519,7 +519,7 @@ AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
 
-# PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)                            
+# PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)
 # the following determine on what kinds of records the request button is displayed
 AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
@@ -605,11 +605,53 @@ AppConfig[:pui_page_custom_actions] = []
 #   # 'erb_partial' returns the path to an erb template from which the action will be rendered
 #   'erb_partial' => 'shared/my_special_action',
 # }
+
+# PUI email settings (logs emails when disabled)
+AppConfig[:pui_email_enabled] = false
+
+# See above AppConfig[:pui_repos][{repo_code}][:request_email] for setting repository email overrides
+# 'pui_email_override' for testing, this email will be the to-address for all sent emails
+# AppConfig[:pui_email_override] = 'testing@example.com'
+# 'pui_request_email_fallback_to_address' the 'to' email address for repositories that don't define their own email
+#AppConfig[:pui_request_email_fallback_to_address] = 'testing@example.com'
+# 'pui_request_email_fallback_from_address' the 'from' email address for repositories that don't define their own email
+#AppConfig[:pui_request_email_fallback_from_address] = 'testing@example.com'
+
+# use the repository record email address for requests (overrides config email)
+AppConfig[:pui_request_use_repo_email] = false
+
+# Example sendmail configuration:
+# AppConfig[:pui_email_delivery_method] = :sendmail
+# AppConfig[:pui_email_sendmail_settings] = {
+#   location: '/usr/sbin/sendmail',
+#   arguments: '-i'
+# }
+#AppConfig[:pui_email_perform_deliveries] = true
+#AppConfig[:pui_email_raise_delivery_errors] = true
+# Example SMTP configuration:
+#AppConfig[:pui_email_delivery_method] = :smtp
+#AppConfig[:pui_email_smtp_settings] = {
+#      address:              'smtp.gmail.com',
+#      port:                 587,
+#      domain:               'gmail.com',
+#      user_name:            '<username>',
+#      password:             '<password>',
+#      authentication:       'plain',
+#      enable_starttls_auto: true,
+#}
+#AppConfig[:pui_email_perform_deliveries] = true
+#AppConfig[:pui_email_raise_delivery_errors] = true
+
+#The number of characters to truncate before showing the 'Read More' link on notes
+AppConfig[:pui_readmore_max_characters] = 450
+
 # NAAN value to use in ARK identifiers.
 # Should be set to institutional NAAN, or any other value valid in URLs.
 AppConfig[:ark_naan] = "f00001"
+
 # URL prefix to use in ARK identifiers.
 # In most cases this will be the same as the PUI URL.
 AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
+
 # Flag for turning ARK IDs in exports off and on
 AppConfig[:ark_ids_enabled] = true

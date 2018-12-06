@@ -148,17 +148,19 @@ module ASUtils
     }
   end
 
-  def self.diagnostic_trace_msg(filename)
-    <<ERRMSG
-      #{'=' * 72}
-      A trace file has been written to the following location: #{filename}
 
-      This file contains information that will assist developers in diagnosing
-      problems with your ArchivesSpace installation.  Please review the file's
-      contents for sensitive information (such as passwords) that you might not
-      want to share.
-      #{'=' * 72}
-ERRMSG
+  def self.diagnostic_trace_msg
+    puts "diagnostic_trace_msg called"
+    #<<ERRMSG
+      ##{'=' * 72}
+      #A trace file has been written to the following location: #{tmp}
+#
+      #This file contains information that will assist developers in diagnosing
+      #problems with your ArchivesSpace installation.  Please review the file's
+      #contents for sensitive information (such as passwords) that you might not
+      #want to share.
+      ##{'=' * 72}
+      #ERRMSG
   end
 
   def self.dump_diagnostics(exception = nil)

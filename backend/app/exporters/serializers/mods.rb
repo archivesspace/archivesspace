@@ -37,6 +37,7 @@ class MODSSerializer < ASpaceExport::Serializer
         xml.url mods.ark_identifier
       }
     end
+  
     xml.typeOfResource mods.type_of_resource
 
 
@@ -176,14 +177,14 @@ class MODSSerializer < ASpaceExport::Serializer
                   !date['expression'].empty?
 
     # if end specified, we need a point="end" tag.
-    has_end = date.has_key?('end') && 
-              !date['end'].nil? && 
+    has_end = date.has_key?('end') &&
+              !date['end'].nil? &&
               !date['end'].empty? &&
               !has_expression
 
     # if beginning specified, we need a point="start" tag.
-    has_begin = date.has_key?('begin') && 
-                !date['begin'].nil? && 
+    has_begin = date.has_key?('begin') &&
+                !date['begin'].nil? &&
                 !date['begin'].empty? &&
                 !has_expression
 
@@ -199,13 +200,13 @@ class MODSSerializer < ASpaceExport::Serializer
       type = "dateModified"
     when 'broadcast', 'issued', 'publication'
       type = "dateIssued"
-    else 
+    else
       type = "dateOther"
     end
 
     if has_expression
       xml.send(type, attrs) { xml.text(date['expression']) }
-    else 
+    else
       if has_begin
         attrs.merge!({"encoding" => "w3cdtf", "keyDate" => "yes", "point" => "start"})
         xml.send(type, attrs) { xml.text(date['begin']) }

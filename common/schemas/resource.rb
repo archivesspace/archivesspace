@@ -57,9 +57,9 @@
 
       # Extents (overrides abstract schema)
       "extents" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:extent) object"}},
-      
+
       "revision_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:revision_statement) object"}},
-      
+
       # Dates (overrides abstract schema)
       "dates" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:date) object"}},
 
@@ -83,7 +83,7 @@
           }
         }
       },
-     
+
       "classifications" => {
               "type" => "array",
               "items" => {

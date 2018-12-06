@@ -42,6 +42,21 @@ class OAIDCMapper
           xml['dc'].location(ark_identifier)
         end
 
+        case jsonmodel['jsonmodel_type']
+        when "resource"
+          ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :resource)
+        when "digital_object"
+          ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :digital_object)
+        when "accession"
+          ark_identifier = ARKIdentifier::get_ark_url(jsonmodel.id, :accession)
+        else 
+          ark_identifier = ""
+        end
+
+        unless ark_identifier.empty? || AppConfig[:ark_ids_enabled] == false
+          xml['dc'].location(ark_identifier)
+        end
+
         # And a second identifier containing the public url - if public is running
         if AppConfig[:enable_public]
           xml['dc'].identifier(AppConfig[:public_proxy_url] + jsonmodel['uri'])

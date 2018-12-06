@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'nokogiri'
+require 'pry'
 require 'spec_helper'
 require_relative 'export_spec_helper'
 
@@ -977,9 +978,11 @@ describe "EAD export mappings" do
     it "maps ARK URL to a dao tag if ARK URLs are enabled" do
       expect(@doc.to_s).to match(/<eadid.*url=\"http.*\/ark:/)
     end
+
     it "does not map ARK URL to a dao tag if ARK URLs are disabled" do
       expect(@doc_ark_disabled.to_s).to_not match(/<eadid.*url=\"http.*\/ark:/)
     end
+
     it "maps resource.ead_location to eadid/@url if ARK URLs are disabled" do
       expect(@doc_ark_disabled.to_s).to match(/<eadid.*url=\"#{@resource.ead_location}/)
     end

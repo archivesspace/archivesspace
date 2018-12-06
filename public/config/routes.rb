@@ -5,55 +5,55 @@ Rails.application.routes.draw do
 
     get '/welcome', to: 'welcome#show'
     get '/*ark_tag/:naan/:id' => 'ark_identifier#show', constraints: { ark_tag: 'ark:' }
-    
-    # I don't think this is used anywhere... 
+
+    # I don't think this is used anywhere...
     post '/cite', to: 'cite#show'
-    
+
     get 'objects/search' => 'objects#search'
     get 'objects' => 'objects#index'
-    
+
     get 'accessions/search' => 'accessions#search'
     get 'accessions' => 'accessions#index'
-    
+
     get 'classifications/search' => 'classifications#search'
     get 'classifications' => 'classifications#index'
-    
+
     post 'fill_request' => 'requests#make_request'
-    
+
     get 'subjects/search' => 'subjects#search'
     get "subjects/:id" => 'subjects#show'
     get 'subjects' => 'subjects#index'
-    
+
     get 'agents/search' => 'agents#search'
     get "agents/:eid/:id" => 'agents#show'
     get 'agents' => 'agents#index'
 
     get  "repositories/:rid/top_containers/:id" => 'containers#show'
     get 'repositories/resources' => 'resources#index'
-    
+
     get "repositories/:rid/accessions" => 'accessions#index'
     get  "repositories/:rid/accessions/:id" => 'accessions#show'
- 
+
     post "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
     get "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
-    
+
     post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
     get "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
-    
+
     get  "repositories/:rid/classifications/:id" => 'classifications#show'
     get  "repositories/:rid/classification_terms/:id" => 'classifications#term'
     get  "repositories/:repo_id/resources/:id/search"  => 'resources#search'
     get "repositories/:rid/resources/:id"  => 'resources#show'
-    
+
     post "repositories/:rid/resources/:id/pdf"  => 'pdf#resource'
-    
+
     get "repositories/:rid/resources/:id/inventory"  => 'resources#inventory'
     get 'repositories/:rid/resources/:id/resolve/:ref_id' => 'resources#resolve'
-   
+
     get "repositories/:rid/:obj_type/:id" => 'objects#show'
-    
+
     get  "repositories/:rid/classifications/" => 'classifications#index'
-    
+
     get "repositories/:rid/resources" => 'resources#index'
     get  "repositories/:rid/search" => 'search#search'
     get "repositories/:rid/agents" => 'agents#index'

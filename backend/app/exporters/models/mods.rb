@@ -28,6 +28,7 @@ class MODSModel < ASpaceExport::ExportModel
     :id => :handle_ark_id,
     :dates => :handle_dates
   }
+
   # Need a different map for object components as a differnet ID (digital_object_id, instead of ARK) will be used
   @archival_object_component_map = {
     :title => :title=,
@@ -77,10 +78,11 @@ class MODSModel < ASpaceExport::ExportModel
   def self.from_archival_object(obj, tree, opts = {})
 
     mods = self.new(tree)
+
     if opts[:component]
       mods.apply_map(obj, @archival_object_component_map)
     else
-    mods.apply_map(obj, @archival_object_map)
+      mods.apply_map(obj, @archival_object_map)
     end
 
     mods
@@ -182,7 +184,7 @@ class MODSModel < ASpaceExport::ExportModel
     end
   end
 
-  # notes relating to extents are treated differently than other notes 
+  # notes relating to extents are treated differently than other notes
   # when the model is serialized.
   def handle_extents_notes(notes)
     notes.each do |note|
@@ -219,7 +221,7 @@ class MODSModel < ASpaceExport::ExportModel
       if ext.has_key?('physical_details') && !ext['physical_details'].nil?
         extent_notes << new_mods_note('note', 'physical_description', "Physical Details", ext['physical_details'])
       end
-        
+
       if ext.has_key?('dimensions') && !ext['dimensions'].nil?
         extent_notes << new_mods_note('note', 'dimensions', "Dimensions", ext['dimensions'])
       end
@@ -260,6 +262,7 @@ class MODSModel < ASpaceExport::ExportModel
     end
   end
 
+
   def handle_id(digital_object_id)
     self.identifier = digital_object_id
   end
@@ -267,6 +270,16 @@ class MODSModel < ASpaceExport::ExportModel
     ark_url = ARKIdentifier::get_ark_url(id, :digital_object)
     self.ark_identifier = ark_url
   end
+  def handle_digital_object_id(digital_object_id)
+    self.identifier = digital_object_id
+  end
+
+  def handle_ark_id(id)
+    ark_url = ARKIdentifier::get_ark_url(id, :digital_object)
+    self.ark_identifier = ark_url
+  end
+
+
   def handle_digital_object_id(digital_object_id)
     self.identifier = digital_object_id
   end

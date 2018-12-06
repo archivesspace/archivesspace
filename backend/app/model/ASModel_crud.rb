@@ -234,6 +234,7 @@ module ASModel
 
       #delete ARK Identifier (if exists) first
       self.delete_ark_identifier
+
       while true
         progressed = false
         object_graph.each do |model, ids_to_delete|
@@ -321,23 +322,28 @@ module ASModel
     end
 
     def create_ark_identifier
-      if self.class == Resource 
+      if self.class == Resource
         ARKIdentifier.create_from_resource(self)
       end
+
       if self.class == DigitalObject
         ARKIdentifier.create_from_digital_object(self)
       end
+
       if self.class == Accession
         ARKIdentifier.create_from_accession(self)
       end
     end
+
     def delete_ark_identifier
-      if self.class == Resource 
+      if self.class == Resource
         ARKIdentifier.first(:resource_id => self.id).delete
       end
+
       if self.class == DigitalObject
         ARKIdentifier.first(:digital_object_id => self.id).delete
       end
+
       if self.class == Accession
         ARKIdentifier.first(:accession_id => self.id).delete
       end

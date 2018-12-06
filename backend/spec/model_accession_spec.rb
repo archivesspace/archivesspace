@@ -10,7 +10,6 @@ describe 'Accession model' do
 
   it "creates an ARK Identifier for accessions" do
     accession = create_accession
-
     expect(ARKIdentifier.first(:accession_id => accession.id)).to_not be_nil
     accession.delete
   end

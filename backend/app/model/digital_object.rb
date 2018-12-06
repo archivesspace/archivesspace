@@ -79,4 +79,6 @@ class DigitalObject < Sequel::Model(:digital_object)
                          :message => "Must be unique",
                          :json_property => :digital_object_id)
 
+
+
 end

@@ -58,6 +58,10 @@ class DCModel < ASpaceExport::ExportModel
       dc.ark_identifier = ARKIdentifier::get_ark_url(obj.id, :digital_object)
     end
 
+    if obj.respond_to?(:id) && AppConfig[:ark_ids_enabled] == true
+      dc.ark_identifier = ARKIdentifier::get_ark_url(obj.id, :digital_object)
+    end
+
     if obj.respond_to?('digital_object_type')
       dc.type = obj.digital_object_type
     end
