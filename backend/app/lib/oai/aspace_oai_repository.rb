@@ -123,9 +123,21 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     RequestContext.open(:repo_id => repo_id) do
       obj = add_visibility_restrictions(model.filter(:id => parsed_ref[:id])).first
 
-      raise OAI::IdException.new unless obj
+      # ANW-794: In several places in this class, we're querying the database directly for an object. 
+      # add_visibility_restrictions is taking care of checking repository level restrictions, but it's not looking for unpublished ancestors.
+      # The process of getting JSON for a Sequel object automatically does this check. 
+      # So, here we rearrange things a bit so we can get the JSON before the ArchivesSpaceOAIRecord is created to see if it has an unpublished ancestor.
+      if obj
+        json = fetch_jsonmodels(model, [obj])[0]
 
-      ArchivesSpaceOAIRecord.new(obj, fetch_jsonmodels(model, [obj])[0])
+        if json && !json["has_unpublished_ancestor"]
+          ArchivesSpaceOAIRecord.new(obj, json)
+        else
+          raise OAI::IdException.new # because unpub ancestor found
+        end
+      else
+        raise OAI::IdException.new # because obj not found
+      end
     end
   end
 
@@ -260,7 +272,10 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       matches = matches.take(limit)
 
       matches.zip(fetch_jsonmodels(record_type, matches)).each do |obj, json|
-        matched_records << ArchivesSpaceOAIRecord.new(obj, json)
+        # ANW:794: Only include in record set if object does not have an unpublished ancestor
+        if json && !json["has_unpublished_ancestor"]
+          matched_records << ArchivesSpaceOAIRecord.new(obj, json)
+        end
       end
     end
 
