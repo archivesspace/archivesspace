@@ -164,6 +164,7 @@ module ResultInfo
       embed_caption = ''
       rep_caption = ''
       json['file_versions'].each do |version|
+        version['file_uri'].strip!
         if version.dig('publish') != false && version['file_uri'].start_with?('http')
           if version.dig('xlink_show_attribute') == 'embed'
             dig_f['thumb'] = version['file_uri']
