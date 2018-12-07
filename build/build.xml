@@ -2,6 +2,7 @@
 
 <project name="ArchivesSpace" default="help">
 
+  <!-- Don't forget to change any jruby versions in any Gemfiles! -->
   <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.1.17.0/jruby-complete-9.1.17.0.jar" />
   <property name="jruby_file" value="jruby-complete-9.1.17.0.jar" />
 
