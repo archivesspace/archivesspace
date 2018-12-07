@@ -23,20 +23,19 @@
             <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>
             <%= readonly.label_and_textfield "other_level" %>
             <%= readonly.label_and_select "resource_type", readonly.possible_options_for("resource_type", true) %>
-            <%= readonly.label_and_select "language", readonly.possible_options_for("language", true) %>
             <%= readonly.label_and_boolean "publish" %>
             <%= readonly.label_and_boolean "restrictions" %>
             <%= readonly.label_and_textarea "repository_processing_note" %>
             <%= display_audit_info(@resource) %>
           </section>
 
+          <%= render_aspace_partial :partial => "languages/show", :locals => { :languages => @resource.languages, :section_id => "resource_languages_" } %>
+
           <% if @resource.dates.length > 0 %>
             <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @resource.dates, :section_id => "resource_dates_" } %>
           <% end %>
 
           <%= render_aspace_partial :partial => "extents/show", :locals => { :extents => @resource.extents, :section_id => "resource_extents_" } %>
-
-          <%= render_aspace_partial :partial => "languages/show", :locals => { :languages => @resource.languages, :section_id => "resource_languages_" } %>
 
           <section id="finding_aid" class="subrecord-form-dummy">
             <h3><%= I18n.t("resource._frontend.section.finding_aid") %></h3>
