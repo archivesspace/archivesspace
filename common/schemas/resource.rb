@@ -57,11 +57,11 @@
       "finding_aid_status" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_status"},
       "finding_aid_note" => {"type" => "string", "maxLength" => 65000},
 
+      # Languages (overrides abstract schema)
+      "languages" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:language) object"}},
+
       # Extents (overrides abstract schema)
       "extents" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:extent) object"}},
-
-      # Languages (overrides abstract schema)
-      "languages" => {"type" => "array", "minItems" => 1, "items" => {"type" => "JSONModel(:language) object"}},
 
       "revision_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:revision_statement) object"}},
 

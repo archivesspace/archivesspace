@@ -954,7 +954,7 @@ en:
         <p>REQUIRED FIELD: The language term and code represented in the material(s) described. Codes drawn from ISO 639-2b: Codes for the Representation of Names of Languages.</p>
     script: Script
     script_tooltip: &language_script_tooltip |
-        <p>REQUIRED FIELD: The script term and code represented in the material(s) described. Codes drawn from ISO 15924: Codes for the representation of names of scripts.</p>
+        <p>The script term and code represented in the material(s) described. Codes drawn from ISO 15924: Codes for the representation of names of scripts.</p>
         <p>See DACS 4.5</p>
     note: Language Note
     note_tooltip: &language_note_tooltip |

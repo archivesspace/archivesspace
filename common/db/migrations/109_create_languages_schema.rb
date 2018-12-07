@@ -1,19 +1,19 @@
 require_relative 'utils'
 
-def create_language_record_from_language_id(dataset, language_id)
+def create_language_record_from_language_id(record_type, dataset, language_id)
 
   language_enum = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
   language_value = self[:enumeration_value].filter( :enumeration_id => language_enum, :value => language_id).get(:id)
 
   dataset.each do |row|
 
-    linked_record_id = self[:resource].filter(:id => row[:id]).get(:id)
-    language_value = self[:resource].filter(:language_id => row[:language_id]).get(:language_id)
+    linked_record_id = self[record_type].filter(:id => row[:id]).get(:id)
+    language_value = self[record_type].filter(:language_id => row[:language_id]).get(:language_id)
 
     self[:language].insert(
                           :json_schema_version => row[:json_schema_version],
                           :language_id => language_value,
-                          :resource_id => linked_record_id,
+                          "#{record_type}_id" => linked_record_id,
                           :create_time => row[:create_time],
                           :system_mtime => row[:system_mtime],
                           :user_mtime => row[:user_mtime]
@@ -56,11 +56,19 @@ Sequel.migration do
     # take all values from language_id and turn them into language sub-records
     language_enum = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
 
-    create_language_record_from_language_id(self[:resource].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
+    create_language_record_from_language_id(:resource, self[:resource].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
+
+    create_language_record_from_language_id(:archival_object, self[:archival_object].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
+    #
+    create_language_record_from_language_id(:digital_object, self[:digital_object].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
+
+    create_language_record_from_language_id(:digital_object_component, self[:digital_object_component].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
 
     # Drop old language_id column
-    alter_table(:resource) do
-      drop_foreign_key(:language_id)
+    [:resource, :archival_object, :digital_object, :digital_object_component].each do |record|
+      alter_table(record) do
+        drop_foreign_key(:language_id)
+      end
     end
 
   end

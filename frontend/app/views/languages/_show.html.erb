@@ -4,7 +4,6 @@
 
 <section id="<%= section_id %>">
   <h3><%= I18n.t("language._plural") %></h3>
-  <h3><%= "#{languages.inspect}" %></h3>
   <div class="panel-group details" id="<%= section_id %>_accordion">
     <% languages.each_with_index do | language, index | %>
       <div class="panel panel-default">
@@ -14,14 +13,16 @@
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-4">
-              <%= I18n.t('enumerations.language_language.'+language['language'], :default => language['language']) %>
+              <%= I18n.t('enumerations.language_iso639_2.'+language['language'], :default => language['language']) %>
             </div>
             <div class="col-md-7">
-              <%= language['script'] %>
+              <% if language['script'] %>
+                <%= I18n.t('enumerations.language_script.'+language['script'], :default => language['script']) %>
+              <% end %>
             </div>
           </div>
         </div>
-        <div id="<%= section_id %>_extent_<%= index %>" class="panel-collapse collapse">
+        <div id="<%= section_id %>_language_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(language) %>
         </div>
       </div>

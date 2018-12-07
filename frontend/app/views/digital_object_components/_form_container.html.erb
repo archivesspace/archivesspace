@@ -41,7 +41,6 @@
           <% end %>
         </div>
       </div>
-      <%= form.label_and_select "language", form.possible_options_for("language", true) %>
 
     </section>
   <% end %>
@@ -50,6 +49,7 @@
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
 
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "languages"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date", :required => :conditionally} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
