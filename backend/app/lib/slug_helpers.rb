@@ -316,8 +316,14 @@ module SlugHelpers
     # enforce length limit of 50 chars
     slug = slug.slice(0, 50)
 
+    # replace any multiple underscores with a single underscore
+    slug = slug.gsub(/_[_]+/, "_")
+
+    # remove any leading or trailing underscores
+    slug = slug.gsub(/^_/, "").gsub(/_$/, "")
+
     # if slug is numeric, add a leading '_' 
-    # this is necessary, because numerical slugs will be interpreted as an id
+    # this is necessary, because numerical slugs will be interpreted as an id by the controller
     if slug.match(/^(\d)+$/) 
       slug = slug.prepend("_")
     end

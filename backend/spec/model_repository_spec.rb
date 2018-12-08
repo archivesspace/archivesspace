@@ -248,6 +248,26 @@ describe 'Repository model' do
       expect(repo[:slug]).to eq(expected_slug)
     end
 
+    it "replaces mulitple underscores in slugs with a single underscore" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+      
+      id = make_test_repo("slugtest")
+
+      repo = Repository.where(:id => id).first.update(:slug => "foo___bar")
+
+      expect(repo[:slug]).to eq("foo_bar")
+    end
+
+    it "strips leading and trailing underscores in slugs" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+      
+      id = make_test_repo("slugtest")
+
+      repo = Repository.where(:id => id).first.update(:slug => "_foo_bar_")
+
+      expect(repo[:slug]).to eq("foo_bar")
+    end
+
     it "autogenerates a slug via repo_code when configured to generate by id" do
       AppConfig[:auto_generate_slugs_with_id] = true
       
