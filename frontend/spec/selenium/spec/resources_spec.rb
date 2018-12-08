@@ -1,0 +1,36 @@
+require_relative 'spec_helper'
+
+describe "Resources Form" do
+
+  before(:all) do
+    @repo = create(:repo, :repo_code => "resources_test_#{Time.now.to_i}")
+    set_repo @repo
+
+    @viewer_user = create_user(@repo => ['repository-viewers'])
+
+    @driver = Driver.get
+    @driver.login_to_repo($admin, @repo)
+  end
+
+  before(:each) do
+    @r = create(:resource)
+
+    @driver.get_edit_page(@r)
+    @driver.wait_for_ajax
+  end
+
+
+  after(:all) do
+    @driver.quit
+  end
+
+
+  it "displays icons for the different subject types" do
+    #section = @driver.find_element(:css => "#resource_subjects_")
+
+    @driver.click(:css, "#resource_subjects_ button")
+    @driver.clear_and_send_keys([:css, "#archival_object_subjects_ input"], "a")
+  	sleep 10
+  end
+end
+
