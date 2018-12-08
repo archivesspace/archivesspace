@@ -16,9 +16,12 @@
       </div>
     </div>
 
+    <% if AppConfig[:slugs] == :show %>
       <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
       <%= form.label_and_textfield "slug", :field_opts => {:disabled => @agent.is_slug_auto } %>
-    <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
+      <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
+    <% end %>
+
     <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
   </section>
 
