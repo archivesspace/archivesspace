@@ -212,7 +212,7 @@ module SeleniumFactories
 
       factory :term, class: JSONModel(:term) do
         term { generate(:term) }
-        term_type { generate(:term_type) }
+        term_type { "cultural_context" }
         vocabulary { create(:vocab).uri }
       end
 

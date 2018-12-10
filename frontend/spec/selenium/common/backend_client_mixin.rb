@@ -1,4 +1,5 @@
 require 'ashttp'
+require 'active_support/all'
 
 module BackendClientMethods
 
@@ -133,6 +134,16 @@ module BackendClientMethods
     ASpaceUser.new(user, pass)
   end
 
+
+  def create_subject
+     params = {"utf8"=>"✓", "authenticity_token"=>"18f7371n7rLQb1m/5ahDK0eeY6GEgDneDCZNknOsahwUdnx9bzxhYLWsSUw08LMRDWhV+c3Ny3AQsI6h48Yoww==", "subject"=>{"lock_version"=>"", "vocabulary"=>"/vocabularies/1", "authority_id"=>"12345", "source"=>"local", "scope_note"=>"Test", "terms"=>{"0"=>{"vocabulary"=>"/vocabularies/1", "term"=>"Foo", "term_type"=>"cultural_context"}}}}
+
+    req = Net::HTTP::Post.new("/subjects")
+    req['Content-Type'] = 'text/json'
+    req.body = params.to_json
+    
+    admin_backend_request(req)
+  end
 
   def add_user_to_group(user, repo, group_code)
     req = Net::HTTP::Get.new("#{repo}/groups")
