@@ -71,5 +71,13 @@ Sequel.migration do
       end
     end
 
+    # Update Language of Description columns
+    alter_table(:resource) do
+      rename_column(:finding_aid_language, :finding_aid_language_note)
+      set_column_type(:finding_aid_language_note, 'text')
+      add_column(:finding_aid_language_id, :integer, :null => true)
+      add_column(:finding_aid_script_id, :integer, :null => true)
+    end
+
   end
 end
