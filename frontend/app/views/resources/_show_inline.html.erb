@@ -52,7 +52,9 @@
                 <%= readonly.label_and_textfield "finding_aid_date" %>
                 <%= readonly.label_and_textfield "finding_aid_author" %>
                 <%= readonly.label_and_select "finding_aid_description_rules", readonly.possible_options_for("finding_aid_description_rules", true) %>
-                <%= readonly.label_and_textfield "finding_aid_language" %>
+                <%= readonly.label_and_select("finding_aid_language", readonly.possible_options_for("finding_aid_language", true)) %>
+                <%= readonly.label_and_select("finding_aid_script", readonly.possible_options_for("finding_aid_script", true)) %>
+                <%= readonly.label_and_textarea "finding_aid_language_note" %>
                 <%= readonly.label_and_textfield "finding_aid_sponsor" %>
                 <%= readonly.label_and_textarea "finding_aid_edition_statement" %>
                 <%= readonly.label_and_textarea "finding_aid_series_statement" %>
