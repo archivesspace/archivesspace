@@ -266,9 +266,31 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 __Returns__
 
 <% e[:returns].each do |ret| %>
-<%= "\t#{ret[0]} -- #{ret[1]}\n" %>
+  <%= "\t#{ret[0]} -- #{ret[1]}\n" %>
 <% end %>
 
 <% end %>
 
 <% end %>
+
+# Routes by URI
+
+<p>An index of routes available in the ArchivesSpace API, alphabetically by URI.</p>
+
+<table>
+  <thead>></thead>
+  <thead>
+    <tr>
+      <th>Route</th> <th>Method(s)</th> <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @endpoints.sort_by do |ep| ep[:uri] end.each do |ep| %>
+      <tr>
+        <td><a href="#<%= ep[:description].downcase.gsub(/[^[:alnum:]]/, '-').sub(/-+\z/, '') %>"><%= ep[:uri] %></a></td>
+        <td><%= ep[:method].map(&:upcase).join(", ") %></td>
+        <td><%= ep[:description] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
