@@ -17,13 +17,13 @@ search: true
 
 This is the documentation for the ArchivesSpace RESTful API. This documents the endpoints that are used by the backend server to edit records in the application.
 
-This example API documentation page was created with [Slate](http://github.com/tripit/slate). 
+This example API documentation page was created with [Slate](http://github.com/tripit/slate).
 
 # Authentication
 
 > To authorize, use this code:
 
-<!-- 
+<!--
 ```ruby
 require 'kittn'
 
@@ -154,7 +154,7 @@ curl -s -F password="admin" "http://localhost:8089/users/admin/login"
 }
 ```
 
-> It's a good idea to save the "session" id, since this will be used for later requests. 
+> It's a good idea to save the "session" id, since this will be used for later requests.
 
 
 Most requests to the ArchivesSpace backend requires a user to be authenticated.
@@ -169,7 +169,7 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 
 <% @endpoints.each do | e | %>
 
-## <%= e[:method].map &:upcase %> <%= e[:uri]%> 
+## <%= e[:description]%>
 
 <% example =  @examples[e[:uri]][e[:method].to_s] %>
 
@@ -201,16 +201,16 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
   <% data_example = "Example Missing" %>
 <% end %>
 
-```shell 
+```shell
 <% if e[:method] == [:get] %>
   <% if e[:paginated] %>
-# return first 10 records    
+# return first 10 records
 curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?page=1&page_size=10"
 # return first 5 records in the Fibonacci sequence
 curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?id_set=1,2,3,5,8"
-# return an array of all the ids 
+# return an array of all the ids
 curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?all_ids=true"
-  <% else %> 
+  <% else %>
 curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>"
   <% end %>
 <% elsif e[:method] == [:post] %>
@@ -220,8 +220,8 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 <% elsif e[:method] == [:delete] %>
 curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "<%= request_uri %>"
 <% else %>
-  <% example.each_pair do |k,v| %>  
-    <% next if e[:uri].include?("/:#{k}") %>  
+  <% example.each_pair do |k,v| %>
+    <% next if e[:uri].include?("/:#{k}") %>
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
   "<%= request_uri %>"
@@ -229,6 +229,10 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 <% end %>
 
 ```
+
+__Endpoint__
+
+```<%= e[:method].map &:upcase %> <%= e[:uri]%> ```
 
 __Description__
 
@@ -245,10 +249,10 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
   <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
   <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
   <li>Boolean all_ids &ndash; Return a list of all object ids</li>
-</ul>  
+</ul>
 </aside>
 <% end %>
-<% e[:params].each do |param| 
+<% e[:params].each do |param|
   opts = (param[3] or {})
   vs = opts[:validation] ? " -- #{opts[:validation][0]}" : ""
   optional = opts[:optional] ? " (Optional)" : "" %>
@@ -262,11 +266,31 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 __Returns__
 
 <% e[:returns].each do |ret| %>
-<%= "\t#{ret[0]} -- #{ret[1]}\n" %>
+  <%= "\t#{ret[0]} -- #{ret[1]}\n" %>
 <% end %>
 
 <% end %>
 
 <% end %>
 
+# Routes by URI
 
+<p>An index of routes available in the ArchivesSpace API, alphabetically by URI.</p>
+
+<table>
+  <thead>></thead>
+  <thead>
+    <tr>
+      <th>Route</th> <th>Method(s)</th> <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @endpoints.sort_by do |ep| ep[:uri] end.each do |ep| %>
+      <tr>
+        <td><a href="#<%= ep[:description].downcase.gsub(/[^[:alnum:]]/, '-').sub(/-+\z/, '') %>"><%= ep[:uri] %></a></td>
+        <td><%= ep[:method].map(&:upcase).join(", ") %></td>
+        <td><%= ep[:description] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
