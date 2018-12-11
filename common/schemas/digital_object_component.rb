@@ -1,3 +1,5 @@
+# Schema inherits from the abstract_archival_object schema, and must only include extensions/overrides unique to digital object component records.
+
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
@@ -9,7 +11,7 @@
 
       "component_id" => {"type" => "string", "maxLength" => 255},
       "label" => {"type" => "string", "maxLength" => 255},
-      "title" => {"type" => "string", "maxLength" => 16384, "ifmissing" => nil},
+      "title" => {"type" => "string", "ifmissing" => nil},
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},
