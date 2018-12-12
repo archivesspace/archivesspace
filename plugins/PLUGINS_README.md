@@ -167,6 +167,36 @@ the `:solr_field` parameter controls which field is used from the
 underlying index.
 
 
+** Frontend Specific Hooks
+
+* `Plugins.add_resolve_field(field_name)` - use this when you have added a new
+field/relationship and you need it to be resolved when the record is retrieved
+from the API.
+
+* `Plugins.register_edit_role_for_type(jsonmodel_type, role)` - when you add a
+new top level JSONModel, register it and its edit role so the listing view can
+determine if the "Edit" button can be displayed to the user.
+
+* `Plugins.register_plugin_section(section)` - allows you define a template to
+be inserted as a section for a given JSONModel record. A section is a type of
+`Plugins::AbstractPluginSection` which defines the source `plugin`, section
+`name`, the `jsonmodel_types` for which the section should show and any `opts`
+required by the templates at the time of render. These new sections (readonly,
+edit and sidebar additions) are output as part of the `PluginHelper` render
+methods.
+
+  `Plugins::AbstractPluginSection` can be subclassed to allow flexible inclusion
+  of arbitrary HTML. There are two examples provided with ArchivesSpace:
+
+  * `Plugins::PluginSubRecord` - uses the `shared/subrecord` partial to output a
+  standard styled ArchivesSpace section. `opts` requires the jsonmodel field to
+  be defined.
+
+  * `Plugins::PluginReadonlySearch` - uses the `search/embedded` partial to
+  output a search listing as a section. `opts` requires the custom filter terms
+  for this search to be defined.
+
+
 ** Further information
 
 Please refer to the `hello_world` exemplar plug-in to find out more about how to implement
