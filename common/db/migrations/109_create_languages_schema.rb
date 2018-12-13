@@ -2,9 +2,6 @@ require_relative 'utils'
 
 def create_language_record_from_language_id(record_type, dataset, language_id)
 
-  language_enum = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
-  language_value = self[:enumeration_value].filter( :enumeration_id => language_enum, :value => language_id).get(:id)
-
   dataset.each do |row|
 
     linked_record_id = self[record_type].filter(:id => row[:id]).get(:id)
@@ -74,7 +71,7 @@ Sequel.migration do
     # Update Language of Description columns
     alter_table(:resource) do
       rename_column(:finding_aid_language, :finding_aid_language_note)
-      set_column_type(:finding_aid_language_note, 'text')
+      set_column_type(:finding_aid_language_note, 'varchar')
       add_column(:finding_aid_language_id, :integer, :null => true)
       add_column(:finding_aid_script_id, :integer, :null => true)
     end
