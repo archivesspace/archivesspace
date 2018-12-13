@@ -20,7 +20,6 @@ FactoryBot.define do
   sequence(:html_title) { |n| "Title: <emph render='italic'>#{n}</emph>"}
   sequence(:generic_description) {|n| "Description: #{n}"}
   sequence(:container_type) {|n| 'box'}
-  sequence(:archival_object_language) {|n| sample(JSONModel(:abstract_archival_object).schema['properties']['language']) }
 
   sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
   sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
@@ -112,8 +111,6 @@ FactoryBot.define do
       id_0 { generate(:alphanumstr) }
       id_1 { generate(:alphanumstr) }
       level { generate(:archival_record_level) }
-      language { generate(:language) }
-
     end
 
     factory :extent do
@@ -371,7 +368,7 @@ FactoryBot.define do
 
   factory :json_digital_object, class: JSONModel(:digital_object) do
     title { "Digital Object #{generate(:generic_title)}" }
-    language { generate(:archival_object_language) }
+    languages { [build(:json_language)] }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     file_versions { few_or_none(:json_file_version) }
@@ -380,7 +377,7 @@ FactoryBot.define do
 
   factory :json_digital_object_unpub_files, class: JSONModel(:digital_object) do
     title { "Digital Object #{generate(:generic_title)}" }
-    language { generate(:archival_object_language) }
+    languages { [build(:json_language)] }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     file_versions { few_or_none(:json_file_version_unpub) }
@@ -438,6 +435,12 @@ FactoryBot.define do
     extent_type { generate(:extent_type) }
     dimensions { generate(:alphanumstr) }
     physical_details { generate(:alphanumstr) }
+  end
+
+  factory :json_language, class: JSONModel(:language) do
+    language { generate(:language) }
+    script { generate(:script) }
+    note { generate(:alphanumstr) }
   end
 
   factory :json_file_version, class: JSONModel(:file_version) do
@@ -585,13 +588,15 @@ FactoryBot.define do
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
-    language { generate(:language) }
+    languages { [build(:json_language)] }
     dates { [build(:json_date), build(:json_date_single)] }
     finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language { nil_or_whatever }
+    finding_aid_language {  [generate(:finding_aid_language)].sample  }
+    finding_aid_script {  [generate(:finding_aid_script)].sample  }
+    finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }

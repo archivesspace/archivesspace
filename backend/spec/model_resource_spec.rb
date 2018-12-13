@@ -93,7 +93,7 @@ describe 'Resource model' do
 
 
   it "throws an error when no language is provided" do
-    opts = {:language => nil}
+    opts = {:languages => [{"language" => nil, "script" => "Latn", "note" => "a language note"}]}
 
     expect { create_resource(opts) }.to raise_error(JSONModel::ValidationException)
   end
