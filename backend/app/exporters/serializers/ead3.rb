@@ -736,7 +736,7 @@ class EAD3Serializer < EADSerializer
           }
 
           xml.script({ scriptcode: "#{data.finding_aid_script}" }) {
-            xml.text(I18n.t("enumerations.language_script.#{data.finding_aid_script}"))
+            xml.text(I18n.t("enumerations.script_iso15924.#{data.finding_aid_script}"))
           }
 
           unless data.finding_aid_language_note.nil?

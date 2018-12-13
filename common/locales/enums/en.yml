@@ -981,7 +981,7 @@ en:
       zun: Zuni
       zxx: No linguistic content; Not applicable
       zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
-    language_script:
+    script_iso15924:
       Adlm: Adlam
       Afak: Afaka
       Aghb: Caucasian Albanian
@@ -1798,7 +1798,7 @@ en:
     file_version_xlink_show_attribute: File Version Xlink Show Attribute
     instance_instance_type: Instance Instance Type
     language_iso639_2: Language ISO 639-2
-    language_script: Language Script
+    script_iso15924: Language Script ISO 15924
     linked_agent_archival_record_relators: Linked Agent Archival Record Relators
     linked_agent_event_roles: Linked Agent Event Roles
     linked_agent_role: Linked Agent Role
