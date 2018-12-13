@@ -731,13 +731,19 @@ class EAD3Serializer < EADSerializer
       unless data.finding_aid_language.nil?
         xml.languagedeclaration() {
 
-          xml.language() {
-            strip_tags_and_sanitize( data.finding_aid_language, xml, fragments )
+          xml.language({ langcode: "#{data.finding_aid_language}"}) {
+            xml.text(I18n.t("enumerations.language_iso639_2.#{data.finding_aid_language}"))
           }
 
-          xml.script({ scriptcode: "Latn" }) {
-            xml.text('Latin')
+          xml.script({ scriptcode: "#{data.finding_aid_script}" }) {
+            xml.text(I18n.t("enumerations.language_script.#{data.finding_aid_script}"))
           }
+
+          unless data.finding_aid_language_note.nil?
+            xml.descriptivenote() {
+              xml.text(data.finding_aid_language_note)
+            }
+          end
 
         }
       end
