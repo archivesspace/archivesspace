@@ -29,7 +29,15 @@
                 "number": "123", 
                 "portion": "whole"
             }
-        ], 
+        ],
+        "languages": [
+            {
+                "jsonmodel_type": "language",
+                "language": "eng",
+                "script": "Latn",
+                "note": "a language note"
+            }
+        ],
         "external_documents": [
             {
                 "jsonmodel_type": "external_document", 

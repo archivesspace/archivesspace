@@ -72,6 +72,8 @@ FactoryBot.define do
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
   sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']) }
+  sequence(:language) { sample(JSONModel(:language).schema['properties']['language']) }
+  sequence(:script) { sample(JSONModel(:language).schema['properties']['script']) }
   sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type'], ['digital_object']) }
 
   sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
@@ -90,9 +92,10 @@ FactoryBot.define do
   sequence(:xlink_actuate_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_actuate_attribute']) }
   sequence(:xlink_show_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_show_attribute']) }
   sequence(:file_format_name) { sample(JSONModel(:file_version).schema['properties']['file_format_name']) }
-  sequence(:language) { sample(JSONModel(:resource).schema['properties']['language']) }
   sequence(:archival_record_level) { sample(JSONModel(:resource).schema['properties']['level'], ['otherlevel']) }
   sequence(:finding_aid_description_rules) { sample(JSONModel(:resource).schema['properties']['finding_aid_description_rules']) }
+  sequence(:finding_aid_language) { sample(JSONModel(:resource).schema['properties']['finding_aid_language']) }
+  sequence(:finding_aid_script) { sample(JSONModel(:resource).schema['properties']['finding_aid_script']) }
 
   sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
   sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }

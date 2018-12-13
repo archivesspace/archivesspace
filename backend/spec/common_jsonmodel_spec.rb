@@ -347,7 +347,11 @@ describe 'JSON model' do
     begin
       JSONModel(:resource).from_hash({"title" => "New Resource",
                                        "id_0" => "ABCD",
-                                       "language" => "eng",
+                                       "languages" => [{"language" => "eng",
+                                                      "script" => "Latn",
+                                                      "note" => "a language note"}],
+                                       "finding_aid_language" => "eng",
+                                       "finding_aid_script" => "Latn",
                                        "dates" => [{"jsonmodel_type" => "date",
                                                       "expression" => "1666",
                                                      "date_type" => "single",
@@ -398,19 +402,19 @@ describe 'JSON model' do
 
     # Resources don't allow language to be nil
     begin
-      create(:json_resource, {:language => nil})
+      create(:json_resource, {:languages => [{:language => nil}]})
     rescue JSONModel::ValidationException => ve
       expect(ve.to_s).to match /^\#<:ValidationException: /
     end
 
     # Abstract archival object don't allow language to be klingon
     expect {
-      create(:json_resource, {:language => "klingon"})
+      create(:json_resource, {:languages => [{:language => "klingon"}]})
     }.to raise_error(JSONModel::ValidationException)
 
     # Abstract archival objects do allow language to be nil
     expect {
-      create(:json_archival_object, {:language => nil})
+      create(:json_archival_object, {:languages => [{:language => nil}]})
     }.not_to raise_error
   end
 
