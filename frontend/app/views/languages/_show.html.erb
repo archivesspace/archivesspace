@@ -15,7 +15,7 @@
             <div class="col-md-4">
               <%= I18n.t('enumerations.language_iso639_2.'+language['language'], :default => language['language'])%>
               <% if language['script'] %>
-                <%= "(" + I18n.t('enumerations.language_script.'+language['script'], :default => language['script']) + " script)" %>
+                <%= "(" + I18n.t('enumerations.script_iso15924.'+language['script'], :default => language['script']) + " script)" %>
               <% end %>
             </div>
             <div class="col-md-7">

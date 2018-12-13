@@ -6,7 +6,7 @@
 
     "properties" => {
       "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2", "ifmissing" => "error"},
-      "script" => {"type" => "string", "dynamic_enum" => "language_script"},
+      "script" => {"type" => "string", "dynamic_enum" => "script_iso15924"},
       "note" => {"type" => "string", "minLength" => 1, "maxLength" => 65000, "required" => false},
     },
   },
