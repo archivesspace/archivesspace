@@ -25,13 +25,13 @@ require_relative 'schema_object'
 class ASpaceYARD
   def self.subreadmes
     objects = []
-    Dir.glob('{frontend,backend,common}/**/*.md').each do |file|
+    Dir.glob('{techdocs/*.md, techdocs/**/*.md}').each do |file|
       objects << YARD::CodeObjects::ExtraFileObject.new(file.gsub(/\//, '_').upcase, IO.read(file))
     end
     objects
   end
 end
-    
+
 
 module YARD
   module Templates
@@ -47,4 +47,3 @@ module YARD
     end
   end
 end
-
