@@ -23,7 +23,7 @@ file_list.each do |file|
         puts "Processing #{title} ..."
         next unless title.length > 0
         title.gsub!("\/", " ")
-        title.gsub!("#", "")
+        title.gsub!(/[&;?$<>#%{}|\\^~\[\]`@=:+,!.\']/, "")
         permalink = "/user/#{title.downcase.gsub(" ", "-")}/"
         File.open(File.join(outdir, "#{title.downcase.gsub(" ", "-")}.md"), 'w') do |outfile|
           md = "---
