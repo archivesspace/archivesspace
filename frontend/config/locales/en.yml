@@ -461,7 +461,7 @@ en:
         updated: Agent Saved
         deleted: Agent Deleted
         delete_conflict: "Agent could not be deleted: <pre>%{error}</pre>"
-        merge_description: Select below agents to merge into
+        merge_description: Select the agent to merge into
         merged: Agent(s) Merged
         please_select_a_agent_to_merge: Please select an agent
       section:
@@ -1479,6 +1479,4 @@ en:
       sponsor_set_section:
         _plural: Sponsor Set
       repo_settings:
-        _plural: Per Repository OAI-PMH Settings 
-
-
+        _plural: Per Repository OAI-PMH Settings
