@@ -463,7 +463,7 @@ ja:
         updated: エージェントが保存されました
         deleted: エージェントが削除されました
         delete_conflict: エージェントを削除できませんでした： <pre> %{error} </pre>
-        merge_description: マージするエージェントを以下から選択
+        merge_description: マージするエージェントを選択する
         merged: エージェントが結合されました
         please_select_a_agent_to_merge: エージェントを選択してください
       section:

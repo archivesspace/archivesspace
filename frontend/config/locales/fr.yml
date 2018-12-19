@@ -458,7 +458,7 @@ fr:
         updated: Agent sauvegardé
         deleted: Agent supprimé
         delete_conflict: "Impossible de supprimer l'agent: <pre>%{error}</pre>"
-        merge_description: Sélectionner ci-dessous les agents à fusionner
+        merge_description: Sélectionnez l'agent à fusionner
         merged: Agent(s) fusionné(s)
         please_select_a_agent_to_merge: Sélectionner un agent
       section:

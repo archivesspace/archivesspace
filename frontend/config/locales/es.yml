@@ -406,7 +406,7 @@
         created: Autoridad creada
         updated: Autoridad guardada
         deleted: Autoridad eliminada
-        merge_description: Seleccione a continuación las autoridades a unificar
+        merge_description: Seleccione el agente para fusionar en
         merged: Autoridad(es) se unificaron
         please_select_a_agent_to_merge: Por favor seleccione una autoridad
       section:
