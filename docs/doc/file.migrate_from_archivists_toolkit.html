@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: migrate_from_archivists_toolkit
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "migrate_from_archivists_toolkit";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: migrate_from_archivists_toolkit</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="migrating-data-from-archivists-toolkit-to-archivesspace-using-the-migration-tool">Migrating Data from Archivists’ Toolkit to ArchivesSpace Using the Migration Tool</h1>
+
+<p>These guidelines are for migrating data from Archivists’ Toolkit 2.0 Update 16 to all ArchivesSpace 2.1.x or 2.2.x releases using the migration tool provided by ArchivesSpace. Migrations of data from earlier versions of the Archivists’ Toolkit (AT) or other versions of ArchivesSpace are not supported by these guidelines or migration tool.</p>
+
+<blockquote>
+  <p>Note: A migration from Archivists’ Toolkit to ArchivesSpace should not be run against an active production database.</p>
+</blockquote>
+
+<h2 id="preparing-for-migration">Preparing for migration</h2>
+
+<ul>
+  <li>Make a copy of the AT instance, including the database, to be migrated and use it as the source of the migration. It is strongly recommended that you not use your AT production instance and database as the source of the migration for the simple reason of protecting the production version from any anomalies that might occur during the migration process.</li>
+  <li>Review your source database for the quality of the data. Look for invalid records, duplicate name and subject records, and duplicate controlled values. Irregular data will either be carried forward to the ArchivesSpace instance or, in some cases, block the migration process.</li>
+  <li>Select a representative sample of accession, resource, and digital object records to be examined closely when the migration is completed. Make sure to represent in the sample both the simplest and most complicated or extensive records in the overall data collection.</li>
+</ul>
+
+<h3 id="notes">Notes</h3>
+
+<ul>
+  <li>An AT subject record will be set to type ‘topical’ if it does not have a valid AT type statement or its type is not one of the types in ArchivesSpace. Several other AT LookupList values are not present in ArchivesSpace. These LookupList values cannot be added during the AT migration process and will therefore need to be changed in AT prior to migration. For full details on enum (controlled value list) mappings see the data map. You can use the AT Lookup List tool to change values that will not map correctly, as specified by the data map.</li>
+  <li>Record audit information (created by, date created, modified by, and date modified) will not migrate from AT to ArchivesSpace. ArchivesSpace will assign new audit data to each record as it is imported into ArchivesSpace. The exception to this is that the username of the user who creates an accession record will be migrated to the accession general note field.</li>
+  <li>Implement an ArchivesSpace production version including the setting up of a MySQL database to migrate into. Instructions are included at <a href="http://archivesspace.github.io/archivesspace/user/getting-started-with-archivesspace/">Getting Started with ArchivesSpace</a> and <a href="http://archivesspace.github.io/archivesspace/user/running-archivesspace-against-mysql/">Running ArchivesSpace against MySQL</a>.</li>
+</ul>
+
+<h2 id="preparing-for-migrating-at-data">Preparing for Migrating AT Data</h2>
+
+<ul>
+  <li>The migration process is iterative in nature. A migration report is generated at the end of each migration routine. The report indicates errors or issues occurring with the migration. (An example of an AT migration report is provided at the end of this document.) You should use this report to determine if any problems observed in the migration results are best remedied in the source data or in the migrated data in the ArchivesSpace instance. If you address the problems in the source data, then you can simply conduct the migration again.</li>
+  <li>However, once you accept the migration and address problems in the migrated data, you cannot migrate the source data again without establishing a new target ArchivesSpace instance. Migrating data to a previously migrated ArchivesSpace database may result in a great many duplicate record error messages and may cause unrecoverable damage to the ArchivesSpace database.</li>
+  <li>Please note, data migration can be a very memory and time intensive task due to the large number of records being transferred. As such, we recommend running the AT migration on a computer with at least 2GB of available memory.</li>
+  <li>Make sure your ArchivesSpace MySQL database is setup correctly, following the documentation in the ArchivesSpace README file. When creating a MySQL database, you MUST set the default character encoding for the database to be UTF8. This is particularly important if you use a MySQL client, such as Navicat, MySQL Workbench, phpMyAdmin, etc., to create the database. See <a href="http://archivesspace.github.io/archivesspace/user/running-archivesspace-against-mysql/">Running ArchivesSpace against MySQL</a> for more details.</li>
+  <li>Increase the maximum Java heap space if you are experiencing time out events. To do so:
+    <ul>
+      <li>Stop the current ArchivesSpace instance</li>
+      <li>Open in a text editor the file “archivesspace.sh” (Linux / Mac OSX) or archivesspace.bat (Windows). The file is located in the ArchivesSpace installation directory.</li>
+      <li>Find the text string “-Xmx512m” and change it to “-Xmx1024m”.</li>
+      <li>Save the file.</li>
+      <li>Restart the ArchivesSpace instance.</li>
+      <li>Restart the AT migration process.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="running-the-migration-tool-as-an-at-plugin">Running the Migration Tool as an AT Plugin</h2>
+
+<ul>
+  <li>Make sure that the AT instance you want to migrate from is shut down. Next, download the “scriptAT.zip” file from the at-migration release github page (https://github.com/archivesspace/at-migration/releases) and copy the file into the plugins folder of the AT instance, overwriting the one that’s already there if needed.</li>
+  <li>Make sure the ArchivesSpace instance that you are migrating into is up and running.</li>
+  <li>Restart the AT instance to load the newly installed plug-in. To run the plug-in go to the “Tools” menu, then select “Script Runtime v1.0”, and finally “ArchivesSpace Data Migrator”. This will cause the plug-in window to display.</li>
+</ul>
+
+<p><img src="https://archivesspace.github.io/archivesspace/assets/images/at_migrator.jpg" alt="AT migrator" />
+* Change the default information in the Migrator UI:
+  * <strong>Threads</strong> – Used to specify the number of clients that are used to copy Resource records simultaneously. The limit on the number of clients depends on the record size and allocated memory. A number from 4 to 6 is generally a good value to use, but can be reduced if an “Out of Memory Exception” occurs.
+  * <strong>Host</strong> – The URL and port number of the ArchivesSpace backend server
+  * <strong>“Copy records when done” checkbox</strong> – Used to specify that the records should
+be copied once the repository check has completed.
+  * <strong>Password</strong> – password for the ArchivesSpace “admin” account. The default value
+of “admin” should work unless it was changed by the ArchivesSpace
+administrator.
+  * <strong>Reset Password</strong> – Each user account transferred has its password reset to this.
+Please note that users need to change their password when they first log-in
+unless LDAP is used for authentication.
+  * <strong>“Specify Type of Extent Data” Radio button</strong> – If you are using the BYU Plugin,
+select that option. Otherwise, leave as the default – Normal or Harvard Plugin.
+  * <strong>Specify Unlinked Records to NOT Copy checkboxes</strong> – If you have name or
+subject records that are not linked to accessions, resources, or digital objects,
+you can choose not to migrate those to ArchivesSpace.
+  * <strong>“Records to Publish?” checkboxes</strong> – Used to specify what types of records
+should be published after they are migrated to ArchivesSpace.
+  * <strong>Text box showing -refid_unique, -term_default</strong> – This is needed for the
+functioning of the migration tool. Please do not make changes to this area.
+  * <strong>Output Console</strong> – Display section for following the migration while it is running
+  * <strong>View Error Log</strong> – Used to view a printout of all the errors encountered during the
+migration process. This can be used while the migration process is underway as well.
+* Once you have made the appropriate changes to the UI, there are three buttons to choose from to start the migration process.
+  * <strong>Copy to ArchivesSpace</strong> – This starts the migration to the ArchivesSpace instance
+you have made the appropriate changes to the UI, there are three buttons to
+indicated by the Host URL.
+  * <strong>Run Repository Check</strong> – The repository check searches for, and attempts to fix repository misalignment between Resources and linked Accession/Digital Object records. The fix applied entails copying the linked accession/digital object record to the repository of the resource record in the ArchivesSpace database (those record positions are not modified in the AT database).</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_As constant id'>As</span> <span class='rubyid_long identifier id'>long</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_accession identifier id'>accession</span> <span class='rubyid_records identifier id'>records</span> <span class='rubyid_are identifier id'>are</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_linked identifier id'>linked</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_multiple identifier id'>multiple</span> <span class='rubyid_Resource constant id'>Resource</span> <span class='rubyid_records identifier id'>records</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_different identifier id'>different</span> <span class='rubyid_repositories identifier id'>repositories</span><span class='comma token'>,</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_fix identifier id'>fix</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_be identifier id'>be</span> <span class='rubyid_valid identifier id'>valid</span><span class='dot token'>.</span> <span class='rubyid_Otherwise constant id'>Otherwise</span><span class='comma token'>,</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_receive identifier id'>receive</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_warning identifier id'>warning</span> <span class='rubyid_message identifier id'>message</span><span class='dot token'>.</span> <span class='rubyid_For constant id'>For</span> <span class='rubyid_such identifier id'>such</span> <span class='rubyid_cases identifier id'>cases</span><span class='comma token'>,</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_Resource constant id'>Resource</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_Accession constant id'>Accession</span> <span class='rubyid_record identifier id'>record</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_still identifier id'>still</span> <span class='rubyid_be identifier id'>be</span> <span class='rubyid_migrated identifier id'>migrated</span><span class='comma token'>,</span> <span class='rubyid_but identifier id'>but</span> <span class='rubyid_without identifier id'>without</span> <span class='rubyid_links identifier id'>links</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_one identifier id'>one</span> <span class='rubyid_another identifier id'>another</span><span class='semicolon token'>;</span> <span class='rubyid_those identifier id'>those</span> <span class='rubyid_links identifier id'>links</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_need identifier id'>need</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_be identifier id'>be</span> <span class='rubyid_re identifier id'>re</span><span class='minus op'>-</span><span class='rubyid_established identifier id'>established</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span><span class='dot token'>.</span>
+
+<span class='rubyid_This constant id'>This</span> <span class='rubyid_misalignment identifier id'>misalignment</span> <span class='rubyid_problem identifier id'>problem</span> <span class='rubyid_involves identifier id'>involves</span> <span class='rubyid_only identifier id'>only</span> <span class='rubyid_accession identifier id'>accession</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_resource identifier id'>resource</span> <span class='rubyid_records identifier id'>records</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_digital identifier id'>digital</span> <span class='rubyid_object identifier id'>object</span> <span class='rubyid_records identifier id'>records</span><span class='comma token'>,</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_accession identifier id'>accession</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_resource identifier id'>resource</span> <span class='rubyid_records identifier id'>records</span> <span class='rubyid_have identifier id'>have</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_many identifier id'>many</span><span class='minus op'>-</span><span class='rubyid_to identifier id'>to</span><span class='minus op'>-</span><span class='rubyid_many identifier id'>many</span> <span class='rubyid_relationship identifier id'>relationship</span><span class='dot token'>.</span> <span class='rubyid_Assessments constant id'>Assessments</span> <span class='rubyid_also identifier id'>also</span> <span class='rubyid_can identifier id'>can</span> <span class='rubyid_have identifier id'>have</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_many identifier id'>many</span><span class='minus op'>-</span><span class='rubyid_to identifier id'>to</span><span class='minus op'>-</span><span class='rubyid_many identifier id'>many</span> <span class='rubyid_relationship identifier id'>relationship</span> <span class='rubyid_with identifier id'>with</span> <span class='rubyid_resources identifier id'>resources</span><span class='comma token'>,</span> <span class='rubyid_accessions identifier id'>accessions</span><span class='comma token'>,</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_digital identifier id'>digital</span> <span class='rubyid_objects identifier id'>objects</span><span class='dot token'>.</span> <span class='rubyid_However constant id'>However</span><span class='comma token'>,</span> <span class='rubyid_since identifier id'>since</span> <span class='rubyid_assessments identifier id'>assessments</span> <span class='rubyid_are identifier id'>are</span> <span class='rubyid_small identifier id'>small</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_quick identifier id'>quick</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_copy identifier id'>copy</span><span class='comma token'>,</span> <span class='rubyid_they identifier id'>they</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_simply identifier id'>simply</span> <span class='rubyid_be identifier id'>be</span> <span class='rubyid_copied identifier id'>copied</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_many identifier id'>many</span> <span class='rubyid_repositories identifier id'>repositories</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_needed identifier id'>needed</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_establish identifier id'>establish</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_appropriate identifier id'>appropriate</span> <span class='rubyid_links identifier id'>links</span><span class='dot token'>.</span>
+
+<span class='rubyid_If constant id'>If</span> <span class='rubyid_the identifier id'>the</span> <span class='string val'>&quot;Copy Records When Done&quot;</span> <span class='rubyid_checkbox identifier id'>checkbox</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_selected identifier id'>selected</span><span class='comma token'>,</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_records identifier id'>records</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_be identifier id'>be</span> <span class='rubyid_migrated identifier id'>migrated</span> <span class='rubyid_to identifier id'>to</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span> <span class='rubyid_instance identifier id'>instance</span> <span class='rubyid_once identifier id'>once</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_check identifier id'>check</span> <span class='rubyid_is identifier id'>is</span> <span class='rubyid_completed identifier id'>completed</span><span class='dot token'>.</span>   <span class='mult op'>*</span> <span class='pow op'>**</span><span class='rubyid_Continue constant id'>Continue</span> <span class='rubyid_Previous constant id'>Previous</span> <span class='rubyid_Migration constant id'>Migration</span><span class='pow op'>**</span> </code></pre>
+
+<h2 id="assessing-the-migration-and-cleaning-up-data">Assessing the Migration and Cleaning Up Data</h2>
+
+<p>Use the migration report to assess the fidelity of the migration and to determine whether to:
+* Fix data in the source AT instance and conduct the migration again, or
+* Fix data in the target ArchivesSpace instance.</p>
+
+<p>If you select to fix the data in AT and conduct the migration again, you will need to delete all the content in the ArchivesSpace instance.</p>
+
+<p>If you accept the migration in the ArchivesSpace instance, the following outlines how to check and fix your data.</p>
+
+<ul>
+  <li>Re-establish user passwords. While user records will migrate, the passwords associated with them will not. You will need to re-assign those passwords according to the policies or conventions of your repositories.</li>
+  <li>Review closely the set of sample records you selected:
+    <ul>
+      <li>Accessions</li>
+      <li>Resources</li>
+      <li>Digital objects</li>
+    </ul>
+  </li>
+  <li>Review the following groups of records, making sure the correct number of records migrated:
+    <ul>
+      <li>Accessions</li>
+      <li>Assessments</li>
+      <li>Resources</li>
+      <li>Digital objects</li>
+      <li>Controlled vocabulary lists</li>
+      <li>Subjects</li>
+      <li>Agents (Name records in AT)</li>
+      <li>Locations</li>
+      <li>Collection Management Classifications</li>
+      <li>There may be a few extra agent records due to ArchivesSpace defaults or extra assessments if they were linked to records from more than one repository.</li>
+    </ul>
+  </li>
+  <li>In conducting the reviews, look for duplicate or incomplete records, broken links, or truncated data.</li>
+  <li>Take special care to check to make sure your container data and locations are correct. The model for this is significantly different between AT and ArchivesSpace (where locations are tied to a container rather than directly to a resource or accession), so this presents some challenges for migration.</li>
+  <li>Merge enumeration values as necessary. For instance, if you had both ‘local’ and ‘local sources’ as a source for names, it might be a good idea to merge these values.</li>
+</ul>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:21 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

@@ -1,10 +1,8 @@
 ---
-title: Application monitoring with New Relic 
+title: Application monitoring with New Relic
 layout: en
-permalink: /user/application-monitoring-with-new-relic/ 
+permalink: /user/application-monitoring-with-new-relic/
 ---
-=====================================
-
 [New Relic](http://newrelic.com/) is an application performance monitoring tool (amongst other things).
 
 **To use with ArchivesSpace you must:**
@@ -29,7 +27,7 @@ AppConfig[:newrelic_app_name] = "ArchivesSpace"
 ```
     ## For Linux/OSX
      $ scripts/initialize-plugin.sh newrelic
-     
+
      ## For Windows
      % scripts\initialize-plugin.bat newrelic
 ```

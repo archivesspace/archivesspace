@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: reports
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "reports";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: reports</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="reports">Reports</h1>
+
+<p>Adding a report is intended to be a fairly simple process. The requirements for creating a report are outlined below.</p>
+
+<h2 id="adding-a-report">Adding a Report</h2>
+<p>### Required
+- Create a class for your report that is a subclass of AbstractReport.
+- Call register report. If your report has any params, specify them here.
+- Implement query_string
+	- This should be a raw SQL string
+	- To prevent SQL injection, use db.literal for any user input i.e. use <code>"select * from table where column = #{db.literal(value)}"</code> instead of <code>"select * from table where column = '#{value}'"</code>
+- Provide translations for column headers and the title of your report
+	- They should be in yml files under <em>language</em>.reports.<em>report name</em>
+	- The translation for title should be whatever you want the name of the report to be.
+	- If the translation you want is already in <em>language</em>.reports.translation_defalts (found in the static folder) you do not need to specify it.
+	- Translations specific to the individual report are given priority over translation defaults.</p>
+
+<h3 id="optional">Optional</h3>
+<ul>
+  <li>Implement your own initializer if your report has any params.</li>
+  <li>Implement fix_row in order to clean up data and add subreports.
+    <ul>
+      <li>Each result will be passed to fix_row as a hash</li>
+      <li>ReportUtils offers various class methods to simplify cleaning up data.</li>
+      <li>You can also add subreports here with something like <code>row[:subreport_name] = SubreportClassName.new(self, row[:id]).get_content</code> where row is the result as a hash which was a parameter to fix_row. See <a href="#adding-a-subreport">Adding a Subreport</a> for more information on adding subreports.</li>
+      <li>Sometimes you will want to delete something from the result that you needed in order to generate a subreport but do not want to show up in the final report (such as id). To do this use <code>row.delete[:id]</code>.</li>
+    </ul>
+  </li>
+  <li>Special implementation of query - The default implementation is simply <code>db.fetch(query_string)</code> but implementing it yourself may give you more flexibility. In the end, it needs to return a result set.</li>
+  <li>There is a hash called info that controlls what show up in the header at the top of the report. Examples may include total record count, total extent, or any parameters that are provide by the user for your report. Add anything you want to show up in the report header to info. Repository name will be included automatically. Be sure to provide translations for the keys you add to info.</li>
+  <li>after_tasks is run after fix_row executes on all the results. Implement this if you have anything that needs to get done here before the report is rendered</li>
+  <li>Specify identifier_field if you want to add a heading to each individual record. For instance, identifier_field might be <code>:accession_number</code> for a report on accessions.</li>
+  <li>Implement page_break to be false if you do not want a page break after each record in the PDF of the report.</li>
+  <li>Implement special_translation if there is anything you want translate in a special way (i.e. it can’t be accomplished by the yml file).</li>
+</ul>
+
+<h2 id="adding-a-subreport">Adding A Subreport</h2>
+
+<h3 id="required">Required</h3>
+<ul>
+  <li>Create a class for your subreport that subclasses AbstractSubreport.</li>
+  <li>Create an initializer that takes in the parent report/subreport as well as any parameters you need to run the subreport (usually this is just an id from the result in the parent report/subreport). Your initializer should call <code>super(parent_report)</code>.</li>
+  <li>Implement query_string. This works the same way as it does for reports.</li>
+  <li>Provide neccesary translations.</li>
+</ul>
+
+<h3 id="optional-1">Optional</h3>
+<ul>
+  <li>Special implementation of query</li>
+  <li>fix_row works just like in reports
+    <ul>
+      <li>note that you can add nested subreports</li>
+    </ul>
+  </li>
+</ul>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:22 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

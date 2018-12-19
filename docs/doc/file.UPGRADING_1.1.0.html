@@ -36,7 +36,7 @@
       <div id="header">
         <div id="menu">
   
-    <a href="_index.html">Index</a> &raquo; 
+    <a href="alpha_index.html">Index</a> &raquo; 
     <span class="title">File: UPGRADING_1.1.0</span>
   
 </div>
@@ -59,9 +59,10 @@
 
       <div id="content"><div id='filecontents'><h1 id="upgrading-to-110">UPGRADING TO 1.1.0</h1>
 
-<p>Additional upgrade considerations specific to this release. Refer to the <a href="https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md">upgrade documentation</a> for the standard instructions that apply in all cases.</p>
+<p>Additional upgrade considerations specific to this release. Refer to the <a href="https://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/">upgrade documentation</a> for the standard instructions that apply in all cases.</p>
 
 <h2 id="external-solr">External Solr</h2>
+<hr />
 
 <p>In ArchivesSpace 1.0.9 the default ports configuration was:</p>
 
@@ -72,7 +73,7 @@ AppConfig[:solr_url] = "http://localhost:8090"
 AppConfig[:public_url] = "http://localhost:8081"
 </code></p>
 
-<p>With the introduction of the <a href="README_SOLR.md">optional external Solr instance</a> functionality this has been updated to:</p>
+<p>With the introduction of the <a href="https://archivesspace.github.io/archivesspace/user/running-archivesspace-with-external-solr/">optional external Solr instance</a> functionality this has been updated to:</p>
 
 <p><code>
 AppConfig[:backend_url] = "http://localhost:8089"
@@ -101,6 +102,7 @@ AppConfig[:indexer_url] = "http://yourhostname:8091"
 </code></p>
 
 <h2 id="clustering">Clustering</h2>
+<hr />
 
 <p>In a clustered configuration you may need to edit <code>instance_[server hostname].rb</code> files:</p>
 
@@ -115,10 +117,11 @@ AppConfig[:indexer_url] = "http://yourhostname:8091"
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.1.a Documentation Generated on Tue Oct 16 08:39:37 2018 by
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:23 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.3).
+  0.9.12.
 </div>
+
     </div>
   </body>
 </html>

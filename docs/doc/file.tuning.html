@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: tuning
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "tuning";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: tuning</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="tuning-archivesspace">Tuning ArchivesSpace</h1>
+
+<p>ArchivesSpace is a stack of web applications which may require special tuning in order to run most effectively. This is especially the case for institutions with lots of data or many simultaneous users editing metadata.
+Keep in mind that ArchivesSpace can be hosted on multiple server, either in a <a href="http://archivesspace.github.io/archivesspace/user/running-archivesspace-with-load-balancing-and-multiple-tenants/">multitenant setup</a> or by deploying the various applications ( i.e. backend, frontend, public, solr, &amp; indexer ) on separate servers.</p>
+
+<h2 id="application-settings">Application Settings</h2>
+
+<p>The application itself can tuned in numerous ways. It’s a good idea to read the <a href="http://archivesspace.github.io/archivesspace/user/configuring-archivesspace/">configuring documentation</a>, as there are numerous settings that can be adjusted to fit your needs.</p>
+
+<p>A important thing to note that since ArchivesSpace is a java application, it’s possible to set the memory allocations used by the JVM. There are numerous articles on the internet full of information about what the optimal settings are, which will depend greatly on the load your server is experiencing and the hardware. It’s a good idea to monitor the application and ensure that it’s not hitting the top limits what you’ve set as the heap.</p>
+
+<p>These settings are:</p>
+
+<ul>
+  <li>ASPACE_JAVA_XMX : Maximum heap space ( maps to Java’s Xmx, default “Xmx1024m” )</li>
+  <li>ASPACE_JAVA_XSS : Thread stack size ( maps to Xss, default “Xss2m” )</li>
+  <li>ASPACE_JAVA_MAXPERMSIZE : Maximum Permanent generation space ( map to “XX:MaxPermSize”, default “XX:MaxPermSize=256m” )</li>
+  <li>ASPACE_GC_OPTS : Options used by the Java garbage collector ( default : “-XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1” )</li>
+</ul>
+
+<p>To modify these settings, Linux users can either export an environment variable ( e.g. $ export ASPACE_JAVA_XMX=”Xmx2048m” ) or edit the archivesspace.sh startup script and modify the defaults.</p>
+
+<p>Windows users must edit the archivesspace.bat file.</p>
+
+<p><strong>NOTE: THE APPLICATION WILL NOT USE THE AVAILABLE MEMORY UNLESS YOU SET THE MAXIMUM HEAP SIZE TO ALLOCATE IT</strong> For example, if your server has 4 gigs of RAM, but you haven’t adjusted the ArchivesSpace settings, you’ll only be using 1 gig.</p>
+
+<h2 id="mysql">MySQL</h2>
+
+<p>The ArchivesSpace application can hit a MySQL db server rather hard, since it’s a metadata rich application. There are many articles online about how to tune a MySQL database. A good place to start is try something like <a href="http://mysqltuner.com/">MySQL Tuner</a> or <a href="https://rtcamp.com/tutorials/mysql/tuningprimer/">Tuning Primer</a> which can give good hints on possible tweaks to make to your MySQL server configuration.</p>
+
+<p>Keep a close eye on the memory available to the server, as well as your InnoDB buffer pool.</p>
+
+<h2 id="solr">Solr</h2>
+
+<p>The internet is full of many suggestions on how to optimize a Solr index. <a href="http://archivesspace.github.io/archivesspace/user/running-archivesspace-with-external-solr/">Running an external Solr index</a> can be beneficial to the performance of ArchivesSpace, since that moves the index to its own server.</p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:22 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

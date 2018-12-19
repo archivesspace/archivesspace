@@ -36,7 +36,7 @@
       <div id="header">
         <div id="menu">
   
-    <a href="_index.html">Index (T)</a> &raquo;
+    <a href="alpha_index.html">Index (T)</a> &raquo;
     
     
     <span class="title">TreeNodes</span>
@@ -83,7 +83,9 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>backend/app/model/mixins/tree_nodes.rb</dd>
+    <dd>backend/app/model/mixins/tree_nodes.rb<span class="defines">,<br />
+  public/app/models/concerns/tree_nodes.rb</span>
+</dd>
   </dl>
   
 </div>
@@ -206,6 +208,29 @@ concurrent updates.</p>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#ancestors-instance_method" title="#ancestors (instance method)">#<strong>ancestors</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#attempt_set_parent_and_position-instance_method" title="#attempt_set_parent_and_position (instance method)">#<strong>attempt_set_parent_and_position</strong>(parent_id, position)  &#x21d2; Object </a>
     
 
@@ -244,6 +269,75 @@ concurrent updates.</p>
 
   
     <span class="summary_desc"><div class='inline'><p>A note on terminology: a logical position refers to the position of a node as observed by the user (0…RECORD_COUNT).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#breadcrumb-instance_method" title="#breadcrumb (instance method)">#<strong>breadcrumb</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#breadcrumb_title_for_node-instance_method" title="#breadcrumb_title_for_node (instance method)">#<strong>breadcrumb_title_for_node</strong>(node, _)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#breadcrumb_uri_for_node-instance_method" title="#breadcrumb_uri_for_node (instance method)">#<strong>breadcrumb_uri_for_node</strong>(node)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -549,7 +643,50 @@ concurrent updates.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="attempt_set_parent_and_position-instance_method">
+  <h3 class="signature first" id="ancestors-instance_method">
+  
+    #<strong>ancestors</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40
+41
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/concerns/tree_nodes.rb', line 36</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_ancestors identifier id'>ancestors</span>
+  <span class='rubyid_ancestor_uris identifier id'>ancestor_uris</span> <span class='assign token'>=</span> <span class='rubyid_raw identifier id'>raw</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;ancestors&#39;</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_ancestor_uris identifier id'>ancestor_uris</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='orop op'>||</span> <span class='rubyid_raw identifier id'>raw</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved_ancestors&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+
+  <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_ancestor_uris identifier id'>ancestor_uris</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_uri identifier id'>uri</span><span class='bitor op'>|</span> 
+    <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_raw identifier id'>raw</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved_ancestors&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+  <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="attempt_set_parent_and_position-instance_method">
   
     #<strong>attempt_set_parent_and_position</strong>(parent_id, position)  &#x21d2; <tt>Object</tt> 
   
@@ -823,6 +960,135 @@ position number stored in the database, which may have gaps.</p>
       <span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:position</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_new_position identifier id'>new_position</span><span class='comma token'>,</span>
               <span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="breadcrumb-instance_method">
+  
+    #<strong>breadcrumb</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/concerns/tree_nodes.rb', line 3</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_breadcrumb identifier id'>breadcrumb</span>
+  <span class='rubyid_crumbs identifier id'>crumbs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='comment val'># add all ancestors to breadcrumb</span>
+  <span class='rubyid_path_to_root identifier id'>path_to_root</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_level identifier id'>level</span><span class='bitor op'>|</span>
+    <span class='rubyid_crumbs identifier id'>crumbs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_breadcrumb_uri_for_node identifier id'>breadcrumb_uri_for_node</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node identifier id'>node</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+      <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_breadcrumb_title_for_node identifier id'>breadcrumb_title_for_node</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_level identifier id'>level</span><span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># and now yourself</span>
+  <span class='rubyid_crumbs identifier id'>crumbs</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;&#39;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_primary_type identifier id'>primary_type</span><span class='comma token'>,</span>
+    <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_display_string identifier id'>display_string</span>
+  <span class='rbrace token'>}</span>
+
+  <span class='rubyid_crumbs identifier id'>crumbs</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="breadcrumb_title_for_node-instance_method">
+  
+    #<strong>breadcrumb_title_for_node</strong>(node, _)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/concerns/tree_nodes.rb', line 31</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_breadcrumb_title_for_node identifier id'>breadcrumb_title_for_node</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid__ identifier id'>_</span><span class='rparen token'>)</span>
+  <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;title&#39;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="breadcrumb_uri_for_node-instance_method">
+  
+    #<strong>breadcrumb_uri_for_node</strong>(node)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+26
+27
+28</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/concerns/tree_nodes.rb', line 26</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_breadcrumb_uri_for_node identifier id'>breadcrumb_uri_for_node</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
+  <span class='rubyid_node identifier id'>node</span><span class='lbrack token'>[</span><span class='string val'>&#39;node&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;root_record_uri&#39;</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;node&#39;</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1371,10 +1637,11 @@ position number stored in the database, which may have gaps.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.1.a Documentation Generated on Tue Oct 16 08:39:43 2018 by
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:26 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.3).
+  0.9.12.
 </div>
+
     </div>
   </body>
 </html>

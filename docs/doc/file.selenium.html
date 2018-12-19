@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: selenium
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "selenium";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: selenium</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="selenium-test-suite">Selenium test suite</h1>
+
+<p>ArchivesSpace uses <a href="http://docs.seleniumhq.org/">Selenium</a> to run automated
+browser testing. Currently, you can run ArchivesSpace Selenium tests using
+<a href="https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver">Firefox</a>
+and <a href="https://sites.google.com/a/chromium.org/chromedriver/home">Chrome</a>.
+Firefox is the default, and ArchivesSpace ships with the Firefox Webdriver
+executables for OSX and Linux.</p>
+
+<p>To run using Chrome, you must first download the <a href="https://sites.google.com/a/chromium.org/chromedriver/downloads">ChromeDriver
+executable</a>
+and place it somewhere in your OS system path. Then export a SELENIUM_CHROME environment
+variable, e.g:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_export identifier id'>export</span> <span class='rubyid_SELENIUM_CHROME constant id'>SELENIUM_CHROME</span><span class='assign token'>=</span><span class='rubyid_true true kw'>true</span>
+</code></pre>
+
+<p>When you run the tests ( see below  ), Selenium should launch a Chrome session
+in headless mode.</p>
+
+<p><strong><em>Please note, you must have either Firefox or Chrome installed on your system to
+run these tests. Consult the <a href="https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver">Firefox WebDriver</a>
+or <a href="https://sites.google.com/a/chromium.org/chromedriver/home">ChromeDriver</a>
+documentation to ensure your Selenium, driver, browser, and OS versions all match
+and support each other.</em></strong></p>
+
+<h2 id="before-running">Before running:</h2>
+
+<p>Run the bootstrap build task to configure JRuby and all required
+dependencies:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_cd identifier id'>cd</span> <span class='dot2 op'>..</span>
+ $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_bootstrap identifier id'>bootstrap</span>
+</code></pre>
+
+<p>Note: all example code assumes you are running from your ArchivesSpace
+project directory.</p>
+
+<h2 id="running-the-tests">Running the tests:</h2>
+
+<p>Run the full suite:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_staff identifier id'>staff</span>
+</code></pre>
+
+<p>The full suite can take a while to run. The selenium:staff task will run tests
+in parallel, with 2 browser sessions being run on default. You can adjust the
+number of sessions by passing a -Dcores to your selenium:staff task, e.g:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_staff identifier id'>staff</span> <span class='minus op'>-</span><span class='rubyid_Dcores constant id'>Dcores</span><span class='assign token'>=</span><span class='integer val'>6</span>
+</code></pre>
+
+<p>As a general rule, you don’t want the number of Selenium sessions to exceed the
+number of processor cores, since this will just cause the tests to run slowly.</p>
+
+<p>If you want to run just one spec, use the <em>spec</em> property:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dspec constant id'>Dspec</span><span class='assign token'>=</span><span class='rubyid_merge_and_transfer_spec identifier id'>merge_and_transfer_spec</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span>
+</code></pre>
+
+<p>If you just want to run one group of tests, use the <em>example</em> property:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>selenium:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dexample constant id'>Dexample</span><span class='assign token'>=</span><span class='string val'>&#39;ArchivesSpace user interface Repositories&#39;</span>
+</code></pre>
+
+<p><strong><em>NOTE THE CHANGE BETWEEN ‘selenium:staff’ and ‘selenium:test’.</em></strong></p>
+
+<p>As a rule, individual examples cannot be run in isolation because each group is a sequence
+of dependent steps.</p>
+
+<h2 id="using-an-already-running-instance-of-archivesspace">Using an already running instance of ArchivesSpace:</h2>
+
+<p>By default the selenium task will start up its own instances of the
+backend and frontend. To use instances already running, set the
+following environment variables:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_export identifier id'>export</span> <span class='rubyid_ASPACE_BACKEND_URL constant id'>ASPACE_BACKEND_URL</span><span class='assign token'>=</span><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:xxxx
+ $ export ASPACE_FRONTEND_URL=http:/</span><span class='div op'>/</span><span class='label val'>localhost:</span><span class='rubyid_xxxx identifier id'>xxxx</span>
+</code></pre>
+
+<h2 id="taking-a-screenshot-of-the-interface-if-a-test-produces-an-error">Taking a screenshot of the interface if a test produces an error:</h2>
+
+<p>This can be helpful for debugging. To enable, set the following
+environment variable:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_export identifier id'>export</span> <span class='rubyid_SCREENSHOT_ON_ERROR constant id'>SCREENSHOT_ON_ERROR</span><span class='assign token'>=</span><span class='integer val'>1</span>
+</code></pre>
+
+<p>A timestamped screenshot png will be saved to /tmp. To change the save
+location, export an environment variable called SCREENSHOT_DIR to point to a
+different directory.</p>
+
+<h2 id="logging-the-output">Logging the output</h2>
+
+<p>The results will be put into a ‘log’ folder in your OS’ temporary directory (
+i.e. /tmp ). You can change this by exporting a SELENIUM_LOG_DIR environment
+variable to the session running Selenium.</p>
+
+<h2 id="interacting-with-selenium-on-the-command-line">Interacting with selenium on the command line:</h2>
+
+<p>To initialize the selenium environment for IRB:</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_selenium identifier id'>selenium</span><span class='div op'>/</span><span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_selenium identifier id'>selenium</span><span class='minus op'>-</span><span class='rubyid_irb identifier id'>irb</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>
+</code></pre>
+
+<p>When the initialization is complete, an instance of firefox will be
+running under selenium control, and you will be presented with an IRB
+prompt. Now you can say things like:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='gt op'>&gt;</span> <span class='rubyid_login identifier id'>login</span><span class='lparen token'>(</span><span class='string val'>&#39;admin&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;admin&#39;</span><span class='rparen token'>)</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_find_element identifier id'>find_element</span><span class='lparen token'>(</span><span class='symbol val'>:css</span><span class='comma token'>,</span> <span class='string val'>&#39;.repository-container .btn&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_click identifier id'>click</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_find_element identifier id'>find_element</span><span class='lparen token'>(</span><span class='symbol val'>:link</span><span class='comma token'>,</span> <span class='string val'>&quot;Create a Repository&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_click identifier id'>click</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_clear_and_send_keys identifier id'>clear_and_send_keys</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='string val'>&quot;repository_repo_code_&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;REPO_1&#39;</span><span class='rparen token'>)</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_clear_and_send_keys identifier id'>clear_and_send_keys</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='string val'>&quot;repository_description_&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;First Repo&#39;</span><span class='rparen token'>)</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_find_element identifier id'>find_element</span><span class='lparen token'>(</span><span class='symbol val'>:css</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;form#new_repository input[type=&#39;submit&#39;]&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_click identifier id'>click</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_logout identifier id'>logout</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_cleanup identifier id'>cleanup</span>
+ <span class='gt op'>&gt;</span> <span class='rubyid_quit identifier id'>quit</span>
+</code></pre>
+
+<p>Be sure to <code>cleanup</code> before quitting as this will kill the frontend,
+backend and firefox</p>
+
+<h2 id="interacting-with-selenium-using-pry">Interacting with selenium using pry</h2>
+
+<p>Add the following to ‘selenium/Gemfile.local’</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_gem identifier id'>gem</span> <span class='string val'>&#39;pry&#39;</span>
+</code></pre>
+
+<p>Run:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_bundle identifier id'>bundle</span> <span class='rubyid_install identifier id'>install</span>
+</code></pre>
+
+<p>Type:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_pry identifier id'>pry</span> <span class='minus op'>-</span><span class='rubyid_r identifier id'>r</span> <span class='rubyid_driver identifier id'>driver</span><span class='minus op'>-</span><span class='rubyid_pry identifier id'>pry</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span>
+</code></pre>
+
+<p>Example: create a repo and login to it</p>
+
+<pre class="code ruby"><code class="ruby"><span class='gt op'>&gt;</span> <span class='rubyid_backend_login identifier id'>backend_login</span>
+<span class='gt op'>&gt;</span> <span class='rubyid_repo identifier id'>repo</span> <span class='assign token'>=</span> <span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='symbol val'>:repo</span><span class='rparen token'>)</span>
+<span class='gt op'>&gt;</span> <span class='rubyid_$driver gvar id'>$driver</span><span class='dot token'>.</span><span class='rubyid_login_to_repo identifier id'>login_to_repo</span><span class='lparen token'>(</span><span class='string val'>&#39;admin&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;admin&#39;</span><span class='comma token'>,</span> <span class='rubyid_repo identifier id'>repo</span><span class='rparen token'>)</span>
+</code></pre>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:22 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

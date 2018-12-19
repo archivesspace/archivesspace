@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: configuration
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "configuration";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: configuration</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="configuring-archivesspace">Configuring ArchivesSpace</h1>
+
+<p>The primary configuration for ArchivesSpace is done in the config/config.rb
+file. By default, this file contains the default settings, which are indicated
+by commented out lines ( indicated by the “#” in the file ). You can adjust these
+settings by adding new lines that change the default and restarting
+ArchivesSpace. Be sure that your new settings are not commented out
+( i.e. do NOT start with a “#” ), otherwise the settings will not take effect.</p>
+
+<h2 id="commonly-changed-settings">Commonly changed settings</h2>
+
+<h3 id="database-config">Database config</h3>
+
+<h4 id="appconfigdburl"><code>AppConfig[:db_url]</code></h4>
+
+<p>Set your database name and credentials. The default specifies that the embedded database should be used.
+It is recommended to use a MySQL database instead of the embedded database.
+For more info, see
+<a href="https://github.com/archivesspace/tech-docs/blob/master/provisioning/mysql.md">Running ArchivesSpace against MySQL</a></p>
+
+<p>This is an example of specifying MySQL credentials:</p>
+
+<p><code>AppConfig[:db_url] = "jdbc:mysql://127.0.0.1:3306/aspace?useUnicode=true&amp;characterEncoding=UTF-8&amp;user=as&amp;password=as123"</code></p>
+
+<h4 id="appconfigdbmaxconnections"><code>AppConfig[:db_max_connections]</code></h4>
+
+<p>Set the maximum number of database connections used by the application.
+Default is derived from the number of indexer threads.</p>
+
+<p><code>AppConfig[:db_max_connections] = proc { 20 + (AppConfig[:indexer_thread_count] * 2) }</code></p>
+
+<h3 id="urls-for-archivesspace-components">URLs for ArchivesSpace components</h3>
+
+<h4 id="appconfigbackendurl"><code>AppConfig[:backend_url]</code></h4>
+
+<p>Set the ArchivesSpace backend port. The backend listens on port 8089 by default.</p>
+
+<p><code>AppConfig[:backend_url] = "http://localhost:8089"</code></p>
+
+<h4 id="appconfigfrontendurl"><code>AppConfig[:frontend_url]</code></h4>
+
+<p>Set the ArchivesSpace staff interface (frontend) port. The staff interface listens on port 8080 by default.</p>
+
+<p><code>AppConfig[:frontend_url] = "http://localhost:8080"</code></p>
+
+<h4 id="appconfigpublicurl"><code>AppConfig[:public_url]</code></h4>
+
+<p>Set the ArchivesSpace public interface port. The public interface listens on port 8081 by default.</p>
+
+<p><code>AppConfig[:public_url] = "http://localhost:8081"</code></p>
+
+<h4 id="appconfigoaiurl"><code>AppConfig[:oai_url]</code></h4>
+
+<p>Set the ArchivesSpace OAI server port. The OAI server listens on port 8082 by default.</p>
+
+<p><code>AppConfig[:oai_url] = "http://localhost:8082"</code></p>
+
+<h4 id="appconfigsolrurl"><code>AppConfig[:solr_url]</code></h4>
+
+<p>Set the ArchivesSpace Solr index port. The Solr server listens on port 8090 by default.</p>
+
+<p><code>AppConfig[:solr_url] = "http://localhost:8090"</code></p>
+
+<h4 id="appconfigindexerurl"><code>AppConfig[:indexer_url]</code></h4>
+
+<p>Set the ArchivesSpace indexer port. The indexer listens on port 8091 by default.</p>
+
+<p><code>AppConfig[:indexer_url] = "http://localhost:8091"</code></p>
+
+<h4 id="appconfigdocsurl"><code>AppConfig[:docs_url]</code></h4>
+
+<p>Set the ArchivesSpace API documentation port. The API documentation listens on port 8888 by default.</p>
+
+<p><code>AppConfig[:docs_url] = "http://localhost:8888"</code></p>
+
+<h3 id="application-logging">Application logging</h3>
+
+<p>By default, all logging will be output on the screen while the archivesspace command
+is running. When running as a daemon/service, this is put into a file in
+<code>logs/archivesspace.out</code>. You can route log output to a different file per component by changing the log value to
+a filepath that archivesspace has write access to.</p>
+
+<p>You can also set the logging level for each component. Valid values are:</p>
+
+<ul>
+  <li><code>debug</code> (everything)</li>
+  <li><code>info</code></li>
+  <li><code>warn</code></li>
+  <li><code>error</code></li>
+  <li><code>fatal</code> (severe only)</li>
+</ul>
+
+<h4 id="appconfigfrontendlog"><code>AppConfig[:frontend_log]</code></h4>
+
+<p>File for log output for the frontend (staff interface). Set to “default” to
+route log output to archivesspace.out.</p>
+
+<h4 id="appconfigfrontendloglevel"><code>#AppConfig[:frontend_log_level]</code></h4>
+
+<p>Logging level for the frontend.</p>
+
+<h4 id="appconfigbackendlog"><code>AppConfig[:backend_log]</code></h4>
+
+<p>File for log output for the backend. Set to “default” to
+route log output to archivesspace.out.</p>
+
+<h4 id="appconfigbackendloglevel"><code>#AppConfig[:backend_log_level]</code></h4>
+
+<p>Logging level for the backend.</p>
+
+<h4 id="appconfigpuilog"><code>AppConfig[:pui_log]</code></h4>
+
+<p>File for log output for the public UI. Set to “default” to
+route log output to archivesspace.out.</p>
+
+<h4 id="appconfigpuiloglevel"><code>#AppConfig[:pui_log_level]</code></h4>
+
+<p>Logging level for the public UI.</p>
+
+<h4 id="appconfigindexerlog"><code>AppConfig[:indexer_log]</code></h4>
+
+<p>File for log output for the indexer. Set to “default” to
+route log output to archivesspace.out.</p>
+
+<h4 id="appconfigindexerloglevel"><code>#AppConfig[:indexer_log_level]</code></h4>
+
+<p>Logging level for the indexer.</p>
+
+<h3 id="database-logging">Database logging</h3>
+
+<h4 id="appconfigdbdebuglog"><code>AppConfig[:db_debug_log]</code></h4>
+
+<p>Set to true to log all SQL statements.
+Note that this will have a performance impact!</p>
+
+<p><code>AppConfig[:db_debug_log] = false</code></p>
+
+<h4 id="appconfigmysqlbinlog"><code>AppConfig[:mysql_binlog]</code></h4>
+
+<p>Set to true if you have enabled MySQL binary logging.</p>
+
+<p><code>AppConfig[:mysql_binlog] = false</code></p>
+
+<h3 id="solr-backups">Solr backups</h3>
+
+<h4 id="appconfigsolrbackupschedule"><code>AppConfig[:solr_backup_schedule]</code></h4>
+
+<p>Set Solr back up schedule. By default, Solr backups will run at midnight.  See https://crontab.guru/ for
+ information about the schedule syntax.</p>
+
+<p><code>AppConfig[:solr_backup_schedule] = "0 * * * *"</code></p>
+
+<h4 id="appconfigsolrbackupnumbertokeep"><code>AppConfig[:solr_backup_number_to_keep]</code></h4>
+
+<p>Number of Solr backups to keep (default = 1)</p>
+
+<p><code>AppConfig[:solr_backup_number_to_keep] = 1</code></p>
+
+<h4 id="appconfigsolrbackupdirectory"><code>AppConfig[:solr_backup_directory]</code></h4>
+
+<p>Directory to store Solr backups.</p>
+
+<p><code>AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }</code></p>
+
+<h3 id="default-solr-params">Default Solr params</h3>
+
+<h4 id="appconfigsolrparams"><code>AppConfig[:solr_params]</code></h4>
+
+<p>Add default solr params.</p>
+
+<p>A simple example: use AND for search:</p>
+
+<p><code>AppConfig[:solr_params] = { "q.op" =&gt; "AND" }</code></p>
+
+<p>A more complex example: set the boost query value (bq) to boost the relevancy
+for the query string in the title, set the phrase fields parameter (pf) to boost
+the relevancy for the title when the query terms are in close proximity to each
+other, and set the phrase slop (ps) parameter for the pf parameter to indicate
+how close the proximity should be:</p>
+
+<p><code>
+AppConfig[:solr_params] = {
+  "bq" =&gt; proc { "title:\"#{@query_string}\"*" },
+  "pf" =&gt; 'title^10',
+  "ps" =&gt; 0,
+}
+</code></p>
+
+<h3 id="language">Language</h3>
+
+<h4 id="appconfiglocale"><code>AppConfig[:locale]</code></h4>
+
+<p>Set the application’s language (see the .yml files in
+https://github.com/archivesspace/archivesspace/tree/master/common/locales
+for a list of available locale codes). Default is English (:en):</p>
+
+<p><code>AppConfig[:locale] = :en</code></p>
+
+<h3 id="plugin-registration">Plugin registration</h3>
+
+<h4 id="appconfigplugins"><code>AppConfig[:plugins]</code></h4>
+
+<p>Plug-ins to load. They will load in the order specified.</p>
+
+<p><code>AppConfig[:plugins] = ['local',  'lcnaf']</code></p>
+
+<h3 id="thread-count">Thread count</h3>
+
+<h4 id="appconfigjobthreadcount"><code>AppConfig[:job_thread_count]</code></h4>
+
+<p>The number of concurrent threads available to run background jobs.
+Introduced because long running jobs were blocking the queue.
+Resist the urge to set this to a big number!</p>
+
+<p><code>AppConfig[:job_thread_count] = 2</code></p>
+
+<h3 id="oai-configuration-options">OAI configuration options</h3>
+
+<h4 id="appconfigoairepositoryname"><code>AppConfig[:oai_repository_name]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'</code></p>
+
+<h4 id="appconfigoaiproxyurl"><code>AppConfig[:oai_proxy_url]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'</code></p>
+
+<h4 id="appconfigoairecordprefix"><code>AppConfig[:oai_record_prefix]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:oai_record_prefix] = 'oai:archivesspace'</code></p>
+
+<h4 id="appconfigoaiadminemail"><code>AppConfig[:oai_admin_email]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:oai_admin_email] = 'admin@example.com'</code></p>
+
+<h4 id="appconfigoaisets"><code>AppConfig[:oai_sets]</code></h4>
+
+<p>In addition to the sets based on level of description, you can define OAI Sets
+based on repository codes and/or sponsors as follows:</p>
+
+<p>```
+AppConfig[:oai_sets] = {
+  ‘repository_set’ =&gt; {
+    :repo_codes =&gt; [‘hello626’],
+    :description =&gt; “A set of one or more repositories”,
+  },</p>
+
+<p>‘sponsor_set’ =&gt; {
+    :sponsors =&gt; [‘The_Sponsor’],
+    :description =&gt; “A set of one or more sponsors”,
+  },
+}
+```</p>
+
+<h2 id="other-less-commonly-changed-settings">Other less commonly changed settings</h2>
+
+<h3 id="default-admin-password">Default admin password</h3>
+
+<h4 id="appconfigdefaultadminpassword"><code>AppConfig[:default_admin_password]</code></h4>
+
+<p>Set default admin password. Default password is “admin”.</p>
+
+<p><code>#AppConfig[:default_admin_password] = "admin"</code></p>
+
+<h3 id="data-directories">Data directories</h3>
+
+<h4 id="appconfigdatadirectory"><code>AppConfig[:data_directory]</code></h4>
+
+<p>If you run ArchivesSpace using the standard scripts (archivesspace.sh,
+archivesspace.bat or as a Windows service), the value of :data_directory is
+automatically set to be the “data” directory of your ArchivesSpace
+distribution.  You don’t need to change this value unless you specifically
+want ArchivesSpace to put its data files elsewhere.</p>
+
+<p><code>AppConfig[:data_directory] = File.join(Dir.home, "ArchivesSpace")</code></p>
+
+<h4 id="appconfigbackupdirectory"><code>AppConfig[:backup_directory]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:backup_directory] = proc { File.join(AppConfig[:data_directory], "demo_db_backups") }</code></p>
+
+<h4 id="appconfigsolrindexdirectory"><code>AppConfig[:solr_index_directory]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:solr_index_directory] = proc { File.join(AppConfig[:data_directory], "solr_index") }</code></p>
+
+<h4 id="appconfigsolrhomedirectory"><code>AppConfig[:solr_home_directory]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:solr_home_directory] = proc { File.join(AppConfig[:data_directory], "solr_home") }</code></p>
+
+<h3 id="solr-defaults">Solr defaults</h3>
+
+<h4 id="appconfigsolrindexingfrequencyseconds"><code>AppConfig[:solr_indexing_frequency_seconds]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:solr_indexing_frequency_seconds] = 30</code></p>
+
+<h4 id="appconfigsolrfacetlimit"><code>AppConfig[:solr_facet_limit]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:solr_facet_limit] = 100</code></p>
+
+<h4 id="appconfigdefaultpagesize"><code>AppConfig[:default_page_size]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:default_page_size] = 10</code></p>
+
+<h4 id="appconfigmaxpagesize"><code>AppConfig[:max_page_size]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:max_page_size] = 250</code></p>
+
+<h3 id="cookie-prefix">Cookie prefix</h3>
+
+<h4 id="appconfigcookieprefix"><code>AppConfig[:cookie_prefix]</code></h4>
+
+<p>A prefix added to cookies used by the application.
+Change this if you’re running more than one instance of ArchivesSpace on the
+same hostname (i.e. multiple instances on different ports).
+Default is “archivesspace”.</p>
+
+<p><code>AppConfig[:cookie_prefix] = "archivesspace"</code></p>
+
+<h3 id="indexer-settings">Indexer settings</h3>
+
+<p>The periodic indexer can run using multiple threads to take advantage of
+multiple CPU cores. By setting these two options, you can control how many
+CPU cores are used, and the amount of memory that will be consumed by the
+indexing process (more cores and/or more records per thread means more memory used).</p>
+
+<h4 id="appconfigindexerrecordsperthread"><code>AppConfig[:indexer_records_per_thread]</code></h4>
+
+<p><code>AppConfig[:indexer_records_per_thread] = 25</code></p>
+
+<h4 id="appconfigindexerthreadcount"><code>AppConfig[:indexer_thread_count]</code></h4>
+
+<p><code>AppConfig[:indexer_thread_count] = 4</code></p>
+
+<h4 id="appconfigindexersolrtimeoutseconds"><code>AppConfig[:indexer_solr_timeout_seconds]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:indexer_solr_timeout_seconds] = 300</code></p>
+
+<h3 id="pui-indexer-settings">PUI Indexer Settings</h3>
+
+<h4 id="appconfigpuiindexerenabled"><code>AppConfig[:pui_indexer_enabled]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:pui_indexer_enabled] = true</code></p>
+
+<h4 id="appconfigpuiindexingfrequencyseconds"><code>AppConfig[:pui_indexing_frequency_seconds]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:pui_indexing_frequency_seconds] = 30</code></p>
+
+<h4 id="appconfigpuiindexerrecordsperthread"><code>AppConfig[:pui_indexer_records_per_thread]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:pui_indexer_records_per_thread] = 25</code></p>
+
+<h4 id="appconfigpuiindexerthreadcount"><code>AppConfig[:pui_indexer_thread_count]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:pui_indexer_thread_count] = 1</code></p>
+
+<h3 id="index-state">Index state</h3>
+
+<h4 id="appconfigindexstateclass"><code>AppConfig[:index_state_class]</code></h4>
+
+<p>Set to ‘IndexStateS3’ for amazon s3</p>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:index_state_class] = 'IndexState'</code></p>
+
+<h4 id="appconfigindexstates3"><code>AppConfig[:index_state_s3]</code></h4>
+
+<p>Store indexer state in amazon s3 (optional)
+NOTE: s3 charges for read / update requests and the pui indexer is continually
+writing to state files so you may want to increase pui_indexing_frequency_seconds</p>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>
+AppConfig[:index_state_s3] = {
+  region: ENV.fetch("AWS_REGION"),
+  aws_access_key_id: ENV.fetch("AWS_ACCESS_KEY_ID"),
+  aws_secret_access_key: ENV.fetch("AWS_SECRET_ACCESS_KEY"),
+  bucket: ENV.fetch("AWS_ASPACE_BUCKET"),
+  prefix: proc { "#{AppConfig[:cookie_prefix]}_" },
+}
+</code></p>
+
+<h3 id="misc-database-options">Misc. database options</h3>
+
+<h4 id="appconfigallowotherunmapped"><code>AppConfig[:allow_other_unmapped]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:allow_other_unmapped] = false</code></p>
+
+<h4 id="appconfigdburlredacted"><code>AppConfig[:db_url_redacted]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)(&amp;|$)/, '\1=[REDACTED]\3') }</code></p>
+
+<h4 id="appconfigdemodbbackupschedule"><code>AppConfig[:demo_db_backup_schedule]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:demo_db_backup_schedule] = "0 4 * * *"</code></p>
+
+<h4 id="appconfigallowunsupporteddatabase"><code>AppConfig[:allow_unsupported_database]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:allow_unsupported_database] = false</code></p>
+
+<h4 id="appconfigallownonutf8mysqldatabase"><code>AppConfig[:allow_non_utf8_mysql_database]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:allow_non_utf8_mysql_database] = false</code></p>
+
+<h4 id="appconfigdemodbbackupnumbertokeep--7"><code>AppConfig[:demo_db_backup_number_to_keep] = 7</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:demo_db_backup_number_to_keep] = 7</code></p>
+
+<h3 id="proxy-urls">Proxy URLs</h3>
+
+<p>If you are serving user-facing applications via proxy
+(i.e., another domain or port, or via https, or for a prefix) it is
+recommended that you record those URLs in your configuration</p>
+
+<h4 id="appconfigfrontendproxyurl--proc--appconfigfrontendurl-"><code>AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }</code></h4>
+
+<p>Proxy URL for the frontend (staff interface)</p>
+
+<p><code>AppConfig[:frontend_proxy_url] = proc { AppConfig[:frontend_url] }</code></p>
+
+<h4 id="appconfigpublicproxyurl"><code>AppConfig[:public_proxy_url]</code></h4>
+
+<p>Proxy URL for the public interface</p>
+
+<p><code>AppConfig[:public_proxy_url] = proc { AppConfig[:public_url] }</code></p>
+
+<h4 id="appconfigfrontendproxyprefix"><code>AppConfig[:frontend_proxy_prefix]</code></h4>
+
+<p>Don’t override this setting unless you know what you’re doing</p>
+
+<p><code>AppConfig[:frontend_proxy_prefix] = proc { "#{URI(AppConfig[:frontend_proxy_url]).path}/".gsub(%r{/+$}, "/") }</code></p>
+
+<h4 id="appconfigpublicproxyprefix"><code>AppConfig[:public_proxy_prefix]</code></h4>
+
+<p>Don’t override this setting unless you know what you’re doing</p>
+
+<p><code>AppConfig[:public_proxy_prefix] = proc { "#{URI(AppConfig[:public_proxy_url]).path}/".gsub(%r{/+$}, "/") }</code></p>
+
+<h3 id="enable-component-applications">Enable component applications</h3>
+
+<p>Setting any of these false will prevent the associated applications from starting.
+Temporarily disabling the frontend and public UIs and/or the indexer may help users
+who are running into memory-related issues during migration.</p>
+
+<h4 id="appconfigenablebackend"><code>AppConfig[:enable_backend]</code></h4>
+
+<p><code>AppConfig[:enable_backend] = true</code></p>
+
+<h4 id="appconfigenablefrontend"><code>AppConfig[:enable_frontend]</code></h4>
+
+<p><code>AppConfig[:enable_frontend] = true</code></p>
+
+<h4 id="appconfigenablepublic"><code>AppConfig[:enable_public]</code></h4>
+
+<p><code>AppConfig[:enable_public] = true</code></p>
+
+<h4 id="appconfigenablesolr"><code>AppConfig[:enable_solr]</code></h4>
+
+<p><code>AppConfig[:enable_solr] = true</code></p>
+
+<h4 id="appconfigenableindexer"><code>AppConfig[:enable_indexer]</code></h4>
+
+<p><code>AppConfig[:enable_indexer] = true</code></p>
+
+<h4 id="appconfigenabledocs"><code>AppConfig[:enable_docs]</code></h4>
+
+<p><code>AppConfig[:enable_docs] = true</code></p>
+
+<h4 id="appconfigenableoai"><code>AppConfig[:enable_oai]</code></h4>
+
+<p><code>AppConfig[:enable_oai] = true</code></p>
+
+<h3 id="jetty-shutdown">Jetty shutdown</h3>
+
+<p>Some use cases want the ability to shutdown the Jetty service using Jetty’s
+ShutdownHandler, which allows a POST request to a specific URI to signal
+server shutdown. The prefix for this URI path is set to <code>/xkcd</code> to reduce the
+possibility of a collision in the path configuration. So, full path would be</p>
+
+<p><code>/xkcd/shutdown?token={randomly generated password}</code></p>
+
+<p>The launcher creates a password to use this, which is stored
+in the data directory. This is not turned on by default.</p>
+
+<h4 id="appconfigusejettyshutdownhandler"><code>AppConfig[:use_jetty_shutdown_handler]</code></h4>
+
+<p><code>AppConfig[:use_jetty_shutdown_handler] = false</code></p>
+
+<h4 id="appconfigjettyshutdownpath"><code>AppConfig[:jetty_shutdown_path]</code></h4>
+
+<p><code>AppConfig[:jetty_shutdown_path] = "/xkcd"</code></p>
+
+<h3 id="managing-multile-backend-instances">Managing multile backend instances</h3>
+
+<p>If you have multiple instances of the backend running behind a load
+balancer, list the URL of each backend instance here.  This is used by the
+real-time indexing, which needs to connect directly to each running
+instance.</p>
+
+<p>By default we assume you’re not using a load balancer, so we just connect
+to the regular backend URL.</p>
+
+<h4 id="appconfigbackendinstanceurls"><code>AppConfig[:backend_instance_urls]</code></h4>
+
+<p><code>AppConfig[:backend_instance_urls] = proc { [AppConfig[:backend_url]] }</code></p>
+
+<h3 id="theme">Theme</h3>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<h4 id="appconfigfrontendtheme"><code>AppConfig[:frontend_theme]</code></h4>
+
+<p><code>AppConfig[:frontend_theme] = "default"</code></p>
+
+<h4 id="appconfigpublictheme"><code>AppConfig[:public_theme]</code></h4>
+
+<p><code>AppConfig[:public_theme] = "default"</code></p>
+
+<h3 id="session-expiration">Session expiration</h3>
+
+<h4 id="appconfigsessionexpireafterseconds"><code>AppConfig[:session_expire_after_seconds]</code></h4>
+
+<p>Sessions marked as expirable will timeout after this number of seconds of inactivity</p>
+
+<p><code>AppConfig[:session_expire_after_seconds] = 3600</code></p>
+
+<h4 id="appconfigsessionnonexpirableforceexpireafterseconds"><code>AppConfig[:session_nonexpirable_force_expire_after_seconds]</code></h4>
+
+<p>Sessions marked as non-expirable will eventually expire too, but after a longer period.</p>
+
+<p><code>AppConfig[:session_nonexpirable_force_expire_after_seconds] = 604800</code></p>
+
+<h3 id="system-usernames">System usernames</h3>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<h4 id="appconfigsearchusername"><code>AppConfig[:search_username]</code></h4>
+
+<p><code>AppConfig[:search_username] = "search_indexer"</code></p>
+
+<h4 id="appconfigpublicusername"><code>AppConfig[:public_username]</code></h4>
+
+<p><code>AppConfig[:public_username] = "public_anonymous"</code></p>
+
+<h4 id="appconfigstaffusername"><code>AppConfig[:staff_username]</code></h4>
+
+<p><code>AppConfig[:staff_username] = "staff_system"</code></p>
+
+<h3 id="authentication-sources">Authentication sources</h3>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<h4 id="appconfigauthenticationsources"><code>AppConfig[:authentication_sources]</code></h4>
+
+<p><code>AppConfig[:authentication_sources] = []</code></p>
+
+<h3 id="misc-backlog-and-snapshot-settings">Misc. backlog and snapshot settings</h3>
+
+<h4 id="appconfigrealtimeindexbacklogms"><code>AppConfig[:realtime_index_backlog_ms]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:realtime_index_backlog_ms] = 60000</code></p>
+
+<h4 id="appconfignotificationsbacklogms"><code>AppConfig[:notifications_backlog_ms]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:notifications_backlog_ms] = 60000</code></p>
+
+<h4 id="appconfignotificationspollfrequencyms"><code>AppConfig[:notifications_poll_frequency_ms]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:notifications_poll_frequency_ms] = 1000</code></p>
+
+<h4 id="appconfigmaxusernamespersource"><code>AppConfig[:max_usernames_per_source]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:max_usernames_per_source] = 50</code></p>
+
+<h4 id="appconfigdemodbsnapshotflag"><code>AppConfig[:demodb_snapshot_flag]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:demodb_snapshot_flag] = proc { File.join(AppConfig[:data_directory], "create_demodb_snapshot.txt") }</code></p>
+
+<h3 id="report-configuration">Report Configuration</h3>
+
+<h4 id="appconfigreportpagelayout"><code>AppConfig[:report_page_layout]</code></h4>
+
+<p>Uses valid values for the  CSS3 @page directive’s size property:
+http://www.w3.org/TR/css3-page/#page-size-prop</p>
+
+<p><code>AppConfig[:report_page_layout] = "letter"</code></p>
+
+<h4 id="appconfigreportpdffontpaths"><code>AppConfig[:report_pdf_font_paths]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }</code></p>
+
+<h4 id="appconfigreportpdffontfamily"><code>AppConfig[:report_pdf_font_family]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"</code></p>
+
+<h3 id="plugins-directory">Plugins directory</h3>
+
+<h4 id="appconfigpluginsdirectory"><code>AppConfig[:plugins_directory]</code></h4>
+
+<p>By default, the plugins directory will be in your ASpace Home.
+If you want to override that, update this with an absolute path</p>
+
+<p><code>AppConfig[:plugins_directory] = "plugins"</code></p>
+
+<h3 id="feedback">Feedback</h3>
+
+<h4 id="appconfigfeedbackurl"><code>AppConfig[:feedback_url]</code></h4>
+
+<p>URL to direct the feedback link.
+You can remove this from the footer by making the value blank.</p>
+
+<p><code>AppConfig[:feedback_url] = "http://archivesspace.org/feedback"</code></p>
+
+<h3 id="user-registration">User registration</h3>
+
+<h4 id="appconfigallowuserregistration"><code>AppConfig[:allow_user_registration]</code></h4>
+
+<p>Allow an unauthenticated user to create an account</p>
+
+<p><code>AppConfig[:allow_user_registration] = true</code></p>
+
+<h3 id="help-configuration">Help Configuration</h3>
+
+<h4 id="appconfighelpenabled"><code>AppConfig[:help_enabled]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:help_enabled] = true</code></p>
+
+<h4 id="appconfighelpurl"><code>AppConfig[:help_url]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:help_url] = "http://docs.archivesspace.org"</code></p>
+
+<h4 id="appconfighelptopicprefix"><code>AppConfig[:help_topic_prefix]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"</code></p>
+
+<h3 id="shared-storage">Shared storage</h3>
+
+<h4 id="appconfigsharedstorage"><code>AppConfig[:shared_storage]</code></h4>
+
+<p><code>AppConfig[:shared_storage] = proc { File.join(AppConfig[:data_directory], "shared") }</code></p>
+
+<h3 id="background-jobs">Background jobs</h3>
+
+<h4 id="appconfigjobfilepath"><code>AppConfig[:job_file_path]</code></h4>
+
+<p>Formerly known as :import_job_path</p>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:job_file_path] = proc { AppConfig.has_key?(:import_job_path) ? AppConfig[:import_job_path] : File.join(AppConfig[:shared_storage], "job_files") }</code></p>
+
+<h4 id="appconfigjobpollseconds"><code>AppConfig[:job_poll_seconds]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:job_poll_seconds] = proc { AppConfig.has_key?(:import_poll_seconds) ? AppConfig[:import_poll_seconds] : 5 }</code></p>
+
+<h4 id="appconfigjobtimeoutseconds"><code>AppConfig[:job_timeout_seconds]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:job_timeout_seconds] = proc { AppConfig.has_key?(:import_timeout_seconds) ? AppConfig[:import_timeout_seconds] : 300 }</code></p>
+
+<h4 id="appconfigjobscancelable"><code>AppConfig[:jobs_cancelable]</code></h4>
+
+<p>By default, only allow jobs to be cancelled if we’re running against MySQL (since we can rollback)</p>
+
+<p><code>AppConfig[:jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }</code></p>
+
+<h3 id="locations">Locations</h3>
+
+<h4 id="appconfigmaxlocationrange"><code>AppConfig[:max_location_range]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:max_location_range] = 1000</code></p>
+
+<h3 id="schema-info-check">Schema Info check</h3>
+
+<h4 id="appconfigignoreschemainfocheck"><code>AppConfig[:ignore_schema_info_check]</code></h4>
+
+<p>ASpace backend will not start if the db’s schema_info version is not set
+correctly for this version of ASPACE. This is to ensure that all the
+migrations have run and completed before starting the app. You can override
+this check here. Do so at your own peril.</p>
+
+<p><code>AppConfig[:ignore_schema_info_check] = false</code></p>
+
+<h3 id="demo-data">Demo data</h3>
+
+<h4 id="appconfigdemodataurl"><code>AppConfig[:demo_data_url]</code></h4>
+
+<p>This is a URL that points to some demo data that can be used for testing,
+teaching, etc. To use this, set an OS environment variable of ASPACE_DEMO = true</p>
+
+<p><code>AppConfig[:demo_data_url] = "https://s3-us-west-2.amazonaws.com/archivesspacedemo/latest-demo-data.zip"</code></p>
+
+<h3 id="external-ids">External IDs</h3>
+
+<h4 id="appconfigshowexternalids"><code>AppConfig[:show_external_ids]</code></h4>
+
+<p>Expose external ids in the frontend</p>
+
+<p><code>AppConfig[:show_external_ids] = false</code></p>
+
+<h3 id="jetty-requestresponse-buffer">Jetty request/response buffer</h3>
+
+<p>Set the allowed size of the request/response header that Jetty will accept
+(anything bigger gets a 403 error). Note if you want to jack this size up,
+you will also have to configure your Nginx/Apache  as well if you’re using that</p>
+
+<h4 id="appconfigjettyresponsebuffersizebytes"><code>AppConfig[:jetty_response_buffer_size_bytes]</code></h4>
+
+<p><code>AppConfig[:jetty_response_buffer_size_bytes] = 64 * 1024</code></p>
+
+<h4 id="appconfigjettyrequestbuffersizebytes"><code>AppConfig[:jetty_request_buffer_size_bytes]</code></h4>
+
+<p><code>AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024</code></p>
+
+<h3 id="container-management-configuration-fields">Container management configuration fields</h3>
+
+<h4 id="appconfigcontainermanagementbarcodelength"><code>AppConfig[:container_management_barcode_length]</code></h4>
+
+<p>Defines global and repo-level barcode validations (validating on length only).
+Barcodes that have either no value, or a value between :min and :max, will validate on save.
+Set global constraints via :system_default, and use the repo_code value for repository-level constraints.
+Note that :system_default will always inherit down its values when possible.</p>
+
+<p><code>AppConfig[:container_management_barcode_length] = {:system_default =&gt; {:min =&gt; 5, :max =&gt; 10}, 'repo' =&gt; {:min =&gt; 9, :max =&gt; 12}, 'other_repo' =&gt; {:min =&gt; 9, :max =&gt; 9} }</code></p>
+
+<h4 id="appconfigcontainermanagementextentcalculator"><code>AppConfig[:container_management_extent_calculator]</code></h4>
+
+<p>Globally defines the behavior of the exent calculator.
+Use :report_volume (true/false) to define whether space should be reported in cubic
+or linear dimensions.
+Use :unit (:feet, :inches, :meters, :centimeters) to define the unit which the calculator
+reports extents in.
+Use :decimal_places to define how many decimal places the calculator should return.</p>
+
+<p>Example:</p>
+
+<p><code>AppConfig[:container_management_extent_calculator] = { :report_volume =&gt; true, :unit =&gt; :feet, :decimal_places =&gt; 3 }</code></p>
+
+<h3 id="record-inheritance-in-public-interface">Record inheritance in public interface</h3>
+
+<h4 id="appconfigrecordinheritance"><code>AppConfig[:record_inheritance]</code></h4>
+
+<p>Define the fields for a record type that are inherited from ancestors
+if they don’t have a value in the record itself.
+This is used in common/record_inheritance.rb and was developed to support
+the new public UI application.
+Note - any changes to record_inheritance config will require a reindex of pui
+records to take affect. To do this remove files from indexer_pui_state</p>
+
+<p><code>
+AppConfig[:record_inheritance] = {
+  :archival_object =&gt; {
+    :inherited_fields =&gt; [
+      {
+        :property =&gt; 'title',
+        :inherit_directly =&gt; true
+      },
+      {
+        :property =&gt; 'component_id',
+        :inherit_directly =&gt; false
+      },
+      {
+        :property =&gt; 'language',
+        :inherit_directly =&gt; true
+      },
+      {
+        :property =&gt; 'dates',
+        :inherit_directly =&gt; true
+      },
+      {
+        :property =&gt; 'extents',
+        :inherit_directly =&gt; false
+      },
+      {
+        :property =&gt; 'linked_agents',
+        :inherit_if =&gt; proc {|json| json.select {|j| j['role'] == 'creator'} },
+        :inherit_directly =&gt; false
+      },
+      {
+        :property =&gt; 'notes',
+        :inherit_if =&gt; proc {|json| json.select {|j| j['type'] == 'accessrestrict'} },
+        :inherit_directly =&gt; true
+      },
+      {
+        :property =&gt; 'notes',
+        :inherit_if =&gt; proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
+        :inherit_directly =&gt; false
+      },
+      {
+        :property =&gt; 'notes',
+        :inherit_if =&gt; proc {|json| json.select {|j| j['type'] == 'langmaterial'} },
+        :inherit_directly =&gt; false
+      },
+    ]
+  }
+}
+</code></p>
+
+<p>To enable composite identifiers - added to the merged record in a property
+<code>\_composite_identifier</code></p>
+
+<p>The values for <code>:include_level</code> and <code>:identifier_delimiter</code> shown here are the defaults</p>
+
+<p>If <code>:include_level</code> is set to true then level values (eg Series) will be included in <code>\_composite_identifier</code></p>
+
+<p>The <code>:identifier_delimiter</code> is used when joining the four part identifier for resources</p>
+
+<p><code>
+AppConfig[:record_inheritance][:archival_object][:composite_identifiers] = {
+  :include_level =&gt; false,
+  :identifier_delimiter =&gt; ' '
+}
+</code></p>
+
+<p>To configure additional elements to be inherited use this pattern in your config</p>
+
+<p><code>
+AppConfig[:record_inheritance][:archival_object][:inherited_fields] &lt;&lt;
+  {
+    :property =&gt; 'linked_agents',
+    :inherit_if =&gt; proc {|json| json.select {|j| j['role'] == 'subject'} },
+    :inherit_directly =&gt; true
+  }
+</code></p>
+
+<p>… or use this pattern to add many new elements at once</p>
+
+<p><code>
+AppConfig[:record_inheritance][:archival_object][:inherited_fields].concat(
+  [
+    {
+      :property =&gt; 'subjects',
+      :inherit_if =&gt; proc {|json|
+        json.select {|j|
+          ! j['_resolved']['terms'].select { |t| t['term_type'] == 'topical'}.empty? }
+        },
+      :inherit_directly =&gt; true
+    },
+    {
+      :property =&gt; 'external_documents',
+      :inherit_directly =&gt; false
+    },
+    {
+      :property =&gt; 'rights_statements',
+      :inherit_directly =&gt; false
+    },
+    {
+      :property =&gt; 'instances',
+      :inherit_directly =&gt; false
+    },
+  ])
+</code></p>
+
+<p>If you want to modify any of the default rules, the safest approach is to uncomment
+the entire default record_inheritance config and make your changes.
+For example, to stop scopecontent notes from being inherited into file or item records
+uncomment the entire record_inheritance default config above, and add a skip_if
+clause to the scopecontent rule, like this:</p>
+
+<p><code>
+  {
+    :property =&gt; 'notes',
+    :skip_if =&gt; proc {|json| ['file', 'item'].include?(json['level']) },
+    :inherit_if =&gt; proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
+    :inherit_directly =&gt; false
+  },
+</code></p>
+
+<h3 id="pui-configurations">PUI Configurations</h3>
+
+<h4 id="appconfigpuisearchresultspagesize"><code>AppConfig[:pui_search_results_page_size]</code></h4>
+
+<p><code>AppConfig[:pui_search_results_page_size] = 10</code></p>
+
+<h4 id="appconfigpuibrandingimg"><code>AppConfig[:pui_branding_img]</code></h4>
+
+<p><code>AppConfig[:pui_branding_img] = 'archivesspace.small.png'</code></p>
+
+<h4 id="appconfigpuiblockreferrer"><code>AppConfig[:pui_block_referrer]</code></h4>
+
+<p><code>AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain</code></p>
+
+<h4 id="appconfigpuienablestafflink"><code>AppConfig[:pui_enable_staff_link]</code></h4>
+
+<p><code>AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface</code></p>
+
+<h4 id="appconfigpuimaxconcurrentpdfs"><code>AppConfig[:pui_max_concurrent_pdfs]</code></h4>
+
+<p>The number of PDFs we’ll generate (in the background) at the same time.</p>
+
+<p>PDF generation can be a little memory intensive for large collections, so we
+set this fairly low out of the box.</p>
+
+<p><code>AppConfig[:pui_max_concurrent_pdfs] = 2</code></p>
+
+<h4 id="appconfigpuipdftimeout"><code>AppConfig[:pui_pdf_timeout]</code></h4>
+
+<p>You can set this to nil or zero to prevent a timeout</p>
+
+<p><code>AppConfig[:pui_pdf_timeout] = 600</code></p>
+
+<h4 id="appconfigpuihide"><code>AppConfig[:pui_hide]</code></h4>
+
+<p><code>AppConfig[:pui_hide] = {}</code></p>
+
+<p>The following determine which ‘tabs’ are on the main horizontal menu:</p>
+
+<p><code>
+AppConfig[:pui_hide][:repositories] = false
+AppConfig[:pui_hide][:resources] = false
+AppConfig[:pui_hide][:digital_objects] = false
+AppConfig[:pui_hide][:accessions] = false
+AppConfig[:pui_hide][:subjects] = false
+AppConfig[:pui_hide][:agents] = false
+AppConfig[:pui_hide][:classifications] = false
+AppConfig[:pui_hide][:search_tab] = false
+</code></p>
+
+<p>The following determine globally whether the various “badges” appear on the Repository page
+can be overriden at repository level below (e.g.:
+<code>AppConfig[:repos][{repo_code}][:hide][:counts] = true</code></p>
+
+<p><code>
+AppConfig[:pui_hide][:resource_badge] = false
+AppConfig[:pui_hide][:record_badge] = true # hide by default
+AppConfig[:pui_hide][:digital_object_badge] = false
+AppConfig[:pui_hide][:accession_badge] = false
+AppConfig[:pui_hide][:subject_badge] = false
+AppConfig[:pui_hide][:agent_badge] = false
+AppConfig[:pui_hide][:classification_badge] = false
+AppConfig[:pui_hide][:counts] = false
+</code></p>
+
+<p>The following determines globally whether the ‘container inventory’ navigation
+tab/pill is hidden on resource/collection page</p>
+
+<p><code>
+AppConfig[:pui_hide][:container_inventory] = false
+</code></p>
+
+<p>Don’t display the accession (“unprocessed material”) link on the main navigation menu</p>
+
+<p><code>
+AppConfig[:pui_hide][:accessions] = true
+</code></p>
+
+<h4 id="appconfigpuirequestspermittedfortypes"><code>AppConfig[:pui_requests_permitted_for_types]</code></h4>
+
+<p>Determine when the request button is displayed</p>
+
+<p><code>AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]</code></p>
+
+<h4 id="appconfigpuirequestspermittedforcontainersonly"><code>AppConfig[:pui_requests_permitted_for_containers_only]</code></h4>
+
+<p>Set to ‘true’ if you want to disable if there is no top container</p>
+
+<p><code>AppConfig[:pui_requests_permitted_for_containers_only] = false</code></p>
+
+<h4 id="appconfigpuirepos"><code>AppConfig[:pui_repos]</code></h4>
+
+<p>Repository-specific examples.  Replace repo_code with your repository code, i.e. ‘foo’ - note the lower-case</p>
+
+<p><code>AppConfig[:pui_repos] = {}</code></p>
+
+<p>Examples:</p>
+
+<p>for a particular repository, only enable requests for certain record types (Note this configuration will override AppConfig[:pui_requests_permitted_for_types] for the repository)</p>
+
+<p><code>
+AppConfig[:pui_repos]['foo'][:requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
+</code></p>
+
+<p>For a particular repository, disable request</p>
+
+<p><code>
+AppConfig[:pui_repos]['foo'][:requests_permitted_for_containers_only] = true
+</code></p>
+
+<p>Set the email address to send any repository requests:</p>
+
+<p><code>
+AppConfig[:pui_repos]['foo'][:request_email] = {email address}
+</code></p>
+
+<blockquote>
+  <p>TODO - Needs more documentation here</p>
+</blockquote>
+
+<p><code>
+AppConfig[:pui_repos]['foo'][:hide] = {}
+AppConfig[:pui_repos]['foo'][:hide][:counts] = true
+</code></p>
+
+<h4 id="appconfigpuidisplaydeaccessions"><code>AppConfig[:pui_display_deaccessions]</code></h4>
+
+<blockquote>
+  <p>TODO - Needs more documentation</p>
+</blockquote>
+
+<p><code>AppConfig[:pui_display_deaccessions] = true</code></p>
+
+<h4 id="appconfigpuipageactionscite"><code>AppConfig[:pui_page_actions_cite]</code></h4>
+
+<p>Enable / disable PUI resource/archival object page ‘cite’ action</p>
+
+<p><code>AppConfig[:pui_page_actions_cite] = true</code></p>
+
+<h4 id="appconfigpuipageactionsbookmark"><code>AppConfig[:pui_page_actions_bookmark]</code></h4>
+
+<p>Enable / disable PUI resource/archival object page ‘bookmark’ action</p>
+
+<p><code>AppConfig[:pui_page_actions_bookmark] = true</code></p>
+
+<h4 id="appconfigpuipageactionsrequest"><code>AppConfig[:pui_page_actions_request]</code></h4>
+
+<p>Enable / disable PUI resource/archival object page ‘request’ action</p>
+
+<p><code>AppConfig[:pui_page_actions_request] = true</code></p>
+
+<h4 id="appconfigpuipageactionsprint"><code>AppConfig[:pui_page_actions_print]</code></h4>
+
+<p>Enable / disable PUI resource/archival object page ‘print’ action</p>
+
+<p><code>AppConfig[:pui_page_actions_print] = true</code></p>
+
+<h4 id="appconfigpuipagecustomactions"><code>AppConfig[:pui_page_custom_actions]</code></h4>
+
+<p>Add page actions via the configuration</p>
+
+<p><code>AppConfig[:pui_page_custom_actions] = []</code></p>
+
+<p>Javascript action example:</p>
+
+<p><code>
+AppConfig[:pui_page_custom_actions] &lt;&lt; {
+  'record_type' =&gt; ['resource', 'archival_object'], # the jsonmodel type to show for
+  'label' =&gt; 'actions.do_something', # the I18n path for the action button
+  'icon' =&gt; 'fa-paw', # the font-awesome icon CSS class
+  'onclick_javascript' =&gt; 'alert("do something grand");',
+}
+</code></p>
+
+<p>Hyperlink action example:</p>
+
+<p><code>
+AppConfig[:pui_page_custom_actions] &lt;&lt; {
+  'record_type' =&gt; ['resource', 'archival_object'], # the jsonmodel type to show for
+  'label' =&gt; 'actions.do_something', # the I18n path for the action button
+  'icon' =&gt; 'fa-paw', # the font-awesome icon CSS class
+  'url_proc' =&gt; proc {|record| 'http://example.com/aspace?uri='+record.uri},
+}
+</code></p>
+
+<p>Form-POST action example:</p>
+
+<p><code>
+AppConfig[:pui_page_custom_actions] &lt;&lt; {
+  'record_type' =&gt; ['resource', 'archival_object'], # the jsonmodel type to show for
+  'label' =&gt; 'actions.do_something', # the I18n path for the action button
+  'icon' =&gt; 'fa-paw', # the font-awesome icon CSS class
+  # 'post_params_proc' returns a hash of params which populates a form with hidden inputs ('name' =&gt; 'value')
+  'post_params_proc' =&gt; proc {|record| {'uri' =&gt; record.uri, 'display_string' =&gt; record.display_string} },
+  # 'url_proc' returns the URL for the form to POST to
+  'url_proc' =&gt; proc {|record| 'http://example.com/aspace?uri='+record.uri},
+  # 'form_id' as string to be used as the form's ID
+  'form_id' =&gt; 'my_grand_action',
+}
+</code></p>
+
+<p>ERB action example:</p>
+
+<p><code>
+AppConfig[:pui_page_custom_actions] &lt;&lt; {
+  'record_type' =&gt; ['resource', 'archival_object'],
+  # the jsonmodel type to show for
+  # 'erb_partial' returns the path to an erb template from which the action will be rendered
+  'erb_partial' =&gt; 'shared/my_special_action',
+}
+</code></p>
+
+<h4 id="appconfigpuiemailenabled"><code>AppConfig[:pui_email_enabled]</code></h4>
+
+<p>PUI email settings (logs emails when disabled)</p>
+
+<p><code>AppConfig[:pui_email_enabled] = false</code></p>
+
+<h4 id="appconfigpuiemailoverride"><code>AppConfig[:pui_email_override]</code></h4>
+
+<p>See above AppConfig[:pui_repos][repo_code][:request_email] for setting repository email overrides
+‘pui_email_override’ for testing, this email will be the to-address for all sent emails</p>
+
+<p><code>AppConfig[:pui_email_override] = 'testing@example.com'</code></p>
+
+<h4 id="appconfigpuirequestemailfallbacktoaddress"><code>AppConfig[:pui_request_email_fallback_to_address]</code></h4>
+
+<p>The ‘to’ email address for repositories that don’t define their own email</p>
+
+<p><code>AppConfig[:pui_request_email_fallback_to_address] = 'testing@example.com'</code></p>
+
+<h4 id="appconfigpuirequestemailfallbackfromaddress"><code>AppConfig[:pui_request_email_fallback_from_address]</code></h4>
+
+<p>The ‘from’ email address for repositories that don’t define their own email</p>
+
+<p><code>AppConfig[:pui_request_email_fallback_from_address] = 'testing@example.com'</code></p>
+
+<h4 id="appconfigpuirequestuserepoemail"><code>AppConfig[:pui_request_use_repo_email]</code></h4>
+
+<p>Use the repository record email address for requests (overrides config email)</p>
+
+<p><code>AppConfig[:pui_request_use_repo_email] = false</code></p>
+
+<h4 id="appconfigpuiemaildeliverymethod"><code>AppConfig[:pui_email_delivery_method]</code></h4>
+
+<p><code>AppConfig[:pui_email_delivery_method] = :sendmail</code></p>
+
+<h4 id="appconfigpuiemailsendmailsettings"><code>AppConfig[:pui_email_sendmail_settings]</code></h4>
+
+<p><code>
+AppConfig[:pui_email_sendmail_settings] = {
+  location: '/usr/sbin/sendmail',
+  arguments: '-i'
+}
+</code></p>
+
+<h4 id="appconfigpuiemailsmtpsettings"><code>AppConfig[:pui_email_smtp_settings]</code></h4>
+
+<p>Apply when <code>AppConfig[:pui_email_delivery_method]</code> set to <code>:smtp</code></p>
+
+<p>Example SMTP configuration:</p>
+
+<p><code>
+AppConfig[:pui_email_smtp_settings] = {
+  address: 'smtp.gmail.com',
+  port: 587,
+  domain: 'gmail.com',
+  user_name: '&lt;username&gt;',
+  password: '&lt;password&gt;',
+  authentication: 'plain',
+  enable_starttls_auto: true,
+}
+</code></p>
+
+<h4 id="appconfigpuiemailperformdeliveries"><code>AppConfig[:pui_email_perform_deliveries]</code></h4>
+
+<p><code>AppConfig[:pui_email_perform_deliveries] = true</code></p>
+
+<h4 id="appconfigpuiemailraisedeliveryerrors"><code>AppConfig[:pui_email_raise_delivery_errors]</code></h4>
+
+<p><code>AppConfig[:pui_email_raise_delivery_errors] = true</code></p>
+
+<h4 id="appconfigpuireadmoremaxcharacters"><code>AppConfig[:pui_readmore_max_characters]</code></h4>
+
+<p>The number of characters to truncate before showing the ‘Read More’ link on notes</p>
+
+<p><code>AppConfig[:pui_readmore_max_characters] = 450</code></p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:22 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

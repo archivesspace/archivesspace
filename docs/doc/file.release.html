@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: release
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "release";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: release</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="building-an-archivesspace-release">Building an ArchivesSpace release</h1>
+
+<h2 id="try-to-tie-up-any-loose-ends">Try to tie up any loose ends</h2>
+
+<p>Before doing the release, it’s a good idea to try and make sure nothing is left
+hanging. Check JIRA for any “rejected” or started-but-not-accepted tickets,
+since you don’t want to ship with code that hasn’t passed QA.</p>
+
+<p>Also, take a look at all the Gemfile.lock files ( in backend, frontend, public,
+etc ) and review the gem versions. Pay close attention to the Rails &amp; Friends
+( ActiveSupport, ActionPack, etc ), Rack, and Sinatra versions and make sure
+there have not been any security patch versions. There usually are, especially
+since Rails sends fix updates rather frequently.</p>
+
+<p>To update the gems, update the version in Gemfile, delete the Gemfile.lock, and
+run ./build/run bootstrap to download everything. Then make sure your test
+suite passes.</p>
+
+<p>Once everything passes, commit your Gemfiles and Gemfile.lock files.</p>
+
+<p>Review the various README docs and update them as necessary. In particular the
+<code>UPGRADING.md</code> instructions should be updated to reference the current and new
+release version numbers.</p>
+
+<h2 id="clone-the-git-repository">Clone the git repository</h2>
+
+<p>When building a release it is important to start from a clean repository. The safest
+way of ensuring this is to clone the repo:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_git identifier id'>git</span> <span class='rubyid_clone identifier id'>clone</span> <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_git identifier id'>git</span>
+</code></pre>
+
+<p>This assumes you will be building a release from master. To build from a tag you will
+need to additionally check out the tag, like this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_git identifier id'>git</span> <span class='rubyid_checkout identifier id'>checkout</span> <span class='lbrack token'>[</span><span class='rubyid_tag identifier id'>tag</span><span class='minus op'>-</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<h2 id="build-the-archivesspace-technical-documentation">Build the ArchivesSpace technical documentation</h2>
+
+<p>ArchivesSpace ships with the current documentation, located in “docs”
+directory. By default, this is served out at
+http://localhost:8888/archivesspace when the application is running.</p>
+
+<p>This documentation is also hosted on <a href="http://archivesspace.github.io/archivesspace/">http://archivesspace.github.io/archivesspace/</a>,
+with the last released version. This documentation consists of a <a href="http://jekyllrb.com/">Jekyll</a> site
+build on the content of various READMEs, a <a href="https://github.com/tripit/slate">Slate</a> site ( for REST API
+documentation ), and the Ruby <a href="http://yardoc.org/">YARD</a> documentation.</p>
+
+<p>Instructions to build this can be seen on <a href="https://github.com/archivesspace/archivesspace/tree/gh-pages">the ArchivesSpace gh-pages branch</a>.
+Important to note that these steps assume you’re using a standard Ruby, not
+jRuby. Note that if any additional READMEs have been added to the repository, you will
+need to add those to the <a href="https://github.com/archivesspace/archivesspace/tree/master/scripts">scripts/build_docs.rb</a>
+script that rips apart the READMEs. Also, links in the site’s side bar need to be
+added to <a href="https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html">Jekyll’s
+sidebar</a>.</p>
+
+<p>Before the <code>build/run doc:build</code> step, but sure you run the <code>build/run backend:test</code> step. This will run all your tests, including the documentation_spec.rb spec, which runs through all the endpoints, generates factory girl fixture json, and spits it into a json file ( endpoint_examples.json ).</p>
+
+<p>To build the documentation:</p>
+
+<ol>
+  <li>Check out a new branch from master:</li>
+</ol>
+
+<p><code>
+  $ git checkout -b new-document
+</code></p>
+
+<ol>
+  <li>
+    <p>Make sure that <a href="https://github.com/archivesspace/archivesspace/blob/master/scripts/build_docs.rb#L7-L8">script/build_docs.rb</a> is up-to-date and update <a href="https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html">Jekyll’s sidebar</a> if necessary.</p>
+  </li>
+  <li>
+    <p>Bootstrap your development environment by downloading all dependencies–JRuby, Gems, Solr, etc.
+<code>
+  $ build/run bootstrap
+</code></p>
+  </li>
+  <li>
+    <p>Run the backend unit tests
+<code>
+  $ build/run backend:test
+</code></p>
+  </li>
+  <li>
+    <p>Update the fallback_version value in common/asconstants.rb with the new version number so that the documentation with have the correct version number in the footer
+<code>
+  fallback_version = "vX.X.X.a"
+</code></p>
+  </li>
+  <li>
+    <p>Rip apart the READMEs for content by running the doc:build ANT task</p>
+  </li>
+</ol>
+
+<p><code>
+  $ build/run doc:build
+</code></p>
+
+<ol>
+  <li>Build Slate ( using a standard Ruby )</li>
+</ol>
+
+<p><code>
+  $ cd docs/slate
+  $ gem install bundler
+  $ bundle install --binstubs
+  $ ./bin/middleman build
+  $ ./bin/middleman server # optional if you want to have a look at the site.
+  $ rm -r ../api
+  $ mv build ../api
+</code></p>
+
+<ol>
+  <li>Compile Jekyll</li>
+</ol>
+
+<p><code>
+  $ cd docs
+  $ gem install bundler
+  $ bundle install --binstubs
+  $ ./bin/jekyll build
+  $ ./bin/jekyll serve # optional if you want to have a look at the site.
+</code></p>
+
+<ol>
+  <li>Commit the docs directory to git then push it to the gh-pages branch</li>
+</ol>
+
+<p><code>
+$ cd ../ # go to top of the working tree
+$ git add # all files related to the docs that just got created/updated (eg. docs/*, index.html files, etc) (do NOT add common/asconstants.rb)
+$ git commit # with appropriate commit message
+$  git subtree push --prefix docs origin gh-pages
+( or, if you get a FF error )
+$ git push origin `git subtree split --prefix docs master`:gh-pages --force
+</code></p>
+
+<ol>
+  <li>Now merge in the docs directory back into master by committing the new-document
+branch, creating a PR, and merging the PR</li>
+</ol>
+
+<h2 id="build-the-release">Build the release</h2>
+
+<p>Building the actual release is very simple. Back on the master branch ( with
+your docs updated ), run the following:</p>
+
+<p><code>
+$ ./scripts/build_release vX.X.X
+</code></p>
+
+<p>Replace X.X.X with the version number. This will build and package a release in
+a zip file.</p>
+
+<h2 id="commit-and-tag-the-release">Commit and Tag the release</h2>
+
+<p>The release process adds the version number to
+<code>common/asconstants.rb</code>.  After you’ve run the <code>build_release</code>
+script, you’ll need to commit that file then tag the release in git.</p>
+
+<p><code>
+$ git add common/asconstants.rb
+$ git commit -m "Updating to vX.X.X"
+$ git tag vX.X.X
+$ git push --tags
+</code></p>
+
+<h2 id="build-the-release-announcement">Build the release announcement</h2>
+
+<p>The release announcement needs to have all the tickets that make up the
+changelog for the release. In the past, this list has been written into
+markdown to add in the Github release page.</p>
+
+<p>An easy way to do this is to export all the relevant tickets in JIRA ( that is,
+all tickets accepted since the last release  ). Then use the following script
+to make a markdown file:</p>
+
+<p>```
+require ‘csv’</p>
+
+<p>def csv2md(csv_file)</p>
+
+<p>output = “release_#Time.now.to_i.md”
+file = File.open(output, “w”)</p>
+
+<p>CSV.foreach(csv_file, :headers =&gt; true ) do |row|
+  file « ”* #{ row[“Issue Type”].upcase } [##{ row[“Key”] }] ( https://archivesspace.atlassian.net/browse/#{ row[“Key”] } ): #{ row[“Summary”] }\n”
+end</p>
+
+<p>puts “Putting file to #output\n”</p>
+
+<p>end</p>
+
+<p>if <strong>FILE</strong> == $0
+  csv2md(ARGV[0])
+end</p>
+
+<p>```</p>
+
+<p>Then make a release page in Github, upload the zip package and paste in the changelog text.</p>
+
+<p>:package: :shipit: &amp; :pray:</p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:22 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

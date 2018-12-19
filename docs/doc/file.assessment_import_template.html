@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: assessment_import_template
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "assessment_import_template";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: assessment_import_template</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="assessment-csv-import-template">Assessment CSV Import Template</h1>
+
+<p><a href="https://raw.githubusercontent.com/archivesspace/archivesspace/master/backend/app/exporters/examples/assessment/aspace_assessment_import_template.csv">Download</a></p>
+
+<p>Use this CSV template for importing Assessment data into ArchivesSpace.</p>
+
+<p>The first two rows define the column headers. The order of the columns doesn’t matter.</p>
+
+<p>The first row specifies the section that the column belongs to.
+Valid values are: basic, rating, format and conservation.</p>
+
+<p>The second row specifies the field within the section for that column.</p>
+
+<p>The ‘basic’ columns are fixed fields on the assessment record.</p>
+
+<p>In the ‘basic’ section, ‘record’, ‘surveyed_by’ and ‘reviewer’ are repeating fields.
+Simply add enough of these columns for the assessment record that has the most
+linked records, surveyors or reviewers, then
+leave the surplus columns blank for rows that have fewer.</p>
+
+<p>The ‘basic’, ‘record’ columns should contain references to existing archival records in
+the current repository. They must be of type resource, archival_object, accession or digital_object.</p>
+
+<p>The reference must take the form: type_id.</p>
+
+<p>It is also permitted to use ‘/’, ‘.’ or space, in place of the ‘_’. For example, the following
+are valid record references (assuming the corresponding records exist in the current repository):</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_resource_12 identifier id'>resource_12</span>
+<span class='rubyid_accession identifier id'>accession</span><span class='div op'>/</span><span class='integer val'>5</span>
+<span class='rubyid_archival_object identifier id'>archival_object</span> <span class='integer val'>2970</span>
+</code></pre>
+
+<p>The ‘basic’, ‘surveyed_by’ and ‘reviewer’  columns must contain usernames of existing users
+in the ArchivesSpace instance.</p>
+
+<p>The fields for other sections refer to attribute definitions.
+The importer will attempt to match the field value against a definition.
+For example: ‘format’, ‘Film’ will match the ‘Film (negative, slide, or motion picture)’ definition.</p>
+
+<p>If it can’t find a matching definition, or if more than one definition matches, the importer
+will abort and report the problem.</p>
+
+<p>The template has columns for all of the default attribute definitions. It is possible to
+add repository specific definitions through the management interface. To import into
+these attributes, simply add columns to your CSV. For example, if your repository has
+defined an assessment rating called “Comedic Value”, add a column to your CSV with ‘rating’
+in the first row, and ‘Comedic Value’ in the second.</p>
+
+<p>‘rating’ type definitions support an associated note field. To import into this field
+the field must end with ‘_note’. In the example above, add another column with ‘rating’
+in the first row, and ‘Comedic Value_note’ in the second.</p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:21 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

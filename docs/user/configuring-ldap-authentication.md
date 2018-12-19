@@ -1,9 +1,8 @@
 ---
-title: Configuring LDAP authentication 
+title: Configuring LDAP authentication
 layout: en
-permalink: /user/configuring-ldap-authentication/ 
+permalink: /user/configuring-ldap-authentication/
 ---
-
 ArchivesSpace can manage its own user directory, but can also be
 configured to authenticate against one or more LDAP directories by
 specifying them in the application's configuration file.  When a user
@@ -65,5 +64,3 @@ appropriate and specify the `encryption` option:
                                              :bind_password => 'secretsquirrel',
                                              :encryption => :simple_tls,
      }]
-
-

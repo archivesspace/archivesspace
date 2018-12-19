@@ -1,28 +1,27 @@
 ---
-title: Backup and recovery 
+title: Backup and recovery
 layout: en
-permalink: /user/backup-and-recovery/ 
+permalink: /user/backup-and-recovery/
 ---
-
 ## Managing your own backups
 
-Performing regular backups of your MySQL database is critical.  ArchivesSpace stores 
-all of you records data in the database, so as long as you have 
-backups of your database then you can always recover from errors and failures.
+Performing regular backups of your MySQL database is critical.  ArchivesSpace stores
+all of your records data in the database, so as long as you have backups of your
+database then you can always recover from errors and failures.
 
 If you are running MySQL, the `mysqldump` utility can dump the database
 schema and data to a file.  It's a good idea to run this with the
 `--single-transaction` option to avoid locking your database tables
 while your backups run. It is also essential to use the `--routines`
 flag, which will include functions and stored procedures in the
-backup. The `mysqldump` 
-utility is widely used, and there are many tutorials available. As an example,
-something like this in your `crontab` would backup your database twice daily:
+backup. The `mysqldump` utility is widely used, and there are many tutorials
+available. As an example, something like this in your `crontab` would backup your
+database twice daily:
 
-     # Dump archivesspace database 6am and 6pm
+      # Dump archivesspace database 6am and 6pm
      30 06,18 * * * mysqldump -u as -pas123 archivesspace | gzip > ~/backups/db.$(date +%F.%H%M%S).sql.gz
 
-You should store backups in a safe location. 
+You should store backups in a safe location.
 
 If you are running with the demo database (NEVER run the demo database in production),
 you can create periodic database snapshots using the following configuration settings:
@@ -32,19 +31,19 @@ you can create periodic database snapshots using the following configuration set
      #
      # Database snapshots are written to 'data/demo_db_backups' by
      # default.
-     AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
-     AppConfig[:demo_db_backup_number_to_keep] = 7
+     AppConfig[:demo_db_backup_schedule] = "0 4 \* \* \*"
+     AppConfig[:demo\_db\_backup\_number\_to\_keep] = 7
 
 Solr indexes can always be recreated from the contents of the
 database, but backing them up can reduce your recovery time if
-disaster strikes on a large site.  You can create periodic Solr 
+disaster strikes on a large site.  You can create periodic Solr
 snapshots using the following configuration settings:
 
      # Create one snapshot per hour and keep only one.
      #
      # Solr snapshots are written to 'data/solr_backups' by default.
-     AppConfig[:solr_backup_schedule] = "0 * * * *"
-     AppConfig[:solr_backup_number_to_keep] = 1
+     AppConfig[:solr_backup_schedule] = "0 \* \* \* \*"
+     AppConfig[:solr\_backup\_number\_to\_keep] = 1
 
 ## Creating backups using the provided script
 
@@ -55,8 +54,8 @@ instance to a `.zip` file.  You can run:
 
 and the script will generate a file containing:
 
-  * A snapshot of the demo database (if you're using the demo
-    database). NEVER use the demo database in production. 
+  * A snapshot of the demo database (if you're using the demo database).
+    NEVER use the demo database in production.
   * A snapshot of the Solr index and related indexer files
 
 If you are running against MySQL and have `mysqldump` installed, you
@@ -65,7 +64,6 @@ database settings from your configuration file and add a dump of your
 MySQL database to the resulting `.zip` file.
 
      scripts/backup.sh --mysqldump --output ~/backups/backup-yyyymmdd.zip
-
 
 ## Recovering from backup
 
@@ -76,9 +74,8 @@ need to restore:
   * The search indexes and related indexer files (optional)
 
 Of the two, the database backup is the most crucial, your ArchivesSpace records
-are all stored in your MySQL database. The solr search indexes
-are worth restoring if you have backups, but they can be recreated
-from scratch if necessary.
+are all stored in your MySQL database. The solr search indexes are worth restoring
+if you have backups, but they can be recreated from scratch if necessary.
 
 
 ### Recovering your database
@@ -154,5 +151,3 @@ corruption.  To test an index, run the following command from your
 You can use the same script to check that your Solr backups are valid:
 
      scripts/checkindex.sh /unpacked/zip/solr.backup-26475-1373323208/snapshot.20130709084008464
-
-

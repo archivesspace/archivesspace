@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: ManipulateNode
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "ManipulateNode";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index (M)</a> &raquo;
+    
+    
+    <span class="title">ManipulateNode</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: ManipulateNode
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  <dl>
+      <dt>Extended by:</dt>
+      <dd>ActiveSupport::Concern</dd>
+  </dl>
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span>, <span class='object_link'><a href="FacetFilter.html" title="FacetFilter (class)">FacetFilter</a></span>, <span class='object_link'><a href="NoteRenderer.html" title="NoteRenderer (class)">NoteRenderer</a></span>, <span class='object_link'><a href="Record.html" title="Record (class)">Record</a></span>, <span class='object_link'><a href="Tree.html" title="Tree (class)">Tree</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>public/app/controllers/concerns/manipulate_node.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inheritance-instance_method" title="#inheritance (instance method)">#<strong>inheritance</strong>(struct = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>provides inheritance information, with markup!.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process_mixed_content-instance_method" title="#process_mixed_content (instance method)">#<strong>process_mixed_content</strong>(in_txt, opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>the beginning of processing mixed content  nodes for titles, notes, etc.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#strip_mixed_content-instance_method" title="#strip_mixed_content (instance method)">#<strong>strip_mixed_content</strong>(in_text)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>strips all xml markup; used for things like titles.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="inheritance-instance_method">
+  
+    #<strong>inheritance</strong>(struct = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>provides inheritance information, with markup!</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/manipulate_node.rb', line 68</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_inheritance identifier id'>inheritance</span><span class='lparen token'>(</span><span class='rubyid_struct identifier id'>struct</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_struct identifier id'>struct</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='orop op'>||</span> <span class='rubyid_struct identifier id'>struct</span><span class='lbrack token'>[</span><span class='string val'>&#39;level&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='orop op'>||</span> <span class='rubyid_struct identifier id'>struct</span><span class='lbrack token'>[</span><span class='string val'>&#39;direct&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_level identifier id'>level</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;inherit.#{struct[&#39;level&#39;].downcase}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_struct identifier id'>struct</span><span class='lbrack token'>[</span><span class='string val'>&#39;level&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='string val'>&#39;&lt;span class=&quot;inherit&quot;&gt;&#39;</span> <span class='plus op'>+</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;inherit.inherited&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_level identifier id'>level</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>&#39;&lt;/span&gt;&#39;</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_text identifier id'>text</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="process_mixed_content-instance_method">
+  
+    #<strong>process_mixed_content</strong>(in_txt, opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>the beginning of processing mixed content  nodes for titles, notes, etc.
+TODO:  look at replacing these gsubs with syntax like:
+ @xml.xpath(“//item”).each do |item|
+   item.name = “li”
+ end</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/manipulate_node.rb', line 13</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_process_mixed_content identifier id'>process_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_in_txt identifier id'>in_txt</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_in_txt identifier id'>in_txt</span>
+
+  <span class='comment val'># Don&#39;t fire up nokogiri if there&#39;s no mixed content to parse</span>
+  <span class='rubyid_needs_nokogiri identifier id'>needs_nokogiri</span> <span class='assign token'>=</span> <span class='rubyid_in_txt identifier id'>in_txt</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;&lt;&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_txt identifier id'>txt</span> <span class='assign token'>=</span> <span class='rubyid_in_txt identifier id'>in_txt</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_encode identifier id'>encode</span><span class='lparen token'>(</span>
+    <span class='rubyid_Encoding constant id'>Encoding</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='string val'>&#39;utf-8&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrace token'>{</span> <span class='label val'>invalid:</span> <span class='symbol val'>:replace</span><span class='comma token'>,</span> <span class='rubyid_undef undef kw'>undef</span><span class='colon op'>:</span> <span class='symbol val'>:replace</span><span class='comma token'>,</span> <span class='label val'>replace:</span> <span class='string val'>&#39;&#39;</span> <span class='rbrace token'>}</span>
+  <span class='rparen token'>)</span>
+
+  <span class='rubyid_txt identifier id'>txt</span> <span class='assign token'>=</span> <span class='rubyid_txt identifier id'>txt</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;chronlist&gt;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ul&gt;&quot;</span><span class='rparen token'>)</span>
+    <span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;chronitem&gt;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;li&gt;&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_txt identifier id'>txt</span> <span class='assign token'>=</span> <span class='rubyid_txt identifier id'>txt</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;list&gt;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ul&gt;&quot;</span><span class='rparen token'>)</span>
+    <span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;item&gt;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;li&gt;&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:preserve_newlines</span><span class='rbrack token'>]</span>
+    <span class='rubyid_txt identifier id'>txt</span> <span class='assign token'>=</span> <span class='rubyid_txt identifier id'>txt</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n\n/</span><span class='comma token'>,</span><span class='string val'>&quot;&lt;br /&gt;&lt;br /&gt;&quot;</span><span class='rparen token'>)</span>
+            <span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\r\n\r\n/</span><span class='comma token'>,</span><span class='string val'>&quot;&lt;br /&gt;&lt;br /&gt;&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_txt identifier id'>txt</span> <span class='assign token'>=</span> <span class='rubyid_txt identifier id'>txt</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/ &amp; /</span><span class='comma token'>,</span> <span class='string val'>&#39; &amp;amp; &#39;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_txt identifier id'>txt</span> <span class='assign token'>=</span> <span class='rubyid_txt identifier id'>txt</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;xlink\:type=\&quot;simple\&quot;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_needs_nokogiri identifier id'>needs_nokogiri</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_txt identifier id'>txt</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@frag ivar id'>@frag</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='dot token'>.</span><span class='rubyid_fragment identifier id'>fragment</span><span class='lparen token'>(</span><span class='rubyid_txt identifier id'>txt</span><span class='rparen token'>)</span>
+  <span class='rubyid_move_list_heads identifier id'>move_list_heads</span>
+  <span class='rubyid_@frag ivar id'>@frag</span><span class='dot token'>.</span><span class='rubyid_traverse identifier id'>traverse</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_el identifier id'>el</span><span class='bitor op'>|</span>
+    <span class='comment val'># we don&#39;t do anything at the top level of the fragment or if it&#39;s text</span>
+    <span class='rubyid_node_check identifier id'>node_check</span><span class='lparen token'>(</span><span class='rubyid_el identifier id'>el</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_el identifier id'>el</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_el identifier id'>el</span><span class='dot token'>.</span><span class='rubyid_text? fid id'>text?</span>
+    <span class='rubyid_el identifier id'>el</span><span class='dot token'>.</span><span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_el identifier id'>el</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;\&quot;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;&amp;quot;&quot;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_el identifier id'>el</span><span class='dot token'>.</span><span class='rubyid_text? fid id'>text?</span>
+  <span class='rbrace token'>}</span>
+  <span class='comment val'># replace the inline quotes with &amp;quot;</span>
+  <span class='rubyid_@frag ivar id'>@frag</span><span class='dot token'>.</span><span class='rubyid_to_xml identifier id'>to_xml</span><span class='lparen token'>(</span><span class='label val'>encoding:</span> <span class='string val'>&#39;utf-8&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&amp;amp;quot;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;&amp;quot;&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="strip_mixed_content-instance_method">
+  
+    #<strong>strip_mixed_content</strong>(in_text)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>strips all xml markup; used for things like titles.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/manipulate_node.rb', line 53</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_strip_mixed_content identifier id'>strip_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_in_text identifier id'>in_text</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_in_text identifier id'>in_text</span>
+
+  <span class='comment val'># Don&#39;t fire up nokogiri if there&#39;s no mixed content to parse</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_in_text identifier id'>in_text</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;&lt;&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_in_text identifier id'>in_text</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_in_text identifier id'>in_text</span> <span class='assign token'>=</span> <span class='rubyid_in_text identifier id'>in_text</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/ &amp; /</span><span class='comma token'>,</span> <span class='string val'>&#39; &amp;amp; &#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_@frag ivar id'>@frag</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='dot token'>.</span><span class='rubyid_fragment identifier id'>fragment</span><span class='lparen token'>(</span><span class='rubyid_in_text identifier id'>in_text</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@frag ivar id'>@frag</span><span class='dot token'>.</span><span class='rubyid_content identifier id'>content</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:31 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

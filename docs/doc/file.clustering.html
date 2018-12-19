@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: clustering
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "clustering";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: clustering</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="running-archivesspace-with-load-balancing-and-multiple-tenants">Running ArchivesSpace with load balancing and multiple tenants</h1>
+
+<p>This document describes two aspects of running ArchivesSpace in a
+clustered environment: for load-balancing purposes, and for supporting
+multiple tenants (isolated installations of the system in a common
+deployment environment).</p>
+
+<p>The configuration described in this document is one possible approach,
+but it is not intended to be prescriptive: the application layer of
+ArchivesSpace is stateless, so any mechanism you prefer for load
+balancing across web applications should work just as well as the one
+described here.</p>
+
+<p>Unless otherwise stated, it is assumed that you have root access on
+your machines, and all commands are to be run as root (or with sudo).</p>
+
+<h2 id="architecture-overview">Architecture overview</h2>
+
+<p><img src="/archivesspace/assets/images/overview.png" alt="Overview" /></p>
+
+<p>This document assumes an architecture with the following components:</p>
+
+<ul>
+  <li>A load balancer machine running the Nginx web server</li>
+  <li>Two application servers, each running a full ArchivesSpace
+application stack</li>
+  <li>A MySQL server</li>
+  <li>A shared NFS volume mounted under <code>/aspace</code> on each machine</li>
+</ul>
+
+<h2 id="overview-of-files">Overview of files</h2>
+
+<p>The <code>files</code> directory in this repository (in the same directory as this
+<code>README.md</code>) contains what will become the contents of the <code>/aspace</code>
+directory, shared by all servers.  It has the following layout:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='regexp val'>/aspace
+ ├── archivesspace
+ │   ├── config
+ │   │   ├── config.rb
+ │   │   └── tenant.rb
+ │   ├── software
+ │   └── tenants
+ │       └── \_template
+ │           └── archivesspace
+ │               ├── config
+ │               │   ├── config.rb
+ │               │   └── instance_hostname.rb.example
+ │               └── init_tenant.sh
+ └── nginx
+     └── conf
+         ├── common
+         │   └── server.conf
+         └── tenants
+             └── \_template.conf.example
+</span></code></pre>
+
+<p>The highlights:</p>
+
+<ul>
+  <li><code>/aspace/archivesspace/config/config.rb</code> – A global configuration file for all ArchivesSpace instances.  Any configuration options added to this file will be applied to all tenants on all machines.</li>
+  <li><code>/aspace/archivesspace/software/</code> – This directory will hold the master copies of the <code>archivesspace.zip</code> distribution.  Each tenant will reference one of the versions of the ArchivesSpace software in this directory.</li>
+  <li><code>/aspace/archivesspace/tenants/</code> – Each tenant will have a sub-directory under here, based on the <code>_template</code> directory provided.  This holds the configuration files for each tenant.</li>
+  <li><code>/aspace/archivesspace/tenants/[tenant name]/config/config.rb</code> – The global configuration file for [tenant name].  This contains tenant-specific options that should apply to all of the tenant’s ArchivesSpace instances (such as their database connection settings).</li>
+  <li><code>/aspace/archivesspace/tenants/[tenant name]/config/instance_[hostname].rb</code> – The configuration file for a tenant’s ArchivesSpace instance running on a particular machine.  This allows configuration options to be set on a per-machine basis (for example, setting different ports for different application servers)</li>
+  <li><code>/aspace/nginx/conf/common/server.conf</code> – Global Nginx configuration settings (applying to all tenants)</li>
+  <li><code>/aspace/nginx/conf/tenants/[tenant name].conf</code> – A tenant-specific Nginx configuration file.  Used to set the URLs of each tenant’s ArchivesSpace instances.</li>
+</ul>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>We’ll assume you already have the following ready to go:</p>
+
+<ul>
+  <li>Three newly installed machines, each running RedHat (or CentOS)
+Linux (we’ll refer to these as <code>loadbalancer</code>, <code>apps1</code> and
+<code>apps2</code>).</li>
+  <li>A MySQL server.</li>
+  <li>An NFS volume that has been mounted as <code>/aspace</code> on each machine.
+All machines should have full read/write access to this area.</li>
+  <li>An area under <code>/aspace.local</code> which will store instance-specific
+files (such as log files and Solr indexes).  Ideally this is just
+a directory on local disk.</li>
+  <li>Java 1.6 (or above) installed on each machine.</li>
+</ul>
+
+<h3 id="populate-your-aspace-directory">Populate your /aspace/ directory</h3>
+
+<p>Start by copying the directory structure from <code>files/</code> into your
+<code>/aspace</code> volume.  This will contain all of the configuration files
+shared between servers:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_mkdir identifier id'>mkdir</span> <span class='regexp val'>/var/</span><span class='rubyid_tmp identifier id'>tmp</span><span class='div op'>/</span><span class='rubyid_aspace identifier id'>aspace</span><span class='div op'>/</span>
+ <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/var/</span><span class='rubyid_tmp identifier id'>tmp</span><span class='div op'>/</span><span class='rubyid_aspace identifier id'>aspace</span><span class='div op'>/</span>
+ <span class='rubyid_unzip identifier id'>unzip</span> <span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
+ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_av identifier id'>av</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_clustering identifier id'>clustering</span><span class='div op'>/</span><span class='rubyid_files identifier id'>files</span><span class='div op'>/</span><span class='mult op'>*</span> <span class='regexp val'>/aspace/</span>
+</code></pre>
+
+<p>You can do this on any machine that has access to the shared
+<code>/aspace/</code> volume.</p>
+
+<h3 id="install-the-cluster-init-script">Install the cluster init script</h3>
+
+<p>On your application servers (<code>apps1</code> and <code>apps2</code>) you will need to
+install the supplied init script:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> <span class='regexp val'>/aspace/</span><span class='rubyid_aspace identifier id'>aspace</span><span class='minus op'>-</span><span class='rubyid_cluster identifier id'>cluster</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span> <span class='regexp val'>/etc/i</span><span class='rubyid_nit identifier id'>nit</span><span class='dot token'>.</span><span class='rubyid_d identifier id'>d</span><span class='div op'>/</span><span class='rubyid_aspace identifier id'>aspace</span><span class='minus op'>-</span><span class='rubyid_cluster identifier id'>cluster</span>
+ <span class='rubyid_chkconfig identifier id'>chkconfig</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_add identifier id'>add</span> <span class='rubyid_aspace identifier id'>aspace</span><span class='minus op'>-</span><span class='rubyid_cluster identifier id'>cluster</span>
+</code></pre>
+
+<p>This will start all configured instances when the system boots up, and
+can also be used to start/stop individual instances.</p>
+
+<h3 id="install-and-configure-nginx">Install and configure Nginx</h3>
+
+<p>You will need to install Nginx on your <code>loadbalancer</code> machine, which
+you can do by following the directions at
+http://nginx.org/en/download.html.  Using the pre-built packages for
+your platform is fine.  At the time of writing, the process for CentOS
+is simply:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_wget identifier id'>wget</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/nginx.org/</span><span class='rubyid_packages identifier id'>packages</span><span class='div op'>/</span><span class='rubyid_centos identifier id'>centos</span><span class='div op'>/</span><span class='integer val'>6</span><span class='div op'>/</span><span class='rubyid_noarch identifier id'>noarch</span><span class='div op'>/</span><span class='rubyid_RPMS constant id'>RPMS</span><span class='div op'>/</span><span class='rubyid_nginx identifier id'>nginx</span><span class='minus op'>-</span><span class='rubyid_release identifier id'>release</span><span class='minus op'>-</span><span class='rubyid_centos identifier id'>centos</span><span class='minus op'>-</span><span class='integer val'>6</span><span class='minus op'>-</span><span class='integer val'>0</span><span class='dot token'>.</span><span class='rubyid_el6 identifier id'>el6</span><span class='dot token'>.</span><span class='rubyid_ngx identifier id'>ngx</span><span class='dot token'>.</span><span class='rubyid_noarch identifier id'>noarch</span><span class='dot token'>.</span><span class='rubyid_rpm identifier id'>rpm</span>
+ <span class='rubyid_rpm identifier id'>rpm</span> <span class='minus op'>-</span><span class='rubyid_i identifier id'>i</span> <span class='rubyid_nginx identifier id'>nginx</span><span class='minus op'>-</span><span class='rubyid_release identifier id'>release</span><span class='minus op'>-</span><span class='rubyid_centos identifier id'>centos</span><span class='minus op'>-</span><span class='integer val'>6</span><span class='minus op'>-</span><span class='integer val'>0</span><span class='dot token'>.</span><span class='rubyid_el6 identifier id'>el6</span><span class='dot token'>.</span><span class='rubyid_ngx identifier id'>ngx</span><span class='dot token'>.</span><span class='rubyid_noarch identifier id'>noarch</span><span class='dot token'>.</span><span class='rubyid_rpm identifier id'>rpm</span>
+ <span class='rubyid_yum identifier id'>yum</span> <span class='rubyid_install identifier id'>install</span> <span class='rubyid_nginx identifier id'>nginx</span>
+</code></pre>
+
+<p>Nginx will place its configuration files under <code>/etc/nginx/</code>.  For
+now, the only change we need to make is to configure Nginx to load our
+tenants’ configuration files.  To do this, edit
+<code>/etc/nginx/conf.d/default.conf</code> and add the line:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_include identifier id'>include</span> <span class='regexp val'>/aspace/n</span><span class='rubyid_ginx identifier id'>ginx</span><span class='div op'>/</span><span class='rubyid_conf identifier id'>conf</span><span class='div op'>/</span><span class='rubyid_tenants identifier id'>tenants</span><span class='div op'>/</span>\<span class='mult op'>*</span><span class='dot token'>.</span><span class='rubyid_conf identifier id'>conf</span><span class='semicolon token'>;</span>
+</code></pre>
+
+<p><em>Note:</em> the location of Nginx’s main config file might vary between
+systems.  Another likely candidate is <code>/etc/nginx/nginx.conf</code>.</p>
+
+<h3 id="download-the-archivesspace-distribution">Download the ArchivesSpace distribution</h3>
+
+<p>Rather than having every tenant maintain their own copy of the
+ArchivesSpace software, we put a shared copy under
+<code>/aspace/archivesspace/software/</code> and have each tenant instance refer
+to that copy.  To set this up, run the following commands on any one
+of the servers:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/aspace/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_software identifier id'>software</span><span class='div op'>/</span>
+ <span class='rubyid_unzip identifier id'>unzip</span> <span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_downloaded identifier id'>downloaded</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span><span class='dot token'>.</span><span class='rubyid_y identifier id'>y</span><span class='dot token'>.</span><span class='rubyid_z identifier id'>z</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
+ <span class='rubyid_mv identifier id'>mv</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span><span class='dot token'>.</span><span class='rubyid_y identifier id'>y</span><span class='dot token'>.</span><span class='rubyid_z identifier id'>z</span>
+ <span class='rubyid_ln identifier id'>ln</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span><span class='dot token'>.</span><span class='rubyid_y identifier id'>y</span><span class='dot token'>.</span><span class='rubyid_z identifier id'>z</span> <span class='rubyid_stable identifier id'>stable</span>
+</code></pre>
+
+<p>Note that we unpack the distribution into a directory containing its
+version number, and then assign that version the symbolic name
+“stable”.  This gives us a convenient way of referring to particular
+versions of the software, and we’ll use this later on when setting up
+our tenant.</p>
+
+<p>We’ll be using MySQL, which means we must make the MySQL connector
+library available.  To do this, place it in the <code>lib/</code> directory of
+the ArchivesSpace package:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/aspace/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_software identifier id'>software</span><span class='div op'>/</span><span class='rubyid_stable identifier id'>stable</span><span class='div op'>/</span><span class='rubyid_lib identifier id'>lib</span>
+ <span class='rubyid_wget identifier id'>wget</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/repo1.maven.org/</span><span class='rubyid_maven2 identifier id'>maven2</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='div op'>/</span><span class='float val'>5.1</span><span class='integer val'>.24</span><span class='div op'>/</span><span class='rubyid_mysql identifier id'>mysql</span><span class='minus op'>-</span><span class='rubyid_connector identifier id'>connector</span><span class='minus op'>-</span><span class='rubyid_java identifier id'>java</span><span class='minus op'>-</span><span class='float val'>5.1</span><span class='float val'>.24</span><span class='dot token'>.</span><span class='rubyid_jar identifier id'>jar</span>
+</code></pre>
+
+<h2 id="defining-a-new-tenant">Defining a new tenant</h2>
+
+<p>With our server setup out of the way, we’re ready to define our first
+tenant.  As shown in <em>Overview of files</em> above, each tenant has their
+own directory under <code>/aspace/archivesspace/tenants/</code> that holds all of
+their configuration files.  In defining our new tenant, we will:</p>
+
+<ul>
+  <li>Create a Unix account for the tenant</li>
+  <li>Create a database for the tenant</li>
+  <li>Create a new set of ArchivesSpace configuration files for the
+tenant</li>
+  <li>Set up the database</li>
+</ul>
+
+<p>Our newly defined tenant won’t initially have any ArchivesSpace
+instances, but we’ll set those up afterwards.</p>
+
+<p>To complete the remainder of this process, there are a few bits of
+information you will need.  In particular, you will need to know:</p>
+
+<ul>
+  <li>The identifier you will use for the tenant you will be creating.
+In this example we use <code>exampletenant</code>.</li>
+  <li>Which port numbers you will use for the application’s backend,
+Solr instance, staff and public interfaces.  These must be free on
+your application servers.</li>
+  <li>If running each tenant under a separate Unix account, the UID and
+GID you’ll use for them (which must be free on each of your
+servers).</li>
+  <li>The public-facing URLs for the new tenant.  We’ll use
+<code>staff.example.com</code> for the staff interface, and <code>public.example.com</code>
+for the public interface.</li>
+</ul>
+
+<h3 id="creating-a-unix-account">Creating a Unix account</h3>
+
+<p>Although not strictly required, for security and ease of system
+monitoring it’s a good idea to have each tenant instance running under
+a dedicated Unix account.</p>
+
+<p>We will call our new tenant <code>exampletenant</code>, so let’s create a user
+and group for them now.  You will need to run these commands on <em>both</em>
+application servers (<code>apps1</code> and <code>apps2</code>):</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_groupadd identifier id'>groupadd</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_gid identifier id'>gid</span> <span class='integer val'>2000</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span>
+ <span class='rubyid_useradd identifier id'>useradd</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_uid identifier id'>uid</span> <span class='integer val'>2000</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_gid identifier id'>gid</span> <span class='integer val'>2000</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span>
+</code></pre>
+
+<p>Note that we specify a UID and GID explicitly to ensure they match
+across machines.</p>
+
+<h3 id="creating-the-database">Creating the database</h3>
+
+<p>ArchivesSpace assumes that each tenant will have their own MySQL
+database.  You can create this from the MySQL shell:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_create identifier id'>create</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span> <span class='rubyid_default identifier id'>default</span> <span class='rubyid_character identifier id'>character</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_utf8 identifier id'>utf8</span><span class='semicolon token'>;</span>
+ <span class='rubyid_grant identifier id'>grant</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_on identifier id'>on</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span><span class='dot token'>.</span><span class='mult op'>*</span> <span class='rubyid_to identifier id'>to</span> <span class='string val'>&#39;example&#39;</span>@<span class='string val'>&#39;%&#39;</span> <span class='rubyid_identified identifier id'>identified</span> <span class='rubyid_by identifier id'>by</span> <span class='string val'>&#39;example123&#39;</span><span class='semicolon token'>;</span>
+</code></pre>
+
+<p>In this example, we have a MySQL database called <code>exampletenant</code>, and
+we grant full access to the user <code>example</code> with password <code>example123</code>.
+Assuming our database server is <code>db.example.com</code>, this corresponds to
+the database URL:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='label val'>jdbc:</span><span class='label val'>mysql:</span><span class='div op'>/</span><span class='regexp val'>/db.example.com:3306/e</span><span class='rubyid_xampletenant? fid id'>xampletenant?</span><span class='rubyid_user identifier id'>user</span><span class='assign token'>=</span><span class='rubyid_example identifier id'>example</span><span class='bitand op'>&amp;</span><span class='rubyid_password identifier id'>password</span><span class='assign token'>=</span><span class='rubyid_example123 identifier id'>example123</span><span class='bitand op'>&amp;</span><span class='rubyid_useUnicode identifier id'>useUnicode</span><span class='assign token'>=</span><span class='rubyid_true true kw'>true</span><span class='bitand op'>&amp;</span><span class='rubyid_characterEncoding identifier id'>characterEncoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span>
+</code></pre>
+
+<p>We’ll make use of this URL in the following section.</p>
+
+<h3 id="creating-the-tenant-configuration">Creating the tenant configuration</h3>
+
+<p>Each tenant has their own set of files under the
+<code>/aspace/archivesspace/tenants/</code> directory.  We’ll define our new
+tenant (called <code>exampletenant</code>) by copying the template set of
+configurations and running the <code>init_tenant.sh</code> script to set them
+up.  We can do this on either <code>apps1</code> or <code>apps2</code>–it only needs to be
+done once:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/aspace/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_tenants identifier id'>tenants</span>
+ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> \<span class='rubyid__template identifier id'>_template</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span>
+</code></pre>
+
+<p>Note that we’ve named the tenant <code>exampletenant</code> to match the Unix
+account it will run as.  Later on, the startup script will use this
+fact to run each instance as the correct user.</p>
+
+<p>For now, we’ll just edit the configuration file for this tenant, under
+<code>exampletenant/archivesspace/config/config.rb</code>.  When you open this file you’ll see two
+placeholders that need filling in: one for your database URL, which in
+our case is just:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='label val'>jdbc:</span><span class='label val'>mysql:</span><span class='div op'>/</span><span class='regexp val'>/db.example.com:3306/e</span><span class='rubyid_xampletenant? fid id'>xampletenant?</span><span class='rubyid_user identifier id'>user</span><span class='assign token'>=</span><span class='rubyid_example identifier id'>example</span><span class='bitand op'>&amp;</span><span class='rubyid_password identifier id'>password</span><span class='assign token'>=</span><span class='rubyid_example123 identifier id'>example123</span><span class='bitand op'>&amp;</span><span class='rubyid_useUnicode identifier id'>useUnicode</span><span class='assign token'>=</span><span class='rubyid_true true kw'>true</span><span class='bitand op'>&amp;</span><span class='rubyid_characterEncoding identifier id'>characterEncoding</span><span class='assign token'>=</span><span class='rubyid_UTF constant id'>UTF</span><span class='minus op'>-</span><span class='integer val'>8</span>
+</code></pre>
+
+<p>and the other for this tenant’s search, staff and public user secrets,
+which should be random, hard to guess passwords.</p>
+
+<h2 id="adding-the-tenant-instances">Adding the tenant instances</h2>
+
+<p>To add our tenant instances, we just need to initialize them on each
+of our servers.  On <code>apps1</code> <em>and</em> <code>apps2</code>, we run:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/aspace/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_tenants identifier id'>tenants</span><span class='div op'>/</span><span class='rubyid_exampletenant identifier id'>exampletenant</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_init_tenant identifier id'>init_tenant</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span> <span class='rubyid_stable identifier id'>stable</span>
+</code></pre>
+
+<p>If you list the directory now, you will see that the <code>init_tenant.sh</code>
+script has created a number of symlinks.  Most of these refer back to
+the <code>stable</code> version of the ArchivesSpace software we unpacked
+previously, and some contain references to the <code>data</code> and <code>logs</code>
+directories stored under <code>/aspace.local</code>.</p>
+
+<p>Each server has its own configuration file that tells the
+ArchivesSpace application which ports to listen on.  To set this up,
+make two copies of the example configuration by running the following
+command on <code>apps1</code> then <code>apps2</code>:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/aspace/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_tenants identifier id'>tenants</span><span class='div op'>/</span><span class='rubyid_exampletenant identifier id'>exampletenant</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='rubyid_cp identifier id'>cp</span> <span class='rubyid_config identifier id'>config</span><span class='div op'>/</span><span class='rubyid_instance_hostname identifier id'>instance_hostname</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span><span class='dot token'>.</span><span class='rubyid_example identifier id'>example</span> <span class='rubyid_config identifier id'>config</span><span class='div op'>/</span><span class='rubyid_instance_ identifier id'>instance_</span><span class='xstring val'>`hostname`</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span>
+</code></pre>
+
+<p>Then edit each file to set the URLs that the instance will use.
+Here’s our <code>config/instance_apps1.example.com.rb</code>:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='lbrace token'>{</span>
+   <span class='symbol val'>:backend_url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://apps1.example.com:8089&quot;</span><span class='comma token'>,</span>
+   <span class='symbol val'>:frontend_url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://apps1.example.com:8080&quot;</span><span class='comma token'>,</span>
+   <span class='symbol val'>:solr_url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://apps1.example.com:8090&quot;</span><span class='comma token'>,</span>
+   <span class='symbol val'>:indexer_url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://apps1.example.com:8091&quot;</span><span class='comma token'>,</span>
+   <span class='symbol val'>:public_url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://apps1.example.com:8081&quot;</span><span class='comma token'>,</span>
+ <span class='rbrace token'>}</span>
+</code></pre>
+
+<p>Note that the filename is important here: it must be:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_instance_ identifier id'>instance_</span><span class='lbrack token'>[</span><span class='rubyid_server identifier id'>server</span> <span class='rubyid_hostname identifier id'>hostname</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span>
+</code></pre>
+
+<p>These URLs will determine which ports the application listens on when
+it starts up, and are also used by the ArchivesSpace indexing system
+to track updates across the cluster.</p>
+
+<h3 id="starting-up">Starting up</h3>
+
+<p>As a one-off, we need to populate this tenant’s database with the
+default set of tables.  You can do this by running the
+<code>setup-database.sh</code> script on either <code>apps1</code> or <code>apps2</code>:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/aspace/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_tenants identifier id'>tenants</span><span class='div op'>/</span><span class='rubyid_exampletenant identifier id'>exampletenant</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='rubyid_scripts identifier id'>scripts</span><span class='div op'>/</span><span class='rubyid_setup identifier id'>setup</span><span class='minus op'>-</span><span class='rubyid_database identifier id'>database</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>
+</code></pre>
+
+<p>With the two instances configured, you can now use the init script to
+start them up on each server:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='regexp val'>/etc/i</span><span class='rubyid_nit identifier id'>nit</span><span class='dot token'>.</span><span class='rubyid_d identifier id'>d</span><span class='div op'>/</span><span class='rubyid_aspace identifier id'>aspace</span><span class='minus op'>-</span><span class='rubyid_cluster identifier id'>cluster</span> <span class='rubyid_start identifier id'>start</span><span class='minus op'>-</span><span class='rubyid_tenant identifier id'>tenant</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span>
+</code></pre>
+
+<p>and you can monitor each instance’s log file under
+<code>/aspace.local/tenants/exampletenant/logs/</code>.  Once they’re started,
+you should be able to connect to each instance with your web browser
+at the configured URLs.</p>
+
+<h2 id="configuring-the-load-balancer">Configuring the load balancer</h2>
+
+<p>Our final step is configuring Nginx to accept requests for our staff
+and public interfaces and forward them to the appropriate application
+instance.  Working on the <code>loadbalancer</code> machine, we create a new
+configuration file for our tenant:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/aspace/n</span><span class='rubyid_ginx identifier id'>ginx</span><span class='div op'>/</span><span class='rubyid_conf identifier id'>conf</span><span class='div op'>/</span><span class='rubyid_tenants identifier id'>tenants</span>
+ <span class='rubyid_cp identifier id'>cp</span> <span class='minus op'>-</span><span class='rubyid_a identifier id'>a</span> \<span class='rubyid__template identifier id'>_template</span><span class='dot token'>.</span><span class='rubyid_conf identifier id'>conf</span><span class='dot token'>.</span><span class='rubyid_example identifier id'>example</span> <span class='rubyid_exampletenant identifier id'>exampletenant</span><span class='dot token'>.</span><span class='rubyid_conf identifier id'>conf</span>
+</code></pre>
+
+<p>Now open <code>/aspace/nginx/conf/tenants/exampletenant.conf</code> in an
+editor.  You will need to:</p>
+
+<ul>
+  <li>Replace <code>&lt;tenantname&gt;</code> with <code>exampletenant</code> where it appears.</li>
+  <li>Change the <code>server</code> URLs to match the hostnames and ports you
+configured each instance with.</li>
+  <li>Insert the tenant’s hostnames for each <code>server_name</code> entry.  In
+our case these are <code>public.example.com</code> for the public interface, and
+<code>staff.example.com</code> for the staff interface.</li>
+</ul>
+
+<p>Once you’ve saved your configuration, you can test it with:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='regexp val'>/usr/s</span><span class='rubyid_bin identifier id'>bin</span><span class='div op'>/</span><span class='rubyid_nginx identifier id'>nginx</span> <span class='minus op'>-</span><span class='rubyid_t identifier id'>t</span>
+</code></pre>
+
+<p>If Nginx reports that all is well, reload the configurations with:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='regexp val'>/usr/s</span><span class='rubyid_bin identifier id'>bin</span><span class='div op'>/</span><span class='rubyid_nginx identifier id'>nginx</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_reload identifier id'>reload</span>
+</code></pre>
+
+<p>And, finally, browse to <code>http://public.example.com/</code> to verify that Nginx
+is now accepting requests and forwarding them to your app servers.
+We’re done!</p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:23 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

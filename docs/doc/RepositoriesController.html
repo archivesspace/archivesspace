@@ -36,7 +36,7 @@
       <div id="header">
         <div id="menu">
   
-    <a href="_index.html">Index (R)</a> &raquo;
+    <a href="alpha_index.html">Index (R)</a> &raquo;
     
     
     <span class="title">RepositoriesController</span>
@@ -91,6 +91,11 @@
   
   
   
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="ResultInfo.html" title="ResultInfo (module)">ResultInfo</a></span></dd>
+  </dl>
+  
   
 
   
@@ -98,14 +103,49 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>frontend/app/controllers/repositories_controller.rb</dd>
+    <dd>frontend/app/controllers/repositories_controller.rb<span class="defines">,<br />
+  public/app/controllers/repositories_controller.rb</span>
+</dd>
   </dl>
   
 </div>
 
 
 
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="DEFAULT_SEARCH_FACET_TYPES-constant" class="">DEFAULT_SEARCH_FACET_TYPES =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;published_agents&#39;</span><span class='rbrack token'>]</span>
+</pre></dd>
+    
+      <dt id="DEFAULT_REPO_SEARCH_OPTS-constant" class="">DEFAULT_REPO_SEARCH_OPTS =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrace token'>{</span>
+   <span class='string val'>&#39;sort&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;title_sort asc&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;resolve[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository:id&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;resource:id@compact_resource&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;ancestors:id@compact_resource&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container_uri_u_sstr:id&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;facet.mincount&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span>
+<span class='rbrace token'>}</span>
+</pre></dd>
+    
+      <dt id="DEFAULT_TYPES-constant" class="">DEFAULT_TYPES =
+        
+      </dt>
+      <dd><pre class="code"><span class='dstring node'>%w{archival_object digital_object agent resource accession}</span>
+</pre></dd>
+    
+  </dl>
 
+
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="Searchable.html" title="Searchable (module)">Searchable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Searchable.html#ABSTRACT-constant" title="Searchable::ABSTRACT (constant)">Searchable::ABSTRACT</a></span></p>
 
 
 
@@ -229,7 +269,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>get all repositories TODO: get this somehow in line with using the Searchable module.</p>
 </div></span>
   
 </li>
@@ -262,6 +302,29 @@
   <span class="summary_signature">
     
       <a href="#run_transfer-instance_method" title="#run_transfer (instance method)">#<strong>run_transfer</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search-instance_method" title="#search (instance method)">#<strong>search</strong>  &#x21d2; Object </a>
     
 
     
@@ -408,9 +471,68 @@
   
   
   
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="ApplicationController.html#can_access%3F-class_method" title="ApplicationController.can_access? (method)">can_access?</a></span>, <span class='object_link'><a href="ApplicationController.html#permission_mappings-class_method" title="ApplicationController.permission_mappings (method)">permission_mappings</a></span>, <span class='object_link'><a href="ApplicationController.html#set_access_control-class_method" title="ApplicationController.set_access_control (method)">set_access_control</a></span></p>
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ResultInfo.html" title="ResultInfo (module)">ResultInfo</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ResultInfo.html#breadcrumb_info-instance_method" title="ResultInfo#breadcrumb_info (method)">#breadcrumb_info</a></span>, <span class='object_link'><a href="ResultInfo.html#fill_request_info-instance_method" title="ResultInfo#fill_request_info (method)">#fill_request_info</a></span>, <span class='object_link'><a href="ResultInfo.html#get_rep_image-instance_method" title="ResultInfo#get_rep_image (method)">#get_rep_image</a></span>, <span class='object_link'><a href="ResultInfo.html#handle_dates-instance_method" title="ResultInfo#handle_dates (method)">#handle_dates</a></span>, <span class='object_link'><a href="ResultInfo.html#handle_external_docs-instance_method" title="ResultInfo#handle_external_docs (method)">#handle_external_docs</a></span>, <span class='object_link'><a href="ResultInfo.html#process_agents-instance_method" title="ResultInfo#process_agents (method)">#process_agents</a></span>, <span class='object_link'><a href="ResultInfo.html#process_digital-instance_method" title="ResultInfo#process_digital (method)">#process_digital</a></span>, <span class='object_link'><a href="ResultInfo.html#process_digital_instance-instance_method" title="ResultInfo#process_digital_instance (method)">#process_digital_instance</a></span>, <span class='object_link'><a href="ResultInfo.html#process_extents-instance_method" title="ResultInfo#process_extents (method)">#process_extents</a></span>, <span class='object_link'><a href="ResultInfo.html#process_file_versions-instance_method" title="ResultInfo#process_file_versions (method)">#process_file_versions</a></span>, <span class='object_link'><a href="ResultInfo.html#process_repo_info-instance_method" title="ResultInfo#process_repo_info (method)">#process_repo_info</a></span>, <span class='object_link'><a href="ResultInfo.html#process_subjects-instance_method" title="ResultInfo#process_subjects (method)">#process_subjects</a></span></p>
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ApplicationController.html#archivesspace-instance_method" title="ApplicationController#archivesspace (method)">#archivesspace</a></span>, <span class='object_link'><a href="ApplicationController.html#can_access%3F-class_method" title="ApplicationController.can_access? (method)">can_access?</a></span>, <span class='object_link'><a href="ApplicationController.html#permission_mappings-class_method" title="ApplicationController.permission_mappings (method)">permission_mappings</a></span>, <span class='object_link'><a href="ApplicationController.html#set_access_control-class_method" title="ApplicationController.set_access_control (method)">set_access_control</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JsonHelper.html" title="JsonHelper (module)">JsonHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JsonHelper.html#process_json_notes-instance_method" title="JsonHelper#process_json_notes (method)">#process_json_notes</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Searchable.html" title="Searchable (module)">Searchable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Searchable.html#default_search_opts-instance_method" title="Searchable#default_search_opts (method)">#default_search_opts</a></span>, <span class='object_link'><a href="Searchable.html#get_years-instance_method" title="Searchable#get_years (method)">#get_years</a></span>, <span class='object_link'><a href="Searchable.html#handle_results-instance_method" title="Searchable#handle_results (method)">#handle_results</a></span>, <span class='object_link'><a href="Searchable.html#html_notes-instance_method" title="Searchable#html_notes (method)">#html_notes</a></span>, <span class='object_link'><a href="Searchable.html#process_results-instance_method" title="Searchable#process_results (method)">#process_results</a></span>, <span class='object_link'><a href="Searchable.html#process_search_results-instance_method" title="Searchable#process_search_results (method)">#process_search_results</a></span>, <span class='object_link'><a href="Searchable.html#repo_context-instance_method" title="Searchable#repo_context (method)">#repo_context</a></span>, <span class='object_link'><a href="Searchable.html#search_terms-instance_method" title="Searchable#search_terms (method)">#search_terms</a></span>, <span class='object_link'><a href="Searchable.html#set_up_advanced_search-instance_method" title="Searchable#set_up_advanced_search (method)">#set_up_advanced_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_and_run_search-instance_method" title="Searchable#set_up_and_run_search (method)">#set_up_and_run_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_search-instance_method" title="Searchable#set_up_search (method)">#set_up_search</a></span>, <span class='object_link'><a href="Searchable.html#strip_facet_fields-instance_method" title="Searchable#strip_facet_fields (method)">#strip_facet_fields</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="HandleFaceting.html" title="HandleFaceting (module)">HandleFaceting</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="HandleFaceting.html#fetch_only_facets-instance_method" title="HandleFaceting#fetch_only_facets (method)">#fetch_only_facets</a></span>, <span class='object_link'><a href="HandleFaceting.html#get_pretty_facet_value-instance_method" title="HandleFaceting#get_pretty_facet_value (method)">#get_pretty_facet_value</a></span>, <span class='object_link'><a href="HandleFaceting.html#strip_facets-instance_method" title="HandleFaceting#strip_facets (method)">#strip_facets</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ManipulateNode.html" title="ManipulateNode (module)">ManipulateNode</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ManipulateNode.html#inheritance-instance_method" title="ManipulateNode#inheritance (method)">#inheritance</a></span>, <span class='object_link'><a href="ManipulateNode.html#process_mixed_content-instance_method" title="ManipulateNode#process_mixed_content (method)">#process_mixed_content</a></span>, <span class='object_link'><a href="ManipulateNode.html#strip_mixed_content-instance_method" title="ManipulateNode#strip_mixed_content (method)">#strip_mixed_content</a></span></p>
+
+  
   
 
   <div id="instance_method_details" class="method_details_list">
@@ -632,19 +754,30 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>get all repositories
+TODO: get this somehow in line with using the Searchable module</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-11
-12
-13
-14</pre>
+16
+17
+18
+19</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/repositories_controller.rb', line 16</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_global identifier id'>global</span><span class='lparen token'>(</span><span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;facet[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -741,6 +874,79 @@
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_transfer identifier id'>transfer</span>
   <span class='rubyid_end end kw'>end</span>
 
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search-instance_method">
+  
+    #<strong>search</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/repositories_controller.rb', line 51</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_search identifier id'>search</span>
+  <span class='rubyid_@repo_id ivar id'>@repo_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_require identifier id'>require</span><span class='lparen token'>(</span><span class='symbol val'>:rid</span><span class='rparen token'>)</span>
+  <span class='rubyid_@base_search ivar id'>@base_search</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{repo_id}/search?&quot;</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_new_search_opts identifier id'>new_search_opts</span> <span class='assign token'>=</span>  <span class='rubyid_DEFAULT_REPO_SEARCH_OPTS constant id'>DEFAULT_REPO_SEARCH_OPTS</span> 
+    <span class='rubyid_new_search_opts identifier id'>new_search_opts</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_id&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@repo_id ivar id'>@repo_id</span>
+    <span class='rubyid_set_up_advanced_search identifier id'>set_up_advanced_search</span><span class='lparen token'>(</span><span class='rubyid_DEFAULT_TYPES constant id'>DEFAULT_TYPES</span><span class='comma token'>,</span> <span class='rubyid_DEFAULT_SEARCH_FACET_TYPES constant id'>DEFAULT_SEARCH_FACET_TYPES</span><span class='comma token'>,</span> <span class='rubyid_new_search_opts identifier id'>new_search_opts</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='comment val'>#   NOTE the redirect back here on error!</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_error identifier id'>error</span>
+    <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span> <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_backtrace identifier id'>backtrace</span> <span class='rparen token'>)</span> 
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.unexpected_error&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_back identifier id'>redirect_back</span><span class='lparen token'>(</span><span class='label val'>fallback_location:</span> <span class='dstring node'>&quot;/repositories/#{@repo_id}/&quot;</span> <span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_return return kw'>return</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:page</span><span class='comma token'>,</span> <span class='string val'>&quot;1&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_@results ivar id'>@results</span> <span class='assign token'>=</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_advanced_search identifier id'>advanced_search</span><span class='lparen token'>(</span><span class='string val'>&#39;/search&#39;</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='rubyid_@criteria ivar id'>@criteria</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@results ivar id'>@results</span><span class='lbrack token'>[</span><span class='string val'>&#39;total_hits&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='orop op'>||</span>  <span class='rubyid_@results ivar id'>@results</span><span class='lbrack token'>[</span><span class='string val'>&#39;total_hits&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='integer val'>0</span>
+    <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:notice</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;search_results.no_results&#39;</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_back identifier id'>redirect_back</span><span class='lparen token'>(</span><span class='label val'>fallback_location:</span> <span class='rubyid_@base_search ivar id'>@base_search</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_process_search_results identifier id'>process_search_results</span><span class='lparen token'>(</span><span class='rubyid_@base_search ivar id'>@base_search</span><span class='rparen token'>)</span>
+    <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;@repo_id: #{@repo_id}&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_render identifier id'>render</span>
+  <span class='rubyid_end end kw'>end</span> 
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -950,10 +1156,11 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.1.a Documentation Generated on Tue Oct 16 08:40:01 2018 by
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:47 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.3).
+  0.9.12.
 </div>
+
     </div>
   </body>
 </html>
