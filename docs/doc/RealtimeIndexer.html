@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: RealtimeIndexer
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "RealtimeIndexer";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index (R)</a> &raquo;
+    
+    
+    <span class="title">RealtimeIndexer</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: RealtimeIndexer
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="IndexerCommon.html" title="IndexerCommon (class)">IndexerCommon</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="IndexerCommon.html" title="IndexerCommon (class)">IndexerCommon</a></span></li>
+          
+            <li class="next">RealtimeIndexer</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>indexer/app/lib/realtime_indexer.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="IndexerCommon.html" title="IndexerCommon (class)">IndexerCommon</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="IndexerCommon.html#HARDCODED_ENUM_FIELDS-constant" title="IndexerCommon::HARDCODED_ENUM_FIELDS (constant)">IndexerCommon::HARDCODED_ENUM_FIELDS</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#REFERENCE_KEY_REGEX-constant" title="JSONModel::REFERENCE_KEY_REGEX (constant)">JSONModel::REFERENCE_KEY_REGEX</a></span></p>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_updates-instance_method" title="#get_updates (instance method)">#<strong>get_updates</strong>(last_sequence = 0)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(backend_url, should_continue)  &#x21d2; RealtimeIndexer </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of RealtimeIndexer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-instance_method" title="#run (instance method)">#<strong>run</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_index_round-instance_method" title="#run_index_round (instance method)">#<strong>run_index_round</strong>(last_sequence)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="IndexerCommon.html" title="IndexerCommon (class)">IndexerCommon</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="IndexerCommon.html#add_agents-instance_method" title="IndexerCommon#add_agents (method)">#add_agents</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_attribute_to_resolve-class_method" title="IndexerCommon.add_attribute_to_resolve (method)">add_attribute_to_resolve</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_audit_info-instance_method" title="IndexerCommon#add_audit_info (method)">#add_audit_info</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_batch_hook-instance_method" title="IndexerCommon#add_batch_hook (method)">#add_batch_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_delete_hook-instance_method" title="IndexerCommon#add_delete_hook (method)">#add_delete_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_document_prepare_hook-instance_method" title="IndexerCommon#add_document_prepare_hook (method)">#add_document_prepare_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_extra_documents_hook-instance_method" title="IndexerCommon#add_extra_documents_hook (method)">#add_extra_documents_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_indexer_initialize_hook-class_method" title="IndexerCommon.add_indexer_initialize_hook (method)">add_indexer_initialize_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_level-instance_method" title="IndexerCommon#add_level (method)">#add_level</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_notes-instance_method" title="IndexerCommon#add_notes (method)">#add_notes</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_subjects-instance_method" title="IndexerCommon#add_subjects (method)">#add_subjects</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_summary-instance_method" title="IndexerCommon#add_summary (method)">#add_summary</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_years-instance_method" title="IndexerCommon#add_years (method)">#add_years</a></span>, <span class='object_link'><a href="IndexerCommon.html#apply_pui_fields-instance_method" title="IndexerCommon#apply_pui_fields (method)">#apply_pui_fields</a></span>, <span class='object_link'><a href="IndexerCommon.html#build_fullrecord-class_method" title="IndexerCommon.build_fullrecord (method)">build_fullrecord</a></span>, <span class='object_link'><a href="IndexerCommon.html#clean_for_sort-instance_method" title="IndexerCommon#clean_for_sort (method)">#clean_for_sort</a></span>, <span class='object_link'><a href="IndexerCommon.html#clean_whitespace-instance_method" title="IndexerCommon#clean_whitespace (method)">#clean_whitespace</a></span>, <span class='object_link'><a href="IndexerCommon.html#configure_doc_rules-instance_method" title="IndexerCommon#configure_doc_rules (method)">#configure_doc_rules</a></span>, <span class='object_link'><a href="IndexerCommon.html#dedupe_by_uri-instance_method" title="IndexerCommon#dedupe_by_uri (method)">#dedupe_by_uri</a></span>, <span class='object_link'><a href="IndexerCommon.html#delete_records-instance_method" title="IndexerCommon#delete_records (method)">#delete_records</a></span>, <span class='object_link'><a href="IndexerCommon.html#do_http_request-instance_method" title="IndexerCommon#do_http_request (method)">#do_http_request</a></span>, <span class='object_link'><a href="IndexerCommon.html#extract_string_values-class_method" title="IndexerCommon.extract_string_values (method)">extract_string_values</a></span>, <span class='object_link'><a href="IndexerCommon.html#generate_permutations_for_identifier-class_method" title="IndexerCommon.generate_permutations_for_identifier (method)">generate_permutations_for_identifier</a></span>, <span class='object_link'><a href="IndexerCommon.html#generate_sort_string_for_identifier-class_method" title="IndexerCommon.generate_sort_string_for_identifier (method)">generate_sort_string_for_identifier</a></span>, <span class='object_link'><a href="IndexerCommon.html#generate_years_for_date_range-class_method" title="IndexerCommon.generate_years_for_date_range (method)">generate_years_for_date_range</a></span>, <span class='object_link'><a href="IndexerCommon.html#get_record_scope-instance_method" title="IndexerCommon#get_record_scope (method)">#get_record_scope</a></span>, <span class='object_link'><a href="IndexerCommon.html#index_batch-instance_method" title="IndexerCommon#index_batch (method)">#index_batch</a></span>, <span class='object_link'><a href="IndexerCommon.html#index_records-instance_method" title="IndexerCommon#index_records (method)">#index_records</a></span>, <span class='object_link'><a href="IndexerCommon.html#is_repository_unpublished%3F-instance_method" title="IndexerCommon#is_repository_unpublished? (method)">#is_repository_unpublished?</a></span>, <span class='object_link'><a href="IndexerCommon.html#login-instance_method" title="IndexerCommon#login (method)">#login</a></span>, <span class='object_link'><a href="IndexerCommon.html#pause-class_method" title="IndexerCommon.pause (method)">pause</a></span>, <span class='object_link'><a href="IndexerCommon.html#paused%3F-class_method" title="IndexerCommon.paused? (method)">paused?</a></span>, <span class='object_link'><a href="IndexerCommon.html#paused%3F-instance_method" title="IndexerCommon#paused? (method)">#paused?</a></span>, <span class='object_link'><a href="IndexerCommon.html#record_has_children-instance_method" title="IndexerCommon#record_has_children (method)">#record_has_children</a></span>, <span class='object_link'><a href="IndexerCommon.html#record_types-instance_method" title="IndexerCommon#record_types (method)">#record_types</a></span>, <span class='object_link'><a href="IndexerCommon.html#records_with_children-instance_method" title="IndexerCommon#records_with_children (method)">#records_with_children</a></span>, <span class='object_link'><a href="IndexerCommon.html#reset_session-instance_method" title="IndexerCommon#reset_session (method)">#reset_session</a></span>, <span class='object_link'><a href="IndexerCommon.html#resolved_attributes-instance_method" title="IndexerCommon#resolved_attributes (method)">#resolved_attributes</a></span>, <span class='object_link'><a href="IndexerCommon.html#send_commit-instance_method" title="IndexerCommon#send_commit (method)">#send_commit</a></span>, <span class='object_link'><a href="IndexerCommon.html#skip_index_doc%3F-instance_method" title="IndexerCommon#skip_index_doc? (method)">#skip_index_doc?</a></span>, <span class='object_link'><a href="IndexerCommon.html#skip_index_record%3F-instance_method" title="IndexerCommon#skip_index_record? (method)">#skip_index_record?</a></span>, <span class='object_link'><a href="IndexerCommon.html#solr_url-instance_method" title="IndexerCommon#solr_url (method)">#solr_url</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#check_valid_refs-class_method" title="JSONModel.check_valid_refs (method)">check_valid_refs</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_publish_flags!-class_method" title="JSONModel.set_publish_flags! (method)">set_publish_flags!</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#validate_schema-class_method" title="JSONModel.validate_schema (method)">validate_schema</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(backend_url, should_continue)  &#x21d2; <tt><span class='object_link'><a href="" title="RealtimeIndexer (class)">RealtimeIndexer</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of RealtimeIndexer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8
+9
+10
+11</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/realtime_indexer.rb', line 6</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_backend_url identifier id'>backend_url</span><span class='comma token'>,</span> <span class='rubyid_should_continue identifier id'>should_continue</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_backend_url identifier id'>backend_url</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@backend_url ivar id'>@backend_url</span> <span class='assign token'>=</span> <span class='rubyid_backend_url identifier id'>backend_url</span>
+  <span class='rubyid_@should_continue ivar id'>@should_continue</span> <span class='assign token'>=</span> <span class='rubyid_should_continue identifier id'>should_continue</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get_updates-instance_method">
+  
+    #<strong>get_updates</strong>(last_sequence = 0)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/realtime_indexer.rb', line 13</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_updates identifier id'>get_updates</span><span class='lparen token'>(</span><span class='rubyid_last_sequence identifier id'>last_sequence</span> <span class='assign token'>=</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_resolve_params identifier id'>resolve_params</span> <span class='assign token'>=</span> <span class='rubyid_resolved_attributes identifier id'>resolved_attributes</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;resolve[]=#{a}&quot;</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;&amp;&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_do_http_request identifier id'>do_http_request</span><span class='lparen token'>(</span><span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_@backend_url ivar id'>@backend_url</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                             <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Get constant id'>Get</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/update-feed?last_sequence=#{last_sequence}&amp;#{resolve_params}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span> <span class='neq op'>!=</span> <span class='string val'>&#39;200&#39;</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Indexing error: #{response.body}&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-instance_method">
+  
+    #<strong>run</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64
+65
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/realtime_indexer.rb', line 62</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
+  <span class='rubyid_last_sequence identifier id'>last_sequence</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+
+  <span class='rubyid_while while kw'>while</span> <span class='rubyid_@should_continue ivar id'>@should_continue</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span>
+   <span class='rubyid_last_sequence identifier id'>last_sequence</span> <span class='assign token'>=</span> <span class='rubyid_run_index_round identifier id'>run_index_round</span><span class='lparen token'>(</span><span class='rubyid_last_sequence identifier id'>last_sequence</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_paused? fid id'>paused?</span>   
+  <span class='rubyid_end end kw'>end</span>
+
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_index_round-instance_method">
+  
+    #<strong>run_index_round</strong>(last_sequence)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/realtime_indexer.rb', line 28</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run_index_round identifier id'>run_index_round</span><span class='lparen token'>(</span><span class='rubyid_last_sequence identifier id'>last_sequence</span><span class='rparen token'>)</span>
+  <span class='rubyid_next_sequence identifier id'>next_sequence</span> <span class='assign token'>=</span> <span class='rubyid_last_sequence identifier id'>last_sequence</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_login identifier id'>login</span>
+
+    <span class='comment val'># Blocks until something turns up</span>
+    <span class='rubyid_updates identifier id'>updates</span> <span class='assign token'>=</span> <span class='rubyid_get_updates identifier id'>get_updates</span><span class='lparen token'>(</span><span class='rubyid_last_sequence identifier id'>last_sequence</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_updates identifier id'>updates</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+      <span class='comment val'># Pick out updates that represent deleted records</span>
+      <span class='rubyid_deletes identifier id'>deletes</span> <span class='assign token'>=</span> <span class='rubyid_updates identifier id'>updates</span><span class='dot token'>.</span><span class='rubyid_find_all identifier id'>find_all</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_update identifier id'>update</span><span class='bitor op'>|</span> <span class='rubyid_update identifier id'>update</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;deleted&#39;</span> <span class='rbrace token'>}</span>
+
+      <span class='comment val'># Add the records that were created/updated</span>
+      <span class='rubyid_index_records identifier id'>index_records</span><span class='lparen token'>(</span><span class='rubyid_updates identifier id'>updates</span> <span class='minus op'>-</span> <span class='rubyid_deletes identifier id'>deletes</span><span class='rparen token'>)</span>
+
+      <span class='comment val'># Delete records that were deleted</span>
+      <span class='rubyid_delete_records identifier id'>delete_records</span><span class='lparen token'>(</span><span class='rubyid_deletes identifier id'>deletes</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_record identifier id'>record</span><span class='bitor op'>|</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_send_commit identifier id'>send_commit</span><span class='lparen token'>(</span><span class='symbol val'>:soft</span><span class='rparen token'>)</span>
+      <span class='rubyid_next_sequence identifier id'>next_sequence</span> <span class='assign token'>=</span> <span class='rubyid_updates identifier id'>updates</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span><span class='lbrack token'>[</span><span class='string val'>&#39;sequence&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Timeout constant id'>Timeout</span><span class='colon2 op'>::</span><span class='rubyid_Error constant id'>Error</span>
+    <span class='comment val'># Doesn&#39;t matter...</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span>
+    <span class='rubyid_reset_session identifier id'>reset_session</span>
+    <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{$!.inspect}&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='rubyid_$@ gvar id'>$@</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_sleep identifier id'>sleep</span> <span class='integer val'>5</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_next_sequence identifier id'>next_sequence</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:50 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

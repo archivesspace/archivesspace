@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: windows
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "windows";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: windows</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="running-archivesspace-as-a-windows-service">Running ArchivesSpace as a Windows service</h1>
+
+<p>Running ArchivesSpace as a Windows service requires some additional
+configuration.</p>
+
+<p>You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have
+provided a service.bat script that will attempt to configure
+procrun for you (under <code>launcher\service.bat</code>).</p>
+
+<p>To run this script, first you need to <a href="http://www.apache.org/dist/commons/daemon/binaries/windows/">download procrun</a>.
+Extract the files and copy the prunsrv.exe and prunmgr.exe to your
+ArchivesSpace directory.</p>
+
+<p>You also need to be sure that Java in your system path and also to set <code>JAVA_HOME</code> as a global environment variable.
+To add Java to your path, edit you %PATH% environment variable to include the directory of
+your java executable ( it will be something like <code>C:\Program Files
+(x86)\Java\bin</code> ). To add <code>JAVA_HOME</code>, add a new system variable and put the
+directory where java was installed ( something like <code>C:\Program Files
+(x86)\Java</code> ).</p>
+
+<p>Before setting up the ArchivesSpace service, you should also <a href="http://archivesspace.github.io/archivesspace/user/running-archivesspace-against-mysql/">configure
+ArchivesSpace to run against MySQL</a>.
+Be sure that the MySQL connector jar file is in the lib directory, in order for
+the service setup script to add it to the application’s classpath.</p>
+
+<p>Lastly, for the service to shutdown cleanly, uncomment and change these lines in
+config/config.rb:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_jetty_shutdown_handler</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+<span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:jetty_shutdown_path</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;/xkcd&quot;</span>
+</code></pre>
+
+<p>This enables a shutdown hook for Jetty to respond to when the shutdown action
+is taken.</p>
+
+<p>You can now execute the batch script from your ArchivesSpace root directory from
+the command line with <code>launcher\service.bat</code>. This  will configure the service and
+provide two executables: <code>ArchivesSpaceService.exe</code> (the service) and
+<code>ArchivesSpaceServicew.exe</code> (a GUI monitor)</p>
+
+<p>There are several options to launch the service. The easiest is to open the GUI
+monitor and click “Launch”.</p>
+
+<p>Alternatively, you can start the GUI monitor and minimize it in your
+system tray with:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_ArchivesSpaceServicew constant id'>ArchivesSpaceServicew</span><span class='dot token'>.</span><span class='rubyid_exe identifier id'>exe</span> <span class='regexp val'>//</span><span class='rubyid_MS constant id'>MS</span><span class='div op'>/</span><span class='regexp val'>/
+</span></code></pre>
+
+<p>To execute the service from the command line, you can invoke:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_ArchivesSpaceService constant id'>ArchivesSpaceService</span><span class='dot token'>.</span><span class='rubyid_exe identifier id'>exe</span> <span class='regexp val'>//</span><span class='rubyid_ES constant id'>ES</span><span class='div op'>/</span><span class='regexp val'>/
+</span></code></pre>
+
+<p>Log output will be placed in your ArchivesSpace log directory.</p>
+
+<p>Please see the <a href="http://commons.apache.org/proper/commons-daemon/procrun.html">procrun
+documentation</a>
+for more information.</p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:23 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

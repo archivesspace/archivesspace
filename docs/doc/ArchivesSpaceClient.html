@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: ArchivesSpaceClient
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "ArchivesSpaceClient";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">ArchivesSpaceClient</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: ArchivesSpaceClient
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ArchivesSpaceClient</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>public/app/services/archives_space_client.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>This class provides access to the basic ArchivesSpace API endpoints.  A single
+instance will be shared between all running request threads, so it should be
+thread safe!</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="LOGIN_TIMEOUT_SECONDS-constant" class="">LOGIN_TIMEOUT_SECONDS =
+        
+      </dt>
+      <dd><pre class="code"><span class='integer val'>10</span>
+</pre></dd>
+    
+      <dt id="DEFAULT_SEARCH_OPTS-constant" class="">DEFAULT_SEARCH_OPTS =
+        
+      </dt>
+      <dd><pre class="code"><span class='lbrace token'>{</span>
+<span class='string val'>&#39;publish&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span>
+<span class='string val'>&#39;page_size&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:pui_search_results_page_size</span><span class='rbrack token'>]</span>  <span class='rbrace token'>}</span>
+</pre></dd>
+    
+  </dl>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#init-class_method" title="init (class method)">.<strong>init</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance-class_method" title="instance (class method)">.<strong>instance</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#advanced_search-instance_method" title="#advanced_search (instance method)">#<strong>advanced_search</strong>(base, page = 1, search_opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>handles multi-line searching.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_raw_record-instance_method" title="#get_raw_record (instance method)">#<strong>get_raw_record</strong>(uri, search_opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_record-instance_method" title="#get_record (instance method)">#<strong>get_record</strong>(uri, search_opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_repos_sublist-instance_method" title="#get_repos_sublist (instance method)">#<strong>get_repos_sublist</strong>(uri, type, search_opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_tree-instance_method" title="#get_tree (instance method)">#<strong>get_tree</strong>(node_uri)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>calls the ‘/search/published_tree’ endpoint.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_types_counts-instance_method" title="#get_types_counts (instance method)">#<strong>get_types_counts</strong>(record_type_list, repo_uri = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(archivesspace_url: AppConfig[:backend_url], username: AppConfig[:public_username], password: AppConfig[:public_user_secret])  &#x21d2; ArchivesSpaceClient </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of ArchivesSpaceClient.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#list_repositories-instance_method" title="#list_repositories (instance method)">#<strong>list_repositories</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search-instance_method" title="#search (instance method)">#<strong>search</strong>(query, page = 1, search_opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_records-instance_method" title="#search_records (instance method)">#<strong>search_records</strong>(record_list, search_opts = {}, full_notes = false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>calls the ‘/search/records’ endpoint.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search_repository-instance_method" title="#search_repository (instance method)">#<strong>search_repository</strong>(base, repo_id, page = 1, search_opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(archivesspace_url: AppConfig[:backend_url], username: AppConfig[:public_username], password: AppConfig[:public_user_secret])  &#x21d2; <tt><span class='object_link'><a href="" title="ArchivesSpaceClient (class)">ArchivesSpaceClient</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of ArchivesSpaceClient</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 27</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='label val'>archivesspace_url:</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:backend_url</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+               <span class='label val'>username:</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:public_username</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+               <span class='label val'>password:</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:public_user_secret</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_@url ivar id'>@url</span> <span class='assign token'>=</span> <span class='rubyid_archivesspace_url identifier id'>archivesspace_url</span>
+  <span class='rubyid_@username ivar id'>@username</span> <span class='assign token'>=</span> <span class='rubyid_username identifier id'>username</span>
+  <span class='rubyid_@password ivar id'>@password</span> <span class='assign token'>=</span> <span class='rubyid_password identifier id'>password</span>
+
+  <span class='rubyid_@login_mutex ivar id'>@login_mutex</span> <span class='assign token'>=</span> <span class='rubyid_Mutex constant id'>Mutex</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+
+  <span class='rubyid_@session ivar id'>@session</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="init-class_method">
+  
+    .<strong>init</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 19</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span>
+  <span class='rubyid_@instance ivar id'>@instance</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="instance-class_method">
+  
+    .<strong>instance</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 23</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span>
+  <span class='rubyid_@instance ivar id'>@instance</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="advanced_search-instance_method">
+  
+    #<strong>advanced_search</strong>(base, page = 1, search_opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>handles multi-line searching</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 59</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_advanced_search identifier id'>advanced_search</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_set_search_opts identifier id'>set_search_opts</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_build_url identifier id'>build_url</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='comma token'>,</span>  <span class='rubyid_search_opts identifier id'>search_opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page identifier id'>page</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_do_search identifier id'>do_search</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_SolrResults constant id'>SolrResults</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_raw_record-instance_method">
+  
+    #<strong>get_raw_record</strong>(uri, search_opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="RecordNotFound.html" title="RecordNotFound (class)">RecordNotFound</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81
+82
+83
+84
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 79</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_raw_record identifier id'>get_raw_record</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_set_search_opts identifier id'>set_search_opts</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_build_url identifier id'>build_url</span><span class='lparen token'>(</span><span class='string val'>&#39;/search/records&#39;</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>&quot;uri[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_do_search identifier id'>do_search</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_RecordNotFound constant id'>RecordNotFound</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;results&#39;</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+  <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;results&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;json&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_record-instance_method">
+  
+    #<strong>get_record</strong>(uri, search_opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="RecordNotFound.html" title="RecordNotFound (class)">RecordNotFound</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91
+92
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 89</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_record identifier id'>get_record</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_search_records identifier id'>search_records</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='comma token'>,</span> <span class='rubyid_full_notes identifier id'>full_notes</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_RecordNotFound constant id'>RecordNotFound</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+  <span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_repos_sublist-instance_method">
+  
+    #<strong>get_repos_sublist</strong>(uri, type, search_opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127
+128
+129
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 125</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_repos_sublist identifier id'>get_repos_sublist</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_set_search_opts identifier id'>set_search_opts</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;q&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;(used_within_published_repository:\&quot;#{uri}\&quot; AND publish:true AND types:pui_#{type})&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_build_url identifier id'>build_url</span><span class='lparen token'>(</span><span class='string val'>&quot;/search&quot;</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_do_search identifier id'>do_search</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_SolrResults constant id'>SolrResults</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_tree-instance_method">
+  
+    #<strong>get_tree</strong>(node_uri)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>calls the ‘/search/published_tree’ endpoint</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 106</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_tree identifier id'>get_tree</span><span class='lparen token'>(</span><span class='rubyid_node_uri identifier id'>node_uri</span><span class='rparen token'>)</span>
+  <span class='rubyid_tree identifier id'>tree</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span>  <span class='rubyid_build_url identifier id'>build_url</span><span class='lparen token'>(</span><span class='string val'>&#39;/search/published_tree&#39;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:node_uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_uri identifier id'>node_uri</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_do_search identifier id'>do_search</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+    <span class='rubyid_tree identifier id'>tree</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;tree_json&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span>  <span class='rubyid_RequestFailedException constant id'>RequestFailedException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_error identifier id'>error</span>
+    <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Tree search failed on #{node_uri} : #{error}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_tree identifier id'>tree</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_types_counts-instance_method">
+  
+    #<strong>get_types_counts</strong>(record_type_list, repo_uri = nil)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 118</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_types_counts identifier id'>get_types_counts</span><span class='lparen token'>(</span><span class='rubyid_record_type_list identifier id'>record_type_list</span><span class='comma token'>,</span> <span class='rubyid_repo_uri identifier id'>repo_uri</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;record_types[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record_type_list identifier id'>record_type_list</span><span class='rbrace token'>}</span>
+  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>&quot;repo_uri&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;\&quot;#{repo_uri}\&quot;&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_repo_uri identifier id'>repo_uri</span>
+  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_build_url identifier id'>build_url</span><span class='lparen token'>(</span><span class='string val'>&#39;/search/record_types_by_repository&#39;</span><span class='comma token'>,</span>  <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_do_search identifier id'>do_search</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="list_repositories-instance_method">
+  
+    #<strong>list_repositories</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 39</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_list_repositories identifier id'>list_repositories</span>
+  <span class='rubyid_repos identifier id'>repos</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_search_all_results identifier id'>search_all_results</span><span class='lparen token'>(</span><span class='string val'>&quot;primary_type:repository&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_result identifier id'>result</span><span class='bitor op'>|</span>
+    <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_from_json identifier id'>from_json</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;json&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rbrace token'>}</span>
+    <span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_repos identifier id'>repos</span><span class='lbrack token'>[</span><span class='rubyid_r identifier id'>r</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_r identifier id'>r</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_repos identifier id'>repos</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search-instance_method">
+  
+    #<strong>search</strong>(query, page = 1, search_opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 50</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_set_search_opts identifier id'>set_search_opts</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_build_url identifier id'>build_url</span><span class='lparen token'>(</span><span class='string val'>&#39;/search&#39;</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:q</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_query identifier id'>query</span><span class='comma token'>,</span> <span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page identifier id'>page</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_do_search identifier id'>do_search</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_SolrResults constant id'>SolrResults</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_records-instance_method">
+  
+    #<strong>search_records</strong>(record_list, search_opts = {}, full_notes = false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>calls the ‘/search/records’ endpoint</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 67</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_search_records identifier id'>search_records</span><span class='lparen token'>(</span><span class='rubyid_record_list identifier id'>record_list</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_full_notes identifier id'>full_notes</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_set_search_opts identifier id'>set_search_opts</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_build_url identifier id'>build_url</span><span class='lparen token'>(</span><span class='string val'>&#39;/search/records&#39;</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>&quot;uri[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record_list identifier id'>record_list</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_do_search identifier id'>do_search</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># Ensure that the order of our results matches the order of `record_list`</span>
+  <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_result identifier id'>result</span><span class='bitor op'>|</span> <span class='rubyid_record_list identifier id'>record_list</span><span class='dot token'>.</span><span class='rubyid_index identifier id'>index</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+
+  <span class='rubyid_SolrResults constant id'>SolrResults</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='comma token'>,</span> <span class='rubyid_full_notes identifier id'>full_notes</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="search_repository-instance_method">
+  
+    #<strong>search_repository</strong>(base, repo_id, page = 1, search_opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99
+100
+101
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 97</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_search_repository identifier id'>search_repository</span><span class='lparen token'>(</span> <span class='rubyid_base identifier id'>base</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_set_search_opts identifier id'>set_search_opts</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_build_url identifier id'>build_url</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='comma token'>,</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page identifier id'>page</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_do_search identifier id'>do_search</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_SolrResults constant id'>SolrResults</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:52 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

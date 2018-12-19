@@ -1,19 +1,18 @@
 ---
-title: Selenium test suite 
+title: Selenium test suite
 layout: en
-permalink: /user/selenium-test-suite/ 
+permalink: /user/selenium-test-suite/
 ---
-
 ArchivesSpace uses [Selenium](http://docs.seleniumhq.org/) to run automated
 browser testing. Currently, you can run ArchivesSpace Selenium tests using
-[Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver) 
+[Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver)
 and [Chrome](https://sites.google.com/a/chromium.org/chromedriver/home).
 Firefox is the default, and ArchivesSpace ships with the Firefox Webdriver
 executables for OSX and Linux.
 
 To run using Chrome, you must first download the [ChromeDriver
-execuitable](https://sites.google.com/a/chromium.org/chromedriver/downloads)
-and place it somewhere in your OS system path. Then export a SELENIUM_CHROME enviroment
+executable](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+and place it somewhere in your OS system path. Then export a SELENIUM_CHROME environment
 variable, e.g:
 
      $ export SELENIUM_CHROME=true
@@ -22,10 +21,10 @@ When you run the tests ( see below  ), Selenium should launch a Chrome session
 in headless mode.
 
 ***Please note, you must have either Firefox or Chrome installed on your system to
-run these tests. Consult the [Firefox WebDriver](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver) 
+run these tests. Consult the [Firefox WebDriver](https://developer.mozilla.org/en-US/docs/Mozilla/QA/Marionette/WebDriver)
 or [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)
 documentation to ensure your Selenium, driver, browser, and OS versions all match
-and support each other.*** 
+and support each other.***
 
 ## Before running:
 
@@ -38,7 +37,6 @@ dependencies:
 Note: all example code assumes you are running from your ArchivesSpace
 project directory.
 
-
 ## Running the tests:
 
 Run the full suite:
@@ -47,27 +45,25 @@ Run the full suite:
 
 The full suite can take a while to run. The selenium:staff task will run tests
 in parallel, with 2 browser sessions being run on default. You can adjust the
-number of sessions by passing a -Dcores to your selenium:staff task, e.g: 
+number of sessions by passing a -Dcores to your selenium:staff task, e.g:
 
      $ build/run selenium:staff -Dcores=6
-   
-As a general rule, you don't want the number of Selenium sessions to execeed the 
+
+As a general rule, you don't want the number of Selenium sessions to exceed the
 number of processor cores, since this will just cause the tests to run slowly.
 
-
 If you want to run just one spec, use the *spec* property:
-     
+
      $ build/run selenium:test -Dspec=merge_and_transfer_spec.rb
 
 If you just want to run one group of tests, use the *example* property:
 
      $ build/run selenium:test -Dexample='ArchivesSpace user interface Repositories'
 
-***NOTE THE CHANGE BETWEEN 'selenium:staff' and 'selenium:test'.*** 
+***NOTE THE CHANGE BETWEEN 'selenium:staff' and 'selenium:test'.***
 
 As a rule, individual examples cannot be run in isolation because each group is a sequence
 of dependent steps.
-
 
 ## Using an already running instance of ArchivesSpace:
 
@@ -87,13 +83,13 @@ environment variable:
      $ export SCREENSHOT_ON_ERROR=1
 
 A timestamped screenshot png will be saved to /tmp. To change the save
-location, export an enviornment variabled called SCREENSHOT_DIR to point to a
-different directory. 
+location, export an environment variable called SCREENSHOT_DIR to point to a
+different directory.
 
 ## Logging the output
 
 The results will be put into a 'log' folder in your OS' temporary directory (
-i.e. /tmp ). You can change this by exporting a SELENIUM_LOG_DIR enviorment
+i.e. /tmp ). You can change this by exporting a SELENIUM_LOG_DIR environment
 variable to the session running Selenium.
 
 ## Interacting with selenium on the command line:
@@ -138,4 +134,3 @@ Example: create a repo and login to it
     > backend_login
     > repo = create(:repo)
     > $driver.login_to_repo('admin', 'admin', repo)
-

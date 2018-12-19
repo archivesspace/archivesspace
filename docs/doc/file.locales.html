@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: locales
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "locales";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: locales</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="customizing-text-in-archivesspace">Customizing text in ArchivesSpace</h1>
+
+<p>ArchivesSpace has abstracted all the labels, messages and tooltips out of the
+application into the locale files, which are part of the
+<a href="http://guides.rubyonrails.org/i18n.html">Rails Internationalization (I18n)</a> API.
+The locales in this directory represent the
+basis of translations for use by all Archives Space applications.  Each
+application may then add to or override these values with their own locales files.</p>
+
+<p>For a guide on managing these “i18n” files, please visit http://guides.rubyonrails.org/i18n.html</p>
+
+<p>You can see the source files for both the <a href="https://github.com/archivesspace/archivesspace/tree/master/frontend/config/locales">Staff Frontend Application</a> and
+<a href="https://github.com/archivesspace/archivesspace/tree/master/public/config/locales">Public Application</a>. There is also a <a href="https://github.com/archivesspace/archivesspace/blob/master/common/locales/en.yml">common locale file</a> for some values used throughout the ArchivesSpace applications.</p>
+
+<p>The base translations are broken up:</p>
+
+<ul>
+  <li>The top most file “en.yml” contains the translations for all the record labels, messages and tooltips in English</li>
+  <li>“enums/en.yml” contains the entries for the dynamic enumeration codes - add your translations to this file after importing your enumeration codes</li>
+</ul>
+
+<p>These values are pulled into the views using the I18n.t() method, like  I18n.t(“brand.welcome_message”).</p>
+
+<p>If the value you want to override is in the common locale file (like the “digital object title” field label, for example) , you can change this by simply editing the locales/en.yml file in your ArchivesSpace distribution home directory. A restart is required to have the changes take effect.</p>
+
+<p>If the value you want to change is in either the public or staff specific en.yml files,  you can override these values using the plugins directory. For example, if you want to change the welcome message on the public frontend, make a file in your ArchivesSpace distribution called ‘plugins/local/public/locales/en.yml’ and put the following values:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>en:</span>
+  <span class='label val'>brand:</span>
+  <span class='label val'>title:</span> <span class='rubyid_My constant id'>My</span> <span class='rubyid_Archive constant id'>Archive</span>
+  <span class='label val'>home:</span> <span class='rubyid_Home constant id'>Home</span>
+    <span class='label val'>welcome_message:</span> <span class='rubyid_HEY constant id'>HEY</span> <span class='rubyid_HEY constant id'>HEY</span> <span class='rubyid_HEY! constant id'>HEY!</span><span class='notop op'>!</span>
+</code></pre>
+
+<p>If you restart ArchivesSpace, these values will take effect.</p>
+
+<p>If you’re using a different language, simply swap out the en.yml for something else ( like fr.yml ) and update locale setting in the config.rb file ( i.e.,  AppConfig[:locale] = :fr )</p>
+
+<h2 id="tooltips">Tooltips</h2>
+
+<p>To add a tooltip to a record label, simply add a new entry with “_tooltip”
+appended to the label’s code.  For example, to add a tooltip for the Accession’s
+Title field:</p>
+
+<p><code>
+en:
+  accession:
+    title: Title
+    title_tooltip: |
+        &lt;p&gt;The title assigned to an accession or resource. The accession title
+        need not be the same as the resource title. Moreover, a title need not
+        be expressed for the accession record, as it can be implicitly
+        inherited from the resource record to which the accession is
+        linked.&lt;/p&gt;
+</code></p>
+
+<h2 id="placeholders">Placeholders</h2>
+
+<p>For text fields or text areas, you may like to have some placeholder text to be
+displayed when the field is empty (for more details see
+http://www.w3.org/html/wg/drafts/html/master/forms.html#the-placeholder-attribute).
+Please note while most modern browser releases support this feature,
+older version will not.</p>
+
+<p>To add a placeholder to a record’s text field, add a new entry of the label’s
+code append with “_placeholder”. For example:</p>
+
+<p><code>
+en:
+  accession:
+    title: Title
+    title_placeholder: See DACS 2.3.18-2.3.22
+</code></p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:21 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

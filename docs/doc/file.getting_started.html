@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: getting_started
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "getting_started";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: getting_started</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="getting-started-with-archivesspace">Getting started with ArchivesSpace</h1>
+
+<h2 id="system-requirements">System requirements</h2>
+
+<ul>
+  <li>Java 1.7 or 1.8.</li>
+  <li>At least 1024 MB RAM allocated to the application; at least 2 GB for optimal performance.</li>
+</ul>
+
+<p>ArchivesSpace has been tested on Ubuntu Linux, Mac OS X, and
+Windows.</p>
+
+<p>MySQL is not required, but is <strong>strongly</strong> recommended for production use.</p>
+
+<p><strong>The embedded database is for testing purposes only. You should use MySQL for
+any data intended for production, including data in a test instance that you
+intend to move over to a production instance.</strong></p>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>The quickest way to get ArchivesSpace up and running is to download
+the latest distribution <code>.zip</code> file from the following URL:</p>
+
+<p>https://github.com/archivesspace/archivesspace/releases</p>
+
+<p>You will need to have Java 1.7 or 1.8 installed on your machine.
+You can check your Java version by running the command:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_java identifier id'>java</span> <span class='minus op'>-</span><span class='rubyid_version identifier id'>version</span>
+</code></pre>
+
+<p>When you extract the <code>.zip</code> file, it will create a directory called
+<code>archivesspace</code>.  To run the system, just execute the appropriate
+startup script for your platform.  On Linux and OSX:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> <span class='regexp val'>/path/</span><span class='rubyid_to identifier id'>to</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_sh identifier id'>sh</span>
+</code></pre>
+
+<p>and for Windows:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_cd identifier id'>cd</span> \<span class='rubyid_path identifier id'>path</span>\<span class='rubyid_to identifier id'>to</span>\<span class='rubyid_archivesspace identifier id'>archivesspace</span>
+ <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_bat identifier id'>bat</span>
+</code></pre>
+
+<p>This will start ArchivesSpace running in foreground mode (so it will
+shut down when you close your terminal window).  Log output will be
+written to the file <code>logs/archivesspace.out</code> (by default).</p>
+
+<p><strong>Note:</strong> If you’re running Windows and you get an error message like
+<code>unable to resolve type 'size_t'</code> or <code>no such file to load -- bundler</code>,
+make sure that there are no spaces in any part of the path name in which the
+ArchivesSpace directory is located.</p>
+
+<h3 id="start-archivesspace">Start ArchivesSpace</h3>
+
+<p>The first time it starts, the system will take a minute or so to start
+up.  Once it is ready, confirm that ArchivesSpace is running correctly by
+accessing the following URLs in your browser:</p>
+
+<ul>
+  <li>http://localhost:8089/ – the backend</li>
+  <li>http://localhost:8080/ – the staff interface</li>
+  <li>http://localhost:8081/ – the public interface</li>
+  <li>http://localhost:8082/ – the OAI-PMH server</li>
+  <li>http://localhost:8090/ – the Solr admin console</li>
+</ul>
+
+<p>To start using the Staff interface application, log in using the adminstrator
+account:</p>
+
+<ul>
+  <li>Username: <code>admin</code></li>
+  <li>Password: <code>admin</code></li>
+</ul>
+
+<p>Then, you can create a new repository by selecting “System” -&gt; “Manage
+repositories” at the top right hand side of the screen.  From the
+“System” menu, you can perform a variety of administrative tasks, such
+as creating and modifying user accounts.  <strong>Be sure to change the
+“admin” user’s password at this time.</strong></p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:23 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

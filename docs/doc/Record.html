@@ -1,0 +1,2350 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Record
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "Record";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index (R)</a> &raquo;
+    
+    
+    <span class="title">Record</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Record
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Record</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="JsonHelper.html" title="JsonHelper (module)">JsonHelper</a></span>, <span class='object_link'><a href="ManipulateNode.html" title="ManipulateNode (module)">ManipulateNode</a></span>, <span class='object_link'><a href="PrefixHelper.html" title="PrefixHelper (module)">PrefixHelper</a></span>, <span class='object_link'><a href="RecordHelper.html" title="RecordHelper (module)">RecordHelper</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>public/app/models/record.rb</dd>
+  </dl>
+  
+</div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="Accession.html" title="Accession (class)">Accession</a></span>, <span class='object_link'><a href="AgentCorporateEntity.html" title="AgentCorporateEntity (class)">AgentCorporateEntity</a></span>, <span class='object_link'><a href="AgentFamily.html" title="AgentFamily (class)">AgentFamily</a></span>, <span class='object_link'><a href="AgentPerson.html" title="AgentPerson (class)">AgentPerson</a></span>, <span class='object_link'><a href="ArchivalObject.html" title="ArchivalObject (class)">ArchivalObject</a></span>, <span class='object_link'><a href="Classification.html" title="Classification (class)">Classification</a></span>, <span class='object_link'><a href="Container.html" title="Container (class)">Container</a></span>, <span class='object_link'><a href="DigitalObject.html" title="DigitalObject (class)">DigitalObject</a></span>, <span class='object_link'><a href="Resource.html" title="Resource (class)">Resource</a></span>, <span class='object_link'><a href="ResourceOrderedRecords.html" title="ResourceOrderedRecords (class)">ResourceOrderedRecords</a></span>, <span class='object_link'><a href="Subject.html" title="Subject (class)">Subject</a></span></p>
+</div>
+
+
+  <h2>Constant Summary</h2>
+  <dl class="constants">
+    
+      <dt id="ABSTRACT-constant" class="">ABSTRACT =
+        
+      </dt>
+      <dd><pre class="code"><span class='dstring node'>%w(abstract scopecontent)</span>
+</pre></dd>
+    
+  </dl>
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#agents-instance_method" title="#agents (instance method)">#<strong>agents</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute agents.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#classifications-instance_method" title="#classifications (instance method)">#<strong>classifications</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute classifications.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#container_display-instance_method" title="#container_display (instance method)">#<strong>container_display</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute container_display.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#container_summary_for_badge-instance_method" title="#container_summary_for_badge (instance method)">#<strong>container_summary_for_badge</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute container_summary_for_badge.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#container_titles_and_uris-instance_method" title="#container_titles_and_uris (instance method)">#<strong>container_titles_and_uris</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute container_titles_and_uris.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#criteria-instance_method" title="#criteria (instance method)">#<strong>criteria</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute criteria.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dates-instance_method" title="#dates (instance method)">#<strong>dates</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute dates.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_string-instance_method" title="#display_string (instance method)">#<strong>display_string</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute display_string.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extents-instance_method" title="#extents (instance method)">#<strong>extents</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute extents.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#external_documents-instance_method" title="#external_documents (instance method)">#<strong>external_documents</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute external_documents.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#full-instance_method" title="#full (instance method)">#<strong>full</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute full.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#identifier-instance_method" title="#identifier (instance method)">#<strong>identifier</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute identifier.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#json-instance_method" title="#json (instance method)">#<strong>json</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute json.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#level-instance_method" title="#level (instance method)">#<strong>level</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute level.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#linked_digital_objects-instance_method" title="#linked_digital_objects (instance method)">#<strong>linked_digital_objects</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute linked_digital_objects.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#notes-instance_method" title="#notes (instance method)">#<strong>notes</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute notes.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#other_level-instance_method" title="#other_level (instance method)">#<strong>other_level</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute other_level.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#primary_type-instance_method" title="#primary_type (instance method)">#<strong>primary_type</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute primary_type.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#raw-instance_method" title="#raw (instance method)">#<strong>raw</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute raw.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#repository_information-instance_method" title="#repository_information (instance method)">#<strong>repository_information</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute repository_information.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolved_repository-instance_method" title="#resolved_repository (instance method)">#<strong>resolved_repository</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute resolved_repository.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolved_resource-instance_method" title="#resolved_resource (instance method)">#<strong>resolved_resource</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute resolved_resource.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolved_top_container-instance_method" title="#resolved_top_container (instance method)">#<strong>resolved_top_container</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute resolved_top_container.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#subjects-instance_method" title="#subjects (instance method)">#<strong>subjects</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute subjects.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#uri-instance_method" title="#uri (instance method)">#<strong>uri</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute uri.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#[]-instance_method" title="#[] (instance method)">#<strong>[]</strong>(k)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dig-instance_method" title="#dig (instance method)">#<strong>dig</strong>(*args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(solr_result, full = false)  &#x21d2; Record </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of Record.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#note-instance_method" title="#note (instance method)">#<strong>note</strong>(type)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#request_item-instance_method" title="#request_item (instance method)">#<strong>request_item</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="PrefixHelper.html" title="PrefixHelper (module)">PrefixHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PrefixHelper.html#app_prefix-class_method" title="PrefixHelper.app_prefix (method)">app_prefix</a></span>, <span class='object_link'><a href="PrefixHelper.html#app_prefix-instance_method" title="PrefixHelper#app_prefix (method)">#app_prefix</a></span>, <span class='object_link'><a href="PrefixHelper.html#app_prefix_js-class_method" title="PrefixHelper.app_prefix_js (method)">app_prefix_js</a></span>, <span class='object_link'><a href="PrefixHelper.html#app_prefix_js-instance_method" title="PrefixHelper#app_prefix_js (method)">#app_prefix_js</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="RecordHelper.html" title="RecordHelper (module)">RecordHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="RecordHelper.html#badge_for_type-instance_method" title="RecordHelper#badge_for_type (method)">#badge_for_type</a></span>, <span class='object_link'><a href="RecordHelper.html#icon_for_type-instance_method" title="RecordHelper#icon_for_type (method)">#icon_for_type</a></span>, <span class='object_link'><a href="RecordHelper.html#record_class_for_type-instance_method" title="RecordHelper#record_class_for_type (method)">#record_class_for_type</a></span>, <span class='object_link'><a href="RecordHelper.html#record_for_type-instance_method" title="RecordHelper#record_for_type (method)">#record_for_type</a></span>, <span class='object_link'><a href="RecordHelper.html#record_from_resolved_json-instance_method" title="RecordHelper#record_from_resolved_json (method)">#record_from_resolved_json</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JsonHelper.html" title="JsonHelper (module)">JsonHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JsonHelper.html#process_json_notes-instance_method" title="JsonHelper#process_json_notes (method)">#process_json_notes</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ManipulateNode.html" title="ManipulateNode (module)">ManipulateNode</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ManipulateNode.html#inheritance-instance_method" title="ManipulateNode#inheritance (method)">#inheritance</a></span>, <span class='object_link'><a href="ManipulateNode.html#process_mixed_content-instance_method" title="ManipulateNode#process_mixed_content (method)">#process_mixed_content</a></span>, <span class='object_link'><a href="ManipulateNode.html#strip_mixed_content-instance_method" title="ManipulateNode#strip_mixed_content (method)">#strip_mixed_content</a></span></p>
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(solr_result, full = false)  &#x21d2; <tt><span class='object_link'><a href="" title="Record (class)">Record</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of Record</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 19</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_solr_result identifier id'>solr_result</span><span class='comma token'>,</span> <span class='rubyid_full identifier id'>full</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_@raw ivar id'>@raw</span> <span class='assign token'>=</span> <span class='rubyid_solr_result identifier id'>solr_result</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_solr_result identifier id'>solr_result</span><span class='lbrack token'>[</span><span class='string val'>&#39;json&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Hash constant id'>Hash</span>
+    <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_solr_result identifier id'>solr_result</span><span class='lbrack token'>[</span><span class='string val'>&#39;json&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_solr_result identifier id'>solr_result</span><span class='lbrack token'>[</span><span class='string val'>&#39;json&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@full ivar id'>@full</span> <span class='assign token'>=</span> <span class='rubyid_full identifier id'>full</span>
+
+  <span class='rubyid_@primary_type ivar id'>@primary_type</span> <span class='assign token'>=</span> <span class='rubyid_raw identifier id'>raw</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@uri ivar id'>@uri</span> <span class='assign token'>=</span> <span class='rubyid_raw identifier id'>raw</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@identifier ivar id'>@identifier</span> <span class='assign token'>=</span> <span class='rubyid_parse_identifier identifier id'>parse_identifier</span>
+
+  <span class='rubyid_@resolved_resource ivar id'>@resolved_resource</span> <span class='assign token'>=</span> <span class='rubyid_parse_resource identifier id'>parse_resource</span>
+
+  <span class='rubyid_@level ivar id'>@level</span> <span class='assign token'>=</span> <span class='rubyid_raw identifier id'>raw</span><span class='lbrack token'>[</span><span class='string val'>&#39;level&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_@other_level ivar id'>@other_level</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;other_level&#39;</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_@display_string ivar id'>@display_string</span> <span class='assign token'>=</span> <span class='rubyid_parse_full_title identifier id'>parse_full_title</span>
+  <span class='rubyid_@container_display ivar id'>@container_display</span> <span class='assign token'>=</span> <span class='rubyid_parse_container_display identifier id'>parse_container_display</span>
+  <span class='rubyid_@container_summary_for_badge ivar id'>@container_summary_for_badge</span> <span class='assign token'>=</span> <span class='rubyid_parse_container_summary_for_badge identifier id'>parse_container_summary_for_badge</span>
+  <span class='rubyid_@container_titles_and_uris ivar id'>@container_titles_and_uris</span> <span class='assign token'>=</span> <span class='rubyid_parse_container_display identifier id'>parse_container_display</span><span class='lparen token'>(</span><span class='symbol val'>:include_uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_@linked_digital_objects ivar id'>@linked_digital_objects</span> <span class='assign token'>=</span> <span class='rubyid_parse_digital_object_instances identifier id'>parse_digital_object_instances</span>
+  <span class='rubyid_@notes ivar id'>@notes</span> <span class='assign token'>=</span>  <span class='rubyid_parse_notes identifier id'>parse_notes</span>
+  <span class='rubyid_@dates ivar id'>@dates</span> <span class='assign token'>=</span> <span class='rubyid_parse_dates identifier id'>parse_dates</span>
+  <span class='rubyid_@external_documents ivar id'>@external_documents</span> <span class='assign token'>=</span> <span class='rubyid_parse_external_documents identifier id'>parse_external_documents</span>
+  <span class='rubyid_@resolved_repository ivar id'>@resolved_repository</span> <span class='assign token'>=</span> <span class='rubyid_parse_repository identifier id'>parse_repository</span>
+  <span class='rubyid_@resolved_top_container ivar id'>@resolved_top_container</span> <span class='assign token'>=</span> <span class='rubyid_parse_top_container identifier id'>parse_top_container</span>
+  <span class='rubyid_@repository_information ivar id'>@repository_information</span> <span class='assign token'>=</span> <span class='rubyid_parse_repository_info identifier id'>parse_repository_info</span>
+  <span class='rubyid_@subjects ivar id'>@subjects</span> <span class='assign token'>=</span> <span class='rubyid_parse_subjects identifier id'>parse_subjects</span>
+  <span class='rubyid_@classifications ivar id'>@classifications</span> <span class='assign token'>=</span> <span class='rubyid_parse_classifications identifier id'>parse_classifications</span>
+  <span class='rubyid_@agents ivar id'>@agents</span> <span class='assign token'>=</span> <span class='rubyid_parse_agents identifier id'>parse_agents</span><span class='lparen token'>(</span><span class='rubyid_subjects identifier id'>subjects</span><span class='rparen token'>)</span>
+  <span class='rubyid_@extents ivar id'>@extents</span> <span class='assign token'>=</span> <span class='rubyid_parse_extents identifier id'>parse_extents</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="agents-instance_method">
+  
+    #<strong>agents</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute agents</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_agents identifier id'>agents</span>
+  <span class='rubyid_@agents ivar id'>@agents</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="classifications-instance_method">
+  
+    #<strong>classifications</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute classifications</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_classifications identifier id'>classifications</span>
+  <span class='rubyid_@classifications ivar id'>@classifications</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="container_display-instance_method">
+  
+    #<strong>container_display</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute container_display</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_container_display identifier id'>container_display</span>
+  <span class='rubyid_@container_display ivar id'>@container_display</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="container_summary_for_badge-instance_method">
+  
+    #<strong>container_summary_for_badge</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute container_summary_for_badge</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_container_summary_for_badge identifier id'>container_summary_for_badge</span>
+  <span class='rubyid_@container_summary_for_badge ivar id'>@container_summary_for_badge</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="container_titles_and_uris-instance_method">
+  
+    #<strong>container_titles_and_uris</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute container_titles_and_uris</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_container_titles_and_uris identifier id'>container_titles_and_uris</span>
+  <span class='rubyid_@container_titles_and_uris ivar id'>@container_titles_and_uris</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="criteria=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="criteria-instance_method">
+  
+    #<strong>criteria</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute criteria</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+15
+16
+17</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 15</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_criteria identifier id'>criteria</span>
+  <span class='rubyid_@criteria ivar id'>@criteria</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="dates-instance_method">
+  
+    #<strong>dates</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute dates</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_dates identifier id'>dates</span>
+  <span class='rubyid_@dates ivar id'>@dates</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="display_string-instance_method">
+  
+    #<strong>display_string</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute display_string</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_display_string identifier id'>display_string</span>
+  <span class='rubyid_@display_string ivar id'>@display_string</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="extents-instance_method">
+  
+    #<strong>extents</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute extents</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_extents identifier id'>extents</span>
+  <span class='rubyid_@extents ivar id'>@extents</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="external_documents-instance_method">
+  
+    #<strong>external_documents</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute external_documents</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_external_documents identifier id'>external_documents</span>
+  <span class='rubyid_@external_documents ivar id'>@external_documents</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="full-instance_method">
+  
+    #<strong>full</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute full</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_full identifier id'>full</span>
+  <span class='rubyid_@full ivar id'>@full</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="identifier-instance_method">
+  
+    #<strong>identifier</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute identifier</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_identifier identifier id'>identifier</span>
+  <span class='rubyid_@identifier ivar id'>@identifier</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="json-instance_method">
+  
+    #<strong>json</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute json</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_json identifier id'>json</span>
+  <span class='rubyid_@json ivar id'>@json</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="level-instance_method">
+  
+    #<strong>level</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute level</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_level identifier id'>level</span>
+  <span class='rubyid_@level ivar id'>@level</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="linked_digital_objects-instance_method">
+  
+    #<strong>linked_digital_objects</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute linked_digital_objects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_linked_digital_objects identifier id'>linked_digital_objects</span>
+  <span class='rubyid_@linked_digital_objects ivar id'>@linked_digital_objects</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="notes-instance_method">
+  
+    #<strong>notes</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute notes</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_notes identifier id'>notes</span>
+  <span class='rubyid_@notes ivar id'>@notes</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="other_level-instance_method">
+  
+    #<strong>other_level</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute other_level</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_other_level identifier id'>other_level</span>
+  <span class='rubyid_@other_level ivar id'>@other_level</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="primary_type-instance_method">
+  
+    #<strong>primary_type</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute primary_type</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_primary_type identifier id'>primary_type</span>
+  <span class='rubyid_@primary_type ivar id'>@primary_type</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="raw-instance_method">
+  
+    #<strong>raw</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute raw</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_raw identifier id'>raw</span>
+  <span class='rubyid_@raw ivar id'>@raw</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="repository_information-instance_method">
+  
+    #<strong>repository_information</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute repository_information</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_repository_information identifier id'>repository_information</span>
+  <span class='rubyid_@repository_information ivar id'>@repository_information</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="resolved_repository-instance_method">
+  
+    #<strong>resolved_repository</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute resolved_repository</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resolved_repository identifier id'>resolved_repository</span>
+  <span class='rubyid_@resolved_repository ivar id'>@resolved_repository</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="resolved_resource-instance_method">
+  
+    #<strong>resolved_resource</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute resolved_resource</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resolved_resource identifier id'>resolved_resource</span>
+  <span class='rubyid_@resolved_resource ivar id'>@resolved_resource</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="resolved_top_container-instance_method">
+  
+    #<strong>resolved_top_container</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute resolved_top_container</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_resolved_top_container identifier id'>resolved_top_container</span>
+  <span class='rubyid_@resolved_top_container ivar id'>@resolved_top_container</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="subjects-instance_method">
+  
+    #<strong>subjects</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute subjects</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_subjects identifier id'>subjects</span>
+  <span class='rubyid_@subjects ivar id'>@subjects</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="uri-instance_method">
+  
+    #<strong>uri</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute uri</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 8</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_uri identifier id'>uri</span>
+  <span class='rubyid_@uri ivar id'>@uri</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="[]-instance_method">
+  
+    #<strong>[]</strong>(k)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57
+58
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 55</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='aref op'>[]</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_k identifier id'>k</span> <span class='eq op'>==</span> <span class='string val'>&#39;json&#39;</span>
+    <span class='rubyid_json identifier id'>json</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_raw identifier id'>raw</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="dig-instance_method">
+  
+    #<strong>dig</strong>(*args)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 63</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_dig identifier id'>dig</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+  <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_dig identifier id'>dig</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="note-instance_method">
+  
+    #<strong>note</strong>(type)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 67</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_note identifier id'>note</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+  <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="request_item-instance_method">
+  
+    #<strong>request_item</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 71</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_request_item identifier id'>request_item</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_RequestItem constant id'>RequestItem</span><span class='dot token'>.</span><span class='rubyid_allow_for_type identifier id'>allow_for_type</span><span class='lparen token'>(</span><span class='rubyid_resolved_repository identifier id'>resolved_repository</span><span class='dot token'>.</span><span class='rubyid_dig identifier id'>dig</span><span class='lparen token'>(</span><span class='string val'>&#39;repo_code&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_primary_type identifier id'>primary_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_build_request_item identifier id'>build_request_item</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:51 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

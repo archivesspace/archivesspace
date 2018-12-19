@@ -1,20 +1,18 @@
 ---
-title: Upgrading to a new release of ArchivesSpace 
+title: Upgrading to a new release of ArchivesSpace
 layout: en
-permalink: /user/upgrading-to-a-new-release-of-archivesspace/ 
+permalink: /user/upgrading-to-a-new-release-of-archivesspace/
 ---
-
-*  **Please also see [UPGRADING_1.1.1.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.1.md) for special considerations when upgrading to v1.1.1**
-*  **Please also see [UPGRADING_1.1.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.1.0.md) for special considerations when upgrading to v1.1.0**
-*  **Please also see [UPGRADING_1.5.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_1.5.0.md) for special considerations when upgrading from v1.4.2 to 1.5.x (these considerations also apply when upgrading from 1.4.2 to any version through 2.0.1)**
-*  **Please also see [UPGRADING_2.1.0.md](https://github.com/archivesspace/archivesspace/blob/master/UPGRADING_2.1.0.md) for special considerations when upgrading to 2.1.0**
+*  **[Special considerations when upgrading to v1.1.0](https://archivesspace.github.io/archivesspace/user/upgrading-to-1.1.0/)**
+*  **[Special considerations when upgrading to v1.1.1](https://archivesspace.github.io/archivesspace/user/upgrading-to-1.1.1/)**
+*  **[Special considerations when upgrading from v1.4.2 to 1.5.x (these considerations also apply when upgrading from 1.4.2 to any version through 2.0.1)](https://archivesspace.github.io/archivesspace/user/upgrading-to-1.5.0/)**
+*  **[Special considerations when upgrading to 2.1.0](https://archivesspace.github.io/archivesspace/user/upgrading-to-2.1.0/)**
 
 ## Create a backup of your ArchivesSpace instance
 
 You should make sure you have a working backup of your ArchivesSpace
 installation before attempting an upgrade.  Follow the steps
-under the *Backup and recovery* section in [README.md](https://github.com/archivesspace/archivesspace/blob/master/README.md) to do this.
-
+under the [Backup and recovery section](https://archivesspace.github.io/archivesspace/user/backup-and-recovery/) to do this.
 
 ## Unpack the new version
 
@@ -142,7 +140,7 @@ https://github.com/archivesspace/archivesspace/tree/v1.5.x/solr
 ## If you've deployed to Tomcat
 
 The steps to deploy to Tomcat are esentially the same as in the
-[archivesspace_tomcat](https://github.com/archivesspace/archivesspace_tomcat)
+[archivesspace_tomcat](https://github.com/archivesspace-labs/archivesspace_tomcat)
 
 But, prior to running your setup-tomcat script, you'll need to be sure to clean out the
 any libraries from the previous ASpace version from your Tomcat classpath.

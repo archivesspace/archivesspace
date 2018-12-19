@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: PeriodicIndexer
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "PeriodicIndexer";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index (P)</a> &raquo;
+    
+    
+    <span class="title">PeriodicIndexer</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: PeriodicIndexer
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="IndexerCommon.html" title="IndexerCommon (class)">IndexerCommon</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="IndexerCommon.html" title="IndexerCommon (class)">IndexerCommon</a></span></li>
+          
+            <li class="next">PeriodicIndexer</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>indexer/app/lib/periodic_indexer.rb</dd>
+  </dl>
+  
+</div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="PUIIndexer.html" title="PUIIndexer (class)">PUIIndexer</a></span></p>
+</div>
+
+
+
+
+  <h2>Constant Summary</h2>
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="IndexerCommon.html" title="IndexerCommon (class)">IndexerCommon</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="IndexerCommon.html#HARDCODED_ENUM_FIELDS-constant" title="IndexerCommon::HARDCODED_ENUM_FIELDS (constant)">IndexerCommon::HARDCODED_ENUM_FIELDS</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#REFERENCE_KEY_REGEX-constant" title="JSONModel::REFERENCE_KEY_REGEX (constant)">JSONModel::REFERENCE_KEY_REGEX</a></span></p>
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_indexer-class_method" title="get_indexer (class method)">.<strong>get_indexer</strong>(state = nil, name = &quot;Staff Indexer&quot;)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fetch_records-instance_method" title="#fetch_records (instance method)">#<strong>fetch_records</strong>(type, ids, resolve)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_deletes-instance_method" title="#handle_deletes (instance method)">#<strong>handle_deletes</strong>(opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#index_round_complete-instance_method" title="#index_round_complete (instance method)">#<strong>index_round_complete</strong>(repository)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(backend_url = nil, state = nil, indexer_name = nil, verbose = true)  &#x21d2; PeriodicIndexer </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of PeriodicIndexer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#log-instance_method" title="#log (instance method)">#<strong>log</strong>(line)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>used for just info lines.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-instance_method" title="#run (instance method)">#<strong>run</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_index_round-instance_method" title="#run_index_round (instance method)">#<strong>run_index_round</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_worker_thread-instance_method" title="#start_worker_thread (instance method)">#<strong>start_worker_thread</strong>(queue, record_type)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="IndexerCommon.html" title="IndexerCommon (class)">IndexerCommon</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="IndexerCommon.html#add_agents-instance_method" title="IndexerCommon#add_agents (method)">#add_agents</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_attribute_to_resolve-class_method" title="IndexerCommon.add_attribute_to_resolve (method)">add_attribute_to_resolve</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_audit_info-instance_method" title="IndexerCommon#add_audit_info (method)">#add_audit_info</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_batch_hook-instance_method" title="IndexerCommon#add_batch_hook (method)">#add_batch_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_delete_hook-instance_method" title="IndexerCommon#add_delete_hook (method)">#add_delete_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_document_prepare_hook-instance_method" title="IndexerCommon#add_document_prepare_hook (method)">#add_document_prepare_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_extra_documents_hook-instance_method" title="IndexerCommon#add_extra_documents_hook (method)">#add_extra_documents_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_indexer_initialize_hook-class_method" title="IndexerCommon.add_indexer_initialize_hook (method)">add_indexer_initialize_hook</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_level-instance_method" title="IndexerCommon#add_level (method)">#add_level</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_notes-instance_method" title="IndexerCommon#add_notes (method)">#add_notes</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_subjects-instance_method" title="IndexerCommon#add_subjects (method)">#add_subjects</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_summary-instance_method" title="IndexerCommon#add_summary (method)">#add_summary</a></span>, <span class='object_link'><a href="IndexerCommon.html#add_years-instance_method" title="IndexerCommon#add_years (method)">#add_years</a></span>, <span class='object_link'><a href="IndexerCommon.html#apply_pui_fields-instance_method" title="IndexerCommon#apply_pui_fields (method)">#apply_pui_fields</a></span>, <span class='object_link'><a href="IndexerCommon.html#build_fullrecord-class_method" title="IndexerCommon.build_fullrecord (method)">build_fullrecord</a></span>, <span class='object_link'><a href="IndexerCommon.html#clean_for_sort-instance_method" title="IndexerCommon#clean_for_sort (method)">#clean_for_sort</a></span>, <span class='object_link'><a href="IndexerCommon.html#clean_whitespace-instance_method" title="IndexerCommon#clean_whitespace (method)">#clean_whitespace</a></span>, <span class='object_link'><a href="IndexerCommon.html#configure_doc_rules-instance_method" title="IndexerCommon#configure_doc_rules (method)">#configure_doc_rules</a></span>, <span class='object_link'><a href="IndexerCommon.html#dedupe_by_uri-instance_method" title="IndexerCommon#dedupe_by_uri (method)">#dedupe_by_uri</a></span>, <span class='object_link'><a href="IndexerCommon.html#delete_records-instance_method" title="IndexerCommon#delete_records (method)">#delete_records</a></span>, <span class='object_link'><a href="IndexerCommon.html#do_http_request-instance_method" title="IndexerCommon#do_http_request (method)">#do_http_request</a></span>, <span class='object_link'><a href="IndexerCommon.html#extract_string_values-class_method" title="IndexerCommon.extract_string_values (method)">extract_string_values</a></span>, <span class='object_link'><a href="IndexerCommon.html#generate_permutations_for_identifier-class_method" title="IndexerCommon.generate_permutations_for_identifier (method)">generate_permutations_for_identifier</a></span>, <span class='object_link'><a href="IndexerCommon.html#generate_sort_string_for_identifier-class_method" title="IndexerCommon.generate_sort_string_for_identifier (method)">generate_sort_string_for_identifier</a></span>, <span class='object_link'><a href="IndexerCommon.html#generate_years_for_date_range-class_method" title="IndexerCommon.generate_years_for_date_range (method)">generate_years_for_date_range</a></span>, <span class='object_link'><a href="IndexerCommon.html#get_record_scope-instance_method" title="IndexerCommon#get_record_scope (method)">#get_record_scope</a></span>, <span class='object_link'><a href="IndexerCommon.html#index_batch-instance_method" title="IndexerCommon#index_batch (method)">#index_batch</a></span>, <span class='object_link'><a href="IndexerCommon.html#index_records-instance_method" title="IndexerCommon#index_records (method)">#index_records</a></span>, <span class='object_link'><a href="IndexerCommon.html#is_repository_unpublished%3F-instance_method" title="IndexerCommon#is_repository_unpublished? (method)">#is_repository_unpublished?</a></span>, <span class='object_link'><a href="IndexerCommon.html#login-instance_method" title="IndexerCommon#login (method)">#login</a></span>, <span class='object_link'><a href="IndexerCommon.html#pause-class_method" title="IndexerCommon.pause (method)">pause</a></span>, <span class='object_link'><a href="IndexerCommon.html#paused%3F-class_method" title="IndexerCommon.paused? (method)">paused?</a></span>, <span class='object_link'><a href="IndexerCommon.html#paused%3F-instance_method" title="IndexerCommon#paused? (method)">#paused?</a></span>, <span class='object_link'><a href="IndexerCommon.html#record_has_children-instance_method" title="IndexerCommon#record_has_children (method)">#record_has_children</a></span>, <span class='object_link'><a href="IndexerCommon.html#record_types-instance_method" title="IndexerCommon#record_types (method)">#record_types</a></span>, <span class='object_link'><a href="IndexerCommon.html#records_with_children-instance_method" title="IndexerCommon#records_with_children (method)">#records_with_children</a></span>, <span class='object_link'><a href="IndexerCommon.html#reset_session-instance_method" title="IndexerCommon#reset_session (method)">#reset_session</a></span>, <span class='object_link'><a href="IndexerCommon.html#resolved_attributes-instance_method" title="IndexerCommon#resolved_attributes (method)">#resolved_attributes</a></span>, <span class='object_link'><a href="IndexerCommon.html#send_commit-instance_method" title="IndexerCommon#send_commit (method)">#send_commit</a></span>, <span class='object_link'><a href="IndexerCommon.html#skip_index_doc%3F-instance_method" title="IndexerCommon#skip_index_doc? (method)">#skip_index_doc?</a></span>, <span class='object_link'><a href="IndexerCommon.html#skip_index_record%3F-instance_method" title="IndexerCommon#skip_index_record? (method)">#skip_index_record?</a></span>, <span class='object_link'><a href="IndexerCommon.html#solr_url-instance_method" title="IndexerCommon#solr_url (method)">#solr_url</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#check_valid_refs-class_method" title="JSONModel.check_valid_refs (method)">check_valid_refs</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_publish_flags!-class_method" title="JSONModel.set_publish_flags! (method)">set_publish_flags!</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#validate_schema-class_method" title="JSONModel.validate_schema (method)">validate_schema</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(backend_url = nil, state = nil, indexer_name = nil, verbose = true)  &#x21d2; <tt><span class='object_link'><a href="" title="PeriodicIndexer (class)">PeriodicIndexer</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of PeriodicIndexer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/periodic_indexer.rb', line 16</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_backend_url identifier id'>backend_url</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_state identifier id'>state</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_indexer_name identifier id'>indexer_name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_verbose identifier id'>verbose</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_backend_url identifier id'>backend_url</span> <span class='orop op'>||</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:backend_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@indexer_name ivar id'>@indexer_name</span> <span class='assign token'>=</span> <span class='rubyid_indexer_name identifier id'>indexer_name</span> <span class='orop op'>||</span> <span class='string val'>&#39;PeriodicIndexer&#39;</span>
+  <span class='rubyid_state_class identifier id'>state_class</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:index_state_class</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_constantize identifier id'>constantize</span>
+  <span class='rubyid_@state ivar id'>@state</span> <span class='assign token'>=</span> <span class='rubyid_state identifier id'>state</span> <span class='orop op'>||</span> <span class='rubyid_state_class identifier id'>state_class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+  <span class='rubyid_@verbose ivar id'>@verbose</span> <span class='assign token'>=</span> <span class='rubyid_verbose identifier id'>verbose</span>
+
+  <span class='comment val'># A small window to account for the fact that transactions might be committed</span>
+  <span class='comment val'># after the periodic indexer has checked for updates, but with timestamps from</span>
+  <span class='comment val'># prior to the check.</span>
+  <span class='rubyid_@window_seconds ivar id'>@window_seconds</span> <span class='assign token'>=</span> <span class='integer val'>30</span>
+
+  <span class='rubyid_@time_to_sleep ivar id'>@time_to_sleep</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_indexing_frequency_seconds</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+  <span class='rubyid_@thread_count ivar id'>@thread_count</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:indexer_thread_count</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+  <span class='rubyid_@records_per_thread ivar id'>@records_per_thread</span> <span class='assign token'>=</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:indexer_records_per_thread</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
+
+  <span class='rubyid_@timing ivar id'>@timing</span> <span class='assign token'>=</span> <span class='rubyid_IndexerTiming constant id'>IndexerTiming</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="get_indexer-class_method">
+  
+    .<strong>get_indexer</strong>(state = nil, name = &quot;Staff Indexer&quot;)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+226
+227
+228</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/periodic_indexer.rb', line 226</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_get_indexer identifier id'>get_indexer</span><span class='lparen token'>(</span><span class='rubyid_state identifier id'>state</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='string val'>&quot;Staff Indexer&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_indexer identifier id'>indexer</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:backend_url</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_state identifier id'>state</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="fetch_records-instance_method">
+  
+    #<strong>fetch_records</strong>(type, ids, resolve)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+230
+231
+232</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/periodic_indexer.rb', line 230</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_fetch_records identifier id'>fetch_records</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_ids identifier id'>ids</span><span class='comma token'>,</span> <span class='rubyid_resolve identifier id'>resolve</span><span class='rparen token'>)</span>
+  <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='symbol val'>:id_set</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;,&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&#39;resolve[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_resolve identifier id'>resolve</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_deletes-instance_method">
+  
+    #<strong>handle_deletes</strong>(opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/periodic_indexer.rb', line 180</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_deletes identifier id'>handle_deletes</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_start identifier id'>start</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+  <span class='rubyid_last_mtime identifier id'>last_mtime</span> <span class='assign token'>=</span> <span class='rubyid_@state ivar id'>@state</span><span class='dot token'>.</span><span class='rubyid_get_last_mtime identifier id'>get_last_mtime</span><span class='lparen token'>(</span><span class='string val'>&#39;_deletes&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;deletes&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_did_something identifier id'>did_something</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+
+  <span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+  <span class='rubyid_while while kw'>while</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_deletes identifier id'>deletes</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='string val'>&quot;/delete-feed&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:modified_since</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_last_mtime identifier id'>last_mtime</span> <span class='minus op'>-</span> <span class='rubyid_@window_seconds ivar id'>@window_seconds</span><span class='comma token'>,</span> <span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_max identifier id'>max</span><span class='comma token'>,</span> <span class='symbol val'>:page</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_page identifier id'>page</span><span class='comma token'>,</span> <span class='symbol val'>:page_size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@records_per_thread ivar id'>@records_per_thread</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_deletes identifier id'>deletes</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+      <span class='rubyid_did_something identifier id'>did_something</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_delete_records identifier id'>delete_records</span><span class='lparen token'>(</span><span class='rubyid_deletes identifier id'>deletes</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_break break kw'>break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_deletes identifier id'>deletes</span><span class='lbrack token'>[</span><span class='string val'>&#39;last_page&#39;</span><span class='rbrack token'>]</span> <span class='leq op'>&lt;=</span> <span class='rubyid_page identifier id'>page</span>
+
+    <span class='rubyid_page identifier id'>page</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_did_something identifier id'>did_something</span>
+    <span class='rubyid_send_commit identifier id'>send_commit</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@state ivar id'>@state</span><span class='dot token'>.</span><span class='rubyid_set_last_mtime identifier id'>set_last_mtime</span><span class='lparen token'>(</span><span class='string val'>&#39;_deletes&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;deletes&#39;</span><span class='comma token'>,</span> <span class='rubyid_start identifier id'>start</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="index_round_complete-instance_method">
+  
+    #<strong>index_round_complete</strong>(repository)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+176
+177
+178</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/periodic_indexer.rb', line 176</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_index_round_complete identifier id'>index_round_complete</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='rparen token'>)</span>
+  <span class='comment val'># Give subclasses a place to hang custom behavior.</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="log-instance_method">
+  
+    #<strong>log</strong>(line)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>used for just info lines</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+222
+223
+224</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/periodic_indexer.rb', line 222</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='rubyid_line identifier id'>line</span><span class='rparen token'>)</span>
+  <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{@indexer_name} [#{Time.now}] #{line}&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-instance_method">
+  
+    #<strong>run</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/periodic_indexer.rb', line 207</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span>
+  <span class='rubyid_while while kw'>while</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_run_index_round identifier id'>run_index_round</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_paused? fid id'>paused?</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span>
+      <span class='rubyid_reset_session identifier id'>reset_session</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='rubyid_$! gvar id'>$!</span><span class='dot token'>.</span><span class='rubyid_backtrace identifier id'>backtrace</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;\n&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='rubyid_$! gvar id'>$!</span><span class='dot token'>.</span><span class='rubyid_inspect identifier id'>inspect</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_sleep identifier id'>sleep</span> <span class='rubyid_@time_to_sleep ivar id'>@time_to_sleep</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run_index_round-instance_method">
+  
+    #<strong>run_index_round</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/periodic_indexer.rb', line 80</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_run_index_round identifier id'>run_index_round</span>
+  <span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;Running index round&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_login identifier id'>login</span>
+
+  <span class='comment val'># Index any repositories that were changed</span>
+  <span class='rubyid_start identifier id'>start</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+  <span class='rubyid_repositories identifier id'>repositories</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='string val'>&#39;resolve[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_resolved_attributes identifier id'>resolved_attributes</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_modified_since identifier id'>modified_since</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@state ivar id'>@state</span><span class='dot token'>.</span><span class='rubyid_get_last_mtime identifier id'>get_last_mtime</span><span class='lparen token'>(</span><span class='string val'>&#39;repositories&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;repositories&#39;</span><span class='rparen token'>)</span> <span class='minus op'>-</span> <span class='rubyid_@window_seconds ivar id'>@window_seconds</span><span class='comma token'>,</span> <span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_max identifier id'>max</span>
+  <span class='rubyid_updated_repositories identifier id'>updated_repositories</span> <span class='assign token'>=</span> <span class='rubyid_repositories identifier id'>repositories</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repository identifier id'>repository</span><span class='bitor op'>|</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='lbrack token'>[</span><span class='string val'>&#39;system_mtime&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='lt op'>&lt;</span> <span class='rubyid_modified_since identifier id'>modified_since</span><span class='rbrace token'>}</span><span class='dot token'>.</span>
+  <span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_repository identifier id'>repository</span><span class='bitor op'>|</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&#39;record&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:raw</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+
+  <span class='comment val'># indexing repos is usually easy, since its unlikely there will be lots of</span>
+  <span class='comment val'># them.</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_updated_repositories identifier id'>updated_repositories</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_index_records identifier id'>index_records</span><span class='lparen token'>(</span><span class='rubyid_updated_repositories identifier id'>updated_repositories</span><span class='rparen token'>)</span>
+    <span class='rubyid_send_commit identifier id'>send_commit</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_@state ivar id'>@state</span><span class='dot token'>.</span><span class='rubyid_set_last_mtime identifier id'>set_last_mtime</span><span class='lparen token'>(</span><span class='string val'>&#39;repositories&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;repositories&#39;</span><span class='comma token'>,</span> <span class='rubyid_start identifier id'>start</span><span class='rparen token'>)</span>
+
+  <span class='comment val'># And any records in any repositories</span>
+  <span class='rubyid_repositories identifier id'>repositories</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
+    <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_set_repository identifier id'>set_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_checkpoints identifier id'>checkpoints</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_did_something identifier id'>did_something</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+
+    <span class='rubyid_record_types identifier id'>record_types</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_type identifier id'>type</span><span class='bitor op'>|</span>
+      <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@@global_types ivar id'>@@global_types</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_i identifier id'>i</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+      <span class='rubyid_start identifier id'>start</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
+
+      <span class='rubyid_modified_since identifier id'>modified_since</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@state ivar id'>@state</span><span class='dot token'>.</span><span class='rubyid_get_last_mtime identifier id'>get_last_mtime</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span> <span class='minus op'>-</span> <span class='rubyid_@window_seconds ivar id'>@window_seconds</span><span class='comma token'>,</span> <span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_max identifier id'>max</span>
+
+      <span class='comment val'># we get all the ids of this record type out of the repo</span>
+      <span class='rubyid_id_set identifier id'>id_set</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='comma token'>,</span> <span class='symbol val'>:all_ids</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='symbol val'>:modified_since</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_modified_since identifier id'>modified_since</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='string val'>&#39;&#39;</span>
+
+      <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_id_set identifier id'>id_set</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+
+      <span class='rubyid_indexed_count identifier id'>indexed_count</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+
+      <span class='rubyid_work_queue identifier id'>work_queue</span> <span class='assign token'>=</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_util identifier id'>util</span><span class='dot token'>.</span><span class='rubyid_concurrent identifier id'>concurrent</span><span class='dot token'>.</span><span class='rubyid_LinkedBlockingQueue constant id'>LinkedBlockingQueue</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_@thread_count ivar id'>@thread_count</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_workers identifier id'>workers</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='rubyid_@thread_count ivar id'>@thread_count</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_thread_idx identifier id'>thread_idx</span><span class='bitor op'>|</span>
+        <span class='rubyid_start_worker_thread identifier id'>start_worker_thread</span><span class='lparen token'>(</span><span class='rubyid_work_queue identifier id'>work_queue</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+      <span class='rbrace token'>}</span>
+
+      <span class='rubyid_begin begin kw'>begin</span>
+        <span class='comment val'># Feed our worker threads subsets of IDs to process</span>
+        <span class='rubyid_id_set identifier id'>id_set</span><span class='dot token'>.</span><span class='rubyid_each_slice identifier id'>each_slice</span><span class='lparen token'>(</span><span class='rubyid_@records_per_thread ivar id'>@records_per_thread</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_id_subset identifier id'>id_subset</span><span class='bitor op'>|</span>
+          <span class='comment val'># This will block if all threads are currently busy indexing.</span>
+          <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='rubyid_work_queue identifier id'>work_queue</span><span class='dot token'>.</span><span class='rubyid_offer identifier id'>offer</span><span class='lparen token'>(</span><span class='rubyid_id_subset identifier id'>id_subset</span><span class='comma token'>,</span> <span class='integer val'>5000</span><span class='comma token'>,</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_util identifier id'>util</span><span class='dot token'>.</span><span class='rubyid_concurrent identifier id'>concurrent</span><span class='dot token'>.</span><span class='rubyid_TimeUnit constant id'>TimeUnit</span><span class='colon2 op'>::</span><span class='rubyid_MILLISECONDS constant id'>MILLISECONDS</span><span class='rparen token'>)</span>
+            <span class='comment val'># If any of the workers have caught an exception, rethrow it immediately</span>
+            <span class='rubyid_workers identifier id'>workers</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_thread identifier id'>thread</span><span class='bitor op'>|</span>
+              <span class='rubyid_thread identifier id'>thread</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_thread identifier id'>thread</span><span class='dot token'>.</span><span class='rubyid_status identifier id'>status</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+            <span class='rubyid_end end kw'>end</span>
+          <span class='rubyid_end end kw'>end</span>
+
+          <span class='rubyid_indexed_count identifier id'>indexed_count</span> <span class='opasgn op'>+=</span> <span class='rubyid_id_subset identifier id'>id_subset</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
+          <span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;~~~ Indexed #{indexed_count} of #{id_set.length} #{type} records in repository #{repository.repo_code}&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_ensure ensure kw'>ensure</span>
+        <span class='comment val'># Once we&#39;re done, instruct the workers to finish up.</span>
+        <span class='rubyid_@thread_count ivar id'>@thread_count</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='lbrace token'>{</span> <span class='rubyid_work_queue identifier id'>work_queue</span><span class='dot token'>.</span><span class='rubyid_offer identifier id'>offer</span><span class='lparen token'>(</span><span class='symbol val'>:finished</span><span class='comma token'>,</span> <span class='integer val'>5000</span><span class='comma token'>,</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_util identifier id'>util</span><span class='dot token'>.</span><span class='rubyid_concurrent identifier id'>concurrent</span><span class='dot token'>.</span><span class='rubyid_TimeUnit constant id'>TimeUnit</span><span class='colon2 op'>::</span><span class='rubyid_MILLISECONDS constant id'>MILLISECONDS</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='comment val'># If any worker reports that they indexed some records, we&#39;ll send a</span>
+      <span class='comment val'># commit.</span>
+      <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_workers identifier id'>workers</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_thread identifier id'>thread</span><span class='bitor op'>|</span> <span class='rubyid_thread identifier id'>thread</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='semicolon token'>;</span> <span class='rubyid_thread identifier id'>thread</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='rbrace token'>}</span>
+      <span class='rubyid_did_something identifier id'>did_something</span> <span class='opasgn op'>||=</span> <span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_status identifier id'>status</span><span class='bitor op'>|</span> <span class='rubyid_status identifier id'>status</span><span class='rbrace token'>}</span>
+
+      <span class='rubyid_checkpoints identifier id'>checkpoints</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_start identifier id'>start</span><span class='rbrack token'>]</span>
+
+      <span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_index_round_complete identifier id'>index_round_complete</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_send_commit identifier id'>send_commit</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_did_something identifier id'>did_something</span>
+
+    <span class='rubyid_checkpoints identifier id'>checkpoints</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_start identifier id'>start</span><span class='bitor op'>|</span>
+      <span class='rubyid_@state ivar id'>@state</span><span class='dot token'>.</span><span class='rubyid_set_last_mtime identifier id'>set_last_mtime</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_start identifier id'>start</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_handle_deletes identifier id'>handle_deletes</span>
+
+  <span class='rubyid_log identifier id'>log</span><span class='lparen token'>(</span><span class='string val'>&quot;Index round complete&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="start_worker_thread-instance_method">
+  
+    #<strong>start_worker_thread</strong>(queue, record_type)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/periodic_indexer.rb', line 36</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_start_worker_thread identifier id'>start_worker_thread</span><span class='lparen token'>(</span><span class='rubyid_queue identifier id'>queue</span><span class='comma token'>,</span> <span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span>
+  <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_repository identifier id'>repository</span>
+  <span class='rubyid_session identifier id'>session</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_current_backend_session identifier id'>current_backend_session</span>
+
+  <span class='rubyid_Thread constant id'>Thread</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='comment val'># Inherit the repo_id and user session from the parent thread</span>
+      <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_set_repository identifier id'>set_repository</span><span class='lparen token'>(</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
+      <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_current_backend_session identifier id'>current_backend_session</span> <span class='assign token'>=</span> <span class='rubyid_session identifier id'>session</span>
+
+      <span class='rubyid_did_something identifier id'>did_something</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+
+      <span class='rubyid_while while kw'>while</span> <span class='rubyid_true true kw'>true</span>
+        <span class='rubyid_id_subset identifier id'>id_subset</span> <span class='assign token'>=</span> <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_poll identifier id'>poll</span><span class='lparen token'>(</span><span class='integer val'>10000</span><span class='comma token'>,</span> <span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_util identifier id'>util</span><span class='dot token'>.</span><span class='rubyid_concurrent identifier id'>concurrent</span><span class='dot token'>.</span><span class='rubyid_TimeUnit constant id'>TimeUnit</span><span class='colon2 op'>::</span><span class='rubyid_MILLISECONDS constant id'>MILLISECONDS</span><span class='rparen token'>)</span>
+
+        <span class='comment val'># If the parent thread has finished, it should have pushed a :finished</span>
+        <span class='comment val'># token.  But if we time out after a reasonable amount of time, assume</span>
+        <span class='comment val'># it isn&#39;t coming back.</span>
+        <span class='rubyid_break break kw'>break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_id_subset identifier id'>id_subset</span> <span class='eq op'>==</span> <span class='symbol val'>:finished</span> <span class='orop op'>||</span> <span class='rubyid_id_subset identifier id'>id_subset</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span><span class='rparen token'>)</span>
+
+        <span class='rubyid_records identifier id'>records</span> <span class='assign token'>=</span> <span class='rubyid_@timing ivar id'>@timing</span><span class='dot token'>.</span><span class='rubyid_time_block identifier id'>time_block</span><span class='lparen token'>(</span><span class='symbol val'>:record_fetch_ms</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+          <span class='rubyid_fetch_records identifier id'>fetch_records</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span><span class='comma token'>,</span> <span class='rubyid_id_subset identifier id'>id_subset</span><span class='comma token'>,</span> <span class='rubyid_resolved_attributes identifier id'>resolved_attributes</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+
+        <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_records identifier id'>records</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+          <span class='rubyid_did_something identifier id'>did_something</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+          <span class='rubyid_index_records identifier id'>index_records</span><span class='lparen token'>(</span><span class='rubyid_records identifier id'>records</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_record identifier id'>record</span><span class='bitor op'>|</span>
+                          <span class='lbrace token'>{</span>
+                            <span class='string val'>&#39;record&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:trusted</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                            <span class='string val'>&#39;uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
+                          <span class='rbrace token'>}</span>
+                        <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_did_something identifier id'>did_something</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_error identifier id'>error</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Failure in #{@indexer_name} worker thread: #{$!}&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_$! gvar id'>$!</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:50 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

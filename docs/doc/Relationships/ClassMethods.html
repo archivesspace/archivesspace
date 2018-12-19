@@ -36,7 +36,7 @@
       <div id="header">
         <div id="menu">
   
-    <a href="../_index.html">Index (C)</a> &raquo;
+    <a href="../alpha_index.html">Index (C)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../Relationships.html" title="Relationships (module)">Relationships</a></span></span>
      &raquo; 
     <span class="title">ClassMethods</span>
@@ -513,13 +513,13 @@
       <pre class="lines">
 
 
-704
-705
-706
-707</pre>
+709
+710
+711
+712</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 704</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 709</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_relationship_dependency identifier id'>add_relationship_dependency</span><span class='lparen token'>(</span><span class='rubyid_relationship_name identifier id'>relationship_name</span><span class='comma token'>,</span> <span class='rubyid_clz identifier id'>clz</span><span class='rparen token'>)</span>
   <span class='rubyid_@relationship_dependencies ivar id'>@relationship_dependencies</span><span class='lbrack token'>[</span><span class='rubyid_relationship_name identifier id'>relationship_name</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -556,11 +556,6 @@
       <pre class="lines">
 
 
-580
-581
-582
-583
-584
 585
 586
 587
@@ -600,10 +595,15 @@
 621
 622
 623
-624</pre>
+624
+625
+626
+627
+628
+629</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 580</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 585</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_relationships identifier id'>apply_relationships</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='comma token'>,</span> <span class='rubyid_new_record identifier id'>new_record</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_delete_existing_relationships identifier id'>delete_existing_relationships</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_new_record identifier id'>new_record</span>
@@ -775,14 +775,14 @@
       <pre class="lines">
 
 
-645
-646
-647
-648
-649</pre>
+650
+651
+652
+653
+654</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 645</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 650</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -862,7 +862,12 @@
 536
 537
 538
-539</pre>
+539
+540
+541
+542
+543
+544</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 497</span>
@@ -908,6 +913,11 @@
       <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_include identifier id'>include</span><span class='lparen token'>(</span><span class='rubyid_Relationships constant id'>Relationships</span><span class='rparen token'>)</span>
       <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_add_relationship_dependency identifier id'>add_relationship_dependency</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># Give the new relationship class a name to help with debugging</span>
+    <span class='comment val'># Example: Relationships::ResourceSubject</span>
+    <span class='rubyid_Relationships constant id'>Relationships</span><span class='dot token'>.</span><span class='rubyid_const_set identifier id'>const_set</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='plus op'>+</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='comma token'>,</span> <span class='rubyid_clz identifier id'>clz</span><span class='rparen token'>)</span>
+
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -941,11 +951,6 @@
       <pre class="lines">
 
 
-543
-544
-545
-546
-547
 548
 549
 550
@@ -974,10 +979,15 @@
 573
 574
 575
-576</pre>
+576
+577
+578
+579
+580
+581</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 543</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 548</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_existing_relationships identifier id'>delete_existing_relationships</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_bump_lock_version_on_referent identifier id'>bump_lock_version_on_referent</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_force identifier id'>force</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_predicate identifier id'>predicate</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_relationships identifier id'>relationships</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='bitor op'>|</span>
@@ -1078,21 +1088,21 @@ once.</p>
       <pre class="lines">
 
 
-631
-632
-633
-634
-635
 636
 637
 638
 639
 640
 641
-642</pre>
+642
+643
+644
+645
+646
+647</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 631</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 636</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_eager_load_relationships identifier id'>eager_load_relationships</span><span class='lparen token'>(</span><span class='rubyid_objects identifier id'>objects</span><span class='comma token'>,</span> <span class='rubyid_relationships_to_load identifier id'>relationships_to_load</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_relationships_to_load identifier id'>relationships_to_load</span> <span class='assign token'>=</span> <span class='rubyid_relationships identifier id'>relationships</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_relationships_to_load identifier id'>relationships_to_load</span>
@@ -1169,14 +1179,14 @@ Spans all defined relationships.</p>
       <pre class="lines">
 
 
-697
-698
-699
-700
-701</pre>
+702
+703
+704
+705
+706</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 697</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 702</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_instances_relating_to identifier id'>instances_relating_to</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_relationships identifier id'>relationships</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='bitor op'>|</span>
@@ -1266,11 +1276,6 @@ Spans all defined relationships.</p>
       <pre class="lines">
 
 
-652
-653
-654
-655
-656
 657
 658
 659
@@ -1306,10 +1311,15 @@ Spans all defined relationships.</p>
 689
 690
 691
-692</pre>
+692
+693
+694
+695
+696
+697</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 652</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 657</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1385,11 +1395,6 @@ to the updated instance and update their mtime.</p>
       <pre class="lines">
 
 
-718
-719
-720
-721
-722
 723
 724
 725
@@ -1452,10 +1457,15 @@ to the updated instance and update their mtime.</p>
 782
 783
 784
-785</pre>
+785
+786
+787
+788
+789
+790</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 718</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 723</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_touch_mtime_of_anyone_related_to identifier id'>touch_mtime_of_anyone_related_to</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_now identifier id'>now</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -1546,13 +1556,13 @@ to the updated instance and update their mtime.</p>
       <pre class="lines">
 
 
-710
-711
-712
-713</pre>
+715
+716
+717
+718</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 710</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 715</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_transfer identifier id'>transfer</span><span class='lparen token'>(</span><span class='rubyid_relationship_name identifier id'>relationship_name</span><span class='comma token'>,</span> <span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_victims identifier id'>victims</span><span class='rparen token'>)</span>
   <span class='rubyid_relationship identifier id'>relationship</span> <span class='assign token'>=</span> <span class='rubyid_find_relationship identifier id'>find_relationship</span><span class='lparen token'>(</span><span class='rubyid_relationship_name identifier id'>relationship_name</span><span class='rparen token'>)</span>
@@ -1603,11 +1613,6 @@ relationship… well, you get the idea.  We handle the recursive case too!</p>
       <pre class="lines">
 
 
-803
-804
-805
-806
-807
 808
 809
 810
@@ -1628,10 +1633,15 @@ relationship… well, you get the idea.  We handle the recursive case too!</p>
 825
 826
 827
-828</pre>
+828
+829
+830
+831
+832
+833</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 803</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 808</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_toplevel_mtimes identifier id'>update_toplevel_mtimes</span><span class='lparen token'>(</span><span class='rubyid_dataset identifier id'>dataset</span><span class='comma token'>,</span> <span class='rubyid_new_mtime identifier id'>new_mtime</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enclosing_associations identifier id'>enclosing_associations</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -1670,10 +1680,11 @@ relationship… well, you get the idea.  We handle the recursive case too!</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.1.a Documentation Generated on Tue Oct 16 08:39:44 2018 by
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:27 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.3).
+  0.9.12.
 </div>
+
     </div>
   </body>
 </html>

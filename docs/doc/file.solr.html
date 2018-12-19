@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: solr
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "solr";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: solr</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="running-archivesspace-with-external-solr">Running ArchivesSpace with external Solr</h1>
+
+<p>Assuming you’ve unzipped a fresh new release there are a couple of steps to take:</p>
+
+<h2 id="setup-a-solr-core">Setup a Solr core</h2>
+
+<p>On the Solr server make a core available for ArchivesSpace. Copy the solr files from the ArchivesSpace source into the core’s conf directory and enable it:</p>
+
+<p><a href="https://github.com/archivesspace/archivesspace/tree/master/solr">Solr Directory</a></p>
+
+<h2 id="disable-the-embedded-server-solr-instance">Disable the embedded server Solr instance</h2>
+
+<p>Edit the ArchivesSpace config.rb file:</p>
+
+<p><code>
+AppConfig[:enable_solr] = false
+</code></p>
+
+<p>Note that doing this means that you will have to backup Solr manually.</p>
+
+<h2 id="set-the-solr-url">Set the Solr url</h2>
+
+<p>This config setting should point to your Solr instance:</p>
+
+<p><code>
+AppConfig[:solr_url] = "http://solr.somewhere.org:8983"
+</code></p>
+
+<p>Include path if required:</p>
+
+<p><code>
+AppConfig[:solr_url] = "http://solr.somewhere.org:8983/solr/archivesspace"
+</code></p>
+
+<hr />
+
+<p>You should monitor the ArchivesSpace logs and Solr to ensure that the indexer application is connecting to the external Solr instance.</p>
+
+<hr />
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:23 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

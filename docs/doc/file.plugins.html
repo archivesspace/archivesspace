@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: plugins
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "plugins";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: plugins</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="archivesspace-plug-ins">ArchivesSpace Plug-ins</h1>
+
+<p>Plug-ins are a powerful feature, designed to allow you to change
+most aspects of how the application behaves.</p>
+
+<p>Plug-ins provide a mechanism to customize ArchivesSpace by overriding or extending functions
+without changing the core codebase. As they are self-contained, they also permit the ready
+sharing of packages of customization between ArchivesSpace instances.</p>
+
+<p>The ArchivesSpace distribution comes with the <code>hello_world</code> exemplar plug-in. Please refer to its <a href="https://github.com/archivesspace/archivesspace/blob/master/plugins/hello_world/README.md">README file</a> for a detailed description of how it is constructed and implemented.</p>
+
+<h2 id="enabling-plugins">Enabling plugins</h2>
+
+<p>Plug-ins are enabled by placing them in the <code>plugins</code> directory, and referencing them in the
+ArchivesSpace configuration, <code>common/config/config.rb</code>. For example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:plugins</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&#39;local&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;hello_world&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;my_plugin&#39;</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<p>This configuration assumes the following directories exist:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_plugins identifier id'>plugins</span>
+  <span class='rubyid_hello_world identifier id'>hello_world</span>
+  <span class='rubyid_local identifier id'>local</span>
+  <span class='rubyid_my_plugin identifier id'>my_plugin</span>
+</code></pre>
+
+<p>Note that the order that the plug-ins are listed in the <code>:plugins</code> configuration option
+determines the order in which they are loaded by the application.</p>
+
+<h2 id="plugin-structure">Plugin structure</h2>
+
+<p>The directory structure within a plug-in is similar to the structure of the core application.
+The following shows the supported plug-in structure. Files contained in these directories can
+be used to override or extend the behavior of the core application.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_backend identifier id'>backend</span>
+  <span class='rubyid_controllers identifier id'>controllers</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_backend identifier id'>backend</span> <span class='rubyid_endpoints identifier id'>endpoints</span>
+  <span class='rubyid_model identifier id'>model</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_mapping identifier id'>mapping</span> <span class='rubyid_models identifier id'>models</span>
+  <span class='rubyid_converters identifier id'>converters</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot token'>.</span> <span class='rubyid_classes identifier id'>classes</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_importing identifier id'>importing</span> <span class='rubyid_data identifier id'>data</span>
+  <span class='rubyid_job_runners identifier id'>job_runners</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_classes identifier id'>classes</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_defining identifier id'>defining</span> <span class='rubyid_background identifier id'>background</span> <span class='rubyid_jobs identifier id'>jobs</span>
+  <span class='rubyid_plugin_init identifier id'>plugin_init</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_present identifier id'>present</span><span class='comma token'>,</span> <span class='rubyid_loaded identifier id'>loaded</span> <span class='rubyid_when when kw'>when</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_backend identifier id'>backend</span> <span class='rubyid_first identifier id'>first</span> <span class='rubyid_starts identifier id'>starts</span>
+<span class='rubyid_frontend identifier id'>frontend</span>
+  <span class='rubyid_assets identifier id'>assets</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot2 op'>..</span> <span class='rubyid_static identifier id'>static</span> <span class='rubyid_assets identifier id'>assets</span> <span class='lparen token'>(</span><span class='rubyid_such identifier id'>such</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_images identifier id'>images</span><span class='comma token'>,</span> <span class='rubyid_javascript identifier id'>javascript</span><span class='rparen token'>)</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_staff identifier id'>staff</span> <span class='rubyid_interface identifier id'>interface</span>
+  <span class='rubyid_controllers identifier id'>controllers</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_controllers identifier id'>controllers</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_staff identifier id'>staff</span> <span class='rubyid_interface identifier id'>interface</span>
+  <span class='rubyid_locales identifier id'>locales</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot token'>.</span> <span class='rubyid_locale identifier id'>locale</span> <span class='rubyid_translations identifier id'>translations</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_staff identifier id'>staff</span> <span class='rubyid_interface identifier id'>interface</span>
+  <span class='rubyid_views identifier id'>views</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_templates identifier id'>templates</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_staff identifier id'>staff</span> <span class='rubyid_interface identifier id'>interface</span>
+  <span class='rubyid_plugin_init identifier id'>plugin_init</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_present identifier id'>present</span><span class='comma token'>,</span> <span class='rubyid_loaded identifier id'>loaded</span> <span class='rubyid_when when kw'>when</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_staff identifier id'>staff</span> <span class='rubyid_interface identifier id'>interface</span> <span class='rubyid_first identifier id'>first</span> <span class='rubyid_starts identifier id'>starts</span>
+<span class='rubyid_public identifier id'>public</span>
+  <span class='rubyid_assets identifier id'>assets</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot2 op'>..</span> <span class='rubyid_static identifier id'>static</span> <span class='rubyid_assets identifier id'>assets</span> <span class='lparen token'>(</span><span class='rubyid_such identifier id'>such</span> <span class='rubyid_as identifier id'>as</span> <span class='rubyid_images identifier id'>images</span><span class='comma token'>,</span> <span class='rubyid_javascript identifier id'>javascript</span><span class='rparen token'>)</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_public identifier id'>public</span> <span class='rubyid_interface identifier id'>interface</span>
+  <span class='rubyid_controllers identifier id'>controllers</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_controllers identifier id'>controllers</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_public identifier id'>public</span> <span class='rubyid_interface identifier id'>interface</span>
+  <span class='rubyid_locales identifier id'>locales</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot token'>.</span> <span class='rubyid_locale identifier id'>locale</span> <span class='rubyid_translations identifier id'>translations</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_public identifier id'>public</span> <span class='rubyid_interface identifier id'>interface</span>
+  <span class='rubyid_views identifier id'>views</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_templates identifier id'>templates</span> <span class='rubyid_for for kw'>for</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_public identifier id'>public</span> <span class='rubyid_interface identifier id'>interface</span>
+  <span class='rubyid_plugin_init identifier id'>plugin_init</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_present identifier id'>present</span><span class='comma token'>,</span> <span class='rubyid_loaded identifier id'>loaded</span> <span class='rubyid_when when kw'>when</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_public identifier id'>public</span> <span class='rubyid_interface identifier id'>interface</span> <span class='rubyid_first identifier id'>first</span> <span class='rubyid_starts identifier id'>starts</span>
+<span class='rubyid_migrations identifier id'>migrations</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_database identifier id'>database</span> <span class='rubyid_migrations identifier id'>migrations</span>
+<span class='rubyid_schemas identifier id'>schemas</span> <span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span><span class='dot3 op'>...</span> <span class='rubyid_JSONModel constant id'>JSONModel</span> <span class='rubyid_schema identifier id'>schema</span> <span class='rubyid_definitions identifier id'>definitions</span>
+<span class='rubyid_search_definitions identifier id'>search_definitions</span><span class='dot token'>.</span><span class='rubyid_rb identifier id'>rb</span> <span class='dot token'>.</span> <span class='rubyid_Advanced constant id'>Advanced</span> <span class='rubyid_search identifier id'>search</span> <span class='rubyid_fields identifier id'>fields</span>
+</code></pre>
+
+<p><strong>Note</strong> that, in order to override or extend the behavior of core models and controllers, you cannot simply put your replacement with the same name in the corresponding directory path.</p>
+
+<h2 id="overriding-behavior">Overriding behavior</h2>
+
+<p>A general rule is: to override behavior, rather then extend it, match the path
+to the file that contains the behavior to be overridden.</p>
+
+<p>It is not necessary for a plug-in to have all of these directories. For example, to override
+some part of a locale file for the staff interface, you can just add the following structure
+to the local plug-in:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_local identifier id'>local</span><span class='div op'>/</span><span class='rubyid_frontend identifier id'>frontend</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span>
+</code></pre>
+
+<p>More detailed information about overriding locale files is found in <a href="https://archivesspace.github.io/archivesspace/user/customizing-text-in-archivesspace/">Customizing text in ArchivesSpace</a></p>
+
+<h2 id="overriding-the-visual-web-presentation">Overriding the visual (web) presentation</h2>
+
+<p>You can directly override any view file in the core application by placing an erb file of the same name in the analogous path.
+For example, if you want to override the appearance of the “Welcome” [home] page of the Public User Interface, you can make your changes to a file <code>show.html.erb</code> and place it at <code>plugins/my_fine_plugin/public/views/welcome/show.html.erb</code>. (Where <em>my_fine_plugin</em> is the name of your plugin)</p>
+
+<h3 id="implementing-a-broadly-applied-style-or-javascript-change">Implementing a broadly-applied style or javascript change</h3>
+
+<p>Unless you want to write inline style or javascript (which may be practiceable for a template or two), best practice is to create <code>plugins/my_fine_plugin/public/views/layout_head.html.erb</code> or <code>plugins/my_fine_plugin/frontend/views/layout_head.html.erb</code>, which contains the HTML statements to incorporate your javascript or css into the <code>&lt;HEAD&gt;</code> element of the template.  Here’s an example:</p>
+
+<ul>
+  <li>For the public interface, I want to change the size of the text in all links when the user is hovering.
+    <ul>
+      <li>I create <code>plugins/my_fine_plugin/public/assets/my.css</code>:
+  <code>css
+      a:hover {font-size: 2em;}
+  </code></li>
+      <li>I create <code>plugins/my_fine_plugin/public/views/layout_head.html.erb</code>, and insert:
+<code>ruby
+&lt;%= stylesheet_link_tag "#{@base_url}/assets/my.css", media: :all %&gt;
+</code></li>
+    </ul>
+  </li>
+  <li>For the public interface, I want to add some javascript behavior such that, when the user hovers over a list item, astericks appear
+    <ul>
+      <li>I create <code>plugins/my_fine_plugin/public/assets/my.js</code>”
+  <code>javascript
+  $(function() {
+     $( "li" ).hover(
+       function() {
+          $( this ).append( $( "&lt;span&gt; ***&lt;/span&gt;" ) );
+      }, function() {
+     $( this ).find( "span:last" ).remove();
+      }
+    );
+   }
+ </code></li>
+      <li>I add to <code>plugins/my_fine_plugin/public/views/layout_head.html.erb</code>:
+ <code>ruby
+ &lt;%= javascript_include_tag "#{@base_url}/assets/my.js" %&gt;
+</code>
+## Adding your own branding</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Another example, to override the branding of the staff interface, add
+your own template at:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_local identifier id'>local</span><span class='div op'>/</span><span class='rubyid_frontend identifier id'>frontend</span><span class='div op'>/</span><span class='rubyid_views identifier id'>views</span><span class='div op'>/</span><span class='rubyid_site identifier id'>site</span><span class='div op'>/</span>\<span class='rubyid__branding identifier id'>_branding</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_erb identifier id'>erb</span>
+</code></pre>
+
+<p>Files such as images, stylesheets and PDFs can be made available as static resources by
+placing them in an <code>assets</code> directory under an enabled plug-in. For example, the following file:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_local identifier id'>local</span><span class='div op'>/</span><span class='rubyid_frontend identifier id'>frontend</span><span class='div op'>/</span><span class='rubyid_assets identifier id'>assets</span><span class='div op'>/</span><span class='rubyid_my_logo identifier id'>my_logo</span><span class='dot token'>.</span><span class='rubyid_png identifier id'>png</span>
+</code></pre>
+
+<p>Will be available via the following URL:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/your.frontend.domain.and:port/</span><span class='rubyid_assets identifier id'>assets</span><span class='div op'>/</span><span class='rubyid_my_logo identifier id'>my_logo</span><span class='dot token'>.</span><span class='rubyid_png identifier id'>png</span>
+</code></pre>
+
+<p>For example, to reference this logo from the custom branding file, use
+markup such as:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='lt op'>&lt;</span><span class='rubyid_div identifier id'>div</span> <span class='rubyid_class class kw'>class</span><span class='assign token'>=</span><span class='string val'>&quot;container branding&quot;</span><span class='gt op'>&gt;</span>
+   <span class='lt op'>&lt;</span><span class='rubyid_img identifier id'>img</span> <span class='rubyid_src identifier id'>src</span><span class='assign token'>=</span><span class='dstring node'>&quot;&lt;%= #{AppConfig[:frontend_proxy_prefix]} %&gt;assets/my_logo.png&quot;</span> <span class='rubyid_alt identifier id'>alt</span><span class='assign token'>=</span><span class='string val'>&quot;My logo&quot;</span> <span class='div op'>/</span><span class='gt op'>&gt;</span>
+ <span class='lt op'>&lt;</span><span class='regexp val'>/div&gt;
+</span></code></pre>
+
+<h2 id="plugin-configuration">Plugin configuration</h2>
+
+<p>Plug-ins can optionally contain a configuration file at <code>plugins/[plugin-name]/config.yml</code>.
+This configuration file supports the following options:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_system_menu_controller identifier id'>system_menu_controller</span>
+  <span class='rubyid_The constant id'>The</span> <span class='rubyid_name identifier id'>name</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_controller identifier id'>controller</span> <span class='rubyid_that identifier id'>that</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_be identifier id'>be</span> <span class='rubyid_accessible identifier id'>accessible</span> <span class='rubyid_via identifier id'>via</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_Plug constant id'>Plug</span><span class='minus op'>-</span><span class='rubyid_ins identifier id'>ins</span> <span class='rubyid_menu identifier id'>menu</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_System constant id'>System</span> <span class='rubyid_toolbar identifier id'>toolbar</span>
+<span class='rubyid_repository_menu_controller identifier id'>repository_menu_controller</span>
+  <span class='rubyid_The constant id'>The</span> <span class='rubyid_name identifier id'>name</span> <span class='rubyid_of identifier id'>of</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_controller identifier id'>controller</span> <span class='rubyid_that identifier id'>that</span> <span class='rubyid_will identifier id'>will</span> <span class='rubyid_be identifier id'>be</span> <span class='rubyid_accessible identifier id'>accessible</span> <span class='rubyid_via identifier id'>via</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_Plug constant id'>Plug</span><span class='minus op'>-</span><span class='rubyid_ins identifier id'>ins</span> <span class='rubyid_menu identifier id'>menu</span> <span class='rubyid_in in kw'>in</span> <span class='rubyid_the identifier id'>the</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='rubyid_toolbar identifier id'>toolbar</span>
+<span class='rubyid_parents identifier id'>parents</span>
+  <span class='lbrack token'>[</span><span class='rubyid_record identifier id'>record</span><span class='minus op'>-</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span>
+    <span class='rubyid_name identifier id'>name</span>
+    <span class='rubyid_cardinality identifier id'>cardinality</span>
+  <span class='dot3 op'>...</span>
+</code></pre>
+
+<p><code>system_menu_controller</code> and <code>repository_menu_controller</code> specify the names of frontend controllers
+that will be accessible via the system and repository toolbars respectively. A <code>Plug-ins</code> dropdown
+will appear in the toolbars if any enabled plug-ins have declared these configuration options. The
+controller name follows the standard naming conventions, for example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>repository_menu_controller:</span> <span class='rubyid_hello_world identifier id'>hello_world</span>
+</code></pre>
+
+<p>Points to a controller file at <code>plugins/hello_world/frontend/controllers/hello_world_controller.rb</code>
+which implements a controller class called <code>HelloWorldController</code>. When the menu item is selected
+by the user, the <code>index</code> action is called on the controller.</p>
+
+<p>Note that the URLs for plug-in controllers are scoped under <code>plugins</code>, so the URL for the above
+example is:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/your.frontend.domain.and:port/</span><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_hello_world identifier id'>hello_world</span>
+</code></pre>
+
+<p>Also note that the translation for the plug-in’s name in the <code>Plug-ins</code> dropdown menu is specified
+in a locale file in the <code>frontend/locales</code> directory in the plug-in. For example, in the <code>hello_world</code>
+example there is an English locale file at:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_hello_world identifier id'>hello_world</span><span class='div op'>/</span><span class='rubyid_frontend identifier id'>frontend</span><span class='div op'>/</span><span class='rubyid_locales identifier id'>locales</span><span class='div op'>/</span><span class='rubyid_en identifier id'>en</span><span class='dot token'>.</span><span class='rubyid_yml identifier id'>yml</span>
+</code></pre>
+
+<p>The translation for the plug-in name in the <code>Plug-ins</code> dropdown menus is specified by the key <code>label</code>
+under the plug-in, like this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='label val'>en:</span>
+  <span class='label val'>plugins:</span>
+    <span class='label val'>hello_world:</span>
+      <span class='label val'>label:</span> <span class='rubyid_Hello constant id'>Hello</span> <span class='rubyid_World constant id'>World</span>
+</code></pre>
+
+<p>Note that the example locale file contains other keys that specify translations for text displayed
+as part of the plug-in’s user interface. Be sure to place your plug-in’s translations as shown, under
+<code>plugins.[your_plugin_name]</code> in order to avoid accidentally overriding translations for other
+interface elements. In the example above, the translation for the <code>label</code> key can be referenced
+directly in an erb view file as follows:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='lt op'>&lt;</span><span class='string val'>%= I18n.t(&quot;plugins.hello_world.label&quot;) %&gt;
+</span></code></pre>
+
+<p>Each entry under <code>parents</code> specifies a record type that this plug-in provides a new subrecord for.
+<code>[record-type]</code> is the name of the existing record type, for example <code>accession</code>. <code>name</code> is the
+name of the plug-in in its role as a subrecord of this parent, for example <code>hello_worlds</code>.
+<code>cardinality</code> specifies the cardinality of the plug-in records. Currently supported values are
+<code>zero-to-many</code> and <code>zero-to-one</code>.</p>
+
+<h2 id="changing-search-behavior">Changing search behavior</h2>
+
+<p>A plugin can add additional fields to the advanced search interface by
+including a <code>search_definitions.rb</code> file at the top-level of the
+plugin directory.  This file can contain definitions such as the
+following:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='rubyid_AdvancedSearch constant id'>AdvancedSearch</span><span class='dot token'>.</span><span class='rubyid_define_field identifier id'>define_field</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;payment_fund_code&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:enum</span><span class='comma token'>,</span> <span class='symbol val'>:visibility</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:staff</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:solr_field</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;payment_fund_code_u_utext&#39;</span><span class='rparen token'>)</span>
+<span class='rubyid_AdvancedSearch constant id'>AdvancedSearch</span><span class='dot token'>.</span><span class='rubyid_define_field identifier id'>define_field</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;payment_authorizers&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:text</span><span class='comma token'>,</span> <span class='symbol val'>:visibility</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:staff</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:solr_field</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;payment_authorizers_u_utext&#39;</span><span class='rparen token'>)</span>
+</code></pre>
+
+<p>Each field defined will appear in the advanced search interface as a
+searchable field.  The <code>:visibility</code> option controls whether the field
+is presented in the staff or public interface (or both), while the
+<code>:type</code> parameter determines what sort of search is being performed.
+Valid values are <code>:text:</code>, <code>:boolean</code>, <code>:date</code> and <code>:enum</code>.  Finally,
+the <code>:solr_field</code> parameter controls which field is used from the
+underlying index.</p>
+
+<h2 id="adding-custom-reports">Adding Custom Reports</h2>
+
+<p>Custom reports may be added to plug-ins by adding a new report model as a subclass of <code>AbstractReport</code> to <code>plugins/[plugin-name]/backend/model/</code>. Look to existing reports in reports subdirectory of the ArchivesSpace base directory for examples of how to structure a report model.</p>
+
+<p>There are several limitations to adding reports to plug-ins, including that reports from plug-ins may only use the generic report template. ArchivesSpace only searches for report templates in the reports subdirectory of the ArchivesSpace base directory, not in plug-in directories. If you would like to implement a custom report with a custom template, consider adding the report to <code>archivesspace/reports/</code> instead of <code>archivesspace/plugins/[plugin-name]/backend/model/</code>.</p>
+
+<h2 id="further-information">Further information</h2>
+
+<p><strong>Be sure to test your plug-in thoroughly as it may have unanticipated impacts on your
+ArchivesSpace application.</strong></p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:22 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

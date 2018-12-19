@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: authentication
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "authentication";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: authentication</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="adding-support-for-additional-usernamepassword-based-authentication-backends">Adding support for additional username/password-based authentication backends</h1>
+
+<p>ArchivesSpace supports LDAP-based authentication out of the box, but you can
+authenticate against other password-based user directories by defining your own
+authentication handler, creating a plug-in, and configuring your ArchivesSpace
+instance to use it.  If you would rather not have to create your own handler,
+there is a plug-in available that uses OAUTH user authentication that you can add
+to your ArchivesSpace installation: https://github.com/lyrasis/aspace-oauth.</p>
+
+<h2 id="creating-a-new-authentication-handler-class-to-use-in-a-plug-in">Creating a new authentication handler class to use in a plug-in</h2>
+
+<p>An authentication handler is just a class that implements a couple of
+key methods:</p>
+
+<ul>
+  <li><code>initialize(opts)</code> – An object constructor which receives the
+configuration block specified in the system’s configuration.</li>
+  <li><code>name</code> – A zero-argument method which just returns a string that
+identifies the instance of your handler.  The format of this
+string isn’t important: it just gets stored as a user attribute
+(in the ArchivesSpace database) to make it possible to tell which
+authentication source a user last successfully authenticated
+against.</li>
+  <li><code>authenticate(username, password)</code> – a method which checks
+whether <code>password</code> is the correct password for <code>username</code>.  If the
+password is correct, returns an instance of <code>JSONModel(:user)</code>.
+Otherwise, returns <code>nil</code>.</li>
+</ul>
+
+<p>A new instance of your handler will be created for each login attempt,
+so there’s no need to handle concurrency in your implementation.</p>
+
+<p>Your <code>authenticate</code> method can do whatever is required to check that
+the provided password is correct, with the only constraint being that
+it must return either <code>nil</code> or a <code>JSONModel(:user)</code> instance.</p>
+
+<p>The <code>JSONModel(:user)</code> class (whose JSON schema is defined in
+<code>common/schemas/user.rb</code>) defines the set of properties that the
+system needs for a user.  When you return a <code>JSONModel(:user)</code> object,
+its values will be used to create an ArchivesSpace user (if a user by
+that name didn’t exist already), or update the existing user (if they
+were already known).</p>
+
+<p><strong>Note</strong>: <code>The JSONModel(:user)</code> class validates the values you give it
+against its JSON schema and throws an <code>JSONModel::ValidationException</code>
+if anything isn’t right.  If this happens within your handler, the
+exception will be logged and the authentication request will fail.</p>
+
+<h3 id="a-skeleton-implementation">A skeleton implementation</h3>
+
+<p>Suppose you already have a database with a table containing users that
+should be able to log in to ArchivesSpace.  Below is a sketch of an
+authentication handler that will connect to this database and use it
+for authentication.</p>
+
+<pre class="code ruby"><code class="ruby">  <span class='comment val'># For this example we&#39;ll use the Sequel database toolkit.  Note that</span>
+  <span class='comment val'># this isn&#39;t necessary--you could use whatever database library you</span>
+  <span class='comment val'># like here.</span>
+  <span class='rubyid_require identifier id'>require</span> <span class='string val'>&#39;sequel&#39;</span>
+
+  <span class='rubyid_class class kw'>class</span> <span class='rubyid_MyDatabaseAuth constant id'>MyDatabaseAuth</span>
+
+    <span class='comment val'># For easy access to the JSONModel(:user) class</span>
+    <span class='rubyid_include identifier id'>include</span> <span class='rubyid_JSONModel constant id'>JSONModel</span>
+
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_definition identifier id'>definition</span><span class='rparen token'>)</span>
+      <span class='comment val'># Store the database connection details for use at</span>
+      <span class='comment val'># authentication time.</span>
+      <span class='rubyid_@db_url ivar id'>@db_url</span> <span class='assign token'>=</span> <span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_raise identifier id'>raise</span> <span class='string val'>&quot;Need a value for :db_url&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+
+
+    <span class='comment val'># Just for informational purposes.  Return a string containing our</span>
+    <span class='comment val'># database URL.</span>
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_name identifier id'>name</span>
+      <span class='dstring node'>&quot;MyDatabaseAuth - #{@db_url}&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+
+
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_authenticate identifier id'>authenticate</span><span class='lparen token'>(</span><span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span>
+      <span class='comment val'># Open a connection to the database</span>
+      <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_connect identifier id'>connect</span><span class='lparen token'>(</span><span class='rubyid_@db_url ivar id'>@db_url</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+
+        <span class='comment val'># Check whether we have an entry for the given username</span>
+        <span class='comment val'># and password in our database&#39;s &quot;users&quot; table</span>
+        <span class='rubyid_user identifier id'>user</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='symbol val'>:users</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span>
+                                 <span class='symbol val'>:password</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_password identifier id'>password</span><span class='rparen token'>)</span><span class='dot token'>.</span>
+                          <span class='rubyid_first identifier id'>first</span>
+
+        <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_user identifier id'>user</span>
+          <span class='comment val'># The user couldn&#39;t be found, or their password was wrong.</span>
+          <span class='comment val'># Authentication failed.</span>
+          <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
+        <span class='rubyid_end end kw'>end</span>
+
+        <span class='comment val'># Build and return a JSONModel(:user) instance from fields in the database</span>
+        <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:user</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='symbol val'>:username</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_username identifier id'>username</span><span class='comma token'>,</span>
+                                   <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_user identifier id'>user</span><span class='lbrack token'>[</span><span class='symbol val'>:user_full_name</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_end end kw'>end</span>
+</code></pre>
+
+<p>In order to use your new authentication handler, you’ll need to add it to the plug-in
+architecture in ArchivesSpace and enable it. Create a new directory, called our_auth
+perhaps, in the plugins directory of your ArchivesSpace installation. Inside
+that directory create this directory hierarchy <code>backend/app/models/</code> and place the
+new class file there. Next, configure the new handler.</p>
+
+<h2 id="modifying-your-configuration">Modifying your configuration</h2>
+
+<p>To have ArchivesSpace invoke your new authentication handler, just add
+a new entry to the <code>:authentication_sources</code> configuration block in the
+<code>config/config.rb</code> file.</p>
+
+<p>A configuration for the above example might be as follows:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:authentication_sources</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span>
+                                         <span class='symbol val'>:model</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;MyDatabaseAuth&#39;</span><span class='comma token'>,</span>
+                                         <span class='symbol val'>:db_url</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;jdbc:mysql://localhost:3306/somedb?user=myuser&amp;password=mypassword&#39;</span><span class='comma token'>,</span>
+                                       <span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+</code></pre>
+
+<h2 id="add-the-plug-in-to-the-list-of-plug-ins-already-enabled">Add the plug-in to the list of plug-ins already enabled</h2>
+
+<p>In the <code>config/config.rb</code> file, find the setting of AppConfig[:plugins] and add
+a reference to the new plug-in there. For example, if you named it our_auth, the
+AppConfig[:plugins] setting may look something like this:</p>
+
+<p>AppConfig[:plugins] = [‘local’, ‘hello_world’, ‘our_auth’]</p>
+
+<p>Restart your ArchivesSpace installation and you should now see authentication
+requests hitting your new handler.</p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:21 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>

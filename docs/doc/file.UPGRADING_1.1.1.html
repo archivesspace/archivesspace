@@ -36,7 +36,7 @@
       <div id="header">
         <div id="menu">
   
-    <a href="_index.html">Index</a> &raquo; 
+    <a href="alpha_index.html">Index</a> &raquo; 
     <span class="title">File: UPGRADING_1.1.1</span>
   
 </div>
@@ -59,9 +59,10 @@
 
       <div id="content"><div id='filecontents'><h1 id="upgrading-to-111">UPGRADING TO 1.1.1</h1>
 
-<p>Additional upgrade considerations specific to this release. Refer to the <a href="https://github.com/archivesspace/archivesspace/blob/master/UPGRADING.md">upgrade documentation</a> for the standard instructions that apply in all cases.</p>
+<p>Additional upgrade considerations specific to this release. Refer to the <a href="https://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/">upgrade documentation</a> for the standard instructions that apply in all cases.</p>
 
 <h2 id="resequencing-of-archival-object--digital-object-component-trees">Resequencing of Archival Object &amp; Digital Object Component trees</h2>
+<hr />
 
 <p>There have been some scenarios in which archival objects and digital object components lose
 some of the information used to order their hierarchy. This can result in issues in creation,
@@ -78,10 +79,10 @@ the ordering.</p>
 AppConfig[:resequence_on_startup] = true
 </code></p>
 
-<p>and restart ArchivesSpace. This will trigger a rebuilding process after the application has 
+<p>and restart ArchivesSpace. This will trigger a rebuilding process after the application has
 started. It’s advised to let this rebuild process run its course prior to editing records.
 This duration depends on the size of your database, which can take seconds ( for databases with
-few Archival and Digital Objects ) to hours ( for databases with hundreds of thousands of records ). 
+few Archival and Digital Objects ) to hours ( for databases with hundreds of thousands of records ).
 Check your log file to see how the process is going. When it has finished, you should see the application
 return to it normal operation, generally with only indexer updates being recorded in the log file.</p>
 
@@ -89,19 +90,20 @@ return to it normal operation, generally with only indexer updates being recorde
 set to “false”, since you will not need to run this process on every restart.</p>
 
 <h2 id="export-pdfs-in-the-public-interface">Export PDFs in the Public Interface</h2>
+<hr />
 
 <p>A common request has been to have PDF version of the EAD exported in the public application.
-This has been a bit problematic, since EAD export has a rather large resource hit on the 
-database, which is only increased by the added process of PDF creation. We are currently 
-redesigning part of the ArchivesSpace backend to make PDF creation more user friendly by 
+This has been a bit problematic, since EAD export has a rather large resource hit on the
+database, which is only increased by the added process of PDF creation. We are currently
+redesigning part of the ArchivesSpace backend to make PDF creation more user friendly by
 establishing a queue system for exports.</p>
 
-<p>In the meantime, Mark Cooper at Lyrasis has made a <a href="https://github.com/archivesspace/aspace-public-formats"> Public Metadata Formats plugin </a><br />
+<p>In the meantime, Mark Cooper at Lyrasis has made a <a href="https://github.com/archivesspace-deprecated/aspace-public-formats"> Public Metadata Formats plugin </a><br />
 that exposes certain metadata formats and PDFs in the public UI. This plugin has been included
 in this release, but you will need to configure it to expose which formats you would like
 to have exposed. Please read the plugin documentation on how to configure this.</p>
 
-<p>PLEASE NOTE: 
+<p>PLEASE NOTE:
 Exporting large EAD resources with this plugin will most likely cause some problems. Long requests
 will timeout, since the server does not want to waste resources on long running processes.
 In addition, large number of requests for PDFs can cause an increase load on the server.
@@ -111,10 +113,11 @@ Please be aware of the issues and limitations of this plugin before enabling it.
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.1.a Documentation Generated on Tue Oct 16 08:39:37 2018 by
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:23 2018 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.3).
+  0.9.12.
 </div>
+
     </div>
   </body>
 </html>

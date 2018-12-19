@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: domains
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "domains";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: domains</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1 id="serving-archivesspace-over-subdomains">Serving ArchivesSpace over subdomains</h1>
+
+<p>This document describes how to configure ArchivesSpace and your web server to serve the application over subdomains (e.g., <code>http://staff.myarchive.org/</code> and <code>http://public.myarchive.org/</code>), which is the  recommended
+practice. Separate documentation is available if you wish to <a href="prefix.md">serve ArchivesSpace under a prefix</a> (e.g., <code>http://aspace.myarchive.org/staff</code> and
+<code>http://aspace.myarchive.org/public</code>).</p>
+
+<ol>
+  <li><a href="#Step-1%3A-Configuring-Your-Firewall">Configuring Your Firewall</a></li>
+  <li><a href="#Step-2%3A-Configuring-Your-Web-Server">Configuring Your Web Server</a>
+    <ul>
+      <li><a href="#Apache">Apache</a></li>
+      <li><a href="#Nginx">Nginx</a></li>
+    </ul>
+  </li>
+  <li><a href="#Step-3%3A-Configuring-ArchivesSpace">Configuring ArchivesSpace</a></li>
+</ol>
+
+<h2 id="step-1-configuring-your-firewall">Step 1: Configuring Your Firewall</h2>
+
+<p>Since using subdomains negates the need for users to access the application directly on ports 8080 and 8081, these should be locked down to access by localhost only. On a Linux server, this can be done using iptables:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_localhost identifier id'>localhost</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8080</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_ACCEPT constant id'>ACCEPT</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8080</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_DROP constant id'>DROP</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='rubyid_s identifier id'>s</span> <span class='rubyid_localhost identifier id'>localhost</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8081</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_ACCEPT constant id'>ACCEPT</span>
+ <span class='rubyid_iptables identifier id'>iptables</span> <span class='minus op'>-</span><span class='rubyid_A constant id'>A</span> <span class='rubyid_INPUT constant id'>INPUT</span> <span class='minus op'>-</span><span class='rubyid_p identifier id'>p</span> <span class='rubyid_tcp identifier id'>tcp</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_dport identifier id'>dport</span> <span class='integer val'>8081</span> <span class='minus op'>-</span><span class='rubyid_j identifier id'>j</span> <span class='rubyid_DROP constant id'>DROP</span>
+</code></pre>
+
+<h2 id="step-2-configuring-your-web-server">Step 2: Configuring Your Web Server</h2>
+
+<h3 id="apache">Apache</h3>
+
+<p>The <a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy.html">mod_proxy module</a> is necessary for Apache to route public web traffic to ArchivesSpace’s ports as designated in your config.rb file (ports 8080 and 8081 by default).</p>
+
+<p>This can be set up as a reverse proxy in the Apache configuration like so:</p>
+
+<pre class="code ruby"><code class="ruby">  <span class='lt op'>&lt;</span><span class='rubyid_VirtualHost constant id'>VirtualHost</span> <span class='mult op'>*</span><span class='symbol val'>:80</span><span class='gt op'>&gt;</span>
+  <span class='rubyid_ServerName constant id'>ServerName</span> <span class='rubyid_public identifier id'>public</span><span class='dot token'>.</span><span class='rubyid_myarchive identifier id'>myarchive</span><span class='dot token'>.</span><span class='rubyid_org identifier id'>org</span>
+  <span class='rubyid_ProxyPass constant id'>ProxyPass</span> <span class='div op'>/</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8081/</span>
+  <span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='div op'>/</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8081/</span>
+  <span class='lt op'>&lt;</span><span class='regexp val'>/VirtualHost&gt;
+
+  &lt;VirtualHost *:80&gt;
+  ServerName staff.myarchive.org
+  ProxyPass /</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8080/</span>
+  <span class='rubyid_ProxyPassReverse constant id'>ProxyPassReverse</span> <span class='div op'>/</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8080/</span>
+  <span class='lt op'>&lt;</span><span class='regexp val'>/VirtualHost&gt;
+</span></code></pre>
+
+<p>The purpose of ProxyPass is to route <em>incoming</em> traffic on the public URL (public.myarchive.org) to port 8081 of your server, where ArchivesSpace’s public interface sits. The purpose of ProxyPassReverse is to intercept <em>outgoing</em> traffic and rewrite the header to match the URL that the browser is expecting to see (public.myarchive.org).</p>
+
+<h3 id="nginx">Nginx</h3>
+<blockquote>
+  <p>FIXME Need nginx documentation</p>
+</blockquote>
+
+<h2 id="step-3-configuring-archivesspace">Step 3: Configuring ArchivesSpace</h2>
+
+<p>The only configuration within ArchivesSpace that needs to occur is adding your domain names to the following lines in config.rb:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:frontend_proxy_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&#39;http://staff.myarchive.org&#39;</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:public_proxy_url</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&#39;http://public.myarchive.org&#39;</span>
+</code></pre>
+
+<p>This configuration allows the staff edit links to appear on the public site to users logged in to the staff interface.</p>
+
+<p>Do <strong>not</strong> change <code>AppConfig[:public_url]</code> or <code>AppConfig[:frontend_url]</code>; these must retain their port numbers in order for the application to run.</p>
+</div></div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:23 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12.
+</div>
+
+    </div>
+  </body>
+</html>
