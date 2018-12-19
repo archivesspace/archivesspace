@@ -439,7 +439,7 @@ module AspaceFormHelper
 
       classes << 'control-label'
 
-      options = {:class => classes.join(' '), :for => id_for(name), :id => id_for(name)}
+      options = {:class => classes.join(' '), :for => id_for(name)}
 
       tooltip = I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
       if not tooltip.empty?
