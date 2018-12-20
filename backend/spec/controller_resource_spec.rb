@@ -37,6 +37,58 @@ describe 'Resources controller' do
   end
 
 
+  it "doesn't let you create a resource without a finding_aid_language" do
+    expect {
+      create(:json_resource,
+             :finding_aid_language => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource without a finding_aid_script" do
+    expect {
+      create(:json_resource,
+             :finding_aid_script => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource with a finding_aid_language of klingon" do
+    expect {
+      create(:json_resource,
+             :finding_aid_language => "klingon")
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "lets you create a resource with a language" do
+    opts = {:note => generate(:alphanumstr)}
+
+    languages = [build(:json_language, opts)]
+
+    resource = create(:json_resource, :languages => languages)
+
+    expect(JSONModel(:resource).find(resource.id).languages.length).to eq(1)
+    expect(JSONModel(:resource).find(resource.id).languages[0]["note"]).to eq(opts[:note])
+  end
+
+
+  it "doesn't let you create a resource without at least one language" do
+    expect {
+      create(:json_resource,
+             :languages => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource with a script of scripty" do
+    expect {
+      create(:json_resource,
+             :languages => [build(:json_language, :script=> 'scripty')])
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
   it "can handle asking for the tree of an empty resource" do
     resource = create(:json_resource)
 

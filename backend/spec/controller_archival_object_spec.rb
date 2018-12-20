@@ -367,4 +367,17 @@ describe 'Archival Object controller' do
     expect(children[1]["resource"]["ref"]).to eq(resource.uri)
   end
 
+
+  it "lets you create a archival object with a language" do
+
+    opts = {:note => generate(:alphanumstr)}
+
+    languages = [build(:json_language, opts)]
+
+    archival_object = create(:json_archival_object, :languages => languages)
+
+    expect(JSONModel(:archival_object).find(archival_object.id).languages.length).to eq(1)
+    expect(JSONModel(:archival_object).find(archival_object.id).languages[0]["note"]).to eq(opts[:note])
+  end
+
 end

@@ -915,8 +915,8 @@ describe "EAD export mappings" do
       mt(Regexp.new(date_regex), "//profiledesc/creation/date")
     end
 
-    it "maps resource.finding_aid_language to profiledesc/langusage" do
-      mt(@resource.finding_aid_language, "eadheader/profiledesc/langusage")
+    it "maps resource.finding_aid_language_note to profiledesc/langusage" do
+      mt(@resource.finding_aid_language_note, "eadheader/profiledesc/langusage")
     end
 
     it "maps resource.finding_aid_description_rules to profiledesc/descrules" do
