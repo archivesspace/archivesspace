@@ -564,10 +564,24 @@ end
                                            :end => '1850')
                                     ]
                           )
+      @resource4 = create(:json_resource,
+                          :level => 'item',
+                          :dates => [
+                                     build(:json_date,
+                                           :date_type => 'bulk',
+                                           :begin => '1800',
+                                           :end => '1850')
+                                    ],
+                          :languages => [
+                                         build(:json_language),
+                                         build(:json_language)
+                                        ]
+                          )
 
       @marc1 = get_marc(@resource1)
       @marc2 = get_marc(@resource2)
       @marc3 = get_marc(@resource3)
+      @marc4 = get_marc(@resource4)
 
     end
 
@@ -576,6 +590,7 @@ end
       @resource1.delete
       @resource2.delete
       @resource3.delete
+      @resource4.delete
     end
 
     it "provides default values for record/leader: 00000np$ a2200000 u 4500" do
@@ -610,8 +625,13 @@ end
     end
 
 
-    it "sets record/controlfield[@tag='008']/text()[35..37] with resource.language" do
-      expect(@marc1.at("record/controlfield")).to have_inner_text(Regexp.new("^.{35}#{@resource1.language}"))
+    it "sets record/controlfield[@tag='008']/text()[35..37] with resource.languages['language']" do
+      expect(@marc1.at("record/controlfield")).to have_inner_text(Regexp.new("^.{35}#{@resource1.languages[0]['language']}"))
+    end
+
+
+    it "sets record/controlfield[@tag='008']/text()[35..37] with 'mul' if more than one language" do
+      expect(@marc4.at("record/controlfield")).to have_inner_text(Regexp.new("^.{35}#{'mul'}"))
     end
 
     it "sets record/controlfield[@tag='008']/text()[38..39] with ' d'" do
@@ -624,9 +644,8 @@ end
       expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='c']")).to have_inner_text(org_code)
     end
 
-    it "maps language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
-      org_code = JSONModel(:repository).find($repo_id).org_code
-      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']")).to have_inner_text(@resource1.language)
+    it "maps finding aid language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
+      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']")).to have_inner_text(@resource1.finding_aid_language)
     end
 
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
@@ -634,10 +653,23 @@ end
     end
 
 
-    it "maps resource.language to df[@tag='041' and @ind1='0' and @ind2='7']/sf[@code='a']" do
-      expect(@marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a']")).to have_inner_text(@resource1.language)
-      expect(@marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='2']")).to have_inner_text('iso639-2b')
+    it "maps languages to repeated df[@tag='041' and @ind1='0' and @ind2='7']/sf[@code='a']" do
+      languages = @resource4.languages
+      language1 = languages[0]['language']
+      language2 = languages[1]['language']
+
+      expect(@marc4.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a'][1]")).to have_inner_text(language1)
+      expect(@marc4.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a'][3]")).to have_inner_text(language2)
+      expect(@marc4.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='2']")).to have_inner_text('iso639-2b')
     end
+
+
+  it "maps language subrecord notes to df 546 (' ', ' '), sf a" do
+    languages = @resource4.languages
+    note1 = languages[0]['note']
+
+    expect(@marc4.at("datafield[@tag='546'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(note1)
+  end
 
 
     it "maps resource.id_\\d to df[@tag='099' and @ind1=' ' and @ind2=' ']/sf[@code='a']" do

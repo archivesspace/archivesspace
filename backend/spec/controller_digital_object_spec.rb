@@ -216,4 +216,18 @@ describe 'Digital Objects controller' do
       expect(archival_object).not_to be_nil
       expect(archival_object.instances.count).to be(0)
     end
+
+
+    it "lets you create a digital object with a language" do
+
+      opts = {:note => generate(:alphanumstr)}
+
+      languages = [build(:json_language, opts)]
+
+      digital_object = create(:json_digital_object, :languages => languages)
+
+      expect(JSONModel(:digital_object).find(digital_object.id).languages.length).to eq(1)
+      expect(JSONModel(:digital_object).find(digital_object.id).languages[0]["note"]).to eq(opts[:note])
+    end
+
 end
