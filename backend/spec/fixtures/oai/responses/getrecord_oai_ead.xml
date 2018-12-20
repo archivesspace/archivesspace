@@ -64,9 +64,8 @@
         <archdesc level="file">
           <did>
             <langmaterial>
-              <language langcode="eng">English</language>
-
-    </langmaterial>
+              <language langcode="eng" scriptcode="Latn">English</language>.
+            </langmaterial>
 
             <repository>
               <corpname>oai_test</corpname>
