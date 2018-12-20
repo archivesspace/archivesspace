@@ -9,14 +9,14 @@ class DCModel < ASpaceExport::ExportModel
   attr_accessor :subjects
   attr_accessor :dates
   attr_accessor :type
-  attr_accessor :language
+  attr_accessor :languages
 
   
   
   @archival_object_map = {
     :title => :title=,
     :dates => :handle_date,
-    :language => :language=,
+    :languages => :languages=,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects
   }
