@@ -89,11 +89,11 @@ class OAIDCMapper
         end
 
         # Languages
-        if jsonmodel['languages']
-          jsonmodel['languages']. each do |l|
-            xml['dcterms'].language(l['language'])
+        if (languages = Array(jsonmodel['languages']))
+          languages.each do |l|
+            xml['dc'].language(l['language'])
             if l.include?('note')
-              xml['dcterms'].language(l['note'])
+              xml['dc'].language(l['note'])
             end
           end
         end
