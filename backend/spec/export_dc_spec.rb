@@ -117,7 +117,10 @@ describe "Exported Dublin Core metadata" do
   describe "Dublin Core mappings" do
 
     it "maps language to language" do
-      expect(@dc).to have_tag "dc/language" => @digital_object.language
+      @digital_object.languages.each do |language|
+        language = language['language']
+        expect(@dc).to have_tag "dc/language" => language
+      end
     end
 
 

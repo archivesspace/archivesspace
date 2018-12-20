@@ -52,8 +52,13 @@ class DCSerializer < ASpaceExport::Serializer
       end
 
       xml.type dc.type
-      
-      xml.language dc.language
+
+      dc.languages.each do |l|
+        xml.language l['language']
+        if l.include?('note')
+          xml.language l['note']
+        end
+      end
 
     }
       

@@ -102,9 +102,14 @@ class OAIDCTermsMapper
           end
         end
 
-        # Language
-        if jsonmodel['language']
-          xml['dcterms'].language(jsonmodel['language'])
+        # Languages
+        if jsonmodel['languages']
+          jsonmodel['languages']. each do |l|
+            xml['dcterms'].language(l['language'])
+            if l.include?('note')
+              xml['dcterms'].language(l['note'])
+            end
+          end
         end
 
         # Description note types
