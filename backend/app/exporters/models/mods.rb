@@ -4,7 +4,7 @@ class MODSModel < ASpaceExport::ExportModel
   include JSONModel
 
   attr_accessor :title
-  attr_accessor :language_term
+  attr_accessor :languages
   attr_accessor :extents
   attr_accessor :notes
   attr_accessor :extent_notes
@@ -18,7 +18,7 @@ class MODSModel < ASpaceExport::ExportModel
 
   @archival_object_map = {
     :title => :title=,
-    :language => :handle_language,
+    :languages => :languages=,
     [:extents, :notes] => :handle_extents,
     :subjects => :handle_subjects,
     :linked_agents => :handle_agents,
@@ -252,15 +252,6 @@ class MODSModel < ASpaceExport::ExportModel
     dates.each do |date|
       self.dates.push date
     end
-  end
-
-
-  def handle_language(language_term)
-      unless language_term.nil? || language_term.empty?
-        self.language_term = I18n.t("enumerations.language_iso639_2." + language_term) + ":" + language_term
-      else
-        self.language_term = nil
-      end
   end
 
 

@@ -69,9 +69,21 @@ class OAIMODSMapper
           end
         end
 
-        # Language -> language/languageTerm
-        if jsonmodel['language']
-          xml.language { xml.languageTerm({'authority' => 'iso639-2b'}, jsonmodel['language']) }
+        # Languages -> language/languageTerm
+        if (languages = Array(jsonmodel['languages']))
+          languages.each do |l|
+            xml.language {
+              xml.languageTerm({'authority' => 'iso639-2b', 'type' => 'text'}, I18n.t("enumerations.language_iso639_2." + l['language']))
+              xml.languageTerm({'authority' => 'iso639-2b', 'type' => 'code'}, l['language'])
+              if l['script']
+                xml.scriptTerm({'authority' => 'iso15924', 'type' => 'text'}, I18n.t("enumerations.script_iso15924." + l['script']))
+                xml.scriptTerm({'authority' => 'iso15924', 'type' => 'code'}, l['script'])
+              end
+            }
+            if l.include?('note')
+              xml.note({'type' => 'language'}, l['note'])
+            end
+          end
         end
 
         # Abstract note -> abstract
