@@ -46,22 +46,6 @@ end
 def selenium_init(backend_fn, frontend_fn)
   standalone = true
 
-  if ENV["ASPACE_BACKEND_URL"] and ENV["ASPACE_FRONTEND_URL"]
-    $backend = ENV["ASPACE_BACKEND_URL"]
-    $frontend = ENV["ASPACE_FRONTEND_URL"]
-
-    if ENV["ASPACE_SOLR_URL"]
-      AppConfig[:solr_url] = ENV["ASPACE_SOLR_URL"]
-    end
-
-    AppConfig[:help_enabled] = true
-    AppConfig[:help_url] = "http://localhost:9999/help_stub"
-    AppConfig[:help_topic_prefix] = "?topic="
-
-    standalone = false
-  end
-
-
   AppConfig[:backend_url] = $backend
 
   (@backend, @frontend) = [false, false]

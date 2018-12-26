@@ -1,5 +1,4 @@
 require_relative 'factories'
-require 'pry'
 
 require_relative "../common"
 require_relative '../../../../indexer/app/lib/realtime_indexer'
@@ -14,7 +13,6 @@ $expire = 30000
 
 
 $backend_start_fn = proc {
-
   # for the indexers
   AppConfig[:solr_url] = "http://localhost:#{$solr_port}"
 
@@ -23,13 +21,13 @@ $backend_start_fn = proc {
                              :frontend_url => $frontend,
                              :solr_port => $solr_port,
                              :session_expire_after_seconds => $expire,
-                             :realtime_index_backlog_ms => 600000
+                             :realtime_index_backlog_ms => 600000,
+                             :db_url => AppConfig.demo_db_url
                            })
 
   AppConfig[:backend_url] = $backend
 
   pid
-
 }
 
 $frontend_start_fn = proc {
@@ -37,6 +35,7 @@ $frontend_start_fn = proc {
 
   pid
 }
+
 
 include FactoryBot::Syntax::Methods
 
