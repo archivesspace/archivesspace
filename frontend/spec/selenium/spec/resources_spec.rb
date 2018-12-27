@@ -5,9 +5,10 @@ describe "Resources Form" do
   before(:all) do
     @repo = create(:repo, :repo_code => "resources_test_#{Time.now.to_i}")
 
-    create_subject
-
+    create_subjects
     set_repo @repo
+    run_index_round
+
 
     @viewer_user = create_user(@repo => ['repository-viewers'])
 
@@ -29,14 +30,11 @@ describe "Resources Form" do
 
 
   it "displays icons for the different subject types" do
-    puts "++++++++++++++++++++++++++++"
-    sleep 2
     # click on Add Subject button
     @driver.find_element(:css, "#resource_subjects_ button").click
-    sleep 2
     # select input box and type "a" to bring up a list of subjects
-    @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "Foo")
-  	sleep 10
+    @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "Test")
+  	# sleep 60
   end
 end
 
