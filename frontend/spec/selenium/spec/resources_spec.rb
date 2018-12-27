@@ -7,7 +7,7 @@ describe "Resources Form" do
 
     create_subjects
     set_repo @repo
-    run_index_round
+    run_all_indexers
 
 
     @viewer_user = create_user(@repo => ['repository-viewers'])
