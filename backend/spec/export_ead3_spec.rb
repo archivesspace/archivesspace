@@ -158,6 +158,7 @@ describe "EAD3 export mappings" do
     while !(note_types - notes.map {|note| note['type']}).empty? && brake < max do
       notes << build("json_note_#{['singlepart', 'multipart', 'multipart_gone_wilde', 'index', 'bibliography'].sample}".intern, {
                        :publish => true,
+                       :label => generate(:alphanumstr),
                        :persistent_id => [nil, generate(:alphanumstr)].sample
                      })
       brake += 1
@@ -613,18 +614,20 @@ describe "EAD3 export mappings" do
       end
 
 
-      # it "maps notes of type 'dimensions' to did/physdesc" do
-      #   notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
-      #     content = note_content(note)
-      #     path = "#{desc_path}/did/physdesc[text()='#{content}']"
-      #     mt(content.gsub("<p>",'').gsub("</p>", ""), path, :markup)
-      #     if note['persistent_id']
-      #       mt("aspace_" + note['persistent_id'], path, "id")
-      #     else
-      #       mt(nil, path, "id")
-      #     end
-      #   end
-      # end
+       it "maps notes of type 'dimensions' to did/physdesc" do
+         notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
+           content = note_content(note)
+           path = "#{desc_path}/did/physdesc[text()='#{content}']"
+           mt(content.gsub("<p>",'').gsub("</p>", ""), path, :markup)
+           if note['persistent_id']
+             mt("aspace_" + note['persistent_id'], path, "id")
+           else
+             mt(nil, path, "id")
+           end
+           
+          mt(note['label'], path, "label") if note['label']
+         end
+       end
 
 
       it "maps notes of type 'physdesc' to did/physdesc" do
@@ -636,6 +639,8 @@ describe "EAD3 export mappings" do
           else
             mt(nil, path, "id")
           end
+
+          mt(note['label'], path, "label") if note['label']
         end
       end
 
@@ -649,6 +654,8 @@ describe "EAD3 export mappings" do
           else
             mt(nil, path, "id")
           end
+
+          mt(note['label'], path, "label") if note['label']
         end
       end
 
