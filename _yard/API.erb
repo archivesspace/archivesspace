@@ -169,7 +169,7 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 
 <% @endpoints.each do | e | %>
 
-## <%= e[:description]%>
+## <%= e[:description] %>
 
 <% example =  @examples[e[:uri]][e[:method].to_s] %>
 
@@ -238,6 +238,9 @@ __Description__
 
 <%= e[:description]%>
 
+<%= e[:documentation] %>
+
+<%= if !e[:documentation] || e[:prepend_docs] %>
 
 __Parameters__
 
@@ -269,6 +272,7 @@ __Returns__
   <%= "\t#{ret[0]} -- #{ret[1]}\n" %>
 <% end %>
 
+<% end # end prepend check %>
 <% end %>
 
 <% end %>

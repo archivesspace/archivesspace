@@ -49,7 +49,6 @@ module RESTHelpers
 
 
   class Endpoint
-
     @@endpoints = []
 
 
@@ -139,6 +138,9 @@ module RESTHelpers
     #   appended to this when API docs are generated, otherwise this will
     #   replace the docs entirely.
     #
+    # Note: If you make prepend false, you should provide __Parameters__
+    #       and __Returns__ sections manually.
+    #
     # Recommended usage:
     #
     # endpoint.documentation do
@@ -156,9 +158,9 @@ module RESTHelpers
       if docs
         @documentation = docs
       end
-      
+
       @prepend_to_autodoc = prepend
-      
+
       self
     end
 
