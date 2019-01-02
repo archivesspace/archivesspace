@@ -1,9 +1,17 @@
 ---
+<%
+# hateful hack to get additional highlighter tabs
+hilighters = @endpoints.each.map do |e| e[:examples].keys.reject(&->(k) {k == 'shell'}) end.flatten.to_set.to_a.sort
+
+%>
+
 title: API Reference
 
 language_tabs:
   - shell
-
+<% hilighters.each do |hl| %>
+  - <%= hl %>
+<% end %>
 toc_footers:
   - <a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
@@ -200,7 +208,9 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 <% else %>
   <% data_example = "Example Missing" %>
 <% end %>
-
+<% if e[:examples]['shell'] %>
+<%= e[:examples]['shell'] %>
+<% else %>
 ```shell
 <% if e[:method] == [:get] %>
   <% if e[:paginated] %>
@@ -227,8 +237,10 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   "<%= request_uri %>"
   <% end %>
 <% end %>
-
 ```
+<% end %>
+
+<%= e[:examples].reject do |k,v| k == 'shell' end.to_h.values.join("\n\n") %>
 
 __Endpoint__
 
@@ -240,7 +252,7 @@ __Description__
 
 <%= e[:documentation] %>
 
-<%= if !e[:documentation] || e[:prepend_docs] %>
+<% if !e[:documentation] || e[:prepend_docs] %>
 
 __Parameters__
 
