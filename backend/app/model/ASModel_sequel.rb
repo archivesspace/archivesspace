@@ -1,4 +1,6 @@
 module ASModel
+  Sequel::Model.plugin :dirty
+
   # Hooks for firing behaviour on Sequel::Model events
   module SequelHooks
 
@@ -26,12 +28,17 @@ module ASModel
     end
 
     def before_save
-      if self[:is_slug_auto] == 1
-        auto_gen_slug!
-      end
+      if SlugHelpers.slug_data_updated?(self)
+        # puts "++++++++++++++++++++++++++++++"
+        # puts "SLUG BRANCH!"
 
-      if self[:slug]
-        self[:slug] = SlugHelpers.clean_slug(self[:slug], self.class)
+        if self[:is_slug_auto] == 1
+          auto_gen_slug!
+        end
+  
+        if self[:slug]
+          self[:slug] = SlugHelpers.clean_slug(self[:slug], self.class)
+        end
       end
     end
 

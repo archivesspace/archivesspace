@@ -422,6 +422,99 @@ module SlugHelpers
       return ""
     end
   end
+
+
+  # determine if our record has updated a data field that a field depends on. 
+  # slug will be updated iff this method returns true
+  def self.slug_data_updated?(obj)
+    id_field_changed        = false
+    name_field_changed      = false
+
+    slug_field_changed = obj.column_changed?(:slug)
+    slug_auto_field_changed = obj.column_changed?(:is_slug_auto)
+
+    case obj.class
+    when Resource
+      if AppConfig[:generate_resource_slugs_with_eadid]
+        id_field_changed = obj.column_changed?(:ead_id)
+      else
+        id_field_changed = obj.column_changed?(:identifier)
+      end
+
+      name_field_changed = obj.column_changed?(:title)
+
+    when Accession
+      id_field_changed = obj.column_changed?(:identifier)
+      name_field_changed = obj.column_changed?(:title)
+
+    when DigitalObject
+      id_field_changed = obj.column_changed?(:digital_object_id)
+      name_field_changed = obj.column_changed?(:title)
+
+    when DigitalObjectComponent
+      id_field_changed = obj.column_changed?(:component_id)
+      name_field_changed = obj.column_changed?(:title)
+
+    when Classification
+      id_field_changed = obj.column_changed?(:identifier)
+      name_field_changed = obj.column_changed?(:title)
+    
+    when ClassificationTerm
+      id_field_changed = obj.column_changed?(:identifier)
+      name_field_changed = obj.column_changed?(:title)
+
+    when Repository
+      id_field_changed = obj.column_changed?(:repo_code)
+      name_field_changed = obj.column_changed?(:name)
+
+    when ArchivalObject 
+      id_field_changed = obj.column_changed?(:ref_id)
+      name_field_changed = obj.column_changed?(:title)
+
+    when Subject
+      id_field_changed = obj.column_changed?(:title)
+      name_field_changed = obj.column_changed?(:title)
+
+    # for agent objects, the fields we need are in a different table.
+    # since we don't have access to that object here, we'll always process slugs for agents.
+    when AgentCorporateEntity
+      id_field_changed = true
+      name_field_changed = true
+
+    when AgentPerson
+      id_field_changed = true
+      name_field_changed = true
+
+    when AgentFamily
+      id_field_changed = true
+      name_field_changed = true
+      
+    when AgentSoftware
+      id_field_changed = true
+      name_field_changed = true
+    end
+
+    # auto-gen slugs has been switched from OFF to ON
+    if slug_auto_field_changed && obj[:is_slug_auto] == 1
+      return true
+
+    # auto-gen slugs is OFF, and slug field updated
+    elsif obj[:is_slug_auto] == 0 && slug_field_changed
+      return true
+
+    # auto-gen slugs is ON based on name, and name has changed
+    elsif !AppConfig[:auto_generate_slugs_with_id] && name_field_changed
+      return true
+
+    # auto-gen slugs is ON based on id, and id has changed
+    elsif AppConfig[:auto_generate_slugs_with_id] && id_field_changed
+      return true
+
+    # any other case, we can skip slug processing
+    else
+      return false
+    end
+  end
   
   private 
 
