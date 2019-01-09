@@ -30,6 +30,7 @@
     merge_replace: Reemplazar
     merge_add: Añadir
     merge_confirm_title: ¿Se combinan en este registro?
+    merge_agent_compare_agent_details: Comparar los detalles del agente
     merge_from_browse_confirm_title: Fusionar registros seleccionados?
     merge_subject_confirm_message: "La materia '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a esta materia."
     merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad."

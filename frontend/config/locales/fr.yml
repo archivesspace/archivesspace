@@ -32,6 +32,7 @@ fr:
     merge_replace: Remplacer
     merge_add: Ajouter
     merge_confirm_title: Fusionner avec cette notice?
+    merge_agent_compare_agent_details: Comparer les détails de l'agent
     merge_from_browse_confirm_title: Fusionner les enregistrements sélectionnés?
     merge_subject_confirm_message: "Les notices sélectionnées seront fusionnées dans le sujet '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à ce sujet."
     merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à cet agent."

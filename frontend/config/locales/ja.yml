@@ -32,6 +32,7 @@ ja:
     merge_replace: 置換
     merge_add: 追加
     merge_confirm_title: このレコードにマージしますか？
+    merge_agent_compare_agent_details: エージェント詳細の比較
     merge_from_browse_confirm_title: 選択したレコードをマージしますか?
     merge_subject_confirm_message: 件名 '%{source}'には、選択したレコードがマージされます。選択したすべてのレコードが削除され、リンクされたレコードはすべてこの件名に再リンクされます。
     merge_agent_confirm_message: エージェント '%{source}'には、選択したレコードがマージされます。選択したレコードはすべて削除され、リンクされたレコードはこのエージェントに再リンクされます。

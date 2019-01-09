@@ -1,6 +1,6 @@
 <%
-   multiplicity ||= "many" 
-   singular = "#{controller}".singularize 
+   multiplicity ||= "many"
+   singular = "#{controller}".singularize
    extra_params = {} if extra_params.blank?
 %>
 
@@ -25,7 +25,7 @@
                                      :class => "btn pull-left merge-button btn-default",
                                      :"data-title" => confirmation_title,
                                      :"data-message" => confirmation_msg,
-                                     :"data-confirm-btn-label" => "#{I18n.t("actions.merge")}",
+                                     :"data-confirm-btn-label" => "#{I18n.t("actions.merge_agent_compare_agent_details")}",
                                      :"data-confirm-btn-class" => "btn btn-default"
                                    })
           %>
@@ -35,4 +35,3 @@
       </li>
     </ul>
   </div>
-
