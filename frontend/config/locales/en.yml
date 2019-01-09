@@ -431,8 +431,8 @@ en:
     error_404_message: "The record you've tried to access may no longer exist or you may not have permission to view it."
     error_tree_pane_ajax: An error occurred loading this form.
     merge_conflict: "Merging agent(s) could not complete: %{message}"
-    merge_too_many_victims: Only one agent may be selected for detailed merge.
-    merge_different_types: Agents selected for detailed merge must be of the same type.
+    merge_too_many_victims: Only one agent may be selected for this merge.
+    merge_different_types: Agents selected for this merge must be of the same type.
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
   accession:
