@@ -13,17 +13,17 @@
                     :plusone => nil,
                     :save_button_text => I18n.t("oai_config._frontend.action.create")
                   }) do |sidebar| %>
-        
-            <%= sidebar.render_for_view_and_edit(:subrecord_type => 'oai_config._sidebar.repo_set_section', 
+
+            <%= sidebar.render_for_view_and_edit(:subrecord_type => 'oai_config._sidebar.repo_set_section',
                                                  :property => 'none',
                                                  :anchor => "repository_set") %>
 
 
-           <%= sidebar.render_for_view_and_edit(:subrecord_type => 'oai_config._sidebar.sponsor_set_section', 
+           <%= sidebar.render_for_view_and_edit(:subrecord_type => 'oai_config._sidebar.sponsor_set_section',
                                                  :property => 'none',
                                                  :anchor => "sponsor_set") %>
 
-           <%= sidebar.render_for_view_and_edit(:subrecord_type => 'oai_config._sidebar.repo_settings', 
+           <%= sidebar.render_for_view_and_edit(:subrecord_type => 'oai_config._sidebar.repo_settings',
                                                  :property => 'none',
                                                  :anchor => "repo_settings") %>
 
@@ -73,7 +73,7 @@
               </section>
           </fieldset>
 
-        
+
           <div class="form-actions">
             <button type="submit" class="btn btn-primary"><%= I18n.t("oai_config._frontend.action.create") %></button>
           </div>
@@ -92,7 +92,7 @@
                   <td><%= r[:name] %>
                   <td class='table-record-actions'>
                     <div class='btn-group'>
-                      <a class="btn btn-xs btn-primary" href="<%= r[:uri] + "/edit#oai_settings" %>" ><%= I18n.t('actions.edit_oai') %></a>
+                      <a class="btn btn-xs btn-primary" href="<%= AppConfig[:frontend_proxy_url] + r[:uri] + "/edit#oai_settings" %>" ><%= I18n.t('actions.edit_oai') %></a>
                     </div>
                   </td>
                 </tr>
