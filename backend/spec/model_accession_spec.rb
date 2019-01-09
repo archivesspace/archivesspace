@@ -398,6 +398,80 @@ describe 'Accession model' do
 
       expect(accession_rec[:slug]).to eq(expected_slug)
     end
+
+    describe "slug code does not run" do
+      it "does not execute slug code when auto-gen on id and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+  
+        accession = Accession.create_from_json(build(:json_accession, {:is_slug_auto => true}))
+  
+        expect(accession).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        accession.update(:title => "foobar")
+      end
+
+      it "does not execute slug code when auto-gen on title and id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        accession = Accession.create_from_json(build(:json_accession, {:is_slug_auto => true}))
+  
+        expect(accession).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        accession.update(:id_0 => "foobar")
+      end
+  
+      it "does not execute slug code when auto-gen off and title, identifier changed" do
+        accession = Accession.create_from_json(build(:json_accession, {:is_slug_auto => false}))
+  
+        expect(accession).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        accession.update(:id_0 => "foobar")
+        accession.update(:title => "barfoo")
+      end
+    end
+
+    describe "slug code runs" do
+      it "executes slug code when auto-gen on id and id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+  
+        accession = Accession.create_from_json(build(:json_accession, {:is_slug_auto => true}))
+  
+        expect(accession).to receive(:auto_gen_slug!)
+        expect(SlugHelpers).to receive(:clean_slug)
+  
+        accession.update(:id_0 => 'foo')
+      end
+
+      it "executes slug code when auto-gen on title and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        accession = Accession.create_from_json(build(:json_accession, {:is_slug_auto => true}))
+  
+        expect(accession).to receive(:auto_gen_slug!)
+  
+        accession.update(:title => "foobar")
+      end
+
+      it "executes slug code when autogen is turned on" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+        accession = Accession.create_from_json(build(:json_accession, {:is_slug_auto => false}))
+  
+        expect(accession).to receive(:auto_gen_slug!)
+  
+        accession.update(:is_slug_auto => 1)
+      end
+
+      it "executes slug code when autogen is off and slug is updated" do
+        accession = Accession.create_from_json(build(:json_accession, {:is_slug_auto => false}))
+  
+        expect(SlugHelpers).to receive(:clean_slug)
+  
+        accession.update(:slug => "snow white")
+      end
+    end
   end
 
 end

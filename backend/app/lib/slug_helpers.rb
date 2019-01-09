@@ -433,8 +433,8 @@ module SlugHelpers
     slug_field_changed = obj.column_changed?(:slug)
     slug_auto_field_changed = obj.column_changed?(:is_slug_auto)
 
-    case obj.class
-    when Resource
+    case obj.class.to_s
+    when "Resource"
       if AppConfig[:generate_resource_slugs_with_eadid]
         id_field_changed = obj.column_changed?(:ead_id)
       else
@@ -443,53 +443,53 @@ module SlugHelpers
 
       name_field_changed = obj.column_changed?(:title)
 
-    when Accession
+    when "Accession"
       id_field_changed = obj.column_changed?(:identifier)
       name_field_changed = obj.column_changed?(:title)
 
-    when DigitalObject
+    when "DigitalObject"
       id_field_changed = obj.column_changed?(:digital_object_id)
       name_field_changed = obj.column_changed?(:title)
 
-    when DigitalObjectComponent
+    when "DigitalObjectComponent"
       id_field_changed = obj.column_changed?(:component_id)
       name_field_changed = obj.column_changed?(:title)
 
-    when Classification
+    when "Classification"
       id_field_changed = obj.column_changed?(:identifier)
       name_field_changed = obj.column_changed?(:title)
     
-    when ClassificationTerm
+    when "ClassificationTerm"
       id_field_changed = obj.column_changed?(:identifier)
       name_field_changed = obj.column_changed?(:title)
 
-    when Repository
+    when "Repository"
       id_field_changed = obj.column_changed?(:repo_code)
       name_field_changed = obj.column_changed?(:name)
 
-    when ArchivalObject 
+    when "ArchivalObject" 
       id_field_changed = obj.column_changed?(:ref_id)
       name_field_changed = obj.column_changed?(:title)
 
-    when Subject
+    when "Subject"
       id_field_changed = obj.column_changed?(:title)
       name_field_changed = obj.column_changed?(:title)
 
     # for agent objects, the fields we need are in a different table.
     # since we don't have access to that object here, we'll always process slugs for agents.
-    when AgentCorporateEntity
+    when "AgentCorporateEntity"
       id_field_changed = true
       name_field_changed = true
 
-    when AgentPerson
+    when "AgentPerson"
       id_field_changed = true
       name_field_changed = true
 
-    when AgentFamily
+    when "AgentFamily"
       id_field_changed = true
       name_field_changed = true
       
-    when AgentSoftware
+    when "AgentSoftware"
       id_field_changed = true
       name_field_changed = true
     end

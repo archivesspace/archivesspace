@@ -29,9 +29,6 @@ module ASModel
 
     def before_save
       if SlugHelpers.slug_data_updated?(self)
-        # puts "++++++++++++++++++++++++++++++"
-        # puts "SLUG BRANCH!"
-
         if self[:is_slug_auto] == 1
           auto_gen_slug!
         end

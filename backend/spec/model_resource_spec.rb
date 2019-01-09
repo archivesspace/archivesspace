@@ -427,7 +427,107 @@ describe 'Resource model' do
 
       expect(resource_rec[:slug]).to eq(expected_slug)
     end
+
+    describe "slug code does not run" do
+      it "does not execute slug code when auto-gen on id and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+        AppConfig[:generate_resource_slugs_with_eadid] = false
+  
+        resource = Resource.create_from_json(build(:json_resource, {:is_slug_auto => true}))
+  
+        expect(resource).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        resource.update(:title => "foobar")
+      end
+
+      it "does not execute slug code when auto-gen on eadid and title and identifier are changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+        AppConfig[:generate_resource_slugs_with_eadid] = true
+  
+        resource = Resource.create_from_json(build(:json_resource, {:is_slug_auto => true}))
+  
+        expect(resource).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        resource.update(:title => "foobar")
+        resource.update(:id_0 => "barfoo")
+      end
+  
+  
+      it "does not execute slug code when auto-gen on title and id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        resource = Resource.create_from_json(build(:json_resource, {:is_slug_auto => true}))
+  
+        expect(resource).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        resource.update(:id_0 => "foobar")
+      end
+  
+      it "does not execute slug code when auto-gen off and title, identifier and eadid changed" do
+        resource = Resource.create_from_json(build(:json_resource, {:is_slug_auto => false}))
+  
+        expect(resource).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        resource.update(:id_0 => "foobar")
+        resource.update(:title => "barfoo")
+        resource.update(:ead_id => "bazbim")
+      end
+    end
+
+    describe "slug code runs" do
+      it "executes slug code when auto-gen on id and id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+        AppConfig[:generate_resource_slugs_with_eadid] = false
+  
+        resource = Resource.create_from_json(build(:json_resource, {:is_slug_auto => true}))
+  
+        expect(resource).to receive(:auto_gen_slug!)
+        expect(SlugHelpers).to receive(:clean_slug)
+  
+        resource.update(:id_0 => 'foo')
+      end
+
+      it "executes slug code when auto-gen on eadid and eadid is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+        AppConfig[:generate_resource_slugs_with_eadid] = true
+  
+        resource = Resource.create_from_json(build(:json_resource, {:is_slug_auto => true}))
+  
+        expect(resource).to receive(:auto_gen_slug!)
+  
+        resource.update(:ead_id => "foobar")
+      end
+
+      it "executes slug code when auto-gen on title and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        resource = Resource.create_from_json(build(:json_resource, {:is_slug_auto => true}))
+  
+        expect(resource).to receive(:auto_gen_slug!)
+  
+        resource.update(:title => "foobar")
+      end
+
+      it "executes slug code when autogen is turned on" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+        resource = Resource.create_from_json(build(:json_resource, {:is_slug_auto => false}))
+  
+        expect(resource).to receive(:auto_gen_slug!)
+  
+        resource.update(:is_slug_auto => 1)
+      end
+
+      it "executes slug code when autogen is off and slug is updated" do
+        resource = Resource.create_from_json(build(:json_resource, {:is_slug_auto => false}))
+  
+        expect(SlugHelpers).to receive(:clean_slug)
+  
+        resource.update(:slug => "snow white")
+      end
+    end
   end
-
-
 end
