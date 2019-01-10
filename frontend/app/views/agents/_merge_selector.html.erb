@@ -84,7 +84,7 @@
             <div id="agent_external_document_wrapper_left">
               <div id="agent_external_document_left">
                 <% if @agent.external_documents.length > 0 %>
-                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :template_erb => "external_documents/template_merge"} %>
+                  <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :template_erb => "external_documents/template_merge_target"} %>
                 <% end %>
               </div>
             </div>
