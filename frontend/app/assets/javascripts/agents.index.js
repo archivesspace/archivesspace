@@ -1,1 +1,1 @@
-//= require search
+//= require agents.browse_merge
