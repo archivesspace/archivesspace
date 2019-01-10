@@ -34,10 +34,10 @@ en:
     merge_replace: Replace
     merge_add: Add
     merge_confirm_title: Merge into this record?
-    merge_agent_compare_agent_details: Compare Agent Details
+    merge_agent_compare_agent_details: Compare Agents
     merge_from_browse_confirm_title: Merge selected records?
     merge_subject_confirm_message: "The subject '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this subject."
-    merge_agent_confirm_message: "The agent '%{source}' will have the selected record merged into it. The selected record will be deleted and any linked records will be re-linked to this agent. Clicking the Merge button below will bring up a screen that gives you the option to choose which fields and sub-records to retain from each record."
+    merge_agent_confirm_message: "The agent '%{source}' will have the selected record merged into it. The selected record will be deleted and any linked records will be re-linked to this agent. Clicking the Compare Agents button will bring up a screen that gives you the option to choose which fields and sub-records to retain from each record."
     merge_agent_from_browse_confirm_message: "The first agent selected will have the subsequently selected records merged into it. All subsequently selected records will be deleted and any linked records will be re-linked to the first agent selected."
     merge_resource_confirm_message: "The resource '%{source}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
     move: Move
