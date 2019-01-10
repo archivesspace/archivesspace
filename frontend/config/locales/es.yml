@@ -30,10 +30,11 @@
     merge_replace: Reemplazar
     merge_add: Añadir
     merge_confirm_title: ¿Se combinan en este registro?
+    merge_agent_compare_agent_details: Comparar les autoridades
     merge_from_browse_confirm_title: Fusionar registros seleccionados?
     merge_subject_confirm_message: "La materia '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a esta materia."
-    merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad."
-    merge_agent_from_browse_confirm_message: "El primer agente seleccionado tendrá los registros seleccionados posteriormente fusionados en él. Todos los registros seleccionados posteriormente se eliminarán y los registros vinculados se volverán a vincular al primer agente seleccionado.."
+    merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad. Al hacer clic en el botón Comparar les autoridades, aparecerá una pantalla que le brinda la opción de elegir qué campos y sub-registros retener de cada registro. "
+    merge_agent_from_browse_confirm_message: "El primer autoridad seleccionado tendrá los registros seleccionados posteriormente fusionados en él. Todos los registros seleccionados posteriormente se eliminarán y los registros vinculados se volverán a vincular al primer autoridad seleccionado."
     merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este fondo."
     move: Mover
     move_up_a_level: Un nivel
