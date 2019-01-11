@@ -1,3 +1,5 @@
+//= require slug
+
 $(function() {
 
   var initTermForm = function($form) {

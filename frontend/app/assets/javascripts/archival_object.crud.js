@@ -1,3 +1,5 @@
+//= require slug
+
 $(function() {
   $.fn.init_archival_object_form = function() {
     $(this).each(function() {
