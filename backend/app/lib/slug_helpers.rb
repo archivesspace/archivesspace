@@ -38,6 +38,218 @@ module SlugHelpers
   	end
   end
 
+  # remove invalid chars, truncate, and dedupe slug if necessary
+  def self.clean_slug(slug, klass)
+    # replace spaces with underscores
+    slug = slug.gsub(" ", "_")
+
+    # remove URL-reserved chars
+    slug = slug.gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!.]/, "")
+
+    # enforce length limit of 50 chars
+    slug = slug.slice(0, 50)
+
+    # replace any multiple underscores with a single underscore
+    slug = slug.gsub(/_[_]+/, "_")
+
+    # remove any leading or trailing underscores
+    slug = slug.gsub(/^_/, "").gsub(/_$/, "")
+
+    # if slug is numeric, add a leading '_' 
+    # this is necessary, because numerical slugs will be interpreted as an id by the controller
+    if slug.match(/^(\d)+$/) 
+      slug = slug.prepend("_")
+    end
+
+    # if slug is empty at this point, make something up.
+    if slug.empty?
+      slug = SlugHelpers.random_name
+    end
+
+    # search for dupes
+    if SlugHelpers.slug_in_use?(slug, klass)
+      slug = SlugHelpers.dedupe_slug(slug, 1, klass)
+    end
+
+    return slug
+  end
+
+  # auto generate a slug for this instance based on name
+  def self.generate_slug_by_name!(thing)
+    if !thing[:title].nil? && !thing[:title].empty?
+      thing[:slug] = thing[:title]
+
+    elsif !thing[:name].nil? && !thing[:name].empty?
+      thing[:slug] = thing[:name]
+
+    else
+      # if Agent, go look in the AgentContact table.
+      if thing.class == AgentCorporateEntity ||
+         thing.class == AgentPerson ||
+         thing.class == AgentFamily ||
+         thing.class == AgentSoftware
+
+        thing[:slug] = SlugHelpers.get_agent_name(thing.id, thing.class)
+
+      # otherwise, make something up.
+      else
+        thing[:slug] = SlugHelpers.random_name
+      end
+    end
+  end
+
+  # auto generate a slug for this instance based on id
+  def self.generate_slug_by_id!(thing)
+    if thing.class == Resource 
+      if AppConfig[:generate_resource_slugs_with_eadid] && thing[:ead_id]
+        # use EADID if configured. Otherwise, use identifier.
+        thing[:slug] = thing[:ead_id]
+      else
+        thing[:slug] = thing.format_multipart_identifier
+      end
+
+    elsif thing.class == Accession  
+      thing[:slug] = thing.format_multipart_identifier
+
+    elsif thing.class == Classification || thing.class == ClassificationTerm
+      thing[:slug] = thing[:identifier]
+
+    elsif thing.class == DigitalObject
+      thing[:slug] = thing[:digital_object_id]
+
+    elsif thing.class == Repository
+      thing[:slug] = thing[:repo_code]
+
+    elsif thing.class == ArchivalObject
+      thing[:slug] = thing[:ref_id]
+
+    elsif thing.class == DigitalObjectComponent
+      thing[:slug] = thing[:component_id]
+
+    # no identifier here!
+    elsif thing.class == Subject
+      thing[:slug] = thing[:title]
+
+    # or here
+    elsif thing.class == AgentCorporateEntity || AgentPerson || AgentFamily || AgentSoftware
+      thing[:slug] = SlugHelpers.get_agent_name(thing.id, thing.class)
+    end
+  end
+
+  # Generates URLs for display in hirearchial tree links in public interface for Archival Objects and Digital object components
+  def self.get_slugged_url_for_largetree(jsonmodel_type, repo_id, slug)
+    if slug && AppConfig[:slugs] == :show
+      if AppConfig[:repo_name_in_slugs] 
+        repo = Repository.first(:id => repo_id)
+        repo_slug = repo && repo.slug ? repo.slug : ""
+
+        if repo_slug.empty?        
+          return "#{AppConfig[:public_proxy_url]}/#{jsonmodel_type.underscore}s/#{slug}"
+        else
+          return "#{AppConfig[:public_proxy_url]}/repositories/#{repo_slug}/#{jsonmodel_type.underscore}s/#{slug}"
+        end
+      else
+        return "#{AppConfig[:public_proxy_url]}/#{jsonmodel_type.underscore}s/#{slug}"
+      end
+    else
+      return ""
+    end
+  end
+
+  # determine if our record has updated a data field that a field depends on. 
+  # slug will be updated iff this method returns true
+  def self.slug_data_updated?(obj)
+    id_field_changed        = false
+    name_field_changed      = false
+
+    slug_field_changed = obj.column_changed?(:slug) 
+    slug_auto_field_changed = obj.column_changed?(:is_slug_auto)
+
+    case obj.class.to_s
+    when "Resource"
+      if AppConfig[:generate_resource_slugs_with_eadid]
+        id_field_changed = obj.column_changed?(:ead_id)
+      else
+        id_field_changed = obj.column_changed?(:identifier)
+      end
+
+      name_field_changed = obj.column_changed?(:title)
+
+    when "Accession"
+      id_field_changed = obj.column_changed?(:identifier)
+      name_field_changed = obj.column_changed?(:title)
+
+    when "DigitalObject"
+      id_field_changed = obj.column_changed?(:digital_object_id)
+      name_field_changed = obj.column_changed?(:title)
+
+    when "DigitalObjectComponent"
+      id_field_changed = obj.column_changed?(:component_id)
+      name_field_changed = obj.column_changed?(:title)
+
+    when "Classification"
+      id_field_changed = obj.column_changed?(:identifier)
+      name_field_changed = obj.column_changed?(:title)
+    
+    when "ClassificationTerm"
+      id_field_changed = obj.column_changed?(:identifier)
+      name_field_changed = obj.column_changed?(:title)
+
+    when "Repository"
+      id_field_changed = obj.column_changed?(:repo_code)
+      name_field_changed = obj.column_changed?(:name)
+
+    when "ArchivalObject" 
+      id_field_changed = obj.column_changed?(:ref_id)
+      name_field_changed = obj.column_changed?(:title)
+
+    when "Subject"
+      id_field_changed = obj.column_changed?(:title)
+      name_field_changed = obj.column_changed?(:title)
+
+    # for agent objects, the fields we need are in a different table.
+    # since we don't have access to that object here, we'll always process slugs for agents.
+    when "AgentCorporateEntity"
+      id_field_changed = true
+      name_field_changed = true
+
+    when "AgentPerson"
+      id_field_changed = true
+      name_field_changed = true
+
+    when "AgentFamily"
+      id_field_changed = true
+      name_field_changed = true
+      
+    when "AgentSoftware"
+      id_field_changed = true
+      name_field_changed = true
+    end
+
+    # auto-gen slugs has been switched from OFF to ON
+    if slug_auto_field_changed && obj[:is_slug_auto] == 1
+      return true
+
+    # auto-gen slugs is OFF, and slug field updated
+    elsif obj[:is_slug_auto] == 0 && slug_field_changed
+      return true
+
+    # auto-gen slugs is ON based on name, and name has changed
+    elsif !AppConfig[:auto_generate_slugs_with_id] && name_field_changed
+      return true
+
+    # auto-gen slugs is ON based on id, and id has changed
+    elsif AppConfig[:auto_generate_slugs_with_id] && id_field_changed
+      return true
+
+    # any other case, we can skip slug processing
+    else
+      return false
+    end
+  end
+  
+  private 
+
   # based on the controller/action, query the right table for the slug
   # in repo with repo.slug == repo_slug
   
@@ -111,9 +323,6 @@ module SlugHelpers
 
     return [agent, found_in]
   end
-
-
-  # Find slug could be in one of three tables.
 
   # find slug in one of the object tables, only in the specified repo.
 
@@ -305,228 +514,5 @@ module SlugHelpers
     (0...8).map { (65 + rand(26)).chr }.join
   end
 
-  # remove invalid chars, truncate, and dedupe slug if necessary
-  def self.clean_slug(slug, klass)
-    # replace spaces with underscores
-    slug = slug.gsub(" ", "_")
-
-    # remove URL-reserved chars
-    slug = slug.gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!.]/, "")
-
-    # enforce length limit of 50 chars
-    slug = slug.slice(0, 50)
-
-    # replace any multiple underscores with a single underscore
-    slug = slug.gsub(/_[_]+/, "_")
-
-    # remove any leading or trailing underscores
-    slug = slug.gsub(/^_/, "").gsub(/_$/, "")
-
-    # if slug is numeric, add a leading '_' 
-    # this is necessary, because numerical slugs will be interpreted as an id by the controller
-    if slug.match(/^(\d)+$/) 
-      slug = slug.prepend("_")
-    end
-
-    # if slug is empty at this point, make something up.
-    if slug.empty?
-      slug = SlugHelpers.random_name
-    end
-
-    # search for dupes
-    if SlugHelpers.slug_in_use?(slug, klass)
-      slug = SlugHelpers.dedupe_slug(slug, 1, klass)
-    end
-
-    return slug
-  end
-
-  # auto generate a slug for this instance based on name
-  def self.generate_slug_by_name!(thing)
-    if !thing[:title].nil? && !thing[:title].empty?
-      thing[:slug] = thing[:title]
-
-    elsif !thing[:name].nil? && !thing[:name].empty?
-      thing[:slug] = thing[:name]
-
-    else
-      # if Agent, go look in the AgentContact table.
-      if thing.class == AgentCorporateEntity ||
-         thing.class == AgentPerson ||
-         thing.class == AgentFamily ||
-         thing.class == AgentSoftware
-
-        thing[:slug] = SlugHelpers.get_agent_name(thing.id, thing.class)
-
-      # otherwise, make something up.
-      else
-        thing[:slug] = SlugHelpers.random_name
-      end
-    end
-  end
-
-  # auto generate a slug for this instance based on id
-  def self.generate_slug_by_id!(thing)
-    if thing.class == Resource 
-      if AppConfig[:generate_resource_slugs_with_eadid] && thing[:ead_id]
-        # use EADID if configured. Otherwise, use identifier.
-        thing[:slug] = thing[:ead_id]
-      else
-        thing[:slug] = format_multipart_identifier(thing[:identifier])
-      end
-
-    elsif thing.class == Accession  
-      thing[:slug] = format_multipart_identifier(thing[:identifier])
-
-    elsif thing.class == Classification || thing.class == ClassificationTerm
-      thing[:slug] = thing[:identifier]
-
-    elsif thing.class == DigitalObject
-      thing[:slug] = thing[:digital_object_id]
-
-    elsif thing.class == Repository
-      thing[:slug] = thing[:repo_code]
-
-    elsif thing.class == ArchivalObject
-      thing[:slug] = thing[:ref_id]
-
-    elsif thing.class == DigitalObjectComponent
-      thing[:slug] = thing[:component_id]
-
-    # no identifier here!
-    elsif thing.class == Subject
-      thing[:slug] = thing[:title]
-
-    # or here
-    elsif thing.class == AgentCorporateEntity || AgentPerson || AgentFamily || AgentSoftware
-      thing[:slug] = SlugHelpers.get_agent_name(thing.id, thing.class)
-    end
-  end
-
-  # Generates URLs for display in hirearchial tree links in public interface for Archival Objects and Digital object components
-  def self.get_slugged_url_for_largetree(jsonmodel_type, repo_id, slug)
-    if slug && AppConfig[:slugs] == :show
-      if AppConfig[:repo_name_in_slugs] 
-        repo = Repository.first(:id => repo_id)
-        repo_slug = repo && repo.slug ? repo.slug : ""
-
-        if repo_slug.empty?        
-          return "#{AppConfig[:public_proxy_url]}/#{jsonmodel_type.underscore}s/#{slug}"
-        else
-          return "#{AppConfig[:public_proxy_url]}/repositories/#{repo_slug}/#{jsonmodel_type.underscore}s/#{slug}"
-        end
-      else
-        return "#{AppConfig[:public_proxy_url]}/#{jsonmodel_type.underscore}s/#{slug}"
-      end
-    else
-      return ""
-    end
-  end
-
-
-  # determine if our record has updated a data field that a field depends on. 
-  # slug will be updated iff this method returns true
-  def self.slug_data_updated?(obj)
-    id_field_changed        = false
-    name_field_changed      = false
-
-    slug_field_changed = obj.column_changed?(:slug) 
-    slug_auto_field_changed = obj.column_changed?(:is_slug_auto)
-
-    case obj.class.to_s
-    when "Resource"
-      if AppConfig[:generate_resource_slugs_with_eadid]
-        id_field_changed = obj.column_changed?(:ead_id)
-      else
-        id_field_changed = obj.column_changed?(:identifier)
-      end
-
-      name_field_changed = obj.column_changed?(:title)
-
-    when "Accession"
-      id_field_changed = obj.column_changed?(:identifier)
-      name_field_changed = obj.column_changed?(:title)
-
-    when "DigitalObject"
-      id_field_changed = obj.column_changed?(:digital_object_id)
-      name_field_changed = obj.column_changed?(:title)
-
-    when "DigitalObjectComponent"
-      id_field_changed = obj.column_changed?(:component_id)
-      name_field_changed = obj.column_changed?(:title)
-
-    when "Classification"
-      id_field_changed = obj.column_changed?(:identifier)
-      name_field_changed = obj.column_changed?(:title)
-    
-    when "ClassificationTerm"
-      id_field_changed = obj.column_changed?(:identifier)
-      name_field_changed = obj.column_changed?(:title)
-
-    when "Repository"
-      id_field_changed = obj.column_changed?(:repo_code)
-      name_field_changed = obj.column_changed?(:name)
-
-    when "ArchivalObject" 
-      id_field_changed = obj.column_changed?(:ref_id)
-      name_field_changed = obj.column_changed?(:title)
-
-    when "Subject"
-      id_field_changed = obj.column_changed?(:title)
-      name_field_changed = obj.column_changed?(:title)
-
-    # for agent objects, the fields we need are in a different table.
-    # since we don't have access to that object here, we'll always process slugs for agents.
-    when "AgentCorporateEntity"
-      id_field_changed = true
-      name_field_changed = true
-
-    when "AgentPerson"
-      id_field_changed = true
-      name_field_changed = true
-
-    when "AgentFamily"
-      id_field_changed = true
-      name_field_changed = true
-      
-    when "AgentSoftware"
-      id_field_changed = true
-      name_field_changed = true
-    end
-
-    # auto-gen slugs has been switched from OFF to ON
-    if slug_auto_field_changed && obj[:is_slug_auto] == 1
-      return true
-
-    # auto-gen slugs is OFF, and slug field updated
-    elsif obj[:is_slug_auto] == 0 && slug_field_changed
-      return true
-
-    # auto-gen slugs is ON based on name, and name has changed
-    elsif !AppConfig[:auto_generate_slugs_with_id] && name_field_changed
-      return true
-
-    # auto-gen slugs is ON based on id, and id has changed
-    elsif AppConfig[:auto_generate_slugs_with_id] && id_field_changed
-      return true
-
-    # any other case, we can skip slug processing
-    else
-      return false
-    end
-  end
-  
-  private 
-
-    # take a string that looks like this: "[\"3422\",\"345FD\",\"3423ASDA\",null]"
-    # and convert it into this: "3422-345FD-3423ASDA"
-    def self.format_multipart_identifier(identifier)
-      identifier.gsub("null", '')
-                .gsub!(/[\[\]]/,'')
-                .gsub(",", '')
-                .split('"')
-                .select {|s| !s.empty?}
-                .join("-")
-    end 
 
 end
