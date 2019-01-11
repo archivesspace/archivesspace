@@ -23,7 +23,7 @@ module SlugHelpers
       end
     else
       if controller == "objects"
-        rec, table = self.find_slug_in_object_tables_without_repo(slug)
+        rec, table = self.find_slug_in_object_tables_any_repo(slug)
       else
         rec, table = find_any_repo(slug, controller, action)
       end
@@ -169,7 +169,7 @@ module SlugHelpers
   end
 
   # find slug in one of the object tables in any repo.
-  def self.find_slug_in_object_tables_without_repo(slug)
+  def self.find_slug_in_object_tables_any_repo(slug)
     found_in = nil
 
     obj = ArchivalObject.any_repo.where(:slug => slug).first
