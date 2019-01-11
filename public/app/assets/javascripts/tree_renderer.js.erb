@@ -37,8 +37,6 @@
         var $link = row.find('a.record-title');
 
         if (this.should_link_to_record) {
-            // console.log("root");
-            // console.log(rootNode);
             if(rootNode.slugged_url && rootNode.slugged_url.length > 0) {
                 $link.attr('href', rootNode.slugged_url);
             }
@@ -67,8 +65,6 @@
         }
 
         if (this.should_link_to_record) {
-            // console.log("node");
-            // console.log(node);
             if(node.slugged_url && node.slugged_url.length > 0) {
                 $link.attr('href', node.slugged_url);
             }

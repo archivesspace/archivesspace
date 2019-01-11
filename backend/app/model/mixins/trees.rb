@@ -140,7 +140,6 @@ module Trees
         properties[node.id] = {
           :title => node[:title],
           :id => node.id,
-          :slug => node.respond_to?(:slug) ? node.slug : "",
           :record_uri => self.class.uri_for(node_type, node.id),
           :publish => node.respond_to?(:publish) ? node.publish===1 : true,
           :suppressed => node.respond_to?(:suppressed) ? node.suppressed===1 : false,
@@ -167,8 +166,6 @@ module Trees
     result = {
       :title => self.title,
       :id => self.id,
-      :slug => self.slug,
-      :slugged_url => SlugHelpers.get_slugged_url_for_largetree(root_type.to_s, self.repo_id, self.slug),
       :node_type => root_type.to_s,
       :publish => self.respond_to?(:publish) ? self.publish===1 : true,
       :suppressed => self.respond_to?(:suppressed) ? self.suppressed===1 : false,
@@ -205,7 +202,7 @@ module Trees
 
     self.class.node_model
       .filter(:root_record_id => self.id)
-      .select(:id, :position, :parent_id, :display_string, :publish, :suppressed, :slug).each do |row|
+      .select(:id, :position, :parent_id, :display_string, :publish, :suppressed).each do |row|
       id_positions[row[:id]] = row[:position]
       id_display_strings[row[:id]] = row[:display_string]
       parent_to_child_id[row[:parent_id]] ||= []
