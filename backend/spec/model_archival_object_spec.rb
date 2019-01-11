@@ -359,5 +359,69 @@ describe 'ArchivalObject model' do
 
       expect(SlugHelpers.get_slugged_url_for_largetree("ArchivalObject", $repo_id, "ao_slug").empty?).to eq( true )
     end
+
+    describe "slug code does not run" do
+      it "does not execute slug code when auto-gen on id and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+  
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
+  
+        expect(archival_object).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        archival_object.update(:title => "foobar")
+      end
+
+      it "does not execute slug code when auto-gen on title and id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
+  
+        expect(archival_object).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        archival_object.update(:ref_id => "foobar")
+      end
+    end
+
+    describe "slug code runs" do
+      it "executes slug code when auto-gen on id and id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+  
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
+  
+        expect(archival_object).to receive(:auto_gen_slug!)
+  
+        archival_object.update(:ref_id => 'foo')
+      end
+
+      it "executes slug code when auto-gen on title and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
+  
+        expect(archival_object).to receive(:auto_gen_slug!)
+  
+        archival_object.update(:title => "foobar")
+      end
+
+      it "executes slug code when autogen is turned on" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => false}))
+  
+        expect(archival_object).to receive(:auto_gen_slug!)
+  
+        archival_object.update(:is_slug_auto => 1)
+      end
+
+      it "executes slug code when autogen is off and slug is updated" do
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => false}))
+  
+        expect(SlugHelpers).to receive(:clean_slug)
+  
+        archival_object.update(:slug => "snow white")
+      end
+    end
+
   end
 end

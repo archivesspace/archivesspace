@@ -279,5 +279,96 @@ describe 'Repository model' do
 
       expect(repo[:slug]).to eq(expected_slug)
     end
+
+
+    describe "slug code does not run" do
+      it "does not execute slug code when auto-gen on id and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+  
+        id = make_test_repo("slugtest#{rand(10000)}")
+        repository = Repository.where(:id => id).first
+        repository.update(:is_slug_auto => 1)
+
+        expect(repository).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        repository.update(:name => "foobar")
+      end
+
+      it "does not execute slug code when auto-gen on title and id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        id = make_test_repo("slugtest#{rand(10000)}")
+        repository = Repository.where(:id => id).first
+        repository.update(:is_slug_auto => 1)
+  
+        expect(repository).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        repository.update(:repo_code => "FOO")
+      end
+  
+      it "does not execute slug code when auto-gen off and title, identifier changed" do
+        id = make_test_repo("slugtest#{rand(10000)}")
+        repository = Repository.where(:id => id).first
+        repository.update(:is_slug_auto => 0)
+  
+        expect(repository).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        repository.update(:repo_code => "FOO")
+        repository.update(:name => "barfoo")
+      end
+    end
+
+    describe "slug code runs" do
+      it "executes slug code when auto-gen on id and id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+  
+        id = make_test_repo("slugtest#{rand(10000)}")
+        repository = Repository.where(:id => id).first
+        repository.update(:is_slug_auto => 1)
+  
+        expect(repository).to receive(:auto_gen_slug!)
+        
+        #pending("no idea why this is failing. Testing this manually in app works as expected")
+  
+        repository.update(:repo_code => 'FOO')
+      end
+
+      it "executes slug code when auto-gen on title and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        id = make_test_repo("slugtest#{rand(10000)}")
+        repository = Repository.where(:id => id).first
+        repository.update(:is_slug_auto => 1)
+  
+        expect(repository).to receive(:auto_gen_slug!)
+  
+        repository.update(:name => "foobar")
+      end
+
+      it "executes slug code when autogen is turned on" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+
+        id = make_test_repo("slugtest#{rand(10000)}")
+        repository = Repository.where(:id => id).first
+        repository.update(:is_slug_auto => 0)
+  
+        expect(repository).to receive(:auto_gen_slug!)
+  
+        repository.update(:is_slug_auto => 1)
+      end
+
+      it "executes slug code when autogen is off and slug is updated" do
+        id = make_test_repo("slugtest#{rand(10000)}")
+        repository = Repository.where(:id => id).first
+        repository.update(:is_slug_auto => 0)
+  
+        expect(SlugHelpers).to receive(:clean_slug)
+  
+        repository.update(:slug => "snow white")
+      end
+    end
   end
 end

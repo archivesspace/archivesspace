@@ -33,7 +33,7 @@ describe 'Classification models' do
       it "does not execute slug code when auto-gen on id and title is changed" do
         AppConfig[:auto_generate_slugs_with_id] = true
   
-        classification = ClassificationTerm.create_from_json(build(:json_classification, {:is_slug_auto => true}))
+        classification = ClassificationTerm.create_from_json(build(:json_classification_term, {:is_slug_auto => true}))
 
         expect(classification).to_not receive(:auto_gen_slug!)
         expect(SlugHelpers).to_not receive(:clean_slug)
@@ -44,7 +44,7 @@ describe 'Classification models' do
       it "does not execute slug code when auto-gen on title and id is changed" do
         AppConfig[:auto_generate_slugs_with_id] = false
   
-        classification = ClassificationTerm.create_from_json(build(:json_classification, {:is_slug_auto => true}))
+        classification = ClassificationTerm.create_from_json(build(:json_classification_term, {:is_slug_auto => true}))
   
         expect(classification).to_not receive(:auto_gen_slug!)
         expect(SlugHelpers).to_not receive(:clean_slug)
@@ -53,12 +53,12 @@ describe 'Classification models' do
       end
   
       it "does not execute slug code when auto-gen off and title, identifier changed" do
-        classification = ClassificationTerm.create_from_json(build(:json_classification, {:is_slug_auto => false}))
+        classification = ClassificationTerm.create_from_json(build(:json_classification_term, {:is_slug_auto => false}))
   
         expect(classification).to_not receive(:auto_gen_slug!)
         expect(SlugHelpers).to_not receive(:clean_slug)
   
-        classification.update(:id_0 => "foobar")
+        classification.update(:identifier => "foobar")
         classification.update(:title => "barfoo")
       end
     end
@@ -67,10 +67,9 @@ describe 'Classification models' do
       it "executes slug code when auto-gen on id and id is changed" do
         AppConfig[:auto_generate_slugs_with_id] = true
   
-        classification = ClassificationTerm.create_from_json(build(:json_classification, {:is_slug_auto => true}))
+        classification = ClassificationTerm.create_from_json(build(:json_classification_term, {:is_slug_auto => true}))
   
         expect(classification).to receive(:auto_gen_slug!)
-        expect(SlugHelpers).to receive(:clean_slug)
         
         #pending("no idea why this is failing. Testing this manually in app works as expected")
   
@@ -80,7 +79,7 @@ describe 'Classification models' do
       it "executes slug code when auto-gen on title and title is changed" do
         AppConfig[:auto_generate_slugs_with_id] = false
   
-        classification = ClassificationTerm.create_from_json(build(:json_classification, {:is_slug_auto => true}))
+        classification = ClassificationTerm.create_from_json(build(:json_classification_term, {:is_slug_auto => true}))
   
         expect(classification).to receive(:auto_gen_slug!)
   
@@ -89,7 +88,7 @@ describe 'Classification models' do
 
       it "executes slug code when autogen is turned on" do
         AppConfig[:auto_generate_slugs_with_id] = false
-        classification = ClassificationTerm.create_from_json(build(:json_classification, {:is_slug_auto => false}))
+        classification = ClassificationTerm.create_from_json(build(:json_classification_term, {:is_slug_auto => false}))
   
         expect(classification).to receive(:auto_gen_slug!)
   
@@ -97,15 +96,12 @@ describe 'Classification models' do
       end
 
       it "executes slug code when autogen is off and slug is updated" do
-        classification = ClassificationTerm.create_from_json(build(:json_classification, {:is_slug_auto => false}))
+        classification = ClassificationTerm.create_from_json(build(:json_classification_term, {:is_slug_auto => false}))
   
         expect(SlugHelpers).to receive(:clean_slug)
   
         classification.update(:slug => "snow white")
       end
     end
-
   end
-
-
 end

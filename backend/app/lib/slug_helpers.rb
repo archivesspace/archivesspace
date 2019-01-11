@@ -430,7 +430,7 @@ module SlugHelpers
     id_field_changed        = false
     name_field_changed      = false
 
-    slug_field_changed = obj.column_changed?(:slug)
+    slug_field_changed = obj.column_changed?(:slug) 
     slug_auto_field_changed = obj.column_changed?(:is_slug_auto)
 
     case obj.class.to_s

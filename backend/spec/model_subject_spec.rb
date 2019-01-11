@@ -199,5 +199,44 @@ describe 'Subject model' do
 
       expect(subject_rec[:slug]).to eq(expected_slug)
     end
+
+    describe "slug code runs" do
+      it "executes slug code when auto-gen on id and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+  
+        subject = Subject.create_from_json(build(:json_subject, {:is_slug_auto => true}))
+  
+        expect(subject).to receive(:auto_gen_slug!)
+  
+        subject.update(:title => "foobar")
+      end
+
+      it "executes slug code when auto-gen on title and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        subject = Subject.create_from_json(build(:json_subject, {:is_slug_auto => true}))
+  
+        expect(subject).to receive(:auto_gen_slug!)
+  
+        subject.update(:title => "foobar")
+      end
+
+      it "executes slug code when autogen is turned on" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+        subject = Subject.create_from_json(build(:json_subject, {:is_slug_auto => false}))
+  
+        expect(subject).to receive(:auto_gen_slug!)
+  
+        subject.update(:is_slug_auto => 1)
+      end
+
+      it "executes slug code when autogen is off and slug is updated" do
+        subject = Subject.create_from_json(build(:json_subject, {:is_slug_auto => false}))
+  
+        expect(SlugHelpers).to receive(:clean_slug)
+  
+        subject.update(:slug => "snow white")
+      end
+    end
   end
 end
