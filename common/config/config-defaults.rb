@@ -100,11 +100,13 @@ AppConfig[:plugins] = ['local',  'lcnaf']
 # Resist the urge to set this to a big number as it will affect performance
 AppConfig[:job_thread_count] = 2
 
-# DEPRECATED: Moved to database in ANW-674
-#AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 
-# DEPRECATED 
+# DEPRECATED OAI Settings: Moved to database in ANW-674
+# NOTE: As of release 2.5.2, these settings should be set in the Staff User interface
+# To change these settings, select Manage OAI-PMH Settings from the System menu in the staff interface
+# These three settings are at the top of the page in the General Settings section
+# These settings will be removed from the config file completely when version 2.6.0 is released
 AppConfig[:oai_admin_email] = 'admin@example.com'
 AppConfig[:oai_record_prefix] = 'oai:archivesspace'
 AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
@@ -519,7 +521,7 @@ AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
 
-# PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)                            
+# PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)
 # the following determine on what kinds of records the request button is displayed
 AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
