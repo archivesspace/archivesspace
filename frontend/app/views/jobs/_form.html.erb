@@ -62,13 +62,15 @@
     <p><%= I18n.t("job._frontend.messages.slug_config_msg") %></p>
     <% if AppConfig[:auto_generate_slugs_with_id] %>
       <p><%= I18n.t("job._frontend.messages.slug_config_id") %></p>
+
+      <% if AppConfig[:generate_resource_slugs_with_eadid] %>
+        <p><%= I18n.t("job._frontend.messages.slug_config_eadid") %></p>
+      <% end %>
     <% else %>
       <p><%= I18n.t("job._frontend.messages.slug_config_title") %></p>
     <% end %>
 
-    <% if AppConfig[:generate_resource_slugs_with_eadid] %>
-      <p><%= I18n.t("job._frontend.messages.slug_config_eadid") %></p>
-    <% end %>
+
 
     <input id="generate_slugs_job_jsonmodel_type_" name="generate_slugs_job[jsonmodel_type]" type="hidden" value="generate_slugs_job">
   <% end %>
