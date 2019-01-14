@@ -278,6 +278,9 @@ AppConfig[:report_page_layout] = "letter"
 AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
+# Path to system Java -- required when creating PDFs on Windows
+AppConfig[:path_to_java] = "java"
+
 # By default, the plugins directory will be in your ASpace Home.
 # If you want to override that, update this with an absolute
 # path
