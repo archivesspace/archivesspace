@@ -275,14 +275,6 @@ Resist the urge to set this to a big number!</p>
 
 <h3 id="oai-configuration-options">OAI configuration options</h3>
 
-<h4 id="appconfigoairepositoryname"><code>AppConfig[:oai_repository_name]</code></h4>
-
-<blockquote>
-  <p>TODO - Needs more documentation</p>
-</blockquote>
-
-<p><code>AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'</code></p>
-
 <h4 id="appconfigoaiproxyurl"><code>AppConfig[:oai_proxy_url]</code></h4>
 
 <blockquote>
@@ -291,19 +283,17 @@ Resist the urge to set this to a big number!</p>
 
 <p><code>AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'</code></p>
 
-<h4 id="appconfigoairecordprefix"><code>AppConfig[:oai_record_prefix]</code></h4>
+<p><strong>NOTE: As of version 2.5.2, the following parameters (oai_repository_name, oai_record_prefix, and oai_admin_email) have been deprecated. They should be set in the Staff User Interface. To set them, select the System menu in the Staff User Interface and then select Manage OAI-PMH Settings. These three settings are at the top of the page in the General Settings section. These settings will be completely removed from the config file when version 2.6.0 is released.</strong></p>
 
-<blockquote>
-  <p>TODO - Needs more documentation</p>
-</blockquote>
+<h4 id="appconfigoairepositoryname"><code>AppConfig[:oai_repository_name]</code></h4>
+
+<p><code>AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'</code></p>
+
+<h4 id="appconfigoairecordprefix"><code>AppConfig[:oai_record_prefix]</code></h4>
 
 <p><code>AppConfig[:oai_record_prefix] = 'oai:archivesspace'</code></p>
 
 <h4 id="appconfigoaiadminemail"><code>AppConfig[:oai_admin_email]</code></h4>
-
-<blockquote>
-  <p>TODO - Needs more documentation</p>
-</blockquote>
 
 <p><code>AppConfig[:oai_admin_email] = 'admin@example.com'</code></p>
 
@@ -1365,7 +1355,7 @@ AppConfig[:pui_email_smtp_settings] = {
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2-RC1.a Documentation Generated on Wed Dec 19 13:55:22 2018 by
+  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:34 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>
