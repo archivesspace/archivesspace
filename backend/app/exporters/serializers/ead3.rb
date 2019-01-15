@@ -497,10 +497,32 @@ class EAD3Serializer < EADSerializer
               }
             end
 
-            unless data.language.nil?
-              xml.langmaterial {
-                xml.language(:langcode => data.language) {
-                  xml.text I18n.t("enumerations.language_iso639_2.#{ data.language }", :default => data.language)
+            unless data.languages.nil?
+              languages = data.languages
+              # Language and Script subrecords with recorded values in both fields should be exported as <languageset> elements.
+              languages.map {|language|
+                xml.langmaterial {
+                  if !language['script']
+                    xml.language(:langcode => language['language']) {
+                      xml.text I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
+                      }
+                  # Language and Script subrecord entries with only a Language value record should be exported as <language> elements.
+                  else
+                    xml.languageset {
+                     xml.language(:langcode => language['language']) {
+                      xml.text I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
+                      }
+                      xml.language(:scriptcode => language['script']) {
+                       xml.text I18n.t("enumerations.script_iso15924.#{language['script']}", :default => language['script'])
+                      }
+                    }
+                  end
+                  # Language Text subrecord content should be exported as a <descriptivenote> element
+                  if language['note']
+                    xml.descriptivenote {
+                      xml.text language['note']
+                    }
+                  end
                 }
               }
             end

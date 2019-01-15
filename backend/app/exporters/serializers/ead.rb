@@ -68,15 +68,15 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def handle_linebreaks(content)
-    # 4archon... 
-    content.gsub!("\n\t", "\n\n")  
+    # 4archon...
+    content.gsub!("\n\t", "\n\n")
     # if there's already p tags, just leave as is
     return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 )
     original_content = content
     blocks = content.split("\n\n").select { |b| !b.strip.empty? }
     if blocks.length > 1
-      content = blocks.inject("") do |c,n| 
-        c << "<p>#{escape_content(n.chomp)}</p>"  
+      content = blocks.inject("") do |c,n|
+        c << "<p>#{escape_content(n.chomp)}</p>"
       end
     else
       content = "<p>#{escape_content(content.strip)}</p>"
@@ -157,13 +157,36 @@ class EADSerializer < ASpaceExport::Serializer
 
           xml.did {
 
+            # ANW-697:  Language Text subrecord content should be exported as a <langmaterial> element if present
 
-            if (val = data.language)
-              xml.langmaterial {
-                xml.language(:langcode => val) {
-                  xml.text I18n.t("enumerations.language_iso639_2.#{val}", :default => val)
+            if (languages = data.languages)
+              if languages.include? 'note'
+                languages.each do |language|
+                  xml.langmaterial {
+                    xml.language {
+                      xml.text (language['note'])
+                    }
+                  }
+                end
+              # ANW-697: If no Language Text subrecords are available, the Language field translation values for each Language and Script subrecord should be exported, separated by commas, enclosed in <language> elements with associated @langcode and @scriptcode attribute values, and terminated by a period.
+              else
+                xml.langmaterial {
+                  languages.map {|language|
+                    punctuation = language.equal?(languages.last) ? '.' : ', '
+                    lang_translation = I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
+                    if language['script']
+                      xml.language(:langcode => language['language'], :scriptcode => language['script']) {
+                        xml.text(lang_translation)
+                      }
+                    else
+                      xml.language(:langcode => language['language']) {
+                        xml.text(lang_translation)
+                      }
+                    end
+                    xml.text(punctuation)
+                  }
                 }
-              }
+              end
             end
 
             if (val = data.repo.name)
@@ -488,7 +511,7 @@ class EADSerializer < ASpaceExport::Serializer
 
   # set daoloc audience attr == 'internal' if this is an unpublished && include_unpublished is set
   def get_audience_flag_for_file_version(file_version)
-    if file_version['file_uri'] && 
+    if file_version['file_uri'] &&
        (file_version['publish'] == false && @include_unpublished)
       return "internal"
     else
@@ -500,7 +523,7 @@ class EADSerializer < ASpaceExport::Serializer
     return if digital_object["publish"] === false && !@include_unpublished
     return if digital_object["suppressed"] === true
 
-    # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set 
+    # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set
     file_versions_to_display = digital_object['file_versions'].select {|fv| fv['publish'] == true || @include_unpublished }
 
     title = digital_object['title']
@@ -537,7 +560,7 @@ class EADSerializer < ASpaceExport::Serializer
       atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
       atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
       atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
-      atts['xlink:href'] = file_version['file_uri'] 
+      atts['xlink:href'] = file_version['file_uri']
       atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
@@ -547,7 +570,7 @@ class EADSerializer < ASpaceExport::Serializer
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         file_versions_to_display.each do |file_version|
           atts['xlink:type'] = 'locator'
-          atts['xlink:href'] = file_version['file_uri'] 
+          atts['xlink:href'] = file_version['file_uri']
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
           atts['xlink:title'] = file_version['caption'] if file_version['caption']
           atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
