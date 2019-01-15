@@ -1121,7 +1121,7 @@ AppConfig[:pui_hide][:search_tab] = false
 
 The following determine globally whether the various "badges" appear on the Repository page
 can be overriden at repository level below (e.g.:
-`AppConfig[:repos][{repo_code}][:hide][:counts] = true`
+`AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true`
 
 ```
 AppConfig[:pui_hide][:resource_badge] = false
