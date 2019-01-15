@@ -15,11 +15,13 @@ ja:
     cut: カット
     defaults: デフォルト値
     edit: 編集
+    edit_oai: OAI設定を編集する
     edit_batch: バッチの編集
     edit_groups: グループの編集
     edit_default_values: デフォルト値の編集
     edit_default_archival_object_values: コンポーネントのデフォルトの編集
     edit_required_fields: 必須フィールドの編集
+    edit_global_oai: グローバルOAI設定の表示/編集
     required: 必須フィールド
     export: 輸出する
     view: ビュー
@@ -303,6 +305,7 @@ ja:
     hide_advanced_search_button_title: 高度な検索を隠す
     plugins: プラグイン
     repositories_manage: リポジトリの管理
+    oai_config: OAI-PMH設定を管理する
     manage_groups: グループの管理
     manage_users: ユーザーの管理
     manage_container_profiles: コンテナプロファイルの管理
@@ -819,6 +822,9 @@ ja:
       action:
         add: リビジョンステートメントの追加
 
+  repository_oai:
+    oai_is_disabled: OAIハーベスティングは無効？
+    oai_sets_available: OAIに含まれるセット
   repository:
     _frontend:
       messages:
@@ -840,11 +846,16 @@ ja:
         cannot_delete_nonempty: 削除できません - リポジトリは空ではありません
       section:
         all_fields: リポジトリフィールド
+        oai_fields: OAI収穫設定
         transfer: 転送リポジトリ
+        oai_settings: OAI設定
       action:
         select: リポジトリを選択
-        create: リポジトリの作成
         save: リポジトリを保存
+        create: リポジトリ作成
+    _sidebar:
+      oai_settings:
+        _plural: OAI収穫設定
 
   resource:
     _frontend:
@@ -1103,7 +1114,7 @@ ja:
     barcode: バーコード
     barcode_tooltip: "<p>最高レベルのコンテナを一意に識別するバーコードを記録するために使用されます。 </p>"
     type: コンテナタイプ
-    type_tooltip: "<p>最高レベルのコンテナのタイプ。 <p>この管理された値リストの値は変更することができます。 </p>"
+    type_tooltip: "<p>最高レベルのコンテナのタイプ。</p><p>この管理された値リストの値は変更することができます。 </p>"
     ils_holding_id: ILSホールディングID
     ils_holding_id_tooltip: "<p>ライブラリILS内の関連する保持レコードの識別子</p>"
     ils_item_id: ILSアイテムID
@@ -1414,3 +1425,34 @@ ja:
       messages:
         created: 作成されたカスタムレポートテンプレート
         updated: カスタムレポートテンプレートが更新されました
+  oai_config:
+    title: OAI-PMH設定
+    title_repo_section: リポジトリごとのOAI-PMH設定
+    general_section: 一般設定
+    repo_set_section: リポジトリセット
+    sponsor_set_section: スポンサーセット
+    repo_set_desc: 記述レベルに基づくセットに加えて、リポジトリに基づいてOAIセットを定義できます。
+    sponsor_set_desc: 説明レベルに基づくセットに加えて、スポンサー名に基づいてOAIセットを定義できます。
+    oai_record_prefix: OAIレコードプレフィックス
+    oai_admin_email: OAI管理者メールアドレス
+    oai_repository_name: OOAIリポジトリ名
+    repo_set_name: リポジトリセット名
+    repo_set_codes: セット内のリポジトリ
+    repo_set_description: リポジトリセットの説明
+    sponsor_set_name: スポンサーセット名
+    sponsor_set_names: スポンサー名
+    sponsor_set_description: スポンサーセットの説明
+    oai_leave_repo_form: これらのオプションは、このリポジトリに対してのみOAI-PMHに影響します。 グローバルOAIオプションを表示/編集するには、下をクリックしてください。 変更を保存せずに現在のフォームをそのままにします。
+    _frontend:
+      section:
+        basic_information: 一般設定
+      action:
+        create: OAI-PMH設定を更新する
+        updated: OAI-PMH設定が更新されました。
+    _sidebar:
+      repo_set_section:
+        _plural: リポジトリセット
+      sponsor_set_section:
+        _plural: スポンサーセット
+      repo_settings:
+        _plural: リポジトリごとのOAI-PMH設定

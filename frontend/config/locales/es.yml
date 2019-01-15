@@ -15,10 +15,14 @@
     cut: Cortar
     defaults: Valores por defecto
     edit: Editar
+    edit_oai: Editar la configuración de OAI
     edit_batch: Editar en bloque
     edit_groups: Editar grupos
     edit_default_values: Editar valores por defecto
     edit_default_archival_object_values: Editar Componentes por defecto
+    edit_required_fields: Editar campos obligatorios
+    edit_global_oai: Ver/Editar configuración global de OAI
+    required: Campos requeridos
     export: Exportar
     view: Ver
     spawn: Heredar
@@ -58,15 +62,16 @@
     transfer_confirm_message: "El registro '%{target}' se transferirá en el repositorio seleccionado"
     transfer_successful: Transferencia exitosa.  Los registros pueden tardar un momento en aparecer en el repositorio de destino mientras nueva indexación se lleva a cabo.
     transfer_failed: Transferencia fallida
+    transfer_failed_records_using_digital_objects: "Los siguientes registros se vinculan a objetos digitales que se transferirían, pero hacerlo rompería sus enlaces de instancia"
     unset_default: Desactivada por defecto
     unsuppress: Desactivar
     unsuppress_confirm_title: ¿Bloquear este registro?
     unsuppress_confirm_message: "falso"
     unable_to_move_message: "No se pudo mover el registro"
+    move_ordering_problem_message: "Grabar problema de pedido de movimiento"
     delete: Borrar
     delete_confirm_title: ¿Desea eliminar este registro? %{title}
     delete_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p>"
-    show_space_calculator: Encontrar con la calculadora de espacio
     delete_repository_confirm_title: ¿Borrar este repositorio? %{name}
     delete_repository_confirm_message: "<p><strong>No puedes deshacer este cambio</strong>.</p><p>Esta acción eliminará el <strong>repositorio</strong> y todos los registros asociados incluidas las referencias a otros registros.</p><p>Para seguir adelante por favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Borrar registros
@@ -98,7 +103,9 @@
     download_pdf: Descargar PDF
     download_report: Descargar Informe
     click_to_show: Pulsa para cargar los registros.
-
+    rapid_data_entry: Entrada rápida de datos
+    enable_reorder: Habilitar el modo de reorden
+    reorder_active: Deshabilitar el modo de reorden
 
   database_warning:
    message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar MySQL para sistemas en producción.</p>"
@@ -111,7 +118,9 @@
     include_daos: Incluir etiquetas &lt; dao &gt;
     numbered_cs: Utilice etiquetas numeradas &lt; c &gt;
     print_pdf: Imprimir en PDF
-    ead3: EAD3 schema
+    ead3: EAD3 esquema
+    use_mods: Utilizar MODS
+    use_dc: Utilizar Dublin Core
 
   pagination:
     first: Primero
@@ -182,6 +191,17 @@
       location_profile_height_u_sstr: Alto
       location_profile_depth_u_sstr: Alto
       location_profile_dimension_units_u_sstr: Unidades de dimensión
+      rights_statement_agent_uris: Agente de declaración de derechos
+      assessment_surveyors: Encuestados por
+      assessment_review_required: Revisión requerida
+      assessment_sensitive_material: Material sensible
+      assessment_reviewer_uris: los reseñante
+      assessment_surveyed_by_uris: Encuestados por
+      assessment_reviewers: los reseñante
+      assessment_inactive: inactivo
+      assessment_survey_year: Año de encuesta
+      assessment_record_types: Tipo de registro
+      assessment_completed: Terminado
     help:
       row_selection: Haga clic en una fila para seleccionarla para operaciones masivas. Mantenga la tecla ALT mientras hace clic en una casilla de verificación para seleccionar o anular la selección, múltiples filas anteriores.
 
@@ -226,6 +246,9 @@
     digital_object_type: Tipo de objeto digital
     publish: Publicar
     location_profile_display_string_u_ssort: Perfil de ubicación
+    assessment_survey_begin: Fecha de inicio de la encuesta
+    assessment_survey_end: Encuesta completada
+    assessment_id: ID
 
   advanced_search:
     operator:
@@ -236,6 +259,7 @@
       equal: es igual a
       greater_than: mayor que
       lesser_than: menos de
+      empty: sin asignar
     boolean_field:
       true_value: "Verdadero"
       false_value: "Falso"
@@ -247,6 +271,11 @@
     index_switcher:
       show: Mostrar búsqueda avanzada
       hide: Ocultar búsqueda avanzada
+    text_operator:
+      contains: contiene
+      empty: esta vacio
+    enum_field:
+      empty: sin asignar
 
   become-user:
     become-user: Convertirse en usuario
@@ -271,6 +300,7 @@
     hide_advanced_search_button_title: Ocultar búsqueda avanzada
     plugins: Plug-ins
     repositories_manage: Gestionar repositorios
+    oai_config: Administrar la configuración de OAI-PMH
     manage_groups: Administrar grupos
     manage_users: Gestionar usuarios
     manage_container_profiles: Gestionar Container Profiles
@@ -291,6 +321,8 @@
     list_reports: Informes
     global_admin: Sistema
     system_info: Información del sistema
+    unpublished: Inédito
+    manage_assessment_attributes: Gestionar atributos de evaluación
   session:
     gone: No se encontró su sesión backend
     expired: Su sesión expiró debido a la inactividad
@@ -309,6 +341,9 @@
     locations:
       success: Ubicaciones eliminadas
       error: "No se puede eliminar ubicaciones:"
+    assessments:
+      success: Evaluaciones eliminadas
+      error: "No se pueden eliminar evaluaciones:"
 
   welcome:
     heading: Bienvenido a ArchivesSpace
@@ -373,15 +408,31 @@
     messages:
       defaults_updated: Valores por defecto actualizados
 
+  required_fields:
+    form_title:
+      agent_person: Registro de agente campos obligatorios (persona)
+      agent_family: Registro de agente campos obligatorios (familia)
+      agent_corporate_entity: Campos de registro de agente requeridos (entidad corporativa)
+      agent_software: Campos obligatorios de registro del agente (software)
+    messages:
+      required_fields_updated: Campos obligatorios actualizados
+  tree:
+    drag_and_drop_actions:
+      before: Añadir artículos antes
+      after: Añadir artículos después
+      as_child: Añadir artículos como niños
+    unexpected_failure: Ups! Estamos teniendo problemas para ir a buscar este árbol. Por favor, intente actualizar la página.
   errors:
     sidebar_label: Errores y advertencias
     error_403: Incapaz de acceder la página
     error_403_message: "Has intentado acceder a la página ya no existan o que no tenga permiso para verlo."
     error_404: Registros no encontrados
     error_404_message: "El récord que has intentado acceder ya no existan o que no tenga permiso para ver."
+    error_tree_pane_ajax: Se ha producido un error al cargar este formulario.
     merge_conflict: "Los agentes fusionados no pudieron completar: %{message}"
     merge_too_many_victims: Solo se puede seleccionar un agente para una fusión detallada.
     merge_different_types: Los agentes seleccionados para la fusión detallada deben ser del mismo tipo.
+    linked_to_assessment: El registro no se puede eliminar ya que está vinculado a una evaluación
 
   accession:
     _frontend:
@@ -395,6 +446,7 @@
         transfer_description: Transferencia de este acta de ingreso a...
         transfer_target: Seleccione un repositorio al que transferir
         spawned: "Este acta de ingreso ha sido generada de entrada <strong>%{accession.display_string}</strong>"
+        delete_conflict: "La adhesión no pudo ser eliminada: <pre>%{error}</pre>"
       section:
         basic_information: Información básica
       action:
@@ -407,6 +459,7 @@
         created: Autoridad creada
         updated: Autoridad guardada
         deleted: Autoridad eliminada
+        delete_conflict: "El agente no pudo ser eliminado: <pre>%{error}</pre>"
         merge_description: Seleccione el agente para fusionar en
         merged: Autoridad(es) se unificaron
         please_select_a_agent_to_merge: Por favor seleccione una autoridad
@@ -468,12 +521,15 @@
         suppressed: Documento de archivo <strong>%{archival_object.title}</strong> bloqueado
         suppressed_info: Documento de archivo se bloquea y no se pueden editar
         has_unpublished_ancestor: Por favor tenga en cuenta que este registro tiene un padre que es inédito.
+        delete_conflict: "Objeto de archivo no pudo ser eliminado: <pre>%{error}</pre>"
       section:
         basic_information: Información básica
       action:
         add_child: Agregar hijo
         add_sibling: Añadir hermano
         save: Guardar objeto de archivo
+      tree:
+        new_record_title: Nuevo objeto de archivo
 
   classification:
     _frontend:
@@ -496,6 +552,7 @@
         created: "Término de clasificación <strong>%{classification_term.title}</strong> creado"
         created_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong> creado"
         updated: "Término de clasificación <strong>%{classification_term.title}</strong> actualizado"
+        updated_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong> actualizado"
         deleted: "Término de clasificación <strong>%{classification_term.title}</strong> borrado"
       section:
         basic_information: Información básica
@@ -504,6 +561,8 @@
         add_child: Agregar hijo
         add_sibling: Añadir hermano
         save: Guardar el término clasificación
+      tree:
+        new_record_title: Nuevo término de clasificación
 
   collection_management: &collection_management_attributes
     _frontend:
@@ -551,13 +610,13 @@
         unsuppressed: Objetos digitales <strong>%{digital_object.title}</strong> desbloqueado
         suppressed: Objetos digitales <strong>%{digital_object.title}</strong> bloqueado
         suppressed_info: Objeto digital se suprime y no se pueden editar
+        delete_conflict: "Objeto digital no pudo ser eliminado: <pre>%{error}</pre>"
       section:
         basic_information: Información básica
       action:
         add_child: Agregar hijo
         create: Crear objeto Digital
         save: Guardar objeto Digital
-        rapid_data_entry: Entrada de datos de forma rápida
 
   digital_object_component:
     _frontend:
@@ -577,6 +636,8 @@
         add_child: Agregar hijo
         add_sibling: Añadir hermano
         save: Guardar objeto Digital componente
+      tree:
+        new_record_title: Nuevo componente de objeto digital
 
   enumeration:
     _frontend:
@@ -614,6 +675,7 @@
       action:
         save: Guardar el evento
         create: Crear evento
+    linked_agents: Enlaces de agentes
 
   extent:
     _frontend:
@@ -673,6 +735,7 @@
         save: Guardar ubicación
         single: Ubicación única
         delete_confirm_message: "<p>Tenga en cuenta <strong>no se puede deshacer esta acción.</strong>.</p><p>Si esta ubicación está actualmente vinculada a una o más instancias no se puede eliminar.</p>"
+        show_space_calculator: Encuentra con la calculadora espacial
 
   location_batch:
     _frontend:
@@ -750,6 +813,9 @@
       action:
         add: Agregar nota de revisión
 
+  repository_oai:
+    oai_is_disabled: OAI Cosecha de discapacitados?
+    oai_sets_available: Conjuntos incluidos en OAI
   repository:
     _frontend:
       messages:
@@ -768,12 +834,17 @@
         cannot_delete_nonempty: No se puede eliminar - repositorio no vacío
       section:
         all_fields: Campos de repositorio
+        oai_fields: Ajustes de cosecha OAI
         transfer: Repositorio de transferencia
+        oai_settings: Configuraciones de OAI
       action:
         select: Seleccione repositorio
         create: Crear repositorios
         save: Guardar repositorio
         create: Crear repositorios
+    _sidebar:
+      oai_settings:
+        _plural: Ajustes de cosecha OAI
 
   resource:
     _frontend:
@@ -791,12 +862,12 @@
         unsuppressed: Fondo <strong>%{resource.title}</strong> suprimidas
         suppressed: Fondo <strong>%{resource.title}</strong> bloqueado
         suppressed_info: Se suprimieron y no se pueden editar fondos
+        delete_conflict: "El recurso no pudo ser eliminado: <pre>%{error}</pre>"
       section:
         basic_information: Información básica
         finding_aid: Datos del instrumento de descripción
       action:
         add_child: Agregar hijo
-        rapid_data_entry: Entrada de datos rápida
         create: Crear fondo
         save: Guardar fondos
         delete_multiple: Eliminar fondos
@@ -842,11 +913,13 @@
   user:
     _frontend:
       messages:
+        access_denied: Acceso denegado. Inicie sesión como el usuario administrador para realizar esta acción.
         created: Usuario creado
         updated: Usuario actualizado
         deleted: Usuario borrado
         error_update: Usuario no guardado
         error_create: Usuario no creado
+        group_not_required: El usuario es un administrador o un usuario del sistema, no se requiere la selección de grupos.
       section:
         manage_access: Administrar el acceso de usuario
         account: Cuenta
@@ -912,6 +985,9 @@
       save_template: Guardar plantilla
       template_name: Nombre de plantilla
       confirm_removal: Cofirmar eliminación
+    templates:
+      listing: Plantillas
+      no_templates: No hay plantillas definidas
     default_template: Plantilla por defecto
     messages:
       error_prefix: Fila
@@ -1021,6 +1097,9 @@
         add: Añadir contenedor
 
   top_container:
+    container_profile: Perfil de contenedor
+    container_profile_tooltip: |
+        <p>Una descripción de varias características de un tipo particular de contenedor, incluidas las dimensiones.</p>
     indicator: Indicador
     indicator_tooltip: |
         <p>CAMPO REQUERIDO. Una expresión alfanumérica para indicar el lugar del recipiente más alto nivel, que puede ser también la posición del recipiente en una secuencia de contenedores.</p>
@@ -1028,6 +1107,9 @@
     barcode_tooltip: |
         <p>Se utiliza para registrar el código de barras que identifica de manera única el contenedor más alto nivel.</p>
     type: Tipo de contenedor
+    type_tooltip: |
+        <p>El tipo de contenedor de nivel más alto.</p>
+        <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
         <p>Identificador de registro de explotación correspondiente en las normas internacionales del trabajo de la biblioteca</p>
@@ -1238,7 +1320,6 @@
     message_total_containers: "Número total de contenedores de este tipo que se encuentran en estas ubicaciones: %{total_containers}"
     message_loading: Cargando...
     count: Espacio disponible (de tipo de contenedor)
-    reason: Resultado de la Calculadora
     calculate_space: Calcula el espacio
     locations_without_space_details: Revisa ubicaciones sin espacio
     by_locations: Por ubicacion(es)
@@ -1257,6 +1338,94 @@
       containers_at_location_dont_fit: Los contenedores en la ubicacion no se ajustan
       location_cannot_fit_container: La ubicación no se ajusta a ningún contenedor de este tipo
 
+  date_calculator:
+    toolbar_button: Calcular fechas
+    calculate_button: Calcular registro de fecha
+    modal_title: Calcular fechas
+    all_labels: Calcular para todas las fechas
+    no_object_message: Registro no encontrado
+    results_title: Registro de fecha calculada
+    create_date_button: Crear registro de fecha
+    generic_create_error: La fecha no es válida y no se pudo crear.
+    create_success: Fecha de creación con éxito. Página refrescante ...
+    no_dates: No se encontraron fechas adecuadas
+    no_dates_for_label: Inadecuado %{label} fechas encontradas
+  act:
+    _frontend:
+      action:
+        add: Añadir ley
+  assessment:
+    _frontend:
+      form_header: Evaluación %{display_string}
+      formats: Tipos de materiales / Formatos
+      ratings: Calificaciones
+      conservation_issues: Problemas de conservación
+      record_types: Tipos de registro
+      action:
+        create: Crear evaluación
+        save: Guardar evaluación
+        add_rating_note: Añadir la nota
+        remove_rating_note: Quitar nota
+        create_for_record: Crear evaluación
+      section:
+        basic_information: Información básica
+        existing_description: Descripción existente
+        rating_attributes: Información de evaluación
+        rating_attributes_empty: No se ingresó información de evaluación
+        rating_attributes_additional: Calificación adicional(s)
+        format_attributes: Lista de tipos de materiales / formatos
+        format_attributes_empty: No se han introducido tipos / formatos de material
+        format_attributes_additional: Tipos de materiales adicionales / formatos
+        conservation_issue_attributes: Problemas de conservación
+        conservation_issue_attributes_empty: No se han introducido problemas de conservación.
+        conservation_issue_attributes_additional: Problemas adicionales de conservación
+      messages:
+        created: Evaluación creada
+        updated: Evaluación actualizada
+        deleted: Evaluación eliminada
+        attributes_hint: Por favor, póngase en contacto con su administrador para agregar más %{attribute_type}
+        manage_attributes_hint: Administrar el adicional %{attribute_type} para este repositorio
+      assessment_review_required:
+        true_value: "Si"
+        false_value: "No"
+      assessment_sensitive_material:
+        true_value: "Si"
+        false_value: "No"
+      assessment_inactive:
+        true_value: "Si"
+        false_value: "No"
+      assessment_completed:
+        true_value: "Si"
+        false_value: "No"
+      browse_reviewers: Revisores
+      linked_records:
+        heading: Registros vinculados
+        loading: Cargando...
+        linked_via_assessment_records: Evaluaciones
+        linked_via_assessment_surveyed_by: Evaluaciones - Encuestadas por
+        linked_via_assessment_reviewer: Evaluaciones - Revisor
+      ratings_list:
+        rating: Clasificación
+        score: Puntuación
+        note: Nota
+  assessment_attribute_definitions:
+    _frontend:
+      title: Atributos de evaluación
+      section:
+        formats: Tipos de materiales / Formatos
+        ratings: Calificaciones
+        conservation_issues: Problemas de conservación
+      global: Global %{type}
+      repository: Repositorio %{type}
+      action:
+        save: Guardar atributos de evaluación
+      messages:
+        updated: Atributos de evaluación actualizados
+        error: Error al actualizar los atributos de evaluación
+        conflict: "Error al actualizar los atributos de evaluación. Las siguientes etiquetas entran en conflicto con las entradas existentes: %{conflicts}"
+        attribute_in_use: No se puede eliminar un atributo que está actualmente en uso por una evaluación
+      database_value: Valor de la base de datos
+      translation: Traducción
   custom_report_template:
     _frontend:
       new_title: Nueva plantilla de informe personalizado
@@ -1271,3 +1440,34 @@
       messages:
         created: Plantilla de informe personalizado creado
         updated: Plantilla de informe personalizado actualizada
+  oai_config:
+    title: Configuraciones OAI-PMH
+    title_repo_section: Configuraciones por repositorio OAI-PMH
+    general_section: Configuración general
+    repo_set_section: Conjunto de repositorio
+    sponsor_set_section: Conjunto Patrocinador
+    repo_set_desc: Además de los conjuntos basados en el nivel de descripción, puede definir un conjunto OAI basado en repositorios.
+    sponsor_set_desc: Además de los conjuntos basados en el nivel de descripción, puede definir un conjunto OAI basado en los nombres de los patrocinadores.
+    oai_record_prefix: Prefijo de registro OAI
+    oai_admin_email: Correo electrónico del administrador de OAI
+    oai_repository_name: Nombre del repositorio OAI
+    repo_set_name: Nombre del conjunto de repositorio
+    repo_set_codes: Repositorios en conjunto
+    repo_set_description: Descripción del conjunto de repositorios
+    sponsor_set_name: Nombre del Patrocinador
+    sponsor_set_names: Nombres de patrocinadores
+    sponsor_set_description: Patrocinador Descripción del conjunto
+    oai_leave_repo_form: Estas opciones afectan a OAI-PMH solo para este repositorio. Haga clic a continuación para ver / editar las opciones globales de OAI. Esto dejará la forma actual sin guardar los cambios.
+    _frontend:
+      section:
+        basic_information: Configuración general
+      action:
+        create: Actualizar la configuración de OAI-PMH
+        updated: Configuraciones OAI-PMH actualizadas exitosamente!
+    _sidebar:
+      repo_set_section:
+        _plural: Conjuntos de repositorio
+      sponsor_set_section:
+        _plural: Conjuntos de patrocinadores
+      repo_settings:
+        _plural: Configuraciones por repositorio OAI-PMH

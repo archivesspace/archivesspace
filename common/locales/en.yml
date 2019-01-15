@@ -1960,7 +1960,7 @@ en:
     short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
     custom_report_template_name_not_unique: The custom report template's name must be unique.
     custom_report_must_include_field_or_subreport: The custom report template must include at least one field or subreport.
-    missing_filter_values: Selected to filter results by field but no value(s) given 
+    missing_filter_values: Selected to filter results by field but no value(s) given
     must_be_a_valid_email_address: Email address field must contain a valid address
     repo_set_desc_required: Repository set description is required for creating an OAI repository set
     repo_set_name_required: Repository set name is required for creating an OAI repository set
@@ -2180,7 +2180,7 @@ en:
       "Physical Access (arrangement)": Physical Access (arrangement)
       "Physical Access (arrangement)_tooltip": <p>A rating from 1 to 5 that applies to a collection’s physical arrangement, taking into account the complexity and size of collection. For example, a small, relatively homogenous collection in rough order is generally more physically accessible than a large, heterogeneous collection in rough order, and the ratings will reflect that fact. (Note that arrangement to the item level may not be desirable for many collections; a rating of 4 may be the top rating that is desirable for a collection.)</p>
       "Intellectual Access (description)": Intellectual Access (description)
-      "Intellectual Access (description)_tooltip": <p>A rating from 1 to 5 that applies to a collection's intellectual description and the accessability of that description to users.</p>
+      "Intellectual Access (description)_tooltip": <p>A rating from 1 to 5 that applies to a collection's intellectual description and the accessibility of that description to users.</p>
       "Interest": Interest
       "Interest_tooltip": <p>A rating from 1 to 5 that indicates researcher, donor, or local interest in the materials. Interest + Documentation Quality create the "Research Value" score.</p>
       "Documentation Quality": Documentation Quality
@@ -2257,6 +2257,3 @@ en:
     sponsor_set_name_tooltip: Sponsor set name tooltip
     sponsor_set_names_tooltip: Sponsor set names tooltip
     sponsor_set_description_tooltip: Sponsor set description tooltip
-
-
-
