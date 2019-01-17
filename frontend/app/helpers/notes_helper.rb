@@ -24,6 +24,20 @@ module NotesHelper
         }
       end
 
+    elsif jsonmodel_type =~ /language/
+
+      note_types = {}
+
+      # Digital object/digital object component
+      JSONModel.enum_values(JSONModel(:note_langmaterial).schema['properties']['type']['dynamic_enum']).each do |type|
+        note_types[type] = {
+          :target => :note_langmaterial,
+          :enum => JSONModel(:note_langmaterial).schema['properties']['type']['dynamic_enum'],
+          :value => type,
+          :i18n => I18n.t("enumerations.#{JSONModel(:note_langmaterial).schema['properties']['type']['dynamic_enum']}.#{type}", :default => type)
+        }
+      end
+
     elsif jsonmodel_type =~ /agent/
 
       note_types = {
@@ -48,7 +62,7 @@ module NotesHelper
           :target => :note_rights_statement,
           :enum => JSONModel(:note_rights_statement).schema['properties']['type']['dynamic_enum'],
           :value => type,
-          :i18n => I18n.t("enumerations.#{JSONModel(:note_rights_statement).schema['properties']['type']['dynamic_enum']}.#{type}", :default => type)
+          :i18n => I18n.t("enumerations.#{JSONModel(:note_rights_statement).schema['properties']['type']['dynamic_enum']}.#{type}", :default => 'langmaterial')
         }
       end
 

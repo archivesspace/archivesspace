@@ -1578,6 +1578,8 @@ en:
       rights_statement: Rights
     note_digital_object_type:
       <<: *note_type_definitions
+    note_langmaterial_type:
+      <<: *note_type_definitions
     note_multipart_type:
       <<: *note_type_definitions
     note_singlepart_type:
@@ -1809,6 +1811,7 @@ en:
     name_source: Name Source
     note_bibliography_type: Note Bibliography Type
     note_digital_object_type: Note Digital Object Type
+    note_langmaterial_type: Note Language of Materials Type
     note_index_item_type: Note Index Item Type
     note_index_type: Note Index Type
     note_multipart_type: Note Multipart Type
