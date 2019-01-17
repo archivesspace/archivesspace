@@ -716,6 +716,7 @@ en:
     note_index: Index
     note_bibliography: Bibliography
     note_digital_object: Digital Object Note
+    note_langmaterial: Language of Materials Note
     note_bioghist: "Biography/Historical Note"
     note_citation: Citation
     note_abstract: Abstract
@@ -756,6 +757,9 @@ en:
     sub_notes_singular: Sub Note
 
   note_digital_object:
+    <<: *note_attributes
+
+  note_langmaterial:
     <<: *note_attributes
 
   note_rights_statement:

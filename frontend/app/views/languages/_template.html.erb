@@ -2,7 +2,8 @@
   <div class="subrecord-form-fields">
     <%= form.label_and_select("language", form.possible_options_for("language", true)) %>
     <%= form.label_and_select("script", form.possible_options_for("script", true)) %>
-    <hr/>
-    <%= form.label_and_textarea("note") %>
+  </div>
+  <div class="subrecord-form-container">
+    <%= render_aspace_partial :partial => "notes/form", :locals => { :section_id => "langmaterial_notes", :form => form, :all_note_types => note_types_for(:language)} %>
   </div>
 <% end %>
