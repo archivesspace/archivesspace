@@ -818,6 +818,7 @@ fr:
   repository_oai:
     oai_is_disabled: Récolte de l'OAI désactivée?
     oai_sets_available: Ensembles inclus dans OAI
+
   repository:
     _frontend:
       messages:
@@ -841,7 +842,6 @@ fr:
         oai_settings: Paramètres OAI
       action:
         select: Sélectionner service d'archives
-        create: Créer service d'archives
         save: Sauvegarder service d'archives
         create: Créer service d'archives
     _sidebar:

@@ -842,7 +842,6 @@ en:
         oai_settings: OAI Settings
       action:
         select: Select Repository
-        create: Create Repository
         save: Save Repository
         create: Create Repository
     _sidebar:

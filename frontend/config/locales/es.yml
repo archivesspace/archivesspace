@@ -416,12 +416,14 @@
       agent_software: Campos obligatorios de registro del agente (software)
     messages:
       required_fields_updated: Campos obligatorios actualizados
+
   tree:
     drag_and_drop_actions:
       before: Añadir artículos antes
       after: Añadir artículos después
       as_child: Añadir artículos como niños
     unexpected_failure: Ups! Estamos teniendo problemas para ir a buscar este árbol. Por favor, intente actualizar la página.
+
   errors:
     sidebar_label: Errores y advertencias
     error_403: Incapaz de acceder la página
@@ -816,6 +818,7 @@
   repository_oai:
     oai_is_disabled: OAI Cosecha de discapacitados?
     oai_sets_available: Conjuntos incluidos en OAI
+
   repository:
     _frontend:
       messages:
@@ -839,7 +842,6 @@
         oai_settings: Configuraciones de OAI
       action:
         select: Seleccione repositorio
-        create: Crear repositorios
         save: Guardar repositorio
         create: Crear repositorios
     _sidebar:
@@ -1018,7 +1020,6 @@
       reset: |
                   <div><strong>Limpiar Formulario</strong></div>
                   <div><small>Click <strong>Cambiar</strong> para borrar el formulario y revertir la pegajosa, visible y el orden de las columnas a los valores predeterminados.</small></div>
-
   update_monitor:
     save_failed: <strong>Error al guardar los cambios</strong>
     stale_record: Este documento ha sido actualizado por otro usuario. Por favor, actualice la página para acceder a la versión más reciente.
@@ -1068,7 +1069,8 @@
       close_record: "Cerrar el registro que se está editando"
       open_browse: "Abrir el menú de navegación"
       open_create: "Abrir el menú de creación"
-      instance_container:
+
+  instance_container:
     container: Container
 
   sub_container:
@@ -1350,6 +1352,7 @@
     create_success: Fecha de creación con éxito. Página refrescante ...
     no_dates: No se encontraron fechas adecuadas
     no_dates_for_label: Inadecuado %{label} fechas encontradas
+
   act:
     _frontend:
       action:
@@ -1408,6 +1411,7 @@
         rating: Clasificación
         score: Puntuación
         note: Nota
+
   assessment_attribute_definitions:
     _frontend:
       title: Atributos de evaluación
@@ -1426,6 +1430,7 @@
         attribute_in_use: No se puede eliminar un atributo que está actualmente en uso por una evaluación
       database_value: Valor de la base de datos
       translation: Traducción
+
   custom_report_template:
     _frontend:
       new_title: Nueva plantilla de informe personalizado
