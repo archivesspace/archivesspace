@@ -17,9 +17,9 @@
           end
 	  if !note_struct['note_text'].blank? %>
           <div class="abstract single_note"><span class='inline-label'><%= note_struct['label'] %></span>
-           <% if note_struct['note_text'].length > 500 %>
-             <% truncated_note = note_struct['note_text'][0..499] %>
-             <% end_index = truncated_note.rindex(' ') || 499 %>
+           <% if note_struct['note_text'].length > AppConfig[:abstract_note_length] %>
+             <% truncated_note = note_struct['note_text'][0..AppConfig[:abstract_note_length]-1] %>
+             <% end_index = truncated_note.rindex(' ') || AppConfig[:abstract_note_length]-1 %>
              <%= strip_tags(truncated_note[0..end_index - 1]) + '...' %>
            <% else %>
 	     <%= note_struct['note_text'].html_safe %>
