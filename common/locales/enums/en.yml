@@ -27,7 +27,7 @@ en:
       att: Attributed name
       auc: Auctioneer
       aut: Author
-      aqt: Author in quotations or text abstracts 
+      aqt: Author in quotations or text abstracts
       aft: Author of afterword, colophon, etc.
       aud: Author of dialog
       aui: Author of introduction, etc.
@@ -296,6 +296,7 @@ en:
       nad: NAD / ARK II Name Authority Database
       nal: National Agricultural Library subject headings
       rvm: Répertoire de vedettes-matière
+      ram: Répertoire d'autorités RAMEAU
       ulan: Union List of Artist Names
     name_rule:
       local: Local rules
@@ -437,6 +438,7 @@ en:
       nal: National Agricultural Library subject headings
       rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
       rvm: Répertoire de vedettes-matière
+      ram: Répertoire d'autorités RAMEAU
       tgn: Getty Thesaurus of Geographic Names
       lcgft: Library of Congress Genre/Form Terms
     event_outcome:
@@ -1612,7 +1614,7 @@ en:
     note_rights_statement_act_type: Note Rights Statement Act Type
     note_rights_statement_type: Note Rights Statement Type
     note_singlepart_type: Note Singlepart Type
-    telephone_number_type: Telephone Number Type 
+    telephone_number_type: Telephone Number Type
     resource_finding_aid_description_rules: Resource Finding Aid Description Rules
     resource_finding_aid_status: Resource Finding Aid Status
     resource_resource_type: Resource Resource Type

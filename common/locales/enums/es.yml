@@ -296,6 +296,7 @@
       nad: NAD / ARK II Name Authority Database
       nal: Encabezamientos biblioteca agrícola nacionales
       rvm: Répertoire de vedettes-matière
+      ram: Répertoire d'autorités RAMEAU
       ulan: Union List of Artist Names
     name_rule:
       local: Reglas locales
@@ -437,6 +438,7 @@
       nal: Encabezamientos biblioteca agrícola nacionales
       rbgenr: Términos de género
       rvm: Répertoire de vedettes-matière
+      ram: Répertoire d'autorités RAMEAU
       tgn: Thesaurus Getty de Nombres Geográficos
       lcgft: Términos de género / formulario de la Biblioteca del Congreso
     event_outcome:

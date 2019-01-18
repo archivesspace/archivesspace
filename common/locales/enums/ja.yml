@@ -296,6 +296,7 @@ ja:
       nad: NAD / ARK II名前権限データベース
       nal: 国立農業図書館の見出し見出し
       rvm: 件名見出しディレクトリ
+      ram: RAMEAU機関ディレクトリ
       ulan: アーティスト名の連合リスト
     name_rule:
       local: ローカルルール
@@ -437,6 +438,7 @@ ja:
       nal: 国立農業図書館の見出し見出し
       rbgenr: ジャンル用語：レアブックや特別コレクションのカタログ化に使用するシソーラス
       rvm: 件名見出しディレクトリ
+      ram: RAMEAU機関ディレクトリ
       tgn: Geographic Namesのゲットシソーラス
       lcgft: 議会図書館のジャンル/フォーム利用規約
     event_outcome:
