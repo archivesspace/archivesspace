@@ -1483,6 +1483,12 @@ ja:
     custom_report_template_name_not_unique: カスタムレポートテンプレートの名前は一意である必要があります。
     custom_report_must_include_field_or_subreport: カスタムレポートテンプレートには、少なくとも1つのフィールドまたはサブレポートが含まれている必要があります。
     missing_filter_values: フィールドで結果をフィルタリングするために選択された値は指定されていません
+    repo_set_desc_required: OAIリポジトリセットを作成するには、リポジトリセットの説明が必要です。
+    repo_set_name_required: OAIリポジトリセットを作成するにはリポジトリセット名が必要です
+    is_not_present: 必須フィールドがありません
+    must_be_a_valid_email_address: 有効な住所を含める必要があります
+    sponsor_set_desc_required: OAIスポンサーセットを作成するにはスポンサーセットの説明が必要です
+    sponsor_set_name_required: OAIスポンサーセットを作成するにはスポンサーセット名が必要です
 
   job:
     _singular: バックグラウンドジョブ
@@ -1780,3 +1786,18 @@ ja:
     field: フィールド
     _singular: カスタムレポートテンプレート
     _plural: カスタムレポートテンプレート
+
+  repository_oai:
+    oai_is_disabled_tooltip: OAIは無効になっています
+    oai_sets_available_tooltip: OAIが利用可能なツールチップを設定
+
+  oai_config:
+    oai_record_prefix_tooltip: OAIレコードプレフィックスツールチップ
+    oai_admin_email_tooltip: OAI管理者メールツールチップ
+    oai_repository_name_tooltip: OAIリポジトリ名ツールチップ
+    repo_set_name_tooltip: リポジトリセット名のツールチップ
+    repo_set_section_tooltip: リポジトリセットセクションのツールチップ
+    repo_set_description_tooltip: リポジトリセット記述ツールチップ
+    sponsor_set_name_tooltip: スポンサーセット名ツールチップ
+    sponsor_set_names_tooltip: スポンサーセット名のツールチップ
+    sponsor_set_description_tooltip: スポンサーセットの説明のツールチップ
