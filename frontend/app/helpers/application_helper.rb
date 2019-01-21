@@ -101,7 +101,12 @@ module ApplicationHelper
     html = "<div class='"
     html += "token " if not opts[:inside_token_editor]
     html += "#{opts[:type]} has-popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover)}\" data-template=\"#{popover_template}\" tabindex='1'>"
-    html += "<span class='icon-token'></span>"
+
+    if opts[:icon_class]
+      html += "<span class='icon-token #{opts[:icon_class]}'></span>"
+    else
+      html += "<span class='icon-token'></span>"
+    end
     html += opts[:label]
     html += "</div>"
     html.html_safe

@@ -19,7 +19,8 @@
             <%= render_token :object => subject['_resolved'],
                              :label => subject['_resolved']['title'],
                              :type => "subject",
-                             :uri => subject['ref'] %>
+                             :uri => subject['ref'],
+                             :icon_class => get_subject_icon_class(subject) %>
           </div>
         </div>
       <% end %>
