@@ -36,4 +36,3 @@ if [[ "$?" != 0 ]]; then
 fi
 
 exec /archivesspace/archivesspace.sh
-
