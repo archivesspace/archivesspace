@@ -121,6 +121,13 @@ module RESTHelpers
     end
 
 
+    def self.permissions_for(method, uri)
+      uri_re = Regexp.new(uri.gsub(/\d+/, ':[a-z_]+'))
+      endpoint = @@endpoints.select{|ep| ep[:uri] =~ uri_re && ep[:methods].include?(method)}.first
+      endpoint[:permissions] if endpoint
+    end
+
+
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
     def preconditions(*preconditions); @preconditions += preconditions; self; end
@@ -128,6 +135,8 @@ module RESTHelpers
 
     def permissions(permissions)
       @has_permissions = true
+
+      @permissions = permissions
 
       permissions.each do |permission|
         @preconditions << proc { |request| current_user.can?(permission) }
