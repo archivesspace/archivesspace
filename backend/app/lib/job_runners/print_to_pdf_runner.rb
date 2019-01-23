@@ -46,7 +46,7 @@ class PrintToPDFRunner < JobRunner
         end
 
         job_file = @job.add_file( pdf )
-        @job.write_output("File generated at #{job_file[:file_path].inspect} ")
+        @job.write_output("File generated at #{job_file.full_file_path.inspect} ")
 
         # pdf will be either a Tempfile or File object, depending on whether it was created externally.
         if pdf.class == Tempfile
