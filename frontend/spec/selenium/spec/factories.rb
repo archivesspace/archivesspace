@@ -160,7 +160,7 @@ module SeleniumFactories
       factory :extent, class: JSONModel(:extent) do
         portion "whole"
         number "1"
-        extent_type "gigabytes"
+        extent_type { "gigabytes" }
       end
 
       factory :date, class: JSONModel(:date) do
