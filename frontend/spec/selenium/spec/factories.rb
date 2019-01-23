@@ -191,7 +191,7 @@ module SeleniumFactories
         sort_name { generate(:sort_name) }
         name_order { %w(direct inverted).sample }
         number { generate(:alphanumstr) }
-        sort_name_auto_generate true
+        sort_name_auto_generate { true }
         dates { generate(:alphanumstr) }
         qualifier { generate(:alphanumstr) }
       end
