@@ -158,7 +158,7 @@ module SeleniumFactories
 
 
       factory :extent, class: JSONModel(:extent) do
-        portion "whole"
+        portion { "whole" }
         number { "1" }
         extent_type { "gigabytes" }
       end
