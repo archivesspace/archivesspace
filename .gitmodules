@@ -1,0 +1,19 @@
+[submodule "plugins/series_system"]
+	path = plugins/series_system
+	url = https://github.com/hudmol/series_system.git
+
+[submodule "plugins/as_history"]
+	path = plugins/as_history
+	url = https://github.com/hudmol/as_history.git
+
+[submodule "plugins/qsa_theme"]
+	path = plugins/qsa_theme
+	url = https://github.com/hudmol/qsa_theme.git
+
+[submodule "plugins/as_messaging"]
+	path = plugins/as_messaging
+	url = https://github.com/hudmol/as_messaging.git
+
+[submodule "plugins/in_a_rush"]
+	path = plugins/in_a_rush
+	url = https://github.com/marktriggs/in_a_rush.git
