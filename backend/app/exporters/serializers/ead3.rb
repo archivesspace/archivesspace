@@ -959,8 +959,14 @@ class EAD3Serializer < EADSerializer
 
       case note['type']
       when 'dimensions', 'physfacet'
+        atts[:label] = note['label'] if note['label']
         xml.physdesc(atts) {
           append_note_content.(note, xml, fragments, 'physdesc')
+        }
+      when 'physdesc'
+        atts[:label] = note['label'] if note['label']
+        xml.send(note['type'], atts) {
+          append_note_content.(note, xml, fragments, note['type'])
         }
       when 'langmaterial'
         xml.langmaterial(atts) {

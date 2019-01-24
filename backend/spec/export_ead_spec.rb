@@ -163,6 +163,7 @@ describe "EAD export mappings" do
     while !(note_types - notes.map {|note| note['type']}).empty? && brake < max do
       notes << build("json_note_#{['singlepart', 'multipart', 'multipart_gone_wilde', 'index', 'bibliography'].sample}".intern, {
                        :publish => true,
+                       :label => generate(:alphanumstr),
                        :persistent_id => [nil, generate(:alphanumstr)].sample
                      })
       brake += 1
@@ -603,9 +604,10 @@ describe "EAD export mappings" do
           else
             mt(nil, path, "id")
           end
+          
+          mt(note['label'], path, "label") if note['label']
         end
       end
-
 
       it "maps notes of type 'physdesc' to did/physdesc" do
         notes.select {|n| n['type'] == 'physdesc'}.each do |note|
@@ -616,6 +618,8 @@ describe "EAD export mappings" do
           else
             mt(nil, path, "id")
           end
+
+          mt(note['label'], path, "label") if note['label']
         end
       end
 
@@ -669,6 +673,8 @@ describe "EAD export mappings" do
           else
             mt(nil, path, "id")
           end
+          
+          mt(note['label'], path, "label") if note['label']
         end
       end
     end
