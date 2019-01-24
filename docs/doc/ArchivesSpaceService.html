@@ -36,7 +36,7 @@
       <div id="header">
         <div id="menu">
   
-    <a href="_index.html">Index (A)</a> &raquo;
+    <a href="alpha_index.html">Index (A)</a> &raquo;
     
     
     <span class="title">ArchivesSpaceService</span>
@@ -102,7 +102,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>backend/app/main.rb<span class="defines">,<br />
-  backend/app/controllers/job.rb,<br /> backend/app/controllers/oai.rb,<br /> backend/app/controllers/term.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/schema.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/system.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/version.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/container.rb,<br /> backend/app/controllers/assessment.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/preferences.rb,<br /> backend/app/controllers/suppression.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/merge_request.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/rde_templates.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/classification.rb,<br /> backend/app/controllers/default_values.rb,<br /> backend/app/controllers/delete_request.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/update_monitor.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/date_calculator.rb,<br /> backend/app/controllers/required_fields.rb,<br /> backend/app/controllers/location_profile.rb,<br /> backend/app/controllers/space_calculator.rb,<br /> backend/app/controllers/container_profile.rb,<br /> backend/app/controllers/extent_calculator.rb,<br /> backend/app/controllers/component_transfer.rb,<br /> backend/app/controllers/classification_term.rb,<br /> backend/app/controllers/repository_transfer.rb,<br /> backend/app/controllers/id_lookup_controller.rb,<br /> backend/app/controllers/collection_management.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/component_add_children.rb,<br /> backend/app/controllers/custom_report_template.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/controllers/assessment_attribute_definitions.rb,<br /> backend/app/lib/bootstrap_access_control.rb</span>
+  backend/app/controllers/job.rb,<br /> backend/app/controllers/oai.rb,<br /> backend/app/controllers/term.rb,<br /> backend/app/controllers/event.rb,<br /> backend/app/controllers/group.rb,<br /> backend/app/controllers/users.rb,<br /> backend/app/controllers/schema.rb,<br /> backend/app/controllers/search.rb,<br /> backend/app/controllers/system.rb,<br /> backend/app/controllers/exports.rb,<br /> backend/app/controllers/reports.rb,<br /> backend/app/controllers/subject.rb,<br /> backend/app/controllers/version.rb,<br /> backend/app/controllers/location.rb,<br /> backend/app/controllers/resource.rb,<br /> backend/app/controllers/accession.rb,<br /> backend/app/controllers/container.rb,<br /> backend/app/controllers/assessment.rb,<br /> backend/app/controllers/oai_config.rb,<br /> backend/app/controllers/permission.rb,<br /> backend/app/controllers/repository.rb,<br /> backend/app/controllers/vocabulary.rb,<br /> backend/app/controllers/enumeration.rb,<br /> backend/app/controllers/external_id.rb,<br /> backend/app/controllers/preferences.rb,<br /> backend/app/controllers/suppression.rb,<br /> backend/app/controllers/update_feed.rb,<br /> backend/app/controllers/agent_family.rb,<br /> backend/app/controllers/agent_person.rb,<br /> backend/app/controllers/batch_import.rb,<br /> backend/app/controllers/merge_request.rb,<br /> backend/app/controllers/notifications.rb,<br /> backend/app/controllers/rde_templates.rb,<br /> backend/app/controllers/agent_software.rb,<br /> backend/app/controllers/classification.rb,<br /> backend/app/controllers/default_values.rb,<br /> backend/app/controllers/delete_request.rb,<br /> backend/app/controllers/digital_object.rb,<br /> backend/app/controllers/update_monitor.rb,<br /> backend/app/controllers/archival_object.rb,<br /> backend/app/controllers/date_calculator.rb,<br /> backend/app/controllers/required_fields.rb,<br /> backend/app/controllers/location_profile.rb,<br /> backend/app/controllers/space_calculator.rb,<br /> backend/app/lib/bootstrap_access_control.rb,<br /> backend/app/controllers/container_profile.rb,<br /> backend/app/controllers/extent_calculator.rb,<br /> backend/app/controllers/component_transfer.rb,<br /> backend/app/controllers/classification_term.rb,<br /> backend/app/controllers/repository_transfer.rb,<br /> backend/app/controllers/id_lookup_controller.rb,<br /> backend/app/controllers/collection_management.rb,<br /> backend/app/controllers/agent_corporate_entity.rb,<br /> backend/app/controllers/component_add_children.rb,<br /> backend/app/controllers/custom_report_template.rb,<br /> backend/app/controllers/digital_object_component.rb,<br /> backend/app/controllers/assessment_attribute_definitions.rb</span>
 </dd>
   </dl>
   
@@ -556,6 +556,29 @@
   <span class="summary_signature">
     
       <a href="#session-instance_method" title="#session (instance method)">#<strong>session</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_oai_config-instance_method" title="#update_oai_config (instance method)">#<strong>update_oai_config</strong>(params)  &#x21d2; Object </a>
     
 
     
@@ -1876,15 +1899,75 @@ particular types of jobs, so we have special handling for it here</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="update_oai_config-instance_method">
+  
+    #<strong>update_oai_config</strong>(params)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/controllers/oai_config.rb', line 40</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_oai_config identifier id'>update_oai_config</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='rubyid_oc identifier id'>oc</span> <span class='assign token'>=</span> <span class='rubyid_OAIConfig constant id'>OAIConfig</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+  <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:oai_config</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_oc identifier id'>oc</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:oai_repository_name</span>     <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;oai_repository_name&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> 
+            <span class='symbol val'>:oai_admin_email</span>         <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;oai_admin_email&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> 
+            <span class='symbol val'>:oai_record_prefix</span>       <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;oai_record_prefix&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+            <span class='symbol val'>:repo_set_codes</span>          <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;repo_set_codes&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+            <span class='symbol val'>:sponsor_set_names</span>       <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;sponsor_set_names&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+            <span class='symbol val'>:repo_set_description</span>    <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;repo_set_description&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+            <span class='symbol val'>:sponsor_set_description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;sponsor_set_description&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+            <span class='symbol val'>:repo_set_name</span>           <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;repo_set_name&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+            <span class='symbol val'>:sponsor_set_name</span>        <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&quot;sponsor_set_name&quot;</span><span class='rbrack token'>]</span>
+            <span class='rparen token'>)</span> 
+
+  <span class='rubyid_updated_response identifier id'>updated_response</span><span class='lparen token'>(</span><span class='rubyid_oc identifier id'>oc</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.1.a Documentation Generated on Tue Oct 16 08:39:47 2018 by
+  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:43 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.3).
+  0.9.12.
 </div>
+
     </div>
   </body>
 </html>

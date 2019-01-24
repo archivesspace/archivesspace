@@ -36,7 +36,7 @@
       <div id="header">
         <div id="menu">
   
-    <a href="../_index.html">Index (F)</a> &raquo;
+    <a href="../alpha_index.html">Index (F)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../AspaceFormHelper.html" title="AspaceFormHelper (module)">AspaceFormHelper</a></span></span>
      &raquo; 
     <span class="title">FormContext</span>
@@ -815,6 +815,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#label_and_merge_select-instance_method" title="#label_and_merge_select (instance method)">#<strong>label_and_merge_select</strong>(name, default = &quot;&quot;, opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#label_and_password-instance_method" title="#label_and_password (instance method)">#<strong>label_and_password</strong>(name, opts = {})  &#x21d2; Object </a>
     
 
@@ -999,6 +1022,75 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#merge_checkbox-instance_method" title="#merge_checkbox (instance method)">#<strong>merge_checkbox</strong>(name, opts = {}, default = false, force_checked = false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#merge_select-instance_method" title="#merge_select (instance method)">#<strong>merge_select</strong>(name, value, opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#merge_victim_view-instance_method" title="#merge_victim_view (instance method)">#<strong>merge_victim_view</strong>(hash, opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#name_to_json_path-instance_method" title="#name_to_json_path (instance method)">#<strong>name_to_json_path</strong>(name)  &#x21d2; Object </a>
     
 
@@ -1014,6 +1106,52 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Turn a name like my[nested][object][0][title] into the equivalent JSON path (my/nested/object/0/title).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#oai_config_repo_set_codes_field-instance_method" title="#oai_config_repo_set_codes_field (instance method)">#<strong>oai_config_repo_set_codes_field</strong>(set_json, repositories)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#oai_config_sponsor_set_names_field-instance_method" title="#oai_config_sponsor_set_names_field (instance method)">#<strong>oai_config_sponsor_set_names_field</strong>(set_json, opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -1482,6 +1620,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#textarea_ro-instance_method" title="#textarea_ro (instance method)">#<strong>textarea_ro</strong>(name = nil, value = &quot;&quot;, opts = {})  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#textfield-instance_method" title="#textfield (instance method)">#<strong>textfield</strong>(name = nil, value = nil, opts = {})  &#x21d2; Object </a>
     
 
@@ -1637,16 +1798,16 @@
       <pre class="lines">
 
 
-493
-494
-495
-496
-497
-498
-499</pre>
+604
+605
+606
+607
+608
+609
+610</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 493</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 604</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_allowable_types_for identifier id'>allowable_types_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@active_template ivar id'>@active_template</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_@active_template ivar id'>@active_template</span><span class='rbrack token'>]</span>
@@ -1676,15 +1837,15 @@
       <pre class="lines">
 
 
-403
-404
-405
-406
-407
-408</pre>
+458
+459
+460
+461
+462
+463</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 403</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 458</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_checkbox identifier id'>checkbox</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='rubyid_force_checked identifier id'>force_checked</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{id_for(name)}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;checkbox&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span><span class='rbrace token'>}</span>
@@ -1724,55 +1885,53 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436
-437
-438
-439
-440
-441
-442
-443
-444
-445
-446
-447
-448
-449
-450
-451
-452
-453
-454
-455
-456
-457</pre>
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 412</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 467</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_checkboxes_for_oai_sets identifier id'>checkboxes_for_oai_sets</span><span class='lparen token'>(</span><span class='rubyid_set_json identifier id'>set_json</span><span class='comma token'>,</span> <span class='rubyid_value_list identifier id'>value_list</span><span class='rparen token'>)</span>
   <span class='comment val'># when called by #new, set_json will be nil.</span>
@@ -1784,12 +1943,10 @@ returns HTML for a set of checkboxes representing current selected and deselecte
 
   <span class='rubyid_html identifier id'>html</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span> 
 
-  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;row&#39;&gt;&quot;</span>
-    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-2&#39;&gt;&quot;</span>
-      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;label class=&#39;control-label&#39;&gt;#{I18n.t(&quot;repository_oai.oai_sets_available&quot;)}&lt;/label&gt;&quot;</span>
-    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
-    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-8&#39;&gt;&amp;nbsp;&quot;</span>
-      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;ul class=&#39;list_group&#39;&gt;&quot;</span>
+  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;form-group&#39;&gt;&quot;</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_label identifier id'>label</span><span class='lparen token'>(</span><span class='string val'>&quot;oai_sets_available&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;control-label&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;col-sm-2&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-9&#39;&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;ul class=&#39;checkbox-list&#39;&gt;&quot;</span>
         <span class='rubyid_value_list identifier id'>value_list</span><span class='lbrack token'>[</span><span class='string val'>&#39;enumeration_values&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
           <span class='comment val'># if we have an empty list of checkboxes, assume all sets are enabled.</span>
           <span class='comment val'># otherwise, a checkbox is on if it&#39;s the in the list we get from the backend.</span>
@@ -1815,8 +1972,8 @@ returns HTML for a set of checkboxes representing current selected and deselecte
           <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/li&gt;&quot;</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/ul&gt;&quot;</span>
-    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#col-sm-8</span>
-  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#row</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#col-sm-9</span>
+  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#form-group</span>
 
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1878,12 +2035,12 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-275
-276
-277</pre>
+321
+322
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 275</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 321</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_combobox identifier id'>combobox</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:&quot;data-combobox&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -1971,16 +2128,16 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-484
-485
-486
-487
-488
-489
-490</pre>
+595
+596
+597
+598
+599
+600
+601</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 484</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 595</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_default_for identifier id'>default_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@active_template ivar id'>@active_template</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_@active_template ivar id'>@active_template</span><span class='rbrack token'>]</span>
@@ -2010,16 +2167,16 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-784
-785
-786
-787
-788
-789
-790</pre>
+926
+927
+928
+929
+930
+931
+932</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 784</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 926</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_define_template identifier id'>define_template</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_definition identifier id'>definition</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_@templates ivar id'>@templates</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -2049,20 +2206,20 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368</pre>
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 358</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 413</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_emit_template identifier id'>emit_template</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span>
@@ -2096,14 +2253,14 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-924
-925
-926
-927
-928</pre>
+1066
+1067
+1068
+1069
+1070</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 924</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 1066</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_error_params identifier id'>error_params</span><span class='lparen token'>(</span><span class='rubyid_exceptions identifier id'>exceptions</span><span class='rparen token'>)</span>
   <span class='lbrace token'>{</span>
@@ -2233,37 +2390,37 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-617
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644</pre>
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 617</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 759</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_form_context identifier id'>form_context</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_values_from identifier id'>values_from</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span>
   <span class='rubyid_context identifier id'>context</span> <span class='assign token'>=</span> <span class='rubyid_FormContext constant id'>FormContext</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_values_from identifier id'>values_from</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -2411,22 +2568,22 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356</pre>
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 344</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 399</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_hidden_input identifier id'>hidden_input</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_field_opts identifier id'>field_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -2590,12 +2747,12 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-660
-661
-662</pre>
+802
+803
+804</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 660</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 802</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_jsonmodel_definition identifier id'>jsonmodel_definition</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_root identifier id'>root</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_JSONModelDefinition constant id'>JSONModelDefinition</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_root identifier id'>root</span><span class='rparen token'>)</span>
@@ -2621,31 +2778,31 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401</pre>
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 380</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 435</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_label identifier id'>label</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_classes identifier id'>classes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
@@ -2792,25 +2949,98 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-370
-371
-372
-373
-374
-375
-376
-377</pre>
+425
+426
+427
+428
+429
+430
+431
+432</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 370</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 425</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_label_and_fourpartid identifier id'>label_and_fourpartid</span>
   <span class='rubyid_field_html identifier id'>field_html</span> <span class='assign token'>=</span>  <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_0&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_0&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_0 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='rparen token'>)</span>
-  <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_1&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_1 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_0&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='rparen token'>)</span>
-  <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_2&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_2 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='rparen token'>)</span>
-  <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_3&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_3&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_3 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='rparen token'>)</span>
+  <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_1&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_1 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_0&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='comma token'>,</span> <span class='symbol val'>:&#39;aria-label&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_1&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_2&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_2 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='comma token'>,</span> <span class='symbol val'>:&#39;aria-label&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_2&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_3&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_3&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_3 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='comma token'>,</span> <span class='symbol val'>:&#39;aria-label&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_3&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_content_tag identifier id'>content_tag</span><span class='lparen token'>(</span><span class='symbol val'>:div</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='rubyid_i18n_for identifier id'>i18n_for</span><span class='lparen token'>(</span><span class='string val'>&quot;id_0&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='rubyid_field_html identifier id'>field_html</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span><span class='comma token'>,</span> <span class='symbol val'>:class</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;identifier-fields&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_label_with_field identifier id'>label_with_field</span><span class='lparen token'>(</span><span class='string val'>&quot;id_0&quot;</span><span class='comma token'>,</span> <span class='rubyid_field_html identifier id'>field_html</span><span class='comma token'>,</span> <span class='symbol val'>:control_class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;identifier-fields&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="label_and_merge_select-instance_method">
+  
+    #<strong>label_and_merge_select</strong>(name, default = &quot;&quot;, opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 288</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_label_and_merge_select identifier id'>label_and_merge_select</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:plugin</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;plugins.&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;&#39;</span>
+    <span class='rubyid_schema identifier id'>schema</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span>
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;dynamic_enum&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:enumeration</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;dynamic_enum&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;enum&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span> <span class='colon op'>:</span><span class='rubyid_controls_class identifier id'>controls_class</span>
+    <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:controls_class</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot; label-only&quot;</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:controls_class</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot; label-only&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+    <span class='rubyid_label_with_field identifier id'>label_with_field</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='integer val'>? </span><span class='rubyid_default identifier id'>default</span> <span class='colon op'>:</span> <span class='rubyid_value identifier id'>value</span> <span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_label_with_field identifier id'>label_with_field</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_merge_select identifier id'>merge_select</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:field_opts</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -2874,14 +3104,42 @@ returns HTML for a set of checkboxes representing current selected and deselecte
 269
 270
 271
-272</pre>
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 262</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_label_and_readonly identifier id'>label_and_readonly</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
+    <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+  <span class='rubyid_end end kw'>end</span>
 
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:plugin</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;plugins.&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;&#39;</span>
+    <span class='rubyid_schema identifier id'>schema</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span>
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;dynamic_enum&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:enumeration</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;dynamic_enum&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;enum&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span>
+  <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span> <span class='colon op'>:</span><span class='rubyid_controls_class identifier id'>controls_class</span>
     <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:controls_class</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot; label-only&quot;</span>
   <span class='rubyid_else else kw'>else</span>
@@ -3049,45 +3307,45 @@ returns HTML for a set of checkboxes representing current selected and deselecte
       <pre class="lines">
 
 
-511
-512
-513
-514
-515
-516
-517
-518
-519
-520
-521
-522
-523
-524
-525
-526
-527
-528
-529
-530
-531
-532
-533
-534
-535
-536
-537
-538
-539
-540
-541
-542
-543
-544
-545
-546</pre>
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 511</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 622</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_label_with_field identifier id'>label_with_field</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_field_html identifier id'>field_html</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:label_opts</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -3195,6 +3453,173 @@ returns HTML for a set of checkboxes representing current selected and deselecte
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="merge_checkbox-instance_method">
+  
+    #<strong>merge_checkbox</strong>(name, opts = {}, default = false, force_checked = false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+572
+573
+574
+575
+576
+577</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 572</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_merge_checkbox identifier id'>merge_checkbox</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_force_checked identifier id'>force_checked</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{id_for(name)}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;checkbox&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;REPLACE&quot;</span><span class='rbrace token'>}</span>
+  <span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:checked</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;checked&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_force_checked identifier id'>force_checked</span> <span class='rubyid_or or kw'>or</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_or or kw'>or</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;true&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_or or kw'>or</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;REPLACE&quot;</span><span class='rparen token'>)</span> <span class='rubyid_or or kw'>or</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_default identifier id'>default</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_tag identifier id'>tag</span><span class='lparen token'>(</span><span class='string val'>&quot;input&quot;</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="merge_select-instance_method">
+  
+    #<strong>merge_select</strong>(name, value, opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+312
+313
+314
+315
+316
+317
+318
+319</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 312</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_merge_select identifier id'>merge_select</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;&lt;label&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='opasgn op'>+=</span> <span class='rubyid_merge_checkbox identifier id'>merge_checkbox</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{name}&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;merge-toggle&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;&amp;#160;&lt;small&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='opasgn op'>+=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;actions.merge_replace&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;&lt;/small&gt;&lt;/label&gt;&quot;</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="merge_victim_view-instance_method">
+  
+    #<strong>merge_victim_view</strong>(hash, opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 660</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_merge_victim_view identifier id'>merge_victim_view</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_schema identifier id'>schema</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span>
+  <span class='rubyid_prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:plugin</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;plugins.&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;&#39;</span>
+  <span class='rubyid_html identifier id'>html</span> <span class='assign token'>=</span> <span class='string val'>&quot;&lt;div class=&#39;form-horizontal&#39;&gt;&quot;</span>
+
+  <span class='rubyid_hash identifier id'>hash</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW constant id'>PROPERTIES_TO_EXCLUDE_FROM_READ_ONLY_VIEW</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_schema identifier id'>schema</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='rparen token'>)</span>
+      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;dynamic_enum&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+        <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:enumeration</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;dynamic_enum&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;enum&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;boolean&quot;</span>
+        <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span> <span class='eqq op'>===</span> <span class='rubyid_true true kw'>true</span> <span class='question op'>?</span> <span class='string val'>&quot;True&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;False&quot;</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;date&quot;</span>
+        <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='integer val'>? </span><span class='string val'>&quot;&quot;</span> <span class='colon op'>:</span> <span class='rubyid_Date constant id'>Date</span><span class='dot token'>.</span><span class='rubyid_strptime identifier id'>strptime</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='string val'>&quot;%Y-%m-%d&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&quot;properties&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_property identifier id'>property</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;type&quot;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;array&quot;</span>
+        <span class='comment val'># this view doesn&#39;t support arrays</span>
+        <span class='rubyid_next next kw'>next</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Hash constant id'>Hash</span>
+        <span class='comment val'># can&#39;t display an object either</span>
+        <span class='rubyid_next next kw'>next</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;form-group&#39;&gt;&quot;</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;div class=&#39;control-label col-sm-2&#39;&gt;#{I18n.t(&quot;#{prefix}#{jsonmodel_type.to_s}.#{property}&quot;)}&lt;/div&gt;&quot;</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;div class=&#39;label-only col-sm-8&#39;&gt;#{value}&lt;/div&gt;&quot;</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
+  <span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="name_to_json_path-instance_method">
   
     #<strong>name_to_json_path</strong>(name)  &#x21d2; <tt>Object</tt> 
@@ -3229,6 +3654,158 @@ path (my/nested/object/0/title)</p>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_name_to_json_path identifier id'>name_to_json_path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/[\[\]]+/</span><span class='comma token'>,</span> <span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\/+$/</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/^\/+/</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="oai_config_repo_set_codes_field-instance_method">
+  
+    #<strong>oai_config_repo_set_codes_field</strong>(set_json, repositories)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 512</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_oai_config_repo_set_codes_field identifier id'>oai_config_repo_set_codes_field</span><span class='lparen token'>(</span><span class='rubyid_set_json identifier id'>set_json</span><span class='comma token'>,</span> <span class='rubyid_repositories identifier id'>repositories</span><span class='rparen token'>)</span>
+  <span class='comment val'>#label_and_textfield(name, opts)</span>
+  <span class='rubyid_set_arry identifier id'>set_arry</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_set_json identifier id'>set_json</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_html identifier id'>html</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span> 
+
+  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;form-group&#39;&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_label identifier id'>label</span><span class='lparen token'>(</span><span class='string val'>&quot;repo_set_section&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;control-label&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;col-sm-2&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-9&#39;&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;ul class=&#39;checkbox-list&#39;&gt;&quot;</span>
+        <span class='rubyid_repositories identifier id'>repositories</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>
+          <span class='comment val'># a checkbox is on if it&#39;s the in the list we get from the backend.</span>
+          <span class='rubyid_checked identifier id'>checked</span> <span class='assign token'>=</span> <span class='rubyid_set_arry identifier id'>set_arry</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_r identifier id'>r</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_code&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span> 
+
+          <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;li class=&#39;list-group-item&#39;&gt;&quot;</span>
+            <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;checkbox&#39;&gt;&quot;</span>
+              <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;label&gt;&quot;</span>
+                <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;input id=\&quot;#{r[&#39;repo_code&#39;]}\&quot; name=\&quot;repo_set_codes[#{r[&#39;repo_code&#39;]}]\&quot; type=\&quot;checkbox\&quot; &quot;</span>
+                <span class='rubyid_if if kw'>if</span> <span class='rubyid_checked identifier id'>checked</span>
+                  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;checked=\&quot;checked\&quot; &quot;</span>
+                <span class='rubyid_end end kw'>end</span>
+  
+                <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;/&gt;&quot;</span>
+  
+                <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{r[&#39;repo_code&#39;]}&quot;</span>
+              <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/label&gt;&quot;</span>
+            <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
+          <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/li&gt;&quot;</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/ul&gt;&quot;</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#col-sm-9</span>
+  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#form-group</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="oai_config_sponsor_set_names_field-instance_method">
+  
+    #<strong>oai_config_sponsor_set_names_field</strong>(set_json, opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 548</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_oai_config_sponsor_set_names_field identifier id'>oai_config_sponsor_set_names_field</span><span class='lparen token'>(</span><span class='rubyid_set_json identifier id'>set_json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='comment val'># turn array from DB into a comma delimited list for UI</span>
+  <span class='rubyid_set_arry identifier id'>set_arry</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_set_json identifier id'>set_json</span><span class='rparen token'>)</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_set_arry identifier id'>set_arry</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;|&quot;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_html identifier id'>html</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
+
+  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;form-group&#39;&gt;&quot;</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_label identifier id'>label</span><span class='lparen token'>(</span><span class='string val'>&quot;sponsor_set_names&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;control-label&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;col-sm-2&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-9&#39;&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;input id=&#39;oai_config_sponsor_set_names_&#39; type=&#39;text&#39; value=&#39;#{value}&#39; name=&#39;oai_config[sponsor_set_names]&#39; class=&#39;form-control js-taggable&#39; datarole=&#39;tagsinput&#39;&gt;&quot;</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
+  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -3313,13 +3890,13 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-339
-340
-341
-342</pre>
+394
+395
+396
+397</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 339</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 394</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_password identifier id'>password</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_tag identifier id'>tag</span><span class='lparen token'>(</span><span class='string val'>&quot;input&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id_for identifier id'>id_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;password&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_h identifier id'>h</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -3471,16 +4048,16 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-502
-503
-504
-505
-506
-507
-508</pre>
+613
+614
+615
+616
+617
+618
+619</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 502</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 613</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_possible_options_for identifier id'>possible_options_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_add_empty_options identifier id'>add_empty_options</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@active_template ivar id'>@active_template</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_@active_template ivar id'>@active_template</span><span class='rbrack token'>]</span>
@@ -3510,12 +4087,12 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-908
-909
-910</pre>
+1050
+1051
+1052</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 908</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 1050</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_preserve_newlines identifier id'>preserve_newlines</span><span class='lparen token'>(</span><span class='rubyid_string identifier id'>string</span><span class='rparen token'>)</span>
   <span class='rubyid_string identifier id'>string</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\n/</span><span class='comma token'>,</span> <span class='string val'>&#39;&lt;br&gt;&#39;</span><span class='rparen token'>)</span>
@@ -3620,15 +4197,15 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-467
-468
-469
-470
-471
-472</pre>
+578
+579
+580
+581
+582
+583</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 467</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 578</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_radio identifier id'>radio</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{id_for(name)}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;radio&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rbrace token'>}</span>
@@ -3657,46 +4234,46 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-870
-871
-872
-873
-874
-875
-876
-877
-878
-879
-880
-881
-882
-883
-884
-885
-886
-887
-888
-889
-890
-891
-892
-893
-894
-895
-896
-897
-898
-899
-900
-901
-902
-903
-904
-905
-906</pre>
+1012
+1013
+1014
+1015
+1016
+1017
+1018
+1019
+1020
+1021
+1022
+1023
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1047
+1048</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 870</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 1012</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_read_only_view identifier id'>read_only_view</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='rbrack token'>]</span>
@@ -3810,23 +4387,23 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-853
-854
-855
-856
-857
-858
-859
-860
-861
-862
-863
-864
-865
-866</pre>
+995
+996
+997
+998
+999
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 853</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 995</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_readonly_context identifier id'>readonly_context</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_values_from identifier id'>values_from</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span>
   <span class='rubyid_context identifier id'>context</span> <span class='assign token'>=</span> <span class='rubyid_ReadOnlyContext constant id'>ReadOnlyContext</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_values_from identifier id'>values_from</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -3863,15 +4440,15 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-459
-460
-461
-462
-463
-464</pre>
+565
+566
+567
+568
+569
+570</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 565</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_req_checkbox identifier id'>req_checkbox</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='rubyid_force_checked identifier id'>force_checked</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{id_for(name)}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;checkbox&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;REQ&quot;</span><span class='rbrace token'>}</span>
@@ -3923,16 +4500,16 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-475
-476
-477
-478
-479
-480
-481</pre>
+586
+587
+588
+589
+590
+591
+592</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 475</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 586</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_required? fid id'>required?</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@active_template ivar id'>@active_template</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_templates identifier id'>templates</span><span class='lbrack token'>[</span><span class='rubyid_@active_template ivar id'>@active_template</span><span class='rbrack token'>]</span>
@@ -3962,52 +4539,6 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
 326
 327
 328
@@ -4229,10 +4760,121 @@ path (my/nested/object/0/title)</p>
 544
 545
 546
-547</pre>
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 280</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 326</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span> <span class='colon op'>:</span><span class='rubyid_class class kw'>class</span>
@@ -4257,6 +4899,15 @@ path (my/nested/object/0/title)</p>
     <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_text_area_tag identifier id'>text_area_tag</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_h identifier id'>h</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span><span class='comma token'>,</span>  <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_textarea_ro identifier id'>textarea_ro</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+    <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:escape</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:escape</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span>
+    <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:base_url</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='string val'>&quot;/&quot;</span>
+    <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_clean_mixed_content identifier id'>clean_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:base_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:clean</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span>  <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_preserve_newlines identifier id'>preserve_newlines</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:clean</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_CGI constant id'>CGI</span><span class='colon2 op'>::</span><span class='rubyid_escapeHTML identifier id'>escapeHTML</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:escape</span><span class='rbrack token'>]</span>
+    <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+  <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_def def kw'>def</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
     <span class='rubyid_value identifier id'>value</span> <span class='opasgn op'>||=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -4326,9 +4977,9 @@ path (my/nested/object/0/title)</p>
 
   <span class='rubyid_def def kw'>def</span> <span class='rubyid_label_and_fourpartid identifier id'>label_and_fourpartid</span>
     <span class='rubyid_field_html identifier id'>field_html</span> <span class='assign token'>=</span>  <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_0&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_0&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_0 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='rparen token'>)</span>
-    <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_1&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_1 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_0&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='rparen token'>)</span>
-    <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_2&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_2 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='rparen token'>)</span>
-    <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_3&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_3&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_3 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='rparen token'>)</span>
+    <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_1&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_1 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_0&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='comma token'>,</span> <span class='symbol val'>:&#39;aria-label&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_1&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_2&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_2 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_1&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='comma token'>,</span> <span class='symbol val'>:&#39;aria-label&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_2&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_field_html identifier id'>field_html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='string val'>&quot;id_3&quot;</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_3&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_3 form-control&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:size</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>10</span><span class='comma token'>,</span> <span class='symbol val'>:disabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_2&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;id_3&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span><span class='comma token'>,</span> <span class='symbol val'>:&#39;aria-label&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;id_3&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_content_tag identifier id'>content_tag</span><span class='lparen token'>(</span><span class='symbol val'>:div</span><span class='comma token'>,</span> <span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='rubyid_i18n_for identifier id'>i18n_for</span><span class='lparen token'>(</span><span class='string val'>&quot;id_0&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='rubyid_field_html identifier id'>field_html</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span><span class='comma token'>,</span> <span class='symbol val'>:class</span><span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;identifier-fields&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_label_with_field identifier id'>label_with_field</span><span class='lparen token'>(</span><span class='string val'>&quot;id_0&quot;</span><span class='comma token'>,</span> <span class='rubyid_field_html identifier id'>field_html</span><span class='comma token'>,</span> <span class='symbol val'>:control_class</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;identifier-fields&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -4376,12 +5027,10 @@ path (my/nested/object/0/title)</p>
 
     <span class='rubyid_html identifier id'>html</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span> 
 
-    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;row&#39;&gt;&quot;</span>
-      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-2&#39;&gt;&quot;</span>
-        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;label class=&#39;control-label&#39;&gt;#{I18n.t(&quot;repository_oai.oai_sets_available&quot;)}&lt;/label&gt;&quot;</span>
-      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
-      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-8&#39;&gt;&amp;nbsp;&quot;</span>
-        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;ul class=&#39;list_group&#39;&gt;&quot;</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;form-group&#39;&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_label identifier id'>label</span><span class='lparen token'>(</span><span class='string val'>&quot;oai_sets_available&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;control-label&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;col-sm-2&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-9&#39;&gt;&quot;</span>
+        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;ul class=&#39;checkbox-list&#39;&gt;&quot;</span>
           <span class='rubyid_value_list identifier id'>value_list</span><span class='lbrack token'>[</span><span class='string val'>&#39;enumeration_values&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
             <span class='comment val'># if we have an empty list of checkboxes, assume all sets are enabled.</span>
             <span class='comment val'># otherwise, a checkbox is on if it&#39;s the in the list we get from the backend.</span>
@@ -4407,8 +5056,61 @@ path (my/nested/object/0/title)</p>
             <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/li&gt;&quot;</span>
           <span class='rubyid_end end kw'>end</span>
         <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/ul&gt;&quot;</span>
-      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#col-sm-8</span>
-    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#row</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#col-sm-9</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#form-group</span>
+
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_oai_config_repo_set_codes_field identifier id'>oai_config_repo_set_codes_field</span><span class='lparen token'>(</span><span class='rubyid_set_json identifier id'>set_json</span><span class='comma token'>,</span> <span class='rubyid_repositories identifier id'>repositories</span><span class='rparen token'>)</span>
+    <span class='comment val'>#label_and_textfield(name, opts)</span>
+    <span class='rubyid_set_arry identifier id'>set_arry</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_set_json identifier id'>set_json</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_html identifier id'>html</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span> 
+
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;form-group&#39;&gt;&quot;</span>
+        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_label identifier id'>label</span><span class='lparen token'>(</span><span class='string val'>&quot;repo_set_section&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;control-label&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;col-sm-2&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-9&#39;&gt;&quot;</span>
+        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;ul class=&#39;checkbox-list&#39;&gt;&quot;</span>
+          <span class='rubyid_repositories identifier id'>repositories</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span>
+            <span class='comment val'># a checkbox is on if it&#39;s the in the list we get from the backend.</span>
+            <span class='rubyid_checked identifier id'>checked</span> <span class='assign token'>=</span> <span class='rubyid_set_arry identifier id'>set_arry</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_r identifier id'>r</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_code&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span> 
+
+            <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;li class=&#39;list-group-item&#39;&gt;&quot;</span>
+              <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;checkbox&#39;&gt;&quot;</span>
+                <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;label&gt;&quot;</span>
+                  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;input id=\&quot;#{r[&#39;repo_code&#39;]}\&quot; name=\&quot;repo_set_codes[#{r[&#39;repo_code&#39;]}]\&quot; type=\&quot;checkbox\&quot; &quot;</span>
+                  <span class='rubyid_if if kw'>if</span> <span class='rubyid_checked identifier id'>checked</span>
+                    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;checked=\&quot;checked\&quot; &quot;</span>
+                  <span class='rubyid_end end kw'>end</span>
+
+                  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;/&gt;&quot;</span>
+
+                  <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{r[&#39;repo_code&#39;]}&quot;</span>
+                <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/label&gt;&quot;</span>
+              <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
+            <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/li&gt;&quot;</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/ul&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#col-sm-9</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span> <span class='comment val'>#form-group</span>
+
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_oai_config_sponsor_set_names_field identifier id'>oai_config_sponsor_set_names_field</span><span class='lparen token'>(</span><span class='rubyid_set_json identifier id'>set_json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='comment val'># turn array from DB into a comma delimited list for UI</span>
+    <span class='rubyid_set_arry identifier id'>set_arry</span> <span class='assign token'>=</span> <span class='rubyid_JSON constant id'>JSON</span><span class='colon2 op'>::</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_set_json identifier id'>set_json</span><span class='rparen token'>)</span>
+    <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_set_arry identifier id'>set_arry</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;|&quot;</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_html identifier id'>html</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
+
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;form-group&#39;&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_label identifier id'>label</span><span class='lparen token'>(</span><span class='string val'>&quot;sponsor_set_names&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;control-label&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;col-sm-2&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;div class=&#39;col-sm-9&#39;&gt;&quot;</span>
+        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;input id=&#39;oai_config_sponsor_set_names_&#39; type=&#39;text&#39; value=&#39;#{value}&#39; name=&#39;oai_config[sponsor_set_names]&#39; class=&#39;form-control js-taggable&#39; datarole=&#39;tagsinput&#39;&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
 
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
   <span class='rubyid_end end kw'>end</span>
@@ -4420,7 +5122,12 @@ path (my/nested/object/0/title)</p>
     <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_tag identifier id'>tag</span><span class='lparen token'>(</span><span class='string val'>&quot;input&quot;</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_merge_checkbox identifier id'>merge_checkbox</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_force_checked identifier id'>force_checked</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+    <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{id_for(name)}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;checkbox&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;REPLACE&quot;</span><span class='rbrace token'>}</span>
+    <span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:checked</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;checked&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_force_checked identifier id'>force_checked</span> <span class='rubyid_or or kw'>or</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span> <span class='rubyid_or or kw'>or</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;true&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_or or kw'>or</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;REPLACE&quot;</span><span class='rparen token'>)</span> <span class='rubyid_or or kw'>or</span> <span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_default identifier id'>default</span><span class='rparen token'>)</span>
 
+    <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_tag identifier id'>tag</span><span class='lparen token'>(</span><span class='string val'>&quot;input&quot;</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_def def kw'>def</span> <span class='rubyid_radio identifier id'>radio</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
     <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{id_for(name)}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;radio&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:value</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_value identifier id'>value</span><span class='rbrace token'>}</span>
     <span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:checked</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;checked&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_value identifier id'>value</span>
@@ -4554,13 +5261,13 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-647
-648
-649
-650</pre>
+789
+790
+791
+792</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 647</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 789</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_templates identifier id'>templates</span>
   <span class='rubyid_@templates ivar id'>@templates</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -4587,68 +5294,68 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-793
-794
-795
-796
-797
-798
-799
-800
-801
-802
-803
-804
-805
-806
-807
-808
-809
-810
-811
-812
-813
-814
-815
-816
-817
-818
-819
-820
-821
-822
-823
-824
-825
-826
-827
-828
-829
-830
-831
-832
-833
-834
-835
-836
-837
-838
-839
-840
-841
-842
-843
-844
-845
-846
-847
-848
-849
-850
-851</pre>
+935
+936
+937
+938
+939
+940
+941
+942
+943
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961
+962
+963
+964
+965
+966
+967
+968
+969
+970
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982
+983
+984
+985
+986
+987
+988
+989
+990
+991
+992
+993</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 793</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 935</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_templates_for_js identifier id'>templates_for_js</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_@delivering_js_templates ivar id'>@delivering_js_templates</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
@@ -4730,20 +5437,20 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301</pre>
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 291</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 337</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_textarea identifier id'>textarea</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='dot3 op'>...</span><span class='integer val'>-4</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_end_with? fid id'>end_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;_REQ&quot;</span><span class='rparen token'>)</span>
@@ -4755,6 +5462,49 @@ path (my/nested/object/0/title)</p>
   <span class='rubyid_options identifier id'>options</span><span class='lbrack token'>[</span><span class='symbol val'>:class</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;form-control&quot;</span>
 
   <span class='rubyid_@forms ivar id'>@forms</span><span class='dot token'>.</span><span class='rubyid_text_area_tag identifier id'>text_area_tag</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_h identifier id'>h</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span><span class='comma token'>,</span>  <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="textarea_ro-instance_method">
+  
+    #<strong>textarea_ro</strong>(name = nil, value = &quot;&quot;, opts = {})  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+349
+350
+351
+352
+353
+354
+355
+356
+357</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 349</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_textarea_ro identifier id'>textarea_ro</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:escape</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:escape</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span>
+  <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:base_url</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='string val'>&quot;/&quot;</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_clean_mixed_content identifier id'>clean_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:base_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:clean</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span>  <span class='rubyid_@parent ivar id'>@parent</span><span class='dot token'>.</span><span class='rubyid_preserve_newlines identifier id'>preserve_newlines</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:clean</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_CGI constant id'>CGI</span><span class='colon2 op'>::</span><span class='rubyid_escapeHTML identifier id'>escapeHTML</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:escape</span><span class='rbrack token'>]</span>
+  <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -4777,42 +5527,42 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336</pre>
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 359</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_textfield identifier id'>textfield</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span>  <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_value identifier id'>value</span> <span class='opasgn op'>||=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -4868,18 +5618,18 @@ path (my/nested/object/0/title)</p>
       <pre class="lines">
 
 
-913
-914
-915
-916
-917
-918
-919
-920
-921</pre>
+1055
+1056
+1057
+1058
+1059
+1060
+1061
+1062
+1063</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 913</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/aspace_form_helper.rb', line 1055</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_monitor_params identifier id'>update_monitor_params</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='lbrace token'>{</span>
@@ -4901,10 +5651,11 @@ path (my/nested/object/0/title)</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.1.a Documentation Generated on Tue Oct 16 08:40:00 2018 by
+  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:56 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.3).
+  0.9.12.
 </div>
+
     </div>
   </body>
 </html>

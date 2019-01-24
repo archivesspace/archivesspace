@@ -25,18 +25,20 @@ class Job < Sequel::Model(:job)
   class JobFileStore
 
     def initialize(name)
-      @job_path = File.join(AppConfig[:job_file_path], name)
+      @job_dir = name
+      @job_path = File.join(AppConfig[:job_file_path], @job_dir)
       FileUtils.mkdir_p(@job_path)
       @output_path = File.join(@job_path, "output.log")
     end
 
 
     def store(file)
-      target = File.join(@job_path, SecureRandom.hex)
+      filename = SecureRandom.hex
+      target = File.join(@job_path, filename)
 
       FileUtils.cp(file.path, target)
 
-      target
+      File.join(@job_dir, filename)
     end
 
 
@@ -68,6 +70,7 @@ class Job < Sequel::Model(:job)
     def unlink(path)
       File.unlink(path)
     end
+
 
   end
 

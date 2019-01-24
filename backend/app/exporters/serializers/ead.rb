@@ -605,10 +605,16 @@ class EADSerializer < ASpaceExport::Serializer
 
       case note['type']
       when 'dimensions', 'physfacet'
+        att[:label] = note['label'] if note['label']
         xml.physdesc(audatt) {
           xml.send(note['type'], att) {
             sanitize_mixed_content( content, xml, fragments, ASpaceExport::Utils.include_p?(note['type'])  )
           }
+        }
+      when 'physdesc'
+        att[:label] = note['label'] if note['label']
+        xml.send(note['type'], att.merge(audatt)) {
+          sanitize_mixed_content(content, xml, fragments,ASpaceExport::Utils.include_p?(note['type']))
         }
       else
         xml.send(note['type'], att.merge(audatt)) {

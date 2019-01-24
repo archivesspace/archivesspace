@@ -1,5 +1,5 @@
 @import url("https://necolas.github.io/normalize.css/3.0.2/normalize.css");
-@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,800");
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,800");
 .list-language, .list--blank, .toc ul, .sidebar ul, .index-main ul { margin: 0; padding: 0; list-style: none; }
 
 .sidebar h2, .index-intro, .index-main h2 { border-bottom: solid #EFF0EC 2px; }
@@ -425,7 +425,7 @@ footer a:hover, footer a:active { text-decoration: underline; }
 
 .searchbox { margin-top: 3rem; }
 
-.searchbox-input { display: block; width: 100%; padding: 0.4em 0.6em; border: 2px solid #EFF0EC; border-radius: 4px; background-image: url(../../images/ui/search.svg); background-repeat: no-repeat; background-size: 1.4rem; background-position: 98% 48%; }
+.searchbox-input { display: block; width: 100%; padding: 0.4em 0.6em; border: 2px solid #EFF0EC; border-radius: 4px; background-repeat: no-repeat; background-size: 1.4rem; background-position: 98% 48%; }
 
 .index-intro { margin-top: 2.5em; padding-bottom: 2.4em; }
 .index-intro figure { margin: 0; padding: 0; }

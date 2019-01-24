@@ -1,3 +1,5 @@
+# Schema inherits from the abstract_archival_object schema, and must only include extensions/overrides unique to resource records.
+
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",

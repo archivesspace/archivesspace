@@ -1,3 +1,5 @@
+# This is the parent schema for the four primary archival record types: resources, archival objects, digital objects, and digital object components.
+
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",

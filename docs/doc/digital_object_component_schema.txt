@@ -6,7 +6,7 @@ string (max length: 255)	component_id
 
 string (max length: 255)	label
 
-string (max length: 16384)	title
+string	title
 
 string (max length: 8192)	display_string
 

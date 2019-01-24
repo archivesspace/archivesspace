@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  File: README_TUNING
+  File: README
   
     &mdash; Documentation by YARD 0.9.12
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "README_TUNING";
+  pathId = "README";
   relpath = '';
 </script>
 
@@ -36,8 +36,8 @@
       <div id="header">
         <div id="menu">
   
-    <a href="_index.html">Index</a> &raquo; 
-    <span class="title">File: README_TUNING</span>
+    <a href="alpha_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
   
 </div>
 
@@ -57,48 +57,44 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><p>Tuning ArchivesSpace</p>
+      <div id="content"><div id='filecontents'><h2 id="archivesspace">ArchivesSpace</h2>
 
-<p>ArchivesSpace is a stack of web applications which may require special tuning in order to run most effectively. This is especially the case for institutions with lots of data or many simulatious users editing metadata.
-Keep in mind that ArchivesSpace can be hosted on multiple server, either in a <a href="https://github.com/archivesspace/archivesspace/blob/master/clustering/CLUSTERING_README.md">multitenant setup</a> or by deploying the various applications ( i.e. backend, frontend, public, solr, &amp; indexer ) on seperate servers.</p>
+<p>Built for archives by archivists, ArchivesSpace is the open source archives information management application for managing and providing web access to archives, manuscripts and digital objects.</p>
 
-<h2 id="application-settings">Application Settings</h2>
-
-<p>The application itself can tuned in numerous ways. It’s a good idea to read the <a href="http://archivesspace.github.io/archivesspace/user/configuring-archivesspace/">configuring documentation</a>, as there are numerious settings that can be adjusted to fit your needs.</p>
-
-<p>A important thing to note that since ArchivesSpace is a java application, it’s possible to set the memory allocations used by the JVM. There are numerous articles on the internet full of information about what the optimal settings are, which will depend greatly on the load your server is experiecing and the hardware. It’s a good idea to monitor the application and ensure that it’s not hitting the top limits what you’ve set as the heap.</p>
-
-<p>These settings are:</p>
+<p><a href="https://travis-ci.org/archivesspace/archivesspace"><img src="https://travis-ci.org/archivesspace/archivesspace.svg?branch=master" alt="Build Status" /></a></p>
 
 <ul>
-  <li>ASPACE_JAVA_XMX : Maximum heap space ( maps to Java’s Xmx, default “Xmx1024m” )</li>
-  <li>ASPACE_JAVA_XSS : Thread stack size ( maps to Xss, default “Xss2m” )</li>
-  <li>ASPACE_JAVA_MAXPERMSIZE : Maximum Permanent generation space ( map to “XX:MaxPermSize”, default “XX:MaxPermSize=256m” )</li>
-  <li>ASPACE_GC_OPTS : Options used by the Java garbage collector ( default : “-XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1” )</li>
+  <li><a href="http://archivesspace.org">archivesspace.org</a></li>
+  <li><a href="https://docs.archivesspace.org/">User Documentation</a></li>
+  <li><a href="http://archivesspace.github.io/archivesspace/">Technical Documentation</a></li>
+  <li><a href="http://archivesspace.github.io/archivesspace/api">API</a></li>
+  <li><a href="http://wiki.archivesspace.org">Wiki</a></li>
+  <li><a href="http://development.archivesspace.org">Issue Tracker</a></li>
 </ul>
 
-<p>To modify these settings, Linux users can either export an enironment variable ( e.g. $ export ASPACE_JAVA_XMX=”Xmx2048m” ) or edit the archivesspace.sh startup script and modify the defaults.</p>
+<p>The latest technical documentation is managed in a separate GitHub repository <a href="https://github.com/archivesspace/tech-docs">ArchivesSpace tech-docs</a> and is published along with the API documentation and architecture notes, at
+<a href="http://archivesspace.github.io/archivesspace/">http://archivesspace.github.io/archivesspace/</a>.</p>
 
-<p>Windows users must edit the archivesspace.bat file.</p>
+<h1 id="license">License</h1>
 
-<p><strong>NOTE: THE APPLICATION WILL NOT USE THE AVAILABLE MEMORY UNLESS YOU SET THE MAXIMUM HEAP SIZE TO ALLOCATE IT</strong> For example, if your server has 4 gigs of RAM, but you haven’t adjusted the ArchivesSpace settings, you’ll only be using 1 gig.</p>
+<p>ArchivesSpace is released under the <a href="http://opensource.org/licenses/ecl2.php">Educational Community License, version 2.0</a>. See the <a href="COPYING">COPYING</a> file for more information.</p>
 
-<h2 id="mysql">MySQL</h2>
+<h1 id="credits">Credits</h1>
 
-<p>The ArchivesSpace application can hit a MySQL db server rather hard, since it’s a metadatarich application. There are many articles online about how to tune a MySQL database. A good place to start is try something like <a href="http://mysqltuner.com/">MySQL Tuner</a> or <a href="https://rtcamp.com/tutorials/mysql/tuningprimer/">Tuning Primer</a> which can give good hints on possible tweaks to make to your MySQL server configuration.</p>
+<p>ArchivesSpace (http://archivesspace.org) is community-supported software whose ongoing development is led, managed, implemented and funded by a diverse community of users, developers, and administrators all working together to achieve the goal of helping archives and cultural heritage institutions better manage and provide access to their collections.</p>
 
-<p>Keep a close eye on the memory available to the server, as well as your InnoDB buffer pool.</p>
-
-<h2 id="solr">Solr</h2>
-
-<p>The internet is full of many suggestions on how to optimize a Solr index. <a href="http://archivesspace.github.io/archivesspace/user/running-archivesspace-with-external-solr/">Running an external Solr index</a> can be benificial to the performance of ArchivesSpace, since that moves the index to its own server.</p>
+<p>ArchivesSpace 1.0 (released in 2013) was developed by <a href="http://www.hudsonmolonglo.com">Hudson Molonglo</a> in partnership with the New York University Libraries,
+UC San Diego Libraries, and University of Illinois Urbana-Champaign Library and with
+funding from the Andrew W. Mellon Foundation, organizational support from
+LYRASIS, and contributions from diverse persons in the archives community.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.1.a Documentation Generated on Tue Oct 16 08:39:36 2018 by
+  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:33 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.3).
+  0.9.12.
 </div>
+
     </div>
   </body>
 </html>

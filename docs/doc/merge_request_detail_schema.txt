@@ -1,0 +1,16 @@
+JSON Schema: Merge_request_detail
+/merge_requests/:record_type
+Properties
+
+string	uri
+
+object	target
+
+array (Object (ref))	victims
+
+object	selections
+
+
+
+
+

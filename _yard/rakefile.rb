@@ -36,7 +36,7 @@ namespace :doc do
 
     require_relative '../backend/app/lib/export'
 
-    Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb').sort.each {|file| require file unless file =~ /system/}
+    Dir.glob(File.dirname(__FILE__) + '/../backend/app/controllers/*.rb').sort.each {|file| require file unless (file =~ /system/ || file =~ /oai/)}
 
     @endpoints = ArchivesSpaceService::Endpoint.all.sort{|a,b| a[:uri] <=> b[:uri]}
     @examples = JSON.parse( IO.read File.dirname(__FILE__) + "/../endpoint_examples.json" )
@@ -52,7 +52,7 @@ namespace :doc do
 
   desc 'Rename the YARD index file to avoid problems with Jekyll'
   task :rename_index do
-    Dir.chdir('../') do
+    Dir.chdir('../docs') do
       files = Dir.glob('doc/**/*')
       files.each do |f|
         if File::file?(f)

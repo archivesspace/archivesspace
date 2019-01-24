@@ -36,7 +36,7 @@
       <div id="header">
         <div id="menu">
   
-    <a href="../_index.html">Index (S)</a> &raquo;
+    <a href="../alpha_index.html">Index (S)</a> &raquo;
     <span class='title'><span class='object_link'><a href="../ASModel.html" title="ASModel (module)">ASModel</a></span></span>
      &raquo; 
     <span class="title">SequelHooks</span>
@@ -327,7 +327,7 @@ so skip them.</p>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 13</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid__save_refresh identifier id'>_save_refresh</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:has_jsonmodel?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_has_jsonmodel? fid id'>has_jsonmodel?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_ASModel constant id'>ASModel</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_top_level? fid id'>top_level?</span>
     <span class='rubyid__refresh identifier id'>_refresh</span><span class='lparen token'>(</span><span class='rubyid_this identifier id'>this</span><span class='dot token'>.</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:server</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_this identifier id'>this</span> <span class='colon op'>:</span> <span class='rubyid_this identifier id'>this</span><span class='dot token'>.</span><span class='rubyid_server identifier id'>server</span><span class='lparen token'>(</span><span class='symbol val'>:default</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -493,10 +493,11 @@ so skip them.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.1.a Documentation Generated on Tue Oct 16 08:39:42 2018 by
+  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:37 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12 (ruby-2.3.3).
+  0.9.12.
 </div>
+
     </div>
   </body>
 </html>

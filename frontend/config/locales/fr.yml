@@ -32,9 +32,10 @@ fr:
     merge_replace: Remplacer
     merge_add: Ajouter
     merge_confirm_title: Fusionner avec cette notice?
+    merge_agent_compare_agent_details: Comparer les agents
     merge_from_browse_confirm_title: Fusionner les enregistrements sélectionnés?
     merge_subject_confirm_message: "Les notices sélectionnées seront fusionnées dans le sujet '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à ce sujet."
-    merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à cet agent."
+    merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à cet agent. En cliquant sur le bouton Comparer les agents, un écran apparaît vous proposant de choisir les champs et sous-enregistrements à conserver dans chaque enregistrement."
     merge_agent_from_browse_confirm_message: "Les premiers éléments sélectionnés seront fusionnés avec le premier agent sélectionné. Tous les enregistrements sélectionnés ultérieurement seront supprimés et tous les enregistrements liés seront liés au premier agent sélectionné."
     merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans la ressource '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera réaffectée à cette ressource."
     move: Déplacer
@@ -458,7 +459,7 @@ fr:
         updated: Agent sauvegardé
         deleted: Agent supprimé
         delete_conflict: "Impossible de supprimer l'agent: <pre>%{error}</pre>"
-        merge_description: Sélectionner ci-dessous les agents à fusionner
+        merge_description: Sélectionnez l'agent à fusionner
         merged: Agent(s) fusionné(s)
         please_select_a_agent_to_merge: Sélectionner un agent
       section:

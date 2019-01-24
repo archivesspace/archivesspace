@@ -1,0 +1,26 @@
+JSON Schema: Oai_config
+/oai_config
+Properties
+
+string	oai_record_prefix
+
+string	oai_admin_email
+
+string	oai_repository_name
+
+string	repo_set_codes
+
+string	sponsor_set_names
+
+string	repo_set_description
+
+string	sponsor_set_description
+
+string	repo_set_name
+
+string	sponsor_set_name
+
+
+
+
+
