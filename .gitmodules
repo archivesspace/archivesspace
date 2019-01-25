@@ -17,3 +17,7 @@
 [submodule "plugins/in_a_rush"]
 	path = plugins/in_a_rush
 	url = https://github.com/marktriggs/in_a_rush.git
+
+[submodule "plugins/editable_external_ids"]
+	path = plugins/editable_external_ids
+	url = https://github.com/hudmol/editable_external_ids.git
