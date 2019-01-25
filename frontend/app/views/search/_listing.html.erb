@@ -85,7 +85,7 @@
             <% if result['primary_type'] === "repository" and session[:repo] === result['id'] %><span class="label label-success"><%= I18n.t("repository._frontend.messages.selected_short") %></span><% end %>
             <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
             <% if deleted %><span class="label label-important"><%= I18n.t("states.deleted") %></span><% end %>
-          <%=  clean_mixed_content(result["title"]).html_safe || clean_mixed_content(result['display_string']).html_safe %>
+          <%=  clean_mixed_content(result["title"] || result['display_string']).html_safe %>
           </td>
         <% end %>
         <% if show_context_column? %>
