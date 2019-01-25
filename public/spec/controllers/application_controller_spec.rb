@@ -218,7 +218,7 @@ describe ObjectsController, type: :controller do
   end
 
   it "should set id params == slug params if slug params are integers" do
-    response = get :show, params: {:slug_or_id => "1", :repo_slug => "4"}
+    response = get :show, params: {:slug_or_id => "1", :repo_slug => "4", :obj_type => "archival_objects"}
 
     expect(controller.params[:id]).to eq("1")
     expect(controller.params[:rid]).to eq("4")
@@ -228,7 +228,7 @@ describe ObjectsController, type: :controller do
     expected_uri = URI(JSONModel::HTTP.backend_url + "/slug_with_repo?slug=what&controller=objects&action=show&repo_slug=vault")
     expect(HTTP).to receive(:get_response).with(expected_uri)
 
-    response = get :show, params: {:slug_or_id => "what", :repo_slug => "vault"}
+    response = get :show, params: {:slug_or_id => "what", :repo_slug => "vault", :obj_type => "archival_objects"}
   end
 
   it "should query the backend for id and repo_id if slug_or_id is alphanumeric (repo_name_disabled)" do
@@ -237,7 +237,7 @@ describe ObjectsController, type: :controller do
     expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=objects&action=show")
     expect(HTTP).to receive(:get_response).with(expected_uri)
 
-    response = get :show, params: {:slug_or_id => "what"}
+    response = get :show, params: {:slug_or_id => "what", :obj_type => "archival_objects"}
 
     AppConfig[:repo_name_in_slugs] = true
   end
@@ -245,7 +245,7 @@ describe ObjectsController, type: :controller do
   it "should set id params based on response from backend for digital objects" do
     HTTP.stub(:get_response) { SlugQueryResponseMock.new(6, "digital_object", 5) }
 
-    response = get :show, params: {:slug_or_id => "foobar"}
+    response = get :show, params: {:slug_or_id => "foobar", :obj_type => "digital_objects"}
     expect(controller.params[:id]).to eq(6)
     expect(controller.params[:rid]).to eq(5)
     expect(controller.params[:obj_type]).to eq("digital_objects")
@@ -254,7 +254,7 @@ describe ObjectsController, type: :controller do
   it "should set id params based on response from backend for archival objects" do
     HTTP.stub(:get_response) { SlugQueryResponseMock.new(6, "archival_object", 5) }
 
-    response = get :show, params: {:slug_or_id => "foobar"}
+    response = get :show, params: {:slug_or_id => "foobar", :obj_type => "archival_objects"}
     expect(controller.params[:id]).to eq(6)
     expect(controller.params[:rid]).to eq(5)
     expect(controller.params[:obj_type]).to eq("archival_objects")
@@ -263,7 +263,7 @@ describe ObjectsController, type: :controller do
   it "should set id params based on response from backend for digital object components" do
     HTTP.stub(:get_response) { SlugQueryResponseMock.new(6, "digital_object_components", 5) }
 
-    response = get :show, params: {:slug_or_id => "foobar"}
+    response = get :show, params: {:slug_or_id => "foobar", :obj_type => "digital_object_components"}
     expect(controller.params[:id]).to eq(6)
     expect(controller.params[:rid]).to eq(5)
     expect(controller.params[:obj_type]).to eq("digital_object_components")
@@ -328,7 +328,7 @@ describe ClassificationsController, type: :controller do
     it "should query the backend for id and repo_id if slug_or_id is alphanumeric (repo_name_disabled)" do
       AppConfig[:repo_name_in_slugs] = false
 
-      expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=classifications&action=term")
+      expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=classifications&action=show")
       expect(HTTP).to receive(:get_response).with(expected_uri)
 
       response = get :show, params: {:slug_or_id => "what"}
