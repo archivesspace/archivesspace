@@ -6,7 +6,7 @@ class ResourcesController < ApplicationController
 
   skip_before_action  :verify_authenticity_token
 
-  before_filter(:only => [:show]) {
+  before_action(:only => [:show]) {
     process_slug_or_id(params)
   }
 
