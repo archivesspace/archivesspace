@@ -17,7 +17,7 @@ class SubjectsController <  ApplicationController
     :field => ['title']
   }
 
-  before_filter(:only => [:show]) {
+  before_action(:only => [:show]) {
     process_slug_or_id(params)
   }
   
