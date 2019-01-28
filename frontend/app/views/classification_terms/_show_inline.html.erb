@@ -12,6 +12,7 @@
         <section id="basic_information">
           <h3><%= I18n.t("classification_term._frontend.section.basic_information") %></h3>
             <%= form.label_and_textarea "identifier" %>
+            <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
             <%= form.label_and_textarea "title" %>
             <%= form.label_and_textarea "description" %>
 

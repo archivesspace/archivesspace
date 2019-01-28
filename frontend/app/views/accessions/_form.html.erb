@@ -9,6 +9,13 @@
     <fieldset>
        <%= form.label_and_textarea "title" %>
        <%= form.label_and_fourpartid %>
+
+      <% if AppConfig[:slugs] == :show %>
+         <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
+         <%= form.label_and_textfield "slug", :field_opts => {:disabled => @accession.is_slug_auto } %>
+         <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
+       <% end %>
+
        <%= form.label_and_date "accession_date" %>
        <%= form.label_and_textarea "content_description" %>
        <%= form.label_and_textarea "condition_description" %>
@@ -55,3 +62,6 @@
   <button type="submit" class="btn btn-primary"><%= I18n.t("accession._frontend.action.save") %></button>
   <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
 </div>
+<%= javascript_tag do %>
+  activate_slug_checkbox();
+<% end %>

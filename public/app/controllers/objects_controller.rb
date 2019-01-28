@@ -8,6 +8,10 @@ class ObjectsController <  ApplicationController
 
   skip_before_action  :verify_authenticity_token
 
+  before_action(:only => [:show]) {
+    process_slug_or_id(params)
+  }
+
   DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects published_agents)
   DEFAULT_OBJ_SEARCH_OPTS = {
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],

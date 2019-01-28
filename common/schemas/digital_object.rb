@@ -11,6 +11,8 @@
 
       "digital_object_id" => {"type" => "string", "maxLength" => 255, "ifmissing" => "error"},
       "level" => {"type" => "string", "dynamic_enum" => "digital_object_level"},
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"},
       "digital_object_type" => {
         "type" => "string",
         "dynamic_enum" => "digital_object_digital_object_type"

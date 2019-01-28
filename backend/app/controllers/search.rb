@@ -134,7 +134,7 @@ class ArchivesSpaceService < Sinatra::Base
   .returns([200, "OK"],
            [404, "Not found"]) \
   do
-
+    
     show_suppressed = !RequestContext.get(:enforce_suppression)
 
     node_info = JSONModel.parse_reference(params[:node_uri])

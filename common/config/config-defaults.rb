@@ -610,3 +610,23 @@ AppConfig[:pui_page_custom_actions] = []
 #   # 'erb_partial' returns the path to an erb template from which the action will be rendered
 #   'erb_partial' => 'shared/my_special_action',
 # }
+
+# If AppConfig[:slugs] is set to :show, slugged URLs will be generated in the public interface.
+# If set to :hide, ID based URLs will be generated in the public interface.
+# Changing this option will not remove or clear any slugs that exist currently. 
+# This setting only affects links that are displayed. URLs that point to valid slugs will still work. 
+# WARNING: Changing this setting may require an index rebuild for changes to take effect.
+AppConfig[:slugs] = :show
+
+# Use the repository in slug based URLs
+# Warning: setting repo_name_in_slugs to true when it has previously been set to false will break links, unless all slugs are regenerated.
+AppConfig[:repo_name_in_slugs] = true
+
+# Autogenerate slugs based on IDs. If this is set to false, then slugs will autogenerate based on name.
+AppConfig[:auto_generate_slugs_with_id] = false
+
+# For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
+AppConfig[:generate_resource_slugs_with_eadid] = false
+
+
+

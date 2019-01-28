@@ -1,4 +1,5 @@
 module ASModel
+
   # Hooks for firing behaviour on Sequel::Model events
   module SequelHooks
 
@@ -23,6 +24,18 @@ module ASModel
       self.create_time = Time.now
       self.system_mtime = self.user_mtime = Time.now
       super
+    end
+
+    def before_save
+      if self.respond_to?(:column_changed?) && SlugHelpers.slug_data_updated?(self)
+        if self[:is_slug_auto] == 1
+          auto_gen_slug!
+        end
+  
+        if self[:slug]
+          self[:slug] = SlugHelpers.clean_slug(self[:slug], self.class)
+        end
+      end
     end
 
 
@@ -59,21 +72,29 @@ module ASModel
       ret
     end
 
+    private 
 
-    module BlobHack
-      def self.extended(base)
-        blob_columns = base.db_schema.select {|column, defn| defn[:type] == :blob}.keys
-
-        base.instance_eval do
-          @blob_columns_to_fix = (!blob_columns.empty? && DB.needs_blob_hack?) ? Array(blob_columns) : []
+      def auto_gen_slug!
+        if AppConfig[:auto_generate_slugs_with_id]
+          SlugHelpers.generate_slug_by_id!(self)
+        else
+          SlugHelpers.generate_slug_by_name!(self)
         end
       end
 
-      def blob_columns_to_fix
-        @blob_columns_to_fix
+      module BlobHack
+        def self.extended(base)
+          blob_columns = base.db_schema.select {|column, defn| defn[:type] == :blob}.keys
+  
+          base.instance_eval do
+            @blob_columns_to_fix = (!blob_columns.empty? && DB.needs_blob_hack?) ? Array(blob_columns) : []
+          end
+        end
+  
+        def blob_columns_to_fix
+          @blob_columns_to_fix
+        end
       end
-
-    end
 
 
   end

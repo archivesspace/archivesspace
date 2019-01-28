@@ -74,4 +74,15 @@ module Identifiers
     super
   end
 
+  # take a string that looks like this: "[\"3422\",\"345FD\",\"3423ASDA\",null]"
+  # and convert it into this: "3422-345FD-3423ASDA"
+  def format_multipart_identifier
+    self[:identifier].gsub("null", '')
+                      .gsub!(/[\[\]]/,'')
+                      .gsub(",", '')
+                      .split('"')
+                      .select {|s| !s.empty?}
+                      .join("-")
+  end 
+
 end

@@ -4,6 +4,10 @@ class ClassificationsController <  ApplicationController
 
   skip_before_action  :verify_authenticity_token
 
+  before_action(:only => [:show, :term]) {
+    process_slug_or_id(params)
+  }
+
   IDENTIFIER_SORT_ASC = 'identifier_sort asc, repo_sort asc, title_sort asc'
   IDENTIFIER_SORT_DESC = 'identifier_sort desc, repo_sort desc, title_sort desc'
 

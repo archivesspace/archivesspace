@@ -6,6 +6,8 @@
     "parent" => "abstract_agent",
     "uri" => "/agents/software",
     "properties" => {
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"},
       "display_name" => {
         "type" => "JSONModel(:name_software) object",
         "readonly" => true

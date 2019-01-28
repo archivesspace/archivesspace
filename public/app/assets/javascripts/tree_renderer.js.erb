@@ -37,7 +37,12 @@
         var $link = row.find('a.record-title');
 
         if (this.should_link_to_record) {
-            $link.attr('href', AS.app_prefix(rootNode.uri));
+            if(rootNode.slugged_url && rootNode.slugged_url.length > 0) {
+                $link.attr('href', rootNode.slugged_url);
+            }
+            else {
+                $link.attr('href', AS.app_prefix(rootNode.uri));
+            }
         }
 
         $link.html(rootNode.parsed_title);
@@ -60,7 +65,12 @@
         }
 
         if (this.should_link_to_record) {
-            $link.attr('href', AS.app_prefix(node.uri));
+            if(node.slugged_url && node.slugged_url.length > 0) {
+                $link.attr('href', node.slugged_url);
+            }
+            else {
+                $link.attr('href', AS.app_prefix(node.uri));
+            }
         }
     };
 

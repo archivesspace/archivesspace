@@ -15,6 +15,9 @@
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 
       "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},
+      
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"},
 
       "parent" => {
         "type" => "object",

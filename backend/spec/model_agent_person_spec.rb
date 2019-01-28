@@ -420,6 +420,43 @@ describe 'Agent model' do
         end
       }.not_to raise_error
     end
+
+
+    describe "slug tests" do
+      it "sets primary_name as the slug value when configured to generate by name" do
+        AppConfig[:auto_generate_slugs_with_id] = false 
+        
+        agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                                   :names => [build(:json_name_person,
+                                                                    'authorized' => false)]))
+
+        agent_name = NamePerson.where(:agent_person_id => agent[:id]).first
+        expected_slug = agent_name[:primary_name].gsub(" ", "_")
+                                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+
+        agent_rec = AgentPerson.where(:id => agent[:id]).first.update(:is_slug_auto => 1)
+
+        expect(agent_rec[:slug]).to eq(expected_slug)
+      end
+
+      it "sets primary_name as the slug value when configured to generate by id" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+        
+        agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                                   :names => [build(:json_name_person,
+                                                                    'authorized' => false)]))
+
+        agent_name = NamePerson.where(:agent_person_id => agent[:id]).first
+        expected_slug = agent_name[:primary_name].gsub(" ", "_")
+                                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+
+        agent_rec = AgentPerson.where(:id => agent[:id]).first.update(:is_slug_auto => 1)
+
+        expect(agent_rec[:slug]).to eq(expected_slug)
+      end
+    end
   end
 
 end

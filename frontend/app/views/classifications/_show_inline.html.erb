@@ -14,6 +14,7 @@
 
             <%= form.label_and_textarea "identifier" %>
             <%= form.label_and_textarea "title" %>
+            <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
             <%= form.label_and_textarea "description" %>
 
             <% if !readonly["creator"].blank? %>

@@ -6,6 +6,8 @@
     "parent" => "abstract_agent",
     "uri" => "/agents/people",
     "properties" => {
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"},
       "names" => {
         "type" => "array",
         "items" => {"type" => "JSONModel(:name_person) object"},
