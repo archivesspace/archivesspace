@@ -328,10 +328,10 @@ describe ClassificationsController, type: :controller do
     it "should query the backend for id and repo_id if slug_or_id is alphanumeric (repo_name_disabled)" do
       AppConfig[:repo_name_in_slugs] = false
 
-      expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=classifications&action=show")
+      expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=classifications&action=term")
       expect(HTTP).to receive(:get_response).with(expected_uri)
 
-      response = get :show, params: {:slug_or_id => "what"}
+      response = get :term, params: {:slug_or_id => "what"}
 
       AppConfig[:repo_name_in_slugs] = true
     end
