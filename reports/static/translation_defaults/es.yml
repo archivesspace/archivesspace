@@ -70,79 +70,90 @@ es:
       instances: Representaciones
       inventory: Inventario
       level: Nivel
-      linked_records: Linked Records
+      linked_records: Registros vinculados
       linked_resources: Recursos vinculados
-      formats: List of Material Types / Formats
+      formats: Lista de tipos de materiales / Formatos
       location: Ubicación
       location_barcode: Código de barras de ubicación
       location_in_room: Ubicación en la habitación
       location_profile: Perfil de ubicación
       location_url: URL de ubicación
       locations: Ubicaciones
-      monetary_value: Monetary Value
-      monetary_value_note: Monetary Value Note
+      monetary_value: Valor monetario
+      monetary_value_note: Nota de valor monetario
       name: Nombre
       name_source: Fuente de nombre
       name_type: Tipo de nombre
       names: Nombres
-      note: Note
+      note: Nota
       notification_sent: Notificación está enviado
       number_of_accessions: Número de ingresos
-      total_count: Number of Records
+      total_count: Número de registros
       number_with_inventories: Número con inventarios
       object_type: Tipo de objeto
-      purpose: Purpose of Assessment
-      rating: Rating
-      ratings: Ratings
+      purpose: Propósito de la evaluación
+      rating: Clasificación
+      ratings: Calificaciones
       record_id: ID de registro
-      linked_record_type: Record Type
-      related_eac_records: Related EAC Record(s)
-      repository: Repository
-      resource_identifier: Resource Identifier
-      resources: Resources
-      records: Resources and Accessions
-      retention_rule: Retention
-      restrictions_apply: Retrictions Apply?
-      review_note: Review Note
-      review_required: Review Required?
-      reviewer: Reviewer
-      rights_transferred_note: Rights Transferred Note
-      rights_transferred: Rights Transferred?
+      linked_record_type: Tipo de registro
+      related_eac_records: Registro(s) de EAC relacionados
+      repository: Repositorio
+      resource_identifier: Identificador de recursos
+      resources: Recursos
+      records: Recursos y Accesiones
+      retention_rule: Retencion
+      restrictions_apply: ¿Se aplican restricciones?
+      review_note: Nota de revisión
+      review_required: Revisión requerida?
+      reviewer: Crítico
+      rights_transferred_note: Derechos transferidos Nota
+      rights_transferred: ¿Derechos transferidos?
       role: Role
-      room: Room
-      scope: Scope of Assessment
-      scoped_by_rating: Scoped by Rating
-      sensitive_material: Sensitive Material?
-      scoped_by_date_range: Showing records created between
-      showing_values: Showing records with rating values
-      sort_name: Sort Name
-      source: Source
-      special_format_note: Special Format Note
-      subjects: Subjects
-      surveyed_by: Surveyed By
+      room: Sala
+      scope: Alcance de la evaluación
+      scoped_by_rating: Alcance por Calificación
+      sensitive_material: ¿Material sensible?
+      scoped_by_date_range: Mostrando registros creados entre
+      showing_values: Mostrando registros con valores de calificación
+      sort_name: Ordenar Nombre
+      source: Origen
+      special_format_note: Nota de formato especial
+      subjects: Asignaturas
+      surveyed_by: Encuestados por
       term: Term
-      surveyed_duration: Time it took to Complete Survey
+      surveyed_duration: Tiempo que llevó completar la encuesta
       record_title: Título
       title: Título
-      top_container_barcode: Top Container Barcode
-      top_container_indicator: Top Container Indicator
-      total_deaccessions_extent: Total Extent of Deaccessions
-      total_extent: Total Extent of Records
-      type: Type
-      total_unprocessed: Unprocessed Accessions
+      top_container_barcode: Código de barras del contenedor superior
+      top_container_indicator: Indicador de contenedor superior
+      total_deaccessions_extent: Extensión total de desaccesiones
+      total_extent: Extensión total de los registros
+      type: Tipo
+      total_unprocessed: Accesiones sin procesar
       uri: URI
-      use_restrictions_note: Use Restrictions Note
-      use_restrictions: Use Restrictions?
-      use_statement: Use Statement
-      accessions: Accessions
-      deaccession_date: Deaccession Date
-      rating_note: Rating Note
-      temporary_location: Temporary Location
-      rights_statements: Rights Statements
-      rights_type: Rights Type
-      statute_citation: Statute Citation
-      jurisdiction: Jurisdiction
-      status: Status
-      determination_date: Determination Date
-      license_terms: License Terms
-      other_rights_basis: Other Rights Basis
+      use_restrictions_note: Nota de restricciones de uso
+      use_restrictions: Usar restricciones?
+      use_statement: Declaración de uso
+      accessions: Accesiones
+      deaccession_date: Fecha de salida
+      rating_note: Nota de Calificación
+      temporary_location: Ubicación temporal
+      rights_statements: Declaraciones de derechos
+      rights_type: Tipo de derechos
+      statute_citation: Citación del Estatuto
+      jurisdiction: Jurisdicción
+      status: Estado
+      determination_date: Fecha de determinación
+      license_terms: Condiciones de la licencia
+      other_rights_basis: Otras bases de derechos
+      custom_record_type: Informe personalizado para
+      digital_object: Objeto digital
+      is_representative: Es representativo?
+      sorted_by: Ordenado por
+      root_record: Registro raíz
+      dimension_units: Unidades de dimensión
+      depth: Depth
+      height: Height
+      width: Width
+      template_name: Nombre de la plantilla
+      template_description: Descripción de la plantilla
