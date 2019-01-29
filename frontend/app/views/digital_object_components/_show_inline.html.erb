@@ -13,6 +13,10 @@
         <section id="basic_information">
           <h3><%= I18n.t("digital_object_component._frontend.section.basic_information") %></h3>
 
+          <%= render_plugin_partials("top_of_basic_information_digital_object_component",
+                                     :form => readonly,
+                                     :record => @digital_object_component) %>
+
           <%= readonly.label_and_textfield "label" %>
           <%= readonly.label_and_textarea "title" %>
           <%= readonly.label_and_textfield "component_id" %>
@@ -21,6 +25,10 @@
 
           <%= readonly.label_and_boolean "publish" %>
           <%= readonly.label_and_boolean "has_unpublished_ancestor" %>
+
+          <%= render_plugin_partials("basic_information_digital_object_component",
+                                     :form => readonly,
+                                     :record => @digital_object_component) %>
 
         </section>
 
@@ -65,6 +73,7 @@
         <% if digital_object_component.external_ids.length > 0 && show_external_ids? %>
           <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => digital_object_component.external_ids, :context => readonly, :section_id => "digital_object_component_external_ids_" } %>
         <% end %>
+
 
         <%= show_plugins_for(@digital_object_component, readonly) %>
 

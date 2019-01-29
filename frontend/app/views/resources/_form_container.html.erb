@@ -19,6 +19,10 @@
     </h3>
 
     <fieldset>
+      <%= render_plugin_partials("top_of_basic_information_resource",
+                                 :form => form,
+                                 :record => @resource) %>
+
       <%= form.label_and_textarea "title" %>
       <%= form.label_and_fourpartid %>
 
@@ -31,6 +35,10 @@
       <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
       <%= form.label_and_textarea "repository_processing_note" %>
+
+      <%= render_plugin_partials("basic_information_resource",
+                                 :form => form,
+                                 :record => @resource) %>
     </fieldset>
   </section>
 

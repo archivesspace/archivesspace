@@ -11,12 +11,21 @@
       <%= link_to_help :topic => "location_profile_basic_information" %>
     </h3>
     <fieldset>
+      <%= render_plugin_partials("top_of_basic_information_location_profile",
+                                 :form => form,
+                                 :record => @location_profile) %>
+
       <%= form.label_and_textfield "name" %>
       <%= form.label_and_select "dimension_units", form.possible_options_for("dimension_units") %>
       <%= form.label_and_textfield "depth" %>
       <%= form.label_and_textfield "height" %>
       <%= form.label_and_textfield "width" %>
-    </fieldset>
+  
+      <%= render_plugin_partials("basic_information_location_profile",
+                                 :form => form,
+                                 :record => @location_profile) %>
+
+  </fieldset>
   </section>
 <% end %>
 

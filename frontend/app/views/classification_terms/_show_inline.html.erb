@@ -11,12 +11,20 @@
         <% define_template "classification_term", jsonmodel_definition(:classification_term) do |form, classification_term| %>
         <section id="basic_information">
           <h3><%= I18n.t("classification_term._frontend.section.basic_information") %></h3>
-            <%= form.label_and_textarea "identifier" %>
+            <%= render_plugin_partials("top_of_basic_information_classification_term",
+                                       :form => form,
+                                       :record => @classification_term) %>
 
+            <%= form.label_and_textarea "identifier" %>
             <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification_term} if AppConfig[:use_human_readable_urls] %>
 
             <%= form.label_and_textarea "title" %>
             <%= form.label_and_textarea "description" %>
+
+            <%= render_plugin_partials("basic_information_classification_term",
+                                       :form => form,
+                                       :record => @classification_term) %>
+
 
           <% if !readonly["creator"].blank? %>
             <div class="token-list">

@@ -1,6 +1,10 @@
 <% define_template("location", jsonmodel_definition(:location)) do |form| %>
   <fieldset>
     <section id="basic_information">
+      <%= render_plugin_partials("top_of_basic_information_location",
+                                 :form => form,
+                                 :record => @location) %>
+
     <%= form.label_and_boolean "temporary_question", {}, false %> 
     <%= form.label_and_select "temporary", form.possible_options_for("temporary", true), :field_opts =>  { :disabled => true, :class => "location_temporary" } %>
       <hr/>
@@ -19,6 +23,10 @@
       <%= form.label_and_textfield "coordinate_3_label" %>
       <%= form.label_and_textfield "coordinate_3_indicator" %>
       <hr/>
+      <%= render_plugin_partials("basic_information_location",
+                                 :form => form,
+                                 :record => @location) %>
+
       <% form.push("location_profile", form.obj["location_profile"] || {}) do %>
         <%= render_aspace_partial :partial => "location_profiles/linker", :locals => {:form => form, :label => I18n.t("location_profile._singular")} %>
       <% end %>
