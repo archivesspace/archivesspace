@@ -10,12 +10,20 @@
         <%= I18n.t("subject._frontend.section.basic_information") %>
         <%= link_to_help :topic => "subject_basic_information" %>
       </h3>
+
+      <%= render_plugin_partials("top_of_basic_information_subject",
+                                 :form => form,
+                                 :record => @subject) %>
+
       <%= form.label_and_textfield "authority_id" %>
       <%= form.label_and_select "source", form.possible_options_for("source", true) %>
       <%= form.label_and_textarea "scope_note" %>
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @subject} if AppConfig[:use_human_readable_urls] %>
 
+      <%= render_plugin_partials("basic_information_subject",
+                                 :form => form,
+                                 :record => @subject) %>
     </section>
   <% end %>
 

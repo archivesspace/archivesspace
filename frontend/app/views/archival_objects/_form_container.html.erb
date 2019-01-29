@@ -27,6 +27,10 @@
       </h3>
 
       <fieldset>
+        <%= render_plugin_partials("top_of_basic_information_archival_object",
+                                   :form => form,
+                                   :record => @archival_object) %>
+
         <%= form.label_and_textarea("title", :required => :conditionally)%>
 
         <% if form.obj["ref_id"].blank? %>
@@ -53,6 +57,10 @@
         </div>
         <%= form.label_and_boolean "restrictions_apply", {}, form.default_for("restrictions_apply") %>
         <%= form.label_and_textarea "repository_processing_note" %>
+
+        <%= render_plugin_partials("basic_information_archival_object",
+                                   :form => form,
+                                   :record => @archival_object) %>
       </fieldset>
     </section>
   <% end %>
