@@ -23,6 +23,10 @@
       <%= form.label_and_textfield "title" %>
       <%= form.label_and_textarea "description" %>
 
+      <%= render_plugin_partials("basic_information_classification_term",
+                                 :form => form,
+                                 :record => @classification_term) %>
+
       <% form.push("creator", form["creator"] || {}) do %>
         <%= render_aspace_partial :partial => "agents/linker", :locals => {:form => form, :linker_label => I18n.t("classification_term.creator"), :optional => true, :multiplicity => "one"} %>
       <% end %>

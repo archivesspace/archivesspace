@@ -16,6 +16,10 @@
             <%= form.label_and_textarea "title" %>
             <%= form.label_and_textarea "description" %>
 
+            <%= render_plugin_partials("basic_information_classification",
+                                       :form => form,
+                                       :record => @classification) %>
+
             <% if !readonly["creator"].blank? %>
               <div class="token-list">
                 <%= readonly.label_with_field(:creator, render_token(:object => readonly,

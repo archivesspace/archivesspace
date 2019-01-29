@@ -18,6 +18,11 @@
             <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
           </div>
           <%= readonly.label_and_boolean "publish" %>
+
+          <%= render_plugin_partials("basic_information_#{@agent.agent_type}",
+                                     :form => readonly,
+                                     :record => @agent) %>
+
           <%= display_audit_info(@agent) %>
         </section>
 

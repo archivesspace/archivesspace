@@ -20,6 +20,11 @@
           <%= readonly.label_and_select "digital_object_type", readonly.possible_options_for("digital_object_type") %>
           <%= readonly.label_and_select "language", readonly.possible_options_for("language") %>
           <%= readonly.label_and_boolean "restrictions" %>
+
+          <%= render_plugin_partials("basic_information_digital_object",
+                                     :form => readonly,
+                                     :record => digital_object) %>
+
           <%= display_audit_info(digital_object) %>
         </section>
 

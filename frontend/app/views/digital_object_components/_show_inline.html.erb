@@ -60,6 +60,11 @@
           <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => digital_object_component.external_ids, :context => readonly, :section_id => "digital_object_component_external_ids_" } %>
         <% end %>
 
+        <%= render_plugin_partials("basic_information_digital_object_component",
+                                   :form => readonly,
+                                   :record => @digital_object_component) %>
+
+
         <%= show_plugins_for(@digital_object_component, readonly) %>
 
       <% end %>

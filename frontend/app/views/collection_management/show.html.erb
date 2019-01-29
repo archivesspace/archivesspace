@@ -72,6 +72,11 @@
                <div class="col-md-9"><%= @collection_management.rights_determined ? I18n.t("collection_management.rights_determined_true") : I18n.t("collection_management.rights_determined_false") %></div>
   
             </div>
+
+            <%= render_plugin_partials("basic_information_collection_management",
+                                       :form => readonly,
+                                       :record => @collection_management) %>
+
           </section>
   
           <section id="collection_management_linked_records_" class="subrecord-form-dummy">

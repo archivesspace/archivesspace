@@ -10,6 +10,10 @@
       <%= form.label_and_select "event_type", form.possible_options_for("event_type") %>
       <%= form.label_and_select "outcome", form.possible_options_for('outcome', true) %>
       <%= form.label_and_textarea "outcome_note" %>
+
+      <%= render_plugin_partials("basic_information_event",
+                                 :form => form,
+                                 :record => @event) %>
     </fieldset>
   </section>
 <% end %>

@@ -17,6 +17,11 @@
       <%= form.label_and_select "digital_object_type", form.possible_options_for("digital_object_type", true) %>
       <%= form.label_and_select "language", form.possible_options_for("language", true) %>
       <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
+
+      <%= render_plugin_partials("basic_information_digital_object",
+                                 :form => form,
+                                 :record => @digital_object) %>
+
     </section>
   <% end %>
 

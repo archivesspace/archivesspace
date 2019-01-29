@@ -39,6 +39,10 @@
       </div>
       <%= form.label_and_select "language", form.possible_options_for("language", true) %>
 
+      <%= render_plugin_partials("basic_information_digital_object_component",
+                                 :form => form,
+                                 :record => @digital_object_component) %>
+
     </section>
   <% end %>
 

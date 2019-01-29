@@ -24,6 +24,11 @@
             <%= readonly.label_and_boolean "publish" %>
             <%= readonly.label_and_boolean "restrictions" %>
             <%= readonly.label_and_textarea "repository_processing_note" %>
+
+            <%= render_plugin_partials("basic_information_resource",
+                                       :form => readonly,
+                                       :record => @resource) %>
+
             <%= display_audit_info(@resource) %>
           </section>
 

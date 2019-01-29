@@ -11,11 +11,17 @@
         <% define_template "classification_term", jsonmodel_definition(:classification_term) do |form, classification_term| %>
         <section id="basic_information">
           <h4><%= I18n.t("classification_term._frontend.section.basic_information") %></h4>
-            <%= form.label_and_textarea "identifier" %>
-            <%= form.label_and_textarea "title" %>
-            <%= form.label_and_textarea "description" %>
 
-          <% if !readonly["creator"].blank? %>
+          <%= form.label_and_textarea "identifier" %>
+          <%= form.label_and_textarea "title" %>
+          <%= form.label_and_textarea "description" %>
+
+          <%= render_plugin_partials("basic_information_classification_term",
+                                     :form => form,
+                                     :record => @classification_term) %>
+
+
+  <% if !readonly["creator"].blank? %>
             <div class="token-list">
                 <%= readonly.label_with_field(:creator, render_token(:object => readonly,
                                                              :label => readonly["creator"]["_resolved"]["title"],

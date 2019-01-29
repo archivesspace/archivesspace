@@ -39,6 +39,10 @@
             <%= readonly.label_and_boolean "use_restrictions" %>
             <%= readonly.label_and_textarea "use_restrictions_note" %>
 
+            <%= render_plugin_partials("basic_information_accession",
+                                       :form => readonly,
+                                       :record => @accession) %>
+
             <%= display_audit_info(@accession) %>
           </section>
           <% end %>

@@ -15,7 +15,11 @@
       <%= form.label_and_textfield "height" %>
       <%= form.label_and_textfield "width" %>
       <%= form.label_and_textfield "stacking_limit" %>
-    </fieldset>
+
+      <%= render_plugin_partials("basic_information_container_profile",
+                                 :form => form,
+                                 :record => @container_profile) %>
+  </fieldset>
   </section>
 <% end %>
 

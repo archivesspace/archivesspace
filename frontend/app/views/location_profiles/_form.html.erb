@@ -16,7 +16,12 @@
       <%= form.label_and_textfield "depth" %>
       <%= form.label_and_textfield "height" %>
       <%= form.label_and_textfield "width" %>
-    </fieldset>
+  
+      <%= render_plugin_partials("basic_information_location_profile",
+                                 :form => form,
+                                 :record => @location_profile) %>
+
+  </fieldset>
   </section>
 <% end %>
 

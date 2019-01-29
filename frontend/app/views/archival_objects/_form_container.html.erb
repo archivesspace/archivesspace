@@ -49,6 +49,10 @@
         </div>
         <%= form.label_and_boolean "restrictions_apply", {}, form.default_for("restrictions_apply") %>
         <%= form.label_and_textarea "repository_processing_note" %>
+
+        <%= render_plugin_partials("basic_information_archival_object",
+                                   :form => form,
+                                   :record => @archival_object) %>
       </fieldset>
     </section>
   <% end %>

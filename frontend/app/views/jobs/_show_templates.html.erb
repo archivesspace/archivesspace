@@ -47,6 +47,11 @@
 
     <% form.emit_template job.job['jsonmodel_type'], job.job %>
 
+    <%= render_plugin_partials("basic_information_job",
+                               :form => form,
+                               :record => @job) %>
+
+
     <%= display_audit_info(@job) %>
   </section>
 <% end %>

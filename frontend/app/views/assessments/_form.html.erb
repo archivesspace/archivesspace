@@ -182,6 +182,11 @@
 
       <%= form.label_and_boolean 'inactive' %>
     </fieldset>
+
+    <%= render_plugin_partials("basic_information_assessments",
+                               :form => form,
+                               :record => @assessment) %>
+
   </section>
 
   <section id="rating_attributes" class="subrecord-form-dummy">

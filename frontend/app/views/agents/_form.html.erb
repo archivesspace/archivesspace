@@ -16,6 +16,11 @@
       </div>
     </div>
     <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
+
+    <%= render_plugin_partials("basic_information_#{@agent.agent_type}",
+                               :form => form,
+                               :record => @agent) %>
+
   </section>
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template", :template => "existence_date", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :template_overrides => {"date_label" => "agents/date_labels"}, :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
@@ -26,6 +31,6 @@
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :help_topic => "#{@agent.agent_type}_external_documents"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
 
-<%= form_plugins_for("agent", form) %>
+  <%= form_plugins_for("agent", form) %>
 
 </fieldset>

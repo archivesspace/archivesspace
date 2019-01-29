@@ -25,7 +25,11 @@
        <%= form.label_and_textarea "access_restrictions_note" %> 
        <%= form.label_and_boolean "use_restrictions", {}, form.default_for("use_restrictions") %>
        <%= form.label_and_textarea "use_restrictions_note" %> 
-    </fieldset>
+
+      <%= render_plugin_partials("basic_information_accession",
+                                 :form => form,
+                                 :record => @accession) %>
+  </fieldset>
   </section>
 <% end %>
 
