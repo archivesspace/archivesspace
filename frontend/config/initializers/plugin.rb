@@ -33,8 +33,47 @@ module Plugins
     @sections = []
     @fields_to_resolve = []
     @edit_roles = []
+
+    @base_facets = []
+    @facets_for_type = {}
+
+    @facet_group_i18n_handlers = {}
   end
 
+
+  def self.add_search_base_facets(*facets)
+    @base_facets ||= []
+    @base_facets += facets
+  end
+
+  def self.add_search_facets(jsonmodel_type, *facets)
+    @facets_for_type[jsonmodel_type.to_s] ||= []
+    @facets_for_type[jsonmodel_type.to_s] += facets
+  end
+
+  def self.search_facets_for_type(jsonmodel_type)
+    @facets_for_type.fetch(jsonmodel_type.to_s, [])
+  end
+
+  def self.search_facets_for_base
+    @base_facets
+  end
+
+  def self.add_facet_group_i18n(facet_group, proc)
+    @facet_group_i18n_handlers[facet_group] = proc
+  end
+
+  # Invoke a handler to determine the i18n key for facet_group and facet.
+  # If there isn't one, return nil.
+  def self.facet_i18n_key(facet_group, facet)
+    handler = @facet_group_i18n_handlers.fetch(facet_group, nil)
+
+    if handler
+      handler.call(facet)
+    else
+      nil
+    end
+  end
 
   def self.system_menu_items
     Array(@config[:system_menu_items]).flatten
