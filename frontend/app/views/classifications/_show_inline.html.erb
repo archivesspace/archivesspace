@@ -12,12 +12,20 @@
           <section id="basic_information">
             <h3><%= I18n.t("classification._frontend.section.basic_information") %></h3>
 
+            <%= render_plugin_partials("top_of_basic_information_classification",
+                                       :form => form,
+                                       :record => @classification) %>
+
             <%= form.label_and_textarea "identifier" %>
             <%= form.label_and_textarea "title" %>
 
             <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification} if AppConfig[:use_human_readable_urls] %>
 
             <%= form.label_and_textarea "description" %>
+
+            <%= render_plugin_partials("basic_information_classification",
+                                       :form => form,
+                                       :record => @classification) %>
 
             <% if !readonly["creator"].blank? %>
               <div class="token-list">

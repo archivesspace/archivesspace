@@ -1,6 +1,9 @@
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @top_container, :form => form} %>
 
 <% define_template("top_container", jsonmodel_definition(:top_container)) do |form| %>
+  <%= render_plugin_partials("top_of_basic_information_top_container",
+                             :form => form,
+                             :record => @top_container) %>
   <% form.push("container_profile", form.obj["container_profile"] || {}) do %>
       <%= render_aspace_partial :partial => "container_profiles/linker", :locals => {:form => form, :label => I18n.t("container_profile._singular"), :required => false} %>
   <% end %>
