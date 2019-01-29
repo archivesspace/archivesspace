@@ -112,6 +112,11 @@ class SearchResultData
   end
 
   def facet_label_string(facet_group, facet)
+    # Plugins can opt to tell us how facet values should be translated.
+    if plugin_key = Plugins.facet_i18n_key(facet_group, facet)
+      return I18n.t(plugin_key, :default => facet)
+    end
+    
     return I18n.t("search.location.none") if facet == "none"
     return facet.upcase if facet_group == "owner_repo_display_string_u_ssort"
     return I18n.t("#{facet}._singular", :default => I18n.t("plugins.#{facet}._singular", :default => facet)) if facet_group === "primary_type"
@@ -299,39 +304,41 @@ class SearchResultData
   end
 
   def self.BASE_FACETS
-    ["primary_type", "creators", "subjects", "langcode"]
+    ["primary_type", "creators", "subjects", "langcode"] + Plugins.search_facets_for_base
   end
 
   def self.AGENT_FACETS
-    ["primary_type", "source", "rules"]
+    extras = [:agent_person, :agent_family, :agent_corporate_entity, :agent_software]
+               .flat_map {|agent_type| Plugins.search_facets_for_type(agent_type)}
+    ["primary_type", "source", "rules"] + extras
   end
 
   def self.ACCESSION_FACETS
-    ["subjects", "accession_date_year", "creators"]
+    ["subjects", "accession_date_year", "creators"] + Plugins.search_facets_for_type(:accession)
   end
 
   def self.RESOURCE_FACETS
-    ["subjects", "publish", "level", "classification_path", "primary_type", "langcode"]
+    ["subjects", "publish", "level", "classification_path", "primary_type", "langcode"] + Plugins.search_facets_for_type(:resource)
   end
 
   def self.DIGITAL_OBJECT_FACETS
-    ["subjects", "publish", "digital_object_type", "level", "primary_type", "langcode"]
+    ["subjects", "publish", "digital_object_type", "level", "primary_type", "langcode"] + Plugins.search_facets_for_type(:digital_object)
   end
 
   def self.CONTAINER_PROFILE_FACETS
-    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"]
+    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"] + Plugins.search_facets_for_type(:container_profile)
   end
 
   def self.LOCATION_FACETS
-    ["temporary", "owner_repo_display_string_u_ssort", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"]
+    ["temporary", "owner_repo_display_string_u_ssort", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"] + Plugins.search_facets_for_type(:location)
   end
 
   def self.SUBJECT_FACETS
-    ["source", "first_term_type"]
+    ["source", "first_term_type"] + Plugins.search_facets_for_type(:subject)
   end
 
   def self.EVENT_FACETS
-    ["event_type", "outcome"]
+    ["event_type", "outcome"] + Plugins.search_facets_for_type(:event)
   end
 
   def self.UNTITLED_TYPES
@@ -339,7 +346,7 @@ class SearchResultData
   end
 
   def self.CLASSIFICATION_FACETS
-    []
+    [] + Plugins.search_facets_for_type(:classification)
   end
 
   def self.TOP_CONTAINER_FACETS
@@ -347,7 +354,7 @@ class SearchResultData
   end
 
   def self.ASSESSMENT_FACETS
-    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material']
+    ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material'] + Plugins.search_facets_for_type(:assessment)
   end
 
   def self.JOB_FACETS
