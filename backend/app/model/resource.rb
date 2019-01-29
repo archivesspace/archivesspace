@@ -19,12 +19,13 @@ class Resource < Sequel::Model(:resource)
   include UserDefineds
   include ComponentsAddChildren
   include Classifications
+  include AutoGenerator
   include Transferable
   include Events
   include Publishable
   include RevisionStatements
   include ReindexTopContainers
-  include RightsRestrictionNotes 
+  include RightsRestrictionNotes
   include RepresentativeImages
   include Assessments::LinkedRecord
 
@@ -46,6 +47,19 @@ class Resource < Sequel::Model(:resource)
   repo_unique_constraint(:ead_id,
                          :message => "Must be unique",
                          :json_property => :ead_id)
+
+
+
+  auto_generate :property => :slug,
+                :generator => proc { |json|
+                  if json["is_slug_auto"] && AppConfig[:use_human_readable_URLs]
+                    AppConfig[:auto_generate_slugs_with_id] ? 
+                      SlugHelpers.id_based_slug_for(json, Resource) : 
+                      SlugHelpers.name_based_slug_for(json, Resource)
+                  else
+                    json["slug"]
+                  end
+                }
 
 
   # Maintain a finding_aid_sponsor_sha1 column to allow us to do quick lookups for OAI.

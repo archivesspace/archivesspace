@@ -2,6 +2,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include ASModel
   corresponds_to JSONModel(:digital_object)
 
+  include AutoGenerator
   include Subjects
   include Extents
   include Dates
@@ -32,6 +33,19 @@ class DigitalObject < Sequel::Model(:digital_object)
 
   define_relationship(:name => :instance_do_link,
                       :contains_references_to_types => proc {[Instance]})
+
+
+  auto_generate :property => :slug,
+                :generator => proc { |json|
+                  if json["is_slug_auto"] && AppConfig[:use_human_readable_URLs]
+                    AppConfig[:auto_generate_slugs_with_id] ? 
+                      SlugHelpers.id_based_slug_for(json, DigitalObject) : 
+                      SlugHelpers.name_based_slug_for(json, DigitalObject)
+                  else
+                    json["slug"]
+                  end
+                }
+
 
 
   def self.sequel_to_jsonmodel(objs, opts = {})

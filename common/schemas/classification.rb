@@ -9,7 +9,7 @@
 
       "has_classification_terms" => {"type" => "boolean", "readonly" => true},
       "slug" => {"type" => "string"},
-      "is_slug_auto" => {"type" => "boolean"}
+      "is_slug_auto" => {"type" => "boolean", "default" => true}
 
     },
   },

@@ -1,3 +1,5 @@
+# NOTE: Many of the translations in this file have been generated using
+# Google translate
 ﻿es:
   actions:
     add: Añadir
@@ -98,7 +100,7 @@
     publish_confirm_message: "<p>Realizar esta acción va a publicar este documento, los registros secundarios (documentos externos, notas, etc.) y todos los componentes de la jerarquía.</p>"
     view_search_results: Ir a los resultados de búsqueda
     view_published: Ver publicados
-    print_to_pdf: Imprimir Fondos en PDF
+    print_to_pdf: Generar PDF
     resource_to_pdf: Fondo a imprimir
     download_pdf: Descargar PDF
     download_report: Descargar Informe
@@ -358,6 +360,11 @@
     save: Guardar cambios
     dismiss: Descartar cambios
 
+  slug: &slug_attributes
+    slug: Slug
+    public_url: URL pública
+    is_slug_auto: Generar automáticamente Slug?
+    autogen_disabled: " -- Slug vacío generado, Generar automáticamente la opción slug deshabilitada"
   linker:
     link_to_prefix: Enlace a
     create_and_link_to_prefix: Crear y vincular
@@ -437,6 +444,7 @@
     linked_to_assessment: El registro no se puede eliminar ya que está vinculado a una evaluación
 
   accession:
+    <<: *slug_attributes
     _frontend:
       messages:
         created: Acta de ingreso <strong>%{accession.display_string}</strong> creada
@@ -456,6 +464,7 @@
         save: Guardar el acta de ingreso
 
   agent: &agent_attributes
+    <<: *slug_attributes
     _frontend:
       messages:
         created: Autoridad creada
@@ -489,26 +498,31 @@
         add: Agregar número de teléfono
 
   agent_corporate_entity:
+    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar la entidad corporativa
 
   agent_family:
+    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar familia
 
   agent_person:
+    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar persona
 
   agent_software:
+    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar Software
 
   archival_object:
+    <<: *slug_attributes
     _frontend:
       messages:
         created: Documento de archivo <strong>%{archival_object.display_string}</strong> del fondo <strong>%{resource.title}</strong> creado
@@ -534,6 +548,7 @@
         new_record_title: Nuevo objeto de archivo
 
   classification:
+    <<: *slug_attributes
     _frontend:
       messages:
         created: "Clasificación <strong>%{classification.title}</strong> creada"
@@ -549,6 +564,7 @@
         add: Agregue clasificación
 
   classification_term:
+    <<: *slug_attributes
     _frontend:
       messages:
         created: "Término de clasificación <strong>%{classification_term.title}</strong> creado"
@@ -598,6 +614,7 @@
         add: Añadir expurgo
 
   digital_object:
+    <<: *slug_attributes
     _frontend:
       messages:
         created: "Objeto digital <strong>%{digital_object.title}</strong> creado"
@@ -621,6 +638,7 @@
         save: Guardar objeto Digital
 
   digital_object_component:
+    <<: *slug_attributes
     _frontend:
       messages:
         created_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> creado como hijo de <strong>%{parent.display_string}</strong> del objeto Digital <strong>%{digital_object.title}</strong>
@@ -820,6 +838,7 @@
     oai_sets_available: Conjuntos incluidos en OAI
 
   repository:
+    <<: *slug_attributes
     _frontend:
       messages:
         created: Repositorio creado
@@ -849,6 +868,7 @@
         _plural: Ajustes de cosecha OAI
 
   resource:
+    <<: *slug_attributes
     _frontend:
       messages:
         created: "Fondo <strong>%{resource.title}</strong> creado"
@@ -895,6 +915,7 @@
     ref: Repositorio de destino
 
   subject:
+    <<: *slug_attributes
     _frontend:
       messages:
         created: Materia creada
@@ -1030,7 +1051,7 @@
       audit_data: Datos de auditoría
       actions:
         create: Crear tarea
-        save: Guardar tarea
+        save: Empezar tarea
         new: Nueva tarea en el background
         cancel: Cancelar tarea
         add_file: Agregar archivo
@@ -1050,6 +1071,7 @@
         status_changed_canceled: El trabajo de importación ha sido cancelado.
         no_active_jobs: No hay trabajos de importación activos.
         no_archived_jobs: No hay trabajos de importación archivados.
+        uploading: Subiendo el trabajo...
         upload_successful: Imagen subida con exito. Redirigiendo a la página de trabajo...
         import_type_missing: Por favor, seleccione un tipo de importación
         queue_position_next: Esta importación es la siguiente.
@@ -1058,6 +1080,12 @@
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
         report_instructions: Elige el informe utilizando el botón <b>Seleccionar</b>.
+        slug_lost_warning: <b> ¡ADVERTENCIA! </b> ¡Cualquier babosa creada previamente se perderá!
+        slug_generation: Este trabajo generará un slug y habilitará la autogeneración de slug para todos los <b> Recursos </b>, <b> Objetos de archivo </b>, <b> Objetos digitales </b>, <b> Componentes de objetos digitales </ b >, <b> Accesiones </b>, <b> Clasificaciones </b>, <b> Agentes </b>, <b> Temas </b> y <b> Repositorios </b>.
+        slug_config_msg: <b>En función de sus ajustes de configuración de ArchivesSpace en config.rb:</b>
+        slug_config_id: Las babosas se generarán usando el identificador de la entidad cuando sea apropiado.
+        slug_config_title: Las babosas se generarán usando el nombre o título de la entidad.
+        slug_config_eadid: Las babosas para <b> Recursos </b> se generarán utilizando el ID de EAD cuando sea apropiado.
 
   shortcuts:
     quick_reference_window: "Referencia: accesos directos del teclado "

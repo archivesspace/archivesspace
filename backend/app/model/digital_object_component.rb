@@ -46,6 +46,17 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
                   "#{[display_string, date_label].compact.join(", ")}"
                 }
 
+  auto_generate :property => :slug,
+                :generator => proc { |json|
+                  if json["is_slug_auto"] && AppConfig[:use_human_readable_URLs]
+                    AppConfig[:auto_generate_slugs_with_id] ? 
+                      SlugHelpers.id_based_slug_for(json, DigitalObjectComponent) : 
+                      SlugHelpers.name_based_slug_for(json, DigitalObjectComponent)
+                  else
+                    json["slug"]
+                  end
+                }
+
 
   def validate
     validates_unique([:root_record_id, :component_id],

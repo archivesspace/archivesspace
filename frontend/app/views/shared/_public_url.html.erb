@@ -1,0 +1,1 @@
+<%= form_object.label_with_field "public_url", File.join(AppConfig[:public_proxy_url], form_object.slug_url_field("slug", session[:repo_slug], AppConfig[:repo_name_in_slugs])).to_s %>

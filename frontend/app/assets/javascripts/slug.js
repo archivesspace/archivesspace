@@ -4,7 +4,7 @@ var activate_slug_checkbox = function() {
   var checkbox  = $('div.js-slug_auto_checkbox > div > input');
 
   checkbox.click(function() {
-    textfield.val(""); 
-    textfield.attr('disabled', function(_, attr){ return !attr});
+     textfield.val(""); 
+     textfield.attr('readonly', function(_, attr){ return !attr;});
   });
 };

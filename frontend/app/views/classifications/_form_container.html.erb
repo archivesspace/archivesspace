@@ -17,11 +17,7 @@
       <%= form.label_and_textfield "identifier" %>
       <%= form.label_and_textfield "title" %>
 
-      <% if AppConfig[:slugs] == :show %>
-        <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
-        <%= form.label_and_textfield "slug", :field_opts => {:disabled => @classification.is_slug_auto } %>
-        <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
-      <% end %>
+      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification} if AppConfig[:use_human_readable_URLs] %>
 
       <%= form.label_and_textarea "description" %>
 
@@ -37,6 +33,3 @@
   <% form.emit_template("classification") %>
 
 </fieldset>
-<%= javascript_tag do %>
-  activate_slug_checkbox();
-<% end %>

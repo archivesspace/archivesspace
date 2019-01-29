@@ -20,7 +20,7 @@
       "language" => {"ifmissing" => "warn"},
 
       "slug" => {"type" => "string"},
-      "is_slug_auto" => {"type" => "boolean"},
+      "is_slug_auto" => {"type" => "boolean", "default" => true},
 
       "resource_type" => {"type" => "string", "dynamic_enum" => "resource_resource_type"},
       "tree" => {
