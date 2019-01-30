@@ -25,7 +25,6 @@ class Job
       response = JSONModel::HTTP.post_form("#{JSONModel(:job).uri_for(nil)}_with_files",
                                            Hash[upload_files].merge('job' => @job.to_json),
                                            :multipart_form_data)
-      puts "response: #{ASUtils.json_parse(response.body)}"
       ASUtils.json_parse(response.body)
 
     else

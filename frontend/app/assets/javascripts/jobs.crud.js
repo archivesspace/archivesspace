@@ -289,13 +289,22 @@ $(function() {
 
     var type = $("#job_type").val();
 
-    $("#job_type_fields", $form)
+    if (type == "report_job") {
+        $("#job_type_fields", $form)
+        .empty()
+        .html(AS.renderTemplate("template_" + type, {
+            id_path: "job_job_params_",
+            path: "job[job_params]"
+        }));
+    } else {
+        $("#job_type_fields", $form)
         .empty()
         .html(AS.renderTemplate("template_" + type, {
             id_path: type,
             path: type
         }));
-
+    }
+    
     $(".linker:not(.initialised)").linker();
 
     if (type == "report_job") {
