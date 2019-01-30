@@ -48,25 +48,32 @@ class JobsController < ApplicationController
       job = Job.new(params['job']['job_type'], job_data, files,
                                   job_params
                    )
+      uploaded = job.upload
+
+      if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
+        render :text => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
+      else
+        redirect_to :action => :show, :id => JSONModel(:job).id_for(uploaded['uri'])
+      end
 
     rescue JSONModel::ValidationException => e
       @exceptions = e.invalid_object._exceptions
       @job = e.invalid_object
       @import_types = import_types
+      @report_data = JSONModel::HTTP::get_json("/reports")
       @job_type = params['job']['job_type']
 
-      if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
-        return render_aspace_partial :partial => "jobs/form_for_iframepost", :status => 400
-      else
-        return render_aspace_partial :partial => "jobs/form", :status => 400
-      end
+      params['job_type'] = @job_type
+
+      render :new
+      # if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
+      #   return render_aspace_partial :partial => "jobs/form_for_iframepost", :status => 400
+      # else
+      #   return render_aspace_partial :partial => "jobs/form", :status => 400
+      # end
     end
 
-    if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
-      render :text => "<textarea data-type='json'>#{job.upload.to_json}</textarea>"
-    else
-      redirect_to :action => :show, :id => JSONModel(:job).id_for(job.upload['uri'])
-    end
+    
   end
 
 

@@ -96,7 +96,7 @@
 
             <% @report_data["reports"].values.sort {|x,y| I18n.t("reports.#{x['code']}.title") <=> I18n.t("reports.#{y['code']}.title") }.each do | report | %>
               <div class='report-listing'>
-                <div class="alert alert-info">
+                <div class="alert alert-info with-hide-alert">
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>">
                     <%= I18n.t("reports.#{report["code"]}.title") %>
                   </a>
