@@ -51,7 +51,7 @@ end
                             <%= I18n.t("enumerations._note_types.#{note_type}") %>
                         <% end %>
                     </h3>
-                    <p><%== note['note_text'] %></p>
+                    <p><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></p>
                 <% end %>
             <% end %>
 
@@ -74,7 +74,7 @@ end
 
                 <% record.notes.each do |note_type, note| %>
                     <% if note_type == 'physdesc' && !note['is_inherited'] %>
-                        <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%== note['note_text'] %></dd>
+                        <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></dd>
                     <% end %>
                 <% end %>
 
