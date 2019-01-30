@@ -20,7 +20,7 @@
             <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
             <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
           </div>
-          <%= readonly.slug_url_field "slug" %>
+          <%= readonly.label_with_field "public_url", readonly.slug_url_field("slug") %>
           <%= readonly.label_and_boolean "publish" %>
           <%= display_audit_info(@agent) %>
         </section>

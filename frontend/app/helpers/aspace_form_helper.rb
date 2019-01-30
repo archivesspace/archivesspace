@@ -117,16 +117,8 @@ module AspaceFormHelper
         url = obj['uri']
       end
 
-      html << "<div class='form-group'>"
-        html << "<label class='col-sm-2 control-label' for='resource_slug_'>"
-            html << "Public URL"
-        html << "</label>"
-          html << "<div class='col-sm-9 label-only'>"
-            html << url.to_s
-          html << "</div>"
-        html << "</div>"
- 
-      html.html_safe
+      url.to_s
+      
     end
 
     def list_for(objects, context_name, &block)
