@@ -34,11 +34,7 @@
           <%= form.label_with_field "ref_id", form.hidden_input("ref_id") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
         <% end %>
 
-        <% if AppConfig[:slugs] == :show %>
-          <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
-          <%= form.label_and_textfield "slug", :field_opts => {:disabled => @archival_object.is_slug_auto } %>
-          <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
-        <% end %>
+        <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @archival_object} %>
 
         <%= form.hidden_input "ref_id" %>
         <%= form.label_and_textfield("component_id")%>
