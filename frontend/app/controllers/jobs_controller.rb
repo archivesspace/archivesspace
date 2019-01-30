@@ -66,11 +66,6 @@ class JobsController < ApplicationController
       params['job_type'] = @job_type
 
       render :new
-      # if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
-      #   return render_aspace_partial :partial => "jobs/form_for_iframepost", :status => 400
-      # else
-      #   return render_aspace_partial :partial => "jobs/form", :status => 400
-      # end
     end
 
     
