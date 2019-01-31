@@ -1,6 +1,8 @@
+//= require form
+
 $(function() {
 
-    var $form = $('#jobfileupload');
+    var $form = $('#job_form');
 
     var initReportJobForm = function() {
 

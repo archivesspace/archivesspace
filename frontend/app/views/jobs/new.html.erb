@@ -1,6 +1,6 @@
 <%= setup_context :object => @job %>
 
-<%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "jobfileupload", :class => 'form-horizontal aspace-record-form',  :multipart => true} do |f| %>
+<%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "job_form", :class => 'form-horizontal aspace-record-form'} do |f| %>
   <%= form_context :job, @job do |form| %>
   	<div class="row">
       <div class="col-md-3">
