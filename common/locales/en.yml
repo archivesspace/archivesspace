@@ -1960,7 +1960,7 @@ en:
     short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
     custom_report_template_name_not_unique: The custom report template's name must be unique.
     custom_report_must_include_field_or_subreport: The custom report template must include at least one field or subreport.
-    missing_filter_values: Selected to filter results by field but no value(s) given 
+    missing_filter_values: Selected to filter results by field but no value(s) given
     must_be_a_valid_email_address: Email address field must contain a valid address
     repo_set_desc_required: Repository set description is required for creating an OAI repository set
     repo_set_name_required: Repository set name is required for creating an OAI repository set
@@ -1980,7 +1980,7 @@ en:
       find_and_replace_job: Batch Find and Replace (Beta)
       report_job: Reports
       container_conversion_job: Reports
-      generate_slugs_job: Generate Slugs for Entites
+      generate_slugs_job: Generate Slugs for Entities
       unknown_job_type: Unknown job type
     status: Status
     status_completed: Completed
@@ -2258,6 +2258,3 @@ en:
     sponsor_set_name_tooltip: Sponsor set name tooltip
     sponsor_set_names_tooltip: Sponsor set names tooltip
     sponsor_set_description_tooltip: Sponsor set description tooltip
-
-
-
