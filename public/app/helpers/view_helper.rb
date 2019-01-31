@@ -3,7 +3,7 @@ module ViewHelper
 
   # returns repo URL via slug if defined, via ID it not.
   def repository_base_url(result)
-    if result['slug'] && AppConfig[:slugs] == :show
+    if result['slug'] && AppConfig[:use_human_readable_URLs]
       url = "repositories/" + result['slug']
     else
       url = result['uri']
@@ -13,9 +13,9 @@ module ViewHelper
   end
 
   def resource_base_url(result)
-    if result.json['slug'] && AppConfig[:slugs] == :show
+    if result.json['slug'] && AppConfig[:use_human_readable_URLs]
       # Generate URLs with repo slugs if turned on
-      if AppConfig[:repo_name_in_slugs]
+      if AppConfig[:repo_slug_in_URL]
         if result.resolved_repository["slug"]
           url = "repositories/#{result.resolved_repository["slug"]}/resources/" + result.json['slug']
 
@@ -38,8 +38,8 @@ module ViewHelper
   end
 
   def digital_object_base_url(result)
-    if result.json['slug'] && AppConfig[:slugs] == :show
-      if AppConfig[:repo_name_in_slugs] 
+    if result.json['slug'] && AppConfig[:use_human_readable_URLs]
+      if AppConfig[:repo_slug_in_URL]
         if result.resolved_repository["slug"]
           url = "repositories/#{result.resolved_repository["slug"]}/digital_objects/" + result.json['slug']
         else
@@ -58,8 +58,8 @@ module ViewHelper
   end
 
   def accession_base_url(result)
-    if result.json['slug'] && AppConfig[:slugs] == :show
-      if AppConfig[:repo_name_in_slugs] 
+    if result.json['slug'] && AppConfig[:use_human_readable_URLs]
+      if AppConfig[:repo_slug_in_URL]
         if result.resolved_repository["slug"]
           url = "repositories/#{result.resolved_repository["slug"]}/accessions/" + result.json['slug']
         else
@@ -74,11 +74,11 @@ module ViewHelper
       url = result['uri']
     end
 
-    return url  
+    return url
   end
 
   def subject_base_url(result)
-    if result.json['slug'] && AppConfig[:slugs] == :show
+    if result.json['slug'] && AppConfig[:use_human_readable_URLs]
       url = "subjects/" + result.json['slug']
     else
       url = result['uri']
@@ -88,8 +88,8 @@ module ViewHelper
   end
 
   def classification_base_url(result)
-    if result.json['slug'] && AppConfig[:slugs] == :show
-      if AppConfig[:repo_name_in_slugs] 
+    if result.json['slug'] && AppConfig[:use_human_readable_URLs]
+      if AppConfig[:repo_slug_in_URL]
         if result.resolved_repository["slug"]
           url = "repositories/#{result.resolved_repository["slug"]}/classifications/" + result.json['slug']
         else
@@ -108,7 +108,7 @@ module ViewHelper
   end
 
   def agent_base_url(result)
-    if result.json['slug'] && AppConfig[:slugs] == :show
+    if result.json['slug'] && AppConfig[:use_human_readable_URLs]
       url = "agents/" + result.json['slug']
     else
       url = result['uri']
@@ -118,8 +118,8 @@ module ViewHelper
   end
 
   def object_base_url(result)
-    if result.json['slug'] && AppConfig[:slugs] == :show
-      if AppConfig[:repo_name_in_slugs] 
+    if result.json['slug'] && AppConfig[:use_human_readable_URLs]
+      if AppConfig[:repo_slug_in_URL]
         if result.resolved_repository["slug"]
           url = "repositories/#{result.resolved_repository["slug"]}/archival_objects/" + result.json['slug']
         else
@@ -134,6 +134,6 @@ module ViewHelper
       url = result['uri']
     end
 
-    return url  
+    return url
   end
 end

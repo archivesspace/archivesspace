@@ -10,7 +10,7 @@
        <%= form.label_and_textarea "title" %>
        <%= form.label_and_fourpartid %>
 
-       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @accession} %>
+       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @accession} if AppConfig[:use_human_readable_URLs] %>
 
        <%= form.label_and_date "accession_date" %>
        <%= form.label_and_textarea "content_description" %>
@@ -18,16 +18,16 @@
        <%= form.label_and_textarea "disposition" %>
        <%= form.label_and_textarea "inventory" %>
        <%= form.label_and_textarea "provenance" %>
-       <%= form.label_and_textarea "retention_rule" %>  
-       <%= form.label_and_textarea "general_note" %>       
+       <%= form.label_and_textarea "retention_rule" %>
+       <%= form.label_and_textarea "general_note" %>
        <%= form.label_and_select "acquisition_type", form.possible_options_for("acquisition_type", true) %>
        <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
        <%= form.label_and_boolean "restrictions_apply", {}, form.default_for("restrictions_apply") %>
        <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
        <%= form.label_and_boolean "access_restrictions", {}, form.default_for("access_restrictions") %>
-       <%= form.label_and_textarea "access_restrictions_note" %> 
+       <%= form.label_and_textarea "access_restrictions_note" %>
        <%= form.label_and_boolean "use_restrictions", {}, form.default_for("use_restrictions") %>
-       <%= form.label_and_textarea "use_restrictions_note" %> 
+       <%= form.label_and_textarea "use_restrictions_note" %>
     </fieldset>
   </section>
 <% end %>
@@ -54,10 +54,7 @@
 
 <%= form_plugins_for("accession", form) %>
 
-<div class="form-actions">            
+<div class="form-actions">
   <button type="submit" class="btn btn-primary"><%= I18n.t("accession._frontend.action.save") %></button>
   <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
 </div>
-<%= javascript_tag do %>
-  activate_slug_checkbox();
-<% end %>
