@@ -31,12 +31,14 @@ class JobsController < ApplicationController
 
   def create
 
-    job_data = params[params['job']['job_type']]
+    @job_type = params['job']['job_type']
+
+    job_data = params['job']
 
     # Knock out the _resolved parameter because it's often very large
     # and clean up the job data to match the schema types.
     job_data = ASUtils.recursive_reject_key(job_data) { |k| k === '_resolved' }
-    job_data = cleanup_params_for_schema(job_data, JSONModel(params['job']['job_type'].intern).schema)
+    job_data = cleanup_params_for_schema(job_data, JSONModel(@job_type.intern).schema)
     
     files = Hash[Array(params['files']).reject(&:blank?).map {|file|
                                   [file.original_filename, file.tempfile]}]
@@ -45,7 +47,7 @@ class JobsController < ApplicationController
 
     job_data["repo_id"] ||= session[:repo_id]
     begin
-      job = Job.new(params['job']['job_type'], job_data, files,
+      job = Job.new(@job_type, job_data, files,
                                   job_params
                    )
       uploaded = job.upload
@@ -61,7 +63,6 @@ class JobsController < ApplicationController
       @job = e.invalid_object
       @import_types = import_types
       @report_data = JSONModel::HTTP::get_json("/reports")
-      @job_type = params['job']['job_type']
 
       params['job_type'] = @job_type
 

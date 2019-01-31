@@ -1531,9 +1531,11 @@ ja:
     jsonmodel_type: レコードまたはサブレコードタイプ
     record_type: レコードまたはサブレコードタイプ
     property: ターゲットプロパティ
+    base_record_uri: ベースレコードURI
 
   print_to_pdf_job:
     include_unpublished: 未公開を含める
+    source: ソース
 
   advanced_search:
     type:

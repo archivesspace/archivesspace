@@ -59,7 +59,7 @@ $(function() {
         };
 
         var initFormatReportSubForm = function() {
-            $(document).on('change', '#report_job_format', function() {
+            $(document).on('change', "input[name='job[format]']", function() {
 
                 if ($(this).val() == 'csv') {
                     $('.csv_options').show();
@@ -75,7 +75,7 @@ $(function() {
     };
 
     var initPrintToPdfJobForm = function() {
-        $("#print_to_pdf_job_ref_").attr("name", "print_to_pdf_job[source]");
+        $("#job_ref_").attr("name", "job[source]").attr("id", "job_source_");
     };
 
     var initFindAndReplaceJobForm = function() {
@@ -83,15 +83,15 @@ $(function() {
             .html(AS.renderTemplate("template_find_and_replace_warning"));
 
         // init findAndReplaceForm
-        var $selectRecordType = $("#find_and_replace_job_record_type_");
-        var $selectProperty = $("#find_and_replace_job_property_");
+        var $selectRecordType = $("#job_record_type_");
+        var $selectProperty = $("#job_property_");
 
         $selectRecordType.attr('disabled', 'disabled');
         $selectProperty.attr('disabled', 'disabled');
 
-        $("#find_and_replace_job_ref_").attr("name", "find_and_replace_job[base_record_uri]");
+        $("#job_ref_").attr("name", "job[base_record_uri]");
 
-        $("#find_and_replace_job_ref_").change(function() {
+        $("#job_ref_").change(function() {
             var resourceUri = $(this).val();
             if (resourceUri.length) {
                 var id = /\d+$/.exec(resourceUri)[0]
@@ -254,7 +254,7 @@ $(function() {
         };
 
 
-        $("#import_job_import_type_", $form).change(function() {
+        $("#job_import_type_", $form).change(function() {
             $("#job_filenames_", $form)
                 .empty()
                 .append(AS.renderTemplate("template_fileupload"))
@@ -264,7 +264,7 @@ $(function() {
             initFileUploadSection();
         });
 
-        $("#import_job_import_type_", $form).trigger("change");
+        $("#job_import_type_", $form).trigger("change");
 
         $form.submit(function() {
             $(".import-file.file-attached").each(function() {
@@ -288,24 +288,11 @@ $(function() {
     };
 
     var type = $("#job_type").val();
-
-    if (type == "report_job") {
-        $("#job_type_fields", $form)
-        .empty()
-        .html(AS.renderTemplate("template_" + type, {
-            id_path: "job_job_params_",
-            path: "job[job_params]"
-        }));
-    } else {
-        $("#job_type_fields", $form)
-        .empty()
-        .html(AS.renderTemplate("template_" + type, {
-            id_path: type,
-            path: type
-        }));
-    }
     
     $(".linker:not(.initialised)").linker();
+
+    // these were added because it was neccesary to get the translation right
+    $(".translation-placeholder").remove();
 
     if (type == "report_job") {
         initReportJobForm();

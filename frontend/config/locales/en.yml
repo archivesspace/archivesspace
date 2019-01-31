@@ -1049,7 +1049,7 @@ en:
   job:
     _frontend:
       audit_data: Audit Data
-      actions:
+      action:
         create: Create Job
         save: Queue Job
         new: New Background Job
