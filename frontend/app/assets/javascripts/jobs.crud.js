@@ -61,7 +61,7 @@ $(function() {
         };
 
         var initFormatReportSubForm = function() {
-            $(document).on('change', "input[name='job[format]']", function() {
+            $(document).on('change', "#job_format_", function() {
 
                 if ($(this).val() == 'csv') {
                     $('.csv_options').show();
@@ -269,21 +269,21 @@ $(function() {
         $("#job_import_type_", $form).trigger("change");
 
         $form.submit(function() {
-            
-            var dt = new DataTransfer();
+
+
             $(".import-file.file-attached").each(function() {
-                var $input = $(this);
-                dt.items.add($input.data("file"));
+                var dt = new DataTransfer();
+                dt.items.add($(this).data("file"));
+
+                const input = document.createElement("input");
+                input.type = "file";
+                input.name = "files[]";
+                input.style.display = "none";
+                input.files = dt.files;
+                $form.append(input);
             });
-
-            const input = document.createElement("input");
-            input.type = "file";
-            input.name = "files[]";
-            input.multiple = true;
-            input.style.display = "none";
-            input.files = dt.files;
-            $form.append(input);
-
+            
+            
             return true;
         });
 

@@ -143,7 +143,7 @@
               <div class="form-group">
                 <div class="col-sm-9">
                   <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
-                  <%= form.label_and_select :format, options_for_select(formats.map{|format| [I18n.t("reports.formats.#{format}", :default => format), format]}, nil) %>
+                  <%= form.label_and_select :format, formats.collect{|format| [I18n.t("reports.formats.#{format}", :default => format), format]} %>
                 </div>
                 <div class="csv_options" hidden="true">
                   <label class="col-sm-2 control-label">Linked Records in JSON</label>
