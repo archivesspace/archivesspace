@@ -586,6 +586,7 @@
     note: Notas de contacto
     note_tooltip: |
         <p>Notas adicionales o información de contacto de la persona de contacto.</p>
+    telephones: Números telefónicos
     _singular: Contacto
     _plural: Los datos de contacto
 
@@ -660,6 +661,7 @@
     description: Descripción
     ref: Autoridad relacionada
     date: Fecha
+    dates: Fechas
     _singular: Relación padre/hijo
 
   agent_relationship_earlierlater:
@@ -667,6 +669,7 @@
     description: Descripción
     ref: Autoridad relacionada
     date: Fecha
+    dates: Fechas
     _singular: Relación antes/después
 
   agent_relationship_subordinatesuperior:
@@ -674,12 +677,14 @@
     description: Descripción
     ref: Autoridad relacionada
     date: Fecha
+    dates: Fechas
     _singular: Relación subordinada/Superior
 
   agent_relationship_associative:
     relator: Tipo de relación
     description: Descripción
     date: Fecha
+    dates: Fechas
     ref: Autoridad relacionada
     _singular: Relación asociativa
 
@@ -700,6 +705,9 @@
     note_outline: Esquema
     note_text: Texto
     note_type: Tipo de nota
+    note_rights_statement: Nota de declaración de derechos
+    note_rights_statement_act: Nota de acto
+    note_agent_rights_statement: Nota de declaración de derechos (no utilice)
     _singular: Nota
     _plural: Notas
 
@@ -733,6 +741,12 @@
   note_digital_object:
     <<: *note_attributes
 
+  note_rights_statement:
+    <<: *note_attributes
+  note_rights_statement_act:
+    <<: *note_attributes
+  note_agent_rights_statement:
+    <<: *note_attributes
   note_bibliography:
     <<: *note_attributes
     option: Bibliografía
@@ -773,6 +787,7 @@
 
   note_bioghist:
     <<: *note_attributes
+    subnotes: Sub Notes
 
   note_abstract:
     <<: *note_attributes
@@ -875,8 +890,7 @@
   extent: &extent_attributes
     portion: Parte del fondo
     portion_tooltip: |
-        <p>Se utiliza para especificar si una declaración de medida se refiere a la totalidad o parte de una determinada agregación descrita u objeto.</p>
-        <p>Cualquier agregación descrita u objeto con una sentencia de grado debe tener una declaración de medida con la parte establecida en "todo".</p>
+        <p>CAMPO REQUERIDO: Se utiliza para especificar si una declaración de extensión se relaciona con la totalidad o parte de una agregación u objeto descrito dado.</p>
         <p>Ver DACS 2.5.7</p>
     number: Cantidad
     number_tooltip: |
@@ -894,6 +908,7 @@
         <ul>
         <li>10 metros lineales, 6 Gigabytes de correos electrónicos.</li>
         <li>12 cajas.</li>
+        <li>4 cajas de archivos, 32 tubos.</li>
         </ul>
     physical_details: Detalles físicos
     physical_details_tooltip: |
@@ -921,8 +936,8 @@
         <p>La ubicación del archivo, idealmente una URI.</p>
         <p>Ejemplos</p>
         <ul>
-        <li>http</li>
-        <li>//srvsicso/docs</li>
+        <li>http://www.archivesspace.org/</li>
+        <li>file:///c:/path/to/the%20file.txt</li>
         </ul>
     publish: ¿Publicar?
     publish_tooltip: |
@@ -931,6 +946,11 @@
     _plural: Documentos externos
     _singular: Documento externo
 
+  rights_statement_external_document:
+    <<: *external_document_attributes
+    identifier_type: Tipo de identificador
+    identifier_type_tooltip: |
+        <p>El tipo de identificador indica a qué dominio pertenece el documento externo.</p>
   external_id:
     _plural: ID Externo
     _singular: IDs Externos
@@ -947,23 +967,18 @@
     rights_type_tooltip: |
         <p>La base para la declaración de los derechos lograda.Se permiten cuatro bases
     rights_type_message: Por favor seleccione un tipo de norma
-    materials: Materiales
-    materials_tooltip: |
-        <p>Un término o frase breve que describe los materiales en el acta de ingreso, recurso o colección a la que grabación los derechos se aplica.</p>
-        <p>Ejemplos</p>
+    status: Estado
+    status_tooltip: |
+        <p>Una designación codificada para el estado de copyright del objeto en el momento en que se registra la declaración de derechos.</p>
         <ul>
-        <li>Diarios por Alex Doe</li>
+          <li>Con derechos de autor = Bajo copyright.</li>
+          <li>Dominio público = En el dominio público.</li>
+          <li>Desconocido = El estado de copyright del recurso es desconocido</li>
         </ul>
-    ip_status: Estado de IP
-    ip_status_tooltip: |
-        <p>Un término que indica el estado de la propiedad intelectual de los materiales descritos.</p>
-    ip_expiration_date: Fecha de caducidad IP
-    ip_expiration_date_tooltip: |
-        <p>La fecha que se espera caducan los derechos de autor u otro estado de la propiedad intelectual.</p>
-    license_identifier_terms: Términos de licencia identificador
-    license_identifier_terms_tooltip: |
-        <p>Una declaración (fragmento de texto o Resumen) de los permisos concedidos en la licencia.</p>
-    statute_citation: Cita de Estatuto
+    license_terms: Condiciones de la licencia
+    license_terms_tooltip: |
+        <p>Una declaración (fragmento de texto real o resumen) de los permisos otorgados en la licencia.</p>
+    statute_citation: Citación del Estatuto
     statute_citation_tooltip: |
         <p>Una citación, URI u otra referencia al estatuto relacionadas con esta declaración de derechos.</p>
         <p>Ejemplos</p>
@@ -972,7 +987,9 @@
         </ul>
     jurisdiction: Jurisdicción
     jurisdiction_tooltip: |
-        <p>La entidad política autoriza a derechos de autor o estatuto, por ejemplo de país o región.</p>
+        <p>Copyright: el país cuyas leyes de copyright se aplican.</p>
+        <p>Estatuto: El país u otro organismo político que promulga el estatuto.</p>
+        <p>Cumple con la norma ISO 3166.</p>
     type_note: Tipo Nota
     type_note_tooltip: |
         <p>Cualquier información adicional sobre el copyright, licencia, estatuto o política institucional o sobre su aplicación a los materiales descritos.</p>
@@ -980,33 +997,23 @@
         <ul>
         <li>Constraint(s) de uso</li>
         </ul>
-    permissions: Permisos
-    permissions_tooltip: |
-        <p>Una descripción de qué tipo de acciones es permitida para el repositorio o el usuario final.</p>
-    restrictions: Restricciones
-    restrictions_tooltip: |
-        <p>Una descripción de qué tipo de acciones no es admisible para el repositorio o el usuario final.</p>
-        <p>Ejemplos</p>
-        <ul>
-        <li>Fotocopias, escanear o fotografiar de materiales no permitidos.</li>
-        </ul>
-    restriction_start_date: Fecha de inicio de restricciones
-    restriction_start_date_tooltip: |
-        <p>La fecha que las restricciones entren en vigor.</p>
-    restriction_end_date: Fecha de finalización de las restricciones
-    restriction_end_date_tooltip: |
-        <p>La fecha de que dejan de aplicar las restricciones.</p>
-    granted_note: Nota concedida
-    granted_note_tooltip: |
-        <p>Cualquier calificación información acerca de los permisos concedidos o restricciones que se deben cumplir.</p>
-        <p>Ejemplos</p>
-        <ul>
-        <li>Póngase en contacto con la familia del donante si se solicita acceso antes de que llegue la fecha de finalización de la restricción.</li>
-        </ul>
-    _plural: Normativas
-    _singular: Normativa
+    determination_date: Fecha de determinación
+    determination_date_tooltip: |
+        <p>Copyright: La fecha en que se determinó el estado de copyright registrado en el estado de copyright.</p>
+        <p>Estatuto: La fecha en que se tomó la determinación de que el estatuto autorizó el (los) permiso(s) anotados.</p>
+    start_date: Fecha de inicio
+    start_date_tooltip: |
+        <p>La fecha en que la declaración de derechos entró en vigencia.</p>
+    end_date: Fecha final
+    end_date_tooltip: |
+        <p>La fecha en que termina la declaración de derechos.</p>
+    other_rights_basis: Otras bases de derechos
+    other_rights_basis_tooltip: |
+      <p>Derechos Tipo de otras declaraciones de derechos que no son estatutos, licencias o derechos de autor.</p>
+    _plural: Declaraciones de derechos
+    _singular: Declaración de derechos
 
-  rights_type_intellectual_property:
+  rights_type_copyright:
     <<: *rights_statement_attributes
 
   rights_type_license:
@@ -1015,7 +1022,7 @@
   rights_type_statute:
     <<: *rights_statement_attributes
 
-  rights_type_institutional_policy:
+  rights_type_other:
     <<: *rights_statement_attributes
 
   date: &date_attributes
@@ -1040,7 +1047,6 @@
         <li>alrededor de 1870-1879</li>
         <li>17 de marzo de 1906</li>
         <li>sin fecha</li>
-        <li>desconocido <em>(para eventos)</em></li>
         <li>desconocido <em>(para eventos)</em></li>
         </ul>
     begin: Comienzo
@@ -1109,8 +1115,7 @@
     accession_date: Fecha de entrada
     accession_date_inline_help: por ejemplo AAAA-MM-DD
     accession_date_tooltip: |
-        <p>CAMPO OBLIGATORIO
-        necessarily the same date as when the record is created.</p>:
+      <p> CAMPO REQUERIDO: La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
     accession_id: Identificador
     accession_id_tooltip: |
         <p>El número de la base de datos interna para un registro específico de acta de ingreso.</p>
@@ -1120,31 +1125,23 @@
     id_2: Identificador 3
     id_3: Identificador 4
     id_0_tooltip: |
-        <p>CAMPO OBLIGATORIO
-        repository.</p>:
-        <p>En ArchivesSpace, se proporcionan cuatro campos para analizar a un
-        accession identifier into its component parts. Each segment is:
-        limited to 50 characters, or 200 characters total for the identifier.:
-        At least the first part must be used for a valid accession record.</p>:
-        <p>Los valores predeterminados pueden utilizarse para rellenar las piezas que son
-        the same across all accession numbers.</p>:
+        <p> CAMPO REQUERIDO: el identificador único para una accesión dentro de un repositorio. </p>
+        <p> En ArchivesSpace, se proporcionan cuatro campos para analizar un identificador de acceso en sus partes componentes. Cada segmento está limitado a 50 caracteres, o 200 caracteres en total para el identificador. Al menos la primera parte debe usarse para un registro de acceso válido. </p>
+        <p> Los valores predeterminados se pueden usar para completar las partes componentes que son iguales en todos los números de acceso. </p>
         <p>Ver DACS 5.2.5</p>
     content_description: Descripción de contenido
     content_description_tooltip: |
-        <p>Una descripción de los tipos de documentos y contenidos tópicos de la
-        accession.</p>:
-        <p>Ver 3.1.4-3.1.7 DACS</p>
-        <p>Ejemplos</p>
-        <p>Diez cajas de materiales que contengan notas de campo, diarios, y
-        drafts of maps documenting Mr. Smith's 10 years in residence at the:
-        Otay Mesa Ranch.</p>:
+        <p> Una descripción de los tipos de documentos y contenidos temáticos de la adhesión. </p>
+        <p> Ver DACS 3.1.4-3.1.7 </p>
+        <p> Ejemplos: </p>
+        <p> Diez cartones de materiales que contienen notas de campo, diarios y borradores de mapas que documentan los 10 años de residencia del Sr. Smith en Otay Mesa Ranch. </p>
     condition_description: Descripción de la condición
     condition_description_tooltip: |
         <p>Una descripción de la condición física de los contenidos de la
-        accession, including any special handling requirements.</p>:
+        accession, incluidos los requisitos de manejo especiales.</p>
         <p>Ejemplos</p>
         <p>Los mapas en la casilla 4 son frágiles y varios están cubiertas de moho.
-        Inhalation guards should be worn during processing.</p>:
+        Deben usarse protectores de inhalación durante el procesamiento.</p>
     disposition: Disposición
     disposition_tooltip: |
         <p>Una nota para describir cómo un acta de ingreso particular que han sido asignada a diferentes recursos.</p>
@@ -1222,11 +1219,7 @@
         <p>Ver DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
     title: Título
     title_tooltip: |
-        <p>El título asignado a un recurso o de entrada. El título de entrada
-        need not be the same as the resource title. Moreover, a title need not:
-        be expressed for the accession record, as it can be implicitly :
-        inherited from the resource record to which the accession is:
-        linked.</p>:
+        <p> El título asignado a una accesión o recurso. El título de la accesión no necesita ser el mismo que el título del recurso. Además, no es necesario expresar un título para el registro de acceso, ya que puede heredarse implícitamente del registro de recursos al que está vinculado el acceso. </p>
         <p>Ver 2.3.18-2.3.22 DACS</p>
     related_resources_tooltip: |
         <p>Utilizado para vincular los recursos asociados con este proceso de entrada.</p>
@@ -1268,9 +1261,11 @@
     name: Nombre de autoridad
     names:
     names_tooltip: |
-        <p>SUBREGISTRO REQUERIDO
+        <p>SUBRECORDO REQUERIDO: Registra diferentes formas del nombre de un Agente. Cada registro de agente debe tener al menos un subrecord de formulario de nombre.</p>
+    agent_contacts: Detalles de contacto
     contacts_tooltip: |
         <p>Registros de información sobre un autoridad particular de contacto.</p>
+    notes: Notas
     notes_tooltip: |
         <p>Información descriptiva adicional de registros sobre un autoridad, como una Nota biográfica o una historia administrativa.</p>
     related_agents_tooltip: |
@@ -1304,7 +1299,16 @@
     _singular: Entidad corporativa
     _plural: Entidades corporativas
 
+  related_agents_agent_person:
+    related_agents: Agentes relacionados
+  related_agents_agent_family:
+    related_agents: Agentes relacionados
+  related_agents_agent_software:
+    related_agents: Agentes relacionados
+  related_agents_agent_corporate_entity:
+    related_agents: Agentes relacionados
   archival_object: &archival_object_attributes
+    <<: *section_tooltips
     title: Título
     title_tooltip: |
         <p>CAMPO OBLIGATORIO CONDICIONAL
@@ -1357,12 +1361,13 @@
     publish: ¿Publicar?
     publish_tooltip: |
         <p>Determina si este fondo será publicado.</p>
-    restrictions: ¿Restricciones?
     restrictions_apply: ¿Se aplican restricciones?
-    restrictions_tooltip: |
+    restrictions_apply_tooltip: |
         <p>Indica si los materiales descritos tienen algún tipo de limitación legal. En la nota apropiada se describirá la restricción o normativa en cuestión.</p>
         <p>Ver DACS 4.1-4.4</p>
     repository_processing_note: Nota relativa al proceso técnico
+    repository_processing_note_tooltip: |
+         <p>Un campo específico de la aplicación para registrar información sobre el procesamiento de los materiales. Esta nota no se incluye en ninguna exportación o informe, y no está poblada por importaciones.</p>
     automate_title: Generar automáticamente el título
     language: Idioma
     language_tooltip: |
@@ -1399,28 +1404,35 @@
       update_resource_record: crear/modificar resources en este repositorio
       update_digital_object_record: crear/modificar objetos digitales en este repositorio
       update_event_record: crear/modificar event records en este repositorio
-      view_repository: view the records en este repositorio
-      view_suppressed: view suppressed records en este repositorio
-      suppress_archival_record: suppress the major record types en este repositorio
-      delete_archival_record: delete the major record types en este repositorio
-      delete_event_record: delete event records en este repositorio
-      update_classification_record: crear/modificar classifications and classification terms
-      delete_classification_record: delete classifications and classification terms
+      view_repository: ver los registros en este repositorio
+      view_suppressed: ver registros suprimidos en este repositorio
+      suppress_archival_record: suprimir los principales tipos de registro en este repositorio
+      delete_archival_record: eliminar los principales tipos de registro en este repositorio
+      delete_event_record: eliminar registros de eventos en este repositorio
+      update_classification_record: crear/modificar clasificaciones y términos de clasificación
+      delete_classification_record: eliminar clasificaciones y términos de clasificación
       merge_agents_and_subjects: merge agent/subject records
-      merge_archival_record: merge the major record types en este repositorio
-      transfer_repository: transfer the entire contents of a repository
-      transfer_archival_record: transfer major record types between repositories
+      merge_archival_record: fusionar los principales tipos de registro en este repositorio
+      manage_rde_templates: administrar plantillas RDE
+      transfer_repository: Transferir todo el contenido de un repositorio.
+      transfer_archival_record: transferir los principales tipos de registro entre repositorios
       manage_subject_record: crear/modificar/borrar subject records
       manage_agent_record: crear/modificar/borrar agent records
       manage_vocabulary_record: crear/modificar/borrar vocabulary records
-      import_records: initiate import jobs
-      cancel_importer_job: cancel an import job
+      import_records: iniciar trabajos de importación
+      cancel_importer_job: cancelar un trabajo de importación
       update_container_record: crear/modificar top container records
-      manage_container_record: delete/bulk update top container records
+      manage_container_record: eliminar/actualizar de forma masiva los registros del contenedor superior
       manage_container_profile_record: crear/modificar/borrar container profile records
       manage_location_profile_record: crear/modificar/borrar location profile records
-    _singular: Group
-    _plural: Groups
+      create_job: crear y ejecutar un trabajo en segundo plano
+      cancel_job: cancelar un trabajo de fondo
+      update_assessment_record: crear/actualizar registros de evaluación
+      delete_assessment_record: eliminar registros de evaluación
+      manage_assessment_attributes: Crear/actualizar/eliminar definiciones de atributos de evaluación de repositorio
+      manage_enumeration_record: Crear/actualizar/eliminar registros de valores controlados
+    _singular: Grupo
+    _plural: Los grupos
 
   resource:
     <<: *archival_object_attributes
@@ -1428,14 +1440,17 @@
     user_defined:
        <<: *user_defined_attributes
     id_0: Identificador
+    id_1: Identificador 2
+    id_2: Identificador 3
+    id_3: Identificador 4
     id_0_tooltip: |
-        <p>REQUIRED FIELD. The identification number assigned to each discrete Resource within a Repository.</p>
-        <p>See DACS 2.1.3</p>
-        <p>Examples</p>
+        <p>CAMPO REQUERIDO. El número de identificación asignado a cada Recurso discreto dentro de un Repositorio.</p>
+        <p>Ver DACS 2.1.3</p>
+        <p>Ejemplos</p>
         <ul>
-        <li>R.001 (Two elements "R" + "001")</li>
-        <li>MSS 025 (A single element)</li>
-        <li>Archives.RSS.0333 (Three elements "Archives" + "RSS" + "0333")</li>
+        <li>R.001 (Dos elementos "R" + "001")</li>
+        <li>MSS 025 (Un solo elemento)</li>
+        <li>Archives.RSS.0333 (Tres elementos "Archives" + "RSS" + "0333")</li>
         </ul>
     "[:id_0, :id_1, :id_2, :id_3]": Identificador
     "[:repo_id, :identifier]": Identificador
@@ -1461,7 +1476,13 @@
         <p>SUBREGISTRO REQUERIDO
         <p>Ver DACS 2.5</p>
     related_accessions_tooltip: |
-        <p>Utilizado para vincular las actas de ingreso asociadas con este fondo.</p>
+        <p>Se utiliza para vincular accesiones asociadas con este recurso.</p>
+    publish_tooltip: |
+        <p>Determina si este recurso se publicará en las interfaces públicas (usuarios).</p>
+    restrictions: ¿Restricciones?
+    restrictions_tooltip: |
+        <p>Indica si los materiales descritos están restringidos de alguna manera. Se debe proporcionar una descripción adicional de la restricción en Notas o Declaraciones de Derechos apropiadas para el registro donde se produce la restricción.</p>
+        <p>Ver DACS 4.1-4.4</p>
     repository_processing_note_tooltip: |
         <p>Un campo para registrar información específica sobre el proceso técnico de los materiales. Esta nota es de uso interno y no se exporta en el instrumento de descripción.</p>
     ead_id: Identificador EAD
@@ -1586,6 +1607,9 @@
     country: País
     country_tooltip: |
         <p>El país en el que el repositorio se encuentra tomado de la lista de códigos ISO 3166.</p>
+    description: Descripción
+    description_tooltip: |
+        <p>Una sección sobre o resumen descriptivo para el repositorio.</p>
     post_code: Código postal
     telephone: Teléfono
     telephone_ext: Extensión
@@ -1601,6 +1625,9 @@
         <p>Una dirección URL u otro identificador de ubicación de archivo hace referencia a un archivo que contiene un dispositivo de creación de marca para ser utilizado en el repositorio en línea encontrar SIDA. Un dispositivo típico de marca es un sello de Universidad o logotipo.</p>
     _singular: Repositorio
     _plural: Repositorios
+    publish: ¿Publicar?
+    publish_tooltip: |
+        <p>Determina si este Repositorio y cualquier registro que contenga se publicarán en interfaces públicas (usuarios).</p>
 
   term: &term_attributes
     # tooltips not displaying:
@@ -1844,18 +1871,6 @@
     _plural: Valores predeterminados
 
   reports:
-    CreatedAccessionsReport: Informe de actas de ingreso creado
-    UnprocessedAccessionsReport: Actas de ingreso sin procesar
-    LocationHoldingsReport: Ubicaciones de contenido
-    location_holdings:
-      report_title: Informe de contenedores archivados en una o mas localizaciones
-      repository_report_type: Repositorio
-      building_report_type: Edificio
-      single_location_report_type: Localización sencilla
-      location_range_report_type: Conjunto de ubicaciones
-      search_range: Informe de conjunto de ubicaciones
-      start_range: Primera localización
-      end_range: Última localización
     parameters:
       from: De
       from_tooltip:
@@ -1872,6 +1887,7 @@
 
   validation_errors:
     agent_must_be_unique: Registros de autoridad no pueden ser idénticos
+    subject_must_be_unique: Los registros de sujetos no pueden ser idénticos
     missing_required_property: Propiedad es necesaria pero falta
     missing_property: Faltaba propiedad
     not_a_valid_date: No es una fecha válida
@@ -1879,11 +1895,13 @@
     is_required_unless_a_begin_or_end_date_is_given: se requiere al menos que se da una fecha de inicio o final
     is_required_unless_an_expression_or_an_end_date_is_given: se requiere al menos que se da una expresión o una fecha de finalización
     is_required_unless_an_expression_or_a_begin_date_is_given: se requiere al menos que se da una expresión o una fecha de inicio
-
+    must_specify_either_a_date_or_a_timestamp: debe especificar una fecha o una marca de tiempo
     did_not_match_regular_expression: "No coincide con la expresión regular %{regexp}"
     too_few_characters: "Debe ser por lo menos caracteres %{min_length}"
     too_many_characters: "Debe ser %{max_length} caracteres o menos"
+    max_length_is_50_characters: No debe superar los 50 caracteres.
     too_few_items: "Por lo menos los elementos %{min_items} es necesario"
+    must_contain_at_least_one_subnote: Debe contener al menos una nota secundaria
     invalid_value: "Valor no válido '%{valor}'. Debe ser uno de '%{valid_set}'"
     wrong_type: "Debe ser un %{desired_type} (proporcionó un %{actual_type})"
     must_be_one_of: "Debe ser uno de %{allowed_types} (proporcionó un %{actual_type})"
@@ -1899,7 +1917,7 @@
     is_required_if_there_is_an_authority_id: es necesario si hay un 'identificador de autoridad'
     you_must_provide_a_label__title_or_date: Usted debe proporcionar una etiqueta, título o fecha
     location_fields_error: >
-      You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator:
+      Debe especificar un código de barras, una clasificación o una etiqueta de la coordenada 1 y un indicador de la coordenada 1:
     location_must_be_unique_within_a_record: Debe ser único dentro de un registro
     location_cannot_be_deleted_if_linked: Ubicación actualmente está vinculada a uno o más registros de representación y no puede ser bloqueado. Por favor, enlace estas instancias a nuevas ubicaciones antes de eliminar el registro del lugar.
     cannot_be_previous_if_location_is_not_temporary: No se puede transferir a la anterior si la situación es temporal.
@@ -1916,9 +1934,18 @@
     is_required_if_status_is_previous: se necesita si el 'Stado' es 'Previo'
     location_profile_name_not_unique: El nombre del Location Profile tiene que ser único
     must_be_a_positive_integer: Tiene que ser un entero positivo
+    must_be_unique_to_its_level_in_the_tree: Este valor debe ser único para este nivel de la jerarquía.
+    short_name_already_in_use: El nombre corto del repositorio debe ser único dentro de este ArchivesSpace
     custom_report_template_name_not_unique: El nombre de la plantilla del informe personalizado debe ser único.
     custom_report_must_include_field_or_subreport: La plantilla de informe personalizado debe incluir al menos un campo o subinforme.
-    missing_filter_values: Seleccionado para filtrar los resultados por campo pero no se le otorgaron ningún valor
+    missing_filter_values: Seleccionado para filtrar los resultados por campo, pero sin valor(es) dado
+    must_be_a_valid_email_address: El campo de dirección de correo electrónico debe contener una dirección válida
+    repo_set_desc_required: La descripción del conjunto de repositorios es necesaria para crear un conjunto de repositorios OAI
+    repo_set_name_required: El nombre del conjunto de repositorios es necesario para crear un conjunto de repositorios OAI
+    is_not_present: Falta el campo requerido
+    must_be_a_valid_email_address: Debe contener una dirección válida
+    sponsor_set_desc_required: Se requiere la descripción del conjunto de patrocinadores para crear un conjunto de patrocinadores de OAI
+    sponsor_set_name_required: Se requiere el nombre del conjunto de patrocinadores para crear un conjunto de patrocinadores de OAI
 
   job:
     _singular: Tarea en el background
@@ -1928,16 +1955,9 @@
       print_to_pdf_job: Imprimir en PDF
       import_job: Importar Datos
       find_and_replace_job: Busca y reemplaza en bloque (Beta)
-      report_job: Reports
-      container_conversion_job: Reports
-    import_type: Tipo de importación
-    import_type_ead_xml: EAD
-    import_type_accession_csv: Acta de ingreso CSV
-    import_type_digital_object_csv: Objeto digital CSV
-    import_type_eac_xml: EAC
-    import_type_marcxml: MarcXML (fondos)
-    import_type_marcxml_accession: MarcXML (acta de ingreso)
-    import_type_marcxml_subjects_and_agents: MarcXML (materias y autoridades solamente)
+      report_job: Informes
+      container_conversion_job: Informes
+      unknown_job_type: Tipo de trabajo desconocido
     status: Estado
     status_completed: Completado
     status_queued: Cola
@@ -1949,13 +1969,17 @@
     time_finished: Tiempo terminado
     owner: Propietario
     show_description: Muestra descripción
-    filenames: Importación de archivos
+
+  report_job:
+    report_type: Tipo de informe
+    format: Formato
 
   import_job:
     _singular: Trabajo de importación
     filenames: Archivos a importar
     import_type: Tipo de importación
     import_type_ead_xml: EAD
+    import_type_assessment_csv: Evaluación CSV
     import_type_accession_csv: Adquisición CSV
     import_type_digital_object_csv: Objeto digital CSV
     import_type_eac_xml: EAC
@@ -1971,11 +1995,13 @@
     record_type: Registro o tipo de subregistro
     property: Propiedad
 
+  print_to_pdf_job:
+    include_unpublished: Incluir no publicado
   advanced_search:
     type:
       text: Texto
       date: Fecha
-      boolean: Boolean
+      boolean: Booleano
       controlled_value: Valor controlado
     text:
       keyword: Palabra clave
@@ -1997,15 +2023,181 @@
     backend: Backend
     frontend_info: Información del sistema frontend
     frontend_log: Registro de frontend
-    backend_info: Información del sistema de back-end
+    backend_info: Información del sistema de backend
     backend_log: Registro de backend
 
   resource_component:
    _singular: Componente de recurso
 
-  export_options:
-    use_mods: Usar MODS
-    use_dc: Usar Dublin Core
+  largetree:
+    reparent_error:
+      title: No se puede realizar el movimiento
+      message: El movimiento se ha rechazado porque un padre no puede convertirse en su propio hijo.
+  rights_statement_act: &rights_statement_act_attributes
+    _singular: Acto
+    _plural: Hechos
+    act_type: Tipo de acto
+    act_type_tooltip: |
+        <p>La acción que esta declaración de derechos permite.</p>
+    restriction: Restricción
+    restriction_tooltip: |
+        <p>Una condición o limitación del acto.</p>
+        <p>Ejemplos:</p>
+        <ul>
+          <li>No mas de tres</li>
+          <li>Se permite solo después de que haya transcurrido un año de retención de archivos.</li>
+          <li>El titular de los derechos debe ser notificado después de la finalización del acto</li>
+        </ul>
+    start_date: Fecha de inicio
+    start_date_tooltip: |
+        <p>La fecha en que el acto entró en vigencia.</p>
+    end_date: Fecha final
+    end_date_tooltip: |
+        <p>La fecha en que termina el acto..</p>
+  act:
+    <<: *rights_statement_act_attributes
+  oai:
+    sample_page:
+      title: "%{oai_repository_name} - Ejemplos de solicitudes OAI-PMH"
+      introduction: "<p>Ejemplo de solicitudes utilizando el protocolo de iniciativa de archivos abiertos para la recolección de metadatos (OAI-PMH v 2.0).</p>"
+      form_header: Enviar una solicitud '%{verb}'
+      form_submit: Enviar
+  assessment:
+    records: Archivos
+    records_tooltip: |
+        <p>CAMPO REQUERIDO: Un enlace al recurso(s), acceso(s), objeto(s) de archivo u objeto(s) digital objeto(s) de la evaluación.</p>
+    accession_report: Informe de adhesión
+    appraisal: Evaluación
+    container_list: Lista de cajas/contenedores
+    catalog_record: Registro de catálogo (MARC)
+    collections: Colecciones
+    control_file: Colección/Archivo de Control
+    conservation_note: Nota de conservacion
+    conservation_note_tooltip: <p>Indica áreas de particular preocupación con respecto a las necesidades de conservación de la colección.</p>
+    deed_of_gift: Escritura de regalo
+    existing_description_notes: Descripción existente Notas
+    existing_description_notes_tooltip: <p>Cualquier información adicional sobre la descripción existente de los materiales.</p>
+    finding_aid_ead: Encontrar ayuda (EAD-codificación)
+    finding_aid_online: Encontrar ayuda (online)
+    finding_aid_paper: Encontrar ayuda (solo papel)
+    finding_aid_word: Encontrar ayuda (documento de procesamiento de textos)
+    finding_aid_spreadsheet: Encontrar ayuda (hoja de cálculo)
+    id: ID
+    inactive: ¿Inactivo?
+    inactive_tooltip: <p>Indica si el registro de evaluación ya no se considera "activo" y, por lo tanto, no debe incluirse en búsquedas o informes.</p>
+    inactive_true: "Si"
+    inactive_false: "No"
+    monetary_value: Valor monetario
+    monetary_value_tooltip: <p>Valor de mercado estimado o estimado de los materiales evaluados (valor numérico).</p>
+    monetary_value_note: Nota de valor monetario
+    monetary_value_note_tooltip: <p>Indica quién proporcionó el valor monetario, la fecha de evaluación y cualquier otra información relevante.</p>
+    surveyed_by: Encuestados por
+    surveyed_by_tooltip: |
+        <p>CAMPO REQUERIDO: Nombre(s) de la(s) persona(s) que realizaron la evaluación. Este campo está restringido a aquellos con registros de usuario en ArchivesSpace.</p>
+    survey_begin: Fecha de inicio de la encuesta
+    survey_begin_tooltip: |
+        <p>CAMPO REQUERIDO: La fecha en que comenzó la encuesta, en formato aaaa-mm-dd.</p>
+    survey_end: Encuesta completada
+    survey_end_tooltip: <p>La fecha en que terminó la encuesta, en formato yyyy-mm-dd.</p>
+    surveyed_duration: Tiempo que llevó completar la encuesta
+    surveyed_duration_tooltip: <p>El tiempo que tomó completar la encuesta, medido en incrementos de hora.</p>
+    surveyed_extent: Medida encuestada
+    surveyed_extent_tooltip: <p>La extensión del material estudiado en unidades como pies cúbicos o lineales.</p>
+    related_eac_records: Registro(s) de EAC relacionados
+    research_value: Valor de investigacion
+    research_value_tooltip: <p>Este valor se calcula automáticamente agregando el valor en el campo Calidad de la documentación con el valor en el campo Interés.</p>
+    review_required: Revisión requerida?
+    review_required_tooltip: <p>Indica si se requiere una revisión para la colección debido a su formato, materia o circunstancias.</p>
+    review_required_true: "Si"
+    review_required_false: "No"
+    review_note: Nota de revisión
+    review_note_tooltip: <p>Explicación del resultado de cualquier revisión especial.</p>
+    reviewer: Quién necesita revisar
+    reviewer_tooltip: <p>Indica quién necesita realizar la revisión. Este campo está restringido a aquellos con registros de usuario en ArchivesSpace.</p>
+    purpose: Propósito de la evaluación
+    purpose_tooltip: |
+        <p>Indica el motivo por el que se realizó la evaluación. Ejemplos: prioridades de conservación; prioridades de procesamiento; evaluación; etc.</p>
+    scope: Alcance de la evaluación
+    scope_tooltip: |
+        <p>Indica el alcance de la evaluación. Ejemplos: 10% de muestreo; totalidad; un formato o género particular dentro o entre colecciones; u otras restricciones o condiciones de los materiales revisados activamente durante una evaluación.</p>
+    sensitive_material: ¿Material sensible?
+    sensitive_material_tooltip: <p>Indica si hay materiales sensibles presentes.</p>
+    sensitive_material_true: "Si"
+    sensitive_material_false: "No"
+    general_assessment_note: Nota de evaluación general
+    general_assessment_note_tooltip: <p>Cualquier otra nota sobre una evaluación.</p>
+    special_format_note: Nota de formato especial
+    special_format_note_tooltip: <p>Información adicional o explicativa sobre los formatos especiales presentes.</p>
+    exhibition_value_note: Nota de valor de exposición
+    exhibition_value_note_tooltip: <p>Indica si la colección en sí o los elementos individuales encontrados en la colección pueden ser especialmente apropiados para la exposición. Por ejemplo, este campo podría indicar un artefacto único o una carta o fotografía de importancia histórica.</p>
+    rating_attributes_value:
+      rating_none: Sin evaluar
+      rating_1: "1"
+      rating_2: "2"
+      rating_3: "3"
+      rating_4: "4"
+      rating_5: "5"
+    rating_note: "%{label} Nota"
+    _singular: Evaluación
+    _plural: Valoraciones
+
+  assessment_attribute:
+    rating:
+      "Reformatting Readiness": Reformateo de la preparación
+      "Reformatting Readiness_tooltip": <p>Una clasificación de 1 a 5 que indica la facilidad con que se pueden reformatear los materiales.</p>
+      "Housing Quality": Calidad de la vivienda
+      "Housing Quality_tooltip": <p>Una calificación de 1 a 5 destinada a describir la calidad general de la vivienda de los materiales en una colección; Los artículos o grupos de materiales dentro de una colección pueden estar en una vivienda mejor o más pobre de lo que indica la calificación general.</p>
+      "Physical Condition": Condición física
+      "Physical Condition_tooltip": <p>Una calificación de 1 a 5 destinada a describir la condición general de los materiales en una colección; Los artículos o grupos de materiales de particular interés se indicarán en la nota de conservación.</p>
+      "Physical Access (arrangement)": Acceso fisico (acuerdo)
+      "Physical Access (arrangement)_tooltip": <p>Una calificación de 1 a 5 que se aplica a la disposición física de una colección, teniendo en cuenta la complejidad y el tamaño de la colección. Por ejemplo, una colección pequeña, relativamente homogénea en un orden aproximado generalmente es más accesible físicamente que una colección grande y heterogénea en un orden aproximado, y las calificaciones reflejarán ese hecho. (Tenga en cuenta que la disposición al nivel de artículo puede no ser deseable para muchas colecciones; una calificación de 4 puede ser la calificación más alta que es deseable para una colección).</p>
+      "Intellectual Access (description)": Acceso intelectual (descripción)
+      "Intellectual Access (description)_tooltip": <p>Una calificación de 1 a 5 que se aplica a la descripción intelectual de una colección y la accesibilidad de esa descripción a los usuarios.</p>
+      "Interest": Interesar
+      "Interest_tooltip": <p>Una calificación de 1 a 5 que indica interés del investigador, donante o local en los materiales. Interés + Calidad de la documentación crea la puntuación "Valor de investigación".</p>
+      "Documentation Quality": Calidad de la documentación
+      "Documentation Quality_tooltip": <p>Una calificación de 1 a 5 que se aplica a la riqueza y profundidad de la documentación disponible en una colección. Interés + Calidad de la documentación crea la puntuación "Valor de investigación".</p>
+      "Documentation Quality_values_tooltip": "<ul><li> <b> Clasificación 1 </b>: leve </li> <li> <b> Clasificación 2 </b>: incidentalmente valiosa </li> <li> <b> Calificación 3 </ b>: Moderadamente rico </li> <li> <b> Calificación 4 </b>: Rico </li> <li> <b> Calificación 5 </b>: Muy rico </li> </ul>"
+      "Housing Quality_values_tooltip": "<ul><li> <b> Clasificación 1 </b>: la colección ubicada en cajas que no son de archivo, puede tener artículos sueltos en el estante. La mayoría del material no está en las carpetas y / o las cajas están sobrecargadas o insuficientes. Para volúmenes encuadernados, la encuadernación está en mal estado, sin tableros o que comprometa el bloque de texto. </li> <li> <b> Clasificación 2 </b>: Colección alojada en cuadros y carpetas que no son de archivo. Un número significativo de cajas y carpetas puede tener una cantidad irrazonable de material o no son del tamaño y tipo correctos para los materiales que contienen. Para volúmenes encuadernados, la encuadernación está en condiciones aceptables (es posible que las tablas se separen). </li> <li> <b> Clasificación 3 </b>: la colección se encuentra en cajas y carpetas que no se archivan, pero están en buenas condiciones. La mayoría de las cajas y carpetas tienen una cantidad razonable de material. La mayoría de las cajas y carpetas son del tamaño y tipo correctos para los materiales que contienen. Para volúmenes encuadernados, la encuadernación está en buenas condiciones (algo peor aún por el desgaste pero intacto). </li> <li> <b> Clasificación 4 </b>: la colección se encuentra parcialmente en cajas y carpetas sin ácido en buenas condiciones. La mayoría de las cajas y carpetas tienen una cantidad razonable de material. La mayoría de las cajas y carpetas son del tamaño y tipo correctos para los materiales que contienen. Para volúmenes encuadernados, la encuadernación está en muy buenas condiciones (desgaste esperado). </li> <li> <b> Clasificación 5 </b>: la colección se encuentra completamente en cajas y carpetas sin ácido en buenas condiciones. Las cajas y carpetas tienen una cantidad razonable de material en ellas. Las cajas y carpetas son del tamaño y tipo correctos para los materiales que contienen. Para volúmenes encuadernados, la encuadernación está en excelentes condiciones. </li> </ul>"
+      "Intellectual Access (description)_values_tooltip": "<ul><li> <b> Clasificación 1 </b>: el investigador no tiene acceso a la recopilación: la documentación interna, como un archivo de control / donante o un registro de acceso breve o inaccesible, es la única descripción de la recopilación. Si bien dicha documentación interna puede variar en cantidad y calidad, por su naturaleza es inaccesible para los investigadores. </li> <li> <b> Calificación 2 </b>: el investigador tiene poco acceso a la colección: la colección no tiene ayuda para encontrar o una ayuda de encontrar de calidad inferior. La colección tiene tarjetas de catálogo impresas u otro tipo de descripción de nivel de colección fuera de línea, pero ningún registro MARC a nivel de colección en el OPAC o una utilidad bibliográfica nacional. La recolección no tiene ayuda para encontrar o una ayuda para encontrar por debajo del estándar. La colección tiene un registro MARC en el OPAC o en la utilidad bibliográfica nacional, pero eso no proporciona acceso suficiente porque es una colección grande o compleja. En cualquier caso, la colección puede estar descrita en otras fuentes en línea o fuera de línea disponibles para los investigadores, pero debido a la complejidad de la colección o la insuficiencia de las fuentes, esto proporciona un acceso insuficiente. </li> <li> <b> Calificación 3 </b>: el investigador tiene un acceso justo a la recolección: la ayuda para encontrar está por debajo del estándar o no hay ayuda para encontrarla. Existe un registro MARC a nivel de colección para la colección en el OPAC de la institución y/o en una utilidad bibliográfica nacional como OCLC. En ausencia de un registro MARC completo, hay otro tipo de descripción en línea del nivel de colección. La descripción a nivel de colección en las fuentes en línea o fuera de línea disponibles para los investigadores proporciona acceso suficiente porque es una colección pequeña o directa. </li> <li> <b> Calificación 4 </b>: el investigador tiene un buen acceso a la colección: Allí es una buena ayuda para encontrar, pero no está disponible en línea. Existe un registro MARC a nivel de colección para la colección en el OPAC de la institución y / o en una utilidad bibliográfica nacional como OCLC. Hay una buena ayuda para encontrar, en línea o fuera de línea, pero no hay un registro MARC a nivel de colección para la colección en el OPAC de la institución y / o en una utilidad bibliográfica nacional como OCLC. Dada la calidad de la ayuda para encontrar, la ayuda para encontrar solo proporciona un buen acceso. En ambos casos, la colección también se puede describir en otras fuentes en línea o fuera de línea que están disponibles para los investigadores. </li> <li> <b> Calificación 5 </b>: El investigador tiene un excelente acceso a la colección: hay una buena Ayuda para encontrar en línea (EAD, HTML, PDF u otro formato). Existe un registro MARC a nivel de colección para la colección en el OPAC de la institución y / o en una utilidad bibliográfica nacional como OCLC. La colección también se puede describir en otras fuentes en línea o fuera de línea que están disponibles para los investigadores (como una guía impresa o en línea de las colecciones). </li> </ul>"
+      "Interest_values_tooltip": "<ul><li> <b> Clasificación 1 </b>: insignificante </li> <li> <b> Clasificación 2 </b>: leve </li> <li> <b> Calificación 3 </ b >: Moderado </li> <li> <b> Calificación 4 </b>: Alta </li> <li> <b> Calificación 5 </b>: Muy alta </li> </ul>"
+      "Physical Access (arrangement)_values_tooltip": "<ul><li> <b> Clasificación 1 </b>: Totalmente desorganizado; muchos, a veces la mayoría, documentos que aún no se han quitado de los sobres, se han desplegado y se han aplanado. Completamente inaccesible para el investigador. </li> <li> <b> Clasificación 2 </b>: Los arreglos parciales o superficiales y / o el alojamiento no estándar y el etiquetado no permiten el uso, excepto con la asistencia especial del personal. </li> <li> <b> Clasificación 3 </b>: disposición aproximada por fecha, tipo de documento, función, fuente u otra característica; los papeles no se han examinado a fondo, pero se han desplegado y aplanado; serie no plenamente establecida; archivos no plenamente establecidos; Los investigadores a menudo deben trabajar a través de material extraño voluminoso para localizar los elementos pertinentes. Los volúmenes individuales pueden tener más de un uso, o tener elementos pegados o de alguna forma desorganizados. </li> <li> <b> Clasificación 4 </b>: Disposición en serie al nivel de archivo. Generalmente hay buen orden dentro de los archivos. Los volúmenes individuales están ordenados (es decir, un libro de cuentas en orden alfabético o un álbum de recortes ordenado en orden temático). </li> <li> <b> Calificación 5 </b>: disposición completa al nivel del artículo en serie y, según corresponda, subserie Los volúmenes individuales están ordenados e indexados (es decir, cuentas cronológicas con un índice de nombre). </li> </ul>"
+      "Physical Condition_values_tooltip": "<ul><li> <b> Clasificación 1 </b>: Pobre: Daño/deterioro significativo que dificulta el uso de la colección. </li> <li> <b> Clasificación 2 </b>: Regular: Un poco peor deterioro que es posible con un posible deterioro adicional. </li> <li> <b> Rating 3 </b>: Bueno: Se espera un deterioro con un posible deterioro adicional. </li> <li> <b> Rating 4 </ b>: Muy bueno: poco daño con un posible deterioro adicional, debido a la calidad mixta del material. </li> <li> <b> Calificación 5 </b>: Excelente: poco daño sin más deterioro esperado, basado en la alta calidad del material. </li> </ul>"
+      "Reformatting Readiness_values_tooltip": "<ul><li> <b> Clasificación 1 </b>: los materiales serían extremadamente difíciles de reformatear. Pueden tener serios problemas de conservación, estar en un formato extremadamente obsoleto o tener problemas de propiedad intelectual que restrinjan el reformateo. Los metadatos pueden faltar o estar incompletos. </li> <li> <b> Calificación 2 </b>: los materiales serían difíciles de reformatear. Pueden tener problemas de conservación, estar en un formato obsoleto o tener algunos problemas de propiedad intelectual. Los metadatos pueden faltar o estar incompletos. </li> <li> <b> Calificación 3 </b>: Los materiales serían moderadamente fáciles de reformatear. Pueden tener algunos problemas de conservación, estar en un formato obsoleto o tener problemas de propiedad intelectual. Los metadatos están presentes o podrían crearse fácilmente. </li> <li> <b> Calificación 4 </b>: Los materiales serían relativamente fáciles de reformatear. Los problemas de conservación son menores, los formatos no están completamente obsoletos o existen preocupaciones mínimas de propiedad intelectual. Los metadatos están presentes. </li> <li> <b> Calificación 5 </b>: los materiales se pueden reformatear sin dificultad. No hay problemas de conservación, los formatos son recientes o no existen problemas de propiedad intelectual. Los metadatos están presentes y completos. </li> </ul>"
+      "Documentation Quality_note_tooltip": "Más información sobre la calidad de la documentación de los materiales."
+      "Housing Quality_note_tooltip": "Indica áreas de especial interés con respecto a la vivienda de la colección."
+      "Intellectual Access_note_tooltip": "Más información sobre acceso intelectual y descripción de los materiales."
+      "Interest_note_tooltip": "Más información sobre el interés en los materiales."
+      "Physical Access_note_tooltip": "Más información sobre el acceso físico y la disposición de los materiales."
+      "Physical Condition_note_tooltip": "Indica áreas de especial preocupación con respecto a la condición física de la colección."
+      "Reformatting Readiness_note_tooltip": "Indica áreas de preocupación con respecto a la digitalización potencial u otro cambio de formato de los materiales."
+    format:
+      "Architectural Materials": Materiales arquitectonicos
+      "Art Originals": Originales de arte
+      "Artifacts": Artefactos
+      "Audio Materials": Materiales de audio
+      "Biological Specimens": Especimenes biologicos
+      "Botanical Specimens": Especímenes botánicos
+      "Computer Storage Units": Unidades de almacenamiento de computadora
+      "Film (negative, slide, or motion picture)": Película (negativa, diapositiva o imagen en movimiento)
+      "Glass": Vaso
+      "Photographs": Fotografías
+      "Scrapbooks": Libros de recortes
+      "Technical Drawings & Schematics": Dibujos técnicos y esquemas
+      "Textiles": Textiles
+      "Vellum & Parchment": Vitela y Pergamino
+      "Video Materials": Materiales de video
+      "Other": Otro
+    conservation_issue:
+      "Potential Mold or Mold Damage": Molde potencial o daño del molde
+      "Recent Pest Damage": Daño reciente de plagas
+      "Deteriorating Film Base": Base de película deteriorada
+      "Brittle Paper": Papel frágil
+      "Metal Fasteners": Sujetadores de metal
+      "Newspaper": Periódico
+      "Tape": Cinta
+      "Heat-Sensitive Paper": Papel sensible al calor
+      "Water Damage": Daños por agua
 
   custom_report_template:
     name: Nombre
@@ -2018,7 +2210,22 @@
     "true": "Si"
     "false": "No"
     start_date: Fecha de inicio
-    end_date: Fecha de finalización
+    end_date: Fecha final
     field: Campo
     _singular: Plantilla de informe personalizado
     _plural: Plantillas de informes personalizados
+
+  repository_oai:
+    oai_is_disabled_tooltip: OAI está inhabilitado información sobre herramientas
+    oai_sets_available_tooltip: OAI establece información sobre herramientas disponible
+
+  oai_config:
+    oai_record_prefix_tooltip: Herramienta de prefijo de registro de OAI
+    oai_admin_email_tooltip: Herramienta de correo electrónico de administrador de OAI
+    oai_repository_name_tooltip: Información sobre el nombre del repositorio OAI
+    repo_set_name_tooltip: Descripción del conjunto de repositorios
+    repo_set_section_tooltip: Descripción del repositorio Set tooltip
+    repo_set_description_tooltip: Descripción del conjunto de repositorios
+    sponsor_set_name_tooltip: Nombre del patrocinador
+    sponsor_set_names_tooltip: Nombre del patrocinador
+    sponsor_set_description_tooltip: Descripción del set del patrocinador

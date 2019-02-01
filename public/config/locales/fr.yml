@@ -33,6 +33,7 @@ fr:
 
   actions:
     search: Chercher
+    search_header: Rechercher dans les archives
     search_within: Chercher dans les résultats
     search_in: "Rechercher %{type}"
     new_search: Nouvelle recherche
@@ -117,6 +118,7 @@ fr:
     title_contain: "l'<strong>intitulé</strong> contient  <span class='searchterm'>%{kw}</span>"
     notes_contain: "la <strong>note</strong> contient  <span class='searchterm'>%{kw}</span>"
     creators_text_contain: "le <strong>producteur</strong> contient <span class='searchterm'>%{kw}</span>"
+    subjects_text_contain: "le <strong>sujet</strong> contient <span class='searchterm'>%{kw}</span>"
     identifier_contain: "L'<strong>identifiant</strong> contient <span class='searchterm'>%{kw}</span>"
     four_part_id_contain: "L'<strong>identifiant</strong> contient <span class='searchterm'>%{kw}</span>"
     in_repository: " dans <strong>%{name}</strong>"

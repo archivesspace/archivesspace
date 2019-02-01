@@ -858,7 +858,6 @@ en:
         oai_settings: OAI Settings
       action:
         select: Select Repository
-        create: Create Repository
         save: Save Repository
         create: Create Repository
     _sidebar:
@@ -1137,7 +1136,7 @@ en:
         <p>Used to record the barcode that uniquely identifies the highest level container.</p>
     type: Container Type
     type_tooltip: |
-        <p>The type of the highest level container.
+        <p>The type of the highest level container.</p>
         <p>Values in this Controlled Value List may be modified.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
@@ -1349,7 +1348,6 @@ en:
     message_total_containers: "Total number of containers of this type found at these locations: %{total_containers}"
     message_loading: Loading...
     count: Space Available (of container type)
-    reason: Calculator Result
     calculate_space: Check for Space
     locations_without_space_details: Review locations without space
     by_locations: By Location(s)
@@ -1410,7 +1408,7 @@ en:
         format_attributes_additional: Additional Material Types / Formats
         conservation_issue_attributes: Conservation Issues
         conservation_issue_attributes_empty: No conservation issues entered
-        conservation_issue_attributes_additional: Additonal Conservation Issues
+        conservation_issue_attributes_additional: Additional Conservation Issues
       messages:
         created: Assessment Created
         updated: Assessment Updated
@@ -1484,7 +1482,6 @@ en:
     repo_set_desc: In addition to sets based on level of description, you can define an OAI Set based on repositories.
     sponsor_set_desc: In addition to sets based on level of description, you can define an OAI Set based on sponsor names.
     oai_record_prefix: OAI Record Prefix
-    oai_record_prefix: OAI Record Prefix
     oai_admin_email: OAI Admin Email
     oai_repository_name: OAI Repository Name
     repo_set_name: Repository Set Name
@@ -1502,8 +1499,8 @@ en:
         updated: OAI-PMH settings successfully updated!
     _sidebar:
       repo_set_section:
-        _plural: Repository Set
+        _plural: Repository Sets
       sponsor_set_section:
-        _plural: Sponsor Set
+        _plural: Sponsor Sets
       repo_settings:
         _plural: Per Repository OAI-PMH Settings

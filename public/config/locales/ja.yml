@@ -9,6 +9,7 @@ ja:
     welcome_page_title: ArchivesSpaceパブリックインターフェイス
   actions:
     search: サーチ
+    search_header: アーカイブを検索
     search_within: 結果内で検索する
     search_in: 検索%{type}
     new_search: 新しい検索

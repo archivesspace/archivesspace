@@ -2,6 +2,7 @@ en:
   reports:
     location_holdings_report:
       title: Location Holdings
+      identifier_prefix: Location
       description: Report on containers shelved at one or more locations
       repository_report_type: Repository
       building_report_type: Building

@@ -15,11 +15,13 @@ fr:
     cut: Couper
     defaults: Valeurs par défaut
     edit: Editer
+    edit_oai: Modifier les paramètres OAI
     edit_batch: Editer lot
     edit_groups: Editer groupes
     edit_default_values: Editer valeurs par défaut
     edit_default_archival_object_values: Editer composants par défaut
     edit_required_fields: Editer champs obligatoires
+    edit_global_oai: Afficher/modifier les paramètres globaux OAI
     required: Champs obligatoires
     export: Exporter
     view: Affichage
@@ -298,6 +300,7 @@ fr:
     hide_advanced_search_button_title: Masquer Recherche avancée
     plugins: Plug-ins
     repositories_manage: Gérer services d'archives
+    oai_config: Gérer les paramètres OAI-PMH
     manage_groups: Gérer groupes
     manage_users: Gérer utilisateurs
     manage_container_profiles: Gérer profils de conditionnements
@@ -812,6 +815,10 @@ fr:
       action:
         add: Ajouter mention de révision
 
+  repository_oai:
+    oai_is_disabled: Récolte de l'OAI désactivée?
+    oai_sets_available: Ensembles inclus dans OAI
+
   repository:
     _frontend:
       messages:
@@ -830,12 +837,16 @@ fr:
         cannot_delete_nonempty: Suppression impossible - service d'archives non vide
       section:
         all_fields: Champs service d'archives
+        oai_fields: Paramètres de récolte OAI
         transfer: Transférer service d'archives
+        oai_settings: Paramètres OAI
       action:
         select: Sélectionner service d'archives
-        create: Créer service d'archives
         save: Sauvegarder service d'archives
         create: Créer service d'archives
+    _sidebar:
+      oai_settings:
+        _plural: Paramètres de récolte OAI
 
   resource:
     _frontend:
@@ -1099,7 +1110,7 @@ fr:
       <p>Sert à enregistrer le code-barres identifiant de manière unique le conditionnement de plus haut niveau.</p>
     type: Type de conditionnement
     type_tooltip: |
-        <p>Le type de conditionnement de plus haut niveau.
+        <p>Le type de conditionnement de plus haut niveau.</p>
         <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
@@ -1311,7 +1322,6 @@ fr:
     message_total_containers: "Nombre total de conditionnements de ce type trouvés dans ces localisations: %{total_containers}"
     message_loading: Chargement en cours...
     count: Espace disponible (de type de conditionnement)
-    reason: Résultat du calcul
     calculate_space: Vérification de l'espace
     locations_without_space_details: Passer en revue les localisations sans espace
     by_locations: Par localisation(s)
@@ -1436,3 +1446,34 @@ fr:
       messages:
         created: Modèle de rapport personnalisé créé
         updated: Modèle de rapport personnalisé mis à jour
+  oai_config:
+    title: Paramètres OAI-PMH
+    title_repo_section: Paramètres OAI-PMH par référentiel
+    general_section: Réglages généraux
+    repo_set_section: Ensemble de référentiels
+    sponsor_set_section: Ensemble de sponsors
+    repo_set_desc: Outre les ensembles basés sur le niveau de description, vous pouvez définir un ensemble OAI basé sur des référentiels.
+    sponsor_set_desc: Outre les ensembles basés sur le niveau de description, vous pouvez définir un ensemble OAI basé sur les noms de sponsor.
+    oai_record_prefix: Préfixe d'enregistrement OAI
+    oai_admin_email: E-mail administrateur OAI
+    oai_repository_name: Nom du référentiel OAI
+    repo_set_name: Nom du jeu de référentiel
+    repo_set_codes: Dépôts dans l'ensemble
+    repo_set_description: Description du référentiel
+    sponsor_set_name: Nom du sponsor
+    sponsor_set_names: Noms de sponsors
+    sponsor_set_description: Description de l'ensemble de sponsors
+    oai_leave_repo_form: Ces options affectent OAI-PMH pour ce référentiel uniquement. Cliquez ci-dessous pour afficher / modifier les options globales OAI. Cela laissera le formulaire actuel sans enregistrer les modifications.
+    _frontend:
+      section:
+        basic_information: Réglages généraux
+      action:
+        create: Mettre à jour les paramètres OAI-PMH
+        updated: Paramètres OAI-PMH mis à jour avec succès!
+    _sidebar:
+      repo_set_section:
+        _plural: Ensembles de référentiels
+      sponsor_set_section:
+        _plural: Sets de sponsors
+      repo_settings:
+        _plural: Paramètres OAI-PMH par référentiel

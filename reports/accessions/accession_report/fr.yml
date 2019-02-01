@@ -3,31 +3,4 @@ fr:
     accession_report:
       title: Rapport d'entrée
       description: Affiche toutes les entrées pour un service d'archives donné. Rapport incluant, pour chaque entrée, les données saisies dans les champs d'informations de base.
-      number_of_accessions: Nombre d'entrées
       identifier_prefix: Entrée
-      accession_date: Date d'entrée
-      extent: Importance
-      container_summary: Conditionnement
-      deaccessions: Aliénations
-      locations: Localisations
-      general_note: Note générale
-      begin_date: Date de début
-      end_date: Date de fin
-      bulk_begin_date: Date de début du gros
-      bulk_end_date: Date de fin du gros
-      date_expression: Expression de date
-      description_note: Description
-      names: Noms
-      subjects: Sujets
-      acquisitions: Acquisitions
-      retention_rule: Conservation
-      condition_note: Condition
-      inventory: Inventaire
-      disposition: Disposition
-      restrictions_apply: Des restrictions s'appliquent?
-      access_restrictions: Restrictions de consultation?
-      access_restrictions_note: Note de restrictions de consultation
-      use_restrictions: Restrictions d'utilisation?
-      use_restrictions_note: Note de restrictions d'utilisation
-      rights_transferred: Droits transférés?
-      rights_transferred_note: Note de transfert de droits

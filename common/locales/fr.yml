@@ -1449,7 +1449,8 @@ fr:
       cancel_job: annuler une tâche d'arrière-plan
       update_assessment_record: créer/actualiser des notices d'évaluation
       delete_assessment_record: supprimer des notices d'évaluation
-      manage_assessment_attributes: créer/mettre à jour/ supprimer des définitions d'attributs d'évaluation du service
+      manage_assessment_attributes: créer/mettre à jour/supprimer des définitions d'attributs d'évaluation du service
+      manage_enumeration_record: créer/mettre à jour/supprimer des enregistrements de valeurs contrôlées
     _singular: Group
     _plural: Groups
 
@@ -1960,6 +1961,13 @@ fr:
     custom_report_template_name_not_unique: Le nom du modèle de rapport personnalisé doit être unique.
     custom_report_must_include_field_or_subreport: Le modèle de rapport personnalisé doit inclure au moins un champ ou sous-rapport.
     missing_filter_values: Sélectionné pour filtrer les résultats par champ mais aucune valeur donnée
+    must_be_a_valid_email_address: Le champ d'adresse email doit contenir une adresse valide
+    repo_set_desc_required: La description d'un ensemble de référentiels est requise pour créer un ensemble de référentiels OAI
+    repo_set_name_required: Le nom de l'ensemble de référentiel est requis pour créer un ensemble de référentiels OAI
+    is_not_present: Champ obligatoire manquant
+    must_be_a_valid_email_address: Doit contenir une adresse valide
+    sponsor_set_desc_required: La description du jeu de sponsors est requise pour créer un jeu de sponsors OAI
+    sponsor_set_name_required: Le nom du sponsor est requis pour créer un sponsor OAI
 
   job:
     _singular: Tâche d'arrière-plan
@@ -2233,3 +2241,18 @@ fr:
     field: Champ
     _singular: Modèle de rapport personnalisé
     _plural: Modèles de rapports personnalisés
+
+  repository_oai:
+    oai_is_disabled_tooltip: L'info-bulle OAI est désactivée
+    oai_sets_available_tooltip: OAI définit l'info-bulle disponible
+
+  oai_config:
+    oai_record_prefix_tooltip: Info-bulle du préfixe d'enregistrement OAI
+    oai_admin_email_tooltip: Info-bulle sur le courrier électronique de l'administrateur OAI
+    oai_repository_name_tooltip: Info-bulle sur le nom du référentiel OAI
+    repo_set_name_tooltip: Info-bulle sur le nom du jeu de référentiels
+    repo_set_section_tooltip: Info-bulle de la section Ensemble de référentiels
+    repo_set_description_tooltip: Info-bulle de description du jeu de référentiels
+    sponsor_set_name_tooltip: Info-bulle du nom du sponsor
+    sponsor_set_names_tooltip: Info-bulle sur les noms des ensembles de sponsors
+    sponsor_set_description_tooltip: Info-bulle de description du jeu de sponsors
