@@ -29,7 +29,7 @@
     <% record.notes.each do |note_type, note| %>
         <% if note_type == 'physdesc' %>
             <a id="note-<%= note_type %>"></a>
-            <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== note['note_text'] %></dd>
+            <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></dd>
         <% end %>
     <% end %>
 
@@ -52,7 +52,7 @@
             <%= I18n.t("enumerations._note_types.#{note_type}") %>
         <% end %>
     </h3>
-    <p><%== note['note_text'] %></p>
+    <p><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></p>
 <% end %>
 
 <a id="administrative-information"></a>
