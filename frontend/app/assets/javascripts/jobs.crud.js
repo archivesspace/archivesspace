@@ -9,12 +9,12 @@ $(function() {
         $("#job_form_messages", $form)
             .html(AS.renderTemplate("template_report_instructions"));
         // we disable to form...
-        $('.form-actions .btn-primary').addClass('disabled');
+        $('.btn-primary:submit').addClass('disabled');
 
         $(document).triggerHandler("subrecordcreated.aspace", ["date", $form]);
         $('.select-record', $form).on("click", function(event) {
             $('.accordion-toggle').click();
-            $('.form-actions .btn-primary').removeClass('disabled');
+            $('.btn-primary:submit').removeClass('disabled');
             event.preventDefault();
             var report = $(this).data('report');
             var $listing = $(this).parent();
@@ -269,21 +269,21 @@ $(function() {
         $("#job_import_type_", $form).trigger("change");
 
         $form.submit(function() {
+            
+            var dt = new DataTransfer();
             $(".import-file.file-attached").each(function() {
                 var $input = $(this);
-                const input = document.createElement("input");
-                input.type = "file";
-                input.name = "files[]";
-                input.multiple = true;
-                input.style.display = "none";
-                var dt = new DataTransfer();
-                $(".import-file.file-attached").each(function() {
-                    dt.items.add($input.data("file"));
-                });
-                input.files = dt.files;
-                $form.append(input);
-
+                dt.items.add($input.data("file"));
             });
+
+            const input = document.createElement("input");
+            input.type = "file";
+            input.name = "files[]";
+            input.multiple = true;
+            input.style.display = "none";
+            input.files = dt.files;
+            $form.append(input);
+
             return true;
         });
 
@@ -293,7 +293,7 @@ $(function() {
     
     $(".linker:not(.initialised)").linker();
 
-    // these were added because it was neccesary to get the translation right
+    // these were added because it was neccesary to get translation
     $(".translation-placeholder").remove();
 
     if (type == "report_job") {

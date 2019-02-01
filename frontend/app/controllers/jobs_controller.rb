@@ -69,7 +69,6 @@ class JobsController < ApplicationController
       render :new
     end
 
-    
   end
 
 

@@ -11,8 +11,6 @@
   <%= form.label_and_textfield "find" %>
   <%= form.label_and_textfield "replace" %>
 
-  <input id="find_and_replace_job_jsonmodel_type_" name="find_and_replace_job[jsonmodel_type]" type="hidden" value="find_and_replace_job">
-
 <% end %>
 
 <% define_template("print_to_pdf_job", jsonmodel_definition(:print_to_pdf_job)) do |form| %>
@@ -21,7 +19,6 @@
 
   <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => I18n.t("actions.resource_to_pdf") }%>
   <%= form.label_and_boolean "include_unpublished" %>
-  <input id="print_to_pdf_jsonmodel_type_" name="print_to_pdf_job[jsonmodel_type]" type="hidden" value="print_to_pdf_job">
 
 <% end %>
 
@@ -48,8 +45,6 @@
     <% form.path("filenames") %>
   </section>
 
-  <input id="import_job_jsonmodel_type_" name="import_job[jsonmodel_type]" type="hidden" value="import_job">
-
 <% end %>
 
 <% define_template("generate_slugs_job", jsonmodel_definition(:generate_slugs_job)) do |form| %>
@@ -73,9 +68,6 @@
     <p><%= I18n.t("job._frontend.messages.slug_config_title") %></p>
   <% end %>
 
-
-
-  <input id="generate_slugs_job_jsonmodel_type_" name="generate_slugs_job[jsonmodel_type]" type="hidden" value="generate_slugs_job">
 <% end %>
 
 
@@ -168,7 +160,7 @@
       <% end %>
 
     </div>
-    <input id="report_job_jsonmodel_type_" name="report_job[jsonmodel_type]" type="hidden" value="report_job">
+
   </div>
 <% end %>
 
@@ -184,7 +176,6 @@
       <%# don't require plugins to provide a form %>
     <% end %>
 
-    <input name="<%= type %>[jsonmodel_type]" type="hidden" value="<%= type %>">
   <% end %>
 <% end %>
 
