@@ -611,11 +611,7 @@
 <% define_template "note_langmaterial", jsonmodel_definition(:note_langmaterial) do |form| %>
   <div class="subrecord-form-fields" data-type="note_langmaterial">
     <h3 class="subrecord-form-heading">
-      <% if form.readonly? %>
-        <%= I18n.t("enumerations.note_langmaterial_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
-      <% else %>
-        <%= I18n.t("note.note_langmaterial") %>
-      <% end %>
+      <%= I18n.t("note.note_langmaterial") %>
     </h3>
     <div class="subrecord-form-container">
       <%= form.hidden_input(:jsonmodel_type, "note_langmaterial") %>

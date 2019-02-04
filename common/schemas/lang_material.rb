@@ -6,7 +6,10 @@
 
     "properties" => {
       "language_and_script" => {"type" => "JSONModel(:language_and_script) object"},
-      "language_note" => {"type" => "JSONModel(:note_langmaterial) object"},
+      "notes" => {
+        "type" => "array",
+        "items" => {"type" => "JSONModel(:note_langmaterial) object"},
+      },
     },
   },
 }
