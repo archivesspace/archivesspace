@@ -1,9 +1,0 @@
-<% define_template "language", jsonmodel_definition(:language) do |form| %>
-  <div class="subrecord-form-fields">
-    <%= form.label_and_select("language", form.possible_options_for("language", true)) %>
-    <%= form.label_and_select("script", form.possible_options_for("script", true)) %>
-  </div>
-  <div class="subrecord-form-container">
-    <%= render_aspace_partial :partial => "notes/form", :locals => { :section_id => "langmaterial_notes", :form => form, :all_note_types => note_types_for(:language)} %>
-  </div>
-<% end %>
