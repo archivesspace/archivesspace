@@ -153,6 +153,10 @@ AppConfig[:solr_facet_limit] = 100
 AppConfig[:default_page_size] = 10
 AppConfig[:max_page_size] = 250
 
+# An option to change the length of the abstracts on the collections overview page
+# If your Scope & Contents notes are very long you can increase this to show more
+AppConfig[:abstract_note_length] = 500
+
 # A prefix added to cookies used by the application.
 #
 # Change this if you're running more than one instance of ArchivesSpace on the
