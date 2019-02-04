@@ -6,7 +6,7 @@ class Resource < Sequel::Model(:resource)
   include Subjects
   include Extents
   include Dates
-  include Languages
+  include LangMaterials
   include ExternalDocuments
   include RightsStatements
   include Instances

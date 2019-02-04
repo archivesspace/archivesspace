@@ -1,0 +1,6 @@
+<% define_template "language_and_script", jsonmodel_definition(:language_and_script) do |readonly| %>
+  <div>
+    <%= readonly.label_and_select("language", readonly.possible_options_for("language", true)) %>
+    <%= readonly.label_and_select("script", readonly.possible_options_for("script", true)) %>
+  </div>
+<% end %>

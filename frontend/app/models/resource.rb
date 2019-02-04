@@ -11,8 +11,8 @@ class Resource < JSONModel(:resource)
       self.dates = [JSONModel(:date).new._always_valid!]
     end
 
-    if !self.languages || self.languages.empty?
-      self.languages = [JSONModel(:language).new._always_valid!]
+    if !self.lang_materials || self.lang_materials.empty?
+      self.lang_materials = [JSONModel(:lang_material).new._always_valid!]
     end
 
     self
@@ -70,8 +70,8 @@ class Resource < JSONModel(:resource)
       self.dates = [JSONModel(:date).new._always_valid!]
     end
 
-    if !self.languages || self.languages.empty?
-      self.languages = [JSONModel(:language).new._always_valid!]
+    if !self.lang_materials || self.lang_materials.empty?
+      self.lang_materials = [JSONModel(:lang_material).new._always_valid!]
     end
   end
 

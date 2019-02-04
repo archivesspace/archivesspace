@@ -29,7 +29,7 @@
             <%= display_audit_info(@resource) %>
           </section>
 
-          <%= render_aspace_partial :partial => "languages/show", :locals => { :languages => @resource.languages, :section_id => "resource_languages_" } %>
+          <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => @resource.lang_materials, :section_id => "resource_lang_materials_" } %>
 
           <% if @resource.dates.length > 0 %>
             <%= render_aspace_partial :partial => "dates/show", :locals => { :dates => @resource.dates, :section_id => "resource_dates_" } %>
