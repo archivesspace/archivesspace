@@ -14,7 +14,7 @@
   <div class="subrecord-form-fields">
     <div class="subrecord-form-container">
       <%= form.hidden_input "langmaterial_type", "language_note" %>
-      <%= render_aspace_partial :partial => "notes/form", :locals => {:section_id => "langmaterial_notes", :header_size => "h4", :form => form, :all_note_types => note_types_for(:lang_material), :show_apply_note_order_action => false} %>
+      <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :show_apply_note_order_action => false, :nested_in_jsonmodel => 'lang_material', :nested_note_jsonmodel => 'lang_material_notes',} %>
     </div>
   </div>
 <% end %>

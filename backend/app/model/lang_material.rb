@@ -2,6 +2,8 @@ class LangMaterial < Sequel::Model(:lang_material)
   include ASModel
   corresponds_to JSONModel(:lang_material)
 
+  include Notes
+
   set_model_scope :global
 
   one_to_many :language_and_script
