@@ -29,8 +29,8 @@
           <%= render_aspace_partial :partial => "file_versions/show", :locals => { :file_versions => digital_object.file_versions, :section_id => "digital_object_file_versions_" } %>
         <% end %>
 
-        <% if digital_object.languages.length > 0 %>
-          <%= render_aspace_partial :partial => "languages/show", :locals => { :languages => digital_object.languages, :section_id => "digital_object_languages_" } %>
+        <% if digital_object.lang_materials.length > 0 %>
+          <%= render_aspace_partial :partial => "lang_materials/show", :locals => { :lang_materials => digital_object.lang_materials, :section_id => "resource_lang_materials_" } %>
         <% end %>
 
         <% if digital_object.dates.length > 0 %>
