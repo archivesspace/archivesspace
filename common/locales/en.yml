@@ -60,6 +60,9 @@ en:
         <p>The content of the note.</p>
 
   section_tooltips: &section_tooltips
+    lang_materials_tooltip: |
+        <p>The languages and scripts represented in the material(s) described.</p>
+        <p>See DACS 4.5</p>
     dates_tooltip: |
         <p>Identifies and records the date(s) that pertain to the creation, assembly, accumulation, and/or maintenance and use of the materials being described.</p>
         <p>See DACS 2.4</p>
@@ -118,8 +121,6 @@ en:
     digital_object_type: Digital Object Type
     digital_object_type_tooltip: |
         <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
-    language: Language
-    language_tooltip: <p>The language for the digital content.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
         <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
@@ -952,7 +953,12 @@ en:
     _plural: Extents
     _singular: Extent
 
-  language: &language_attributes
+  lang_material: &lang_material_attributes
+    _plural: Languages
+    _singular: Language
+
+  language_and_script:
+    <<: *lang_material_attributes
     language: Language
     language_tooltip: &language_language_tooltip |
         <p>REQUIRED FIELD: The language term and code represented in the material(s) described. Codes drawn from ISO 639-2b: Codes for the Representation of Names of Languages.</p>
@@ -960,12 +966,9 @@ en:
     script_tooltip: &language_script_tooltip |
         <p>The script term and code represented in the material(s) described. Codes drawn from ISO 15924: Codes for the representation of names of scripts.</p>
         <p>See DACS 4.5</p>
-    note: Language Note
-    note_tooltip: &language_note_tooltip |
-        <p>Notes concerning the language(s) represented in the material(s) described.</p>
-        <p>See DACS 4.5</p>
-    _plural: Languages
-    _singular: Language
+
+  language_note:
+    <<: *lang_material_attributes
 
   external_document: &external_document_attributes
     title: Title
@@ -1432,10 +1435,6 @@ en:
     repository_processing_note_tooltip: |
          <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     automate_title: Automatically generate title
-    language: Language
-    language_tooltip: |
-        <p>The language term and code represented in the material(s) described.</p>
-        <p>See DACS 4.5</p>
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: Has Unpublished Ancestor?
     _singular: Archival Object

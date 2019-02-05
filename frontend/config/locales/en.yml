@@ -709,10 +709,11 @@ en:
         add_digital_object: Add Digital Object
         add: Add Instance
 
-  language:
+  lang_material:
     _frontend:
       action:
         add: Add Language
+        add_note: Add Language Note
 
   linked_agent:
     _frontend:
