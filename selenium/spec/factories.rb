@@ -158,9 +158,9 @@ module SeleniumFactories
 
 
       factory :extent, class: JSONModel(:extent) do
-        portion "whole"
-        number "1"
-        extent_type "linear feet"
+        portion { "whole" }
+        number { "1" }
+        extent_type { "linear feet" }
       end
 
       factory :date, class: JSONModel(:date) do
