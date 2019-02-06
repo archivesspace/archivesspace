@@ -162,14 +162,14 @@ describe 'Digital Object Component controller' do
 
   it "lets you create a digital object component with a language" do
 
-    opts = {:note => generate(:alphanumstr)}
+    opts = {:language_and_script => {:language => generate(:language)}}
 
-    languages = [build(:json_language, opts)]
+    lang_materials = [build(:json_lang_material, opts)]
 
-    digital_object_component = create(:json_digital_object_component, :languages => languages)
+    digital_object_component = create(:json_digital_object_component, :lang_materials => lang_materials)
 
-    expect(JSONModel(:digital_object_component).find(digital_object_component.id).languages.length).to eq(1)
-    expect(JSONModel(:digital_object_component).find(digital_object_component.id).languages[0]["note"]).to eq(opts[:note])
+    expect(JSONModel(:digital_object_component).find(digital_object_component.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+    expect(JSONModel(:digital_object_component).find(digital_object_component.id).lang_materials[0]['note']).to eq(nil)
   end
 
 end

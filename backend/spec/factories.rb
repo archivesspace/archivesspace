@@ -368,7 +368,7 @@ FactoryBot.define do
 
   factory :json_digital_object, class: JSONModel(:digital_object) do
     title { "Digital Object #{generate(:generic_title)}" }
-    languages { [build(:json_language)] }
+    lang_materials { [build(:json_lang_material)] }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     file_versions { few_or_none(:json_file_version) }
@@ -377,7 +377,7 @@ FactoryBot.define do
 
   factory :json_digital_object_unpub_files, class: JSONModel(:digital_object) do
     title { "Digital Object #{generate(:generic_title)}" }
-    languages { [build(:json_language)] }
+    lang_materials { [build(:json_lang_material)] }
     digital_object_id { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     file_versions { few_or_none(:json_file_version_unpub) }
@@ -437,10 +437,17 @@ FactoryBot.define do
     physical_details { generate(:alphanumstr) }
   end
 
-  factory :json_language, class: JSONModel(:language) do
+  factory :json_lang_material, class: JSONModel(:lang_material) do
+    language_and_script { build(:json_language_and_script) }
+  end
+
+  factory :json_language_and_script, class: JSONModel(:language_and_script) do
     language { generate(:language) }
     script { generate(:script) }
-    note { generate(:alphanumstr) }
+  end
+
+  factory :json_language_note, class: JSONModel(:lang_material) do
+    note { build(:json_note_langmaterial) }
   end
 
   factory :json_file_version, class: JSONModel(:file_version) do
@@ -573,6 +580,11 @@ FactoryBot.define do
     content { [ generate(:string), generate(:string) ] }
   end
 
+  factory :json_note_langmaterial, class: JSONModel(:note_langmaterial) do
+    type { generate(:langmaterial_note_type)}
+    content { [ generate(:string), generate(:string) ] }
+  end
+
   factory :json_note_rights_statement, class: JSONModel(:note_rights_statement) do
     type { generate(:rights_statement_note_type)}
     content { [ generate(:string), generate(:string) ] }
@@ -588,7 +600,7 @@ FactoryBot.define do
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
-    languages { [build(:json_language)] }
+    lang_materials { [build(:json_lang_material)] }
     dates { [build(:json_date), build(:json_date_single)] }
     finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
     ead_id { nil_or_whatever }

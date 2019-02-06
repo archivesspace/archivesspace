@@ -60,6 +60,7 @@ FactoryBot.define do
 
   sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
   sequence(:digital_object_note_type) { sample(JSONModel(:note_digital_object).schema['properties']['type'])}
+  sequence(:langmaterial_note_type) { sample(JSONModel(:note_langmaterial).schema['properties']['type'])}
   sequence(:rights_statement_note_type) { sample(JSONModel(:note_rights_statement).schema['properties']['type'])}
   sequence(:rights_statement_act_note_type) { sample(JSONModel(:note_rights_statement_act).schema['properties']['type'])}
   sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
@@ -72,8 +73,8 @@ FactoryBot.define do
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
   sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']) }
-  sequence(:language) { sample(JSONModel(:language).schema['properties']['language']) }
-  sequence(:script) { sample(JSONModel(:language).schema['properties']['script']) }
+  sequence(:language) { sample(JSONModel(:language_and_script).schema['properties']['language']) }
+  sequence(:script) { sample(JSONModel(:language_and_script).schema['properties']['script']) }
   sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type'], ['digital_object']) }
 
   sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
