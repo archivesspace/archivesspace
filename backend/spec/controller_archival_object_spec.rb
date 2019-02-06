@@ -370,14 +370,14 @@ describe 'Archival Object controller' do
 
   it "lets you create a archival object with a language" do
 
-    opts = {:note => generate(:alphanumstr)}
+    opts = {:language_and_script => {:language => generate(:language)}}
 
-    languages = [build(:json_language, opts)]
+    lang_materials = [build(:json_lang_material, opts)]
 
-    archival_object = create(:json_archival_object, :languages => languages)
+    archival_object = create(:json_archival_object, :lang_materials => lang_materials)
 
-    expect(JSONModel(:archival_object).find(archival_object.id).languages.length).to eq(1)
-    expect(JSONModel(:archival_object).find(archival_object.id).languages[0]["note"]).to eq(opts[:note])
+    expect(JSONModel(:archival_object).find(archival_object.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+    expect(JSONModel(:archival_object).find(archival_object.id).lang_materials[0]['note']).to eq(nil)
   end
 
 end

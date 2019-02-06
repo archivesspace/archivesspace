@@ -347,9 +347,9 @@ describe 'JSON model' do
     begin
       JSONModel(:resource).from_hash({"title" => "New Resource",
                                        "id_0" => "ABCD",
-                                       "languages" => [{"language" => "eng",
-                                                      "script" => "Latn",
-                                                      "note" => "a language note"}],
+                                       "lang_materials" => [{"language_and_script" =>
+                                                      {"language" => "eng",
+                                                      "script" => "Latn"}}],
                                        "finding_aid_language" => "eng",
                                        "finding_aid_script" => "Latn",
                                        "dates" => [{"jsonmodel_type" => "date",
@@ -402,19 +402,19 @@ describe 'JSON model' do
 
     # Resources don't allow language to be nil
     begin
-      create(:json_resource, {:languages => [{:language => nil}]})
+      create(:json_resource, {:lang_material => [{:language_and_script => {:language => nil}}]})
     rescue JSONModel::ValidationException => ve
       expect(ve.to_s).to match /^\#<:ValidationException: /
     end
 
     # Abstract archival object don't allow language to be klingon
     expect {
-      create(:json_resource, {:languages => [{:language => "klingon"}]})
+      create(:json_resource, {:lang_material => [{:language_and_script => {:language => "klingon"}}]})
     }.to raise_error(JSONModel::ValidationException)
 
     # Abstract archival objects do allow language to be nil
     expect {
-      create(:json_archival_object, {:languages => [{:language => nil}]})
+      create(:json_archival_object, {:lang_material => [{:language_and_script => {:language => nil}}]})
     }.not_to raise_error
   end
 
@@ -488,7 +488,11 @@ describe 'JSON model' do
                                  "type" => "object",
                                  "$schema" => "http://www.archivesspace.org/archivesspace.json",
                                  "properties" => {
-                                   "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"},
+                                   "lang_material" => [{
+                                     "language_and_script" => {
+                                       "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"},
+                                     }
+                                   }],
                                    "linked_agents" => {
                                      "type" => "array",
                                      "items" => {
@@ -506,7 +510,7 @@ describe 'JSON model' do
                                })
 
     hash = {
-      "language" => "eng",
+      "lang_material" => [{"language_and_script" => {"language" => "eng"}}],
       "linked_agents" => [{
                             'role' => 'creator'
                          }]
