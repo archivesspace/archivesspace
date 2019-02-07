@@ -514,7 +514,7 @@ module Relationships
         related_models = opts[:contains_references_to_types].call
 
         clz = Class.new(AbstractRelationship) do
-          table = "#{opts[:name]}_rlshp".intern
+          table = opts[:table] || "#{opts[:name]}_rlshp".intern
           set_dataset(table)
           set_primary_key(:id)
 
