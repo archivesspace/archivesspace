@@ -79,7 +79,7 @@ Rails.application.routes.draw do
     #REPOSITORIES
     get "repositories/:slug_or_id" => 'repositories#show'
     get '/repositories', to: 'repositories#index'
-    get "repositories/:slug_or_id/search" => 'search#search'
+    get "repositories/:rid/search" => 'search#search'
 
     # SLUGGED OBJECTS (# ARCHIVAL OBJECTS, DIGITAL OBJECTS, DIGITAL OBJECT COMPONENTS)
     get ":obj_type/:slug_or_id"  => 'objects#show'
