@@ -25,9 +25,9 @@ if ENV['SELENIUM_CHROME']
 elsif ENV['SELENIUM_HEADY_CHROME']
   Capybara.javascript_driver = :chrome
 elsif java.lang.System.getProperty('os.name').downcase == 'linux'
-  ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'linux')}:#{ENV['PATH']}"
+  ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'common', 'selenium', 'bin', 'geckodriver', 'linux')}:#{ENV['PATH']}"
 else #osx
-  ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
+  ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'common', 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
 end
 
 # This should change once the app gets to a point where it's not just throwing
