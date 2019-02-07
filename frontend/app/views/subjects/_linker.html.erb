@@ -38,6 +38,7 @@
             <% if multiplicity === "many" %>data-sortable="true"<% end %>
             data-types='["subject"]'
             data-exclude='<%= exclude_ids.to_json %>'
+            data-span-class='<%= get_subject_icon_class(form.obj)%>'
           />
           
           <% if form.obj.has_key?('_resolved') %>

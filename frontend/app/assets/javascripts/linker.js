@@ -20,6 +20,7 @@ $(function() {
       var config = {
         url: decodeURIComponent($this.data("url")),
         browse_url: decodeURIComponent($this.data("browse-url")),
+        span_class: $this.data("span-class"),
         format_template: $this.data("format_template"),
         format_template_id: $this.data("format_template_id"),
         format_property: $this.data("format_property"),
@@ -309,6 +310,38 @@ $(function() {
         }
       };
 
+      // ANW-521: For subjects, we want to have specialized icons based on the subjects' term type.
+      var tag_subjects_by_term_type = function(obj) {
+        if(obj.json.jsonmodel_type == "subject") {
+          switch(obj.json.first_term_type) {
+            case "cultural_context":
+              return "subject_type_cultural_context";
+            case "function":
+              return "subject_type_function";
+            case "genre_form":
+              return "subject_type_genre_form";
+            case "geographic":
+              return "subject_type_geographic";
+            case "occupation":
+              return "subject_type_occupation";
+            case "style_period":
+              return "subject_type_style_period";
+            case "technique":
+              return "subject_type_technique";
+            case "temporal":
+              return "subject_type_temporal";
+            case "topical":
+              return "subject_type_topical";
+            case "uniform_title":
+              return "subject_type_uniform_title";
+            default: 
+              return "";
+          }
+        }
+        else {
+          return "";
+        }
+      };
 
       var init = function() {
         var tokenInputConfig = $.extend({}, AS.linker_locales, {
@@ -322,14 +355,16 @@ $(function() {
           zindex: 1100,
           tokenFormatter: function(item) {
             var tokenEl = $(AS.renderTemplate("linker_selectedtoken_template", {item: item, config: config}));
+            tokenEl.children("div").children(".icon-token").addClass(config.span_class); 
             $("input[name*=resolved]", tokenEl).val(JSON.stringify(item.json));
             return tokenEl;
           },
           resultsFormatter: function(item) {
             var string = item.name;
             var $resultSpan = $("<span class='"+ item.json.jsonmodel_type + "'>");
+            var extra_class = tag_subjects_by_term_type(item);
             $resultSpan.text(string);
-            $resultSpan.prepend("<span class='icon-token'></span>");
+            $resultSpan.prepend("<span class='icon-token " + extra_class + "'></span>");
             var $resultLi = $("<li>");
             $resultLi.append($resultSpan);
             return $resultLi[0].outerHTML;
@@ -339,6 +374,13 @@ $(function() {
             $this.triggerHandler("change");
           },
           onAdd:  function(item) {
+            // ANW-521: After adding a subject, find the added node and apply the special class for that node.
+            var extra_class = tag_subjects_by_term_type(item);
+            var added_node_id = "#" + item.id.replace(/\//g, "_");
+
+            added_node = $(added_node_id);
+            added_node.children("div").children(".icon-token").addClass(extra_class); 
+
             if (config.sortable && config.allow_multiple) {
               enableSorting();
             }

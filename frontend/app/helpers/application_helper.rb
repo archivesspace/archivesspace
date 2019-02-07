@@ -101,7 +101,12 @@ module ApplicationHelper
     html = "<div class='"
     html += "token " if not opts[:inside_token_editor]
     html += "#{opts[:type]} has-popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover)}\" data-template=\"#{popover_template}\" tabindex='1'>"
-    html += "<span class='icon-token'></span>"
+
+    if opts[:icon_class]
+      html += "<span class='icon-token #{opts[:icon_class]}'></span>"
+    else
+      html += "<span class='icon-token'></span>"
+    end
     html += opts[:label]
     html += "</div>"
     html.html_safe
@@ -349,6 +354,40 @@ module ApplicationHelper
     link_to(label,
             params.except(:controller, :action).to_unsafe_h.merge(new_params),
             html_options)
+  end
+
+  # ANW-521: given an object, if it is a subject, return the class needed to display the correct icon in the interface
+  def get_subject_icon_class(obj)
+    if obj['_resolved']
+      if obj['_resolved']['jsonmodel_type'] && 
+         obj['_resolved']['jsonmodel_type'] == "subject"
+
+        term_type = obj['_resolved']['terms'][0]["term_type"] rescue nil
+
+        case term_type
+          when "cultural_context"
+            return "subject_type_cultural_context"
+          when "function"
+            return "subject_type_function"
+          when "genre_form"
+            return "subject_type_genre_form"
+          when "geographic"
+            return "subject_type_geographic"
+          when "occupation"
+            return "subject_type_occupation"
+          when "style_period"
+            return "subject_type_style_period"
+          when "technique"
+            return "subject_type_technique"
+          when "temporal"
+            return "subject_type_temporal"
+          when "topical"
+            return "subject_type_topical"
+          when "uniform_title"
+            return "subject_type_uniform_title"
+        end
+      end
+    end
   end
 
 end

@@ -160,7 +160,7 @@ module SeleniumFactories
       factory :extent, class: JSONModel(:extent) do
         portion { "whole" }
         number { "1" }
-        extent_type { "linear_feet" }
+        extent_type { "gigabytes" }
       end
 
       factory :date, class: JSONModel(:date) do
@@ -191,7 +191,7 @@ module SeleniumFactories
         sort_name { generate(:sort_name) }
         name_order { %w(direct inverted).sample }
         number { generate(:alphanumstr) }
-        sort_name_auto_generate true
+        sort_name_auto_generate { true }
         dates { generate(:alphanumstr) }
         qualifier { generate(:alphanumstr) }
       end
@@ -212,7 +212,7 @@ module SeleniumFactories
 
       factory :term, class: JSONModel(:term) do
         term { generate(:term) }
-        term_type { generate(:term_type) }
+        term_type { "cultural_context" }
         vocabulary { create(:vocab).uri }
       end
 
