@@ -1,11 +1,9 @@
 class GenerateSlugsRunner < JobRunner
 
-  if AppConfig[:use_human_readable_URLs]
-    register_for_job_type('generate_slugs_job',
-                          {:create_permissions => :manage_repository,
-                           :cancel_permissions => :manage_repository,
-                           :allow_reregister => true})
-  end
+  register_for_job_type('generate_slugs_job',
+                        {:create_permissions => :manage_repository,
+                         :cancel_permissions => :manage_repository,
+                         :allow_reregister => true})
   
   def run
     begin
