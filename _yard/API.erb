@@ -1,9 +1,6 @@
 ---
-<%
-# hateful hack to get additional highlighter tabs
-hilighters = @endpoints.each.map do |e| e[:examples].keys.reject(&->(k) {k == 'shell'}) end.flatten.to_set.to_a.sort
-
-%>
+<%# hateful hack to get additional highlighter tabs %>
+<% hilighters = @endpoints.each.map do |e| e[:examples].keys.reject(&->(k) {k == 'shell'}) end.flatten.to_set.to_a.sort %>
 
 title: API Reference
 
@@ -177,13 +174,21 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 
 <% @endpoints.each do | e | %>
 
-## <%= e[:description] %>
+## <%= e[:description]%>
 
 <% example =  @examples[e[:uri]][e[:method].to_s] %>
 
 <% if example %>
 
-<% url_params = e[:params].map{|p| p[0] unless (e[:uri].include?("/:#{p[0]}") or (p[3] or {})[:body] or p[1] == :body_stream or ["repo_id", "id"].include?(p[0])) }.compact %>
+<% tmp = [] %>
+<% e[:params].each do |p| %>
+  <% if p.is_a? String %>
+    <% tmp << p %>
+  <% else %>
+    <% tmp << p[0] unless (e[:uri].include?("/:#{p[0]}") or (p[3] or {})[:body] or p[1] == :body_stream or ["repo_id", "id"].include?(p[0])) %>
+  <% end %>
+<% end %>
+<% url_params = tmp.compact %>
 <% request_uri = "http://localhost:8089#{e[:uri].gsub(":repo_id", "2").gsub(":id", "1").gsub(/(?<=\/)(:.*?)(?=\/)/, "1").gsub(/(?<=\/):.*?$/, "1")}" %>
 <% if !url_params.empty? && !e[:paginated] %>
   <% url_param_examples = [] %>
@@ -196,12 +201,22 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
       <% else %>
         <% url_param_examples << "#{param}=#{example[param]}" %>
       <% end %>
+        <% elsif param.is_a? String %>
+          <% url_param_examples << "#{param}=#{param}" %>
     <% end %>
   <% end %>
   <% request_uri += "?#{url_param_examples.join("&")}" %>
 <% end %>
 
-<% data_params = e[:params].map{|p| p[0] if ((p[3] or {})[:body] or p[1] == :body_stream)}.compact %>
+<% tmp = [] %>
+<% e[:params].each do |p| %>
+  <% if p.is_a? String %>
+    <% tmp << p %>
+  <% else %>
+    <% tmp << p[0] if ((p[3] or {})[:body] or p[1] == :body_stream) %>
+  <% end %>
+<% end %>
+<% data_params = tmp.compact %>
 <% if !data_params.empty? %>
   <% data_param = data_params[0] %>
   <% data_example = example[data_param] ? example[data_param].to_json.gsub("{", "{ ").gsub(",", ",\n") : "Example Missing" %>
@@ -209,20 +224,20 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
   <% data_example = "Example Missing" %>
 <% end %>
 <% if e[:examples]['shell'] %>
-<%= e[:examples]['shell'] %>
+  <% e[:examples]['shell'] %>
 <% else %>
 ```shell
 <% if e[:method] == [:get] %>
-  <% if e[:paginated] %>
+<% if e[:paginated] %>
 # return first 10 records
 curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?page=1&page_size=10"
 # return first 5 records in the Fibonacci sequence
 curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?id_set=1,2,3,5,8"
 # return an array of all the ids
 curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?all_ids=true"
-  <% else %>
+<% else %>
 curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>"
-  <% end %>
+<% end %>
 <% elsif e[:method] == [:post] %>
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '<%= data_example %>' \
@@ -230,13 +245,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 <% elsif e[:method] == [:delete] %>
 curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "<%= request_uri %>"
 <% else %>
-  <% example.each_pair do |k,v| %>
-    <% next if e[:uri].include?("/:#{k}") %>
+<% example.each_pair do |k,v| %>
+  <% next if e[:uri].include?("/:#{k}") %>
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '<%= v.to_json.gsub("{", "{ ").gsub(",", ",\n") %>' \
   "<%= request_uri %>"
   <% end %>
 <% end %>
+
 ```
 <% end %>
 
@@ -262,19 +278,25 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
   <li>Integer page &ndash; The page set to be returned</li>
   <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
-  <li>Comma seperated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
+  <li>Comma separated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
   <li>Boolean all_ids &ndash; Return a list of all object ids</li>
 </ul>
 </aside>
 <% end %>
-<% e[:params].each do |param|
-  opts = (param[3] or {})
-  vs = opts[:validation] ? " -- #{opts[:validation][0]}" : ""
-  optional = opts[:optional] ? " (Optional)" : "" %>
+<% e[:params].each do |param| %>
+  <% if param.is_a? String %>
+    <% opts = {} %>
+  <% else %>
+    <% opts = (param[3] or {}) %>
+  <% end %>
+  <% unless opts.empty? %>
+    <% vs = opts[:validation] ? " -- #{opts[:validation][0]}" : "" %>
+    <% optional = opts[:optional] ? " (Optional)" : "" %>
 <% if opts[:body] %>
 	<%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
 <% else %>
 	<%= "#{param[1]} #{param[0]}#{optional} -- #{param[2]}#{vs}" %>
+<% end %>
 <% end %>
 <% end %>
 
@@ -284,7 +306,8 @@ __Returns__
   <%= "\t#{ret[0]} -- #{ret[1]}\n" %>
 <% end %>
 
-<% end # end prepend check %>
+<%# end prepend check %>
+<% end %>
 <% end %>
 
 <% end %>
