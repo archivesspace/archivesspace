@@ -179,6 +179,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
   def self.set_wants_array(val); @wants_array = val; end
   def self.wants_array?; @wants_array; end
 
+  def self.set_supported_jsonmodel_types(supported_jsonmodel_types); @supported_jsonmodel_types = supported_jsonmodel_types; end
+  def self.supported_jsonmodel_types; @supported_jsonmodel_types; end
 
   # Return a list of the relationship instances that refer to 'obj'.
   def self.find_by_participant(obj)
@@ -525,6 +527,7 @@ module Relationships
           set_participating_models([base, *related_models].uniq)
           set_json_property(opts[:json_property])
           set_wants_array(opts[:is_array].nil? || opts[:is_array])
+          set_supported_jsonmodel_types(opts[:supported_jsonmodel_types])
         end
 
         opts[:class_callback].call(clz) if opts[:class_callback]
@@ -678,6 +681,9 @@ module Relationships
 
           json[property_name] = relationships.map {|relationship|
             next if RequestContext.get(:enforce_suppression) && relationship.suppressed == 1
+            if relationship_defn.supported_jsonmodel_types && relationship.respond_to?(:jsonmodel_type)
+              next unless relationship_defn.supported_jsonmodel_types.include?(relationship.jsonmodel_type)
+            end
 
             # Return the relationship properties, plus the URI reference of the
             # related object
@@ -685,7 +691,7 @@ module Relationships
             values['ref'] = relationship.uri_for_other_referent_than(obj)
 
             values
-          }
+          }.compact
 
           if !relationship_defn.wants_array?
             json[property_name] = json[property_name].first
