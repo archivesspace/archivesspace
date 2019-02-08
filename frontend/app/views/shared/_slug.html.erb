@@ -1,0 +1,15 @@
+<%# Adding the check for uri as a semi-hacky way to differntiate between a brand new record and an existing record for which a slug has not been set %>
+<% if !form.obj.has_key?('slug') && !form.obj.has_key?('uri') %>
+  <%= form.label_and_readonly "public_url",  "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
+<% else %>
+  <%= form.label_with_field "public_url", form.hidden_input("public_url") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.slug_url_field("slug", session[:repo_slug], AppConfig[:repo_slug_in_URL])}</span></span>".html_safe %>
+<% end %>
+<% if record_type == @repository %>
+  <%= form.label_and_textfield "slug", :field_opts => {:readonly => @repository['repository']['is_slug_auto'] } %>
+<% else %>
+  <%= form.label_and_textfield "slug", :field_opts => {:readonly => record_type.is_slug_auto } %>
+<% end %>
+<%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
+<%= javascript_tag do %>
+  activate_slug_checkbox();
+<% end %>
