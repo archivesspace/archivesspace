@@ -441,13 +441,14 @@ FactoryBot.define do
     language_and_script { build(:json_language_and_script) }
   end
 
+  factory :json_lang_material_with_note, class: JSONModel(:lang_material) do
+    language_and_script { build(:json_language_and_script) }
+    notes { [build(:json_note_langmaterial)] }
+  end
+
   factory :json_language_and_script, class: JSONModel(:language_and_script) do
     language { generate(:language) }
     script { generate(:script) }
-  end
-
-  factory :json_language_note, class: JSONModel(:lang_material) do
-    note { build(:json_note_langmaterial) }
   end
 
   factory :json_file_version, class: JSONModel(:file_version) do

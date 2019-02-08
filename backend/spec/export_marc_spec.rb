@@ -34,6 +34,16 @@ describe 'MARC Export' do
     expect(xml_content).to match(/#{note_string}/)
   end
 
+  def lang_note_test(notes, marc, dfcodes, sfcode)
+
+    return unless notes.count > 0
+    xml_content = marc.df(*dfcodes).sf_t(sfcode)
+    expect(xml_content).not_to be_empty
+    note_string = notes.map{|n| note_content(n)}.join('')
+    xml_content.gsub!(".", "") # code to append punctuation can interfere with this test.
+    expect(xml_content).to match(/#{note_string}/)
+  end
+
 
   def source_to_code(source)
     code =  case source
@@ -572,9 +582,10 @@ end
                                            :begin => '1800',
                                            :end => '1850')
                                     ],
-                          :languages => [
-                                         build(:json_language),
-                                         build(:json_language)
+                          :lang_materials => [
+                                         build(:json_lang_material),
+                                         build(:json_lang_material),
+                                         build(:json_lang_material_with_note)
                                         ]
                           )
 
@@ -625,8 +636,8 @@ end
     end
 
 
-    it "sets record/controlfield[@tag='008']/text()[35..37] with resource.languages['language']" do
-      expect(@marc1.at("record/controlfield")).to have_inner_text(Regexp.new("^.{35}#{@resource1.languages[0]['language']}"))
+    it "sets record/controlfield[@tag='008']/text()[35..37] with resource.lang_materials[0]['language_and_script']['language']" do
+      expect(@marc1.at("record/controlfield")).to have_inner_text(Regexp.new("^.{35}#{@resource1.lang_materials[0]['language_and_script']['language']}"))
     end
 
 
@@ -654,9 +665,8 @@ end
 
 
     it "maps languages to repeated df[@tag='041' and @ind1='0' and @ind2='7']/sf[@code='a']" do
-      languages = @resource4.languages
-      language1 = languages[0]['language']
-      language2 = languages[1]['language']
+      language1 = @resource4.lang_materials[0]['language_and_script']['language']
+      language2 = @resource4.lang_materials[1]['language_and_script']['language']
 
       expect(@marc4.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a'][1]")).to have_inner_text(language1)
       expect(@marc4.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a'][3]")).to have_inner_text(language2)
@@ -664,11 +674,13 @@ end
     end
 
 
-  it "maps language subrecord notes to df 546 (' ', ' '), sf a" do
-    languages = @resource4.languages
-    note1 = languages[0]['note']
+  it "maps language notes to df 546 (' ', ' '), sf a" do
 
-    expect(@marc4.at("datafield[@tag='546'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(note1)
+    lang_materials = @resource4.lang_materials.select{|n| n.include?('notes')}.reject {|e|  e['notes'] == [] }
+    notes = lang_materials[0]['notes']
+
+    lang_note_test(notes, @marc4, ['546', ' ', ' '], 'a')
+
   end
 
 
