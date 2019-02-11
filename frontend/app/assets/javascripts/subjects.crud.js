@@ -2,6 +2,7 @@
 //= require subrecord.crud
 //= require form
 //= require merge_dropdown
+//= require slug
 
 $(function() {
 

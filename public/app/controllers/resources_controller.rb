@@ -3,7 +3,12 @@ class ResourcesController < ApplicationController
   helper_method :process_repo_info
   helper_method :process_subjects
   helper_method :process_agents
-  skip_before_action :verify_authenticity_token
+
+  skip_before_action  :verify_authenticity_token
+
+  before_action(:only => [:show]) {
+    process_slug_or_id(params)
+  }
 
   DEFAULT_RES_FACET_TYPES = %w{primary_type subjects published_agents}
   DEFAULT_RES_INDEX_OPTS = {

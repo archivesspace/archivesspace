@@ -50,7 +50,32 @@
       <li><%= link_to I18n.t("actions.container_labels"), {:controller => :exports, :action => :container_labels, :id => @resource.id} %></li>
       <% if user_can?('create_job') %>
         <% if job_types['print_to_pdf_job']['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
-          <li><%= link_to I18n.t("actions.print_to_pdf"), {:controller => :jobs,  :action => :new, :job_type => 'print_to_pdf_job'}, :target => "_blank" %></li>
+
+          <%= form_for :job, :url => {:controller => :jobs, :action => :create} do |f| %>
+
+            <!-- This is just cheating a little to make the style right -->
+            <div class="dropdown-menu" style="all: unset">
+
+              <li class="dropdown-submenu">
+                <a href="#" data-toggle="dropdown" class="menu-with-options">
+                  <%= f.submit I18n.t("actions.print_to_pdf"), :style => 'all: unset;' %>
+                </a>
+                <div class="dropdown-menu">
+                  <fieldset>
+                    <%= f.hidden_field :source, :value => @resource.uri %>
+                    <%= f.hidden_field :jsonmodel_type, :value => "print_to_pdf_job" %>
+                    <%= f.hidden_field :job_type, :value => 'print_to_pdf_job' %>
+                    <label class="checkbox" for="include-unpublished-pdf">
+                      <%= f.check_box :include_unpublished, :checked => true %>
+                      <%= I18n.t("export_options.include_unpublished") %>&#160;
+                    </label>
+                  </fieldset>
+                </div>
+              </li>
+
+            </div>
+          <% end %>
+
         <% end %>
       <% end %>
     <% end %>

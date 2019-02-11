@@ -6,6 +6,8 @@
     "parent" => "abstract_agent",
     "uri" => "/agents/corporate_entities",
     "properties" => {
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"},
       "names" => {
         "type" => "array",
         "items" => {"type" => "JSONModel(:name_corporate_entity) object"},

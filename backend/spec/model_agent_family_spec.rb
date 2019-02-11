@@ -75,6 +75,39 @@ describe 'Agent Family model' do
     expect(a1).to eq(a2) # the names should still be the same as the first authority_id names
   end
 
+  describe "slug tests" do
+    it "sets family_name as the slug value when configured to generate by name" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+
+      agent = AgentFamily.create_from_json(build(:json_agent_family))
+
+      agent_name = NameFamily.where(:agent_family_id => agent[:id]).first
+
+      expected_slug = agent_name[:family_name].gsub(" ", "_")
+                                              .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
 
 
+
+      agent_rec = AgentFamily.where(:id => agent[:id]).first.update(:is_slug_auto => 1)
+
+      expect(agent_rec[:slug]).to eq(expected_slug)
+    end
+
+    it "sets family_name as the slug value when configured to generate by id" do
+      AppConfig[:auto_generate_slugs_with_id] = true
+
+      agent = AgentFamily.create_from_json(build(:json_agent_family))
+
+      agent_name = NameFamily.where(:agent_family_id => agent[:id]).first
+
+      expected_slug = agent_name[:family_name].gsub(" ", "_")
+                                              .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+
+
+      agent_rec = AgentFamily.where(:id => agent[:id]).first.update(:is_slug_auto => 1)
+
+      expect(agent_rec[:slug]).to eq(expected_slug)
+    end
+  end
 end

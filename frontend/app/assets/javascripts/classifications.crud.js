@@ -1,6 +1,7 @@
 //= require tree
 //= require subrecord.crud
 //= require form
+//= require slug
 
 // We need to trigger the events to make sure the form fields are initialized. 
 $(document).ready(function() {

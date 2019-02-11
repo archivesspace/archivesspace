@@ -11,6 +11,7 @@
 //= require add_event_dropdown
 //= require collection_management_records.crud
 //= require interrelated_accessions.crud
+//= require slug
 
 
 $(function () {

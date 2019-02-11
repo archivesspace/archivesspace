@@ -1,5 +1,5 @@
 @import url("https://necolas.github.io/normalize.css/3.0.2/normalize.css");
-@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,800");
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,800");
 .list-language, .list--blank, .toc ul, .sidebar ul, .index-main ul { margin: 0; padding: 0; list-style: none; }
 
 .sidebar h2, .index-intro, .index-main h2 { border-bottom: solid #EFF0EC 2px; }

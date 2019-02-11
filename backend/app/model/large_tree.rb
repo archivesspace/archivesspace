@@ -88,8 +88,11 @@ class LargeTree
                     .filter(published_filter)
                     .count
 
+
+      # ANW-617: generate a slugged URL for inclusion in the JSON for the root node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
       response = waypoint_response(child_count).merge("title" => @root_record.title,
                                                       "uri" => @root_record.uri,
+                                                      "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@root_record.class.to_s, @root_record.repo_id, @root_record.slug),
                                                       "jsonmodel_type" => @root_table.to_s,
                                                       "parsed_title" => MixedContentParser.parse(@root_record.title, '/'))
       @decorators.each do |decorator|
@@ -230,12 +233,14 @@ class LargeTree
     records = {}
 
     DB.open do |db|
+
+      # ANW-617: We need to grab the slug field from the database so we can use it to generate a slugged URL later.
       db[@node_table]
         .filter(:root_record_id => @root_record.id,
                 :parent_id => parent_id)
         .filter(published_filter)
         .order(:position)
-        .select(:id, :repo_id, :title, :position)
+        .select(:id, :repo_id, :title, :position, :slug)
         .offset(offset * WAYPOINT_SIZE)
         .limit(WAYPOINT_SIZE)
         .each do |row|
@@ -255,7 +260,9 @@ class LargeTree
         row = records[id]
         child_count = child_counts.fetch(id, 0)
 
+        # ANW-617: generate a slugged URL for inclusion in the JSON for the standard node that's being returned to the LargeTree JS so it can be used in place of the URIs if needed.
         waypoint_response(child_count).merge("title" => row[:title],
+                                             "slugged_url" => SlugHelpers.get_slugged_url_for_largetree(@node_type.to_s, row[:repo_id], row[:slug]),
                                              "parsed_title" => MixedContentParser.parse(row[:title], '/'),
                                              "uri" => JSONModel(@node_type).uri_for(row[:id], :repo_id => row[:repo_id]),
                                              "position" => (offset * WAYPOINT_SIZE) + idx,

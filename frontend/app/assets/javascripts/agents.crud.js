@@ -6,6 +6,7 @@
 //= require form
 //= require merge_dropdown
 //= require add_event_dropdown
+//= require slug
 
 $(function() {
 

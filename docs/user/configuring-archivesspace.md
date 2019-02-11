@@ -245,33 +245,23 @@ Resist the urge to set this to a big number!
 
 ### OAI configuration options
 
-#### `AppConfig[:oai_repository_name]`
-
-> TODO - Needs more documentation
-
-`AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'`
-
-
-
 #### `AppConfig[:oai_proxy_url]`
 
 > TODO - Needs more documentation
 
 `AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'`
 
+**NOTE: As of version 2.5.2, the following parameters (oai_repository_name, oai_record_prefix, and oai_admin_email) have been deprecated. They should be set in the Staff User Interface. To set them, select the System menu in the Staff User Interface and then select Manage OAI-PMH Settings. These three settings are at the top of the page in the General Settings section. These settings will be completely removed from the config file when version 2.6.0 is released.**
 
+#### `AppConfig[:oai_repository_name]`
+
+`AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'`
 
 #### `AppConfig[:oai_record_prefix]`
 
-> TODO - Needs more documentation
-
 `AppConfig[:oai_record_prefix] = 'oai:archivesspace'`
 
-
-
 #### `AppConfig[:oai_admin_email]`
-
-> TODO - Needs more documentation
 
 `AppConfig[:oai_admin_email] = 'admin@example.com'`
 
@@ -1131,7 +1121,7 @@ AppConfig[:pui_hide][:search_tab] = false
 
 The following determine globally whether the various "badges" appear on the Repository page
 can be overriden at repository level below (e.g.:
-`AppConfig[:repos][{repo_code}][:hide][:counts] = true`
+`AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true`
 
 ```
 AppConfig[:pui_hide][:resource_badge] = false

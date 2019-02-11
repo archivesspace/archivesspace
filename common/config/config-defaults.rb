@@ -100,11 +100,13 @@ AppConfig[:plugins] = ['local',  'lcnaf']
 # Resist the urge to set this to a big number as it will affect performance
 AppConfig[:job_thread_count] = 2
 
-# DEPRECATED: Moved to database in ANW-674
-#AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
 AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
 
-# DEPRECATED 
+# DEPRECATED OAI Settings: Moved to database in ANW-674
+# NOTE: As of release 2.5.2, these settings should be set in the Staff User interface
+# To change these settings, select Manage OAI-PMH Settings from the System menu in the staff interface
+# These three settings are at the top of the page in the General Settings section
+# These settings will be removed from the config file completely when version 2.6.0 is released
 AppConfig[:oai_admin_email] = 'admin@example.com'
 AppConfig[:oai_record_prefix] = 'oai:archivesspace'
 AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
@@ -275,6 +277,9 @@ AppConfig[:demodb_snapshot_flag] = proc { File.join(AppConfig[:data_directory], 
 AppConfig[:report_page_layout] = "letter"
 AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
+
+# Path to system Java -- required when creating PDFs on Windows
+AppConfig[:path_to_java] = "java"
 
 # By default, the plugins directory will be in your ASpace Home.
 # If you want to override that, update this with an absolute
@@ -492,7 +497,7 @@ AppConfig[:pui_hide][:agents] = false
 AppConfig[:pui_hide][:classifications] = false
 AppConfig[:pui_hide][:search_tab] = false
 # The following determine globally whether the various "badges" appear on the Repository page
-# can be overriden at repository level below (e.g.:  AppConfig[:repos][{repo_code}][:hide][:counts] = true
+# can be overriden at repository level below (e.g.:  AppConfig[:pui_repos][{repo_code}][:hide][:counts] = true
 AppConfig[:pui_hide][:resource_badge] = false
 AppConfig[:pui_hide][:record_badge] = true # hide by default
 AppConfig[:pui_hide][:digital_object_badge] = false
@@ -519,7 +524,7 @@ AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
 
-# PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)                            
+# PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)
 # the following determine on what kinds of records the request button is displayed
 AppConfig[:pui_requests_permitted_for_types] = [:resource, :archival_object, :accession, :digital_object, :digital_object_component]
 AppConfig[:pui_requests_permitted_for_containers_only] = false # set to 'true' if you want to disable if there is no top container
@@ -605,3 +610,23 @@ AppConfig[:pui_page_custom_actions] = []
 #   # 'erb_partial' returns the path to an erb template from which the action will be rendered
 #   'erb_partial' => 'shared/my_special_action',
 # }
+
+# If AppConfig[:slugs] is set to :show, slugged URLs will be generated in the public interface.
+# If set to :hide, ID based URLs will be generated in the public interface.
+# Changing this option will not remove or clear any slugs that exist currently. 
+# This setting only affects links that are displayed. URLs that point to valid slugs will still work. 
+# WARNING: Changing this setting may require an index rebuild for changes to take effect.
+AppConfig[:slugs] = :show
+
+# Use the repository in slug based URLs
+# Warning: setting repo_name_in_slugs to true when it has previously been set to false will break links, unless all slugs are regenerated.
+AppConfig[:repo_name_in_slugs] = true
+
+# Autogenerate slugs based on IDs. If this is set to false, then slugs will autogenerate based on name.
+AppConfig[:auto_generate_slugs_with_id] = false
+
+# For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
+AppConfig[:generate_resource_slugs_with_eadid] = false
+
+
+

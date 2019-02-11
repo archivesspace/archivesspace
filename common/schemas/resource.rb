@@ -19,6 +19,9 @@
 
       "language" => {"ifmissing" => "warn"},
 
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"},
+
       "resource_type" => {"type" => "string", "dynamic_enum" => "resource_resource_type"},
       "tree" => {
           "type" => "object",

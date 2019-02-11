@@ -77,7 +77,7 @@ describe 'Repository model' do
   end
 
 
-it "can identify and report conflicting identifiers" do
+  it "can identify and report conflicting identifiers" do
     destination = make_test_repo("destination")
 
     3.times do |i|
@@ -185,5 +185,172 @@ it "can identify and report conflicting identifiers" do
       new_user.delete
     end
 
+  end
+
+  describe "slug tests" do
+    # These slug tests should be in a more generic place. Here out of convienence for now.
+    # TODO: Move slug tests to a generic "ArchiveSpace Slugged Model" test
+    it "automatically strips invalid chars from slug field" do
+      id = make_test_repo("slugtest")
+      repo = Repository.where(:id => id).first.update(:slug => "A Wierd! Slug# To? Use@")
+
+      expect(repo[:slug]).to eq("A_Wierd_Slug_To_Use")
+    end
+
+    it "automatically de-duplicates slug names" do
+      id1 = make_test_repo("slugtest1")
+      id2 = make_test_repo("slugtest2")
+      id3 = make_test_repo("slugtest3")
+
+      repo1 = Repository.where(:id => id1).first.update(:slug => "Original")
+      repo2 = Repository.where(:id => id2).first.update(:slug => "Original")
+      repo3 = Repository.where(:id => id3).first.update(:slug => "Original")
+
+      expect(repo1[:slug]).to eq("Original")
+      expect(repo2[:slug]).to eq("Original_1")
+      expect(repo3[:slug]).to eq("Original_2")
+    end
+
+    it "adds a leading underscore to numerical slugs" do
+      id = make_test_repo("digit_test")
+
+      repo = Repository.where(:id => id).first.update(:slug => "12345")
+
+      expect(repo[:slug]).to eq("_12345")
+    end
+
+    it "autogenerates a random slug if processing makes it empty" do
+      id = make_test_repo("digit_test")
+
+      repo = Repository.where(:id => id).first.update(:slug => "??????????")
+
+      expect(repo[:slug]).to match(/^[A-Z]{8}$/)
+    end
+
+    it "truncates a slug name longer than 50 chars" do
+      id = make_test_repo("slugtest")
+      repo = Repository.where(:id => id).first.update(:slug => "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugName")
+
+      expected_slug = "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLo"
+
+      expect(repo[:slug]).to eq(expected_slug)
+    end
+
+    it "autogenerates a slug via name when configured to generate by name" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+      
+      id = make_test_repo("slugtest")
+
+      repo = Repository.where(:id => id).first.update(:is_slug_auto => 1)
+      expected_slug = repo[:name].gsub(" ", "_")
+                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+      expect(repo[:slug]).to eq(expected_slug)
+    end
+
+    it "replaces mulitple underscores in slugs with a single underscore" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+      
+      id = make_test_repo("slugtest")
+
+      repo = Repository.where(:id => id).first.update(:slug => "foo___bar")
+
+      expect(repo[:slug]).to eq("foo_bar")
+    end
+
+    it "strips leading and trailing underscores in slugs" do
+      AppConfig[:auto_generate_slugs_with_id] = false 
+      
+      id = make_test_repo("slugtest")
+
+      repo = Repository.where(:id => id).first.update(:slug => "_foo_bar_")
+
+      expect(repo[:slug]).to eq("foo_bar")
+    end
+
+    it "autogenerates a slug via repo_code when configured to generate by id" do
+      AppConfig[:auto_generate_slugs_with_id] = true
+      
+      id = make_test_repo("slugtest")
+
+      repo = Repository.where(:id => id).first.update(:is_slug_auto => 1)
+      expected_slug = repo[:repo_code].gsub(" ", "_")
+                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+
+      expect(repo[:slug]).to eq(expected_slug)
+    end
+
+
+    describe "slug code does not run" do
+      it "does not execute slug code when auto-gen on id and title is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+  
+        repository = FactoryBot.create(:repo, {:repo_code => "test#{rand(1000)}", 
+                                               :org_code => "test#{rand(1000)}", 
+                                               :name => "test#{rand(1000)}",
+                                               :is_slug_auto => 1})
+
+        expect(repository).to_not receive(:auto_gen_slug!) do |&block| 
+          expect(block).to be(repository.update(:name => "foobar"))
+        end
+      end
+
+      it "does not execute slug code when auto-gen on title and id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+  
+        repository = FactoryBot.create(:repo, {:repo_code => "test#{rand(1000)}", 
+                                               :org_code => "test#{rand(1000)}", 
+                                               :name => "test#{rand(1000)}",
+                                               :is_slug_auto => 1})
+
+  
+
+        expect(repository).to_not receive(:auto_gen_slug!) do |&block| 
+          expect(block).to be(repository.update(:repo_code => "FOO"))
+        end
+      end
+
+      it "does not execute slug code when auto-gen off and title, identifier changed" do
+
+        repository = FactoryBot.create(:repo, {:repo_code => "test#{rand(1000)}", 
+                                               :org_code => "test#{rand(1000)}", 
+                                               :name => "test#{rand(1000)}",
+                                               :is_slug_auto => 0})
+  
+        expect(SlugHelpers).to_not receive(:clean_slug) do |&block| 
+          expect(block).to be(repository.update(repository.update(:repo_code => "FOO")))
+        end
+
+        expect(SlugHelpers).to_not receive(:clean_slug) do |&block| 
+          expect(block).to be(repository.update(repository.update(:name => "barfoo")))
+        end
+      end
+
+    end
+
+    describe "slug code runs" do
+      it "executes slug code when autogen is turned on" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+
+        id = make_test_repo("slugtest#{rand(10000)}")
+        repository = Repository.where(:id => id).first
+        repository.update(:is_slug_auto => 0)
+  
+        expect(repository).to receive(:auto_gen_slug!)
+  
+        repository.update(:is_slug_auto => 1)
+      end
+
+      it "executes slug code when autogen is off and slug is updated" do
+        id = make_test_repo("slugtest#{rand(10000)}")
+        repository = Repository.where(:id => id).first
+        repository.update(:is_slug_auto => 0)
+  
+        expect(SlugHelpers).to receive(:clean_slug)
+  
+        repository.update(:slug => "snow white")
+      end
+
+    end
   end
 end

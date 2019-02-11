@@ -712,6 +712,9 @@ FactoryBot.define do
     source  { create(:json_resource).uri }
   end
 
+  factory :generate_slugs_job, class: JSONModel(:generate_slugs_job) do
+  end
+
   factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do
     find { "/foo/" }
     replace { "bar" }

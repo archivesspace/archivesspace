@@ -13,10 +13,33 @@ end
 
 %>
 
+<%# build URL with slugs depending on the primary type %>
+<% case result.primary_type %>
+  <% when "resource" %>
+    <% url = resource_base_url(result) %>
+  <% when "digital_object" %>
+    <% url = digital_object_base_url(result) %>
+  <% when "accession" %>
+    <% url = accession_base_url(result) %>
+  <% when "subject" %>
+    <% url = subject_base_url(result) %>
+  <% when "classification" %>
+    <% url = classification_base_url(result) %>
+  <% when "agent_person" %>
+    <% url = agent_base_url(result) %>
+  <% when "agent_family" %>
+    <% url = agent_base_url(result) %>
+  <% when "agent_corporate_entity" %>
+    <% url = agent_base_url(result) %>
+  <% when "agent_software" %>
+    <% url = agent_base_url(result) %>
+  <% else %>
+    <% url = result.uri %>
+<% end %>
 
 <%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
   <% if !props.fetch(:full,false) %>
-    <a class="record-title" href="<%= app_prefix(result.uri) %>">  <%== result.display_string %></a>
+    <a class="record-title" href="<%= app_prefix(url) %>">  <%== result.display_string %></a>
   <% else %>
     <%== result.display_string %>
   <% end %>

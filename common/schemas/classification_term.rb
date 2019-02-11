@@ -7,6 +7,8 @@
     "uri" => "/repositories/:repo_id/classification_terms",
     "properties" => {
       "display_string" => {"type" => "string", "readonly" => true},
+      "slug" => {"type" => "string"},
+      "is_slug_auto" => {"type" => "boolean"},
 
       "position" => {"type" => "integer", "required" => false},
 

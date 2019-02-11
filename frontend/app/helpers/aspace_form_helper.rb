@@ -51,6 +51,83 @@ module AspaceFormHelper
       template.gsub(/\[\]$/, "[#{idx}]")
     end
 
+    # ANW-617:
+    # TODO: Ideally, this method should generate a full URL, with the value from AppConfig[:public_url], so the link is fully actionable.
+    # Ran into a a bug (with AS? or deeper?) where the value of AppConfig[:public_url] was being changed at runtime simply by getting it's value, with code like base_url = AppConfig[:public_url]. 
+    # For now, this method generates a relative URL, like '\resources\Resource A' to avoid this.
+    def slug_url_field(name, repo_slug = nil, generate_url_with_repo_slug = nil)
+      url = ""
+      html = ""
+
+      case  obj['jsonmodel_type']
+      when 'resource'
+        scope = :repo
+        route = "resources"
+      when 'accession'
+        scope = :repo
+        route = "accessions"
+      when 'classification'
+        scope = :repo
+        route = "classifications"
+      when 'classification_term'
+        scope = :repo
+        route = "classification_terms"
+      when 'digital_object'
+        scope = :repo
+        route = "digital_objects"
+      when 'repository'
+        scope = :global
+        route = "repositories"
+      when 'agent_person'
+        scope = :global
+        route = "agents"
+      when 'agent_family'
+        scope = :global
+        route = "agents"
+      when 'agent_software'
+        scope = :global
+        route = "agents"
+      when 'agent_corporate_entity'
+        scope = :global
+        route = "agents"
+      when 'subject'
+        scope = :global
+        route = "subjects"
+      when 'archival_object'
+        scope = :repo
+        route = "archival_objects"
+      when 'digital_object_component'
+        scope = :repo
+        route = "digital_object_components"
+      end
+
+      # For repo scoped objects,
+      # if we have access to the repo slug in the session and the repo scoped URLs are enabled
+      # generate link with repo slug
+      if obj['slug'] && AppConfig[:slugs] == :show
+        if scope == :repo
+          if generate_url_with_repo_slug && repo_slug
+            url << "/" + "repositories" + "/"
+            url << repo_slug
+          end
+        end
+  
+        url << "/" + route + "/" + obj['slug'] 
+      else
+        url = obj['uri']
+      end
+
+      html << "<div class='form-group'>"
+        html << "<label class='col-sm-2 control-label' for='resource_slug_'>"
+            html << "Public URL"
+        html << "</label>"
+          html << "<div class='col-sm-9 label-only'>"
+            html << url.to_s
+          html << "</div>"
+        html << "</div>"
+ 
+      html.html_safe
+    end
 
     def list_for(objects, context_name, &block)
 
@@ -645,6 +722,11 @@ module AspaceFormHelper
       control_group_classes << "conditionally-required" if required == :conditionally
 
       control_group_classes << "#{opts[:control_class]}" if opts.has_key? :control_class
+
+      # ANW-617: add JS classes to slug fields
+      control_group_classes << "js-slug_textfield" if name == "slug"
+      control_group_classes << "js-slug_auto_checkbox" if name == "is_slug_auto"
+
       controls_classes << "#{opts[:controls_class]}" if opts.has_key? :controls_class
 
       control_group = "<div class=\"#{control_group_classes.join(' ')}\">"
@@ -689,6 +771,7 @@ module AspaceFormHelper
     html << "</div>"
     html.html_safe
   end
+
   class ReadOnlyContext < FormContext
 
     def readonly?
