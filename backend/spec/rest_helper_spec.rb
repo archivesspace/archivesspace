@@ -8,9 +8,11 @@ describe 'Rest Helpers' do
       .description("GET endpoint test")
       .documentation do
         <<~DOCS
-          __Some Extra Docs__
+        
+          __Heading for Some Extra Docs__
 
-          Documentation about what's goin' on with this endpoint
+          Documentation in markdown about what's goin' on with this endpoint
+            
         DOCS
       end
       .example('python') do
