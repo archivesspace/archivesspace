@@ -1146,6 +1146,7 @@ describe "EAD export mappings" do
   describe "Testing EAD Serializer mixed content behavior" do
 
     let(:note_with_p) { "<p>A NOTE!</p>" }
+    let(:note_with_extref) { "<extref href='http://duckduckgo.com'>A Good Search Engine</p>" }
     let(:note_with_linebreaks) { "Something, something,\n\nsomething." }
     let(:note_with_linebreaks_and_good_mixed_content) { "Something, something,\n\n<bioghist>something.</bioghist>\n\n" }
     let(:note_with_linebreaks_and_evil_mixed_content) { "Something, something,\n\n<bioghist>something.\n\n</bioghist>\n\n" }
@@ -1157,6 +1158,14 @@ describe "EAD export mappings" do
 
     it "can strip <p> tags from content when disallowed" do
       expect(serializer.strip_p(note_with_p)).to eq("A NOTE!")
+    end
+
+    it "adds xlink prefix to attributes in mixed content" do
+      expect(serializer.add_xlink_prefix(note_with_extref)).to eq("<extref xlink:href='http://duckduckgo.com'>A Good Search Engine</p>")
+    end
+
+    it "does not add xlink prefix when mixed content has no attributes" do
+      expect(serializer.add_xlink_prefix(note_with_p)).to eq(note_with_p)
     end
 
     it "can leave <p> tags in content" do
