@@ -94,9 +94,25 @@ class EADSerializer < ASpaceExport::Serializer
     content = content.gsub(/\xE2\x80\x9C/, '"').gsub(/\xE2\x80\x9D/, '"').gsub(/\xE2\x80\x98/, "\'").gsub(/\xE2\x80\x99/, "\'")
   end
 
-  def sanitize_mixed_content(content, context, fragments, allow_p = false  )
-#    return "" if content.nil?
 
+  # ANW-669: Fix for attributes in mixed content causing errors when validating against the EAD schema.
+
+  # If content looks like it contains a valid XML element with an attribute,
+  # Then replace anything that looks like an attribute like " foo=" with " xlink:foo=".
+
+  # References used for valid element and attribute names:
+  # https://www.xml.com/pub/a/2001/07/25/namingparts.html
+  # https://razzed.com/2009/01/30/valid-characters-in-attribute-names-in-htmlxml/
+
+  def add_xlink_prefix(content)
+    if content =~ /<[A-Za-z_:]{1}[A-Za-z0-9_:.]* [a-zA-Z_:]{1}[-a-zA-Z0-9_:.]*=/
+      content.gsub(/ [a-zA-Z_:]{1}[-a-zA-Z0-9_:.]*=/) {|match| " xlink:#{match.strip}"}
+    else
+      content
+    end
+  end
+
+  def sanitize_mixed_content(content, context, fragments, allow_p = false  )
     # remove smart quotes from text
     content = remove_smart_quotes(content)
 
@@ -110,6 +126,8 @@ class EADSerializer < ASpaceExport::Serializer
       escape_content(content)
       content = strip_p(content)
     end
+
+    content = add_xlink_prefix(content)
 
     begin
       if ASpaceExport::Utils.has_html?(content)
