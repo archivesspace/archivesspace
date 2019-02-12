@@ -1,4 +1,6 @@
 ---
+<%# Note: Do not modify the indentation/white space in this file.  It matters! %>
+
 <%# hateful hack to get additional highlighter tabs %>
 <% hilighters = @endpoints.each.map do |e| e[:examples].keys.reject(&->(k) {k == 'shell'}) end.flatten.to_set.to_a.sort %>
 
