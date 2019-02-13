@@ -22,11 +22,7 @@
       <%= form.label_and_textarea "title" %>
       <%= form.label_and_fourpartid %>
 
-      <% if AppConfig[:slugs] == :show %>
-        <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
-        <%= form.label_and_textfield "slug", :field_opts => {:disabled => @resource.is_slug_auto } %>
-        <%= form.label_and_boolean "is_slug_auto", {}, form.default_for("is_slug_auto") %>
-      <% end %>
+      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_URLs] %>
 
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_textfield "other_level", :required => true %>
@@ -90,7 +86,3 @@
 <%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
 
   <%= form_plugins_for("resource", form) %>
-  
-<%= javascript_tag do %>
-  activate_slug_checkbox();
-<% end %>

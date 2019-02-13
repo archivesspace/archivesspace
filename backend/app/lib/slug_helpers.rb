@@ -1,21 +1,21 @@
 module SlugHelpers
   # Find the record given the slug, return id, repo_id, and table name.
-  # This is a gnarly descision tree because the query we'll run depends on which 
+  # This is a gnarly descision tree because the query we'll run depends on which
   # controller is asking, and whether we're scoping by repo slug or not.
 
   def self.get_id_from_slug(slug, controller, action, repo_slug)
     # First, we'll check if we're looking for a non-repo scoped entity, since these are straight queries.
     if controller == "repositories"
-      rec = Repository.where(:slug => slug).first 
+      rec = Repository.where(:slug => slug).first
       table = "repository"
     elsif controller == "agents"
       rec, table = self.find_slug_in_agent_tables(slug)
     elsif controller == "subjects"
-      rec = Subject.where(:slug => slug).first 
+      rec = Subject.where(:slug => slug).first
       table = "subject"
 
     # All other entities can be repo scoped or not, so we'll call either the repo sensitive or insensitive method depending on the config setting.
-    elsif AppConfig[:repo_name_in_slugs] 
+    elsif AppConfig[:repo_slug_in_URL]
       if controller == "objects"
         rec, table = self.find_slug_in_object_tables_with_repo(slug, repo_slug)
       else
@@ -55,9 +55,9 @@ module SlugHelpers
     # remove any leading or trailing underscores
     slug = slug.gsub(/^_/, "").gsub(/_$/, "")
 
-    # if slug is numeric, add a leading '_' 
+    # if slug is numeric, add a leading '_'
     # this is necessary, because numerical slugs will be interpreted as an id by the controller
-    if slug.match(/^(\d)+$/) 
+    if slug.match(/^(\d)+$/)
       slug = slug.prepend("_")
     end
 
@@ -100,7 +100,7 @@ module SlugHelpers
 
   # auto generate a slug for this instance based on id
   def self.generate_slug_by_id!(thing)
-    if thing.class == Resource 
+    if thing.class == Resource
       if AppConfig[:generate_resource_slugs_with_eadid] && thing[:ead_id]
         # use EADID if configured. Otherwise, use identifier.
         thing[:slug] = thing[:ead_id]
@@ -108,7 +108,7 @@ module SlugHelpers
         thing[:slug] = thing.format_multipart_identifier
       end
 
-    elsif thing.class == Accession  
+    elsif thing.class == Accession
       thing[:slug] = thing.format_multipart_identifier
 
     elsif thing.class == Classification || thing.class == ClassificationTerm
@@ -138,12 +138,12 @@ module SlugHelpers
 
   # Generates URLs for display in hirearchial tree links in public interface for Archival Objects and Digital object components
   def self.get_slugged_url_for_largetree(jsonmodel_type, repo_id, slug)
-    if slug && AppConfig[:slugs] == :show
-      if AppConfig[:repo_name_in_slugs] 
+    if slug && AppConfig[:use_human_readable_URLs]
+      if AppConfig[:repo_slug_in_URL]
         repo = Repository.first(:id => repo_id)
         repo_slug = repo && repo.slug ? repo.slug : ""
 
-        if repo_slug.empty?        
+        if repo_slug.empty?
           return "#{AppConfig[:public_proxy_url]}/#{jsonmodel_type.underscore}s/#{slug}"
         else
           return "#{AppConfig[:public_proxy_url]}/repositories/#{repo_slug}/#{jsonmodel_type.underscore}s/#{slug}"
@@ -156,13 +156,13 @@ module SlugHelpers
     end
   end
 
-  # determine if our record has updated a data field that a field depends on. 
+  # determine if our record has updated a data field that a field depends on.
   # slug will be updated iff this method returns true
   def self.slug_data_updated?(obj)
     id_field_changed        = false
     name_field_changed      = false
 
-    slug_field_changed = obj.column_changed?(:slug) 
+    slug_field_changed = obj.column_changed?(:slug)
     slug_auto_field_changed = obj.column_changed?(:is_slug_auto)
 
     case obj.class.to_s
@@ -190,7 +190,7 @@ module SlugHelpers
     when "Classification"
       id_field_changed = obj.column_changed?(:identifier)
       name_field_changed = obj.column_changed?(:title)
-    
+
     when "ClassificationTerm"
       id_field_changed = obj.column_changed?(:identifier)
       name_field_changed = obj.column_changed?(:title)
@@ -199,7 +199,7 @@ module SlugHelpers
       id_field_changed = obj.column_changed?(:repo_code)
       name_field_changed = obj.column_changed?(:name)
 
-    when "ArchivalObject" 
+    when "ArchivalObject"
       id_field_changed = obj.column_changed?(:ref_id)
       name_field_changed = obj.column_changed?(:title)
 
@@ -220,7 +220,7 @@ module SlugHelpers
     when "AgentFamily"
       id_field_changed = true
       name_field_changed = true
-      
+
     when "AgentSoftware"
       id_field_changed = true
       name_field_changed = true
@@ -247,14 +247,14 @@ module SlugHelpers
       return false
     end
   end
-  
-  private 
+
+  private
 
   # based on the controller/action, query the right table for the slug
   # in repo with repo.slug == repo_slug
-  
+
   # FIXME: Queries like: Resource.where(:slug => slug, :repo_id => repo.id)
-  # fail with "missing repo_id for request" error (in ASModel_CRUD) for some reason. Using SQL queries to get around this for now. 
+  # fail with "missing repo_id for request" error (in ASModel_CRUD) for some reason. Using SQL queries to get around this for now.
   def self.find_in_repo(slug, controller, action, repo_slug)
     repo = Repository.where(:slug => repo_slug).first
 
@@ -327,7 +327,7 @@ module SlugHelpers
   # find slug in one of the object tables, only in the specified repo.
 
   # FIXME: Queries like: ArchivalObject.where(:slug => slug, :repo_id => repo.id)
-  # fail with "missing repo_id for request" error (in ASModel_CRUD) for some reason. Using SQL queries to get around this for now. 
+  # fail with "missing repo_id for request" error (in ASModel_CRUD) for some reason. Using SQL queries to get around this for now.
 
   def self.find_slug_in_object_tables_with_repo(slug, repo_slug)
     repo = Repository.where(:slug => repo_slug).first
@@ -419,8 +419,8 @@ module SlugHelpers
     archival_obj_count   = ArchivalObject.where(:slug => slug).count
     do_component_count   = DigitalObjectComponent.where(:slug => slug).count
 
-    # We don't want to count a slug as in use if it's being used by 
-    # the record we're calling this method for. 
+    # We don't want to count a slug as in use if it's being used by
+    # the record we're calling this method for.
     # To fix that false positive case:
     # if a count for a class is > 0 and that's the same class that's de-duping
     # decrement the count by one to account for the calling object
@@ -454,16 +454,16 @@ module SlugHelpers
       do_component_count -= 1 if do_component_count > 0
     end
 
-    return repo_count + 
-           resource_count + 
-           subject_count + 
-           accession_count + 
-           classification_count + 
-           class_term_count + 
-           agent_person_count + 
-           agent_family_count + 
-           agent_corp_count + 
-           agent_software_count + 
+    return repo_count +
+           resource_count +
+           subject_count +
+           accession_count +
+           classification_count +
+           class_term_count +
+           agent_person_count +
+           agent_family_count +
+           agent_corp_count +
+           agent_software_count +
            digital_object_count +
            archival_obj_count +
            do_component_count > 0

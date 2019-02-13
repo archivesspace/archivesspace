@@ -110,7 +110,8 @@ module SeleniumFactories
 
       factory :resource, class: JSONModel(:resource) do
         title { generate :resource_title }
-        id_0 { generate :id_0 }
+        id_0 { generate(:alphanumstr) }
+        id_1 { generate(:alphanumstr) }
         extents { [build(:extent)] }
         dates { [build(:date)] }
         level { "collection" }

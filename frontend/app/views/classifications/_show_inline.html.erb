@@ -14,7 +14,9 @@
 
             <%= form.label_and_textarea "identifier" %>
             <%= form.label_and_textarea "title" %>
-            <%= form.slug_url_field "slug", session[:repo_slug], AppConfig[:repo_name_in_slugs] %>
+
+            <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_URLs] %>
+
             <%= form.label_and_textarea "description" %>
 
             <% if !readonly["creator"].blank? %>
