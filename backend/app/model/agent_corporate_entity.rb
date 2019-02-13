@@ -10,11 +10,18 @@ class AgentCorporateEntity < Sequel::Model(:agent_corporate_entity)
   include RecordableCataloging
   include Notes
   include Publishable
+  include AutoGenerator
 
 
   register_agent_type(:jsonmodel => :agent_corporate_entity,
                       :name_type => :name_corporate_entity,
                       :name_model => NameCorporateEntity)
+
+    auto_generate :property => :slug,
+                :generator => proc { |json| SlugHelpers.id_based_slug_for(json, AgentCorporateEntity) if AppConfig[:auto_generate_slugs_with_id]
+                },
+                :only_on_create => false,
+                :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
 
 
   def delete

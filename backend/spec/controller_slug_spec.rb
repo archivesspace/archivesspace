@@ -187,18 +187,20 @@ describe 'Slug controller' do
       expect(response["repo_id"]).to eq(@repo.id)
     end
 
-    it "does not find resource by slug if wrong repo slug specified" do
-      resource = Resource.create_from_json(
-        build(:json_resource, {:slug => "SlugResource2"}), 
-          :repo_id => @repo.id
-      )
-
-      get "/slug_with_repo?slug=SlugResource2&controller=resources&action=show&repo_slug=sluggarific"
-      response = JSON.parse(last_response.body)
-
-      expect(response["id"]).to eq(-1)
-      expect(response["table"]).to eq("resource")
-      expect(response["repo_id"]).to eq(-1)     
+    describe "rightnow" do
+      it "finds resource by slug if wrong repo slug specified" do
+        resource = Resource.create_from_json(
+          build(:json_resource, {:slug => "SlugResource2"}), 
+            :repo_id => @repo.id
+        )
+  
+        get "/slug_with_repo?slug=SlugResource2&controller=resources&action=show&repo_slug=sluggarific"
+        response = JSON.parse(last_response.body)
+  
+        expect(response["id"]).to eq(resource.id)
+        expect(response["table"]).to eq("resource")
+        expect(response["repo_id"]).to eq(@repo.id)     
+      end
     end
 
     it "finds digital_objects by slug for 'objects' controller" do
@@ -215,7 +217,7 @@ describe 'Slug controller' do
       expect(response["repo_id"]).to eq(@repo.id)
     end
 
-     it "does not find digital_objects by slug if wrong repo_id specified" do
+     it "finds digital_objects by slug if wrong repo_id specified" do
       dig_obj = DigitalObject.create_from_json(
         build(:json_digital_object, {:slug => "SlugDigitalObject2"}), 
           :repo_id => @repo.id
@@ -224,9 +226,9 @@ describe 'Slug controller' do
       get "/slug_with_repo?slug=SlugDigitalObject2&controller=objects&action=show&repo_slug=slugtastic"
       response = JSON.parse(last_response.body)
 
-      expect(response["id"]).to eq(-1)
+      expect(response["id"]).to eq(dig_obj.id)
       expect(response["table"]).to eq("digital_object")
-      expect(response["repo_id"]).to eq(-1)
+      expect(response["repo_id"]).to eq(@repo.id)
     end
 
     it "finds archival_objects by slug for 'objects' controller" do
@@ -243,7 +245,7 @@ describe 'Slug controller' do
       expect(response["repo_id"]).to eq(@repo.id)
     end
 
-    it "does not find archival_objects by slug for 'objects' controller if wrong repo is specified" do
+    it "finds archival_objects by slug for 'objects' controller if wrong repo is specified" do
       ao = ArchivalObject.create_from_json(
         build(:json_archival_object, {:slug => "SlugArchivalObject"}), 
           :repo_id => @repo.id
@@ -252,9 +254,9 @@ describe 'Slug controller' do
       get "/slug_with_repo?slug=SlugArchivalObject&controller=objects&action=show&repo_slug=slugtastic"
       response = JSON.parse(last_response.body)
 
-      expect(response["id"]).to eq(-1)
+      expect(response["id"]).to eq(ao.id)
       expect(response["table"]).to eq("archival_object")
-      expect(response["repo_id"]).to eq(-1)
+      expect(response["repo_id"]).to eq(@repo.id)
     end
 
     it "finds digital_object_components by slug for 'objects' controller" do
@@ -271,7 +273,7 @@ describe 'Slug controller' do
       expect(response["repo_id"]).to eq(@repo.id)
     end
 
-    it "does not finds digital_object_components by slug for 'objects' controller if wrong repo is specified" do
+    it "finds digital_object_components by slug for 'objects' controller if wrong repo is specified" do
       doc = DigitalObjectComponent.create_from_json(
         build(:json_digital_object_component, {:slug => "SlugDOC"}), 
           :repo_id => @repo.id
@@ -280,9 +282,9 @@ describe 'Slug controller' do
       get "/slug_with_repo?slug=SlugDOC&controller=objects&action=show&repo_slug=slugnotsnail"
       response = JSON.parse(last_response.body)
 
-      expect(response["id"]).to eq(-1)
+      expect(response["id"]).to eq(doc.id)
       expect(response["table"]).to eq("digital_object_component")
-      expect(response["repo_id"]).to eq(-1)
+      expect(response["repo_id"]).to eq(@repo.id)
     end
 
     it "finds accessions by slug for 'accessions' controller" do
@@ -299,7 +301,7 @@ describe 'Slug controller' do
       expect(response["repo_id"]).to eq(@repo.id)
     end
 
-    it "does not find accessions by slug if wrong repo is specified" do
+    it "finds accessions by slug if wrong repo is specified" do
       accession = Accession.create_from_json(
         build(:json_accession, {:slug => "SlugAccession2"}), 
           :repo_id => @repo.id
@@ -308,9 +310,9 @@ describe 'Slug controller' do
       get "/slug_with_repo?slug=SlugAccession2&controller=accessions&action=show&repo_slug=slugsational"
       response = JSON.parse(last_response.body)
 
-      expect(response["id"]).to eq(-1)
+      expect(response["id"]).to eq(accession.id)
       expect(response["table"]).to eq("accession")
-      expect(response["repo_id"]).to eq(-1)
+      expect(response["repo_id"]).to eq(@repo.id)
     end
 
     it "finds classifications by slug for 'classifications' controller" do
@@ -330,7 +332,7 @@ describe 'Slug controller' do
       expect(response["repo_id"]).to eq(@repo.id)
     end
 
-    it "does not find classifications by slug if the wrong repo is specified" do
+    it "finds classifications by slug if the wrong repo is specified" do
       classification = Classification.create_from_json(
         build(:json_classification, {:slug => "SlugClassification2"}), 
           :repo_id => @repo.id
@@ -339,9 +341,9 @@ describe 'Slug controller' do
       get "/slug_with_repo?slug=SlugClassification2&controller=classifications&action=show&repo_slug=slugger"
       response = JSON.parse(last_response.body)
 
-      expect(response["id"]).to eq(-1)
+      expect(response["id"]).to eq(classification.id)
       expect(response["table"]).to eq("classification")
-      expect(response["repo_id"]).to eq(-1)
+      expect(response["repo_id"]).to eq(@repo.id)
     end
 
     it "finds classification_terms by slug for 'classifications' controller and 'terms' action" do
@@ -362,7 +364,7 @@ describe 'Slug controller' do
       expect(response["repo_id"]).to eq(repo_id)
     end
 
-    it "does not find classification_terms by slug if wrong repo is specified" do
+    it "finds classification_terms by slug if wrong repo is specified" do
       ct = create(:json_classification_term, :slug => "SlugClassificationTerm")
       ct_id = ct[:uri].split("/")[-1]
 
@@ -376,9 +378,9 @@ describe 'Slug controller' do
       get "/slug_with_repo?slug=SlugClassificationTerm&controller=classifications&action=term&repo_slug=sluggie"
       response = JSON.parse(last_response.body)
 
-      expect(response["id"].to_s).to eq("-1")
+      expect(response["id"].to_s).to eq(ct_id)
       expect(response["table"]).to eq("classification_term")
-      expect(response["repo_id"]).to eq(-1)
+      expect(response["repo_id"]).to eq(repo_id)
     end
   end
 end

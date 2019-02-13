@@ -159,34 +159,30 @@ describe 'Classification models' do
   end
   
   describe "slug tests" do
-    it "autogenerates a slug via title when configured to generate by name" do
-      AppConfig[:auto_generate_slugs_with_id] = false 
+    describe "slug autogen enabled" do
+      it "autogenerates a slug via title when configured to generate by name" do
+        AppConfig[:auto_generate_slugs_with_id] = false 
 
-      classification = Classification.create_from_json(build(:json_classification))
-      
+        classification = Classification.create_from_json(build(:json_classification, :is_slug_auto => true))
+        
+        expected_slug = classification[:title].gsub(" ", "_")
+                                             .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
 
-      classification_rec = Classification.where(:id => classification[:id]).first.update(:is_slug_auto => 1)
+        expect(classification[:slug]).to eq(expected_slug)
+      end
 
-      expected_slug = classification_rec[:title].gsub(" ", "_")
-                                           .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+      it "autogenerates a slug via identifier when configured to generate by id" do
+        AppConfig[:auto_generate_slugs_with_id] = true
 
-      expect(classification_rec[:slug]).to eq(expected_slug)
-    end
+        classification = Classification.create_from_json(build(:json_classification, :is_slug_auto => true))
+        
+        expected_slug = classification[:identifier].gsub(" ", "_")
+                                                  .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+                                                  .gsub('"', '')
+                                                  .gsub('null', '')
 
-    it "autogenerates a slug via identifier when configured to generate by id" do
-      AppConfig[:auto_generate_slugs_with_id] = true
-
-      classification = Classification.create_from_json(build(:json_classification))
-      
-
-      classification_rec = Classification.where(:id => classification[:id]).first.update(:is_slug_auto => 1)
-
-      expected_slug = classification_rec[:identifier].gsub(" ", "_")
-                                                .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-                                                .gsub('"', '')
-                                                .gsub('null', '')
-
-      expect(classification_rec[:slug]).to eq(expected_slug)
+        expect(classification[:slug]).to eq(expected_slug)
+      end
     end
 
     describe "slug code does not run" do

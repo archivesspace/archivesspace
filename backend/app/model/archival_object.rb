@@ -45,6 +45,15 @@ class ArchivalObject < Sequel::Model(:archival_object)
   auto_generate :property => :display_string,
                 :generator => proc { |json| ArchivalObject.produce_display_string(json) }
 
+  auto_generate :property => :slug,
+                :generator => proc { |json|
+                  AppConfig[:auto_generate_slugs_with_id] ? 
+                    SlugHelpers.id_based_slug_for(json, ArchivalObject) : 
+                    SlugHelpers.name_based_slug_for(json, ArchivalObject)
+                },
+                :only_on_create => true,
+                :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
+
 
   def self.produce_display_string(json)
     display_string = json['title'] || ""

@@ -19,12 +19,13 @@ class Resource < Sequel::Model(:resource)
   include UserDefineds
   include ComponentsAddChildren
   include Classifications
+  include AutoGenerator
   include Transferable
   include Events
   include Publishable
   include RevisionStatements
   include ReindexTopContainers
-  include RightsRestrictionNotes 
+  include RightsRestrictionNotes
   include RepresentativeImages
   include Assessments::LinkedRecord
 
@@ -47,6 +48,14 @@ class Resource < Sequel::Model(:resource)
                          :message => "Must be unique",
                          :json_property => :ead_id)
 
+  auto_generate :property => :slug,
+                :generator => proc { |json|
+                  AppConfig[:auto_generate_slugs_with_id] ? 
+                    SlugHelpers.id_based_slug_for(json, Resource) : 
+                    SlugHelpers.name_based_slug_for(json, Resource)
+                },
+                :only_on_create => true,
+                :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
 
   # Maintain a finding_aid_sponsor_sha1 column to allow us to do quick lookups for OAI.
   def self.create_from_json(json, opts = {})

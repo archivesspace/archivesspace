@@ -423,6 +423,7 @@ describe 'Agent model' do
 
 
     describe "slug tests" do
+      describe "rightnow" do
       it "sets primary_name as the slug value when configured to generate by name" do
         AppConfig[:auto_generate_slugs_with_id] = false 
         
@@ -435,10 +436,11 @@ describe 'Agent model' do
                                                  .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
 
 
-        agent_rec = AgentPerson.where(:id => agent[:id]).first.update(:is_slug_auto => 1)
+        agent.update(:is_slug_auto => 1)
 
-        expect(agent_rec[:slug]).to eq(expected_slug)
+        expect(agent[:slug]).to eq(expected_slug)
       end
+    end
 
       it "sets primary_name as the slug value when configured to generate by id" do
         AppConfig[:auto_generate_slugs_with_id] = true
@@ -452,9 +454,9 @@ describe 'Agent model' do
                                                  .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
 
 
-        agent_rec = AgentPerson.where(:id => agent[:id]).first.update(:is_slug_auto => 1)
+        agent.update(:is_slug_auto => 1)
 
-        expect(agent_rec[:slug]).to eq(expected_slug)
+        expect(agent[:slug]).to eq(expected_slug)
       end
     end
   end

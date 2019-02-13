@@ -27,13 +27,16 @@ module ASModel
     end
 
     def before_save
-      if self.respond_to?(:column_changed?) && SlugHelpers.slug_data_updated?(self)
-        if self[:is_slug_auto] == 1
-          auto_gen_slug!
-        end
-  
-        if self[:slug]
-          self[:slug] = SlugHelpers.clean_slug(self[:slug], self.class)
+      if AppConfig[:use_human_readable_URLs]
+        if SlugHelpers.sluggable_class?(self.class) &&
+           self.respond_to?(:column_changed?) && 
+           SlugHelpers.slug_data_updated?(self)
+
+          if SlugHelpers.is_slug_auto_enabled?(self)
+            auto_gen_slug!
+          elsif self[:slug]
+            self[:slug] = SlugHelpers.clean_slug(self[:slug], self.class)
+          end
         end
       end
     end
@@ -72,7 +75,7 @@ module ASModel
       ret
     end
 
-    private 
+    private
 
       def auto_gen_slug!
         if AppConfig[:auto_generate_slugs_with_id]
@@ -85,12 +88,12 @@ module ASModel
       module BlobHack
         def self.extended(base)
           blob_columns = base.db_schema.select {|column, defn| defn[:type] == :blob}.keys
-  
+
           base.instance_eval do
             @blob_columns_to_fix = (!blob_columns.empty? && DB.needs_blob_hack?) ? Array(blob_columns) : []
           end
         end
-  
+
         def blob_columns_to_fix
           @blob_columns_to_fix
         end

@@ -170,34 +170,31 @@ describe 'Subject model' do
   end
 
   describe "slug tests" do
-    it "autogenerates a slug via title when configured to generate by name" do
-      AppConfig[:auto_generate_slugs_with_id] = false 
-
-      subject = Subject.create_from_json(build(:json_subject))
-      
-
-      subject_rec = Subject.where(:id => subject[:id]).first.update(:is_slug_auto => 1)
-
-      expected_slug = subject_rec[:title].gsub(" ", "_")
-                                         .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-
-      expect(subject_rec[:slug]).to eq(expected_slug)
-    end
-
-    it "autogenerates a slug via title when configured to generate by id" do
-      AppConfig[:auto_generate_slugs_with_id] = true
-
-      subject = Subject.create_from_json(build(:json_subject))
-      
-
-      subject_rec = Subject.where(:id => subject[:id]).first.update(:is_slug_auto => 1)
-
-      expected_slug = subject_rec[:title].gsub(" ", "_")
-                                              .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-                                              .gsub('"', '')
-                                              .gsub('null', '')
-
-      expect(subject_rec[:slug]).to eq(expected_slug)
+    describe "slug autogen enabled" do
+      it "autogenerates a slug via title when configured to generate by name" do
+        AppConfig[:auto_generate_slugs_with_id] = false 
+  
+        subject = Subject.create_from_json(build(:json_subject, :is_slug_auto => true))
+        
+        expected_slug = subject[:title].gsub(" ", "_")
+                                       .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+  
+        expect(subject[:slug]).to eq(expected_slug)
+      end
+  
+      it "autogenerates a slug via authority_id when configured to generate by id" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+  
+        subject = Subject.create_from_json(build(:json_subject, :is_slug_auto => true))
+        
+  
+        expected_slug = subject[:authority_id].gsub(" ", "_")
+                                       .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!.]/, "")
+                                       .gsub('"', '')
+                                       .gsub('null', '')
+  
+        expect(subject[:slug]).to eq(expected_slug)
+      end
     end
 
     describe "slug code runs" do
