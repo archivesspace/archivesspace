@@ -89,6 +89,8 @@ def main
     puts ""
     puts "  * #{ENV['SCRIPT']} lose-my-work [ref]  -- clean and force update all plugins to `ref` (or to master if `ref` not given.)"
     puts ""
+    puts "Remotes will use https by default.  To use SSH instead: export GIT_SSH=1"
+    puts ""
 
     exit
   end
@@ -137,7 +139,13 @@ def main
       end
     else
       # Clone
-      git("clone", plugin[:url], plugin[:path]) or
+      url = plugin[:url]
+
+      if ENV['GIT_SSH']
+        url.gsub!('https://github.com/', 'git@github.com:')
+      end
+
+      git("clone", url, plugin[:path]) or
         raise "Failed to clone plugin: #{plugin[:path]}"
 
       ref = determine_target_ref(plugin[:path], target_ref)
