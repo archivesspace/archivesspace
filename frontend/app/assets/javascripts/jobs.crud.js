@@ -1,6 +1,6 @@
 //= require form
 
-$(function() {
+var init = function() {
 
     var $form = $('#job_form');
 
@@ -255,8 +255,7 @@ $(function() {
             });
         };
 
-
-        $("#job_import_type_", $form).change(function() {
+        var onChange = function() {
             $("#job_filenames_", $form)
                 .empty()
                 .append(AS.renderTemplate("template_fileupload"))
@@ -264,9 +263,16 @@ $(function() {
 
 
             initFileUploadSection();
-        });
+        }
 
-        $("#job_import_type_", $form).trigger("change");
+        $("#job_import_type_", $form).change(onChange);
+
+        onChange();
+
+        var handleError = function(errorHTML) {
+            $("body").html(errorHTML);
+            $(init);
+        };
 
         $form.submit(function() {
 
@@ -287,6 +293,74 @@ $(function() {
             return true;
         });
 
+        ua = navigator.userAgent;
+        if (ua.indexOf("MSIE") > -1 || ua.indexOf("Trident") > -1 || ua.indexOf("Edge") > -1) {
+            console.log("Using IE");
+            $(".btn:submit").click(function(event) {
+                $form.ajaxSubmit({
+                    type: "POST",
+                    beforeSubmit: function(arr, $form, options) {
+
+                        if (arr.length == 0) {
+                            return false;
+                        }
+
+                        $("#job_form_messages", $form)
+                            .html(AS.renderTemplate("template_uploading_message"));
+
+                        console.log("ATTACH");
+                        $(".import-file.file-attached").each(function() {
+                            var $input = $(this);
+                            console.log($input);
+                            arr.push({
+                                name: "files[]",
+                                type: "file",
+                                value: $input.data("file")
+                            });
+                        });
+
+                        arr.push({name: "ajax", value: true});
+                    },
+                    success: function(json, status, xhr) {
+                        var uri_to_resolve;
+
+                        if (typeof json === "string") {
+                          // In IE8 (older browsers), AjaxForm will use an iframe to deliver this POST.
+                          // When using an iframe it cannot handle JSON as a response type... so let us
+                          // grab the HTML string returned and parse it.
+                          var $responseFromIFrame = $(json);
+
+                          if ($responseFromIFrame.is("textarea")) {
+                            if ($responseFromIFrame.data("type") === "html") {
+                              // it must of errored
+                              return handleError($responseFromIFrame.val());
+                            } else if ($responseFromIFrame.data("type") === "json") {
+                                uri_to_resolve = JSON.parse($responseFromIFrame.val()).uri;
+                            } else {
+                              throw "jobs.crud: textarea.data-type not currently support - " + $responseFromIFrame.data("type");
+                            }
+                          } else {
+                            throw "jobs.crud: the response text should be wrapped in a textarea for the plugin AjaxForm support";
+                          }
+                        } else {
+                          uri_to_resolve = json.uri;
+                        }
+
+                        $("#job_form_messages", $form)
+                            .html(AS.renderTemplate("template_success_message"));
+
+                        location.href = AS.app_prefix("resolve/readonly?uri=" + uri_to_resolve);
+                        console.log("SUCCESS!");
+                    },
+                    error: function(xhr) {
+                        console.log("ERROR!");
+                        handleError(xhr.responseText);
+                    }
+                });
+
+            });
+        }
+
     };
 
     var type = $("#job_type").val();
@@ -305,4 +379,6 @@ $(function() {
     } else if (type == "import_job") {
         initImportJobForm();
     }
-});
+};
+
+$(init);

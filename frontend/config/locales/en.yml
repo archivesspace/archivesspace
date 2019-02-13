@@ -1070,6 +1070,7 @@ en:
         status_changed_canceled: The job has been canceled.
         no_active_jobs: There are no active jobs.
         no_archived_jobs: There are no archived jobs.
+        uploading: Uploading job...
         upload_successful: Upload Successful. Redirecting to Job page...
         import_type_missing: Please select an Import Type
         queue_position_next: This job is next in the queue.

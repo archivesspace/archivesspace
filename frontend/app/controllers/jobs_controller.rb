@@ -1,7 +1,7 @@
 class JobsController < ApplicationController
 
   set_access_control "view_repository" => [:index, :show, :log, :status, :records, :download_file ]
-  set_access_control "create_job" => [:new, :create]
+  set_access_control "create_job" => [:new, :create, :create_import_job]
   set_access_control "cancel_job" => [:cancel]
   
   include ExportHelper
@@ -52,7 +52,15 @@ class JobsController < ApplicationController
                    )
       uploaded = job.upload
 
-      redirect_to :action => :show, :id => JSONModel(:job).id_for(uploaded['uri'])
+      if (params['ajax'])
+        if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
+          render :text => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
+        else
+          render :json => uploaded
+        end
+      else
+        redirect_to :action => :show, :id => JSONModel(:job).id_for(uploaded['uri'])
+      end
 
     rescue JSONModel::ValidationException => e
       @exceptions = e.invalid_object._exceptions
@@ -62,7 +70,7 @@ class JobsController < ApplicationController
 
       params['job_type'] = @job_type
 
-      render :new
+      render :new, :status => 500
     end
 
   end
