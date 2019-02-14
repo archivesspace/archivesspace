@@ -265,7 +265,7 @@ module ApplicationHelper
         html << " #{Time.parse(hash['user_mtime']).getlocal}"
         html << ' | '
         html << "<strong>URI:</strong> "
-        html << hash['uri']
+        html << "<input type=\"text\" readonly=\"1\" value=\"#{hash['uri']}\" size=\"#{hash['uri'].length}\"/>"
       else
         html << "<dl>"
         html << "<dt>#{I18n.t("search_results.created")} #{hash['created_by']}</dt>"
@@ -359,7 +359,7 @@ module ApplicationHelper
   # ANW-521: given an object, if it is a subject, return the class needed to display the correct icon in the interface
   def get_subject_icon_class(obj)
     if obj['_resolved']
-      if obj['_resolved']['jsonmodel_type'] && 
+      if obj['_resolved']['jsonmodel_type'] &&
          obj['_resolved']['jsonmodel_type'] == "subject"
 
         term_type = obj['_resolved']['terms'][0]["term_type"] rescue nil
