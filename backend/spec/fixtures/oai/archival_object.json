@@ -21,11 +21,23 @@
         }
     ],
     "jsonmodel_type": "archival_object",
-    "languages": [
+    "lang_materials": [
         {
-            "language": "eng",
-            "script": "Latn",
-            "note": "Language note"
+            "language_and_script": {
+                "language": "eng",
+                "script": "Latn"
+            }
+        },
+        {
+            "notes": [
+                {
+                    "jsonmodel_type": "note_langmaterial",
+                    "type": "langmaterial",
+                    "content": [
+                        "Language note"
+                    ]
+                }
+            ]
         }
     ],
     "level": "file",

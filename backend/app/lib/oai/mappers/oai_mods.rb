@@ -70,18 +70,26 @@ class OAIMODSMapper
         end
 
         # Languages -> language/languageTerm
-        if (languages = Array(jsonmodel['languages']))
-          languages.each do |l|
-            xml.language {
-              xml.languageTerm({'authority' => 'iso639-2b', 'type' => 'text'}, I18n.t("enumerations.language_iso639_2." + l['language']))
-              xml.languageTerm({'authority' => 'iso639-2b', 'type' => 'code'}, l['language'])
-              if l['script']
-                xml.scriptTerm({'authority' => 'iso15924', 'type' => 'text'}, I18n.t("enumerations.script_iso15924." + l['script']))
-                xml.scriptTerm({'authority' => 'iso15924', 'type' => 'code'}, l['script'])
+        if (lang_materials = Array(jsonmodel['lang_materials']))
+          language_vals = lang_materials.map{|l| l['language_and_script']}.compact
+          if !language_vals.empty?
+            language_vals.each do |l|
+              xml.language {
+                xml.languageTerm({'authority' => 'iso639-2b', 'type' => 'text'}, I18n.t("enumerations.language_iso639_2." + l['language']))
+                xml.languageTerm({'authority' => 'iso639-2b', 'type' => 'code'}, l['language'])
+                if l['script']
+                  xml.scriptTerm({'authority' => 'iso15924', 'type' => 'text'}, I18n.t("enumerations.script_iso15924." + l['script']))
+                  xml.scriptTerm({'authority' => 'iso15924', 'type' => 'code'}, l['script'])
+                end
+              }
+            end
+          end
+          language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+          if !language_notes.empty?
+            language_notes.each do |note|
+              OAIUtils.extract_published_note_content(note).each do |content|
+                xml.note({'type' => 'language'}, content)
               end
-            }
-            if l.include?('note')
-              xml.note({'type' => 'language'}, l['note'])
             end
           end
         end

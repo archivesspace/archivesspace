@@ -73,7 +73,9 @@ describe "Exported MODS metadata" do
                              :linked_agents => linked_agents,
                              :subjects => linked_subjects,
                              :digital_object_type => "notated_music",
-                             :languages => [build(:json_language), build(:json_language)],
+                             :lang_materials => [build(:json_lang_material),
+                                                 build(:json_lang_material),
+                                                 build(:json_lang_material_with_note)],
                              :dates => dates,
                              :notes => notes)
 
@@ -249,37 +251,42 @@ describe "Exported MODS metadata" do
     end
 
     it "creates a language/languageTerm tag for each language term" do
-      @digital_object.languages.each do |language|
+      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals.each do |language|
         language = language['language']
         expect(@mods).to have_tag "language/languageTerm[@type='text'][@authority='iso639-2b']" => I18n.t("enumerations.language_iso639_2." + language)
       end
     end
 
     it "creates a language/languageTerm tag for each language code" do
-      @digital_object.languages.each do |language|
+      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals.each do |language|
         language = language['language']
         expect(@mods).to have_tag "language/languageTerm[@type='code'][@authority='iso639-2b']" => language
       end
     end
 
     it "creates a language/scriptTerm tag for each script term" do
-      @digital_object.languages.each do |language|
+      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals.each do |language|
         script = language['script']
         expect(@mods).to have_tag "language/scriptTerm[@type='text'][@authority='iso15924']" => I18n.t("enumerations.script_iso15924." + script)
       end
     end
 
     it "creates a language/scriptTerm tag for each script code" do
-      @digital_object.languages.each do |language|
+      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals.each do |language|
         script = language['script']
         expect(@mods).to have_tag "language/scriptTerm[@type='code'][@authority='iso15924']" => script
       end
     end
 
     it "creates a note tag for each language note" do
-      @digital_object.languages.each do |language|
-        note = language['note']
-        expect(@mods).to have_tag "note[@type='language']" => note
+      language_notes = @digital_object.lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+      language_notes.each do |note|
+        content = note_content(note)
+        expect(@mods).to have_tag "note[@type='language']" => content
       end
     end
 
