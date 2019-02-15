@@ -1,3 +1,5 @@
+# NOTE: Many of the translations in this file have been generated using
+# Google translate
 ja:
   states:
     suppressed: 抑制された
@@ -1500,6 +1502,7 @@ ja:
       find_and_replace_job: バッチの検索と置換（ベータ版）
       report_job: レポート
       container_conversion_job: レポート
+      generate_slugs_job: エンティティのスラッグを生成する
       unknown_job_type: 不明なジョブタイプ
     status: 状態
     status_completed: 完了しました
