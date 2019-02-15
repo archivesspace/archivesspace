@@ -32,8 +32,9 @@ class MODSSerializer < ASpaceExport::Serializer
 
     xml.typeOfResource mods.type_of_resource
 
-    unless mods.languages.nil?
-      mods.languages.each do |language|
+    unless mods.lang_materials.nil?
+
+      mods.lang_materials.each do |language|
         xml.language {
           xml.languageTerm(:type => 'text', :authority => 'iso639-2b') {
             xml.text I18n.t("enumerations.language_iso639_2." + language['language'])
@@ -53,12 +54,12 @@ class MODSSerializer < ASpaceExport::Serializer
             }
           end
         }
-        if language['note']
-          xml.note(:type => 'language') {
-            xml.text language['note']
-          }
-        end
       end
+
+      mods.lang_notes.each do |note|
+        serialize_note(note, xml)
+      end
+
     end
 
     mods.dates.each do |date|

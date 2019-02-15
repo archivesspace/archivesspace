@@ -39,6 +39,8 @@ class DCSerializer < ASpaceExport::Serializer
       xml.identifier dc.identifier
       
       dc.creators.each {|c| xml.creator c }
+
+      dc.lang_materials.each {|l| xml.language l }
       
       dc.subjects.each {|s| xml.subject s }
            
@@ -52,13 +54,6 @@ class DCSerializer < ASpaceExport::Serializer
       end
 
       xml.type dc.type
-
-      dc.languages.each do |l|
-        xml.language l['language']
-        if l.include?('note')
-          xml.language l['note']
-        end
-      end
 
     }
       
