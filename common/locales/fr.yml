@@ -1331,7 +1331,7 @@ fr:
     <<: *section_tooltips
     title: Intitulé
     title_tooltip: |
-      <p>CHAMP OBLIGATOIRE CONDITIONNEL. L'intitulé assigné aux documents décrits. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
+        <p>CHAMP OBLIGATOIRE CONDITIONNEL. L'intitulé assigné aux documents décrits. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
         <p>Voir DACS 2.3</p>
         <p>Exemples:</p>
         <ul>
@@ -1450,9 +1450,9 @@ fr:
       update_assessment_record: créer/actualiser des notices d'évaluation
       delete_assessment_record: supprimer des notices d'évaluation
       manage_assessment_attributes: créer/mettre à jour/supprimer des définitions d'attributs d'évaluation du service
-      manage_enumeration_record: créer/mettre à jour/supprimer des enregistrements de valeurs contrôlées
-    _singular: Group
-    _plural: Groups
+      manage_enumeration_record: créer/mettre à jour/supprimer des notices de valeurs contrôlées
+    _singular: Groupe
+    _plural: Groupes
 
   resource:
     <<: *archival_object_attributes
@@ -1969,6 +1969,7 @@ fr:
     sponsor_set_desc_required: La description du jeu de sponsors est requise pour créer un jeu de sponsors OAI
     sponsor_set_name_required: Le nom du sponsor est requis pour créer un sponsor OAI
 
+
   job:
     _singular: Tâche d'arrière-plan
     _plural: Tâches d'arrière-plan
@@ -1979,6 +1980,7 @@ fr:
       find_and_replace_job: Rechercher et remplacer en masse (Bêta)
       report_job: Rapports
       container_conversion_job: Rapports
+      generate_slugs_job: Générer des URL sémantiques pour les entitées
       unknown_job_type: Type de tâche inconnu
     status: Statut
     status_completed: Effectuée
