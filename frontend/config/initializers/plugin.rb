@@ -239,7 +239,7 @@ module Plugins
 
     def render_readonly(view_context, record, form_context)
       view_context.render_aspace_partial(
-        :partial => "search/embedded",
+        :partial => @erb_template,
         :locals => {
           :record => record,
           :filter_term => @filter_term_proc.call(record),
@@ -257,6 +257,7 @@ module Plugins
       @show_on_edit = false
       @filter_term_proc = opts.fetch(:filter_term_proc)
       @heading_text = opts.fetch(:heading_text)
+      @erb_template = opts.fetch(:erb_template, "search/embedded")
     end
 
   end
