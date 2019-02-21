@@ -265,7 +265,8 @@ module ApplicationHelper
         html << " #{Time.parse(hash['user_mtime']).getlocal}"
         html << ' | '
         html << "<strong>URI:</strong> "
-        html << "<input type=\"text\" readonly=\"1\" value=\"#{hash['uri']}\" size=\"#{hash['uri'].length}\"/>"
+        html << "<input type=\"text\" readonly=\"1\" value=\"#{hash['uri']}\" size=\"#{hash['uri'].length}\"
+            style=\"background: #f1f1f1 !important; border: none !important; font-family: monospace;\"/>"
       else
         html << "<dl>"
         html << "<dt>#{I18n.t("search_results.created")} #{hash['created_by']}</dt>"
