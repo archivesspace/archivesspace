@@ -713,4 +713,10 @@ class ApplicationController < ActionController::Base
   helper_method :current_record
 
 
+  def controller_supports_current_record?
+    self.method(:current_record).owner != ApplicationController
+  end
+
+  helper_method :'controller_supports_current_record?'
+
 end
