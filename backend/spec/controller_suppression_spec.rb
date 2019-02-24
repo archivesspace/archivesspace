@@ -11,7 +11,7 @@ describe 'Record Suppression' do
 
     expect {
       test_accession.save
-    }.to raise_error(ReadOnlyException)
+    }.to raise_error(ConflictException)
   end
 
 

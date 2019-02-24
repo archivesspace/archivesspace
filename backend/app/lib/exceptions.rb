@@ -136,6 +136,10 @@ module Exceptions
           json_response({:error => request.env['sinatra.error'].params}, 400)
         end
 
+        error ReadOnlyException do
+          json_response({:error => request.env['sinatra.error']}, 409)
+        end
+
         error UserNotFoundException do
           json_response({:error => {"member_usernames" => [request.env['sinatra.error']]}}, 400)
         end
