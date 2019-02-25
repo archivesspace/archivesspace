@@ -36,6 +36,10 @@ PLUGINS = [
     :path => 'plugins/editable_external_ids',
     :url => 'https://github.com/hudmol/editable_external_ids.git',
   },
+  {
+    :path => 'plugins/as_mogwai',
+    :url => 'https://github.com/hudmol/as_mogwai.git',
+  }
 ]
 
 
@@ -89,7 +93,7 @@ def main
     puts ""
     puts "  * #{ENV['SCRIPT']} lose-my-work [ref]  -- clean and force update all plugins to `ref` (or to master if `ref` not given.)"
     puts ""
-    puts "Remotes will use https by default.  To use SSH instead: export GIT_SSH=1"
+    puts "Remotes will use https by default.  To use SSH instead: export GIT_PINEAPPLES_CLONE_WITH_SSH=1"
     puts ""
 
     exit
@@ -141,7 +145,7 @@ def main
       # Clone
       url = plugin[:url]
 
-      if ENV['GIT_SSH']
+      if ENV['GIT_PINEAPPLES_CLONE_WITH_SSH']
         url.gsub!('https://github.com/', 'git@github.com:')
       end
 
