@@ -117,9 +117,10 @@
               :record => @agent, 
               :filter_term => {"linked_record_uris" => @agent.uri}.to_json, :heading_text => I18n.t("event._plural")} %>
 
-        <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_surveyor_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_surveyed_by"), :section_id => 'linked_assessments_surveyed_by'} %>
-
-        <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_reviewer_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_reviewer"), :section_id => 'linked_assessments_reviewer'} %>
+        <% if @agent.agent_type == 'agent_person' %>
+          <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_surveyor_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_surveyed_by"), :section_id => 'linked_assessments_surveyed_by'} %>
+          <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_reviewer_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_reviewer"), :section_id => 'linked_assessments_reviewer'} %>
+        <% end %>
 
       <% end %>
     </div>
