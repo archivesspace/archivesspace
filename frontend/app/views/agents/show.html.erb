@@ -105,9 +105,6 @@
           <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "#{@agent.agent_type}_external_documents" } %>
         <% end %>
 
-        <%= show_plugins_for(@agent, readonly) %>
-
-
         <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"agent_uris" => @agent.uri}.to_json, :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"rights_statement_agent_uris" => @agent.uri}.to_json, :heading_text => I18n.t("agent._frontend.section.linked_via_rights_statement")} %>
@@ -122,6 +119,7 @@
           <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_reviewer_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_reviewer"), :section_id => 'linked_assessments_reviewer'} %>
         <% end %>
 
+        <%= show_plugins_for(@agent, readonly) %>
       <% end %>
     </div>
   </div>
