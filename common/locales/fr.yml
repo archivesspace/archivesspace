@@ -1975,11 +1975,11 @@ fr:
     _plural: Tâches d'arrière-plan
     job_type: Type de tâche
     types:
-      print_to_pdf_job: Imprimer en PDF
+      print_to_pdf_job: Générer un PDF
       import_job: Importer des données
       find_and_replace_job: Rechercher et remplacer en masse (Bêta)
-      report_job: Rapports
-      container_conversion_job: Rapports
+      report_job: Creer un rapport
+      container_conversion_job: Creer un rapport
       generate_slugs_job: Générer des URL sémantiques pour les entitées
       unknown_job_type: Type de tâche inconnu
     status: Statut
