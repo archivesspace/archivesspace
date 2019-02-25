@@ -1080,6 +1080,7 @@ ja:
         status_changed_canceled: ジョブがキャンセルされました。
         no_active_jobs: アクティブなジョブはありません。
         no_archived_jobs: アーカイブされたジョブはありません。
+        uploading: 仕事をアップロードしています...
         upload_successful: アップロードが成功しました。ジョブページにリダイレクトしています...
         import_type_missing: インポートタイプを選択してください
         queue_position_next: このジョブは次のキューにあります。

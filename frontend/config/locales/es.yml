@@ -1071,6 +1071,7 @@
         status_changed_canceled: El trabajo de importación ha sido cancelado.
         no_active_jobs: No hay trabajos de importación activos.
         no_archived_jobs: No hay trabajos de importación archivados.
+        uploading: Subiendo el trabajo...
         upload_successful: Imagen subida con exito. Redirigiendo a la página de trabajo...
         import_type_missing: Por favor, seleccione un tipo de importación
         queue_position_next: Esta importación es la siguiente.

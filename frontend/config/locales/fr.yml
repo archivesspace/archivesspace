@@ -1069,6 +1069,7 @@ fr:
         status_changed_canceled: La tâche a été annulée.
         no_active_jobs: Pas de tâche active.
         no_archived_jobs: Pas de tâches archivées.
+        uploading: Chargement de tâche...
         upload_successful: Téléversement réussi. Redirection vers la page de tâche...
         import_type_missing: Veuillez sélectionner un type d'import
         queue_position_next: Cet import est le prochain dans la queue.

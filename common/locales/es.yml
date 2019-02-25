@@ -1997,6 +1997,11 @@ es:
     jsonmodel_type: Registro o tipo de subregistro
     record_type: Registro o tipo de subregistro
     property: Propiedad
+    base_record_uri: URI de recuerdo base
+
+  print_to_pdf_job:
+    include_unpublished: Incluir sin publicar
+    source: Fuente
 
   print_to_pdf_job:
     include_unpublished: Incluir no publicado

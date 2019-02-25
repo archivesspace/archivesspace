@@ -2018,9 +2018,11 @@ fr:
     jsonmodel_type: Type de notice ou de sous-notice
     record_type: Type de notice ou de sous-notice
     property: Propriété cible
+    base_record_uri: URI de enregistrement de base
 
   print_to_pdf_job:
     include_unpublished: Inclure ce qui n'est pas publié
+    source: Source
 
   advanced_search:
     type:

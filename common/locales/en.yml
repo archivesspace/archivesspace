@@ -2018,9 +2018,11 @@ en:
     jsonmodel_type: Record or subrecord type
     record_type: Record or subrecord type
     property: Target property
+    base_record_uri: Base Record URI
 
   print_to_pdf_job:
     include_unpublished: Include Unpublished
+    source: Source
 
   advanced_search:
     type:
