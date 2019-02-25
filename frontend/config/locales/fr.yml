@@ -98,7 +98,7 @@ fr:
     publish_confirm_message: "<p>Effectuer cette opération publiera cette notice, toutes les éventuelles sous-notices (Documents externes, notes, etc.) et tous les composants de la hiérarchie.</p>"
     view_search_results: Aller aux résultats de la recherche
     view_published: Voir publiés
-    print_to_pdf: Imprimer ressource en PDF
+    print_to_pdf: Générer un PDF
     resource_to_pdf: Ressource à imprimer
     download_pdf: Télécharger PDF
     download_report: Télécharger rapport
@@ -1049,7 +1049,7 @@ fr:
       audit_data: Audit Data
       actions:
         create: Créer job
-        save: Mettre la tâche en file d'attente
+        save: Commencer tâche
         new: Nouvelle tâche d'arrière-plan
         cancel: Annuler tâche
         add_file: Ajouter fichier

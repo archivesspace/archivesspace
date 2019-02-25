@@ -104,7 +104,7 @@ ja:
       </p>"
     view_search_results: 検索結果に移動
     view_published: ビューの公開
-    print_to_pdf: PDFへのリソースの印刷
+    print_to_pdf: PDFを生成
     resource_to_pdf: 印刷するリソース
     download_pdf: PDFをダウンロード
     download_report: ダウンロードレポート
@@ -1039,7 +1039,7 @@ ja:
       audit_data: 監査データ
       actions:
         create: ジョブの作成
-        save: キュージョブ
+        save: 仕事を始める
         new: 新しいバックグラウンドジョブ
         cancel: ジョブをキャンセルする
         add_file: ファイルを追加する

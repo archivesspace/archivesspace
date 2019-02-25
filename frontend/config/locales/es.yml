@@ -98,7 +98,7 @@
     publish_confirm_message: "<p>Realizar esta acción va a publicar este documento, los registros secundarios (documentos externos, notas, etc.) y todos los componentes de la jerarquía.</p>"
     view_search_results: Ir a los resultados de búsqueda
     view_published: Ver publicados
-    print_to_pdf: Imprimir Fondos en PDF
+    print_to_pdf: Generar PDF
     resource_to_pdf: Fondo a imprimir
     download_pdf: Descargar PDF
     download_report: Descargar Informe
@@ -1030,7 +1030,7 @@
       audit_data: Datos de auditoría
       actions:
         create: Crear tarea
-        save: Guardar tarea
+        save: Empezar tarea
         new: Nueva tarea en el background
         cancel: Cancelar tarea
         add_file: Agregar archivo
