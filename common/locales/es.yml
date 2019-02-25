@@ -1,4 +1,6 @@
-﻿es:
+# NOTE: Many of the translations in this file have been generated using
+# Google translate
+es:
   states:
     suppressed: Bloqueado
     deleted: Eliminado
@@ -1957,6 +1959,7 @@
       find_and_replace_job: Busca y reemplaza en bloque (Beta)
       report_job: Crear informe
       container_conversion_job: Crear informe
+      generate_slugs_job: Generar Slugs para Entidades
       unknown_job_type: Tipo de trabajo desconocido
     status: Estado
     status_completed: Completado
