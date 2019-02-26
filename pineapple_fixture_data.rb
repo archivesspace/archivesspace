@@ -370,6 +370,37 @@ AGENCIES = [
   "Blair Athol State School",
 ]
 
+FUNCTIONS = [
+  "Health",
+  "Education",
+  "Employment",
+  "Housing and accommodation",
+  "Child welfare",
+  "Personal finance and taxation",
+  "Pensions and benefits",
+  "Vocational training",
+  "Property",
+  "Issue of Certificates of Entitlement",
+  "Removals",
+  "Industrial operators",
+  "Recreation",
+  "Settlements, missions, camps",
+  "Pastoral operations",
+  "Regional development",
+  "Protection and preservation of relics",
+]
+
+MANDATES = [
+  "Local Authorities Act 1902",
+  "City of Brisbane Act 1924",
+  "Order in Council 29 Jun 1905",
+  "Local Government Acts 1936-1948",
+  "Queensland - British Food Corporation (Winding Up) Act 1953",
+  "Corrective Services Act 1988",
+  "Corrective Services Act 2000",
+  "Corrective Services Act 2006",
+]
+
 SPLASH = [
   31,139,8,0,60,219,100,92,0,3,157,153,75,114,227,186,18,68,231,189,10,33,8,112,0,4,185,0,32,16,232,29,112,7,4,39,24,96,84,59,224,218,223,41,202,31,185,187,175,65,63,77,174,172,43,103,215,39,43,43,
   139,126,60,222,95,190,152,30,42,111,118,145,245,241,242,74,61,156,143,241,235,215,231,219,211,21,31,50,32,171,111,254,248,252,60,74,143,251,207,160,30,221,21,201,225,0,202,151,240,137,228,125,88,110,32,61,126,213,207,127,
@@ -413,7 +444,8 @@ SPLASH = [
 ]
 
 def main
-  RequestContext.open(:current_username => 'admin') do
+  RequestContext.open(:current_username => 'admin',
+                      :is_high_priority => true) do
     unless Repository[:repo_code => REPO_CODE]
       $stderr.puts("Creating repo: #{REPO_CODE}")
       Repository.create_from_json(JSONModel.JSONModel(:repository).from_hash('repo_code' => REPO_CODE, 'name' => REPO_CODE))
@@ -451,8 +483,18 @@ def main
                                                      'resource' => {'ref' => resource.uri}))
       end
     end
-  end
 
+    FUNCTIONS.each do |function_name|
+      $stderr.puts("Creating function: #{function_name}")
+      Function.create_from_json(JSONModel.JSONModel(:function).from_hash('title' => function_name))
+    end
+
+    MANDATES.each do |mandate_name|
+      $stderr.puts("Creating mandate: #{mandate_name}")
+      Mandate.create_from_json(JSONModel.JSONModel(:mandate).from_hash('title' => mandate_name,
+                                                                       'mandate_type' => 'legislation'))
+    end
+  end
 
   puts ""
   puts "=" * 80
