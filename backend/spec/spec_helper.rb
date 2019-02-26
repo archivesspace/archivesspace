@@ -14,6 +14,10 @@ require_relative "../app/model/db"
 require_relative "json_record_spec_helper"
 require_relative "custom_matchers"
 
+require 'digest/sha1'
+require 'tmpdir'
+require 'fileutils'
+
 
 Dir.glob(File.join(File.dirname(__FILE__), '../', '../', 'common', 'lib', "*.jar")).each do |file|
   require file
@@ -29,6 +33,12 @@ class DB
   end
 
   class DBPool
+
+    def build_migration_file_checksum(migration_dirs)
+      Digest::SHA1.hexdigest(migration_dirs.map {|migration_dir|
+                               Dir.glob(File.join(migration_dir, "*.rb"))
+                             }.flatten.sort.inspect)
+    end
 
     def connect
       # If we're not connected, we're in the process of setting up the primary
@@ -49,6 +59,31 @@ class DB
           end
         end
 
+        dumpfile = File.join(Dir.tmpdir, "aspace_test_derby_dump.dmp")
+        migration_dirs = ([DBMigrator::MIGRATIONS_DIR] + DBMigrator::PLUGIN_MIGRATION_DIRS.values)
+
+        if test_db_url =~ /derby/ && File.exist?(dumpfile)
+          needs_refresh = false
+
+          # If any of our migrations files is newer than our dump, the dump needs to be refreshed.
+          needs_refresh ||= migration_dirs.any? {|migration_dir|
+            Dir.glob(File.join(migration_dir, "*.rb")).any? {|migration|
+              File.mtime(migration) >= File.mtime(dumpfile)
+            }
+          }
+
+          # If new plugins were installed or removed, we need a refresh for that too
+          needs_refresh ||= (File.read(File.join(dumpfile, "checksum.txt")) != build_migration_file_checksum(migration_dirs))
+
+          if needs_refresh
+            FileUtils.rm_rf(dumpfile)
+          else
+            puts "Loading initial DB state from copy: #{dumpfile}"
+            test_db_url = "jdbc:derby:memory:fakedb;restoreFrom=#{dumpfile}/fakedb"
+            ENV['ASPACE_TEST_DB_PERSIST'] = '1'
+          end
+        end
+
         @pool = Sequel.connect(test_db_url,
                                :max_connections => 10,
                                #:loggers => [Logger.new($stderr)]
@@ -59,6 +94,13 @@ class DB
         end
 
         DBMigrator.setup_database(@pool)
+
+        if test_db_url =~ /derby/ && !ENV['ASPACE_TEST_DB_PERSIST']
+          FileUtils.rm_rf(dumpfile) if File.exist?(dumpfile)
+          @pool.run("CALL SYSCS_UTIL.SYSCS_BACKUP_DATABASE('#{dumpfile}')")
+          File.write(File.join(dumpfile, "checksum.txt"), build_migration_file_checksum(migration_dirs))
+          puts "Wrote new unit test DB cache to #{dumpfile}.  Subsequent runs will load this to avoid remigrations."
+        end
 
         self
       else
