@@ -39,6 +39,10 @@ PLUGINS = [
   {
     :path => 'plugins/as_mogwai',
     :url => 'https://github.com/hudmol/as_mogwai.git',
+  },
+  {
+    :path => 'plugins/as_runcorn',
+    :url => 'https://github.com/hudmol/as_runcorn.git',
   }
 ]
 
