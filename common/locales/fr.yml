@@ -1694,7 +1694,7 @@ fr:
   user:
     username: Nom d'utilisateur
     username_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le nom d'utilisateur pour le compte dont l'utilisateur se servira pour s'authentifier dans l'application.</P>
+        <p>CHAMP OBLIGATOIRE. Le nom d'utilisateur pour le compte dont l'utilisateur se servira pour s'authentifier dans l'application. Les caractères autorisés incluent a-z, A-Z, @, nombres, trait d'union, tiret et point.</P>
     name: Nom complet
     name_tooltip: |
         <p>CHAMP OBLIGATOIRE. Le nom complet de l'utilisateur désigné par le nom d'utilisateur.</p>
@@ -1968,7 +1968,7 @@ fr:
     must_be_a_valid_email_address: Doit contenir une adresse valide
     sponsor_set_desc_required: La description du jeu de sponsors est requise pour créer un jeu de sponsors OAI
     sponsor_set_name_required: Le nom du sponsor est requis pour créer un sponsor OAI
-
+    invalid_characters: Contient des caractères non valides
 
   job:
     _singular: Tâche d'arrière-plan

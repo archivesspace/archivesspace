@@ -1260,7 +1260,7 @@ ja:
 
   user:
     username: ユーザー名
-    username_tooltip: "<p>必要なフィールド。ユーザーがアプリケーションの認証に使用するアカウントのユーザー名。 </P>"
+    username_tooltip: "<p>必要なフィールド。ユーザーがアプリケーションの認証に使用するアカウントのユーザー名。 許可される文字には、a〜z、A〜Z、@、数字、ハイフン、ダッシュ、およびドットが含まれます。</P>"
     name: フルネーム
     name_tooltip: "<p>必要なフィールド。ユーザー名で指定されたユーザーのフルネーム。 </p>"
     password: パスワード
@@ -1491,6 +1491,7 @@ ja:
     must_be_a_valid_email_address: 有効な住所を含める必要があります
     sponsor_set_desc_required: OAIスポンサーセットを作成するにはスポンサーセットの説明が必要です
     sponsor_set_name_required: OAIスポンサーセットを作成するにはスポンサーセット名が必要です
+    invalid_characters: 無効な文字が含まれています
 
   job:
     _singular: バックグラウンドジョブ
