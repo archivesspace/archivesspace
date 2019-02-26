@@ -455,12 +455,16 @@ def main
 
     AGENCIES.each do |agency_name|
       $stderr.puts("Creating agency: #{agency_name}")
-      AgentCorporateEntity.create_from_json(JSONModel.JSONModel(:agent_corporate_entity)
-                                              .from_hash('names' => [{'jsonmodel_type' => 'name_corporate_entity',
-                                                                      'source' => 'local',
-                                                                      'primary_name' => agency_name,
-                                                                      'sort_name_auto_generate' => true}]))
+      agency = AgentCorporateEntity.create_from_json(JSONModel.JSONModel(:agent_corporate_entity)
+                                                       .from_hash('names' => [{'jsonmodel_type' => 'name_corporate_entity',
+                                                                                'source' => 'local',
+                                                                                'primary_name' => agency_name,
+                                                                                'sort_name_auto_generate' => true}]))
+
+      # the default is 'draft' but we want these existing agencies to come in as 'approved'
+      agency.update('registration_state' => 'approved')
     end
+
 
     5.times do |resource_number|
       $stderr.puts("Creating resource: #{resource_number}:")
