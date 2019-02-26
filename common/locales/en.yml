@@ -1976,11 +1976,11 @@ en:
     _plural: Background Jobs
     job_type: Job Type
     types:
-      print_to_pdf_job: Print To PDF
+      print_to_pdf_job: Generate PDF
       import_job: Import Data
       find_and_replace_job: Batch Find and Replace (Beta)
-      report_job: Reports
-      container_conversion_job: Reports
+      report_job: Create Report
+      container_conversion_job: Create Report
       generate_slugs_job: Generate Slugs for Entities
       unknown_job_type: Unknown job type
     status: Status
@@ -2019,9 +2019,11 @@ en:
     jsonmodel_type: Record or subrecord type
     record_type: Record or subrecord type
     property: Target property
+    base_record_uri: Base Record URI
 
   print_to_pdf_job:
     include_unpublished: Include Unpublished
+    source: Source
 
   advanced_search:
     type:

@@ -100,7 +100,7 @@
     publish_confirm_message: "<p>Realizar esta acción va a publicar este documento, los registros secundarios (documentos externos, notas, etc.) y todos los componentes de la jerarquía.</p>"
     view_search_results: Ir a los resultados de búsqueda
     view_published: Ver publicados
-    print_to_pdf: Imprimir Fondos en PDF
+    print_to_pdf: Generar PDF
     resource_to_pdf: Fondo a imprimir
     download_pdf: Descargar PDF
     download_report: Descargar Informe
@@ -1051,7 +1051,7 @@
       audit_data: Datos de auditoría
       actions:
         create: Crear tarea
-        save: Guardar tarea
+        save: Empezar tarea
         new: Nueva tarea en el background
         cancel: Cancelar tarea
         add_file: Agregar archivo
@@ -1071,6 +1071,7 @@
         status_changed_canceled: El trabajo de importación ha sido cancelado.
         no_active_jobs: No hay trabajos de importación activos.
         no_archived_jobs: No hay trabajos de importación archivados.
+        uploading: Subiendo el trabajo...
         upload_successful: Imagen subida con exito. Redirigiendo a la página de trabajo...
         import_type_missing: Por favor, seleccione un tipo de importación
         queue_position_next: Esta importación es la siguiente.

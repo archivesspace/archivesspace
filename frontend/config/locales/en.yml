@@ -98,7 +98,7 @@ en:
     publish_confirm_message: "<p>Performing this action will publish this record, any sub-records (External Documents, Notes, etc) and all components in the hierarchy.</p>"
     view_search_results: Go to Search Results
     view_published: View Published
-    print_to_pdf: Print Resource To PDF
+    print_to_pdf: Generate PDF
     resource_to_pdf: Resource to Print
     download_pdf: Download PDF
     download_report: Download Report
@@ -1047,9 +1047,9 @@ en:
   job:
     _frontend:
       audit_data: Audit Data
-      actions:
+      action:
         create: Create Job
-        save: Queue Job
+        save: Start Job
         new: New Background Job
         cancel: Cancel Job
         add_file: Add file
@@ -1069,6 +1069,7 @@ en:
         status_changed_canceled: The job has been canceled.
         no_active_jobs: There are no active jobs.
         no_archived_jobs: There are no archived jobs.
+        uploading: Uploading job...
         upload_successful: Upload Successful. Redirecting to Job page...
         import_type_missing: Please select an Import Type
         queue_position_next: This job is next in the queue.

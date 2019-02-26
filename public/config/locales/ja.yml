@@ -1835,12 +1835,6 @@ ja:
       novalue: 値が定義されていない
     user_defined_enum_4:
       novalue: 値が定義されていない
-    job_type:
-      print_to_pdf_job: PDFへの印刷
-      import_job: データのインポート
-      find_and_replace_job: バッチの検索と置換（ベータ版）
-      report_job: レポート
-      container_conversion_job: レポート
     dimension_units:
       inches: インチ
       feet: 足
