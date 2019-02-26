@@ -663,22 +663,24 @@ class EADSerializer < ASpaceExport::Serializer
     # ANW-697: If no Language Text subrecords are available, the Language field translation values for each Language and Script subrecord should be exported, separated by commas, enclosed in <language> elements with associated @langcode and @scriptcode attribute values, and terminated by a period.
     else
       languages = languages.map{|l| l['language_and_script']}.compact
-      xml.langmaterial {
-        languages.map {|language|
-          punctuation = language.equal?(languages.last) ? '.' : ', '
-          lang_translation = I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
-          if language['script']
-            xml.language(:langcode => language['language'], :scriptcode => language['script']) {
-              xml.text(lang_translation)
-            }
-          else
-            xml.language(:langcode => language['language']) {
-              xml.text(lang_translation)
-            }
-          end
-          xml.text(punctuation)
+      if !languages.empty?
+        xml.langmaterial {
+          languages.map {|language|
+            punctuation = language.equal?(languages.last) ? '.' : ', '
+            lang_translation = I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
+            if language['script']
+              xml.language(:langcode => language['language'], :scriptcode => language['script']) {
+                xml.text(lang_translation)
+              }
+            else
+              xml.language(:langcode => language['language']) {
+                xml.text(lang_translation)
+              }
+            end
+            xml.text(punctuation)
+          }
         }
-      }
+      end
     end
   end
 
