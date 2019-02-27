@@ -462,7 +462,8 @@ def main
                                                                                 'sort_name_auto_generate' => true}]))
 
       # the default is 'draft' but we want these existing agencies to come in as 'approved'
-      agency.update('registration_state' => 'approved')
+      agency.update('registration_state' => 'approved',
+                    'registration_last_action' => 'approve')
     end
 
 
