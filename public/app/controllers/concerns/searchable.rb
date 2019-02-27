@@ -331,6 +331,15 @@ module Searchable
     default.each do |k,v|
       opts[k] = v
     end
+    if AppConfig[:solr_params].any?
+      AppConfig[:solr_params].each do |param, value|
+        if value.respond_to? :call
+          opts[param.to_sym] = self.instance_eval(&value)
+        else
+          opts[param.to_sym] = value
+        end
+      end
+    end
     opts
   end
 

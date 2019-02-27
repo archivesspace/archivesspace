@@ -85,6 +85,8 @@ AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory],
 #      "pf" => 'title^10',
 #      "ps" => 0,
 #    }
+# For more information about solr parameters, please consult the solr documentation
+# here: https://lucene.apache.org/solr/
 # Configuring search operator to be AND by default - ANW-427
 AppConfig[:solr_params] = { "q.op" => "AND" }
 
