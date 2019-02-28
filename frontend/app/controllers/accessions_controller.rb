@@ -27,6 +27,7 @@ class AccessionsController < ApplicationController
 
   def show
     @accession = fetch_resolved(params[:id])
+    @accession['accession_date'] = 'undated' if @accession['accession_date'] == "9999-12-31"
 
     flash[:info] = I18n.t("accession._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:accession => @accession)) if @accession.suppressed
   end
