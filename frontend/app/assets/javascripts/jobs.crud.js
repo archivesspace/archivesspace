@@ -6,74 +6,40 @@ var init = function() {
 
     var initReportJobForm = function() {
 
-        $("#job_form_messages", $form)
-            .html(AS.renderTemplate("template_report_instructions"));
-        // we disable to form...
-        $('.btn-primary:submit').addClass('disabled');
+        var locationReportSubFormChange = function() {
+            var selected_report_type = $("#job_job_params_location_report_type_").val();
 
-        $(document).triggerHandler("subrecordcreated.aspace", ["date", $form]);
-        $('.select-record', $form).on("click", function(event) {
-            $('.accordion-toggle').click();
-            $('.btn-primary:submit').removeClass('disabled');
-            event.preventDefault();
-            var report = $(this).data('report');
-            var $listing = $(this).parent();
-            $(this).siblings(".selected-message").removeClass("hide")
-            $(this).addClass("hide")
-            $listing.removeClass('alert-info').addClass('alert-success');
-            $listing.parent().siblings('.report-listing').fadeOut('slow', function() {
-                $(this).remove();
-            });
-        });
-
-        var initLocationReportSubForm = function() {
-            $(document).on('change', '#location_report_type', function() {
-                var selected_report_type = $(this).val();
-
-                $('.report_type').hide();
-
-                var location_start_linker = $('#report_location_start');
-                var location_end_linker = $('#report_location_end');
-
-                if (selected_report_type === 'single_location') {
-                    location_end_linker.hide();
-                    location_start_linker.find('label').text(location_start_linker.data('singular-label'));
-                } else if (selected_report_type === 'location_range') {
-                    location_start_linker.find('label').text(location_start_linker.data('range-label'));
-                    location_end_linker.find('label').text(location_end_linker.data('range-label'));
-                    location_end_linker.show();
-                }
-
-                $('.report_type.' + selected_report_type).show();
-            });
-
-            $('#location_report_type').trigger('change');
+            $('.report_type').hide();        
+            $('.report_type.' + selected_report_type).show();
         };
 
-        var initCustomReportSubForm = function() {
-            $(document).on('change', '#custom_record_type', function() {
-                var selected_record_type = $(this).val();
+        $(document).on('change', '#job_job_params_location_report_type_', locationReportSubFormChange);
 
-                $('.record_type').hide();
-                $('.record_type.' + selected_record_type).show();
-            });
-            $('#custom_record_type').trigger('change');
+        var formatChange = function() {
+
+            if ($("#job_format_").val() == 'csv') {
+                $('.csv_options').show();
+            } else {
+                $('.csv_options').hide();
+            }
         };
 
-        var initFormatReportSubForm = function() {
-            $(document).on('change', "#job_format_", function() {
+        formatChange();
+        $(document).on('change', "#job_format_", formatChange);
 
-                if ($(this).val() == 'csv') {
-                    $('.csv_options').show();
-                } else {
-                    $('.csv_options').hide();
-                }
-            });
-        };
+        var initListing = function() {
+            var report = $("#job_report_type_").val();
+            $("#report-listing").html(AS.renderTemplate(
+                "template_" + report,
+                {id_path: "job_job_params", path: "job[job_params]"}));
+            if (report == "location_holdings_report") {
+                locationReportSubFormChange();
+            }
+            $(document).triggerHandler("subrecordcreated.aspace", [report, $("#report-listing")]);
+        }
 
-        initLocationReportSubForm();
-        initCustomReportSubForm();
-        initFormatReportSubForm();
+        $("#job_report_type_").change(initListing);
+        initListing();
     };
 
     var initPrintToPdfJobForm = function() {
