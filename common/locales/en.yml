@@ -1694,7 +1694,7 @@ en:
   user:
     username: Username
     username_tooltip: |
-        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application.</P>
+        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application. Permitted characters include a-z, A-Z, @, numbers, hyphen, dash, and dot.</P>
     name: Full name
     name_tooltip: |
         <p>REQUIRED FIELD. The full name of the user designated by the username.</p>
@@ -1968,6 +1968,7 @@ en:
     must_be_a_valid_email_address: Must contain a valid address
     sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
     sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
+    invalid_characters: Contains invalid characters
 
 
   job:

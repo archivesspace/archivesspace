@@ -1675,7 +1675,7 @@ es:
   user:
     username: Nombre de usuario
     username_tooltip: |
-        <p>CAMPO OBLIGATORIO. El nombre de usuario para la cuenta de que el usuario utilizará para autenticar a la aplicación.</p>
+        <p>CAMPO OBLIGATORIO. El nombre de usuario para la cuenta de que el usuario utilizará para autenticar a la aplicación. Los caracteres permitidos incluyen a-z, A-Z, @, números, guión y punto.</p>
     name: Nombre completo
     name_tooltip: |
         <p>CAMPO OBLIGATORIO. El nombre completo del usuario designado por el nombre de usuario.</p>
@@ -1948,6 +1948,7 @@ es:
     must_be_a_valid_email_address: Debe contener una dirección válida
     sponsor_set_desc_required: Se requiere la descripción del conjunto de patrocinadores para crear un conjunto de patrocinadores de OAI
     sponsor_set_name_required: Se requiere el nombre del conjunto de patrocinadores para crear un conjunto de patrocinadores de OAI
+    invalid_characters: Contiene caracteres invalidos
 
   job:
     _singular: Tarea en el background
