@@ -35,7 +35,7 @@
       },
 
 
-      "accession_date" => {"type" => "date", "minLength" => 1, "ifmissing" => "error"},
+      "accession_date" => {"type" => "date", "minLength" => 1, "default" => "9999-12-31"},
 
       "publish" => {"type" => "boolean"},
       "classifications" => {
