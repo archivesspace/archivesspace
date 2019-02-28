@@ -42,6 +42,7 @@ es:
   page_actions: Page Actions
 
   request:
+    email_header: Thank you for your request
     required: required
     user_name: Your name
     user_email: Your email address
