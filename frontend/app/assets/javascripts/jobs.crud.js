@@ -40,6 +40,7 @@ var init = function() {
         $(".unselect-report").hide();
         $("#format").hide();
         $('.btn-primary:submit').addClass('disabled');
+        $("#archivesSpaceSidebar li.form-actions").hide();
 
         $(".select-report, .report-title").click(function() {
             var code = $(this).attr("for");
@@ -51,7 +52,7 @@ var init = function() {
             $("#format").show();
             $('.btn-primary:submit').removeClass('disabled');
             $('.report-title').addClass('disabled');
-            $("#archivesSpaceSidebar li:not(.form-actions)").hide();
+            $("#archivesSpaceSidebar li").toggle();
         });
 
         $(".unselect-report").click(function() {
@@ -63,7 +64,7 @@ var init = function() {
             $("#format").hide();
             $('.btn-primary:submit').addClass('disabled');
             $('.report-title').removeClass('disabled');
-            $("#archivesSpaceSidebar li").show();
+            $("#archivesSpaceSidebar li").toggle();
         });
 
     };
