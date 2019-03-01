@@ -83,12 +83,6 @@
 
 <% @report_data['reports'].each do |code, report| %>
   <% define_template(code, jsonmodel_definition(:report_job)) do |form| %>
-    <dir class="row">
-      <div class="col-sm-2" />
-      <div class="col-sm-9" style="padding-left: 0;">
-        <%= I18n.t("reports.#{report["code"]}.description", :default => code) %>
-      </div>
-    </dir>
 
     <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
 
@@ -114,18 +108,47 @@
 
 <% define_template("report_job", jsonmodel_definition(:report_job)) do |form| %>
   
-  <%= form.label_and_select "report_type", @report_data['reports'].keys.collect {|code| [I18n.t("reports.#{code}.title"), code]} %>
+  <%= form.hidden_input :report_type %>
 
-  <div id="report-listing">
+  <div class="report-list">
+
+    <% @report_data['reports'].each do |code, report| %>
+      <div class="report-listing" for="<%= code %>">
+        <div class="heading">
+          <span class="btn btn-link report-title" for="<%= code %>">
+            <%= I18n.t("reports.#{code}.title") %>
+          </span>
+          
+          <span class="pull-right btn btn-default select-report" for="<%= code %>">
+            Select
+          </span>
+          <span class="pull-right btn btn-default unselect-report" for="<%= code %>">
+            Unselect
+          </span>
+
+        </div>
+
+        <div class="report-description" for="<%= code %>">
+          <%= I18n.t("reports.#{report["code"]}.description", :default => code) %>
+        </div>
+        
+      </div>
+      
+    <% end %>
+  </div>
+
+  <div id="report-fields">
     <%# template for selected report type is rendered here %>
   </div>
 
-  <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
-  <%= form.label_and_select :format, formats.collect{|format| [I18n.t("reports.formats.#{format}", :default => format), format]} %>
-  <div class="form-group csv_options" hidden="true">
-    <label class="col-sm-2 control-label">Linked Records in JSON</label>
-    <div class="col-sm-9 checkbox">
-      <%= check_box_tag("job[job_params][csv_show_json]") %>
+  <div id="format">
+    <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
+    <%= form.label_and_select :format, formats.collect{|format| [I18n.t("reports.formats.#{format}", :default => format), format]} %>
+    <div class="form-group csv_options" hidden="true">
+      <label class="col-sm-2 control-label">Linked Records in JSON</label>
+      <div class="col-sm-9 checkbox">
+        <%= check_box_tag("job[job_params][csv_show_json]") %>
+      </div>
     </div>
   </div>
 

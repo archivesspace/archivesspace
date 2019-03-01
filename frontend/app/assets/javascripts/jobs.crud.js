@@ -27,19 +27,43 @@ var init = function() {
         formatChange();
         $(document).on('change', "#job_format_", formatChange);
 
-        var initListing = function() {
-            var report = $("#job_report_type_").val();
-            $("#report-listing").html(AS.renderTemplate(
+        var initListing = function(report) {
+            $("#report-fields").html(AS.renderTemplate(
                 "template_" + report,
                 {id_path: "job_job_params", path: "job[job_params]"}));
             if (report == "location_holdings_report") {
                 locationReportSubFormChange();
             }
-            $(document).triggerHandler("subrecordcreated.aspace", [report, $("#report-listing")]);
+            $(document).triggerHandler("subrecordcreated.aspace", [report, $("#report-fields")]);
         }
 
-        $("#job_report_type_").change(initListing);
-        initListing();
+        $(".unselect-report").hide();
+        $("#format").hide();
+        $('.btn-primary:submit').addClass('disabled');
+
+        $(".select-report, .report-title").click(function() {
+            var code = $(this).attr("for");
+            $("#job_report_type_").val(code);
+            initListing(code);
+            $(".select-report").hide();
+            $(".unselect-report").show();
+            $(".report-listing:not([for='" + code + "'])").hide();
+            $("#format").show();
+            $('.btn-primary:submit').removeClass('disabled');
+            $('.report-title').addClass('disabled');
+        });
+
+        $(".unselect-report").click(function() {
+            $("#job_report_type_").val(null);
+            $("#report-fields").empty();
+            $(".select-report").show();
+            $(".unselect-report").hide();
+            $(".report-listing").show();
+            $("#format").hide();
+            $('.btn-primary:submit').addClass('disabled');
+            $('.report-title').removeClass('disabled');
+        });
+
     };
 
     var initPrintToPdfJobForm = function() {
