@@ -4,7 +4,11 @@
   <%= form_context :job, @job do |form| %>
     <div class="row">
       <div class="col-md-3">
-        <%= render_aspace_partial :partial => "sidebar" %>
+        <% if params[:job_type] == 'report_job' %>
+          <%= render_aspace_partial :partial => "report_sidebar", :locals => {:reports => @report_data['reports'].keys} %>
+        <% else %>
+          <%= render_aspace_partial :partial => "sidebar" %>
+        <% end %>
       </div>
       <div class="col-md-9">
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>

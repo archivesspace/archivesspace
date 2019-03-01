@@ -113,7 +113,7 @@
   <div class="report-list">
 
     <% @report_data['reports'].each do |code, report| %>
-      <div class="report-listing" for="<%= code %>">
+      <div class="report-listing" id="<%= code %>">
         <div class="heading">
           <span class="btn btn-link report-title" for="<%= code %>">
             <%= I18n.t("reports.#{code}.title") %>
