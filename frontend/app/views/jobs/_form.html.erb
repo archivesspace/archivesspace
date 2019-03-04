@@ -112,7 +112,7 @@
 
   <div class="report-list">
 
-    <% @report_data['reports'].each do |code, report| %>
+    <% @report_data['reports'].sort_by { |code, report| I18n.t("reports.#{code}.title") }.each do |code, report| %>
       <div class="report-listing" id="<%= code %>">
         <div class="heading">
           <span class="btn btn-link report-title" for="<%= code %>">
