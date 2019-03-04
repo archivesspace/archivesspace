@@ -501,6 +501,17 @@ def main
     end
   end
 
+  10.times do |i|
+    User.create_from_json(JSONModel.JSONModel(:user).from_hash(:username => "testuser#{i}",
+                                                               :name => "testuser#{i} pw is testuser",
+                                                               :source => "local",
+                                                               :is_system_user => 1))
+    DBAuth.set_password("testuser#{i}", "testuser")
+
+    puts "Created user testuser#{i} with password 'testuser'"
+  end
+
+
   puts ""
   puts "=" * 80
   puts ""
