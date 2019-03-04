@@ -29,7 +29,6 @@
   <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes"} %>
   <%= render_aspace_partial :partial => "related_agents/form", :locals => {:form => form} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents", :section_id => "#{@agent.agent_type}_external_documents", :help_topic => "#{@agent.agent_type}_external_documents"} %>
-  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_ids", :hidden => true} %>
 
 <%= form_plugins_for("agent", form) %>
 
