@@ -91,6 +91,7 @@ class AccessionsController < ApplicationController
 
   def edit
     @accession = fetch_resolved(params[:id])
+    @accession['accession_date'] = '' if @accession['accession_date'] == "9999-12-31"
 
     if @accession.suppressed
       redirect_to(:controller => :accessions, :action => :show, :id => params[:id])
