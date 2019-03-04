@@ -308,12 +308,13 @@ class IndexerCommon
 
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'accession'
-        doc['accession_date_year'] = Date.parse(record['record']['accession_date']).year
+        date = record['record']['accession_date']
+        doc['accession_date_year'] = (date == '9999-12-31') ? 'undated' : Date.parse(date).year
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
         doc['title'] = record['record']['display_string']
 
         doc['acquisition_type'] = record['record']['acquisition_type']
-        doc['accession_date'] = record['record']['accession_date']
+        doc['accession_date'] = (date == '9999-12-31') ? 'undated' : date
         doc['resource_type'] = record['record']['resource_type']
         doc['restrictions_apply'] = record['record']['restrictions_apply']
         doc['access_restrictions'] = record['record']['access_restrictions']
