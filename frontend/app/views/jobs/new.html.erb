@@ -6,12 +6,12 @@
       <div class="col-md-3">
         <% if params[:job_type] == 'report_job' %>
           <%= render_aspace_partial :partial => "report_sidebar", :locals => {:reports => @report_data['reports'].keys.sort_by { |code| I18n.t("reports.#{code}.title") }} %>
-        <% else %>
-          <%= render_aspace_partial :partial => "sidebar" %>
+        <%# else %>
+          <%#= render_aspace_partial :partial => "sidebar" %>
         <% end %>
       </div>
       <div class="col-md-9">
-        <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
+        <%#= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "job" %>
           <h2><%= I18n.t("job._frontend.action.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type]) %> <span class="label label-info"><%= I18n.t("job._singular") %></span></h2>

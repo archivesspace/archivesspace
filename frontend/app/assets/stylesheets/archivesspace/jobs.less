@@ -140,30 +140,30 @@
 }
 
 .report-list {
-  width: 100%;
+  /*margin-left: 15px;*/
+  /*margin-right: 15px;*/
+  /*padding-bottom: 15px;*/
+  margin: 15px;
+  border-top: 1px solid lightgray;
   .report-listing {
-    background-color: #d9edf7;
-    border-color: #bce8f1;
-    color: #31708f;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    margin: 10px;
+    color: #606060;
+    border-bottom: 1px solid lightgray;
+    padding-top: 15px;
+    padding-bottom: 15px;
     .heading {
-      padding-top: 8px;
-      padding-right: 8px;
+      padding-bottom: 10px;
       .report-title {
         font-weight: bold;
-
+        font-size: large;
+        padding: 0;
       }
       .report-title.disabled {
         opacity: 1;
+        /*text-decoration: none;*/
       }
-    }
-    .report-description {
-      padding-bottom: 15px;
-      padding-left: 15px;
-      padding-right: 15px;
-      padding-top: 8px;
+      .select-report, .unselect-report {
+        margin: -6px;
+      }
     }
   }
 }

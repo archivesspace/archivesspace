@@ -40,7 +40,6 @@ var init = function() {
         $(".unselect-report").hide();
         $("#format").hide();
         $('.btn-primary:submit').addClass('disabled');
-        $("#archivesSpaceSidebar li.form-actions").hide();
 
         $(".select-report, .report-title").click(function() {
             var code = $(this).attr("for");
@@ -52,6 +51,7 @@ var init = function() {
             $("#format").show();
             $('.btn-primary:submit').removeClass('disabled');
             $('.report-title').addClass('disabled');
+            $('.report-title').blur();
             $("#archivesSpaceSidebar li").toggle();
         });
 
