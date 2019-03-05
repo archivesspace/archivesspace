@@ -2,7 +2,7 @@
 module MarcXMLBaseMap
 
   AUTH_SUBJECT_SOURCE = {
-    'a'=>"Library of Congress Subject Headings",
+    'a'=>"lcsh",
     'b'=>"LC subject headings for children's literature",
     'c'=>"Medical Subject Headings",
     'd'=>"National Agricultural Library subject authority file",
@@ -15,7 +15,7 @@ module MarcXMLBaseMap
   }
 
   BIB_SUBJECT_SOURCE = {
-    '0'=>"Library of Congress Subject Headings",
+    '0'=>"lcsh",
     '1'=>"LC subject headings for children's literature",
     '2'=>"Medical Subject Headings",
     '3'=>"National Agricultural Library subject authority file",
