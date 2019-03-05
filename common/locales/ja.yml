@@ -873,6 +873,7 @@ ja:
     user_defined:
       <<: *user_defined_attributes
     accession_date: 受付日
+    accession_date_unknown: 道の
     accession_date_inline_help: 例：YYYY-MM-DD
     accession_date_tooltip: "<p>必須フィールド：加盟が行われた日付。必ずしもレコード作成時と同じ日付ではありません。 </p>"
     accession_id: 識別

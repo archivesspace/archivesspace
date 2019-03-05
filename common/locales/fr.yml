@@ -1119,6 +1119,7 @@ fr:
     user_defined:
       <<: *user_defined_attributes
     accession_date: Date d'entrée
+    accession_date_unknown: inconnu
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
         <p>CHAMP REQUIS. Date à laquelle l'entrée a eu lieu. N'est pas

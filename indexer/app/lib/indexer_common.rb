@@ -310,7 +310,7 @@ class IndexerCommon
       if doc['primary_type'] == 'accession'
         date = record['record']['accession_date']
         if date == '9999-12-31'
-          unknown = 'undated'
+          unknown = I18n.t('accession.accession_date_unknown')
           doc['accession_date_year'] = unknown
           doc['accession_date'] = unknown
           doc['fullrecord'] ||= ''
