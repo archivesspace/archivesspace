@@ -61,6 +61,7 @@ fr:
   page_actions: Page Actions
 
   request:
+    email_header: Merci pour votre requête
     required: obligatoire
     user_name: Votre nom
     user_email: Votre adresse email

@@ -37,6 +37,7 @@ ja:
     staff_link: 関係者以外立ち入り禁止
   page_actions: ページアクション
   request:
+    email_header: ご依頼ありがとうございます
     required: 必須
     user_name: あなたの名前
     user_email: メールアドレス

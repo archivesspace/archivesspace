@@ -615,7 +615,7 @@ AppConfig[:pui_page_custom_actions] = []
 #   'erb_partial' => 'shared/my_special_action',
 # }
 
-AppConfig[:use_human_readable_URLs] = true
+AppConfig[:use_human_readable_URLs] = false
 
 # Use the repository in slug based URLs
 # Warning: setting repo_slug_in_URL to true when it has previously been set to false will break links, unless all slugs are regenerated.
