@@ -433,6 +433,22 @@ module MarcXMLBaseMap
   end
 
 
+  def langmaterial_note(*tmpl_args)
+    {
+      :obj => :note_langmaterial,
+      :rel => :notes,
+      :map => {
+        "self::datafield" => -> note, node {
+          content = template ? subfield_template(template, node, *tmpl_args) : node.inner_text
+          note.label = 'Language of Material'
+          note.type = 'langmaterial'
+          note.content << content
+        }
+      }
+    }
+  end
+
+
   def adds_agent_term(term_type, prefix = "")
     -> agent, node {
       agent['_terms'] ||= []
@@ -657,6 +673,7 @@ module MarcXMLBaseMap
       :obj => :resource,
       :defaults => {
        :level => 'collection',
+       :finding_aid_script => 'Zyyy'
       },
       :map => {
         #LEADER
@@ -673,7 +690,16 @@ module MarcXMLBaseMap
         "//controlfield[@tag='008']" => -> resource, node {
           control = node.inner_text.strip
           set_record_properties nil, control[11], control[10]
-          resource.language = control[35..37]
+
+          if !control[35..37].nil?
+            make(:lang_material) do |lang|
+              lang.language_and_script = {'jsonmodel_type' => 'language_and_script', 'language' => control[35..37]}
+
+              resource.lang_materials << lang
+
+            end
+
+          end
 
           if %w(i k s).include?(control[6])
             make(:date) do |date|
@@ -711,6 +737,9 @@ module MarcXMLBaseMap
 
         # description rules
         "datafield[@tag='040']/subfield[@code='e']" => :finding_aid_description_rules,
+
+        # language of description
+        "datafield[@tag='040']/subfield[@code='b']" => :finding_aid_language,
 
         # 200s
         "datafield[@tag='210']" => mix(multipart_note('odd', "Abbreviated Title", "{$a: }{$b }{($2)}"), is_fallback_resource_title),
@@ -1034,7 +1063,21 @@ module MarcXMLBaseMap
                                                   },
                                                   "{$a }{($u)}.{\n$b.}"),
 
-        "datafield[@tag='546']" => singlepart_note('langmaterial', 'Language of Material', "{$3: }{$a }{($b)}."),
+        # ANW-697: Language notes now mapped to language of materials note inside a lang_material record
+        "datafield[@tag='546']" => -> resource, node {
+
+          content = subfield_template("{$3: }{$a }{($b)}.", node)
+
+          make(:lang_material) do |lang|
+            lang.notes = [{"jsonmodel_type": "note_langmaterial",
+                           "type": "langmaterial",
+                           "content": [content]}]
+
+            resource.lang_materials << lang
+
+          end
+
+        },
 
         "datafield[@tag='561']" => multipart_note('custodhist', 'Ownership and Custodial History', "{$3: }{$a}."),
 
