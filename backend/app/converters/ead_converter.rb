@@ -93,7 +93,9 @@ class EADConverter < Converter
 
     with 'ead' do |*|
       make :resource, {
-        :publish => att('audience') != 'internal'
+        :publish => att('audience') != 'internal',
+        :finding_aid_language => 'und',
+        :finding_aid_script => 'Zyyy'
       }
     end
 
@@ -211,32 +213,56 @@ class EADConverter < Converter
       end
     end
 
+
     with "langmaterial" do |*|
-      # first, assign the primary language to the ead
+      # if <langmaterial> contains encoded <language> tags create a matching language_and_script record
       langmaterial = Nokogiri::XML::DocumentFragment.parse(inner_xml)
-      langmaterial.children.each do |child|
-        if child.name == 'language'
-          set ancestor(:resource, :archival_object), :language, child.attr("langcode")
-          break
+      if !langmaterial.xpath('language').empty?
+        language = langmaterial.xpath('language').attr('langcode')
+        script = langmaterial.xpath('language').attr('scriptcode')
+        make :lang_material, {
+          :jsonmodel_type => 'lang_material',
+          :language_and_script => {
+            'jsonmodel_type' => 'language_and_script',
+            'language' => language.to_s,
+            'script' => script ? script.to_s : nil
+          }
+        } do |lang|
+        set ancestor(:resource, :archival_object), :lang_materials, lang
+        end
+      # Set language to undetermined if the langmaterial note does not contain a langcode attribute
+      # NOTE: Since this is triggered for each <langmaterial> found in the EAD there's the potential of creating duplicate/redundant language_and_script records with languages of 'undetermined'
+      else
+        make :lang_material, {
+          :jsonmodel_type => 'lang_material',
+          :language_and_script => {
+            'jsonmodel_type' => 'language_and_script',
+            'language' => 'und'
+          }
+        } do |lang|
+        set ancestor(:resource, :archival_object), :lang_materials, lang
         end
       end
 
       # write full tag content to a note, subbing out the language tags
       content = inner_xml
-      next if content =~ /\A<language langcode=\"[a-z]+\"\/>\Z/
-
-      if content.match(/\A<language langcode=\"[a-z]+\"\s*>([^<]+)<\/language>\Z/)
-        content = $1
+      if inner_xml.match(/(<language langcode="[a-z]+" scriptcode="[A-z]+">(.*)<\/language>)|(<language langcode="[a-z]+">(.*)<\/language>)/)
+        content = inner_xml.sub(/(<language langcode="[a-z]+" scriptcode="[A-z]+">(.*)<\/language>)|(<language langcode="[a-z]+">(.*)<\/language>)/, '\\2\\4')
       end
 
-      make :note_singlepart, {
-        :type => "langmaterial",
-        :persistent_id => att('id'),
-        :publish => att('audience') != 'internal',
-        :content => format_content( content.sub(/<head>.*?<\/head>/, '') )
+      make :lang_material, {
+        :jsonmodel_type => 'lang_material',
+        :notes => {
+          'jsonmodel_type' => 'note_langmaterial',
+          'type' => 'langmaterial',
+          'persistent_id' => att('id'),
+          'publish' => att('audience') != 'internal',
+          'content' => [format_content( content.sub(/<head>.*?<\/head>/, '') )]
+        }
       } do |note|
-        set ancestor(:resource, :archival_object), :notes, note
+        set ancestor(:resource, :archival_object), :lang_materials, note
       end
+
     end
 
 
@@ -804,10 +830,23 @@ class EADConverter < Converter
       set :finding_aid_subtitle, format_content( inner_xml )
     end
 
-    with 'langusage' do |*|
-      set :finding_aid_language, format_content( inner_xml )
+    with 'profiledesc' do |*|
+      profiledesc = Nokogiri::XML::DocumentFragment.parse(inner_xml)
+      langusage = profiledesc.xpath(".//langusage")
+      if !langusage.empty?
+        if (language = langusage.xpath('language').attr('langcode'))
+          set :finding_aid_language, language.to_s
+          if (script = langusage.xpath('language').attr('scriptcode'))
+            set :finding_aid_script, script.to_s
+          end
+          set :finding_aid_language_note, format_content( langusage.inner_text)
+        else
+          set :finding_aid_language_note, format_content( langusage )
+        end
+      else
+        set :finding_aid_language, 'und'
+      end
     end
-
 
     with 'revisiondesc/change' do |*|
       make :revision_statement
