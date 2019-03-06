@@ -7,6 +7,10 @@
       <%= link_to_help :topic => "accession_basic_information" %>
     </h3>
     <fieldset>
+      <%= render_plugin_partials("top_of_basic_information_accession",
+                                 :form => form,
+                                 :record => @accession) %>
+
        <%= form.label_and_textarea "title" %>
        <%= form.label_and_fourpartid %>
        <%= form.label_and_date "accession_date" %>

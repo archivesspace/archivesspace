@@ -13,6 +13,10 @@
         <section id="basic_information">
           <h4><%= I18n.t("digital_object._frontend.section.basic_information") %></h4>
 
+          <%= render_plugin_partials("top_of_basic_information_digital_object",
+                                     :form => readonly,
+                                     :record => digital_object) %>
+
           <%= readonly.label_and_textarea "title" %>
           <%= readonly.label_and_textfield "digital_object_id" %>
           <%= readonly.label_and_boolean "publish" %>

@@ -16,6 +16,10 @@
         <section id="basic_information">
           <h3><%= I18n.t("subject._frontend.section.basic_information") %></h3>
 
+          <%= render_plugin_partials("top_of_basic_information_subject",
+                                     :form => form,
+                                     :record => @subject) %>
+
           <%= form.label_and_textfield "authority_id" %>
           <%= form.label_and_select "source", form.possible_options_for("source", true) %>
           <%= form.label_and_textarea "scope_note" %>

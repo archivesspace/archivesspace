@@ -10,6 +10,11 @@
         <%= render_aspace_partial :partial => "shared/flash_messages" %>
         <section id="basic_information">
           <h4><%= I18n.t("archival_object._frontend.section.basic_information") %></h4>
+
+          <%= render_plugin_partials("top_of_basic_information_archival_object",
+                                     :form => readonly,
+                                     :record => @archival_object) %>
+
           <%= readonly.label_and_textarea "title" , :field_opts => { :clean => true, :escape => false } %>
           <%= readonly.label_with_field "ref_id", "<div class='identifier-display'><div class='identifier-display-part'>#{readonly["ref_id"]}</div></div>" %>
           <%= readonly.label_and_textfield "component_id" %>

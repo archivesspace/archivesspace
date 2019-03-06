@@ -15,6 +15,10 @@
           <section id="basic_information">
             <h4><%= I18n.t("resource._frontend.section.basic_information") %></h4>
 
+            <%= render_plugin_partials("top_of_basic_information_resource",
+                                       :form => readonly,
+                                       :record => @resource) %>
+
             <%= readonly.label_and_textarea "title", :field_opts => { :clean => true, :base_url => url_for(:root), :escape => false} %>
             <% if resource.id_0 %><%= readonly.label_and_fourpartid %><% end %>
             <%= readonly.label_and_select "level", readonly.possible_options_for("level", true) %>

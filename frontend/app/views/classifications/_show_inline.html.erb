@@ -12,6 +12,10 @@
           <section id="basic_information">
             <h4><%= I18n.t("classification._frontend.section.basic_information") %></h4>
 
+            <%= render_plugin_partials("top_of_basic_information_classification",
+                                       :form => form,
+                                       :record => @classification) %>
+
             <%= form.label_and_textarea "identifier" %>
             <%= form.label_and_textarea "title" %>
             <%= form.label_and_textarea "description" %>

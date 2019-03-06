@@ -33,6 +33,10 @@
   <section id="basic_information">
     <h3><%= I18n.t("job._frontend.section.basic_information") %></h3>
 
+    <%= render_plugin_partials("top_of_basic_information_job",
+                               :form => form,
+                               :record => @job) %>
+
     <%= form.label_with_field "import_type", job['import_type'] %>
 
     <div class="form-group">
