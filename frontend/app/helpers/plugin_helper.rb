@@ -42,7 +42,7 @@ module PluginHelper
   end
 
 
-  def form_plugins_for(jsonmodel_type, context)
+  def form_plugins_for(jsonmodel_type, context, object = nil)
     result = ''
     Plugins.plugins_for(jsonmodel_type).each do |plugin|
       parent = Plugins.parent_for(plugin, jsonmodel_type)
@@ -53,7 +53,7 @@ module PluginHelper
 
     end
 
-    Plugins.sections_for(context.obj, :edit).each do |sub_record|
+    Plugins.sections_for(object || context.obj, :edit).each do |sub_record|
       result << sub_record.render_edit(self, context.obj, context)
     end
 
