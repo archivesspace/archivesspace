@@ -115,16 +115,16 @@
     <% @report_data['reports'].sort_by { |code, report| I18n.t("reports.#{code}.title") }.each do |code, report| %>
       <div class="report-listing" id="<%= code %>">
         <div class="heading">
-          <a class="report-title btn btn-link" for="<%= code %>" href="javascript: void(0);">
+          <button class="report-title btn btn-link" for="<%= code %>" type="button">
             <%= I18n.t("reports.#{code}.title") %>
-          </a>
+          </button>
           
-          <a class="pull-right btn btn-primary select-report" for="<%= code %>" href="javascript: void(0);">
+          <button class="pull-right btn btn-primary select-report" for="<%= code %>" type="button">
             Select
-          </a>
-          <a class="pull-right btn btn-primary unselect-report" for="<%= code %>" href="javascript: void(0);">
+          </button>
+          <button class="pull-right btn btn-primary unselect-report" for="<%= code %>" type="button">
             Back
-          </a>
+          </button>
 
         </div>
 
