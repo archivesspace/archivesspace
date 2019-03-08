@@ -172,7 +172,7 @@ $(function() {
               $($linkerBrowseContainer).on("click", "a", function(event) {
                 event.preventDefault();
 
-                $linkerBrowseContainer.load(event.target.href, initBrowseFormInputs);
+                $linkerBrowseContainer.load(event.currentTarget.href, initBrowseFormInputs);
               });
 
               $($linkerBrowseContainer).on("submit", "form", function(event) {
