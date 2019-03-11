@@ -166,25 +166,18 @@ class SearchResultData
   end
 
   def get_type
-    type = 'multi'
+    type = nil
     if @search_data[:type]
       type = @search_data[:type]
     elsif (@search_data[:criteria]["type[]"] || []).length == 1
       type = @search_data[:criteria]["type[]"][0]
-    elsif (types = @search_data[:criteria]["type[]"] || []).length == 2
-      if types.include?('resource') && types.include?('archival_object')
-        type = 'resource'
-      elsif types.include?('digital_object') && types.include?('digital_object_component')
-        type = 'digital_object'
-      end
+      @search_data[:type] = type
     elsif terms = @search_data[:criteria]['filter_term[]']
       types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
       type = types[0] if types.length == 1
+      @search_data[:type] = type
     end
-    type = 'subjects' if type == 'subject'
-    type = 'agent' if type.include? 'agent'
-    type = 'repositories' if type == 'repository'
-    type
+    return type
   end
 
   def types
@@ -243,9 +236,7 @@ class SearchResultData
       return weightable? ? I18n.t("search.multi.relevance") : I18n.t("search_sorting.select")
     end
 
-    _sorted_by = 'title_sort' if sorted_by == 'title'
-
-    label = sort_fields[_sorted_by] || I18n.t("search.multi.#{_sorted_by}")
+    label = I18n.t("search_sorting.#{_sorted_by}")
     direction = I18n.t("search_sorting.#{current_sort_direction(index)}")
     "#{label} #{direction}"
   end

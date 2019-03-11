@@ -38,6 +38,10 @@ module SearchHelper
 
     sort = (opts["sort"] || params["sort"])
 
+    # if show_identifier_column?
+    #   search_params["display_identifier"] = true
+    # end
+
     # if the browse list was sorted by default
     if sort.nil? && !@search_data.nil? && @search_data.sorted?
       sort = @search_data[:criteria]["sort"]
@@ -99,186 +103,93 @@ module SearchHelper
     return user_can?('update_assessment_record') if record['primary_type'] === "assessment"
   end
 
-  def can_delete_search_results?(record_type)
-    case record_type
-    when 'accession', 'resource', 'digital_object'
-      user_can? 'delete_archival_record'
-    when 'assessment'
-      user_can? 'delete_assessment_record'
-    when 'subjects'
-      user_can? 'delete_subject_record'
-    when 'agent'
-      user_can? 'delete_agent_record'
-    when 'location'
-      user_can? 'update_location_record'
-    when 'classification'
-      user_can? 'delete_classification_record'
-    else
-      false
-    end
-  end
+  def add_columns
+    type = @search_data.get_type
+    type = 'agent' if type.include? 'agent'
+    type = 'classification' if type == 'classification_term'
 
-  def locales(model)
-    case model
-    when 'resource', 'archival_object'
-      {'level' => 'archival_record_level', 'language' => 'language_iso639_2',
-        'processing_priority' => 'collection_management_processing_priority'}
-    when 'accession'
-      {'processing_priority' => 'collection_management_processing_priority'}
-    when 'digital_object', 'digital_object_component'
-      {'language' => 'language_iso639_2'}
-    when 'subjects'
-      {'source' => 'subject_source', 'first_term_type' => 'subject_term_type'}
-    when 'agent'
-      {'source' => 'name_source', 'rules' => 'name_rule', 'primary_type' => 'agent.agent_type'}
-    when 'container_profile'
-      {'container_profile_dimension_units_u_sstr' => 'dimension_units'}
-    when 'location_profile'
-      {'location_profile_dimension_units_u_sstr' => 'dimension_units'}
-    when 'top_container'
-      {'type' => 'container_type'}
-    when 'assessment'
-      {'assessment_record_types' => '_singular'}
-    when 'collection_management'
-      {'parent_type' => '_singular'}
-    else
-      {'primary_type' => '_singular'}
-    end
-  end
-
-
-  def add_column(label, opts = {}, block = nil)
-    block ||= if opts[:template]
-      proc do |record|
-        render_aspace_partial :partial => opts[:template], :locals => {:record => record}
-      end
-    else
-      proc do |record|
-        v = Array(record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]])
-        if v.length > 1
-          content_tag('ul', :style => 'padding-left: 20px;') {
-            Array(v).collect { |i|
-              content_tag('li',
-                process(i, opts))
-            }.join.html_safe
-          }
-        elsif v.length == 1
-          process(v[0], opts)
-        end
-      end
-    end
-
-    opts[:sort_by] ||= (opts[:field] == 'title') ? 'title_sort' : opts[:field]
-
+  def add_column(label, block, opts = {})
     @columns ||= []
 
     if opts[:sortable] && opts[:sort_by]
-      @search_data.add_sort_field(opts[:sort_by], label)
+      add_sort_field(opts[:sort_by])
     end
 
     col = SearchColumn.new(label, block, opts, @search_data)
-    @columns.insert(opts[:index] || -1, col)
-  end
-
-  def process(data, opts)
-    case opts[:type]
-    when 'boolean'
-      I18n.t("boolean.#{data}", :default => data.to_s)
-    when 'date'
-      Date.parse(data)
-    else
-      if opts[:locale_key] == '_singular'
-        I18n.t("#{data}._singular", :default => data.to_s)
-      else
-        opts[:locale_key] = "enumerations.#{opts[:locale_key]}" unless opts[:locale_key].include?('.')
-        I18n.t("#{opts[:locale_key]}.#{data}", :default => data.to_s)
-      end
-    end
+    @columns.push(col)
   end
 
   def add_multiselect_column
     @allow_multiselect = true
-    add_column(sr_only('Selected?'), :template => 'shared/multiselect',
-      :class => 'multiselect-column')
+    add_column(sr_only('Selected?'),
+      proc { |record|
+        render_aspace_partial :partial => 'shared/multiselect', :locals => {:record => record}
+      }, :class => 'multiselect-column')
   end
 
-  def add_pref_columns(models)
-    models = [models] unless models.is_a? Array
-    added = []
-    if models.length > 1
-      add_column(I18n.t("search.multi.primary_type"), :field => 'primary_type', :locale_key => '_singular',
-        :sortable => true, :type => 'string')
-      added << 'primary_type'
-    end
-    for n in 1..AppConfig[:max_search_columns]
-      models.each do |model|
-        prop = browse_columns["#{model}_browse_column_#{n}"]
-        next if added.include?(prop) || !prop || prop == 'no_value'
+  def add_audit_info_column
+    add_column(sr_only('Audit information'),
+      proc { |record| display_audit_info(record, :format => 'compact') })
+    add_sort_field 'create_time'
+    add_sort_field 'user_mtime'
+  end
 
-        added << prop
-        opts = {:field => prop}
-        field = solr_fields[prop]
-        opts[:locale_key] = locales(model)[prop] || "#{model}_#{prop}"
-        opts[:sortable] = field && !field['multiValued']
-        opts[:type] = (field || {})['type'] || 'string'
-        if lookup_context.template_exists?("#{prop}_cell", "#{model}s", true)
-          opts[:template] = "#{model}s/#{prop}_cell"
-        elsif lookup_context.template_exists?("#{prop}_cell", model, true)
-          opts[:template] = "#{model}/#{prop}_cell"
-        elsif lookup_context.template_exists?("#{prop}_cell", 'search', true)
-          opts[:template] = "search/#{prop}_cell"
-        end
-        add_column(I18n.t("search.#{model}.#{prop}"), opts)
+  def add_user_pref_columns(model, enum_locales = {})
+    (1..5).to_a.each do |n|
+      prop = user_prefs["#{model}_browse_column_#{n}"]
+      if prop && prop != 'no_value'
+        enum_locale_key = enum_locales.has_key?(prop) ? enum_locales[prop] : "#{model}_#{prop}"
+        add_column(I18n.t("#{model}.#{prop}"),
+                   proc { |record|
+                     v = record[prop] || ASUtils.json_parse(record['json'])[prop]
+                     I18n.t("enumerations.#{enum_locale_key}.#{v}", :default => v.to_s)
+                   }, :sortable => true, :sort_by => prop)
       end
     end
   end
 
-  def multi_columns
-    @multi_columns ||= ((1..AppConfig[:max_search_columns]).collect do |n|
-      browse_columns["multi_browse_column_#{n}"]
-    end) + ['create_time', 'user_mtime', 'title_sort']
-  end
-
   def add_actions_column
-    add_column(sr_only('Actions'), :template => 'shared/actions',
-      :class => 'actions table-record-actions')
-  end
-
-  def add_linker_column
-    add_column(sr_only('Linker'),
-      proc { |record|
-        if params[:multiplicity] === 'many'
-          check_box_tag "linker-item", record["id"], false, :"data-object" => record.to_json
-        else
-          radio_button_tag "linker-item", record["id"], false, :"data-object" => record.to_json
-        end
-      })
+    add_column(sr_only('Actions'),
+      proc { | record|
+        render_aspace_partial :partial => 'shared/actions', :locals => {:record => record}
+      }, :class => 'table-record-actions')
   end
 
   def sr_only(text)
     ('<span class="sr-only">' + text + '</span>').html_safe
   end
 
-  def add_columns
-    type = @search_data.get_type
-    type = 'agent' if type.include? 'agent'
-    type = 'classification' if type == 'classification_term'
+  def get_columns
+    return @columns if @columns
 
-    add_multiselect_column if can_delete_search_results?(type) && !(request.path =~ /\/(advanced_)*search/)
-    add_linker_column if params[:linker]==='true'
+    browsing = !(request.path =~ /\/(advanced_)*search/)
 
-    if params[:include_components]
-      case type
-      when 'resource'
-        add_pref_columns ['resource', 'archival_object']
-      when 'digital_object'
-        add_pref_columns ['digital_object', 'digital_object_component']
-      end
+    case @search_data.get_type
+    when 'accession'
+      add_multiselect_column if user_can?("delete_archival_record") && browsing
+      add_column(I18n.t("accession.title"),
+        proc { |record| record['title'] },
+        :sortable => true, :sort_by => 'title_sort')
+      add_user_pref_columns('accession')
+      add_audit_info_column
     else
-      add_pref_columns(type)
+      add_column(I18n.t("search_results.result_type"),
+        proc { |record|
+          I18n.t("#{record["primary_type"]}._singular",
+            :default => I18n.t("plugins.#{record["primary_type"]}._singular"))
+        }, :sortable => true, :sort_by => 'primary_type')
+      add_column(I18n.t("search_results.result_title"),
+        proc { |record|
+          render_aspace_partial :partial => 'search/title', :locals => {:result => record}
+        }, :sortable => true, :sort_by => 'title_sort')
+      add_column(I18n.t("search_results.result_identifier"),
+        proc { |record|
+          record['identifier'] || ASUtils.json_parse(record['json'])['identifier']
+        }, :sortable => true, :sort_by => 'identifier')
+      add_audit_info_column
     end
-
     add_actions_column if !params[:linker] || params[:linker] === 'false'
+    @columns
   end
 
   def deleted(record)
@@ -320,13 +231,14 @@ module SearchHelper
     end
   end
 
-  def solr_fields
-    @solr_fields ||= ASUtils.json_parse(
-      ASHTTP.get(URI.join(AppConfig[:solr_url], 'schema'))
-      )['schema']['fields'].map { |field| [field['name'], field] }.to_h
+  def sort_fields
+    @sort_fields ||= []
   end
 
-
+  def add_sort_field(field)
+    @sort_fields ||= []
+    @sort_fields << field
+  end
 
 
   class SearchColumn
@@ -334,8 +246,7 @@ module SearchHelper
     def initialize(label, value_block, opts, search_data)
       @label = label
       @value_block = value_block
-      @classes = "col "
-      @classes << opts[:class] if opts[:class]
+      @classes = opts[:class] || "col"
       @sortable = opts[:sortable] || false
       @sort_by = opts[:sort_by] || ""
       @search_data = search_data
