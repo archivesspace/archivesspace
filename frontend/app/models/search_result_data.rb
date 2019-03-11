@@ -151,14 +151,19 @@ class SearchResultData
     end
   end
 
-  def single_type?
-    if @search_data[:criteria].has_key?("type[]")
-      @search_data[:criteria]["type[]"].length === 1
-    elsif @search_data[:type]
-      true
-    else
-      false
+  def get_type
+    type = nil
+    if @search_data[:type]
+      type = @search_data[:type]
+    elsif (@search_data[:criteria]["type[]"] || []).length == 1
+      type = @search_data[:criteria]["type[]"][0]
+      @search_data[:type] = type
+    elsif terms = @search_data[:criteria]['filter_term[]']
+      types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
+      type = types[0] if types.length == 1
+      @search_data[:type] = type
     end
+    return type
   end
 
   def types
@@ -166,9 +171,7 @@ class SearchResultData
   end
 
   def sort_fields
-    @sort_fields ||= [].concat(self.class.BASE_SORT_FIELDS)
-
-    single_type? ? @sort_fields : @sort_fields + ['primary_type']
+    @sort_fields || []
   end
 
   def sorted?
@@ -212,14 +215,14 @@ class SearchResultData
     return "#{field} #{default === "asc" ? "desc" : "asc"}"
   end
 
-  def sorted_by_label(title_label, index = 0)
+  def sorted_by_label(index = 0)
     _sorted_by = sorted_by(index)
 
     if _sorted_by.nil?
       return weightable? ? I18n.t("search_sorting.relevance") : I18n.t("search_sorting.select")
     end
 
-    label = _sorted_by == 'title_sort' ? title_label : I18n.t("search_sorting.#{_sorted_by}")
+    label = I18n.t("search_sorting.#{_sorted_by}")
     direction = I18n.t("search_sorting.#{current_sort_direction(index)}")
     "#{label} #{direction}"
   end
