@@ -32,29 +32,18 @@
 
   <% if @search_data.sorted? %>
 
- <% if @search_data.sorted? %>
-   <div class="pull-left" style="position: relative">
-     <span class="btn-group">
-       <label style="float: left;">&#160;<%= I18n.t("search_sorting.and") %>&#160;</label>
-       <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-         <div class="btn-group">
-           <span class="btn btn-xs btn-default"><%= @search_data.sorted_by_label(1) %></span>
-           <span class="btn btn-xs btn-default last"><span class="caret"></span></span>
-         </div>
-       </a>
-       <ul class="dropdown-menu pull-right">
-         <% if @search_data.weightable? %>
+    <div class="pull-left" style="position: relative">
+      <span class="btn-group">
+        <label style="float: left;">&#160;<%= I18n.t("search_sorting.and") %>&#160;</label>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          <div class="btn-group">
+            <span class="btn btn-xs btn-default"><%= @search_data.sorted_by_label(1) %></span>
+            <span class="btn btn-xs btn-default last"><span class="caret"></span></span>
+          </div>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <% if @search_data.weightable? %>
            <li><%= link_to I18n.t("search_sorting.relevance"), build_search_params("sort2" => "") %></li>
-         <% end %>
-         <% @search_data.sort_fields.each do |field, label| %>
-           <% if !@search_data.sorted_by?(field) %>
-             <li class="dropdown-submenu">
-               <%= link_to label, build_search_params("sort2" => @search_data.sort_filter_for(field, "desc")) %>
-               <ul class="dropdown-menu">
-                 <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort2" => "#{field} asc") %></li>
-                 <li><%= link_to I18n.t("search_sorting.desc"), build_search_params("sort2" => "#{field} desc") %></li>
-               </ul>
-            </li>
           <% end %>
           <% @search_data.sort_fields.each do |field, label| %>
             <% if !@search_data.sorted_by?(field) %>
