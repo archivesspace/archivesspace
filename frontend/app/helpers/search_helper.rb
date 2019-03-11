@@ -142,6 +142,12 @@ module SearchHelper
       }, :class => 'table-record-actions')
   end
 
+  def add_context_column
+    add_column(I18n.t("search_results.context"),
+      proc { |record|
+        render_aspace_partial :partial => "search/context", :locals => {:result => record} })
+  end
+
   def sr_only(text)
     ('<span class="sr-only">' + text + '</span>').html_safe
   end
@@ -151,13 +157,50 @@ module SearchHelper
 
     browsing = !(request.path =~ /\/(advanced_)*search/)
 
-    case @search_data.get_type
+    case type = @search_data.get_type
     when 'accession'
       add_multiselect_column if user_can?("delete_archival_record") && browsing
       add_column(I18n.t("accession.title"),
         proc { |record| record['title'] },
         :sortable => true, :sort_by => 'title_sort')
       add_user_pref_columns('accession')
+      add_audit_info_column
+    when 'resource', 'archival_object'
+      add_multiselect_column if user_can?('delete_archival_record') && browsing
+      add_column(I18n.t('resource.title'),
+        proc { |record| record['title'] },
+        :sortable => true, :sort_by => 'title_sort')
+      add_context_column if params[:include_components] || type == 'archival_object'
+      add_user_pref_columns('resource')
+      add_audit_info_column
+    when 'digital_object', 'digital_object_component'
+      add_multiselect_column if user_can?('delete_archival_record') && browsing
+      add_column(I18n.t('resource.title'),
+        proc { |record| record['title'] },
+        :sortable => true, :sort_by => 'title_sort')
+      add_context_column if params[:include_components] || type == 'digital_object_component'
+      add_user_pref_columns('digital_object')
+      add_audit_info_column
+    when 'assessment'
+      add_multiselect_column if user_can?('delete_assessment_record') && browsing
+
+      add_column(I18n.t("assessment.id"),
+        proc {|record| record['assessment_id']},
+        :sortable => true, :sort_by => 'assessment_id', :class => 'col-sm-1')
+      add_column(I18n.t("assessment.records"),
+        proc {|record| render_aspace_partial :partial => 'assessments/search_result_records_cell',
+          :locals => {:record => record}
+        },:sortable => false, :class => 'col-sm-6')
+      add_column(I18n.t("assessment.surveyed_by"),
+        proc {|record| render_aspace_partial :partial => 'assessments/search_result_surveyed_by_cell',
+          :locals => {:record => record}
+        }, :sortable => false, :class => 'col-sm-2')
+      add_column(I18n.t("assessment.survey_end"),
+        proc {|record| 
+          record['assessment_survey_end'] ? Date.parse(record['assessment_survey_end']) : ''
+        }, :sortable => true, :sort_by => "assessment_survey_end", :class => 'col-sm-2')
+
+      add_user_pref_columns("assessment")
       add_audit_info_column
     else
       add_column(I18n.t("search_results.result_type"),
@@ -169,6 +212,7 @@ module SearchHelper
         proc { |record|
           render_aspace_partial :partial => 'search/title', :locals => {:result => record}
         }, :sortable => true, :sort_by => 'title_sort')
+      add_context_column
       add_column(I18n.t("search_results.result_identifier"),
         proc { |record|
           record['identifier'] || ASUtils.json_parse(record['json'])['identifier']
