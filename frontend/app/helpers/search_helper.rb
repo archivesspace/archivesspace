@@ -31,10 +31,6 @@ module SearchHelper
 
     sort = (opts["sort"] || params["sort"])
 
-    # if show_identifier_column? 
-    #   search_params["display_identifier"] = true
-    # end
-
     # if the browse list was sorted by default
     if sort.nil? && !@search_data.nil? && @search_data.sorted?
       sort = @search_data[:criteria]["sort"]
@@ -99,7 +95,7 @@ module SearchHelper
     @columns ||= []
 
     if opts[:sortable] && opts[:sort_by]
-      add_sort_field(opts[:sort_by])
+      @search_data.add_sort_field(opts[:sort_by], label)
     end
 
     col = SearchColumn.new(label, block, opts, @search_data)
@@ -117,8 +113,8 @@ module SearchHelper
   def add_audit_info_column
     add_column(sr_only('Audit information'),
       proc { |record| display_audit_info(record, :format => 'compact') })
-    add_sort_field 'create_time'
-    add_sort_field 'user_mtime'
+    @search_data.add_sort_field 'create_time'
+    @search_data.add_sort_field 'user_mtime'
   end
 
   def add_user_pref_columns(model, enum_locales = {})
@@ -148,6 +144,14 @@ module SearchHelper
         render_aspace_partial :partial => "search/context", :locals => {:result => record} })
   end
 
+  def add_record_type_column
+    add_column(I18n.t("search_results.result_type"),
+      proc { |record|
+        I18n.t("#{record["primary_type"]}._singular",
+          :default => I18n.t("plugins.#{record["primary_type"]}._singular"))
+      }, :sortable => true, :sort_by => 'primary_type')
+  end
+
   def sr_only(text)
     ('<span class="sr-only">' + text + '</span>').html_safe
   end
@@ -167,6 +171,7 @@ module SearchHelper
       add_audit_info_column
     when 'resource', 'archival_object'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
+      add_record_type_column if params[:include_components]
       add_column(I18n.t('resource.title'),
         proc { |record| record['title'] },
         :sortable => true, :sort_by => 'title_sort')
@@ -175,6 +180,7 @@ module SearchHelper
       add_audit_info_column
     when 'digital_object', 'digital_object_component'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
+      add_record_type_column if params[:include_components]
       add_column(I18n.t('resource.title'),
         proc { |record| record['title'] },
         :sortable => true, :sort_by => 'title_sort')
@@ -202,12 +208,31 @@ module SearchHelper
 
       add_user_pref_columns("assessment")
       add_audit_info_column
-    else
-      add_column(I18n.t("search_results.result_type"),
+    when 'subjects'
+      add_multiselect_column if user_can?("delete_subject_record") && browsing
+      add_column(I18n.t("subject.terms"), proc { |record| record['title'] },
+        :sortable => true, :sort_by => "title_sort")
+      add_audit_info_column
+    when 'agent', 'agent_person', 'agent_software', 'agent_family', 'agent_corporate_entity'
+      add_multiselect_column if user_can?("delete_agent_record")
+      add_record_type_column if type == 'agent'
+      add_column(I18n.t('agent.name'), proc { |record| record['title'] },
+        :sortable => true, :sort_by => 'title_sort')
+      add_column(I18n.t("agent_name.authority_id"), proc {|record| record['authority_id']},
+        :sortable => true, :sort_by => "authority_id")
+      add_column(I18n.t("agent_name.source"),
         proc { |record|
-          I18n.t("#{record["primary_type"]}._singular",
-            :default => I18n.t("plugins.#{record["primary_type"]}._singular"))
-        }, :sortable => true, :sort_by => 'primary_type')
+          I18n.t("enumerations.name_source.#{record['source']}",
+            :default => record['source']) if record['source']
+        }, :sortable => true, :sort_by => "source")
+      add_column(I18n.t("agent_name.rules"),
+        proc { |record|
+          I18n.t("enumerations.name_rule.#{record['rules']}",
+            :default => record['rules']) if record['rules']
+        }, :sortable => true, :sort_by => "rules")
+      add_audit_info_column
+    else
+      add_record_type_column
       add_column(I18n.t("search_results.result_title"),
         proc { |record|
           render_aspace_partial :partial => 'search/title', :locals => {:result => record}
@@ -260,14 +285,7 @@ module SearchHelper
     end
   end
 
-  def sort_fields
-    @sort_fields ||= []
-  end
-
-  def add_sort_field(field)
-    @sort_fields ||= []
-    @sort_fields << field
-  end
+  
 
 
   class SearchColumn
