@@ -1,17 +1,5 @@
 <%= setup_context(:title => I18n.t("assessment._plural")) %>
 
-<%
-   @show_multiselect_column = true
-   @no_title = true
-
-   add_column(I18n.t("assessment.id"), proc {|record| record['assessment_id']}, :sortable => true, :sort_by => 'assessment_id', :class => 'col-sm-1')
-   add_column(I18n.t("assessment.records"), proc {|record| render_aspace_partial :partial => 'assessments/search_result_records_cell', :locals => {:record => record}}, :sortable => false, :class => 'col-sm-6')
-   add_column(I18n.t("assessment.surveyed_by"), proc {|record| render_aspace_partial :partial => 'assessments/search_result_surveyed_by_cell', :locals => {:record => record}}, :sortable => false, :class => 'col-sm-2')
-   add_column(I18n.t("assessment.survey_end"), proc {|record| record['assessment_survey_end'] ? Date.parse(record['assessment_survey_end']) : ''}, :sortable => true, :sort_by => "assessment_survey_end", :class => 'col-sm-2')
-
-   add_browse_columns("assessment")
-
-%>
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">

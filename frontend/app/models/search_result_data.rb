@@ -92,7 +92,7 @@ class SearchResultData
     return I18n.t("enumerations.subject_term_type.#{facet.to_s}", :default => facet) if facet_group === "first_term_type"
 
     if facet_group === "source"
-      if single_type? and types[0] === "subject"
+      if get_type and types[0] === "subject"
         return I18n.t("enumerations.subject_source.#{facet}", :default => facet)
       else
         return I18n.t("enumerations.name_source.#{facet}", :default => facet)
@@ -100,7 +100,7 @@ class SearchResultData
     end
 
     if facet_group === "level"
-        if single_type? and types[0] === "digital_object"
+        if get_type and types[0] === "digital_object"
           return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
         else
           return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
@@ -158,6 +158,14 @@ class SearchResultData
     elsif (@search_data[:criteria]["type[]"] || []).length == 1
       type = @search_data[:criteria]["type[]"][0]
       @search_data[:type] = type
+    elsif (types = @search_data[:criteria]["type[]"] || []).length == 2
+      if types.include?('resource') && types.include?('archival_object')
+        type = 'resource'
+        @search_data[:type] = type
+      elsif types.include?('digital_object') && types.include?('digital_object_component')
+        type = 'digital_object'
+        @search_data[:type] = type
+      end
     elsif terms = @search_data[:criteria]['filter_term[]']
       types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
       type = types[0] if types.length == 1
