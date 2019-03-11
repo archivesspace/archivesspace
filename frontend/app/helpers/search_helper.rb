@@ -31,9 +31,9 @@ module SearchHelper
 
     sort = (opts["sort"] || params["sort"])
 
-    if show_identifier_column? 
-      search_params["display_identifier"] = true
-    end
+    # if show_identifier_column? 
+    #   search_params["display_identifier"] = true
+    # end
 
     # if the browse list was sorted by default
     if sort.nil? && !@search_data.nil? && @search_data.sorted?
@@ -76,73 +76,9 @@ module SearchHelper
     search_params.reject{|k,v| k.blank? or v.blank?}
   end
 
-
-  def allow_multi_select?
-    @show_multiselect_column
+  def allow_multiselect?
+    @allow_multiselect ||= false
   end
-
-
-  def show_record_type?
-    !@search_data.single_type? || (@search_data[:criteria].has_key?("type[]") && @search_data[:criteria]["type[]"].include?("agent"))
-  end
-
-
-  # in case the title needs to be handled among other columns
-  def no_title!
-    @no_title = true
-  end
-
-  def show_identifier_column?
-    @display_identifier
-  end
-
-
-  def show_context_column?
-    @display_context
-  end
-
-
-  def context_column_header_label
-    @context_column_header or I18n.t("search_results.context")
-  end
-
-
-  def show_title_column?
-    @search_data.has_titles? && !@no_title
-  end
-
-
-  def title_column_header(title_header)
-    @title_column_header = title_header
-  end
-
-
-  def title_column_header_label
-    @title_column_header or I18n.t("search_results.result_title")
-  end
-
-
-  def title_sort_label
-    @title_column_header or I18n.t("search_sorting.title_sort")
-  end
-
-  def identifier_column_header_label
-    I18n.t("search_results.result_identifier")
-  end
-
-  def identifier_for_search_result(result)
-    identifier = IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP.fetch(result["primary_type"], "")
-    unless identifier.empty?
-      if result.has_key? identifier
-        identifier = result[identifier]
-      else
-        json       = ASUtils.json_parse(result["json"])
-        identifier = json.fetch(identifier, "")
-      end
-    end
-    identifier.to_s.html_safe
-  end
-
 
   def can_edit_search_result?(record)
     return user_can?('update_container_record', record['id']) if record['primary_type'] === "top_container"
@@ -160,26 +96,32 @@ module SearchHelper
 
 
   def add_column(label, block, opts = {})
-    @extra_columns ||= []
+    @columns ||= []
 
     if opts[:sortable] && opts[:sort_by]
-      @search_data.sort_fields << opts[:sort_by]
+      add_sort_field(opts[:sort_by])
     end
 
-    col = ExtraColumn.new(label, block, opts, @search_data)
-    @extra_columns.push(col)
+    col = SearchColumn.new(label, block, opts, @search_data)
+    @columns.push(col)
   end
 
-  def add_identifier_column
-    prop = "identifier" 
-    add_column(identifier_column_header_label,
-                   proc { |record|
-                      record[prop] || ASUtils.json_parse(record['json'])[prop]
-                   }, :sortable => true, :sort_by => prop)
-
+  def add_multiselect_column
+    @allow_multiselect = true
+    add_column(sr_only('Selected?'),
+      proc { |record|
+        render_aspace_partial :partial => 'shared/multiselect', :locals => {:record => record}
+      }, :class => 'multiselect-column')
   end
 
-  def add_browse_columns(model, enum_locales = {})
+  def add_audit_info_column
+    add_column(sr_only('Audit information'),
+      proc { |record| display_audit_info(record, :format => 'compact') })
+    add_sort_field 'create_time'
+    add_sort_field 'user_mtime'
+  end
+
+  def add_user_pref_columns(model, enum_locales = {})
     (1..5).to_a.each do |n|
       prop = user_prefs["#{model}_browse_column_#{n}"]
       if prop && prop != 'no_value'
@@ -191,6 +133,54 @@ module SearchHelper
                    }, :sortable => true, :sort_by => prop)
       end
     end
+  end
+
+  def add_actions_column
+    add_column(sr_only('Actions'),
+      proc { | record|
+        render_aspace_partial :partial => 'shared/actions', :locals => {:record => record}
+      }, :class => 'table-record-actions')
+  end
+
+  def sr_only(text)
+    ('<span class="sr-only">' + text + '</span>').html_safe
+  end
+
+  def get_columns
+    return @columns if @columns
+
+    browsing = !(request.path =~ /\/(advanced_)*search/)
+
+    case @search_data.get_type
+    when 'accession'
+      add_multiselect_column if user_can?("delete_archival_record") && browsing
+      add_column(I18n.t("accession.title"),
+        proc { |record| record['title'] },
+        :sortable => true, :sort_by => 'title_sort')
+      add_user_pref_columns('accession')
+      add_audit_info_column
+    else
+      add_column(I18n.t("search_results.result_type"),
+        proc { |record|
+          I18n.t("#{record["primary_type"]}._singular",
+            :default => I18n.t("plugins.#{record["primary_type"]}._singular"))
+        }, :sortable => true, :sort_by => 'primary_type')
+      add_column(I18n.t("search_results.result_title"),
+        proc { |record|
+          render_aspace_partial :partial => 'search/title', :locals => {:result => record}
+        }, :sortable => true, :sort_by => 'title_sort')
+      add_column(I18n.t("search_results.result_identifier"),
+        proc { |record|
+          record['identifier'] || ASUtils.json_parse(record['json'])['identifier']
+        }, :sortable => true, :sort_by => 'identifier')
+      add_audit_info_column
+    end
+    add_actions_column if !params[:linker] || params[:linker] === 'false'
+    @columns
+  end
+
+  def deleted(record)
+    params.has_key?("deleted_uri") and Array(params["deleted_uri"]).include?(record["id"])
   end
 
   def get_ancestor_title(field)
@@ -228,24 +218,22 @@ module SearchHelper
     end
   end
 
-  def extra_columns
-    @extra_columns
+  def sort_fields
+    @sort_fields ||= []
+  end
+
+  def add_sort_field(field)
+    @sort_fields ||= []
+    @sort_fields << field
   end
 
 
-  def extra_columns?
-    return false if @extra_columns == nil
-
-    !@extra_columns.empty?
-  end
-
-
-  class ExtraColumn
+  class SearchColumn
 
     def initialize(label, value_block, opts, search_data)
       @label = label
       @value_block = value_block
-      @classes = "col " << (opts[:class] || "")
+      @classes = opts[:class] || "col"
       @sortable = opts[:sortable] || false
       @sort_by = opts[:sort_by] || ""
       @search_data = search_data
