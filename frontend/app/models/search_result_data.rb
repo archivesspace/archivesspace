@@ -169,6 +169,10 @@ class SearchResultData
     type = nil
     if @search_data[:type]
       type = @search_data[:type]
+    elsif terms = @search_data[:criteria]['filter_term[]']
+      types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
+      type = types[0] if types.length == 1
+      @search_data[:type] = type
     elsif (@search_data[:criteria]["type[]"] || []).length == 1
       type = @search_data[:criteria]["type[]"][0]
       @search_data[:type] = type
@@ -180,10 +184,6 @@ class SearchResultData
         type = 'digital_object'
         @search_data[:type] = type
       end
-    elsif terms = @search_data[:criteria]['filter_term[]']
-      types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
-      type = types[0] if types.length == 1
-      @search_data[:type] = type
     end
     return type
   end
@@ -244,9 +244,18 @@ class SearchResultData
       return weightable? ? I18n.t("search_sorting.relevance") : I18n.t("search_sorting.select")
     end
 
-    label = I18n.t("search_sorting.#{_sorted_by}")
+    label = sort_fields[_sorted_by] || I18n.t("search_sorting.#{_sorted_by}")
     direction = I18n.t("search_sorting.#{current_sort_direction(index)}")
     "#{label} #{direction}"
+  end
+
+  def sort_fields
+    @sort_fields ||= {}
+  end
+
+  def add_sort_field(field, label =nil)
+    @sort_fields ||= {}
+    @sort_fields[field] = label || I18n.t("search_sorting.#{field}")
   end
 
   def query?
