@@ -3,23 +3,10 @@ class PreferencesController < ApplicationController
   set_access_control  "view_repository" => [:edit, :update]
 
   def edit
-    scope = params['global'] ? 'global' : 'repo'
-    user_prefix = params['repo'] ? '' : 'user_'
-    @current_prefs, global_repo_id = current_preferences
-    @defaults = @current_prefs['defaults']
-    level = "#{user_prefix}#{scope}"
-    @inherited_defaults = @current_prefs["defaults_global"]
-    ['user_global', 'repo', 'user_repo'].each do |lev|
-      break if lev == level
-      @inherited_defaults = @current_prefs["defaults_#{lev}"] if @current_prefs["defaults_#{lev}"]
-    end
-    opts = {}
-    if params['global']
-      opts[:repo_id] = global_repo_id
-    end
+    opts, user_scope = setup_defaults
 
-    if @current_prefs["#{user_prefix}#{scope}"]
-      pref = JSONModel(:preference).from_hash(@current_prefs["#{user_prefix}#{scope}"])
+    if @current_prefs[user_scope]
+      pref = JSONModel(:preference).from_hash(@current_prefs[user_scope])
     else
       pref = JSONModel(:preference).new({
                                           :defaults => {},
@@ -51,6 +38,7 @@ class PreferencesController < ApplicationController
                 :save_opts => opts,
                 :replace => false,
                 :on_invalid => ->(){
+                  setup_defaults
                   return render action: "edit"
                 },
                 :on_valid => ->(id){
@@ -77,6 +65,24 @@ class PreferencesController < ApplicationController
     repo_id = JSONModel(:repository).id_for(current_prefs['global']['repository']['ref'])
     
     return current_prefs, repo_id
+  end
+
+  def setup_defaults
+    scope = params['global'] ? 'global' : 'repo'
+    user_prefix = params['repo'] ? '' : 'user_'
+    @current_prefs, global_repo_id = current_preferences
+    @defaults = @current_prefs['defaults']
+    level = "#{user_prefix}#{scope}"
+    @inherited_defaults = @current_prefs["defaults_global"]
+    ['user_global', 'repo', 'user_repo'].each do |lev|
+      break if lev == level
+      @inherited_defaults = @current_prefs["defaults_#{lev}"] if @current_prefs["defaults_#{lev}"]
+    end
+    opts = {}
+    if params['global']
+      opts[:repo_id] = global_repo_id
+    end
+    return opts, "#{user_prefix}#{scope}"
   end
 
 end

@@ -1,0 +1,16 @@
+<% unless deleted(record) %>
+  <div class="btn-group">
+    <%= link_to I18n.t("actions.view"), {:controller => :resolver, :action => :resolve_readonly, :uri => record["id"]}, :class => "btn btn-xs btn-default" %>
+    <% if can_edit_search_result?(record) %>
+      <%= link_to I18n.t("actions.edit"), {:controller => :resolver, :action => :resolve_edit, :uri => record["id"]}, :class => "btn btn-xs btn-primary" %>
+    <% end %>
+  </div>
+  <% if record['primary_type'] === "repository" and @repositories.any?{|r| r['uri'] === record['id']} %>
+
+    <% if current_repo['uri'] != record['id'] %>
+      <%= form_tag({:action => :select, :id => JSONModel(:repository).id_for(record['id'])}, {:style => "display: inline;"}) do |f| %>
+        <button type="submit" class="btn btn-xs btn-success"><%= I18n.t("repository._frontend.action.select") %></button>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
