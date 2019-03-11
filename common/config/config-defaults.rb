@@ -619,9 +619,6 @@ AppConfig[:pui_page_custom_actions] = []
 #   'erb_partial' => 'shared/my_special_action',
 # }
 
-# For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
-AppConfig[:sort_accession_date_filter_asc] = false
-
 # Human-Readable URLs options
 # use_human_readable_urls: determines whether fields and options related to human-readable URLs appear in the staff interface
 
@@ -662,3 +659,6 @@ AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
+
+# Use to specify the maximum number of columns to display when searching or browsing
+AppConfig[:max_search_columns] = 5
