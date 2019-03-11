@@ -1,12 +1,1 @@
-<%
-  @show_multiselect_column = false
-  @no_title = true
-
-  add_column(I18n.t("assessment.records"), proc {|record| Array(record['assessment_records']).join('; ')}, :sortable => false)
-  add_column(I18n.t("assessment.surveyed_by"), proc {|record| Array(record['assessment_surveyors']).join('; ')}, :sortable => false)
-  add_column(I18n.t("assessment.survey_begin"), proc {|record| Date.parse(record['assessment_survey_begin'])}, :sortable => true, :sort_by => "assessment_survey_begin")
-
-  add_browse_columns("assessment")
-
-%>
 <%= render_aspace_partial :partial => "search/listing" %>
