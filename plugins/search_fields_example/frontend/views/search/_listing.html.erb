@@ -1,6 +1,19 @@
 <% if @search_data.results? %>
-
   <% add_columns %>
+
+  <%
+  # Let's add a column
+  add_column('Sample column', {:index => -2}, proc { |record| 'Added by plugin' })
+
+  # Now let's remove one
+  @columns = @columns.reject { |col| col.label.include? 'Audit information'}
+
+  # You can also add/remove columns only for when you are searching/browsing for a speccific type
+  # Let's show a level of description column for resources
+  if @search_data.get_type == 'resource'
+    add_column(I18n.t('resource.level'), :field => 'level', :enum_locale_key => 'archival_record_level', :sortable => true, :index => 2)
+  end
+  %>
 
   <%= render_aspace_partial :partial => "shared/pagination_summary" %>
 

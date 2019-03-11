@@ -1,0 +1,20 @@
+<%
+extents = ASUtils.json_parse(record['json'])['extents'] || []
+display_extents = extents.select {|extent| extent['portion'] == 'whole'}
+display_extents = extents if display_extents.empty?
+%>
+
+<% if display_extents.length == 1 %>
+  <% extent = display_extents[0] %>
+  <%= extent['number'] %>
+  <%= I18n.t('enumerations.extent_extent_type.'+extent['extent_type'], :default => extent['extent_type']) %>
+<% else %>
+  <ul style="padding-left: 20px;">
+    <% display_extents.each do |extent| %>
+      <li>
+        <%= extent['number'] %>
+        <%= I18n.t('enumerations.extent_extent_type.'+extent['extent_type'], :default => extent['extent_type']) %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
