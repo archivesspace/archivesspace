@@ -32,22 +32,27 @@
          }
 
          if ($matched && !$("." + type + "[data-target=" + elt + "]").hasClass("linked-to-field")) {
-           $("." + type + "[data-target=" + elt + "]").addClass("linked-to-field").append("<span class='glyphicon glyphicon-chevron-down'></span>").click(function() {
+             var matchedTarget = $("." + type + "[data-target=" + elt + "]");
+             matchedTarget.addClass("linked-to-field");
 
-             var $scrollTarget = $matched;
+             if (!matchedTarget.hasClass('error-field-not-found')) {
+                 matchedTarget.append("<span class='glyphicon glyphicon-chevron-down jump-to-error-link'></span>").click(function() {
 
-             // CodeMirror text areas are hidden so we can't scroll to
-             // them.  Scroll nearby :)
-             if (!$matched.is(":visible")) {
-               $scrollTarget = $matched.parent();
+                     var $scrollTarget = $matched;
+
+                     // CodeMirror text areas are hidden so we can't scroll to
+                     // them.  Scroll nearby :)
+                     if (!$matched.is(":visible")) {
+                         $scrollTarget = $matched.parent();
+                     }
+
+                     $.scrollTo($scrollTarget, 1000, {
+                         onAfter: function() {
+                             $matched.focus();
+                         }
+                     });
+                 });
              }
-
-             $.scrollTo($scrollTarget, 1000, {
-              onAfter: function() {
-                $matched.focus();
-              }
-             });
-           });
          }
        };
 
@@ -92,11 +97,7 @@
                      data-target="<%= form.id_for_javascript(attr) %>"
                      data-message="<%= h(msg) %>">
                   <% unless attr === 'coded_errors' %>
-                    <% if attr === 'conflicting_record' %>
-                      <%= I18n.t("validation_errors.conflicting_record") %> -
-                    <% else %>
-                    	<%= I18n.t(form.path_to_i18n_key(attr)) %> -
-                    <% end %>
+                    <span class="error-field" data-field-id="<%= form.id_for_javascript(attr) %>"></span> <span class="error-separator">-</span>
                   <% end %>
                   <%= msg %>
                 </div>
@@ -110,7 +111,7 @@
          <% @exceptions[:warnings].each do |attr, messages| %>
             <div class="warnings-for-attribute">
               <% messages.each do |msg| %>
-                <div class="warning" data-target="<%= form.id_for_javascript(attr) %>"><%= I18n.t(form.path_to_i18n_key(attr)) %> - <%= msg %></div>
+                <div class="warning" data-target="<%= form.id_for_javascript(attr) %>"><span class="error-field" data-field-id="<%= form.id_for_javascript(attr) %>"></span> <span class="error-separator">-</span> <%= msg %> </div>
               <% end %>
             </div>
          <% end %>
@@ -121,6 +122,63 @@
          <% end %>
       </div>
    <% end %>
+
+   <script>
+    $(function () {
+      $('.error-field').each(function () {
+        var field = $(this);
+        var id = $(this).attr('data-field-id');
+
+        var candidate_label_selectors = [
+          /* A standard field */
+          "label[for='" + id + "']",
+
+          /* A linker (where the label is on the token-input element, not the hidden linker element) */
+          "label[for='token-input-" + id + "']",
+
+          /* A whole subrecord section by explicitly added class (e.g. "You need at least one agent name") */
+          "section.field_" + id + " .subrecord-form-heading-label",
+
+          /* A whole subrecord section by ID (e.g. "You need at least one extent") */
+          "section#" + id + " .subrecord-form-heading-label",
+          "section#" + id.replace(/_$/, '') + " .subrecord-form-heading-label",
+
+          /* A input as a list (e.g. note contents) */
+          "label[for='" + id + "_0_']",
+        ];
+
+        var got_match = false;
+        $(candidate_label_selectors).each(function (idx, selector) {
+          var match = $(selector);
+
+          if (match.length > 0) {
+            field.text(match.first().text());
+            got_match = true;
+
+            return false;
+          }
+        });
+
+        if (!got_match) {
+          /* If we didn't find a label for our field, pick the closest label in its subtree! */
+          $('#' + id).parents('.form-group').each(function () {
+            if ($(this).find('label').length > 0) {
+              field.text($(this).find('label').first().text());
+
+              return false;
+            }
+          });
+        }
+
+        if (field.text() === '') {
+          // If there's no field, drop the separator and just show our message.
+          field.parent().find('.error-separator').remove();
+          field.parent().addClass('error-field-not-found');
+        }
+      });
+    });
+   </script>
+
 <% end %>
 
 <%= render_aspace_partial :partial => "shared/flash_messages" %>

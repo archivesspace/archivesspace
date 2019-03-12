@@ -32,7 +32,7 @@
   </section>
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template", :template => "existence_date", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :template_overrides => {"date_label" => "agents/date_labels"}, :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
-  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :template_erb => "agents/name_forms/#{@agent.agent_type}", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :section_class => "field_agent_names_", :template_erb => "agents/name_forms/#{@agent.agent_type}", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names"} %>
   <% if user_can?('view_agent_contact_record') %>
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details"} %>
   <% end %>
