@@ -305,9 +305,13 @@ module SearchHelper
         proc {|record| record['processing_hours_total']},
         :sortable => true, :sort_by => "processing_hours_total")
       add_audit_info_column
-    when 'classification'
+    when 'classification', 'classification_term'
       add_multiselect_column if user_can?("delete_classification_record") && browsing
       add_column(I18n.t('classification.title'),
+        proc { |record| record['title'] }, :sortable => true, :sort_by => 'title_sort')
+      add_audit_info_column
+    when 'location_profile', 'container_profile'
+      add_column(I18n.t('search_results.result_title'),
         proc { |record| record['title'] }, :sortable => true, :sort_by => 'title_sort')
       add_audit_info_column
     else
