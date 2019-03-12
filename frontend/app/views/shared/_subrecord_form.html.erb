@@ -11,7 +11,12 @@
   custom_action_template = false if custom_action_template.blank?
   help_topic = form.help_path_for(name) if help_topic.blank?
   hidden = false if hidden.blank?
-  section_class = hidden ? "subrecord-form-hidden" : "subrecord-form"
+
+  section_classes = []
+  if defined?(section_class)
+    section_classes << section_class
+  end
+  section_classes << (hidden ? "subrecord-form-hidden" : "subrecord-form")
 
   required = form.required?(name) if required.blank?
 
@@ -21,7 +26,7 @@
 <%= render_aspace_partial :partial => template_erb, :locals => {:form => form} %>
 
 
-<section id="<%= section_id %>" class="<%= section_class %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
+<section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
   <% unless hidden %>
   <<%= heading_size %> class="subrecord-form-heading">
     <%= wrap_with_tooltip(heading_text, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label") %>
