@@ -92,7 +92,7 @@
                      data-target="<%= form.id_for_javascript(attr) %>"
                      data-message="<%= h(msg) %>">
                   <% unless attr === 'coded_errors' %>
-                  	<%= I18n.t(form.path_to_i18n_key(attr)) %> - 
+                    <span class="error-field" data-field-id="<%= form.id_for_javascript(attr) %>"></span> -
                   <% end %>
                   <%= msg %>
                 </div>
@@ -106,7 +106,7 @@
          <% @exceptions[:warnings].each do |attr, messages| %>
             <div class="warnings-for-attribute">
               <% messages.each do |msg| %>
-                <div class="warning" data-target="<%= form.id_for_javascript(attr) %>"><%= I18n.t(form.path_to_i18n_key(attr)) %> - <%= msg %></div>
+                <div class="warning" data-target="<%= form.id_for_javascript(attr) %>"><span class="error-field" data-field-id="<%= form.id_for_javascript(attr) %>"></span> - <%= msg %> </div>
               <% end %>
             </div>
          <% end %>
@@ -117,6 +117,52 @@
          <% end %>
       </div>
    <% end %>
+
+   <script>
+    $(function () {
+      $('.error-field').each(function () {
+        var field = $(this);
+        var id = $(this).attr('data-field-id')
+
+        var candidate_label_selectors = [
+          /* A standard field */
+          "label[for='" + id + "']",
+
+          /* A linker (where the label is on the token-input element, not the hidden linker element) */
+          "label[for='token-input-" + id + "']",
+
+          /* A whole subrecord section by explicitly added class (e.g. "You need at least one agent name") */
+          "section.field_" + id + " .subrecord-form-heading-label",
+
+          /* A whole subrecord section by ID (e.g. "You need at least one extent") */
+          "section#" + id + " .subrecord-form-heading-label",
+        ];
+
+        var got_match = false;
+        $(candidate_label_selectors).each(function (idx, selector) {
+          var match = $(selector);
+
+          if (match.length > 0) {
+            field.text(match.text());
+            got_match = true;
+
+            return false;
+          }
+        });
+
+        if (!got_match) {
+          /* If we didn't find a label for our field, pick the closest label in its subtree! */
+          $('#' + id).parents('.form-group').each(function () {
+            if ($(this).find('label').length > 0) {
+              field.text($(this).find('label').text());
+              return false;
+            }
+          });
+        }
+      });
+    });
+   </script>
+
 <% end %>
 
 <%= render_aspace_partial :partial => "shared/flash_messages" %>

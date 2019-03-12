@@ -20,7 +20,6 @@ module AspaceFormHelper
       @forms = FormHelpers.new
       @parent = parent
       @context = [[name, values]]
-      @path_to_i18n_map = {}
     end
 
 
@@ -39,11 +38,6 @@ module AspaceFormHelper
 
     def readonly?
       false
-    end
-
-
-    def path_to_i18n_map
-      @path_to_i18n_map
     end
 
 
@@ -119,10 +113,6 @@ module AspaceFormHelper
         end
       }.join("")
 
-      if name
-        @path_to_i18n_map[name_to_json_path(path)] = i18n_for(name)
-      end
-
       "#{names.first}#{path}"
     end
 
@@ -164,11 +154,6 @@ module AspaceFormHelper
 
     def i18n_for(name)
       "#{@active_template or form_top}.#{name.to_s.gsub(/\[\]$/, "")}"
-    end
-
-
-    def path_to_i18n_key(path)
-      path_to_i18n_map[path]
     end
 
 
@@ -711,17 +696,9 @@ module AspaceFormHelper
     env = self.request.env
     env['form_context_depth'] ||= 0
 
-    # Not feeling great about this, but we render the form twice: the first pass
-    # sets up the mapping from form input names to i18n keys, while the second
-    # actually uses that map to set the labels correctly.
-    env['form_context_depth'] += 1
-    capture(context, &body)
-    env['form_context_depth'] -= 1
-
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
     s << context.hidden_input("lock_version", values_from["lock_version"])
 
-    env['form_context_depth'] += 1
     s << capture(context, &body)
     env['form_context_depth'] -= 1
 
@@ -881,15 +858,51 @@ module AspaceFormHelper
   end
 
 
+  # Templates are expensive to expand and the ones used by JavaScript code have
+  # hard-coded paths that don't change between requests anyway.  In production
+  # mode we can save ourselves a lot of time by storing them between requests.
+  class JSTemplateCache
+
+    # Get the template string for `name` and `jsonmodel_type` if we've already
+    # produced it.  Otherwise, call `&block` to get the template we need.
+    def self.for(name, jsonmodel_type, &block)
+      @cache ||= java.util.concurrent.ConcurrentHashMap.new
+
+      cache_key = {:name => name, :type => jsonmodel_type}
+
+      # In development mode, always recalculate templates to pick up changes.
+      if Rails.env.development?
+        old_value = @cache[cache_key]
+        @cache[cache_key] = block.call
+
+        # Extra sanity check
+        if old_value && @cache[cache_key] != old_value
+          Rails.logger.error("Generated template differed from cached copy for #{cache_key.inspect}\n" +
+                             "Cached copy:\n" +
+                             old_value.to_s +
+                             + "\n" +
+                             "Generated template:\n" +
+                             @cache[cache_key] +
+                             "\n\n")
+          raise "Assertion failed!  See frontend logs"
+        end
+      else
+        if !@cache[cache_key]
+          @cache[cache_key] = block.call
+        end
+      end
+
+      @cache[cache_key]
+    end
+  end
+
+
   def templates_for_js(jsonmodel_type = nil)
     @delivering_js_templates = true
 
-    result = ""
+    all_templates = ""
 
-    return result if @templates.blank?
-
-    obj = {}
-    obj['jsonmodel_type'] = jsonmodel_type if jsonmodel_type
+    return all_templates if @templates.blank?
 
     templates_to_process = @templates.clone
     templates_processed = []
@@ -900,25 +913,32 @@ module AspaceFormHelper
     #
     # Because infinite loops are terrifying and a pain to debug, let us reign
     # in the fear with a 100-loop-count-get-out-of-here-alive limit.
+
     i = 0
     while(true)
       templates_to_process.each do |name, template|
-        context = FormContext.new("${path}", obj, self)
+        expanded_template = JSTemplateCache.for(name, jsonmodel_type) do
+          context = FormContext.new("${path}", {'jsonmodel_type' => jsonmodel_type}, self)
 
-        def context.id_for(name, qualify = true)
-          name = path(name) if qualify
+          def context.id_for(name, qualify = true)
+            name = path(name) if qualify
+            name.gsub(/[\[\]]/, '_').gsub('${path}', '${id_path}')
+          end
 
-          name.gsub(/[\[\]]/, '_').gsub('${path}', '${id_path}')
+          context.instance_eval do
+            @active_template = name
+          end
+
+          this_template = ""
+
+          this_template << "<div id=\"template_#{name}\"><!--"
+          this_template << capture(context, &template[:block])
+          this_template << "--></div>"
+
+          this_template
         end
 
-        context.instance_eval do
-          @active_template = name
-        end
-
-        result << "<div id=\"template_#{name}\"><!--"
-        result << capture(context, &template[:block])
-        result << "--></div>"
-
+        all_templates << expanded_template
         templates_processed << name
       end
 
@@ -938,7 +958,7 @@ module AspaceFormHelper
       end
     end
 
-    result.html_safe
+    all_templates.html_safe
   end
 
   def readonly_context(name, values_from = {}, &body)
