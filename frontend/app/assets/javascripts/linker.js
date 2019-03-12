@@ -104,6 +104,7 @@ $(function() {
 
 
       var initAndShowLinkerBrowseModal = function() {
+        console.log('HERE!');
         var currentlySelected = {};
 
         var renderItemsInModal = function(page) {
