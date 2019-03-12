@@ -673,6 +673,7 @@ module MarcXMLBaseMap
       :obj => :resource,
       :defaults => {
        :level => 'collection',
+       :finding_aid_language => 'und',
        :finding_aid_script => 'Zyyy'
       },
       :map => {
@@ -691,14 +692,20 @@ module MarcXMLBaseMap
           control = node.inner_text.strip
           set_record_properties nil, control[11], control[10]
 
-          if !control[35..37].nil?
+          if control[35..37] != "   "
             make(:lang_material) do |lang|
               lang.language_and_script = {'jsonmodel_type' => 'language_and_script', 'language' => control[35..37]}
 
               resource.lang_materials << lang
 
             end
+          else
+            make(:lang_material) do |lang|
+              lang.language_and_script = {'jsonmodel_type' => 'language_and_script', 'language' => 'und'}
 
+              resource.lang_materials << lang
+
+            end
           end
 
           if %w(i k s).include?(control[6])
