@@ -165,6 +165,17 @@ module SearchHelper
       }, :sortable => true, :sort_by => 'primary_type')
   end
 
+  def add_linker_column
+    add_column(sr_only('Linker'),
+      proc { |record|
+        if params[:multiplicity] === 'many'
+          check_box_tag "linker-item", record["id"], false, :"data-object" => record.to_json
+        else
+          radio_button_tag "linker-item", record["id"], false, :"data-object" => record.to_json
+        end
+      })
+  end
+
   def sr_only(text)
     ('<span class="sr-only">' + text + '</span>').html_safe
   end
@@ -173,6 +184,8 @@ module SearchHelper
     return @columns if @columns
 
     browsing = !(request.path =~ /\/(advanced_)*search/)
+
+    add_linker_column if params[:linker]==='true'
 
     case type = @search_data.get_type
     when 'accession'
