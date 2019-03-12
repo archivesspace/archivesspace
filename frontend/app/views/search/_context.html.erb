@@ -1,4 +1,4 @@
-<% ancestors = context_ancestor(result) %>
+<% ancestors = context_ancestor(record) %>
 <% if ancestors != nil && ancestors != [''] %>
   <% ancestors.reverse.each_with_index do |ancestor, i| %>
     <% unless get_ancestor_title(ancestor) == nil %>
