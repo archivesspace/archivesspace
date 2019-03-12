@@ -39,8 +39,11 @@ AS.initSubRecordCollapsible = function($form, func_generateSummary) {
     $(".collapse-subrecord-toggle", $wrapper).trigger("click");
   });
 
-  if ($form.find(".error:first").length > 0 || $form.data("collapsed") === false) {
+  if ($form.find(".error:first,.has-error:first").length > 0 || $form.data("collapsed") === false) {
     $summary.hide();
+    setTimeout(function() {
+      $(document).trigger("expandcontainer.aspace", $container);
+    });
   } else {
     $container.hide();
     $wrapper.addClass("collapsed")
