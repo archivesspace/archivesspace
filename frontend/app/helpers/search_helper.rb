@@ -90,6 +90,10 @@ module SearchHelper
     return user_can?('update_assessment_record') if record['primary_type'] === "assessment"
   end
 
+  def default_block(opts)
+    
+  end
+
 
   def add_column(label, opts = {}, block = nil)
     block ||= if opts[:template]
@@ -99,7 +103,16 @@ module SearchHelper
     else
       proc do |record|
         v = record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]]
-        I18n.t("enumerations.#{opts[:enum_locale_key]}.#{v}", :default => v.to_s)
+        if opts[:multi]
+          content_tag('ul', :style => 'padding-left: 20px;') {
+            Array(v).collect { |i|
+              content_tag('li',
+                I18n.t("enumerations.#{opts[:enum_locale_key]}.#{i}", :default => i.to_s))
+            }.join.html_safe
+          }
+        else
+          I18n.t("enumerations.#{opts[:enum_locale_key]}.#{v}", :default => v.to_s)
+        end
       end
     end
 
@@ -144,8 +157,8 @@ module SearchHelper
       :class => 'actions table-record-actions')
   end
 
-  def add_context_column
-    add_column(I18n.t("search_results.context"), :template => 'search/context')
+  def add_context_column(label = I18n.t("search_results.context"))
+    add_column(label, :template => 'search/context')
   end
 
   def add_record_type_column
@@ -167,6 +180,10 @@ module SearchHelper
       })
   end
 
+  def add_title_column(label = I18n.t("search_results.result_title"))
+    add_column(label, :template => 'search/title', :sortable => true, :field => 'title')
+  end
+
   def sr_only(text)
     ('<span class="sr-only">' + text + '</span>').html_safe
   end
@@ -181,52 +198,46 @@ module SearchHelper
     case type = @search_data.get_type
     when 'accession'
       add_multiselect_column if user_can?("delete_archival_record") && browsing
-      add_column(I18n.t("accession.title"), :field => 'title', :sortable => true)
+      add_title_column I18n.t("accession.title")
       add_user_pref_columns('accession')
       add_audit_info_column
     when 'resource', 'archival_object'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
       add_record_type_column if params[:include_components]
-      add_column(I18n.t('resource.title'), :field => 'title', :sortable => true)
+      add_title_column I18n.t('resource.title')
       add_context_column if params[:include_components] || type == 'archival_object'
       add_user_pref_columns('resource')
       add_audit_info_column
     when 'digital_object', 'digital_object_component'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
       add_record_type_column if params[:include_components]
-      add_column(I18n.t('digital_object.title'), :field => 'title', :sortable => true)
+      add_title_column I18n.t('digital_object.title')
       add_context_column if params[:include_components] || type == 'digital_object_component'
       add_user_pref_columns('digital_object')
       add_audit_info_column
     when 'assessment'
       add_multiselect_column if user_can?('delete_assessment_record') && browsing
-
-      add_column(I18n.t("assessment.id"),
-        proc {|record| record['assessment_id']},
-        :sortable => true, :sort_by => 'assessment_id', :class => 'col-sm-1')
-      add_column(I18n.t("assessment.records"),
-        proc {|record| render_aspace_partial :partial => 'assessments/search_result_records_cell',
-          :locals => {:record => record}
-        },:sortable => false, :class => 'col-sm-6')
+      add_column(I18n.t("assessment.id"), :sortable => true, :field => 'assessment_id',
+        :class => 'col-sm-1')
+      add_column(I18n.t("assessment.records"), :template => 'assessments/search_result_records_cell',
+        :class => 'col-sm-6')
       add_column(I18n.t("assessment.surveyed_by"),
-        proc {|record| render_aspace_partial :partial => 'assessments/search_result_surveyed_by_cell',
-          :locals => {:record => record}
-        }, :sortable => false, :class => 'col-sm-2')
+        :template => 'assessments/search_result_surveyed_by_cell', :class => 'col-sm-2')
       add_column(I18n.t("assessment.survey_end"),
+        {:sortable => true, :field => "assessment_survey_end", :class => 'col-sm-2'},
         proc {|record| 
           record['assessment_survey_end'] ? Date.parse(record['assessment_survey_end']) : ''
-        }, :sortable => true, :sort_by => "assessment_survey_end", :class => 'col-sm-2')
-
+        })
       add_user_pref_columns("assessment")
       add_audit_info_column
     when 'subjects'
       add_multiselect_column if user_can?("delete_subject_record") && browsing
-      add_column(I18n.t("subject.terms"), :field => 'title', :sortable => true)
+      add_title_column I18n.t("subject.terms")
       add_audit_info_column
     when 'agent', 'agent_person', 'agent_software', 'agent_family', 'agent_corporate_entity'
       add_multiselect_column if user_can?("delete_agent_record")
       add_record_type_column if type == 'agent'
-      add_column(I18n.t('agent.name'), :sortable => true, :field => 'title')
+      add_title_column I18n.t('agent.name')
       add_column(I18n.t("agent_name.authority_id"), :sortable => true, :field => "authority_id")
       add_column(I18n.t("agent_name.source"), :sortable => true, :field => "source",
         :enum_locale_key => 'name_source')
@@ -235,41 +246,27 @@ module SearchHelper
       add_audit_info_column
     when 'location'
       add_multiselect_column if user_can?("update_location_record")
-      add_column(I18n.t('location.title'), proc { |record| record['title'] },
-        :sortable => true, :sort_by => 'title_sort')
+      add_title_column I18n.t('location.title')
       %w(building floor room area).each do |place|
-        add_column(I18n.t("location.#{place}"), proc {|record| record[place]},
-          :sortable => true, :sort_by => place)
+        add_column(I18n.t("location.#{place}"), :sortable => true, :field => place)
       end
-      add_column(I18n.t("location_profile._singular"),
-        proc {|record| record["location_profile_display_string_u_ssort"]},
-        :sortable => true, :sort_by => "location_profile_display_string_u_ssort")
-      add_column(current_repo['repo_code'] + " " + I18n.t("location.holdings"),
-        proc {|record|
-          filter_term = {"location_uris" => record['uri']}.to_json
-          ajax_search_url = url_for({:controller => :search, :action => :do_search,
-            :format => :json, :listing_only => true}.merge(
-            {"filter_term" => filter_term, "type" => "top_container"}))
-          render_aspace_partial :partial => 'locations/location_holdings',
-            :locals => {:ajax_search_url => ajax_search_url}
-        }, :sortable => false)
+      add_column(I18n.t("location_profile._singular"), :sortable => true,
+        :field => "location_profile_display_string_u_ssort")
+      add_column("#{current_repo['repo_code']} #{I18n.t("location.holdings")}",
+        :template => 'locations/location_holdings')
       add_audit_info_column
     when 'event'
-      add_column(I18n.t("event.event_type"),
-        proc {|record| I18n.t("enumerations.event_event_type.#{record['event_type']}",
-          :default => record['event_type'])},
-        :sortable => true, :sort_by => "event_type")
-      add_column(I18n.t("event.outcome"),
-        proc {|record| record['outcome'] ? I18n.t("enumerations.event_outcome.#{record['outcome']}",
-          :default => record['outcome']) : ''},
-        :sortable => true, :sort_by => "outcome")
-      add_column(I18n.t("linked_agent._plural"), proc {|record|
+      add_column(I18n.t("event.event_type"), :sortable => true, :field => "event_type",
+        :enum_locale_key => 'event_event_type')
+      add_column(I18n.t("event.outcome"), :sortable => true, :field => "outcome",
+        :enum_locale_key => 'event_outcome')
+      add_column(I18n.t("linked_agent._plural"), {}, proc {|record|
         event = ASUtils.json_parse(record['json'])
         event['linked_agents'].map{|link|
           content_tag("div", "#{I18n.t("enumerations.linked_agent_event_roles.#{link['role']}", :default => link['role'])}: #{link['_resolved']['title']}")
         }.join.html_safe
       })
-      add_column(I18n.t("linked_record._plural"), proc {|record|
+      add_column(I18n.t("linked_record._plural"), {}, proc {|record|
         event = ASUtils.json_parse(record['json'])
         event['linked_records'].map{|link|
           content_tag("div", "#{I18n.t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role'])}: #{link['_resolved']['title']}")
@@ -277,43 +274,43 @@ module SearchHelper
       })
       add_audit_info_column
     when 'collection_management'
-      add_column(I18n.t('search_results.result_title'),
-        proc { |record| record['title'] }, :sortable => true, :sort_by => 'title_sort')
-      add_column(I18n.t("search_results.result_type"),
-        proc {|record| I18n.t("#{JSONModel.parse_reference(record['parent_id'])[:type]}._singular")},
-        :sortable => true, :sort_by => "parent_id")
-      add_column(I18n.t("collection_management.processing_priority"),
-        proc {|record| 
-          I18n.t("enumerations.collection_management_processing_priority.#{record['processing_priority'] || 'none'}", :default => (record['processing_priority'] || '--'  ))
-        }, :sortable => true, :sort_by => "processing_priority")
-      add_column(I18n.t("collection_management.processing_status"),
-        proc {|record|
-          I18n.t("enumerations.collection_management_processing_status.#{record['processing_status'] || 'none'}", :default => (record['processing_status'] || '--'))
-        }, :sortable => true, :sort_by => "processing_status")
-      add_column(I18n.t("collection_management.processing_hours_total_short"),
-        proc {|record| record['processing_hours_total']},
-        :sortable => true, :sort_by => "processing_hours_total")
+      add_title_column
+      add_column(I18n.t("search_results.result_type"), {:sortable => true, :field => "parent_id"},
+        proc {|record| I18n.t("#{JSONModel.parse_reference(record['parent_id'])[:type]}._singular")})
+      add_column(I18n.t("collection_management.processing_priority"), :sortable => true,
+        :field => "processing_priority",
+        :enum_locale_key => 'collection_management_processing_priority')
+      add_column(I18n.t("collection_management.processing_status"), :sortable => true,
+        :field => "processing_status", :enum_locale_key => 'collection_management_processing_status')
+      add_column(I18n.t("collection_management.processing_hours_total_short"), :sortable => true,
+        :field => "processing_hours_total")
       add_audit_info_column
     when 'classification', 'classification_term'
       add_multiselect_column if user_can?("delete_classification_record") && browsing
-      add_column(I18n.t('classification.title'),
-        proc { |record| record['title'] }, :sortable => true, :sort_by => 'title_sort')
+      add_title_column I18n.t('classification.title')
       add_audit_info_column
     when 'location_profile', 'container_profile'
-      add_column(I18n.t('search_results.result_title'),
-        proc { |record| record['title'] }, :sortable => true, :sort_by => 'title_sort')
+      add_title_column
+      add_audit_info_column
+    when 'repositories'
+      add_title_column
+      add_column(I18n.t("repository.publish"), {}, proc {|repo| I18n.t("boolean.#{repo['publish']}")})
+      add_audit_info_column
+    when 'top_container'
+      # add_column('', {}, proc {|record| debug(record)})
+      add_context_column I18n.t("top_container._frontend.bulk_operations.collection_singular")
+      add_column(I18n.t("top_container.type"), :field => 'type', :sortable => true,
+        :enum_locale_key => 'container_type')
+      add_column(I18n.t("top_container.indicator"), :field => 'indicator', :sortable => true)
+      add_column(I18n.t("top_container.barcode"), :field => 'barcode', :sortable => true)
+      add_column(I18n.t("top_container._frontend.bulk_operations.current_location"),
+        :field => 'location_display_string_u_sstr', :multi => true)
       add_audit_info_column
     else
       add_record_type_column
-      add_column(I18n.t("search_results.result_title"),
-        proc { |record|
-          render_aspace_partial :partial => 'search/title', :locals => {:result => record}
-        }, :sortable => true, :sort_by => 'title_sort')
+      add_title_column
       add_context_column
-      add_column(I18n.t("search_results.result_identifier"),
-        proc { |record|
-          record['identifier'] || ASUtils.json_parse(record['json'])['identifier']
-        }, :sortable => true, :sort_by => 'identifier')
+      add_column(I18n.t("search_results.result_identifier"), :sortable => true, :field => 'identifier')
       add_audit_info_column
     end
     add_actions_column if !params[:linker] || params[:linker] === 'false'
@@ -349,7 +346,7 @@ module SearchHelper
     when result['linked_record_uris']
       ancestors = result['linked_record_uris']
     when result['primary_type'] == 'top_container'
-      ancestors = result['collection_uri_u_sstr']
+      ancestors = Array(result['collection_uri_u_sstr'])
     when result['primary_type'] == 'digital_object_component'
       ancestors = result['digital_object'].split
     else
