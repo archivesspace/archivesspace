@@ -5,8 +5,21 @@ module SlugHelpers
     debug("called with params", "slug: #{slug.to_s} klass: #{klass.to_s}")
 
     if slug
+      # if the slug contains a slash, completely zero it out.
+      # this is intended to revert an entity to use the URI if the ID or name the slug was generated from is a URL.
+      slug = "" if slug =~ /\//
+
+      # downcase everything to simplify case sensitivity issues
+      slug = slug.downcase
+
       # replace spaces with underscores
       slug = slug.gsub(" ", "_")
+
+      # remove double hypens
+      slug = slug.gsub("--", "")
+
+      # remove single quotes
+      slug = slug.gsub("'", "")
 
       # remove URL-reserved chars
       slug = slug.gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!.]/, "")

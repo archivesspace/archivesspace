@@ -66,6 +66,10 @@
       <% if AppConfig[:generate_resource_slugs_with_eadid] %>
         <p><%= I18n.t("job._frontend.messages.slug_config_eadid") %></p>
       <% end %>
+
+      <% if AppConfig[:generate_archival_object_slugs_with_cuid] %>
+        <p><%= I18n.t("job._frontend.messages.slug_config_cuid") %></p>
+      <% end %>
     <% else %>
       <p><%= I18n.t("job._frontend.messages.slug_config_title") %></p>
     <% end %>

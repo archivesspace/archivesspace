@@ -7,6 +7,7 @@ module SlugHelpers
 
     slug = name_based_slug_for(entity, entity.class)
 
+    debug("updating slug for entity", "entity: #{entity} slug: #{slug}")
 
     if is_agent_name_type?(entity.class)
       debug("agent name type found")
@@ -14,20 +15,19 @@ module SlugHelpers
       # prevent slug from getting nulled out on create
       # TODO: find a way to remove this check
       unless slug.nil? || slug.empty?
-      
         update_agent_slug_from_name(entity, slug)
       end
 
-    elsif slug.nil? || slug.empty? 
-      debug("empty slug generated")
+    # runs when we have any other type besides Agents
+    else
+      entity[:slug] = slug
 
-      if entity.slug.nil? || entity.slug.empty?
+      if slug.nil? || slug.empty?
+        debug("empty slug generated")
         debug("turning off is_slug_auto for #{entity.class}")
+
         entity[:is_slug_auto] = 0 
       end
-    else
-      debug("setting slug value for #{entity.class}")
-      entity[:slug] = slug
     end
   end
 

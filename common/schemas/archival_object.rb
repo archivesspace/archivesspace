@@ -17,7 +17,7 @@
       "title" => {"type" => "string", "maxLength" => 8192, "ifmissing" => nil},
 
       "slug" => {"type" => "string"},
-      "is_slug_auto" => {"type" => "boolean"},
+      "is_slug_auto" => {"type" => "boolean", "default" => true},
       
       "display_string" => {"type" => "string", "maxLength" => 8192, "readonly" => true},
 

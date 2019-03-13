@@ -49,7 +49,12 @@ module SlugHelpers
       name_field_changed = obj.column_changed?(:name)    || !persisted
 
     when "ArchivalObject" 
-      id_field_changed = obj.column_changed?(:ref_id)  || !persisted
+      if AppConfig[:generate_archival_object_slugs_with_cuid] = true
+        id_field_changed = obj.column_changed?(:component_id) || !persisted
+      else
+        id_field_changed = obj.column_changed?(:ref_id) || !persisted
+      end
+
       name_field_changed = obj.column_changed?(:title) || !persisted
 
     when "Subject"

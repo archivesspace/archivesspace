@@ -195,7 +195,7 @@ describe 'Repository model' do
         id = make_test_repo("slugtest")
         repo = Repository.where(:id => id).first.update(:slug => "A Wierd! Slug# To? Use@")
   
-        expect(repo[:slug]).to eq("A_Wierd_Slug_To_Use")
+        expect(repo[:slug]).to eq("a_wierd_slug_to_use")
       end
   
       it "automatically de-duplicates slug names" do
@@ -207,9 +207,9 @@ describe 'Repository model' do
         repo2 = Repository.where(:id => id2).first.update(:slug => "Original")
         repo3 = Repository.where(:id => id3).first.update(:slug => "Original")
   
-        expect(repo1[:slug]).to eq("Original")
-        expect(repo2[:slug]).to eq("Original_1")
-        expect(repo3[:slug]).to eq("Original_2")
+        expect(repo1[:slug]).to eq("original")
+        expect(repo2[:slug]).to eq("original_1")
+        expect(repo3[:slug]).to eq("original_2")
       end
 
       it "adds a leading underscore to numerical slugs" do
@@ -220,19 +220,20 @@ describe 'Repository model' do
         expect(repo[:slug]).to eq("_12345")
       end
   
-      it "autogenerates a random slug if processing makes it empty" do
+      it "turns off is_slug_auto if processing makes a slug empty" do
         id = make_test_repo("digit_test")
   
         repo = Repository.where(:id => id).first.update(:slug => "??????????")
   
-        expect(repo[:slug]).to match(/^[A-Z]{8}$/)
+        expect(repo[:slug]).to eq("")
+        expect(repo[:is_slug_auto]).to eq(0)
       end
   
       it "truncates a slug name longer than 50 chars" do
         id = make_test_repo("slugtest")
         repo = Repository.where(:id => id).first.update(:slug => "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugNameLongSlugName")
   
-        expected_slug = "LongSlugNameLongSlugNameLongSlugNameLongSlugNameLo"
+        expected_slug = "longslugnamelongslugnamelongslugnamelongslugnamelo"
   
         expect(repo[:slug]).to eq(expected_slug)
       end
@@ -245,6 +246,7 @@ describe 'Repository model' do
         repo = Repository.where(:id => id).first.update(:is_slug_auto => 1)
         expected_slug = repo[:name].gsub(" ", "_")
                                    .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
+                                   .downcase
   
         expect(repo[:slug]).to eq(expected_slug)
       end
@@ -257,6 +259,46 @@ describe 'Repository model' do
         repo = Repository.where(:id => id).first.update(:slug => "foo___bar")
   
         expect(repo[:slug]).to eq("foo_bar")
+      end
+
+     it "converts alpha characters in slug to lowercase" do
+        AppConfig[:auto_generate_slugs_with_id] = false 
+        
+        id = make_test_repo("slugtest")
+  
+        repo = Repository.where(:id => id).first.update(:slug => "FOOBAR123")
+  
+        expect(repo[:slug]).to eq("foobar123")
+      end
+
+     it "removes double hypens" do
+        AppConfig[:auto_generate_slugs_with_id] = false 
+        
+        id = make_test_repo("slugtest")
+  
+        repo = Repository.where(:id => id).first.update(:slug => "foo--bar--baz")
+  
+        expect(repo[:slug]).to eq("foobarbaz")
+      end
+
+      it "removes single quotes" do
+        AppConfig[:auto_generate_slugs_with_id] = false 
+        
+        id = make_test_repo("slugtest")
+  
+        repo = Repository.where(:id => id).first.update(:slug => "foo'bar'baz")
+  
+        expect(repo[:slug]).to eq("foobarbaz")
+      end
+
+      it "zeros out the slug if it contains a slash" do
+        AppConfig[:auto_generate_slugs_with_id] = false 
+        
+        id = make_test_repo("slugtest")
+  
+        repo = Repository.where(:id => id).first.update(:slug => "foo/bar/baz")
+  
+        expect(repo[:slug]).to eq("")
       end
   
       it "strips leading and trailing underscores in slugs" do

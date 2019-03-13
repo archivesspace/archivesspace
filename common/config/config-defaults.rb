@@ -634,6 +634,5 @@ AppConfig[:auto_generate_slugs_with_id] = false
 
 # For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
 AppConfig[:generate_resource_slugs_with_eadid] = false
-
-
+AppConfig[:generate_archival_object_slugs_with_cuid] = false
 

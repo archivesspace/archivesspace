@@ -6,14 +6,13 @@ module SlugHelpers
 
     slug = id_based_slug_for(entity, entity.class)
 
+    debug("updating slug for entity", "entity: #{entity} slug: #{slug}")
+    entity[:slug] = slug
+
     if slug.empty? || slug.nil?
       debug("no slug generated" "turning off is_slug_auto for #{entity.inspect}")
 
       entity[:is_slug_auto] = 0
-    else
-      debug("updating slug for entity", "entity: #{entity} slug: #{slug}")
-
-      entity[:slug] = slug
     end
   end
 
@@ -49,7 +48,12 @@ module SlugHelpers
       slug = entity[:repo_code]
 
     elsif klass == ArchivalObject
-      slug = entity[:ref_id]
+      if AppConfig[:generate_archival_object_slugs_with_cuid]
+        debug("generating for resource with Component ID")
+        slug = entity[:component_id]
+      else
+        slug = entity[:ref_id]
+      end
 
     elsif klass == DigitalObjectComponent
       slug = entity[:component_id]

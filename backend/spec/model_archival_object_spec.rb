@@ -328,6 +328,7 @@ describe 'ArchivalObject model' do
   
       it "autogenerates a slug via archival_object_id when configured to generate by id" do
         AppConfig[:auto_generate_slugs_with_id] = true
+        AppConfig[:generate_archival_object_slugs_with_cuid] = false
   
         archival_object = ArchivalObject.create_from_json(build(:json_archival_object))
         
@@ -335,6 +336,25 @@ describe 'ArchivalObject model' do
                                                   .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
                                                   .gsub('"', '')
                                                   .gsub('null', '')
+  
+        # numeric slugs will be prepended by an underscore
+        if expected_slug =~ /^\d+$/
+          expected_slug = "_#{expected_slug}"
+        end
+  
+        expect(archival_object[:slug]).to eq(expected_slug)
+      end
+
+      it "autogenerates a slug via component_id when configured to generate by id and config option is on" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+        AppConfig[:generate_archival_object_slugs_with_cuid] = true
+  
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :component_id => "abc3.14159"))
+        
+        expected_slug = archival_object[:component_id].gsub(" ", "_")
+                                                      .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+.,!]/, "")
+                                                      .gsub('"', '')
+                                                      .gsub('null', '')
   
         # numeric slugs will be prepended by an underscore
         if expected_slug =~ /^\d+$/
@@ -416,6 +436,30 @@ describe 'ArchivalObject model' do
         expect(SlugHelpers).to_not receive(:clean_slug)
   
         archival_object.update(:ref_id => "foobar")
+      end
+
+      it "does not execute slug code when auto-gen on cuid and ref_id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+        AppConfig[:generate_archival_object_slugs_with_cuid] = true
+  
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
+  
+        expect(archival_object).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        archival_object.update(:ref_id => "foobar")
+      end
+
+      it "does not execute slug code when auto-gen on ref_id and component_id is changed" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+        AppConfig[:generate_archival_object_slugs_with_cuid] = false
+  
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
+  
+        expect(archival_object).to_not receive(:auto_gen_slug!)
+        expect(SlugHelpers).to_not receive(:clean_slug)
+  
+        archival_object.update(:component_id => "foobar")
       end
     end
 

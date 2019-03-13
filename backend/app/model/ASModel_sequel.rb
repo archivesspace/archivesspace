@@ -28,7 +28,8 @@ module ASModel
 
     def before_save
       if AppConfig[:use_human_readable_URLs]
-        if SlugHelpers.sluggable_class?(self.class) &&
+        if (SlugHelpers.is_agent_type?(self.class) || 
+            SlugHelpers.is_agent_name_type?(self.class)) && 
            self.respond_to?(:column_changed?) && 
            SlugHelpers.slug_data_updated?(self)
 
