@@ -10,9 +10,7 @@
 
   # You can also add/remove columns only for when you are searching/browsing for a speccific type
   # Let's show a level of description column for resources
-  if @search_data.get_type == 'resource'
-    add_column(I18n.t('resource.level'), :field => 'level', :enum_locale_key => 'archival_record_level', :sortable => true, :index => 2)
-  end
+  add_column(I18n.t('resource.level'), :field => 'level', :enum_locale_key => 'archival_record_level', :sortable => true, :index => 2)
   %>
 
   <%= render_aspace_partial :partial => "shared/pagination_summary" %>
