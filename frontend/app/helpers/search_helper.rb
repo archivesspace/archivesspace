@@ -125,7 +125,7 @@ module SearchHelper
       end
     end
 
-    opts[:sort_by] ||= opts[:field]
+    opts[:sort_by] ||= (opts[:field] == 'title') ? 'title_sort' : opts[:field]
 
     @columns ||= []
 

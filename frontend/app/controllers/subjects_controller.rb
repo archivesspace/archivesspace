@@ -9,8 +9,8 @@ class SubjectsController < ApplicationController
 
 
   def index
-    respond_to do |format| 
-      format.html {
+    respond_to do |format|
+      format.html {   
         @search_data = Search.global({"sort" => "title asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.SUBJECT_FACETS})),
                                  "subjects")
       }

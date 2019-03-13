@@ -244,6 +244,8 @@ class SearchResultData
       return weightable? ? I18n.t("search.multi.relevance") : I18n.t("search_sorting.select")
     end
 
+    _sorted_by = 'title_sort' if sorted_by == 'title'
+
     label = sort_fields[_sorted_by] || I18n.t("search_sorting.#{_sorted_by}")
     direction = I18n.t("search_sorting.#{current_sort_direction(index)}")
     "#{label} #{direction}"
