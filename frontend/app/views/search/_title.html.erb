@@ -1,19 +1,17 @@
-<% if result['primary_type'] === "repository" and session[:repo] === result['id'] %>
-	<span class="label label-success">
-		<%= I18n.t("repository._frontend.messages.selected_short") %>		
-	</span>
+<% if record['primary_type'] === "repository" and session[:repo] === record['id'] %>
+	<span class="label label-success"><%= I18n.t("repository._frontend.messages.selected_short") %></span>
 <% end %>
 
-<% if result["suppressed"] %>
+<% if record["suppressed"] %>
 	<span class="label label-info">
 		<%= I18n.t("states.suppressed") %>
 	</span>
 <% end %>
 
-<% if deleted(result) %>
+<% if deleted(record) %>
 	<span class="label label-important">
 		<%= I18n.t("states.deleted") %>		
 	</span>
 <% end %>
 
-<%= clean_mixed_content(result["title"]).html_safe || clean_mixed_content(result['display_string']).html_safe %>
+<%= clean_mixed_content(record["title"]).html_safe || clean_mixed_content(record['display_string']).html_safe %>
