@@ -134,7 +134,7 @@ module SearchHelper
     end
 
     col = SearchColumn.new(label, block, opts, @search_data)
-    @columns.push(col)
+    @columns.insert(opts[:index] || -1, col)
   end
 
   def add_multiselect_column
@@ -197,8 +197,7 @@ module SearchHelper
     ('<span class="sr-only">' + text + '</span>').html_safe
   end
 
-  def get_columns
-    return @columns if @columns
+  def add_columns
 
     browsing = !(request.path =~ /\/(advanced_)*search/)
 
@@ -323,7 +322,6 @@ module SearchHelper
       add_audit_info_column
     end
     add_actions_column if !params[:linker] || params[:linker] === 'false'
-    @columns
   end
 
   def deleted(record)
