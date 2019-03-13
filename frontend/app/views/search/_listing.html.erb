@@ -1,12 +1,12 @@
 <% if @search_data.results? %>
-  <% cols = get_columns %>
+  <% add_columns %>
 
   <%= render_aspace_partial :partial => "shared/pagination_summary" %>
 
   <table id="tabledSearchResults" class="table table-striped table-bordered table-condensed table-hover table-sortable table-search-results" <%= 'data-multiselect="true"' if allow_multiselect? %>>
     <thead>
       <tr>
-        <% cols.each do |col| %>
+        <% @columns.each do |col| %>
           <th class="<%= col.class %>">
             <% if col.sortable? %>
               <%= link_to col.label, build_search_params("sort" => @search_data.sort_filter_for(col.sort_by)) %>
@@ -20,7 +20,7 @@
     <tbody>
       <% @search_data['results'].each do |result| %>
         <tr>
-          <% cols.each do |col| %>
+          <% @columns.each do |col| %>
             <td class="<%= col.class %>">
               <%= col.value_for(result) %>
             </td>
