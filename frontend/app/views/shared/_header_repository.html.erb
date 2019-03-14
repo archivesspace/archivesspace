@@ -97,8 +97,8 @@
                         <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_URLs] %>
                         <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
                           <li><%= link_to I18n.t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %></li>
-                        <% end %> 
-                      <% end %> 
+                        <% end %>
+                      <% end %>
                     </ul>
                   </li>
                 <% end %>

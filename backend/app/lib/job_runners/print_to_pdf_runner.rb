@@ -26,6 +26,12 @@ class PrintToPDFRunner < JobRunner
           :use_numbered_c_tags => false
         }
 
+        if obj["repository"]["_resolved"]["image_url"]
+          image_for_pdf = obj["repository"]["_resolved"]["image_url"]
+        else
+          image_for_pdf = nil
+        end
+
         record = JSONModel(:resource).new(obj)
 
         if record['publish'] === false
@@ -40,9 +46,9 @@ class PrintToPDFRunner < JobRunner
 
         # ANW-267: For windows machines, run FOP to generate PDF externally with a system() call instead of through JRuby to fix PDF corruption issues
         if RbConfig::CONFIG['host_os'] =~ /win32/
-          pdf = ASFopExternal.new(xml, @job).to_pdf
+          pdf = ASFopExternal.new(xml, @job, image_for_pdf).to_pdf
         else
-          pdf = ASFop.new(xml).to_pdf
+          pdf = ASFop.new(xml, image_for_pdf).to_pdf
         end
 
         job_file = @job.add_file( pdf )
@@ -54,7 +60,7 @@ class PrintToPDFRunner < JobRunner
         elsif pdf.class == File
           File.unlink(pdf.path)
         end
-        
+
         @job.record_modified_uris( [@json.job["source"]] )
         @job.write_output("All done. Please click refresh to view your download link.")
         self.success!

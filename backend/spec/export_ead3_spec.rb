@@ -624,7 +624,7 @@ describe "EAD3 export mappings" do
            else
              mt(nil, path, "id")
            end
-           
+
           mt(note['label'], path, "label") if note['label']
          end
        end
@@ -1087,9 +1087,11 @@ describe "EAD3 export mappings" do
         mt(sort_name, path_2)
       end
     end
+
     # ANW-777
     it "capitalizes instances of agent role 'creator' that are mapped to origination/@label" do
       origination_labels = doc.xpath("//origination/@label")
+
       origination_labels.each do |origination_label|
         next unless origination_label.content == 'creator'
         expected_label = origination_label.content.capitalize

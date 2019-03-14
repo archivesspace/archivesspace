@@ -49,7 +49,6 @@ module RESTHelpers
 
 
   class Endpoint
-
     @@endpoints = []
 
 
@@ -130,8 +129,10 @@ module RESTHelpers
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
     def preconditions(*preconditions); @preconditions += preconditions; self; end
+
     # For the following methods (documentation, example),  content can be provided via either
     # argument or as the return value of a provided block.
+
     # Add documentation for endpoint to be interpolated into the API docs.
     # If "prepend" is true, the automated docs (e.g. pagination) will be
     #   appended to this when API docs are generated, otherwise this will
@@ -157,9 +158,12 @@ module RESTHelpers
       if docs
         @documentation = docs
       end
+
       @prepend_to_autodoc = prepend
+
       self
     end
+
     # Add an example to the example code tabs.
     #
     # The highlighter argument must be a language code understood by the rouge highlighting library
@@ -182,6 +186,7 @@ module RESTHelpers
           #{contents}
           ```
         TEMPLATE
+
         @examples[highlighter] = contents
       end
       self
@@ -293,18 +298,18 @@ module RESTHelpers
             DB.open do |db|
               ensure_params(rp, paginated)
             end
-  
+
             Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
-  
+
             RequestContext.put(:repo_id, params[:repo_id])
             RequestContext.put(:is_high_priority, high_priority_request?)
-  
+
             if Endpoint.is_toplevel_request?(env) || Endpoint.is_potentially_destructive_request?(env)
               unless preconditions.all? { |precondition| self.instance_eval &precondition }
                 raise AccessDeniedException.new("Access denied")
               end
             end
-  
+
             use_transaction = (use_transaction == :unspecified) ? true : use_transaction
             db_opts = {}
 
@@ -338,7 +343,7 @@ module RESTHelpers
                                        Preference.defaults['show_suppressed']))
                 end
               end
-  
+
               self.instance_eval &block
             end
           end

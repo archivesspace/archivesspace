@@ -1694,7 +1694,7 @@ en:
   user:
     username: Username
     username_tooltip: |
-        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application.</P>
+        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application. Permitted characters include a-z, A-Z, @, numbers, hyphen, dash, and dot.</P>
     name: Full name
     name_tooltip: |
         <p>REQUIRED FIELD. The full name of the user designated by the username.</p>
@@ -1968,6 +1968,7 @@ en:
     must_be_a_valid_email_address: Must contain a valid address
     sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
     sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
+    invalid_characters: Contains invalid characters
 
 
   job:
@@ -1975,11 +1976,11 @@ en:
     _plural: Background Jobs
     job_type: Job Type
     types:
-      print_to_pdf_job: Print To PDF
+      print_to_pdf_job: Generate PDF
       import_job: Import Data
       find_and_replace_job: Batch Find and Replace (Beta)
-      report_job: Reports
-      container_conversion_job: Reports
+      report_job: Create Report
+      container_conversion_job: Create Report
       generate_slugs_job: Generate Slugs for Entities
       unknown_job_type: Unknown job type
     status: Status
@@ -2018,9 +2019,11 @@ en:
     jsonmodel_type: Record or subrecord type
     record_type: Record or subrecord type
     property: Target property
+    base_record_uri: Base Record URI
 
   print_to_pdf_job:
     include_unpublished: Include Unpublished
+    source: Source
 
   advanced_search:
     type:

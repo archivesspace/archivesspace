@@ -9,8 +9,8 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, ""]) \
   do
-    id, table, repo_id = SlugHelpers.get_id_from_slug(params['slug'], 
-                                             params['controller'], 
+    id, table, repo_id = SlugHelpers.get_id_from_slug(params['slug'],
+                                             params['controller'],
                                              params['action'],
                                              nil)
 
@@ -24,8 +24,8 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([])
     .returns([200, ""]) \
   do
-    id, table, repo_id = SlugHelpers.get_id_from_slug(params['slug'], 
-                                             params['controller'], 
+    id, table, repo_id = SlugHelpers.get_id_from_slug(params['slug'],
+                                             params['controller'],
                                              params['action'],
                                              params['repo_slug'])
 

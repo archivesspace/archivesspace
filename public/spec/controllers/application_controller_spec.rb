@@ -23,7 +23,7 @@ end
 # Repositories, Agents, Subjects
 describe RepositoriesController, type: :controller do
   before(:all) do
-    AppConfig[:repo_name_in_slugs] = false
+    AppConfig[:repo_slug_in_URL] = false
   end
 
   it "should set params[:id] == params[:slug_or_id] if slug_or_id is an integer" do
@@ -49,7 +49,7 @@ end
 
 describe SubjectsController, type: :controller do
   before(:all) do
-    AppConfig[:repo_name_in_slugs] = false
+    AppConfig[:repo_slug_in_URL] = false
   end
 
   it "should set params[:id] == params[:slug_or_id] if slug_or_id is an integer" do
@@ -75,11 +75,11 @@ end
 
 describe AgentsController, type: :controller do
   before(:all) do
-    AppConfig[:repo_name_in_slugs] = false
+    AppConfig[:repo_slug_in_URL] = false
   end
 
   after(:all) do
-    AppConfig[:repo_name_in_slugs] = true
+    AppConfig[:repo_slug_in_URL] = true
   end
 
   it "should set params[:id] == params[:slug_or_id] if slug_or_id is an integer" do
@@ -135,7 +135,7 @@ end
 describe AccessionsController, type: :controller do
 
   before(:all) do
-    AppConfig[:repo_name_in_slugs] = true
+    AppConfig[:repo_slug_in_URL] = true
   end
 
   it "should set id params == slug params if slug params are integers" do
@@ -153,14 +153,14 @@ describe AccessionsController, type: :controller do
   end
 
   it "should query the backend for id and repo_id if slug_or_id is alphanumeric (repo_name_disabled)" do
-    AppConfig[:repo_name_in_slugs] = false
+    AppConfig[:repo_slug_in_URL] = false
 
     expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=accessions&action=show")
     expect(HTTP).to receive(:get_response).with(expected_uri)
 
     response = get :show, params: {:slug_or_id => "what"}
 
-    AppConfig[:repo_name_in_slugs] = true
+    AppConfig[:repo_slug_in_URL] = true
   end
 
   it "should set id params based on response from backend" do
@@ -175,7 +175,7 @@ end
 describe ResourcesController, type: :controller do
 
   before(:all) do
-    AppConfig[:repo_name_in_slugs] = true
+    AppConfig[:repo_slug_in_URL] = true
   end
 
   it "should set id params == slug params if slug params are integers" do
@@ -193,14 +193,14 @@ describe ResourcesController, type: :controller do
   end
 
   it "should query the backend for id and repo_id if slug_or_id is alphanumeric (repo_name_disabled)" do
-    AppConfig[:repo_name_in_slugs] = false
+    AppConfig[:repo_slug_in_URL] = false
 
     expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=resources&action=show")
     expect(HTTP).to receive(:get_response).with(expected_uri)
 
     response = get :show, params: {:slug_or_id => "what"}
 
-    AppConfig[:repo_name_in_slugs] = true
+    AppConfig[:repo_slug_in_URL] = true
   end
 
   it "should set id params based on response from backend" do
@@ -214,7 +214,7 @@ end
 
 describe ObjectsController, type: :controller do
   before(:all) do
-    AppConfig[:repo_name_in_slugs] = true
+    AppConfig[:repo_slug_in_URL] = true
   end
 
   it "should set id params == slug params if slug params are integers" do
@@ -232,14 +232,14 @@ describe ObjectsController, type: :controller do
   end
 
   it "should query the backend for id and repo_id if slug_or_id is alphanumeric (repo_name_disabled)" do
-    AppConfig[:repo_name_in_slugs] = false
+    AppConfig[:repo_slug_in_URL] = false
 
     expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=objects&action=show")
     expect(HTTP).to receive(:get_response).with(expected_uri)
 
     response = get :show, params: {:slug_or_id => "what", :obj_type => "archival_objects"}
 
-    AppConfig[:repo_name_in_slugs] = true
+    AppConfig[:repo_slug_in_URL] = true
   end
 
   it "should set id params based on response from backend for digital objects" do
@@ -272,7 +272,7 @@ end
 
 describe ClassificationsController, type: :controller do
   before(:all) do
-    AppConfig[:repo_name_in_slugs] = true
+    AppConfig[:repo_slug_in_URL] = true
   end
 
   describe "Classifications" do
@@ -291,14 +291,14 @@ describe ClassificationsController, type: :controller do
     end
 
     it "should query the backend for id and repo_id if slug_or_id is alphanumeric (repo_name_disabled)" do
-      AppConfig[:repo_name_in_slugs] = false
+      AppConfig[:repo_slug_in_URL] = false
 
       expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=classifications&action=show")
       expect(HTTP).to receive(:get_response).with(expected_uri)
 
       response = get :show, params: {:slug_or_id => "what"}
 
-      AppConfig[:repo_name_in_slugs] = true
+      AppConfig[:repo_slug_in_URL] = true
     end
 
     it "should set id params based on response from backend" do
@@ -326,14 +326,14 @@ describe ClassificationsController, type: :controller do
     end
 
     it "should query the backend for id and repo_id if slug_or_id is alphanumeric (repo_name_disabled)" do
-      AppConfig[:repo_name_in_slugs] = false
+      AppConfig[:repo_slug_in_URL] = false
 
       expected_uri = URI(JSONModel::HTTP.backend_url + "/slug?slug=what&controller=classifications&action=term")
       expect(HTTP).to receive(:get_response).with(expected_uri)
 
       response = get :term, params: {:slug_or_id => "what"}
 
-      AppConfig[:repo_name_in_slugs] = true
+      AppConfig[:repo_slug_in_URL] = true
     end
 
     it "should set id params based on response from backend" do
