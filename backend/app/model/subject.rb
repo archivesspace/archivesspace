@@ -46,7 +46,6 @@ auto_generate :property => :slug,
                     SlugHelpers.id_based_slug_for(json, Subject) : 
                     SlugHelpers.name_based_slug_for(json, Subject)
                 },
-                :only_on_create => true,
                 :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
 
   def self.set_vocabulary(json, opts)

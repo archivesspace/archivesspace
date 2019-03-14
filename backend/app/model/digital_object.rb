@@ -40,7 +40,6 @@ class DigitalObject < Sequel::Model(:digital_object)
                     SlugHelpers.id_based_slug_for(json, DigitalObject) : 
                     SlugHelpers.name_based_slug_for(json, DigitalObject)
                 },
-                :only_on_create => true,
                 :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
 
 

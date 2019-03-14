@@ -6,6 +6,18 @@ describe 'Rest Helpers' do
   before(:all) do
     RESTHelpers::Endpoint.get('/rest_helper_spec/get')
       .description("GET endpoint test")
+      .documentation do
+        <<~DOCS
+          __Heading for Some Extra Docs__
+          Documentation in markdown about what's goin' on with this endpoint
+        DOCS
+      end
+      .example('python') do
+        <<~PYTHON
+          from asnake.aspace import ASpace()
+          print(ASpace().repositories(2).name)
+        PYTHON
+      end
       .permissions([])
       .returns([200, "(json)"]) \
     do

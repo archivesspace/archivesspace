@@ -26,7 +26,11 @@ endpoints.each do |e|
       output[e[:uri]][e[:method]] = {}
       e[:params].each do |p|
         begin       
+          if p.is_a? String
+            klass = p.to_sym
+          else
           klass = p[1]
+          end
           klass = klass.first if klass.is_a?(Array) 
           
           if klass.is_a?(Symbol)
@@ -41,12 +45,14 @@ endpoints.each do |e|
           else
             record = generate(klass.name.downcase.to_sym)
           end
+          if p.is_a? String
+            output[e[:uri]][e[:method]][p] = record
+          else
           output[e[:uri]][e[:method]][p[0]] = record
+          end
         rescue => err
-          # $stderr.puts "problem with #{e[:uri]} #{e[:method]}"
           problems << { :class => klass, :backtrace => err.backtrace,  :message => err.message }
           next 
-          # raise err 
         end
       end
 

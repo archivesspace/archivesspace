@@ -12,7 +12,6 @@ class Repository < Sequel::Model(:repository)
                     SlugHelpers.id_based_slug_for(json, Repository) : 
                     SlugHelpers.name_based_slug_for(json, Repository)
                 },
-                :only_on_create => true,
                 :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
 
   def validate

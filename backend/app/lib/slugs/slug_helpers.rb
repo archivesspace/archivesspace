@@ -4,13 +4,6 @@ require_relative "slug_helpers_generate_by_id"
 require_relative "slug_helpers_eligibility"
 
 module SlugHelpers
-  def self.debug(action, details = "")
-    if AppConfig[:enable_slugs_debug]
-      STDERR.puts "++++++++++++++++++++++++++++"
-      STDERR.puts "#" + caller[0][/`.*'/][1..-2] + " ==> (" + action + ") ==> " +details
-      STDERR.puts "============================"
-    end
-  end
 
   # Find the record given the slug, return id, repo_id, and table name.
   # This is a gnarly descision tree because the query we'll run depends on which 

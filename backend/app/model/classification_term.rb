@@ -36,7 +36,6 @@ class ClassificationTerm < Sequel::Model(:classification_term)
                     SlugHelpers.id_based_slug_for(json, ClassificationTerm) : 
                     SlugHelpers.name_based_slug_for(json, ClassificationTerm)
                 },
-                :only_on_create => true,
                 :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
   
 

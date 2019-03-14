@@ -73,6 +73,9 @@ module RESTHelpers
       @methods = ASUtils.wrap(method)
       @uri = ""
       @description = "-- No description provided --"
+      @documentation = nil
+      @prepend_to_autodoc = true
+      @examples = {}
       @permissions = []
       @preconditions = []
       @required_params = []
@@ -95,6 +98,9 @@ module RESTHelpers
           {
             :uri => @uri,
             :description => @description,
+            :documentation => @documentation,
+            :prepend_docs => @prepend_to_autodoc,
+            :examples => @examples,
             :method => @methods,
             :params => @required_params,
             :paginated => @paginated,
@@ -124,6 +130,62 @@ module RESTHelpers
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
     def preconditions(*preconditions); @preconditions += preconditions; self; end
+    # For the following methods (documentation, example),  content can be provided via either
+    # argument or as the return value of a provided block.
+    # Add documentation for endpoint to be interpolated into the API docs.
+    # If "prepend" is true, the automated docs (e.g. pagination) will be
+    #   appended to this when API docs are generated, otherwise this will
+    #   replace the docs entirely.
+    #
+    # Note: If you make prepend false, you should provide __Parameters__
+    #       and __Returns__ sections manually.
+    #
+    # Recommended usage:
+    #
+    # endpoint.documentation do
+    #   <<~DOCS
+    #   # Header
+    #   Some content
+    #   - with maybe a list
+    #   - who doesn't like lists, right?
+    #   DOCS
+    # end
+    def documentation(docs = nil, prepend: true)
+      if block_given?
+        docs = yield docs, prepend
+      end
+      if docs
+        @documentation = docs
+      end
+      @prepend_to_autodoc = prepend
+      self
+    end
+    # Add an example to the example code tabs.
+    #
+    # The highlighter argument must be a language code understood by the rouge highlighting library
+    #   (https://github.com/jneen/rouge/wiki/List-of-supported-languages-and-lexers)
+    #
+    # Recommended usage:
+    #
+    # endpoint.example('shell') do
+    #   <<~CONTENTS
+    #   wget 'blah blah blah'
+    #   CONTENTS
+    # end
+    def example(highlighter, contents = nil)
+      if block_given?
+        contents = yield contents
+      end
+      if contents
+        contents = <<~TEMPLATE
+          ```#{highlighter}
+          #{contents}
+          ```
+        TEMPLATE
+        @examples[highlighter] = contents
+      end
+      self
+    end
 
 
     def permissions(permissions)

@@ -3,7 +3,6 @@ module SlugHelpers
   # Generally, we'll always want to return true here and run the slug code if the record is brand new (hasn't been persisted)
   # slug will be updated iff this method returns true
   def self.slug_data_updated?(obj)
-    debug("called with params", "obj: #{obj.inspect}")
 
     id_field_changed   = false
     name_field_changed = false
@@ -78,7 +77,6 @@ module SlugHelpers
       name_field_changed = obj[:is_display_name] == 1
     end
 
-    debug("values so far", "id_field_changed: #{id_field_changed} name_field_changed: #{name_field_changed} persisted: #{persisted} slug_auto_field_changed: #{slug_auto_field_changed} slug_field_changed: #{slug_field_changed}")
 
     # auto-gen slugs has been switched from OFF to ON
     if slug_auto_field_changed && obj[:is_slug_auto] == 1
@@ -101,13 +99,11 @@ module SlugHelpers
       updated = false
     end
 
-    debug("return value", updated.to_s)
     return updated
   end
 
   # returns true if is_slug_auto is enabled for entity, or if we should treat it like it is
   def self.is_slug_auto_enabled?(entity)
-    debug("called with params", "entity: #{entity.inspect}")
     enabled = false
 
     if entity[:is_slug_auto] && entity[:is_slug_auto] == 1
@@ -118,12 +114,10 @@ module SlugHelpers
       enabled = true
     end
 
-    debug("return value", enabled.to_s)
     return enabled
   end
 
   def self.is_agent_name_type?(klass)
-    debug("called with params", "klass: #{klass.to_s}")
 
     klass.to_s == "NamePerson" || 
     klass.to_s == "NameCorporateEntity" || 
@@ -132,7 +126,6 @@ module SlugHelpers
   end
 
   def self.is_agent_type?(klass)
-    debug("called with params", "klass: #{klass.to_s}")
 
     klass.to_s == "AgentPerson" || 
     klass.to_s == "AgentCorporateEntity" || 
@@ -141,7 +134,7 @@ module SlugHelpers
   end
 
   def self.sluggable_class?(klass)
-    debug("called with params", "klass: #{klass.to_s}")
+
     
     klass.to_s == "Resource" ||
     klass.to_s == "Accession" || 

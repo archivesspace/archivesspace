@@ -977,6 +977,15 @@ describe "EAD export mappings" do
         mt(sort_name, path_2)
       end
     end
+    # ANW-777
+    it "capitalizes instances of agent role 'creator' that are mapped to origination/@label" do
+      origination_labels = doc.xpath("//origination/@label")
+      origination_labels.each do |origination_label|
+        next unless origination_label.content == 'creator'
+        expected_label = origination_label.content.capitalize
+        expect(origination_label.content).to eq(expected_label)
+      end
+    end
   end
 
 

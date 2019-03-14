@@ -54,7 +54,6 @@ class Resource < Sequel::Model(:resource)
                     SlugHelpers.id_based_slug_for(json, Resource) : 
                     SlugHelpers.name_based_slug_for(json, Resource)
                 },
-                :only_on_create => true,
                 :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
 
   # Maintain a finding_aid_sponsor_sha1 column to allow us to do quick lookups for OAI.

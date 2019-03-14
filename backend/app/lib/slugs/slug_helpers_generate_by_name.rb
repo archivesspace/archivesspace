@@ -3,14 +3,11 @@ module SlugHelpers
  # auto generate a slug for this instance based on name
   # if for any reason we can't generate an id slug, then turn autogenerate off for this entity.
   def self.generate_slug_by_name!(entity)
-    debug("called with params", "entity: #{entity.inspect}")
 
     slug = name_based_slug_for(entity, entity.class)
 
-    debug("updating slug for entity", "entity: #{entity} slug: #{slug}")
 
     if is_agent_name_type?(entity.class)
-      debug("agent name type found")
 
       # prevent slug from getting nulled out on create
       # TODO: find a way to remove this check
@@ -23,8 +20,6 @@ module SlugHelpers
       entity[:slug] = slug
 
       if slug.nil? || slug.empty?
-        debug("empty slug generated")
-        debug("turning off is_slug_auto for #{entity.class}")
 
         entity[:is_slug_auto] = 0 
       end
@@ -38,24 +33,20 @@ module SlugHelpers
   # 'entity' is a data structure that has what we need. It may be a JSONModel or a Sequel object.
 
   def self.name_based_slug_for(entity, klass)
-    debug("called with params", "entity: #{entity.inspect} klass: #{klass.to_s}")
 
     if !entity[:title].nil? && !entity[:title].empty? &&
        !is_agent_name_type?(klass)
-      debug "entity has a title"
 
       slug = entity[:title]
 
     elsif !entity[:name].nil? && !entity[:name].empty? &&
           !is_agent_name_type?(klass)
-      debug "entity has a name"
 
       slug = entity[:name]
 
     # This codepath is run on updating slugs for agents, where we get either a Sequel Name object, or a Hash
     elsif is_agent_name_type?(klass)
       if entity.class == Hash
-        debug "entity is a NameAgent Hash"
 
         # turn keys into symbols, that's what we expect down the line
         entity.keys.each do |key|
@@ -65,18 +56,15 @@ module SlugHelpers
         slug = get_agent_name_string_from_hash(entity, klass)
 
       elsif is_agent_name_type?(entity.class)
-        debug "entity is a NameAgent Sequel object"
 
         slug = get_agent_name_string_from_sequel(entity, klass)
       end
 
     else
-      debug "entity is not recognized"
 
       slug = ""
     end
     
-    debug("generated slug", "slug: #{slug}")
 
     return clean_slug(slug, klass)
   end
@@ -86,7 +74,6 @@ module SlugHelpers
   # takes in a hash like object representing a name record for an agent.
   # returns the expected slug given the name fields
   def self.get_agent_name_string_from_hash(hash, klass)
-    debug("called with params", "hash: #{hash.inspect} klass: #{klass.to_s}")
 
     result = ""
 
@@ -114,14 +101,12 @@ module SlugHelpers
       result = hash[:software_name] if hash[:software_name]
     end
 
-    debug("return value", result.to_s)
 
     result
   end
 
   # Takes a NameAgent record (eg., NamePerson) and turns it into a hash so we can generate the right slug given the name fields
   def self.get_agent_name_string_from_sequel(name_record, klass)
-    debug("called with params", "name_record: #{name_record.inspect} klass: #{klass.to_s}")
 
     name_values_hash = name_record.values
 
@@ -134,7 +119,6 @@ module SlugHelpers
   end
 
   def self.get_agent_class_for_name_class(klass)
-    debug("called with params", "klass: #{klass.to_s}")
 
     case klass.to_s
     when "NamePerson"
@@ -151,7 +135,6 @@ module SlugHelpers
   # Generating a slug for an agent is done through the name record (e.g., NamePerson)
   # This method updates the agent associated with the name record that the slug was generated from.
   def self.update_agent_slug_from_name(entity, slug)
-    debug("called with params", "entity: #{entity.inspect} slug: #{slug.to_s}")
 
     agent = nil
 
@@ -166,10 +149,8 @@ module SlugHelpers
       agent = AgentSoftware[entity[:agent_software_id]]
     end
 
-    debug("agent found", "#{agent.inspect}") if agent
 
     if agent && is_slug_auto_enabled?(agent)
-      debug "updating agent record", "slug: #{slug}"
       agent.update(:slug => slug)
     end
   end

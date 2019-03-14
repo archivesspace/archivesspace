@@ -51,7 +51,6 @@ class ArchivalObject < Sequel::Model(:archival_object)
                     SlugHelpers.id_based_slug_for(json, ArchivalObject) : 
                     SlugHelpers.name_based_slug_for(json, ArchivalObject)
                 },
-                :only_on_create => true,
                 :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
 
 

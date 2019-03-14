@@ -1023,7 +1023,7 @@ class EAD3Serializer < EADSerializer
     unless data.creators_and_sources.nil?
       data.creators_and_sources.each do |link|
         agent = link['_resolved']
-        role = link['role']
+        link['role'] == 'creator' ? role = link['role'].capitalize : role = link['role']
         relator = link['relator']
         sort_name = agent['display_name']['sort_name']
         rules = agent['display_name']['rules']

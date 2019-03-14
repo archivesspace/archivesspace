@@ -2,7 +2,6 @@ module SlugHelpers
 
   # remove invalid chars, truncate, and dedupe slug if necessary
   def self.clean_slug(slug, klass)
-    debug("called with params", "slug: #{slug.to_s} klass: #{klass.to_s}")
 
     if slug
       # if the slug contains a slash, completely zero it out.
@@ -41,7 +40,6 @@ module SlugHelpers
 
       # search for dupes
       if !slug.empty? && slug_in_use?(slug, klass)
-        debug("deduping", "slug: #{slug.to_s} klass: #{klass.to_s}")
         slug = dedupe_slug(slug, 1, klass)
       end
 
@@ -49,14 +47,12 @@ module SlugHelpers
       slug = ""
     end
 
-    debug("return value", slug)
     return slug
   end
 
   # given a slug, return true if slug is used by another entity.
   # return false otherwise.
   def self.slug_in_use?(slug, klass)
-    debug("called with params", "slug: #{slug.to_s} klass: #{klass.to_s}")
 
     repo_count           = Repository.where(:slug => slug).count
     resource_count       = Resource.where(:slug => slug).count
@@ -121,14 +117,12 @@ module SlugHelpers
            archival_obj_count +
            do_component_count > 0
 
-    debug("return value", rval.to_s)
     return rval
   end
 
   # dupe_slug is already in use. Recursively find a suffix (e.g., slug_1)
   # that isn't used by anything else
   def self.dedupe_slug(dupe_slug, count = 1, klass)
-    debug("called with params", "dupe_slug: #{dupe_slug.to_s} klass: #{klass.to_s} count: #{count.to_s}")
     
     new_slug = dupe_slug + "_" + count.to_s
 

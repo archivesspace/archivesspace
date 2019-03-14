@@ -623,7 +623,6 @@ AppConfig[:pui_page_custom_actions] = []
 # TODO: for release, uncomment below and remove line that follows that so that HRU's are off by default.
 #AppConfig[:use_human_readable_URLs] = false
 AppConfig[:use_human_readable_URLs] = true
-AppConfig[:enable_slugs_debug] = false
 
 # Use the repository in slug based URLs
 # Warning: setting repo_name_in_slugs to true when it has previously been set to false will break links, unless all slugs are regenerated.

@@ -52,7 +52,6 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
                     SlugHelpers.id_based_slug_for(json, DigitalObjectComponent) : 
                     SlugHelpers.name_based_slug_for(json, DigitalObjectComponent)
                 },
-                :only_on_create => true,
                 :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
 
   def validate
