@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe 'Slug controller' do
-  describe 'repo_slug_in_URL disabled' do
+  describe 'repo_name_in_slugs disabled' do
     before(:all) do
-      AppConfig[:repo_slug_in_URL] = false
+      AppConfig[:repo_name_in_slugs] = false
     end
 
   	it "finds repository by slug for 'repositories' controller" do
@@ -162,9 +162,9 @@ describe 'Slug controller' do
 
   end
 
-  describe 'repo_slug_in_URL enabled' do
+  describe 'repo_name_in_slugs enabled' do
     before(:all) do
-      AppConfig[:repo_slug_in_URL] = true
+      AppConfig[:repo_name_in_slugs] = true
       @repo_json = JSONModel(:repository)
                      .from_hash(:repo_code => "SLUGB",
                                 :name => "Repo with a slug",

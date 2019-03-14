@@ -20,7 +20,6 @@ class AgentSoftware < Sequel::Model(:agent_software)
   auto_generate :property => :slug,
                 :generator => proc { |json| SlugHelpers.id_based_slug_for(json, AgentSoftware) if AppConfig[:auto_generate_slugs_with_id]
                 },
-                :only_on_create => false,
                 :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] } 
 
 
