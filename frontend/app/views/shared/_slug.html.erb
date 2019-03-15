@@ -7,10 +7,11 @@
   <% end %>
   <% if record_type == @repository %>
     <%= form.label_and_textfield "slug", :field_opts => {:readonly => @repository['repository']['is_slug_auto'] } %>
+    <%= form.label_and_boolean "is_slug_auto", {:checked => @repository['repository']['is_slug_auto'] }, form.default_for("is_slug_auto") %>
   <% else %>
     <%= form.label_and_textfield "slug", :field_opts => {:readonly => record_type.is_slug_auto } %>
+    <%= form.label_and_boolean "is_slug_auto", {:checked => record_type.is_slug_auto }, form.default_for("is_slug_auto") %>
   <% end %>
-  <%= form.label_and_boolean "is_slug_auto", {:checked => record_type.is_slug_auto }, form.default_for("is_slug_auto") %>
 
   <%= javascript_tag do %>
     activate_slug_checkbox();

@@ -50,11 +50,17 @@ class Resource < Sequel::Model(:resource)
 
   auto_generate :property => :slug,
                 :generator => proc { |json|
-                  AppConfig[:auto_generate_slugs_with_id] ? 
-                    SlugHelpers.id_based_slug_for(json, Resource) : 
-                    SlugHelpers.name_based_slug_for(json, Resource)
-                },
-                :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
+                  if AppConfig[:use_human_readable_URLs]
+                    if json["is_slug_auto"]
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, Resource) :
+                        SlugHelpers.name_based_slug_for(json, Resource)
+                    else
+                      json["slug"]
+                    end
+                  end
+                }
+
 
   # Maintain a finding_aid_sponsor_sha1 column to allow us to do quick lookups for OAI.
   def self.create_from_json(json, opts = {})

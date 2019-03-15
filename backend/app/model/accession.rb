@@ -62,10 +62,15 @@ class Accession < Sequel::Model(:accession)
 
   auto_generate :property => :slug,
                 :generator => proc { |json|
-                  AppConfig[:auto_generate_slugs_with_id] ? 
-                    SlugHelpers.id_based_slug_for(json, Accession) : 
-                    SlugHelpers.name_based_slug_for(json, Accession)
-                },
-                :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
+                  if AppConfig[:use_human_readable_URLs]
+                    if json["is_slug_auto"]
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, Accession) :
+                        SlugHelpers.name_based_slug_for(json, Accession)
+                    else
+                      json["slug"]
+                    end
+                  end
+                }
 
 end

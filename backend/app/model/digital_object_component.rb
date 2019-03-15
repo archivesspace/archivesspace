@@ -48,11 +48,17 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
 
   auto_generate :property => :slug,
                 :generator => proc { |json|
-                  AppConfig[:auto_generate_slugs_with_id] ? 
-                    SlugHelpers.id_based_slug_for(json, DigitalObjectComponent) : 
-                    SlugHelpers.name_based_slug_for(json, DigitalObjectComponent)
-                },
-                :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
+                  if AppConfig[:use_human_readable_URLs]
+                    if json["is_slug_auto"]
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, DigitalObjectComponent) :
+                        SlugHelpers.name_based_slug_for(json, DigitalObjectComponent)
+                    else
+                      json["slug"]
+                    end
+                  end
+                }
+
 
   def validate
     validates_unique([:root_record_id, :component_id],

@@ -29,7 +29,7 @@ class Subject < Sequel::Model(:subject)
                     :contains_records_of_type => :term,
                     :corresponding_to_association  => :term)
 
-  auto_generate :property => :title, 
+  auto_generate :property => :title,
                 :generator => proc  { |json|
                                 json["terms"].map do |t|
                                   if t.kind_of? String
@@ -42,11 +42,17 @@ class Subject < Sequel::Model(:subject)
 
 auto_generate :property => :slug,
                 :generator => proc { |json|
-                  AppConfig[:auto_generate_slugs_with_id] ? 
-                    SlugHelpers.id_based_slug_for(json, Subject) : 
-                    SlugHelpers.name_based_slug_for(json, Subject)
-                },
-                :only_if => proc { |json| json["is_slug_auto"] && AppConfig[:use_human_readable_URLs] }
+                  if AppConfig[:use_human_readable_URLs]
+                    if json["is_slug_auto"]
+                      AppConfig[:auto_generate_slugs_with_id] ?
+                        SlugHelpers.id_based_slug_for(json, Subject) :
+                        SlugHelpers.name_based_slug_for(json, Subject)
+                    else
+                      json["slug"]
+                    end
+                  end
+                }
+
 
   def self.set_vocabulary(json, opts)
     opts["vocab_id"] = nil
