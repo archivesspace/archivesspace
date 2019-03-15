@@ -1378,39 +1378,20 @@ ja:
     publish_tooltip: 既定で新しいレコードを発行するかどうか。
     default_values: レコードの事前入力？
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
+    browse_column_1: 列1
+    browse_column_1_tooltip: 列1に表示するフィールド。
+    browse_column_2: 列2
+    browse_column_2_tooltip: 列2に表示するフィールド。
+    browse_column_3: 列3
+    browse_column_3_tooltip: 列3に表示されるフィールド。
+    browse_column_4: 列4
+    browse_column_4_tooltip: 列4に表示するフィールド。
+    browse_column_5: 列5
+    browse_column_5_tooltip: 列5に表示するフィールド。
     accession_browse_section: アクセス列を参照
-    accession_browse_column_1: 列1
-    accession_browse_column_1_tooltip: 列1に表示するフィールド。
-    accession_browse_column_2: 列2
-    accession_browse_column_2_tooltip: 列2に表示するフィールド。
-    accession_browse_column_3: 列3
-    accession_browse_column_3_tooltip: 列3に表示されるフィールド。
-    accession_browse_column_4: 列4
-    accession_browse_column_4_tooltip: 列4に表示するフィールド。
-    accession_browse_column_5: 列5
-    accession_browse_column_5_tooltip: 列5に表示するフィールド。
     resource_browse_section: リソース参照列
-    resource_browse_column_1: 列1
-    resource_browse_column_1_tooltip: 列1に表示するフィールド。
-    resource_browse_column_2: 列2
-    resource_browse_column_2_tooltip: 列2に表示するフィールド。
-    resource_browse_column_3: 列3
-    resource_browse_column_3_tooltip: 列3に表示されるフィールド。
-    resource_browse_column_4: 列4
-    resource_browse_column_4_tooltip: 列4に表示するフィールド。
-    resource_browse_column_5: 列5
-    resource_browse_column_5_tooltip: 列5に表示するフィールド。
     digital_object_browse_section: Digital_Object列を参照
-    digital_object_browse_column_1: 列1
-    digital_object_browse_column_1_tooltip: 列1に表示するフィールド。
-    digital_object_browse_column_2: 列2
-    digital_object_browse_column_2_tooltip: 列2に表示するフィールド。
-    digital_object_browse_column_3: 列3
-    digital_object_browse_column_3_tooltip: 列3に表示されるフィールド。
-    digital_object_browse_column_4: 列4
-    digital_object_browse_column_4_tooltip: 列4に表示するフィールド。
-    digital_object_browse_column_5: 列5
-    digital_object_browse_column_5_tooltip: 列5に表示するフィールド。
+    subject_browse_section: 件名ブラウズコラム
     note_order_section: 注文書
     accept_default_message: "&gt;デフォルトを受け入れる："
     no_value: "[値なし]"
