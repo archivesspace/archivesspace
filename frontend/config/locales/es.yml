@@ -364,6 +364,7 @@
     slug: Slug
     public_url: URL pública
     is_slug_auto: Generar automáticamente Slug?
+    autogen_disabled: " -- Slug vacío generado, Generar automáticamente la opción slug deshabilitada"
 
   linker:
     link_to_prefix: Enlace a

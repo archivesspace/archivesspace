@@ -96,7 +96,14 @@ class AgentsController < ApplicationController
                   return render :action => :edit
                 },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("agent._frontend.messages.updated")
+                  success_msg = I18n.t("agent._frontend.messages.updated")
+                  if @agent["is_slug_auto"] == false &&
+                     @agent["slug"] == nil &&
+                     params["agent"] &&
+                     params["agent"]["is_slug_auto"] == "1"
+                    success_msg << I18n.t("slug.autogen_disabled")
+                  end
+                  flash[:success] = success_msg
                   redirect_to :controller => :agents, :action => :edit, :id => id, :agent_type => @agent_type
                 })
   end

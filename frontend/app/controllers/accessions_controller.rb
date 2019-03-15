@@ -11,17 +11,17 @@ class AccessionsController < ApplicationController
 
 
   def index
-    respond_to do |format| 
-      format.html {   
+    respond_to do |format|
+      format.html {
         @search_data = Search.for_type(session[:repo_id], "accession", params_for_backend_search.merge({"facet[]" => SearchResultData.ACCESSION_FACETS}))
       }
-      format.csv { 
+      format.csv {
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.ACCESSION_FACETS})
-        search_params["type[]"] = "accession" 
+        search_params["type[]"] = "accession"
         uri = "/repositories/#{session[:repo_id]}/search"
         csv_response( uri, search_params )
-      }  
-    end 
+      }
+    end
   end
 
 
@@ -126,7 +126,15 @@ class AccessionsController < ApplicationController
                   return render action: "edit"
                 },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("accession._frontend.messages.updated", JSONModelI18nWrapper.new(:accession => @accession))
+                  success_msg = I18n.t("accession._frontend.messages.updated")
+                  if @accession["is_slug_auto"] == false &&
+                     @accession["slug"] == nil &&
+                     params["accession"] &&
+                     params["accession"]["is_slug_auto"] == "1"
+                    success_msg << I18n.t("slug.autogen_disabled")
+                  end
+
+                  flash[:success] = success_msg
                   redirect_to :controller => :accessions, :action => :edit, :id => id
                 })
   end

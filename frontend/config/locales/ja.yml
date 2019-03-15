@@ -369,6 +369,7 @@ ja:
     slug: Slug
     public_url: 公開URL
     is_slug_auto: 自動生成 Slug?
+    autogen_disabled: " -- 空スラグを生成、スラグを自動的に生成オプションを無効にします"
 
   linker:
     link_to_prefix: リンク先

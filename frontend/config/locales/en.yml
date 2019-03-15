@@ -362,6 +362,7 @@ en:
     slug: Slug
     public_url: Public URL
     is_slug_auto: Automatically generate Slug?
+    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
 
   linker:
     link_to_prefix: Link to

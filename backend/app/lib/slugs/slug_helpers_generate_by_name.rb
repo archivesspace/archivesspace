@@ -1,29 +1,18 @@
 module SlugHelpers
 
- # auto generate a slug for this instance based on name
-  # if for any reason we can't generate an id slug, then turn autogenerate off for this entity.
-  def self.generate_slug_by_name!(entity)
+  # auto generate a slug for the Agent associated with this AgentName
+  # Then, find that associated Agent and update it's slug.
+  # if for any reason we generate an empty slug, then turn autogen off for the agent.
+  def self.generate_slug_for_agent_name!(entity)
 
     slug = name_based_slug_for(entity, entity.class)
 
 
-    if is_agent_name_type?(entity.class)
 
-      # prevent slug from getting nulled out on create
-      # TODO: find a way to remove this check
-      unless slug.nil? || slug.empty?
         update_agent_slug_from_name(entity, slug)
-      end
 
-    # runs when we have any other type besides Agents
-    else
-      entity[:slug] = slug
 
-      if slug.nil? || slug.empty?
 
-        entity[:is_slug_auto] = 0 
-      end
-    end
   end
 
 
@@ -83,20 +72,20 @@ module SlugHelpers
     when "AgentPerson"
       if hash[:name_order] === "inverted"
         result << hash[:primary_name] if hash[:primary_name]
-        result << ", #{hash[:rest_of_name]}" if hash[:rest_of_name]
+        result << "_" + hash[:rest_of_name] if hash[:rest_of_name]
 
       elsif hash[:name_order] === "direct"
         result << hash[:rest_of_name] if hash[:rest_of_name]
-        result << " #{hash[:primary_name]}" if hash[:primary_name]
+        result << "_" + hash[:primary_name] if hash[:primary_name]
       else
         result << hash[:primary_name]
       end
     when "AgentFamily"
       result = hash[:family_name] if hash[:family_name]
     when "AgentCorporateEntity"
-      result << "#{hash[:primary_name]}" if hash[:primary_name]
-      result << ". #{hash[:subordinate_name_1]}" if hash[:subordinate_name_1]
-      result << ". #{hash[:subordinate_name_2]}" if hash[:subordinate_name_2]
+      result << hash[:primary_name] if hash[:primary_name]
+      result << "_" + hash[:subordinate_name_1] if hash[:subordinate_name_1]
+      result << "_" + hash[:subordinate_name_2] if hash[:subordinate_name_2]
     when "AgentSoftware"
       result = hash[:software_name] if hash[:software_name]
     end

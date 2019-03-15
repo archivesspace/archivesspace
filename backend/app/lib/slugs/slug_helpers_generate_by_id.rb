@@ -1,20 +1,6 @@
 module SlugHelpers
-  # auto generate a slug for this instance based on id
-  # if for any reason we can't generate an id slug, then turn autogenerate off for this entity.
-  def self.generate_slug_by_id!(entity)
-
-    slug = id_based_slug_for(entity, entity.class)
-
-    entity[:slug] = slug
-
-    if slug.empty? || slug.nil?
-
-      entity[:is_slug_auto] = 0
-    end
-  end
 
   # generate and return a string for a slug based on this thing's ID.
-  # unlike #generate_slug_by_id!, this method does not modify the passed in object.
   def self.id_based_slug_for(entity, klass)
 
     if klass == Resource || klass == Accession

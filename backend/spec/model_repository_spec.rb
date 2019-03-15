@@ -219,6 +219,9 @@ describe 'Repository model' do
   
         expect(repo[:slug]).to eq("_12345")
       end
+      it "removes semicolons from slugs" do
+        expect(true).to eq(false)
+      end
   
       it "turns off is_slug_auto if processing makes a slug empty" do
         id = make_test_repo("digit_test")
