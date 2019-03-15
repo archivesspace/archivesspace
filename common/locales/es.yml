@@ -1892,8 +1892,16 @@ es:
     publish_tooltip: Si desea publicar nuevos registros por defecto.
     default_values: ¿Pre-popular registros?
     default_values_tooltip: Si quiere pre-popular un nuevo Fondo o Acta de ingreso
-    browse_column: Columna %{num}
-    browse_column_tooltip: El campo para mostrar en la columna %{num}.
+    browse_column_1: Columna 1
+    browse_column_1_tooltip: El campo para mostrar en la columna 1.
+    browse_column_2: Columna 2
+    browse_column_2_tooltip: El campo para mostrar en la columna 2.
+    browse_column_3: Columna 3
+    browse_column_3_tooltip: El campo para mostrar en la columna 3.
+    browse_column_4: Columna 4
+    browse_column_4_tooltip: El campo para mostrar en la columna 4.
+    browse_column_5: Columna 5
+    browse_column_5_tooltip: El campo para mostrar en la columna 5.
     accession_browse_section: Navegar columnas de entrada
     resource_browse_section: Fondos ver columnas
     digital_object_browse_section: Objeto digital ver columnas

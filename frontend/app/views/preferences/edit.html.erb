@@ -18,7 +18,7 @@
     title += " -- #{current_repo['repo_code']}"
   end
 %>
- 
+
 <%= setup_context(:title => title) %>
 
 <%= form_for @preference, :as => "preference", :url => {:action => :update, :id => @preference.id}, :html => {:class => 'form-horizontal aspace-record-form'}.merge(update_monitor_params(@preference)) do |f| %>
@@ -43,8 +43,7 @@
             <%= message.force_encoding("UTF-8") %>
           </div>
 
-
-          <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
+          <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
           <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :hidden => true} %>
 

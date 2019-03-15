@@ -111,16 +111,16 @@ module SearchHelper
       end
     else
       proc do |record|
-        v = record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]]
-        if opts[:multi]
+        v = Array(record[opts[:field]] || ASUtils.json_parse(record['json'])[opts[:field]])
+        if v.length > 1
           content_tag('ul', :style => 'padding-left: 20px;') {
             Array(v).collect { |i|
               content_tag('li',
                 I18n.t("enumerations.#{opts[:enum_locale_key]}.#{i}", :default => i.to_s))
             }.join.html_safe
           }
-        else
-          I18n.t("enumerations.#{opts[:enum_locale_key]}.#{v}", :default => v.to_s)
+        elsif v.length == 1
+          I18n.t("enumerations.#{opts[:enum_locale_key]}.#{v[0]}", :default => v[0].to_s)
         end
       end
     end
@@ -150,15 +150,27 @@ module SearchHelper
     @search_data.add_sort_field 'user_mtime'
   end
 
-  def add_user_pref_columns(model, enum_locales = {})
+  def add_pref_columns(model, enum_locales = {})
     (1..5).to_a.each do |n|
       prop = user_prefs["#{model}_browse_column_#{n}"]
       if prop && prop != 'no_value'
-        enum_locale_key = enum_locales[prop] || "#{model}_#{prop}"
-        add_column(I18n.t("#{model}.#{prop}"), :sortable => true, :field => prop,
-          :enum_locale_key => enum_locale_key, :model => model)
+        opts = {:field => prop}
+        field = solr_fields[prop]
+        opts[:enum_locale_key] = enum_locales[prop] || "#{model}_#{prop}"
+        opts[:sortable] = field && !field['multiValued']
+        opts[:type] = (field || {})['type'] || 'string'
+        if lookup_context.template_exists?("#{prop}_cell", model, true)
+          opts[:template] = "#{model}/#{prop}_cell"
+        elsif lookup_context.template_exists?("#{prop}_cell", 'shared', true)
+          opts[:template] = "shared/#{prop}_cell"
+        end
+        add_column(I18n.t("#{model}.#{prop}"), opts)
       end
     end
+  end
+
+  def browse_column_opts(type)
+    user_prefs#['browse_column_opts'][type]
   end
 
   def add_actions_column
@@ -206,22 +218,22 @@ module SearchHelper
     case type = @search_data.get_type
     when 'accession'
       add_multiselect_column if user_can?("delete_archival_record") && browsing
-      add_title_column I18n.t("accession.title")
-      add_user_pref_columns('accession')
+      # add_title_column I18n.t("accession.title")
+      add_pref_columns('accession')
       add_audit_info_column
     when 'resource', 'archival_object'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
       add_record_type_column if params[:include_components]
-      add_title_column I18n.t('resource.title')
+      # add_title_column I18n.t('resource.title')
       add_context_column if params[:include_components] || type == 'archival_object'
-      add_user_pref_columns('resource')
+      add_pref_columns('resource')
       add_audit_info_column
     when 'digital_object', 'digital_object_component'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
       add_record_type_column if params[:include_components]
       add_title_column I18n.t('digital_object.title')
       add_context_column if params[:include_components] || type == 'digital_object_component'
-      add_user_pref_columns('digital_object')
+      add_pref_columns('digital_object')
       add_audit_info_column
     when 'assessment'
       add_multiselect_column if user_can?('delete_assessment_record') && browsing
@@ -236,11 +248,12 @@ module SearchHelper
         proc {|record|
           record['assessment_survey_end'] ? Date.parse(record['assessment_survey_end']) : ''
         })
-      add_user_pref_columns("assessment")
+      add_pref_columns("assessment")
       add_audit_info_column
     when 'subjects'
       add_multiselect_column if user_can?("delete_subject_record") && browsing
-      add_title_column I18n.t("subject.terms")
+      # add_title_column I18n.t("subject.terms")
+      add_pref_columns('subject')
       add_audit_info_column
     when 'agent', 'agent_person', 'agent_software', 'agent_family', 'agent_corporate_entity'
       add_multiselect_column if user_can?("delete_agent_record")
@@ -361,6 +374,12 @@ module SearchHelper
     else
       ancestors = ['']
     end
+  end
+
+  def solr_fields
+    @solr_fields ||= ASUtils.json_parse(
+      ASHTTP.get(URI.join(AppConfig[:solr_url], 'schema'))
+      )['schema']['fields'].map { |field| [field['name'], field] }.to_h
   end
 
 
