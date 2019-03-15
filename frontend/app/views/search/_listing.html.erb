@@ -1,4 +1,8 @@
 <% if @search_data.results? %>
+
+  <%#= @search_data['results'][0].keys.collect {|key| "\"#{key}\""}.join(', ') %>
+  <%#= debug @search_data['results'][0] %>
+
   <% add_columns %>
 
   <%= render_aspace_partial :partial => "shared/pagination_summary" %>
