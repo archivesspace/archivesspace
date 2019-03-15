@@ -5,7 +5,7 @@ describe 'Language and script model' do
 
   it "Allows a language and script subrecord to be created" do
 
-    language_and_script = Language.create_from_json(JSONModel(:language_and_script).
+    language_and_script = LanguageAndScript.create_from_json(JSONModel(:language_and_script).
                                  from_hash({
                                              "language" => "eng",
                                              "script" => "Latn"
