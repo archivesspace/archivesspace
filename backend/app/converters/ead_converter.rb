@@ -217,21 +217,19 @@ class EADConverter < Converter
     with "langmaterial" do |*|
       # if <langmaterial> contains encoded <language> tags create a matching language_and_script record
       langmaterial = Nokogiri::XML::DocumentFragment.parse(inner_xml)
-      if !langmaterial.xpath('language').empty?
-        language = langmaterial.xpath('language').attr('langcode')
-        script = langmaterial.xpath('language').attr('scriptcode')
+      if (language = langmaterial.xpath('.//language')).size != 0 && (langcode = langmaterial.xpath('.//language').attr('langcode'))
+        script = language.attr('scriptcode')
         make :lang_material, {
           :jsonmodel_type => 'lang_material',
           :language_and_script => {
             'jsonmodel_type' => 'language_and_script',
-            'language' => language.to_s,
+            'language' => langcode.to_s,
             'script' => script ? script.to_s : nil
           }
         } do |lang|
         set ancestor(:resource, :archival_object), :lang_materials, lang
         end
-      # Set language to undetermined if the langmaterial note does not contain a langcode attribute
-      # NOTE: Since this is triggered for each <langmaterial> found in the EAD there's the potential of creating duplicate/redundant language_and_script records with languages of 'undetermined'
+      # if we don't have an encoded language inside the <langmaterial> set it to undetermined.
       else
         make :lang_material, {
           :jsonmodel_type => 'lang_material',
@@ -244,25 +242,43 @@ class EADConverter < Converter
         end
       end
 
-      # write full tag content to a note, subbing out the language tags
+      # write full <langmaterial> content to a note, subbing out the language tags (if present)
       content = inner_xml
-      if inner_xml.match(/(<language langcode="[a-z]+" scriptcode="[A-z]+">(.*)<\/language>)|(<language langcode="[a-z]+">(.*)<\/language>)/)
-        content = inner_xml.sub(/(<language langcode="[a-z]+" scriptcode="[A-z]+">(.*)<\/language>)|(<language langcode="[a-z]+">(.*)<\/language>)/, '\\2\\4')
+      if inner_xml.match(/(<language langcode="[a-z]+" scriptcode="[A-z]+">(.*)<\/language>)|(<language langcode="[a-z]+">(.*)<\/language>)|(<language langcode="[a-z]+"\/>)/)
+        content = inner_xml.sub(/(<language langcode="[a-z]+" scriptcode="[A-z]+">(.*)<\/language>)|(<language langcode="[a-z]+">(.*)<\/language>)|(<language langcode="[a-z]+"\/>)/, '\\2\\4')
       end
 
-      make :lang_material, {
-        :jsonmodel_type => 'lang_material',
-        :notes => {
-          'jsonmodel_type' => 'note_langmaterial',
-          'type' => 'langmaterial',
-          'persistent_id' => att('id'),
-          'publish' => att('audience') != 'internal',
-          'content' => [format_content( content.sub(/<head>.*?<\/head>/, '') )]
-        }
-      } do |note|
-        set ancestor(:resource, :archival_object), :lang_materials, note
+      unless content.nil? || content == ''
+        make :lang_material, {
+          :jsonmodel_type => 'lang_material',
+          :notes => {
+            'jsonmodel_type' => 'note_langmaterial',
+            'type' => 'langmaterial',
+            'persistent_id' => att('id'),
+            'publish' => att('audience') != 'internal',
+            'content' => [format_content( content.sub(/<head>.*?<\/head>/, '') )]
+          }
+        } do |note|
+          set ancestor(:resource, :archival_object), :lang_materials, note
+        end
       end
 
+    end
+
+    # If we've gotten this far and still haven't hit a <langmaterial><language> we must assign an undetermined language value
+    with "archdesc/did" do |e|
+      if context_obj['jsonmodel_type'] == 'resource' && inner_xml.include?('<langmaterial>') == false
+        make :lang_material, {
+          :jsonmodel_type => 'lang_material',
+          :language_and_script => {
+            'jsonmodel_type' => 'language_and_script',
+            'language' => 'und'
+          }
+        } do |lang|
+        set ancestor(:resource, :archival_object), :lang_materials, lang
+        break
+        end
+      end
     end
 
 
@@ -832,17 +848,18 @@ class EADConverter < Converter
 
     with 'profiledesc' do |*|
       profiledesc = Nokogiri::XML::DocumentFragment.parse(inner_xml)
-      langusage = profiledesc.xpath(".//langusage")
-      if !langusage.empty?
-        if (language = langusage.xpath('language').attr('langcode'))
-          set :finding_aid_language, language.to_s
-          if (script = langusage.xpath('language').attr('scriptcode'))
+      if !(langusage = profiledesc.xpath(".//langusage")).empty?
+        # If there is a langcode attribute inside a <language> element, set the finding_aid_language to that langcode and finding_aid_note to full element content
+        if (language = langusage.xpath('.//language')).size != 0 && (langcode = langusage.xpath('.//language').attr('langcode'))
+          set :finding_aid_language, langcode.to_s
+          if (script = language.attr('scriptcode'))
             set :finding_aid_script, script.to_s
           end
           set :finding_aid_language_note, format_content( langusage.inner_text)
         else
-          set :finding_aid_language_note, format_content( langusage )
+          set :finding_aid_language_note, format_content( langusage.inner_text )
         end
+      # if no <langusage>, set language to undetermined
       else
         set :finding_aid_language, 'und'
       end

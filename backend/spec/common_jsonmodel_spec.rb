@@ -402,19 +402,19 @@ describe 'JSON model' do
 
     # Resources don't allow language to be nil
     begin
-      create(:json_resource, {:lang_material => [{:language_and_script => {:language => nil}}]})
+      create(:json_resource, {:lang_materials => [{:language_and_script => {:language => nil}}]})
     rescue JSONModel::ValidationException => ve
       expect(ve.to_s).to match /^\#<:ValidationException: /
     end
 
     # Abstract archival object don't allow language to be klingon
     expect {
-      create(:json_resource, {:lang_material => [{:language_and_script => {:language => "klingon"}}]})
+      create(:json_resource, {:lang_materials => [{:language_and_script => {:language => "klingon"}}]})
     }.to raise_error(JSONModel::ValidationException)
 
     # Abstract archival objects do allow language to be nil
     expect {
-      create(:json_archival_object, {:lang_material => [{:language_and_script => {:language => nil}}]})
+      create(:json_archival_object, {:lang_materials => [{:language_and_script => {:language => nil}}]})
     }.not_to raise_error
   end
 
