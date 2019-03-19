@@ -316,7 +316,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :user_prefs
   def user_prefs
-    session[:preferences] || self.class.user_preferences(session)
+    # session[:preferences] || self.class.user_preferences(session)
+    @preferences ||= self.class.user_preferences(session)
   end
 
   helper_method :browse_columns
@@ -362,9 +363,11 @@ class ApplicationController < ActionController::Base
 
   def self.user_preferences(session)
     session[:last_preference_refresh] = Time.now.to_i
-    prefs = if session[:repo_id]
+    if session[:repo_id]
+      #session[:preferences] =
       JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
     else
+      #session[:preferences] =
       JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
     end
     session[:preferences] = prefs.reject { |k, _v| k.include? 'browse_column' } if prefs

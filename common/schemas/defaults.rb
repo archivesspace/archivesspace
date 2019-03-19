@@ -1,6 +1,6 @@
 browse_column_enums = {
   'accession' => [
-    "title", "publish", "subjects", "agents", "identifier", "acquisition_type", 
+    "title", "publish", "subjects", "agents", "identifier", "acquisition_type",
     "accession_date", "resource_type", "restrictions_apply", "access_restrictions",
     "use_restrictions", "is_slug_auto"
   ],
@@ -10,7 +10,7 @@ browse_column_enums = {
     "finding_aid_status", "is_slug_auto"
   ],
   'digital_object' => [
-    "title", "publish", "subjects", "agents", "notes", "level",
+    "title", "publish", "subjects", "agents", "level", 
     "digital_object_type", "digital_object_id", "restrictions", "is_slug_auto"
   ],
   'subjects' => [
@@ -35,7 +35,7 @@ browse_column_enums = {
 
 browse_columns = {}
 browse_column_enums.keys.each do |type|
-  Array(1..5).each do |i|
+  Array(1..AppConfig[:max_search_columns]).each do |i|
     browse_columns["#{type}_browse_column_#{i}"] = {
       "type" => "string",
       "enum" => browse_column_enums[type] + ['audit_info', 'no_value'],
