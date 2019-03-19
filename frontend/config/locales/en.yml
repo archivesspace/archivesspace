@@ -250,6 +250,53 @@ en:
     assessment_survey_end: Survey Completed Date
     assessment_id: ID
 
+  search:
+    accession:
+      title: Title
+      publish: Published
+      subjects: Subject
+      agents: Agent
+      identifier: Identifier
+      acquisition_type: Acquisition Type
+      accession_date: Accession Date
+      resource_type: Resource Type
+      restrictions_apply: Restrictions Apply
+      access_restrictions: Access Restrictions
+      use_restrictions: Use Restrictions
+      is_slug_auto: Automatically generate Slug?
+      audit_info: Audit Information
+      creators: Creator
+      accession_date_year: Accession Date
+    resource:
+      title: Title
+      publish: Published
+      level: Level
+      finding_aid_title: Finding Aid Title
+      finding_aid_filing_title: Finding Aid Filing Title
+      identifier: Identifier
+      resource_type: Resource Type
+      language: Language
+      restrictions: Restrictions
+      ead_id: EAD ID
+      finding_aid_status: Finding Aid Status
+      is_slug_auto: Automatically generate Slug?
+      audit_info: Audit Information
+    subjects:
+      source: Source
+      first_term_type: Term Type (First)
+      title: Terms
+      publish: Published
+      is_slug_auto: Automatically generate Slug?
+      audit_info: Audit Information
+    multi:
+      primary_type: Record Type
+      creators: Creator
+      subjects: Subject
+      title: Title
+      context: Found in
+      identifier: Identifier
+      audit_info: Audit Information
+
   advanced_search:
     operator:
       AND: And
