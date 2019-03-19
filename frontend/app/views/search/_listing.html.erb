@@ -1,6 +1,6 @@
 <% if @search_data.results? %>
 
-  <%#= @search_data['results'][0].keys.collect {|key| "\"#{key}\""}.join(', ') %>
+  <%= @search_data['results'][0].keys.collect {|key| "\"#{key}\""}.join(', ') %>
   <%#= debug @search_data['results'][0] %>
   <%#= debug @search_data %>
 

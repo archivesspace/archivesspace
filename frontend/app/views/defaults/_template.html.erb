@@ -6,7 +6,7 @@
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
       <%= form.label_and_boolean "default_values", {}, form.default_for("default_values") %>
 
-      <% ['accession', 'resource', 'digital_object', 'subjects', 'agent', 'assessment', 'multi'].each do |type| %>
+      <% ['accession', 'resource', 'archival_object', 'digital_object', 'digital_object_component', 'subjects', 'agent', 'assessment', 'multi'].each do |type| %>
         <h3><%= I18n.t "defaults.#{type}_browse_section" %></h3>
         <% (1..AppConfig[:max_search_columns]).to_a.each do |n| %>
           <div class="form-group">

@@ -9,16 +9,22 @@ browse_column_enums = {
     "finding_aid_filing_title", "identifier", "resource_type", "language", "restrictions", "ead_id", 
     "finding_aid_status", "is_slug_auto"
   ],
+  'archival_object' => [
+    "title", "publish", "context", "component_id", "ref_id", "is_slug_auto", "subjects", 
+    "agents", "level"
+  ],
   'digital_object' => [
-    "title", "publish", "subjects", "agents", "level", 
+    "title", "publish", "subjects", "agents", "level", "context",
     "digital_object_type", "digital_object_id", "restrictions", "is_slug_auto"
+  ],
+  'digital_object_component' => [
+    "title", "publish", "subjects", "agents", "creators", "context", "is_slug_auto"
   ],
   'subjects' => [
     "title", "publish", "source", "first_term_type", "is_slug_auto"
   ],
   'agent' => [
-    "title", "primary_type", "publish", "used_within_repository", "authority_id", "source", 
-    "rules", "is_slug_auto", "is_user"
+    "title", "primary_type", "publish", "authority_id", "source", "rules", "is_slug_auto", "is_user"
   ],
   'assessment' => [
     "publish", "assessment_id", 
