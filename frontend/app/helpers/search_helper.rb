@@ -152,10 +152,15 @@ module SearchHelper
   #   @search_data.add_sort_field 'user_mtime'
   # end
 
-  def add_pref_columns(model, enum_locales = {})
-    (1..AppConfig[:max_search_columns]).to_a.each do |n|
-      prop = user_prefs["#{model}_browse_column_#{n}"]
-      if prop && prop != 'no_value'
+  def add_pref_columns(models, enum_locales = {})
+    models = [models] unless models.is_a? Array
+    add_record_type_column if models.length > 1
+    added = []
+    for n in 1..AppConfig[:max_search_columns]
+      models.each do |model|
+        prop = user_prefs["#{model}_browse_column_#{n}"]
+        next if added.include?(prop) || !prop || prop == 'no_value'
+        added << prop
         opts = {:field => prop}
         field = solr_fields[prop]
         opts[:enum_locale_key] = enum_locales[prop] || "#{model}_#{prop}"
@@ -219,16 +224,16 @@ module SearchHelper
     when 'accession'
       add_multiselect_column if user_can?("delete_archival_record") && browsing
       add_pref_columns('accession')
-    when 'resource', 'archival_object'
+    when 'resource'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
-      add_record_type_column if params[:include_components]
-      add_context_column if params[:include_components] || type == 'archival_object'
-      add_pref_columns('resource')
-    when 'digital_object', 'digital_object_component'
+      add_pref_columns params[:include_components] ? ['resource', 'archival_object'] : 'resource'
+    when 'archival_object'
+      add_pref_columns 'archival_object'
+    when 'digital_object'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
-      add_record_type_column if params[:include_components]
-      add_context_column if params[:include_components] || type == 'digital_object_component'
-      add_pref_columns('digital_object')
+      add_pref_columns params[:include_components] ? ['digital_object', 'digital_object_component'] : 'digital_object'
+    when 'digital_object_component'
+      add_pref_columns 'digital_object_component'
     when 'assessment'
       add_multiselect_column if user_can?('delete_assessment_record') && browsing
       add_pref_columns("assessment")
@@ -237,14 +242,7 @@ module SearchHelper
       add_pref_columns('subjects')
     when 'agent', 'agent_person', 'agent_software', 'agent_family', 'agent_corporate_entity'
       add_multiselect_column if user_can?("delete_agent_record")
-      add_record_type_column if type == 'agent'
-      add_title_column I18n.t('agent.name')
-      add_column(I18n.t("agent_name.authority_id"), :sortable => true, :field => "authority_id")
-      add_column(I18n.t("agent_name.source"), :sortable => true, :field => "source",
-        :enum_locale_key => 'name_source')
-      add_column(I18n.t("agent_name.rules"), :sortable => true, :field => "rules",
-        :enum_locale_key => 'name_rule')
-      add_audit_info_column
+      add_pref_columns 'agent'
     when 'location'
       add_multiselect_column if user_can?("update_location_record")
       add_title_column I18n.t('location.title')
