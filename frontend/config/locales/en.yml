@@ -367,12 +367,54 @@ en:
       finding_aid_status: Finding Aid Status
       is_slug_auto: Automatically generate Slug?
       audit_info: Audit Information
+    archival_object:
+      title: Title
+      publish: Published
+      context: Parent Resource
+      component_id: Component ID
+      ref_id: Ref ID
+      is_slug_auto: Automatically generate Slug?
+      subjects: Subject
+      agents: Agent
+      level: Level
+      audit_info: Audit Information
     subjects:
       source: Source
       first_term_type: Term Type (First)
       title: Terms
       publish: Published
       is_slug_auto: Automatically generate Slug?
+      audit_info: Audit Information
+    digital_object:
+      title: Title
+      publish: Published
+      subjects: Subject
+      agents: Agent
+      level: Level
+      digital_object_type: Digital Object Type
+      digital_object_id: Digital Object ID
+      restrictions: Restrictions
+      is_slug_auto: Automatically generate Slug?
+      audit_info: Audit Information
+      context: Found in
+    digital_object_component:
+      title: Title
+      publish: Published
+      subjects: Subject
+      agents: Agent
+      creators: Creator
+      context: Found in
+      is_slug_auto: Automatically generate Slug?
+      audit_info: Audit Information
+    agent:
+      title: Name
+      primary_type: Agent Type
+      publish: Published
+      authority_id: Authority ID
+      source: Source
+      rules: Rules
+      is_slug_auto: Automatically generate Slug?
+      is_user: Is User?
       audit_info: Audit Information
     multi:
       primary_type: Record Type
