@@ -493,7 +493,7 @@ class EADConverter < Converter
 
     with 'chronlist' do |*|
       if  ancestor(:note_multipart)
-        left_overs = insert_into_subnotes
+        left_overs = insert_into_subnotes('chronlist')
       else
         left_overs = nil
         make :note_multipart, {
