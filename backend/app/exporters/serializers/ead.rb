@@ -107,6 +107,7 @@ class EADSerializer < ASpaceExport::Serializer
     if allow_p
       content = handle_linebreaks(content)
     else
+      escape_content(content)
       content = strip_p(content)
     end
 
