@@ -1853,16 +1853,8 @@ en:
     publish_tooltip: Whether to publish new records by default.
     default_values: Pre-populate Records?
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
-    browse_column_1: Column 1
-    browse_column_1_tooltip: The field to show in column 1.
-    browse_column_2: Column 2
-    browse_column_2_tooltip: The field to show in column 2.
-    browse_column_3: Column 3
-    browse_column_3_tooltip: The field to show in column 3.
-    browse_column_4: Column 4
-    browse_column_4_tooltip: The field to show in column 4.
-    browse_column_5: Column 5
-    browse_column_5_tooltip: The field to show in column 5.
+    browse_column: Column %{num}
+    browse_column_tooltip: The field to show in column %{num}.
     accession_browse_section: Accession Browse Columns
     resource_browse_section: Resource Browse Columns
     digital_object_browse_section: Digital Object Browse Columns

@@ -1378,16 +1378,8 @@ ja:
     publish_tooltip: 既定で新しいレコードを発行するかどうか。
     default_values: レコードの事前入力？
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
-    browse_column_1: 列1
-    browse_column_1_tooltip: 列1に表示するフィールド。
-    browse_column_2: 列2
-    browse_column_2_tooltip: 列2に表示するフィールド。
-    browse_column_3: 列3
-    browse_column_3_tooltip: 列3に表示されるフィールド。
-    browse_column_4: 列4
-    browse_column_4_tooltip: 列4に表示するフィールド。
-    browse_column_5: 列5
-    browse_column_5_tooltip: 列5に表示するフィールド。
+    browse_column: 列%{num}
+    browse_column_tooltip: 列%{num}に表示するフィールド。
     accession_browse_section: アクセス列を参照
     resource_browse_section: リソース参照列
     digital_object_browse_section: Digital_Object列を参照

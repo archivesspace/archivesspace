@@ -1853,16 +1853,8 @@ fr:
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs par défaut.
-    browse_column_1: Colonne 1
-    browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    browse_column_2: Colonne 2
-    browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    browse_column_3: Colonne 3
-    browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    browse_column_4: Colonne 4
-    browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    browse_column_5: Colonne 5
-    browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
+    browse_column: Colonne %{num}
+    browse_column_tooltip: Le champ à montrer dans la colonne %{num}.
     accession_browse_section: Colonnes d'exploration des entrées
     resource_browse_section: Colonnes d'exploration ressource
     digital_object_browse_section: Colonnes d'exploration object numérique

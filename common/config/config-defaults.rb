@@ -626,3 +626,6 @@ AppConfig[:auto_generate_slugs_with_id] = false
 
 # For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
 AppConfig[:generate_resource_slugs_with_eadid] = false
+
+# Use to specify the maximum number of columns to display when searching or browsing
+AppConfig[:max_search_columns] = 5
