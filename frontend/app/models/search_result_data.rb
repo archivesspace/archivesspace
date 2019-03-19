@@ -91,7 +91,7 @@ class SearchResultData
   end
 
   def facet_display_string(facet_group, facet)
-    "#{I18n.t("search_results.filter.#{facet_group}", :default => facet_group)}: #{facet_label_string(facet_group, facet)}"
+    "#{I18n.t("search.#{get_type}.#{facet_group}", :default => I18n.t("search.multi.#{facet_group}", :default => facet_group))}: #{facet_label_string(facet_group, facet)}"
   end
 
   def facet_label_string(facet_group, facet)
@@ -166,26 +166,22 @@ class SearchResultData
   end
 
   def get_type
-    type = nil
+    type = 'multi'
     if @search_data[:type]
       type = @search_data[:type]
-    elsif terms = @search_data[:criteria]['filter_term[]']
-      types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
-      type = types[0] if types.length == 1
-      @search_data[:type] = type
     elsif (@search_data[:criteria]["type[]"] || []).length == 1
       type = @search_data[:criteria]["type[]"][0]
-      @search_data[:type] = type
     elsif (types = @search_data[:criteria]["type[]"] || []).length == 2
       if types.include?('resource') && types.include?('archival_object')
         type = 'resource'
-        @search_data[:type] = type
       elsif types.include?('digital_object') && types.include?('digital_object_component')
         type = 'digital_object'
-        @search_data[:type] = type
       end
+    elsif terms = @search_data[:criteria]['filter_term[]']
+      types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
+      type = types[0] if types.length == 1
     end
-    return type
+    type
   end
 
   def types
@@ -252,11 +248,11 @@ class SearchResultData
   end
 
   def sort_fields
-    @sort_fields ||= {}
+    @sort_fields ||= self.class.BASE_SORT_FIELDS.collect {|f| [f, I18n.t("search_sorting.#{f}")]}.to_h
   end
 
   def add_sort_field(field, label =nil)
-    @sort_fields ||= {}
+    @sort_fields ||= self.class.BASE_SORT_FIELDS.collect {|f| [f, I18n.t("search_sorting.#{f}")]}.to_h
     @sort_fields[field] = label || I18n.t("search_sorting.#{field}")
   end
 
