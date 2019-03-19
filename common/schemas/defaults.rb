@@ -1,21 +1,35 @@
 browse_column_enums = {
   'accession' => [
-    "title", "suppressed", "publish", "system_generated", "subjects","agents", "identifier", 
-    "acquisition_type", "accession_date", "resource_type", "restrictions_apply", "access_restrictions",
+    "title", "publish", "subjects", "agents", "identifier", "acquisition_type", 
+    "accession_date", "resource_type", "restrictions_apply", "access_restrictions",
     "use_restrictions", "is_slug_auto"
   ],
   'resource' => [
-    "title", "suppressed", "publish", "system_generated", "notes", "level", "finding_aid_title", 
+    "title", "publish", "level", "finding_aid_title", 
     "finding_aid_filing_title", "identifier", "resource_type", "language", "restrictions", "ead_id", 
     "finding_aid_status", "is_slug_auto"
   ],
   'digital_object' => [
-    "title", "suppressed", "publish", "system_generated", "subjects", "agents", "notes", "level", 
+    "title", "publish", "subjects", "agents", "notes", "level", 
     "digital_object_type", "digital_object_id", "restrictions", "is_slug_auto"
   ],
-  'subject' => [
-    "title", "suppressed", "publish", "system_generated", "source", "first_term_type", 
-    "is_slug_auto", "used_within_repository", "used_within_published_repository"
+  'subjects' => [
+    "title", "publish", "source", "first_term_type", "is_slug_auto"
+  ],
+  'agent' => [
+    "title", "primary_type", "publish", "used_within_repository", "authority_id", "source", 
+    "rules", "is_slug_auto", "is_user"
+  ],
+  'assessment' => [
+    "publish", "assessment_id", 
+    "assessment_records", "assessment_record_types", "assessment_surveyors", 
+    "assessment_survey_begin", "assessment_review_required", "assessment_sensitive_material", 
+    "assessment_inactive", "assessment_survey_year", "assessment_collections", 
+    "assessment_completed", "assessment_formats", "assessment_ratings", 
+    "assessment_conservation_issues"
+  ],
+  'multi' => [
+    "primary_type", "title", "context", "identifier", "audit_info"
   ]
 }
 

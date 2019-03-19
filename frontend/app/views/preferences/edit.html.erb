@@ -43,7 +43,8 @@
             <%= message.force_encoding("UTF-8") %>
           </div>
 
-          <%= render_aspace_partial :partial => "shared/flash_messages" %>
+
+          <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
           <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :hidden => true} %>
 

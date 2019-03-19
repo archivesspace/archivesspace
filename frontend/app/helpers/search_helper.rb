@@ -107,11 +107,11 @@ module SearchHelper
           content_tag('ul', :style => 'padding-left: 20px;') {
             Array(v).collect { |i|
               content_tag('li',
-                I18n.t("enumerations.#{opts[:enum_locale_key]}.#{i}", :default => i.to_s))
+                process(i, opts))
             }.join.html_safe
           }
         elsif v.length == 1
-          I18n.t("enumerations.#{opts[:enum_locale_key]}.#{v[0]}", :default => v[0].to_s)
+          process(v[0], opts)
         end
       end
     end
@@ -128,18 +128,29 @@ module SearchHelper
     @columns.insert(opts[:index] || -1, col)
   end
 
+  def process(data, opts)
+    case opts[:type]
+    when 'boolean'
+      I18n.t("boolean.#{data}", :default => data.to_s)
+    when 'date'
+      Date.parse(data)
+    else
+      I18n.t("enumerations.#{opts[:enum_locale_key]}.#{data}", :default => data.to_s)
+    end
+  end
+
   def add_multiselect_column
     @allow_multiselect = true
     add_column(sr_only('Selected?'), :template => 'shared/multiselect',
       :class => 'multiselect-column')
   end
 
-  def add_audit_info_column
-    add_column(sr_only('Audit information'), {},
-      proc { |record| display_audit_info(record, :format => 'compact') })
-    @search_data.add_sort_field 'create_time'
-    @search_data.add_sort_field 'user_mtime'
-  end
+  # def add_audit_info_column
+  #   add_column(sr_only('Audit information'), {},
+  #     proc { |record| display_audit_info(record, :format => 'compact') })
+  #   @search_data.add_sort_field 'create_time'
+  #   @search_data.add_sort_field 'user_mtime'
+  # end
 
   def add_pref_columns(model, enum_locales = {})
     (1..5).to_a.each do |n|
@@ -150,18 +161,16 @@ module SearchHelper
         opts[:enum_locale_key] = enum_locales[prop] || "#{model}_#{prop}"
         opts[:sortable] = field && !field['multiValued']
         opts[:type] = (field || {})['type'] || 'string'
-        if lookup_context.template_exists?("#{prop}_cell", model, true)
+        if lookup_context.template_exists?("#{prop}_cell", "#{model}s", true)
+          opts[:template] = "#{model}s/#{prop}_cell"
+        elsif lookup_context.template_exists?("#{prop}_cell", model, true)
           opts[:template] = "#{model}/#{prop}_cell"
-        elsif lookup_context.template_exists?("#{prop}_cell", 'shared', true)
-          opts[:template] = "shared/#{prop}_cell"
+        elsif lookup_context.template_exists?("#{prop}_cell", 'search', true)
+          opts[:template] = "search/#{prop}_cell"
         end
-        add_column(I18n.t("#{model}.#{prop}"), opts)
+        add_column(I18n.t("search.#{model}.#{prop}"), opts)
       end
     end
-  end
-
-  def browse_column_opts(type)
-    user_prefs#['browse_column_opts'][type]
   end
 
   def add_actions_column
@@ -209,43 +218,24 @@ module SearchHelper
     case type = @search_data.get_type
     when 'accession'
       add_multiselect_column if user_can?("delete_archival_record") && browsing
-      # add_title_column I18n.t("accession.title")
       add_pref_columns('accession')
-      add_audit_info_column
     when 'resource', 'archival_object'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
       add_record_type_column if params[:include_components]
-      # add_title_column I18n.t('resource.title')
       add_context_column if params[:include_components] || type == 'archival_object'
       add_pref_columns('resource')
-      add_audit_info_column
     when 'digital_object', 'digital_object_component'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
       add_record_type_column if params[:include_components]
       add_title_column I18n.t('digital_object.title')
       add_context_column if params[:include_components] || type == 'digital_object_component'
       add_pref_columns('digital_object')
-      add_audit_info_column
     when 'assessment'
       add_multiselect_column if user_can?('delete_assessment_record') && browsing
-      add_column(I18n.t("assessment.id"), :sortable => true, :field => 'assessment_id',
-        :class => 'col-sm-1')
-      add_column(I18n.t("assessment.records"), :template => 'assessments/search_result_records_cell',
-        :class => 'col-sm-6')
-      add_column(I18n.t("assessment.surveyed_by"),
-        :template => 'assessments/search_result_surveyed_by_cell', :class => 'col-sm-2')
-      add_column(I18n.t("assessment.survey_end"),
-        {:sortable => true, :field => "assessment_survey_end", :class => 'col-sm-2'},
-        proc {|record| 
-          record['assessment_survey_end'] ? Date.parse(record['assessment_survey_end']) : ''
-        })
       add_pref_columns("assessment")
-      add_audit_info_column
     when 'subjects'
       add_multiselect_column if user_can?("delete_subject_record") && browsing
-      # add_title_column I18n.t("subject.terms")
-      add_pref_columns('subject')
-      add_audit_info_column
+      add_pref_columns('subjects')
     when 'agent', 'agent_person', 'agent_software', 'agent_family', 'agent_corporate_entity'
       add_multiselect_column if user_can?("delete_agent_record")
       add_record_type_column if type == 'agent'
@@ -319,11 +309,12 @@ module SearchHelper
         :field => 'location_display_string_u_sstr', :multi => true)
       add_audit_info_column
     else
-      add_record_type_column
-      add_title_column
-      add_context_column
-      add_column(I18n.t("search_results.result_identifier"), :sortable => true, :field => 'identifier')
-      add_audit_info_column
+      add_pref_columns 'multi'
+      # add_record_type_column
+      # add_title_column
+      # add_context_column
+      # add_column(I18n.t("search_results.result_identifier"), :sortable => true, :field => 'identifier')
+      # add_audit_info_column
     end
     add_actions_column if !params[:linker] || params[:linker] === 'false'
   end
