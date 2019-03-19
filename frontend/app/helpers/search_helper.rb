@@ -153,7 +153,7 @@ module SearchHelper
   # end
 
   def add_pref_columns(model, enum_locales = {})
-    (1..5).to_a.each do |n|
+    (1..AppConfig[:max_search_columns]).to_a.each do |n|
       prop = user_prefs["#{model}_browse_column_#{n}"]
       if prop && prop != 'no_value'
         opts = {:field => prop}
@@ -227,7 +227,6 @@ module SearchHelper
     when 'digital_object', 'digital_object_component'
       add_multiselect_column if user_can?('delete_archival_record') && browsing
       add_record_type_column if params[:include_components]
-      add_title_column I18n.t('digital_object.title')
       add_context_column if params[:include_components] || type == 'digital_object_component'
       add_pref_columns('digital_object')
     when 'assessment'
