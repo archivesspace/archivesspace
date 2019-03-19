@@ -636,6 +636,7 @@ AppConfig[:auto_generate_slugs_with_id] = false
 # For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
 AppConfig[:generate_resource_slugs_with_eadid] = false
 
+<<<<<<< HEAD
 # For archival objects: if this option and auto_generate_slugs_with_id are both enabled, then slugs for archival resources will be generated with Component Unique Identifier instead of the identifier.
 AppConfig[:generate_archival_object_slugs_with_cuid] = false
 
@@ -654,3 +655,7 @@ AppConfig[:ark_naan] = "f00001"
 # URL prefix to use in ARK URLs.
 # In most cases this will be the same as the PUI URL.
 AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
+=======
+# Use to specify the maximum number of columns to display when searching or browsing
+AppConfig[:max_search_columns] = 5
+>>>>>>> add option for how many columns to show
