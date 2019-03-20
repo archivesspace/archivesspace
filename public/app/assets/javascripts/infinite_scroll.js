@@ -97,6 +97,14 @@
 
             var scrollAmount = e.originalEvent.deltaY;
 
+            /* In pixel mode deltaY can be used directly, but in line and page mode,
+               multiply to get pixel values. */
+            if (e.originalEvent.deltaMode == WheelEvent.DOM_DELTA_LINE) {
+                scrollAmount = (scrollAmount < 0 ? -1 : 1) * 55;
+            } else if (e.originalEvent.deltaMode == WheelEvent.DOM_DELTA_PAGE) {
+                scrollAmount = (scrollAmount < 0 ? -1 : 1) * self.wrapper.height();
+            }
+
             self.scrollBy(scrollAmount);
         });
     };
