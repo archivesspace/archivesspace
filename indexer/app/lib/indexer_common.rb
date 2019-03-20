@@ -857,6 +857,7 @@ class IndexerCommon
 
 
   def clean_for_sort(value)
+    return nil if value.nil?
     out = value.gsub(/<[^>]+>/, '')
     out.gsub!(/-/, ' ')
     out.gsub!(/[^\w\s]/, '')
