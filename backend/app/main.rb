@@ -209,7 +209,7 @@ class ArchivesSpaceService < Sinatra::Base
         end
 
         # Load plugin init.rb files (if present)
-        ASUtils.find_local_directories('backend').each do |dir|
+        ASUtils.order_plugins(ASUtils.find_local_directories('backend')).each do |dir|
           init_file = File.join(dir, "plugin_init.rb")
           if File.exist?(init_file)
             load init_file
