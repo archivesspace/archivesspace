@@ -168,10 +168,21 @@ end
 
 class DBMigrator
 
+  def self.order_plugins(plugins)
+    ordered_plugin_dirs = ASUtils.order_plugins(plugins.map {|p| File.join(ASUtils.plugin_base_directory, p)})
+
+    result = plugins.sort_by {|p|
+      ordered_plugin_dirs.index(File.absolute_path(File.join(ASUtils.plugin_base_directory, p)))
+    }
+
+    result
+  end
+
   MIGRATIONS_DIR = File.join(File.dirname(__FILE__), "migrations")
   PLUGIN_MIGRATIONS = []
   PLUGIN_MIGRATION_DIRS = {}
-  AppConfig[:plugins].each do |plugin|
+
+  order_plugins(AppConfig[:plugins]).each do |plugin|
     mig_dir = ASUtils.find_local_directories("migrations", plugin).shift
     if mig_dir && Dir.exist?(mig_dir)
       PLUGIN_MIGRATIONS << plugin

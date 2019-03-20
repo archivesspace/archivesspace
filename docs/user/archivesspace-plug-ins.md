@@ -147,6 +147,13 @@ This configuration file supports the following options:
         name
         cardinality
       ...
+    depends_on_plugins
+       A list of plugin names that this plugin requires in order to
+       operate
+    recommends_plugins
+        A list of plugin names that pair well with this plugin, but
+        that aren't strictly necessary
+
 
 `system_menu_controller` and `repository_menu_controller` specify the names of frontend controllers
 that will be accessible via the system and repository toolbars respectively. A `Plug-ins` dropdown
