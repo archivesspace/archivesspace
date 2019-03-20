@@ -66,6 +66,7 @@ class ArchivesSpaceService < Sinatra::Base
     config.dont_reload File.join("app", "lib", "rest.rb")
     config.dont_reload File.join("**", "exporters", "*.rb")
     config.dont_reload File.join("**", "spec", "*.rb")
+    config.dont_reload File.join("..", "plugins", "**", "spec", "*.rb")
 
     set :server, :mizuno
     set :server_settings, {:reuse_address => true}
