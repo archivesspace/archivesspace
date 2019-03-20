@@ -509,7 +509,12 @@ module AspaceFormHelper
         options[:class] += " has-tooltip"
       end
 
-      @forms.content_tag(:label, I18n.t(prefix + i18n_for(name)), options.merge(opts || {}))
+      attr_string = options.merge(opts || {})
+                      .map {|k, v| '%s="%s"' % [CGI::escapeHTML(k.to_s),
+                                                CGI::escapeHTML(v.to_s)]}
+                      .join(' ')
+      content = CGI::escapeHTML(I18n.t(prefix + i18n_for(name)))
+      "<label #{attr_string}>#{content}</label>".html_safe
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
