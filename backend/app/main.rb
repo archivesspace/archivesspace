@@ -130,7 +130,8 @@ class ArchivesSpaceService < Sinatra::Base
 
       end
 
-      [File.dirname(__FILE__), *ASUtils.find_local_directories('backend')].each do |prefix|
+      ordered_plugin_backend_dirs = ASUtils.order_plugins(ASUtils.find_local_directories('backend'))
+      [File.dirname(__FILE__), *ordered_plugin_backend_dirs].each do |prefix|
         ['model/mixins', 'model', 'model/reports', 'lib/bulk_import', 'controllers'].each do |path|
           Dir.glob(File.join(prefix, path, "*.rb")).sort.each do |file|
             require File.absolute_path(file)
@@ -211,7 +212,7 @@ class ArchivesSpaceService < Sinatra::Base
         end
 
         # Load plugin init.rb files (if present)
-        ASUtils.find_local_directories('backend').each do |dir|
+        ASUtils.order_plugins(ASUtils.find_local_directories('backend')).each do |dir|
           init_file = File.join(dir, "plugin_init.rb")
           if File.exist?(init_file)
             load init_file

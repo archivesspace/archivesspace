@@ -8,7 +8,8 @@ I18n.load_path += ASUtils.find_locales_directories("#{AppConfig[:locale]}.yml")
 I18n.load_path += ASUtils.find_locales_directories(File.join("enums", "#{AppConfig[:locale]}.yml"))
 
 # Allow overriding of the i18n locales via the 'local' folder(s)
-ASUtils.wrap(ASUtils.find_local_directories).map {|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }.each do |locales_override_directory|
+plugin_locale_directories = ASUtils.wrap(ASUtils.find_local_directories).map{|local_dir| File.join(local_dir, 'frontend', 'locales')}.reject { |dir| !Dir.exist?(dir) }
+ASUtils.order_plugins(plugin_locale_directories).each do |locales_override_directory|
   I18n.load_path += Dir[File.join(locales_override_directory, '**' , '*.{rb,yml}')]
 end
 
