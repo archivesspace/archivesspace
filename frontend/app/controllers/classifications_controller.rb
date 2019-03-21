@@ -82,7 +82,17 @@ class ClassificationsController < ApplicationController
       render_aspace_partial :partial => "edit_inline"
     },
       :on_valid => ->(id){
-    flash.now[:success] = I18n.t("classification._frontend.messages.updated", JSONModelI18nWrapper.new(:classification => @classification))
+        success_msg = I18n.t("classification._frontend.messages.updated", JSONModelI18nWrapper.new(:classification => @classification))
+
+        if @classification["is_slug_auto"] == false &&
+            @classification["slug"] == nil &&
+            params["classification"] &&
+            params["classification"]["is_slug_auto"] == "1"
+          success_msg << I18n.t("slug.autogen_disabled")
+        end
+
+    flash.now[:success] = success_msg
+
     render_aspace_partial :partial => "edit_inline"
     })
   end
