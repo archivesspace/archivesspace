@@ -159,9 +159,6 @@ en:
     and: "and:"
     asc: Ascending
     desc: Descending
-    relevance: Relevance
-    user_mtime: Modified
-    create_time: Created
     select: Select
 
   search:
@@ -195,6 +192,8 @@ en:
       finding_aid_status: Finding Aid Status
       is_slug_auto: Automatically generate Slug?
       audit_info: Audit Information
+      classification_path: Classification Path
+      subjects: Subject
     archival_object:
       title: Title
       publish: Published
@@ -247,17 +246,15 @@ en:
     location:
       title: Location
       publish: Published
-      repository: Repository
       building: Building
       floor: Floor
       room: Room
       area: Area
       location_holdings: Holdings for Current Repository
-      location_profile_uri_u_sstr: Location Profile
+      location_profile_display_string_u_ssort: Location Profile
       audit_info: Audit Information
+      temporary: Temporary
     event:
-      title: Title
-      publish: Published
       agents: Agent
       event_type: Type
       outcome: Outcome
@@ -279,7 +276,6 @@ en:
       is_slug_auto: Automatically generate slug?
       audit_info: Audit Information
     assessment:
-      publish: Published
       assessment_id: Assessment ID
       assessment_records: Record
       assessment_record_types: Record Type
@@ -336,6 +332,9 @@ en:
       identifier: Identifier
       audit_info: Audit Information
       query: Text
+      relevance: Relevance
+      user_mtime: Modified
+      create_time: Created
 
   advanced_search:
     operator:

@@ -223,23 +223,23 @@ class SearchResultData
     _sorted_by = sorted_by(index)
 
     if _sorted_by.nil?
-      return weightable? ? I18n.t("search_sorting.relevance") : I18n.t("search_sorting.select")
+      return weightable? ? I18n.t("search.multi.relevance") : I18n.t("search_sorting.select")
     end
 
     _sorted_by = 'title_sort' if sorted_by == 'title'
 
-    label = sort_fields[_sorted_by] || I18n.t("search_sorting.#{_sorted_by}")
+    label = sort_fields[_sorted_by] || I18n.t("search.multi.#{_sorted_by}")
     direction = I18n.t("search_sorting.#{current_sort_direction(index)}")
     "#{label} #{direction}"
   end
 
   def sort_fields
-    @sort_fields ||= self.class.BASE_SORT_FIELDS.collect {|f| [f, I18n.t("search_sorting.#{f}")]}.to_h
+    @sort_fields ||= self.class.BASE_SORT_FIELDS.collect {|f| [f, I18n.t("search.multi.#{f}")]}.to_h
   end
 
   def add_sort_field(field, label =nil)
-    @sort_fields ||= self.class.BASE_SORT_FIELDS.collect {|f| [f, I18n.t("search_sorting.#{f}")]}.to_h
-    @sort_fields[field] = label || I18n.t("search_sorting.#{field}")
+    @sort_fields ||= self.class.BASE_SORT_FIELDS.collect {|f| [f, I18n.t("search.multi.#{f}")]}.to_h
+    @sort_fields[field] = label || I18n.t("search.multi.#{field}")
   end
 
   def query?

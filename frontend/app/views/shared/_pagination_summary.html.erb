@@ -15,7 +15,7 @@
       </a>
       <ul class="dropdown-menu pull-right">
         <% if @search_data.weightable? %>
-          <li><%= link_to I18n.t("search_sorting.relevance"), build_search_params("sort" => "") %></li>
+          <li><%= link_to I18n.t("search.multi.relevance"), build_search_params("sort" => "") %></li>
         <% end %>
         <% @search_data.sort_fields.each do |field, label| %>
           <li class="dropdown-submenu">
@@ -43,7 +43,7 @@
         </a>
         <ul class="dropdown-menu pull-right">
           <% if @search_data.weightable? %>
-           <li><%= link_to I18n.t("search_sorting.relevance"), build_search_params("sort2" => "") %></li>
+           <li><%= link_to I18n.t("search.multi.relevance"), build_search_params("sort2" => "") %></li>
           <% end %>
           <% @search_data.sort_fields.each do |field, label| %>
             <% if !@search_data.sorted_by?(field) %>

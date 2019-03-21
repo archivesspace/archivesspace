@@ -1857,8 +1857,21 @@ en:
     browse_column_tooltip: The field to show in column %{num}.
     accession_browse_section: Accession Browse Columns
     resource_browse_section: Resource Browse Columns
+    archival_object_browse_section: Archival Object Browse Columns
     digital_object_browse_section: Digital Object Browse Columns
-    subject_browse_section: Subject Browse Columns
+    digital_object_component_browse_section: Digital Object Component Browse Columns
+    subjects_browse_section: Subject Browse Columns
+    agent_browse_section: Agent Browse Columns
+    location_browse_section: Location Browse Columns
+    event_browse_section: Event Browse Columns
+    collection_management_browse_section: Collection Management Browse Columns
+    top_container_browse_section: Top Container Browse Columns
+    classification_browse_section: Classification Browse Columns
+    assessment_browse_section: Assessment Browse Columns
+    repositories_browse_section: Repository Browse Columns
+    location_profile_browse_section: Location Profile Browse Columns
+    container_profile_browse_section: Container Profile Browse Columns
+    multi_browse_section: Search Columns
     note_order_section: Note Order
     accept_default_message: '> Accept Default:'
     no_value: '[no value]'

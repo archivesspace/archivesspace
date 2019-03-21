@@ -109,8 +109,27 @@ module SearchHelper
     end
   end
 
-  def default_block(opts)
-    
+  def locales(model)
+    case model
+    when 'resource', 'archival_object'
+      {'level' => 'archival_record_level', 'language' => 'language_iso639_2'}
+    when 'subjects'
+      {'source' => 'subject_source', 'first_term_type' => 'subject_term_type'}
+    when 'agent'
+      {'source' => 'name_source', 'rules' => 'name_rule', 'primary_type' => 'agent.agent_type'}
+    when 'container_profile'
+      {'container_profile_dimension_units_u_sstr' => 'dimension_units'}
+    when 'location_profile'
+      {'location_profile_dimension_units_u_sstr' => 'dimension_units'}
+    when 'top_container'
+      {'type' => 'container_type'}
+    when 'assessment'
+      {'assessment_record_types' => '_singular'}
+    when 'collection_management'
+      {'parent_type' => '_singular'}
+    else
+      {'primary_type' => '_singular'}  
+    end
   end
 
 
@@ -154,7 +173,12 @@ module SearchHelper
     when 'date'
       Date.parse(data)
     else
-      I18n.t("enumerations.#{opts[:enum_locale_key]}.#{data}", :default => data.to_s)
+      if opts[:locale_key] == '_singular'
+        I18n.t("#{data}._singular", :default => data.to_s)
+      else
+        opts[:locale_key] = "enumerations.#{opts[:locale_key]}" unless opts[:locale_key].include?('.')
+        I18n.t("#{opts[:locale_key]}.#{data}", :default => data.to_s)
+      end
     end
   end
 
@@ -164,25 +188,22 @@ module SearchHelper
       :class => 'multiselect-column')
   end
 
-  # def add_audit_info_column
-  #   add_column(sr_only('Audit information'), {},
-  #     proc { |record| display_audit_info(record, :format => 'compact') })
-  #   @search_data.add_sort_field 'create_time'
-  #   @search_data.add_sort_field 'user_mtime'
-  # end
-
-  def add_pref_columns(models, enum_locales = {})
+  def add_pref_columns(models)
     models = [models] unless models.is_a? Array
-    add_record_type_column if models.length > 1
     added = []
+    if models.length > 1
+      add_record_type_column
+      added << 'primary_type'
+    end
     for n in 1..AppConfig[:max_search_columns]
       models.each do |model|
         prop = browse_columns["#{model}_browse_column_#{n}"]
         next if added.include?(prop) || !prop || prop == 'no_value'
+
         added << prop
         opts = {:field => prop}
         field = solr_fields[prop]
-        opts[:enum_locale_key] = enum_locales[prop] || "#{model}_#{prop}"
+        opts[:locale_key] = locales(model)[prop] || "#{model}_#{prop}"
         opts[:sortable] = field && !field['multiValued']
         opts[:type] = (field || {})['type'] || 'string'
         if lookup_context.template_exists?("#{prop}_cell", "#{model}s", true)
@@ -200,10 +221,6 @@ module SearchHelper
   def add_actions_column
     add_column(sr_only('Actions'), :template => 'shared/actions',
       :class => 'actions table-record-actions')
-  end
-
-  def add_context_column(label = I18n.t("search_results.context"))
-    add_column(label, :template => 'search/context')
   end
 
   def add_record_type_column
@@ -241,17 +258,17 @@ module SearchHelper
     add_multiselect_column if can_delete_search_results?(type) && !(request.path =~ /\/(advanced_)*search/)
     add_linker_column if params[:linker]==='true'
 
-    case type
-    when 'resource'
-      add_pref_columns params[:include_components] ? ['resource', 'archival_object'] : 'resource'
-    when 'digital_object'
-      add_pref_columns params[:include_components] ? ['digital_object', 'digital_object_component'] : 'digital_object'
-    # when 'location_profile', 'container_profile'
-      # add_title_column
-      # add_audit_info_column
+    if params[:include_components]
+      case type
+      when 'resource'
+        add_pref_columns ['resource', 'archival_object']
+      when 'digital_object'
+        add_pref_columns ['digital_object', 'digital_object_component']
+      end
     else
       add_pref_columns(type)
     end
+
     add_actions_column if !params[:linker] || params[:linker] === 'false'
   end
 
