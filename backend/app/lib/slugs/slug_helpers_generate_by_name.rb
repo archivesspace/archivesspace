@@ -112,6 +112,8 @@ module SlugHelpers
 
     if agent && is_slug_auto_enabled?(agent)
       agent.update(:slug => slug)
+
+      agent.update(:is_slug_auto => 0) if slug.empty?
     end
   end
 
