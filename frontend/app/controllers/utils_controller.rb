@@ -1,6 +1,8 @@
+require 'digest/sha1'
+
 class UtilsController  < ApplicationController
 
-  set_access_control  :public => [:generate_sequence, :shortcuts, :note_order],
+  set_access_control  :public => [:generate_sequence, :shortcuts, :note_order, :schema_csv],
                       "view_repository" => [:list_properties]
 
 
@@ -39,4 +41,17 @@ class UtilsController  < ApplicationController
     end
     render :json => prefs['note_order']
   end
+
+
+  def schema_csv
+    csv = nil
+    JSONModel::HTTP.stream('/schemas.csv', {}) do |response|
+      csv = response.body
+    end
+
+    version = Digest::SHA1.hexdigest(csv)
+
+    render :text => "VERSION: #{version} - #{Time.now}\n" + csv, :content_type => 'text/plain'
+  end
+
 end
