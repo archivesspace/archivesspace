@@ -159,182 +159,10 @@ en:
     and: "and:"
     asc: Ascending
     desc: Descending
+    relevance: Relevance
+    user_mtime: Modified
+    create_time: Created
     select: Select
-
-  search:
-    accession:
-      title: Title
-      publish: Published
-      subjects: Subject
-      identifier: Identifier
-      acquisition_type: Acquisition Type
-      accession_date: Accession Date
-      resource_type: Resource Type
-      restrictions_apply: Restrictions Apply
-      access_restrictions: Access Restrictions
-      use_restrictions: Use Restrictions
-      audit_info: Audit Information
-      creators: Creator
-      accession_date_year: Accession Date
-      dates: Dates
-      extents: Extent
-      processing_priority: Processing Priority
-      processors: Processors
-    resource:
-      title: Title
-      publish: Published
-      level: Level
-      identifier: Identifier
-      resource_type: Resource Type
-      language: Language
-      restrictions: Restrictions
-      ead_id: EAD ID
-      finding_aid_status: Finding Aid Status
-      audit_info: Audit Information
-      classification_path: Classification Path
-      subjects: Subject
-      dates: Dates
-      extents: Extent
-      processing_priority: Processing Priority
-      processors: Processors
-    archival_object:
-      title: Title
-      publish: Published
-      context: Parent Resource
-      component_id: Component ID
-      ref_id: Ref ID
-      level: Level
-      audit_info: Audit Information
-      language: Language
-      dates: Dates
-      extents: Extent
-    subjects:
-      source: Source
-      first_term_type: Term Type (First)
-      title: Terms
-      publish: Published
-      audit_info: Audit Information
-    digital_object:
-      title: Title
-      publish: Published
-      subjects: Subject
-      level: Level
-      digital_object_type: Digital Object Type
-      digital_object_id: Digital Object ID
-      restrictions: Restrictions
-      audit_info: Audit Information
-      language: Language
-      dates: Dates
-      extents: Extent
-    digital_object_component:
-      title: Title
-      publish: Published
-      context: Found in
-      audit_info: Audit Information
-      language: Language
-      dates: Dates
-      extents: Extent
-    agent:
-      title: Name
-      primary_type: Agent Type
-      publish: Published
-      authority_id: Authority ID
-      source: Source
-      rules: Rules
-      is_user: Is User?
-      audit_info: Audit Information
-    location:
-      title: Location
-      publish: Published
-      building: Building
-      floor: Floor
-      room: Room
-      area: Area
-      location_holdings: Holdings for Current Repository
-      location_profile_display_string_u_ssort: Location Profile
-      audit_info: Audit Information
-      temporary: Temporary
-    event:
-      agents: Agent
-      event_type: Type
-      outcome: Outcome
-      linked_records: Record Links
-      audit_info: Audit Information
-    collection_management:
-      parent_title: Title
-      parent_type: Record Type
-      processing_priority: Processing Priority
-      processing_status: Processing Status
-      processing_hours_total: Total Hours
-      processing_funding_source: Processing Funding Source
-      processors: Processors
-      audit_info: Audit Information
-    classification:
-      title: Title
-      publish: Published
-      has_classification_terms: Has classification terms?
-      audit_info: Audit Information
-    assessment:
-      assessment_id: Assessment ID
-      assessment_records: Record
-      assessment_record_types: Record Type
-      assessment_surveyors: Surveyor
-      assessment_survey_begin: Survey Begin
-      assessment_review_required: Review Required
-      assessment_sensitive_material: Sensitive Material
-      assessment_inactive: Inactive
-      assessment_survey_year: Survey Year
-      assessment_collections: Collection
-      assessment_completed: Assessment Completed
-      assessment_formats: Formats
-      assessment_ratings: Ratings
-      assessment_conservation_issues: Conservation Issues
-      audit_info: Audit Information
-      assessment_reviewers: Reviewer
-    repositories:
-      title: Title
-      publish: Published
-      audit_info: Audit Information
-    top_container:
-      title: Title
-      publish: Published
-      container_profile_display_string_u_sstr: Container Profile
-      location_display_string_u_sstr: Location
-      type: Type
-      indicator: Indicator
-      barcode: Barcode
-      context: Resource/Accession
-      audit_info: Audit Information
-    container_profile:
-      title: Title
-      publish: Published
-      container_profile_width_u_sstr: Width
-      container_profile_height_u_sstr: Height
-      container_profile_depth_u_sstr: Depth
-      container_profile_dimension_units_u_sstr: Dimension Units
-      audit_info: Audit Information
-    location_profile:
-      title: Title
-      publish: Published
-      location_profile_width_u_sstr: Width
-      location_profile_height_u_sstr: Height
-      location_profile_depth_u_sstr: Depth
-      location_profile_dimension_units_u_sstr: Dimension Units
-      audit_info: Audit Information
-    multi:
-      primary_type: Record Type
-      creators: Creator
-      subjects: Subject
-      title: Title
-      context: Found in
-      identifier: Identifier
-      audit_info: Audit Information
-      query: Text
-      relevance: Relevance
-      user_mtime: Modified
-      create_time: Created
-      dates: Dates
-      extents: Extent
 
   search:
     accession:
@@ -416,6 +244,89 @@ en:
       is_slug_auto: Automatically generate Slug?
       is_user: Is User?
       audit_info: Audit Information
+    location:
+      title: Location
+      publish: Published
+      repository: Repository
+      building: Building
+      floor: Floor
+      room: Room
+      area: Area
+      location_holdings: Holdings for Current Repository
+      location_profile_uri_u_sstr: Location Profile
+      audit_info: Audit Information
+    event:
+      title: Title
+      publish: Published
+      agents: Agent
+      event_type: Type
+      outcome: Outcome
+      linked_records: Record Links
+      audit_info: Audit Information
+    collection_management:
+      parent_title: Title
+      parent_type: Record Type
+      processing_priority: Processing Priority
+      processing_status: Processing Status
+      processing_hours_total: Total Hours
+      processing_funding_source: Processing Funding Source
+      processors: Processors
+      audit_info: Audit Information
+    classification:
+      title: Title
+      publish: Published
+      has_classification_terms: Has classification terms?
+      is_slug_auto: Automatically generate slug?
+      audit_info: Audit Information
+    assessment:
+      publish: Published
+      assessment_id: Assessment ID
+      assessment_records: Record
+      assessment_record_types: Record Type
+      assessment_surveyors: Surveyor
+      assessment_survey_begin: Survey Begin
+      assessment_review_required: Review Required
+      assessment_sensitive_material: Sensitive Material
+      assessment_inactive: Inactive
+      assessment_survey_year: Survey Year
+      assessment_collections: Collection
+      assessment_completed: Assessment Completed
+      assessment_formats: Formats
+      assessment_ratings: Ratings
+      assessment_conservation_issues: Conservation Issues
+      audit_info: Audit Information
+      assessment_reviewers: Reviewer
+    repositories:
+      title: Title
+      publish: Published
+      is_slug_auto: Automatically generate slug?
+      audit_info: Audit Information
+    top_container:
+      title: Title
+      publish: Published
+      container_profile_display_string_u_sstr: Container Profile
+      location_display_string_u_sstr: Location
+      type: Type
+      indicator: Indicator
+      barcode: Barcode
+      context: Resource/Accession
+      audit_info: Audit Information
+    container_profile:
+      title: Title
+      publish: Published
+      container_profile_width_u_sstr: Width
+      container_profile_height_u_sstr: Height
+      container_profile_depth_u_sstr: Depth
+      container_profile_dimension_units_u_sstr: Dimension Units
+      audit_info: Audit Information
+    location_profile:
+      title: Title
+      publish: Published
+      location_profile_width_u_sstr: Width
+      location_profile_height_u_sstr: Height
+      location_profile_depth_u_sstr: Depth
+      location_profile_dimension_units_u_sstr: Dimension Units
+      audit_info: Audit Information
     multi:
       primary_type: Record Type
       creators: Creator
@@ -424,6 +335,7 @@ en:
       context: Found in
       identifier: Identifier
       audit_info: Audit Information
+      query: Text
 
   advanced_search:
     operator:
