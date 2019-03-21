@@ -247,7 +247,7 @@ class SearchResultData
   end
 
   def facet_label_for_query
-    "#{I18n.t("search_results.filter.query")}: #{@search_data[:criteria]["q"]}"
+    "#{I18n.t("search.multi.query")}: #{@search_data[:criteria]["q"]}"
   end
 
   def self.BASE_SORT_FIELDS
