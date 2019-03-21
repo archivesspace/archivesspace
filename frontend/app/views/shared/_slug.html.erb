@@ -10,6 +10,7 @@
   <% else %>
     <%= form.label_and_textfield "slug", :field_opts => {:readonly => record_type.is_slug_auto } %>
     <%= form.label_and_boolean "is_slug_auto", {:checked => record_type.is_slug_auto }, form.default_for("is_slug_auto") %>
+  <% end %>
 <% end %>
 
 <%= javascript_tag do %>
