@@ -1,24 +1,5 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
+# NOTE: Many of the translations in this file have been generated using
+# Google translate
 es:
   brand:
     title: ArchivesSpace Public Interface
@@ -61,6 +42,7 @@ es:
   page_actions: Page Actions
 
   request:
+    email_header: Thank you for your request
     required: required
     user_name: Your name
     user_email: Your email address
@@ -1728,7 +1710,7 @@ es:
       NU: Niue
       NF: Norfolk Island
       MP: Northern Mariana Islands
-      NO: Norway
+      "NO": Norway
       OM: Oman
       PK: Pakistan
       PW: Palau
@@ -1915,12 +1897,6 @@ es:
       novalue: No value defined
     user_defined_enum_4:
       novalue: No value defined
-    job_type:
-      print_to_pdf_job: Print To PDF
-      import_job: Import Data
-      find_and_replace_job: Batch Find and Replace (Beta)
-      report_job: Reports
-      container_conversion_job: Reports
     dimension_units:
       inches: Inches
       feet: Feet

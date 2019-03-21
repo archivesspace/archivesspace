@@ -134,6 +134,12 @@ class UsersController < ApplicationController
                   if params['user']['password'] != params['user']['confirm_password']
                     obj.add_error('confirm_password', "entered value didn't match password")
                   end
+                  s = params['user']['username'].downcase.strip
+                  if s.blank?
+                    obj.add_error('username', "Can't be empty")
+                  elsif s !~ /\A[a-zA-Z0-9\-_. @]+\z/ || s =~ /  +/
+                    obj.add_error('username', 'invalid characters')
+                  end
                 },
                 :on_invalid => ->(){
                   flash[:error] = I18n.t("user._frontend.messages.error_create")

@@ -2,9 +2,9 @@ class GenerateSlugsRunner < JobRunner
 
   register_for_job_type('generate_slugs_job',
                         {:create_permissions => :manage_repository,
-                        :cancel_permissions => :manage_repository, 
-                        :allow_reregister => true})
-
+                         :cancel_permissions => :manage_repository,
+                         :allow_reregister => true})
+  
   def run
     begin
       # REPOSITORIES
@@ -210,11 +210,10 @@ class GenerateSlugsRunner < JobRunner
 
     if terminal_error
       @job.write_output(terminal_error.message)
-      @job.write_output(terminal_error.backtrace)    
+      @job.write_output(terminal_error.backtrace)
 
       raise terminal_error
     end
 
   end
 end
-

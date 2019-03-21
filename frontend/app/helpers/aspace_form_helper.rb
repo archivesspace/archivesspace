@@ -53,7 +53,7 @@ module AspaceFormHelper
 
     # ANW-617:
     # TODO: Ideally, this method should generate a full URL, with the value from AppConfig[:public_url], so the link is fully actionable.
-    # Ran into a a bug (with AS? or deeper?) where the value of AppConfig[:public_url] was being changed at runtime simply by getting it's value, with code like base_url = AppConfig[:public_url]. 
+    # Ran into a a bug (with AS? or deeper?) where the value of AppConfig[:public_url] was being changed at runtime simply by getting it's value, with code like base_url = AppConfig[:public_url].
     # For now, this method generates a relative URL, like '\resources\Resource A' to avoid this.
     def slug_url_field(name, repo_slug = nil, generate_url_with_repo_slug = nil)
       url = ""
@@ -104,8 +104,8 @@ module AspaceFormHelper
       # For repo scoped objects,
       # if we have access to the repo slug in the session and the repo scoped URLs are enabled
       # generate link with repo slug
-      if !obj['slug'].nil? && 
-         !obj['slug'].empty? && 
+      if !obj['slug'].nil? &&
+         !obj['slug'].empty? &&
          AppConfig[:use_human_readable_URLs]
 
         if scope == :repo
@@ -114,14 +114,14 @@ module AspaceFormHelper
             url << repo_slug
           end
         end
-  
-        url << "/" + route + "/" + obj['slug'] 
+
+        url << "/" + route + "/" + obj['slug']
       else
         url = obj['uri']
       end
 
       url.to_s
-      
+
     end
 
     def list_for(objects, context_name, &block)
@@ -541,11 +541,11 @@ module AspaceFormHelper
       # when called by #new, set_json will be nil.
       if set_json
         set_arry = JSON::parse(set_json)
-      else 
+      else
         set_arry = []
       end
 
-      html = "" 
+      html = ""
 
       html << "<div class='form-group'>"
         html << label("oai_sets_available", {}, ["control-label", "col-sm-2"])
@@ -563,13 +563,13 @@ module AspaceFormHelper
                     if checked
                       html << "checked=\"checked\" "
                     end
-  
+
                     if readonly?
                       html << "disabled />"
                     else
                       html << "/>"
                     end # of checkbox tag
-  
+
                     html << "#{v['value']}"
                   html << "</label>"
                 html << "</div>"
@@ -586,7 +586,7 @@ module AspaceFormHelper
       #label_and_textfield(name, opts)
       set_arry = JSON::parse(set_json)
 
-      html = "" 
+      html = ""
 
       html << "<div class='form-group'>"
           html << label("repo_set_section", {}, ["control-label", "col-sm-2"])
@@ -594,7 +594,7 @@ module AspaceFormHelper
           html << "<ul class='checkbox-list'>"
             repositories.each do |r|
               # a checkbox is on if it's the in the list we get from the backend.
-              checked = set_arry.include?(r['repo_code'].to_s) 
+              checked = set_arry.include?(r['repo_code'].to_s)
 
               html << "<li class='list-group-item'>"
                 html << "<div class='checkbox'>"
@@ -603,9 +603,9 @@ module AspaceFormHelper
                     if checked
                       html << "checked=\"checked\" "
                     end
-  
+
                     html << "/>"
-  
+
                     html << "#{r['repo_code']}"
                   html << "</label>"
                 html << "</div>"

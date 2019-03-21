@@ -1,7 +1,7 @@
 class JobsController < ApplicationController
 
   set_access_control "view_repository" => [:index, :show, :log, :status, :records, :download_file ]
-  set_access_control "create_job" => [:new, :create]
+  set_access_control "create_job" => [:new, :create, :create_import_job]
   set_access_control "cancel_job" => [:cancel]
   
   include ExportHelper
@@ -31,12 +31,14 @@ class JobsController < ApplicationController
 
   def create
 
-    job_data = params[params['job']['job_type']]
+    @job_type = params['job']['job_type']
+
+    job_data = params['job']
 
     # Knock out the _resolved parameter because it's often very large
     # and clean up the job data to match the schema types.
     job_data = ASUtils.recursive_reject_key(job_data) { |k| k === '_resolved' }
-    job_data = cleanup_params_for_schema(job_data, JSONModel(params['job']['job_type'].intern).schema)
+    job_data = cleanup_params_for_schema(job_data, JSONModel(@job_type.intern).schema)
     
     files = Hash[Array(params['files']).reject(&:blank?).map {|file|
                                   [file.original_filename, file.tempfile]}]
@@ -45,28 +47,32 @@ class JobsController < ApplicationController
 
     job_data["repo_id"] ||= session[:repo_id]
     begin
-      job = Job.new(params['job']['job_type'], job_data, files,
+      job = Job.new(@job_type, job_data, files,
                                   job_params
                    )
+      uploaded = job.upload
+
+      if (params['ajax'])
+        if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
+          render :text => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
+        else
+          render :json => uploaded
+        end
+      else
+        redirect_to :action => :show, :id => JSONModel(:job).id_for(uploaded['uri'])
+      end
 
     rescue JSONModel::ValidationException => e
       @exceptions = e.invalid_object._exceptions
       @job = e.invalid_object
       @import_types = import_types
-      @job_type = params['job']['job_type']
+      @report_data = JSONModel::HTTP::get_json("/reports")
 
-      if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
-        return render_aspace_partial :partial => "jobs/form_for_iframepost", :status => 400
-      else
-        return render_aspace_partial :partial => "jobs/form", :status => 400
-      end
+      params['job_type'] = @job_type
+
+      render :new, :status => 500
     end
 
-    if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
-      render :text => "<textarea data-type='json'>#{job.upload.to_json}</textarea>"
-    else
-      render :json => job.upload
-    end
   end
 
 
