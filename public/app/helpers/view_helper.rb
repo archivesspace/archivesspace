@@ -15,7 +15,7 @@ module ViewHelper
   def resource_base_url(result)
     if result.json['slug'] && AppConfig[:use_human_readable_URLs]
       # Generate URLs with repo slugs if turned on
-      if AppConfig[:repo_name_in_slugs]
+      if AppConfig[:repo_slug_in_URL]
         if result.resolved_repository["slug"]
           url = "repositories/#{result.resolved_repository["slug"]}/resources/" + result.json['slug']
 
