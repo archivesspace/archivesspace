@@ -362,6 +362,7 @@ en:
     slug: Slug
     public_url: Public URL
     is_slug_auto: Automatically generate Slug?
+    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
 
   linker:
     link_to_prefix: Link to
@@ -1078,12 +1079,13 @@ en:
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
         report_instructions: Choose a report to run by using the <b>Select</b> button.
-        slug_lost_warning: <b>WARNING! </b>Any previously created slugs will be lost!
-        slug_generation: This job will generate a slug and enable slug autogeneration for all <b>Resources</b>, <b>Archival Objects</b>, <b>Digital Objects</b>, <b>Digital Object Components</b>, <b>Accessions</b>, <b>Classifications</b>, <b>Agents</b>, <b>Subjects</b>, and <b>Repositories</b>.
+        slug_lost_warning: <b>WARNING! </b> All auto generated slugs will be regenerated!
+        slug_generation: This job will generate a slug and enable slug autogeneration for all <b>Resources</b>, <b>Archival Objects</b>, <b>Digital Objects</b>, <b>Digital Object Components</b>, <b>Accessions</b>, <b>Classifications</b>, <b>Agents</b>, <b>Subjects</b>, and <b>Repositories</b>. <br /><em>Slugs which have been manually added will not be changed.</em>
         slug_config_msg: <b>Based on your ArchivesSpace configuration settings in config.rb:</b>
         slug_config_id: Slugs will be generated using the entity identifier where appropriate.
         slug_config_title: Slugs will be generated using the entity name or title.
         slug_config_eadid: Slugs for <b>Resources</b> will be generated using the EAD ID where appropriate.
+        slug_config_cuid: Slugs for <b>Archival Objects</b> will be generated using the Component ID where appropriate.
 
   shortcuts:
     quick_reference_window: "Quick Reference: Keyboard Shortcuts"

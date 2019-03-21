@@ -615,14 +615,22 @@ AppConfig[:pui_page_custom_actions] = []
 #   'erb_partial' => 'shared/my_special_action',
 # }
 
+# use_human_readable_URLs:
+# Changing this option will not remove or clear any slugs that exist currently.
+# This setting only affects links that are displayed. URLs that point to valid slugs will still work.
+# WARNING: Changing this setting may require an index rebuild for changes to take effect.
+
+# TODO: for release, uncomment below and remove line that follows that so that HRU's are off by default.
+#AppConfig[:use_human_readable_URLs] = false
 AppConfig[:use_human_readable_URLs] = false
 
 # Use the repository in slug based URLs
-# Warning: setting repo_slug_in_URL to true when it has previously been set to false will break links, unless all slugs are regenerated.
-AppConfig[:repo_slug_in_URL] = false
+# Warning: setting repo_name_in_slugs to true when it has previously been set to false will break links, unless all slugs are regenerated.
+AppConfig[:repo_name_in_slugs] = false
 
 # Autogenerate slugs based on IDs. If this is set to false, then slugs will autogenerate based on name.
 AppConfig[:auto_generate_slugs_with_id] = false
 
 # For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
 AppConfig[:generate_resource_slugs_with_eadid] = false
+AppConfig[:generate_archival_object_slugs_with_cuid] = false

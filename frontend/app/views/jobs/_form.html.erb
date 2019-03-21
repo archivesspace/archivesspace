@@ -51,18 +51,25 @@
   <hr/>
   <br/>
 
-  <div class="alert alert-danger">
-    <p> <%= I18n.t("job._frontend.messages.slug_lost_warning") %> </p>
-  </div>
-  <br/>
-  <p><%= I18n.t("job._frontend.messages.slug_generation") %></p>
-  <br/>
-  <p><%= I18n.t("job._frontend.messages.slug_config_msg") %></p>
-  <% if AppConfig[:auto_generate_slugs_with_id] %>
-    <p><%= I18n.t("job._frontend.messages.slug_config_id") %></p>
+    <div class="alert alert-danger">
+      <p> <%= I18n.t("job._frontend.messages.slug_lost_warning") %>
+    </div>
+    <br/>
+    <p><%= I18n.t("job._frontend.messages.slug_generation") %></p>
+    <br/>
+    <p><%= I18n.t("job._frontend.messages.slug_config_msg") %></p>
+    <% if AppConfig[:auto_generate_slugs_with_id] %>
+      <p><%= I18n.t("job._frontend.messages.slug_config_id") %></p>
 
-    <% if AppConfig[:generate_resource_slugs_with_eadid] %>
-      <p><%= I18n.t("job._frontend.messages.slug_config_eadid") %></p>
+      <% if AppConfig[:generate_resource_slugs_with_eadid] %>
+        <p><%= I18n.t("job._frontend.messages.slug_config_eadid") %></p>
+      <% end %>
+
+      <% if AppConfig[:generate_archival_object_slugs_with_cuid] %>
+        <p><%= I18n.t("job._frontend.messages.slug_config_cuid") %></p>
+      <% end %>
+    <% else %>
+      <p><%= I18n.t("job._frontend.messages.slug_config_title") %></p>
     <% end %>
   <% else %>
     <p><%= I18n.t("job._frontend.messages.slug_config_title") %></p>
