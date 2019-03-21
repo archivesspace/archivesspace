@@ -24,6 +24,8 @@
     <xsl:include href="as-helper-functions.xsl"/>
 
     <xsl:strip-space elements="*"/>
+    <xsl:param name="pdf_image"/>
+
 
     <!-- The following attribute sets are reusable styles used throughout the stylesheet. -->
     <!-- Headings -->
@@ -273,7 +275,9 @@
     -->
     <xsl:template name="icon">
         <fo:block text-align="left" margin-left="-.75in" margin-top="-.5in">
-            <fo:external-graphic src="archivesspace.small.png" content-height="75%" content-width="75%"/>
+            <fo:external-graphic content-height="75%" content-width="75%">
+              <xsl:attribute name="src"><xsl:value-of select="$pdf_image"/></xsl:attribute>
+            </fo:external-graphic>
         </fo:block>
     </xsl:template>
 

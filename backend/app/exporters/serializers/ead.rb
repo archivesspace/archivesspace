@@ -341,7 +341,7 @@ class EADSerializer < ASpaceExport::Serializer
 
         next if !published && !@include_unpublished
 
-        role = link['role']
+        link['role'] == 'creator' ? role = link['role'].capitalize : role = link['role']
         relator = link['relator']
         sort_name = agent['display_name']['sort_name']
         rules = agent['display_name']['rules']

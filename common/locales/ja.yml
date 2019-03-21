@@ -1,3 +1,5 @@
+# NOTE: Many of the translations in this file have been generated using
+# Google translate
 ja:
   states:
     suppressed: 抑制された
@@ -1258,7 +1260,7 @@ ja:
 
   user:
     username: ユーザー名
-    username_tooltip: "<p>必要なフィールド。ユーザーがアプリケーションの認証に使用するアカウントのユーザー名。 </P>"
+    username_tooltip: "<p>必要なフィールド。ユーザーがアプリケーションの認証に使用するアカウントのユーザー名。 許可される文字には、a〜z、A〜Z、@、数字、ハイフン、ダッシュ、およびドットが含まれます。</P>"
     name: フルネーム
     name_tooltip: "<p>必要なフィールド。ユーザー名で指定されたユーザーのフルネーム。 </p>"
     password: パスワード
@@ -1489,17 +1491,18 @@ ja:
     must_be_a_valid_email_address: 有効な住所を含める必要があります
     sponsor_set_desc_required: OAIスポンサーセットを作成するにはスポンサーセットの説明が必要です
     sponsor_set_name_required: OAIスポンサーセットを作成するにはスポンサーセット名が必要です
+    invalid_characters: 無効な文字が含まれています
 
   job:
     _singular: バックグラウンドジョブ
     _plural: バックグラウンドジョブ
     job_type: ジョブの種類
     types:
-      print_to_pdf_job: PDFへの印刷
+      print_to_pdf_job: PDFを生成
       import_job: データのインポート
       find_and_replace_job: バッチの検索と置換（ベータ版）
-      report_job: レポート
-      container_conversion_job: レポート
+      report_job: レポートを作成
+      container_conversion_job: レポートを作成
       generate_slugs_job: エンティティのスラッグを生成する
       unknown_job_type: 不明なジョブタイプ
     status: 状態
@@ -1538,9 +1541,11 @@ ja:
     jsonmodel_type: レコードまたはサブレコードタイプ
     record_type: レコードまたはサブレコードタイプ
     property: ターゲットプロパティ
+    base_record_uri: ベースレコードURI
 
   print_to_pdf_job:
     include_unpublished: 未公開を含める
+    source: ソース
 
   advanced_search:
     type:

@@ -61,6 +61,7 @@ en:
   page_actions: Page Actions
 
   request:
+    email_header: Thank you for your request
     required: required
     user_name: Your name
     user_email: Your email address
@@ -1728,7 +1729,7 @@ en:
       NU: Niue
       NF: Norfolk Island
       MP: Northern Mariana Islands
-      NO: Norway
+      "NO": Norway
       OM: Oman
       PK: Pakistan
       PW: Palau
@@ -1915,12 +1916,6 @@ en:
       novalue: No value defined
     user_defined_enum_4:
       novalue: No value defined
-    job_type:
-      print_to_pdf_job: Print To PDF
-      import_job: Import Data
-      find_and_replace_job: Batch Find and Replace (Beta)
-      report_job: Reports
-      container_conversion_job: Reports
     dimension_units:
       inches: Inches
       feet: Feet

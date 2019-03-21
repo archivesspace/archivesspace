@@ -11,17 +11,22 @@ class ASFopExternal
   attr_accessor :output
   attr_accessor :xslt
 
-  def initialize(source, job)
+  def initialize(source, job, pdf_image)
    @source = source
    @fo = ASUtils.tempfile('pdf.xml')
    @output_path = ASUtils.tempfile_name('fop.pdf')
-   @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl')) 
+   if pdf_image.nil?
+     @pdf_image = "file:///" + File.absolute_path(StaticAssetFinder.new(File.join('stylesheets')).find('archivesspace.small.png'))
+   else
+     @pdf_image = pdf_image
+   end
+   @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl'))
    @job = job
   end
 
   def to_fo
     transformer = Saxon.XSLT(@xslt, system_id: File.join(ASUtils.find_base_directory, 'stylesheets', 'as-ead-pdf.xsl') )
-    transformer.transform(Saxon.XML(@source)).to_s
+    transformer.transform(Saxon.XML(@source), {"pdf_image" => "\'#{@pdf_image}\'"}).to_s
   end
 
   def to_pdf
@@ -83,7 +88,7 @@ class ASFopExternal
     def multiple_command_operator
       if RbConfig::CONFIG['host_os'] =~ /win32/
         return "&"
-      else 
+      else
         return ";"
       end
     end

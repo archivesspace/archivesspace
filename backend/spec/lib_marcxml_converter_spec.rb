@@ -409,7 +409,7 @@ END
       subject = json.first
       expect(subject['publish']).to be_truthy
       expect(subject['authority_id']).to eq('no2006087900')
-      expect(subject['source']).to eq("Library of Congress Subject Headings")
+      expect(subject['source']).to eq("lcsh")
       expect(subject['scope_note']).to eq('Works on cyberpunk in the genre Science Fiction. May be combined with geographic name in the form Cyberpunk fiction-Japan.')
       expect(subject['terms'].count).to eq(1)
       expect(subject['terms'][0]['term']).to eq('Cyberpunk')

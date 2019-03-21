@@ -1295,7 +1295,7 @@ $(function() {
   });
 
   $(document).bind("rdeshow.aspace", function(event, $node, $button) {
-    var $modal = AS.openCustomModal("rapidDataEntryModal", $button.text(), AS.renderTemplate("modal_content_loading_template"), 'full', {keyboard: false}, $button);
+    var $modal = AS.openCustomModal("rapidDataEntryModal", $button.text(), AS.renderTemplate("modal_content_loading_template"), 'full', {backdrop: 'static', keyboard: false}, $button);
 
     $(document).triggerHandler("rdeload.aspace", [$node.data('uri'), $modal]);
   });
