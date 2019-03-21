@@ -36,7 +36,7 @@
   'subjects_browse_column_4' => '',
   'subjects_browse_column_5' => '',
   'location_browse_column_1' => 'title',
-  'location_browse_column_2' => 'location_profile_uri_u_sstr',
+  'location_browse_column_2' => 'location_profile_display_string_u_ssort',
   'location_browse_column_3' => 'location_holdings',
   'location_browse_column_4' => 'audit_info',
   'location_browse_column_5' => '',

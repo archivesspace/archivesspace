@@ -7,7 +7,7 @@ browse_column_enums = {
   'resource' => [
     "title", "publish", "level", "finding_aid_title",
     "finding_aid_filing_title", "identifier", "resource_type", "language", "restrictions", "ead_id",
-    "finding_aid_status", "is_slug_auto"
+    "finding_aid_status", "is_slug_auto", "subjects"
   ],
   'archival_object' => [
     "title", "publish", "context", "component_id", "ref_id", "is_slug_auto", "subjects",
@@ -27,26 +27,25 @@ browse_column_enums = {
     "title", "primary_type", "publish", "authority_id", "source", "rules", "is_slug_auto", "is_user"
   ],
   'location' => [
-    "title", "publish", "repository", "building", "floor", "room", "area", "location_holdings", 
-    "location_profile_uri_u_sstr"
+    "title", "publish", "building", "floor", "room", "area", "location_holdings",
+    "location_profile_display_string_u_ssort", 'temporary'
   ],
   'event' => [
-    "title", "publish", "agents", "event_type", "outcome", "linked_records"
+    "agents", "event_type", "outcome", "linked_records"
   ],
   'collection_management' => [
-    "parent_title", "parent_type", "processing_priority", "processing_status", "processing_hours_total", 
+    "parent_title", "parent_type", "processing_priority", "processing_status", "processing_hours_total",
     "processing_funding_source", "processors"
   ],
   'classification' => [
     "title", "publish", "has_classification_terms", "is_slug_auto"
   ],
   'top_container' => [
-    "title", "publish", "container_profile_display_string_u_sstr", "location_display_string_u_sstr", "type", 
+    "title", "publish", "container_profile_display_string_u_sstr", "location_display_string_u_sstr", "type",
     "indicator", "barcode", "context"
   ],
   'assessment' => [
-    "publish", "assessment_id",
-    "assessment_records", "assessment_record_types", "assessment_surveyors",
+    "assessment_id", "assessment_records", "assessment_record_types", "assessment_surveyors", 
     "assessment_survey_begin", "assessment_review_required", "assessment_sensitive_material",
     "assessment_inactive", "assessment_survey_year", "assessment_collections",
     "assessment_completed", "assessment_formats", "assessment_ratings",
@@ -56,11 +55,11 @@ browse_column_enums = {
     "title", "publish", "is_slug_auto"
   ],
   'container_profile' => [
-    "title", "publish", "container_profile_width_u_sstr", "container_profile_height_u_sstr", 
+    "title", "publish", "container_profile_width_u_sstr", "container_profile_height_u_sstr",
     "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"
   ],
   'location_profile' => [
-    "title", "publish", "location_profile_width_u_sstr", "location_profile_height_u_sstr", 
+    "title", "publish", "location_profile_width_u_sstr", "location_profile_height_u_sstr",
     "location_profile_depth_u_sstr", "location_profile_dimension_units_u_sstr"
   ],
   'multi' => [
