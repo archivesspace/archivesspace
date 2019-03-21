@@ -169,7 +169,7 @@ $(function() {
               };
 
               $linkerBrowseContainer.html(html);
-              $($linkerBrowseContainer).on("click", "a", function(event) {
+              $($linkerBrowseContainer).on("click", "a:not(.dropdown-toggle):not(.record-toolbar .btn)", function(event) {
                 event.preventDefault();
 
                 $linkerBrowseContainer.load(event.currentTarget.href, initBrowseFormInputs);
