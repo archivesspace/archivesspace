@@ -1,5 +1,5 @@
 <%# Adding the check for uri as a semi-hacky way to differntiate between a brand new record and an existing record for which a slug has not been set %>
-<% if !form.obj.has_key?('slug') && !form.obj.has_key?('uri') %>
+<% if !form.obj.has_key?('slug') && !form.obj.has_key?('uri') && !record_type.class.to_s =~ /Repository/ %>
   <%= form.label_and_readonly "public_url",  "<em>#{I18n.t("archival_object.ref_id_auto_generation_message")}</em>" %>
   <%= form.label_and_boolean "is_slug_auto", {:checked => record_type.is_slug_auto }, form.default_for("is_slug_auto") %>
 <% else %>
