@@ -192,7 +192,8 @@ module SearchHelper
     models = [models] unless models.is_a? Array
     added = []
     if models.length > 1
-      add_record_type_column
+      add_column(I18n.t("search.multi.primary_type"), :field => 'primary_type', :locale_key => '_singular',
+        :sortable => true, :type => 'string')
       added << 'primary_type'
     end
     for n in 1..AppConfig[:max_search_columns]
@@ -223,14 +224,6 @@ module SearchHelper
       :class => 'actions table-record-actions')
   end
 
-  def add_record_type_column
-    add_column(I18n.t("search_results.result_type"), {:sortable => true, :field => 'primary_type'},
-      proc { |record|
-        I18n.t("#{record["primary_type"]}._singular",
-          :default => I18n.t("plugins.#{record["primary_type"]}._singular"))
-      })
-  end
-
   def add_linker_column
     add_column(sr_only('Linker'),
       proc { |record|
@@ -240,10 +233,6 @@ module SearchHelper
           radio_button_tag "linker-item", record["id"], false, :"data-object" => record.to_json
         end
       })
-  end
-
-  def add_title_column(label = I18n.t("search_results.result_title"))
-    add_column(label, :template => 'search/title', :sortable => true, :field => 'title')
   end
 
   def sr_only(text)
