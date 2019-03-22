@@ -20,10 +20,12 @@ class AgentPerson < Sequel::Model(:agent_person)
   # This only runs when generating slugs by ID, since we have access to the authority_id in the JSON
   auto_generate :property => :slug,
                 :generator => proc { |json| 
-                  if json["is_slug_auto"] && AppConfig[:use_human_readable_URLs]
-                    SlugHelpers.id_based_slug_for(json, AgentPerson) if AppConfig[:auto_generate_slugs_with_id]
-                  else
-                    json["slug"]
+                  if AppConfig[:use_human_readable_URLs]
+                    if json["is_slug_auto"]
+                      SlugHelpers.id_based_slug_for(json, AgentPerson) if AppConfig[:auto_generate_slugs_with_id]
+                    else
+                      json["slug"]
+                    end
                   end
                 }
 

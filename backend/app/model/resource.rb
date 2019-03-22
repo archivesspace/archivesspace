@@ -52,12 +52,14 @@ class Resource < Sequel::Model(:resource)
 
   auto_generate :property => :slug,
                 :generator => proc { |json|
-                  if json["is_slug_auto"] && AppConfig[:use_human_readable_URLs]
-                    AppConfig[:auto_generate_slugs_with_id] ? 
-                      SlugHelpers.id_based_slug_for(json, Resource) : 
-                      SlugHelpers.name_based_slug_for(json, Resource)
-                  else
-                    json["slug"]
+                  if AppConfig[:use_human_readable_URLs]
+                    if json["is_slug_auto"]
+                      AppConfig[:auto_generate_slugs_with_id] ? 
+                        SlugHelpers.id_based_slug_for(json, Resource) : 
+                        SlugHelpers.name_based_slug_for(json, Resource)
+                    else
+                      json["slug"]
+                    end
                   end
                 }
 
