@@ -74,10 +74,18 @@ class DigitalObjectComponentsController < ApplicationController
                 :obj => @digital_object_component,
                 :on_invalid => ->(){ return render_aspace_partial :partial => "edit_inline" },
                 :on_valid => ->(id){
-                  success_message = parent ?
+                  success_msg = parent ?
                     I18n.t("digital_object_component._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent).enable_parse_mixed_content!(url_for(:root))) :
                     I18n.t("digital_object_component._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
-                  flash.now[:success] = success_message
+
+                  if @digital_object_component["is_slug_auto"] == false &&
+                     @digital_object_component["slug"] == nil &&
+                     params["digital_object_component"] &&
+                     params["digital_object_component"]["is_slug_auto"] == "1"
+                    success_msg << I18n.t("slug.autogen_disabled")
+                  end
+
+                  flash.now[:success] = success_msg
 
                   render_aspace_partial :partial => "edit_inline"
                 })

@@ -66,7 +66,17 @@ class SubjectsController < ApplicationController
                 :obj => JSONModel(:subject).find(params[:id]),
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
-                  flash[:success] = I18n.t("subject._frontend.messages.updated")
+                  success_msg = I18n.t("subject._frontend.messages.updated")
+
+                  if @subject["is_slug_auto"] == false &&
+                     @subject["slug"] == nil &&
+                     params["subject"] &&
+                     params["subject"]["is_slug_auto"] == "1"
+                    success_msg << I18n.t("slug.autogen_disabled")
+                  end
+
+                  flash[:success] = success_msg
+
                   redirect_to :controller => :subjects, :action => :edit, :id => id
                 })
   end
