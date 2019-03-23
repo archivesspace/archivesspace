@@ -15,7 +15,6 @@ module SlugHelpers
   # 'entity' is a data structure that has what we need. It may be a JSONModel or a Sequel object.
 
   def self.name_based_slug_for(entity, klass)
-
     if !entity[:title].nil? && !entity[:title].empty? && !is_agent_name_type?(klass)
       slug = entity[:title]
     elsif !entity[:name].nil? && !entity[:name].empty? && !is_agent_name_type?(klass)
@@ -33,9 +32,22 @@ module SlugHelpers
       end
     else
       slug = ""
-    end
+    end 
+ 
+    slug = clean_slug(slug) 
 
-    return clean_slug(slug, klass)
+    # only de-dupe and update if our base slug has changed from it's previous value
+    previous_slug = entity[:slug]
+    if base_slug_changed?(slug, previous_slug)
+      puts "++++++++++++++++++++++++++++++"
+      puts "running dedupe in generate by name"
+      puts "slug: " + slug.to_s
+      puts "prev: " + previous_slug.to_s
+
+      return run_dedupe_slug(slug)
+    else
+      return previous_slug
+    end
   end
 
   private
