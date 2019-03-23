@@ -1,7 +1,7 @@
 module SlugHelpers
 
-  # remove invalid chars, truncate, and dedupe slug if necessary
-  def self.clean_slug(slug, klass)
+  # remove invalid chars and truncate slug
+  def self.clean_slug(slug)
 
     if slug
       # if the slug contains a slash, completely zero it out.
@@ -38,11 +38,6 @@ module SlugHelpers
         slug = slug.prepend("_")
       end
 
-      # search for dupes
-      if !slug.empty? && slug_in_use?(slug, klass)
-        slug = dedupe_slug(slug, 1, klass)
-      end
-
     else
       slug = ""
     end
@@ -50,9 +45,57 @@ module SlugHelpers
     return slug
   end
 
+  # runs dedupe if necessary
+  def self.run_dedupe_slug(slug)
+    # search for dupes
+    if !slug.empty? && slug_in_use?(slug)
+      dedupe_slug(slug, 1)
+    else
+      slug
+    end
+  end
+
+  # returns true if the base slug (non-deduped) is different between slug and previous_slug
+  # Examples: 
+  # slug = "foo", previous_slug = "foo_1" => false
+  # slug = "foo_123", previous_slug = "foo_123_1" => false
+  # slug = "foo_123", previous_slug = "foo_124" => true
+  # slug = "foo_123", previous_slug = "foo_124_1" => true
+  def self.base_slug_changed?(slug, previous_slug)
+    # first, compare the two slugs from left to right to see what they have in common. Remove anything in common.
+    # Then, remove anything that matches the pattern of underscore followed by digits, like _1, _2, or _314159, etc that would indicate a deduping suffix
+    # if there is nothing left, then the base slugs are the same.
+    puts "++++++++++++++++++++++++++++++"
+    puts "in base_slug_changed"
+    puts "slug: " + slug.to_s
+    puts "prev slug: " + previous_slug.to_s
+
+    # the base slug has changed if previous_slug is nil/empty but slug is not
+    if (previous_slug.nil? || previous_slug.empty?) &&
+       (!slug.nil? && !slug.empty?)
+      return true
+    end
+
+    # the base slug has changed if slug is nil/empty but previous_slug is not
+    if (slug.nil? || slug.empty?) &&
+       (!previous_slug.nil? && !previous_slug.empty?)
+      return true
+    end
+
+
+    slug_difference = previous_slug.gsub(/^#{slug}/, "")
+                                   .gsub(/_\d+$/, "")
+
+    puts "++++++++++++++++++++++++++++++"
+    puts "slug_difference: " + slug_difference
+
+    # the base slug has changed if there is something left over in slug_difference
+    return !slug_difference.empty?
+  end
+
   # given a slug, return true if slug is used by another entity.
   # return false otherwise.
-  def self.slug_in_use?(slug, klass)
+  def self.slug_in_use?(slug)
     repo_count           = Repository.where(:slug => slug).count
     resource_count       = Resource.where(:slug => slug).count
     subject_count        = Subject.where(:slug => slug).count
@@ -66,41 +109,6 @@ module SlugHelpers
     agent_software_count = AgentSoftware.where(:slug => slug).count
     archival_obj_count   = ArchivalObject.where(:slug => slug).count
     do_component_count   = DigitalObjectComponent.where(:slug => slug).count
-
-    # We don't want to count a slug as in use if it's being used by
-    # the record we're calling this method for.
-    # To fix that false positive case:
-    # if a count for a class is > 0 and that's the same class that's de-duping
-    # decrement the count by one to account for the calling object
-
-    case klass.to_s
-    when "Repository"
-      repo_count -= 1 if repo_count > 0
-    when "Resource"
-      resource_count -= 1 if resource_count > 0
-    when "Subject"
-      subject_count -= 1 if subject_count > 0
-    when "DigitalObject"
-      digital_object_count -= 1 if digital_object_count > 0
-    when "Accession"
-      accession_count -= 1 if accession_count > 0
-    when "Classification"
-      classification_count -= 1 if classification_count > 0
-    when "ClassificationTerm"
-      class_term_count -= 1 if class_term_count > 0
-    when "AgentPerson"
-      agent_person_count -= 1 if agent_person_count > 0
-    when "AgentFamily"
-      agent_family_count -= 1 if agent_family_count > 0
-    when "AgentCorporateEntity"
-      agent_corp_count -= 1 if agent_corp_count > 0
-    when "AgentSoftware"
-      agent_software_count -= 1 if agent_software_count > 0
-    when "ArchivalObject"
-      archival_obj_count -= 1 if archival_obj_count > 0
-    when "DigitalObjectComponent"
-      do_component_count -= 1 if do_component_count > 0
-    end
 
     rval = repo_count +
            resource_count +
@@ -121,11 +129,11 @@ module SlugHelpers
 
   # dupe_slug is already in use. Recursively find a suffix (e.g., slug_1)
   # that isn't used by anything else
-  def self.dedupe_slug(dupe_slug, count = 1, klass)
+  def self.dedupe_slug(dupe_slug, count = 1)
     new_slug = dupe_slug + "_" + count.to_s
 
-    if slug_in_use?(new_slug, klass)
-      dedupe_slug(dupe_slug, count + 1, klass)
+    if slug_in_use?(new_slug)
+      dedupe_slug(dupe_slug, count + 1)
     else
       return new_slug
     end
