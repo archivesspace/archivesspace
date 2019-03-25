@@ -73,12 +73,19 @@ class SearchResultData
       }
     }
     facet_data_for_filter.delete_if {|facet_group, facets| facets.empty?}
-    self.class.FACETS_TO_SORT.each do |facet_group|
-      if facets = facet_data_for_filter[facet_group]
-        facet_data_for_filter[facet_group] = facets.sort.to_h
-      end
+    facet_data_for_filter.each do |facet_group, facets|
+      facet_data_for_filter[facet_group] = sort_facets(facet_group, facets)
     end
     facet_data_for_filter
+  end
+
+  def sort_facets(facet_group, facets)
+    case facet_group
+    when 'accession_date_year'
+      facets.sort { |a, b| b <=> a }.to_h
+    else
+      facets
+    end
   end
 
   def facet_display_string(facet_group, facet)
@@ -239,10 +246,6 @@ class SearchResultData
 
   def self.BASE_SORT_FIELDS
     %w(create_time user_mtime)
-  end
-
-  def self.FACETS_TO_SORT
-    ['accession_date_year']
   end
 
   def self.BASE_FACETS
