@@ -626,3 +626,6 @@ AppConfig[:auto_generate_slugs_with_id] = false
 
 # For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
 AppConfig[:generate_resource_slugs_with_eadid] = false
+
+# For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
+AppConfig[:sort_accession_date_filter_asc] = false
