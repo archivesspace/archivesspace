@@ -7,7 +7,7 @@
     "uri" => "/agents/families",
     "properties" => {
       "slug" => {"type" => "string"},
-      "is_slug_auto" => {"type" => "boolean"}, 
+      "is_slug_auto" => {"type" => "boolean", "default" => true},
       "names" => {
         "type" => "array",
         "items" => {"type" => "JSONModel(:name_family) object"},

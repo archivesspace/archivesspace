@@ -14,6 +14,7 @@ Sequel.migration do
     	end									
 
       self[:repository].where(:id => r[:id]).update(:slug => slug)
+      self[:repository].where(:id => r[:id]).update(:is_slug_auto => 1)
     end
   end
 end

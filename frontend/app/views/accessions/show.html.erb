@@ -20,7 +20,9 @@
 
             <%= readonly.label_and_textarea "title" %>
             <%= readonly.label_and_fourpartid %>
-            <%= readonly.label_with_field "public_url", readonly.slug_url_field("slug", session[:repo_slug], AppConfig[:repo_slug_in_URL]) if AppConfig[:use_human_readable_URLs] %>
+
+            <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_URLs] %>
+
             <%= readonly.label_and_date "accession_date" %>
             <%= readonly.label_and_textarea "content_description" %>
             <%= readonly.label_and_textarea "condition_description" %>
