@@ -32,10 +32,10 @@ module SlugHelpers
       # remove any leading or trailing underscores
       slug = slug.gsub(/^_/, "").gsub(/_$/, "")
 
-      # if slug is numeric, add a leading '_'
+      # if slug is numeric, add a leading '__'
       # this is necessary, because numerical slugs will be interpreted as an id by the controller
       if slug.match(/^(\d)+$/)
-        slug = slug.prepend("_")
+        slug = slug.prepend("__")
       end
 
     else
@@ -65,10 +65,6 @@ module SlugHelpers
     # first, compare the two slugs from left to right to see what they have in common. Remove anything in common.
     # Then, remove anything that matches the pattern of underscore followed by digits, like _1, _2, or _314159, etc that would indicate a deduping suffix
     # if there is nothing left, then the base slugs are the same.
-    puts "++++++++++++++++++++++++++++++"
-    puts "in base_slug_changed"
-    puts "slug: " + slug.to_s
-    puts "prev slug: " + previous_slug.to_s
 
     # the base slug has changed if previous_slug is nil/empty but slug is not
     if (previous_slug.nil? || previous_slug.empty?) &&
@@ -82,12 +78,8 @@ module SlugHelpers
       return true
     end
 
-
     slug_difference = previous_slug.gsub(/^#{slug}/, "")
                                    .gsub(/_\d+$/, "")
-
-    puts "++++++++++++++++++++++++++++++"
-    puts "slug_difference: " + slug_difference
 
     # the base slug has changed if there is something left over in slug_difference
     return !slug_difference.empty?
