@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
     # if it looks like a slug, send it to the backend to resolve ids and other params we need.
     else
       # use repo scoping, if turned on.
-      if AppConfig[:repo_slug_in_URL] && repo_scoped_controller?(params[:controller])
+      if AppConfig[:repo_name_in_slugs] && repo_scoped_controller?(params[:controller])
         added_params = resolve_ids_with_repo_scoped_slugs(params)
 
       # dont use repo scopping
