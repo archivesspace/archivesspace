@@ -2,6 +2,7 @@ require_relative 'utils'
 
 Sequel.migration do
   up do
+    $stderr.puts("Adding OAI config table")
     create_table(:oai_config) do
       primary_key :id
 
