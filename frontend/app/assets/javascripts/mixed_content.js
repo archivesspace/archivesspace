@@ -47,15 +47,23 @@ $(function() {
           "Ctrl-Space": function(cm) { CodeMirror.xmlHint(cm, ''); }
         },
         lineWrapping: true,
+        onChange: function(cm) {
+          resize($editor.cursorCoords(true, 'local').y);
+        },
         onCursorActivity: function(cm) {
           if (cm.somethingSelected()) {
             var coords_start = $editor.cursorCoords(true, "local");
             var coords_end = $editor.cursorCoords(false, "local");
 
+            resize(coords_end.y);
+
             var top_offset = $wrapWithAction.height() - 20 + coords_end.y;
-            var left_offset = Math.min(
-                                coords_start.y == coords_end.y ? coords_start.x : coords_end.x,
-                                $($editor.getWrapperElement()).width() - $wrapWithAction.width()
+            var left_offset = Math.max(
+                                Math.min(
+                                  (coords_start.y == coords_end.y ? coords_start.x : coords_end.x) - 83.5,
+                                  $($editor.getWrapperElement()).width() - $wrapWithAction.width()
+                                ),
+                                0
                               );
 
             $wrapWithAction
@@ -73,6 +81,18 @@ $(function() {
 
       $this.data("CodeMirror", $editor);
       $this.addClass("initialised");
+
+
+      var resize = function(height) {
+        var $wrapper = $($editor.getWrapperElement());
+        height += 34 + $wrapWithAction.height();
+        if (height >= $wrapper.height()) {
+          $editor.setSize('auto', height);
+        }
+      };
+
+      resize($editor.getScrollInfo().height);
+
 
       var onWrapActionChange = function(event) {
         if ($editor.somethingSelected() && $wrapWithActionSelect.val() != "") {

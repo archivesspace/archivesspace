@@ -106,7 +106,7 @@
     <div class="tabbable tabs-below">
       <div class="tab-content">
         <div class="tab-pane active" id="<%= form.id_for("item") %>_raw">
-          <%= form.textarea(nil, item, { :escape => false, :class => "mixed-content"}) %>
+          <%= form.textarea(nil, item, { :escape => false, :class => "mixed-content" }) %>
         </div>
         <div class="tab-pane" id="<%= form.id_for("item") %>_parsed">
           <%= clean_note(item).html_safe %>
