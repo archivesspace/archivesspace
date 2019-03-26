@@ -9,7 +9,7 @@ module SlugHelpers
   # This is a gnarly descision tree because the query we'll run depends on which
   # controller is asking, and whether we're scoping by repo slug or not.
 
-  def self.get_id_from_slug(slug, controller, action, repo_slug)
+  def self.get_id_from_slug(slug, controller, action)
     # First, we'll check if we're looking for a non-repo scoped entity, since these are straight queries.
     if controller == "repositories"
       rec = Repository.where(:slug => slug).first
