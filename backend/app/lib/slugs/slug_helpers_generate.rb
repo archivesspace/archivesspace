@@ -78,8 +78,18 @@ module SlugHelpers
       return true
     end
 
-    slug_difference = previous_slug.gsub(/^#{slug}/, "")
-                                   .gsub(/_\d+$/, "")
+    # if we're at this point, then one of the two slugs is not nil or empty.
+    # We need to ensure we're calling the following gsubs on a non empty string.
+    if previous_slug.nil? || previous_slug.empty?
+      check_on = slug
+      check_with = previous_slug
+    else
+      check_on = previous_slug
+      check_with = slug
+    end
+
+    slug_difference = check_on.gsub(/^#{check_with}/, "")
+                              .gsub(/_\d+$/, "")
 
     # the base slug has changed if there is something left over in slug_difference
     return !slug_difference.empty?
