@@ -63,6 +63,7 @@ require 'pry'
   			          .gsub!('"', '')
 
   	joined = joined.split(",").join("-")
+    joined = joined.gsub("-null-null-null", "")
 
     return clean_slug(joined)
   end
