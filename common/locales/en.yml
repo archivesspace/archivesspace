@@ -1744,7 +1744,7 @@ en:
         <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
     processing_total_extent: Processing Total Extent
     processing_total_extent_tooltip: |
-        <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed.</p>
+        <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed. An Extent Type must be provided in conjunction with this field.</p>
     processing_total_extent_type: Extent Type
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
