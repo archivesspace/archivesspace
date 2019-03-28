@@ -11,46 +11,37 @@ module JsonHelper
       next unless note['publish']
 
       note_struct = handle_note_structure(note, type)
-      merge_notes_by_type(notes_hash, type, note_struct)
+      notes_hash[type] ||= []
+      notes_hash[type] << note_struct
     end
 
     notes_hash
   end
 
-
-  private
-
-  # Called for each note we parse, loading each note into `notes_hash`.
-  #
-  # `notes_hash` ends up being a mapping of note types to a merged version of
-  # all of the notes of that type.
-  def merge_notes_by_type(notes_hash, type, note_struct)
-    # If we haven't seen a note of this type yet, just take the first one
-    if !notes_hash.has_key? type
-      notes_hash[type] = note_struct
-      return
-    end
-
-    # Otherwise, do a merge
-    if notes_hash[type]['label'].blank?
+  def merge_notes(note_1, note_2)
+    if note_1['label'].blank?
       # Our first label
-      notes_hash[type]['label'] = note_struct['label']
-    elsif notes_hash[type]['label'] != note_struct['label']
+      note_1['label'] = note_2['label']
+    elsif note_1['label'] != note_2['label']
       # Add a secondary label as an inline label
-      note_struct['note_text']= "<span class='inline-label'>#{note_struct['label']}</span> #{note_struct['note_text']}"
+      note_2_text = "<span class='inline-label'>#{note_2['label']}</span> #{note_2['note_text']}"
     end
 
-    notes_hash[type]['note_text'] = "#{notes_hash[type]['note_text']}<br/><br/> #{note_struct['note_text']}"
+    note_1['note_text'] = "#{note_1['note_text']}<br/><br/> #{note_2_text}"
 
-    if note_struct.has_key?('subnotes')
-      notes_hash[type]['subnotes'] ||= []
-      notes_hash[type]['subnotes'] = notes_hash[type]['subnotes'] + note_struct['subnotes'].map{|sub|
-        sub['_inline_label'] = note_struct['label']
-        sub
+    if note_2.has_key?('subnotes')
+      note_1['subnotes'] ||= []
+      note_1['subnotes'] = note_1['subnotes'] + note_2['subnotes'].map{|sub|
+        sub_copy = sub.clone
+        sub_copy['_inline_label'] = note_2['label']
+        sub_copy
       }
     end
+
+    note_1
   end
 
+  private
 
   def handle_note_structure(note, type)
     return nil unless note['publish'] || defined?(AppConfig[:pui_ignore_false])  # temporary switch due to ingest issues
