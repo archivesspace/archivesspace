@@ -1,8 +1,5 @@
-<%#= debug @result.json['notes'] %>
-<% #types.each do  |type|
-types.each do |type|
+<% types.each do |type|
 	(@result.notes[type] || []).each do |note_struct|
-   # note_struct = @result.note(type)
 	   if !note_struct['note_text'].blank? %>
 	    <div class="note">
 	      <%= render  partial: 'shared/single_note',
