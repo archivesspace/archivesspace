@@ -148,7 +148,7 @@ case "$1" in
         $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
           (
              exec 0<&-; exec 1>&-; exec 2>&-;
-             $startup_cmd &> \"$ARCHIVESSPACE_LOGS\" &
+             $startup_cmd &>> \"$ARCHIVESSPACE_LOGS\" &
              echo \$! > \"$ASPACE_PIDFILE\"
           ) &
           disown $!"
