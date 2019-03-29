@@ -1,6 +1,7 @@
 <%
   section_id = "user_defined" if section_id.blank?
- 
+
+  render_aspace_partial :partial => "user_defined/template"
 %>
 
 <section id="<%= section_id %>" class="subrecord-form-dummy">
@@ -8,7 +9,9 @@
 
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
-      <%= read_only_view(user_defined) %>
+      <%= readonly_context(:user_defined, user_defined) do |readonly| %>
+        <%= readonly.emit_template("user_defined") %>
+      <% end %>
     </div>
   </div>
 </section>
