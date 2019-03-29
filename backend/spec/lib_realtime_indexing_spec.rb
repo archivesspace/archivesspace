@@ -10,10 +10,19 @@ describe 'Realtime indexing' do
 
   context "simple updates" do
 
-    let!(:acc) { create(:json_accession) }
-    sleep(0.05)
-    let!(:acc2) { create(:json_accession) }
+    let!(:acc) {
+      DB.mock_after_commit do
+        create(:json_accession)
+      end
+    }
 
+    sleep(0.05)
+
+    let!(:acc2) {
+      DB.mock_after_commit do
+        create(:json_accession)
+      end
+    }
 
     it "records updates" do
       updates = RealtimeIndexing.updates_since(0)
@@ -88,7 +97,10 @@ describe 'Realtime indexing' do
       end
 
       sleep 0.05
-      acc = create(:json_accession)
+
+      acc = DB.mock_after_commit do
+        create(:json_accession)
+      end
 
       result = waiter.join
 

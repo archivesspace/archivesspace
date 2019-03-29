@@ -32,6 +32,18 @@ class DB
     @default_pool
   end
 
+  def self.mock_after_commit
+    Thread.current[:after_commit_procs] = []
+
+    result = yield
+
+    Thread.current[:after_commit_procs].each do |block|
+      block.call
+    end
+
+    result
+  end
+
   class DBPool
 
     def build_migration_file_checksum(migration_dirs)
@@ -109,12 +121,17 @@ class DB
       end
     end
 
-    # For the sake of unit tests, just fire these straight away (since the entire
-    # test always runs in a transaction)
+    # The unit tests rely on transactions to rollback their side-effects, so
+    # after commit hooks would ordinarily never fire.  Most code under test
+    # doesn't care anyway, but code that does can wrap the relevant parts in
+    # DB.mock_after_commit to have those after commit hooks fire at a known
+    # point.
+    #
     def after_commit(&block)
-      block.call
+      if Thread.current[:after_commit_procs]
+        Thread.current[:after_commit_procs] << block
+      end
     end
-
   end
 end
 

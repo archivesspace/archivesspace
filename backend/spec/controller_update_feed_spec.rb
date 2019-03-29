@@ -12,7 +12,9 @@ describe 'Update feed controller' do
       end
     end
 
-    created_accession = create(:json_accession)
+    created_accession = DB.mock_after_commit do
+      create(:json_accession)
+    end
 
     consumer.join
     consumer.value.count.should be == 1
