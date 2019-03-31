@@ -136,6 +136,7 @@
 
           /* A whole subrecord section by ID (e.g. "You need at least one extent") */
           "section#" + id + " .subrecord-form-heading-label",
+          "section#" + id.replace(/_$/, '') + " .subrecord-form-heading-label",
         ];
 
         var got_match = false;
