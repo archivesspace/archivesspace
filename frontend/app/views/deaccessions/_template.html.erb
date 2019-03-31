@@ -22,7 +22,9 @@
     </div>
 
     <div class="subrecord-form-container">
-      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents", :heading_size => "h4", :help_topic => "deaccession_extents"} %>
+      <% if !form.readonly? || !ASUtils.wrap(form.obj['extents']).empty? %>
+        <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents", :heading_size => "h4", :help_topic => "deaccession_extents"} %>
+      <% end  %>
     </div>
   </div>
 <% end %>
