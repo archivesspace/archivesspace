@@ -33,10 +33,6 @@ PLUGINS = [
     :url => 'https://github.com/marktriggs/in_a_rush.git',
   },
   {
-    :path => 'plugins/editable_external_ids',
-    :url => 'https://github.com/hudmol/editable_external_ids.git',
-  },
-  {
     :path => 'plugins/as_mogwai',
     :url => 'https://github.com/hudmol/as_mogwai.git',
   },
