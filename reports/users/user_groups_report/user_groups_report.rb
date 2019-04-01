@@ -14,10 +14,11 @@ class UserGroupsReport < AbstractReport
   def fix_row(row)
 
     user_id = row[:id]
+    nbsp = '   '
 
     if format == 'pdf' || format == 'html'
-      row[:source] = row[:source] + ' &nbsp; ' * 12
-      row[:source] = row[:source] + " SYSTEM_USER " + ' &nbsp; ' * 8 if row[:is_system_user] != 0
+      row[:source] = row[:source] + nbsp * 12
+      row[:source] = row[:source] + " SYSTEM_USER " + nbsp * 8 if row[:is_system_user] != 0
       row[:source] = row[:source] + " HIDDEN_USER " if row[:is_hidden_user] != 0
       row.delete(:is_system_user); row.delete(:is_hidden_user); row.delete(:id)
     else
