@@ -1,0 +1,11 @@
+es:
+    reports:
+        user_groups_report:
+            title:  Informe de grupos de usuarios
+            description: Muestra usuarios y grupos de acceso al repositorio.
+            name: Nombre
+            department: Departamento
+            user_title: Título
+            groups: Los grupos
+            email: Email
+            telephone: Teléfono
