@@ -815,3 +815,9 @@ FactoryBot.define do
     surveyed_extent { generate(:alphanumstr) }
   end
 end
+
+ASUtils.find_local_directories.each do |plugin_dir|
+  Dir.glob(File.join(plugin_dir, "backend", "spec", "factories_ext.rb")).each do |file|
+    require File.absolute_path(file)
+  end
+end
