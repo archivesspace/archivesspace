@@ -50,9 +50,9 @@
         <% end %>
     <% end %>
 
-    <% if @result['language'] %>
+    <% if @result['json']['language'] %>
         <dt><%= t('resource._public.lang')%></dt>
-        <dd><%= t('enumerations.language_iso639_2.' + @result['language'].downcase) %></dd>
+        <dd><%= t('enumerations.language_iso639_2.' + @result['json']['language'].downcase) %></dd>
     <% else %>
       <% langmaterial_note = @result.note('langmaterial') %>
       <% if langmaterial_note && !langmaterial_note['note_text'].blank? %>
