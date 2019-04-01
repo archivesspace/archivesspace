@@ -14,6 +14,13 @@ module I18n
   def self.t_raw(*args)
     cache_key = build_cache_key(args)
 
+    if !cache_key
+      # This entry is uncacheable.  Perhaps because it contains placeholders to
+      # be substituted.
+
+      return self.t_raw_uncached(*args)
+    end
+
     entry = nil
     cache_hit = false
 
@@ -32,6 +39,11 @@ module I18n
       # limit since the size check isn't performed under a lock, but should stop
       # unbounded growth due to bugs in code.
       TRANSLATE_CACHE[cache_key] = entry
+    end
+
+    # TEST MODE
+    if cache_hit && entry[0] == :result
+      raise args.inspect unless entry[1] == self.t_raw_uncached(*args)
     end
 
     if entry[0] == :result
@@ -73,6 +85,15 @@ module I18n
 
   def self.build_cache_key(args)
     key = args[0]
+
+    # We'll only cache the trivial case: simple string lookup.  No placeholders.
+    cacheable = (args[1] &&
+                 args[1].class == Hash &&
+                 args[1].keys.sort == [:default, :raise])
+
+    if !cacheable
+      return nil
+    end
 
     if key.kind_of?(Hash) && key.has_key?(:enumeration)
       self.build_enumeration_key(key)
