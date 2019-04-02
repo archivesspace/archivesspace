@@ -34,10 +34,18 @@ class Resource < Record
     (0..3).map {|part| @json["id_#{part}"]}
   end
 
+  def level_for_md_mapping
+    if ['recordgrp', 'fonds', 'collection'].include?(json['level'].downcase)
+      ['Collection', 'ArchiveComponent']
+    else
+      'ArchiveComponent'
+    end
+  end
+
   def metadata
     md = {
-      '@context' => ["http://schema.org/", {'library' => 'http://purl.org/library/'}],
-      '@type' => ['schema:CreativeWorkSeries', 'library:ArchiveMaterial'],
+      '@context' => "http://schema.org/",
+      '@type' => level_for_md_mapping,
       'name' => display_string,
       'url' => AppConfig[:public_proxy_url] + uri,
       'identifier' => raw['four_part_id'],
@@ -93,6 +101,7 @@ class Resource < Record
       subj['authority_id'] ? subj['authority_id'] : subj['title']
     }
 
+    #will need to update once more than one language code is allowed
     if raw['language'].try(:any?)
          md['inLanguage'] = {
            '@type' => 'Language',
@@ -100,10 +109,13 @@ class Resource < Record
          }
     end
 
-    md['provider'] = {
+    #will need to update here (and elsewhere) once ASpace allows more than one authority ID.
+    #at that point, move those over to "sameAs" relationships and move the URL value to @id.
+    #also, are there any changes needed now that the PUI has the ability to override the database ids in the URIs?
+    md['holdingArchive'] = {
       '@id' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id'],
       'url' => AppConfig[:public_proxy_url] + raw['repository'],
-      '@type' => 'Organization',
+      '@type' => 'ArchiveOrganization',
       'name' => json['repository']['_resolved']['name']
     }
 
