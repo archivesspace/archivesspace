@@ -1558,6 +1558,9 @@ es:
     description: Revision Description
     description_tooltip: |
         <p>A description of the last revision(s) done to the instrumento de descripción.</p>
+    publish: ¿Publicar?
+    publish_tooltip: |
+        <p>Determina si se publica este revison statement.</p>
 
   related_resource:
     _singular: Fondos relacionados

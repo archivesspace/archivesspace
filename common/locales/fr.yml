@@ -1576,6 +1576,9 @@ fr:
     description: Description de la révision
     description_tooltip: |
         <p>Une description de la dernière révision de l'instrument de recherche.</p>
+    publish: Publier?
+    publish_tooltip: |
+        <p>Détermine si ce mention de révision sera publié sur les interfaces publiques.</p>
 
   related_resource:
     _singular: Ressource associée
