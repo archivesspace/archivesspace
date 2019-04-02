@@ -776,9 +776,10 @@ class EAD3Serializer < EADSerializer
           }
         }
 
-        if data.revision_statements.length > 0
-          data.revision_statements.each do |rs|
-            xml.maintenanceevent() {
+        export_rs = @include_unpublished ? data.revision_statements : data.revision_statements.reject { |rs| !rs['publish'] }
+        if export_rs.length > 0
+          export_rs.each do |rs|
+            xml.maintenanceevent(rs['publish'] ? nil : {:audience => 'internal'}) {
               xml.eventtype( { value: 'revised' } ) {}
               xml.eventdatetime() {
                 xml.text(rs['date'].to_s)
