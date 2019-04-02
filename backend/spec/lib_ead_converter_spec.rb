@@ -1351,6 +1351,80 @@ ANEAD
 
   end
 
+  describe 'Mapping revision statement publish' do
+    def test_doc
+      src = <<ANEAD
+<?xml version="1.0" encoding="utf-8"?>
+<ead xmlns="urn:isbn:1-931666-22-9" xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd">
+  <eadheader countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b"
+    repositoryencoding="iso15511">
+    <eadid/>
+    <filedesc>
+      <titlestmt>
+        <titleproper>Resource with one unpublished revision
+            statement<num>unpub.revision.statement</num></titleproper>
+      </titlestmt>
+      <publicationstmt>
+        <publisher>Your Name Here Special Collections</publisher>
+      </publicationstmt>
+    </filedesc>
+    <profiledesc>
+      <creation>This finding aid was produced using ArchivesSpace on <date>2019-04-02 15:41:55
+          +0000</date>.</creation>
+    </profiledesc>
+    <revisiondesc>
+      <change audience="internal">
+        <date>Unpublished revision date</date>
+        <item>Unpublished revision description</item>
+      </change>
+      <change>
+        <date>Published revision date</date>
+        <item>Published revision description</item>
+      </change>
+    </revisiondesc>
+  </eadheader>
+  <archdesc level="collection">
+    <did>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <repository>
+        <corpname>Your Name Here Special Collections</corpname>
+      </repository>
+      <unittitle>Resource with one unpublished revision statement</unittitle>
+      <unitid>unpub.revision.statement</unitid>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 Cassettes</extent>
+      </physdesc>
+      <unitdate normal="2019-04-11/2019-04-11">2019-04-11</unitdate>
+    </did>
+    <dsc/>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    end
+
+    before(:all) do
+      parsed = convert(test_doc)
+      @revision_statements = parsed.select {|r| r['jsonmodel_type'] == 'resource' }.first['revision_statements']
+    end
+
+    it "creates an unpublished revision statement for a <change> tag with audience=internal" do
+      rs = @revision_statements[0]
+      expect(rs['description']).to eq("Unpublished revision description")
+      expect(rs['publish']).to be_falsey
+    end
+
+    it "creates a publihed revision statement for a <change> tag without audience=internal" do
+      rs = @revision_statements[1]
+      expect(rs['description']).to eq("Published revision description")
+      expect(rs['publish']).to be_truthy
+    end
+  end
 
 
 end
