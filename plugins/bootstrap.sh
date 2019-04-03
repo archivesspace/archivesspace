@@ -39,6 +39,10 @@ PLUGINS = [
   {
     :path => 'plugins/as_runcorn',
     :url => 'https://github.com/hudmol/as_runcorn.git',
+  },
+  {
+    :path => 'plugins/as_reformulator',
+    :url => 'https://github.com/hudmol/as_reformulator.git',
   }
 ]
 
