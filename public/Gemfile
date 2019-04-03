@@ -10,7 +10,7 @@ gem 'rubyzip', '~> 1.2.2'
 
 # Use jdbcsqlite3 as the database for Active Record
 # gem 'activerecord-jdbcsqlite3-adapter'
-gem 'nokogiri', '1.8.4'
+gem 'nokogiri', '1.8.5'
 
 gem 'sprockets-rails', '2.3.3'
 

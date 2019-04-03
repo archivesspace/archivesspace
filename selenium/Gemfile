@@ -4,7 +4,7 @@ source "https://rubygems.org"
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "i18n", "0.9.1"
 
-gem 'nokogiri', '1.8.4'
+gem 'nokogiri', '1.8.5'
 
 group :test do
   gem "json", "1.8.6"
