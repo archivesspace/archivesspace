@@ -1,4 +1,4 @@
-require_relative '../lib/slug_helpers'
+require_relative '../lib/slugs/slug_helpers'
 
 class ArchivesSpaceService < Sinatra::Base
 	# if slug found, returns JSON with ID for matching slug and table where it came from

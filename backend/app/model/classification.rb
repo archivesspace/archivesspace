@@ -1,5 +1,6 @@
 class Classification < Sequel::Model(:classification)
   include ASModel
+  include AutoGenerator
   include Trees
   include ClassificationIndexing
   include Publishable
@@ -21,6 +22,20 @@ class Classification < Sequel::Model(:classification)
   define_relationship(:name => :classification,
                       :json_property => 'linked_records',
                       :contains_references_to_types => proc {[Accession, Resource]})
+
+ 
+  auto_generate :property => :slug,
+                :generator => proc { |json|
+                  if AppConfig[:use_human_readable_URLs]
+                    if json["is_slug_auto"]
+                      AppConfig[:auto_generate_slugs_with_id] ? 
+                        SlugHelpers.id_based_slug_for(json, Classification) : 
+                        SlugHelpers.name_based_slug_for(json, Classification)
+                    else
+                      json["slug"]
+                    end
+                  end
+                }
   
 
   def self.set_path_from_root(json)

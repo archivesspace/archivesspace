@@ -15,7 +15,7 @@ module SlugHelpers
       table = "subject"
 
     # All other entities can be repo scoped or not, so we'll call either the repo sensitive or insensitive method depending on the config setting.
-    elsif AppConfig[:repo_slug_in_URL]
+    elsif AppConfig[:repo_name_in_slugs]
       if controller == "objects"
         rec, table = self.find_slug_in_object_tables_with_repo(slug, repo_slug)
       else
@@ -139,7 +139,7 @@ module SlugHelpers
   # Generates URLs for display in hirearchial tree links in public interface for Archival Objects and Digital object components
   def self.get_slugged_url_for_largetree(jsonmodel_type, repo_id, slug)
     if slug && AppConfig[:use_human_readable_URLs]
-      if AppConfig[:repo_slug_in_URL]
+      if AppConfig[:repo_name_in_slugs]
         repo = Repository.first(:id => repo_id)
         repo_slug = repo && repo.slug ? repo.slug : ""
 
