@@ -1335,7 +1335,7 @@ describe "EAD3 export mappings" do
     def get_xml_doc(include_unpublished = false)
       as_test_user("admin") do
         DB.open(true) do
-          doc_for_unpublished_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@unpublished_resource_jsonmodel.id}.xml?include_unpublished=#{include_unpublished}&include_daos=true", true)
+          doc_for_unpublished_resource = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@unpublished_resource_jsonmodel.id}.xml?include_unpublished=#{include_unpublished}&include_daos=true&ead3=true", true)
 
           doc_nsless_for_unpublished_resource = Nokogiri::XML::Document.parse(doc_for_unpublished_resource)
           doc_nsless_for_unpublished_resource.remove_namespaces!
@@ -1354,7 +1354,19 @@ describe "EAD3 export mappings" do
         end
 
         unpublished_resource = create(:json_resource,
-                                      :publish => false)
+                                      :publish => false,
+                                      :revision_statements => [
+                                        {
+                                          :date => 'some date',
+                                          :description => 'unpublished revision statement',
+                                          :publish => false
+                                        },
+                                        {
+                                          :date => 'some date',
+                                          :description => 'published revision statement',
+                                          :publish => true
+                                        }
+                                      ])
 
         @unpublished_resource_jsonmodel = JSONModel(:resource).find(unpublished_resource.id)
 
@@ -1392,6 +1404,34 @@ describe "EAD3 export mappings" do
 
       item = items.first
       expect(item).not_to have_attribute('audience', 'internal')
+    end
+
+    it "include the unpublished revision statement with audience internal when include_unpublished is true" do
+      revision_statements = @xml_including_unpublished.xpath('//maintenancehistory/maintenanceevent')
+      expect(revision_statements.length).to eq(3)
+      unpublished = revision_statements[1]
+      expect(unpublished).to have_attribute('audience', 'internal')
+      items = @xml_including_unpublished.xpath('//maintenancehistory/maintenanceevent/eventdescription')
+      expect(items.length).to eq(3)
+      expect(items[1]).to have_inner_text('unpublished revision statement')
+    end
+
+    it "does not set <change> attribute audience 'internal' when revision statement is published" do
+      revision_statements = @xml_including_unpublished.xpath('//control/maintenancehistory/maintenanceevent')
+      expect(revision_statements.length).to eq(3)
+      published = revision_statements[2]
+      expect(published).not_to have_attribute('audience', 'internal')
+      items = @xml_including_unpublished.xpath('//maintenancehistory/maintenanceevent/eventdescription')
+      expect(items.length).to eq(3)
+      expect(items[2]).to have_inner_text('published revision statement')
+    end
+
+    it "includes only the published revision statement when include_unpublished is false" do
+      revision_statements = @xml_not_including_unpublished.xpath('//maintenancehistory/maintenanceevent')
+      expect(revision_statements.length).to eq(2)
+      items = @xml_not_including_unpublished.xpath('//maintenancehistory/maintenanceevent/eventdescription')
+      expect(items.length).to eq(2)
+      expect(items[1]).to have_inner_text('published revision statement')
     end
   end
 
