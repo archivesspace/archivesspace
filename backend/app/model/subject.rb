@@ -41,6 +41,20 @@ class Subject < Sequel::Model(:subject)
                               }
 
 
+  auto_generate :property => :slug,
+                :generator => proc { |json|
+                  if AppConfig[:use_human_readable_URLs]
+                    if json["is_slug_auto"]
+                      AppConfig[:auto_generate_slugs_with_id] ? 
+                        SlugHelpers.id_based_slug_for(json, Subject) : 
+                        SlugHelpers.name_based_slug_for(json, Subject)
+                    else
+                      json["slug"]
+                    end
+                  end
+                }
+
+
   def self.set_vocabulary(json, opts)
     opts["vocab_id"] = nil
 

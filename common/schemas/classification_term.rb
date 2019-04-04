@@ -8,7 +8,7 @@
     "properties" => {
       "display_string" => {"type" => "string", "readonly" => true},
       "slug" => {"type" => "string"},
-      "is_slug_auto" => {"type" => "boolean"},
+      "is_slug_auto" => {"type" => "boolean", "default" => true},
 
       "position" => {"type" => "integer", "required" => false},
 

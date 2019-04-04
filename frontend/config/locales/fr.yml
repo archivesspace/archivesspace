@@ -362,7 +362,7 @@ fr:
     slug: URL sémantique
     public_url: URL publique
     is_slug_auto: Générer automatiquement une URL sémantique?
-
+    autogen_disabled: " -- Slug vide généré, l'option Générer automatiquement un slug est désactivée"
   linker:
     link_to_prefix: Lier à
     create_and_link_to_prefix: Créer et lier à
