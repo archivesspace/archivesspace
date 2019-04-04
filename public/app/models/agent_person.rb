@@ -4,11 +4,11 @@ class AgentPerson < Record
     md = {
       '@context' => "http://schema.org/",
       '@type' => 'Person',
-      '@id' => raw['authority_id'],
+      '@id' => AppConfig[:public_proxy_url] + uri,
       'name' => json['display_name']['sort_name'],
-      'url' => AppConfig[:public_proxy_url] + uri,
+      'sameAs' => raw['authority_id'],
       'alternateName' => json['names'].select{|n| !n['is_display_name']}.map{|n| n['sort_name']}
-    }
+    }.compact
 
     if (dates = json['dates_of_existence'].first)
       md['birthDate'] = dates['begin']
@@ -41,7 +41,7 @@ class AgentPerson < Record
 
       out['knows'] = knows unless knows.empty?
 
-      out
+      out.compact
     end
 
     md['parent'] = json['related_agents'].select{|ra| ra['relator'] == 'is_child_of'}.map do |ag|
@@ -51,7 +51,7 @@ class AgentPerson < Record
       out['name'] = res['display_name']['sort_name']
       out['url'] = AppConfig[:public_proxy_url] + res['uri']
 
-      out
+      out.compact
     end
 
     md['children'] = json['related_agents'].select{|ra| ra['relator'] == 'is_parent_of'}.map do |ag|
@@ -61,7 +61,7 @@ class AgentPerson < Record
       out['name'] = res['display_name']['sort_name']
       out['url'] = AppConfig[:public_proxy_url] + res['uri']
 
-      out
+      out.compact
     end
 
     md['affiliation'] = json['related_agents'].select{|ra|
@@ -72,7 +72,7 @@ class AgentPerson < Record
       out['name'] = res['display_name']['sort_name']
       out['url'] = AppConfig[:public_proxy_url] + res['uri']
 
-      out
+      out.compact
     end
 
     md

@@ -45,9 +45,9 @@ class Resource < Record
   def metadata
     md = {
       '@context' => "http://schema.org/",
+      '@id' => AppConfig[:public_proxy_url] + uri,
       '@type' => level_for_md_mapping,
       'name' => display_string,
-      'url' => AppConfig[:public_proxy_url] + uri,
       'identifier' => raw['four_part_id'],
     }
 
@@ -62,13 +62,13 @@ class Resource < Record
     end
     md['description'] = md['description'][0] if md['description'].length == 1
 
-
     md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
       {
-        '@id' => ag['display_name']['authority_id'],
+        '@id' => AppConfig[:public_proxy_url] + ag['uri'],
         '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
-        'name' => ag['title']
-      }
+        'name' => ag['title'],
+        'sameAs' => ag['display_name']['authority_id']
+      }.compact
     end
 
     term_type_to_about_type = {
@@ -83,10 +83,10 @@ class Resource < Record
       term_type_to_about_type.keys.include?(s['_resolved']['terms'][0]['term_type'])
     }.map{|s| s['_resolved']}.map{|subj|
       hash = {'@type' => term_type_to_about_type[subj['terms'][0]['term_type']]}
-      hash['@id'] = subj['authority_id'] if subj['authority_id']
+      hash['sameAs'] = subj['authority_id'] if subj['authority_id']
       hash['name'] = subj['title']
       hash
-    }
+    }.compact
 
     md['about'].concat(json['linked_agents'].select{|la| la['role'] == 'subject'}.map{|a| a['_resolved']}.map{|ag|
                          {
@@ -102,6 +102,7 @@ class Resource < Record
     }
 
     #will need to update once more than one language code is allowed
+    #sounds like Lora has already done that!
     if raw['language'].try(:any?)
          md['inLanguage'] = {
            '@type' => 'Language',
@@ -113,11 +114,11 @@ class Resource < Record
     #at that point, move those over to "sameAs" relationships and move the URL value to @id.
     #also, are there any changes needed now that the PUI has the ability to override the database ids in the URIs?
     md['holdingArchive'] = {
-      '@id' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id'],
-      'url' => AppConfig[:public_proxy_url] + raw['repository'],
+      '@id' => AppConfig[:public_proxy_url] + raw['repository'],
       '@type' => 'ArchiveOrganization',
-      'name' => json['repository']['_resolved']['name']
-    }
+      'name' => json['repository']['_resolved']['name'],
+      'sameAs' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id']
+    }.compact
 
     md
   end

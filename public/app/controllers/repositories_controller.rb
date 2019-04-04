@@ -1,7 +1,7 @@
 class RepositoriesController < ApplicationController
   include ResultInfo
   helper_method :process_repo_info
-  skip_before_action  :verify_authenticity_token  
+  skip_before_action  :verify_authenticity_token
 
   before_action(:only => [:show, :search]) {
     process_slug_or_id(params)
@@ -21,7 +21,7 @@ class RepositoriesController < ApplicationController
     @criteria = {}
     @criteria['sort'] = "repo_sort asc"  # per James Bullen
     # let's not include any 0-collection repositories unless specified
-    # include_zero = (!params.blank? && params['include_empty']) 
+    # include_zero = (!params.blank? && params['include_empty'])
     # ok, page sizing is kind of complicated if not including zero counts
     page_size =  params['page_size'].to_i if !params.blank?
     page_size = AppConfig[:pui_search_results_page_size] if page_size == 0
@@ -35,7 +35,7 @@ class RepositoriesController < ApplicationController
 
     if !@search_data['results'].blank?
       @pager =  Pager.new("/repositories?", @search_data['this_page'],@search_data['last_page'])
-      @search_data['results'].each do |result| 
+      @search_data['results'].each do |result|
         hash = ASUtils.json_parse(result['json']) || {}
         id = hash['uri']
         if !facets[id].blank?
@@ -49,19 +49,19 @@ class RepositoriesController < ApplicationController
     end
     @json.sort_by!{|h| h['display_string'].upcase}
     @page_title = I18n.t('list', {:type => (@json.length > 1 ? I18n.t('repository._plural') : I18n.t('repository._singular'))})
-    render 
+    render
   end
 
   def search
     @repo_id = params.require(:rid)
     @base_search = "/repositories/#{repo_id}/search?"
     begin
-      new_search_opts =  DEFAULT_REPO_SEARCH_OPTS 
+      new_search_opts =  DEFAULT_REPO_SEARCH_OPTS
       new_search_opts['repo_id'] = @repo_id
       set_up_advanced_search(DEFAULT_TYPES, DEFAULT_SEARCH_FACET_TYPES, new_search_opts, params)
     #   NOTE the redirect back here on error!
     rescue Exception => error
-      Rails.logger.debug( error.backtrace ) 
+      Rails.logger.debug( error.backtrace )
       flash[:error] = I18n.t('errors.unexpected_error')
       redirect_back(fallback_location: "/repositories/#{@repo_id}/" ) and return
     end
@@ -74,9 +74,9 @@ class RepositoriesController < ApplicationController
       process_search_results(@base_search)
       Rails.logger.debug("@repo_id: #{@repo_id}")
       render
-    end 
+    end
   end
-  
+
   def show
     uri = "/repositories/#{params[:id]}"
     resources = {}
@@ -101,6 +101,46 @@ class RepositoriesController < ApplicationController
       @result['count'] = resources
       @page_title = strip_mixed_content(@result['name'])
       @search = Search.new(params)
+
+      # i would like to add this to the model, like the rest of the json-ld md mappings, but the repository model is set up quite differently
+      # and i'm not sure that i'll update everything as needed if i toy with the repo model in the PUI
+      # so, throwing this in the controller for now...
+      # but please re-locate and fix!
+      @metadata =
+          {
+            '@context' => "http://schema.org/",
+            '@type' => 'ArchiveOrganization',
+            '@id' => AppConfig[:public_proxy_url] + @result['uri'],
+            #this next bit will always be the repo name, not the name associated with the agent record (which is overwritten if the repo record is updated)
+            'name' => @result['agent_representation']['_resolved']['display_name']['sort_name'],
+            'url' => @result['url'],
+            'logo' => @result['image_url'],
+            'identifier' => @result['country'] + '-' + @result['org_code'],
+            #this next bit will never work since ASpace has a bug with how it enacts its repo-to-agent concept (at least in versions 2.4 and 2.5)
+            'sameAs' => @result['agent_representation']['_resolved']['display_name']['authority_id'],
+            'description' => @result['repo_info']['top']['description'],
+            'email' => @result['repo_info']['email'],
+            'address' => {
+              '@type' => 'PostalAddress',
+              'streetAddress' => @result['repo_info']['address'].join(", "),
+              'addressLocality' => @result['repo_info']['city'],
+              'addressRegion' => @result['repo_info']['region'],
+              'postalCode' => @result['repo_info']['post_code'],
+              'addressCountry' => @result['repo_info']['country'],
+            },
+            'parentOrganization' => {
+              '@type' => 'Organization',
+              'name' => @result['parent_institution_name']
+            },
+            'faxNumber' => @result['repo_info']['telephones']
+              .select{|t| t['number_type'] == 'fax'}
+              .map{|f| f['number']},
+            'telephone' => @result['repo_info']['telephones']
+              .select{|t| t['number_type'] == 'business'}
+              .map{|b| b['number']}
+
+          }.compact
+
       render
     else
       @type = I18n.t('repository._singular')
@@ -130,7 +170,7 @@ class RepositoriesController < ApplicationController
     end
     final_counts
   end
-  
+
   def find_resource_facet
     counts = archivesspace.get_types_counts(['pui_collection'])
     facets = {}
@@ -139,7 +179,7 @@ class RepositoriesController < ApplicationController
     end
     facets
   end
-  
+
   # compose a string of 'OR'd titles for a query
   def compose_title_list(pairs)
     query = ''
@@ -148,4 +188,5 @@ class RepositoriesController < ApplicationController
     end
     "(#{query})"
   end
+
 end

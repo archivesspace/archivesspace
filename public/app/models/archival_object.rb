@@ -101,10 +101,11 @@ class ArchivalObject < Record
 
     md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
       {
-        '@id' => ag['display_name']['authority_id'],
+        '@id' => AppConfig[:public_proxy_url] + ag['uri'],
         '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
-        'name' => ag['title']
-      }
+        'name' => ag['title'],
+        'sameAs' => ag['display_name']['authority_id']
+      }.compact
     end
 
     term_type_to_about_type = {
@@ -153,7 +154,7 @@ class ArchivalObject < Record
       'url' => AppConfig[:public_proxy_url] + raw['repository'],
       '@type' => 'ArchiveOrganization',
       'name' => json['repository']['_resolved']['name']
-    }
+    }.compact
 
     md
   end
