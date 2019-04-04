@@ -1,6 +1,7 @@
 module SlugHelpers
 
   # remove invalid chars and truncate slug
+  # NOTE: If changes are made here, then they should be also made in migration 119.
   def self.clean_slug(slug)
 
     if slug
