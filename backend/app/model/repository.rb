@@ -13,8 +13,10 @@ class Repository < Sequel::Model(:repository)
                       AppConfig[:auto_generate_slugs_with_id] ? 
                         SlugHelpers.id_based_slug_for(json, Repository) : 
                         SlugHelpers.name_based_slug_for(json, Repository)
-                    else
+                    elsif json["slug"]
                       json["slug"]
+                    else
+                      SlugHelpers.clean_slug(json["repo_code"])
                     end
                   end
                 }
