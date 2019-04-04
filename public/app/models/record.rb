@@ -6,13 +6,13 @@ class Record
   include PrefixHelper
 
   attr_reader :raw, :full, :json, :display_string, :container_display, :container_summary_for_badge,
-              :notes, :dates, :external_documents, :resolved_repository,
+              :notes, :dates, :languages, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
               :container_titles_and_uris
 
-  attr_accessor :criteria 
+  attr_accessor :criteria
 
   ABSTRACT = %w(abstract scopecontent)
 
@@ -42,6 +42,7 @@ class Record
     @linked_digital_objects = parse_digital_object_instances
     @notes =  parse_notes
     @dates = parse_dates
+    @languages = parse_languages
     @external_documents = parse_external_documents
     @resolved_repository = parse_repository
     @resolved_top_container = parse_top_container
@@ -159,8 +160,11 @@ class Record
 
     if json.has_key?('notes')
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
-    else
-      {}
+      lang_notes = process_json_notes((json['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten), (!full ? ABSTRACT : nil))
+      notes_html = notes_html.merge(lang_notes)
+      notes_html.each do |type, html|
+        notes[type] = html
+      end
     end
   end
 
@@ -175,6 +179,23 @@ class Record
     end
 
     dates
+  end
+
+
+  def parse_languages
+    return unless json.has_key?('lang_materials') && full
+
+    lang_materials = []
+
+    json['lang_materials'].each do |lang_material|
+      unless lang_material['language_and_script'].blank?
+        lang = lang_material['language_and_script']['language'] || ''
+        script = lang_material['language_and_script']['script'] || ''
+        lang_materials.push({'language' => lang, 'script' => script, '_inherited' => lang_material.dig('_inherited')})
+      end
+    end
+
+    lang_materials
   end
 
   def parse_external_documents
@@ -327,7 +348,7 @@ class Record
     end
     info
   end
-  
+
   def archives_space_client
     ArchivesSpaceClient.instance
   end
