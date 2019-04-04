@@ -7,3 +7,6 @@ fr:
       repository_report_type: Service
       building_report_type: Bâtiment
       single_location_report_type: Localisation unique
+      location_range_report_type: Plage de localisations
+      start_range: Première localisation
+      end_range: Dernière localisation
