@@ -27,6 +27,37 @@ def create_language_record_from_language_id(record_type, dataset, language_id)
   end
 end
 
+def migrate_langmaterial_notes
+
+  # Find all langmaterial notes
+  self[:note].filter( Sequel.ilike(:notes, '%langmaterial%')).each do |note_id|
+
+    [ :resource_id, :archival_object_id, :digital_object_id, :digital_object_component_id  ].each do |obj|
+      record_id = note_id[obj]
+
+      unless record_id.nil?
+        # Create new lang_material record for these resources
+        language_record = self[:lang_material].insert(
+            :json_schema_version => note_id[:notes_json_schema_version],
+            "#{obj}" => record_id,
+            :create_time => note_id[:create_time],
+            :system_mtime => note_id[:system_mtime],
+            :user_mtime => note_id[:user_mtime]
+            )
+
+        # Switch note from linking to resource to linking to the new language record
+        self[:note].filter(:id => note_id[:id]).update(
+          :lang_material_id => language_record,
+          "#{obj}" => nil
+          )
+      end
+
+    end
+
+  end
+
+end
+
 Sequel.migration do
   up do
 
@@ -103,6 +134,8 @@ Sequel.migration do
       add_column(:finding_aid_language_id, :integer, :null => true)
       add_column(:finding_aid_script_id, :integer, :null => true)
     end
+
+    migrate_langmaterial_notes
 
   end
 end
