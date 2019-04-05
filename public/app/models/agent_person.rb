@@ -41,7 +41,7 @@ class AgentPerson < Record
 
       out['knows'] = knows unless knows.empty?
 
-      out.compact
+      out
     end
 
     md['parent'] = json['related_agents'].select{|ra| ra['relator'] == 'is_child_of'}.map do |ag|
@@ -51,7 +51,7 @@ class AgentPerson < Record
       out['name'] = res['display_name']['sort_name']
       out['url'] = AppConfig[:public_proxy_url] + res['uri']
 
-      out.compact
+      out
     end
 
     md['children'] = json['related_agents'].select{|ra| ra['relator'] == 'is_parent_of'}.map do |ag|
@@ -61,7 +61,7 @@ class AgentPerson < Record
       out['name'] = res['display_name']['sort_name']
       out['url'] = AppConfig[:public_proxy_url] + res['uri']
 
-      out.compact
+      out
     end
 
     md['affiliation'] = json['related_agents'].select{|ra|
@@ -72,10 +72,10 @@ class AgentPerson < Record
       out['name'] = res['display_name']['sort_name']
       out['url'] = AppConfig[:public_proxy_url] + res['uri']
 
-      out.compact
+      out
     end
 
-    md
+    md.delete_if { |key,value| value.empty? }
   end
 
 

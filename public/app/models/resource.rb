@@ -71,6 +71,9 @@ class Resource < Record
       }.compact
     end
 
+    #keeping this as is for now.  Archives-Linked-Data group recommends mapping geographic headings
+    #to contentLocation rather than about.
+    #e.g. https://schema.org/contentLocation (with, I guess, @type as AdminstrativeArea)
     term_type_to_about_type = {
       'geographic' => 'Place',
       'temporal' => 'TemporalCoverage',
@@ -86,7 +89,7 @@ class Resource < Record
       hash['sameAs'] = subj['authority_id'] if subj['authority_id']
       hash['name'] = subj['title']
       hash
-    }.compact
+    }
 
     md['about'].concat(json['linked_agents'].select{|la| la['role'] == 'subject'}.map{|a| a['_resolved']}.map{|ag|
                          {
@@ -120,7 +123,7 @@ class Resource < Record
       'sameAs' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id']
     }.compact
 
-    md
+    md.delete_if { |key,value| value.empty? }
   end
 
   def instances
