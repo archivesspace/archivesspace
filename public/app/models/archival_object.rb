@@ -85,7 +85,7 @@ class ArchivalObject < Record
       'url' => AppConfig[:public_proxy_url] + uri,
       'identifier' => json['identifier'],
       'isPartOf' => AppConfig[:public_proxy_url] + parent_for_md_mapping
-    }
+    }.compact
 
     md['description'] = json['notes'].select{|n| n['type'] == 'abstract'}.map{|abstract|
                           strip_mixed_content(abstract['content'].join(' '))
@@ -156,7 +156,7 @@ class ArchivalObject < Record
       'name' => json['repository']['_resolved']['name']
     }.compact
 
-    md
+    md.delete_if { |key,value| value.empty? }
   end
 
 end

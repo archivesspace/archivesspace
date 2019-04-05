@@ -20,7 +20,7 @@ class AgentCorporateEntity < Record
                         }
     md['description'] = md['description'][0] if md['description'].length == 1
 
-    md
+    md.delete_if { |key,value| value.empty? }
   end
 
 
