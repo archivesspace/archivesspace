@@ -11,7 +11,7 @@ group :test do
   gem 'multi_json', '~> 1.13.1'
   gem 'rubyzip', '~> 1.2.2'
   gem "sinatra", "1.4.7", :require => false
-  gem "activesupport", "5.0.1"
+  gem 'activesupport', '5.0.7.2'
   gem "selenium-webdriver", "= 3.6.0"
   gem "rspec", "~> 3.6.0"
   gem "rspec-retry"
