@@ -62,6 +62,10 @@ class Resource < Record
     end
     md['description'] = md['description'][0] if md['description'].length == 1
 
+    md['acquiredFrom'] = json['notes'].select{|n| n['type'] == 'acqinfo'}.map{|acqinfo|
+                          strip_mixed_content(acqinfo['subnotes'].map{|text| text['content']}.join(' '))
+                        }
+
     md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
       {
         '@id' => AppConfig[:public_proxy_url] + ag['uri'],
