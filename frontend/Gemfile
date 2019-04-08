@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.0.1'
-gem "activesupport", "5.0.1"
+gem 'rails', '5.0.7.2'
+
 gem 'loofah', '>= 2.2.3'
 gem "i18n", "0.9.1"
 gem 'rails-html-sanitizer', '~> 1.0.4'
@@ -41,11 +41,11 @@ group :test do
   # selenium stuff
   gem "rspec-retry"
   gem "selenium-webdriver", "= 3.6.0"
-  gem "factory_bot"
+  gem 'factory_bot', '~> 4.11', '>= 4.11.1'
   gem "parallel_tests", "~> 2.14.0"
 
   # need access to ActiveSupport for helpers
-  gem 'rails', '5.0.1'
+  gem 'activesupport', '5.0.7.2'
 end
 
 group :development, :test do
@@ -64,7 +64,7 @@ gem 'multi_json', '~> 1.13.1'
 gem 'rubyzip', '~> 1.2.2'
 gem "zip-zip", "0.3"
 
-gem 'nokogiri', '1.8.4'
+gem 'nokogiri', '1.8.5'
 
 
 require 'asutils'
