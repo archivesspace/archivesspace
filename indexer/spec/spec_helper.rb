@@ -13,7 +13,7 @@ end
 
 JSONModel::init(:enum_source => IndexerEnumSource.new)
 
-require_relative '../../backend/spec/factories'
+require_relative 'factories'
 # require_relative "spec_helper_methods"
 
 FactoryBot.define do
