@@ -34,17 +34,17 @@ describe "Jobs" do
     @driver.find_element(:link, "Create Job").click
     @driver.click_and_wait_until_gone(:link, 'Batch Find and Replace (Beta)')
 
-    token_input = @driver.find_element(:id,"token-input-find_and_replace_job_ref_")
+    token_input = @driver.find_element(:id,"token-input-job_ref_")
     @driver.typeahead_and_select( token_input, @resource1.title )
 
-    @driver.find_element(:id => "find_and_replace_job_record_type_").select_option("extent")
+    @driver.find_element(:id => "job_record_type_").select_option("extent")
 
-    @driver.find_element(:id => "find_and_replace_job_property_").select_option("container_summary")
-    @driver.find_element(:id => "find_and_replace_job_find_").send_keys("abc")
+    @driver.find_element(:id => "job_property_").select_option("container_summary")
+    @driver.find_element(:id => "job_find_").send_keys("abc")
 
-    @driver.find_element(:id => "find_and_replace_job_replace_").send_keys("def")
+    @driver.find_element(:id => "job_replace_").send_keys("def")
 
-    @driver.find_element(:css => "form#jobfileupload button[type='submit']").click
+    @driver.find_element(:css => "form#job_form button[type='submit']").click
 
     expect {
       @driver.find_element_with_text("//h2", /Find and Replace/)
@@ -61,12 +61,12 @@ describe "Jobs" do
     @driver.find_element(:link, "Background Jobs").click
 
     @driver.find_element(:link, "Create Job").click
-    @driver.click_and_wait_until_gone(:link, 'Print To PDF')
+    @driver.click_and_wait_until_gone(:link, 'Generate PDF')
 
-    token_input = @driver.find_element(:id,"token-input-print_to_pdf_job_ref_")
+    token_input = @driver.find_element(:id,"token-input-job_source_")
     @driver.typeahead_and_select( token_input, @resource2.title ) 
 
-    @driver.find_element(:css => "form#jobfileupload button[type='submit']").click
+    @driver.find_element(:css => "form#job_form button[type='submit']").click
 
     expect {
       @driver.find_element_with_text("//h2", /print_to_pdf_job/)
@@ -82,23 +82,25 @@ describe "Jobs" do
 
     @driver.find_element(:link, "Create Job").click
     @driver.wait_for_dropdown
-    @driver.click_and_wait_until_gone(:link, 'Reports')
+    @driver.click_and_wait_until_gone(:link, 'Create Report')
 
-    @driver.find_element(:xpath => "//button[@data-report = 'accession_report']").click
+    @driver.find_element(:css => ".select-report[for = 'accession_report']").click
 
     # wait for the slow fade to finish and all sibling items to be removed
     sleep(2)
 
-    job_type = @driver.execute_script("return $('#report_job_jsonmodel_type_').val()")
+    job_type = @driver.execute_script("return $('#job_jsonmodel_type_').val()")
     expect(job_type).to eq('report_job')
 
-    report_type = @driver.execute_script("return $('#report_type_').val()")
+    report_type = @driver.execute_script("return $('#job_report_type_').val()")
     expect(report_type).to eq('accession_report')
 
-    @driver.find_element(:id => "report_job_format").select_option("csv")
-    @driver.click_and_wait_until_element_gone(@driver.find_element_with_text("//button", /Queue Job/))
+    @driver.find_element(:id => "job_format_").select_option("csv")
+    @driver.find_element(:css => "form#job_form button[type='submit']").click
 
-    @driver.find_element_with_text("//h2", /report_job/)
+    expect {
+      @driver.find_element_with_text("//h2", /report_job/)
+    }.not_to raise_error
   end
 
 end

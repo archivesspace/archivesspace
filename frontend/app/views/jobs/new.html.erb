@@ -3,7 +3,12 @@
 <%= form_for @job, :as => "job", :url => {:action => :create}, :html => {:id => "job_form", :class => 'form-horizontal aspace-record-form', :multipart => true} do |f| %>
   <%= form_context :job, @job do |form| %>
     <div class="row">
-      <div class="col-md-3"></div>
+      <div class="col-md-3">
+        <% if params[:job_type] == 'report_job' %>
+          <%= render_aspace_partial :partial => "report_sidebar", :locals => {:reports => @report_data['reports'].keys.sort_by { |code| I18n.t("reports.#{code}.title") }} %>
+        <% end %>
+      </div>
+
       <div class="col-md-9">
         <div class="record-pane">
           <%= link_to_help :topic => "job" %>
