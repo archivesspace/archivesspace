@@ -47,7 +47,9 @@ module ASModel
 
         # For all types
         # If the slug has changed manually, then make sure it's cleaned and deduped.
-        if self[:slug] && self.column_changed?(:slug) && !SlugHelpers::is_slug_auto_enabled?(self)
+        if self[:slug] && 
+           (self.column_changed?(:slug) || !self.exists?) && 
+           !SlugHelpers::is_slug_auto_enabled?(self)
           cleaned_slug = SlugHelpers.clean_slug(self[:slug])
           self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
         end
