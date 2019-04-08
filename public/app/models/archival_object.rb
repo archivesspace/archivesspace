@@ -172,13 +172,12 @@ class ArchivalObject < Record
     end
 
     #will need to update here (and elsewhere) once ASpace allows more than one authority ID.
-    #at that point, move those over to "sameAs" relationships and move the URL value to @id.
     #also, are there any changes needed now that the PUI has the ability to override the database ids in the URIs?
     md['holdingArchive'] = {
-      '@id' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id'],
-      'url' => AppConfig[:public_proxy_url] + raw['repository'],
+      '@id' => AppConfig[:public_proxy_url] + raw['repository'],
       '@type' => 'ArchiveOrganization',
-      'name' => json['repository']['_resolved']['name']
+      'name' => json['repository']['_resolved']['name'],
+      'sameAs' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id']
     }.compact
 
     md.delete_if { |key,value| value.empty? }
