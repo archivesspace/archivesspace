@@ -65,7 +65,15 @@ class Record
   end
 
   def note(type)
-    notes[type] || {}
+    if notes[type]
+      note = notes[type][0].clone
+      for i in 1...notes[type].length
+        note = merge_notes(note, notes[type][i])
+      end
+      note
+    else
+      {}
+    end
   end
 
   def request_item
@@ -148,16 +156,12 @@ class Record
   end
 
   def parse_notes
-    notes = {}
 
     if json.has_key?('notes')
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
-      notes_html.each do |type, html|
-        notes[type] = html
-      end
+    else
+      {}
     end
-
-    notes
   end
 
   def parse_dates
