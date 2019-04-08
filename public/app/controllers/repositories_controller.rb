@@ -106,8 +106,7 @@ class RepositoriesController < ApplicationController
       # and i'm not sure that i'll update everything as needed if i toy with the repo model in the PUI
       # so, throwing this in the controller for now...
       # but please re-locate and fix!
-      @metadata =
-          {
+      @metadata = {
             '@context' => "http://schema.org/",
             '@type' => 'ArchiveOrganization',
             '@id' => AppConfig[:public_proxy_url] + @result['uri'],
@@ -116,7 +115,7 @@ class RepositoriesController < ApplicationController
             'url' => @result['url'],
             'logo' => @result['image_url'],
             'identifier' => @result['country'] + '-' + @result['org_code'],
-            #this next bit will never work since ASpace has a bug with how it enacts its repo-to-agent concept (at least in versions 2.4 and 2.5)
+            #this next bit will never work since ASpace has a bug with how it enacts its repo-to-agent concept (at least in versions 2.4 and 2.5).... and you can't add an authority ID directly to a repo record.
             'sameAs' => @result['agent_representation']['_resolved']['display_name']['authority_id'],
             'description' => @result['repo_info']['top']['description'],
             'email' => @result['repo_info']['email'],
@@ -132,16 +131,17 @@ class RepositoriesController < ApplicationController
               '@type' => 'Organization',
               'name' => @result['parent_institution_name']
             },
+            'contactPoint' => @result['agent_representation']['_resolved']['agent_contacts'][0]['name'],
             'faxNumber' => @result['repo_info']['telephones']
               .select{|t| t['number_type'] == 'fax'}
               .map{|f| f['number']},
             'telephone' => @result['repo_info']['telephones']
               .select{|t| t['number_type'] == 'business'}
               .map{|b| b['number']}
-
           }.compact
 
       render
+
     else
       @type = I18n.t('repository._singular')
       @page_title = I18n.t('errors.error_404', :type => @type)

@@ -88,6 +88,10 @@ class Resource < Record
       }
     end
 
+    md['isRelatedTo'] = json['notes'].select{|n| n['type'] == 'relatedmaterial'}.map{|related|
+                          strip_mixed_content(related['subnotes'].map{|text| text['content']}.join(' '))
+                        }
+
     #keeping this as is for now.  Archives-Linked-Data group recommends mapping geographic headings
     #to contentLocation rather than about.
     #e.g. https://schema.org/contentLocation (with, I guess, @type as AdminstrativeArea)
