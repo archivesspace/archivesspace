@@ -112,7 +112,14 @@ class AccessionsController < ApplicationController
                 :model => Accession,
                 :on_invalid => ->(){ render action: "new" },
                 :on_valid => ->(id){
-                    flash[:success] = I18n.t("accession._frontend.messages.created", JSONModelI18nWrapper.new(:accession => @accession))
+                    success_msg = I18n.t("accession._frontend.messages.created", JSONModelI18nWrapper.new(:accession => @accession))
+                     if @accession["is_slug_auto"] == false &&
+                        @accession["slug"] == nil &&
+                        params["accession"] &&
+                        params["accession"]["is_slug_auto"] == "1"
+                       success_msg << I18n.t("slug.autogen_disabled")
+                     end
+                    flash[:success] = success_msg
                     redirect_to(:controller => :accessions,
                                 :action => :edit,
                                 :id => id) })

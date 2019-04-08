@@ -47,6 +47,14 @@ class ArchivalObjectsController < ApplicationController
                                       I18n.t("archival_object._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved']).enable_parse_mixed_content!(url_for(:root))) :
                                       I18n.t("archival_object._frontend.messages.created", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
 
+
+                  if @archival_object["is_slug_auto"] == false &&
+                     @archival_object["slug"] == nil &&
+                     params["archival_object"] &&
+                     params["archival_object"]["is_slug_auto"] == "1"
+                    success_message << I18n.t("slug.autogen_disabled")
+                  end                                      
+
                   if params.has_key?(:plus_one)
                     flash[:success] = success_message
                   else
