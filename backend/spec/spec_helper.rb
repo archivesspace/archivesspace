@@ -84,6 +84,9 @@ class DB
             }
           }
 
+          # If the checksum has evaporated, we need a refresh, obvs!
+          needs_refresh ||= !File.exist?(File.join(dumpfile, "checksum.txt"))
+
           # If new plugins were installed or removed, we need a refresh for that too
           needs_refresh ||= (File.read(File.join(dumpfile, "checksum.txt")) != build_migration_file_checksum(migration_dirs))
 
