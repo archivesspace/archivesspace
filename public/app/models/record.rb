@@ -6,7 +6,7 @@ class Record
   include PrefixHelper
 
   attr_reader :raw, :full, :json, :display_string, :container_display, :container_summary_for_badge,
-              :notes, :dates, :languages, :external_documents, :resolved_repository,
+              :notes, :dates, :lang_materials, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
@@ -42,7 +42,7 @@ class Record
     @linked_digital_objects = parse_digital_object_instances
     @notes =  parse_notes
     @dates = parse_dates
-    @languages = parse_languages
+    @lang_materials = parse_lang_materials
     @external_documents = parse_external_documents
     @resolved_repository = parse_repository
     @resolved_top_container = parse_top_container
@@ -158,10 +158,15 @@ class Record
 
   def parse_notes
 
-    if json.has_key?('notes')
+    if json.has_key?('notes') && json.has_key?('lang_materials')
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
       lang_notes = process_json_notes((json['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten), (!full ? ABSTRACT : nil))
       notes_html = notes_html.merge(lang_notes)
+      notes_html.each do |type, html|
+        notes[type] = html
+      end
+    elsif json.has_key?('notes')
+      notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
       notes_html.each do |type, html|
         notes[type] = html
       end
@@ -182,7 +187,7 @@ class Record
   end
 
 
-  def parse_languages
+  def parse_lang_materials
     return unless json.has_key?('lang_materials') && full
 
     lang_materials = []
