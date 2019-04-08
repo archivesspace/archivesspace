@@ -108,6 +108,17 @@ class ArchivalObject < Record
       }.compact
     end
 
+    #just mapping the whole (and direct) extents for now.
+    md['materialExtent'] = json['extents'].select{|e| e['portion'] == 'whole'}
+    .reject{|e| e['_inherited']}
+    .map do |extent|
+        {
+          "@type": "QuantitativeValue",
+          "unitText": I18n.t("enumerations.extent_extent_type.#{extent['extent_type']}"),
+          "value": extent['number']
+        }
+    end
+
     term_type_to_about_type = {
       'geographic' => 'Place',
       'temporal' => 'TemporalCoverage',
