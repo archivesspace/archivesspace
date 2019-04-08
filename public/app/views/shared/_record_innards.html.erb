@@ -25,10 +25,11 @@
     <% end %>
 
     <% non_folder.each do |type| %>
-       <% note_struct =  @result.note(type) %>
+      <% (@result.notes[type] || []).each do |note_struct| %>
        <% unless note_struct['note_text'].blank? %>
         <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => note_struct}   %>
        <% end %>
+      <% end %>
     <% end %>
 
     <% unless @result.extents.blank? %>

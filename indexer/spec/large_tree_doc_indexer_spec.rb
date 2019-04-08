@@ -1,4 +1,4 @@
-require_relative 'spec_helper'
+require 'spec_helper'
 require_relative '../app/lib/large_tree_doc_indexer'
 
 describe "large tree doc indexer" do

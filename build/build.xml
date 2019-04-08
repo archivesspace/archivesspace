@@ -902,6 +902,9 @@
 
   <target name="public:test" depends="set-classpath, public:copy-shared-resources" description="Run the unit test suite">
     <property name="spec" value=""/>
+    <condition property="spec-arg" value="${spec}" else="">
+      <isset property="spec"/>
+    </condition>
     <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
@@ -914,7 +917,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="--debug ../build/gems/bin/rspec -b --format d --order rand:1 ${example-arg}" />
+      <arg line="--debug ../build/gems/bin/rspec -b --format d --order rand:1 ${example-arg} spec/${spec-arg}" />
     </java>
   </target>
 

@@ -1,0 +1,4 @@
+location_building,location_floor,location_room,location_area,location_barcode,location_classification,location_coordinate_1_label,location_coordinate_1_indicator,location_coordinate_2_label,location_coordinate_2_indicator,location_coordinate_3_label,location_coordinate_3_indicator,location_temporary
+City Hall,10,Green,Stacks,123456,AB1CD1,Row,1,Bay,1,Shelf,1,
+City Hall,10,Green,Stacks,123457,AB1CD2,Row,1,Bay,1,Shelf,2,
+City Hall,10,Green,Stacks,123458,AB1CD3,Row,1,Bay,1,Shelf,3,

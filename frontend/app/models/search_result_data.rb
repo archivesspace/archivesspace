@@ -73,7 +73,19 @@ class SearchResultData
       }
     }
     facet_data_for_filter.delete_if {|facet_group, facets| facets.empty?}
+    facet_data_for_filter.each do |facet_group, facets|
+      facet_data_for_filter[facet_group] = sort_facets(facet_group, facets)
+    end
     facet_data_for_filter
+  end
+
+  def sort_facets(facet_group, facets)
+    case facet_group
+    when 'accession_date_year'
+      facets.sort { |a, b| (b <=> a) * (AppConfig[:sort_accession_date_filter_asc] ? -1 : 1) }.to_h
+    else
+      facets
+    end
   end
 
   def facet_display_string(facet_group, facet)

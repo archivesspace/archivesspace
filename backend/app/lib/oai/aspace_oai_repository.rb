@@ -38,7 +38,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
 
   DELETES_PER_PAGE = 100
 
-  RESOLVE = ['repository', 'subjects', 'linked_agents', 'digital_object', 'top_container', 'ancestors', 'linked_agents', 'resource']
+  RESOLVE = ['repository', 'subjects', 'linked_agents', 'digital_object', 'top_container', 'ancestors', 'linked_agents', 'resource', 'top_container::container_profile']
 
 
   def earliest
