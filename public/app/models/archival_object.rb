@@ -128,6 +128,11 @@ class ArchivalObject < Record
         }
     end
 
+    md['isRelatedTo'] = json['notes'].select{|n| n['type'] == 'relatedmaterial'}
+      .reject{|related| related['_inherited']}
+      .map{|related| strip_mixed_content(related['subnotes'].map{|text| text['content']}.join(' '))
+    }
+
     term_type_to_about_type = {
       'geographic' => 'Place',
       'temporal' => 'TemporalCoverage',
