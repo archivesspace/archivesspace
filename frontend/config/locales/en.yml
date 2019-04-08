@@ -1436,6 +1436,9 @@ en:
         linked_via_assessment_records: Assessments
         linked_via_assessment_surveyed_by: Assessments - Surveyed By
         linked_via_assessment_reviewer: Assessments - Reviewer
+        record_type: Record Type
+        title: Title
+        identifier: Identifier
       ratings_list:
         rating: Rating
         score: Score

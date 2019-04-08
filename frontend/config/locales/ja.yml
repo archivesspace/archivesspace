@@ -1415,6 +1415,9 @@ ja:
         linked_via_assessment_records: アセスメント
         linked_via_assessment_surveyed_by: 評価 - 調査者
         linked_via_assessment_reviewer: 評価 - レビュアー
+        record_type: レコードタイプ
+        title: タイトル
+        identifier: 識別
       ratings_list:
         rating: 評価
         score: スコア
