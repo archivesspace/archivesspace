@@ -71,6 +71,15 @@ class Resource < Record
       }.compact
     end
 
+    #just mapping the whole extents for now (no need to worry about inherited extents)
+    md['materialExtent'] = json['extents'].select{|e| e['portion'] == 'whole'}.map do |extent|
+      {
+        "@type": "QuantitativeValue",
+        "unitText": I18n.t("enumerations.extent_extent_type.#{extent['extent_type']}"),
+        "value": extent['number']
+      }
+    end
+
     #keeping this as is for now.  Archives-Linked-Data group recommends mapping geographic headings
     #to contentLocation rather than about.
     #e.g. https://schema.org/contentLocation (with, I guess, @type as AdminstrativeArea)
