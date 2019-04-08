@@ -1,15 +1,11 @@
 source 'https://rubygems.org'
 
-
-# Bundle edge Rails
 gem 'rails', '5.0.7.2'
 
 gem 'loofah', '>= 2.2.3'
 gem "i18n", "0.9.1"
 gem 'rubyzip', '~> 1.2.2'
 
-# Use jdbcsqlite3 as the database for Active Record
-# gem 'activerecord-jdbcsqlite3-adapter'
 gem 'nokogiri', '1.8.5'
 
 gem 'sprockets-rails', '2.3.3'
@@ -20,14 +16,11 @@ gem 'atomic', '= 1.0.1'
 # use bootstrap's sass
 gem 'bootstrap-sass', '>= 3.4.1'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0', '>= 5.0.6'
+gem 'sassc-rails', '~> 2.1'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '3.0.4'
 # Use font-awesome icons
-gem 'font-awesome-sass', '4.7.0'
-
-# not sure if we need to be using Compass....
-# gem 'compass-rails'
+gem 'font-awesome-sass', '~> 5.8', '>= 5.8.1'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '4.2.1'
@@ -46,15 +39,6 @@ gem 'clipboard-rails'
 
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# FIXME? gem 'jbuilder', '~> 2.5'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 # Enable support for `rails server`
 gem 'listen', group: :development
