@@ -40,6 +40,16 @@
 	</p>
       <% end %>
     <% end %>
+
+    <% unless @result.lang_materials.blank? %>
+      <h3><%= t('resource._public.lang') %></h3>
+       <% @result.lang_materials.each do |lang_material| %>
+        <p class="language"><%= inheritance(lang_material['_inherited']).html_safe %>
+	  <%= t('enumerations.language_iso639_2.' + lang_material['language'])%>
+	</p>
+      <% end %>
+    <% end %>
+
     <% if @result.is_a?(Accession) && @result.inventory %>
       <h3><%= t('accession._public.section.inventory') %></h3>
       <p><%= @result.inventory %></p>
