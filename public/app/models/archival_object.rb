@@ -80,9 +80,9 @@ class ArchivalObject < Record
   def metadata
     md = {
       '@context' => "http://schema.org/",
+      '@id' => AppConfig[:public_proxy_url] + uri,
       '@type' => level_for_md_mapping,
       'name' => display_string,
-      'url' => AppConfig[:public_proxy_url] + uri,
       'identifier' => json['identifier'],
       'isPartOf' => AppConfig[:public_proxy_url] + parent_for_md_mapping
     }.compact
@@ -106,6 +106,11 @@ class ArchivalObject < Record
         'name' => ag['title'],
         'sameAs' => ag['display_name']['authority_id']
       }.compact
+    end
+
+    md['dateCreated'] = @dates.select{|d| d['label'] == 'creation' && ['inclusive', 'single'].include?(d['date_type'])}
+    .reject{|d| d['_inherited']}
+    .map do |date| date['final_expression']
     end
 
     #just mapping the whole (and direct) extents for now.

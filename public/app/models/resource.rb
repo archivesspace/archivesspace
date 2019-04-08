@@ -71,6 +71,10 @@ class Resource < Record
       }.compact
     end
 
+    md['dateCreated'] = @dates.select{|d| d['label'] == 'creation' && ['inclusive', 'single'].include?(d['date_type'])}
+    .map do |date| date['final_expression']
+    end
+
     #just mapping the whole extents for now (no need to worry about inherited extents)
     md['materialExtent'] = json['extents'].select{|e| e['portion'] == 'whole'}.map do |extent|
       {
