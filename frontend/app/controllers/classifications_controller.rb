@@ -65,12 +65,23 @@ class ClassificationsController < ApplicationController
       render action: "new"
     },
       :on_valid => ->(id){
-      redirect_to({
+
+        success_msg = I18n.t("classification._frontend.messages.created", JSONModelI18nWrapper.new(:classification => @classification))
+
+        if @classification["is_slug_auto"] == false &&
+            @classification["slug"] == nil &&
+            params["classification"] &&
+            params["classification"]["is_slug_auto"] == "1"
+          success_msg << I18n.t("slug.autogen_disabled")
+        end
+
+        flash[:success] = success_msg
+        
+        redirect_to({
                     :controller => :classifications,
                     :action => :edit,
                     :id => id
-                  },
-                  :flash => {:success => I18n.t("classification._frontend.messages.created", JSONModelI18nWrapper.new(:classification => @classification))})
+                  })
     })
   end
 
