@@ -78,12 +78,6 @@ class ObjectsController <  ApplicationController
     render 'search/search_results'
   end
 
-  def request_showing
-    @request = RequestItem.new(params)
-    # if we got here, we need to know where to go back to
-    @back_url =  request.referer || ''
-  end
-
   def show
     uri = "/repositories/#{params[:rid]}/#{params[:obj_type]}/#{params[:id]}"
     url = uri

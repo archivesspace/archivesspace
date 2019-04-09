@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.0.1'
+gem 'rails', '5.0.7.2'
+
 gem 'loofah', '>= 2.2.3'
 gem "i18n", "0.9.1"
 gem 'rails-html-sanitizer', '~> 1.0.4'
@@ -8,13 +9,9 @@ gem 'sprockets-rails', '2.3.3'
 
 gem 'tzinfo-data'
 
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails', '~> 5.0', '>= 5.0.6'
+gem 'sassc-rails', '~> 2.1'
 gem 'coffee-rails', '4.2.1'
 gem 'coffee-script'
 gem 'coffee-script-source'
@@ -44,7 +41,7 @@ group :test do
   gem "parallel_tests", "~> 2.14.0"
 
   # need access to ActiveSupport for helpers
-  gem "activesupport", "5.0.1"
+  gem 'activesupport', '5.0.7.2'
 end
 
 group :development, :test do

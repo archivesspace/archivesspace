@@ -85,6 +85,8 @@ AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory],
 #      "pf" => 'title^10',
 #      "ps" => 0,
 #    }
+# For more information about solr parameters, please consult the solr documentation
+# here: https://lucene.apache.org/solr/
 # Configuring search operator to be AND by default - ANW-427
 AppConfig[:solr_params] = { "q.op" => "AND" }
 
@@ -634,3 +636,6 @@ AppConfig[:auto_generate_slugs_with_id] = false
 # For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
 AppConfig[:generate_resource_slugs_with_eadid] = false
 AppConfig[:generate_archival_object_slugs_with_cuid] = false
+
+# For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
+AppConfig[:sort_accession_date_filter_asc] = false

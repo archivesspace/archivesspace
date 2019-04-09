@@ -24,7 +24,7 @@ gem "i18n", "0.9.1"
 gem "warbler", "2.0.4", :group => :build
 
 gem "oai", "0.4.0"
-gem "activesupport", "5.0.1"
+gem 'activesupport', '5.0.7.2'
 
 gem "rrtf"
 
