@@ -82,7 +82,9 @@ class SearchResultData
   def sort_facets(facet_group, facets)
     case facet_group
     when 'accession_date_year'
-      facets.sort { |a, b| (b <=> a) * (AppConfig[:sort_accession_date_filter_asc] ? -1 : 1) }.to_h
+      f = facets.sort { |a, b| (b[0].to_i <=> a[0].to_i) * (AppConfig[:sort_accession_date_filter_asc] ? -1 : 1) }.to_h
+      f['9999'][:label] = I18n.t("accession.accession_date_unknown") if f['9999']
+      f
     else
       facets
     end

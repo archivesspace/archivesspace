@@ -311,14 +311,13 @@ class IndexerCommon
         date = record['record']['accession_date']
         if date == '9999-12-31'
           unknown = I18n.t('accession.accession_date_unknown')
-          doc['accession_date_year'] = unknown
           doc['accession_date'] = unknown
           doc['fullrecord'] ||= ''
           doc['fullrecord'] << unknown + ' '
         else
-          doc['accession_date_year'] = Date.parse(date).year
           doc['accession_date'] = date
         end
+        doc['accession_date_year'] = Date.parse(date).year
         doc['identifier'] = (0...4).map {|i| record['record']["id_#{i}"]}.compact.join("-")
         doc['title'] = record['record']['display_string']
 
