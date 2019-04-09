@@ -93,7 +93,7 @@ class Resource < Record
       subj['authority_id'] ? subj['authority_id'] : subj['title']
     }
 
-    if !json['language'].blank?
+    if !raw['language'].blank?
          md['inLanguage'] = {
            '@type' => 'Language',
            'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])
