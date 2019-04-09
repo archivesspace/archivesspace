@@ -954,6 +954,7 @@ en:
     column_label: Column
     sections:
       basic_information: Basic Information
+      language: Language
       date: Date
       extent: Extent
       instance: Instance
