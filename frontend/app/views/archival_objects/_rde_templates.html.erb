@@ -1,5 +1,6 @@
 <% define_template "rde_archival_object_sections" do |form| %>
-  <th data-id="basic" class="section-basic" colspan="6"><%= I18n.t("rde.sections.basic_information") %></th>
+  <th data-id="basic" class="section-basic" colspan="5"><%= I18n.t("rde.sections.basic_information") %></th>
+  <th data-id="language" class="section-language" colspan="2"><%= I18n.t("rde.sections.language") %></th>
   <th data-id="date" class="section-date" colspan="5" class="conditionally-required"><%= I18n.t("rde.sections.date") %></th>
   <th data-id="extent" class="section-extent" colspan="6" class="conditionally-required"><%= I18n.t("rde.sections.extent") %></th>
   <th data-id="instance" class="section-instance" colspan="8"><%= I18n.t("rde.sections.instance") %></th>
@@ -12,7 +13,9 @@
   <th id="colPublish" class="fieldset-label sticky" data-section="basic"><%= I18n.t("archival_object.publish") %></th>
   <th id="colTitle" class="fieldset-label conditionally-required" data-section="basic"><%= I18n.t("archival_object.title") %></th>
   <th id="colCompId" class="fieldset-label" data-section="basic"><%= I18n.t("archival_object.component_id") %></th>
-  <th id="colLang" class="fieldset-label sticky" data-section="basic"><%= I18n.t("archival_object.language") %></th>
+
+  <th id="colLanguage" class="fieldset-label sticky" data-section="language"><%= I18n.t("language_and_script.language") %></th>
+  <th id="colScript" class="fieldset-label sticky" data-section="language"><%= I18n.t("language_and_script.script") %></th>
 
   <th id="colExpr" class="fieldset-label sticky" data-section="date"><%= I18n.t("date.expression") %></th>
   <th id="colDType" class="fieldset-label sticky" data-section="date"><%= I18n.t("rde.date_type") %></th>
@@ -79,6 +82,7 @@
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
   <col class="fieldset-col" data-default-width='150' />
+  <col class="fieldset-col" data-default-width='150' />
 <% end %>
 
 <% define_template "rde_archival_object_row", jsonmodel_definition(:archival_object) do |form, archival_object| %>
@@ -103,8 +107,21 @@
     <td data-col="colPublish" class="form-group"><%= form.checkbox "publish", {}, user_prefs["publish"] %></td>
     <td data-col="colTitle" class="form-group"><%= form.textfield "title" %></td>
     <td data-col="colCompId" class="form-group"><%= form.textfield "component_id" %></td>
-    <td data-col="colLang" class="form-group">
-      <%= form.select "language", jsonmodel_definition(:archival_object).options_for(form, "language", true) %>
+    <td data-col="colLanguage" class="form-group">
+      <% form.push(form.set_index("lang_materials[]", 0), begin archival_object["lang_materials"][0] || {} rescue {} end) do %>
+        <% form.push(form.set_index("language_and_script", 0), form["language_and_script"] || {}) do %>
+          <%= form.select "language",
+          jsonmodel_definition(:language_and_script).options_for(form, "language", true) %>
+        <% end %>
+      <% end %>
+    </td>
+    <td data-col="colScript" class="form-group">
+      <% form.push(form.set_index("lang_materials[]", 0), begin archival_object["lang_materials"][0] || {} rescue {} end) do %>
+        <% form.push(form.set_index("language_and_script", 0), form["language_and_script"] || {}) do %>
+          <%= form.select "script",
+          jsonmodel_definition(:language_and_script).options_for(form, "script", true) %>
+        <% end %>
+      <% end %>
     </td>
     <td data-col="colExpr" class="form-group">
       <% form.push(form.set_index("dates[]", 0), begin archival_object["dates"][0] || {} rescue {} end) do %>
