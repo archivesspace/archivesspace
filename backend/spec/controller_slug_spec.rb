@@ -80,8 +80,8 @@ describe 'Slug controller' do
   it "finds agent_persons by slug for 'agents' controller" do
     agent_person = create(:json_agent_person, :slug => "SlugAgentPerson", :is_slug_auto => false)
     agent_person_id = agent_person[:uri].split("/")[-1]
-  
-    get "/slug?slug=SlugAgentPerson&controller=agents&action=show"
+
+    get "/slug?slug=slugagentperson&controller=agents&action=show"
     response = JSON.parse(last_response.body)
    
     expect(response["id"].to_s).to eq(agent_person_id)
@@ -92,7 +92,7 @@ describe 'Slug controller' do
     agent_family = create(:json_agent_family, :slug => "SlugAgentFamily", :is_slug_auto => false)
     agent_family_id = agent_family[:uri].split("/")[-1]
 
-    get "/slug?slug=SlugAgentFamily&controller=agents&action=show"
+    get "/slug?slug=slugagentfamily&controller=agents&action=show"
     response = JSON.parse(last_response.body)
  
     expect(response["id"].to_s).to eq(agent_family_id)
@@ -103,7 +103,7 @@ describe 'Slug controller' do
     agent_corporate_entity = create(:json_agent_corporate_entity, :slug => "SlugAgentFamily", :is_slug_auto => false)
     agent_corporate_entity_id = agent_corporate_entity[:uri].split("/")[-1]
  
-    get "/slug?slug=SlugAgentFamily&controller=agents&action=show"
+    get "/slug?slug=slugagentfamily&controller=agents&action=show"
     response = JSON.parse(last_response.body)
    
     expect(response["id"].to_s).to eq(agent_corporate_entity_id)
@@ -114,7 +114,7 @@ describe 'Slug controller' do
     agent_software = create(:json_agent_software, :slug => "SlugAgentSoftware", :is_slug_auto => false)
     agent_software_id = agent_software[:uri].split("/")[-1]
    
-    get "/slug?slug=SlugAgentSoftware&controller=agents&action=show"
+    get "/slug?slug=slugagentsoftware&controller=agents&action=show"
     response = JSON.parse(last_response.body)
  
     expect(response["id"].to_s).to eq(agent_software_id)

@@ -67,3 +67,40 @@ require 'pry'
 
     return clean_slug(joined)
   end
+
+  def get_generated_name_for_agent(agent)
+    result = ""
+    case agent.class.to_s
+    when "AgentPerson"
+      name_record = NamePerson.find(:agent_person_id => agent.id)
+
+      if name_record[:name_order] === "inverted"
+        result << name_record[:primary_name] if name_record[:primary_name]
+        result << "_" + name_record[:rest_of_name] if name_record[:rest_of_name]
+      elsif name_record[:name_order] === "direct"
+        result << name_record[:rest_of_name] if name_record[:rest_of_name]
+        result << "_" + name_record[:primary_name] if name_record[:primary_name]
+      else
+        result << name_record[:primary_name]
+      end
+
+    when "AgentFamily"
+      name_record = NameFamily.find(:agent_family_id => agent.id)
+
+      result = name_record[:family_name] if name_record[:family_name]
+
+    when "AgentCorporateEntity"
+      name_record = NameCorporateEntity.find(:agent_corporate_entity_id => agent.id)
+
+      result << name_record[:primary_name] if name_record[:primary_name]
+      result << "_" + name_record[:subordinate_name_1] if name_record[:subordinate_name_1]
+      result << "_" + name_record[:subordinate_name_2] if name_record[:subordinate_name_2]
+
+    when "AgentSoftware"
+      name_record = NameSoftware.find(:agent_software_id => agent.id)
+      result = name_record[:software_name] if name_record[:software_name]
+    end
+
+    result
+  end
+''
