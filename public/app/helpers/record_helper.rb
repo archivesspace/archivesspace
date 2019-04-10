@@ -57,7 +57,7 @@ module RecordHelper
               when 'archival_object'
               'fa-file-o'
               when 'digital_object'
-              'fa-file-image-o'
+              'fa-file-image'
               when 'accession'
               'fa-file-text-o'
               when 'subject'
