@@ -5,7 +5,7 @@
     <button type="submit" class="btn btn-default <%= type %>" <%= @counts[type] == 0 ? 'disabled="disabled"' : '' %>  >
      <% case type %>
      <% when 'resource' %>
-     <i class="fa fa-archive fa-4x"></i>
+      <i class="fa fa-archive fa-4x"></i>
      <% when 'record' %>
       <i class="fa fa-files-o fa-4x"></i>
      <% when 'digital_object' %>
@@ -17,10 +17,9 @@
       <i class="fa fa-tags fa-4x"></i>
      <% when 'agent' %>
       <i class="fa fa-users fa-4x"></i>
-     </span>
-    <% when 'classification' %>
-    <i class="fa fa-share-alt fa-4x"></i>
-    <% end %>
+     <% when 'classification' %>
+      <i class="fa fa-share-alt fa-4x"></i>
+     <% end %>
     <br />
     <% if AppConfig[:pui_repos].dig(@result['repo_code'].downcase, :hide, :counts).nil? ?  AppConfig[:pui_hide][:counts] :  AppConfig[:pui_repos][@result['repo_code'].downcase][:hide][:counts] %>
       <%= t("#{type}._plural") %>
