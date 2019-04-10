@@ -126,7 +126,7 @@ RSpec.configure do |config|
     end
     # For some reason we have to manually shutdown mizuno for the test suite to
     # quit.
-    Rack::Handler.get('mizuno').instance_variable_get(:@server).stop
+    Rack::Handler.get('mizuno').instance_variable_get(:@server) ? Rack::Handler.get('mizuno').instance_variable_get(:@server).stop : next
   end
 
 end

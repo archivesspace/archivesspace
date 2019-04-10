@@ -4,8 +4,8 @@ Rails.application.routes.draw do
     root to: "welcome#show"
 
     get '/welcome', to: 'welcome#show'
-    
-    # I don't think this is used anywhere... 
+
+    # I don't think this is used anywhere...
     post '/cite', to: 'cite#show'
 
     # RESOURCES
@@ -34,8 +34,6 @@ Rails.application.routes.draw do
     get  'accessions' => 'accessions#index'
     get  "repositories/:rid/accessions" => 'accessions#index'
     get  "repositories/:rid/accessions/:id" => 'accessions#show'
-    post "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
-    get  "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
 
     #DIGITAL OBJECTS
     get "repositories/:rid/digital_objects" => 'objects#index'
@@ -81,6 +79,9 @@ Rails.application.routes.draw do
     get '/repositories', to: 'repositories#index'
     get "repositories/:rid/search" => 'search#search'
 
+    #TOP CONTAINERS
+    get  "repositories/:rid/top_containers/:id" => 'containers#show'
+
     # SLUGGED OBJECTS (# ARCHIVAL OBJECTS, DIGITAL OBJECTS, DIGITAL OBJECT COMPONENTS)
     get ":obj_type/:slug_or_id"  => 'objects#show'
     get "repositories/:repo_slug/:obj_type/:slug_or_id"  => 'objects#show'
@@ -88,20 +89,15 @@ Rails.application.routes.draw do
     #OBJECTS (generic, pass in the object_type as a param)
     get 'objects/search' => 'objects#search'
     get 'objects' => 'objects#index'
-    post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
-    get "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
     get "repositories/:rid/:obj_type/:id" => 'objects#show'
     get "repositories/:rid/objects" => 'objects#index'
     get "repositories/:rid/records" => 'objects#index'
 
 
-    # OTHER (NOT SLUGGED YET) 
-    
+    # OTHER (NOT SLUGGED YET)
+
     post 'fill_request' => 'requests#make_request'
-    
-    get  "repositories/:rid/top_containers/:id" => 'containers#show'
-    
-    
+
     get '/search', to: 'search#search'
   end
 end

@@ -104,7 +104,10 @@ module AspaceFormHelper
       # For repo scoped objects,
       # if we have access to the repo slug in the session and the repo scoped URLs are enabled
       # generate link with repo slug
-      if obj['slug'] && AppConfig[:use_human_readable_URLs]
+      if !obj['slug'].nil? &&
+         !obj['slug'].empty? &&
+         AppConfig[:use_human_readable_URLs]
+
         if scope == :repo
           if generate_url_with_repo_slug && repo_slug
             url << "/" + "repositories" + "/"
@@ -534,6 +537,7 @@ module AspaceFormHelper
     # takes a JSON representation of the current options selected and the list of archival_record_level enums
     # returns HTML for a set of checkboxes representing current selected and deselected sets for OAI export
     def checkboxes_for_oai_sets(set_json, value_list)
+      return "" if value_list == nil
       # when called by #new, set_json will be nil.
       if set_json
         set_arry = JSON::parse(set_json)

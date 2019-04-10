@@ -1744,7 +1744,7 @@ en:
         <p>The time a repository estimates that is required to process a unit of archival materials (e.g. a linear foot or an item in the case of digital objects).  The estimate may factor in, or not, the production of finding aids, catalog records, and other access products.</p>
     processing_total_extent: Processing Total Extent
     processing_total_extent_tooltip: |
-        <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed.</p>
+        <p>A numerical expression for the total extent (cubic feet, linear feet, items, etc) processed. An Extent Type must be provided in conjunction with this field.</p>
     processing_total_extent_type: Extent Type
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
@@ -1994,6 +1994,7 @@ en:
     import_type_accession_csv: Accession CSV
     import_type_digital_object_csv: Digital Object CSV
     import_type_eac_xml: EAC
+    import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML (Resource)
     import_type_marcxml_accession: MarcXML (Accession)
     import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)

@@ -5,11 +5,12 @@ require_relative 'utils'
 
 Sequel.migration do
   up do
+    $stderr.puts("Adding values OAI config table")
     oai_repository_name = AppConfig[:oai_repository_name] || 'ArchivesSpace OAI Provider'
     oai_record_prefix   = AppConfig[:oai_record_prefix] || 'oai:archivesspace'
     oai_admin_email     = AppConfig[:oai_admin_email] || 'admin@example.com'
-  
-  
+
+
     self[:oai_config].insert(:oai_repository_name => oai_repository_name,
                              :oai_record_prefix   => oai_record_prefix,
                              :oai_admin_email     => oai_admin_email,

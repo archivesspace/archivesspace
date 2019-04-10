@@ -62,6 +62,14 @@ class ClassificationTermsController < ApplicationController
                   success_message = parent ?
                     I18n.t("classification_term._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved'], :parent => parent)) :
                     I18n.t("classification_term._frontend.messages.updated", JSONModelI18nWrapper.new(:classification_term => @classification_term, :classification => @classification_term['classification']['_resolved']))
+
+                    if @classification_term["is_slug_auto"] == false &&
+                       @classification_term["slug"] == nil &&
+                       params["classification_term"] &&
+                       params["classification_term"]["is_slug_auto"] == "1"
+                      success_message << I18n.t("slug.autogen_disabled")
+                    end
+
                   flash.now[:success] = success_message
 
                   render_aspace_partial :partial => "edit_inline"

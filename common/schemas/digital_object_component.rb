@@ -17,7 +17,7 @@
       "file_versions" => {"type" => "array", "items" => {"type" => "JSONModel(:file_version) object"}},
       
       "slug" => {"type" => "string"},
-      "is_slug_auto" => {"type" => "boolean"},
+      "is_slug_auto" => {"type" => "boolean", "default" => true},
 
       "parent" => {
         "type" => "object",

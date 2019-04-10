@@ -3,8 +3,8 @@ require_relative 'factories'
 module SpecHelperMethods
   extend self
 
-  def make_test_repo(code = "ARCHIVESSPACE", org_code = "test")
-    repo = create(:repo, {:repo_code => code, :org_code => org_code, :is_slug_auto => 0})
+  def make_test_repo(code = "ARCHIVESSPACE", org_code = "test", is_slug_auto = 0)
+    repo = create(:repo, {:repo_code => code, :org_code => org_code, :is_slug_auto => is_slug_auto})
 
     @repo_id = repo.id
     @repo = JSONModel(:repository).uri_for(repo.id)

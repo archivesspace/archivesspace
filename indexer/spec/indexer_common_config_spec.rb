@@ -1,4 +1,4 @@
-require_relative 'spec_helper'
+require 'spec_helper'
 require_relative '../app/lib/indexer_common_config'
 
 describe "indexer common config" do

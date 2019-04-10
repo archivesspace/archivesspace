@@ -24,7 +24,7 @@
       "oai_sets_available" => {"type" => "string"},
 
       "slug" => {"type" => "string"},
-      "is_slug_auto" => {"type" => "boolean"},
+      "is_slug_auto" => {"type" => "boolean", "default" => true},
 
       "agent_representation" => {
         "type" => "object",

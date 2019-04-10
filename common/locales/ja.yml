@@ -1294,7 +1294,7 @@ ja:
     processing_hours_per_foot_estimate_tooltip: "<p>レポジトリが、アーカイブ素材の単位を処理するために必要となると見積もった時間（例えば、デジタルオブジェクトの場合は、線形の足またはアイテム）。見積もりは、調査援助、カタログ記録、およびその他のアクセス製品の生産を考慮に入れるかどうかを決定する可能性があります。
       </p>"
     processing_total_extent: 合計エクステントの処理
-    processing_total_extent_tooltip: "<p>処理された全範囲（立方フィート、線形フィート、アイテムなど）の数値式。 </p>"
+    processing_total_extent_tooltip: "<p>処理された全範囲（立方フィート、線形フィート、アイテムなど）の数値式。 このフィールドと一緒にエクステントタイプを入力する必要があります。</p>"
     processing_total_extent_type: エクステントタイプ
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: "-"
@@ -1503,6 +1503,7 @@ ja:
     import_type_accession_csv: 加盟CSV
     import_type_digital_object_csv: デジタルオブジェクトCSV
     import_type_eac_xml: EAC
+    import_type_location: Location CSV
     import_type_marcxml: MarcXML（リソース）
     import_type_marcxml_accession: MarcXML（アクセッション）
     import_type_marcxml_subjects_and_agents: MarcXML（主題と代理人のみ）

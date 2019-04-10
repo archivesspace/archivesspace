@@ -1725,7 +1725,7 @@ es:
         <p>El tiempo un repositorio estima que es necesaria para procesar una unidad de material de archivo (por ejemplo un pie lineal o un elemento en el caso de objetos digitales).  La estimación posible factor, o no, la producción de encontrar SIDA, registros del catálogo y otros productos de acceso.</p>
     processing_total_extent: Extensión total de procesamiento
     processing_total_extent_tooltip: |
-        <p>Una expresión numérica para la extensión total (pies cúbicos, pies lineales, artículos, etc.) procesada.</p>
+        <p>Una expresión numérica para la extensión total (pies cúbicos, pies lineales, artículos, etc.) procesada. Se debe proporcionar un tipo de medida junto con este campo.</p>
     processing_total_extent_type: Tipo de medida
     processing_total_extent_type_tooltip: *extent_type_tooltip
     processing_total_extent_type_: --
@@ -1960,6 +1960,7 @@ es:
     import_type_accession_csv: Adquisición CSV
     import_type_digital_object_csv: Objeto digital CSV
     import_type_eac_xml: EAC
+    import_type_location: Location CSV
     import_type_marcxml: MarcXML (recursos)
     import_type_marcxml_accession: MarcXML (adquisición)
     import_type_marcxml_subjects_and_agents: MarcXML (sujetos y autoridads solamente)
