@@ -387,8 +387,8 @@ describe 'Resource model' do
         AppConfig[:auto_generate_slugs_with_id] = true
         AppConfig[:generate_resource_slugs_with_eadid] = true
  
-        resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true))
- 
+        resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :ead_id => rand(100000).to_s))
+
         expected_slug = clean_slug(resource[:ead_id]) 
 
         expect(resource[:slug]).to eq(expected_slug)
