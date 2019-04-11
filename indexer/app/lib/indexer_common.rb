@@ -465,6 +465,11 @@ class IndexerCommon
       if ['classification', 'classification_term'].include?(doc['primary_type'])
         doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
         doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
+        doc['published_agent_uris'] = []
+        if record['record']['creator']['_resolved']['publish']
+          doc['published_agent_uris'] << record['record']['creator']['ref']
+        end
+        doc['agents'] = ASUtils.wrap(record['record']['creator']).collect{|link| link['_resolved']['display_name']['sort_name']}
         doc['identifier_sort'] = IndexerCommon.generate_sort_string_for_identifier(record['record']['identifier'])
         doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
         doc['has_classification_terms'] = record['record']['has_classification_terms']
