@@ -1965,6 +1965,7 @@ es:
       report_job: Crear informe
       container_conversion_job: Crear informe
       generate_slugs_job: Generar Slugs para Entidades
+      trim_whitespace_job: Recortar espacios en blanco
       unknown_job_type: Tipo de trabajo desconocido
     status: Estado
     status_completed: Completado
@@ -2009,8 +2010,9 @@ es:
     include_unpublished: Incluir sin publicar
     source: Fuente
 
-  print_to_pdf_job:
-    include_unpublished: Incluir no publicado
+  trim_whitespace_job:
+    description: Elimina los espacios en blanco iniciales y finales de los títulos para fondos, actas de ingreso, objetos digitales, objetos de archivo y componentes de objetos digitales.
+
   advanced_search:
     type:
       text: Texto

@@ -1986,6 +1986,7 @@ en:
       report_job: Create Report
       container_conversion_job: Create Report
       generate_slugs_job: Generate Slugs for Entities
+      trim_whitespace_job: Trim Whitespace
       unknown_job_type: Unknown job type
     status: Status
     status_completed: Completed
@@ -2029,6 +2030,9 @@ en:
   print_to_pdf_job:
     include_unpublished: Include Unpublished
     source: Source
+
+  trim_whitespace_job:
+    description: Removes leading and trailing whitespace from titles for resources, accessions, digital objects, archival objects, and digital object components.
 
   advanced_search:
     type:

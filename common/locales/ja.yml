@@ -1507,6 +1507,7 @@ ja:
       report_job: レポートを作成
       container_conversion_job: レポートを作成
       generate_slugs_job: エンティティのスラッグを生成する
+      trim_whitespace_job: 空白をトリム
       unknown_job_type: 不明なジョブタイプ
     status: 状態
     status_completed: 完了しました
@@ -1550,6 +1551,9 @@ ja:
   print_to_pdf_job:
     include_unpublished: 未公開を含める
     source: ソース
+
+  trim_whitespace_job:
+    description: リソース、アクセッション、デジタルオブジェクト、アーカイブオブジェクト、デジタルオブジェクトコンポーネントのタイトルから先頭と末尾の空白を削除します。
 
   advanced_search:
     type:
