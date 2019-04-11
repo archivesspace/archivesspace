@@ -255,6 +255,26 @@ describe 'Repository model' do
     end
  
     describe "slug autogen disabled" do
+      it "always sets slug equal to repo_code when generate by id" do
+        AppConfig[:auto_generate_slugs_with_id] = true
+ 
+        repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => false))
+
+        expected_slug = clean_slug(repository[:repo_code])
+ 
+        expect(repository[:slug]).to eq(expected_slug)
+      end
+
+      it "always sets slug equal to repo_code when generate by name" do
+        AppConfig[:auto_generate_slugs_with_id] = false
+ 
+        repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => false))
+
+        expected_slug = clean_slug(repository[:repo_code])
+ 
+        expect(repository[:slug]).to eq(expected_slug)
+      end
+
       it "slug does not change when config set to autogen by title and title updated" do
         AppConfig[:auto_generate_slugs_with_id] = false
  
