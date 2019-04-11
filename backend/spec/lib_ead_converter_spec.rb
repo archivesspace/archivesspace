@@ -272,6 +272,9 @@ ANEAD
       expect(linked['role']).to eq('subject')
 
       #   ELSE
+      #   Respect audience attribute as set in at-tracer.xml
+      expect(c1['publish']).to be_falsey
+      expect(c2['publish']).to be_truthy
       #   IF @rules != NULL ==> name_corporate_entity.rules
       expect([c1, c2].map {|c| c['names'][0]['rules']}.uniq).to eq(['dacs'])
       #   IF @source != NULL ==> name_corporate_entity.source
@@ -292,6 +295,9 @@ ANEAD
       n2 = fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'subject' }['ref'] }['names'][0]['family_name']
       expect(n2).to eq("FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Pictorial works")
       #   ELSE
+      #   Respect audience attribute as set in at-tracer.xml
+      expect(fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'creator' }['ref'] }['publish']).to be_falsey
+      expect(fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'subject' }['ref'] }['publish']).to be_truthy
       #   IF @rules != NULL
       expect(fams.map{|f| f['names'][0]['rules']}.uniq).to eq(['aacr'])
       #   IF @source != NULL
@@ -306,6 +312,8 @@ ANEAD
       #   IF nested in <controlaccess>
       expect(@archival_objects['06']['linked_agents'].reverse.find {|l| @people.map{|p| p['uri'] }.include?(l['ref'])}['role']).to eq('subject')
       #   ELSE
+      #   If audience attribute is not present in at-tracer.xml, default to unpublished
+      expect(@people.map {|p| p['publish']}.uniq).to eq([false])
       #   IF @rules != NULL
       expect(@people.map {|p| p['names'][0]['rules']}.uniq).to eq(['local'])
       #   IF @source != NULL
