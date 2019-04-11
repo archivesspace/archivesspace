@@ -48,7 +48,7 @@ class ArchivesSpaceClient
   end
 
   def search(query, page = 1, search_opts = {})
-    search_opts = set_search_opts(search_opts)
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
     url = build_url('/search', search_opts.merge(:q => query, :page => page))
     results = do_search(url)
 
@@ -57,7 +57,7 @@ class ArchivesSpaceClient
 
   # handles multi-line searching
   def advanced_search(base, page = 1, search_opts = {})
-    search_opts = set_search_opts(search_opts)
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
     url = build_url(base,  search_opts.merge(:page => page))
     results = do_search(url)
 
@@ -65,7 +65,7 @@ class ArchivesSpaceClient
   end
   # calls the '/search/records' endpoint
   def search_records(record_list, search_opts = {}, full_notes = false)
-    search_opts = set_search_opts(search_opts)
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
 
     url = build_url('/search/records', search_opts.merge("uri[]" => record_list))
     results = do_search(url)
@@ -77,7 +77,7 @@ class ArchivesSpaceClient
   end
 
   def get_raw_record(uri, search_opts = {})
-    search_opts = set_search_opts(search_opts)
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
     url = build_url('/search/records', search_opts.merge("uri[]" => ASUtils.wrap(uri)))
     results = do_search(url)
 
@@ -95,7 +95,7 @@ class ArchivesSpaceClient
   end
 
   def search_repository( base, repo_id, page = 1, search_opts = {})
-    search_opts = set_search_opts(search_opts)
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
 
     url = build_url(base,search_opts.merge(:page => page))
     results = do_search(url)
@@ -123,7 +123,7 @@ class ArchivesSpaceClient
   end
 
   def get_repos_sublist(uri, type, search_opts = {})
-    search_opts = set_search_opts(search_opts)
+    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
     search_opts = search_opts.merge({"q" => "(used_within_published_repository:\"#{uri}\" AND publish:true AND types:pui_#{type})"})
     url = build_url("/search", search_opts)
     results = do_search(url)
@@ -267,20 +267,4 @@ class ArchivesSpaceClient
     end
     filter_str
   end
-
-  # Include configurable solr parameters from AppConfig in the search options hash
-  def set_search_opts(search_opts = {})
-    search_opts = DEFAULT_SEARCH_OPTS.merge(search_opts)
-    if AppConfig[:solr_params].any?
-      AppConfig[:solr_params].each do |param, value|
-        if value.respond_to? :call
-          search_opts[param.to_sym] = self.instance_eval(&value)
-        else
-          search_opts[param.to_sym] = value
-        end
-      end
-    end
-    search_opts
-  end
-
 end

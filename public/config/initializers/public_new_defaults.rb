@@ -141,7 +141,8 @@ module PublicNewDefaults
   if AppConfig[:pui_enable_staff_link]
     add_record_page_action_erb(['resource', 'archival_object', 'digital_object',
                                 'digital_object_component', 'accession', 'subject',
-                                'agent_person', 'agent_family', 'agent_corporate_entity',
+                                'agent_person', 'agent_family',
+                                'agent_corporate_entity', 'agent_software',
                                 'classification', 'classification_term', 'top_container'],
                                'shared/staff_link_action')
   end

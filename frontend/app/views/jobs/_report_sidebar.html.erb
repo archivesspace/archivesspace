@@ -1,0 +1,13 @@
+<%= render(:layout => '/shared/sidebar',
+           :locals => {
+                   :record_type => 'job',
+                   :record => @job,
+                   :suppress_basic_information => true,
+                   :suppress_submit_buttons => true
+           }) do |sidebar| %>
+
+
+  <% reports.each do |report| %>
+    <%= sidebar.render_for_view_and_edit(:subrecord_type => report, :property => :none, :anchor => report, :title => I18n.t("reports.#{report}.title")) %>
+  <% end %>
+<% end %>

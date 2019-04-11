@@ -9,13 +9,9 @@ gem 'sprockets-rails', '2.3.3'
 
 gem 'tzinfo-data'
 
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 # Gems used only for assets and not required
 # in production environments by default.
-gem 'sass-rails', '~> 5.0', '>= 5.0.6'
+gem 'sassc-rails', '~> 2.1'
 gem 'coffee-rails', '4.2.1'
 gem 'coffee-script'
 gem 'coffee-script-source'
