@@ -65,7 +65,19 @@
                 <% form['records'].each do |record| %>
                   <tr>
                     <td><%= I18n.t("#{record['_resolved']['jsonmodel_type']}._singular") %></td>
-                    <td><%= record['_resolved']['digital_object_id'] || record['_resolved']['component_id'] || (0..3).map{|i| record["_resolved"]["id_#{i}"]}.compact.join("-") %></td>
+                    <% identifier = case record['_resolved']['jsonmodel_type']
+                    when 'digital_object'
+                      record['_resolved']['digital_object_id']
+                    when 'archival_object'
+                      resource = JSONModel(:resource).find(
+                        JSONModel.parse_reference(record['_resolved']['resource']['ref'])[:id])
+                      [(0..3).map{|i| resource["id_#{i}"] }.compact.join("-"),
+                        record['_resolved']['component_id']].compact.join(', ')
+                    else
+                      (0..3).map{|i| record["_resolved"]["id_#{i}"]}.compact.join("-")
+                    end
+                    %>
+                    <td><%= identifier %></td>
                     <td>
                       <%= render_token :object => record['_resolved'],
                       :label => record['_resolved']['title'] || record['_resolved']['display_string'],
