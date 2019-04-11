@@ -822,18 +822,19 @@ class EADSerializer < ASpaceExport::Serializer
         end
       }
 
-      if data.revision_statements.length > 0
+      export_rs = @include_unpublished ? data.revision_statements : data.revision_statements.reject { |rs| !rs['publish'] }
+      if export_rs.length > 0
         xml.revisiondesc {
-          data.revision_statements.each do |rs|
-              if rs['description'] && rs['description'].strip.start_with?('<')
-                xml.text (fragments << rs['description'] )
-              else
-                xml.change {
-                  rev_date = rs['date'] ? rs['date'] : ""
-                  xml.date (fragments <<  rev_date )
-                  xml.item (fragments << rs['description']) if rs['description']
-                }
-              end
+          export_rs.each do |rs|
+            if rs['description'] && rs['description'].strip.start_with?('<')
+              xml.text (fragments << rs['description'] )
+            else
+              xml.change(rs['publish'] ? nil : {:audience => 'internal'}) {
+                rev_date = rs['date'] ? rs['date'] : ""
+                xml.date (fragments <<  rev_date )
+                xml.item (fragments << rs['description']) if rs['description']
+              }
+            end
           end
         }
       end

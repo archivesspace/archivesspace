@@ -168,11 +168,11 @@ class Resource < Record
         v = json[k]
         if v.kind_of? Array
           v.each do |rev|
-            revision.push({'date' => rev['date'] || '', 'desc' => rev['description'] || ''})
+            revision.push({'date' => rev['date'] || '', 'desc' => rev['description'] || ''}) if rev['publish']
           end
         else
           if v.kind_of? Hash
-            revision.push({'date' => v['date'] || '', 'desc' => v['description'] || ''})
+            revision.push({'date' => v['date'] || '', 'desc' => v['description'] || ''}) if rev['publish']
           end
         end
         fa['revision'] = revision

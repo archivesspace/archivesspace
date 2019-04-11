@@ -812,6 +812,7 @@ class EADConverter < Converter
     with 'revisiondesc/change' do |*|
       make :revision_statement
       set ancestor(:resource), :revision_statements, proxy
+      set :publish, !(att('audience') === 'internal')
     end
 
     with 'revisiondesc/change/item' do |*|

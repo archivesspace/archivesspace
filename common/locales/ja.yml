@@ -1180,6 +1180,8 @@ ja:
     date_tooltip: "<p>援助援助が最後に改訂された日付を指定します。 </p>"
     description: 改訂説明
     description_tooltip: "<p>検索支援に行った最後のリビジョンの説明。 </p>"
+    publish: 公開しますか？
+    publish_tooltip: "<p>この改訂ステートメントがパブリック（パトラン）インターフェースに公開されるかどうかを決定します。 </p>"
 
   related_resource:
     _singular: 関連リソース

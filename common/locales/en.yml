@@ -1576,6 +1576,9 @@ en:
     description: Revision Description
     description_tooltip: |
         <p>A description of the last revision(s) done to the finding aid.</p>
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Revision Statement is published to public (patron) interfaces.</p>
 
   related_resource:
     _singular: Related Resource
