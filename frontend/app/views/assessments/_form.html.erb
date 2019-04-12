@@ -102,20 +102,21 @@
         <% end %>
       <% end %>
 
+      <% existing_descriptions = form.readonly? ? %w(accession_report appraisal container_list catalog_record
+            control_file deed_of_gift finding_aid_ead finding_aid_online
+            finding_aid_paper finding_aid_word finding_aid_spreadsheet
+            related_eac_records).select { |ed| form[ed] } : nil %>
       <div class="form-group">
-        <div class="control-label col-sm-2"><%= I18n.t("assessment._frontend.section.existing_description") %></div>
+        <% unless form.readonly? && existing_descriptions.empty? %>
+          <div class="control-label col-sm-2"><%= I18n.t("assessment._frontend.section.existing_description") %></div>
+        <% end %>
         <div class="col-sm-10">
-          <% if form.readonly? %>
+          <% if form.readonly?  %>
             <ul>
-              <% %w(accession_report appraisal container_list catalog_record
-                    control_file deed_of_gift finding_aid_ead finding_aid_online
-                    finding_aid_paper finding_aid_word finding_aid_spreadsheet
-                    related_eac_records).each do |existing_description| %>
-                <% if form[existing_description] %>
-                  <li>
-                    <td><%= I18n.t("assessment.#{existing_description}") %></td>
-                  </li>
-                <% end %>
+              <% existing_descriptions.each do |existing_description| %>
+                <li>
+                  <td><%= I18n.t("assessment.#{existing_description}") %></td>
+                </li>
               <% end %>
             </ul>
           <% else %>
