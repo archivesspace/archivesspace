@@ -53,6 +53,11 @@ class ArchivalObject < Record
     "#{cite}   #{cite_url_and_timestamp}."
   end
 
+  def resource_identifier
+    @resource_identifier ||= resolved_resource ? (
+      (0..3).collect {|i| resolved_resource.dig("id_#{i}")}.compact.join('-')) : nil
+  end
+
   def root_node_uri
     json.fetch('resource').fetch('ref')
   end
