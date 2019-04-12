@@ -21,7 +21,7 @@ var init = function() {
                 location_end_linker.show();
             }
 
-            $('.report_type').hide();        
+            $('.report_type').hide();
             $('.report_type.' + selected_report_type).show();
         };
 
@@ -81,7 +81,7 @@ var init = function() {
 
     };
 
-    var initPrintToPdfJobForm = function() {
+    var initSourceJobForm = function() {
         $("#job_ref_").attr("name", "job[source]").attr("id", "job_source_");
     };
 
@@ -293,8 +293,8 @@ var init = function() {
                 input.files = dt.files;
                 $form.append(input);
             });
-            
-            
+
+
             return true;
         });
 
@@ -369,7 +369,7 @@ var init = function() {
     };
 
     var type = $("#job_type").val();
-    
+
     $(".linker:not(.initialised)").linker();
 
     // these were added because it was neccesary to get translation
@@ -377,8 +377,10 @@ var init = function() {
 
     if (type == "report_job") {
         initReportJobForm();
+    } else if (type == "container_labels_job") {
+        initSourceJobForm();
     } else if (type == "print_to_pdf_job") {
-        initPrintToPdfJobForm();
+        initSourceJobForm();
     } else if (type == "find_and_replace_job") {
         initFindAndReplaceJobForm();
     } else if (type == "import_job") {

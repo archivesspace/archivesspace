@@ -52,6 +52,16 @@
 <% end %>
 
 
+<% define_template "container_labels_job", jsonmodel_definition(:container_labels_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("actions.container_labels")  %></label>
+      <div class="col-sm-9 controls label-only"><%= job['source'] %></div>
+    </div>
+
+<% end %>
+
+
 <% define_template "import_job", jsonmodel_definition(:import_job) do |form, job| %>
 
     <div class="form-group">
@@ -104,7 +114,7 @@
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>
-  <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job'].include?(type) %>
+  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job'].include?(type) %>
   <% define_template(type, jsonmodel_definition(type.intern)) do |form, job| %>
 
     <% begin %>
