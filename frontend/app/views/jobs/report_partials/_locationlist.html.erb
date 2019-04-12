@@ -5,35 +5,27 @@ repository_list = @repositories.map {|repo| [repo.repo_code, repo.uri]}
 building_list = JSONModel::HTTP.get_json("/space_calculator/buildings")
 %>
 
-<select id="location_report_type" name="job[job_params][location_report_type]" class="form-control">
-    <option value="repository"><%= I18n.t('reports.location_holdings_report.repository_report_type') %></option>
-    <option value="building"><%= I18n.t('reports.location_holdings_report.building_report_type') %></option>
-    <option value="single_location"><%= I18n.t('reports.location_holdings_report.single_location_report_type') %></option>
-</select>
+<%= form.select :location_report_type, ["repository", "building", "single_location", "location_range"].collect {|type| [I18n.t("reports.location_holdings_report.#{type}_report_type"), type]} %>
 
-<div class="report_type repository">
-    <hr>
-    <div class="form-group required">
-        <label class="control-label col-sm-2"><%= I18n.t('reports.location_holdings_report.repository_report_type') %></label>
-        <div class="controls col-sm-8">
-            <%= select_tag "job[job_params][repository_uri]", options_for_select([""].concat(repository_list)), :class => "form-control" %>
-        </div>
+<div class="form-group required report_type repository">
+    <hr/>
+    <label class="control-label col-sm-2"><%= I18n.t('reports.location_holdings_report.repository_report_type') %></label>
+    <div class="controls col-sm-8">
+        <%= form.select :repository_uri, options_for_select([""].concat(repository_list)), :class => "form-control" %>
     </div>
 </div>
 
 
-<div class="report_type building">
-    <hr>
-    <div class="form-group required">
-        <label class="control-label col-sm-2"><%= I18n.t('reports.location_holdings_report.building_report_type') %></label>
-        <div class="controls col-sm-8">
-            <%= select_tag "job[job_params][building]", options_for_select([""].concat(building_list.keys)), :class => "form-control" %>
-        </div>
+<div class="form-group required report_type  building">
+    <hr/>
+    <label class="control-label col-sm-2"><%= I18n.t('reports.location_holdings_report.building_report_type') %></label>
+    <div class="controls col-sm-8">
+        <%= form.select :building, options_for_select([""].concat(building_list.keys)), :class => "form-control" %>
     </div>
 </div>
 
 
-<div class="report_type single_location">
+<div class="report_type single_location location_range">
     <div id="report_location_start"
          data-range-label="<%= I18n.t('reports.location_holdings_report.start_range') %>"
          data-singular-label="<%= I18n.t('location._singular') %>">
@@ -50,3 +42,5 @@ building_list = JSONModel::HTTP.get_json("/space_calculator/buildings")
         <% end %>
     </div>
 </div>
+
+<hr/>

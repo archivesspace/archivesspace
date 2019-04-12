@@ -65,6 +65,8 @@ class IndexerCommonConfig
       'collections',
       'surveyed_by',
       'reviewer',
+
+      'creator'
     ]
   end
 

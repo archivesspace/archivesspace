@@ -226,7 +226,7 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
   <% data_example = "Example Missing" %>
 <% end %>
 <% if e[:examples]['shell'] %>
-  <% e[:examples]['shell'] %>
+  <%= e[:examples]['shell'] %>
 <% else %>
 ```shell
 <% if e[:method] == [:get] %>

@@ -5,7 +5,8 @@
         <% (1..max_value).each do |rating_value| %>
             <div>
                 <label for="rating_value_<%= rating_value %>_<%= range_type %>">
-                    <input id="rating_value_<%= rating_value %>_<%= range_type %>" type="checkbox" name="job[job_params][value_<%= rating_value %>]">&nbsp;<%= rating_value %>
+                    <%= form.checkbox "value_#{rating_value}", :id => "rating_value_#{rating_value}_#{range_type}", :checked => false, :value => 'on' %>
+                    &nbsp;<%= rating_value %>
                 </label>
             </div>
         <% end %>

@@ -87,7 +87,7 @@
                 <physfacet>Resource-PhysicalFacet-AT</physfacet>
             </physdesc>
             <origination label="creator">
-                <corpname rules="dacs" source="naf" role="Creator (cre)">CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT)</corpname>
+                <corpname rules="dacs" source="naf" role="Creator (cre)" audience="internal">CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT)</corpname>
             </origination>
             <origination label="creator">
                 <famname rules="aacr" source="naf" role="Creator (cre)">FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT</famname>
@@ -312,7 +312,7 @@
         </separatedmaterial>
         <controlaccess>
             <corpname rules="dacs" source="naf" role="Donor (dnr)">CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT)</corpname>
-            <corpname rules="dacs" source="naf">CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT) -- Archives</corpname>
+            <corpname rules="dacs" source="naf" audience="external">CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT) -- Archives</corpname>
             <famname rules="aacr" source="naf" role="Donor (dnr)">FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT</famname>
             <famname rules="aacr" source="naf">FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Archives</famname>
             <persname rules="local" source="local" role="Donor (dnr)">PNames-Primary-AT, PNames-RestOfName-AT, PNames-Prefix-AT, PName-Number-AT, PNames-Suffix-AT, PNames-Title-AT,  (PNames-FullerForm-AT), PNames-Dates-AT, PNames-Qualifier-AT</persname>
@@ -492,7 +492,7 @@
                                             <corpname rules="dacs" source="naf" role="Creator (cre)">CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT)</corpname>
                                         </origination>
                                         <origination label="creator">
-                                            <famname rules="aacr" source="naf" role="Creator (cre)">FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT</famname>
+                                            <famname rules="aacr" source="naf" role="Creator (cre)" audience="internal">FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT</famname>
                                         </origination>
                                         <origination label="creator">
                                             <persname rules="local" source="local" role="Creator (cre)">PNames-Primary-AT, PNames-RestOfName-AT, PNames-Prefix-AT, PName-Number-AT, PNames-Suffix-AT, PNames-Title-AT,  (PNames-FullerForm-AT), PNames-Dates-AT, PNames-Qualifier-AT</persname>
@@ -559,7 +559,7 @@
                                     </bioghist>
                                     <controlaccess>
                                         <corpname rules="dacs" source="naf">CNames-PrimaryName-AT. CNames-Subordinate1-AT. CNames-Subordiate2-AT. (CNames-Number-AT) (CNames-Qualifier-AT) -- Pictorial works</corpname>
-                                        <famname rules="aacr" source="naf">FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Pictorial works</famname>
+                                        <famname rules="aacr" source="naf" audience="external">FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Pictorial works</famname>
                                         <persname rules="local" source="local">PNames-Primary-AT, PNames-RestOfName-AT, PNames-Prefix-AT, PName-Number-AT, PNames-Suffix-AT, PNames-Title-AT,  (PNames-FullerForm-AT), PNames-Dates-AT, PNames-Qualifier-AT -- Pictorial works</persname>
                                         <function source="local">Subjects--Function-AT</function>
                                         <genreform source="local">Subjects--GenreForm--AT</genreform>

@@ -1119,6 +1119,7 @@ en:
     user_defined:
       <<: *user_defined_attributes
     accession_date: Accession Date
+    accession_date_unknown: unknown
     accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
         <p>REQUIRED FIELD: The date the accession took place. It is not
@@ -1576,6 +1577,9 @@ en:
     description: Revision Description
     description_tooltip: |
         <p>A description of the last revision(s) done to the finding aid.</p>
+    publish: Publish?
+    publish_tooltip: |
+        <p>Determines whether this Revision Statement is published to public (patron) interfaces.</p>
 
   related_resource:
     _singular: Related Resource
@@ -1982,6 +1986,7 @@ en:
       report_job: Create Report
       container_conversion_job: Create Report
       generate_slugs_job: Generate Slugs for Entities
+      trim_whitespace_job: Trim Whitespace
       unknown_job_type: Unknown job type
     status: Status
     status_completed: Completed
@@ -2008,6 +2013,7 @@ en:
     import_type_accession_csv: Accession CSV
     import_type_digital_object_csv: Digital Object CSV
     import_type_eac_xml: EAC
+    import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML (Resource)
     import_type_marcxml_accession: MarcXML (Accession)
     import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
@@ -2024,6 +2030,9 @@ en:
   print_to_pdf_job:
     include_unpublished: Include Unpublished
     source: Source
+
+  trim_whitespace_job:
+    description: Removes leading and trailing whitespace from titles for resources, accessions, digital objects, archival objects, and digital object components.
 
   advanced_search:
     type:

@@ -34,8 +34,6 @@ Rails.application.routes.draw do
     get  'accessions' => 'accessions#index'
     get  "repositories/:rid/accessions" => 'accessions#index'
     get  "repositories/:rid/accessions/:id" => 'accessions#show'
-    post "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
-    get  "repositories/:rid/accessions/:id/request" => 'objects#request_showing'
 
     #DIGITAL OBJECTS
     get "repositories/:rid/digital_objects" => 'objects#index'
@@ -91,8 +89,6 @@ Rails.application.routes.draw do
     #OBJECTS (generic, pass in the object_type as a param)
     get 'objects/search' => 'objects#search'
     get 'objects' => 'objects#index'
-    post "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
-    get "repositories/:rid/archival_objects/:id/request" => 'objects#request_showing'
     get "repositories/:rid/:obj_type/:id" => 'objects#show'
     get "repositories/:rid/objects" => 'objects#index'
     get "repositories/:rid/records" => 'objects#index'

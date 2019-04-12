@@ -873,6 +873,7 @@ ja:
     user_defined:
       <<: *user_defined_attributes
     accession_date: 受付日
+    accession_date_unknown: 道の
     accession_date_inline_help: 例：YYYY-MM-DD
     accession_date_tooltip: "<p>必須フィールド：加盟が行われた日付。必ずしもレコード作成時と同じ日付ではありません。 </p>"
     accession_id: 識別
@@ -1180,6 +1181,8 @@ ja:
     date_tooltip: "<p>援助援助が最後に改訂された日付を指定します。 </p>"
     description: 改訂説明
     description_tooltip: "<p>検索支援に行った最後のリビジョンの説明。 </p>"
+    publish: 公開しますか？
+    publish_tooltip: "<p>この改訂ステートメントがパブリック（パトラン）インターフェースに公開されるかどうかを決定します。 </p>"
 
   related_resource:
     _singular: 関連リソース
@@ -1504,6 +1507,7 @@ ja:
       report_job: レポートを作成
       container_conversion_job: レポートを作成
       generate_slugs_job: エンティティのスラッグを生成する
+      trim_whitespace_job: 空白をトリム
       unknown_job_type: 不明なジョブタイプ
     status: 状態
     status_completed: 完了しました
@@ -1530,6 +1534,7 @@ ja:
     import_type_accession_csv: 加盟CSV
     import_type_digital_object_csv: デジタルオブジェクトCSV
     import_type_eac_xml: EAC
+    import_type_location: Location CSV
     import_type_marcxml: MarcXML（リソース）
     import_type_marcxml_accession: MarcXML（アクセッション）
     import_type_marcxml_subjects_and_agents: MarcXML（主題と代理人のみ）
@@ -1546,6 +1551,9 @@ ja:
   print_to_pdf_job:
     include_unpublished: 未公開を含める
     source: ソース
+
+  trim_whitespace_job:
+    description: リソース、アクセッション、デジタルオブジェクト、アーカイブオブジェクト、デジタルオブジェクトコンポーネントのタイトルから先頭と末尾の空白を削除します。
 
   advanced_search:
     type:

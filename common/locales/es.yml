@@ -1115,6 +1115,7 @@ es:
     user_defined:
       <<: *user_defined_attributes
     accession_date: Fecha de entrada
+    accession_date_unknown: desconocida
     accession_date_inline_help: por ejemplo AAAA-MM-DD
     accession_date_tooltip: |
       <p> CAMPO REQUERIDO: La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
@@ -1558,6 +1559,9 @@ es:
     description: Revision Description
     description_tooltip: |
         <p>A description of the last revision(s) done to the instrumento de descripción.</p>
+    publish: ¿Publicar?
+    publish_tooltip: |
+        <p>Determina si se publica este revison statement.</p>
 
   related_resource:
     _singular: Fondos relacionados
@@ -1961,6 +1965,7 @@ es:
       report_job: Crear informe
       container_conversion_job: Crear informe
       generate_slugs_job: Generar Slugs para Entidades
+      trim_whitespace_job: Recortar espacios en blanco
       unknown_job_type: Tipo de trabajo desconocido
     status: Estado
     status_completed: Completado
@@ -1987,6 +1992,7 @@ es:
     import_type_accession_csv: Adquisición CSV
     import_type_digital_object_csv: Objeto digital CSV
     import_type_eac_xml: EAC
+    import_type_location: Location CSV
     import_type_marcxml: MarcXML (recursos)
     import_type_marcxml_accession: MarcXML (adquisición)
     import_type_marcxml_subjects_and_agents: MarcXML (sujetos y autoridads solamente)
@@ -2004,8 +2010,9 @@ es:
     include_unpublished: Incluir sin publicar
     source: Fuente
 
-  print_to_pdf_job:
-    include_unpublished: Incluir no publicado
+  trim_whitespace_job:
+    description: Elimina los espacios en blanco iniciales y finales de los títulos para fondos, actas de ingreso, objetos digitales, objetos de archivo y componentes de objetos digitales.
+
   advanced_search:
     type:
       text: Texto
