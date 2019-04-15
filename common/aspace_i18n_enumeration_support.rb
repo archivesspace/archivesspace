@@ -42,9 +42,9 @@ module I18n
     end
 
     # TEST MODE
-    if cache_hit && entry[0] == :result
-      raise args.inspect unless entry[1] == self.t_raw_uncached(*args)
-    end
+    # if cache_hit && entry[0] == :result
+    #   raise args.inspect unless entry[1] == self.t_raw_uncached(*args)
+    # end
 
     if entry[0] == :result
       return entry[1]
