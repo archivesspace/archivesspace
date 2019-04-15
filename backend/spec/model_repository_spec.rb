@@ -189,10 +189,6 @@ describe 'Repository model' do
   end
 
   describe "slug tests" do
-    before (:all) do
-      AppConfig[:use_human_readable_URLs] = true
-    end
-
     describe "slug autogen enabled" do
       it "autogenerates a slug via repo_code when configured to generate by name" do
         AppConfig[:auto_generate_slugs_with_id] = false
