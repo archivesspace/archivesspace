@@ -39,13 +39,22 @@
        %>
     <% end %>
 
+    <% if result['json'].has_key?('dates') || result['json'].has_key?('dates_of_existence') %>
+      <div class="dates">
+        <strong><%= t('dates') %>: </strong>
+        <% dates = (result['json']['dates'] || result['json']['dates_of_existence']
+        ).collect {|date| parse_date(date)}.reject{|label, expression| expression.blank?} %>
+        <%= dates.collect {|label, expression| label.blank? ? expression : "#{label}#{expression}"}.join(', ') %>
+      </div>
+    <% end %>
+
     <% if result.resolved_repository %>
       <div class="result_context">
         <strong><%= t('context') %>: </strong>
         <span  class="repo_name">
-          <%= link_to result.resolved_repository.fetch('name'), 
+          <%= link_to result.resolved_repository.fetch('name'),
                      app_prefix(repository_base_url(
-                      "uri" => result.resolved_repository.fetch('uri'), 
+                      "uri" => result.resolved_repository.fetch('uri'),
                       "slug" => result.resolved_repository.fetch('slug') {|s| nil })) %>
         </span>
 
