@@ -53,7 +53,7 @@
           <% result.ancestors.each do |ancestor| %>
             <%= t('context_delimiter') %>
             <span class="ancestor">
-            <% identifier = ancestor.has_key?('id_0') ? (0..3).collect {|i| ancestor["id_#{i}"]}.compact.join('-') : nil %>
+            <% identifier = ancestor.has_key?('id_0') ? (0..3).collect { |i| ancestor["id_#{i}"] }.compact.join('-') : nil %>
             <% title = process_mixed_content(ancestor.fetch('title', "[#{ ancestor.fetch('level', 'untitled')}]" )).html_safe %>
             <%= link_to (identifier.blank? ? title : "#{identifier}, #{title}"), app_prefix(ancestor.fetch('uri')) %>
             </span>
