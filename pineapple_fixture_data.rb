@@ -7,7 +7,10 @@ require 'zlib'
 
 REPO_CODE = 'qsa'
 
+GENERIC_CONTROLLING_AGENCY = "Generic Controlling Agency"
+
 AGENCIES = [
+  GENERIC_CONTROLLING_AGENCY,
   "Aboriginal and Island Affairs Department, District Office, Quilpie",
   "Aboriginal and Island Affairs Department, District Office, Ravenshoe",
   "Aboriginal and Island Affairs Department, District Office, Richmond",
@@ -453,13 +456,25 @@ def main
 
     RequestContext.put(:repo_id, Repository[:repo_code => REPO_CODE].id)
 
+    controlling_agency = :unset
+
     AGENCIES.each do |agency_name|
       $stderr.puts("Creating agency: #{agency_name}")
       agency = AgentCorporateEntity.create_from_json(JSONModel.JSONModel(:agent_corporate_entity)
                                                        .from_hash('names' => [{'jsonmodel_type' => 'name_corporate_entity',
                                                                                 'source' => 'local',
                                                                                 'primary_name' => agency_name,
-                                                                                'sort_name_auto_generate' => true}]))
+                                                                                'sort_name_auto_generate' => true}],
+                                                                 'dates_of_existence' => [
+                                                                    {'jsonmodel_type' => 'date',
+                                                                     'begin' => '2000-01-01',
+                                                                     'date_type' => 'range',
+                                                                     'label' => 'existence'}
+                                                                  ]))
+
+      if GENERIC_CONTROLLING_AGENCY == agency_name
+        controlling_agency = agency.uri
+      end
 
       # the default is 'draft' but we want these existing agencies to come in as 'approved'
       agency.update('registration_state' => 'approved',
@@ -478,7 +493,14 @@ def main
                                                                      'begin' => '2000-01-01'}],
                                                         'extents' => [{'number' => '123',
                                                                        'extent_type' => 'reels',
-                                                                       'portion' => 'whole'}]))
+                                                                       'portion' => 'whole'}],
+                                                        'series_system_agent_relationships' => [
+                                                          :jsonmodel_type => 'series_system_agent_record_ownership_relationship',
+                                                          :relator => 'is_controlled_by',
+                                                          :start_date => '2010-01-01',
+                                                          :ref => controlling_agency,
+                                                        ]
+                                                       ))
 
       5.times do |ao_number|
         $stderr.puts("Creating AO: #{resource_number}.#{ao_number}:")
