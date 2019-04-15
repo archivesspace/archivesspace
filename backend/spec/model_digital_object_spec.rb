@@ -139,23 +139,27 @@ describe 'Digital object model' do
   end
 
   describe "slug tests" do
+    before (:all) do
+      AppConfig[:use_human_readable_URLs] = true
+    end
+
     describe "slug autogen enabled" do
       it "autogenerates a slug via title when configured to generate by name" do
         AppConfig[:auto_generate_slugs_with_id] = false
- 
+
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => rand(100000).to_s))
- 
+
         expected_slug = clean_slug(digital_object[:title])
- 
+
         expect(digital_object[:slug]).to eq(expected_slug)
       end
- 
+
       it "autogenerates a slug via identifier when configured to generate by id" do
         AppConfig[:auto_generate_slugs_with_id] = true
- 
+
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true))
- 
-        expected_slug = clean_slug(digital_object[:digital_object_id]) 
+
+        expected_slug = clean_slug(digital_object[:digital_object_id])
 
         expect(digital_object[:slug]).to eq(expected_slug)
       end
@@ -163,24 +167,24 @@ describe 'Digital object model' do
       it "turns off autogen if slug is blank" do
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true))
         digital_object.update(:slug => "")
- 
+
         expect(digital_object[:is_slug_auto]).to eq(0)
       end
 
       it "cleans slug when autogenerating by name" do
         AppConfig[:auto_generate_slugs_with_id] = false
- 
+
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
- 
+
         expect(digital_object[:slug]).to eq("foo_bar_baz")
       end
 
       it "dedupes slug when autogenerating by name" do
         AppConfig[:auto_generate_slugs_with_id] = false
- 
+
         digital_object1 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => "foo"))
         digital_object2 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => "foo"))
- 
+
         expect(digital_object1[:slug]).to eq("foo")
         expect(digital_object2[:slug]).to eq("foo_1")
       end
@@ -189,7 +193,7 @@ describe 'Digital object model' do
         AppConfig[:auto_generate_slugs_with_id] = true
 
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :digital_object_id => "Foo Bar Baz&&&&"))
- 
+
         expect(digital_object[:slug]).to eq("foo_bar_baz")
       end
 
@@ -198,30 +202,30 @@ describe 'Digital object model' do
 
         digital_object1 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :digital_object_id => "foo"))
         digital_object2 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :digital_object_id => "foo#"))
- 
+
         expect(digital_object1[:slug]).to eq("foo")
         expect(digital_object2[:slug]).to eq("foo_1")
       end
     end
- 
+
     describe "slug autogen disabled" do
       it "slug does not change when config set to autogen by title and title updated" do
         AppConfig[:auto_generate_slugs_with_id] = false
- 
+
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => false, :slug => "foo"))
- 
+
         digital_object.update(:title => rand(100000000))
- 
+
         expect(digital_object[:slug]).to eq("foo")
       end
 
       it "slug does not change when config set to autogen by id and id updated" do
         AppConfig[:auto_generate_slugs_with_id] = false
- 
+
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => false, :slug => "foo"))
- 
+
         digital_object.update(:digital_object_id => rand(100000000))
- 
+
         expect(digital_object[:slug]).to eq("foo")
       end
     end
@@ -230,7 +234,7 @@ describe 'Digital object model' do
       it "cleans manual slugs" do
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => false))
         digital_object.update(:slug => "Foo Bar Baz ###")
- 
+
         expect(digital_object[:slug]).to eq("foo_bar_baz")
       end
 
@@ -244,6 +248,6 @@ describe 'Digital object model' do
         expect(digital_object2[:slug]).to eq("foo_1")
       end
     end
-  end  
+  end
 
 end
