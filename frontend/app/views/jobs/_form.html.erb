@@ -111,7 +111,7 @@
 
 
 <% define_template("report_job", jsonmodel_definition(:report_job)) do |form| %>
-  
+
   <%= form.hidden_input :report_type %>
 
   <div class="report-list">
@@ -122,7 +122,7 @@
           <button class="report-title btn btn-link" for="<%= code %>" type="button">
             <%= I18n.t("reports.#{code}.title") %>
           </button>
-          
+
           <button class="pull-right btn btn-primary select-report" for="<%= code %>" type="button">
             Select
           </button>
@@ -135,9 +135,9 @@
         <div class="report-description" for="<%= code %>">
           <%= I18n.t("reports.#{report["code"]}.description", :default => code) %>
         </div>
-        
+
       </div>
-      
+
     <% end %>
   </div>
 
@@ -168,6 +168,7 @@
       <%= render_aspace_partial :partial => "#{type}/form", :locals => {:object => @job, :form => form} %>
     <% rescue ActionView::MissingTemplate %>
       <%# don't require plugins to provide a form %>
+      <p><%= I18n.t("#{type}.description", :default => '') %></p>
     <% end %>
 
   <% end %>

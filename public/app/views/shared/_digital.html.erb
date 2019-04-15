@@ -8,7 +8,7 @@
         <div class="objectimage">
           <div class="panel panel-default">
             <a class="btn btn-default record-type-badge digital_object" style="width: 100%" href="<%= d_file['out'] %>" target="new" title="<%= t('digital_object._public.link')%>">
-              <i class="fa fa-file-image-o fa-4x"></i><br/>
+              <i class="fa fa-file-image fa-4x"></i><br/>
               <div class="panel-heading">
                 <%= d_file['caption'].blank? ? "#{t('enumerations.instance_instance_type.digital_object')} #{d_file['material']}" : d_file['caption'].html_safe %>
               </div>

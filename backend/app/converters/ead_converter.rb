@@ -812,6 +812,7 @@ class EADConverter < Converter
     with 'revisiondesc/change' do |*|
       make :revision_statement
       set ancestor(:resource), :revision_statements, proxy
+      set :publish, !(att('audience') === 'internal')
     end
 
     with 'revisiondesc/change/item' do |*|
@@ -972,7 +973,8 @@ class EADConverter < Converter
   def make_corp_template(opts)
     return nil if inner_xml.strip.empty?
     make :agent_corporate_entity, {
-      :agent_type => 'agent_corporate_entity'
+      :agent_type => 'agent_corporate_entity',
+      :publish => att('audience') == 'external' ?  true : false
     } do |corp|
       set ancestor(:resource, :archival_object), :linked_agents, {'ref' => corp.uri, 'role' => opts[:role]}
     end
@@ -992,6 +994,7 @@ class EADConverter < Converter
     return nil if inner_xml.strip.empty?
     make :agent_family, {
       :agent_type => 'agent_family',
+      :publish => att('audience') == 'external' ?  true : false
     } do |family|
       set ancestor(:resource, :archival_object), :linked_agents, {'ref' => family.uri, 'role' => opts[:role]}
     end
@@ -1011,6 +1014,7 @@ class EADConverter < Converter
     return nil if inner_xml.strip.empty?
     make :agent_person, {
       :agent_type => 'agent_person',
+      :publish => att('audience') == 'external' ?  true : false
     } do |person|
       set ancestor(:resource, :archival_object), :linked_agents, {'ref' => person.uri, 'role' => opts[:role]}
     end
