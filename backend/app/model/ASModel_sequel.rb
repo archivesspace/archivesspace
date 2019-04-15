@@ -46,10 +46,12 @@ module ASModel
         end
 
         # For all types
-        # If the slug has changed, for example -- the user has created a slug for a thing manually, then make sure it's cleaned up.
-        # This may be a bit overkill, but it's a fairly cheap operation.
-        if self[:slug] && self.column_changed?(:slug)
-          self[:slug] = SlugHelpers.clean_slug(self[:slug], self.class)
+        # If the slug has changed manually, then make sure it's cleaned and deduped.
+        if self[:slug] && 
+           (self.column_changed?(:slug) || !self.exists?) && 
+           !SlugHelpers::is_slug_auto_enabled?(self)
+          cleaned_slug = SlugHelpers.clean_slug(self[:slug])
+          self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
         end
 
         # For all non-agent types that have a slug field

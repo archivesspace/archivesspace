@@ -52,8 +52,18 @@ class RepositoriesController < ApplicationController
                   MemoryLeak::Resources.refresh(:repository)
 
                   return render :json => @repository.to_hash if inline?
+
+                  success_msg = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
+
+                  if @repository["repository"]["is_slug_auto"] == false &&
+                     @repository["repository"]["slug"] == nil &&
+                     params["repository"]["repository"] &&
+                     params["repository"]["repository"]["is_slug_auto"] == "1"
+                    success_msg << I18n.t("slug.autogen_disabled")
+                  end
+
+                  flash[:success] = success_msg
             
-                  flash[:success] = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
                   return redirect_to :controller => :repositories, :action => :new, :last_repo_id => id if params.has_key?(:plus_one)
             
                   redirect_to :controller => :repositories, :action => :show, :id => id

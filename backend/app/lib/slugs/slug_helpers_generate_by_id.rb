@@ -53,7 +53,15 @@ module SlugHelpers
       slug = ""
     end
 
-    return clean_slug(slug, klass)
+    slug = clean_slug(slug)
+
+    # only de-dupe and update if our base slug has changed from it's previous value
+    previous_slug = entity[:slug]
+    if base_slug_changed?(slug, previous_slug)
+      return run_dedupe_slug(slug)
+    else
+      return previous_slug
+    end
   end
 
   private
