@@ -396,24 +396,19 @@ describe 'Accession model' do
       it "turns off autogen if slug is blank" do
         accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
         accession.update(:slug => "")
-
         expect(accession[:is_slug_auto]).to eq(0)
       end
 
       it "cleans slug when autogenerating by name" do
         AppConfig[:auto_generate_slugs_with_id] = false
-
         accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
-
         expect(accession[:slug]).to eq("foo_bar_baz")
       end
 
       it "dedupes slug when autogenerating by name" do
         AppConfig[:auto_generate_slugs_with_id] = false
-
         accession1 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "foo"))
         accession2 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "foo"))
-
         expect(accession1[:slug]).to eq("foo")
         expect(accession2[:slug]).to eq("foo_1")
       end
@@ -422,7 +417,6 @@ describe 'Accession model' do
         AppConfig[:auto_generate_slugs_with_id] = true
 
         accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
-
         expect(accession[:slug]).to eq("foo_bar_baz-")
       end
 
@@ -431,7 +425,6 @@ describe 'Accession model' do
 
         accession1 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "foo", :id_1 => "", :id_2 => "", :id_3 => ""))
         accession2 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "foo#", :id_1 => "", :id_2 => "", :id_3 => ""))
-
         expect(accession1[:slug]).to eq("foo-")
         expect(accession2[:slug]).to eq("foo-_1")
       end
@@ -463,7 +456,6 @@ describe 'Accession model' do
       it "cleans manual slugs" do
         accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => false))
         accession.update(:slug => "Foo Bar Baz ###")
-
         expect(accession[:slug]).to eq("foo_bar_baz")
       end
 

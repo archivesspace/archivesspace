@@ -381,7 +381,6 @@ describe 'ArchivalObject model' do
         AppConfig[:generate_archival_object_slugs_with_cuid] = false
 
         archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "FooBarBaz"))
-
         expect(archival_object[:slug]).to eq("foobarbaz")
       end
 
@@ -391,7 +390,6 @@ describe 'ArchivalObject model' do
 
         archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foobar"))
         archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foobar"))
-
         expect(archival_object1[:slug]).to eq("foobar")
         expect(archival_object2[:slug]).to eq("foobar_1")
       end
@@ -423,7 +421,6 @@ describe 'ArchivalObject model' do
       it "cleans manual slugs" do
         archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => false))
         archival_object.update(:slug => "Foo Bar Baz ###")
-
         expect(archival_object[:slug]).to eq("foo_bar_baz")
       end
 
@@ -438,4 +435,5 @@ describe 'ArchivalObject model' do
       end
     end
   end
+
 end

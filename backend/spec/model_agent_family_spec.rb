@@ -117,7 +117,6 @@ describe 'Agent Family model' do
 
           agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => true))
           agent_family.update(:slug => "")
-
           expect(agent_family[:is_slug_auto]).to eq(0)
         end
 
@@ -132,13 +131,11 @@ describe 'Agent Family model' do
           )
 
           expected_slug = clean_slug(get_generated_name_for_agent(agent_family))
-
           expect(agent_family[:slug]).to eq(expected_slug)
         end
 
         it "dedupes slug when autogenerating by name" do
           AppConfig[:auto_generate_slugs_with_id] = false
-
           agent_name_family1 = build(:json_name_family, :family_name => "foo")
           agent_family1 = AgentFamily.create_from_json(
             build(:json_agent_family,
@@ -206,7 +203,6 @@ describe 'Agent Family model' do
 
         it "slug does not change when config set to autogen by id and id updated" do
           AppConfig[:auto_generate_slugs_with_id] = false
-
           agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false, :slug => "foo"))
 
           agent_family_name = NameFamily.find(:agent_family_id => agent_family.id)
@@ -220,7 +216,6 @@ describe 'Agent Family model' do
         it "cleans manual slugs" do
           agent_family = AgentFamily.create_from_json(build(:json_agent_family, :is_slug_auto => false))
           agent_family.update(:slug => "Foo Bar Baz ###")
-
           expect(agent_family[:slug]).to eq("foo_bar_baz")
         end
 
@@ -235,4 +230,5 @@ describe 'Agent Family model' do
         end
       end
     end
+
 end

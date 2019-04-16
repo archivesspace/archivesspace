@@ -88,7 +88,6 @@ describe 'Agent model' do
         )
 
         expected_slug = clean_slug(get_generated_name_for_agent(agent_corporate_entity))
-
         expect(agent_corporate_entity[:slug]).to eq(expected_slug)
       end
 
@@ -112,13 +111,11 @@ describe 'Agent model' do
 
         agent_corporate_entity = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, :is_slug_auto => true))
         agent_corporate_entity.update(:slug => "")
-
         expect(agent_corporate_entity[:is_slug_auto]).to eq(0)
       end
 
       it "cleans slug when autogenerating by name" do
         AppConfig[:auto_generate_slugs_with_id] = false
-
         agent_name_corporate_entity = build(:json_name_corporate_entity)
         agent_corporate_entity = AgentCorporateEntity.create_from_json(
           build(:json_agent_corporate_entity,
@@ -127,13 +124,11 @@ describe 'Agent model' do
         )
 
         expected_slug = clean_slug(get_generated_name_for_agent(agent_corporate_entity))
-
         expect(agent_corporate_entity[:slug]).to eq(expected_slug)
       end
 
       it "dedupes slug when autogenerating by name" do
         AppConfig[:auto_generate_slugs_with_id] = false
-
         agent_name_corporate_entity1 = build(:json_name_corporate_entity, :primary_name => "foo", :subordinate_name_1 => "", :subordinate_name_2 => "")
         agent_corporate_entity1 = AgentCorporateEntity.create_from_json(
           build(:json_agent_corporate_entity,
@@ -162,7 +157,6 @@ describe 'Agent model' do
               :is_slug_auto => true,
               :names => [agent_name_corporate_entity])
         )
-
         expect(agent_corporate_entity[:slug]).to eq("foo_bar_baz")
       end
 
@@ -187,7 +181,7 @@ describe 'Agent model' do
         expect(agent_corporate_entity2[:slug]).to eq("foo_1")
       end
     end
-
+    
     describe "slug autogen disabled" do
       it "slug does not change when config set to autogen by title and title updated" do
         AppConfig[:auto_generate_slugs_with_id] = false
@@ -201,7 +195,6 @@ describe 'Agent model' do
 
       it "slug does not change when config set to autogen by id and id updated" do
         AppConfig[:auto_generate_slugs_with_id] = false
-
         agent_corporate_entity = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, :is_slug_auto => false, :slug => "foo"))
 
         agent_corporate_entity_name = NameCorporateEntity.find(:agent_corporate_entity_id => agent_corporate_entity.id)
@@ -215,7 +208,6 @@ describe 'Agent model' do
       it "cleans manual slugs" do
         agent_corporate_entity = AgentCorporateEntity.create_from_json(build(:json_agent_corporate_entity, :is_slug_auto => false))
         agent_corporate_entity.update(:slug => "Foo Bar Baz ###")
-
         expect(agent_corporate_entity[:slug]).to eq("foo_bar_baz")
       end
 

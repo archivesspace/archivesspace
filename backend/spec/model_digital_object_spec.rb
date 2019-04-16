@@ -167,7 +167,6 @@ describe 'Digital object model' do
       it "turns off autogen if slug is blank" do
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true))
         digital_object.update(:slug => "")
-
         expect(digital_object[:is_slug_auto]).to eq(0)
       end
 
@@ -193,7 +192,6 @@ describe 'Digital object model' do
         AppConfig[:auto_generate_slugs_with_id] = true
 
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :digital_object_id => "Foo Bar Baz&&&&"))
-
         expect(digital_object[:slug]).to eq("foo_bar_baz")
       end
 
@@ -202,7 +200,6 @@ describe 'Digital object model' do
 
         digital_object1 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :digital_object_id => "foo"))
         digital_object2 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :digital_object_id => "foo#"))
-
         expect(digital_object1[:slug]).to eq("foo")
         expect(digital_object2[:slug]).to eq("foo_1")
       end
@@ -234,7 +231,6 @@ describe 'Digital object model' do
       it "cleans manual slugs" do
         digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => false))
         digital_object.update(:slug => "Foo Bar Baz ###")
-
         expect(digital_object[:slug]).to eq("foo_bar_baz")
       end
 

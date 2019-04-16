@@ -188,7 +188,6 @@ describe 'Classification models' do
       it "turns off autogen if slug is blank" do
         classification = Classification.create_from_json(build(:json_classification, :is_slug_auto => true))
         classification.update(:slug => "")
-
         expect(classification[:is_slug_auto]).to eq(0)
       end
 

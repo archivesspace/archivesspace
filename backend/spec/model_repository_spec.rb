@@ -221,7 +221,6 @@ describe 'Repository model' do
         AppConfig[:auto_generate_slugs_with_id] = true
 
         repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true, :repo_code => "Foo Bar Baz&&&&"))
-
         expect(repository[:slug]).to eq("foo_bar_baz")
       end
 
@@ -230,7 +229,6 @@ describe 'Repository model' do
 
         repository1 = Repository.create_from_json(build(:json_repo, :is_slug_auto => true, :repo_code => "foo"))
         repository2 = Repository.create_from_json(build(:json_repo, :is_slug_auto => true, :repo_code => "foo#"))
-
         expect(repository1[:slug]).to eq("foo")
         expect(repository2[:slug]).to eq("foo_1")
       end
@@ -290,7 +288,6 @@ describe 'Repository model' do
       it "cleans manual slugs" do
         repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => false))
         repository.update(:slug => "Foo Bar Baz ###")
-
         expect(repository[:slug]).to eq("foo_bar_baz")
       end
 

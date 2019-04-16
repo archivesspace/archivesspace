@@ -427,7 +427,6 @@ describe 'Resource model' do
         AppConfig[:auto_generate_slugs_with_id] = true
 
         resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
-
         expect(resource[:slug]).to eq("foo_bar_baz-")
       end
 
@@ -436,7 +435,6 @@ describe 'Resource model' do
 
         resource1 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "foo", :id_1 => "", :id_2 => "", :id_3 => ""))
         resource2 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "foo#", :id_1 => "", :id_2 => "", :id_3 => ""))
-
         expect(resource1[:slug]).to eq("foo-")
         expect(resource2[:slug]).to eq("foo-_1")
       end
@@ -468,7 +466,6 @@ describe 'Resource model' do
       it "cleans manual slugs" do
         resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => false))
         resource.update(:slug => "Foo Bar Baz ###")
-
         expect(resource[:slug]).to eq("foo_bar_baz")
       end
 

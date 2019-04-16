@@ -41,7 +41,6 @@ describe 'DigitalObjectComponent model' do
       it "turns off autogen if slug is blank" do
         digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true))
         digital_object_component.update(:slug => "")
-
         expect(digital_object_component[:is_slug_auto]).to eq(0)
       end
 
@@ -67,7 +66,6 @@ describe 'DigitalObjectComponent model' do
         AppConfig[:auto_generate_slugs_with_id] = true
 
         digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :component_id => "Foo Bar Baz&&&&"))
-
         expect(digital_object_component[:slug]).to eq("foo_bar_baz")
       end
 
@@ -76,7 +74,6 @@ describe 'DigitalObjectComponent model' do
 
         digital_object_component1 = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :component_id => "foo"))
         digital_object_component2 = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => true, :component_id => "foo#"))
-
         expect(digital_object_component1[:slug]).to eq("foo")
         expect(digital_object_component2[:slug]).to eq("foo_1")
       end
@@ -108,7 +105,6 @@ describe 'DigitalObjectComponent model' do
       it "cleans manual slugs" do
         digital_object_component = DigitalObjectComponent.create_from_json(build(:json_digital_object_component, :is_slug_auto => false))
         digital_object_component.update(:slug => "Foo Bar Baz ###")
-
         expect(digital_object_component[:slug]).to eq("foo_bar_baz")
       end
 

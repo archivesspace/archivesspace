@@ -199,7 +199,6 @@ describe 'Subject model' do
       it "turns off autogen if slug is blank" do
         subject = Subject.create_from_json(build(:json_subject, :is_slug_auto => true))
         subject.update(:slug => "")
-
         expect(subject[:is_slug_auto]).to eq(0)
       end
 
@@ -225,7 +224,6 @@ describe 'Subject model' do
         AppConfig[:auto_generate_slugs_with_id] = true
 
         subject = Subject.create_from_json(build(:json_subject, :is_slug_auto => true, :authority_id => "Foo Bar Baz&&&&"))
-
         expect(subject[:slug]).to eq("foo_bar_baz")
       end
 
@@ -234,7 +232,6 @@ describe 'Subject model' do
 
         subject1 = Subject.create_from_json(build(:json_subject, :is_slug_auto => true, :authority_id => "foo"))
         subject2 = Subject.create_from_json(build(:json_subject, :is_slug_auto => true, :authority_id => "foo#"))
-
         expect(subject1[:slug]).to eq("foo")
         expect(subject2[:slug]).to eq("foo_1")
       end
@@ -266,7 +263,6 @@ describe 'Subject model' do
       it "cleans manual slugs" do
         subject = Subject.create_from_json(build(:json_subject, :is_slug_auto => false))
         subject.update(:slug => "Foo Bar Baz ###")
-
         expect(subject[:slug]).to eq("foo_bar_baz")
       end
 

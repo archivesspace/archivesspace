@@ -205,6 +205,13 @@ FactoryBot.define do
     resource { {'ref' => create(:json_resource).uri} }
   end
 
+  factory :json_archival_object_nohtml, class: JSONModel(:archival_object) do
+    ref_id { generate(:alphanumstr) }
+    level { generate(:level) }
+    title { "Archival Object #{generate(:generic_title)}" }
+    resource { {'ref' => create(:json_resource_nohtml).uri} }
+  end
+
   factory :json_archival_object_normal, class: JSONModel(:archival_object) do
     ref_id { generate(:alphanumstr) }
     level { generate(:level) }
@@ -575,6 +582,24 @@ FactoryBot.define do
 
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:html_title)}" }
+    id_0 { generate(:alphanumstr) }
+    extents { [build(:json_extent)] }
+    level { generate(:archival_record_level) }
+    language { generate(:language) }
+    dates { [build(:json_date), build(:json_date_single)] }
+    finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
+    ead_id { nil_or_whatever }
+    finding_aid_date { generate(:alphanumstr) }
+    finding_aid_series_statement { generate(:alphanumstr) }
+    finding_aid_language { nil_or_whatever }
+    finding_aid_note { generate(:alphanumstr) }
+    ead_location { generate(:alphanumstr) }
+    instances { [ build(:json_instance) ] }
+    revision_statements {  [build(:json_revision_statement)]  }
+  end
+
+  factory :json_resource_nohtml, class: JSONModel(:resource) do
+    title { "Resource #{generate(:generic_title)}" }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }

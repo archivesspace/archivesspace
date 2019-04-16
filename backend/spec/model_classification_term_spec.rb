@@ -32,7 +32,6 @@ describe 'Classification models' do
       it "turns off autogen if slug is blank" do
         classification_term = ClassificationTerm.create_from_json(build(:json_classification_term, :is_slug_auto => true))
         classification_term.update(:slug => "")
-
         expect(classification_term[:is_slug_auto]).to eq(0)
       end
 
@@ -58,7 +57,6 @@ describe 'Classification models' do
         AppConfig[:auto_generate_slugs_with_id] = true
 
         classification_term = ClassificationTerm.create_from_json(build(:json_classification_term, :is_slug_auto => true, :identifier => "Foo Bar Baz&&&&"))
-
         expect(classification_term[:slug]).to eq("foo_bar_baz")
       end
 
@@ -67,7 +65,6 @@ describe 'Classification models' do
 
         classification_term1 = ClassificationTerm.create_from_json(build(:json_classification_term, :is_slug_auto => true, :identifier => "foo"))
         classification_term2 = ClassificationTerm.create_from_json(build(:json_classification_term, :is_slug_auto => true, :identifier => "foo#"))
-
         expect(classification_term1[:slug]).to eq("foo")
         expect(classification_term2[:slug]).to eq("foo_1")
       end
@@ -99,7 +96,6 @@ describe 'Classification models' do
       it "cleans manual slugs" do
         classification_term = ClassificationTerm.create_from_json(build(:json_classification_term, :is_slug_auto => false))
         classification_term.update(:slug => "Foo Bar Baz ###")
-
         expect(classification_term[:slug]).to eq("foo_bar_baz")
       end
 

@@ -461,7 +461,6 @@ describe 'Agent model' do
         it "turns off autogen if slug is blank" do
           agent_person = AgentPerson.create_from_json(build(:json_agent_person, :is_slug_auto => true))
           agent_person.update(:slug => "")
-
           expect(agent_person[:is_slug_auto]).to eq(0)
         end
 
@@ -564,7 +563,6 @@ describe 'Agent model' do
         it "cleans manual slugs" do
           agent_person = AgentPerson.create_from_json(build(:json_agent_person, :is_slug_auto => false))
           agent_person.update(:slug => "Foo Bar Baz ###")
-
           expect(agent_person[:slug]).to eq("foo_bar_baz")
         end
 
