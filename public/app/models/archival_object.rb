@@ -36,7 +36,12 @@ class ArchivalObject < Record
       cite = strip_mixed_content(cite['note_text'])
     else
       cite = identifier.blank? ? '' : "#{identifier}, "
-      cite += strip_mixed_content(display_string) + "."
+      cite += strip_mixed_content(display_string)
+      cite += if container_summary_for_badge.blank? || container_summary_for_badge == 'Multiple Containers'
+        '.'
+      else
+        ", #{container_summary_for_badge}."
+      end
 
       if resolved_resource
         ttl = resolved_resource.dig('title')
