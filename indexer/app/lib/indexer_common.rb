@@ -483,11 +483,8 @@ class IndexerCommon
         doc['identifier_sort'] = IndexerCommon.generate_sort_string_for_identifier(record['record']['identifier'])
         doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
         doc['has_classification_terms'] = record['record']['has_classification_terms']
-
-        if doc['primary_type'] == 'classification'
-          doc['slug'] = record['record']['slug']
-          doc['is_slug_auto'] = record['record']['is_slug_auto']
-        end
+        doc['slug'] = record['record']['slug']
+        doc['is_slug_auto'] = record['record']['is_slug_auto']
 
       end
     }
