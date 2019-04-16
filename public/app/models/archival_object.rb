@@ -35,16 +35,12 @@ class ArchivalObject < Record
     unless cite.blank?
       cite = strip_mixed_content(cite['note_text'])
     else
-      cite = strip_mixed_content(display_string) + "."
+      cite = identifier.blank? ? '' : "#{identifier}, "
+      cite += strip_mixed_content(display_string) + "."
 
       if resolved_resource
         ttl = resolved_resource.dig('title')
-
-        cite += " #{strip_mixed_content(ttl)}"
-        cite += "," unless cite.end_with?(',')
-        cite += " #{identifier}"
-
-        cite += "."
+        cite += " #{resource_identifier}, #{strip_mixed_content(ttl)}."
       end
 
       cite += " #{ repository_information['top']['name']}." unless !repository_information.dig('top','name')
