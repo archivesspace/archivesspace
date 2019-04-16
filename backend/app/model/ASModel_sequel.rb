@@ -29,12 +29,14 @@ module ASModel
     def before_save
       # ANW-617: most of the sluggable classes run their slug code via calls to auto_generate on the slug property.
 
-      # The code in this hook ensures that: 
+      # The code in this hook ensures that:
       # - all slugs are cleaned.
       # - if we end up autogenning an empty slug, we turn is_slug_auto off for that entity
       # - the special cases for Agents are handled
+      # - ignores setting for use_human_readable_URLs for repositories which have
+      #   slugs generated regardless of the setting for use_human_readable_URLs
 
-      if AppConfig[:use_human_readable_URLs]
+      if AppConfig[:use_human_readable_URLs] || self.class == Repository
 
         # Special case for generating slugs for Agents by name
         # This special case is necessary because the NameAgent classes don't have a slug field themselves, but they have the data we need to generate the slug.
@@ -47,8 +49,8 @@ module ASModel
 
         # For all types
         # If the slug has changed manually, then make sure it's cleaned and deduped.
-        if self[:slug] && 
-           (self.column_changed?(:slug) || !self.exists?) && 
+        if self[:slug] &&
+           (self.column_changed?(:slug) || !self.exists?) &&
            !SlugHelpers::is_slug_auto_enabled?(self)
           cleaned_slug = SlugHelpers.clean_slug(self[:slug])
           self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
@@ -59,7 +61,7 @@ module ASModel
         # then we didn't have enough data to generate one, so we'll turn
         # is_slug_auto off
         if SlugHelpers.sluggable_class?(self.class) &&
-           (self[:slug].nil? || self[:slug].empty?) && 
+           (self[:slug].nil? || self[:slug].empty?) &&
            !SlugHelpers.is_agent_type?(self.class) &&
            SlugHelpers.is_slug_auto_enabled?(self)
           self[:is_slug_auto] = 0
@@ -68,13 +70,13 @@ module ASModel
         # This block is the same as above, but a special case for Agent classes when generating by ID only.
         # We can't autogen an empty slug for an agent based on name, because the primary name field is required.
         # Running this code when generating by name breaks things because autogen is flipped off for the agent and then the name record update does't run like it should
-        if SlugHelpers.is_agent_type?(self.class) && 
+        if SlugHelpers.is_agent_type?(self.class) &&
           AppConfig[:auto_generate_slugs_with_id] == true &&
           (self[:slug].nil? || self[:slug].empty?) &&
           SlugHelpers.is_slug_auto_enabled?(self)
             self[:is_slug_auto] = 0
         end
- 
+
       end
     end
 

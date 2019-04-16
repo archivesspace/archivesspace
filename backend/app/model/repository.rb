@@ -8,16 +8,12 @@ class Repository < Sequel::Model(:repository)
 
   auto_generate :property => :slug,
                 :generator => proc { |json|
-                  if AppConfig[:use_human_readable_URLs]
-                    if json["is_slug_auto"]
-                      AppConfig[:auto_generate_slugs_with_id] ? 
-                        SlugHelpers.id_based_slug_for(json, Repository) : 
-                        SlugHelpers.name_based_slug_for(json, Repository)
-                    elsif json["slug"]
-                      json["slug"]
-                    else
-                      SlugHelpers.clean_slug(json["repo_code"])
-                    end
+                  if json["is_slug_auto"]
+                    SlugHelpers.id_based_slug_for(json, Repository)
+                  elsif json["slug"]
+                    SlugHelpers.clean_slug(json["slug"])
+                  else
+                    SlugHelpers.clean_slug(json["repo_code"])
                   end
                 }
 
