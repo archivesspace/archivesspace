@@ -362,102 +362,82 @@ describe 'Resource model' do
   end
 
   describe "slug tests" do
-    before (:all) do
+    before(:all) do
       AppConfig[:use_human_readable_URLs] = true
     end
-    
+
     describe "slug autogen enabled" do
-      it "autogenerates a slug via title when configured to generate by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
-        resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => rand(100000).to_s))
-
-        expected_slug = clean_slug(resource[:title])
-
-        expect(resource[:slug]).to eq(expected_slug)
+      describe "by name" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = false
+        end
+        it "autogenerates a slug via title" do
+          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => rand(100000).to_s))
+          expected_slug = clean_slug(resource[:title])
+          expect(resource[:slug]).to eq(expected_slug)
+        end
+        it "cleans slug" do
+          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
+          expect(resource[:slug]).to eq("foo_bar_baz")
+        end
+        it "dedupes slug" do
+          resource1 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => "foo"))
+          resource2 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => "foo"))
+          expect(resource1[:slug]).to eq("foo")
+          expect(resource2[:slug]).to eq("foo_1")
+        end
+        it "turns off autogen if slug is blank" do
+          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true))
+          resource.update(:slug => "")
+          expect(resource[:is_slug_auto]).to eq(0)
+        end
       end
-
-      it "autogenerates a slug via identifier when configured to generate by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true))
-
-        expected_slug = format_identifier_array(resource[:identifier])
-
-        expect(resource[:slug]).to eq(expected_slug)
+      describe "by id" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = true
+        end
+        it "autogenerates a slug via identifier" do
+          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true))
+          expected_slug = format_identifier_array(resource[:identifier])
+          expect(resource[:slug]).to eq(expected_slug)
+        end
+        it "cleans slug" do
+          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
+          expect(resource[:slug]).to eq("foo_bar_baz-")
+        end
+        it "dedupes slug" do
+          resource1 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "foo", :id_1 => "", :id_2 => "", :id_3 => ""))
+          resource2 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "foo#", :id_1 => "", :id_2 => "", :id_3 => ""))
+          expect(resource1[:slug]).to eq("foo-")
+          expect(resource2[:slug]).to eq("foo-_1")
+        end
       end
-
-      it "autogenerates a slug via eadid when configured to generate by eadid" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-        AppConfig[:generate_resource_slugs_with_eadid] = true
-
-        resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :ead_id => rand(100000).to_s))
-
-        expected_slug = clean_slug(resource[:ead_id])
-
-        expect(resource[:slug]).to eq(expected_slug)
-      end
-
-      it "turns off autogen if slug is blank" do
-        resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true))
-        resource.update(:slug => "")
-
-        expect(resource[:is_slug_auto]).to eq(0)
-      end
-
-      it "cleans slug when autogenerating by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
-        resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
-
-        expect(resource[:slug]).to eq("foo_bar_baz")
-      end
-
-      it "dedupes slug when autogenerating by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
-        resource1 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => "foo"))
-        resource2 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :title => "foo"))
-
-        expect(resource1[:slug]).to eq("foo")
-        expect(resource2[:slug]).to eq("foo_1")
-      end
-
-      it "cleans slug when autogenerating by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
-        expect(resource[:slug]).to eq("foo_bar_baz-")
-      end
-
-      it "dedupes slug when autogenerating by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        resource1 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "foo", :id_1 => "", :id_2 => "", :id_3 => ""))
-        resource2 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "foo#", :id_1 => "", :id_2 => "", :id_3 => ""))
-        expect(resource1[:slug]).to eq("foo-")
-        expect(resource2[:slug]).to eq("foo-_1")
+      describe "by eadid" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = true
+          AppConfig[:generate_resource_slugs_with_eadid] = true
+        end
+        it "autogenerates a slug via eadid when configured to generate by eadid" do
+          resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :ead_id => rand(100000).to_s))
+          expected_slug = clean_slug(resource[:ead_id])
+          expect(resource[:slug]).to eq(expected_slug)
+        end
       end
     end
 
     describe "slug autogen disabled" do
-      it "slug does not change when config set to autogen by title and title updated" do
+      before(:all) do
         AppConfig[:auto_generate_slugs_with_id] = false
-
+      end
+      it "slug does not change when config set to autogen by title and title updated" do
         resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => false, :slug => "foo"))
-
         resource.update(:title => rand(100000000))
-
         expect(resource[:slug]).to eq("foo")
       end
 
       it "slug does not change when config set to autogen by id and id updated" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
         resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => false, :slug => "foo"))
-
         resource.update(:identifier => rand(100000000))
-
         expect(resource[:slug]).to eq("foo")
       end
     end

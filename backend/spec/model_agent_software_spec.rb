@@ -35,7 +35,7 @@ describe 'Agent model' do
 
 
   it "requires a source to be set if an authority id is provided" do
-    n1 = build(:json_name_software, :software_name => 'wooo')
+    n1 = build(:json_name_software, :authority_id => 'wooo')
 
     expect {
       n1.to_hash
@@ -45,20 +45,20 @@ describe 'Agent model' do
   it "returns the existing agent if an name authority id is already in place " do
     json =    build( :json_agent_software,
                      :names => [build(:json_name_software,
-                     'software_name' => 'thesame',
+                     'authority_id' => 'thesame',
                       'source' => "naf"
 
                      )])
     json2 =    build( :json_agent_software,
                      :names => [build(:json_name_software,
-                     'software_name' => 'thesame',
+                     'authority_id' => 'thesame',
                       'source' => "naf"
                      )])
 
     a1 =    AgentSoftware.create_from_json(json)
     a2 =    AgentSoftware.ensure_exists(json2, nil)
 
-    expect(a1).to eq(a2) # the names should still be the same as the first software_name names
+    expect(a1).to eq(a2) # the names should still be the same as the first authority_id names
   end
 
   it "maintains a record that represents the ArchivesSpace application itself" do

@@ -314,105 +314,89 @@ describe 'ArchivalObject model' do
   end
 
   describe "slug tests" do
-    before (:all) do
+    before(:all) do
       AppConfig[:use_human_readable_URLs] = true
     end
 
     describe "slug autogen enabled" do
-      it "autogenerates a slug via title when configured to generate by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
+      describe "by name" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = false
+        end
+        it "autogenerates a slug via title" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => rand(100000).to_s))
+          expected_slug = clean_slug(archival_object[:title])
+          expect(archival_object[:slug]).to eq(expected_slug)
+        end
+        it "cleans slug" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
+          expected_slug = clean_slug(archival_object[:title])
+          expect(archival_object[:slug]).to eq(expected_slug)
+        end
 
-        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => rand(100000).to_s))
-
-        expected_slug = clean_slug(archival_object[:title])
-
-        expect(archival_object[:slug]).to eq(expected_slug)
+        it "dedupes slug" do
+          archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "foo"))
+          archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "foo"))
+          expect(archival_object1[:slug]).to eq("foo")
+          expect(archival_object2[:slug]).to eq("foo_1")
+        end
+        it "turns off autogen if slug is blank" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true))
+          archival_object.update(:slug => "")
+          expect(archival_object[:is_slug_auto]).to eq(0)
+        end
       end
 
-      it "autogenerates a slug via identifier when configured to generate by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-        AppConfig[:generate_archival_object_slugs_with_cuid] = false
+      describe "by id" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = true
+          AppConfig[:generate_archival_object_slugs_with_cuid] = false
+        end
+        it "autogenerates a slug via identifier" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foo" + rand(10000).to_s))
+          expected_slug = clean_slug(archival_object[:ref_id])
+          expect(archival_object[:slug]).to eq(expected_slug)
+        end
 
-        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foo" + rand(10000).to_s))
+        it "cleans slug" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "FooBarBaz"))
+          expect(archival_object[:slug]).to eq("foobarbaz")
+        end
 
-        expected_slug = clean_slug(archival_object[:ref_id])
-
-        expect(archival_object[:slug]).to eq(expected_slug)
+        it "dedupes slug" do
+          archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foobar"))
+          archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foobar"))
+          expect(archival_object1[:slug]).to eq("foobar")
+          expect(archival_object2[:slug]).to eq("foobar_1")
+        end
       end
 
-      it "autogenerates a slug via cuid when configured to generate by cuid" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-        AppConfig[:generate_archival_object_slugs_with_cuid] = true
-
-        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :component_id => rand(100000).to_s))
-
-        expected_slug = clean_slug(archival_object[:component_id])
-
-        expect(archival_object[:slug]).to eq(expected_slug)
-      end
-
-      it "turns off autogen if slug is blank" do
-        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true))
-        archival_object.update(:slug => "")
-
-        expect(archival_object[:is_slug_auto]).to eq(0)
-      end
-
-      it "cleans slug when autogenerating by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
-        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
-
-        expect(archival_object[:slug]).to eq("foo_bar_baz")
-      end
-
-      it "dedupes slug when autogenerating by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
-        archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "foo"))
-        archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "foo"))
-
-        expect(archival_object1[:slug]).to eq("foo")
-        expect(archival_object2[:slug]).to eq("foo_1")
-      end
-
-      it "cleans slug when autogenerating by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-        AppConfig[:generate_archival_object_slugs_with_cuid] = false
-
-        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "FooBarBaz"))
-        expect(archival_object[:slug]).to eq("foobarbaz")
-      end
-
-      it "dedupes slug when autogenerating by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-        AppConfig[:generate_archival_object_slugs_with_cuid] = false
-
-        archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foobar"))
-        archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foobar"))
-        expect(archival_object1[:slug]).to eq("foobar")
-        expect(archival_object2[:slug]).to eq("foobar_1")
+      describe "by cuid" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = true
+          AppConfig[:generate_archival_object_slugs_with_cuid] = true
+        end
+        it "autogenerates a slug via cuid" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :component_id => rand(100000).to_s))
+          expected_slug = clean_slug(archival_object[:component_id])
+          expect(archival_object[:slug]).to eq(expected_slug)
+        end
       end
     end
 
     describe "slug autogen disabled" do
-      it "slug does not change when config set to autogen by title and title updated" do
+      before(:all) do
         AppConfig[:auto_generate_slugs_with_id] = false
-
+      end
+      it "slug does not change when config set to autogen by title and title updated" do
         archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => false, :slug => "foo"))
-
         archival_object.update(:title => rand(100000000))
-
         expect(archival_object[:slug]).to eq("foo")
       end
 
       it "slug does not change when config set to autogen by id and id updated" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
         archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => false, :slug => "foo"))
-
         archival_object.update(:identifier => rand(100000000))
-
         expect(archival_object[:slug]).to eq("foo")
       end
     end

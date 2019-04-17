@@ -368,86 +368,72 @@ describe 'Accession model' do
   end
 
   describe "slug tests" do
-    before (:all) do
+    before(:all) do
       AppConfig[:use_human_readable_URLs] = true
     end
 
     describe "slug autogen enabled" do
-      it "autogenerates a slug via title when configured to generate by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
-        accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
-
-        expected_slug = clean_slug(accession[:title])
-
-        expect(accession[:slug]).to eq(expected_slug)
+      describe "by name" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = false
+        end
+        it "autogenerates a slug via title" do
+          accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
+          expected_slug = clean_slug(accession[:title])
+          expect(accession[:slug]).to eq(expected_slug)
+        end
+        it "cleans slug" do
+          accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
+          expect(accession[:slug]).to eq("foo_bar_baz")
+        end
+        it "dedupes slug" do
+          accession1 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "foo"))
+          accession2 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "foo"))
+          expect(accession1[:slug]).to eq("foo")
+          expect(accession2[:slug]).to eq("foo_1")
+        end
+        it "turns off autogen if slug is blank" do
+          accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
+          accession.update(:slug => "")
+          expect(accession[:is_slug_auto]).to eq(0)
+        end
       end
+      describe "by id" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = true
+        end
+        it "autogenerates a slug via identifier when configured to generate by id" do
+          accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
+          expected_slug = format_identifier_array(accession[:identifier])
+          expect(accession[:slug]).to eq(expected_slug)
+        end
+        it "cleans slug when autogenerating by id" do
+          accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
+          expect(accession[:slug]).to eq("foo_bar_baz-")
+        end
 
-      it "autogenerates a slug via identifier when configured to generate by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
-
-        expected_slug = format_identifier_array(accession[:identifier])
-
-        expect(accession[:slug]).to eq(expected_slug)
-      end
-
-      it "turns off autogen if slug is blank" do
-        accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true))
-        accession.update(:slug => "")
-        expect(accession[:is_slug_auto]).to eq(0)
-      end
-
-      it "cleans slug when autogenerating by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-        accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
-        expect(accession[:slug]).to eq("foo_bar_baz")
-      end
-
-      it "dedupes slug when autogenerating by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-        accession1 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "foo"))
-        accession2 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :title => "foo"))
-        expect(accession1[:slug]).to eq("foo")
-        expect(accession2[:slug]).to eq("foo_1")
-      end
-
-      it "cleans slug when autogenerating by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
-        expect(accession[:slug]).to eq("foo_bar_baz-")
-      end
-
-      it "dedupes slug when autogenerating by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        accession1 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "foo", :id_1 => "", :id_2 => "", :id_3 => ""))
-        accession2 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "foo#", :id_1 => "", :id_2 => "", :id_3 => ""))
-        expect(accession1[:slug]).to eq("foo-")
-        expect(accession2[:slug]).to eq("foo-_1")
+        it "dedupes slug when autogenerating by id" do
+          accession1 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "foo", :id_1 => "", :id_2 => "", :id_3 => ""))
+          accession2 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "foo#", :id_1 => "", :id_2 => "", :id_3 => ""))
+          expect(accession1[:slug]).to eq("foo-")
+          expect(accession2[:slug]).to eq("foo-_1")
+        end
       end
     end
 
     describe "slug autogen disabled" do
-      it "slug does not change when config set to autogen by title and title updated" do
+      before(:all) do
         AppConfig[:auto_generate_slugs_with_id] = false
-
+      end
+      it "slug does not change when config set to autogen by title and title updated" do
         accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => false, :slug => "foo"))
-
         accession.update(:title => rand(100000000))
-
         expect(accession[:slug]).to eq("foo")
       end
 
       it "slug does not change when config set to autogen by id and id updated" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
         accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => false, :slug => "foo"))
-
         accession.update(:identifier => rand(100000000))
-
         expect(accession[:slug]).to eq("foo")
       end
     end
@@ -462,9 +448,7 @@ describe 'Accession model' do
       it "dedupes manual slugs" do
         accession1 = Accession.create_from_json(build(:json_accession, :is_slug_auto => false, :slug => "foo"))
         accession2 = Accession.create_from_json(build(:json_accession, :is_slug_auto => false))
-
         accession2.update(:slug => "foo")
-
         expect(accession1[:slug]).to eq("foo")
         expect(accession2[:slug]).to eq("foo_1")
       end

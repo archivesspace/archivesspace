@@ -190,96 +190,63 @@ describe 'Repository model' do
 
   describe "slug tests" do
     describe "slug autogen enabled" do
-      it "autogenerates a slug via repo_code when configured to generate by name" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
-        repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true))
-
-        expected_slug = clean_slug(repository[:repo_code])
-
-        expect(repository[:slug]).to eq(expected_slug)
+      describe "by name" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = false
+        end
+        it "autogenerates a slug via repo_code" do
+          repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true))
+          expected_slug = clean_slug(repository[:repo_code])
+          expect(repository[:slug]).to eq(expected_slug)
+        end
+        it "turns off autogen if slug is blank" do
+          repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true))
+          repository.update(:slug => "")
+          expect(repository[:is_slug_auto]).to eq(0)
+        end
       end
+      describe "by id" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = true
+        end
+        it "autogenerates a slug via repo_code" do
+          repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true))
+          expected_slug = clean_slug(repository[:repo_code])
+          expect(repository[:slug]).to eq(expected_slug)
+        end
+        it "cleans slug" do
+          repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true, :repo_code => "Foo Bar Baz&&&&"))
+          expect(repository[:slug]).to eq("foo_bar_baz")
+        end
 
-      it "autogenerates a slug via identifier when configured to generate by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true))
-
-        expected_slug = clean_slug(repository[:repo_code])
-
-        expect(repository[:slug]).to eq(expected_slug)
-      end
-
-      it "turns off autogen if slug is blank" do
-        repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true))
-        repository.update(:slug => "")
-
-        expect(repository[:is_slug_auto]).to eq(0)
-      end
-
-      it "cleans slug when autogenerating by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true, :repo_code => "Foo Bar Baz&&&&"))
-        expect(repository[:slug]).to eq("foo_bar_baz")
-      end
-
-      it "dedupes slug when autogenerating by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        repository1 = Repository.create_from_json(build(:json_repo, :is_slug_auto => true, :repo_code => "foo"))
-        repository2 = Repository.create_from_json(build(:json_repo, :is_slug_auto => true, :repo_code => "foo#"))
-        expect(repository1[:slug]).to eq("foo")
-        expect(repository2[:slug]).to eq("foo_1")
+        it "dedupes slug" do
+          repository1 = Repository.create_from_json(build(:json_repo, :is_slug_auto => true, :repo_code => "foo"))
+          repository2 = Repository.create_from_json(build(:json_repo, :is_slug_auto => true, :repo_code => "foo#"))
+          expect(repository1[:slug]).to eq("foo")
+          expect(repository2[:slug]).to eq("foo_1")
+        end
       end
     end
 
     describe "slug autogen disabled" do
-      it "always sets slug equal to repo_code when generate by id" do
-        AppConfig[:auto_generate_slugs_with_id] = true
-
-        repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => false))
-
-        expected_slug = clean_slug(repository[:repo_code])
-
-        expect(repository[:slug]).to eq(expected_slug)
-      end
-
-      it "always sets slug equal to repo_code when generate by name" do
+      before(:all) do
         AppConfig[:auto_generate_slugs_with_id] = false
-
-        repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => false))
-
-        expected_slug = clean_slug(repository[:repo_code])
-
-        expect(repository[:slug]).to eq(expected_slug)
       end
-
       it "slug does not change when config set to autogen by title and title updated" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
         repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => false, :slug => "foo"))
-
         repository.update(:name => rand(100000000))
-
         expect(repository[:slug]).to eq("foo")
       end
 
       it "slug does not change when config set to autogen by id and id updated" do
-        AppConfig[:auto_generate_slugs_with_id] = false
-
         repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => false, :slug => "foo"))
-
         repository.update(:repo_code => rand(100000000))
-
         expect(repository[:slug]).to eq("foo")
       end
 
       it "automatically sets the slug equal to the repo code if autogen is off and slug is empty" do
         repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => false, :slug => nil, :repo_code => "Foo Bar Baz"))
-
         expected_slug = clean_slug(repository[:repo_code])
-
         expect(repository[:slug]).to eq(expected_slug)
       end
     end
