@@ -58,13 +58,14 @@ class IndexerCommon
   end
 
 
-  def initialize(backend_url)
+  def initialize(backend_url, config = {})
     @backend_url = backend_url
     @document_prepare_hooks = []
     @extra_documents_hooks = []
     @delete_hooks = []
     @batch_hooks = []
     @current_session = nil
+    @config = config
 
     while true
       begin
@@ -82,6 +83,12 @@ class IndexerCommon
       hook.call(self)
     end
   end
+
+
+  def config(key)
+    @config.fetch(key, AppConfig[key])
+  end
+
 
   def self.generate_years_for_date_range(begin_date, end_date)
     return [] unless begin_date
@@ -735,7 +742,7 @@ class IndexerCommon
 
 
   def solr_url
-    URI.parse(AppConfig[:solr_url])
+    URI.parse(config(:solr_url))
   end
 
 

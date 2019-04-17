@@ -49,6 +49,23 @@ class ArchivesSpaceIndexer < Sinatra::Base
       end
     end
 
+    AppConfig[:plugin_indexers].each_with_index do |indexer_config, ix|
+      indexer = indexer_config[:class].constantize.get_plugin_indexer(indexer_config)
+
+      Log.info "Starting #{indexer_config[:name]}"
+
+      threads << Thread.new do
+        sleep (ix + 1) * 7
+
+        begin
+          indexer.run
+        rescue
+          Log.error "Unexpected failure in #{indexer_config[:name]}: #{$!}"
+        end
+      end
+    end
+
+
     sleep 5
 
     backend_urls = Atomic.new([])

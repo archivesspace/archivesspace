@@ -13,12 +13,13 @@ java.util.concurrent.TimeUnit::MILLISECONDS
 
 class PeriodicIndexer < IndexerCommon
 
-  def initialize(backend_url = nil, state = nil, indexer_name = nil, verbose = true)
-    super(backend_url || AppConfig[:backend_url])
+  def initialize(backend_url = nil, state = nil, indexer_name = nil, verbose = true, config = {})
+    super(backend_url || AppConfig[:backend_url], config)
 
     @indexer_name = indexer_name || 'PeriodicIndexer'
-    state_class = AppConfig[:index_state_class].constantize
-    @state = state || state_class.new
+    state_class = config(:index_state_class).constantize
+    state_name = config.has_key?(:state_key) ? "indexer_plugin_#{config[:state_key]}_state" : 'indexer_state'
+    @state = state || state_class.new(state_name)
     @verbose = verbose
 
     # A small window to account for the fact that transactions might be committed
@@ -26,9 +27,9 @@ class PeriodicIndexer < IndexerCommon
     # prior to the check.
     @window_seconds = 30
 
-    @time_to_sleep = AppConfig[:solr_indexing_frequency_seconds].to_i
-    @thread_count = AppConfig[:indexer_thread_count].to_i
-    @records_per_thread = AppConfig[:indexer_records_per_thread].to_i
+    @time_to_sleep = config(:solr_indexing_frequency_seconds).to_i
+    @thread_count = config(:indexer_thread_count).to_i
+    @records_per_thread = config(:indexer_records_per_thread).to_i
 
     @timing = IndexerTiming.new
   end
@@ -226,6 +227,18 @@ class PeriodicIndexer < IndexerCommon
   def self.get_indexer(state = nil, name = "Staff Indexer")
     indexer = self.new(AppConfig[:backend_url], state, name)
   end
+
+
+  def self.get_plugin_indexer(config, state = nil, verbose = true)
+    # We need to protect against a poorly defined plugin indexer
+    # messing with the state of the built-in indexers
+    if !config.has_key?(:state_key) || config[:state_key].length < 1
+      raise "Plugin Indexer config must have a :state_key defined"
+    end
+
+    self.new(AppConfig[:backend_url], state, config[:name], verbose, config)
+  end
+
 
   def fetch_records(type, ids, resolve)
     JSONModel(type).all(:id_set => ids.join(","), 'resolve[]' => resolve)
