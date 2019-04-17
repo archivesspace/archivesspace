@@ -43,6 +43,10 @@ PLUGINS = [
   {
     :path => 'plugins/as_reformulator',
     :url => 'https://github.com/hudmol/as_reformulator.git',
+  },
+  {
+    :path => 'plugins/as_cartography',
+    :url => 'https://github.com/hudmol/as_cartography.git',
   }
 ]
 
