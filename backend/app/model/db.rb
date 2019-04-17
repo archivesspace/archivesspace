@@ -370,7 +370,7 @@ eof
       non_utf8_tables = db[:information_schema__tables].
                         join(:information_schema__collation_character_set_applicability, :collation_name => :table_collation).
                         filter(:table_schema => Sequel.function(:database)).
-                        filter(Sequel.~(:character_set_name => 'utf8')).all
+                        filter(Sequel.~(:character_set_name => ['utf8', 'utf8mb4'])).all
 
       unless (non_utf8_tables.empty?)
         msg = <<EOF
