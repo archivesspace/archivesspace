@@ -9,6 +9,8 @@ class Repository < Sequel::Model(:repository)
   auto_generate :property => :slug,
                 :generator => proc { |json|
                   if json["is_slug_auto"]
+                    # Always use repo_code so use id-based slug
+                    # for auto-generated slugs
                     SlugHelpers.id_based_slug_for(json, Repository)
                   elsif json["slug"]
                     SlugHelpers.clean_slug(json["slug"])
@@ -16,7 +18,6 @@ class Repository < Sequel::Model(:repository)
                     SlugHelpers.clean_slug(json["repo_code"])
                   end
                 }
-
 
   def validate
     super

@@ -469,6 +469,7 @@ class IndexerCommon
 
     add_document_prepare_hook {|doc, record|
       if ['classification', 'classification_term'].include?(doc['primary_type'])
+        puts "LANEY class record #{record['record']['creator'].inspect}"
         doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
         doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
         doc['published_agent_uris'] = []
