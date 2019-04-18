@@ -205,6 +205,10 @@ class Solr
       self
     end
 
+    def limit_fields_to(fields)
+      @fields_to_show = fields
+      self
+    end
 
     def add_solr_param(param, value)
       @solr_params << [param, value]
@@ -222,6 +226,10 @@ class Solr
 
     def to_solr_url
       raise "Missing pagination settings" unless @pagination
+
+      if @fields_to_show
+        add_solr_param(:fl, @fields_to_show.join(', '))
+      end
 
       unless @show_excluded_docs
         add_solr_param(:fq, "-exclude_by_default:true")

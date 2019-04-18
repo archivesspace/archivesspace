@@ -333,7 +333,7 @@ class ApplicationController < ActionController::Base
 
 
   # ANW-617: To generate public URLs correctly in the show pages for various entities, we need access to the repository slug.
-  # Since the JSON objects for these does not have this info, we load it into the session along with other repo data when a repo is selected for convienience. 
+  # Since the JSON objects for these does not have this info, we load it into the session along with other repo data when a repo is selected for convienience.
   def self.session_repo(session, repo, repo_slug = nil)
     session[:repo] = repo
     session[:repo_id] = JSONModel(:repository).id_for(repo)
@@ -341,7 +341,7 @@ class ApplicationController < ActionController::Base
     # if the slug has been passed in, we don't need to do a DB lookup.
     # if not, we go get it so links are generated correctly after login.
     if repo_slug
-      session[:repo_slug] = repo_slug 
+      session[:repo_slug] = repo_slug
     else
       full_repo_json = JSONModel(:repository).find(session[:repo_id])
       session[:repo_slug] = full_repo_json[:slug]
@@ -611,7 +611,7 @@ class ApplicationController < ActionController::Base
   end
 
   def params_for_backend_search
-    params_for_search = params.select{|k,v| ["page", "q", "aq", "type", "sort", "exclude", "filter_term"].include?(k) and not v.blank?}
+    params_for_search = params.select{|k,v| ["page", "q", "aq", "type", "sort", "exclude", "filter_term", "fields"].include?(k) and not v.blank?}
 
     params_for_search["page"] ||= 1
 
@@ -633,6 +633,11 @@ class ApplicationController < ActionController::Base
     if params_for_search["exclude"]
       params_for_search["exclude[]"] = Array(params_for_search["exclude"]).reject{|v| v.blank?}
       params_for_search.delete("exclude")
+    end
+
+    if params_for_search["fields"]
+      params_for_search["fields[]"] = Array(params_for_search["fields"]).reject{|v| v.blank?}
+      params_for_search.delete("fields")
     end
 
     params_for_search
