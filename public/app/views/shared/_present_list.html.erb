@@ -35,7 +35,7 @@
         <% unless item['uri'].blank? %>
          <a href="<%= app_prefix(item['uri']) %>">
         <% end %>
-        <%= item['title'] %>
+        <%= item['title'] + (list_clss == 'subjects_list' ? " - #{t("enumerations.subject_source.#{item['source']}")}" : '') %>
         <% unless item['uri'].blank? %>
          </a>
         <% end %>
