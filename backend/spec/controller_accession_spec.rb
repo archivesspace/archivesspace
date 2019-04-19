@@ -25,19 +25,8 @@ describe 'Accession controller' do
   end
 
 
-  it "fails on missing properties" do
-    JSONModel::strict_mode(false)
-
-    expect { JSONModel(:accession).from_hash("id_0" => "abcdef") }.to raise_error(JSONModel::ValidationException)
-
-    begin
-      acc = JSONModel(:accession).from_hash("id_0" => "abcdef")
-    rescue JSONModel::ValidationException => e
-      errors = ["accession_date"]
-      (expect(e.errors.keys.sort).to eq(errors.sort))
-    end
-
-    JSONModel::strict_mode(true)
+  it "uses dummy date when missing accession date" do
+    expect(JSONModel(:accession).from_hash("id_0" => "abcdef").accession_date).to eq('9999-12-31')
   end
 
 

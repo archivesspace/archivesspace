@@ -1119,6 +1119,7 @@ fr:
     user_defined:
       <<: *user_defined_attributes
     accession_date: Date d'entrée
+    accession_date_unknown: inconnu
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
         <p>CHAMP REQUIS. Date à laquelle l'entrée a eu lieu. N'est pas
@@ -1576,6 +1577,9 @@ fr:
     description: Description de la révision
     description_tooltip: |
         <p>Une description de la dernière révision de l'instrument de recherche.</p>
+    publish: Publier?
+    publish_tooltip: |
+        <p>Détermine si ce mention de révision sera publié sur les interfaces publiques.</p>
 
   related_resource:
     _singular: Ressource associée
@@ -1981,6 +1985,7 @@ fr:
       report_job: Creer un rapport
       container_conversion_job: Creer un rapport
       generate_slugs_job: Générer des URL sémantiques pour les entitées
+      trim_whitespace_job: Couper les espaces
       unknown_job_type: Type de tâche inconnu
     status: Statut
     status_completed: Effectuée
@@ -2024,6 +2029,9 @@ fr:
   print_to_pdf_job:
     include_unpublished: Inclure ce qui n'est pas publié
     source: Source
+
+  trim_whitespace_job:
+    description: Supprime les espaces blancs de début et de fin des titres des ressources, entrées, objets numériques, objets d'archivage et composants d'objet numérique.
 
   advanced_search:
     type:

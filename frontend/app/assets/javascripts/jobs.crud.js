@@ -9,6 +9,18 @@ var init = function() {
         var locationReportSubFormChange = function() {
             var selected_report_type = $("#job_job_params_location_report_type_").val();
 
+            var location_start_linker = $('#report_location_start');
+            var location_end_linker = $('#report_location_end');
+
+            if (selected_report_type === 'single_location') {
+                location_end_linker.hide();
+                location_start_linker.find('label').text(location_start_linker.data('singular-label'));
+            } else if (selected_report_type === 'location_range') {
+                location_start_linker.find('label').text(location_start_linker.data('range-label'));
+                location_end_linker.find('label').text(location_end_linker.data('range-label'));
+                location_end_linker.show();
+            }
+
             $('.report_type').hide();        
             $('.report_type.' + selected_report_type).show();
         };

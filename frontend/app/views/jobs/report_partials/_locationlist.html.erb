@@ -5,7 +5,7 @@ repository_list = @repositories.map {|repo| [repo.repo_code, repo.uri]}
 building_list = JSONModel::HTTP.get_json("/space_calculator/buildings")
 %>
 
-<%= form.select :location_report_type, ["repository", "building", "single_location"].collect {|type| [I18n.t("reports.location_holdings_report.#{type}_report_type"), type]} %>
+<%= form.select :location_report_type, ["repository", "building", "single_location", "location_range"].collect {|type| [I18n.t("reports.location_holdings_report.#{type}_report_type"), type]} %>
 
 <div class="form-group required report_type repository">
     <hr/>
@@ -25,10 +25,22 @@ building_list = JSONModel::HTTP.get_json("/space_calculator/buildings")
 </div>
 
 
-<div class="form-group required report_type  single_location">
-    <% form.push("location_start") do |form| %>
-        <%= render_aspace_partial :partial => "locations/linker", :locals => { :form => form, :hide_create => true } %>
-    <% end %>
+<div class="report_type single_location location_range">
+    <div id="report_location_start"
+         data-range-label="<%= I18n.t('reports.location_holdings_report.start_range') %>"
+         data-singular-label="<%= I18n.t('location._singular') %>">
+        <% form.push("location_start") do |form| %>
+            <%= render_aspace_partial :partial => "locations/linker", :locals => { :form => form, :hide_create => true } %>
+        <% end %>
+    </div>
+
+    <div id="report_location_end"
+         data-range-label="<%= I18n.t('reports.location_holdings_report.end_range') %>"
+         style="display: none">
+        <% form.push("location_end") do |form| %>
+            <%= render_aspace_partial :partial => "locations/linker", :locals => { :form => form, :hide_create => true } %>
+        <% end %>
+    </div>
 </div>
 
 <hr/>

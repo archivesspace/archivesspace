@@ -27,6 +27,7 @@ class AccessionsController < ApplicationController
 
   def show
     @accession = fetch_resolved(params[:id])
+    @accession['accession_date'] = I18n.t('accession.accession_date_unknown') if @accession['accession_date'] == "9999-12-31"
 
     flash[:info] = I18n.t("accession._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:accession => @accession)) if @accession.suppressed
   end
@@ -90,6 +91,7 @@ class AccessionsController < ApplicationController
 
   def edit
     @accession = fetch_resolved(params[:id])
+    @accession['accession_date'] = '' if @accession['accession_date'] == "9999-12-31"
 
     if @accession.suppressed
       redirect_to(:controller => :accessions, :action => :show, :id => params[:id])

@@ -272,6 +272,9 @@ ANEAD
       expect(linked['role']).to eq('subject')
 
       #   ELSE
+      #   Respect audience attribute as set in at-tracer.xml
+      expect(c1['publish']).to be_falsey
+      expect(c2['publish']).to be_truthy
       #   IF @rules != NULL ==> name_corporate_entity.rules
       expect([c1, c2].map {|c| c['names'][0]['rules']}.uniq).to eq(['dacs'])
       #   IF @source != NULL ==> name_corporate_entity.source
@@ -292,6 +295,9 @@ ANEAD
       n2 = fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'subject' }['ref'] }['names'][0]['family_name']
       expect(n2).to eq("FNames-FamilyName-AT, FNames-Prefix-AT, FNames-Qualifier-AT -- Pictorial works")
       #   ELSE
+      #   Respect audience attribute as set in at-tracer.xml
+      expect(fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'creator' }['ref'] }['publish']).to be_falsey
+      expect(fams.find{|f| f['uri'] == links.find{|l| l['role'] == 'subject' }['ref'] }['publish']).to be_truthy
       #   IF @rules != NULL
       expect(fams.map{|f| f['names'][0]['rules']}.uniq).to eq(['aacr'])
       #   IF @source != NULL
@@ -306,6 +312,8 @@ ANEAD
       #   IF nested in <controlaccess>
       expect(@archival_objects['06']['linked_agents'].reverse.find {|l| @people.map{|p| p['uri'] }.include?(l['ref'])}['role']).to eq('subject')
       #   ELSE
+      #   If audience attribute is not present in at-tracer.xml, default to unpublished
+      expect(@people.map {|p| p['publish']}.uniq).to eq([false])
       #   IF @rules != NULL
       expect(@people.map {|p| p['names'][0]['rules']}.uniq).to eq(['local'])
       #   IF @source != NULL
@@ -1351,6 +1359,80 @@ ANEAD
 
   end
 
+  describe 'Mapping revision statement publish' do
+    def test_doc
+      src = <<ANEAD
+<?xml version="1.0" encoding="utf-8"?>
+<ead xmlns="urn:isbn:1-931666-22-9" xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:isbn:1-931666-22-9 http://www.loc.gov/ead/ead.xsd">
+  <eadheader countryencoding="iso3166-1" dateencoding="iso8601" langencoding="iso639-2b"
+    repositoryencoding="iso15511">
+    <eadid/>
+    <filedesc>
+      <titlestmt>
+        <titleproper>Resource with one unpublished revision
+            statement<num>unpub.revision.statement</num></titleproper>
+      </titlestmt>
+      <publicationstmt>
+        <publisher>Your Name Here Special Collections</publisher>
+      </publicationstmt>
+    </filedesc>
+    <profiledesc>
+      <creation>This finding aid was produced using ArchivesSpace on <date>2019-04-02 15:41:55
+          +0000</date>.</creation>
+    </profiledesc>
+    <revisiondesc>
+      <change audience="internal">
+        <date>Unpublished revision date</date>
+        <item>Unpublished revision description</item>
+      </change>
+      <change>
+        <date>Published revision date</date>
+        <item>Published revision description</item>
+      </change>
+    </revisiondesc>
+  </eadheader>
+  <archdesc level="collection">
+    <did>
+      <langmaterial>
+        <language langcode="eng">English</language>
+      </langmaterial>
+      <repository>
+        <corpname>Your Name Here Special Collections</corpname>
+      </repository>
+      <unittitle>Resource with one unpublished revision statement</unittitle>
+      <unitid>unpub.revision.statement</unitid>
+      <physdesc altrender="whole">
+        <extent altrender="materialtype spaceoccupied">1 Cassettes</extent>
+      </physdesc>
+      <unitdate normal="2019-04-11/2019-04-11">2019-04-11</unitdate>
+    </did>
+    <dsc/>
+  </archdesc>
+</ead>
+ANEAD
+
+      get_tempfile_path(src)
+    end
+
+    before(:all) do
+      parsed = convert(test_doc)
+      @revision_statements = parsed.select {|r| r['jsonmodel_type'] == 'resource' }.first['revision_statements']
+    end
+
+    it "creates an unpublished revision statement for a <change> tag with audience=internal" do
+      rs = @revision_statements[0]
+      expect(rs['description']).to eq("Unpublished revision description")
+      expect(rs['publish']).to be_falsey
+    end
+
+    it "creates a publihed revision statement for a <change> tag without audience=internal" do
+      rs = @revision_statements[1]
+      expect(rs['description']).to eq("Published revision description")
+      expect(rs['publish']).to be_truthy
+    end
+  end
 
 
 end

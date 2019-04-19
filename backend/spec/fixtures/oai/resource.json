@@ -425,6 +425,7 @@
             {
                 "date": "2000-01-01",
                 "description": "Revision description",
+                "publish": true,
                 "jsonmodel_type": "revision_statement"
             }
         ],
