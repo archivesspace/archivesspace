@@ -27,6 +27,17 @@
 
     var scrollTimer = undefined;
 
+    InfiniteScroll.prototype.function getLineHeight(element){
+        var temp, height;
+        temp = document.createElement(element.nodeName);
+        temp.setAttribute("style","margin:0px;padding:0px;font-family:"+element.style.fontFamily+";font-size:"+element.style.fontSize);
+        temp.innerHTML = "test";
+        temp = element.parentNode.appendChild(temp);
+        height = temp.clientHeight;
+        temp.parentNode.removeChild(temp);
+        return height;
+    }
+
     InfiniteScroll.prototype.scrollBy = function (px) {
         var self = this;
 
@@ -100,7 +111,7 @@
             /* In pixel mode deltaY can be used directly, but in line and page mode,
                multiply to get pixel values. */
             if (e.originalEvent.deltaMode == WheelEvent.DOM_DELTA_LINE) {
-                scrollAmount = (scrollAmount < 0 ? -1 : 1) * 55;
+              scrollAmount = (scrollAmount * self.getLineHeight(self.wrapper.get(0)));
             } else if (e.originalEvent.deltaMode == WheelEvent.DOM_DELTA_PAGE) {
                 scrollAmount = (scrollAmount < 0 ? -1 : 1) * self.wrapper.height();
             }
