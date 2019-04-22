@@ -334,6 +334,7 @@ class Assessment < Sequel::Model(:assessment)
 
   def self.handle_delete(ids_to_delete)
     DB.open do |db|
+      db[:assessment_attribute_note].filter(:assessment_id => ids_to_delete).delete
       db[:assessment_attribute].filter(:assessment_id => ids_to_delete).delete
     end
 
