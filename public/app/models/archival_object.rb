@@ -37,10 +37,10 @@ class ArchivalObject < Record
     else
       cite = identifier.blank? ? '' : "#{identifier}, "
       cite += strip_mixed_content(display_string)
-      cite += if container_summary_for_badge.blank? || container_summary_for_badge == 'Multiple Containers'
+      cite += if container_display.blank? || container_display.length > 5
         '.'
       else
-        ", #{container_summary_for_badge}."
+        ", #{container_display.join('; ')}."
       end
 
       if resolved_resource
