@@ -55,7 +55,7 @@ module RecordHelper
               when  'resource'
               'fa-archive'
               when 'archival_object'
-              'fa-file-o'
+              'far fa-file'
               when 'digital_object'
               'fa-file-image'
               when 'accession'
