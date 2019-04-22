@@ -40,7 +40,7 @@ class ArchivalObject < Record
       cite += if container_display.blank? || container_display.length > 5
         '.'
       else
-        ", #{container_display.join('; ')}."
+        ", #{container_display.collect {|v| v.reverse.sub(/\).*\( /, '').reverse}.join('; ')}."
       end
 
       if resolved_resource
