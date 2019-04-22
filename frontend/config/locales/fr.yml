@@ -1434,6 +1434,9 @@ fr:
         linked_via_assessment_records: Evaluations
         linked_via_assessment_surveyed_by: Evaluations - effectuées par
         linked_via_assessment_reviewer: Evaluation - par
+        record_type: Type de notice
+        title: Titre
+        identifier: Identifiant
       ratings_list:
         rating: Notation
         score: Score

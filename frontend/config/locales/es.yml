@@ -1435,6 +1435,9 @@
         linked_via_assessment_records: Evaluaciones
         linked_via_assessment_surveyed_by: Evaluaciones - Encuestadas por
         linked_via_assessment_reviewer: Evaluaciones - Revisor
+        record_type: Tipo de registro
+        title: Título
+        identifier: Identificador
       ratings_list:
         rating: Clasificación
         score: Puntuación
