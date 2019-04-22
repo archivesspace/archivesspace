@@ -27,7 +27,7 @@
 
     var scrollTimer = undefined;
 
-    InfiniteScroll.prototype.function getLineHeight(element){
+    InfiniteScroll.prototype.getLineHeight = function(element){
         var temp, height;
         temp = document.createElement(element.nodeName);
         temp.setAttribute("style","margin:0px;padding:0px;font-family:"+element.style.fontFamily+";font-size:"+element.style.fontSize);
