@@ -6,7 +6,7 @@
       <%= form.label_and_textfield "repo_code", :field_opts => {:size => 10} %>
       <%= form.label_and_textarea "name" %>
 
-      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @repository} if (AppConfig[:use_human_readable_URLs] && !form.readonly?) %>
+      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @repository} if AppConfig[:use_human_readable_URLs] %>
 
       <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <hr/>

@@ -4,12 +4,14 @@
 <% else %>
   <%= form.label_with_field "public_url", form.hidden_input("public_url") + "<span class='identifier-display'><span class='identifier-display-part'>#{File.join(AppConfig[:public_proxy_url], form.slug_url_field("slug", session[:repo_slug], AppConfig[:repo_name_in_slugs]).to_s)}</span></span>".html_safe %>
 <% end %>
-<% if record_type == @repository %>
-  <%= form.label_and_textfield "slug", :field_opts => {:readonly => @repository['repository']['is_slug_auto'] } %>
-  <%= form.label_and_boolean "is_slug_auto", {:checked => @repository['repository']['is_slug_auto'] }, form.default_for("is_slug_auto") %>
-<% else %>
-  <%= form.label_and_textfield "slug", :field_opts => {:readonly => record_type.is_slug_auto } %>
-  <%= form.label_and_boolean "is_slug_auto", {:checked => record_type.is_slug_auto }, form.default_for("is_slug_auto") %>
+<% if !form.readonly? %>
+  <% if record_type == @repository %>
+    <%= form.label_and_textfield "slug", :field_opts => {:readonly => @repository['repository']['is_slug_auto'] } %>
+    <%= form.label_and_boolean "is_slug_auto", {:checked => @repository['repository']['is_slug_auto'] }, form.default_for("is_slug_auto") %>
+  <% else %>
+    <%= form.label_and_textfield "slug", :field_opts => {:readonly => record_type.is_slug_auto } %>
+    <%= form.label_and_boolean "is_slug_auto", {:checked => record_type.is_slug_auto }, form.default_for("is_slug_auto") %>
+  <% end %>
 <% end %>
 
 <%= javascript_tag do %>

@@ -15,7 +15,7 @@
             <%= form.label_and_textarea "identifier" %>
             <%= form.label_and_textarea "title" %>
 
-            <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification} if (AppConfig[:use_human_readable_URLs] && !form.readonly?) %>
+            <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification} if AppConfig[:use_human_readable_URLs] %>
 
             <%= form.label_and_textarea "description" %>
 
