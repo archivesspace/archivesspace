@@ -55,11 +55,13 @@ class RepositoriesController < ApplicationController
 
                   success_msg = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
 
-                  if @repository["repository"]["is_slug_auto"] == false &&
-                     @repository["repository"]["slug"] == nil &&
+                  if @repository["repository"]["is_slug_auto"] == true &&
+                     !@repository["repository"]["slug"].nil? &&
                      params["repository"]["repository"] &&
-                     params["repository"]["repository"]["is_slug_auto"] == "1"
-                    success_msg << I18n.t("slug.autogen_disabled")
+                     (params["repository"]["repository"]["slug"].nil? ||
+                      params["repository"]["repository"]["slug"].empty?)  &&
+                     params["repository"]["repository"]["is_slug_auto"] == "0"
+                    success_msg << I18n.t("slug.autogen_repo_slug")
                   end
 
                   flash[:success] = success_msg
@@ -88,27 +90,14 @@ class RepositoriesController < ApplicationController
 
                   success_msg = I18n.t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
 
-                  # if @repository["repository"]["is_slug_auto"] == false &&
-                  #    @repository["repository"]["slug"] == nil &&
-                  #    params["repository"]["repository"] &&
-                  #    params["repository"]["repository"]["is_slug_auto"] == "1"
-                  #   success_msg << I18n.t("slug.autogen_disabled")
-                  # end
-
-                  puts "LANEY update handle_crud before params #{params["repository"]["repository"].inspect}"
-                  puts "LANEY update handle_crud before @repository #{@repository["repository"].inspect}"
-
-                  if @repository["repository"]["is_slug_auto"]
-                    # Always use repo_code so use id-based slug
-                    # for auto-generated slugs
-                    params["repository"]["repository"]["slug"] = SlugHelpers.id_based_slug_for(@repository["repository"], Repository)
-                  elsif @repository["repository"]["slug"]
-                    params["repository"]["repository"]["slug"] = SlugHelpers.clean_slug(@repository["repository"]["slug"])
-                  else
-                    params["repository"]["repository"]["slug"] = SlugHelpers.clean_slug(@repository["repository"]["repo_code"])
+                  if @repository["repository"]["is_slug_auto"] == true &&
+                     !@repository["repository"]["slug"].nil? &&
+                     params["repository"]["repository"] &&
+                     (params["repository"]["repository"]["slug"].nil? ||
+                      params["repository"]["repository"]["slug"].empty?)  &&
+                     params["repository"]["repository"]["is_slug_auto"] == "0"
+                    success_msg << I18n.t("slug.autogen_repo_slug")
                   end
-
-                  puts "LANEY update handle_crud after #{params["repository"]["repository"].inspect}"
 
                   flash[:success] = success_msg
 

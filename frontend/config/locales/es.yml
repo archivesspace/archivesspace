@@ -365,6 +365,8 @@
     public_url: URL pública
     is_slug_auto: Generar automáticamente Slug?
     autogen_disabled: " -- Slug vacío generado, Generar automáticamente la opción slug deshabilitada"
+    autogen_repo_slug: " -- Campo de slug vacío por lo que automáticamente se genera slug repositorio"
+
   linker:
     link_to_prefix: Enlace a
     create_and_link_to_prefix: Crear y vincular

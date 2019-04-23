@@ -56,7 +56,7 @@ module ASModel
           self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
         end
 
-        # For all non-agent types that have a slug field
+        # For all non-agent types except repositories that have a slug field
         # If the slug is empty at this point and is_slug_auto is enabled,
         # then we didn't have enough data to generate one, so we'll turn
         # is_slug_auto off
@@ -65,6 +65,16 @@ module ASModel
            !SlugHelpers.is_agent_type?(self.class) &&
            SlugHelpers.is_slug_auto_enabled?(self)
           self[:is_slug_auto] = 0
+        end
+
+        # Repositories must always have a slug so, if repository and
+        # is_slug_auto turned off but no manual slug entered, auto
+        # generate a repo slug based on repo_code.
+        if self.class == Repository &&
+           (self[:slug].nil? || self[:slug].empty?) &&
+           !SlugHelpers.is_slug_auto_enabled?(self)
+          self[:slug] = SlugHelpers.clean_slug(self[:repo_code])
+          self[:is_slug_auto] = 1
         end
 
         # This block is the same as above, but a special case for Agent classes when generating by ID only.

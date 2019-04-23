@@ -7,11 +7,16 @@ class GenerateSlugsRunner < JobRunner
 
    def generate_slug_for(thing)
      json_like_hash = thing.values
-     AppConfig[:auto_generate_slugs_with_id] ? 
-       SlugHelpers.id_based_slug_for(json_like_hash, thing.class) : 
-       SlugHelpers.name_based_slug_for(json_like_hash, thing.class)
+     # Repository always uses repo_code for slug
+     if thing.class == Repository
+       SlugHelpers.clean_slug(json_like_hash[:repo_code])
+     else
+       AppConfig[:auto_generate_slugs_with_id] ?
+         SlugHelpers.id_based_slug_for(json_like_hash, thing.class) :
+         SlugHelpers.name_based_slug_for(json_like_hash, thing.class)
+     end
    end
-  
+
   def run
     begin
       # REPOSITORIES
@@ -29,8 +34,6 @@ class GenerateSlugsRunner < JobRunner
           if slug && !slug.empty?
             @job.write_output(" -> Slug for repository id: #{r[:id]} => #{slug}")
             r.update(:is_slug_auto => 1, :slug => slug)
-          else
-            @job.write_output(" -> Generated empty slug for: #{r[:id]}")
           end
 
         rescue => e
