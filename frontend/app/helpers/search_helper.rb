@@ -19,14 +19,21 @@ module SearchHelper
   }
 
   def build_search_params(opts = {})
+
+    removing_record_type_filter = false
+    Array(opts["remove_filter_term"]).each do |filter_term|
+      removing_record_type_filter = true if ASUtils.json_parse(filter_term).keys.include? 'primary_type'
+    end
+
     search_params = {}
 
     search_params["filter_term"] = Array(opts["filter_term"] || params["filter_term"]).clone
     search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
+    search_params["filter_term"] = search_params["filter_term"].select{|f| SearchResultData.BASE_FACETS.include?(ASUtils.json_parse(f).keys.first)} if removing_record_type_filter
 
     if params["multiplicity"]
-      search_params["multiplicity"] = params["multiplicity"] 
+      search_params["multiplicity"] = params["multiplicity"]
     end
 
     sort = (opts["sort"] || params["sort"])
@@ -39,7 +46,9 @@ module SearchHelper
     if sort
       sort = sort.split(', ')
       sort[1] = opts["sort2"] if opts["sort2"]
-      search_params["sort"] = sort.uniq.join(', ')
+      fields = sort.uniq
+      fields = fields.select {|f| multi_columns.compact.include?(f.split.first)} if removing_record_type_filter
+      search_params["sort"] = fields.join(', ')
     end
 
     if (opts["format"] || params["format"]).blank?
@@ -50,7 +59,7 @@ module SearchHelper
 
     search_params["linker"] = opts["linker"] || params["linker"] || false
     search_params["type"] = opts["type"] || params["type"]
-    search_params["facets"] = opts["facets"] || params["facets"]
+    search_params["facets"] = opts["facets"] || params["facets"] unless removing_record_type_filter
     search_params["exclude"] = opts["exclude"] || params["exclude"]
     search_params["listing_only"] = true if params["listing_only"]
     search_params["include_components"] = opts.has_key?("include_components") ? opts["include_components"] : params["include_components"]
@@ -128,7 +137,7 @@ module SearchHelper
     when 'collection_management'
       {'parent_type' => '_singular'}
     else
-      {'primary_type' => '_singular'}  
+      {'primary_type' => '_singular'}
     end
   end
 
@@ -219,6 +228,12 @@ module SearchHelper
     end
   end
 
+  def multi_columns
+    @multi_columns ||= ((1..AppConfig[:max_search_columns]).collect do |n|
+      browse_columns["multi_browse_column_#{n}"]
+    end) + ['create_time', 'user_mtime', 'title_sort']
+  end
+
   def add_actions_column
     add_column(sr_only('Actions'), :template => 'shared/actions',
       :class => 'actions table-record-actions')
@@ -306,7 +321,7 @@ module SearchHelper
       )['schema']['fields'].map { |field| [field['name'], field] }.to_h
   end
 
-  
+
 
 
   class SearchColumn
