@@ -114,7 +114,7 @@ class SearchResultData
     end
 
     if facet_group === "level"
-        if get_type === "digital_object"
+        if get_type.include? "digital_object"
           return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
         else
           return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
@@ -181,6 +181,8 @@ class SearchResultData
       types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
       type = types[0] if types.length == 1
     end
+    type = 'subjects' if type == 'subject'
+    type = 'agent' if type.include? 'agent'
     type
   end
 
@@ -313,10 +315,19 @@ class SearchResultData
   end
 
   def self.facets_for(record_type)
+    if record_type.include? 'agent'
+      record_type = 'agent'
+    elsif record_type == 'subjects'
+      record_type = 'subject'
+    elsif record_type == 'archival_object'
+      record_type = 'resource'
+    elsif record_type = 'digital_object_component'
+      record_type = 'digital_object'
+    end
     begin
       self.send("#{record_type.upcase}_FACETS")
     rescue
-      nil
+      self.BASE_FACETS
     end
   end
 
