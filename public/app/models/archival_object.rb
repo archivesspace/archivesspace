@@ -40,7 +40,8 @@ class ArchivalObject < Record
       cite += if container_display.blank? || container_display.length > 5
         '.'
       else
-        ", #{container_display.collect {|v| v.reverse.sub(/\).*\( /, '').reverse}.join('; ')}."
+        @citation_container_display ||= parse_container_display(:citation => true).join('; ')
+        ", #{@citation_container_display}."
       end
 
       if resolved_resource

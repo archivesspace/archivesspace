@@ -12,7 +12,7 @@ class Record
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
               :container_titles_and_uris
 
-  attr_accessor :criteria 
+  attr_accessor :criteria
 
   ABSTRACT = %w(abstract scopecontent)
 
@@ -327,7 +327,7 @@ class Record
     end
     info
   end
-  
+
   def archives_space_client
     ArchivesSpaceClient.instance
   end
@@ -358,6 +358,7 @@ class Record
 
   def parse_sub_container_display_string(sub_container, inst, opts = {})
     summary = opts.fetch(:summary, false)
+    citation = opts.fetch(:citation, false)
     parts = []
 
     instance_type = I18n.t("enumerations.instance_instance_type.#{inst.fetch('instance_type')}", :default => inst.fetch('instance_type'))
@@ -396,7 +397,7 @@ class Record
       parts << "#{type}: #{sub_container.fetch('indicator_3')}"
     end
 
-    summary ? parts.join(", ") : "#{parts.join(", ")} (#{instance_type})"
+    (summary || citation) ? parts.join(", ") : "#{parts.join(", ")} (#{instance_type})"
   end
 
   def parse_digital_object_instances
