@@ -55,12 +55,10 @@ class RepositoriesController < ApplicationController
 
                   success_msg = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
 
-                  if @repository["repository"]["is_slug_auto"] == true &&
-                     !@repository["repository"]["slug"].nil? &&
-                     params["repository"]["repository"] &&
+                  if params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
-                     params["repository"]["repository"]["is_slug_auto"] == "0"
+                     !params["repository"]["repository"]["is_slug_auto"]
                     success_msg << I18n.t("slug.autogen_repo_slug")
                   end
 
@@ -90,12 +88,10 @@ class RepositoriesController < ApplicationController
 
                   success_msg = I18n.t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
 
-                  if @repository["repository"]["is_slug_auto"] == true &&
-                     !@repository["repository"]["slug"].nil? &&
-                     params["repository"]["repository"] &&
+                  if params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
-                     params["repository"]["repository"]["is_slug_auto"] == "0"
+                     !params["repository"]["repository"]["is_slug_auto"]
                     success_msg << I18n.t("slug.autogen_repo_slug")
                   end
 
