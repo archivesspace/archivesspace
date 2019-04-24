@@ -54,7 +54,7 @@ $(function() {
       }        
 
       // highlight in the sidebar
-      if ($(".as-nav-list li.alert-error").length === 0) {
+      if ($(".as-nav-list li.update-monitor-error").length === 0) {
         $(".as-nav-list").prepend(AS.renderTemplate("as_nav_list_errors_item_template"));
       }
       var $errorNavListItem = $(".as-nav-list li.alert-error");
