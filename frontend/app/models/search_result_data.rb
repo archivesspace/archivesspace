@@ -67,7 +67,7 @@ class SearchResultData
 
   def facets_for_filter
     facet_data_for_filter = @facet_data.clone
-    facet_data_for_filter.each {|facet_group, facets| 
+    facet_data_for_filter.each {|facet_group, facets|
       facets.delete_if{|facet, facet_map|
         facet_map[:count] === @search_data['total_hits']
       }
@@ -114,7 +114,7 @@ class SearchResultData
     end
 
     if facet_group === "level"
-        if get_type and types[0] === "digital_object"
+        if get_type === "digital_object"
           return I18n.t("enumerations.digital_object_level.#{facet.to_s}", :default => facet)
         else
           return I18n.t("enumerations.archival_record_level.#{facet.to_s}", :default => facet)
@@ -312,6 +312,13 @@ class SearchResultData
     ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material']
   end
 
+  def self.facets_for(record_type)
+    begin
+      self.send("#{record_type.upcase}_FACETS")
+    rescue
+      nil
+    end
+  end
 
   def self.add_result_hook(&block)
     @result_hooks ||= []
