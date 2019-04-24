@@ -291,7 +291,7 @@ class IndexerCommon
         doc['title'] = record['record']['display_string']
         doc['component_id'] = record['record']['component_id']
         doc['ref_id'] = record['record']['ref_id']
-        doc['slug'] = record['record']['slug'] if !record['record']['slug'].nil? if !record['record']['slug'].nil?
+        doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
     }
@@ -329,7 +329,7 @@ class IndexerCommon
         doc['related_resource_uris'] = record['record']['related_resources'].
                                           collect{|resource| resource["ref"]}.
                                           compact.uniq
-        doc['slug'] = record['record']['slug'] if !record['record']['slug'].nil?
+        doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
     }
@@ -339,7 +339,7 @@ class IndexerCommon
         doc['source'] = record['record']['source']
         doc['first_term_type'] = record['record']['terms'][0]['term_type']
         doc['publish'] = record['record']['publish'] && record['record']['is_linked_to_published_record']
-        doc['slug'] = record['record']['slug'] if !record['record']['slug'].nil?
+        doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
     }
@@ -356,7 +356,7 @@ class IndexerCommon
         doc['repository'] = doc["id"]
         doc['title'] = record['record']['repo_code']
         doc['repo_sort'] = record['record']['display_string']
-        doc['slug'] = record['record']['slug'] if !record['record']['slug'].nil?
+        doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
     }
@@ -377,7 +377,7 @@ class IndexerCommon
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']['ref']
         doc['title'] = record['record']['display_string']
-        doc['slug'] = record['record']['slug'] if !record['record']['slug'].nil?
+        doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
     }
@@ -396,7 +396,7 @@ class IndexerCommon
         doc['related_accession_uris'] = record['record']['related_accessions'].
                                            collect{|accession| accession["ref"]}.
                                            compact.uniq
-        doc['slug'] = record['record']['slug'] if !record['record']['slug'].nil?
+        doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
 
@@ -406,7 +406,7 @@ class IndexerCommon
         doc['digital_object_id'] = record['record']['digital_object_id']
         doc['level'] = record['record']['level']
         doc['restrictions'] = record['record']['restrictions']
-        doc['slug'] = record['record']['slug'] if !record['record']['slug'].nil?
+        doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
         doc['linked_instance_uris'] = record['record']['linked_instances'].
@@ -446,7 +446,7 @@ class IndexerCommon
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
 
         doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect{|ra| ra['ref']}
-        doc['slug'] = record['record']['slug'] if !record['record']['slug'].nil?
+        doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
         if record['record']['is_user']
@@ -481,7 +481,7 @@ class IndexerCommon
         doc['identifier_sort'] = IndexerCommon.generate_sort_string_for_identifier(record['record']['identifier'])
         doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
         doc['has_classification_terms'] = record['record']['has_classification_terms']
-        doc['slug'] = record['record']['slug'] if !record['record']['slug'].nil?
+        doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
     }
