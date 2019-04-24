@@ -228,6 +228,12 @@ module SearchHelper
     end
   end
 
+  def multi_columns
+    @multi_columns ||= ((1..AppConfig[:max_search_columns]).collect do |n|
+      browse_columns["multi_browse_column_#{n}"]
+    end) + ['create_time', 'user_mtime', 'title_sort']
+  end
+
   def add_actions_column
     add_column(sr_only('Actions'), :template => 'shared/actions',
       :class => 'actions table-record-actions')
