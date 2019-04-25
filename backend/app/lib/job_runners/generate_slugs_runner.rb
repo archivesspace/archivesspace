@@ -7,6 +7,7 @@ class GenerateSlugsRunner < JobRunner
 
    def generate_slug_for(thing)
      json_like_hash = thing.values
+
      # Repository always uses repo_code for slug
      if thing.class == Repository
        SlugHelpers.clean_slug(json_like_hash[:repo_code])
@@ -171,8 +172,18 @@ class GenerateSlugsRunner < JobRunner
         next if !r[:slug].empty? && r[:is_slug_auto] == 0
         begin
           @job.write_output("Generating slug for agent_corporate_entity id: #{r[:id]}")
-          agent_name = NameCorporateEntity.find(:agent_corporate_entity_id => r.id)
-          slug = generate_slug_for(agent_name)
+          if AppConfig[:auto_generate_slugs_with_id]
+            authority_id = NameAuthorityId.find(:name_corporate_entity_id => r.id)
+            if !authority_id.nil?
+              cleaned_slug = SlugHelpers.clean_slug(authority_id.values[:authority_id])
+              slug = SlugHelpers.run_dedupe_slug(cleaned_slug)
+            else
+              slug = ''
+            end
+          else
+            agent_name = NameCorporateEntity.find(:agent_corporate_entity_id => r.id)
+            slug = generate_slug_for(agent_name)
+          end
 
           if slug && !slug.empty?
             @job.write_output(" -> Slug for agent_corporate_entity id: #{r[:id]} => #{slug}")
@@ -195,8 +206,18 @@ class GenerateSlugsRunner < JobRunner
        next if !r[:slug].empty? && r[:is_slug_auto] == 0
         begin
           @job.write_output("Generating slug for agent_family id: #{r[:id]}")
-          agent_name = NameFamily.find(:agent_family_id => r.id)
-          slug = generate_slug_for(agent_name)
+          if AppConfig[:auto_generate_slugs_with_id]
+            authority_id = NameAuthorityId.find(:name_family_id => r.id)
+            if !authority_id.nil?
+              cleaned_slug = SlugHelpers.clean_slug(authority_id.values[:authority_id])
+              slug = SlugHelpers.run_dedupe_slug(cleaned_slug)
+            else
+              slug = ''
+            end
+          else
+            agent_name = NameFamily.find(:agent_family_id => r.id)
+            slug = generate_slug_for(agent_name)
+          end
 
           if slug && !slug.empty?
             @job.write_output(" -> Slug for agent_family id: #{r[:id]} => #{slug}")
@@ -220,8 +241,18 @@ class GenerateSlugsRunner < JobRunner
         next if !r[:slug].empty? && r[:is_slug_auto] == 0
         begin
           @job.write_output("Generating slug for agent_person id: #{r[:id]}")
-          agent_name = NamePerson.find(:agent_person_id => r.id)
-          slug = generate_slug_for(agent_name)
+          if AppConfig[:auto_generate_slugs_with_id]
+            authority_id = NameAuthorityId.find(:name_person_id => r.id)
+            if !authority_id.nil?
+              cleaned_slug = SlugHelpers.clean_slug(authority_id.values[:authority_id])
+              slug = SlugHelpers.run_dedupe_slug(cleaned_slug)
+            else
+              slug = ''
+            end
+          else
+            agent_name = NamePerson.find(:agent_person_id => r.id)
+            slug = generate_slug_for(agent_name)
+          end
 
           if slug && !slug.empty?
             @job.write_output(" -> Slug for agent_person id: #{r[:id]} => #{slug}")
@@ -245,8 +276,18 @@ class GenerateSlugsRunner < JobRunner
         next if !r[:slug].empty? && r[:is_slug_auto] == 0
         begin
           @job.write_output("Generating slug for agent_software id: #{r[:id]}")
-          agent_name = NameSoftware.find(:agent_software_id => r.id)
-          slug = generate_slug_for(agent_name)
+          if AppConfig[:auto_generate_slugs_with_id]
+            authority_id = NameAuthorityId.find(:name_software_id => r.id)
+            if !authority_id.nil?
+              cleaned_slug = SlugHelpers.clean_slug(authority_id.values[:authority_id])
+              slug = SlugHelpers.run_dedupe_slug(cleaned_slug)
+            else
+              slug = ''
+            end
+          else
+            agent_name = NameSoftware.find(:agent_software_id => r.id)
+            slug = generate_slug_for(agent_name)
+          end
 
           if slug && !slug.empty?
             @job.write_output(" -> Slug for agent_software id: #{r[:id]} => #{slug}")
