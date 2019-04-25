@@ -130,13 +130,23 @@ class DigitalObjectsController < ApplicationController
                   render :action => "new" 
                 },
                 :on_valid => ->(id){
+                  success_msg = I18n.t("digital_object._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
+
+                  if @digital_object["is_slug_auto"] == false &&
+                     @digital_object["slug"] == nil &&
+                     params["digital_object"] &&
+                     params["digital_object"]["is_slug_auto"] == "1"
+                    success_msg << I18n.t("slug.autogen_disabled")
+                  end
+
+                  flash[:success] = success_msg
+
                   return render :json => @digital_object.to_hash if inline?
                   redirect_to({
                                 :controller => :digital_objects,
                                 :action => :edit,
                                 :id => id
-                              },
-                              :flash => {:success => I18n.t("digital_object._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))})
+                              })
                 })
   end
 

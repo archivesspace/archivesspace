@@ -370,6 +370,8 @@ ja:
     public_url: 公開URL
     is_slug_auto: 自動生成 Slug?
     autogen_disabled: " -- 空スラグを生成、スラグを自動的に生成オプションを無効にします"
+    autogen_repo_slug: " -- スラッグフィールドが空のため、自動的に生成されたリポジトリスラッグ"
+
   linker:
     link_to_prefix: リンク先
     create_and_link_to_prefix: 作成してリンクする

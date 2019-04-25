@@ -363,6 +363,7 @@ en:
     public_url: Public URL
     is_slug_auto: Automatically generate Slug?
     autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
+    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
 
   linker:
     link_to_prefix: Link to
