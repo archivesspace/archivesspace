@@ -1985,7 +1985,7 @@ en:
       find_and_replace_job: Batch Find and Replace (Beta)
       report_job: Create Report
       container_conversion_job: Create Report
-      generate_slugs_job: Generate Slugs for Entities
+      generate_slugs_job: Generate Slugs in Bulk
       trim_whitespace_job: Trim Whitespace
       unknown_job_type: Unknown job type
     status: Status
