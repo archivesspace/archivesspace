@@ -36,7 +36,7 @@ were named as follows:
 
 *name_of_job_type*\_job[*name_of_parameter*]
 
-For v2.6.0 and up they must in stead be named as follows:
+For v2.6.0 and up they must instead be named as follows:
 
 job[*name_of_parameter*]
 
