@@ -183,6 +183,7 @@ class SearchResultData
     end
     type = 'subjects' if type == 'subject'
     type = 'agent' if type.include? 'agent'
+    type = 'repositories' if type == 'repository'
     type
   end
 
@@ -321,7 +322,7 @@ class SearchResultData
       record_type = 'subject'
     elsif record_type == 'archival_object'
       record_type = 'resource'
-    elsif record_type = 'digital_object_component'
+    elsif record_type == 'digital_object_component'
       record_type = 'digital_object'
     end
     begin

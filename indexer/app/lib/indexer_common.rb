@@ -293,6 +293,7 @@ class IndexerCommon
         doc['ref_id'] = record['record']['ref_id']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        doc['language'] = record['record']['language']
       end
     }
 
@@ -331,6 +332,10 @@ class IndexerCommon
                                           compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        if cm = record['record']['collection_management']
+          doc['processing_priority'] = cm['processing_priority']
+          doc['processors'] = cm['processors']
+        end
       end
     }
 
@@ -379,6 +384,7 @@ class IndexerCommon
         doc['title'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        doc['language'] = record['record']['language']
       end
     }
 
@@ -398,6 +404,10 @@ class IndexerCommon
                                            compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        if cm = record['record']['collection_management']
+          doc['processing_priority'] = cm['processing_priority']
+          doc['processors'] = cm['processors']
+        end
       end
 
       if doc['primary_type'] == 'digital_object'
@@ -408,6 +418,7 @@ class IndexerCommon
         doc['restrictions'] = record['record']['restrictions']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        doc['language'] = record['record']['language']
 
         doc['linked_instance_uris'] = record['record']['linked_instances'].
                                          collect{|instance| instance["ref"]}.
