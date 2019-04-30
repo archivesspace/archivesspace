@@ -1,30 +1,30 @@
 browse_column_enums = {
   'accession' => [
-    "title", "publish", "subjects", "agents", "identifier", "acquisition_type",
-    "accession_date", "resource_type", "restrictions_apply", "access_restrictions",
-    "use_restrictions", "is_slug_auto"
+    'title', 'identifier', 'accession_date', 'acquisition_type', 'resource_type',
+    'restrictions_apply', 'publish', 'access_restrictions', 'use_restrictions',
+    'dates', 'extents', 'processing_priority', 'processors', 'language'
   ],
   'resource' => [
-    "title", "publish", "level", "finding_aid_title",
-    "finding_aid_filing_title", "identifier", "resource_type", "language", "restrictions", "ead_id",
-    "finding_aid_status", "is_slug_auto", "subjects"
+    'title', 'identifier', 'level', 'resource_type', 'language', 'publish',
+    'restrictions', 'dates', 'extents', 'ead_id', 'finding_aid_status',
+    'processing_priority', 'processors'
   ],
   'archival_object' => [
-    "title", "publish", "context", "component_id", "ref_id", "is_slug_auto", "subjects",
-    "agents", "level"
+    "title", "publish", "context", "component_id", "ref_id", "subjects",
+    "agents", "level", 'dates', 'extents'
   ],
   'digital_object' => [
-    "title", "publish", "subjects", "agents", "level", "context",
-    "digital_object_type", "digital_object_id", "restrictions", "is_slug_auto"
+    'title', 'digital_object_id', 'publish', 'level', 'digital_object_type', 'language',
+    'restrictions', 'dates', 'extents'
   ],
   'digital_object_component' => [
-    "title", "publish", "subjects", "agents", "creators", "context", "is_slug_auto"
+    "title", "publish", "subjects", "agents", "creators", "context", 'dates', 'extents'
   ],
   'subjects' => [
-    "title", "publish", "source", "first_term_type", "is_slug_auto"
+    "title", "publish", "source", "first_term_type"
   ],
   'agent' => [
-    "title", "primary_type", "publish", "authority_id", "source", "rules", "is_slug_auto", "is_user"
+    "title", "primary_type", "publish", "authority_id", "source", "rules", "is_user"
   ],
   'location' => [
     "title", "publish", "building", "floor", "room", "area", "location_holdings",
@@ -38,21 +38,21 @@ browse_column_enums = {
     "processing_funding_source", "processors"
   ],
   'classification' => [
-    "title", "publish", "has_classification_terms", "is_slug_auto"
+    "title", "publish", "has_classification_terms"
   ],
   'top_container' => [
     "title", "publish", "container_profile_display_string_u_sstr", "location_display_string_u_sstr", "type",
     "indicator", "barcode", "context"
   ],
   'assessment' => [
-    "assessment_id", "assessment_records", "assessment_record_types", "assessment_surveyors", 
+    "assessment_id", "assessment_records", "assessment_record_types", "assessment_surveyors",
     "assessment_survey_begin", "assessment_review_required", "assessment_sensitive_material",
     "assessment_inactive", "assessment_survey_year", "assessment_collections",
     "assessment_completed", "assessment_formats", "assessment_ratings",
     "assessment_conservation_issues"
   ],
   'repositories' => [
-    "title", "publish", "is_slug_auto"
+    "title", "publish"
   ],
   'container_profile' => [
     "title", "publish", "container_profile_width_u_sstr", "container_profile_height_u_sstr",
@@ -63,7 +63,7 @@ browse_column_enums = {
     "location_profile_depth_u_sstr", "location_profile_dimension_units_u_sstr"
   ],
   'multi' => [
-    "primary_type", "title", "context", "identifier", "audit_info"
+    "primary_type", "title", "context", "identifier", 'dates', 'extents'
   ]
 }
 
