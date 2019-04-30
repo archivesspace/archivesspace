@@ -2,7 +2,7 @@ browse_column_enums = {
   'accession' => [
     'title', 'identifier', 'accession_date', 'acquisition_type', 'resource_type',
     'restrictions_apply', 'publish', 'access_restrictions', 'use_restrictions',
-    'dates', 'extents', 'processing_priority', 'processors', 'language'
+    'dates', 'extents', 'processing_priority', 'processors'
   ],
   'resource' => [
     'title', 'identifier', 'level', 'resource_type', 'language', 'publish',
@@ -10,15 +10,15 @@ browse_column_enums = {
     'processing_priority', 'processors'
   ],
   'archival_object' => [
-    "title", "publish", "context", "component_id", "ref_id", "subjects",
-    "agents", "level", 'dates', 'extents'
+    "title", "publish", "context", "component_id", "ref_id", "level", 'dates',
+    'extents', 'language'
   ],
   'digital_object' => [
     'title', 'digital_object_id', 'publish', 'level', 'digital_object_type', 'language',
     'restrictions', 'dates', 'extents'
   ],
   'digital_object_component' => [
-    "title", "publish", "subjects", "agents", "creators", "context", 'dates', 'extents'
+    "title", "publish", "context", 'dates', 'extents', 'language'
   ],
   'subjects' => [
     "title", "publish", "source", "first_term_type"
