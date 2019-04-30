@@ -166,7 +166,6 @@ en:
       title: Title
       publish: Published
       subjects: Subject
-      agents: Agent
       identifier: Identifier
       acquisition_type: Acquisition Type
       accession_date: Accession Date
@@ -174,65 +173,67 @@ en:
       restrictions_apply: Restrictions Apply
       access_restrictions: Access Restrictions
       use_restrictions: Use Restrictions
-      is_slug_auto: Automatically generate Slug?
       audit_info: Audit Information
       creators: Creator
       accession_date_year: Accession Date
+      dates: Dates
+      extents: Extent
+      processing_priority: Processing Priority
+      processors: Processors
     resource:
       title: Title
       publish: Published
       level: Level
-      finding_aid_title: Finding Aid Title
-      finding_aid_filing_title: Finding Aid Filing Title
       identifier: Identifier
       resource_type: Resource Type
       language: Language
       restrictions: Restrictions
       ead_id: EAD ID
       finding_aid_status: Finding Aid Status
-      is_slug_auto: Automatically generate Slug?
       audit_info: Audit Information
       classification_path: Classification Path
       subjects: Subject
+      dates: Dates
+      extents: Extent
+      processing_priority: Processing Priority
+      processors: Processors
     archival_object:
       title: Title
       publish: Published
       context: Parent Resource
       component_id: Component ID
       ref_id: Ref ID
-      is_slug_auto: Automatically generate Slug?
-      subjects: Subject
-      agents: Agent
       level: Level
       audit_info: Audit Information
+      language: Language
+      dates: Dates
+      extents: Extent
     subjects:
       source: Source
       first_term_type: Term Type (First)
       title: Terms
       publish: Published
-      is_slug_auto: Automatically generate Slug?
       audit_info: Audit Information
     digital_object:
       title: Title
       publish: Published
       subjects: Subject
-      agents: Agent
       level: Level
       digital_object_type: Digital Object Type
       digital_object_id: Digital Object ID
       restrictions: Restrictions
-      is_slug_auto: Automatically generate Slug?
       audit_info: Audit Information
-      context: Found in
+      language: Language
+      dates: Dates
+      extents: Extent
     digital_object_component:
       title: Title
       publish: Published
-      subjects: Subject
-      agents: Agent
-      creators: Creator
       context: Found in
-      is_slug_auto: Automatically generate Slug?
       audit_info: Audit Information
+      language: Language
+      dates: Dates
+      extents: Extent
     agent:
       title: Name
       primary_type: Agent Type
@@ -240,7 +241,6 @@ en:
       authority_id: Authority ID
       source: Source
       rules: Rules
-      is_slug_auto: Automatically generate Slug?
       is_user: Is User?
       audit_info: Audit Information
     location:
@@ -273,7 +273,6 @@ en:
       title: Title
       publish: Published
       has_classification_terms: Has classification terms?
-      is_slug_auto: Automatically generate slug?
       audit_info: Audit Information
     assessment:
       assessment_id: Assessment ID
@@ -295,7 +294,6 @@ en:
     repositories:
       title: Title
       publish: Published
-      is_slug_auto: Automatically generate slug?
       audit_info: Audit Information
     top_container:
       title: Title
@@ -335,6 +333,8 @@ en:
       relevance: Relevance
       user_mtime: Modified
       create_time: Created
+      dates: Dates
+      extents: Extent
 
   advanced_search:
     operator:
