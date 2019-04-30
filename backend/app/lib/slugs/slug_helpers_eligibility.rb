@@ -138,7 +138,6 @@ module SlugHelpers
     klass.to_s == "DigitalObjectComponent" ||
     klass.to_s == "Classification" ||
     klass.to_s == "ClassificationTerm" ||
-    klass.to_s == "Repository" ||
     klass.to_s == "ArchivalObject"  ||
     klass.to_s == "Subject"
   end

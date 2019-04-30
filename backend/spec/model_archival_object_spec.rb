@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative 'spec_slugs_helper'
 
 describe 'ArchivalObject model' do
 
@@ -312,198 +313,111 @@ describe 'ArchivalObject model' do
     }.to raise_error(RuntimeError, /Consistency check failed/)
   end
 
-  # describe "slug tests" do
-  #   describe "slug autogen enabled" do
-  #     it "autogenerates a slug via title when configured to generate by name" do
-  #       pending "passes when run by itself, fails when runs in suite"
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object))
-  #
-  #       expected_slug = archival_object[:title].gsub(" ", "_")
-  #                                             .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #
-  #       expect(archival_object[:slug]).to eq(expected_slug)
-  #     end
-  #
-  #     it "autogenerates a slug via archival_object_id when configured to generate by id" do
-  #       AppConfig[:auto_generate_slugs_with_id] = true
-  #       AppConfig[:generate_archival_object_slugs_with_cuid] = false
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object))
-  #
-  #       expected_slug = archival_object[:ref_id].gsub(" ", "_")
-  #                                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #                                                 .gsub('"', '')
-  #                                                 .gsub('null', '')
-  #
-  #       # numeric slugs will be prepended by an underscore
-  #       if expected_slug =~ /^\d+$/
-  #         expected_slug = "_#{expected_slug}"
-  #       end
-  #
-  #       expect(archival_object[:slug]).to eq(expected_slug)
-  #     end
-  #
-  #     it "autogenerates a slug via component_id when configured to generate by id and config option is on" do
-  #       AppConfig[:auto_generate_slugs_with_id] = true
-  #       AppConfig[:generate_archival_object_slugs_with_cuid] = true
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :component_id => "abc3.14159"))
-  #
-  #       expected_slug = archival_object[:component_id].gsub(" ", "_")
-  #                                                     .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+.,!]/, "")
-  #                                                     .gsub('"', '')
-  #                                                     .gsub('null', '')
-  #
-  #       # numeric slugs will be prepended by an underscore
-  #       if expected_slug =~ /^\d+$/
-  #         expected_slug = "_#{expected_slug}"
-  #       end
-  #
-  #       expect(archival_object[:slug]).to eq(expected_slug)
-  #     end
-  #   end
-  #
-  #   describe "slug autogen disabled" do
-  #     it "autogenerates a slug via title when configured to generate by name" do
-  #       pending "passes when run by itself, fails when runs in suite"
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object), :is_slug_auto => false)
-  #
-  #
-  #       archival_object.update(:is_slug_auto => 1)
-  #
-  #       expected_slug = archival_object[:title].gsub(" ", "_")
-  #                                             .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #
-  #       expect(archival_object[:slug]).to eq(expected_slug)
-  #     end
-  #
-  #     it "autogenerates a slug via archival_object_id when configured to generate by id" do
-  #       AppConfig[:auto_generate_slugs_with_id] = true
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object), :is_slug_auto => false)
-  #
-  #
-  #       archival_object.update(:is_slug_auto => 1)
-  #
-  #       expected_slug = archival_object[:ref_id].gsub(" ", "_")
-  #                                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #                                                 .gsub('"', '')
-  #                                                 .gsub('null', '')
-  #
-  #       # numeric slugs will be prepended by an underscore
-  #       if expected_slug =~ /^\d+$/
-  #         expected_slug = "_#{expected_slug}"
-  #       end
-  #
-  #       expect(archival_object[:slug]).to eq(expected_slug)
-  #     end
-  #   end
-  #
-  #   it "generates a slug for largetree if show slug is set to show" do
-  #     AppConfig[:use_human_readable_URLs] = true
-  #
-  #     expect(SlugHelpers.get_slugged_url_for_largetree("ArchivalObject", $repo_id, "ao_slug")).to eq( AppConfig[:public_proxy_url] + "/archival_objects/ao_slug")
-  #   end
-  #
-  #   it "does not generate a slug for largetree if show slug is set to hide" do
-  #     AppConfig[:use_human_readable_URLs] = false
-  #
-  #     expect(SlugHelpers.get_slugged_url_for_largetree("ArchivalObject", $repo_id, "ao_slug").empty?).to eq( true )
-  #   end
-  #
-  #   describe "slug code does not run" do
-  #     it "does not execute slug code when auto-gen on id and title is changed" do
-  #       AppConfig[:auto_generate_slugs_with_id] = true
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
-  #
-  #       expect(archival_object).to_not receive(:auto_gen_slug!)
-  #       expect(SlugHelpers).to_not receive(:clean_slug)
-  #
-  #       archival_object.update(:title => "foobar")
-  #     end
-  #
-  #     it "does not execute slug code when auto-gen on title and id is changed" do
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
-  #
-  #       expect(archival_object).to_not receive(:auto_gen_slug!)
-  #       expect(SlugHelpers).to_not receive(:clean_slug)
-  #
-  #       archival_object.update(:ref_id => "foobar")
-  #     end
-  #
-  #     it "does not execute slug code when auto-gen on cuid and ref_id is changed" do
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #       AppConfig[:generate_archival_object_slugs_with_cuid] = true
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
-  #
-  #       expect(archival_object).to_not receive(:auto_gen_slug!)
-  #       expect(SlugHelpers).to_not receive(:clean_slug)
-  #
-  #       archival_object.update(:ref_id => "foobar")
-  #     end
-  #
-  #     it "does not execute slug code when auto-gen on ref_id and component_id is changed" do
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #       AppConfig[:generate_archival_object_slugs_with_cuid] = false
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
-  #
-  #       expect(archival_object).to_not receive(:auto_gen_slug!)
-  #       expect(SlugHelpers).to_not receive(:clean_slug)
-  #
-  #       archival_object.update(:component_id => "foobar")
-  #     end
-  #   end
-  #
-  #   describe "slug code runs" do
-  #     it "executes slug code when auto-gen on id and id is changed" do
-  #       pending "passes when run by itself, fails when runs in suite"
-  #       AppConfig[:auto_generate_slugs_with_id] = true
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
-  #
-  #       expect(archival_object).to receive(:auto_gen_slug!)
-  #
-  #       archival_object.update(:ref_id => 'foo')
-  #     end
-  #
-  #     it "executes slug code when auto-gen on title and title is changed" do
-  #       pending "passes when run by itself, fails when runs in suite"
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => true}))
-  #
-  #       expect(archival_object).to receive(:auto_gen_slug!)
-  #
-  #       archival_object.update(:title => "foobar")
-  #     end
-  #
-  #     it "executes slug code when autogen is turned on" do
-  #       pending "passes when run by itself, fails when runs in suite"
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => false, :slug => ""}))
-  #
-  #       expect(archival_object).to receive(:auto_gen_slug!)
-  #
-  #       archival_object.update(:is_slug_auto => 1)
-  #     end
-  #
-  #     it "executes slug code when autogen is off and slug is updated" do
-  #       pending "passes when run by itself, fails when runs in suite"
-  #       archival_object = ArchivalObject.create_from_json(build(:json_archival_object, {:is_slug_auto => false, :slug => ""}))
-  #
-  #       expect(SlugHelpers).to receive(:clean_slug)
-  #
-  #       archival_object.update(:slug => "snow white")
-  #     end
-  #   end
-  # end
+  describe "slug tests" do
+    before(:all) do
+      AppConfig[:use_human_readable_URLs] = true
+    end
+
+    describe "slug autogen enabled" do
+      describe "by name" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = false
+        end
+        it "autogenerates a slug via title" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => rand(100000).to_s))
+          expected_slug = clean_slug(archival_object[:title])
+          expect(archival_object[:slug]).to eq(expected_slug)
+        end
+        it "cleans slug" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
+          expected_slug = clean_slug(archival_object[:title])
+          expect(archival_object[:slug]).to eq(expected_slug)
+        end
+
+        it "dedupes slug" do
+          archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "foo"))
+          archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :title => "foo"))
+          expect(archival_object1[:slug]).to eq("foo")
+          expect(archival_object2[:slug]).to eq("foo_1")
+        end
+        it "turns off autogen if slug is blank" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true))
+          archival_object.update(:slug => "")
+          expect(archival_object[:is_slug_auto]).to eq(0)
+        end
+      end
+
+      describe "by id" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = true
+          AppConfig[:generate_archival_object_slugs_with_cuid] = false
+        end
+        it "autogenerates a slug via identifier" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foo" + rand(10000).to_s))
+          expected_slug = clean_slug(archival_object[:ref_id])
+          expect(archival_object[:slug]).to eq(expected_slug)
+        end
+
+        it "cleans slug" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "FooBarBaz"))
+          expect(archival_object[:slug]).to eq("foobarbaz")
+        end
+
+        it "dedupes slug" do
+          archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foobar"))
+          archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :ref_id => "foobar"))
+          expect(archival_object1[:slug]).to eq("foobar")
+          expect(archival_object2[:slug]).to eq("foobar_1")
+        end
+      end
+
+      describe "by cuid" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = true
+          AppConfig[:generate_archival_object_slugs_with_cuid] = true
+        end
+        it "autogenerates a slug via cuid" do
+          archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => true, :component_id => rand(100000).to_s))
+          expected_slug = clean_slug(archival_object[:component_id])
+          expect(archival_object[:slug]).to eq(expected_slug)
+        end
+      end
+    end
+
+    describe "slug autogen disabled" do
+      before(:all) do
+        AppConfig[:auto_generate_slugs_with_id] = false
+      end
+      it "slug does not change when config set to autogen by title and title updated" do
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => false, :slug => "foo"))
+        archival_object.update(:title => rand(100000000))
+        expect(archival_object[:slug]).to eq("foo")
+      end
+
+      it "slug does not change when config set to autogen by id and id updated" do
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => false, :slug => "foo"))
+        archival_object.update(:identifier => rand(100000000))
+        expect(archival_object[:slug]).to eq("foo")
+      end
+    end
+
+    describe "manual slugs" do
+      it "cleans manual slugs" do
+        archival_object = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => false))
+        archival_object.update(:slug => "Foo Bar Baz ###")
+        expect(archival_object[:slug]).to eq("foo_bar_baz")
+      end
+
+      it "dedupes manual slugs" do
+        archival_object1 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => false, :slug => "foo"))
+        archival_object2 = ArchivalObject.create_from_json(build(:json_archival_object, :is_slug_auto => false))
+
+        archival_object2.update(:slug => "foo")
+
+        expect(archival_object1[:slug]).to eq("foo")
+        expect(archival_object2[:slug]).to eq("foo_1")
+      end
+    end
+  end
+
 end

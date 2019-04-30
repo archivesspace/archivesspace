@@ -406,7 +406,6 @@ class IndexerCommon
         doc['digital_object_id'] = record['record']['digital_object_id']
         doc['level'] = record['record']['level']
         doc['restrictions'] = record['record']['restrictions']
-
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
@@ -447,7 +446,6 @@ class IndexerCommon
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
 
         doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect{|ra| ra['ref']}
-
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
@@ -483,12 +481,8 @@ class IndexerCommon
         doc['identifier_sort'] = IndexerCommon.generate_sort_string_for_identifier(record['record']['identifier'])
         doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
         doc['has_classification_terms'] = record['record']['has_classification_terms']
-
-        if doc['primary_type'] == 'classification'
-          doc['slug'] = record['record']['slug']
-          doc['is_slug_auto'] = record['record']['is_slug_auto']
-        end
-
+        doc['slug'] = record['record']['slug']
+        doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
     }
 
