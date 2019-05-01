@@ -52,11 +52,14 @@ class DigitalObjectComponentsController < ApplicationController
                     I18n.t("digital_object_component._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved']).enable_parse_mixed_content!(url_for(:root))) :
                     I18n.t("digital_object_component._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
 
-                  if params.has_key?(:plus_one)
-                    flash[:success] = success_message
-                  else
-                    flash.now[:success] = success_message
+                  if @digital_object_component["is_slug_auto"] == false &&
+                     @digital_object_component["slug"] == nil &&
+                     params["digital_object_component"] &&
+                     params["digital_object_component"]["is_slug_auto"] == "1"
+                    success_message << I18n.t("slug.autogen_disabled")
                   end
+
+                  flash[:success] = success_message
 
                   render_aspace_partial :partial => "digital_object_components/edit_inline"
                 })

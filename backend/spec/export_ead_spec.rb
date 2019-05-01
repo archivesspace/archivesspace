@@ -604,7 +604,7 @@ describe "EAD export mappings" do
           else
             mt(nil, path, "id")
           end
-          
+
           mt(note['label'], path, "label") if note['label']
         end
       end
@@ -665,7 +665,6 @@ describe "EAD export mappings" do
 
       it "maps notes of type 'physfacet' to did/physdesc/physfacet" do
         notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
-          puts "LANEY note #{note.inspect} i #{i.inspect}"
           path = "#{desc_path}/did/physdesc[physfacet][#{i}]/physfacet"
           mt(note_content(note), path)
           if !note['persistent_id'].nil?
@@ -673,7 +672,7 @@ describe "EAD export mappings" do
           else
             mt(nil, path, "id")
           end
-          
+
           mt(note['label'], path, "label") if note['label']
         end
       end

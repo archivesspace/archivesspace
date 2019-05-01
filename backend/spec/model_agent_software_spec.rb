@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative 'spec_slugs_helper'
 
 describe 'Agent model' do
 
@@ -34,7 +35,6 @@ describe 'Agent model' do
 
 
   it "requires a source to be set if an authority id is provided" do
-
     n1 = build(:json_name_software, :authority_id => 'wooo')
 
     expect {
@@ -66,39 +66,167 @@ describe 'Agent model' do
     expect(as_json['names'][0]['version']).to eq ASConstants.VERSION
   end
 
-  # describe "slug tests" do
-  #   it "sets software_name as the slug value if configured to generate by name" do
-  #     AppConfig[:auto_generate_slugs_with_id] = false
-  #
-  #     agent = AgentSoftware.create_from_json(build(:json_agent_software))
-  #
-  #     agent_name = NameSoftware.where(:agent_software_id => agent[:id]).first
-  #
-  #     expected_slug = agent_name[:software_name].gsub(" ", "_")
-  #                                               .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #
-  #
-  #
-  #     agent_rec = AgentSoftware.where(:id => agent[:id]).first.update(:is_slug_auto => 1)
-  #
-  #     expect(agent_rec[:slug]).to eq(expected_slug)
-  #   end
-  #
-  #   it "sets software_name as the slug value if configured to generate by id" do
-  #     AppConfig[:auto_generate_slugs_with_id] = true
-  #
-  #     agent = AgentSoftware.create_from_json(build(:json_agent_software))
-  #
-  #     agent_name = NameSoftware.where(:agent_software_id => agent[:id]).first
-  #
-  #     expected_slug = agent_name[:software_name].gsub(" ", "_")
-  #                                               .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #
-  #
-  #
-  #     agent_rec = AgentSoftware.where(:id => agent[:id]).first.update(:is_slug_auto => 1)
-  #
-  #     expect(agent_rec[:slug]).to eq(expected_slug)
-  #   end
-  # end
+
+    describe "slug tests" do
+      before (:all) do
+        AppConfig[:use_human_readable_URLs] = true
+      end
+
+      describe "slug autogen enabled" do
+        it "autogenerates a slug via title when configured to generate by name" do
+          AppConfig[:auto_generate_slugs_with_id] = false
+
+          agent_name_software = build(:json_name_software)
+          agent_software = AgentSoftware.create_from_json(
+            build(:json_agent_software,
+                :is_slug_auto => true,
+                :names => [agent_name_software])
+          )
+
+          expected_slug = clean_slug(get_generated_name_for_agent(agent_software))
+
+          expect(agent_software[:slug]).to eq(expected_slug)
+        end
+
+        it "autogenerates a slug via identifier when configured to generate by id" do
+          pending "failing due to a validation error that is not showing any validation messages when generating agent_software json"
+          AppConfig[:auto_generate_slugs_with_id] = true
+
+          agent_name_software = build(:json_name_software, :authority_id => rand(100000).to_s)
+          agent_software = AgentSoftware.create_from_json(
+            build(:json_agent_software,
+                :is_slug_auto => true,
+                :names => [agent_name_software])
+          )
+
+          expected_slug = clean_slug(agent_name_software[:software_name])
+
+          expect(agent_software[:slug]).to eq(expected_slug)
+
+        end
+
+        it "turns off autogen if slug is blank" do
+          AppConfig[:auto_generate_slugs_with_id] = true
+
+          agent_software = AgentSoftware.create_from_json(build(:json_agent_software, :is_slug_auto => true))
+          agent_software.update(:slug => "")
+          expect(agent_software[:is_slug_auto]).to eq(0)
+        end
+
+        it "cleans slug when autogenerating by name" do
+          AppConfig[:auto_generate_slugs_with_id] = false
+          agent_name_software = build(:json_name_software)
+          agent_software = AgentSoftware.create_from_json(
+            build(:json_agent_software,
+                :is_slug_auto => true,
+                :names => [agent_name_software])
+          )
+
+          expected_slug = clean_slug(get_generated_name_for_agent(agent_software))
+          expect(agent_software[:slug]).to eq(expected_slug)
+        end
+
+        it "dedupes slug when autogenerating by name" do
+          pending "failing due to a validation error that is not showing any validation messages when generating agent_software json"
+          AppConfig[:auto_generate_slugs_with_id] = false
+          agent_name_software1 = build(:json_name_software, :authority_id => "foo")
+          agent_software1 = AgentSoftware.create_from_json(
+            build(:json_agent_software,
+                :is_slug_auto => true,
+                :names => [agent_name_software1])
+          )
+
+          agent_name_software2 = build(:json_name_software, :software_name => "foo")
+          agent_software2 = AgentSoftware.create_from_json(
+            build(:json_agent_software,
+                :is_slug_auto => true,
+                :names => [agent_name_software2])
+          )
+
+          expect(agent_software1[:slug]).to eq("foo")
+          expect(agent_software2[:slug]).to eq("foo_1")
+        end
+
+
+        it "cleans slug when autogenerating by id" do
+          pending "failing due to a validation error that is not showing any validation messages when generating agent_software json"
+          AppConfig[:auto_generate_slugs_with_id] = true
+
+          agent_name_software = build(:json_name_software, :authority_id => "Foo Bar Baz&&&&")
+          agent_software = AgentSoftware.create_from_json(
+            build(:json_agent_software,
+                :is_slug_auto => true,
+                :names => [agent_name_software])
+          )
+
+          expect(agent_software[:slug]).to eq("foo_bar_baz")
+        end
+
+        it "dedupes slug when autogenerating by id" do
+          pending "failing due to a validation error that is not showing any validation messages when generating agent_software json"
+          AppConfig[:auto_generate_slugs_with_id] = true
+
+          agent_name_software1 = build(:json_name_software, :authority_id => "foo")
+
+          agent_software1 = AgentSoftware.create_from_json(
+            build(:json_agent_software,
+                :is_slug_auto => true,
+                :names => [agent_name_software1])
+          )
+
+          agent_name_software2 = build(:json_name_software, :authority_id => "foo#", :software_name => "foo" + rand(100000).to_s)
+          agent_software2 = AgentSoftware.create_from_json(
+            build(:json_agent_software,
+                :is_slug_auto => true,
+                :names => [agent_name_software2])
+          )
+          expect(agent_software1[:slug]).to eq("foo")
+          expect(agent_software2[:slug]).to eq("foo_1")
+        end
+      end
+
+      describe "slug autogen disabled" do
+        it "slug does not change when config set to autogen by title and title updated" do
+          AppConfig[:auto_generate_slugs_with_id] = false
+
+          agent_software = AgentSoftware.create_from_json(build(:json_agent_software, :is_slug_auto => false, :slug => "foo"))
+
+          agent_software_name = NameSoftware.find(:agent_software_id => agent_software.id)
+
+          agent_software.update(:name_software => rand(100000000))
+
+          expect(agent_software[:slug]).to eq("foo")
+        end
+
+        it "slug does not change when config set to autogen by id and id updated" do
+          AppConfig[:auto_generate_slugs_with_id] = false
+
+          agent_software = AgentSoftware.create_from_json(build(:json_agent_software, :is_slug_auto => false, :slug => "foo"))
+
+          agent_software_name = NameSoftware.find(:agent_software_id => agent_software.id)
+          agent_software_name.update(:authority_id => rand(100000000))
+
+          expect(agent_software[:slug]).to eq("foo")
+        end
+      end
+
+      describe "manual slugs" do
+        it "cleans manual slugs" do
+          agent_software = AgentSoftware.create_from_json(build(:json_agent_software, :is_slug_auto => false))
+          agent_software.update(:slug => "Foo Bar Baz ###")
+          expect(agent_software[:slug]).to eq("foo_bar_baz")
+        end
+
+        it "dedupes manual slugs" do
+          agent_software1 = AgentSoftware.create_from_json(build(:json_agent_software, :is_slug_auto => false, :slug => "foo"))
+          agent_software2 = AgentSoftware.create_from_json(build(:json_agent_software, :is_slug_auto => false))
+
+          agent_software2.update(:slug => "foo")
+
+          expect(agent_software1[:slug]).to eq("foo")
+          expect(agent_software2[:slug]).to eq("foo_1")
+        end
+      end
+    end
+
 end

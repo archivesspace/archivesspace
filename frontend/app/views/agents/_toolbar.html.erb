@@ -28,7 +28,11 @@
         </div>
         <% if @agent.publish %>
           <div class="btn btn-inline-form">
-            <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @agent.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
+            <% if AppConfig[:use_human_readable_URLs] && !@agent['slug'].nil? && !@agent['slug'].empty? %>
+              <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], 'agents', @agent['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
+            <% else %>
+              <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @agent.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
+            <% end %>
           </div>
         <% end %>
         <% if user_can?('merge_agent_record') %>

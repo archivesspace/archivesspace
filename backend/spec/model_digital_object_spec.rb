@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative 'spec_slugs_helper'
 
 describe 'Digital object model' do
 
@@ -137,138 +138,95 @@ describe 'Digital object model' do
 
   end
 
-  # describe "slug tests" do
-  #   describe "slug autogen enabled" do
-  #     it "autogenerates a slug via title when configured to generate by name" do
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object))
-  #
-  #       expected_slug = digital_object[:title].gsub(" ", "_")
-  #                                             .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #
-  #       expect(digital_object[:slug]).to eq(expected_slug)
-  #     end
-  #
-  #     it "autogenerates a slug via digital_object_id when configured to generate by id" do
-  #       AppConfig[:auto_generate_slugs_with_id] = true
-  #
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object))
-  #
-  #       expected_slug = digital_object[:digital_object_id].gsub(" ", "_")
-  #                                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #                                                 .gsub('"', '')
-  #                                                 .gsub('null', '')
-  #
-  #       expect(digital_object[:slug]).to eq(expected_slug)
-  #     end
-  #   end
-  #
-  #   describe "slug autogen disabled and then turned on" do
-  #     it "autogenerates a slug via title when configured to generate by name" do
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object), :is_slug_auto => false)
-  #
-  #
-  #       digital_object.update(:is_slug_auto => 1)
-  #
-  #       expected_slug = digital_object[:title].gsub(" ", "_")
-  #                                             .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #
-  #       expect(digital_object[:slug]).to eq(expected_slug)
-  #     end
-  #
-  #     it "autogenerates a slug via digital_object_id when configured to generate by id" do
-  #       AppConfig[:auto_generate_slugs_with_id] = true
-  #
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object), :is_slug_auto => false)
-  #
-  #
-  #       digital_object.update(:is_slug_auto => 1)
-  #
-  #       expected_slug = digital_object[:digital_object_id].gsub(" ", "_")
-  #                                                 .gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!]/, "")
-  #                                                 .gsub('"', '')
-  #                                                 .gsub('null', '')
-  #
-  #       expect(digital_object[:slug]).to eq(expected_slug)
-  #     end
-  #   end
-  #
-  #   describe "slug code does not run" do
-  #     it "does not execute slug code when auto-gen on id and title is changed" do
-  #       AppConfig[:auto_generate_slugs_with_id] = true
-  #
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object, {:is_slug_auto => true}))
-  #
-  #       expect(digital_object).to_not receive(:auto_gen_slug!)
-  #       expect(SlugHelpers).to_not receive(:clean_slug)
-  #
-  #       digital_object.update(:title => "foobar")
-  #     end
-  #
-  #     it "does not execute slug code when auto-gen on title and id is changed" do
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object, {:is_slug_auto => true}))
-  #
-  #       expect(digital_object).to_not receive(:auto_gen_slug!)
-  #       expect(SlugHelpers).to_not receive(:clean_slug)
-  #
-  #       digital_object.update(:digital_object_id => "foobar")
-  #     end
-  #
-  #     it "does not execute slug code when auto-gen off and title, identifier changed" do
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object, {:is_slug_auto => false, :slug => ""}))
-  #
-  #       expect(digital_object).to_not receive(:auto_gen_slug!)
-  #       expect(SlugHelpers).to_not receive(:clean_slug)
-  #
-  #       digital_object.update(:digital_object_id => "foobar")
-  #       digital_object.update(:title => "barfoo")
-  #     end
-  #   end
-  #
-  #   describe "slug code runs" do
-  #     it "executes slug code when auto-gen on id and id is changed" do
-  #       AppConfig[:auto_generate_slugs_with_id] = true
-  #
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object, {:is_slug_auto => true}))
-  #
-  #       expect(digital_object).to receive(:auto_gen_slug!)
-  #       expect(SlugHelpers).to receive(:clean_slug)
-  #
-  #       digital_object.update(:digital_object_id => "foo#{rand(10000)}")
-  #     end
-  #
-  #     it "executes slug code when auto-gen on title and title is changed" do
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object, {:is_slug_auto => true}))
-  #
-  #       expect(digital_object).to receive(:auto_gen_slug!)
-  #
-  #       digital_object.update(:title => "foobar")
-  #     end
-  #
-  #     it "executes slug code when autogen is turned on" do
-  #       AppConfig[:auto_generate_slugs_with_id] = false
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object, {:is_slug_auto => false}))
-  #
-  #       expect(digital_object).to receive(:auto_gen_slug!)
-  #
-  #       digital_object.update(:is_slug_auto => 1)
-  #     end
-  #
-  #     it "executes slug code when autogen is off and slug is updated" do
-  #       digital_object = DigitalObject.create_from_json(build(:json_digital_object, {:is_slug_auto => false}))
-  #
-  #       expect(SlugHelpers).to receive(:clean_slug)
-  #
-  #       digital_object.update(:slug => "snow white")
-  #     end
-  #   end
-  # end
+  describe "slug tests" do
+    before(:all) do
+      AppConfig[:use_human_readable_URLs] = true
+    end
+
+    describe "slug autogen enabled" do
+      describe "by name" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = false
+        end
+        it "autogenerates a slug via title" do
+          digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => rand(100000).to_s))
+          expected_slug = clean_slug(digital_object[:title])
+          expect(digital_object[:slug]).to eq(expected_slug)
+        end
+        it "cleans slug" do
+          digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => "Foo Bar Baz&&&&"))
+          expect(digital_object[:slug]).to eq("foo_bar_baz")
+        end
+
+        it "dedupes slug" do
+          digital_object1 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => "foo"))
+          digital_object2 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :title => "foo"))
+          expect(digital_object1[:slug]).to eq("foo")
+          expect(digital_object2[:slug]).to eq("foo_1")
+        end
+        it "turns off autogen if slug is blank" do
+          digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true))
+          digital_object.update(:slug => "")
+          expect(digital_object[:is_slug_auto]).to eq(0)
+        end
+      end
+      describe "by id" do
+        before(:all) do
+          AppConfig[:auto_generate_slugs_with_id] = true
+        end
+        it "autogenerates a slug via identifier" do
+          digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true))
+          expected_slug = clean_slug(digital_object[:digital_object_id])
+          expect(digital_object[:slug]).to eq(expected_slug)
+        end
+        it "cleans slug" do
+          digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :digital_object_id => "Foo Bar Baz&&&&"))
+          expect(digital_object[:slug]).to eq("foo_bar_baz")
+        end
+
+        it "dedupes slug" do
+          digital_object1 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :digital_object_id => "foo"))
+          digital_object2 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => true, :digital_object_id => "foo#"))
+          expect(digital_object1[:slug]).to eq("foo")
+          expect(digital_object2[:slug]).to eq("foo_1")
+        end
+      end
+    end
+
+    describe "slug autogen disabled" do
+      before(:all) do
+        AppConfig[:auto_generate_slugs_with_id] = false
+      end
+      it "slug does not change when config set to autogen by title and title updated" do
+        digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => false, :slug => "foo"))
+        digital_object.update(:title => rand(100000000))
+        expect(digital_object[:slug]).to eq("foo")
+      end
+
+      it "slug does not change when config set to autogen by id and id updated" do
+        digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => false, :slug => "foo"))
+        digital_object.update(:digital_object_id => rand(100000000))
+        expect(digital_object[:slug]).to eq("foo")
+      end
+    end
+
+    describe "manual slugs" do
+      it "cleans manual slugs" do
+        digital_object = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => false))
+        digital_object.update(:slug => "Foo Bar Baz ###")
+        expect(digital_object[:slug]).to eq("foo_bar_baz")
+      end
+
+      it "dedupes manual slugs" do
+        digital_object1 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => false, :slug => "foo"))
+        digital_object2 = DigitalObject.create_from_json(build(:json_digital_object, :is_slug_auto => false))
+
+        digital_object2.update(:slug => "foo")
+
+        expect(digital_object1[:slug]).to eq("foo")
+        expect(digital_object2[:slug]).to eq("foo_1")
+      end
+    end
+  end
 
 end

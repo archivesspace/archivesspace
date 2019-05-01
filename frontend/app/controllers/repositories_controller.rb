@@ -52,10 +52,20 @@ class RepositoriesController < ApplicationController
                   MemoryLeak::Resources.refresh(:repository)
 
                   return render :json => @repository.to_hash if inline?
-            
-                  flash[:success] = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
+
+                  success_msg = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
+
+                  if params["repository"]["repository"] &&
+                     (params["repository"]["repository"]["slug"].nil? ||
+                      params["repository"]["repository"]["slug"].empty?)  &&
+                     !params["repository"]["repository"]["is_slug_auto"]
+                    success_msg << I18n.t("slug.autogen_repo_slug")
+                  end
+
+                  flash[:success] = success_msg
+
                   return redirect_to :controller => :repositories, :action => :new, :last_repo_id => id if params.has_key?(:plus_one)
-            
+
                   redirect_to :controller => :repositories, :action => :show, :id => id
                 })
   end
@@ -78,11 +88,11 @@ class RepositoriesController < ApplicationController
 
                   success_msg = I18n.t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
 
-                  if @repository["repository"]["is_slug_auto"] == false &&
-                     @repository["repository"]["slug"] == nil &&
-                     params["repository"]["repository"] &&
-                     params["repository"]["repository"]["is_slug_auto"] == "1"
-                    success_msg << I18n.t("slug.autogen_disabled")
+                  if params["repository"]["repository"] &&
+                     (params["repository"]["repository"]["slug"].nil? ||
+                      params["repository"]["repository"]["slug"].empty?)  &&
+                     !params["repository"]["repository"]["is_slug_auto"]
+                    success_msg << I18n.t("slug.autogen_repo_slug")
                   end
 
                   flash[:success] = success_msg
@@ -160,7 +170,7 @@ class RepositoriesController < ApplicationController
       end
     end
 
-    # Because of the form structure, our params for OAI settings are coming into params in separate hashes. 
+    # Because of the form structure, our params for OAI settings are coming into params in separate hashes.
     # This method updates the params hash to pull the data from the right places and serializes them for the DB update.
     # The params hash is a complicated data structure, sorry about the confusing hash references!
 
@@ -170,7 +180,7 @@ class RepositoriesController < ApplicationController
 
     def handle_repository_oai_params(params)
       repo_params_hash      = params["repository"]["repository"]
-      form_oai_enabled_hash = params["repository"]["repository_oai"] 
+      form_oai_enabled_hash = params["repository"]["repository_oai"]
       form_oai_sets_hash    = params["sets"]
 
       # handle set id checkboxes

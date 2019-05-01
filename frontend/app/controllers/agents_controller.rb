@@ -77,9 +77,20 @@ class AgentsController < ApplicationController
                   return render :action => :new
                 },
                 :on_valid => ->(id){
+                  success_msg = I18n.t("agent._frontend.messages.created")
+
+                  if @agent["is_slug_auto"] == false && 
+                     @agent["slug"] == nil &&
+                     params["agent"] &&
+                     params["agent"]["is_slug_auto"] == "1"
+                    success_msg << I18n.t("slug.autogen_disabled")
+                  end
+
+                  flash[:success] = success_msg
+
                   return render :json => @agent.to_hash if inline?
-                  return redirect_to({:controller => :agents, :action => :new, :agent_type => @agent_type}, :flash => {:success => I18n.t("agent._frontend.messages.created")}) if params.has_key?(:plus_one)
-                  redirect_to({:controller => :agents, :action => :edit, :id => id, :agent_type => @agent_type}, :flash => {:success => I18n.t("agent._frontend.messages.created")})
+                  return redirect_to({:controller => :agents, :action => :new, :agent_type => @agent_type}) if params.has_key?(:plus_one)
+                  redirect_to({:controller => :agents, :action => :edit, :id => id, :agent_type => @agent_type})
                 })
   end
 
