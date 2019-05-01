@@ -363,6 +363,7 @@ en:
     public_url: Public URL
     is_slug_auto: Automatically generate Slug?
     autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
+    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
 
   linker:
     link_to_prefix: Link to
@@ -1436,6 +1437,9 @@ en:
         linked_via_assessment_records: Assessments
         linked_via_assessment_surveyed_by: Assessments - Surveyed By
         linked_via_assessment_reviewer: Assessments - Reviewer
+        record_type: Record Type
+        title: Title
+        identifier: Identifier
       ratings_list:
         rating: Rating
         score: Score

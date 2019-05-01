@@ -70,14 +70,7 @@ class ApplicationController < ActionController::Base
 
     # if it looks like a slug, send it to the backend to resolve ids and other params we need.
     else
-      # use repo scoping, if turned on.
-      if AppConfig[:repo_name_in_slugs] && repo_scoped_controller?(params[:controller])
-        added_params = resolve_ids_with_repo_scoped_slugs(params)
-
-      # dont use repo scopping
-      else
-        added_params = resolve_ids_with_slugs(params)
-      end
+      added_params = resolve_ids_with_slugs(params)
 
       params.merge!(added_params)
     end
@@ -85,18 +78,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
-    def repo_scoped_controller?(controller_name)
-      controller_name == "resources" || "objects" || "accessions" || "classifications"
-    end
-
-    def resolve_ids_with_repo_scoped_slugs(params)
-      uri = "/slug_with_repo?slug=#{params[:slug_or_id]}&controller=#{params[:controller]}&action=#{params[:action]}&repo_slug=#{params[:repo_slug]}"
-
-      json_response = send_slug_request(uri)
-
-      return params_from_response(params, json_response)
-    end
 
     def resolve_ids_with_slugs(params)
       # look up slug value via HTTP request to backend to find actual id

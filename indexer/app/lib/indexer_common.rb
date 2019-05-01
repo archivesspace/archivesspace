@@ -406,7 +406,6 @@ class IndexerCommon
         doc['digital_object_id'] = record['record']['digital_object_id']
         doc['level'] = record['record']['level']
         doc['restrictions'] = record['record']['restrictions']
-
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
@@ -447,7 +446,6 @@ class IndexerCommon
         doc['linked_agent_roles'] = record['record']['linked_agent_roles']
 
         doc['related_agent_uris'] = ASUtils.wrap(record['record']['related_agents']).collect{|ra| ra['ref']}
-
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
 
@@ -474,19 +472,17 @@ class IndexerCommon
         doc['classification_path'] = ASUtils.to_json(record['record']['path_from_root'])
         doc['agent_uris'] = ASUtils.wrap(record['record']['creator']).collect{|agent| agent['ref']}
         doc['published_agent_uris'] = []
-        if record['record']['creator']['_resolved']['publish']
-          doc['published_agent_uris'] << record['record']['creator']['ref']
+        if !record.dig(:record, :creator, :_resolved).nil?
+           if record['record']['creator']['_resolved']['publish'] && !record['record']['creator']['ref'].nil?
+             doc['published_agent_uris'] << record['record']['creator']['ref']
+           end
         end
         doc['agents'] = ASUtils.wrap(record['record']['creator']).collect{|link| link['_resolved']['display_name']['sort_name']}
         doc['identifier_sort'] = IndexerCommon.generate_sort_string_for_identifier(record['record']['identifier'])
         doc['repo_sort'] = record['record']['repository']['_resolved']['display_string']
         doc['has_classification_terms'] = record['record']['has_classification_terms']
-
-        if doc['primary_type'] == 'classification'
-          doc['slug'] = record['record']['slug']
-          doc['is_slug_auto'] = record['record']['is_slug_auto']
-        end
-
+        doc['slug'] = record['record']['slug']
+        doc['is_slug_auto'] = record['record']['is_slug_auto']
       end
     }
 

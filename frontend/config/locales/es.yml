@@ -365,6 +365,8 @@
     public_url: URL pública
     is_slug_auto: Generar automáticamente Slug?
     autogen_disabled: " -- Slug vacío generado, Generar automáticamente la opción slug deshabilitada"
+    autogen_repo_slug: " -- Campo de slug vacío por lo que automáticamente se genera slug repositorio"
+
   linker:
     link_to_prefix: Enlace a
     create_and_link_to_prefix: Crear y vincular
@@ -1435,6 +1437,9 @@
         linked_via_assessment_records: Evaluaciones
         linked_via_assessment_surveyed_by: Evaluaciones - Encuestadas por
         linked_via_assessment_reviewer: Evaluaciones - Revisor
+        record_type: Tipo de registro
+        title: Título
+        identifier: Identificador
       ratings_list:
         rating: Clasificación
         score: Puntuación

@@ -370,6 +370,8 @@ ja:
     public_url: 公開URL
     is_slug_auto: 自動生成 Slug?
     autogen_disabled: " -- 空スラグを生成、スラグを自動的に生成オプションを無効にします"
+    autogen_repo_slug: " -- スラッグフィールドが空のため、自動的に生成されたリポジトリスラッグ"
+
   linker:
     link_to_prefix: リンク先
     create_and_link_to_prefix: 作成してリンクする
@@ -1415,6 +1417,9 @@ ja:
         linked_via_assessment_records: アセスメント
         linked_via_assessment_surveyed_by: 評価 - 調査者
         linked_via_assessment_reviewer: 評価 - レビュアー
+        record_type: レコードタイプ
+        title: タイトル
+        identifier: 識別
       ratings_list:
         rating: 評価
         score: スコア

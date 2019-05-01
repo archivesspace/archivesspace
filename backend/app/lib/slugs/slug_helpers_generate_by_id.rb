@@ -20,8 +20,6 @@ module SlugHelpers
       slug = entity[:identifier]
     elsif klass == DigitalObject
       slug = entity[:digital_object_id]
-    elsif klass == Repository
-      slug = entity[:repo_code]
     elsif klass == ArchivalObject
       if AppConfig[:generate_archival_object_slugs_with_cuid]
         slug = entity[:component_id]
@@ -53,7 +51,15 @@ module SlugHelpers
       slug = ""
     end
 
-    return clean_slug(slug, klass)
+    slug = clean_slug(slug)
+
+    # only de-dupe and update if our base slug has changed from it's previous value
+    previous_slug = entity[:slug]
+    if base_slug_changed?(slug, previous_slug)
+      return run_dedupe_slug(slug)
+    else
+      return previous_slug
+    end
   end
 
   private
