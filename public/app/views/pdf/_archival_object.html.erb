@@ -43,15 +43,19 @@ end
 
         <div class="indented">
             <% record.notes.each do |note_type, note| %>
-                <% if note_type != 'physdesc' && !note['is_inherited'] %>
-                    <h3>
-                        <% if note['label'] %>
-                            <%= note['label'] %>
+                <% if note_type != 'physdesc' %>
+                  <% note.each do |n| %>
+                    <% if !n['is_inherited'] %>
+                      <h3>
+                        <% if n['label'] %>
+                            <%= n['label'] %>
                         <% else %>
                             <%= I18n.t("enumerations._note_types.#{note_type}") %>
                         <% end %>
-                    </h3>
-                    <p><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></p>
+                      </h3>
+                      <p><%== n['note_text'].gsub(/&(?!amp;)/,'&amp;') %></p>
+                    <% end %>
+                  <% end %>
                 <% end %>
             <% end %>
 
@@ -73,9 +77,13 @@ end
                 <% end %>
 
                 <% record.notes.each do |note_type, note| %>
-                    <% if note_type == 'physdesc' && !note['is_inherited'] %>
-                        <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></dd>
+                  <% if note_type == 'physdesc' %>
+                    <% note.each do |n| %>
+                      <% if !n['is_inherited'] %>
+                        <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%== n['note_text'].gsub(/&(?!amp;)/,'&amp;') %></dd>
+                      <% end %>
                     <% end %>
+                  <% end %>
                 <% end %>
 
                 <%= render(:partial => 'digital_object_links', :locals => {

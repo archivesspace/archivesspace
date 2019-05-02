@@ -29,7 +29,9 @@
     <% record.notes.each do |note_type, note| %>
         <% if note_type == 'physdesc' %>
             <a id="note-<%= note_type %>"></a>
-            <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></dd>
+            <% note.each do |n| %>
+              <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== n['note_text'].gsub(/&(?!amp;)/,'&amp;') %></dd>
+            <% end %>
         <% end %>
     <% end %>
 
@@ -45,14 +47,16 @@
 <% record.notes.each do |note_type, note| %>
     <% next if ['physdesc'].include?(note_type) %>
     <a id="note-<%= note_type %>"></a>
-    <h3>
-        <% if note['label'] %>
-            <%= note['label'] %>
+    <% note.each do |n| %>
+      <h3>
+        <% if n['label'] %>
+            <%= n['label'] %>
         <% else %>
             <%= I18n.t("enumerations._note_types.#{note_type}") %>
         <% end %>
-    </h3>
-    <p><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></p>
+      </h3>
+      <p><%== n['note_text'].gsub(/&(?!amp;)/,'&amp;') %></p>
+    <% end %>
 <% end %>
 
 <a id="administrative-information"></a>
