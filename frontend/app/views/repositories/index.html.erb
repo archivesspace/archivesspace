@@ -1,9 +1,5 @@
 <%= setup_context(:title => I18n.t("repository._plural")) %>
 
-<%
-  add_column(I18n.t("repository.publish"), proc {|repo| I18n.t("boolean.#{repo['publish']}") })
-%>
-
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">

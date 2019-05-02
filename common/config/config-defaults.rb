@@ -639,3 +639,6 @@ AppConfig[:generate_archival_object_slugs_with_cuid] = false
 
 # For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
 AppConfig[:sort_accession_date_filter_asc] = false
+
+# Use to specify the maximum number of columns to display when searching or browsing
+AppConfig[:max_search_columns] = 5
