@@ -1670,6 +1670,7 @@ fr:
     authority_id_tooltip: |
         <p>L'identifiant unique pour la notice dans la source d'où provient l'acquisition, (par ex. un numéro LCSH). L'identifiant peut être représenté sous forme d'URI.</p>
     source: Source
+    subject_source: Sujet Source
     source_tooltip: |
         <p>Le glossaire d'où provient un terme standard.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>

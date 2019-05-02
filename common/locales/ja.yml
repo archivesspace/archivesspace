@@ -1247,6 +1247,7 @@ ja:
     authority_id: オーソリティID
     authority_id_tooltip: "<p>取得元のレコードの一意の識別子（つまり、LCSH番号）。識別子はURIとして表すことができる。 </p>"
     source: ソース
+    subject_source: 件名ソース
     source_tooltip: "<p>確立された用語が使われている語彙。 </p><p>この管理された値リストの値は変更することができます。 </p><p>例：
       </p><ul><li>医療対象見出し（メッシュ） </li><li>議会図書館の見出し見出し（lcsh） </li></ul>"
     scope_note: スコープノート
