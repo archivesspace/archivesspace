@@ -30,7 +30,7 @@ end
 def migrate_langmaterial_notes
 
   # Find all langmaterial notes
-  self[:note].filter( Sequel.ilike(:notes, '%langmaterial%')).each do |note_id|
+  self[:note].filter( Sequel.like(:notes, '%langmaterial%')).each do |note_id|
 
     [ :resource_id, :archival_object_id, :digital_object_id, :digital_object_component_id  ].each do |obj|
       record_id = note_id[obj]
