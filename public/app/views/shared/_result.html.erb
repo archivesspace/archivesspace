@@ -47,7 +47,7 @@
         <% unless dates.empty? %>
           <strong><%= t('dates') %>: </strong>
         <% end %>
-        <%= dates.collect {|label, expression| label.blank? ? expression : "#{label}#{expression}"}.join(', ') %>
+        <%= dates.collect {|label, expression| label.blank? ? expression : "#{label}#{expression}"}.join('; ') %>
       </div>
     <% end %>
 
