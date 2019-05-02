@@ -194,10 +194,12 @@ module SearchHelper
   end
 
   def get_ancestor_title(field)
-    if field.include?('resources') || field.include?('digital_objects')
-      clean_mixed_content(JSONModel::HTTP.get_json(field)['title'])
-    else
-      clean_mixed_content(JSONModel::HTTP.get_json(field)['display_string'])
+    if !JSONModel::HTTP.get_json(field).nil?
+      if field.include?('resources') || field.include?('digital_objects')
+        clean_mixed_content(JSONModel::HTTP.get_json(field)['title'])
+      else
+        clean_mixed_content(JSONModel::HTTP.get_json(field)['display_string'])
+      end
     end
   end
 
