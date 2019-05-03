@@ -80,7 +80,7 @@ end
                   <% if note_type == 'physdesc' %>
                     <% note.each do |n| %>
                       <% if !n['is_inherited'] %>
-
+                        <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= process_mixed_content(n['note_text']) %></dd>
                       <% end %>
                     <% end %>
                   <% end %>
