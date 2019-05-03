@@ -3,7 +3,7 @@
     <div class="title-block">
     <% if record.finding_aid['title'] %>
         <h3 class="title"><%= process_mixed_content(record.finding_aid['title']) %></h3>
-        <h4 class="subtitle"><%= record.finding_aid['subtitle'] %></h4>
+        <h4 class="subtitle"><%= process_mixed_content(record.finding_aid['subtitle']) %></h4>
     <% else %>
         <h3 class="title"><%= record.display_string %></h3>
     <% end %>
