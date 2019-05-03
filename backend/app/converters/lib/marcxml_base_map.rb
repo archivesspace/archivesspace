@@ -657,6 +657,8 @@ module MarcXMLBaseMap
       :obj => :resource,
       :defaults => {
        :level => 'collection',
+       :finding_aid_language => 'und',
+       :finding_aid_script => 'Zyyy'
       },
       :map => {
         #LEADER
@@ -711,6 +713,9 @@ module MarcXMLBaseMap
 
         # description rules
         "datafield[@tag='040']/subfield[@code='e']" => :finding_aid_description_rules,
+
+        # language of description
+        "datafield[@tag='040']/subfield[@code='b']" => :finding_aid_language,
 
         # 200s
         "datafield[@tag='210']" => mix(multipart_note('odd', "Abbreviated Title", "{$a: }{$b }{($2)}"), is_fallback_resource_title),

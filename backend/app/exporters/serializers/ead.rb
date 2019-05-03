@@ -813,7 +813,7 @@ class EADSerializer < ASpaceExport::Serializer
         creation = "This finding aid was produced using ArchivesSpace on <date>#{Time.now}</date>."
         xml.creation {  sanitize_mixed_content( creation, xml, fragments) }
 
-        if (val = data.finding_aid_language)
+        if (val = data.finding_aid_language_note)
           xml.langusage (fragments << val)
         end
 

@@ -124,6 +124,8 @@
         "jsonmodel_type": "resource", 
         "language": "eng", 
         "level": "class", 
+        "finding_aid_language": "eng",
+        "finding_aid_script": "Latn",
         "linked_agents": [
             {
                 "ref": "/agents/software/1", 
