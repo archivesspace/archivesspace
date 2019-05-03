@@ -10,9 +10,12 @@ class Repository < Sequel::Model(:repository)
                 :generator => proc { |json|
                   if json["is_slug_auto"]
                     # Always use repo_code
-                    SlugHelpers.clean_slug(json["repo_code"])
+                    SlugHelpers.id_based_slug_for(json, Repository)
+                  elsif json["slug"]
+                    cleaned_slug = SlugHelpers.clean_slug(json["slug"])
+                    self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
                   else
-                    json["slug"]
+                    SlugHelpers.id_based_slug_for(json, Repository)
                   end
                 }
 
