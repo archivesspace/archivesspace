@@ -68,11 +68,9 @@ module ASModel
         end
 
         # Repositories must always have a slug so, if repository and
-        # is_slug_auto turned off but no manual slug entered, auto
-        # generate a repo slug based on repo_code.
+        # there is no slug, auto generate a repo slug based on repo_code.
         if self.class == Repository &&
-           (self[:slug].nil? || self[:slug].empty?) &&
-           !SlugHelpers.is_slug_auto_enabled?(self)
+           (self[:slug].nil? || self[:slug].empty?)
           self[:slug] = SlugHelpers.clean_slug(self[:repo_code])
           self[:is_slug_auto] = 1
         end
