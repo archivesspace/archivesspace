@@ -10,7 +10,7 @@
        <%= form.label_and_textarea "title" %>
        <%= form.label_and_fourpartid %>
 
-       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @accession} if AppConfig[:use_human_readable_URLs] %>
+       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @accession} if AppConfig[:use_human_readable_urls] %>
 
        <%= form.label_and_date "accession_date" %>
        <%= form.label_and_textarea "content_description" %>

@@ -106,7 +106,7 @@ module AspaceFormHelper
       # generate link with repo slug
       if !obj['slug'].nil? &&
          !obj['slug'].empty? &&
-         AppConfig[:use_human_readable_URLs]
+         AppConfig[:use_human_readable_urls]
 
         if scope == :repo
           if generate_url_with_repo_slug && repo_slug

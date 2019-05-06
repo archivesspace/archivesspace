@@ -618,14 +618,14 @@ AppConfig[:pui_page_custom_actions] = []
 # }
 
 # Human-Readable URLs options                            
-# use_human_readable_URLs: determines whether fields and options related to human-readable URLs appear in the staff interface
+# use_human_readable_urls: determines whether fields and options related to human-readable URLs appear in the staff interface
 # Changing this option will not remove or clear any slugs that exist currently.
 # This setting only affects links that are displayed. URLs that point to valid slugs will still work.
 # WARNING: Changing this setting may require an index rebuild for changes to take effect.
 
 # TODO: for release, uncomment below and remove line that follows that so that HRU's are off by default.
-#AppConfig[:use_human_readable_URLs] = false
-AppConfig[:use_human_readable_URLs] = false
+#AppConfig[:use_human_readable_urls] = false
+AppConfig[:use_human_readable_urls] = false
 
 # Use the repository in human-readable URLs
 # Warning: setting repo_name_in_slugs to true when it has previously been set to false will break links, unless all slugs are regenerated.
