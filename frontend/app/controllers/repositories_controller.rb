@@ -55,7 +55,7 @@ class RepositoriesController < ApplicationController
 
                   success_msg = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
 
-                  if params["repository"]["repository"] &&
+                  if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
                      !params["repository"]["repository"]["is_slug_auto"]
@@ -88,7 +88,7 @@ class RepositoriesController < ApplicationController
 
                   success_msg = I18n.t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
 
-                  if params["repository"]["repository"] &&
+                  if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
                      !params["repository"]["repository"]["is_slug_auto"]
