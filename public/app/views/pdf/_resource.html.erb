@@ -14,7 +14,7 @@
         <% end %>
     <% end %>
 
-    <dt><%= I18n.t('resource._public.finding_aid.title') %></dt><dd><%== record.display_string %></dd>
+    <dt><%= I18n.t('resource._public.finding_aid.title') %></dt><dd><%= process_mixed_content('record.display_string') %></dd>
 
     <dt><%= I18n.t('resource._public.identifier') %></dt><dd><%= record.identifier %></dd>
 
@@ -30,7 +30,7 @@
         <% if note_type == 'physdesc' %>
             <a id="note-<%= note_type %>"></a>
             <% note.each do |n| %>
-              <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%== n['note_text'].gsub(/&(?!amp;)/,'&amp;') %></dd>
+              <dt><%= I18n.t("enumerations._note_types.#{note_type}") %></dt><dd><%= process_mixed_content(n['note_text']) %></dd>
             <% end %>
         <% end %>
     <% end %>
@@ -50,12 +50,12 @@
     <% note.each do |n| %>
       <h3>
         <% if n['label'] %>
-            <%= n['label'] %>
+            <%= process_mixed_content(n['label']) %>
         <% else %>
             <%= I18n.t("enumerations._note_types.#{note_type}") %>
         <% end %>
       </h3>
-      <p><%== n['note_text'].gsub(/&(?!amp;)/,'&amp;') %></p>
+      <p><%= process_mixed_content(n['note_text']) %></p>
     <% end %>
 <% end %>
 

@@ -15,7 +15,7 @@
                 <a href="#note-<%= note_type %>">
                   <% note.each do |n| %>
                     <% if n['label'] %>
-                        <%= n['label'] %>
+                        <%= process_mixed_content(n['label']) %>
                     <% else %>
                         <%= I18n.t("enumerations._note_types.#{note_type}") %>
                     <% end %>
