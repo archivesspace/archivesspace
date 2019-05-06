@@ -34,7 +34,7 @@
           <%= form.label_with_field "ref_id", form.hidden_input("ref_id") + "<span class='identifier-display'><span class='identifier-display-part'>#{form.obj["ref_id"]}</span></span>".html_safe %>
         <% end %>
 
-        <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @archival_object} if AppConfig[:use_human_readable_URLs] %>
+        <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @archival_object} if AppConfig[:use_human_readable_urls] %>
 
         <%= form.hidden_input "ref_id" %>
         <%= form.label_and_textfield("component_id")%>

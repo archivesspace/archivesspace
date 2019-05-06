@@ -360,13 +360,6 @@
     save: Guardar cambios
     dismiss: Descartar cambios
 
-  slug: &slug_attributes
-    slug: Slug
-    public_url: URL pública
-    is_slug_auto: Generar automáticamente Slug?
-    autogen_disabled: " -- Slug vacío generado, Generar automáticamente la opción slug deshabilitada"
-    autogen_repo_slug: " -- Campo de slug vacío por lo que automáticamente se genera slug repositorio"
-
   linker:
     link_to_prefix: Enlace a
     create_and_link_to_prefix: Crear y vincular
@@ -446,7 +439,6 @@
     linked_to_assessment: El registro no se puede eliminar ya que está vinculado a una evaluación
 
   accession:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Acta de ingreso <strong>%{accession.display_string}</strong> creada
@@ -466,7 +458,6 @@
         save: Guardar el acta de ingreso
 
   agent: &agent_attributes
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Autoridad creada
@@ -500,31 +491,26 @@
         add: Agregar número de teléfono
 
   agent_corporate_entity:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar la entidad corporativa
 
   agent_family:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar familia
 
   agent_person:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar persona
 
   agent_software:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar Software
 
   archival_object:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Documento de archivo <strong>%{archival_object.display_string}</strong> del fondo <strong>%{resource.title}</strong> creado
@@ -550,7 +536,6 @@
         new_record_title: Nuevo objeto de archivo
 
   classification:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Clasificación <strong>%{classification.title}</strong> creada"
@@ -566,7 +551,6 @@
         add: Agregue clasificación
 
   classification_term:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Término de clasificación <strong>%{classification_term.title}</strong> creado"
@@ -616,7 +600,6 @@
         add: Añadir expurgo
 
   digital_object:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Objeto digital <strong>%{digital_object.title}</strong> creado"
@@ -640,7 +623,6 @@
         save: Guardar objeto Digital
 
   digital_object_component:
-    <<: *slug_attributes
     _frontend:
       messages:
         created_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> creado como hijo de <strong>%{parent.display_string}</strong> del objeto Digital <strong>%{digital_object.title}</strong>
@@ -840,7 +822,6 @@
     oai_sets_available: Conjuntos incluidos en OAI
 
   repository:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Repositorio creado
@@ -870,7 +851,6 @@
         _plural: Ajustes de cosecha OAI
 
   resource:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Fondo <strong>%{resource.title}</strong> creado"
@@ -917,7 +897,6 @@
     ref: Repositorio de destino
 
   subject:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Materia creada

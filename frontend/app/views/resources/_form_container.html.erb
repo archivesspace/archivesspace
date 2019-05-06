@@ -22,7 +22,7 @@
       <%= form.label_and_textarea "title" %>
       <%= form.label_and_fourpartid %>
 
-      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_URLs] %>
+      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_urls] %>
 
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_textfield "other_level", :required => true %>

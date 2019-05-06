@@ -33,10 +33,10 @@ module ASModel
       # - all slugs are cleaned.
       # - if we end up autogenning an empty slug, we turn is_slug_auto off for that entity
       # - the special cases for Agents are handled
-      # - ignores setting for use_human_readable_URLs for repositories which have
-      #   slugs generated regardless of the setting for use_human_readable_URLs
+      # - ignores setting for use_human_readable_urls for repositories which have
+      #   slugs generated regardless of the setting for use_human_readable_urls
 
-      if AppConfig[:use_human_readable_URLs] || self.class == Repository
+      if AppConfig[:use_human_readable_urls] || self.class == Repository
 
         # Special case for generating slugs for Agents by name
         # This special case is necessary because the NameAgent classes don't have a slug field themselves, but they have the data we need to generate the slug.

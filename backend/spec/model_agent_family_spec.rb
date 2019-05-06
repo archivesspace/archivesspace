@@ -78,7 +78,7 @@ describe 'Agent Family model' do
 
     describe "slug tests" do
       before (:all) do
-        AppConfig[:use_human_readable_URLs] = true
+        AppConfig[:use_human_readable_urls] = true
       end
 
       describe "slug autogen enabled" do

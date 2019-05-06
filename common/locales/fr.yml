@@ -40,6 +40,13 @@ fr:
     _singular: Défini par l'utilisateur
     _plural: Défini par l'utilisateur
 
+  slug: &slug_attributes
+    slug: Slug
+    public_url: Public URL
+    is_slug_auto: Automatically generate Slug?
+    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
+    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
+
   content_items:
     content: Contenu
     content_tooltip: |
@@ -75,6 +82,7 @@ fr:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     title: Intitulé
@@ -115,6 +123,7 @@ fr:
 
   digital_object_component:
     <<: *digital_object_attributes
+    <<: *slug_attributes
     label: Label
     label_tooltip: |
         <p>Terme utilisé pour décrire la partie et sa position dans l'objet numérique en cours de décription. Plus souvent utilisé pour les composants de l'objet numérique que pour la notice de premier niveau de l'objet numérique.</p>
@@ -1116,6 +1125,7 @@ fr:
 
   accession:
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     accession_date: Date d'entrée
@@ -1269,6 +1279,7 @@ fr:
 
 
   agent: &agent_attributes
+    <<: *slug_attributes
     type: Type d'agent
     type_tooltip: |
         <p>Le type d'entité représenté par la notice agent.</p>
@@ -1301,21 +1312,25 @@ fr:
 
   agent_person:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Personne
     _plural: Personnes
 
   agent_family:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Famille
     _plural: Familles
 
   agent_software:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Logiciel
     _plural: Logiciels
 
   agent_corporate_entity:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Personne morale
     _plural: Personnes morales
 
@@ -1330,6 +1345,7 @@ fr:
 
   archival_object: &archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     title: Intitulé
     title_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL. L'intitulé assigné aux documents décrits. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
@@ -1458,6 +1474,7 @@ fr:
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     id_0: Identifiant
@@ -1586,6 +1603,7 @@ fr:
     _plural: Ressources associées
 
   repository:
+    <<: *slug_attributes
     repo_code: Nom abrégé du service
     repo_code_tooltip: |
         <p>CHAMP OBLIGATOIRE. Abréviation ou acronyme pour le nom du service d'archives, qui peut être plus adapté dans l'interface utilisateur.</p>
@@ -1666,6 +1684,7 @@ fr:
     _plural: Termes
 
   subject:
+    <<: *slug_attributes
     authority_id: Identifiant d'autorité
     authority_id_tooltip: |
         <p>L'identifiant unique pour la notice dans la source d'où provient l'acquisition, (par ex. un numéro LCSH). L'identifiant peut être représenté sous forme d'URI.</p>
@@ -1820,6 +1839,7 @@ fr:
     _plural: Listes contrôlées
 
   classification:
+    <<: *slug_attributes
     _singular: Classement
     _plural: Classements
     identifier: Identifiant
@@ -1829,6 +1849,7 @@ fr:
     id_separator: /
 
   classification_term:
+    <<: *slug_attributes
     _singular: Terme de classement
     _plural: Termes de classement
     identifier: Identifiant

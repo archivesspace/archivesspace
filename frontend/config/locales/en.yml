@@ -358,13 +358,6 @@ en:
     save: Save Changes
     dismiss: Dismiss Changes
 
-  slug: &slug_attributes
-    slug: Slug
-    public_url: Public URL
-    is_slug_auto: Automatically generate Slug?
-    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
-    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
-
   linker:
     link_to_prefix: Link to
     create_and_link_to_prefix: Create and Link to
@@ -444,7 +437,6 @@ en:
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
   accession:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Accession <strong>%{accession.display_string}</strong> created
@@ -464,7 +456,6 @@ en:
         save: Save Accession
 
   agent: &agent_attributes
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Agent Created
@@ -498,31 +489,26 @@ en:
         add: Add Telephone Number
 
   agent_corporate_entity:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Save Corporate Entity
 
   agent_family:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Save Family
 
   agent_person:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Save Person
 
   agent_software:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Save Software
 
   archival_object:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Archival Object <strong>%{archival_object.display_string}</strong> on Resource <strong>%{resource.title}</strong> created
@@ -548,7 +534,6 @@ en:
         new_record_title: New Archival Object
 
   classification:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Classification <strong>%{classification.title}</strong> created"
@@ -564,7 +549,6 @@ en:
         add: Add Classification
 
   classification_term:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Classification Term <strong>%{classification_term.title}</strong> created"
@@ -614,7 +598,6 @@ en:
         add: Add Deaccession
 
   digital_object:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Digital Object <strong>%{digital_object.title}</strong> Created"
@@ -638,7 +621,6 @@ en:
         save: Save Digital Object
 
   digital_object_component:
-    <<: *slug_attributes
     _frontend:
       messages:
         created_with_parent: Digital Object Component <strong>%{digital_object_component.display_string}</strong> created as child of <strong>%{parent.display_string}</strong> on Digital Object <strong>%{digital_object.title}</strong>
@@ -838,7 +820,6 @@ en:
     oai_sets_available: Sets included in OAI
 
   repository:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Repository Created
@@ -868,7 +849,6 @@ en:
         _plural: OAI Harvest Settings
 
   resource:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Resource <strong>%{resource.title}</strong> created"
@@ -915,7 +895,6 @@ en:
     ref: Destination Repository
 
   subject:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Subject Created

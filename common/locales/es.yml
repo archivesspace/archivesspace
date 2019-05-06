@@ -42,6 +42,13 @@ es:
     _singular: Definido por el usuario
     _plural: Definido por los usuarios
 
+  slug: &slug_attributes
+    slug: Slug
+    public_url: Public URL
+    is_slug_auto: Automatically generate Slug?
+    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
+    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
+
   content_items:
     content: Contenido
     content_tooltip: |
@@ -77,6 +84,7 @@ es:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     title: Título
@@ -117,6 +125,7 @@ es:
 
   digital_object_component:
     <<: *digital_object_attributes
+    <<: *slug_attributes
     label: Etiqueta
     label_tooltip: |
         <p>Un término usado para describir la parte y su posición dentro del objeto Digital que se está describiendo. Más a menudo utilizado para los componentes del objeto Digital que el nivel récord de objeto Digital.</p>
@@ -1112,6 +1121,7 @@ es:
 
   accession:
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     accession_date: Fecha de entrada
@@ -1252,6 +1262,7 @@ es:
 
 
   agent: &agent_attributes
+    <<: *slug_attributes
     type: Tipo de autoridad
     type_tooltip: |
         <p>El tipo de entidad representada por el registro del autoridad.</p>
@@ -1284,21 +1295,25 @@ es:
 
   agent_person:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Persona
     _plural: Personas
 
   agent_family:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Familia
     _plural: Familias
 
   agent_software:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Software
     _plural: Software
 
   agent_corporate_entity:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Entidad corporativa
     _plural: Entidades corporativas
 
@@ -1312,6 +1327,7 @@ es:
     related_agents: Agentes relacionados
   archival_object: &archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     title: Título
     title_tooltip: |
         <p>CAMPO OBLIGATORIO CONDICIONAL
@@ -1440,6 +1456,7 @@ es:
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
        <<: *user_defined_attributes
     id_0: Identificador
@@ -1568,6 +1585,7 @@ es:
     _plural: Fondos relacionados
 
   repository:
+    <<: *slug_attributes
     repo_code: Nombre corto del repositorio
     repo_code_tooltip: |
         <p>CAMPO OBLIGATORIO. Una abreviatura o acrónimo del nombre del repositorio, que pueden ser mejor acomodados en la interfaz de usuario.</p>
@@ -1647,6 +1665,7 @@ es:
     _plural: Términos
 
   subject:
+    <<: *slug_attributes
     authority_id: Identificador de autoridad
     authority_id_tooltip: |
         <p>El identificador único para el registro de la fuente de la cual fue adquirida, (es decir, un número LCSH). El identificador puede ser representado como un URI.</p>
@@ -1800,6 +1819,7 @@ es:
     _plural: Listas de valor controladas
 
   classification:
+    <<: *slug_attributes
     _singular: Clasificación
     _plural: Clasificaciones
     identifier: Identificador
@@ -1809,6 +1829,7 @@ es:
     id_separator: /
 
   classification_term:
+    <<: *slug_attributes
     _singular: Término de clasificación
     _plural: Términos de clasificación
     identifier: Identificador
