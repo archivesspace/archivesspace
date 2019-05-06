@@ -42,6 +42,13 @@ ja:
     _singular: ユーザー定義の
     _plural: ユーザー定義の
 
+  slug: &slug_attributes
+    slug: Slug
+    public_url: Public URL
+    is_slug_auto: Automatically generate Slug?
+    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
+    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
+
   content_items:
     content: コンテンツ
     content_tooltip: "<p>ノートの内容。 </p>"
@@ -69,6 +76,7 @@ ja:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     title: タイトル
@@ -102,6 +110,7 @@ ja:
 
   digital_object_component:
     <<: *digital_object_attributes
+    <<: *slug_attributes
     label: ラベル
     label_tooltip: "<p>説明されているデジタルオブジェクト内のパーツとその位置を記述するために使用される用語。デジタルオブジェクトのコンポーネントの部分では、トップレベルのデジタルオブジェクトレコードより頻繁に使用されます。
       </p><p>例： </p><ul><li>オーディオ：テープ1、トラック1、セクション1など</li><li>画像：画像1、画像1など</li><li>テキスト：第1ページ、第1葉、第1章、第1章など</li><li>ビデオ：テープ1、パート1、セクション1など</li></ul>"
@@ -870,6 +879,7 @@ ja:
 
   accession:
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     accession_date: 受付日
@@ -961,6 +971,7 @@ ja:
     relator_type: リレータイプ
 
   agent: &agent_attributes
+    <<: *slug_attributes
     type: エージェントの種類
     type_tooltip: "<p>エージェントレコードによって表されるエンティティのタイプ。 </p><p> DACS 10.2およびPREMISエージェントエンティティを参照</p>"
     agent_type:
@@ -988,21 +999,25 @@ ja:
 
   agent_person:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: 人
     _plural: 人
 
   agent_family:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: 家族
     _plural: 家族
 
   agent_software:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: ソフトウェア
     _plural: ソフトウェア
 
   agent_corporate_entity:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: コーポレートエンティティ
     _plural: 法人
 
@@ -1017,6 +1032,7 @@ ja:
 
   archival_object: &archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     title: タイトル
     title_tooltip: "<p>条件付き必須フィールド：説明されたマテリアルに割り当てられたタイトル。アーカイブオブジェクトには、TitleまたはDateのいずれかのサブレコードが必要です。
       </p><p> DACS 2.3を参照</p><p>例： </p><ul><li> Graciany Miranda Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
@@ -1106,6 +1122,7 @@ ja:
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     id_0: 識別
@@ -1189,6 +1206,7 @@ ja:
     _plural: 関連リソース
 
   repository:
+    <<: *slug_attributes
     repo_code: リポジトリの短縮名
     repo_code_tooltip: "<p>必要なフィールド。リポジトリ名の略語または頭字語。ユーザーインターフェイスにさらに適しています。 </p><p>例：
       </p><ul><li> YNHSCL <em>（あなたの名前のために特別なコレクションライブラリ）</em> </li><li> MSCL <em>（Mandeville特別コレクションライブラリ用）</em>
@@ -1244,6 +1262,7 @@ ja:
     _plural: 条項
 
   subject:
+    <<: *slug_attributes
     authority_id: オーソリティID
     authority_id_tooltip: "<p>取得元のレコードの一意の識別子（つまり、LCSH番号）。識別子はURIとして表すことができる。 </p>"
     source: ソース
@@ -1344,6 +1363,7 @@ ja:
     _plural: 制御値リスト
 
   classification:
+    <<: *slug_attributes
     _singular: 分類
     _plural: 分類
     identifier: 識別
@@ -1353,6 +1373,7 @@ ja:
     id_separator: "/"
 
   classification_term:
+    <<: *slug_attributes
     _singular: 分類期間
     _plural: 分類条件
     identifier: 識別

@@ -40,6 +40,13 @@ en:
     _singular: User Defined
     _plural: User Defined
 
+  slug: &slug_attributes
+    slug: Slug
+    public_url: Public URL
+    is_slug_auto: Automatically generate Slug?
+    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
+    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
+
   content_items:
     content: Content
     content_tooltip: |
@@ -75,6 +82,7 @@ en:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     title: Title
@@ -115,6 +123,7 @@ en:
 
   digital_object_component:
     <<: *digital_object_attributes
+    <<: *slug_attributes
     label: Label
     label_tooltip: |
         <p>A term used to describe the part and its position within the Digital Object being described. More often used for the component parts of the Digital Object than the top-level Digital Object record.</p>
@@ -1116,6 +1125,7 @@ en:
 
   accession:
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     accession_date: Accession Date
@@ -1269,6 +1279,7 @@ en:
 
 
   agent: &agent_attributes
+    <<: *slug_attributes
     type: Agent Type
     type_tooltip: |
         <p>The type of entity represented by the Agent record.</p>
@@ -1301,21 +1312,25 @@ en:
 
   agent_person:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Person
     _plural: People
 
   agent_family:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Family
     _plural: Families
 
   agent_software:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Software
     _plural: Software
 
   agent_corporate_entity:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Corporate Entity
     _plural: Corporate Entities
 
@@ -1330,6 +1345,7 @@ en:
 
   archival_object: &archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     title: Title
     title_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD: The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
@@ -1458,6 +1474,7 @@ en:
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     id_0: Identifier
@@ -1586,6 +1603,7 @@ en:
     _plural: Related Resources
 
   repository:
+    <<: *slug_attributes
     repo_code: Repository Short Name
     repo_code_tooltip: |
         <p>REQUIRED FIELD. An abbreviation or acronym of the repository name, which can be better accommodated in the user interface.</p>
@@ -1666,6 +1684,7 @@ en:
     _plural: Terms
 
   subject:
+    <<: *slug_attributes
     authority_id: Authority ID
     authority_id_tooltip: |
         <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
@@ -1820,6 +1839,7 @@ en:
     _plural: Controlled Value lists
 
   classification:
+    <<: *slug_attributes
     _singular: Classification
     _plural: Classifications
     identifier: Identifier
@@ -1829,6 +1849,7 @@ en:
     id_separator: /
 
   classification_term:
+    <<: *slug_attributes
     _singular: Classification Term
     _plural: Classification Terms
     identifier: Identifier
