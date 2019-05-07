@@ -16,7 +16,7 @@ class EADConverter < Converter
   end
 
 
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     if type == "ead_xml"
       self.new(input_file)
     else

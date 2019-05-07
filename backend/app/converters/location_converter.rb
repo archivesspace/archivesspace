@@ -13,7 +13,7 @@ class LocationConverter < Converter
     ]
   end
 
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     new(input_file) if type == 'location_csv'
   end
 

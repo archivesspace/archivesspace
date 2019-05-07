@@ -136,7 +136,7 @@ describe 'Repository model' do
 
     # ripping off from job spec
     converter = Class.new(Converter) do
-      def self.instance_for(type, input_file)
+      def self.instance_for(type, input_file, opts = {})
           self.new(input_file) if type == 'nonce'
       end
 

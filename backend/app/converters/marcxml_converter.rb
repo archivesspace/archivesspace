@@ -23,7 +23,7 @@ class MarcXMLConverter < Converter
   end
 
 
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     if type == "marcxml"
       self.new(input_file)
     elsif type == "marcxml_subjects_and_agents"

@@ -14,7 +14,7 @@ class LCNAFConverter < MarcXMLConverter
   end
 
 
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     if type == "marcxml_lcnaf_subjects_and_agents"
       self.for_subjects_and_agents_only(input_file)
     else
