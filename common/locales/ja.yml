@@ -44,10 +44,17 @@ ja:
 
   slug: &slug_attributes
     slug: Slug
+    slug_tooltip: |
+        <p>人間が読める形式のURLを使用する場合は、ArchivesSpaceパブリックインターフェイスのこのレコードのパブリックURLの最後の部分。 スラッグは手動で追加または更新することも、サーバー上のconfig.rbファイル内の人間が読めるURLの構成設定に基づいて自動的に生成することもできます。</p>
     public_url: Public URL
-    is_slug_auto: Automatically generate Slug?
-    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
-    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
+    public_url_tooltip: |
+        <p>このレコードが公開されているか、公開されるように更新されている場合は、パブリックユーザーインターフェースでのこのレコードの完全なURL。 人間が読める形式のURLが使用されている場合は、URLの最後がスラッグになります。</p>
+        <p>人間が読めるURLが使用されているかどうかにかかわらず、このレコードの元のURIは常に有効なままです。</p>
+    is_slug_auto: スラッグを自動的に生成しますか？
+    is_slug_auto_tooltip: |
+        <p>このフィールドがチェックされていると、サーバー上のconfig.rbファイル内の人間が読めるURLの設定に基づいてレコードが保存されるときに、このレコードのスラッグが自動的に生成されます。</p>
+    autogen_disabled: " -- 空のスラグを生成、スラグを自動的に生成オプションを無効にします"
+    autogen_repo_slug: " -- スラッグフィールドが空のため、自動的に生成されたリポジトリスラッグ"
 
   content_items:
     content: コンテンツ
@@ -56,7 +63,7 @@ ja:
   section_tooltips: &section_tooltips
     dates_tooltip: "<p>記載されている資料の作成、組み立て、蓄積、および/または保守および使用に関連する日付を識別し、記録する。 </p><p>
       DACS 2.4を参照</p>"
-    extents_tooltip: "<p>記載されている材料の範囲と物理的性質を示します。 </p><p> DACS 2.5を参照</p>"
+    extents_tooltip: "<p>記載されている材料の範囲と物理的性質を示します。 </p><p>DACS 2.5を参照</p>"
     linked_agents_tooltip: "<p>エージェントは、そのコンテキストに関する情報を提供するために記述されたマテリアルの作成者、ソース、または主体としてエージェントを関連付けます。
       </p>"
     subjects_tooltip: "<p>説明されている資料とSubjectをリンクするために使用されます。 </p>"
@@ -276,7 +283,7 @@ ja:
       timestamp: UTCタイムスタンプ
     date_tooltip: "<p>イベントが発生した日時またはイベントが発生した日時と時刻の単一の日時。 </p><p>単一の日付/時刻、開始日または終了日時が不明な場合は、「日付式」フィールドに「不明」と入力します。
       </p>"
-    linked_records_tooltip: "<p> REQUIRED SUBRECORD：アクセッション、デジタルオブジェクト、またはリソースをこのイベントに関連付けます。
+    linked_records_tooltip: "<p>REQUIRED SUBRECORD：アクセッション、デジタルオブジェクト、またはリソースをこのイベントに関連付けます。
       </p>"
     types:
       accession: 受託
@@ -341,7 +348,7 @@ ja:
   agent_name: &agent_name_attributes
     authority_id: オーソリティID
     authority_id_tooltip: "<p>取得元のエージェントの名前フォーム（つまり、MADSレコード識別子またはEACレコード識別子）の名前フォームの一意の識別子。識別子はURIとして表すことができる。
-      </p><p> DACS 13.2を参照</p><p>例： </p><ul><li> nr92045078 <em>LCNAF名見出しの場合</em>
+      </p><p>DACS 13.2を参照</p><p>例： </p><ul><li> nr92045078 <em>LCNAF名見出しの場合</em>
       </li><li> ULAN <em>名見出しの場合は500115393</em> </li><li> <em>VIAFの見出しのための</em> http://viaf.org/viaf/134138653
       </ul>"
     source: ソース
@@ -404,10 +411,10 @@ ja:
   name_corporate_entity:
     <<: *agent_name_attributes
     subordinate_name_1: 従属名1
-    subordinate_name_1_tooltip: "<p> 「プライマリ名」フィールドに指定された企業エンティティの階層単位。 </p><p>例</p><ul><li>マイクロエレクトロニクス事業部<em>（国際ビジネス機械マイクロエレクトロニクス事業部）</em>
+    subordinate_name_1_tooltip: "<p>「プライマリ名」フィールドに指定された企業エンティティの階層単位。 </p><p>例</p><ul><li>マイクロエレクトロニクス事業部<em>（国際ビジネス機械マイクロエレクトロニクス事業部）</em>
       </li></ul>"
     subordinate_name_2: 従属名2
-    subordinate_name_2_tooltip: "<p> 「プライマリ名」フィールドに指定され、「従属名1」フィールドに指定されたユニットよりも低い企業エンティティを持つ階層単位。
+    subordinate_name_2_tooltip: "<p>「プライマリ名」フィールドに指定され、「従属名1」フィールドに指定されたユニットよりも低い企業エンティティを持つ階層単位。
       </p>"
 
   name_software:
@@ -723,22 +730,22 @@ ja:
   extent: &extent_attributes
     portion: 部分
     portion_tooltip: "<p>必須フィールド：エクステント文が、記述された集約またはオブジェクトの全体または一部に関連するかどうかを指定するために使用されます。
-      </p><p> DACS 2.5.7を参照</p>"
+      </p><p>DACS 2.5.7を参照</p>"
     number: 数
-    number_tooltip: "<p> REQIURED FIELD：エクステント文の単位数を示す数値。たとえば、5,11.5,245など。エクステントタイプと組み合わせて使用​​して、構造化エクステント文を提供します。
-      </p><p> DACS 2.5を参照</p>"
+    number_tooltip: "<p>REQIURED FIELD：エクステント文の単位数を示す数値。たとえば、5,11.5,245など。エクステントタイプと組み合わせて使用​​して、構造化エクステント文を提供します。
+      </p><p>DACS 2.5を参照</p>"
     extent_type: タイプ
     extent_type_tooltip: &extent_type_tooltip |
         <p>必須フィールド：記載された材料の程度を測定するために使用されるユニットのタイプを示す用語。 </p><p>この管理された値リストの値は変更することができます。
-        </p><p> DACS 2.5を参照</p>
+        </p><p>DACS 2.5を参照</p>
     container_summary: コンテナの概要
     container_summary_tooltip: "<p>コンポーネントレコードに記述されているマテリアルを格納するコンテナおよびコンテナのタイプのリスト。
       </p><p>例： </p><ul><li> 10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。 </li><li> 12靴箱。
       </li><li>ボックス4個、チューブ32個。 </li></ul>"
     physical_details: 物理的詳細
-    physical_details_tooltip: "<p>記述された材料の他の物理的詳細、例えば、アナログ、白黒、ネガ。 </p><p> DACS 2.5を参照</p>"
+    physical_details_tooltip: "<p>記述された材料の他の物理的詳細、例えば、アナログ、白黒、ネガ。 </p><p>DACS 2.5を参照</p>"
     dimensions: 寸法
-    dimensions_tooltip: "<p>記載されている材料の寸法。 </p><p> DACS 2.5を参照</p><p>例： </p><ul><li>
+    dimensions_tooltip: "<p>記載されている材料の寸法。 </p><p>DACS 2.5を参照</p><p>例： </p><ul><li>
       29 cm </li><li> 7 1/4 x 3 1/2インチ</li><li> 1/2インチのテープ</li></ul>"
     _plural: エクステント
     _singular: エクステント
@@ -815,34 +822,34 @@ ja:
 
   date: &date_attributes
     label: ラベル
-    label_tooltip: "<p>必須フィールド：日付が意味する活動の種類を記述する。 </p><p> DACS 2.4および2.4.3を参照</p>"
+    label_tooltip: "<p>必須フィールド：日付が意味する活動の種類を記述する。 </p><p>DACS 2.4および2.4.3を参照</p>"
     date_type: タイプ
     date_type_tooltip: "<p>必須フィールド：正規化された日付情報のタイプ（単一の日付または日付範囲（両端を含む）またはバルク）を示します。
       </p>"
     date_type_message: 正規化された日付または日付範囲を入力するにはタイプを選択してください
     expression: 式
-    expression_tooltip: "<p> CONDITIONALLY REQUIRED FIELD：材料の日付または日付範囲を指定する自然言語式。正規化された日付が記録されていない場合に必要です。
-      </p><p> DACS 2.4を参照</p><p>例： </p><ul><li> 1968 </li><li> 1979-1993 </li><li>
+    expression_tooltip: "<p>CONDITIONALLY REQUIRED FIELD：材料の日付または日付範囲を指定する自然言語式。正規化された日付が記録されていない場合に必要です。
+      </p><p>DACS 2.4を参照</p><p>例： </p><ul><li> 1968 </li><li> 1979-1993 </li><li>
       1785-1960、バルク1916-1958 </li><li> 1827年、1952年〜1978年</li><li> 1870-1879年頃</li><li>
       1906年3月17日</li><li>死んだ</li><li>不明<em>（イベントの場合）</em> </li></ul>"
     begin: ベギン
     begin_inline_help: 例：YYYY、YYYY-MM、またはYYYY-MM-DD
     begin_tooltip: "<p>単一の日付または日付範囲の最初の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。
-      </p><p> DACS 2.4.7-2.4.16を参照</p><p> AD年は4桁で表されます。 </p><p> BC年は負の数で表されます。たとえば、紀元前214年は-214
+      </p><p>DACS 2.4.7-2.4.16を参照</p><p>AD年は4桁で表されます。 </p><p>BC年は負の数で表されます。たとえば、紀元前214年は-214
       </p>"
     end: 終わり
     end_inline_help: 例：YYYY、YYYY-MM、またはYYYY-MM-DD
     end_tooltip: "<p>日付範囲の2番目の日付を表す正規化された日付（YYYY、YYYY-MM、またはYYYY-MM-DDの形式）。 </p><p>
-      DACS 2.4.7-2.4.16を参照</p><p> AD年は4桁で表されます。 </p><p> BC年は負の数で表されます。たとえば、紀元前214年は-214
+      DACS 2.4.7-2.4.16を参照</p><p>AD年は4桁で表されます。 </p><p>BC年は負の数で表されます。たとえば、紀元前214年は-214
       </p>"
     certainty: 確実
     certainty_tooltip: "<p>日付ステートメントで与えられた情報に対する信頼度。この情報はオプションであり、使用中の説明または目録規則に基づいて潜在的に不確実な日付情報を適格とする場合にのみ追加する必要があります。
-      </p><p> EAD属性「確実性」を参照。 </p>"
+      </p><p>EAD属性「確実性」を参照。 </p>"
     era: それは
-    era_tooltip: "<p> BCまたはCEなどの、年が数えられ、日付が計算される期間。「ce」という値がデフォルトです。 </p><p> EAD属性「時代」を参照してください。
+    era_tooltip: "<p>BCまたはCEなどの、年が数えられ、日付が計算される期間。「ce」という値がデフォルトです。 </p><p>EAD属性「時代」を参照してください。
       </p>"
     calendar: カレンダー
-    calendar_tooltip: "<p>グレゴリオ暦やユリウス暦などの時間計算システム。値「グレゴリアン」がデフォルトです。 </p><p> EAD属性「calendar」とDACS
+    calendar_tooltip: "<p>グレゴリオ暦やユリウス暦などの時間計算システム。値「グレゴリアン」がデフォルトです。 </p><p>EAD属性「calendar」とDACS
       2.4.5を参照してください。 </p>"
     _plural: 日付
     _singular: 日付
@@ -893,10 +900,10 @@ ja:
     id_1: 2を特定する
     id_2: 識別3
     id_3: 識別4
-    id_0_tooltip: "<p> REQUIRED FIELD：リポジトリ内のアクセッションの一意の識別子。 </p><p> ArchivesSpaceでは、受託識別子をその構成部分に解析するための4つのフィールドが用意されています。各セグメントは、50文字に制限されています。識別子の合計文字数は200文字です。少なくとも最初の部分は、有効なアクセス記録に使用する必要があります。
-      </p><p>デフォルト値を使用して、すべてのアクセッション番号で同じ構成部分を移入することができます。 </p><p> DACS 5.2.5を参照</p>"
+    id_0_tooltip: "<p>REQUIRED FIELD：リポジトリ内のアクセッションの一意の識別子。 </p><p>ArchivesSpaceでは、受託識別子をその構成部分に解析するための4つのフィールドが用意されています。各セグメントは、50文字に制限されています。識別子の合計文字数は200文字です。少なくとも最初の部分は、有効なアクセス記録に使用する必要があります。
+      </p><p>デフォルト値を使用して、すべてのアクセッション番号で同じ構成部分を移入することができます。 </p><p>DACS 5.2.5を参照</p>"
     content_description: コンテンツの説明
-    content_description_tooltip: "<p>アクセス権の文書タイプとトピック内容の説明。 </p><p> DACS 3.1.4-3.1.7を参照</p><p>例：
+    content_description_tooltip: "<p>アクセス権の文書タイプとトピック内容の説明。 </p><p>DACS 3.1.4-3.1.7を参照</p><p>例：
       </p><p>フィールドメモ、日記、地図の草案を含む10カートンの素材で、Smith氏の10年間の住居をオテイメサ牧場で記録しています。 </p>"
     condition_description: 条件説明
     condition_description_tooltip: "<p>特別扱い要件を含む、加入の内容の体調に関する記述。 </p><p>例： </p><p>ボックス4の地図は脆く、いくつかは型で覆われています。処理中に吸入ガードを着用してください。
@@ -912,18 +919,18 @@ ja:
     inventory_tooltip: "<p>アクセス権を構成するコンテナとその内容のリスト。ボックスリストは、フィールドで構成したり、フィールドにコピーして貼り付けたり、外部文書として参照したりすることができます。外部文書への参照は、ここまたは外部文書サブレコードに記録することができます。
       </p><p>例： </p><ul><li>ボックス1：日記</li><li>ボックス2：スミス氏の家族への手紙</li><li>ボックス3：牧場従業員の個人記録</li><li>ボックス4：牧場地図の下書き</li></ul>"
     provenance: 出所
-    provenance_tooltip: "<p>保管に関する履歴、詳細な取得情報など、アクセスに関する情報を提供する注記</p><p> DACS 5.1-5.2を参照</p>"
+    provenance_tooltip: "<p>保管に関する履歴、詳細な取得情報など、アクセスに関する情報を提供する注記</p><p>DACS 5.1-5.2を参照</p>"
     retention_rule: 保存ルール
     retention_rule_tooltip: "<p>アクセス権またはアクセス権の規則を示す注記。 <p>例： </p><ul><li>キャンパス保持スケジュールを参照してください。
       </li></ul>"
     restrictions_apply: 制限が適用されます？
-    restrictions_apply_tooltip: "<p>加盟に制限が適用される場合の表示。 </p><p> DACS 4.1.5-4.1.6を参照してください。
+    restrictions_apply_tooltip: "<p>加盟に制限が適用される場合の表示。 </p><p>DACS 4.1.5-4.1.6を参照してください。
       4.2.5-4.2.7,4.3.4-4.3.6 </p>"
     resource_type: リソースタイプ
     resource_type_tooltip: "<p>リポジトリがリソースを基本タイプに分類するために使用する用語のリスト。 </p><p>この管理された値リストの値は変更することができます。
       </p>"
     access_restrictions: アクセスの制限？
-    access_restrictions_tooltip: "<p>資料へのアクセスを示すチェックボックスは制限されています。 </p><p> DACS 4.1.5-4.1.6を参照してください。
+    access_restrictions_tooltip: "<p>資料へのアクセスを示すチェックボックスは制限されています。 </p><p>DACS 4.1.5-4.1.6を参照してください。
       4.2.5-4.2.7,4.3.5-4.3.6 </p>"
     access_restrictions_note: アクセス制限
     access_restrictions_note_tooltip: "<p>加盟国のどのような資料にアクセスが制限されているか、制限の権限は何か、制限の有効期間は何かを示す声明。追加情報は、権利サブ記録に記録することもできます。
@@ -940,11 +947,11 @@ ja:
     publish_help: このアクセス権を公開する場合は、これをチェックしてください。
     publish_tooltip: "<p>このアクセッションがパブリック（パトラン）インターフェイスに公開されるかどうかを決定します。 </p>"
     restrictions: 制限？
-    restrictions_tooltip: "<p>加盟に制限が適用される場合の表示。 </p><p> DACS 4.1.5  -  4.1.6を参照してください。
+    restrictions_tooltip: "<p>加盟に制限が適用される場合の表示。 </p><p>DACS 4.1.5  -  4.1.6を参照してください。
       4.2.5  -  4.2.7,4.3.4  -  4.3.6 </p>"
     title: タイトル
     title_tooltip: "<p>アクセス権またはリソースに割り当てられたタイトル。アクセス権のタイトルは、リソースのタイトルと同じである必要はありません。さらに、タイトルは、アクセス記録がリンクされているリソースレコードから暗黙的に継承され得るので、アクセス記録のために表現される必要はない。
-      </p><p> DACS 2.3.18-2.3.22を参照</p>"
+      </p><p>DACS 2.3.18-2.3.22を参照</p>"
     related_resources_tooltip: "<p>関連付けられたリソースをこのアクセッションにリンクするために使用されます。 </p>"
     relator: 報告者
     relator_type: リレータイプ
@@ -973,7 +980,7 @@ ja:
   agent: &agent_attributes
     <<: *slug_attributes
     type: エージェントの種類
-    type_tooltip: "<p>エージェントレコードによって表されるエンティティのタイプ。 </p><p> DACS 10.2およびPREMISエージェントエンティティを参照</p>"
+    type_tooltip: "<p>エージェントレコードによって表されるエンティティのタイプ。 </p><p>DACS 10.2およびPREMISエージェントエンティティを参照</p>"
     agent_type:
       agent_family: 家族
       agent_person: 人
@@ -1035,7 +1042,7 @@ ja:
     <<: *slug_attributes
     title: タイトル
     title_tooltip: "<p>条件付き必須フィールド：説明されたマテリアルに割り当てられたタイトル。アーカイブオブジェクトには、TitleまたはDateのいずれかのサブレコードが必要です。
-      </p><p> DACS 2.3を参照</p><p>例： </p><ul><li> Graciany Miranda Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
+      </p><p>DACS 2.3を参照</p><p>例： </p><ul><li> Graciany Miranda Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
     ref_id: Ref ID
     ref_id_tooltip: "<p>自動的に提供され、更新可能な参照ID（リンクIDなど）は、自動的に生成されるか、既存のシステムからインポートされ、永続性を維持するためのものです。
       </p>"
@@ -1047,26 +1054,26 @@ ja:
     component_id_tooltip: "<p>コンポーネントの部品について、リソース記述のコンテキスト内で一意のIDを表します。 </p><p>例：
       </p><ul><li>シリーズI </li><li>サブシリーズ8 </li><li>アクセシビリティ2005-M-078 </li></ul>"
     level: 説明のレベル
-    level_tooltip: "<p>必要なフィールド。を示します。説明されている材料の階層レベル。 </p><p> DACS第1章を参照してください</p><p>値はEADスキーマによって規定されます。
+    level_tooltip: "<p>必要なフィールド。を示します。説明されている材料の階層レベル。 </p><p>DACS第1章を参照してください</p><p>値はEADスキーマによって規定されます。
       </p>"
     other_level: その他のレベル
-    other_level_tooltip: "<p> 「その他のレベル」が「レベル」で選択された値であれば、必要なフィールド。 EADスキーマで指定された値の範囲外のレベルのタイプを表現します。
+    other_level_tooltip: "<p>「その他のレベル」が「レベル」で選択された値であれば、必要なフィールド。 EADスキーマで指定された値の範囲外のレベルのタイプを表現します。
       </p>"
     container_summary: コンテナの概要
     container_summary_tooltip: "<p>リソース記述を含むコンテナの数と種類を記録するため。これは、テキストサマリーとみなされ、エクステントサブレコードと同一ではありません。
-      </p><p> DACS 2.5を参照</p><p>例： </p><ul><li> 10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。
+      </p><p>DACS 2.5を参照</p><p>例： </p><ul><li> 10個のレコードカートン、6個のアーカイブボックス、3個の特大のフォルダ。
       </li><li> 12靴箱。 </li><li>ボックス4個、チューブ32個。 </li></ul>"
     publish: 公開しますか？
     publish_tooltip: "<p>このアーカイブオブジェクトをパブリック（パトロン）インターフェイスに公開するかどうかを決定します。 </p>"
     restrictions_apply: 制限が適用されます？
     restrictions_apply_tooltip: "<p>記載されている資料が何らかの形で制限されているかどうかを示します。制限の追加の説明は、制限が発生したレコードの適切なNotesまたはRights
-      Statementsに記載する必要があります。 </p><p> DACS 4.1-4.4を参照</p>"
+      Statementsに記載する必要があります。 </p><p>DACS 4.1-4.4を参照</p>"
     repository_processing_note: リポジトリ処理の注意
     repository_processing_note_tooltip: "<p>マテリアルの処理に関する情報を記録するアプリケーション固有のフィールド。このメモは、エクスポートやレポートには含まれておらず、インポートによって生成されません。
       </p>"
     automate_title: 自動的にタイトルを生成する
     language: 言語
-    language_tooltip: "<p>説明されている資料で表現されている言語の用語とコード。 </p><p> DACS 4.5を参照</p>"
+    language_tooltip: "<p>説明されている資料で表現されている言語の用語とコード。 </p><p>DACS 4.5を参照</p>"
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: 祖先は未公開ですか？
     _singular: アーカイブオブジェクト
@@ -1129,25 +1136,25 @@ ja:
     id_1: 2を特定する
     id_2: 識別3
     id_3: 識別4
-    id_0_tooltip: "<p>必要なフィールド。リポジトリ内の各個別リソースに割り当てられた識別番号。 </p><p> DACS 2.1.3を参照</p><p>例</p><ul><li>
+    id_0_tooltip: "<p>必要なフィールド。リポジトリ内の各個別リソースに割り当てられた識別番号。 </p><p>DACS 2.1.3を参照</p><p>例</p><ul><li>
     R.001（2つの要素「R」+「001」） </li><li> MSS 025（単一要素） </li><li> Archives.RSS.0333（3つの要素
     &quot;Archives&quot; + &quot;RSS&quot; + &quot;0333&quot;） </li></ul>"
     "[:id_0, :id_1, :id_2, :id_3]": 識別
     "[:repo_id, :identifier]": 識別
     identifier: 識別
-    title_tooltip: "<p>必要なフィールド。リソースに割り当てられたタイトル。 </p><p> DACS 2.3を参照</p><p>例： </p><ul><li>
+    title_tooltip: "<p>必要なフィールド。リソースに割り当てられたタイトル。 </p><p>DACS 2.3を参照</p><p>例： </p><ul><li>
       Graciany Miranda Archillaの論文</li><li>愛は家族の記録を作る</li><li>キャメロンファミリーアカウントブック</li><li>キャロラインとアーウィンスワンの漫画と漫画のコレクション</li><li>国立科学アカデミーの対応</li><li>オーディオとビデオの録音</li></ul>"
     resource_type: リソースタイプ
     resource_type_tooltip: "<p>リポジトリがリソースを基本タイプに分類するために使用する用語のリスト。 </p><p>この管理された値リストの値は変更することができます。
       </p>"
     repository_processing_note: リポジトリ処理の注意
-    extents_tooltip: "<p> REQUIRED SUBRECORD：記載された材料のサイズを記録するのに使用される。 </p><p> DACS
+    extents_tooltip: "<p>REQUIRED SUBRECORD：記載された材料のサイズを記録するのに使用される。 </p><p>DACS
       2.5を参照</p>"
     related_accessions_tooltip: "<p>関連するアクセスをこのリソースにリンクするために使用されます。 </p>"
     publish_tooltip: "<p>このリソースをパブリック（パトラン）インターフェイスに公開するかどうかを決定します。 </p>"
     restrictions: 制限が適用されます？
     restrictions_tooltip: "<p>記載されている資料が何らかの形で制限されているかどうかを示します。制限の追加の説明は、制限が発生したレコードの適切なNotesまたはRights
-      Statementsに記載する必要があります。 </p><p> DACS 4.1-4.4を参照</p>"
+      Statementsに記載する必要があります。 </p><p>DACS 4.1-4.4を参照</p>"
     ead_id: EAD ID
     ead_id_tooltip: "<p>リソース記述から生成されたEADの識別子（通常はファイル名）。リポジトリコンテキスト内で一意である必要があります。
       </p>"
@@ -1213,11 +1220,11 @@ ja:
       </li><li>タムワグ<em>（</em>タミント・<em>ライブラリーとロバート・ワーグナー労働アーカイブ）</em> </li></ul>"
     name: リポジトリ名
     name_tooltip: "<p>必要なフィールド。アプリケーションのアクセス、リソース、およびデジタルオブジェクトモジュールで説明されている資料の管理責任と保管管理を持つリポジトリの名前。
-      </p><p> DACS 2.2を参照</p><p>例： </p><ul><li>あなたの名前はここにありますSpecial Collections Library
+      </p><p>DACS 2.2を参照</p><p>例： </p><ul><li>あなたの名前はここにありますSpecial Collections Library
       </li><li>マンデルビル特別収集図書館</li><li> Tamiment LibraryとRobert F. Wagner Labor Archives
       </li></ul>"
     org_code: 組織/代理店コード
-    org_code_tooltip: "<p> ISO / DIS1511情報およびドキュメンテーションライブラリおよび関連組織の国際標準識別子（ISIL）に準拠するコード。米国の機関には、MARC組織コードリストのコードが含まれています。
+    org_code_tooltip: "<p>ISO / DIS1511情報およびドキュメンテーションライブラリおよび関連組織の国際標準識別子（ISIL）に準拠するコード。米国の機関には、MARC組織コードリストのコードが含まれています。
       </p><p>例： </p><ul><li> NNU-TL <em>（タミテイ図書館とロバート・ワーグナー労働記録庫）</em> </li><li> IU-Ar
       <em>（イリノイ大学アーカイブス用）</em> </li></ul>"
     parent_institution_name: 親機関名
@@ -1282,7 +1289,7 @@ ja:
 
   user:
     username: ユーザー名
-    username_tooltip: "<p>必要なフィールド。ユーザーがアプリケーションの認証に使用するアカウントのユーザー名。 許可される文字には、a〜z、A〜Z、@、数字、ハイフン、ダッシュ、およびドットが含まれます。</P>"
+    username_tooltip: "<p>必要なフィールド。ユーザーがアプリケーションの認証に使用するアカウントのユーザー名。 許可される文字には、a〜z、A〜Z、@、数字、ハイフン、ダッシュ、およびドットが含まれます。</p>"
     name: フルネーム
     name_tooltip: "<p>必要なフィールド。ユーザー名で指定されたユーザーのフルネーム。 </p>"
     password: パスワード
@@ -1322,7 +1329,7 @@ ja:
     processing_total_extent_type_: "-"
     processing_hours_total: 総処理時間
     processing_hours_total_short: 合計時間
-    processing_hours_total_tooltip: "<p> 「1フート当たりの処理時間」に「処理総面積」を掛けた数値結果。値は、実際の処理時間を反映するために上書きされ、推定処理時間/単位値に基づく値ではありません。
+    processing_hours_total_tooltip: "<p>「1フート当たりの処理時間」に「処理総面積」を掛けた数値結果。値は、実際の処理時間を反映するために上書きされ、推定処理時間/単位値に基づく値ではありません。
       </p>"
     processing_plan: 処理計画
     processing_plan_tooltip: "<p>アーカイブユニットの処理計画を記録するため。計画には、アーカイブユニットの配置の概要と、アーカイブユニット内の特定のオブジェクトをどのように扱うかについての説明が含まれている場合があります。この計画では、異なるリポジトリ・スタッフに異なる割り当てを指定する場合もあります。

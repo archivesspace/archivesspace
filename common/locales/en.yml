@@ -42,8 +42,15 @@ en:
 
   slug: &slug_attributes
     slug: Slug
+    slug_tooltip: |
+        <p>When using human-readable URLs, the last part of the public URL for this record in the ArchivesSpace public interface. The slug can be manually added or updated, or generated automatically based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
     public_url: Public URL
+    public_url_tooltip: |
+        <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
+        <p>Whether human-readable URLs are being used or not, the original URI for this record always remains valid.</p>
     is_slug_auto: Automatically generate Slug?
+    is_slug_auto_tooltip: |
+        <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
     autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
     autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
 
@@ -1717,7 +1724,7 @@ en:
   user:
     username: Username
     username_tooltip: |
-        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application. Permitted characters include a-z, A-Z, @, numbers, hyphen, dash, and dot.</P>
+        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application. Permitted characters include a-z, A-Z, @, numbers, hyphen, dash, and dot.</p>
     name: Full name
     name_tooltip: |
         <p>REQUIRED FIELD. The full name of the user designated by the username.</p>

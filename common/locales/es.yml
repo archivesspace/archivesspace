@@ -44,10 +44,17 @@ es:
 
   slug: &slug_attributes
     slug: Slug
+    slug_tooltip: |
+        <p>Al usar URL legibles para el ser humano, la última parte de la URL pública para este registro en la interfaz pública de ArchivesSpace. El slug puede agregarse o actualizarse manualmente, o generarse automáticamente en función de los ajustes de configuración de las URL legibles para las personas en el archivo config.rb en el servidor. </p>
     public_url: Public URL
-    is_slug_auto: Automatically generate Slug?
-    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
-    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
+    public_url_tooltip: |
+        <p>Si este registro se publica o actualiza para publicarse, la URL completa de este registro en la interfaz de usuario pública. Si se están utilizando URL legibles para las personas, el final de la URL será la bala. </p>
+        <p>Ya sea que se utilicen o no las URL legibles para las personas, el URI original para este registro siempre seguirá siendo válido. </p>
+    is_slug_auto: ¿Generar automáticamente Slug?
+    is_slug_auto_tooltip: |
+        <p>Si se marca este campo, la barra de este registro se generará automáticamente cuando el registro se guarde según los ajustes de configuración para las URL legibles para las personas en el archivo config.rb en el servidor. </p>
+    autogen_disabled: " -- Slug vacío generado, Generar automáticamente la opción slug deshabilitada"
+    autogen_repo_slug: " -- Campo de slug vacío por lo que automáticamente se genera slug repositorio"
 
   content_items:
     content: Contenido
@@ -1128,7 +1135,7 @@ es:
     accession_date_unknown: desconocida
     accession_date_inline_help: por ejemplo AAAA-MM-DD
     accession_date_tooltip: |
-      <p> CAMPO REQUERIDO: La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
+      <p>CAMPO REQUERIDO: La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
     accession_id: Identificador
     accession_id_tooltip: |
         <p>El número de la base de datos interna para un registro específico de acta de ingreso.</p>
@@ -1138,16 +1145,16 @@ es:
     id_2: Identificador 3
     id_3: Identificador 4
     id_0_tooltip: |
-        <p> CAMPO REQUERIDO: el identificador único para una accesión dentro de un repositorio. </p>
-        <p> En ArchivesSpace, se proporcionan cuatro campos para analizar un identificador de acceso en sus partes componentes. Cada segmento está limitado a 50 caracteres, o 200 caracteres en total para el identificador. Al menos la primera parte debe usarse para un registro de acceso válido. </p>
-        <p> Los valores predeterminados se pueden usar para completar las partes componentes que son iguales en todos los números de acceso. </p>
+        <p>CAMPO REQUERIDO: el identificador único para una accesión dentro de un repositorio. </p>
+        <p>En ArchivesSpace, se proporcionan cuatro campos para analizar un identificador de acceso en sus partes componentes. Cada segmento está limitado a 50 caracteres, o 200 caracteres en total para el identificador. Al menos la primera parte debe usarse para un registro de acceso válido. </p>
+        <p>Los valores predeterminados se pueden usar para completar las partes componentes que son iguales en todos los números de acceso. </p>
         <p>Ver DACS 5.2.5</p>
     content_description: Descripción de contenido
     content_description_tooltip: |
-        <p> Una descripción de los tipos de documentos y contenidos temáticos de la adhesión. </p>
-        <p> Ver DACS 3.1.4-3.1.7 </p>
-        <p> Ejemplos: </p>
-        <p> Diez cartones de materiales que contienen notas de campo, diarios y borradores de mapas que documentan los 10 años de residencia del Sr. Smith en Otay Mesa Ranch. </p>
+        <p>Una descripción de los tipos de documentos y contenidos temáticos de la adhesión. </p>
+        <p>Ver DACS 3.1.4-3.1.7 </p>
+        <p>Ejemplos: </p>
+        <p>Diez cartones de materiales que contienen notas de campo, diarios y borradores de mapas que documentan los 10 años de residencia del Sr. Smith en Otay Mesa Ranch. </p>
     condition_description: Descripción de la condición
     condition_description_tooltip: |
         <p>Una descripción de la condición física de los contenidos de la
@@ -1232,7 +1239,7 @@ es:
         <p>Ver DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
     title: Título
     title_tooltip: |
-        <p> El título asignado a una accesión o recurso. El título de la accesión no necesita ser el mismo que el título del recurso. Además, no es necesario expresar un título para el registro de acceso, ya que puede heredarse implícitamente del registro de recursos al que está vinculado el acceso. </p>
+        <p>El título asignado a una accesión o recurso. El título de la accesión no necesita ser el mismo que el título del recurso. Además, no es necesario expresar un título para el registro de acceso, ya que puede heredarse implícitamente del registro de recursos al que está vinculado el acceso. </p>
         <p>Ver 2.3.18-2.3.22 DACS</p>
     related_resources_tooltip: |
         <p>Utilizado para vincular los recursos asociados con este proceso de entrada.</p>
