@@ -43,16 +43,16 @@ fr:
   slug: &slug_attributes
     slug: Slug
     slug_tooltip: |
-        <p>Lors de l'utilisation d'URL lisibles par l'homme, dernière partie de l'URL publique de cet enregistrement dans l'interface publique ArchivesSpace. Le slug peut être ajouté ou mis à jour manuellement, ou généré automatiquement en fonction des paramètres de configuration des URL lisibles par l'homme dans le fichier config.rb du serveur. </p>
+        <p>When using human-readable URLs, the last part of the public URL for this record in the ArchivesSpace public interface. The slug can be manually added or updated, or generated automatically based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
     public_url: Public URL
     public_url_tooltip: |
-        <p>Si cet enregistrement est publié ou mis à jour pour être publié, l'URL complète de cet enregistrement dans l'interface utilisateur publique. Si des URL lisibles par l'homme sont utilisées, la fin de l'URL sera le slug. </p>
-        <p>Que des URL lisibles par l'homme soient utilisées ou non, l'URI d'origine de cet enregistrement reste toujours valide. </p>
-    is_slug_auto: Générer automatiquement Slug?
+        <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
+        <p>Whether human-readable URLs are being used or not, the original URI for this record always remains valid.</p>
+    is_slug_auto: Automatically generate Slug?
     is_slug_auto_tooltip: |
-        <p>Si ce champ est coché, le slug de cet enregistrement sera automatiquement généré lorsque l'enregistrement sera sauvegardé en fonction des paramètres de configuration des URL lisibles par l'homme du fichier config.rb du serveur. </p>
-    autogen_disabled: " -- Slug vide généré, l'option Générer automatiquement un slug est désactivée"
-    autogen_repo_slug: " -- Champ slug vide pour générer automatiquement un slug de référentiel"
+        <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
+    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
 
   content_items:
     content: Contenu

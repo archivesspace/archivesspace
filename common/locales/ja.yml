@@ -45,16 +45,16 @@ ja:
   slug: &slug_attributes
     slug: Slug
     slug_tooltip: |
-        <p>人間が読める形式のURLを使用する場合は、ArchivesSpaceパブリックインターフェイスのこのレコードのパブリックURLの最後の部分。 スラッグは手動で追加または更新することも、サーバー上のconfig.rbファイル内の人間が読めるURLの構成設定に基づいて自動的に生成することもできます。</p>
+        <p>When using human-readable URLs, the last part of the public URL for this record in the ArchivesSpace public interface. The slug can be manually added or updated, or generated automatically based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
     public_url: Public URL
     public_url_tooltip: |
-        <p>このレコードが公開されているか、公開されるように更新されている場合は、パブリックユーザーインターフェースでのこのレコードの完全なURL。 人間が読める形式のURLが使用されている場合は、URLの最後がスラッグになります。</p>
-        <p>人間が読めるURLが使用されているかどうかにかかわらず、このレコードの元のURIは常に有効なままです。</p>
-    is_slug_auto: スラッグを自動的に生成しますか？
+        <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
+        <p>Whether human-readable URLs are being used or not, the original URI for this record always remains valid.</p>
+    is_slug_auto: Automatically generate Slug?
     is_slug_auto_tooltip: |
-        <p>このフィールドがチェックされていると、サーバー上のconfig.rbファイル内の人間が読めるURLの設定に基づいてレコードが保存されるときに、このレコードのスラッグが自動的に生成されます。</p>
-    autogen_disabled: " -- 空のスラグを生成、スラグを自動的に生成オプションを無効にします"
-    autogen_repo_slug: " -- スラッグフィールドが空のため、自動的に生成されたリポジトリスラッグ"
+        <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
+    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
 
   content_items:
     content: コンテンツ

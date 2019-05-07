@@ -1059,13 +1059,13 @@ fr:
         find_and_replace_warning: Chercher et remplacer des tâches provoquera de grands changements dans votre base de données. Nous vous recommandons <strong>fermement</strong> de sauvegarder votre base de données ET de lancer votre tâche dans une instance de test avant de procéder pour de bon. Il n'y a pas de "retour en arrière" possible.
         find_and_replace_instructions: Choisissez une notice de base pour délimiter cette opération chercher-remplacer. Choisissez alors un type de notices cible et une propriété de ce type. Cette opération s'effectuera dans toutes les notices cibles dans l'arborescence de la notice de base, ou dans la notice de base elle-même si le type cible est "Ressource".
         report_instructions: Choisissez un rapport à effectuer en utilisant le bouton <b>Sélectionner</b>.
-        slug_lost_warning: <b> AVERTISSEMENT! </ b> Toutes les limaces générées automatiquement seront régénérées!
-        slug_generation: Ce travail génère des slugs et coche la case de génération automatique de slug pour tous les <b> ressources </ b>, <b> objets d'archivage </ b>, <b> objets numériques </ b>, <b> composants d'objets numériques </ b>, <b> Accessions </ b>, <b> Classifications </ b>, <b> agents </ b>, <b> Sujets </ b> et <b> Référentiels </ b> qui n'ont pas déjà une limace. <br /> <em> Les slugs ajoutés manuellement ne seront pas modifiés, sauf si vous indiquez sur ces enregistrements qu'ils doivent être remplacés en cochant la case Génération automatique. </ em>
-        slug_config_msg: <b> Selon vos paramètres de configuration dans config.rb: </ b>
+        slug_lost_warning: <b> AVERTISSEMENT! </b> Toutes les limaces générées automatiquement seront régénérées!
+        slug_generation: Ce travail génère des slugs et coche la case de génération automatique de slug pour tous les <b> ressources </b>, <b> objets d'archivage </b>, <b> objets numériques </b>, <b> composants d'objets numériques </b>, <b> Accessions </b>, <b> Classifications </b>, <b> agents </b>, <b> Sujets </b> et <b> Référentiels </b> qui n'ont pas déjà une limace. <br /> <em> Les slugs ajoutés manuellement ne seront pas modifiés, sauf si vous indiquez sur ces enregistrements qu'ils doivent être remplacés en cochant la case Génération automatique. </em>
+        slug_config_msg: <b> Selon vos paramètres de configuration dans config.rb </b>
         slug_config_id: Des URL sémantiques vont être générées à partir de l'identifiant de l'entitée.
         slug_config_title: Des URL sémantiques vont être générées à partir du nom ou de l'intitulé de l'entité.
         slug_config_eadid: Des URL sémantiques pour <b>ressources</b> vont être générées à partir de l'identifiant EAD.
-        slug_config_cuid: Les slugs pour les <b> objets d'archives </ b> seront générés à l'aide de l'ID de composant unique, le cas échéant.
+        slug_config_cuid: Les slugs pour les <b> objets d'archives </b> seront générés à l'aide de l'ID de composant unique, le cas échéant.
 
   shortcuts:
     quick_reference_window: "Référence rapide: raccourcis clavier"
