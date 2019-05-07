@@ -26,7 +26,7 @@ class Converter
   # Implement this in your Converter class!
   #
   # If this Converter will handle `type` and `input_file`, return an instance.
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     raise NotImplementedError.new
 
     # Example:
@@ -52,7 +52,7 @@ class Converter
 
   class ConverterNotFound < StandardError; end
 
-  def initialize(input_file)
+  def initialize(input_file, opts = {})
     @input_file = input_file
     @batch = ASpaceImport::RecordBatch.new
   end
@@ -118,9 +118,9 @@ class Converter
   end
 
 
-  def self.for(type, input_file)
+  def self.for(type, input_file, opts = {})
     Array(@converters).each do |converter|
-      converter = converter.instance_for(type, input_file)
+      converter = converter.instance_for(type, input_file, opts)
       return converter if converter
     end
 
