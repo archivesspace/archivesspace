@@ -36,8 +36,7 @@ module ASModel
       # - ignores setting for use_human_readable_urls for repositories which have
       #   slugs generated regardless of the setting for use_human_readable_urls
 
-      if AppConfig[:use_human_readable_urls] || self.class == Repository
-
+      if AppConfig[:use_human_readable_urls]
         # Special case for generating slugs for Agents by name
         # This special case is necessary because the NameAgent classes don't have a slug field themselves, but they have the data we need to generate the slug.
         if SlugHelpers.is_agent_name_type?(self.class) &&
@@ -71,8 +70,9 @@ module ASModel
         # there is no slug, auto generate a repo slug based on repo_code.
         if self.class == Repository &&
            (self[:slug].nil? || self[:slug].empty?)
-          self[:slug] = SlugHelpers.clean_slug(self[:repo_code])
-          self[:is_slug_auto] = 1
+         cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
+         self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+         self[:is_slug_auto] = 1
         end
 
         # This block is the same as above, but a special case for Agent classes when generating by ID only.
@@ -84,7 +84,10 @@ module ASModel
           SlugHelpers.is_slug_auto_enabled?(self)
             self[:is_slug_auto] = 0
         end
-
+      elsif self.class == Repository && SlugHelpers.slug_data_updated?(self)
+        cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
+        self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+        self[:is_slug_auto] = 1
       end
     end
 
