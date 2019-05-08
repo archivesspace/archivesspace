@@ -529,7 +529,7 @@ module ASModel
 
       def update_mtime_for_repo_id(repo_id)
         if model_scope == :repository
-          self.dataset.filter(:repo_id => repo_id).update(:system_mtime => Time.now)
+          self.dataset.filter(:repo_id => repo_id).update(:system_mtime => Time.now) if self.dataset.columns.include? :repo_id
         end
       end
 
