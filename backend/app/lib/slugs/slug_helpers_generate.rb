@@ -5,9 +5,12 @@ module SlugHelpers
   def self.clean_slug(slug)
 
     if slug
-      # if the slug contains a slash, completely zero it out.
+      # if the slug contains two slashes next to each other, completely zero it out.
       # this is intended to revert an entity to use the URI if the ID or name the slug was generated from is a URL.
-      slug = "" if slug =~ /\//
+      slug = "" if slug =~ /\/\//
+
+      # remove markup tags
+      slug = slug.gsub(/<\/?[^>]*>/, "")
 
       # downcase everything to simplify case sensitivity issues
       slug = slug.downcase
@@ -57,7 +60,7 @@ module SlugHelpers
   end
 
   # returns true if the base slug (non-deduped) is different between slug and previous_slug
-  # Examples: 
+  # Examples:
   # slug = "foo", previous_slug = "foo_1" => false
   # slug = "foo_123", previous_slug = "foo_123_1" => false
   # slug = "foo_123", previous_slug = "foo_124" => true

@@ -11,17 +11,17 @@ class DigitalObjectsController < ApplicationController
   include ExportHelper
 
   def index
-    respond_to do |format| 
-      format.html {   
+    respond_to do |format|
+      format.html {
         @search_data = Search.for_type(session[:repo_id], params[:include_components]==="true" ? ["digital_object", "digital_object_component"] : "digital_object", params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS}))
       }
-      format.csv { 
+      format.csv {
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS})
-        search_params["type[]"] = params[:include_components] === "true" ? ["digital_object", "digital_object_component"] : [ "digital_object" ] 
+        search_params["type[]"] = params[:include_components] === "true" ? ["digital_object", "digital_object_component"] : [ "digital_object" ]
         uri = "/repositories/#{session[:repo_id]}/search"
         csv_response( uri, search_params )
-      }  
-    end 
+      }
+    end
   end
 
 
@@ -126,20 +126,18 @@ class DigitalObjectsController < ApplicationController
   def create
     handle_crud(:instance => :digital_object,
                 :on_invalid => ->(){
-                  return render_aspace_partial :partial => "new" if inline? 
-                  render :action => "new" 
+                  return render_aspace_partial :partial => "new" if inline?
+                  render :action => "new"
                 },
                 :on_valid => ->(id){
-                  success_msg = I18n.t("digital_object._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
+                  flash[:success] = I18n.t("digital_object._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
 
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
                      params["digital_object"] &&
                      params["digital_object"]["is_slug_auto"] == "1"
-                    success_msg << I18n.t("slug.autogen_disabled")
+                    flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
-
-                  flash[:success] = success_msg
 
                   return render :json => @digital_object.to_hash if inline?
                   redirect_to({
@@ -159,16 +157,15 @@ class DigitalObjectsController < ApplicationController
                 },
                 :on_valid => ->(id){
 
-                  success_msg = I18n.t("digital_object._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
+                  flash.now[:success] = I18n.t("digital_object._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object => @digital_object).enable_parse_mixed_content!(url_for(:root)))
 
                   if @digital_object["is_slug_auto"] == false &&
                      @digital_object["slug"] == nil &&
                      params["digital_object"] &&
                      params["digital_object"]["is_slug_auto"] == "1"
-                    success_msg << I18n.t("slug.autogen_disabled")
+                    flash.now[:warning] = I18n.t("slug.autogen_disabled")
                   end
 
-                  flash.now[:success] = success_msg
                   render_aspace_partial :partial => "edit_inline"
                 })
   end
@@ -340,7 +337,7 @@ class DigitalObjectsController < ApplicationController
   def fetch_tree
     tree = {}
 
-    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/digital_objects/") 
+    limit_to = if  params[:node_uri] && !params[:node_uri].include?("/digital_objects/")
                  params[:node_uri]
                else
                  "root"
