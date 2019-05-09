@@ -51,11 +51,11 @@ class GenerateSlugsRunner < JobRunner
 
         next if !r[:slug].empty? && r[:is_slug_auto] == 0
         begin
-          @job.write_output("Generating slug for classification_term id: #{r[:id]}")
+          @job.write_output("Generating slug for resource id: #{r[:id]}")
           slug = generate_slug_for(r)
 
           if slug && !slug.empty?
-            @job.write_output(" -> Slug for classification_term id: #{r[:id]} => #{slug}")
+            @job.write_output(" -> Slug for resource id: #{r[:id]} => #{slug}")
             r.update(:is_slug_auto => 1, :slug => slug)
           else
             @job.write_output(" -> Generated empty slug for: #{r[:id]}")

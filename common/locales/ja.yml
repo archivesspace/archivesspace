@@ -53,8 +53,8 @@ ja:
     is_slug_auto: Automatically generate Slug?
     is_slug_auto_tooltip: |
         <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
-    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
-    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
+    autogen_disabled: "A slug cannot be automatically generated from the provided data based on the current configuration settings"
+    autogen_repo_slug: "Since a slug was not manually entered the repository slug was automatically generated using the repository short name"
 
   content_items:
     content: コンテンツ
