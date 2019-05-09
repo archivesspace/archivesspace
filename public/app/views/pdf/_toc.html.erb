@@ -15,7 +15,7 @@
                 <a href="#note-<%= note_type %>">
                   <% note.each do |n| %>
                     <% if n['label'] %>
-                        <%= process_mixed_content(n['label']) %>
+                        <%= process_mixed_content(n['label']).gsub(/&amp;/,'&') %>
                     <% else %>
                         <%= I18n.t("enumerations._note_types.#{note_type}") %>
                     <% end %>
@@ -31,7 +31,7 @@
         <% end %>
 
         <% ordered_aos.each do |entry| %>
-            <li class="level-<%= entry.depth + 1 %>"><a href="#<%= entry.uri %>"><%== process_mixed_content(entry.display_string) %></a></li>
+            <li class="level-<%= entry.depth + 1 %>"><a href="#<%= entry.uri %>"><%== process_mixed_content(entry.display_string).gsub(/&amp;/,'&') %></a></li>
         <% end %>
     </ul>
 </div>

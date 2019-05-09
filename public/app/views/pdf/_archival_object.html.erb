@@ -48,7 +48,7 @@ end
                     <% if !n['is_inherited'] %>
                       <h3>
                         <% if n['label'] %>
-                            <%= process_mixed_content(n['label']) %>
+                            <%= process_mixed_content(n['label']).gsub(/&amp;/,'&') %>
                         <% else %>
                             <%= I18n.t("enumerations._note_types.#{note_type}") %>
                         <% end %>
