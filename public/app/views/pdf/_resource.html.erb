@@ -14,7 +14,7 @@
         <% end %>
     <% end %>
 
-    <dt><%= I18n.t('resource._public.finding_aid.title') %></dt><dd><%= process_mixed_content('record.display_string').gsub(/&amp;/,'&') %></dd>
+    <dt><%= I18n.t('resource._public.finding_aid.title') %></dt><dd><%= process_mixed_content(record.display_string).gsub(/&amp;/,'&') %></dd>
 
     <dt><%= I18n.t('resource._public.identifier') %></dt><dd><%= record.identifier %></dd>
 
