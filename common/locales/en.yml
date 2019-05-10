@@ -48,7 +48,7 @@ en:
     public_url_tooltip: |
         <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
         <p>Whether human-readable URLs are being used or not, the original URI for this record always remains valid.</p>
-    is_slug_auto: Automatically generate Slug?
+    is_slug_auto: Automatically Generate Slug?
     is_slug_auto_tooltip: |
         <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
     autogen_disabled: "A slug cannot be automatically generated from the provided data based on the current configuration settings"
