@@ -5,9 +5,9 @@ module SlugHelpers
   def self.clean_slug(slug)
 
     if slug
-      # if the slug contains two slashes next to each other, completely zero it out.
-      # this is intended to revert an entity to use the URI if the ID or name the slug was generated from is a URL.
-      slug = "" if slug =~ /\/\//
+      # if the slug contains two slashes (forward or backward) next to each other, completely zero it out.
+      # this is intended to revert an entity to use the URI if the ID or name the slug was generated from is a URI.
+      slug = "" if slug =~ /\/\// || slug =~ /\\/
 
       # remove markup tags
       slug = slug.gsub(/<\/?[^>]*>/, "")
