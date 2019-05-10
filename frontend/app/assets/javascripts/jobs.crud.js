@@ -21,7 +21,7 @@ var init = function() {
                 location_end_linker.show();
             }
 
-            $('.report_type').hide();        
+            $('.report_type').hide();
             $('.report_type.' + selected_report_type).show();
         };
 
@@ -293,14 +293,19 @@ var init = function() {
                 input.files = dt.files;
                 $form.append(input);
             });
-            
-            
+
+
             return true;
         });
 
         ua = navigator.userAgent;
-        if (ua.indexOf("MSIE") > -1 || ua.indexOf("Trident") > -1 || ua.indexOf("Edge") > -1) {
-            console.log("Using IE");
+        if (ua.indexOf("MSIE") > -1 || ua.indexOf("Trident") > -1 || ua.indexOf("Edge") > -1 || (ua.indexOf('Safari') != -1 && ua.indexOf('Chrome') == -1)) {
+          if (ua.indexOf('Safari') != -1 && ua.indexOf('Chrome') == -1) {
+             console.log("Using Safari");
+             $form[0].setAttribute("onsubmit", "return false");
+          } else {
+             console.log("Using IE");
+          }
             $(".btn:submit").click(function(event) {
                 $form.ajaxSubmit({
                     type: "POST",
@@ -369,7 +374,7 @@ var init = function() {
     };
 
     var type = $("#job_type").val();
-    
+
     $(".linker:not(.initialised)").linker();
 
     // these were added because it was neccesary to get translation
