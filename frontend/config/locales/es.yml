@@ -1061,7 +1061,7 @@
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
         report_instructions: Elige el informe utilizando el botón <b>Seleccionar</b>.
-        slug_lost_warning: <b> ¡ADVERTENCIA! </b> ¡Todas las babosas generadas automáticamente serán regeneradas!
+        slug_lost_warning: <b> ¡ADVERTENCIA! </b> ¡Todas las babosas generadas automáticamente serán regeneradas! Este trabajo se aplica a todos los registros en todos los repositorios.
         slug_generation: Este trabajo generará slugs y marcará el cuadro de generación automática de slug para todos los <b> Recursos </b>, <b> Objetos de archivo </b>, <b> Objetos digitales </b>, <b> Componentes de objetos digitales </b>, <b> Accesiones </b>, <b> Clasificaciones </b>, <b> Agentes </b>, <b> Temas </b> y <b> Repositorios </b> que no tienen ya una babosa. <br /> <em> Las babosas que se han agregado manualmente no se cambiarán, a menos que indique en esos registros que deben reemplazarse al marcar la casilla de generación automática. </em>
         slug_config_msg: <b> Según sus ajustes de configuración en config.rb</b>
         slug_config_id: Las babosas se generarán usando el identificador de la entidad cuando sea apropiado.
