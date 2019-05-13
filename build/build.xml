@@ -105,6 +105,7 @@
   </target>
 
   <target name="bootstrap" depends="bootstrap-downloads" description="Download JRuby and install all required gems">
+    <delete dir="gems/bundler" />
     <delete dir="gems/gems" />
     <delete dir="gems/bin" />
     <delete dir="gems/specifications" />
