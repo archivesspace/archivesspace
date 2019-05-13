@@ -84,9 +84,12 @@ module ASModel
           SlugHelpers.is_slug_auto_enabled?(self)
             self[:is_slug_auto] = 0
         end
-      elsif self.class == Repository && SlugHelpers.slug_data_updated?(self)
-        cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
-        self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+      elsif self.class == Repository
+        if (!self.exists? && (self[:slug].nil? || self[:slug].empty?)) ||
+            self.column_changed?(:repo_code)
+          cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
+          self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+        end
         self[:is_slug_auto] = 1
       end
     end
