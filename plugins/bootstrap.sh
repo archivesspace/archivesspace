@@ -25,10 +25,6 @@ PLUGINS = [
     :url => 'https://github.com/hudmol/qsa_theme.git',
   },
   {
-    :path => 'plugins/as_messaging',
-    :url => 'https://github.com/hudmol/as_messaging.git',
-  },
-  {
     :path => 'plugins/in_a_rush',
     :url => 'https://github.com/marktriggs/in_a_rush.git',
   },
