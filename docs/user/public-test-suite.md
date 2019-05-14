@@ -37,8 +37,24 @@ Note: all example code assumes you are running from your ArchivesSpace project d
 
 ## Running the tests:
 
-Run the full suite:
+### Run the full suite:
 
      $ build/run public:test
 
-As a rule, individual examples cannot be run in isolation because each group is a sequence of dependent steps.
+### Run all tests in a specific spec file:
+
+     $ build/run public:test -Dspec='path/to/spec/from/spec/directory'
+
+so, for example,
+
+     $ build/run public:test -Dspec='features/accessibility_spec.rb'
+
+### Run a specific test:
+
+    $ build/run public:test -Dexample='[description from it block]'
+
+so, for example,
+
+    $ build/run public:test -Dexample='does not return deaccessions when AppConfig[:pui_display_deaccessions] is false'
+
+Note, however, that some public tests are dependent on a sequence of ordered steps and may not always run cleanly in isolation.  In this case, more than the example provided may be run, and/or unexpected fails may result.

@@ -61,27 +61,32 @@
 
 <h2 id="making-small-changes">Making small changes</h2>
 
-<p>For small edits, it’s also  easiest to do this as a plugin. With a plugin,
+<p>It’s easiest to use a plugin for small changes to your site’s theme. With a plugin,
 we can override default views, controllers, models, etc. without having to do a
 complete rebuild of the source code.</p>
 
-<p>For example, let’s say we wanted to change the branding logo on the public
-interface. So, first we need to find where in the views this is being rendered.
-A good first place to go is the
-<a href="https://github.com/archivesspace/archivesspace/blob/master/public/app/views/layouts/application.html.erb">layouts/application.html.erb</a>
-file, which is the Rails default layout for the entire site. Looking through
-this file, we can see the branding is being rendered in the
-<a href="https://github.com/archivesspace/archivesspace/blob/master/public/app/views/site/_branding.html.erb">site/branding.html.erb</a>
-file, which is a very simple file with pretty much just a link and image tag.</p>
+<p>Let’s say we wanted to change the branding logo on the public
+interface. That can be easily changed in your <code>config.rb</code> file:</p>
 
-<p>So, first let’s add out image file to the “plugins/local/public/assets/images/my_archive/logo.png”
-then let’s override the default view by making a file in
-plugins/local/public/views/site/_branding.html.erb</p>
+<p><code>AppConfig[:pui_branding_img]</code></p>
 
-<pre class="code ruby"><code class="ruby">   <span class='lt op'>&lt;</span><span class='rubyid_h1 identifier id'>h1</span><span class='gt op'>&gt;</span>                                                                            
-      <span class='lt op'>&lt;</span><span class='rubyid_img identifier id'>img</span> <span class='rubyid_src identifier id'>src</span><span class='assign token'>=</span><span class='string val'>&quot;/assets/images/my_archive/logo.png&quot;</span> <span class='rubyid_alt identifier id'>alt</span> <span class='assign token'>=</span> <span class='lt op'>&lt;</span><span class='string val'>%= I18n.t(&quot;brand.title&quot;) %&gt; /&gt;                                                            
-   &lt;/h1&gt;                                                                           
-</span></code></pre>
+<p>That setting is used by the file found in <code>public/app/views/shared/_header.html.erb</code> to display your PUI side logo. You don’t need to change that file, only the setting in your <code>config.rb</code> file.</p>
+
+<p>You can store the image in <code>plugins/local/public/assets/images/logo.png</code> You’ll most likely need to create one or more of the directories.</p>
+
+<p>Your <code>AppConfig[:pui_branding_img]</code> setting should look something like this:</p>
+
+<p><code>AppConfig[:pui_branding_img] = '/assets/images/logo.png'</code></p>
+
+<p>The Staff Side logo will need a small plugin file and cannot be set in your <code>config.rb</code> file. This needs to be changed in the <code>plugins/local/frontend/views/site/_branding.html.erb</code> file. You’ll most likely need to create one or more of the directories. Then create that <code>_branding.html.erb</code> file and paste in the following code:</p>
+
+<p>```</p>
+<div class="container-fluid navbar-branding">
+  &lt;%= image_tag "archivesspace/archivesspace.small.png", :class=&gt;"img-responsive" %&gt;
+</div>
+<p>```</p>
+
+<p>Change the <code>"archivesspace/archivesspace.small.png"</code> to the path to your image <code>/assets/images/logo.png</code> and place your login the the <code>plugins/local/frontend/assets/images/</code> directory. You’ll most likely need to create one or more of the directories.</p>
 
 <p><strong>Note:</strong> Since anything we add to plugins directory will not be precompiled by
 the Rails asset pipeline, we cannot use some of the tag helpers
@@ -120,7 +125,7 @@ public. Then you can add the line to include the CSS in the site:</p>
 footer. Those overrides would go into the following places for the public side
 of your site:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_local identifier id'>local</span><span class='div op'>/</span><span class='rubyid_public identifier id'>public</span><span class='div op'>/</span><span class='rubyid_views identifier id'>views</span><span class='div op'>/</span><span class='rubyid_layouts identifier id'>layouts</span><span class='div op'>/</span><span class='rubyid_application identifier id'>application</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_erb identifier id'>erb</span>
+<pre class="code ruby"><code class="ruby"><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_local identifier id'>local</span><span class='div op'>/</span><span class='rubyid_public identifier id'>public</span><span class='div op'>/</span><span class='rubyid_views identifier id'>views</span><span class='div op'>/</span><span class='rubyid_welcome identifier id'>welcome</span><span class='div op'>/</span><span class='rubyid_show identifier id'>show</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_erb identifier id'>erb</span>
 <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_local identifier id'>local</span><span class='div op'>/</span><span class='rubyid_public identifier id'>public</span><span class='div op'>/</span><span class='rubyid_views identifier id'>views</span><span class='div op'>/</span><span class='rubyid_shared identifier id'>shared</span><span class='div op'>/</span>\<span class='rubyid__header identifier id'>_header</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_erb identifier id'>erb</span>
 <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_plugins identifier id'>plugins</span><span class='div op'>/</span><span class='rubyid_local identifier id'>local</span><span class='div op'>/</span><span class='rubyid_public identifier id'>public</span><span class='div op'>/</span><span class='rubyid_views identifier id'>views</span><span class='div op'>/</span><span class='rubyid_shared identifier id'>shared</span><span class='div op'>/</span>\<span class='rubyid__footer identifier id'>_footer</span><span class='dot token'>.</span><span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_erb identifier id'>erb</span>
 </code></pre>
@@ -147,7 +152,7 @@ the public UI as well.</p>
 a tag matching the version you’re using or wanting to use.</p>
 
 <pre class="code ruby"><code class="ruby"> $ <span class='rubyid_git identifier id'>git</span> <span class='rubyid_clone identifier id'>clone</span> <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_git identifier id'>git</span>
- $ <span class='rubyid_git identifier id'>git</span> <span class='rubyid_checkout identifier id'>checkout</span> <span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.0.9</span>
+ $ <span class='rubyid_git identifier id'>git</span> <span class='rubyid_checkout identifier id'>checkout</span> <span class='rubyid_v2 identifier id'>v2</span><span class='float val'>.5.2</span>
 </code></pre>
 
 <p>You can start your application development server by executing:</p>
@@ -172,7 +177,7 @@ either the public or frontend interfaces to work. )</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:34 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:40 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

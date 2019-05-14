@@ -91,7 +91,7 @@
   
   <dl>
       <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span></dd>
+      <dd><span class='object_link'><a href="ASModel.html" title="ASModel (module)">ASModel</a></span>, <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span>, <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span></dd>
   </dl>
   
   
@@ -717,6 +717,17 @@
   
   
   
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="AutoGenerator.html" title="AutoGenerator (module)">AutoGenerator</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="AutoGenerator.html#included-class_method" title="AutoGenerator.included (method)">included</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Publishable.html" title="Publishable (module)">Publishable</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Publishable.html#db_value_for-class_method" title="Publishable.db_value_for (method)">db_value_for</a></span>, <span class='object_link'><a href="Publishable.html#included-class_method" title="Publishable.included (method)">included</a></span></p>
 
@@ -1261,12 +1272,12 @@
       <pre class="lines">
 
 
-16
-17
-18</pre>
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
   <span class='rubyid_not not kw'>not</span> <span class='rubyid_Repository constant id'>Repository</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1360,13 +1371,13 @@
       <pre class="lines">
 
 
-26
-27
-28
-29</pre>
+40
+41
+42
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 40</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_GLOBAL constant id'>GLOBAL</span>
   <span class='comment val'># The repository code indicating that this group is global to all repositories</span>
@@ -1393,12 +1404,12 @@
       <pre class="lines">
 
 
-21
-22
-23</pre>
+35
+36
+37</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_global_repo_id identifier id'>global_repo_id</span>
   <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_code</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_GLOBAL constant id'>GLOBAL</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>
@@ -1424,23 +1435,23 @@
       <pre class="lines">
 
 
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151</pre>
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 152</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1514,20 +1525,6 @@
       <pre class="lines">
 
 
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
 46
 47
 48
@@ -1594,10 +1591,24 @@
 109
 110
 111
-112</pre>
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 46</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_after_create identifier id'>after_create</span>
 
@@ -1701,16 +1712,16 @@
       <pre class="lines">
 
 
-129
-130
-131
-132
-133
-134
-135</pre>
+143
+144
+145
+146
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_assimilate identifier id'>assimilate</span><span class='lparen token'>(</span><span class='rubyid_other_repository identifier id'>other_repository</span><span class='rparen token'>)</span>
   <span class='rubyid_ASModel constant id'>ASModel</span><span class='dot token'>.</span><span class='rubyid_all_models identifier id'>all_models</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
@@ -1740,21 +1751,21 @@
       <pre class="lines">
 
 
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126</pre>
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 129</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
 
@@ -1789,12 +1800,12 @@
       <pre class="lines">
 
 
-154
-155
-156</pre>
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 168</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_display_string identifier id'>display_string</span>
   <span class='dstring node'>&quot;#{name} (#{repo_code})&quot;</span>
@@ -1820,13 +1831,13 @@
       <pre class="lines">
 
 
-182
-183
-184
-185</pre>
+196
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 182</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 196</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_reindex_classification_records identifier id'>reindex_classification_records</span>
   <span class='rubyid_ClassificationTerm constant id'>ClassificationTerm</span><span class='dot token'>.</span><span class='rubyid_update_mtime_for_repo_id identifier id'>update_mtime_for_repo_id</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
@@ -1853,16 +1864,16 @@
       <pre class="lines">
 
 
-174
-175
-176
-177
-178
-179
-180</pre>
+188
+189
+190
+191
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 188</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_reindex_repository_records identifier id'>reindex_repository_records</span>
   <span class='rubyid_ASModel constant id'>ASModel</span><span class='dot token'>.</span><span class='rubyid_all_models identifier id'>all_models</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span>
@@ -1892,23 +1903,23 @@
       <pre class="lines">
 
 
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172</pre>
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 173</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_reindex_required identifier id'>reindex_required</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='neq op'>!=</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='integer val'>1</span> <span class='colon op'>:</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
@@ -1945,15 +1956,15 @@
       <pre class="lines">
 
 
-8
-9
-10
-11
-12
-13</pre>
+22
+23
+24
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 8</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/repository.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_super super kw'>super</span>
@@ -1972,7 +1983,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:47 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:54 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

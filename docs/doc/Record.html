@@ -991,7 +991,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="JsonHelper.html" title="JsonHelper (module)">JsonHelper</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JsonHelper.html#process_json_notes-instance_method" title="JsonHelper#process_json_notes (method)">#process_json_notes</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="JsonHelper.html#merge_notes-instance_method" title="JsonHelper#merge_notes (method)">#merge_notes</a></span>, <span class='object_link'><a href="JsonHelper.html#process_json_notes-instance_method" title="JsonHelper#process_json_notes (method)">#process_json_notes</a></span></p>
 
   
   
@@ -2286,13 +2286,29 @@
 
 67
 68
-69</pre>
+69
+70
+71
+72
+73
+74
+75
+76
+77</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 67</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_note identifier id'>note</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
-  <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span>
+    <span class='rubyid_note identifier id'>note</span> <span class='assign token'>=</span> <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
+    <span class='rubyid_for for kw'>for</span> <span class='rubyid_i identifier id'>i</span> <span class='rubyid_in in kw'>in</span> <span class='float val'>1</span><span class='dot3 op'>...</span><span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
+      <span class='rubyid_note identifier id'>note</span> <span class='assign token'>=</span> <span class='rubyid_merge_notes identifier id'>merge_notes</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_notes identifier id'>notes</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_i identifier id'>i</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_note identifier id'>note</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -2315,14 +2331,14 @@
       <pre class="lines">
 
 
-71
-72
-73
-74
-75</pre>
+79
+80
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 79</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_request_item identifier id'>request_item</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_RequestItem constant id'>RequestItem</span><span class='dot token'>.</span><span class='rubyid_allow_for_type identifier id'>allow_for_type</span><span class='lparen token'>(</span><span class='rubyid_resolved_repository identifier id'>resolved_repository</span><span class='dot token'>.</span><span class='rubyid_dig identifier id'>dig</span><span class='lparen token'>(</span><span class='string val'>&#39;repo_code&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_primary_type identifier id'>primary_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span>
@@ -2340,7 +2356,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:03:02 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:37:11 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

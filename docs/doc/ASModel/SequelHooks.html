@@ -224,6 +224,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#before_save-instance_method" title="#before_save (instance method)">#<strong>before_save</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#before_update-instance_method" title="#before_update (instance method)">#<strong>before_update</strong>  &#x21d2; Object </a>
     
 
@@ -268,12 +291,12 @@
       <pre class="lines">
 
 
-5
 6
-7</pre>
+7
+8</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 6</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_BlobHack constant id'>BlobHack</span><span class='rparen token'>)</span>
@@ -317,14 +340,14 @@ so skip them.</p>
       <pre class="lines">
 
 
-13
 14
 15
 16
-17</pre>
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid__save_refresh identifier id'>_save_refresh</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_ASModel constant id'>ASModel</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_top_level? fid id'>top_level?</span>
@@ -352,32 +375,32 @@ so skip them.</p>
       <pre class="lines">
 
 
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60</pre>
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_around_save identifier id'>around_save</span>
   <span class='rubyid_values_to_reapply identifier id'>values_to_reapply</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -423,17 +446,17 @@ so skip them.</p>
       <pre class="lines">
 
 
-19
 20
 21
 22
 23
 24
 25
-26</pre>
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_create identifier id'>before_create</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span>
@@ -442,6 +465,165 @@ so skip them.</p>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_time identifier id'>create_time</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_system_mtime identifier id'>system_mtime</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_user_mtime identifier id'>user_mtime</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
   <span class='rubyid_super super kw'>super</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="before_save-instance_method">
+  
+    #<strong>before_save</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 29</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_before_save identifier id'>before_save</span>
+  <span class='comment val'># ANW-617: most of the sluggable classes run their slug code via calls to auto_generate on the slug property.</span>
+
+  <span class='comment val'># The code in this hook ensures that:</span>
+  <span class='comment val'># - all slugs are cleaned.</span>
+  <span class='comment val'># - if we end up autogenning an empty slug, we turn is_slug_auto off for that entity</span>
+  <span class='comment val'># - the special cases for Agents are handled</span>
+  <span class='comment val'># - ignores setting for use_human_readable_urls for repositories which have</span>
+  <span class='comment val'>#   slugs generated regardless of the setting for use_human_readable_urls</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
+    <span class='comment val'># Special case for generating slugs for Agents by name</span>
+    <span class='comment val'># This special case is necessary because the NameAgent classes don&#39;t have a slug field themselves, but they have the data we need to generate the slug.</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_is_agent_name_type? fid id'>is_agent_name_type?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_slug_data_updated? fid id'>slug_data_updated?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_is_slug_auto_enabled? fid id'>is_slug_auto_enabled?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='notop op'>!</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:auto_generate_slugs_with_id</span><span class='rbrack token'>]</span>
+         <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_generate_slug_for_agent_name! fid id'>generate_slug_for_agent_name!</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># For all types</span>
+    <span class='comment val'># If the slug has changed manually, then make sure it&#39;s cleaned and deduped.</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_column_changed? fid id'>column_changed?</span><span class='lparen token'>(</span><span class='symbol val'>:slug</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='notop op'>!</span><span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='colon2 op'>::</span><span class='rubyid_is_slug_auto_enabled? fid id'>is_slug_auto_enabled?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
+      <span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_clean_slug identifier id'>clean_slug</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_run_dedupe_slug identifier id'>run_dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># For all non-agent types except repositories that have a slug field</span>
+    <span class='comment val'># If the slug is empty at this point and is_slug_auto is enabled,</span>
+    <span class='comment val'># then we didn&#39;t have enough data to generate one, so we&#39;ll turn</span>
+    <span class='comment val'># is_slug_auto off</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_sluggable_class? fid id'>sluggable_class?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='notop op'>!</span><span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_is_agent_type? fid id'>is_agent_type?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_is_slug_auto_enabled? fid id'>is_slug_auto_enabled?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
+      <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:is_slug_auto</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># Repositories must always have a slug so, if repository and</span>
+    <span class='comment val'># there is no slug, auto generate a repo slug based on repo_code.</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_Repository constant id'>Repository</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span>
+     <span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_clean_slug identifier id'>clean_slug</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_code</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+     <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_run_dedupe_slug identifier id'>run_dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span><span class='rparen token'>)</span>
+     <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:is_slug_auto</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># This block is the same as above, but a special case for Agent classes when generating by ID only.</span>
+    <span class='comment val'># We can&#39;t autogen an empty slug for an agent based on name, because the primary name field is required.</span>
+    <span class='comment val'># Running this code when generating by name breaks things because autogen is flipped off for the agent and then the name record update does&#39;t run like it should</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_is_agent_type? fid id'>is_agent_type?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+      <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:auto_generate_slugs_with_id</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span> <span class='andop op'>&amp;&amp;</span>
+      <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+      <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_is_slug_auto_enabled? fid id'>is_slug_auto_enabled?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
+        <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:is_slug_auto</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_Repository constant id'>Repository</span>
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='orop op'>||</span>
+        <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_column_changed? fid id'>column_changed?</span><span class='lparen token'>(</span><span class='symbol val'>:repo_code</span><span class='rparen token'>)</span>
+      <span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_clean_slug identifier id'>clean_slug</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_code</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_run_dedupe_slug identifier id'>run_dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:is_slug_auto</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -464,16 +646,16 @@ so skip them.</p>
       <pre class="lines">
 
 
-29
-30
-31
-32
-33
-34
-35</pre>
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 98</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_update identifier id'>before_update</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span>
@@ -493,7 +675,7 @@ so skip them.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:37 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:44 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

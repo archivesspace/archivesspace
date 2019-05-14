@@ -20,8 +20,7 @@ The bootstrap task:
 Will bootstrap your development environment by downloading all
 dependencies--JRuby, Gems, Solr, etc..
 
-
-## Running a development environment
+## Running components indiviually
 
 To run a development instance of all ArchivesSpace components:
 
@@ -33,11 +32,35 @@ To run a development instance of all ArchivesSpace components:
 These should be run in different terminal sessions and do not need to be run
 in a specific order or are all required.
 
-For added convenience see: [Supervisord for Development(https://archivesspace.github.io/archivesspace/user/using-supervisord-for-development/) for a simpler way of running the development servers with output for all servers sent to a single terminal window.
+## Running components all at once
 
-You can also clear your database and search indexes with:
+Use Supervisord for a simpler way of running the development servers with output 
+for all servers sent to a single terminal window.
 
-     build/run db:nuke
+[Supervisord](http://supervisord.org/) can simultaneously launch the ArchivesSpace 
+development servers. This is entirely optional and just for developer convenience.
+
+From within the ArchivesSpace source directory:
+
+```
+./build/run bootstrap # if needed, as usual
+
+[sudo] pip install supervisor supervisor-stdout
+
+#run all of the services
+supervisord -c supervisord/archivesspace.conf
+
+#run in api mode (backend + indexer / solr only)
+supervisord -c supervisord/api.conf
+
+#run just the backend (useful for trying out endpoints that don't require Solr)
+supervisord -c supervisord/backend.conf
+
+To stop supervisord: `Ctrl-c`.
+
+```
+
+## Running with a MySQL backend
 
 To override configuration defaults create the file `common/config/config.rb`
 and set values as needed (restart the development servers). To use MySQL
@@ -52,16 +75,22 @@ See the [setup instructions](http://archivesspace.github.io/archivesspace/user/r
 The MySQL connector should be downloaded to `common/lib`. If you restore a
 database to use in development it may not play well with the tests.
 
+After setting up and creating the database you can run the migrations with:
+
+     build/run db:migrate
+
+You can also clear your database and search indexes with:
+
+     build/run db:nuke
+
 ## Running the tests
 
 ArchivesSpace uses a combination of RSpec, integration and Selenium
 tests.  You will need to have Firefox on your path.  Then, to run all
 tests:
 
-     build/run test
+     build/run travis:test
 
-See also: [Selenium Test Suite](http://archivesspace.github.io/archivesspace/user/selenium-test-suite/) for more information on the Selenium
-tests.
 
 It's also useful to be able to run the backend unit tests separately.
 To do this, run:

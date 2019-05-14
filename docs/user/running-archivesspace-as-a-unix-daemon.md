@@ -19,6 +19,13 @@ symbolic link:
      cd /etc/init.d
      ln -s /path/to/your/archivesspace/archivesspace.sh archivesspace
 
+Note: By default ArchivesSpace will overwrite the log file when restarted. You 
+can change that by modifying `archivesspace.sh` and changing the `$startup_cmd` 
+to include double greater than signs:
+
+     $startup_cmd &>> \"$ARCHIVESSPACE_LOGS\" & 
+     
+
 Then use the appropriate tool for your distribution to set up the
 run-level symbolic links (such as `chkconfig` for RedHat or
 `update-rc.d` for Debian-based distributions).

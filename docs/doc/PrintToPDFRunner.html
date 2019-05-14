@@ -261,7 +261,13 @@
 65
 66
 67
-68</pre>
+68
+69
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/job_runners/print_to_pdf_runner.rb', line 11</span>
@@ -284,6 +290,12 @@
         <span class='symbol val'>:use_numbered_c_tags</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
       <span class='rbrace token'>}</span>
 
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;repository&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;_resolved&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;image_url&quot;</span><span class='rbrack token'>]</span>
+        <span class='rubyid_image_for_pdf identifier id'>image_for_pdf</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&quot;repository&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;_resolved&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;image_url&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_image_for_pdf identifier id'>image_for_pdf</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+      <span class='rubyid_end end kw'>end</span>
+
       <span class='rubyid_record identifier id'>record</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_false false kw'>false</span>
@@ -298,13 +310,13 @@
 
       <span class='comment val'># ANW-267: For windows machines, run FOP to generate PDF externally with a system() call instead of through JRuby to fix PDF corruption issues</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_RbConfig constant id'>RbConfig</span><span class='colon2 op'>::</span><span class='rubyid_CONFIG constant id'>CONFIG</span><span class='lbrack token'>[</span><span class='string val'>&#39;host_os&#39;</span><span class='rbrack token'>]</span> <span class='match op'>=~</span> <span class='regexp val'>/win32/</span>
-        <span class='rubyid_pdf identifier id'>pdf</span> <span class='assign token'>=</span> <span class='rubyid_ASFopExternal constant id'>ASFopExternal</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_@job ivar id'>@job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_pdf identifier id'>to_pdf</span>
+        <span class='rubyid_pdf identifier id'>pdf</span> <span class='assign token'>=</span> <span class='rubyid_ASFopExternal constant id'>ASFopExternal</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_@job ivar id'>@job</span><span class='comma token'>,</span> <span class='rubyid_image_for_pdf identifier id'>image_for_pdf</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_pdf identifier id'>to_pdf</span>
       <span class='rubyid_else else kw'>else</span>
-        <span class='rubyid_pdf identifier id'>pdf</span> <span class='assign token'>=</span> <span class='rubyid_ASFop constant id'>ASFop</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_pdf identifier id'>to_pdf</span>
+        <span class='rubyid_pdf identifier id'>pdf</span> <span class='assign token'>=</span> <span class='rubyid_ASFop constant id'>ASFop</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_image_for_pdf identifier id'>image_for_pdf</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_pdf identifier id'>to_pdf</span>
       <span class='rubyid_end end kw'>end</span>
 
       <span class='rubyid_job_file identifier id'>job_file</span> <span class='assign token'>=</span> <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_add_file identifier id'>add_file</span><span class='lparen token'>(</span> <span class='rubyid_pdf identifier id'>pdf</span> <span class='rparen token'>)</span>
-      <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='dstring node'>&quot;File generated at #{job_file[:file_path].inspect} &quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='dstring node'>&quot;File generated at #{job_file.full_file_path.inspect} &quot;</span><span class='rparen token'>)</span>
 
       <span class='comment val'># pdf will be either a Tempfile or File object, depending on whether it was created externally.</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_pdf identifier id'>pdf</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_Tempfile constant id'>Tempfile</span>
@@ -312,7 +324,7 @@
       <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_pdf identifier id'>pdf</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_File constant id'>File</span>
         <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span><span class='lparen token'>(</span><span class='rubyid_pdf identifier id'>pdf</span><span class='dot token'>.</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
-      
+
       <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_record_modified_uris identifier id'>record_modified_uris</span><span class='lparen token'>(</span> <span class='lbrack token'>[</span><span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&quot;source&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span>
       <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='string val'>&quot;All done. Please click refresh to view your download link.&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_success! fid id'>success!</span>
@@ -335,7 +347,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:54 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:37:02 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

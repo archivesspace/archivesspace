@@ -2,6 +2,10 @@ JSON Schema: Agent_software
 /agents/software
 Properties
 
+string	slug
+
+boolean	is_slug_auto
+
 JSONModel(:name_software) object	display_name
 
 array (JSONModel(:name_software) object)	names

@@ -418,6 +418,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#get_subject_icon_class-instance_method" title="#get_subject_icon_class (instance method)">#<strong>get_subject_icon_class</strong>(obj)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>ANW-521: given an object, if it is a subject, return the class needed to display the correct icon in the interface.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#has_permission_for_controller%3F-instance_method" title="#has_permission_for_controller? (instance method)">#<strong>has_permission_for_controller?</strong>(session, name)  &#x21d2; Boolean </a>
     
 
@@ -783,16 +806,16 @@
       <pre class="lines">
 
 
-302
-303
-304
-305
-306
-307
-308</pre>
+308
+309
+310
+311
+312
+313
+314</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 302</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 308</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_new_event_url identifier id'>add_new_event_url</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_jsonmodel_type identifier id'>jsonmodel_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;agent&quot;</span>
@@ -853,21 +876,21 @@
       <pre class="lines">
 
 
-183
-184
-185
-186
-187
 188
 189
 190
 191
 192
 193
-194</pre>
+194
+195
+196
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 183</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 188</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_button_confirm_action identifier id'>button_confirm_action</span><span class='lparen token'>(</span><span class='rubyid_label identifier id'>label</span><span class='comma token'>,</span> <span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_btn_opts identifier id'>btn_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
@@ -902,20 +925,20 @@
       <pre class="lines">
 
 
-208
-209
-210
-211
-212
 213
 214
 215
 216
 217
-218</pre>
+218
+219
+220
+221
+222
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 213</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_button_delete_action identifier id'>button_delete_action</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_button_confirm_action identifier id'>button_confirm_action</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:label</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;actions.delete&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -949,19 +972,19 @@
       <pre class="lines">
 
 
-221
-222
-223
-224
-225
 226
 227
 228
 229
-230</pre>
+230
+231
+232
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 226</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_button_delete_multiple_action identifier id'>button_delete_multiple_action</span><span class='lparen token'>(</span><span class='rubyid_target_action identifier id'>target_action</span><span class='rparen token'>)</span>
   <span class='rubyid_button_delete_action identifier id'>button_delete_action</span><span class='lparen token'>(</span><span class='rubyid_url_for identifier id'>url_for</span><span class='lparen token'>(</span><span class='symbol val'>:controller</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:batch_delete</span><span class='comma token'>,</span> <span class='symbol val'>:action</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_target_action identifier id'>target_action</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
@@ -994,11 +1017,6 @@
       <pre class="lines">
 
 
-232
-233
-234
-235
-236
 237
 238
 239
@@ -1011,10 +1029,15 @@
 246
 247
 248
-249</pre>
+249
+250
+251
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 232</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 237</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_button_edit_multiple_action identifier id'>button_edit_multiple_action</span><span class='lparen token'>(</span><span class='rubyid_target_controller identifier id'>target_controller</span><span class='comma token'>,</span> <span class='rubyid_target_action identifier id'>target_action</span> <span class='assign token'>=</span> <span class='symbol val'>:batch</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='rparen token'>)</span>
   <span class='rubyid_label identifier id'>label</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:label</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;actions.edit_batch&quot;</span><span class='rparen token'>)</span>
@@ -1055,20 +1078,20 @@
       <pre class="lines">
 
 
-196
-197
-198
-199
-200
 201
 202
 203
 204
 205
-206</pre>
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 201</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_button_get_selector identifier id'>button_get_selector</span><span class='lparen token'>(</span><span class='rubyid_label identifier id'>label</span><span class='comma token'>,</span> <span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_btn_opts identifier id'>btn_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
@@ -1102,14 +1125,14 @@
       <pre class="lines">
 
 
-292
-293
-294
-295
-296</pre>
+298
+299
+300
+301
+302</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 292</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 298</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_clean_mixed_content identifier id'>clean_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_content identifier id'>content</span><span class='rparen token'>)</span>
   <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
@@ -1137,21 +1160,21 @@
       <pre class="lines">
 
 
-140
-141
-142
-143
-144
 145
 146
 147
 148
 149
 150
-151</pre>
+151
+152
+153
+154
+155
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 140</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 145</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_repo identifier id'>current_repo</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
@@ -1186,12 +1209,12 @@
       <pre class="lines">
 
 
-159
-160
-161</pre>
+164
+165
+166</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 164</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_current_user identifier id'>current_user</span>
   <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:user</span><span class='rbrack token'>]</span>
@@ -1217,11 +1240,6 @@
       <pre class="lines">
 
 
-251
-252
-253
-254
-255
 256
 257
 258
@@ -1241,10 +1259,16 @@
 272
 273
 274
-275</pre>
+275
+276
+277
+278
+279
+280
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 251</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 256</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_display_audit_info identifier id'>display_audit_info</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_fmt identifier id'>fmt</span> <span class='assign token'>=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:format</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;wide&#39;</span>
@@ -1258,7 +1282,8 @@
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot; #{Time.parse(hash[&#39;user_mtime&#39;]).getlocal}&quot;</span>
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&#39; | &#39;</span>
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;strong&gt;URI:&lt;/strong&gt; &quot;</span>
-      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_hash identifier id'>hash</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;input type=\&quot;text\&quot; readonly=\&quot;1\&quot; value=\&quot;#{hash[&#39;uri&#39;]}\&quot; size=\&quot;#{hash[&#39;uri&#39;].length}\&quot;
+          style=\&quot;background: #f1f1f1 !important; border: none !important; font-family: monospace;\&quot;/&gt;&quot;</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;dl&gt;&quot;</span>
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;dt&gt;#{I18n.t(&quot;search_results.created&quot;)} #{hash[&#39;created_by&#39;]}&lt;/dt&gt;&quot;</span>
@@ -1292,12 +1317,6 @@
       <pre class="lines">
 
 
-314
-315
-316
-317
-318
-319
 320
 321
 322
@@ -1319,10 +1338,16 @@
 338
 339
 340
-341</pre>
+341
+342
+343
+344
+345
+346
+347</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 314</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 320</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_export_csv identifier id'>export_csv</span><span class='lparen token'>(</span><span class='rubyid_search_data identifier id'>search_data</span><span class='rparen token'>)</span>
   <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_search_data identifier id'>search_data</span><span class='lbrack token'>[</span><span class='string val'>&quot;results&quot;</span><span class='rbrack token'>]</span>
@@ -1410,6 +1435,105 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="get_subject_icon_class-instance_method">
+  
+    #<strong>get_subject_icon_class</strong>(obj)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>ANW-521: given an object, if it is a subject, return the class needed to display the correct icon in the interface</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 361</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_subject_icon_class identifier id'>get_subject_icon_class</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span>
+       <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;subject&quot;</span>
+
+      <span class='rubyid_term_type identifier id'>term_type</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;terms&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;term_type&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_nil nil kw'>nil</span>
+
+      <span class='rubyid_case case kw'>case</span> <span class='rubyid_term_type identifier id'>term_type</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;cultural_context&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_cultural_context&quot;</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;function&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_function&quot;</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;genre_form&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_genre_form&quot;</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;geographic&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_geographic&quot;</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;occupation&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_occupation&quot;</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;style_period&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_style_period&quot;</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;technique&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_technique&quot;</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;temporal&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_temporal&quot;</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;topical&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_topical&quot;</span>
+        <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;uniform_title&quot;</span>
+          <span class='rubyid_return return kw'>return</span> <span class='string val'>&quot;subject_type_uniform_title&quot;</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="has_permission_for_controller?-instance_method">
   
     #<strong>has_permission_for_controller?</strong>(session, name)  &#x21d2; <tt>Boolean</tt> 
@@ -1447,15 +1571,15 @@
       <pre class="lines">
 
 
-278
-279
-280
-281
-282
-283</pre>
+284
+285
+286
+287
+288
+289</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 284</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_has_permission_for_controller? fid id'>has_permission_for_controller?</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_controller_class_name identifier id'>controller_class_name</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{name}_controller&quot;</span><span class='dot token'>.</span><span class='rubyid_classify identifier id'>classify</span>
@@ -1639,12 +1763,12 @@
       <pre class="lines">
 
 
-135
-136
-137</pre>
+140
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 140</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_inline? fid id'>inline?</span>
   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:inline</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&quot;true&quot;</span>
@@ -1670,12 +1794,12 @@
       <pre class="lines">
 
 
-154
-155
-156</pre>
+159
+160
+161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 159</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_job_types identifier id'>job_types</span>
   <span class='rubyid_MemoryLeak constant id'>MemoryLeak</span><span class='colon2 op'>::</span><span class='rubyid_Resources constant id'>Resources</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:job_types</span><span class='rparen token'>)</span>
@@ -1701,11 +1825,6 @@
       <pre class="lines">
 
 
-110
-111
-112
-113
-114
 115
 116
 117
@@ -1724,10 +1843,15 @@
 130
 131
 132
-133</pre>
+133
+134
+135
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 115</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_link_to_help identifier id'>link_to_help</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_ArchivesSpaceHelp constant id'>ArchivesSpaceHelp</span><span class='dot token'>.</span><span class='rubyid_enabled? fid id'>enabled?</span>
@@ -1788,14 +1912,14 @@ controller, etc.)</p>
       <pre class="lines">
 
 
-348
-349
-350
-351
-352</pre>
+354
+355
+356
+357
+358</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 348</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 354</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_link_to_merge_params identifier id'>link_to_merge_params</span><span class='lparen token'>(</span><span class='rubyid_label identifier id'>label</span><span class='comma token'>,</span> <span class='rubyid_new_params identifier id'>new_params</span><span class='comma token'>,</span> <span class='rubyid_html_options identifier id'>html_options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_link_to identifier id'>link_to</span><span class='lparen token'>(</span><span class='rubyid_label identifier id'>label</span><span class='comma token'>,</span>
@@ -1846,12 +1970,12 @@ controller, etc.)</p>
       <pre class="lines">
 
 
-298
-299
-300</pre>
+304
+305
+306</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 304</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_proxy_localhost? fid id'>proxy_localhost?</span>
   <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:public_proxy_url</span><span class='rbrack token'>]</span> <span class='match op'>=~</span> <span class='regexp val'>/localhost/</span>
@@ -1887,13 +2011,13 @@ controller, etc.)</p>
       <pre class="lines">
 
 
-287
-288
-289
-290</pre>
+293
+294
+295
+296</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 287</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 293</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_render_aspace_partial identifier id'>render_aspace_partial</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:formats</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:html</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:handlers</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='symbol val'>:erb</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -1939,7 +2063,12 @@ controller, etc.)</p>
 105
 106
 107
-108</pre>
+108
+109
+110
+111
+112
+113</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 89</span>
@@ -1959,7 +2088,12 @@ controller, etc.)</p>
   <span class='rubyid_html identifier id'>html</span> <span class='assign token'>=</span> <span class='string val'>&quot;&lt;div class=&#39;&quot;</span>
   <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;token &quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:inside_token_editor</span><span class='rbrack token'>]</span>
   <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot;#{opts[:type]} has-popover&#39; data-trigger=&#39;#{opts[:trigger] || &quot;custom&quot;}&#39; data-html=&#39;true&#39; data-placement=&#39;#{opts[:placement] || &quot;bottom&quot;}&#39; data-content=\&quot;#{CGI.escape_html(popover)}\&quot; data-template=\&quot;#{popover_template}\&quot; tabindex=&#39;1&#39;&gt;&quot;</span>
-  <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;&lt;span class=&#39;icon-token&#39;&gt;&lt;/span&gt;&quot;</span>
+
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:icon_class</span><span class='rbrack token'>]</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot;&lt;span class=&#39;icon-token #{opts[:icon_class]}&#39;&gt;&lt;/span&gt;&quot;</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;&lt;span class=&#39;icon-token&#39;&gt;&lt;/span&gt;&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:label</span><span class='rbrack token'>]</span>
   <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
   <span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
@@ -2134,12 +2268,12 @@ controller, etc.)</p>
       <pre class="lines">
 
 
-310
-311
-312</pre>
+316
+317
+318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 310</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 316</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show_external_ids? fid id'>show_external_ids?</span>
   <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:show_external_ids</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span>
@@ -2165,11 +2299,6 @@ controller, etc.)</p>
       <pre class="lines">
 
 
-164
-165
-166
-167
-168
 169
 170
 171
@@ -2181,10 +2310,15 @@ controller, etc.)</p>
 177
 178
 179
-180</pre>
+180
+181
+182
+183
+184
+185</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 169</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_wrap_with_tooltip identifier id'>wrap_with_tooltip</span><span class='lparen token'>(</span><span class='rubyid_text identifier id'>text</span><span class='comma token'>,</span> <span class='rubyid_i18n_path identifier id'>i18n_path</span><span class='comma token'>,</span> <span class='rubyid_classes identifier id'>classes</span><span class='rparen token'>)</span>
   <span class='rubyid_tooltip identifier id'>tooltip</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t_raw identifier id'>t_raw</span><span class='lparen token'>(</span><span class='rubyid_i18n_path identifier id'>i18n_path</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
@@ -2214,7 +2348,7 @@ controller, etc.)</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:41 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:48 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

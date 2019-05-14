@@ -449,7 +449,16 @@ TODO: refactor processing</p>
 332
 333
 334
-335</pre>
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 329</span>
@@ -458,6 +467,15 @@ TODO: refactor processing</p>
   <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
   <span class='rubyid_default identifier id'>default</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
     <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_params</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span>
+    <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_params</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_param identifier id'>param</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='colon op'>:</span><span class='rubyid_call identifier id'>call</span>
+        <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='rubyid_param identifier id'>param</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='rubyid_param identifier id'>param</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_opts identifier id'>opts</span>
 <span class='rubyid_end end kw'>end</span>
@@ -827,16 +845,16 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-337
-338
-339
-340
-341
-342
-343</pre>
+346
+347
+348
+349
+350
+351
+352</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 337</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 346</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_repo_context identifier id'>repo_context</span><span class='lparen token'>(</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_cont identifier id'>cont</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1395,7 +1413,7 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:42 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:49 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

@@ -403,7 +403,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="JsonHelper.html" title="JsonHelper (module)">JsonHelper</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JsonHelper.html#process_json_notes-instance_method" title="JsonHelper#process_json_notes (method)">#process_json_notes</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="JsonHelper.html#merge_notes-instance_method" title="JsonHelper#merge_notes (method)">#merge_notes</a></span>, <span class='object_link'><a href="JsonHelper.html#process_json_notes-instance_method" title="JsonHelper#process_json_notes (method)">#process_json_notes</a></span></p>
 
   
   
@@ -542,7 +542,13 @@
 153
 154
 155
-156</pre>
+156
+157
+158
+159
+160
+161
+162</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/users_controller.rb', line 125</span>
@@ -558,6 +564,12 @@
                 <span class='rubyid_end end kw'>end</span>
                 <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;user&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;password&#39;</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;user&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;confirm_password&#39;</span><span class='rbrack token'>]</span>
                   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_add_error identifier id'>add_error</span><span class='lparen token'>(</span><span class='string val'>&#39;confirm_password&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;entered value didn&#39;t match password&quot;</span><span class='rparen token'>)</span>
+                <span class='rubyid_end end kw'>end</span>
+                <span class='rubyid_s identifier id'>s</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;user&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;username&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
+                <span class='rubyid_if if kw'>if</span> <span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+                  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_add_error identifier id'>add_error</span><span class='lparen token'>(</span><span class='string val'>&#39;username&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;Can&#39;t be empty&quot;</span><span class='rparen token'>)</span>
+                <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_s identifier id'>s</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\A[a-zA-Z0-9\-_. @]+\z/</span> <span class='orop op'>||</span> <span class='rubyid_s identifier id'>s</span> <span class='match op'>=~</span> <span class='regexp val'>/  +/</span>
+                  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_add_error identifier id'>add_error</span><span class='lparen token'>(</span><span class='string val'>&#39;username&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;invalid characters&#39;</span><span class='rparen token'>)</span>
                 <span class='rubyid_end end kw'>end</span>
               <span class='rbrace token'>}</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
@@ -995,7 +1007,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:56 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:37:04 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

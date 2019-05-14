@@ -76,7 +76,7 @@ ones.</p>
 <p>Will bootstrap your development environment by downloading all
 dependencies–JRuby, Gems, Solr, etc..</p>
 
-<h2 id="running-a-development-environment">Running a development environment</h2>
+<h2 id="running-components-indiviually">Running components indiviually</h2>
 
 <p>To run a development instance of all ArchivesSpace components:</p>
 
@@ -89,12 +89,35 @@ dependencies–JRuby, Gems, Solr, etc..</p>
 <p>These should be run in different terminal sessions and do not need to be run
 in a specific order or are all required.</p>
 
-<p>For added convenience see: [Supervisord for Development(https://archivesspace.github.io/archivesspace/user/using-supervisord-for-development/) for a simpler way of running the development servers with output for all servers sent to a single terminal window.</p>
+<h2 id="running-components-all-at-once">Running components all at once</h2>
 
-<p>You can also clear your database and search indexes with:</p>
+<p>Use Supervisord for a simpler way of running the development servers with output 
+for all servers sent to a single terminal window.</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>db:</span><span class='rubyid_nuke identifier id'>nuke</span>
-</code></pre>
+<p><a href="http://supervisord.org/">Supervisord</a> can simultaneously launch the ArchivesSpace 
+development servers. This is entirely optional and just for developer convenience.</p>
+
+<p>From within the ArchivesSpace source directory:</p>
+
+<p>```
+./build/run bootstrap # if needed, as usual</p>
+
+<p>[sudo] pip install supervisor supervisor-stdout</p>
+
+<h1 id="run-all-of-the-services">run all of the services</h1>
+<p>supervisord -c supervisord/archivesspace.conf</p>
+
+<h1 id="run-in-api-mode-backend--indexer--solr-only">run in api mode (backend + indexer / solr only)</h1>
+<p>supervisord -c supervisord/api.conf</p>
+
+<h1 id="run-just-the-backend-useful-for-trying-out-endpoints-that-dont-require-solr">run just the backend (useful for trying out endpoints that don’t require Solr)</h1>
+<p>supervisord -c supervisord/backend.conf</p>
+
+<p>To stop supervisord: <code>Ctrl-c</code>.</p>
+
+<p>```</p>
+
+<h2 id="running-with-a-mysql-backend">Running with a MySQL backend</h2>
 
 <p>To override configuration defaults create the file <code>common/config/config.rb</code>
 and set values as needed (restart the development servers). To use MySQL
@@ -109,17 +132,24 @@ export JAVA_OPTS="-Daspace.config.db_url=jdbc:mysql://127.0.0.1:3306/archivesspa
 The MySQL connector should be downloaded to <code>common/lib</code>. If you restore a
 database to use in development it may not play well with the tests.</p>
 
+<p>After setting up and creating the database you can run the migrations with:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>db:</span><span class='rubyid_migrate identifier id'>migrate</span>
+</code></pre>
+
+<p>You can also clear your database and search indexes with:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>db:</span><span class='rubyid_nuke identifier id'>nuke</span>
+</code></pre>
+
 <h2 id="running-the-tests">Running the tests</h2>
 
 <p>ArchivesSpace uses a combination of RSpec, integration and Selenium
 tests.  You will need to have Firefox on your path.  Then, to run all
 tests:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='rubyid_test identifier id'>test</span>
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>travis:</span><span class='rubyid_test identifier id'>test</span>
 </code></pre>
-
-<p>See also: <a href="http://archivesspace.github.io/archivesspace/user/selenium-test-suite/">Selenium Test Suite</a> for more information on the Selenium
-tests.</p>
 
 <p>It’s also useful to be able to run the backend unit tests separately.
 To do this, run:</p>
@@ -158,7 +188,7 @@ directory in your ArchivesSpace project directory.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:34 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:40 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

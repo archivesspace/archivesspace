@@ -6,6 +6,10 @@ string (max length: 255)	digital_object_id
 
 string	level
 
+string	slug
+
+boolean	is_slug_auto
+
 string	digital_object_type
 
 array (JSONModel(:file_version) object)	file_versions

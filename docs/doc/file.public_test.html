@@ -95,16 +95,36 @@ and support each other.  As of November 2018 only post-Quantum versions of Firef
 
 <h2 id="running-the-tests">Running the tests:</h2>
 
-<p>Run the full suite:</p>
+<h3 id="run-the-full-suite">Run the full suite:</h3>
 
 <pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>public:</span><span class='rubyid_test identifier id'>test</span>
 </code></pre>
 
-<p>As a rule, individual examples cannot be run in isolation because each group is a sequence of dependent steps.</p>
+<h3 id="run-all-tests-in-a-specific-spec-file">Run all tests in a specific spec file:</h3>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>public:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dspec constant id'>Dspec</span><span class='assign token'>=</span><span class='string val'>&#39;path/to/spec/from/spec/directory&#39;</span>
+</code></pre>
+
+<p>so, for example,</p>
+
+<pre class="code ruby"><code class="ruby"> $ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>public:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dspec constant id'>Dspec</span><span class='assign token'>=</span><span class='string val'>&#39;features/accessibility_spec.rb&#39;</span>
+</code></pre>
+
+<h3 id="run-a-specific-test">Run a specific test:</h3>
+
+<pre class="code ruby"><code class="ruby">$ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>public:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dexample constant id'>Dexample</span><span class='assign token'>=</span><span class='string val'>&#39;[description from it block]&#39;</span>
+</code></pre>
+
+<p>so, for example,</p>
+
+<pre class="code ruby"><code class="ruby">$ <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>public:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dexample constant id'>Dexample</span><span class='assign token'>=</span><span class='string val'>&#39;does not return deaccessions when AppConfig[:pui_display_deaccessions] is false&#39;</span>
+</code></pre>
+
+<p>Note, however, that some public tests are dependent on a sequence of ordered steps and may not always run cleanly in isolation.  In this case, more than the example provided may be run, and/or unexpected fails may result.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:34 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:40 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>
