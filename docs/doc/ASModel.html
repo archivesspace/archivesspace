@@ -89,7 +89,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>backend/app/model/ASModel.rb<span class="defines">,<br />
-  backend/app/model/ASModel_crud.rb,<br /> backend/app/model/ASModel_sequel.rb,<br /> backend/app/model/ASModel_scoping.rb,<br /> backend/app/model/ASModel_transfers.rb,<br /> backend/app/model/ASModel_database_mapping.rb</span>
+  backend/app/model/ASModel_crud.rb,<br /> backend/app/model/ASModel_sequel.rb,<br /> backend/app/model/ASModel_scoping.rb,<br /> backend/app/model/ASModel_transfers.rb,<br /> backend/app/model/ASModel_change_tracking.rb,<br /> backend/app/model/ASModel_database_mapping.rb</span>
 </dd>
   </dl>
   
@@ -99,7 +99,7 @@
 <p class="children">
   
     
-      <strong class="modules">Modules:</strong> <span class='object_link'><a href="ASModel/CRUD.html" title="ASModel::CRUD (module)">CRUD</a></span>, <span class='object_link'><a href="ASModel/ClassMethods.html" title="ASModel::ClassMethods (module)">ClassMethods</a></span>, <span class='object_link'><a href="ASModel/DatabaseMapping.html" title="ASModel::DatabaseMapping (module)">DatabaseMapping</a></span>, <span class='object_link'><a href="ASModel/ModelScoping.html" title="ASModel::ModelScoping (module)">ModelScoping</a></span>, <span class='object_link'><a href="ASModel/RepositoryTransfers.html" title="ASModel::RepositoryTransfers (module)">RepositoryTransfers</a></span>, <span class='object_link'><a href="ASModel/SequelHooks.html" title="ASModel::SequelHooks (module)">SequelHooks</a></span>
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="ASModel/CRUD.html" title="ASModel::CRUD (module)">CRUD</a></span>, <span class='object_link'><a href="ASModel/ChangeTracking.html" title="ASModel::ChangeTracking (module)">ChangeTracking</a></span>, <span class='object_link'><a href="ASModel/ClassMethods.html" title="ASModel::ClassMethods (module)">ClassMethods</a></span>, <span class='object_link'><a href="ASModel/DatabaseMapping.html" title="ASModel::DatabaseMapping (module)">DatabaseMapping</a></span>, <span class='object_link'><a href="ASModel/ModelScoping.html" title="ASModel::ModelScoping (module)">ModelScoping</a></span>, <span class='object_link'><a href="ASModel/RepositoryTransfers.html" title="ASModel::RepositoryTransfers (module)">RepositoryTransfers</a></span>, <span class='object_link'><a href="ASModel/SequelHooks.html" title="ASModel::SequelHooks (module)">SequelHooks</a></span>
     
   
     
@@ -266,12 +266,12 @@
       <pre class="lines">
 
 
-18
 19
-20</pre>
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 18</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 19</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_all_models identifier id'>all_models</span>
   <span class='rubyid_@@all_models ivar id'>@@all_models</span>
@@ -297,7 +297,6 @@
       <pre class="lines">
 
 
-22
 23
 24
 25
@@ -317,10 +316,12 @@
 39
 40
 41
-42</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel.rb', line 23</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
@@ -331,6 +332,7 @@
 
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_extend identifier id'>extend</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='rparen token'>)</span>
 
+  <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_include identifier id'>include</span><span class='lparen token'>(</span><span class='rubyid_ChangeTracking constant id'>ChangeTracking</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_include identifier id'>include</span><span class='lparen token'>(</span><span class='rubyid_CRUD constant id'>CRUD</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_include identifier id'>include</span><span class='lparen token'>(</span><span class='rubyid_RepositoryTransfers constant id'>RepositoryTransfers</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_include identifier id'>include</span><span class='lparen token'>(</span><span class='rubyid_DatabaseMapping constant id'>DatabaseMapping</span><span class='rparen token'>)</span>
@@ -430,7 +432,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:36 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:42 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

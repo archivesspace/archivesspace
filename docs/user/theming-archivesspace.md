@@ -5,27 +5,32 @@ permalink: /user/theming-archivesspace/
 ---
 ## Making small changes
 
-For small edits, it's also  easiest to do this as a plugin. With a plugin,
+It's easiest to use a plugin for small changes to your site's theme. With a plugin,
 we can override default views, controllers, models, etc. without having to do a
 complete rebuild of the source code.
 
-For example, let's say we wanted to change the branding logo on the public
-interface. So, first we need to find where in the views this is being rendered.
-A good first place to go is the
-[layouts/application.html.erb](https://github.com/archivesspace/archivesspace/blob/master/public/app/views/layouts/application.html.erb)
-file, which is the Rails default layout for the entire site. Looking through
-this file, we can see the branding is being rendered in the
-[site/branding.html.erb](https://github.com/archivesspace/archivesspace/blob/master/public/app/views/site/_branding.html.erb)
-file, which is a very simple file with pretty much just a link and image tag.
+Let's say we wanted to change the branding logo on the public
+interface. That can be easily changed in your `config.rb` file:
 
-So, first let's add out image file to the "plugins/local/public/assets/images/my_archive/logo.png"
-then let's override the default view by making a file in
-plugins/local/public/views/site/\_branding.html.erb
+`AppConfig[:pui_branding_img]`
 
-	   <h1>                                                                            
-	      <img src="/assets/images/my_archive/logo.png" alt = <%= I18n.t("brand.title") %> />                                                            
-	   </h1>                                                                           
+That setting is used by the file found in `public/app/views/shared/_header.html.erb` to display your PUI side logo. You don't need to change that file, only the setting in your `config.rb` file.
 
+You can store the image in `plugins/local/public/assets/images/logo.png` You'll most likely need to create one or more of the directories.
+
+Your `AppConfig[:pui_branding_img]` setting should look something like this:
+
+`AppConfig[:pui_branding_img] = '/assets/images/logo.png'`
+
+The Staff Side logo will need a small plugin file and cannot be set in your `config.rb` file. This needs to be changed in the `plugins/local/frontend/views/site/_branding.html.erb` file. You'll most likely need to create one or more of the directories. Then create that `_branding.html.erb` file and paste in the following code:
+
+```
+<div class="container-fluid navbar-branding">
+  <%= image_tag "archivesspace/archivesspace.small.png", :class=>"img-responsive" %>
+</div>
+```
+
+Change the `"archivesspace/archivesspace.small.png"` to the path to your image `/assets/images/logo.png` and place your login the the `plugins/local/frontend/assets/images/` directory. You'll most likely need to create one or more of the directories.
 
 **Note:** Since anything we add to plugins directory will not be precompiled by
 the Rails asset pipeline, we cannot use some of the tag helpers
@@ -62,7 +67,7 @@ You may also want to make changes to the main index page, or the header and
 footer. Those overrides would go into the following places for the public side
 of your site:
 
-    archivesspace/plugins/local/public/views/layouts/application.html.erb
+    archivesspace/plugins/local/public/views/welcome/show.html.erb
     archivesspace/plugins/local/public/views/shared/\_header.html.erb
     archivesspace/plugins/local/public/views/shared/\_footer.html.erb
 
@@ -89,7 +94,7 @@ First, pull down a new copy of ArchivesSpace using git and be sure to checkout
 a tag matching the version you're using or wanting to use.
 
      $ git clone https://github.com/archivesspace/archivesspace.git
-     $ git checkout v1.0.9
+     $ git checkout v2.5.2
 
 You can start your application development server by executing:
 

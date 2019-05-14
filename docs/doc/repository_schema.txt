@@ -30,6 +30,10 @@ boolean	oai_is_disabled
 
 string	oai_sets_available
 
+string	slug
+
+boolean	is_slug_auto
+
 object	agent_representation
 
 

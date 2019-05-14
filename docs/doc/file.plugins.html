@@ -288,7 +288,7 @@ underlying index.</p>
 
 <h2 id="adding-custom-reports">Adding Custom Reports</h2>
 
-<p>Custom reports may be added to plug-ins by adding a new report model as a subclass of <code>AbstractReport</code> to <code>plugins/[plugin-name]/backend/model/</code>. Look to existing reports in reports subdirectory of the ArchivesSpace base directory for examples of how to structure a report model.</p>
+<p>Custom reports may be added to plug-ins by adding a new report model as a subclass of <code>AbstractReport</code> to <code>plugins/[plugin-name]/backend/model/</code>, and the translations for said model to <code>plugins/[plugin-name]/frontend/locales/[language].yml</code>. Look to existing reports in reports subdirectory of the ArchivesSpace base directory for examples of how to structure a report model.</p>
 
 <p>There are several limitations to adding reports to plug-ins, including that reports from plug-ins may only use the generic report template. ArchivesSpace only searches for report templates in the reports subdirectory of the ArchivesSpace base directory, not in plug-in directories. If you would like to implement a custom report with a custom template, consider adding the report to <code>archivesspace/reports/</code> instead of <code>archivesspace/plugins/[plugin-name]/backend/model/</code>.</p>
 
@@ -299,7 +299,7 @@ ArchivesSpace application.</strong></p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:34 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:40 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

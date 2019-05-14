@@ -10,6 +10,10 @@ string (max length: 8192)	title
 
 string (max length: 8192)	display_string
 
+string	slug
+
+boolean	is_slug_auto
+
 string (max length: 255)	id_0
 
 string (max length: 255)	id_1

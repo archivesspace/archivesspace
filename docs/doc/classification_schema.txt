@@ -4,6 +4,10 @@ Properties
 
 boolean	has_classification_terms
 
+string	slug
+
+boolean	is_slug_auto
+
 
 
 

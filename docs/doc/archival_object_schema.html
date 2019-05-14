@@ -78,6 +78,10 @@
 			
 				<h3 class="signature"> - (string (max length: 8192)) <strong>title</strong></h3>
 			
+				<h3 class="signature"> - (string) <strong>slug</strong></h3>
+			
+				<h3 class="signature"> - (boolean) <strong>is_slug_auto</strong></h3>
+			
 				<h3 class="signature"> - (string (max length: 8192)) <strong>display_string</strong></h3>
 			
 				<h3 class="signature"> - (boolean) <strong>restrictions_apply</strong></h3>
@@ -205,7 +209,11 @@
 95
 96
 97
-98</pre>
+98
+99
+100
+101
+102</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/archival_object.rb', line 3</span>
@@ -225,6 +233,10 @@
       <span class='string val'>&quot;other_level&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;maxLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>255</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;maxLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>8192</span><span class='comma token'>,</span> <span class='string val'>&quot;ifmissing&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+
+      <span class='string val'>&quot;slug&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='string val'>&quot;is_slug_auto&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;default&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      
       <span class='string val'>&quot;display_string&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;maxLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>8192</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;restrictions_apply&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;boolean&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;default&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -319,7 +331,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:03:03 2019 by
+  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:37:12 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>

@@ -16,6 +16,10 @@ string (max length: 255)	other_level
 
 	language
 
+string	slug
+
+boolean	is_slug_auto
+
 string	resource_type
 
 object	tree

@@ -12,6 +12,10 @@ boolean	is_linked_to_published_record
 
 boolean	publish
 
+string	slug
+
+boolean	is_slug_auto
+
 array (JSONModel(:repository) uri)	used_within_repositories
 
 array (JSONModel(:repository) uri)	used_within_published_repositories
