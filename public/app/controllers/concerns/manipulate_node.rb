@@ -30,7 +30,7 @@ module ManipulateNode
               .gsub(/\r\n\r\n/,"<br /><br />")
     end
 
-    txt = txt.gsub(/ & /, ' &amp; ')
+    txt = txt.gsub(/&(?![A-Za-z]+;|#[0-9]+;)/, '&amp;')
 
     txt = txt.gsub("xlink\:type=\"simple\"", "")
 
