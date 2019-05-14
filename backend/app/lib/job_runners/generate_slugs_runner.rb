@@ -1,8 +1,8 @@
 class GenerateSlugsRunner < JobRunner
 
   register_for_job_type('generate_slugs_job',
-                        {:create_permissions => :manage_repository,
-                         :cancel_permissions => :manage_repository,
+                        {:create_permissions => :administer_system,
+                         :cancel_permissions => :administer_system,
                          :allow_reregister => true})
 
    def generate_slug_for(thing)
