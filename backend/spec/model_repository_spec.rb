@@ -199,12 +199,6 @@ describe 'Repository model' do
           expected_slug = clean_slug(repository[:repo_code])
           expect(repository[:slug]).to eq(expected_slug)
         end
-        it "autogenerates a slug via repo_code if slug is blank" do
-          repository = Repository.create_from_json(build(:json_repo, :is_slug_auto => true))
-          repository.update(:slug => "")
-          expected_slug = clean_slug(repository[:repo_code])
-          expect(repository[:slug]).to eq(expected_slug)
-        end
       end
       describe "by id" do
         before(:all) do
