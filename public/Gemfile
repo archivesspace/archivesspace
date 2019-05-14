@@ -47,6 +47,7 @@ gem 'listen', group: :development
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :development, :test do
+  gem 'pry-debugger-jruby'
   gem 'pry-rails'
   gem 'pry-nav'
   gem 'rubocop', '~> 0.54.0', require: false
@@ -58,10 +59,10 @@ group :test do
   gem 'rspec-rails'
   gem 'rails-controller-testing'
   gem 'simplecov', "0.7.1"
-  gem "factory_bot_rails"
+  gem 'factory_bot_rails', '~> 4.11', '>= 4.11.1'
   gem "fog-aws", "2.0.0", :require => false
-  gem 'selenium-webdriver'
-  gem 'capybara', '3.15.1'
+  gem "selenium-webdriver", "= 3.6.0"
+  gem 'capybara', '3.12.0'
   gem 'launchy'
   gem 'axe-matchers'
 end
