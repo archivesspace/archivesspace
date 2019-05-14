@@ -20,6 +20,7 @@ gem "rufus-lru", "1.0.5"
 gem "net-ldap", '~> 0.16.0'
 gem "mizuno", "0.6.11"
 gem "i18n", "0.9.1"
+gem 'childprocess', '~>0.5'
 
 gem "warbler", "2.0.4", :group => :build
 
@@ -27,6 +28,8 @@ gem "oai", "0.4.0"
 gem 'activesupport', '5.0.7.2'
 
 gem "rrtf"
+gem 'unicode-display_width', '~> 1.6'
+gem 'rack-test', '~> 0.6.3'
 
 group :test do
   gem 'factory_bot', '~> 4.11', '>= 4.11.1'

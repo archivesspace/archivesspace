@@ -22,8 +22,11 @@ group :test do
   gem "net-http-persistent", "2.8"
   gem "multipart-post", "1.2.0"
 
+  gem 'pry-debugger-jruby'
+  gem "pry-nav"
   gem "pry"
   gem "mechanize"
+  gem "mime-types", "3.1"
 end
 
 group :development do
