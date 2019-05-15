@@ -664,13 +664,12 @@ end
     end
 
 
-    it "maps languages to repeated df[@tag='041' and @ind1='0' and @ind2='7']/sf[@code='a']" do
+    it "maps languages to repeated df[@tag='041' and @ind1=' ' and @ind2=' ']/sf[@code='a']" do
       language1 = @resource4.lang_materials[0]['language_and_script']['language']
       language2 = @resource4.lang_materials[1]['language_and_script']['language']
 
-      expect(@marc4.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a'][1]")).to have_inner_text(language1)
-      expect(@marc4.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a'][3]")).to have_inner_text(language2)
-      expect(@marc4.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='2']")).to have_inner_text('iso639-2b')
+      expect(@marc4.at("datafield[@tag='041'][@ind1=' '][@ind2=' ']/subfield[@code='a'][1]")).to have_inner_text(language1)
+      expect(@marc4.at("datafield[@tag='041'][@ind1=' '][@ind2=' ']/subfield[@code='a'][2]")).to have_inner_text(language2)
     end
 
 

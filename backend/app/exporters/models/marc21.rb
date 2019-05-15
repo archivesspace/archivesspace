@@ -216,7 +216,7 @@ class MARCModel < ASpaceExport::ExportModel
 
     languages.each do |language|
 
-      df('041', '0', '7').with_sfs(['a', language['language']], ['2', 'iso639-2b'])
+      df('041', ' ', ' ').with_sfs(['a', language['language']])
 
     end
 
