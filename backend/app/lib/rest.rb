@@ -307,7 +307,9 @@ module RESTHelpers
               ensure_params(rp, paginated)
             end
 
-            Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
+            unless env[:skip_logging]
+              Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
+            end
 
             RequestContext.put(:repo_id, params[:repo_id])
             RequestContext.put(:is_high_priority, high_priority_request?)

@@ -318,12 +318,21 @@ class ArchivesSpaceService < Sinatra::Base
 
       querystring = env['QUERY_STRING'].empty? ? "" : "?#{Log.filter_passwords(env['QUERY_STRING'])}"
 
-      Log.debug("#{env['REQUEST_METHOD']} #{env['PATH_INFO']}#{querystring} [session: #{session.inspect}]")
+      env[:skip_logging] = (env[:aspace_user].username == User.SEARCH_USERNAME &&
+                            AppConfig.has_key?(:suppress_indexer_request_logs) &&
+                            AppConfig[:suppress_indexer_request_logs])
+
+      unless env[:skip_logging]
+        Log.debug("#{env['REQUEST_METHOD']} #{env['PATH_INFO']}#{querystring} [session: #{session.inspect}]")
+      end
+
       result = @app.call(env)
 
       end_time = Time.now
 
-      Log.debug("Responded with #{result.to_s[0..512]}... in #{((end_time - start_time) * 1000).to_i}ms")
+      unless env[:skip_logging]
+        Log.debug("Responded with #{result.to_s[0..512]}... in #{((end_time - start_time) * 1000).to_i}ms")
+      end
 
       result
     end
