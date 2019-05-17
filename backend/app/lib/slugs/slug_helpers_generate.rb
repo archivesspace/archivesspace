@@ -25,7 +25,7 @@ module SlugHelpers
       slug = slug.gsub("'", "")
 
       # remove URL-reserved chars
-      slug = slug.gsub(/[&;?$<>#%{}|\\^~\[\]`\/@=:+,!.]/, "")
+      slug = slug.gsub(/[&;?$<>#%{}|\\^~\[\]`\/\*\(\)@=:+,!.]/, "")
 
       # enforce length limit of 50 chars
       slug = slug.slice(0, 50)
