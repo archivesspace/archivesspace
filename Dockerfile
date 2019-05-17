@@ -8,7 +8,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
 COPY . /source
 
 RUN cd /source && \
-    export ARCHIVESSPACE_VERSION=`git symbolic-ref -q --short HEAD || git describe --tags --match v*` && \
+    export ARCHIVESSPACE_VERSION=${SOURCE_BRANCH:-`git symbolic-ref -q --short HEAD || git describe --tags --match v*`} && \
+    echo "Using version: $ARCHIVESSPACE_VERSION" && \
     ./scripts/build_release $ARCHIVESSPACE_VERSION && \
     mv ./*.zip / && \
     cd / && \
