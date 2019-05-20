@@ -5,7 +5,6 @@
         <% Array(repository_information['address']).each do |line| %>
             <div class="repository-address-line"><%= line %></div>
         <% end %>
-
         <% address_properties = ['city', 'region', 'post_code'] %>
         <% if address_properties.any? {|attr| repository_information[attr]} %>
             <div class="repository-address-line">
