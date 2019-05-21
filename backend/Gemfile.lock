@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/hudmol/map_validator.git
+  revision: 3fd1b2b25cb94c3581f0ce8ee64f498f21ec7f89
+  tag: master
+  specs:
+    map_validator (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -158,6 +165,7 @@ DEPENDENCIES
   json (= 1.8.6)
   json-schema (= 1.0.10)
   ladle (= 0.2.0)
+  map_validator!
   mizuno (= 0.6.11)
   multi_json (~> 1.13.1)
   multipart-post (= 1.2.0)
