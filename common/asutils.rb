@@ -1,3 +1,4 @@
+require 'yaml'
 
 require 'java'
 require 'tmpdir'
@@ -417,7 +418,7 @@ ERRMSG
         raise "Assertion failure: Unexpected plugin dir: '#{plugin_dir}' was expected to begin with '#{plugin_base_dir}'"
       end
 
-      plugin_name = File.split(plugin_dir.gsub(plugin_base_dir, ""))[0]
+      plugin_name = File.split(plugin_dir.gsub(plugin_base_dir, "")).find {|segment| segment != '.'}
       ordered_plugins.index(plugin_name) or raise
     }
   end
