@@ -176,6 +176,16 @@ module AspaceFactories
         language { "eng" }
       end
 
+      factory :resource_with_scope, class: JSONModel(:resource) do
+        title { generate :resource_title }
+        id_0 { generate :id_0 }
+        extents { [build(:extent)] }
+        dates { [build(:date)] }
+        level { "collection" }
+        language { "eng" }
+        notes { [build(:json_note_multipart)] }
+      end
+
       factory :archival_object, class: JSONModel(:archival_object) do
         title { generate(:archival_object_title) }
         ref_id { generate(:ref_id) }
@@ -238,6 +248,16 @@ module AspaceFactories
           "colTitle" => "DEFAULT TITLE",
           "colLevel" => "item"
         } }
+      end
+
+      factory :json_note_multipart, class: JSONModel(:note_multipart) do
+        type { 'scopecontent' }
+        subnotes { [ build(:json_note_text, :publish => true) ] }
+        publish { true } 
+      end
+
+      factory :json_note_text, class: JSONModel(:note_text) do
+        content { generate(:alphanumstr) }
       end
 
       factory :name_person, class: JSONModel(:name_person) do
