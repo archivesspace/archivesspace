@@ -17,6 +17,9 @@
           end
 	  if !note_struct['note_text'].blank? %>
           <div class="abstract single_note"><span class='inline-label'><%= note_struct['label'] %></span>
+            <% unless note_struct['is_inherited'].blank? %>
+              <%= inheritance(note_struct['is_inherited']).html_safe %>
+            <% end %>
            <% if note_struct['note_text'].length > AppConfig[:abstract_note_length] %>
              <% truncated_note = note_struct['note_text'][0..AppConfig[:abstract_note_length]-1] %>
              <% end_index = truncated_note.rindex(' ') || AppConfig[:abstract_note_length]-1 %>

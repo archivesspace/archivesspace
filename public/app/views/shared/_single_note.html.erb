@@ -14,12 +14,18 @@
              <span class='inline-label'><%= subnote['_inline_label'] %></span>
            <% end %>
            <span class="note-content">
+             <% unless note_struct['is_inherited'].blank? %>
+               <%= inheritance(note_struct['is_inherited']).html_safe %>
+             <% end %>
              <%= subnote['_text'].html_safe %>
            </span>
          </div>
        <% end %>
      <% else %>
        <div class="note-content">
+         <% unless note_struct['is_inherited'].blank? %>
+           <%= inheritance(note_struct['is_inherited']).html_safe %>
+         <% end %>
          <%= note_struct['note_text'].html_safe %>
        </div>
      <% end %>

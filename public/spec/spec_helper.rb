@@ -85,6 +85,12 @@ def setup_test_data
   end
   create(:resource, title: "Resource for Phrase Search", publish: true)
   create(:resource, title: "Search as Phrase Resource", publish: true)
+
+  resource_with_scope = create(:resource_with_scope, title: "Resource with scope note", publish: true)
+  aos = (0..5).map do
+    create(:archival_object,
+           resource: { 'ref' => resource_with_scope.uri }, publish: true)
+  end
   run_all_indexers
 end
 
