@@ -77,6 +77,52 @@ class RepositoriesController < ApplicationController
     end
   end
 
+  def metadata
+    md = {
+          '@context' => "http://schema.org/",
+          '@type' => 'ArchiveOrganization',
+          '@id' => AppConfig[:public_proxy_url] + @result['uri'],
+          #this next bit will always be the repo name, not the name associated with the agent record (which is overwritten if the repo record is updated)
+          'name' => @result['agent_representation']['_resolved']['display_name']['sort_name'],
+          'url' => @result['url'],
+          'logo' => @result['image_url'],
+          'identifier' => @result['country'] ? @result['country']+'-'+ @result['org_code'] : @result['org_code'],
+          #this next bit will never work since ASpace has a bug with how it enacts its repo-to-agent concept (at least in versions 2.4 and 2.5).... and you can't add an authority ID directly to a repo record.
+          'sameAs' => @result['agent_representation']['_resolved']['display_name']['authority_id'],
+          'description' => @result['repo_info']['top']['description'],
+          'email' => @result['repo_info']['email'],
+          'parentOrganization' => {
+            '@type' => 'Organization',
+            'name' => @result['parent_institution_name']
+          }
+          # removing contactPoint, since this would need to be on the repo record (along with different contact types... e.g. reference assistance, digitization requests, whatever)
+          # 'contactPoint' => @result['agent_representation']['_resolved']['agent_contacts'][0]['name']
+        }
+
+        if @result['repo_info']['telephones']
+          md['faxNumber'] = @result['repo_info']['telephones']
+            .select{|t| t['number_type'] == 'fax'}
+            .map{|f| f['number']}
+
+          md['telephone'] =  @result['repo_info']['telephones']
+            .select{|t| t['number_type'] == 'business'}
+            .map{|b| b['number']}
+        end
+
+        if @result['repo_info']['address']
+          md['address'] = {
+            '@type' => 'PostalAddress',
+            'streetAddress' => @result['repo_info']['address'].join(", "),
+            'addressLocality' => @result['repo_info']['city'],
+            'addressRegion' => @result['repo_info']['region'],
+            'postalCode' => @result['repo_info']['post_code'],
+            'addressCountry' => @result['repo_info']['country']
+          }
+        end
+
+        md.compact
+  end
+
   def show
     uri = "/repositories/#{params[:id]}"
     resources = {}
@@ -106,39 +152,7 @@ class RepositoriesController < ApplicationController
       # and i'm not sure that i'll update everything as needed if i toy with the repo model in the PUI
       # so, throwing this in the controller for now...
       # but please re-locate and fix!
-      @metadata = {
-            '@context' => "http://schema.org/",
-            '@type' => 'ArchiveOrganization',
-            '@id' => AppConfig[:public_proxy_url] + @result['uri'],
-            #this next bit will always be the repo name, not the name associated with the agent record (which is overwritten if the repo record is updated)
-            'name' => @result['agent_representation']['_resolved']['display_name']['sort_name'],
-            'url' => @result['url'],
-            'logo' => @result['image_url'],
-            'identifier' => @result['country'] + '-' + @result['org_code'],
-            #this next bit will never work since ASpace has a bug with how it enacts its repo-to-agent concept (at least in versions 2.4 and 2.5).... and you can't add an authority ID directly to a repo record.
-            'sameAs' => @result['agent_representation']['_resolved']['display_name']['authority_id'],
-            'description' => @result['repo_info']['top']['description'],
-            'email' => @result['repo_info']['email'],
-            'address' => {
-              '@type' => 'PostalAddress',
-              'streetAddress' => @result['repo_info']['address'].join(", "),
-              'addressLocality' => @result['repo_info']['city'],
-              'addressRegion' => @result['repo_info']['region'],
-              'postalCode' => @result['repo_info']['post_code'],
-              'addressCountry' => @result['repo_info']['country'],
-            },
-            'parentOrganization' => {
-              '@type' => 'Organization',
-              'name' => @result['parent_institution_name']
-            },
-            'contactPoint' => @result['agent_representation']['_resolved']['agent_contacts'][0]['name'],
-            'faxNumber' => @result['repo_info']['telephones']
-              .select{|t| t['number_type'] == 'fax'}
-              .map{|f| f['number']},
-            'telephone' => @result['repo_info']['telephones']
-              .select{|t| t['number_type'] == 'business'}
-              .map{|b| b['number']}
-          }.compact
+      @metadata = metadata
 
       render
 
