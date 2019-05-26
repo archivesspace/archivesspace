@@ -1,5 +1,3 @@
-require 'yaml'
-
 require 'java'
 require 'tmpdir'
 require 'tempfile'
@@ -337,6 +335,11 @@ ERRMSG
   PluginDependency = Struct.new(:depends_on, :recommends)
 
   def self.load_plugin_dependencies
+    # YAML will generally have already been loaded at this point so this is
+    # usually a no-op.  This is here for DB migrations, which now rely on this
+    # code to run in the correct order and won't otherwise have loaded YAML.
+    require 'yaml'
+
     result = {}
 
     ASUtils.find_local_directories('config.yml').each do |f|
