@@ -1466,6 +1466,7 @@ ja:
   validation_errors:
     agent_must_be_unique: エージェントレコードは同一ではありません
     subject_must_be_unique: 件名のレコードは同一ではありません
+    conflicting_record: 競合するレコード
     missing_required_property: プロパティは必須ですが行方不明です
     missing_property: プロパティが見つかりませんでした
     not_a_valid_date: 有効な日付ではありません

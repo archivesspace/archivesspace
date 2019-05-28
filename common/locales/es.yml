@@ -1922,6 +1922,7 @@ es:
   validation_errors:
     agent_must_be_unique: Registros de autoridad no pueden ser idénticos
     subject_must_be_unique: Los registros de sujetos no pueden ser idénticos
+    conflicting_record: Registro conflictivo
     missing_required_property: Propiedad es necesaria pero falta
     missing_property: Faltaba propiedad
     not_a_valid_date: No es una fecha válida
