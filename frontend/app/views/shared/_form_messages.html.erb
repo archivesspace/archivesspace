@@ -92,7 +92,11 @@
                      data-target="<%= form.id_for_javascript(attr) %>"
                      data-message="<%= h(msg) %>">
                   <% unless attr === 'coded_errors' %>
-                  	<%= I18n.t(form.path_to_i18n_key(attr)) %> - 
+                    <% if attr === 'conflicting_record' %>
+                      <%= I18n.t("validation_errors.conflicting_record") %> -
+                    <% else %>
+                    	<%= I18n.t(form.path_to_i18n_key(attr)) %> -
+                    <% end %>
                   <% end %>
                   <%= msg %>
                 </div>
