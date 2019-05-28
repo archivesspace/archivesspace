@@ -1,9 +1,10 @@
 GIT
   remote: https://github.com/hudmol/map_validator.git
-  revision: be1820499b1bb75596d46da1f2796a0ceb1b2549
+  revision: a12d2a90732b7ffe73d9a236445362869d23c8f4
   tag: master
   specs:
     map_validator (0.0.1)
+      roo (= 2.8.2)
 
 GEM
   remote: https://rubygems.org/
@@ -154,6 +155,9 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    roo (2.8.2)
+      nokogiri (~> 1)
+      rubyzip (>= 1.2.1, < 2.0.0)
     rspec (3.6.0)
       rspec-core (~> 3.6.0)
       rspec-expectations (~> 3.6.0)
@@ -257,6 +261,7 @@ DEPENDENCIES
   pry-rails
   rails (= 5.0.1)
   rails-html-sanitizer (~> 1.0.4)
+  roo (= 2.8.2)
   rspec (~> 3.6.0)
   rspec-rails
   rubocop (~> 0.54.0)

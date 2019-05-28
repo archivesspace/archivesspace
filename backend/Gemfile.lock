@@ -1,9 +1,10 @@
 GIT
   remote: https://github.com/hudmol/map_validator.git
-  revision: be1820499b1bb75596d46da1f2796a0ceb1b2549
+  revision: a12d2a90732b7ffe73d9a236445362869d23c8f4
   tag: master
   specs:
     map_validator (0.0.1)
+      roo (= 2.8.2)
 
 GEM
   remote: https://rubygems.org/
@@ -82,6 +83,9 @@ GEM
     rainbow (3.0.0)
     rake (12.3.1)
     rjack-jackson (1.8.11.0-java)
+    roo (2.8.2)
+      nokogiri (~> 1)
+      rubyzip (>= 1.2.1, < 2.0.0)
     rrtf (1.3.0)
       fastimage
       nokogiri
@@ -178,6 +182,7 @@ DEPENDENCIES
   pry-nav
   rack-session-sequel (= 0.0.1)
   rjack-jackson (= 1.8.11.0)
+  roo (= 2.8.2)
   rrtf
   rspec (~> 3.6.0)
   rspec-core
