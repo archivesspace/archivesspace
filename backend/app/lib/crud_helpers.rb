@@ -79,6 +79,7 @@ module CrudHelpers
 
         if existing_record
           e.errors[:conflicting_record] = [existing_record.uri]
+          e.errors[:@translated]
         end
       end
 

@@ -1942,6 +1942,7 @@ fr:
   validation_errors:
     agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques
     subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
+    conflicting_record: Enregistrement contradictoire
     missing_required_property: Propriété requise qui manquait
     missing_property: Propriété manquante
     not_a_valid_date: N'est pas une date valide

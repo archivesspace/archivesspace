@@ -1942,6 +1942,7 @@ en:
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
     subject_must_be_unique: Subject records cannot be identical
+    conflicting_record: Conflicting record
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
