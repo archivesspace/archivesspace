@@ -4,7 +4,7 @@ DATA_TMP_DIR="${APPCONFIG_DATA_DIR:-"/archivesspace/data"}/tmp"
 
 # DEPLOY_PKG (optional): [./config/config.rb, ./plugins, ./stylesheets]
 if [[ -v ASPACE_DEPLOY_PKG_URL ]]; then
-  wget -O /archivesspace/deploy_pkg.zip $ASPACE_DEPLOY_PKG_URL
+  wget --no-check-certificate -O /archivesspace/deploy_pkg.zip $ASPACE_DEPLOY_PKG_URL
   if [[ "$?" != 0 ]]; then
     echo "Error downloading deploy package from: $ASPACE_DEPLOY_PKG_URL"
     exit 1
