@@ -29,7 +29,7 @@ COPY --from=build_release /archivesspace /archivesspace
 
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && \
-    apt-get -y install --no-install-recommends wget unzip && \
+    apt-get -y install --no-install-recommends ca-certificates wget unzip && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd -g 1000 archivesspace && \
     useradd -l -M -u 1000 -g archivesspace archivesspace && \
