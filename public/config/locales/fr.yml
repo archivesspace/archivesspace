@@ -382,6 +382,8 @@ fr:
         description_rules: Règles de description
         identifier: Identifiant
         language: Langue de description
+        script: Script de description
+        language_note: Langue de la note de description
         sponsor: Sponsor
         edition_statement: Mention d'édition
         series_statement: Mention de série

@@ -1570,6 +1570,12 @@ fr:
     finding_aid_language: Langue de description
     finding_aid_language_tooltip: |
         <p>Indique toutes les langues présentes dans l'instrument de recherche généré à partir de la description de ressource.</p>
+    finding_aid_script: Script de description
+    finding_aid_script_tooltip: |
+        <p>Indique tous les scripts présents dans l'instrument de recherche généré à partir de la description de la ressource.</p>
+    finding_aid_language_note: Langue de description Note
+    finding_aid_language_note_tooltip: |
+        <p>Notes sur les langues présentes dans l'instrument de recherche généré à partir de la description de la ressource.</p>
     finding_aid_sponsor: Sponsor
     finding_aid_sponsor_tooltip: |
         <p>Indique tout sponsor ayant contribué à la description de l'instrument de recherche.</p>

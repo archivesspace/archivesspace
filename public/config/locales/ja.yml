@@ -334,6 +334,8 @@ ja:
         description_rules: 説明ルール
         identifier: 識別
         language: 説明の言語
+        script: 説明のスクリプト
+        language_note: 説明文の言語
         sponsor: スポンサー
         edition_statement: 版ステートメント
         series_statement: シリーズ声明
