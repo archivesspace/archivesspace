@@ -107,7 +107,7 @@ for authentication.
 In order to use your new authentication handler, you'll need to add it to the plug-in
 architecture in ArchivesSpace and enable it. Create a new directory, called our_auth
 perhaps, in the plugins directory of your ArchivesSpace installation. Inside
-that directory create this directory hierarchy `backend/app/models/` and place the
+that directory create this directory hierarchy `backend/model/` and place the
 new class file there. Next, configure the new handler.
 
 ## Modifying your configuration

@@ -672,7 +672,7 @@ NOTE: If changes are made here, then they should be also made in migration 119.<
     <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&#39;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
 
     <span class='comment val'># remove URL-reserved chars</span>
-    <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/[&amp;;?$&lt;&gt;#%{}|\\^~\[\]`\/@=:+,!.]/</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/[&amp;;?$&lt;&gt;#%{}|\\^~\[\]`\/\*\(\)@=:+,!.]/</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
 
     <span class='comment val'># enforce length limit of 50 chars</span>
     <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_slice identifier id'>slice</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='comma token'>,</span> <span class='integer val'>50</span><span class='rparen token'>)</span>
@@ -1918,7 +1918,7 @@ return false otherwise.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0-RC1.a Documentation Generated on Tue May 14 15:36:44 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:08 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.12.
 </div>
