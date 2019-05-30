@@ -1,6 +1,15 @@
 require 'aspace_i18n_enumeration_support'
 require 'mixed_content_parser'
 
+# Disable I18n caching in dev mode
+if Rails.env == 'development'
+  module I18n
+    def self.t_raw(*args)
+      return self.t_raw_uncached(*args)
+    end
+  end
+end
+
 module I18n
 
   # Override the I18n string pattern to take into account
