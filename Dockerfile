@@ -3,7 +3,7 @@ LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && \
-    apt-get -y install --no-install-recommends git wget unzip build-essential
+    apt-get -y install --no-install-recommends git wget unzip build-essential libfreetype6
 
 COPY . /source
 
