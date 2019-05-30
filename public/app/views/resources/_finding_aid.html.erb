@@ -2,7 +2,7 @@
 
 <% unless @result.finding_aid.blank? %>
   <% if @result.finding_aid.size > 1 || @result.finding_aid['revisions'].blank? %>
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal-fa">
       <% order.each do |item| %>
         <% unless @result.finding_aid[item].blank? %>
           <dt><%= t("resource._public.finding_aid.#{item}") %></dt>
