@@ -34,9 +34,7 @@ Sequel.migration do
 
     def set_blank_lang_to_default(dataset)
       lang_enum = self[:enumeration].filter(:name => 'language_iso639_2').select(:id)
-      puts "#{lang_enum.inspect}"
       und_lang = self[:enumeration_value].filter(:value => 'und', :enumeration_id => lang_enum ).select(:id)
-      puts "#{und_lang.inspect}"
 
       dataset.each do |row|
         self[:resource].filter(:id => row[:id]).update(:finding_aid_language_id => und_lang)
