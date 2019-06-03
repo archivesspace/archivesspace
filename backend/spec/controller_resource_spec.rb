@@ -46,6 +46,30 @@ describe 'Resources controller' do
   end
 
 
+  it "doesn't let you create a resource without a finding_aid_language" do
+    expect {
+      create(:json_resource,
+             :finding_aid_language => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource without a finding_aid_script" do
+    expect {
+      create(:json_resource,
+             :finding_aid_script => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource with a finding_aid_language of klingon" do
+    expect {
+      create(:json_resource,
+             :finding_aid_language => "klingon")
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
   it "can handle asking for the tree of an empty resource" do
     resource = create(:json_resource)
 
