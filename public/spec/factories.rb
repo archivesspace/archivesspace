@@ -188,6 +188,8 @@ module AspaceFactories
         dates { [build(:date)] }
         level { "collection" }
         language { "eng" }
+        finding_aid_language {  [generate(:finding_aid_language)].sample  }
+        finding_aid_script {  [generate(:finding_aid_script)].sample  }
         notes { [build(:json_note_multipart)] }
       end
 
