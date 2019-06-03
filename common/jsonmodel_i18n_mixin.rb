@@ -16,7 +16,11 @@ module JSONModelI18nMixin
       [:errors, :warnings].each do |level|
         next unless exceptions[level]
         exceptions[level].clone.each do |path, msgs|
-          exceptions[level][path] = msgs.map{|m| translate_exception_message(m)}
+          if path == 'conflicting_record'
+            exceptions[level][path] = msgs
+          else
+            exceptions[level][path] = msgs.map{|m| translate_exception_message(m)}
+          end
         end
       end
 
