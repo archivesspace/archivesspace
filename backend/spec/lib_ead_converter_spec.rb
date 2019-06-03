@@ -247,7 +247,7 @@ ANEAD
     end
 
     it "maps '<langusage>' correctly" do
-      expect(@resource['finding_aid_language_note']).to eq('Resource-FindingAidLanguage-AT')
+      expect(@resource['finding_aid_language']).to eq('Resource-FindingAidLanguage-AT')
     end
 
     it "maps '<langusage><language>' correctly" do
