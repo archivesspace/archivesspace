@@ -19,8 +19,6 @@ describe 'Resources controller' do
                                                 "language_and_script" => {
                                                   "language" => "eng",
                                                   "script" => "Latn"}}],
-                                              "finding_aid_language" => "eng",
-                                              "finding_aid_script" => "Latn",
                                               "extents" => [{
                                                 "portion" => "whole",
                                                 "number" => "5 or so",

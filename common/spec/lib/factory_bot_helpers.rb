@@ -95,8 +95,6 @@ FactoryBot.define do
   sequence(:file_format_name) { sample(JSONModel(:file_version).schema['properties']['file_format_name']) }
   sequence(:archival_record_level) { sample(JSONModel(:resource).schema['properties']['level'], ['otherlevel']) }
   sequence(:finding_aid_description_rules) { sample(JSONModel(:resource).schema['properties']['finding_aid_description_rules']) }
-  sequence(:finding_aid_language) { sample(JSONModel(:resource).schema['properties']['finding_aid_language']) }
-  sequence(:finding_aid_script) { sample(JSONModel(:resource).schema['properties']['finding_aid_script']) }
 
   sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
   sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }

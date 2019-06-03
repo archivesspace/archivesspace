@@ -350,8 +350,6 @@ describe 'JSON model' do
                                        "lang_materials" => [{"language_and_script" =>
                                                       {"language" => "eng",
                                                       "script" => "Latn"}}],
-                                       "finding_aid_language" => "eng",
-                                       "finding_aid_script" => "Latn",
                                        "dates" => [{"jsonmodel_type" => "date",
                                                       "expression" => "1666",
                                                      "date_type" => "single",
