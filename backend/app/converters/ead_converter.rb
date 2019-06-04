@@ -815,10 +815,8 @@ class EADConverter < Converter
           if (script = language.attr('scriptcode'))
             set :finding_aid_script, script.to_s
           end
-          set :finding_aid_language_note, format_content( langusage.inner_text)
-        else
-          set :finding_aid_language_note, format_content( langusage.inner_text )
         end
+        set :finding_aid_language_note, format_content( langusage.inner_text )
       # if no <langusage>, set language to undetermined
       else
         set :finding_aid_language, 'und'
