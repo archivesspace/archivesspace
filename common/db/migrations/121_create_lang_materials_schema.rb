@@ -30,26 +30,33 @@ end
 def migrate_langmaterial_notes
 
   # Find all langmaterial notes
-  self[:note].filter( Sequel.like(:notes, '%langmaterial%')).each do |note_id|
+  # self[:note].filter( Sequel.like(:notes, '%langmaterial%')).each do |note_id|
+  self[:note].each do |note_id|
+    if note_id[:notes].lit.include?("langmaterial")
 
-    [ :resource_id, :archival_object_id, :digital_object_id, :digital_object_component_id  ].each do |obj|
-      record_id = note_id[obj]
+      [ :resource_id, :archival_object_id, :digital_object_id, :digital_object_component_id  ].each do |obj|
+        record_id = note_id[obj]
 
-      unless record_id.nil?
-        # Create new lang_material record for these resources
-        language_record = self[:lang_material].insert(
-            :json_schema_version => note_id[:notes_json_schema_version],
-            "#{obj}" => record_id,
-            :create_time => note_id[:create_time],
-            :system_mtime => note_id[:system_mtime],
-            :user_mtime => note_id[:user_mtime]
+        unless record_id.nil?
+          # Create new lang_material record for these resources
+          language_record = self[:lang_material].insert(
+              :json_schema_version => note_id[:notes_json_schema_version],
+              "#{obj}" => record_id,
+              :create_time => note_id[:create_time],
+              :system_mtime => note_id[:system_mtime],
+              :user_mtime => note_id[:user_mtime]
+              )
+
+          new_note = note_id[:notes].lit.gsub("note_singlepart", "note_langmaterial")
+
+          # Switch note from linking to resource to linking to the new language record
+          self[:note].filter(:id => note_id[:id]).update(
+            :lang_material_id => language_record,
+            "#{obj}" => nil,
+            :notes => new_note.to_sequel_blob
             )
+        end
 
-        # Switch note from linking to resource to linking to the new language record
-        self[:note].filter(:id => note_id[:id]).update(
-          :lang_material_id => language_record,
-          "#{obj}" => nil
-          )
       end
 
     end
@@ -125,14 +132,6 @@ Sequel.migration do
       alter_table(record) do
         drop_foreign_key(:language_id)
       end
-    end
-
-    # Update Language of Description columns
-    alter_table(:resource) do
-      rename_column(:finding_aid_language, :finding_aid_language_note)
-      set_column_type(:finding_aid_language_note, 'varchar')
-      add_column(:finding_aid_language_id, :integer, :null => true)
-      add_column(:finding_aid_script_id, :integer, :null => true)
     end
 
     migrate_langmaterial_notes
