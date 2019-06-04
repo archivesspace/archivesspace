@@ -421,8 +421,8 @@ ERRMSG
         raise "Assertion failure: Unexpected plugin dir: '#{plugin_dir}' was expected to begin with '#{plugin_base_dir}'"
       end
 
-      plugin_name = File.split(plugin_dir.gsub(plugin_base_dir, "")).find {|segment| segment != '.'}
-      ordered_plugins.index(plugin_name) or raise
+      plugin_name = (plugin_dir.gsub(plugin_base_dir, "")).split(File::SEPARATOR).find {|segment| segment != '.'}
+      ordered_plugins.index(plugin_name) or raise "Expected to find #{plugin_name} but didn't!"
     }
   end
 end
