@@ -250,10 +250,6 @@ ANEAD
       expect(@resource['finding_aid_language']).to eq('Resource-FindingAidLanguage-AT')
     end
 
-    it "maps '<langusage><language>' correctly" do
-      expect(@resource['finding_aid_language']).to eq('und')
-    end
-
     it "maps '<revisiondesc>' correctly" do
       expect(@resource['revision_statements'][0]['description']).to eq("Resource-FindingAidRevisionDescription-AT")
       expect(@resource['revision_statements'][0]['date']).to eq("Resource-FindingAidRevisionDate-AT")
