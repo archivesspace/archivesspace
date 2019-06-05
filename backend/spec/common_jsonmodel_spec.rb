@@ -486,11 +486,6 @@ describe 'JSON model' do
                                  "type" => "object",
                                  "$schema" => "http://www.archivesspace.org/archivesspace.json",
                                  "properties" => {
-                                   "lang_material" => [{
-                                     "language_and_script" => {
-                                       "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"},
-                                     }
-                                   }],
                                    "linked_agents" => {
                                      "type" => "array",
                                      "items" => {
@@ -508,7 +503,6 @@ describe 'JSON model' do
                                })
 
     hash = {
-      "lang_material" => [{"language_and_script" => {"language" => "eng"}}],
       "linked_agents" => [{
                             'role' => 'creator'
                          }]
@@ -517,9 +511,8 @@ describe 'JSON model' do
 
     obj = JSONModel(:coolschema).from_hash(hash)
 
-    hash = obj.to_hash_with_translated_enums(['language_iso639_2', 'linked_agent_role'])
-
-    expect(hash['language']).to eq("English")
+    hash = obj.to_hash_with_translated_enums(['linked_agent_role'])
+    
     expect(hash['linked_agents'].first['role']).to eq("Creator");
   end
 
