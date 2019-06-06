@@ -36,7 +36,7 @@
 
 %>
 <div class="form-group <% if required %>required<% end %>">
-  <label class="control-label col-sm-2"><%= I18n.t("top_container._singular") %></label>
+  <label for="<%= form.current_id %>" class="control-label col-sm-2"><%= I18n.t("top_container._singular") %></label>
   <div class="controls col-sm-8">
     <div class="input-group linker-wrapper">
       <input type="text" class="linker"
