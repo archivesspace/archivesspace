@@ -4,13 +4,12 @@
      $(function () {
 
        var setupErrorMessage = function(idx, elt, type) {
-         var $matched;
+         var $matched = $("#" + elt + ",#" + elt + "_ref_");
 
-         if ($("#" + elt).length) {
-           $matched = $("#" + elt);
+         if ($matched.length) {
            $matched.closest(".form-group, td").addClass("has-"+type);
-           if ($("#" + elt).is("section")) {
-             $("#" + elt).addClass(type);
+           if ($matched.is("section")) {
+             $matched.addClass(type);
            }
          } else if ($("[data-real-id=" + elt + "]").length) {
            $("[data-real-id=" + elt + "]").each(function() {
@@ -31,6 +30,7 @@
            $matched = $("#" + elt + "_0_");
            $matched.closest(".form-group, td").addClass("has-"+type);
          }
+
          if ($matched && !$("." + type + "[data-target=" + elt + "]").hasClass("linked-to-field")) {
            $("." + type + "[data-target=" + elt + "]").addClass("linked-to-field").append("<span class='glyphicon glyphicon-chevron-down'></span>").click(function() {
 
