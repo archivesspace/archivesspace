@@ -1,10 +1,17 @@
 GIT
   remote: https://github.com/hudmol/map_validator.git
-  revision: a12d2a90732b7ffe73d9a236445362869d23c8f4
+  revision: 53089262d126f80eabdd27627363298ed445f587
   tag: master
   specs:
     map_validator (0.0.1)
-      roo (= 2.8.2)
+      xlsx_streaming_reader (= 0.0.1)
+
+GIT
+  remote: https://github.com/hudmol/xlsx_streaming_reader.git
+  revision: 2bf92f2c950d1416dd6fef6755eed25e8521d925
+  branch: master
+  specs:
+    xlsx_streaming_reader (0.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -155,9 +162,6 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    roo (2.8.2)
-      nokogiri (~> 1)
-      rubyzip (>= 1.2.1, < 2.0.0)
     rspec (3.6.0)
       rspec-core (~> 3.6.0)
       rspec-expectations (~> 3.6.0)
@@ -188,7 +192,7 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-debug-base (0.10.6-java)
     ruby-progressbar (1.10.0)
-    rubyzip (1.2.2)
+    rubyzip (1.2.3)
     sass (3.6.0)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -261,7 +265,6 @@ DEPENDENCIES
   pry-rails
   rails (= 5.0.1)
   rails-html-sanitizer (~> 1.0.4)
-  roo (= 2.8.2)
   rspec (~> 3.6.0)
   rspec-rails
   rubocop (~> 0.54.0)
@@ -272,6 +275,7 @@ DEPENDENCIES
   therubyrhino
   tzinfo-data
   uglifier (= 3.0.4)
+  xlsx_streaming_reader!
   zip-zip (= 0.3)
 
 BUNDLED WITH
