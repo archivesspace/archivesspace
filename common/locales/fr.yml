@@ -60,6 +60,9 @@ fr:
         <p>Le contenu de la note.</p>
 
   section_tooltips: &section_tooltips
+    lang_materials_tooltip: |
+        <p>Les langues et les scripts représentés dans le (s) matériel (s) décrit (s).</p>
+        <p>Voir DACS 4.5</p>
     dates_tooltip: |
         <p>Précise et enregistre les dates correspondant à la création, à l'assemblage, à l'accumulation, et/ou à la maintenance et à l'utilisation des documents décrits.</p>
         <p>Voir DACS 2.4</p>
@@ -118,8 +121,6 @@ fr:
     digital_object_type: Type d'objet numérique
     digital_object_type_tooltip: |
         <p>Terme générique indiquant le type de contenu basic de l'objet numérique. Les options par défaut correspondent à l'élément MODS &lt;typeOfResource&gt;.</p>
-    language: Langue
-    language_tooltip: <p>Langue pour le contenu numérique.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
       <p>Une case à cocher pour indiquer que des restrictions s'appliquent. Les restrictions peuvent être spécifiées en recourant aux sous-notices Note ou aux sous-notices Droits.</p>
@@ -716,6 +717,7 @@ fr:
     note_index: Index
     note_bibliography: Bibliographie
     note_digital_object: Note d'objet numérique
+    note_langmaterial: Note sur la langue des matériaux
     note_bioghist: "Note biographique/historique"
     note_citation: Citation
     note_abstract: Résumé
@@ -756,6 +758,9 @@ fr:
     sub_notes_singular: Sous-note
 
   note_digital_object:
+    <<: *note_attributes
+
+  note_langmaterial:
     <<: *note_attributes
 
   note_rights_statement:
@@ -947,6 +952,23 @@ fr:
         </ul>
     _plural: Dimensions
     _singular: Importance matérielle
+
+  lang_material: &lang_material_attributes
+    _plural: Les langues
+    _singular: La langue
+
+  language_and_script:
+    <<: *lang_material_attributes
+    language: La langue
+    language_tooltip: &language_language_tooltip |
+        <p>CHAMP OBLIGATOIRE: Le terme de langue et le code représentés dans le ou les matériaux décrits. Codes tirés de l'ISO 639-2b: Codes pour la représentation des noms de langues.</p>
+    script: Scénario
+    script_tooltip: &language_script_tooltip |
+        <p>Le terme de script et le code représentés dans le (s) matériau (x) décrit (s). Codes tirés de l'ISO 15924: Codes pour la représentation des noms de scripts.</p>
+        <p>Voir DACS 4.5</p>
+
+  language_note:
+    <<: *lang_material_attributes
 
   external_document: &external_document_attributes
     title: Intitulé
@@ -1413,10 +1435,6 @@ fr:
     repository_processing_note_tooltip: |
          <p>Champ spécifique à l'application pour enregistrer une information concernant le traitement des documents. Cette note n'est incluse dans aucun rapport ou export, et n'est pas renseignée par import.</p>
     automate_title: Intitulé automatiquement généré
-    language: Langue
-    language_tooltip: |
-        <p>Langue(s), script(s) et système de symboles employés dans les documents décrits.</p>
-        <p>Voir DACS 4.5</p>
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: A un ancêtre publié?
     _singular: Document d'archive
