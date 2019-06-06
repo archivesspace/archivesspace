@@ -184,7 +184,7 @@ module AspaceFactories
         extents { [build(:extent)] }
         dates { [build(:date)] }
         level { "collection" }
-        language { "eng" }
+        lang_materials { [build(:lang_material)] }
         notes { [build(:json_note_multipart)] }
       end
 

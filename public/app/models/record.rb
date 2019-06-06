@@ -162,14 +162,10 @@ class Record
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
       lang_notes = process_json_notes((json['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten), (!full ? ABSTRACT : nil))
       notes_html = notes_html.merge(lang_notes)
-      notes_html.each do |type, html|
-        notes[type] = html
-      end
     elsif json.has_key?('notes')
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
-      notes_html.each do |type, html|
-        notes[type] = html
-      end
+    else
+      {}
     end
   end
 
