@@ -83,7 +83,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/bundle install --jobs=8 --gemfile='${gemfile}' --no-deployment ${bundle-without-option}" />
+      <arg line="gems/bin/bundle install --gemfile='${gemfile}' --no-deployment ${bundle-without-option}" />
     </java>
   </target>
 
