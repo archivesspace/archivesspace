@@ -160,7 +160,16 @@ class Record
 
     if json.has_key?('notes') && json.has_key?('lang_materials')
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
-      lang_notes = process_json_notes((json['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten), (!full ? ABSTRACT : nil))
+
+      # We need to do some special manipuation for language of material notes since they are held inside of a lang_material record, not notes
+      lang_material_notes = json['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+      lang_notes = process_json_notes(lang_material_notes.flatten, (!full ? ABSTRACT : nil))
+      unless lang_notes.empty?
+        lang_notes['langmaterial'].each do |s|
+          s['is_inherited'] = json['lang_materials'][0].dig('_inherited')
+        end
+      end
+      
       notes_html = notes_html.merge(lang_notes)
     elsif json.has_key?('notes')
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
