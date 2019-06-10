@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/hudmol/xlsx_streaming_reader.git
-  revision: c88ef9d332b3d4ff6024fe4fa8655d2c9a2ecad6
+  revision: cfcdd351573a59b42586f587ce57cb179e5ccf6f
   branch: master
   specs:
     xlsx_streaming_reader (0.0.1)
