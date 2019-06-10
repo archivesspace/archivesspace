@@ -195,7 +195,7 @@ def run_tests(opts)
                 :id_0 => "abc123",
                 :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492"   } ],
                 :subjects => [{"ref" => "/subjects/#{subject_id}"}],
-                :language => "eng",
+                :lang_materials => [{"language_and_script" => {"language" => "eng"}}],
                 :level => "collection",
                 :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
               }.to_json,
