@@ -10,4 +10,6 @@ for i in backend frontend; do
     )
 done
 
-build/run bootstrap
+if [ "$1" = "full" ]; then
+  build/run bootstrap
+fi
