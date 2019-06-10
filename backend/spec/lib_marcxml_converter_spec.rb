@@ -156,6 +156,7 @@ END
 
         @resource = parsed.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
         @notes = @resource['notes'].map { |note| note_content(note) }
+        @lang_materials_notes = @resource['lang_materials'].select{|n| n.include?('notes')}.reject {|e|  e['notes'] == [] }[0]['notes'].map { |note| note_content(note) }
       end
 
       before(:all) do
@@ -163,7 +164,7 @@ END
       end
 
       it "maps field 008 correctly" do
-        expect(@resource['language']).to eq('eng')
+        expect(@resource['lang_materials'][0]['language_and_script']['language']).to eq('eng')
         date = @resource['dates'].find {|d| d['date_type'] == 'inclusive' && d['begin'] == '1960' && d['end'] == '1970'}
         expect(date).not_to be_nil
       end
@@ -325,8 +326,8 @@ END
         expect(@notes).to include('Resource-BiographicalHistorical-AT.')
       end
 
-      it "maps datafield[@tag='546'] to resource.notes[] using template '$3: $a ($b).'" do
-        expect(@notes).to include('Resource-LanguageMaterials-AT.')
+      it "maps datafield[@tag='546'] to lang_materials.notes[] using template '$3: $a ($b).'" do
+        expect(@lang_materials_notes).to include('Resource-LanguageMaterials-AT.')
       end
 
       it "maps datafield[@tag='561'] to resource.notes[] using template '$3: $a.'" do
@@ -560,7 +561,7 @@ ROTFL
     <marc:leader>00874cbd a2200253 a 4500</marc:leader>
     <marc:controlfield tag="001">1161022 </marc:controlfield>
     <marc:controlfield tag="005">20020626205047.0</marc:controlfield>
-    <marc:controlfield tag="008">920324s19801980kyu eng d</marc:controlfield>
+    <marc:controlfield tag="008">920324s19801980kyu                 eng d</marc:controlfield>
     <marc:datafield tag="040" ind1=" " ind2=" ">
       <marc:subfield code="a">RC</marc:subfield>
       <marc:subfield code="e">appm</marc:subfield>
@@ -607,7 +608,7 @@ OMFG
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   <foo:collection xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <foo:record>
-    <foo:controlfield tag="008">920324s19801980kyu eng d</foo:controlfield>
+    <foo:controlfield tag="008">920324s19801980kyu                 eng d</foo:controlfield>
       <foo:datafield tag="245" ind2=" " ind1="1">
         <foo:subfield code="a">SF A</foo:subfield>
       </foo:datafield>
@@ -627,7 +628,7 @@ MARC
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   <foo:record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd" xmlns:foo="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <leader>00000npm a2200000 u 4500</leader>
-    <foo:controlfield tag="008">920324s19801980kyu eng d</foo:controlfield>
+    <foo:controlfield tag="008">920324s19801980kyu                 eng d</foo:controlfield>
     <foo:datafield tag="245" ind2=" " ind1="1">
       <foo:subfield code="a">SF A</foo:subfield>
     </foo:datafield>
@@ -694,6 +695,13 @@ MARC
             resource.dates << ASpaceImport::JSONModel(:date).from_hash({:expression => "1945", :label => "creation", "date_type" => "single"})
           end
 
+          if resource.lang_materials.nil? || resource.lang_materials.empty?
+            resource.lang_materials << ASpaceImport::JSONModel(:lang_material).from_hash({'language_and_script' => {
+              'jsonmodel_type' => 'language_and_script',
+              'language' => 'eng'}
+            })
+          end
+
           if resource.extents.nil? || resource.extents.empty?
             resource.extents << ASpaceImport::JSONModel(:extent).from_hash({:portion => 'whole', :number => '1', :extent_type => 'linear_feet'})
           end
@@ -701,6 +709,7 @@ MARC
           if resource.id_0.nil? or resource.id.empty?
             resource.id_0 = "ID"
           end
+
         }
       end
 

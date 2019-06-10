@@ -24,6 +24,7 @@ describe 'Digital Objects controller' do
   it "can give a list of digital objects" do
     create(:json_digital_object)
     create(:json_digital_object)
+    create(:json_digital_object)
     expect(JSONModel(:digital_object).all(:page => 1)['results'].count).to eq(3)
   end
 
@@ -216,4 +217,17 @@ describe 'Digital Objects controller' do
       expect(archival_object).not_to be_nil
       expect(archival_object.instances.count).to be(0)
     end
+
+
+    it "lets you create a digital object with a language" do
+      opts = {:language_and_script => {:language => generate(:language)}}
+
+      lang_materials = [build(:json_lang_material, opts)]
+
+      digital_object = create(:json_digital_object, :lang_materials => lang_materials)
+
+      expect(JSONModel(:digital_object).find(digital_object.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+      expect(JSONModel(:digital_object).find(digital_object.id).lang_materials[0]['note']).to eq(nil)
+    end
+
 end

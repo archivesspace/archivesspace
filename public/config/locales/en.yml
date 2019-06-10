@@ -329,6 +329,7 @@ en:
       header:
        dates: Dates
        lang: Language
+       script: Script
        physdesc: Physical Description
        storage: Container Information
        access: Conditions Governing Access
@@ -360,7 +361,8 @@ en:
       identifier: Identifier
       extent: Extent
       dates: Dates
-      lang: Language
+      lang: Language of Materials
+      script: Script
       digital_object: Digital Object
       physdesc: Physical Description
       storage: Container Information

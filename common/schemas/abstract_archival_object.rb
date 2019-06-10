@@ -11,7 +11,6 @@
       "external_ids" => {"type" => "array", "items" => {"type" => "JSONModel(:external_id) object"}},
 
       "title" => {"type" => "string", "minLength" => 1, "maxLength" => 16384, "ifmissing" => "error"},
-      "language" => {"type" => "string", "dynamic_enum" => "language_iso639_2"},
 
       "publish" => {"type" => "boolean"},
 
@@ -54,6 +53,7 @@
 
 
       "extents" => {"type" => "array", "items" => {"type" => "JSONModel(:extent) object"}},
+      "lang_materials" => {"type" => "array", "items" => {"type" => "JSONModel(:lang_material) object"}},
       "dates" => {"type" => "array", "items" => {"type" => "JSONModel(:date) object"}},
       "external_documents" => {"type" => "array", "items" => {"type" => "JSONModel(:external_document) object"}},
       "rights_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:rights_statement) object"}},

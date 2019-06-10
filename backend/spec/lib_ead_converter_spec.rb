@@ -444,7 +444,7 @@ ANEAD
     end
 
     it "maps '<langmaterial>' correctly" do
-      expect(@archival_objects['06']['language']).to eq('eng')
+      expect(@archival_objects['06']['lang_materials'][0]['language_and_script']['language']).to eq('eng')
     end
 
     it "maps '<legalstatus>' correctly" do
@@ -849,11 +849,11 @@ ANEAD
     end
 
     it "only maps <language> content to one place" do
-      expect(@resource['language']).to eq 'eng'
-      expect(get_note_by_type(@resource, 'langmaterial')).to be_nil
+      expect(@resource['lang_materials'][0]['language_and_script']['language']).to eq 'eng'
+      expect(@resource['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }).to be_empty
 
-      expect(@component['language']).to eq 'eng'
-      expect(get_note_by_type(@component, 'langmaterial')).to be_nil
+      expect(@component['lang_materials'][0]['language_and_script']['language']).to eq 'eng'
+      expect(@component['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }).to be_empty
     end
 
     it "maps <head> tag to note label, but not to note content" do
@@ -922,9 +922,9 @@ ANEAD
     it "should map the langcode to language, and the language text to a note" do
       json = convert(test_doc)
       resource = json.select {|rec| rec['jsonmodel_type'] == 'resource'}.last
-      expect(resource['language']).to eq('eng')
+      expect(resource['lang_materials'][0]['language_and_script']['language']).to eq('eng')
 
-      langmaterial = get_note_by_type(resource, 'langmaterial')
+      langmaterial = get_note_by_type(resource['lang_materials'][1], 'langmaterial')
       expect(note_content(langmaterial)).to eq('English')
     end
   end

@@ -9,14 +9,14 @@ class DCModel < ASpaceExport::ExportModel
   attr_accessor :subjects
   attr_accessor :dates
   attr_accessor :type
-  attr_accessor :language
+  attr_accessor :lang_materials
 
   
   
   @archival_object_map = {
     :title => :title=,
     :dates => :handle_date,
-    :language => :language=,
+    :lang_materials => :handle_langmaterials,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects
   }
@@ -29,6 +29,7 @@ class DCModel < ASpaceExport::ExportModel
     @subjects = []
     @sources = []
     @dates = []
+    @lang_materials = []
     @rights = []
     @json = obj
   end
@@ -159,6 +160,28 @@ class DCModel < ASpaceExport::ExportModel
   end
   
   
+  def handle_langmaterials(lang_materials)
+
+    language_vals = lang_materials.map{|l| l['language_and_script']}.compact
+    if !language_vals.empty?
+      language_vals.each do |language|
+        self.lang_materials << language['language']
+        if language['script']
+          self.lang_materials << language['script']
+        end
+      end
+    end
+
+    language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+    if !language_notes.empty?
+      language_notes.each do |note|
+        self.lang_materials << extract_note_content(note)
+      end
+    end
+
+  end
+
+
   def handle_date(dates)
     dates.each do |date|
       self.dates << extract_date_string(date)

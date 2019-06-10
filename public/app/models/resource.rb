@@ -93,11 +93,16 @@ class Resource < Record
       subj['authority_id'] ? subj['authority_id'] : subj['title']
     }
 
-    if raw['language'].try(:any?)
-         md['inLanguage'] = {
-           '@type' => 'Language',
-           'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])
-         }
+    # schema.org spec for inLanguage states: "Please use one of the language codes from the IETF BCP 47 standard" which seems to imply that only one language can be provided here.  Unsure how to handle post-ANW-697 instances where multiple languages are present.  Currently iterating for each language, and completely ignoring script.
+    if !json['lang_materials'].blank?
+      md['inLanguage'] = json['lang_materials'].select{|lang_material|
+        !lang_material['language_and_script'].blank?
+      }.map{|lang_material|
+                           {
+                             '@type' => 'Language',
+                             'name' => I18n.t("enumerations.language_iso639_2.#{lang_material['language_and_script']['language']}", :default => lang_material['language_and_script']['language'])
+                           }
+                         }
     end
 
     md['provider'] = {

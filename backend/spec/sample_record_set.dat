@@ -29,7 +29,7 @@
                 "number": "123", 
                 "portion": "whole"
             }
-        ], 
+        ],
         "external_documents": [
             {
                 "jsonmodel_type": "external_document", 
@@ -117,13 +117,22 @@
                 "publish": true, 
                 "title": "A test external document"
             }
-        ], 
-        "external_ids": [], 
-        "id_0": "res001", 
-        "instances": [], 
-        "jsonmodel_type": "resource", 
-        "language": "eng", 
-        "level": "class", 
+        ],
+        "external_ids": [],
+        "id_0": "res001",
+        "instances": [],
+        "jsonmodel_type": "resource",
+        "lang_materials": [
+            {
+                "jsonmodel_type": "lang_material",
+                "language_and_script": {
+                    "language": "eng",
+                    "script": "Latn",
+                    "jsonmodel_type": "language_and_script"
+                    }
+            }
+        ],
+        "level": "class",
         "linked_agents": [
             {
                 "ref": "/agents/software/1", 

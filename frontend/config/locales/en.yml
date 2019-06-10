@@ -709,6 +709,12 @@ en:
         add_digital_object: Add Digital Object
         add: Add Instance
 
+  lang_material:
+    _frontend:
+      action:
+        add: Add Language
+        add_note: Add Language Note
+
   linked_agent:
     _frontend:
       action:
@@ -948,6 +954,7 @@ en:
     column_label: Column
     sections:
       basic_information: Basic Information
+      language: Language
       date: Date
       extent: Extent
       instance: Instance

@@ -158,4 +158,18 @@ describe 'Digital Object Component controller' do
     expect(children[1]["parent"]["ref"]).to eq(parent_component.uri)
     expect(children[1]["digital_object"]["ref"]).to eq(digital_object.uri)
   end
+
+
+  it "lets you create a digital object component with a language" do
+
+    opts = {:language_and_script => {:language => generate(:language)}}
+
+    lang_materials = [build(:json_lang_material, opts)]
+
+    digital_object_component = create(:json_digital_object_component, :lang_materials => lang_materials)
+
+    expect(JSONModel(:digital_object_component).find(digital_object_component.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+    expect(JSONModel(:digital_object_component).find(digital_object_component.id).lang_materials[0]['note']).to eq(nil)
+  end
+
 end

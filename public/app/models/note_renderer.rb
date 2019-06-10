@@ -71,7 +71,7 @@ end
 
 class SinglepartNoteRenderer < NoteRenderer
   handles_notes ['note_singlepart', 'note_text', 'note_abstract',
-                 'note_digital_object']
+                 'note_digital_object', 'note_langmaterial']
 
   def render(type, note, result)
     result['label'] = build_label(type, note)

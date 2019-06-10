@@ -21,7 +21,25 @@
         }
     ],
     "jsonmodel_type": "archival_object",
-    "language": "eng",
+    "lang_materials": [
+        {
+            "language_and_script": {
+                "language": "eng",
+                "script": "Latn"
+            }
+        },
+        {
+            "notes": [
+                {
+                    "jsonmodel_type": "note_langmaterial",
+                    "type": "langmaterial",
+                    "content": [
+                        "Language note"
+                    ]
+                }
+            ]
+        }
+    ],
     "level": "file",
     "linked_agents": [
         {

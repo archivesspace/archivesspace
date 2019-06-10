@@ -17,8 +17,6 @@
       "level" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "archival_record_level"},
       "other_level" => {"type" => "string", "maxLength" => 255},
 
-      "language" => {"ifmissing" => "warn"},
-
       "slug" => {"type" => "string"},
       "is_slug_auto" => {"type" => "boolean", "default" => true},
 
@@ -59,11 +57,14 @@
       "finding_aid_status" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_status"},
       "finding_aid_note" => {"type" => "string", "maxLength" => 65000},
 
+      # Languages (overrides abstract schema)
+      "lang_materials" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:lang_material) object"}},
+
       # Extents (overrides abstract schema)
       "extents" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:extent) object"}},
-      
+
       "revision_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:revision_statement) object"}},
-      
+
       # Dates (overrides abstract schema)
       "dates" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:date) object"}},
 
@@ -87,7 +88,7 @@
           }
         }
       },
-     
+
       "classifications" => {
               "type" => "array",
               "items" => {

@@ -8,9 +8,22 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource and get it back" do
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "dates" => [{  "date_type" => "single", "label" => "creation", "expression" => "1901" }],
-                                              "id_0" => "abc123", "level" => "collection", "language" => "eng",
-                                              "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
+    resource = JSONModel(:resource).from_hash("title" => "a resource",
+                                              "dates" => [{
+                                                "date_type" => "single",
+                                                "label" => "creation",
+                                                "expression" => "1901" }],
+                                              "id_0" => "abc123",
+                                              "level" => "collection",
+                                              "lang_materials" => [{
+                                                "language_and_script" => {
+                                                  "language" => "eng",
+                                                  "script" => "Latn"}}],
+                                              "extents" => [{
+                                                "portion" => "whole",
+                                                "number" => "5 or so",
+                                                "extent_type" => "reels"}]
+                                              )
     id = resource.save
 
     expect(JSONModel(:resource).find(id).title).to eq("a resource")
@@ -31,6 +44,34 @@ describe 'Resources controller' do
     expect {
       create(:json_resource,
              :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "lets you create a resource with a language" do
+    opts = {:language_and_script => {:language => generate(:language)}}
+
+    lang_materials = [build(:json_lang_material, opts)]
+
+    resource = create(:json_resource, :lang_materials => lang_materials)
+
+    expect(JSONModel(:resource).find(resource.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+    expect(JSONModel(:resource).find(resource.id).lang_materials[0]['note']).to eq(nil)
+  end
+
+
+  it "doesn't let you create a resource without at least one language" do
+    expect {
+      create(:json_resource,
+             :lang_materials => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource with a script of scripty" do
+    expect {
+      create(:json_resource,
+             :lang_materials => [build(:json_lang_material, {:language_and_script => {:script=> 'scripty'}})])
     }.to raise_error(JSONModel::ValidationException)
   end
 

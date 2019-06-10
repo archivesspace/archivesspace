@@ -50,9 +50,15 @@
         <% end %>
     <% end %>
 
-    <% if @result['language'] %>
+    <% if @result.lang_materials %>
+      <% @result.lang_materials.each do |lang_material| %>
         <dt><%= t('resource._public.lang')%></dt>
-        <dd><%= t('enumerations.language_iso639_2.' + @result['language'].downcase) %></dd>
+        <dd><%= t('enumerations.language_iso639_2.' + lang_material['language']) %></dd>
+        <% unless lang_material['script'].blank? %>
+          <dt><%= t('resource._public.script')%></dt>
+          <dd><%= t('enumerations.script_iso15924.' + lang_material['script']) %></dd>
+        <% end %>
+      <% end %>
     <% else %>
       <% langmaterial_note = @result.note('langmaterial') %>
       <% if langmaterial_note && !langmaterial_note['note_text'].blank? %>
