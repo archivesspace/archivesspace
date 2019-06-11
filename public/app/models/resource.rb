@@ -149,6 +149,30 @@ class Resource < Record
       'sameAs' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id']
     }.compact
 
+    # add repository address to holdingArchive
+    if repository_information["address"]
+      md['holdingArchive']["address"] = {
+        '@type' => 'PostalAddress',
+        'streetAddress' => repository_information["address"],
+        'addressLocality' => repository_information["city"],
+        'addressRegion' => repository_information["region"],
+        'postalCode' => repository_information["post_code"],
+        'addressCountry' => repository_information["country"],
+      }.compact
+    end
+
+    # add repository telephone to holdingArchive
+    if repository_information['telephones']
+      md['holdingArchive']['faxNumber'] = repository_information['telephones']
+        .select{|t| t['number_type'] == 'fax'}
+        .map{|f| f['number']}
+
+      md['holdingArchive']['telephone'] =  repository_information['telephones']
+        .select{|t| t['number_type'] == 'business'}
+        .map{|b| b['number']}
+    end
+    md['holdingArchive'].delete_if { |key,value| value.empty? }
+
     md.delete_if { |key,value| value.empty? }
   end
 
