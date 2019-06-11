@@ -11,7 +11,7 @@ describe "EAD3 export mappings" do
   def load_export_fixtures
     @agents = {}
     5.times {
-      a = create([:json_agent_person, :json_agent_corporate_entity, :json_agent_family].sample)
+      a = create([:json_agent_person, :json_agent_corporate_entity, :json_agent_family].sample, :publish => true)
       @agents[a.uri] = a
     }
 

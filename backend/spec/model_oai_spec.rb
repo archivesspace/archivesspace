@@ -392,6 +392,18 @@ describe 'OAI handler' do
       expect(response.body).not_to match(/note with unpublished parent node/)
     end
 
+    it "should respect publish flags on creator agents for ead exports" do
+      uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_ead"
+      response = get uri
+      expect(response.body).not_to match(/UNPUBLISHED Creator Agent/)
+    end
+
+    it "should respect publish flags on source agents for ead exports" do
+      uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_ead"
+      response = get uri
+      expect(response.body).not_to match(/UNPUBLISHED Corporate Agent/)
+    end
+
     it "should respect publish flags for marc exports" do
       uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_marc"
       response = get uri
