@@ -88,7 +88,7 @@ class Resource < Record
     md['materialExtent'] = json['extents'].select{|e| e['portion'] == 'whole'}.map do |extent|
       {
         "@type": "QuantitativeValue",
-        "unitText": I18n.t("enumerations.extent_extent_type.#{extent['extent_type']}"),
+        "unitText": I18n.t("enumerations.extent_extent_type.#{extent['extent_type']}", :default => extent['extent_type']),
         "value": extent['number']
       }
     end
