@@ -46,7 +46,7 @@ class ArchivalObject < Record
 
       if resolved_resource
         ttl = resolved_resource.dig('title')
-        cite += " #{resource_identifier}, #{strip_mixed_content(ttl)}."
+        cite += " #{strip_mixed_content(ttl)}, #{resource_identifier}."
       end
 
       cite += " #{ repository_information['top']['name']}." unless !repository_information.dig('top','name')
