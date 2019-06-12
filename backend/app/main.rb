@@ -219,6 +219,8 @@ class ArchivesSpaceService < Sinatra::Base
 
         BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
 
+        Relationships.verify!
+
         Notifications.notify("BACKEND_STARTED")
         Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize
       end
