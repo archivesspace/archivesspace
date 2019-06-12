@@ -432,6 +432,33 @@ module Relationships
   end
 
 
+  REQUIRED_COLUMNS = [:aspace_relationship_position, :suppressed, :created_by, :last_modified_by, :system_mtime, :user_mtime]
+
+  def self.verify!
+    # Make sure our DB tables and columns are in order.
+    errors = []
+
+    ASModel.all_models.each do |model|
+      next unless model.ancestors.include?(Relationships)
+
+      model.relationships.each do |relationship|
+        missing_columns = REQUIRED_COLUMNS - relationship.columns
+
+        unless missing_columns.empty?
+          errors << "  * Relationship #{model}.#{relationship} table #{relationship.table_name} is missing the following mandatory columns: #{missing_columns.join(', ')}"
+        end
+      end
+    end
+
+    unless errors.empty?
+      Log.error("Can't start up due to errors in the following relationship tables:\n\n" +
+                errors.join("\n"))
+
+      raise "Errors found in relationship tables"
+    end
+  end
+
+
   def update_from_json(json, opts = {}, apply_nested_records = true)
     obj = super
 

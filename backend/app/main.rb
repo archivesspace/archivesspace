@@ -239,6 +239,8 @@ class ArchivesSpaceService < Sinatra::Base
         end
         @archivesspace_plugins_loaded = true
 
+        Relationships.verify!
+
         Notifications.notify("BACKEND_STARTED")
         Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize
       end
