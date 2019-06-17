@@ -1696,6 +1696,7 @@ en:
     authority_id_tooltip: |
         <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
     source: Source
+    subject_source: Subject Source
     source_tooltip: |
         <p>The vocabulary from which an established term is taken.</p>
         <p>Values in this Controlled Value List may be modified.</p>
