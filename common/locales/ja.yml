@@ -1071,6 +1071,7 @@ ja:
     ref_id_export_prefix: aspace_
     dates: 日付
     extents: エクステント
+    lang_materials: 言語
     ref_id_auto_generation_message: "- 保存時に自動生成 -"
     component_id: コンポーネント一意識別子
     component_id_tooltip: "<p>コンポーネントの部品について、リソース記述のコンテキスト内で一意のIDを表します。 </p><p>例：

@@ -1396,6 +1396,7 @@ fr:
     dates_tooltip: |
         <p>SOUS-NOTICE OBLIGATOIRE CONDITIONNELLE. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
     extents: Importance matérielle
+    lang_materials: Langues
     ref_id_auto_generation_message: "-- auto-généré à la sauvegarde --"
     component_id: Identifiant unique de composant
     component_id_tooltip: |

@@ -1396,6 +1396,7 @@ en:
     dates_tooltip: |
         <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p>
     extents: Extents
+    lang_materials: Languages
     ref_id_auto_generation_message: "-- auto-generated upon save --"
     component_id: Component Unique Identifier
     component_id_tooltip: |
