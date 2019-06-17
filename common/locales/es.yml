@@ -1378,6 +1378,7 @@ es:
     dates_tooltip: |
         <p>SUBREGISTRO CONDICIONAL REQUERIDO. Un objeto de archivo debe tener un título o un subregistro de fecha.</p>
     extents: Extensiones
+    lang_materials: Idiomas
     ref_id_auto_generation_message: "--generado automáticamente al guardar..."
     component_id: Identificador único de componente
     component_id_tooltip: |
