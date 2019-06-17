@@ -38,6 +38,9 @@
         <%= item['title'] %>
         <% unless item['uri'].blank? %>
          </a>
+         <% if list_clss == 'subjects_list' && AppConfig[:show_source_in_subject_listing] %>
+          <strong><%= t("subject.subject_source") %>: </strong><%= t("enumerations.subject_source.#{item['source']}") %>
+         <% end %>
         <% end %>
        <% else %>
          <%= item %>
