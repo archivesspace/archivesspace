@@ -617,13 +617,14 @@ AppConfig[:pui_page_custom_actions] = []
 #   'erb_partial' => 'shared/my_special_action',
 # }
 
+# For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
+AppConfig[:sort_accession_date_filter_asc] = false
+
 # use_human_readable_URLs:
 # Changing this option will not remove or clear any slugs that exist currently.
 # This setting only affects links that are displayed. URLs that point to valid slugs will still work.
 # WARNING: Changing this setting may require an index rebuild for changes to take effect.
 
-# TODO: for release, uncomment below and remove line that follows that so that HRU's are off by default.
-#AppConfig[:use_human_readable_URLs] = false
 AppConfig[:use_human_readable_URLs] = false
 
 # Use the repository in slug based URLs
@@ -635,10 +636,9 @@ AppConfig[:auto_generate_slugs_with_id] = false
 
 # For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
 AppConfig[:generate_resource_slugs_with_eadid] = false
+                            
+# For archival objects: if this option and auto_generate_slugs_with_id are both enabled, then slugs for archival resources will be generated with Component Unique Identifier instead of the identifier.
 AppConfig[:generate_archival_object_slugs_with_cuid] = false
-
-# For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
-AppConfig[:sort_accession_date_filter_asc] = false
 
 # Determines if the subject source is shown along with the subject heading in records' subject listings
 # This can help differentiate between subjects with the same heading
