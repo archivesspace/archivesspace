@@ -620,12 +620,14 @@ AppConfig[:pui_page_custom_actions] = []
 # For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
 AppConfig[:sort_accession_date_filter_asc] = false
 
-# use_human_readable_URLs:
+# Human-Readable URLs options
+# use_human_readable_urls: determines whether fields and options related to human-readable URLs appear in the staff interface
+
 # Changing this option will not remove or clear any slugs that exist currently.
 # This setting only affects links that are displayed. URLs that point to valid slugs will still work.
 # WARNING: Changing this setting may require an index rebuild for changes to take effect.
 
-AppConfig[:use_human_readable_URLs] = false
+AppConfig[:use_human_readable_urls] = false
 
 # Use the repository in slug based URLs
 # Warning: setting repo_name_in_slugs to true when it has previously been set to false will break links, unless all slugs are regenerated.
