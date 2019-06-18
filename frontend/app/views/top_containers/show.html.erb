@@ -36,6 +36,9 @@
           <%= readonly.label_and_textarea "ils_item_id" %>
           <%= readonly.label_and_textarea "exported_to_ils", :default => I18n.t("top_container.not_exported") %>
 
+          <%= render_plugin_partials("basic_information_top_container",
+                                     :form => readonly,
+                                     :record => @resource) %>
 
 
           <% if @top_container["container_locations"].length > 0 %>
