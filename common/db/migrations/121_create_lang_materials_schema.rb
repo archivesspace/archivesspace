@@ -30,7 +30,6 @@ end
 def migrate_langmaterial_notes
 
   # Find all langmaterial notes
-  # self[:note].filter( Sequel.like(:notes, '%langmaterial%')).each do |note_id|
   self[:note].each do |note_id|
     if note_id[:notes].lit.include?("langmaterial")
 
@@ -136,5 +135,11 @@ Sequel.migration do
 
     migrate_langmaterial_notes
 
+    # Drop old langmaterial note from note_singlepart_type enumerations list
+    enum = self[:enumeration].filter(:name => 'note_singlepart_type').select(:id)
+    langmaterial = self[:enumeration_value].where(:value => 'langmaterial', :enumeration_id => enum ).select(:id)
+    $stderr.puts("Deleting enumeration_id for old langmaterial note")
+    langmaterial.delete
+    
   end
 end
