@@ -40,8 +40,8 @@
 
           <% if @top_container["container_locations"].length > 0 %>
             <hr>
-            <section>
-              <%= render_aspace_partial :partial => "container_locations/show", :locals => { :container_locations => @top_container["container_locations"] } %>
+            <section id="container_locations">
+              <%= render_aspace_partial :partial => "container_locations/show", :locals => { :container_locations => @top_container["container_locations"]} %>
             </section>
           <% end %>
 
