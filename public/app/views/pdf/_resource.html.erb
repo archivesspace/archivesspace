@@ -26,6 +26,13 @@
         <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= extent['display'] %></dd>
     <% end %>
 
+    <% unless record.notes.include?('langmaterial') || record.lang_materials.blank? %>
+        <dt><%= t('resource._public.lang') %></dt>
+        <% record.lang_materials.each do |lang_material| %>
+            <dd><%= t('enumerations.language_iso639_2.' + lang_material['language'])%></dd>
+        <% end %>
+    <% end %>
+
     <% record.notes.each do |note_type, note| %>
         <% if note_type == 'physdesc' %>
             <a id="note-<%= note_type %>"></a>
