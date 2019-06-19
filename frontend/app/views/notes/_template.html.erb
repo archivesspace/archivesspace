@@ -618,7 +618,7 @@
       <%= form.hidden_input("ingest_problem") %>
       <%= form.label_and_textfield("persistent_id") %>
       <%= form.label_and_textfield("label") %>
-      <%= form.label_and_select("type", langmaterial_note_types.map {|value, hash| [hash[:i18n], value]}, :field_opts => {:class => "note-type"}) %>
+      <%= form.hidden_input("type", "langmaterial") %>
       <%= form.label_and_boolean("publish", {}, user_prefs["publish"]) %>
 
       <% form.emit_template("content_items", :required => form.required?('content')) %>
