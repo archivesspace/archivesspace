@@ -622,6 +622,7 @@ AppConfig[:sort_accession_date_filter_asc] = false
 
 # Human-Readable URLs options
 # use_human_readable_urls: determines whether fields and options related to human-readable URLs appear in the staff interface
+
 # Changing this option will not remove or clear any slugs that exist currently.
 # This setting only affects links that are displayed. URLs that point to valid slugs will still work.
 # WARNING: Changing this setting may require an index rebuild for changes to take effect.
@@ -640,3 +641,7 @@ AppConfig[:generate_resource_slugs_with_eadid] = false
 
 # For archival objects: if this option and auto_generate_slugs_with_id are both enabled, then slugs for archival resources will be generated with Component Unique Identifier instead of the identifier.
 AppConfig[:generate_archival_object_slugs_with_cuid] = false
+
+# Determines if the subject source is shown along with the subject heading in records' subject listings
+# This can help differentiate between subjects with the same heading
+AppConfig[:show_source_in_subject_listing] = false

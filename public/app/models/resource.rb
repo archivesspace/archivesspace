@@ -203,7 +203,14 @@ class Resource < Record
     unless cite.blank?
       cite = strip_mixed_content(cite['note_text'])
     else
-      cite =  strip_mixed_content(display_string) + '.'
+      cite = strip_mixed_content(display_string)
+      cite += identifier.blank? ? '' : ", #{identifier}"
+      cite += if container_display.blank? || container_display.length > 5
+        '.'
+      else
+        @citation_container_display ||= parse_container_display(:citation => true).join('; ')
+        ", #{@citation_container_display}."
+      end
       unless repository_information['top']['name'].blank?
         cite += " #{ repository_information['top']['name']}."
       end
