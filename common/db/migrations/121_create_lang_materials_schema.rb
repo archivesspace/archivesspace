@@ -140,6 +140,6 @@ Sequel.migration do
     langmaterial = self[:enumeration_value].where(:value => 'langmaterial', :enumeration_id => enum ).select(:id)
     $stderr.puts("Deleting enumeration_id for old langmaterial note")
     langmaterial.delete
-
+    
   end
 end
