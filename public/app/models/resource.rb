@@ -1,5 +1,6 @@
 class Resource < Record
   include ResourceRequestItems
+  include ViewHelper
 
   attr_reader :digital_instances, :finding_aid, :related_accessions,
               :related_deaccessions, :cite
@@ -34,15 +35,6 @@ class Resource < Record
     (0..3).map {|part| @json["id_#{part}"]}
   end
 
-  # eliminates duplicate slashes when concatenating public url with uris in json-ld
-  def public_url
-    if AppConfig[:public_proxy_url].end_with?("/")
-      AppConfig[:public_proxy_url][0..-2]
-    else
-      AppConfig[:public_proxy_url]
-    end
-  end
-
   def level_for_md_mapping
     if ['recordgrp', 'fonds', 'collection'].include?(json['level'].downcase)
       ['Collection', 'ArchiveComponent']
@@ -54,7 +46,7 @@ class Resource < Record
   def metadata
     md = {
       '@context' => "http://schema.org/",
-      '@id' => public_url + uri,
+      '@id' => AppConfig[:public_proxy_url] + resource_base_url(self),
       '@type' => level_for_md_mapping,
       'name' => display_string,
       'identifier' => raw['four_part_id'],
@@ -73,7 +65,7 @@ class Resource < Record
 
     md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
       {
-        '@id' => public_url + ag['uri'],
+        '@id' => AppConfig[:public_proxy_url] + ag['uri'],
         '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
         'name' => ag['title'],
         'sameAs' => ag['display_name']['authority_id']
@@ -143,7 +135,7 @@ class Resource < Record
     #at that point, move those over to "sameAs" relationships and move the URL value to @id.
     #also, are there any changes needed now that the PUI has the ability to override the database ids in the URIs?
     md['holdingArchive'] = {
-      '@id' => public_url + raw['repository'],
+      '@id' => AppConfig[:public_proxy_url]  + repository_base_url(self.resolved_repository),
       '@type' => 'ArchiveOrganization',
       'name' => json['repository']['_resolved']['name'],
       'sameAs' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id']

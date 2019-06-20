@@ -1,5 +1,6 @@
 class RepositoriesController < ApplicationController
   include ResultInfo
+  include ViewHelper
   helper_method :process_repo_info
   skip_before_action  :verify_authenticity_token
 
@@ -77,20 +78,11 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  # eliminates duplicate slashes when concatenating public url with uris in json-ld
-  def public_url
-    if AppConfig[:public_proxy_url].end_with?("/")
-      AppConfig[:public_proxy_url][0..-2]
-    else
-      AppConfig[:public_proxy_url]
-    end
-  end
-
   def metadata
     md = {
           '@context' => "http://schema.org/",
           '@type' => 'ArchiveOrganization',
-          '@id' => public_url + @result['uri'],
+          '@id' => AppConfig[:public_proxy_url] + repository_base_url(@result),
           #this next bit will always be the repo name, not the name associated with the agent record (which is overwritten if the repo record is updated)
           'name' => @result['agent_representation']['_resolved']['display_name']['sort_name'],
           'url' => @result['url'],

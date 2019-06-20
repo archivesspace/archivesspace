@@ -1,6 +1,7 @@
 class ArchivalObject < Record
   include TreeNodes
   include ResourceRequestItems
+  include ViewHelper
 
   def parse_notes
     rewrite_refs(json['notes'], resource_uri) if resource_uri
@@ -57,15 +58,6 @@ class ArchivalObject < Record
     json.fetch('resource').fetch('ref')
   end
 
-  # eliminates duplicate slashes when concatenating public url with uris in json-ld
-  def public_url
-    if AppConfig[:public_proxy_url].end_with?("/")
-      AppConfig[:public_proxy_url][0..-2]
-    else
-      AppConfig[:public_proxy_url]
-    end
-  end
-
   #should probably make these configurable options, but for now let's assume anything
   #like a "series" or greater is a Collection of some kind.
   #and Collections at the archival object level will be diffentiated from collections at the resource level
@@ -89,11 +81,11 @@ class ArchivalObject < Record
   def metadata
     md = {
       '@context' => "http://schema.org/",
-      '@id' => public_url + uri,
+      '@id' => AppConfig[:public_proxy_url] + object_base_url(self),
       '@type' => level_for_md_mapping,
       'name' => display_string,
       'identifier' => json['identifier'],
-      'isPartOf' => public_url + parent_for_md_mapping
+      'isPartOf' => AppConfig[:public_proxy_url] + parent_for_md_mapping
     }.compact
 
     md['description'] = json['notes'].select{|n| n['type'] == 'abstract'}.map{|abstract|
@@ -109,7 +101,7 @@ class ArchivalObject < Record
 
     md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
       {
-        '@id' => public_url + ag['uri'],
+        '@id' => AppConfig[:public_proxy_url] + ag['uri'],
         '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
         'name' => ag['title'],
         'sameAs' => ag['display_name']['authority_id']
@@ -178,7 +170,8 @@ class ArchivalObject < Record
     #will need to update here (and elsewhere) once ASpace allows more than one authority ID.
     #also, are there any changes needed now that the PUI has the ability to override the database ids in the URIs?
     md['holdingArchive'] = {
-      '@id' => public_url + raw['repository'],
+      #'@id' => AppConfig[:public_proxy_url] + raw['repository'],
+      '@id' => AppConfig[:public_proxy_url] + repository_base_url(self.resolved_repository),
       '@type' => 'ArchiveOrganization',
       'name' => json['repository']['_resolved']['name'],
       'sameAs' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id']
