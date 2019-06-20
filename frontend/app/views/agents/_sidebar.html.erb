@@ -9,7 +9,9 @@
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'dates_of_existence', :property => 'dates_of_existence',
                                          :anchor => "#{@agent.agent_type}_dates_of_existence") %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_name', :property => 'names', :anchor => "#{@agent.agent_type}_names") %>
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_contact', :property => 'agent_contacts', :anchor => "#{@agent.agent_type}_contact_details") %>
+    <% if user_can?('view_agent_contact_record') %>
+      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_contact', :property => 'agent_contacts', :anchor => "#{@agent.agent_type}_contact_details") %>
+    <% end %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'note', :property => 'notes', :anchor => "#{@agent.agent_type}_notes") %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'related_agent', :property => 'related_agents', :anchor => "#{@agent.agent_type}_related_agents") %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => "external_documents", :anchor => "#{@agent.agent_type}_external_documents") %>

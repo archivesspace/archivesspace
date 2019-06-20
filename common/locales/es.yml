@@ -1425,6 +1425,7 @@ es:
       update_location_record: crear/modificar/borrar location records en este repositorio
       update_subject_record: crear/modificar registros de subject
       update_agent_record: crear/modificar registros de autoridad
+      view_agent_contact_record: ver los detalles de contacto de los registros del agente
       update_vocabulary_record: crear/modificar registros de vocabulary
       update_accession_record: crear/modificar registros de entradas en este repositorio
       update_resource_record: crear/modificar resources en este repositorio
