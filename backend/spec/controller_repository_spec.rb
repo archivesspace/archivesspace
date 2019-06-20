@@ -189,24 +189,4 @@ describe 'Repository controller' do
 
   end
 
-  context "advanced data entry role" do
-    let!(:user) do
-      user = create(:user)
-      pms = JSONModel(:group).all(:group_code => "repository-advanced-data-entry").first
-      pms.member_usernames = [user.username]
-      pms.save
-
-      user.username
-    end
-
-    it "has no access to agent contact details" do
-      as_test_user(user) do
-        agent = create(:json_agent_corporate_entity)
-        agent.agent_contacts[0]['name'] = "No problems here"
-        agent.save
-      end
-    end
-
-  end
-
 end
