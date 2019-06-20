@@ -108,10 +108,19 @@ module ViewHelper
   end
 
   def agent_base_url(result)
-    if result.json['slug'] && AppConfig[:use_human_readable_urls]
-      url = "agents/" + result.json['slug']
+    #this could probably be DRYer
+    if result.class == Hash
+      if result['slug'] && AppConfig[:use_human_readable_urls]
+        url = "agents/" + result['slug']
+      else
+        url = result['uri']
+      end
     else
-      url = result['uri']
+      if result.json['slug'] && AppConfig[:use_human_readable_urls]
+        url = "agents/" + result.json['slug']
+      else
+        url = result['uri']
+      end
     end
 
     return url

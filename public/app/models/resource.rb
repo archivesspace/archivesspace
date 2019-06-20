@@ -65,7 +65,7 @@ class Resource < Record
 
     md['creator'] = json['linked_agents'].select{|la| la['role'] == 'creator'}.map{|a| a['_resolved']}.map do |ag|
       {
-        '@id' => AppConfig[:public_proxy_url] + ag['uri'],
+        '@id' => AppConfig[:public_proxy_url] + agent_base_url(ag),
         '@type' => ag['jsonmodel_type'] == 'agent_person' ? 'Person' : 'Organization',
         'name' => ag['title'],
         'sameAs' => ag['display_name']['authority_id']
@@ -124,7 +124,7 @@ class Resource < Record
 
     #will need to update once more than one language code is allowed
     #sounds like Lora has already done that!
-    if raw['language'].try(:any?)
+    if raw['language']
          md['inLanguage'] = {
            '@type' => 'Language',
            'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])

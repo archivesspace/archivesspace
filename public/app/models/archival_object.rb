@@ -160,7 +160,7 @@ class ArchivalObject < Record
     }
 
     #will need to update once more than one language code is allowed
-    if raw['language'].try(:any?)
+    if raw['language']
          md['inLanguage'] = {
            '@type' => 'Language',
            'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])
@@ -170,7 +170,6 @@ class ArchivalObject < Record
     #will need to update here (and elsewhere) once ASpace allows more than one authority ID.
     #also, are there any changes needed now that the PUI has the ability to override the database ids in the URIs?
     md['holdingArchive'] = {
-      #'@id' => AppConfig[:public_proxy_url] + raw['repository'],
       '@id' => AppConfig[:public_proxy_url] + repository_base_url(self.resolved_repository),
       '@type' => 'ArchiveOrganization',
       'name' => json['repository']['_resolved']['name'],
