@@ -8,9 +8,20 @@ describe 'Resources controller' do
 
 
   it "lets you create a resource and get it back" do
-    resource = JSONModel(:resource).from_hash("title" => "a resource", "dates" => [{  "date_type" => "single", "label" => "creation", "expression" => "1901" }],
-                                              "id_0" => "abc123", "level" => "collection", "language" => "eng",
-                                              "extents" => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}])
+    resource = JSONModel(:resource).from_hash("title" => "a resource",
+                                              "dates" => [{
+                                                "date_type" => "single",
+                                                "label" => "creation",
+                                                "expression" => "1901" }],
+                                              "id_0" => "abc123",
+                                              "level" => "collection",
+                                              "language" => "eng",
+                                              "finding_aid_language" => "eng",
+                                              "finding_aid_script" => "Latn",
+                                              "extents" => [{
+                                                "portion" => "whole",
+                                                "number" => "5 or so",
+                                                "extent_type" => "reels"}])
     id = resource.save
 
     expect(JSONModel(:resource).find(id).title).to eq("a resource")
@@ -31,6 +42,30 @@ describe 'Resources controller' do
     expect {
       create(:json_resource,
              :id_0 => nil, :id_1 => nil, :id_2 => nil, :id_3 => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource without a finding_aid_language" do
+    expect {
+      create(:json_resource,
+             :finding_aid_language => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource without a finding_aid_script" do
+    expect {
+      create(:json_resource,
+             :finding_aid_script => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource with a finding_aid_language of klingon" do
+    expect {
+      create(:json_resource,
+             :finding_aid_language => "klingon")
     }.to raise_error(JSONModel::ValidationException)
   end
 

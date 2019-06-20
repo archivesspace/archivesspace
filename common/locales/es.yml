@@ -1552,6 +1552,12 @@ es:
     finding_aid_language: Lengua del instrumento de descripción
     finding_aid_language_tooltip: |
         <p>Indica todas las lenguas presentes en el instrumento de descripción.</p>
+    finding_aid_script: Guión de Descripción
+    finding_aid_script_tooltip: |
+        <p>Indica todos los scripts presentes en la ayuda de búsqueda generada a partir de la descripción del recurso.</p>
+    finding_aid_language_note: Idioma de la descripción Nota
+    finding_aid_language_note_tooltip: |
+        <p>Notas sobre los idiomas presentes en la ayuda para la búsqueda generada a partir de la descripción del recurso.</p>
     finding_aid_sponsor: Patrocinador
     finding_aid_sponsor_tooltip: |
         <p>Indica patrocinadores que contribuyeron a la descripción.</p>

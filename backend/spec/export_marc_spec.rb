@@ -624,9 +624,8 @@ end
       expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='c']")).to have_inner_text(org_code)
     end
 
-    it "maps language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
-      org_code = JSONModel(:repository).find($repo_id).org_code
-      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']")).to have_inner_text(@resource1.language)
+    it "maps finding aid language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
+      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']")).to have_inner_text(@resource1.finding_aid_language)
     end
 
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
