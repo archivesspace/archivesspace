@@ -1180,6 +1180,12 @@ ja:
       </p>"
     finding_aid_language: 説明の言語
     finding_aid_language_tooltip: "<p>リソース記述から生成された検索補助に存在するすべての言語を示します。 </p>"
+    finding_aid_script: 説明のスクリプト
+    finding_aid_script_tooltip: |
+        <p>リソース記述から生成された検索援助にあるすべてのスクリプトを示します。</p>
+    finding_aid_language_note: 説明の言語
+    finding_aid_language_note_tooltip: |
+        <p>リソースの説明から生成された検索援助に存在する言語に関するメモ。</p>
     finding_aid_sponsor: スポンサー
     finding_aid_sponsor_tooltip: "<p>発見援助の記述に貢献したスポンサーを示します。 </p>"
     finding_aid_edition_statement: エディション・ステートメント
@@ -1273,6 +1279,7 @@ ja:
     authority_id: オーソリティID
     authority_id_tooltip: "<p>取得元のレコードの一意の識別子（つまり、LCSH番号）。識別子はURIとして表すことができる。 </p>"
     source: ソース
+    subject_source: 件名ソース
     source_tooltip: "<p>確立された用語が使われている語彙。 </p><p>この管理された値リストの値は変更することができます。 </p><p>例：
       </p><ul><li>医療対象見出し（メッシュ） </li><li>議会図書館の見出し見出し（lcsh） </li></ul>"
     scope_note: スコープノート

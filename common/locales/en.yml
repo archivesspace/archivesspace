@@ -1570,6 +1570,12 @@ en:
     finding_aid_language: Language of Description
     finding_aid_language_tooltip: |
         <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
+    finding_aid_script: Script of Description
+    finding_aid_script_tooltip: |
+        <p>Indicates all the scripts present in the finding aid generated from the resource description.</p>
+    finding_aid_language_note: Language of Description Note
+    finding_aid_language_note_tooltip: |
+        <p>Notes on the languages present in the finding aid generated from the resource description.</p>
     finding_aid_sponsor: Sponsor
     finding_aid_sponsor_tooltip: |
         <p>Indicates any sponsors that contributed to the description of the finding aid.</p>
@@ -1696,6 +1702,7 @@ en:
     authority_id_tooltip: |
         <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
     source: Source
+    subject_source: Subject Source
     source_tooltip: |
         <p>The vocabulary from which an established term is taken.</p>
         <p>Values in this Controlled Value List may be modified.</p>

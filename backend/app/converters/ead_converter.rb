@@ -93,7 +93,9 @@ class EADConverter < Converter
 
     with 'ead' do |*|
       make :resource, {
-        :publish => att('audience') != 'internal'
+        :publish => att('audience') != 'internal',
+        :finding_aid_language => 'und',
+        :finding_aid_script => 'Zyyy'
       }
     end
 
@@ -804,8 +806,21 @@ class EADConverter < Converter
       set :finding_aid_subtitle, format_content( inner_xml )
     end
 
-    with 'langusage' do |*|
-      set :finding_aid_language, format_content( inner_xml )
+    with 'profiledesc' do |*|
+      profiledesc = Nokogiri::XML::DocumentFragment.parse(inner_xml)
+      if !(langusage = profiledesc.xpath(".//langusage")).empty?
+        # If there is a langcode attribute inside a <language> element, set the finding_aid_language to that langcode and finding_aid_note to full element content
+        if (language = langusage.xpath('.//language')).size != 0 && (langcode = langusage.xpath('.//language').attr('langcode'))
+          set :finding_aid_language, langcode.to_s
+          if (script = language.attr('scriptcode'))
+            set :finding_aid_script, script.to_s
+          end
+        end
+        set :finding_aid_language_note, format_content( langusage.inner_text )
+      # if no <langusage>, set language to undetermined
+      else
+        set :finding_aid_language, 'und'
+      end
     end
 
 

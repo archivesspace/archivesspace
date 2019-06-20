@@ -194,6 +194,8 @@ def run_tests(opts)
                 :title => "integration test resource #{$$}",
                 :id_0 => "abc123",
                 :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492"   } ],
+                :finding_aid_language => "eng",
+                :finding_aid_script => "Latn",
                 :subjects => [{"ref" => "/subjects/#{subject_id}"}],
                 :language => "eng",
                 :level => "collection",

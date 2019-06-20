@@ -348,6 +348,8 @@ describe 'JSON model' do
       JSONModel(:resource).from_hash({"title" => "New Resource",
                                        "id_0" => "ABCD",
                                        "language" => "eng",
+                                       "finding_aid_language" => "eng",
+                                       "finding_aid_script" => "Latn",
                                        "dates" => [{"jsonmodel_type" => "date",
                                                       "expression" => "1666",
                                                      "date_type" => "single",

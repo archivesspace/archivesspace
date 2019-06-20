@@ -382,6 +382,8 @@ en:
         description_rules: Description rules
         identifier: Identifier
         language: Language of description
+        script: Script of description
+        language_note: Language of description note
         sponsor: Sponsor
         edition_statement: Edition statement
         series_statement: Series statement

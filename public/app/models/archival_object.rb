@@ -36,22 +36,29 @@ class ArchivalObject < Record
     unless cite.blank?
       cite = strip_mixed_content(cite['note_text'])
     else
-      cite = strip_mixed_content(display_string) + "."
+      cite = identifier.blank? ? '' : "#{identifier}, "
+      cite += strip_mixed_content(display_string)
+      cite += if container_display.blank? || container_display.length > 5
+        '.'
+      else
+        @citation_container_display ||= parse_container_display(:citation => true).join('; ')
+        ", #{@citation_container_display}."
+      end
 
       if resolved_resource
         ttl = resolved_resource.dig('title')
-
-        cite += " #{strip_mixed_content(ttl)}"
-        cite += "," unless cite.end_with?(',')
-        cite += " #{identifier}"
-
-        cite += "."
+        cite += " #{strip_mixed_content(ttl)}, #{resource_identifier}."
       end
 
       cite += " #{ repository_information['top']['name']}." unless !repository_information.dig('top','name')
     end
 
     "#{cite}   #{cite_url_and_timestamp}."
+  end
+
+  def resource_identifier
+    @resource_identifier ||= resolved_resource ? (
+      (0..3).collect {|i| resolved_resource.dig("id_#{i}")}.compact.join('-')) : nil
   end
 
   def root_node_uri

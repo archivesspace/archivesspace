@@ -41,7 +41,7 @@
       {/if}
    </div>
    <div class="modal-footer">
-      <button id="confirmButton" class="btn {if defined('confirm_class') && confirm_class} ${confirm_class}{/if}">{if defined('confirm_label') && confirm_label}${confirm_label}{else}<%= I18n.t "actions.confirm" %>{/if}</button>
+      <button id="confirmButton" class="btn btn-default {if defined('confirm_class') && confirm_class} ${confirm_class}{/if}">{if defined('confirm_label') && confirm_label}${confirm_label}{else}<%= I18n.t "actions.confirm" %>{/if}</button>
       <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
    </div>
 --></div>

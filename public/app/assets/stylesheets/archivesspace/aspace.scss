@@ -897,6 +897,32 @@ span.head {
    }
 }
 
+// Specific styling for Finding Aid Information to override label truncation.
+.dl-horizontal-fa {
+  @media (min-width: 768px) {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    overflow: visible;
+
+    dt {
+      float: left;
+      clear: left;
+      text-align: right;
+      flex: 0 0 20%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    dd {
+      flex:0 0 75%;
+      margin-left: auto;
+      text-align: left;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
+}
+
 // Do not show this to the user
 .honeypot {
   position: absolute;
