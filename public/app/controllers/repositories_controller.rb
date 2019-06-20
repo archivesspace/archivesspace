@@ -1,6 +1,5 @@
 class RepositoriesController < ApplicationController
   include ResultInfo
-  include ViewHelper
   helper_method :process_repo_info
   skip_before_action  :verify_authenticity_token
 
@@ -82,7 +81,7 @@ class RepositoriesController < ApplicationController
     md = {
           '@context' => "http://schema.org/",
           '@type' => 'ArchiveOrganization',
-          '@id' => AppConfig[:public_proxy_url] + repository_base_url(@result),
+          '@id' => AppConfig[:public_proxy_url] + @result['uri'],
           #this next bit will always be the repo name, not the name associated with the agent record (which is overwritten if the repo record is updated)
           'name' => @result['agent_representation']['_resolved']['display_name']['sort_name'],
           'url' => @result['url'],
@@ -153,6 +152,7 @@ class RepositoriesController < ApplicationController
       # and i'm not sure that i'll update everything as needed if i toy with the repo model in the PUI
       # so, throwing this in the controller for now...
       # but please re-locate and fix!
+      # GW: The 
       @metadata = metadata
 
       render

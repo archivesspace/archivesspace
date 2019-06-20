@@ -1,7 +1,6 @@
 class ArchivalObject < Record
   include TreeNodes
   include ResourceRequestItems
-  include ViewHelper
 
   def parse_notes
     rewrite_refs(json['notes'], resource_uri) if resource_uri
@@ -88,7 +87,7 @@ class ArchivalObject < Record
   def metadata
     md = {
       '@context' => "http://schema.org/",
-      '@id' => AppConfig[:public_proxy_url] + object_base_url(self),
+      '@id' => AppConfig[:public_proxy_url] + uri,
       '@type' => level_for_md_mapping,
       'name' => display_string,
       'identifier' => json['identifier'],
@@ -177,7 +176,7 @@ class ArchivalObject < Record
     #will need to update here (and elsewhere) once ASpace allows more than one authority ID.
     #also, are there any changes needed now that the PUI has the ability to override the database ids in the URIs?
     md['holdingArchive'] = {
-      '@id' => AppConfig[:public_proxy_url] + repository_base_url(self.resolved_repository),
+      '@id' => AppConfig[:public_proxy_url] + raw['repository'],
       '@type' => 'ArchiveOrganization',
       'name' => json['repository']['_resolved']['name'],
       'sameAs' => json['repository']['_resolved']['agent_representation']['_resolved']['display_name']['authority_id']
