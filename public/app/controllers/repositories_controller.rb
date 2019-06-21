@@ -152,7 +152,8 @@ class RepositoriesController < ApplicationController
       # and i'm not sure that i'll update everything as needed if i toy with the repo model in the PUI
       # so, throwing this in the controller for now...
       # but please re-locate and fix!
-      # GW: The 
+      # GW: I think its okay here for now, as it would require some re-architecturing the repository show and I dunno if that will break things.
+      # @result in the repository view is a hash rather than an object, so it can't access methods in the model
       @metadata = metadata
 
       render
