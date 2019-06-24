@@ -1175,11 +1175,6 @@ end
     end
 
 
-    it "maps notes of type 'langmaterial' to df 546 (' ', ' '), sf a" do
-      note_test(@resource, @marc, %w(langmaterial), ['546', ' ', ' '], 'a')
-    end
-
-
     it "maps resource.ead_location to df 856 ('4', '2'), sf u" do
       df = @marc.df('856', '4', '2')
       expect(df.sf_t('u')).to eq(@resource.ead_location)

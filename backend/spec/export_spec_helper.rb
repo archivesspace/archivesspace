@@ -130,7 +130,7 @@ end
 
 
 def singlepart_note_set(publish = true)
-  ["abstract", "physdesc", "langmaterial", "physloc", "materialspec", "physfacet"].map do |type|
+  ["abstract", "physdesc", "physloc", "materialspec", "physfacet"].map do |type|
     build(:json_note_singlepart, {
             :publish => publish,
             :type => type
