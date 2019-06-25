@@ -157,8 +157,6 @@ class EADSerializer < ASpaceExport::Serializer
 
           xml.did {
 
-            # ANW-697:  Language Text subrecord content should be exported as a <langmaterial> element if present
-
             if (val = data.repo.name)
               xml.repository {
                 xml.corpname { sanitize_mixed_content(val, xml, @fragments) }
@@ -627,28 +625,11 @@ class EADSerializer < ASpaceExport::Serializer
   end
 
   def serialize_languages(languages, xml)
+    lm = []
     language_notes = languages.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
     if !language_notes.empty?
       language_notes.each do |note|
-        if note["publish"] === false && !@include_unpublished
-          languages = languages.map{|l| l['language_and_script']}.compact
-          xml.langmaterial {
-            languages.map {|language|
-              punctuation = language.equal?(languages.last) ? '.' : ', '
-              lang_translation = I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
-              if language['script']
-                xml.language(:langcode => language['language'], :scriptcode => language['script']) {
-                  xml.text(lang_translation)
-                }
-              else
-                xml.language(:langcode => language['language']) {
-                  xml.text(lang_translation)
-                }
-              end
-              xml.text(punctuation)
-            }
-          }
-        else
+        unless note["publish"] === false && !@include_unpublished
           audatt = note["publish"] === false ? {:audience => 'internal'} : {}
           content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
 
@@ -658,7 +639,27 @@ class EADSerializer < ASpaceExport::Serializer
           xml.send(note['type'], att.merge(audatt)) {
             sanitize_mixed_content(content, xml,ASpaceExport::Utils.include_p?(note['type']))
           }
+          lm << note
         end
+      end
+      if lm == []
+        languages = languages.map{|l| l['language_and_script']}.compact
+        xml.langmaterial {
+          languages.map {|language|
+            punctuation = language.equal?(languages.last) ? '.' : ', '
+            lang_translation = I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
+            if language['script']
+              xml.language(:langcode => language['language'], :scriptcode => language['script']) {
+                xml.text(lang_translation)
+              }
+            else
+              xml.language(:langcode => language['language']) {
+                xml.text(lang_translation)
+              }
+            end
+            xml.text(punctuation)
+          }
+        }
       end
     # ANW-697: If no Language Text subrecords are available, the Language field translation values for each Language and Script subrecord should be exported, separated by commas, enclosed in <language> elements with associated @langcode and @scriptcode attribute values, and terminated by a period.
     else
