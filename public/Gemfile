@@ -11,7 +11,7 @@ gem 'nokogiri', '1.8.5'
 gem 'sprockets-rails', '2.3.3'
 
 gem "mizuno", "0.6.11"
-gem 'concurrent-ruby', '~> 1.1', '>= 1.1.5'
+gem 'atomic', '= 1.0.1'
 
 # use bootstrap's sass
 gem 'bootstrap-sass', '~> 3.3.6'

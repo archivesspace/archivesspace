@@ -2,7 +2,7 @@
 # the queue.
 
 require 'thread'
-require 'concurrent'
+require 'atomic'
 
 require_relative 'job_runner'
 
@@ -80,8 +80,8 @@ class BackgroundJobQueue
 
     return if !job
 
-    finished = Concurrent::Atomic.new(false)
-    job_canceled = Concurrent::Atomic.new(false)
+    finished = Atomic.new(false)
+    job_canceled = Atomic.new(false)
     job_thread_name = Thread.current[:name]
 
     watchdog_thread = Thread.new do
@@ -192,7 +192,7 @@ class BackgroundJobQueue
     rescue => e
       Log.error("Error trying to cancel old jobs: #{e.class} #{$!} #{$@}")
     end
-
+    
 
     queue = BackgroundJobQueue.new
     queue.start_background_threads

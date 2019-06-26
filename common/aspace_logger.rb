@@ -1,12 +1,12 @@
 require 'logger'
-require 'concurrent'
+require 'atomic'
 
 class ASpaceLogger < Logger
 
-  def initialize(logdev)
-    @backlog = Concurrent::Atomic.new([])
-    @recording = Concurrent::Atomic.new(false)
-    super(logdev)
+  def initialize(logdev)                                                                                  
+    @backlog = Atomic.new([]) 
+    @recording = Atomic.new(false) 
+    super(logdev) 
   end
 
   def add(severity, message = nil, progname = nil, &block)
@@ -36,8 +36,8 @@ class ASpaceLogger < Logger
       flush_backlog
       stop_recording
     else
-      @backlog.update { |bl| bl << formatted_messsage }
-    end
+      @backlog.update { |bl| bl << formatted_messsage } 
+    end 
   end
 
   def backlog
@@ -45,17 +45,17 @@ class ASpaceLogger < Logger
   end
 
   def flush_backlog
-    @backlog.update {  |bl| bl = [] }
+    @backlog.update {  |bl| bl = [] }  
   end
-
+ 
   def start_recording
-    return if @recording.value == true
-    @recording.update { |r|  r = true }
+    return if @recording.value == true 
+    @recording.update { |r|  r = true } 
   end
-
+  
   def stop_recording
-    return unless @recording.value == true
-    @recording.update { |r|  r = false }
+    return unless @recording.value == true 
+    @recording.update { |r|  r = false } 
   end
 
   def backlog_and_flush

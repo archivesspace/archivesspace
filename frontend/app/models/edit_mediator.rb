@@ -1,10 +1,10 @@
 require 'thread'
-require 'concurrent'
+require 'atomic'
 
 class EditMediator
 
   # The table of all editing clients
-  @active_edits = Concurrent::Atomic.new({})
+  @active_edits = Atomic.new({})
 
   # Queue used to serialise access to the active edit table
   @queue = Queue.new
