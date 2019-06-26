@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'sinatra/base'
-require 'atomic'
+require 'concurrent'
 
 require_relative 'lib/periodic_indexer'
 require_relative 'lib/realtime_indexer'
@@ -51,7 +51,7 @@ class ArchivesSpaceIndexer < Sinatra::Base
 
     sleep 5
 
-    backend_urls = Atomic.new([])
+    backend_urls = Concurrent::Atomic.new([])
 
     threads << Thread.new do
       realtime_indexers = {}

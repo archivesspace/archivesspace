@@ -1,6 +1,6 @@
 require 'java'
 require 'json'
-require 'atomic'
+require 'concurrent'
 require 'tempfile'
 
 require_relative 'dependency_set'
@@ -13,8 +13,8 @@ class StreamingImport
 
   def initialize(stream, ticker, import_canceled = false,  migration = false)
     
-    @import_canceled = import_canceled ? import_canceled :  Atomic.new(false)
-    @migration = migration ? Atomic.new(true) : Atomic.new(false)
+    @import_canceled = import_canceled ? import_canceled :  Concurrent::Atomic.new(false)
+    @migration = migration ? Concurrent::Atomic.new(true) : Concurrent::Atomic.new(false)
    
     raise StandardError.new("Nothing to stream") unless stream
 

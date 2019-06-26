@@ -1,5 +1,5 @@
 require 'json-schema'
-require 'atomic'
+require 'concurrent'
 require 'uri'
 require_relative 'jsonmodel_type'
 require_relative 'json_schema_concurrency_fix'
@@ -97,7 +97,7 @@ module JSONModel
   # cleverer...
   #
   REFERENCE_KEY_REGEX = /(\/[0-9]+)/
-  @@model_lookup_cache = Atomic.new({})
+  @@model_lookup_cache = Concurrent::Atomic.new({})
 
   def self.parse_reference(reference, opts = {})
     return nil if reference.nil?

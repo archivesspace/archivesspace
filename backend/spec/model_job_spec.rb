@@ -163,7 +163,7 @@ describe 'Background jobs' do
 
     it 'runs a job and keeps track of its canceled state' do
       runner = JobRunner.for(job)
-      runner.cancelation_signaler(Atomic.new(false))
+      runner.cancelation_signaler(Concurrent::Atomic.new(false))
       runner.run
       expect(runner.canceled?).to be_falsey
     end

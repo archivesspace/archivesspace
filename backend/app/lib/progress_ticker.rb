@@ -1,5 +1,5 @@
 require 'thread'
-require 'atomic'
+require 'concurrent'
 
 class ProgressTicker
 
@@ -7,10 +7,10 @@ class ProgressTicker
     @frequency = opts[:frequency_seconds] || 5
     @ticks = 0
 
-    @last_tick = Atomic.new(nil)
-    @status_updates = Atomic.new([])
-    @results = Atomic.new({})
-    @finished = Atomic.new(false)
+    @last_tick = Concurrent::Atomic.new(nil)
+    @status_updates = Concurrent::Atomic.new([])
+    @results = Concurrent::Atomic.new({})
+    @finished = Concurrent::Atomic.new(false)
 
     context = RequestContext.dump
     @block = proc {|ticker|

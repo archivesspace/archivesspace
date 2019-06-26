@@ -1,4 +1,4 @@
-require 'atomic'
+require 'concurrent'
 require 'thread'
 
 module MemoryLeak
@@ -13,7 +13,7 @@ module MemoryLeak
 
 
     def self.define(resource, refresh_fn, ttl, opts = {})
-      @@resources[resource] = Atomic.new(nil)
+      @@resources[resource] = Concurrent::Atomic.new(nil)
       @@refresh_fns[resource] = refresh_fn
       @@expiration_seconds[resource] = ttl if ttl
 
