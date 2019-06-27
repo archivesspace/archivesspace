@@ -11,8 +11,7 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
   @archival_object_map = {
-    # Commenting out until ANW-382 is in master
-    # [:repository, :finding_aid_language] => :handle_repo_code,
+    [:repository, :finding_aid_language] => :handle_repo_code,
     [:title, :linked_agents, :dates] => :handle_title,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
@@ -256,7 +255,7 @@ class MARCModel < ASpaceExport::ExportModel
     end
   end
 
-  def handle_repo_code(repository, langcode)
+  def handle_repo_code(repository, *finding_aid_language)
     repo = repository['_resolved']
     return false unless repo
 
@@ -282,7 +281,7 @@ class MARCModel < ASpaceExport::ExportModel
     end
 
     df('852', ' ', ' ').with_sfs(*subfields_852)
-    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', langcode],['c', repo['org_code']])
+    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', finding_aid_language[0]],['c', repo['org_code']])
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
 
     if repo.has_key?('country') && !repo['country'].empty?
