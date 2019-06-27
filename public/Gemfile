@@ -11,7 +11,7 @@ gem 'nokogiri', '1.8.5'
 gem 'sprockets-rails', '2.3.3'
 
 gem "mizuno", "0.6.11"
-gem 'atomic', '= 1.0.1'
+gem 'atomic', '~> 1.1', '>= 1.1.101'
 
 # use bootstrap's sass
 gem 'bootstrap-sass', '~> 3.3.6'
@@ -59,7 +59,7 @@ group :test do
   gem 'rspec-rails'
   gem 'rails-controller-testing'
   gem 'simplecov', "0.7.1"
-  gem 'factory_bot_rails', '~> 4.11', '>= 4.11.1'
+  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem "fog-aws", "2.0.0", :require => false
   gem "selenium-webdriver", "= 3.6.0"
   gem 'capybara', '3.12.0'
