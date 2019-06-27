@@ -113,7 +113,28 @@ class BatchImportRunner < JobRunner
         end
       end
     rescue
-      last_error = $!
+      # If we get to here, last_error will generally not have been set yet.  The
+      # conditional set is here to deal with code that does something like this:
+      #
+      #  DB.open do                 # Start a transaction (1)
+      #    BatchImportRunner#run    # Run this import process, which does another DB.open (2)
+      #    <run some other updates>
+      #  end
+      #
+      # The intention is to run the import and some related updates in a single
+      # transaction, but the result is surprising: if the BatchImportRunner
+      # fails for some reason, everything gets rolled back and the only error
+      # logged is a Sequel::Rollback.
+      #
+      # What's happening here is that DB.open (2) actually didn't establish a
+      # new transaction (since it was already running in a transaction) and, as
+      # a result, Sequel didn't set up the begin/rescue block needed to catch
+      # Sequel::Rollback.  So the rollback exception keeps bubbling up until
+      # it's caught by the block you're currently reading.  When this happens,
+      # last_error contains the real cause of the strife, and Sequel::Rollback
+      # should be ignored.
+
+      last_error ||= $!
     end
 
     if last_error
