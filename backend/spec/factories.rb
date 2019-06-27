@@ -852,8 +852,8 @@ FactoryBot.define do
   end
 
   factory :json_oai_config, class: JSONModel(:oai_config) do
-    oai_record_prefix 'archivesspace:oai'
-    oai_admin_email 'oairecord@example.org'
-    oai_repository_name 'ArchivesSpace OAI Repo'
+    oai_record_prefix { 'archivesspace:oai' }
+    oai_admin_email { 'oairecord@example.org' }
+    oai_repository_name { 'ArchivesSpace OAI Repo' }
   end
 end
