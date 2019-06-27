@@ -33,7 +33,7 @@ GEM
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (>= 0.0.9, < 0.2)
     method_source (0.9.2)
-    mime-types (3.1)
+    mime-types (3.2.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.0331)
     minitest (5.11.3)
@@ -105,7 +105,7 @@ DEPENDENCIES
   json (= 1.8.6)
   json-schema (= 1.0.10)
   mechanize
-  mime-types (= 3.1)
+  mime-types (~> 3.2, >= 3.2.2)
   multi_json (~> 1.13.1)
   multipart-post (= 1.2.0)
   net-http-persistent (= 2.8)
