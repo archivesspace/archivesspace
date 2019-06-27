@@ -29,6 +29,7 @@ gem "jruby-jars", "= 9.1.17.0"
 gem 'atomic', '~> 1.1', '>= 1.1.101'
 gem 'unicode-display_width', '~> 1.6'
 
+
 group :test do
   gem 'rspec', "~> 3.6.0"
   gem 'rspec-rails'
@@ -36,7 +37,7 @@ group :test do
 
   # selenium stuff
   gem "rspec-retry"
-  gem "selenium-webdriver", "= 3.6.0"
+  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem "parallel_tests", "~> 2.14.0"
 

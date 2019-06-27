@@ -6,7 +6,7 @@ gem "json", "1.8.6"
 gem "sinatra", '1.4.7', :require => false
 gem "sinatra-contrib", "1.4.7", :require => false
 gem 'activesupport', '5.0.7.2'
-gem "fog-aws", "2.0.0", :require => false
+gem 'fog-aws', '~> 3.5', '>= 3.5.1', :require => false
 gem 'multi_json', '~> 1.13.1'
 gem "mime-types", "3.1"
 gem "i18n", "0.9.1"

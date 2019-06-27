@@ -5,7 +5,7 @@ gem "sinatra", "1.4.7", :require => false
 gem "sinatra-contrib", "1.4.7", :require => false
 gem "sequel", "~> 4.20.0"
 gem "rack-session-sequel", "0.0.1"
-gem "jdbc-mysql", "5.1.13", :group => :development
+gem 'jdbc-mysql', '~> 5.1', '>= 5.1.47', :group => :development
 gem "jdbc-derby", "10.12.1.1"
 gem "bcrypt", "3.1.7"
 gem 'json', "1.8.6"

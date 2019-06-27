@@ -40,6 +40,8 @@ gem 'clipboard-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 
+
+
 # Enable support for `rails server`
 gem 'listen', group: :development
 
@@ -60,8 +62,8 @@ group :test do
   gem 'rails-controller-testing'
   gem 'simplecov', "0.7.1"
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
-  gem "fog-aws", "2.0.0", :require => false
-  gem "selenium-webdriver", "= 3.6.0"
+  gem 'fog-aws', '~> 3.5', '>= 3.5.1', :require => false
+  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'capybara', '3.12.0'
   gem 'launchy'
   gem 'axe-matchers'
