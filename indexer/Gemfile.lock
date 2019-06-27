@@ -7,7 +7,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     atomic (1.0.1-java)
-    backports (3.14.0)
+    backports (3.15.0)
     builder (3.2.3)
     concurrent-ruby (1.1.5)
     excon (0.64.0)
