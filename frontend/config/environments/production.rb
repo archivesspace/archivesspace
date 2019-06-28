@@ -1,4 +1,3 @@
-require 'aspace-rails/compressor'
 require 'aspace-rails/asset_path_rewriter'
 
 
@@ -31,8 +30,8 @@ ArchivesSpace::Application.configure do
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
-  config.assets.js_compressor = ASpaceCompressor.new(:js)
-  config.assets.css_compressor = ASpaceCompressor.new(:css)
+  config.assets.js_compressor = :uglifier
+  #config.assets.css_compressor = :yui not needed because including sass-rails gem
 
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
