@@ -963,7 +963,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/rubocop  ../public" />
+      <arg line="gems/bin/rubocop --safe-auto-correct ../public" />
     </java>
   </target>
 
@@ -975,7 +975,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/rubocop ../backend" />
+      <arg line="gems/bin/rubocop --safe-auto-correct ../backend" />
     </java>
   </target>
 
@@ -987,7 +987,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/rubocop ../frontend" />
+      <arg line="gems/bin/rubocop --safe-auto-correct ../frontend" />
     </java>
   </target>
 
@@ -999,10 +999,29 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/rubocop ../indxer" />
+      <arg line="gems/bin/rubocop --safe-auto-correct ../indexer" />
     </java>
   </target>
 
+  <target name="selenium:cop" depends="set-classpath" description="Run rubocop against selenium code" >
+    <property name="build.home" location="."/>
+    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="GEM_HOME" value="${gem_home}" />
+      <env key="GEM_PATH" value="" />
+      <env key="BUNDLE_PATH" value="${gem_home}" />
+      <env key="HOME" value="${build.home}" />
+      <arg line="gems/bin/rubocop --safe-auto-correct ../selenium" />
+    </java>
+  </target>
+
+  <target name="all:cops" description="Run Rubocop on major components">
+    <antcall target="public:cop" />
+    <antcall target="indexer:cop" />
+    <antcall target="staff:cop" />
+    <antcall target="backend:cop"/>
+    <antcall target="selenium:cop"/>
+  </target>
 
 
   <!-- Packaging -->
