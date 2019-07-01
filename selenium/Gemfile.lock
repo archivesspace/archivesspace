@@ -6,6 +6,7 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    ast (2.4.0)
     atomic (1.1.101-java)
     childprocess (1.0.1)
       rake (< 13.0)
@@ -21,6 +22,7 @@ GEM
       domain_name (~> 0.5)
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
+    jaro_winkler (1.5.3-java)
     json (1.8.6-java)
     json-schema (1.0.10)
     mechanize (2.7.6)
@@ -46,6 +48,8 @@ GEM
     parallel (1.17.0)
     parallel_tests (2.14.3)
       parallel
+    parser (2.6.3.0)
+      ast (~> 2.4.0)
     pry (0.11.3-java)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -58,6 +62,7 @@ GEM
     rack (1.6.11)
     rack-protection (1.5.5)
       rack
+    rainbow (3.0.0)
     rake (12.3.2)
     rspec (3.6.0)
       rspec-core (~> 3.6.0)
@@ -74,7 +79,15 @@ GEM
     rspec-retry (0.6.1)
       rspec-core (> 3.3)
     rspec-support (3.6.0)
+    rubocop (0.72.0)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.6)
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 1.7)
     ruby-debug-base (0.10.6-java)
+    ruby-progressbar (1.10.1)
     rubyzip (1.2.3)
     selenium-webdriver (3.142.3)
       childprocess (>= 0.5, < 2.0)
@@ -92,6 +105,7 @@ GEM
     tzinfo-data (1.2019.1)
       tzinfo (>= 1.0.0)
     unf (0.1.4-java)
+    unicode-display_width (1.6.0)
     webrobots (0.1.2)
 
 PLATFORMS
@@ -116,6 +130,7 @@ DEPENDENCIES
   pry-nav
   rspec (~> 3.6.0)
   rspec-retry
+  rubocop (~> 0.72.0)
   rubyzip (~> 1.2.2)
   selenium-webdriver (~> 3.142, >= 3.142.3)
   sinatra (= 1.4.7)

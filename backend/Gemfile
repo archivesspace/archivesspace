@@ -42,7 +42,7 @@ group :development, :test do
   gem "pry-debugger-jruby"
   gem 'pry'
   gem 'pry-nav'
-  gem 'rubocop', '~> 0.54.0', require: false
+  gem 'rubocop', '~> 0.72.0', require: false
 end
 
 gem "net-http-persistent", "2.8"

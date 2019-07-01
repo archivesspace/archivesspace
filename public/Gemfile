@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gem 'rails', '5.0.7.2'
 
+gem 'i18n', '0.9.1'
 gem 'loofah', '>= 2.2.3'
-gem "i18n", "0.9.1"
 gem 'rubyzip', '~> 1.2.2'
 
 gem 'nokogiri', '1.8.5'
 
 gem 'sprockets-rails', '2.3.3'
 
-gem "mizuno", "0.6.11"
 gem 'atomic', '~> 1.1', '>= 1.1.101'
+gem 'mizuno', '0.6.11'
 
 # use bootstrap's sass
 gem 'bootstrap-sass', '~> 3.3.6'
@@ -29,10 +31,10 @@ gem 'therubyrhino'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-gem "json", "1.8.6"
+gem 'json', '1.8.6'
 gem 'json-schema', '1.0.10'
-gem "net-http-persistent", "2.8"
-gem "multipart-post", "1.2.0"
+gem 'multipart-post', '1.2.0'
+gem 'net-http-persistent', '2.8'
 
 # support clipboard
 gem 'clipboard-rails'
@@ -40,31 +42,29 @@ gem 'clipboard-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 
-
-
 # Enable support for `rails server`
 gem 'listen', group: :development
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 group :development, :test do
   gem 'pry-debugger-jruby'
-  gem 'pry-rails'
   gem 'pry-nav'
-  gem 'rubocop', '~> 0.54.0', require: false
+  gem 'pry-rails'
+  gem 'rubocop', '~> 0.72.0', require: false
 end
 
 group :test do
-  gem 'rspec', "~> 3.6.0"
-  gem "rspec-retry"
-  gem 'rspec-rails'
-  gem 'rails-controller-testing'
-  gem 'simplecov', "0.7.1"
-  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
-  gem 'fog-aws', '~> 3.5', '>= 3.5.1', :require => false
-  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
-  gem 'capybara', '3.12.0'
-  gem 'launchy'
   gem 'axe-matchers'
+  gem 'capybara', '3.12.0'
+  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
+  gem 'fog-aws', '~> 3.5', '>= 3.5.1', require: false
+  gem 'launchy'
+  gem 'rails-controller-testing'
+  gem 'rspec', '~> 3.6.0'
+  gem 'rspec-rails'
+  gem 'rspec-retry'
+  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
+  gem 'simplecov', '0.7.1'
 end
