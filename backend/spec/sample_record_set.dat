@@ -119,6 +119,8 @@
             }
         ],
         "external_ids": [],
+        "finding_aid_language": "eng",
+        "finding_aid_script": "Latn",
         "id_0": "res001",
         "instances": [],
         "jsonmodel_type": "resource",
