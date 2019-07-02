@@ -93,6 +93,9 @@ module AspaceFactories
       sequence(:language) { sample(JSONModel(:language_and_script).schema['properties']['language']) }
       sequence(:script) { sample(JSONModel(:language_and_script).schema['properties']['script']) }
 
+      sequence(:finding_aid_language) { sample(JSONModel(:resource).schema['properties']['finding_aid_language']) }
+      sequence(:finding_aid_script) { sample(JSONModel(:resource).schema['properties']['finding_aid_script']) }
+
       sequence(:name_rule) {  ["local", "aacr", "dacs", "rda"].sample }
       sequence(:name_source) { ["local", "naf", "nad", "ulan"].sample }
       sequence(:generic_name) { SecureRandom.hex }
@@ -176,6 +179,9 @@ module AspaceFactories
         dates { [build(:date)] }
         level { "collection" }
         lang_materials { [build(:lang_material)] }
+        finding_aid_language {  [generate(:finding_aid_language)].sample  }
+        finding_aid_script {  [generate(:finding_aid_script)].sample  }
+        finding_aid_language_note { nil_or_whatever }
       end
 
       factory :resource_with_scope, class: JSONModel(:resource) do
@@ -185,6 +191,8 @@ module AspaceFactories
         dates { [build(:date)] }
         level { "collection" }
         lang_materials { [build(:lang_material)] }
+        finding_aid_language {  [generate(:finding_aid_language)].sample  }
+        finding_aid_script {  [generate(:finding_aid_script)].sample  }
         notes { [build(:json_note_multipart)] }
       end
 
@@ -273,7 +281,7 @@ module AspaceFactories
       factory :json_note_multipart, class: JSONModel(:note_multipart) do
         type { 'scopecontent' }
         subnotes { [ build(:json_note_text, :publish => true) ] }
-        publish { true } 
+        publish { true }
       end
 
       factory :json_note_text, class: JSONModel(:note_text) do

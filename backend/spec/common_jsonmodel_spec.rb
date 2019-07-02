@@ -350,6 +350,8 @@ describe 'JSON model' do
                                        "lang_materials" => [{"language_and_script" =>
                                                       {"language" => "eng",
                                                       "script" => "Latn"}}],
+                                       "finding_aid_language" => "eng",
+                                       "finding_aid_script" => "Latn",
                                        "dates" => [{"jsonmodel_type" => "date",
                                                       "expression" => "1666",
                                                      "date_type" => "single",
@@ -512,7 +514,7 @@ describe 'JSON model' do
     obj = JSONModel(:coolschema).from_hash(hash)
 
     hash = obj.to_hash_with_translated_enums(['linked_agent_role'])
-    
+
     expect(hash['linked_agents'].first['role']).to eq("Creator");
   end
 

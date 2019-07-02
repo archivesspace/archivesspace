@@ -1201,6 +1201,12 @@ ja:
       </p>"
     finding_aid_language: 説明の言語
     finding_aid_language_tooltip: "<p>リソース記述から生成された検索補助に存在するすべての言語を示します。 </p>"
+    finding_aid_script: 説明のスクリプト
+    finding_aid_script_tooltip: |
+        <p>リソース記述から生成された検索援助にあるすべてのスクリプトを示します。</p>
+    finding_aid_language_note: 説明の言語
+    finding_aid_language_note_tooltip: |
+        <p>リソースの説明から生成された検索援助に存在する言語に関するメモ。</p>
     finding_aid_sponsor: スポンサー
     finding_aid_sponsor_tooltip: "<p>発見援助の記述に貢献したスポンサーを示します。 </p>"
     finding_aid_edition_statement: エディション・ステートメント
