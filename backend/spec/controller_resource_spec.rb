@@ -19,13 +19,14 @@ describe 'Resources controller' do
                                                 "language_and_script" => {
                                                   "language" => "eng",
                                                   "script" => "Latn"}}],
+                                              "finding_aid_language" => "eng",
+                                              "finding_aid_script" => "Latn",
                                               "extents" => [{
                                                 "portion" => "whole",
                                                 "number" => "5 or so",
-                                                "extent_type" => "reels"}]
-                                              )
-    id = resource.save
+                                                "extent_type" => "reels"}])
 
+    id = resource.save
     expect(JSONModel(:resource).find(id).title).to eq("a resource")
   end
 
@@ -65,6 +66,22 @@ describe 'Resources controller' do
       create(:json_resource,
              :lang_materials => nil)
     }.to raise_error(JSONModel::ValidationException)
+   end
+
+
+  it "doesn't let you create a resource without a finding_aid_language" do
+    expect {
+      create(:json_resource,
+             :finding_aid_language => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource without a finding_aid_script" do
+    expect {
+      create(:json_resource,
+             :finding_aid_script => nil)
+    }.to raise_error(JSONModel::ValidationException)
   end
 
 
@@ -72,6 +89,14 @@ describe 'Resources controller' do
     expect {
       create(:json_resource,
              :lang_materials => [build(:json_lang_material, {:language_and_script => {:script=> 'scripty'}})])
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource with a finding_aid_language of klingon" do
+    expect {
+      create(:json_resource,
+             :finding_aid_language => "klingon")
     }.to raise_error(JSONModel::ValidationException)
   end
 

@@ -1201,6 +1201,12 @@ ja:
       </p>"
     finding_aid_language: 説明の言語
     finding_aid_language_tooltip: "<p>リソース記述から生成された検索補助に存在するすべての言語を示します。 </p>"
+    finding_aid_script: 説明のスクリプト
+    finding_aid_script_tooltip: |
+        <p>リソース記述から生成された検索援助にあるすべてのスクリプトを示します。</p>
+    finding_aid_language_note: 説明の言語
+    finding_aid_language_note_tooltip: |
+        <p>リソースの説明から生成された検索援助に存在する言語に関するメモ。</p>
     finding_aid_sponsor: スポンサー
     finding_aid_sponsor_tooltip: "<p>発見援助の記述に貢献したスポンサーを示します。 </p>"
     finding_aid_edition_statement: エディション・ステートメント
@@ -1503,6 +1509,7 @@ ja:
     max_length_is_50_characters: 50文字を超えてはいけません
     too_few_items: 少なくとも%{min_items}アイテムが必要です
     must_contain_at_least_one_subnote: 少なくとも1つのSub Noteを含む必要があります
+    must_contain_at_least_one_language: 少なくとも1つの言語を含める必要があります
     invalid_value: 値 '%{value}'が無効です。 '%{valid_set}'のいずれかである必要があります
     wrong_type: "%{desired_type} （あなたは%{actual_type}を提供しています）でなければなりません"
     must_be_one_of: "%{allowed_types} （あなたは%{actual_type}を提供しました）のいずれかでなければなりません"

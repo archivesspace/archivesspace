@@ -394,8 +394,12 @@ describe "EAD3 export mappings" do
     end
 
 
-    it "maps resource.finding_aid_language to profiledesc/language" do
-      mt(@resource.finding_aid_language, "control/languagedeclaration/language")
+    it "maps resource finding_aid_language fields to languagedeclaration fields" do
+      mt(I18n.t("enumerations.language_iso639_2.#{@resource.finding_aid_language}"), "control/languagedeclaration/language")
+      mt(@resource.finding_aid_language, "control/languagedeclaration/language", 'langcode')
+      mt(I18n.t("enumerations.script_iso15924.#{@resource.finding_aid_script}"), "control/languagedeclaration/script")
+      mt(@resource.finding_aid_script, "control/languagedeclaration/script", 'scriptcode')
+      mt(@resource.finding_aid_language_note, "control/languagedeclaration/descriptivenote")
     end
 
 

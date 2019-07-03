@@ -607,7 +607,9 @@ FactoryBot.define do
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language { nil_or_whatever }
+    finding_aid_language {  [generate(:finding_aid_language)].sample  }
+    finding_aid_script {  [generate(:finding_aid_script)].sample  }
+    finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }
@@ -625,7 +627,9 @@ FactoryBot.define do
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language { nil_or_whatever }
+    finding_aid_language {  [generate(:finding_aid_language)].sample  }
+    finding_aid_script {  [generate(:finding_aid_script)].sample  }
+    finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }

@@ -451,8 +451,7 @@ end
       expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}xxu/)
     end
 
-    # Skip until ANW-382 in core
-    xit "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
+    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
       expect(@marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text("xxu")
     end
   end
@@ -484,8 +483,7 @@ end
       expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}th/)
     end
 
-    # Skip until ANW-382 in core
-    xit "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
+    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
       expect(@marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text("th")
     end
   end
@@ -516,8 +514,7 @@ end
       JSONModel.set_repository($repo_id)
     end
 
-    # Skip until ANW-382 in core
-    xit "df 852: if parent name defined, $a gets parent org, $b gets repo name" do
+    it "df 852: if parent name defined, $a gets parent org, $b gets repo name" do
       df = @marc1.df('852', ' ', ' ')
       expect(df.sf_t('a')).to include(@parent_institution_name)
       expect(df.sf_t('b')).to eq(@name)
@@ -549,8 +546,7 @@ end
       JSONModel.set_repository($repo_id)
     end
 
-    # Skip until ANW-382 in core
-    xit "df 852: if parent org and repo_code UNdefined, $a repo name" do
+    it "df 852: if parent org and repo_code UNdefined, $a repo name" do
       df = @marc1.df('852', ' ', ' ')
       expect(df.sf_t('a')).to eq(@name)
     end
@@ -653,18 +649,14 @@ end
       expect(@marc1.at("record/controlfield")).to have_inner_text(/.{38}\sd/)
     end
 
-    # Skip until ANW-382 in core
-    xit "maps repository.org_code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfields a and c" do
+    it "maps repository.org_code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfields a and c" do
       org_code = JSONModel(:repository).find($repo_id).org_code
       expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(org_code)
       expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='c']")).to have_inner_text(org_code)
     end
 
-    # Skip until ANW-382 in core
-    xit "maps language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
-      org_code = JSONModel(:repository).find($repo_id).org_code
-
-      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']")).to have_inner_text(@resource1.language)
+    it "maps finding aid language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
+      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']")).to have_inner_text(@resource1.finding_aid_language)
     end
 
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
@@ -696,8 +688,7 @@ end
       expect(@marc1.at("datafield[@tag='099'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(ids)
     end
 
-    # Skip until ANW-382 in core
-    xit "df 852: $a should get org_code if org_code defined and parent_institution_name not" do
+    it "df 852: $a should get org_code if org_code defined and parent_institution_name not" do
       repo = JSONModel(:repository).find($repo_id)
 
       df = @marc1.df('852', ' ', ' ')
@@ -1297,8 +1288,7 @@ end
       @resource.delete
     end
 
-    # Skip until ANW-382 in core
-    xit "maps org_code to 049 tag" do
+    it "maps org_code to 049 tag" do
       expect(@marc.at("datafield[@tag='049'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(@org_code)
     end
   end

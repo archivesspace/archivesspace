@@ -1571,6 +1571,12 @@ es:
     finding_aid_language: Lengua del instrumento de descripción
     finding_aid_language_tooltip: |
         <p>Indica todas las lenguas presentes en el instrumento de descripción.</p>
+    finding_aid_script: Guión de Descripción
+    finding_aid_script_tooltip: |
+        <p>Indica todos los scripts presentes en la ayuda de búsqueda generada a partir de la descripción del recurso.</p>
+    finding_aid_language_note: Idioma de la descripción Nota
+    finding_aid_language_note_tooltip: |
+        <p>Notas sobre los idiomas presentes en la ayuda para la búsqueda generada a partir de la descripción del recurso.</p>
     finding_aid_sponsor: Patrocinador
     finding_aid_sponsor_tooltip: |
         <p>Indica patrocinadores que contribuyeron a la descripción.</p>
@@ -1957,6 +1963,7 @@ es:
     max_length_is_50_characters: No debe superar los 50 caracteres.
     too_few_items: "Por lo menos los elementos %{min_items} es necesario"
     must_contain_at_least_one_subnote: Debe contener al menos una nota secundaria
+    must_contain_at_least_one_language: Debe contener al menos un idioma
     invalid_value: "Valor no válido '%{valor}'. Debe ser uno de '%{valid_set}'"
     wrong_type: "Debe ser un %{desired_type} (proporcionó un %{actual_type})"
     must_be_one_of: "Debe ser uno de %{allowed_types} (proporcionó un %{actual_type})"
