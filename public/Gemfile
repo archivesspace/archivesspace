@@ -31,10 +31,10 @@ gem 'therubyrhino'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-gem 'json', '2.2.0'
+gem 'json', '1.8.6'
 gem 'json-schema', '1.0.10'
 gem 'multipart-post', '1.2.0'
-gem 'net-http-persistent', '3.0.1'
+gem 'net-http-persistent', '2.8'
 
 # support clipboard
 gem 'clipboard-rails'
@@ -62,9 +62,9 @@ group :test do
   gem 'fog-aws', '~> 3.5', '>= 3.5.1', require: false
   gem 'launchy'
   gem 'rails-controller-testing'
-  gem 'rspec', '~> 3.8'
+  gem 'rspec', '~> 3.6.0'
   gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
-  gem 'simplecov', '0.16.1'
+  gem 'simplecov', '0.7.1'
 end
