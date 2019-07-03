@@ -1509,6 +1509,7 @@ ja:
     max_length_is_50_characters: 50文字を超えてはいけません
     too_few_items: 少なくとも%{min_items}アイテムが必要です
     must_contain_at_least_one_subnote: 少なくとも1つのSub Noteを含む必要があります
+    must_contain_at_least_one_language: 少なくとも1つの言語を含める必要があります
     invalid_value: 値 '%{value}'が無効です。 '%{valid_set}'のいずれかである必要があります
     wrong_type: "%{desired_type} （あなたは%{actual_type}を提供しています）でなければなりません"
     must_be_one_of: "%{allowed_types} （あなたは%{actual_type}を提供しました）のいずれかでなければなりません"

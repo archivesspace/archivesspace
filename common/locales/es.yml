@@ -1963,6 +1963,7 @@ es:
     max_length_is_50_characters: No debe superar los 50 caracteres.
     too_few_items: "Por lo menos los elementos %{min_items} es necesario"
     must_contain_at_least_one_subnote: Debe contener al menos una nota secundaria
+    must_contain_at_least_one_language: Debe contener al menos un idioma
     invalid_value: "Valor no válido '%{valor}'. Debe ser uno de '%{valid_set}'"
     wrong_type: "Debe ser un %{desired_type} (proporcionó un %{actual_type})"
     must_be_one_of: "Debe ser uno de %{allowed_types} (proporcionó un %{actual_type})"

@@ -151,6 +151,25 @@ module JSONModel::Validations
   end
 
 
+  def self.check_language(hash)
+    langs = hash['lang_materials'].map {|l| l['language_and_script']}.compact.reject {|e|  e == [] }.flatten
+
+    errors = []
+
+    if langs == []
+      errors << :must_contain_at_least_one_language
+    end
+
+    errors
+  end
+
+  if JSONModel(:resource)
+    JSONModel(:resource).add_validation("check_language") do |hash|
+      check_language(hash)
+    end
+  end
+
+
   def self.check_rights_statement(hash)
     errors = []
 
@@ -241,7 +260,7 @@ module JSONModel::Validations
 
     errors
   end
-    
+
 
   if JSONModel(:instance)
     JSONModel(:instance).add_validation("check_instance") do |hash|
@@ -279,7 +298,7 @@ module JSONModel::Validations
 
       # Ensure depth, width and height have no more than 2 decimal places
       ["depth", "width", "height"].each do |k|
-        if hash[k] !~  /^\s*(?=.*[0-9])\d*(?:\.\d{1,2})?\s*$/   
+        if hash[k] !~  /^\s*(?=.*[0-9])\d*(?:\.\d{1,2})?\s*$/
           errors << [k, "must be a number with no more than 2 decimal places"]
         end
       end
@@ -305,7 +324,7 @@ module JSONModel::Validations
     if !hash["processing_total_extent"].nil? and hash["processing_total_extent_type"].nil?
       errors << ["processing_total_extent_type", "is required if total extent is specified"]
     end
-    
+
     [ "processing_hours_per_foot_estimate", "processing_total_extent", "processing_hours_total"  ].each do |k|
         if !hash[k].nil? and hash[k] !~ /^\-?\d{0,9}(\.\d{1,5})?$/
                   errors << [k, "must be a number with no more than nine digits and five decimal places"]

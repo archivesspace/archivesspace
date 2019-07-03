@@ -1983,6 +1983,7 @@ en:
     max_length_is_50_characters: Must not exceed 50 characters
     too_few_items: At least %{min_items} item(s) is required
     must_contain_at_least_one_subnote: Must contain at least one Sub Note
+    must_contain_at_least_one_language: Must contain at least one Language
     invalid_value: Invalid value '%{value}'. Must be one of '%{valid_set}'
     wrong_type: Must be a %{desired_type} (you provided a %{actual_type})
     must_be_one_of: Must be one of %{allowed_types} (you provided a %{actual_type})
