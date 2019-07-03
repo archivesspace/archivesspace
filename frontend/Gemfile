@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '5.0.7.2'
 
 gem 'loofah', '>= 2.2.3'
-gem "i18n", "0.9.1"
+gem 'i18n', '0.9.1'
 gem 'rails-html-sanitizer', '~> 1.0.4'
 gem 'sprockets-rails', '2.3.3'
 
@@ -22,24 +22,24 @@ gem 'less-rails-bootstrap'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem "json", "1.8.6"
+gem 'json', '2.2.0'
 gem 'json-schema', '1.0.10'
 
-gem "jruby-jars", "= 9.1.17.0"
+gem 'jruby-jars', '= 9.1.17.0'
 gem 'atomic', '~> 1.1', '>= 1.1.101'
 gem 'unicode-display_width', '~> 1.6'
 
 
 group :test do
-  gem 'rspec', "~> 3.6.0"
+  gem 'rspec', '~> 3.8'
   gem 'rspec-rails'
-  gem 'simplecov', "0.7.1"
+  gem 'simplecov', '0.16.1'
 
   # selenium stuff
-  gem "rspec-retry"
+  gem 'rspec-retry'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
-  gem "parallel_tests", "~> 2.14.0"
+  gem 'parallel_tests', '~> 2.29', '>= 2.29.1'
 
   # need access to ActiveSupport for helpers
   gem 'activesupport', '5.0.7.2'
@@ -52,14 +52,14 @@ group :development, :test do
   gem 'rubocop', '~> 0.72.0', require: false
 end
 
-gem "mizuno", "0.6.11"
+gem 'mizuno', '0.6.11'
 
-gem "net-http-persistent", "2.8"
-gem "multipart-post", "1.2.0"
+gem 'net-http-persistent', '3.0.1'
+gem 'multipart-post', '1.2.0'
 gem 'multi_json', '~> 1.13.1'
 
 gem 'rubyzip', '~> 1.2.2'
-gem "zip-zip", "0.3"
+gem 'zip-zip', '0.3'
 
 gem 'nokogiri', '1.8.5'
 
