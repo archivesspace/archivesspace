@@ -1,7 +1,6 @@
 require_relative 'utils'
 
 def create_language_record_from_language_id(record_type, dataset, language_id)
-
   dataset.each do |row|
 
     linked_record_id = self[record_type].filter(:id => row[:id]).get(:id)
@@ -23,7 +22,6 @@ def create_language_record_from_language_id(record_type, dataset, language_id)
                           :system_mtime => row[:system_mtime],
                           :user_mtime => row[:user_mtime]
                         )
-
   end
 end
 
@@ -31,7 +29,7 @@ def migrate_langmaterial_notes
 
   # Find all langmaterial notes
   self[:note].each do |note_id|
-    if note_id[:notes].lit.include?("langmaterial")
+    if note_id[:notes].lit.include?('langmaterial')
 
       [ :resource_id, :archival_object_id, :digital_object_id, :digital_object_component_id  ].each do |obj|
         record_id = note_id[obj]
@@ -46,7 +44,7 @@ def migrate_langmaterial_notes
               :user_mtime => note_id[:user_mtime]
               )
 
-          new_note = note_id[:notes].lit.gsub("note_singlepart", "note_langmaterial")
+          new_note = note_id[:notes].lit.gsub('note_singlepart', 'note_langmaterial')
 
           # Switch note from linking to resource to linking to the new language record
           self[:note].filter(:id => note_id[:id]).update(
@@ -55,13 +53,9 @@ def migrate_langmaterial_notes
             :notes => new_note.to_sequel_blob
             )
         end
-
       end
-
     end
-
   end
-
 end
 
 Sequel.migration do
@@ -111,32 +105,23 @@ Sequel.migration do
       add_foreign_key([:lang_material_id], :lang_material, :key => :id)
     end
 
-    create_enum("note_langmaterial_type", ["langmaterial"])
+    create_enum('note_langmaterial_type', ['langmaterial'])
 
-    # take all values from language_id and turn them into language sub-records
-    language_enum = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
-
-    create_language_record_from_language_id(:resource, self[:resource].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
-
-    create_language_record_from_language_id(:archival_object, self[:archival_object].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
-    #
-    create_language_record_from_language_id(:digital_object, self[:digital_object].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
-
-    create_language_record_from_language_id(:digital_object_component, self[:digital_object_component].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
-
-    # Drop old language_id column
     [:resource, :archival_object, :digital_object, :digital_object_component].each do |record|
-      alter_table(record) do
-        drop_foreign_key(:language_id)
-      end
+      # take all values from language_id and turn them into language sub-records
+      language_enum = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
+      create_language_record_from_language_id(record, self[record].filter( Sequel.~(:language_id => nil)), self[:enumeration_value].filter( :enumeration_id => language_enum).get(:id))
+      # Drop old language_id column
+        alter_table(record) do
+          drop_foreign_key(:language_id)
+        end
     end
 
     migrate_langmaterial_notes
 
     # Drop old langmaterial note from note_singlepart_type enumerations list
-    enum = self[:enumeration].filter(:name => 'note_singlepart_type').select(:id)
-    langmaterial = self[:enumeration_value].where(:value => 'langmaterial', :enumeration_id => enum ).select(:id)
-    $stderr.puts("Deleting enumeration_id for old langmaterial note")
+    enum = self[:enumeration].filter(:name => 'note_singlepart_type').get(:id)
+    langmaterial = self[:enumeration_value].where(:value => 'langmaterial', :enumeration_id => enum )
     langmaterial.delete
 
   end
