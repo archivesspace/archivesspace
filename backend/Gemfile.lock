@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/hudmol/map_validator.git
-  revision: 7dc1842ecccabc39c4338e11f58c676b4bf1d4ff
+  revision: 9787ea2799551e68816b2a8eb5cca1b2e4ebf84a
   tag: master
   specs:
     map_validator (0.0.1)
