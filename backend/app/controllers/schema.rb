@@ -54,19 +54,25 @@ class ArchivesSpaceService < Sinatra::Base
     skipped_fields = ['uri', 'lock_version', 'jsonmodel_type', 'created_by', 'last_modified_by', 'user_mtime', 'system_mtime', 'create_time', 'history']
 
     csv = CSV.generate do |csv|
-      csv << ["Record type", "Field name", "Field type", "What happens when missing?"]
+      csv << ["Record type", "Field name", "Field type", "What happens when missing?", "read-only?"]
 
       JSONModel.models.each do |jsonmodel_name, jsonmodel|
         next if jsonmodel_name.start_with?('abstract_')
         jsonmodel.schema['properties'].each do |property, property_def|
-          next if property_def['readonly'].to_s == 'true'
-
           next if skipped_fields.include?(property)
+
+          readonly_status = if property == 'qsa_id'
+                              "sort of"
+                            else
+                              property_def['readonly'].to_s == 'true' ? 'yes' : 'no'
+                            end
+
           row = [
             jsonmodel_name.to_s,
             property,
             schema_format_type(property_def),
             property_def['readonly'].to_s == 'true' ? '-' : property_def.fetch('ifmissing', 'ignore'),
+            readonly_status
           ]
 
           csv << row

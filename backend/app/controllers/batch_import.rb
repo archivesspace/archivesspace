@@ -79,6 +79,13 @@ class ArchivesSpaceService < Sinatra::Base
         batch = nil if !success && DB.supports_mvcc?
       end
 
+      if last_error
+        $stderr.puts("=======================")
+        $stderr.puts("SOMETHING BAD HAPPENED")
+        $stderr.puts(last_error.backtrace)
+        $stderr.puts("=======================")
+      end
+
 
       results = {:saved => []}
 
