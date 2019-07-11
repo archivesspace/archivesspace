@@ -3,8 +3,8 @@
 <project name="ArchivesSpace" default="help">
 
   <!-- Don't forget to change any jruby versions in any Gemfiles! -->
-  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.1.17.0/jruby-complete-9.1.17.0.jar" />
-  <property name="jruby_file" value="jruby-complete-9.1.17.0.jar" />
+  <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.2.6.0/jruby-complete-9.2.6.0.jar" />
+  <property name="jruby_file" value="jruby-complete-9.2.6.0.jar" />
 
   <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
@@ -761,7 +761,7 @@
     <copy file="scripts/checkindex.rb" todir="target/archivesspace/scripts/rb" />
 
     <copy todir="target/archivesspace/gems">
-      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-9.1.17.0/lib/*.dev.jar,gems/**/spec/,gems/warbler-*" />
+      <fileset dir="gems" excludes="cache/*,doc/*,gems/jruby-jars-9.2.6.0/lib/*.dev.jar,gems/**/spec/,gems/warbler-*" />
     </copy>
 
     <copy todir="target/archivesspace/launcher">

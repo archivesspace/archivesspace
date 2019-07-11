@@ -24,7 +24,7 @@ goto STARTUP
 
 :NOJAVA
 echo *** Could not run your 'java' executable.
-echo *** Please ensure that Java 1.7 or 1.8 is installed on your machine.
+echo *** Please ensure that Java 1.8 or 11 is installed on your machine.
 goto END
 
 

@@ -7,7 +7,7 @@ gem 'bcrypt', '3.1.7'
 gem 'i18n', '0.9.1'
 gem 'jdbc-derby', '10.12.1.1'
 gem 'jdbc-mysql', '~> 5.1', '>= 5.1.47', group: :development
-gem 'jruby-jars', '= 9.1.17.0'
+gem 'jruby-jars', '= 9.2.6.0'
 gem 'json', '1.8.6'
 gem 'json-schema', '1.0.10'
 gem 'mizuno', '0.6.11'

@@ -28,7 +28,7 @@ gem 'json', '1.8.6'
 gem 'json-schema', '1.0.10'
 
 gem 'atomic', '~> 1.1', '>= 1.1.101'
-gem 'jruby-jars', '= 9.1.17.0'
+gem 'jruby-jars', '= 9.2.6.0'
 gem 'unicode-display_width', '~> 1.6'
 
 group :test do

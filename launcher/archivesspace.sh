@@ -62,7 +62,7 @@ java -version &>/dev/null
 
 if [ "$?" != "0" ]; then
     echo "Could not run your 'java' executable."
-    echo "Please ensure that Java 1.7 or 1.8 is installed and on your PATH"
+    echo "Please ensure that Java 1.8 or 11 is installed and on your PATH"
     exit
 fi
 
