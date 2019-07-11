@@ -1,61 +1,62 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
 
 gem 'atomic', '~> 1.1', '>= 1.1.101'
-gem "sinatra", "1.4.7", :require => false
-gem "sinatra-contrib", "1.4.7", :require => false
-gem "sequel", "~> 4.20.0"
-gem "rack-session-sequel", "0.0.1"
-gem 'jdbc-mysql', '~> 5.1', '>= 5.1.47', :group => :development
-gem "jdbc-derby", "10.12.1.1"
-gem "bcrypt", "3.1.7"
-gem 'json', "1.8.6"
-gem "json-schema", "1.0.10"
-gem "jruby-jars", "= 9.1.17.0"
+gem 'bcrypt', '3.1.7'
+gem 'i18n', '0.9.1'
+gem 'jdbc-derby', '10.12.1.1'
+gem 'jdbc-mysql', '~> 5.1', '>= 5.1.47', group: :development
+gem 'jruby-jars', '= 9.1.17.0'
+gem 'json', '1.8.6'
+gem 'json-schema', '1.0.10'
+gem 'mizuno', '0.6.11'
+gem 'net-ldap', '~> 0.16.0'
 gem 'nokogiri', '1.8.5'
-gem "saxerator", "= 0.9.2"
+gem 'rack-session-sequel', '0.0.1'
+gem 'rufus-lru', '1.0.5'
+gem 'rufus-scheduler', '~> 2.0.24'
+gem 'saxerator', '= 0.9.2'
 gem 'saxon-xslt', '~> 0.8', '>= 0.8.2.1'
+gem 'sequel', '~> 4.20.0'
+gem 'sinatra', '1.4.7', require: false
+gem 'sinatra-contrib', '1.4.7', require: false
 gem 'tzinfo'
-gem "rufus-scheduler", "~> 2.0.24"
-gem "rufus-lru", "1.0.5"
-gem "net-ldap", '~> 0.16.0'
-gem "mizuno", "0.6.11"
-gem "i18n", "0.9.1"
 
-gem "warbler", "2.0.4", :group => :build
+gem 'warbler', '2.0.4', group: :build
 
-gem "oai", "0.4.0"
 gem 'activesupport', '5.0.7.2'
+gem 'oai', '0.4.0'
 
-gem "rrtf"
-gem 'unicode-display_width', '~> 1.6'
 gem 'rack-test', '~> 0.6.3'
+gem 'rrtf'
+gem 'unicode-display_width', '~> 1.6'
 
 group :test do
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
-  gem "rspec", "~> 3.6.0"
-  gem "rspec-core"
   gem 'ladle', '~> 1.0', '>= 1.0.1'
-  gem "simplecov", "0.7.1"
+  gem 'rspec', '~> 3.6.0'
+  gem 'rspec-core'
+  gem 'simplecov', '0.7.1'
 end
 
 group :development, :test do
-  gem "pry-debugger-jruby"
   gem 'pry'
+  gem 'pry-debugger-jruby'
   gem 'pry-nav'
   gem 'rubocop', '~> 0.72.0', require: false
 end
 
-gem "net-http-persistent", "2.8"
-gem "multipart-post", "1.2.0"
 gem 'multi_json', '~> 1.13.1'
-gem "rjack-jackson", "1.8.11.0"
-
+gem 'multipart-post', '1.2.0'
+gem 'net-http-persistent', '2.8'
+gem 'rjack-jackson', '1.8.11.0'
 
 gem 'rubyzip', '~> 1.2.2'
-gem "zip-zip", "0.3"
+gem 'zip-zip', '0.3'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Allow plugins to provide their own Gemfiles too.
 require 'asutils'
