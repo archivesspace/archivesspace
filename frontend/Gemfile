@@ -64,6 +64,8 @@ gem 'zip-zip', '0.3'
 
 gem 'nokogiri', '1.8.5'
 
+gem 'csv', '~> 3.0'
+
 require 'asutils'
 
 # Allow plugins to provide their own Gemfiles too.
