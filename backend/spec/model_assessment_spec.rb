@@ -139,7 +139,7 @@ describe 'Assessment model' do
         'surveyed_by' => [{'ref' => surveyor.uri}],
         'monetary_value' => 'not a decimal',
       }))
-    }.to raise_error(JSONModel::ValidationException)
+    }.to raise_error(ArgumentError)
 
     # too many decimal places
     expect {

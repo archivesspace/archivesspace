@@ -24,7 +24,7 @@ gem 'less-rails-bootstrap'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'json', '1.8.6'
+gem 'json', '2.2.0'
 gem 'json-schema', '1.0.10'
 
 gem 'atomic', '~> 1.1', '>= 1.1.101'
@@ -32,13 +32,13 @@ gem 'jruby-jars', '= 9.2.6.0'
 gem 'unicode-display_width', '~> 1.6'
 
 group :test do
-  gem 'rspec', '~> 3.6.0'
+  gem 'rspec', '~> 3.8'
   gem 'rspec-rails'
-  gem 'simplecov', '0.7.1'
+  gem 'simplecov', '0.16.1'
 
   # selenium stuff
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
-  gem 'parallel_tests', '~> 2.14.0'
+  gem 'parallel_tests', '~> 2.29', '>= 2.29.1'
   gem 'rspec-retry'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
 
