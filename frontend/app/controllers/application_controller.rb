@@ -547,8 +547,12 @@ class ApplicationController < ActionController::Base
       schema['properties'].each do |property, definition|
         if definition['type'] == 'integer'
           if hash.has_key?(property) && hash[property].is_a?(String)
-            if (i = hash[property].to_i) && i > 0
-              hash[property] = i
+            begin
+              value = Integer(hash[property])
+              if value >= 0 # exclude negative numbers for legacy reasons
+                hash[property] = value
+              end
+            rescue ArgumentError
             end
           end
         end
