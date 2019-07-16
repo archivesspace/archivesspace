@@ -81,7 +81,7 @@ var init = function() {
 
     };
 
-    var initPrintToPdfJobForm = function() {
+    var initSourceJobForm = function() {
         $("#job_ref_").attr("name", "job[source]").attr("id", "job_source_");
     };
 
@@ -382,8 +382,10 @@ var init = function() {
 
     if (type == "report_job") {
         initReportJobForm();
+    } else if (type == "container_labels_job") {
+        initSourceJobForm();
     } else if (type == "print_to_pdf_job") {
-        initPrintToPdfJobForm();
+        initSourceJobForm();
     } else if (type == "find_and_replace_job") {
         initFindAndReplaceJobForm();
     } else if (type == "import_job") {

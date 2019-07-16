@@ -89,12 +89,8 @@ class OAIMODSMapper
               xml.note({'type' => 'organization'}, content)
             when 'altformavail'
               xml.note({'type' => 'additionalform'}, content)
-            when 'altformavail'
-              xml.note({'type' => 'additionalform'}, content)
             when 'accessrestrict'
               xml.accessCondition({'type' => 'restrictionOnAccess'}, content)
-            when 'userestrict'
-              xml.accessCondition({'type' => 'useAndReproduction'}, content)
             when 'userestrict'
               xml.accessCondition({'type' => 'useAndReproduction'}, content)
             when 'accruals'

@@ -27,7 +27,7 @@ module ExportHelpers
 
 
   def tsv_response(tsv)
-    [status, {"Content-Type" => "text/tab-separated-values"}, [tsv + "\n"]]
+    [status, {"Content-Type" => "text/tab-separated-values"}, tsv.stream]
   end
 
 
@@ -36,7 +36,7 @@ module ExportHelpers
     obj = resolve_references(Resource.to_jsonmodel(resource), ['repository'])
     labels = ASpaceExport.model(:labels).from_resource(JSONModel(:resource).new(obj),
                                                        resource.tree(:all, mode = :sparse))
-    ASpaceExport::serialize(labels, :serializer => :tsv)
+    labels
   end
 
 

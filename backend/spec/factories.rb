@@ -737,6 +737,10 @@ FactoryBot.define do
     filenames { (0..3).map { generate(:alphanumstr) } }
   end
 
+  factory :json_container_labels_job, class: JSONModel(:container_labels_job) do
+    source  { create(:json_resource).uri }
+  end
+
   factory :json_print_to_pdf_job, class: JSONModel(:print_to_pdf_job) do
     source  { create(:json_resource).uri }
   end

@@ -63,7 +63,7 @@
         </section>
 
 
-        <% if @agent.agent_contacts.length > 0 %>
+        <% if @agent.agent_contacts.length > 0 && user_can?('view_agent_contact_record') %>
           <%= render_aspace_partial :partial => "agents/contact_details" %>
 
           <section id="<%= @agent.agent_type %>_contact_details">

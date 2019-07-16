@@ -121,9 +121,7 @@ class Resource < Record
       subj['authority_id'] ? subj['authority_id'] : subj['title']
     }
 
-    #will need to update once more than one language code is allowed
-    #sounds like Lora has already done that!
-    if raw['language']
+    if !raw['language'].blank?
          md['inLanguage'] = {
            '@type' => 'Language',
            'name' => I18n.t("enumerations.language_iso639_2.#{raw['language']}", :default => raw['language'])
