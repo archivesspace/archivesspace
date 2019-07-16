@@ -2015,6 +2015,7 @@ fr:
     _plural: Tâches d'arrière-plan
     job_type: Type de tâche
     types:
+      container_labels_job: Container Labels
       print_to_pdf_job: Générer un PDF
       import_job: Importer des données
       find_and_replace_job: Rechercher et remplacer en masse (Bêta)
