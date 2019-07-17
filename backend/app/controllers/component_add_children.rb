@@ -164,6 +164,18 @@ class ArchivesSpaceService < Sinatra::Base
   private
 
   def accept_children_response(target_class, child_class)
+    result = TreeReordering.new.
+               reorder(target_class, child_class, params[:id],
+                       Array(params[:children]).map {|child_uri|
+                         child_class.my_jsonmodel.id_for(child_uri)
+                       },
+                       params[:position])
+
+    updated_response(result)
+  end
+
+
+  def accept_children_response_dead(target_class, child_class)
     target = target_class.get_or_die(params[:id])
 
     unless params[:children].empty?
