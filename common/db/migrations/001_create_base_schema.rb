@@ -513,9 +513,6 @@ Sequel.migration do
     alter_table(:instance_do_link_rlshp) do
       add_foreign_key([:digital_object_id], :digital_object, :key => :id)
       add_foreign_key([:instance_id], :instance, :key => :id)
-    end    alter_table(:instance_do_link_rlshp) do
-      add_foreign_key([:digital_object_id], :digital_object, :key => :id)
-      add_foreign_key([:instance_id], :instance, :key => :id)
     end
 
 
