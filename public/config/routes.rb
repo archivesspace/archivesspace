@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
     get '/welcome', to: 'welcome#show'
 
+    get '/*ark_tag/:naan/:id' => 'ark_name#show', constraints: { ark_tag: 'ark:' }
+
     # I don't think this is used anywhere...
     post '/cite', to: 'cite#show'
 
@@ -92,7 +94,6 @@ Rails.application.routes.draw do
     get "repositories/:rid/:obj_type/:id" => 'objects#show'
     get "repositories/:rid/objects" => 'objects#index'
     get "repositories/:rid/records" => 'objects#index'
-
 
     # OTHER (NOT SLUGGED YET)
 

@@ -509,6 +509,7 @@ en:
         save: Save Software
 
   archival_object:
+    external_ark_url: External ARK URL
     _frontend:
       messages:
         created: Archival Object <strong>%{archival_object.display_string}</strong> on Resource <strong>%{resource.title}</strong> created
@@ -873,6 +874,7 @@ en:
         create: Create Resource
         save: Save Resource
         delete_multiple: Delete Resources
+    external_ark_url: External ARK URL
 
   preference:
     _frontend:

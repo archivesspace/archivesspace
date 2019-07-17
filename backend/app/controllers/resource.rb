@@ -23,6 +23,8 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "(:resource)"]) \
   do
     json = Resource.to_jsonmodel(params[:id])
+    ark = ARKName.first(:resource_id => params[:id])
+    json["ark_name"] = ARKName.to_jsonmodel(ark[:id])
 
     json_response(resolve_references(json, params[:resolve]))
   end

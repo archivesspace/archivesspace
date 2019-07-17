@@ -50,6 +50,7 @@ FactoryBot::Syntax::Default::DSL.send(:include, FactoryBotSyntaxHelpers)
 FactoryBot.define do
 
   sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(1000):(65 + rand(25)).chr }.join }
+  sequence(:ark_name) { sample(JSONModel(:ark_name).schema['properties']) }
   sequence(:number) { rand(100).to_s }
 
   sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']) }

@@ -420,4 +420,26 @@ describe 'ArchivalObject model' do
     end
   end
 
+  it "creates an ARK name with archival object" do
+    ao = ArchivalObject.create_from_json(
+                                          build(
+                                                :json_archival_object,
+                                                :title => 'A new archival object'
+                                                ),
+                                          :repo_id => $repo_id)
+    expect(ARKName.first(:archival_object_id => ao.id)).to_not be_nil
+    ao.delete
+  end
+
+  it "deletes ARK Name when resource is deleted" do
+    ao = ArchivalObject.create_from_json(
+                                          build(
+                                                :json_archival_object,
+                                                :title => 'A new archival object'
+                                                ),
+                                          :repo_id => $repo_id)
+    expect(ARKName.first(:archival_object_id => ao[:id])).to_not be_nil
+    ao.delete
+    expect(ARKName.first(:archival_object_id => ao[:id])).to be_nil
+  end
 end

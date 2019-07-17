@@ -620,6 +620,25 @@ FactoryBot.define do
     revision_statements {  [build(:json_revision_statement)]  }
   end
 
+  factory :json_resource_blank_ead_location, class: JSONModel(:resource) do
+    title { "Resource #{generate(:html_title)}" }
+    id_0 { generate(:alphanumstr) }
+    extents { [build(:json_extent)] }
+    level { generate(:archival_record_level) }
+    language { generate(:language) }
+    dates { [build(:json_date), build(:json_date_single)] }
+    finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
+    ead_id { nil_or_whatever }
+    finding_aid_date { generate(:alphanumstr) }
+    finding_aid_series_statement { generate(:alphanumstr) }
+    finding_aid_language {  [generate(:finding_aid_language)].sample  }
+    finding_aid_script {  [generate(:finding_aid_script)].sample  }
+    finding_aid_language_note { nil_or_whatever }
+    finding_aid_note { generate(:alphanumstr) }
+    ead_location { nil }
+    instances { [ build(:json_instance) ] }
+    revision_statements {  [build(:json_revision_statement)]  }
+  end
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
     date { generate(:alphanumstr) }
     description { generate(:alphanumstr) }
@@ -852,8 +871,8 @@ FactoryBot.define do
   end
 
   factory :json_oai_config, class: JSONModel(:oai_config) do
-    oai_record_prefix 'archivesspace:oai'
-    oai_admin_email 'oairecord@example.org'
-    oai_repository_name 'ArchivesSpace OAI Repo'
+    oai_record_prefix { 'archivesspace:oai' }
+    oai_admin_email { 'oairecord@example.org' }
+    oai_repository_name { 'ArchivesSpace OAI Repo' }
   end
 end

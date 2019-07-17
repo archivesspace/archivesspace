@@ -68,15 +68,15 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def handle_linebreaks(content)
-    # 4archon... 
-    content.gsub!("\n\t", "\n\n")  
+    # 4archon...
+    content.gsub!("\n\t", "\n\n")
     # if there's already p tags, just leave as is
     return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 )
     original_content = content
     blocks = content.split("\n\n").select { |b| !b.strip.empty? }
     if blocks.length > 1
-      content = blocks.inject("") do |c,n| 
-        c << "<p>#{escape_content(n.chomp)}</p>"  
+      content = blocks.inject("") do |c,n|
+        c << "<p>#{escape_content(n.chomp)}</p>"
       end
     else
       content = "<p>#{escape_content(content.strip)}</p>"
@@ -488,7 +488,7 @@ class EADSerializer < ASpaceExport::Serializer
 
   # set daoloc audience attr == 'internal' if this is an unpublished && include_unpublished is set
   def get_audience_flag_for_file_version(file_version)
-    if file_version['file_uri'] && 
+    if file_version['file_uri'] &&
        (file_version['publish'] == false && @include_unpublished)
       return "internal"
     else
@@ -500,7 +500,7 @@ class EADSerializer < ASpaceExport::Serializer
     return if digital_object["publish"] === false && !@include_unpublished
     return if digital_object["suppressed"] === true
 
-    # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set 
+    # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set
     file_versions_to_display = digital_object['file_versions'].select {|fv| fv['publish'] == true || @include_unpublished }
 
     title = digital_object['title']
@@ -537,7 +537,7 @@ class EADSerializer < ASpaceExport::Serializer
       atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
       atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
       atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
-      atts['xlink:href'] = file_version['file_uri'] 
+      atts['xlink:href'] = file_version['file_uri']
       atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
@@ -547,7 +547,7 @@ class EADSerializer < ASpaceExport::Serializer
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         file_versions_to_display.each do |file_version|
           atts['xlink:type'] = 'locator'
-          atts['xlink:href'] = file_version['file_uri'] 
+          atts['xlink:href'] = file_version['file_uri']
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
           atts['xlink:title'] = file_version['caption'] if file_version['caption']
           atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
@@ -720,6 +720,9 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def serialize_eadheader(data, xml, fragments)
+    eadid_url = AppConfig[:arks_enabled] ?
+                  ARKName::get_ark_url(data.id, :resource) :
+                  data.ead_location
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",
                       :countryencoding => "iso3166-1",
@@ -729,7 +732,7 @@ class EADSerializer < ASpaceExport::Serializer
     xml.eadheader(eadheader_atts) {
 
       eadid_atts = {:countrycode => data.repo.country,
-              :url => data.ead_location,
+              :url => eadid_url,
               :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil? || v.empty? || v == "null" }
 
       xml.eadid(eadid_atts) {

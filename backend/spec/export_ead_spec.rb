@@ -213,10 +213,14 @@ describe "EAD export mappings" do
       as_test_user("admin") do
         DB.open(true) do
           load_export_fixtures
+          AppConfig[:arks_enabled] = true
           @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
 
           @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
 
+          AppConfig[:arks_enabled] = false
+          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+          AppConfig[:arks_enabled] = true
 
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
@@ -800,7 +804,9 @@ describe "EAD export mappings" do
     end
 
     it "maps resource.ead_location to eadid/@url" do
-      mt(@resource.ead_location, "eadheader/eadid", 'url')
+      if !AppConfig[:arks_enabled]
+        mt(@resource.ead_location, "eadheader/eadid", 'url')
+      end
     end
 
     it "maps resource.ead_id to eadid" do
@@ -989,6 +995,17 @@ describe "EAD export mappings" do
     end
   end
 
+  describe "ARK URLs" do
+    it "maps ARK URL to a dao tag if ARK URLs are enabled" do
+      expect(@doc.to_s).to match(/<eadid.*url=\"http.*\/ark:/)
+    end
+    it "does not map ARK URL to a dao tag if ARK URLs are disabled" do
+      expect(@doc_ark_disabled.to_s).to_not match(/<eadid.*url=\"http.*\/ark:/)
+    end
+    it "maps resource.ead_location to eadid/@url if ARK URLs are disabled" do
+      expect(@doc_ark_disabled.to_s).to match(/<eadid.*url=\"#{@resource.ead_location}/)
+    end
+  end
 
   describe "How digital_objects are mapped to <dao> nodes >> " do
     let(:digital_objects) { @digital_objects.values }

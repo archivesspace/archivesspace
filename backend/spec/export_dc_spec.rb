@@ -120,6 +120,10 @@ describe "Exported Dublin Core metadata" do
       expect(@dc).to have_tag "dc/language" => @digital_object.language
     end
 
+    it "maps to identifier" do
+      pending "missing test"
+      expect(false).to eq(true)
+    end
 
     it "maps dates to date" do
       @digital_object.dates.each do |date|

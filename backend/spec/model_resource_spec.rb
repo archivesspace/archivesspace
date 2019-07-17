@@ -9,8 +9,23 @@ describe 'Resource model' do
     resource = create_resource(opts)
 
     expect(Resource[resource[:id]].title).to eq(opts[:title])
+    resource.delete
   end
 
+  it "creates an ARK name with resource" do
+    opts = {:title => generate(:generic_title)}
+    resource = create_resource(opts)
+    expect(ARKName.first(:resource_id => resource.id)).to_not be_nil
+    resource.delete
+  end
+  it "deletes ARK Name when resource is deleted" do
+    opts = {:title => generate(:generic_title)}
+    resource = create_resource(opts)
+    resource_id = resource.id
+    expect(ARKName.first(:resource_id => resource_id)).to_not be_nil
+    resource.delete
+    expect(ARKName.first(:resource_id => resource_id)).to be_nil
+  end
 
   it "prevents duplicate IDs " do
     opts = {:id_0 => generate(:alphanumstr)}
@@ -395,6 +410,7 @@ describe 'Resource model' do
       describe "by id" do
         before(:all) do
           AppConfig[:auto_generate_slugs_with_id] = true
+          AppConfig[:generate_resource_slugs_with_eadid] = false
         end
         it "autogenerates a slug via identifier" do
           resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true))

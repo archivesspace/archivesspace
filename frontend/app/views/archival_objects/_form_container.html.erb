@@ -39,6 +39,7 @@
 
         <%= form.hidden_input "ref_id" %>
         <%= form.label_and_textfield("component_id")%>
+        <%= form.label_and_textfield "external_ark_url" if AppConfig[:arks_enabled] %>
         <%= form.label_and_select "level", form.possible_options_for("level", true) %>
         <%= form.label_and_textfield "other_level", :required => true %>
         <%= form.label_and_select "language", form.possible_options_for("language", true) %>
