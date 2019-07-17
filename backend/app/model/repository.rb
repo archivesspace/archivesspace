@@ -13,7 +13,7 @@ class Repository < Sequel::Model(:repository)
                     SlugHelpers.id_based_slug_for(json, Repository)
                   elsif json["slug"]
                     cleaned_slug = SlugHelpers.clean_slug(json["slug"])
-                    SlugHelpers.run_dedupe_slug(cleaned_slug)
+                    SlugHelpers.run_dedupe_slug(cleaned_slug, self.id)
                   else
                     SlugHelpers.id_based_slug_for(json, Repository)
                   end

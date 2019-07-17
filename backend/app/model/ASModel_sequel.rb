@@ -52,14 +52,14 @@ module ASModel
            (self.column_changed?(:slug) || !self.exists?) &&
            !SlugHelpers::is_slug_auto_enabled?(self)
           cleaned_slug = SlugHelpers.clean_slug(self[:slug])
-          self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+          self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug, self[:id])
         end
 
         # For all non-agent types except repositories that have a slug field
         # If the slug is empty at this point and is_slug_auto is enabled,
         # then we didn't have enough data to generate one, so we'll turn
         # is_slug_auto off
-        if SlugHelpers.sluggable_class?(self.class) &&
+        if SlugHelpers.base_sluggable_class?(self.class) &&
            (self[:slug].nil? || self[:slug].empty?) &&
            !SlugHelpers.is_agent_type?(self.class) &&
            SlugHelpers.is_slug_auto_enabled?(self)
@@ -71,7 +71,7 @@ module ASModel
         if self.class == Repository &&
            (self[:slug].nil? || self[:slug].empty?)
          cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
-         self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+         self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug, self[:id])
          self[:is_slug_auto] = 1
         end
 
@@ -88,7 +88,7 @@ module ASModel
         if (!self.exists? && (self[:slug].nil? || self[:slug].empty?)) ||
             self.column_changed?(:repo_code)
           cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
-          self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+          self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug, self[:id])
         end
         self[:is_slug_auto] = 1
       end
