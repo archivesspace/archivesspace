@@ -1977,6 +1977,8 @@ en:
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
+    must_be_a_non-negative_integer: Must be a non-negative integer
+    must_be_an_integer: Must be an integer
     must_not_be_before_begin: must not be before begin
     is_required_unless_a_begin_or_end_date_is_given: is required unless a begin or end date is given
     is_required_unless_an_expression_or_an_end_date_is_given: is required unless an expression or an end date is given
