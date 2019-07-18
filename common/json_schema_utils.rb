@@ -57,6 +57,22 @@ module JSONSchemaUtils
      },
 
      {
+       :failed_attribute => ['ArchivesSpaceType'],
+       :pattern => /The property '#(.*?)' was not a non-negative integer/,
+       :do => ->(msgs, message, path, property) {
+         msgs[:errors][fragment_join(path)] = ["Must be a non-negative integer"]
+       }
+     },
+
+     {
+       :failed_attribute => ['ArchivesSpaceType'],
+       :pattern => /The property '#(.*?)' was not an integer/,
+       :do => ->(msgs, message, path, property) {
+         msgs[:errors][fragment_join(path)] = ["Must be an integer"]
+       }
+     },
+
+     {
        :failed_attribute => ['Pattern'],
        :pattern => /The property '#\/.*?' did not match the regex '(.*?)' in schema/,
        :do => ->(msgs, message, path, regexp) {

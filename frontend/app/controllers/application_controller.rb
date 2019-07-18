@@ -532,11 +532,30 @@ class ApplicationController < ActionController::Base
       schema['properties'].each do |property, definition|
         if definition['type'] == 'integer'
           if hash.has_key?(property) && hash[property].is_a?(String)
+            if (i = hash[property].to_i) && i > 0
+              hash[property] = i
+            end
+          end
+
+        # Unfortunately ArchivesSpace's "integer" type is a somewhat Roman
+        # definition of "integer" in that it only supports >= 1.  Provide
+        # versions for other useful types of integers.
+        elsif definition['type'] == 'non_negative_integer'
+          # >= 0
+          if hash.has_key?(property) && hash[property].is_a?(String)
             begin
               value = Integer(hash[property])
-              if value >= 0 # exclude negative numbers for legacy reasons
+              if value >= 0
                 hash[property] = value
               end
+            rescue ArgumentError
+            end
+          end
+        elsif definition['type'] == 'any_integer'
+          # < 0, = 0, > 0
+          if hash.has_key?(property) && hash[property].is_a?(String)
+            begin
+              hash[property] = Integer(hash[property])
             rescue ArgumentError
             end
           end
