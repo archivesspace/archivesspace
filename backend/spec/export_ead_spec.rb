@@ -996,10 +996,10 @@ describe "EAD export mappings" do
   end
 
   describe "ARK URLs" do
-    it "maps ARK URL to a dao tag if ARK URLs are enabled" do
+    it "maps ARK URL to eadid/@url if ARK URLs are enabled" do
       expect(@doc.to_s).to match(/<eadid.*url=\"http.*\/ark:/)
     end
-    it "does not map ARK URL to a dao tag if ARK URLs are disabled" do
+    it "does not map ARK URL to eadid/@url if ARK URLs are disabled" do
       expect(@doc_ark_disabled.to_s).to_not match(/<eadid.*url=\"http.*\/ark:/)
     end
     it "maps resource.ead_location to eadid/@url if ARK URLs are disabled" do

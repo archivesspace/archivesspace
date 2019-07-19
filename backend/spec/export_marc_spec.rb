@@ -1118,8 +1118,8 @@ end
 
     it "maps resource.ead_location to df 856 ('4', '2'), sf u" do
       df = @marc.df('856', '4', '2')
-      expect(df.sf_t('u')).to eq(@resource.ead_location)
-      expect(df.sf_t('z')).to eq("Finding aid online:")
+      expect(df.sf_t('u')).to include(@resource.ead_location)
+      expect(df.sf_t('z')).to include("Finding aid online:")
     end
 
     it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are enabled" do
@@ -1129,7 +1129,7 @@ end
       ark_url = ARKName.get_ark_url(resource.id, :resource)
       df = marc.df('856', '4', '2')
       df.sf_t('u').should eq(ark_url)
-      df.sf_t('z').should eq("Finding aid online:")
+      df.sf_t('z').should eq("Archival Resource Key:")
       resource.delete
     end
     it "does not map ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are disabled" do

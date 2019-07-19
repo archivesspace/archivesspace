@@ -208,7 +208,11 @@ describe "EAD3 export mappings" do
       as_test_user("admin") do
         DB.open(true) do
           load_export_fixtures
+          AppConfig[:arks_enabled] = true
           @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true&ead3=true")
+          AppConfig[:arks_enabled] = false
+          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+          AppConfig[:arks_enabled] = true
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
           raise Sequel::Rollback
@@ -247,8 +251,20 @@ describe "EAD3 export mappings" do
     end
 
     it "maps resource.ead_location to recordid/@instanceurl" do
-      mt(@resource.ead_location, "control/recordid", 'instanceurl')
+      if !AppConfig[:arks_enabled]
+        mt(@resource.ead_location, "control/recordid", 'instanceurl')
+      end
     end
+
+    describe "ARK URLs" do
+      it "maps ARK URL to eadid/@url if ARK URLs are enabled" do
+        expect(@doc.to_s).to match(/<recordid.*instanceurl=\"http.*\/ark:/)
+      end
+      it "does not map ARK URL to eadid/@url if ARK URLs are disabled" do
+        expect(@doc_ark_disabled.to_s).to_not match(/<recordid.*instanceurl=\"http.*\/ark:/)
+      end
+    end
+
 
     it "maps resource.finding_aid_title to filedesc/titlestmt/titleproper" do
       mt(@resource.finding_aid_title, "control/filedesc/titlestmt/titleproper[not(@type)]")
@@ -628,7 +644,7 @@ describe "EAD3 export mappings" do
            else
              mt(nil, path, "id")
            end
-           
+
           mt(note['label'], path, "label") if note['label']
          end
        end
