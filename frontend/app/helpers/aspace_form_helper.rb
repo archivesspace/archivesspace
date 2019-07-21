@@ -862,6 +862,11 @@ module AspaceFormHelper
     s << "</div>".html_safe
 
     s
+  rescue
+    Rails.logger.error("Failure generating templates for JS: #{$!}")
+    Rails.logger.error("Stacktrace:\n%s" % [$@.join("\n")])
+
+    raise $!
   end
 
 
