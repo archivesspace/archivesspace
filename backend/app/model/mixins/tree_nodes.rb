@@ -31,7 +31,7 @@ module TreeNodes
       root_uri = self.class.uri_for(self.class.root_record_type.intern, self.root_record_id)
       self.parent_name = "root@#{root_uri}"
 
-      self.position = self.class.next_position_for_parent(self.parent_name)
+      self.position = self.class.next_position_for_parent(self.root_record_id, self.parent_id)
     end
 
     save
@@ -55,7 +55,9 @@ module TreeNodes
   # position number stored in the database, which may have gaps.
   def attempt_set_position_in_list(target_logical_position)
     DB.open do |db|
-      ordered_siblings = db[self.class.node_model.table_name].filter(:parent_name => self.parent_name).order(:position)
+      ordered_siblings = db[self.class.node_model.table_name].filter(
+        :root_record_id => self.root_record_id, :parent_id => self.parent_id
+      ).order(:position)
       siblings_count = ordered_siblings.count
 
       target_logical_position = [target_logical_position, siblings_count - 1].min
@@ -147,7 +149,9 @@ module TreeNodes
 
   def logical_position
     relative_position = self.position
-    self.class.dataset.filter(:parent_name => self.parent_name).where { position < relative_position }.count
+    self.class.dataset.filter(
+      :root_record_id => self.root_record_id, :parent_id => self.parent_id
+    ).where { position < relative_position }.count
   end
 
 
@@ -221,7 +225,7 @@ module TreeNodes
       new_values[:position] = self.position
     else
       # Append this node to the new parent initially
-      new_values[:position] = self.class.next_position_for_parent(parent_name)
+      new_values[:position] = self.class.next_position_for_parent(root_record_id, parent_id)
     end
 
     # Run through the standard validation without actually saving
@@ -267,7 +271,7 @@ module TreeNodes
   def transfer_to_repository(repository, transfer_group = [])
     # All records under this one will be transferred too
     children.each_with_index do |child, i|
-      child.transfer_to_repository(repository, transfer_group + [self]) 
+      child.transfer_to_repository(repository, transfer_group + [self])
     end
 
     # ensure that the sequence if updated
@@ -385,15 +389,15 @@ module TreeNodes
       # maximum position assigned so far and go TreeNodes::POSITION_STEP places
       # after that.  If another create_from_json gets in first, we'll have to
       # retry, but that's fine.
-      result["position"] = next_position_for_parent(result['parent_name'])
+      result["position"] = next_position_for_parent(result['root_record_id'], result['parent_id'])
 
       result
     end
 
-    def next_position_for_parent(parent_name)
+    def next_position_for_parent(root_record_id, parent_id)
       max_position = DB.open do |db|
         db[node_model.table_name]
-          .filter(:parent_name => parent_name)
+          .filter(:root_record_id => root_record_id, :parent_id => parent_id)
           .select(:position)
           .max(:position)
       end
@@ -476,10 +480,10 @@ module TreeNodes
       root_model.filter(:id => ids.select(:root_record_id)).update(:system_mtime => Time.now)
 
       # lets get a group of records that have unique parents or root_records
-      parents = ids.select_group(:parent_id, :root_record_id).all   
-      # we then nil out the parent id so deletes can do its thing 
+      parents = ids.select_group(:parent_id, :root_record_id).all
+      # we then nil out the parent id so deletes can do its thing
       ids.update(:parent_id => nil)
-      # trigger the deletes... 
+      # trigger the deletes...
       super
     end
 
