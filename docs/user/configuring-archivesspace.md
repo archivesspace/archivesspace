@@ -168,7 +168,7 @@ Set to true if you have enabled MySQL binary logging.
 Set Solr back up schedule. By default, Solr backups will run at midnight.  See https://crontab.guru/ for
  information about the schedule syntax.
 
-`AppConfig[:solr_backup_schedule] = "0 * * * *"`
+`AppConfig[:solr_backup_schedule] = "0 0 * * *"`
 
 
 #### `AppConfig[:solr_backup_number_to_keep]`
