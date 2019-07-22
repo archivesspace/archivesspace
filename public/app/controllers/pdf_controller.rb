@@ -18,7 +18,7 @@ class PdfController <  ApplicationController
 
       if token
         token.gsub!(/[^a-f0-9]/, '')
-        cookies["pdf_generated_#{token}"] = { value: token, expires: 5.minutes.from_now }
+        cookies["pdf_generated_#{token}"] = { value: token, expires: 5.minutes.from_now, http_only: true }
       end
 
       respond_to do |format|
