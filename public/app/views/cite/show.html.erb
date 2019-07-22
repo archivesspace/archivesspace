@@ -1,8 +1,8 @@
 <div class="noscript citation">
-  <blockquote><p><%= @cite %></p></blockquote>
+  <blockquote><p><%= sanitize(@cite) %></p></blockquote>
 <% unless @url.blank? %>
   <p>
-    <i class="fa fa-hand-o-left"  aria-hidden="true"></i> <a href="<%= app_prefix(@url) %>"><%= t('actions.backup') %></a>
+    <i class="fa fa-hand-o-left"  aria-hidden="true"></i> <a href="<%= app_prefix(santize(@url)) %>"><%= t('actions.backup') %></a>
   </p>
 <% end %>
 </div>
