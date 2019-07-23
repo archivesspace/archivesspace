@@ -677,6 +677,22 @@
     <antcall target="travis:db:nuke" />
   </target>
 
+  <target name="travis:other:test" depends="set-classpath, bootstrap">
+    <antcall target="db:migrate" />
+    <antcall target="backend:integration" />
+    <antcall target="backend:test" />
+    <antcall target="indexer:test" />
+    <antcall target="common:test" />
+    <antcall target="travis:db:nuke" />
+  </target>
+
+  <target name="travis:rails:test" depends="set-classpath, bootstrap">
+    <antcall target="db:migrate" />
+    <antcall target="frontend:test"/>
+    <antcall target="public:test" />
+    <antcall target="travis:db:nuke" />
+  </target>
+
   <!-- Dist build -->
   <target name="build-zip" depends="set-classpath"
           description="Bundle everything up into a zip file">
