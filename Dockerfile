@@ -39,10 +39,12 @@ RUN DEBIAN_FRONTEND=noninteractive \
       ca-certificates \
       openjdk-8-jre-headless \
       wget \
-      unzip && \
+      unzip
+      mysql-client && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd -g 1000 archivesspace && \
     useradd -l -M -u 1000 -g archivesspace archivesspace && \
+    mkdir -p /archivesspace/config /archivesspace/data && \
     chown -R archivesspace:archivesspace /archivesspace
 
 USER archivesspace
