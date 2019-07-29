@@ -249,6 +249,10 @@ AbstractRelationship = Class.new(Sequel::Model) do
   def self.set_supported_jsonmodel_types(supported_jsonmodel_types); @supported_jsonmodel_types = supported_jsonmodel_types; end
   def self.supported_jsonmodel_types; @supported_jsonmodel_types; end
 
+  def self.set_relationship_name(name); @relationship_name = name; end
+  def self.relationship_name; @relationship_name; end
+
+
   # Return a list of the relationship instances that refer to 'obj'.
   def self.find_by_participant(obj)
     # Find all columns in our relationship's table that are named after obj's table
@@ -677,6 +681,7 @@ module Relationships
         related_models = opts[:contains_references_to_types].call
 
         clz = Class.new(AbstractRelationship) do
+          set_relationship_name(opts[:name])
           table = opts[:table] || "#{opts[:name]}_rlshp".intern
           set_dataset(table)
           set_primary_key(:id)
@@ -821,12 +826,15 @@ module Relationships
     def sequel_to_jsonmodel(objs, opts = {})
       jsons = super
 
-      return jsons if opts[:skip_relationships]
+      return jsons if opts[:skip_relationships] == true
+
+      skipped_relationships = Array(opts[:skip_relationships])
 
       eager_load_relationships(objs, relationships.select {|relationship_defn| relationship_defn.json_property})
 
       jsons.zip(objs).each do |json, obj|
         relationships.each do |relationship_defn|
+          next if skipped_relationships.include?(relationship_defn.relationship_name)
           property_name = relationship_defn.json_property
 
           # If we don't need this property in our return JSON, skip it.
