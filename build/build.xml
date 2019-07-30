@@ -84,7 +84,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="gems/bin/bundle install --gemfile='${gemfile}' --no-deployment ${bundle-without-option}" />
+      <arg line="gems/bin/bundle install --jobs=8 --gemfile='${gemfile}' --no-deployment ${bundle-without-option}" />
     </java>
   </target>
 
@@ -677,6 +677,22 @@
     <antcall target="travis:db:nuke" />
   </target>
 
+  <target name="travis:other:test" depends="set-classpath, bootstrap">
+    <antcall target="db:migrate" />
+    <antcall target="backend:integration" />
+    <antcall target="backend:test" />
+    <antcall target="indexer:test" />
+    <antcall target="common:test" />
+    <antcall target="travis:db:nuke" />
+  </target>
+
+  <target name="travis:rails:test" depends="set-classpath, bootstrap">
+    <antcall target="db:migrate" />
+    <antcall target="frontend:test"/>
+    <antcall target="public:test" />
+    <antcall target="travis:db:nuke" />
+  </target>
+
   <!-- Dist build -->
   <target name="build-zip" depends="set-classpath"
           description="Bundle everything up into a zip file">
@@ -826,12 +842,16 @@
 
     <antcall target="set-classpath" />
     <antcall target="bootstrap"><param name="excluded-gem-groups" value="test development doc" /></antcall>
-    <antcall target="oai:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
-    <antcall target="backend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
-    <antcall target="frontend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
-    <antcall target="public:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
-    <antcall target="solr:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
-    <antcall target="indexer:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+
+    <parallel>
+      <antcall target="oai:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+      <antcall target="backend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+      <antcall target="frontend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+      <antcall target="public:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+      <antcall target="solr:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+      <antcall target="indexer:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+    </parallel>
+
     <antcall target="build-zip"><param name="excluded-gem-groups" value="test development doc" /></antcall>
   </target>
 

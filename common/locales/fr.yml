@@ -1462,6 +1462,7 @@ fr:
       update_location_record: créer/modifier/supprimer des notices de localisations dans ce service d'archives
       update_subject_record: créer/actualiser des notices matières
       update_agent_record: créer/actualiser des notices agents
+      view_agent_contact_record: afficher les coordonnées des enregistrements d'agent
       update_vocabulary_record: créer/actualiser des notices de vocabulaire
       update_accession_record: créer/actualiser des entrées dans ce service d'archives
       update_resource_record: créer/actualiser des ressources dans ce service d'archives
@@ -2035,6 +2036,7 @@ fr:
     _plural: Tâches d'arrière-plan
     job_type: Type de tâche
     types:
+      container_labels_job: Container Labels
       print_to_pdf_job: Générer un PDF
       import_job: Importer des données
       find_and_replace_job: Rechercher et remplacer en masse (Bêta)

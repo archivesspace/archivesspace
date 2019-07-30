@@ -115,5 +115,40 @@
         "publish": false,
         "title": "UNPUBLISHED Agent, Creator",
         "uri": "/agents/people/import_4"
+    },
+    {
+        "agent_type": "agent_corporate_entity",
+        "display_name": {
+            "authority_id": "UNPUBLISHED corporate source",
+            "authorized": true,
+            "is_display_name": true,
+            "jsonmodel_type": "name_corporate_entity",
+            "primary_name": "UNPUBLISHED Corporate Agent",
+            "rules": "local",
+            "sort_name": "UNPUBLISHED Corporate Agent",
+            "sort_name_auto_generate": true,
+            "source": "local"
+        },
+        "is_linked_to_published_record": true,
+        "jsonmodel_type": "agent_corporate_entity",
+        "linked_agent_roles": [
+            "source"
+        ],
+        "names": [
+            {
+                "authority_id": "UNPUBLISHED corporate source",
+                "authorized": true,
+                "is_display_name": true,
+                "jsonmodel_type": "name_corporate_entity",
+                "primary_name": "UNPUBLISHED Corporate Agent",
+                "rules": "local",
+                "sort_name": "UNPUBLISHED Corporate Agent",
+                "sort_name_auto_generate": true,
+                "source": "local"
+            }
+        ],
+        "publish": false,
+        "title": "UNPUBLISHED Corporate Agent",
+        "uri": "/agents/people/import_5"
     }
 ]
