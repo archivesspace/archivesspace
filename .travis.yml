@@ -45,7 +45,11 @@ script:
 notifications:
   email: false
 bundler_args: --retry 5
+dist: trusty
 addons:
+  apt:
+    packages:
+    - libgconf-2-4
   chrome: stable
   artifacts:
     debug: true
