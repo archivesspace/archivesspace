@@ -82,7 +82,7 @@ class AbstractReport
   end
 
   def repository
-    Repository.get_or_die(repo_id).name
+    Repository.get_or_die(repo_id).name.gsub!(/&(?![A-Za-z]+;|#[0-9]+;)/, '&amp;')
   end
 
   def special_translation(key, subreport_code)
