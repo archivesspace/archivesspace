@@ -1,5 +1,4 @@
 FROM ubuntu:18.04 as build_release
-LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && \
@@ -27,6 +26,8 @@ ADD docker-startup.sh /archivesspace/startup.sh
 RUN chmod u+x /archivesspace/startup.sh
 
 FROM ubuntu:18.04
+
+LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
     LANG=C.UTF-8
