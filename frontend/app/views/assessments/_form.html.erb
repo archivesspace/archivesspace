@@ -687,4 +687,8 @@
 
 <% form.emit_template("assessment") %>
 
-<%= form_plugins_for("assessment", form) %>
+<% if form.readonly? %>
+  <%= show_plugins_for(@assessment, readonly) %>
+<% else %>
+  <%= form_plugins_for("assessment", form) %>
+<% end %>
