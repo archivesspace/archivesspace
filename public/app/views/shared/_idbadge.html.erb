@@ -17,6 +17,8 @@ end
 <% case result.primary_type %>
   <% when "resource" %>
     <% url = resource_base_url(result) %>
+  <% when "archival_object" %>
+    <% url = object_base_url(result) %>
   <% when "digital_object" %>
     <% url = digital_object_base_url(result) %>
   <% when "accession" %>
