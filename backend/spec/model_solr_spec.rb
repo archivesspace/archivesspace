@@ -179,6 +179,14 @@ describe 'Solr model' do
       url = query.to_solr_url
       expect(url.query).to include('&q.op=AND')
     end
+
+    it 'handles params with array values by passing the param multiple times' do
+        AppConfig[:solr_params] = { "bq" => ["one", proc {"two"}]}
+        url = query.to_solr_url
+        expect(url.query).to include('&bq=one')
+        expect(url.query).to include('&bq=two')
+    end
+
   end
 
 end
