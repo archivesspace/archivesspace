@@ -43,7 +43,11 @@ PLUGINS = [
   {
     :path => 'plugins/as_cartography',
     :url => 'https://github.com/hudmol/as_cartography.git',
-  }
+  },
+  {
+    :path => 'plugins/qsa_kitchensink',
+    :url => 'https://github.com/hudmol/qsa_kitchensink.git',
+  },
 ]
 
 
