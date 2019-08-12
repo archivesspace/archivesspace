@@ -34,6 +34,7 @@
           </li>
         <% end %>
         <% @search_data.sort_fields.each do |field| %>
+          <% next if show_record_type? && field == 'primary_type' %>
           <li class="dropdown-submenu">
             <%= link_to I18n.t("search_sorting.#{field}"), build_search_params("sort" => @search_data.sort_filter_for(field, "desc")) %>
             <ul class="dropdown-menu">
