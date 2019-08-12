@@ -1,4 +1,5 @@
 require_relative 'utils'
+require 'nokogiri'
 
 def create_language_record_from_language_id(record_type, dataset, language_id)
   dataset.each do |row|
@@ -35,7 +36,7 @@ def migrate_langmaterial_notes
         record_id = note_id[obj]
 
         unless record_id.nil?
-          # Create new lang_material record for these resources
+          # Create new lang_material record for remaining notes
           language_record = self[:lang_material].insert(
               :json_schema_version => note_id[:notes_json_schema_version],
               "#{obj}" => record_id,
@@ -44,14 +45,88 @@ def migrate_langmaterial_notes
               :user_mtime => note_id[:user_mtime]
               )
 
-          new_note = note_id[:notes].lit.gsub('note_singlepart', 'note_langmaterial')
+          note = note_id[:notes]
+          # Handle notes that can be further parsed due to inline markup
+          if note.lit.include?('<language')
 
-          # Switch note from linking to resource to linking to the new language record
-          self[:note].filter(:id => note_id[:id]).update(
-            :lang_material_id => language_record,
-            "#{obj}" => nil,
-            :notes => new_note.to_sequel_blob
-            )
+              # grab just the xml from content
+              split = note.split(/.*"content":\["/)
+              split = split[1].tr("\"]}", "")
+              parsed = Nokogiri::XML::DocumentFragment.parse(split.to_s) rescue nil
+              languages = parsed.xpath('.//language') rescue nil
+              languages&.each do |language|
+                language = language.attr('langcode')
+                if !language.nil?
+                  enum = self[:enumeration].filter(:name => 'language_iso639_2').get(:id)
+                  langcode = self[:enumeration_value].filter(:value => language, :enumeration_id => enum ).get(:id)
+
+                  puts "Updating language of material for #{obj} #{record_id}: #{language} (#{langcode})"
+                  parsed_language_record = self[:lang_material].insert(
+                      :json_schema_version => 1,
+                      "#{obj}" => record_id,
+                      :create_time => Time.now,
+                      :system_mtime => Time.now,
+                      :user_mtime => Time.now
+                    )
+                  self[:language_and_script].insert(
+                      :json_schema_version => 1,
+                      :language_id => langcode,
+                      :lang_material_id => parsed_language_record,
+                      :create_time => Time.now,
+                      :system_mtime => Time.now,
+                      :user_mtime => Time.now
+                    )
+                end
+
+                script = parsed.xpath('.//language').attr('scriptcode') rescue nil
+                if !script.nil?
+                  enum = self[:enumeration].filter(:name => 'script_iso15924').get(:id)
+                  scriptcode = self[:enumeration_value].filter(:value => script, :enumeration_id => enum ).get(:id)
+
+                  puts "Updating script code for #{obj} #{record_id}: #{script} (#{scriptcode})"
+                  parsed_script_record = self[:lang_material].insert(
+                      :json_schema_version => 1,
+                      "#{obj}" => record_id,
+                      :create_time => Time.now,
+                      :system_mtime => Time.now,
+                      :user_mtime => Time.now
+                    )
+                  self[:language_and_script].insert(
+                      :json_schema_version => 1,
+                      :language_id => scriptcode,
+                      :lang_material_id => parsed_script_record,
+                      :create_time => Time.now,
+                      :system_mtime => Time.now,
+                      :user_mtime => Time.now
+                    )
+                end
+              end
+
+              # Strip inline markup from remaining note and migrate note
+              content = note.gsub(/(<language langcode=\\"[a-z]+\\" scriptcode=\\"[A-z]+\\">(.[^<>]*)<\/language>)|(<language langcode=\\"[a-z]+\\">(.[^<>]*)<\/language>)|(<language langcode=\\"[a-z]+\\"\/>)/, '\\2\\4')
+
+              new_note = content.lit.gsub('note_singlepart', 'note_langmaterial')
+
+              puts "Updating language of material note content for #{obj} #{record_id}"
+              puts "ORIGINAL CONTENT: #{note}"
+              puts "NEW CONTENT: #{new_note}"
+
+              # Switch note from linking to resource to linking to the new language record
+              self[:note].filter(:id => note_id[:id]).update(
+                :lang_material_id => language_record,
+                "#{obj}" => nil,
+                :notes => new_note.to_sequel_blob
+                )
+          else
+            new_note = note_id[:notes].lit.gsub('note_singlepart', 'note_langmaterial')
+
+            # Switch note from linking to resource to linking to the new language record
+            self[:note].filter(:id => note_id[:id]).update(
+              :lang_material_id => language_record,
+              "#{obj}" => nil,
+              :notes => new_note.to_sequel_blob
+              )
+          end
         end
       end
     end
