@@ -10,6 +10,7 @@ gem 'rubyzip', '~> 1.2.2'
 
 gem 'nokogiri', '1.8.5'
 
+gem 'rails-html-sanitizer', '~> 1.0.4'
 gem 'sprockets-rails', '2.3.3'
 
 gem 'atomic', '~> 1.1', '>= 1.1.101'

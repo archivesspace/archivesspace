@@ -147,6 +147,12 @@
     </java>
   </target>
 
+  <target name="test:clean" description="Delete directories and files generated when running tests">
+     <delete failonerror="false" dir="../build/solr_index" />
+     <delete failonerror="false" dir="../build/indexer_state" />
+     <delete failonerror="false" dir="../build/indexer_pui_state" />
+     <delete failonerror="false" dir="../build/archivesspace_demo_db" />
+   </target>
 
   <!-- Common -->
   <target name="common:test" depends="set-classpath" description="Run the unit test suite for common">
