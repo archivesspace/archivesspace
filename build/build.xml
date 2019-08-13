@@ -116,11 +116,11 @@
       <param name="excluded-gem-groups" value="${excluded-gem-groups}" />
     </antcall>
     <antcall target="bundler"><param name="gemfile" value="../frontend/Gemfile" /></antcall>
-    <antcall target="bundler"><param name="gemfile" value="../selenium/Gemfile" /></antcall>
-    <antcall target="bundler"><param name="gemfile" value="../_yard/Gemfile" /></antcall>
-    <antcall target="bundler"><param name="gemfile" value="../public/Gemfile" /></antcall>
+    <!-- <antcall target="bundler"><param name="gemfile" value="../selenium/Gemfile" /></antcall> -->
+    <!-- <antcall target="bundler"><param name="gemfile" value="../_yard/Gemfile" /></antcall> -->
+    <!-- <antcall target="bundler"><param name="gemfile" value="../public/Gemfile" /></antcall> -->
     <antcall target="bundler"><param name="gemfile" value="../indexer/Gemfile" /></antcall>
-    <antcall target="bundler"><param name="gemfile" value="../oai/Gemfile" /></antcall>
+    <!-- <antcall target="bundler"><param name="gemfile" value="../oai/Gemfile" /></antcall> -->
   </target>
 
 
@@ -789,10 +789,10 @@
     <antcall target="bootstrap"><param name="excluded-gem-groups" value="test development doc" /></antcall>
 
     <parallel>
-      <antcall target="oai:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+      <!-- <antcall target="oai:war"><param name="excluded-gem-groups" value="test development doc" /></antcall> -->
       <antcall target="backend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
       <antcall target="frontend:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
-      <antcall target="public:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
+      <!-- <antcall target="public:war"><param name="excluded-gem-groups" value="test development doc" /></antcall> -->
       <antcall target="solr:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
       <antcall target="indexer:war"><param name="excluded-gem-groups" value="test development doc" /></antcall>
     </parallel>
