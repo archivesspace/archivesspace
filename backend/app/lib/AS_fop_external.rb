@@ -21,6 +21,7 @@ class ASFopExternal
      @pdf_image = pdf_image
    end
    @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl'))
+   @config = StaticAssetFinder.new(File.join('stylesheets')).find('fop-config.xml')
    @job = job
   end
 
@@ -37,7 +38,7 @@ class ASFopExternal
     # execute command to convert PDF to tempfile specified
     # our command is of the form
     # java -jar PATH_TO_FOP_JAR org.apache.fop.cli.Main -fo PATH_TO_INPUT_XML -pdf PATH_TO_OUTPUT_XML
-    command = "cd #{path_to_fop_jar} #{multiple_command_operator} \"#{AppConfig[:path_to_java]}\" -jar fop.jar org.apache.fop.cli.Main -fo \"#{@fo.path}\" -pdf \"#{@output_path}\" 2>&1"
+    command = "cd #{path_to_fop_jar} #{multiple_command_operator} \"#{AppConfig[:path_to_java]}\" -jar fop.jar org.apache.fop.cli.Main -c \"#{@config}\" -fo \"#{@fo.path}\" -pdf \"#{@output_path}\" 2>&1"
     @job.write_output("Executing: #{command}")
 
     output = `#{command}`
