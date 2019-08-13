@@ -10,6 +10,7 @@ module Searchable
 
 
   def set_up_search(default_types = [],default_facets=[],default_search_opts={}, params={}, q='')
+    params = sanitize_params(params)
     @search = Search.new(params)
     limit = params.fetch(:limit,'')
     field = params.fetch(:field, nil)
@@ -77,6 +78,7 @@ module Searchable
   end
 
   def set_up_advanced_search(default_types = [],default_facets=[],default_search_opts={}, params={})
+    params = sanitize_params(params)
     @search = Search.new(params)
     unless @search[:limit].blank?
       default_types = @search[:limit].split(",")
@@ -172,6 +174,7 @@ module Searchable
 
 
   def get_years(params)
+    params = sanitize_params(params)
     years = {}
     from = params.fetch(:filter_from_year,'').strip
     to = params.fetch(:filter_to_year,'').strip
@@ -294,6 +297,7 @@ module Searchable
 
 
   def search_terms(params)
+    params = sanitize_params(params)
     terms = ''
     queries = params.fetch(:q, nil)
     if queries
@@ -407,4 +411,17 @@ module Searchable
     type
   end
 
+  def sanitize_params(unsanitized)
+    unsanitized.each do | k, v |
+      if v.is_a?(Array)
+        sanitized = []
+        v.each do | val |
+          sanitized << ActionController::Base.helpers.sanitize(val)
+        end
+      else
+        sanitized = ActionController::Base.helpers.sanitize(v)
+      end
+      unsanitized[k.to_sym] = sanitized
+    end
+  end
 end
