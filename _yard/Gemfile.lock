@@ -1,15 +1,15 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    kramdown (1.16.2)
-    yard (0.9.12)
+    kramdown (2.1.0)
+    yard (0.9.20)
 
 PLATFORMS
   java
 
 DEPENDENCIES
   kramdown
-  yard (~> 0.9.11)
+  yard (>= 0.9.20)
 
 BUNDLED WITH
    1.16.1

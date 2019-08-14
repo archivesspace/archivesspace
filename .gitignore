@@ -26,6 +26,7 @@ build/archivesspace_demo_db
 build/*.tmp
 build/.gem
 build/shared
+build/.cache
 backend/tests/ladle-server*
 webdriver-profile*
 common/ARCHIVESSPACE_VERSION
