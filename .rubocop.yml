@@ -1,3 +1,6 @@
 AllCops:
   Exclude:
     - build/**
+  Include:
+    # Start with Gemfiles only
+    - '**/Gemfile'
