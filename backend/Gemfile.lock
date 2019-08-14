@@ -46,6 +46,7 @@ GEM
       rack (>= 1.0.0)
     multi_json (1.13.1)
     multipart-post (1.2.0)
+    mustermann (1.0.3)
     net-http-persistent (2.8)
     net-ldap (0.16.1)
     nokogiri (1.8.5-java)
@@ -65,8 +66,8 @@ GEM
       ruby-debug-base (~> 0.10.4)
     pry-nav (0.3.0)
       pry (>= 0.9.10, < 0.13.0)
-    rack (1.6.11)
-    rack-protection (1.5.5)
+    rack (2.0.7)
+    rack-protection (2.0.5)
       rack
     rack-session-sequel (0.0.1)
       rack
@@ -115,16 +116,17 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sinatra (1.4.7)
-      rack (~> 1.5)
-      rack-protection (~> 1.4)
-      tilt (>= 1.3, < 3)
-    sinatra-contrib (1.4.7)
-      backports (>= 2.0)
+    sinatra (2.0.5)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.5)
+      tilt (~> 2.0)
+    sinatra-contrib (2.0.5)
+      backports (>= 2.8.2)
       multi_json
-      rack-protection
-      rack-test
-      sinatra (~> 1.4.0)
+      mustermann (~> 1.0)
+      rack-protection (= 2.0.5)
+      sinatra (= 2.0.5)
       tilt (>= 1.3, < 3)
     spoon (0.0.6)
       ffi
@@ -171,6 +173,7 @@ DEPENDENCIES
   pry
   pry-debugger-jruby
   pry-nav
+  rack (~> 2.0, >= 2.0.7)
   rack-session-sequel (= 0.0.1)
   rack-test (~> 0.6.3)
   rjack-jackson (= 1.8.11.0)
@@ -185,8 +188,8 @@ DEPENDENCIES
   saxon-xslt (~> 0.8, >= 0.8.2.1)
   sequel (~> 4.20.0)
   simplecov (= 0.16.1)
-  sinatra (= 1.4.7)
-  sinatra-contrib (= 1.4.7)
+  sinatra (~> 2.0, >= 2.0.5)
+  sinatra-contrib (~> 2.0, >= 2.0.5)
   tzinfo
   tzinfo-data
   unicode-display_width (~> 1.6)
