@@ -49,20 +49,6 @@ class ArchivesSpaceIndexer < Sinatra::Base
       end
     end
 
-    configure do
-      begin
-        # Load plugin init.rb files (if present)
-        ASUtils.order_plugins(ASUtils.find_local_directories('indexer')).each do |dir|
-          init_file = File.join(dir, "plugin_init.rb")
-          if File.exists?(init_file)
-            load init_file
-          end
-        end
-      rescue
-        ASUtils.dump_diagnostics($!)
-      end
-    end
-
     AppConfig[:plugin_indexers].each_with_index do |indexer_config, ix|
       indexer = indexer_config[:class].constantize.get_plugin_indexer(indexer_config)
 
@@ -121,6 +107,21 @@ class ArchivesSpaceIndexer < Sinatra::Base
 
     threads.each {|t| t.join} if java.lang.System.get_property("aspace.devserver")
   end
+
+  configure do
+    begin
+      # Load plugin init.rb files (if present)
+      ASUtils.order_plugins(ASUtils.find_local_directories('indexer')).each do |dir|
+        init_file = File.join(dir, "plugin_init.rb")
+        if File.exists?(init_file)
+          load init_file
+        end
+      end
+    rescue
+      ASUtils.dump_diagnostics($!)
+    end
+  end
+
 
   configure do
     set :logging, false 
