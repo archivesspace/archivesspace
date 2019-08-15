@@ -472,7 +472,6 @@ AppConfig[:record_inheritance] = {
 AppConfig[:pui_search_results_page_size] = 10
 AppConfig[:pui_branding_img] = 'archivesspace.small.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain
-AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface
 
 # The number of PDFs that can be generated (in the background) at the same time.
 #
@@ -504,9 +503,6 @@ AppConfig[:pui_hide][:classification_badge] = false
 AppConfig[:pui_hide][:counts] = false
 # The following determines globally whether the 'container inventory' navigation tab/pill is hidden on resource/collection page
 AppConfig[:pui_hide][:container_inventory] = false
-# Other usage examples:
-# Don't display the accession ("unprocessed material") link on the main navigation menu
-# AppConfig[:pui_hide][:accessions] = true
 
 # Whether to display linked decaccessions
 AppConfig[:pui_display_deaccessions] = true
@@ -519,6 +515,7 @@ AppConfig[:pui_page_actions_cite] = true
 AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
+AppConfig[:pui_enable_staff_link] = true # when a user is authenticated, add a link back to the staff interface from the specified record
 
 # PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)
 # the following determine on what kinds of records the request button is displayed
