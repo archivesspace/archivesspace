@@ -6,7 +6,6 @@ gem 'rails', '5.0.7.2'
 
 gem 'i18n', '0.9.1'
 gem 'loofah', '>= 2.2.3'
-gem 'rails-html-sanitizer', '~> 1.0.4'
 gem 'sprockets-rails', '2.3.3'
 
 gem 'tzinfo-data'
@@ -36,10 +35,10 @@ group :test do
   gem 'simplecov', '0.7.1'
 
   # selenium stuff
-  gem 'factory_bot', '~> 4.11', '>= 4.11.1'
+  gem 'factory_bot_rails', '~> 4.11', '>= 4.11.1'
   gem 'parallel_tests', '~> 2.14.0'
   gem 'rspec-retry'
-  gem 'selenium-webdriver', '= 3.6.0'
+  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
 
   # need access to ActiveSupport for helpers
   gem 'activesupport', '5.0.7.2'

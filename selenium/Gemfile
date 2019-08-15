@@ -21,11 +21,11 @@ group :test do
   gem 'rspec', '~> 3.6.0'
   gem 'rspec-retry'
   gem 'rubyzip', '~> 1.2.2'
-  gem 'selenium-webdriver', '= 3.6.0'
+  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'sinatra', '1.4.7', require: false
 
   gem 'mechanize'
-  gem 'pry'
+  gem 'pry', '~> 0.11.3'
 end
 
 group :development do
