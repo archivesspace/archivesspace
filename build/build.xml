@@ -702,9 +702,9 @@
     <copy file="solr.war" todir="target/archivesspace/wars" />
     <copy file="../backend/backend.war" todir="target/archivesspace/wars" />
     <copy file="../frontend/frontend.war" todir="target/archivesspace/wars" />
-    <copy file="../public/public.war" tofile="target/archivesspace/wars/public.war" />
+    <!-- <copy file="../public/public.war" tofile="target/archivesspace/wars/public.war" /> -->
     <copy file="../indexer/indexer.war" todir="target/archivesspace/wars" />
-    <copy file="../oai/oai.war" todir="target/archivesspace/wars" />
+    <!-- <copy file="../oai/oai.war" todir="target/archivesspace/wars" /> -->
 
     <copy file="scripts/migrate_db.rb" todir="target/archivesspace/scripts/rb" />
     <copy file="scripts/checkindex.rb" todir="target/archivesspace/scripts/rb" />
@@ -721,11 +721,11 @@
       <fileset dir="../common/locales" />
     </copy>
 
-    <copy todir="target/archivesspace/locales/public">
-      <fileset dir="../public/config/locales">
-        <include name="**/*.yml" />
-      </fileset>
-    </copy>
+    <!-- <copy todir="target/archivesspace/locales/public"> -->
+    <!--   <fileset dir="../public/config/locales"> -->
+    <!--     <include name="**/*.yml" /> -->
+    <!--   </fileset> -->
+    <!-- </copy> -->
 
     <copy todir="target/archivesspace/plugins/newrelic">
       <fileset dir="../plugins/newrelic"/>
