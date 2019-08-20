@@ -1462,6 +1462,7 @@ en:
       update_location_record: create/modify/delete location records in this repository
       update_subject_record: create/update subject records
       update_agent_record: create/update agent records
+      view_agent_contact_record: view contact details for agent records
       update_vocabulary_record: create/update vocabulary records
       update_accession_record: create/update accessions in this repository
       update_resource_record: create/update resources in this repository
@@ -2036,6 +2037,7 @@ en:
     _plural: Background Jobs
     job_type: Job Type
     types:
+      container_labels_job: Container Labels
       print_to_pdf_job: Generate PDF
       import_job: Import Data
       find_and_replace_job: Batch Find and Replace (Beta)

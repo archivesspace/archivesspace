@@ -13,6 +13,8 @@
               <%= t("enumerations.language_iso639_2.#{@result.finding_aid[item]}") %>
             <% elsif item == "script" %>
               <%= t("enumerations.script_iso15924.#{@result.finding_aid[item]}") %>
+            <% elsif item == "description_rules" %>
+              <%= t("enumerations.resource_finding_aid_description_rules.#{@result.finding_aid[item]}") %>
             <% else %>
               <%= @result.finding_aid[item] %>
             <% end %>

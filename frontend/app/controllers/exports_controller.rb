@@ -8,14 +8,14 @@ class ExportsController < ApplicationController
 
 
   def container_labels
-     download_export(
-       "/repositories/#{JSONModel::repository}/resource_labels/#{params[:id]}.tsv")
+    @resource = JSONModel(:resource).find(params[:id], find_opts)
+    render :layout => false
    end
 
 
   def download_marc
     download_export(
-      "/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml", 
+      "/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml",
       :include_unpublished_marc => params[:include_unpublished_marc]
       )
   end

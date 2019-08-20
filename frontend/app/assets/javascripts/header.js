@@ -1,5 +1,4 @@
 //= require login
-//= require moment
 
 $(function() {
   $('.session-actions').on('click.dropdown', function(e) {
@@ -31,7 +30,7 @@ $(function() {
 
   // Repository Action Handling
   $('.navbar').on('click', '.select-repo', function(e) {
-    e.preventDefault();      
+    e.preventDefault();
     var repo_id = $(this).text();
     $.post($(this).attr("href"), {"repo_id": repo_id}, function(html) {
       document.location = APP_PATH;
@@ -184,11 +183,6 @@ $(function() {
           var isValidDateString = dateRegex.test(dateString);
 
           if (!isValidDateString) {
-            return false;
-          }
-
-          var asDate = moment(dateString).format("YYYY-MM-DD");
-          if (asDate == "Invalid date") {
             return false;
           }
 

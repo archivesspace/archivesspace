@@ -73,18 +73,34 @@ FactoryBot.define do
     sub_container { build(:json_sub_container) }
   end
 
+  factory :json_lang_material, class: JSONModel(:lang_material) do
+    language_and_script { build(:json_language_and_script) }
+  end
+
+  factory :json_lang_material_with_note, class: JSONModel(:lang_material) do
+    language_and_script { build(:json_language_and_script) }
+    notes { [build(:json_note_langmaterial)] }
+  end
+
+  factory :json_language_and_script, class: JSONModel(:language_and_script) do
+    language { generate(:language) }
+    script { generate(:script) }
+  end
+
   factory :json_resource, class: JSONModel(:resource) do
     title { "Resource #{generate(:html_title)}" }
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
-    language { generate(:language) }
+    lang_materials { [build(:json_lang_material)] }
     dates { [build(:json_date), build(:json_date_single)] }
     finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
     ead_id { nil_or_whatever }
     finding_aid_date { generate(:alphanumstr) }
     finding_aid_series_statement { generate(:alphanumstr) }
-    finding_aid_language { nil_or_whatever }
+    finding_aid_language {  [generate(:finding_aid_language)].sample  }
+    finding_aid_script {  [generate(:finding_aid_script)].sample  }
+    finding_aid_language_note { nil_or_whatever }
     finding_aid_note { generate(:alphanumstr) }
     ead_location { generate(:alphanumstr) }
     instances { [ build(:json_instance) ] }

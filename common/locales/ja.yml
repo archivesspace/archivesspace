@@ -1112,6 +1112,7 @@ ja:
       update_location_record: このリポジトリ内のロケーションレコードの作成/変更/削除
       update_subject_record: 件名レコードの作成/更新
       update_agent_record: エージェントレコードの作成/更新
+      view_agent_contact_record: エージェントレコードの連絡先詳細の表示
       update_vocabulary_record: ボキャブラリーレコードの作成/更新
       update_accession_record: このリポジトリ内のアクセス権の作成/更新
       update_resource_record: このリポジトリ内のリソースを作成/更新する
@@ -1559,6 +1560,7 @@ ja:
     _plural: バックグラウンドジョブ
     job_type: ジョブの種類
     types:
+      container_labels_job: Container Labels
       print_to_pdf_job: PDFを生成
       import_job: データのインポート
       find_and_replace_job: バッチの検索と置換（ベータ版）

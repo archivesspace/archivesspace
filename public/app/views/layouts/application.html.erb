@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="<%= AppConfig[:locale] %>">
 <head>
-	<%#mdc: new stuff, to address IE 10 and earlier issues with Bootstrap %>
+	<%# mdc: new stuff, to address IE 10 and earlier issues with Bootstrap %>
 	<meta charset="utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="<%= asset_path('favicon.ico') %>" rel="shortcut icon" type="image/x-icon" />
 	<title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} | ") %><%= t('brand.title') %></title>
 	<%= csrf_meta_tags %>
-<%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
+
+	<%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
 	<% if AppConfig[:pui_block_referrer] %>
 		<meta name="referrer" content="origin-when-cross-origin" />
 	<% end %>
-
 
 	<script>
 	 var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
@@ -21,7 +21,7 @@
 	<%= stylesheet_link_tag    'application', media: 'all' %>
 	<%= javascript_include_tag 'application' %>
 
-        <%= render partial: 'shared/metadata' %>
+	<%= render partial: 'shared/metadata' %>
 
 	<% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
 		<% if File.exists?(template) %>
@@ -31,7 +31,7 @@
 		<% end %>
 	<% end %>
 
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
 	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
