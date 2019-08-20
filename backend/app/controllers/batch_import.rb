@@ -57,9 +57,12 @@ class ArchivesSpaceService < Sinatra::Base
 
           File.open(env['batch_import_file']) do |stream|
             begin
-              batch = StreamingImport.new(stream, job_monitor, false,  migration )
-              batch.process
-              success = true
+              # QSA modification: don't process RAPs until the end of the batch.
+              RAP.with_deferred_propagations do
+                batch = StreamingImport.new(stream, job_monitor, false,  migration )
+                batch.process
+                success = true
+              end
             rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, ReferenceError => e
               # Note: we deliberately don't catch Sequel::DatabaseError here.  The
               # outer call to DB.open will catch that exception and retry the
