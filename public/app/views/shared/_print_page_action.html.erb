@@ -1,5 +1,5 @@
 <% if AppConfig[:pui_max_concurrent_pdfs] > 0 %>
-    <%= form_tag("/repositories/#{params[:rid]}/resources/#{params[:id]}/pdf", method: 'post', :id => 'print_form') do %>
+    <%= form_tag(app_prefix("/repositories/#{params[:rid]}/resources/#{params[:id]}/pdf"), method: 'post', :id => 'print_form') do %>
         <%= hidden_field_tag(:base_token, SecureRandom.hex) %>
         <%= hidden_field_tag(:token, "") %>
         <button id="print_button" class="btn btn-default page_action print">
