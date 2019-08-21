@@ -578,7 +578,7 @@ module ASModel
 
       def update_mtime_for_ids(ids)
         now = Time.now
-        ids.each_slice(50) do |subset|
+        ids.each_slice(1000) do |subset|
           self.dataset.filter(:id => subset).update(:system_mtime => now)
         end
       end
