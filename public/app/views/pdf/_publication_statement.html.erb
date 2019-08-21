@@ -7,9 +7,7 @@
         <% end %>
         <% address_properties = ['city', 'region', 'post_code'] %>
         <% if address_properties.any? {|attr| repository_information[attr]} %>
-            <div class="repository-address-line">
-              <%= repository_information['city'] %>, <%= repository_information['region'] %> <%= repository_information['post_code'] %>
-            </div>
+          <div class="repository-address-line"><%= address_properties.map {|attr| repository_information[attr]}.join(' ') %></div>
         <% end %>
     </div>
 

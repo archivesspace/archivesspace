@@ -212,9 +212,7 @@ class EADModel < ASpaceExport::ExportModel
       data << contact["address_#{i}"]
     end
 
-    line = ""
-    line += %w(city region).map{|k| contact[k] }.compact.join(', ')
-    line += " #{contact['post_code']}"
+    line = %w(city region post_code).map{|k| contact[k] }.compact.join(' ')
     line.strip!
 
     data <<  line unless line.empty?
@@ -240,9 +238,7 @@ class EADModel < ASpaceExport::ExportModel
       data["address_#{i}"] = contact["address_#{i}"]
     end
 
-    line = ""
-    line += %w(city region).map{|k| contact[k] }.compact.join(', ')
-    line += " #{contact['post_code']}"
+    line = %w(city region post_code).map{|k| contact[k] }.compact.join(' ')
     line.strip!
     data['city_region_post_code'] = line unless line.empty?
 
