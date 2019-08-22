@@ -1,13 +1,10 @@
-class MARCSerializer < ASpaceExport::Serializer 
+class MARCSerializer < ASpaceExport::Serializer
   serializer_for :marc21
 
   def build(marc, opts = {})
 
     builder = Nokogiri::XML::Builder.new(:encoding => "UTF-8") do |xml|
       _root(marc, xml)
-
-      ns = xml.doc.root.add_namespace_definition('marc', 'http://www.loc.gov/MARC21/slim')
-      xml.doc.root.namespace = ns
     end
 
     builder
@@ -42,7 +39,7 @@ class MARCSerializer < ASpaceExport::Serializer
     xml.collection('xmlns'              => 'http://www.loc.gov/MARC21/slim',
                    'xmlns:marc'         => 'http://www.loc.gov/MARC21/slim',
                    'xmlns:xsi'          => 'http://www.w3.org/2001/XMLSchema-instance',
-                   'xsi:schemaLocation' => 'http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd http://www.loc.gov/MARC21/slim'){
+                   'xsi:schemaLocation' => 'http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd'){
 
       xml.record {
 
