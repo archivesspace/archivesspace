@@ -68,15 +68,15 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def handle_linebreaks(content)
-    # 4archon... 
-    content.gsub!("\n\t", "\n\n")  
+    # 4archon...
+    content.gsub!("\n\t", "\n\n")
     # if there's already p tags, just leave as is
     return content if ( content.strip =~ /^<p(\s|\/|>)/ or content.strip.length < 1 )
     original_content = content
     blocks = content.split("\n\n").select { |b| !b.strip.empty? }
     if blocks.length > 1
-      content = blocks.inject("") do |c,n| 
-        c << "<p>#{escape_content(n.chomp)}</p>"  
+      content = blocks.inject("") do |c,n|
+        c << "<p>#{escape_content(n.chomp)}</p>"
       end
     else
       content = "<p>#{escape_content(content.strip)}</p>"
@@ -97,19 +97,18 @@ class EADSerializer < ASpaceExport::Serializer
 
   # ANW-669: Fix for attributes in mixed content causing errors when validating against the EAD schema.
 
-  # If content looks like it contains a valid XML element with an attribute,
-  # Then replace anything that looks like an attribute like " foo=" with " xlink:foo=".
+  # If content looks like it contains a valid XML element with an attribute from the expected list,
+  # then replace the attribute like " foo=" with " xlink:foo=".
 
   # References used for valid element and attribute names:
   # https://www.xml.com/pub/a/2001/07/25/namingparts.html
   # https://razzed.com/2009/01/30/valid-characters-in-attribute-names-in-htmlxml/
 
   def add_xlink_prefix(content)
-    if content =~ /<[A-Za-z_:]{1}[A-Za-z0-9_:.]* [a-zA-Z_:]{1}[-a-zA-Z0-9_:.]*=/
-      content.gsub(/ [a-zA-Z_:]{1}[-a-zA-Z0-9_:.]*=/) {|match| " xlink:#{match.strip}"}
-    else
-      content
+    %w{ actuate arcrole entityref from href id linktype parent role show target title to xpointer }.each do | xa |
+      content.gsub!(/ #{xa}=/) {|match| " xlink:#{match.strip}"} if content =~ / #{xa}=/
     end
+    content
   end
 
   def sanitize_mixed_content(content, context, fragments, allow_p = false  )
@@ -127,7 +126,11 @@ class EADSerializer < ASpaceExport::Serializer
       content = strip_p(content)
     end
 
-    content = add_xlink_prefix(content)
+    # ANW-669 - only certain EAD elements will have attributes that need
+    # xlink added so only do this processing if the element is there
+    # attribute check is inside the add_xlink_prefix method
+    xlink_eles = %w{ arc archref bibref extptr extptrloc extref extrefloc linkgrp ptr ptrloc ref refloc resource title }
+    content = add_xlink_prefix(content) if xlink_eles.any? { |word| content =~ /<#{word}\s/ }
 
     begin
       if ASpaceExport::Utils.has_html?(content)
@@ -506,7 +509,7 @@ class EADSerializer < ASpaceExport::Serializer
 
   # set daoloc audience attr == 'internal' if this is an unpublished && include_unpublished is set
   def get_audience_flag_for_file_version(file_version)
-    if file_version['file_uri'] && 
+    if file_version['file_uri'] &&
        (file_version['publish'] == false && @include_unpublished)
       return "internal"
     else
@@ -518,7 +521,7 @@ class EADSerializer < ASpaceExport::Serializer
     return if digital_object["publish"] === false && !@include_unpublished
     return if digital_object["suppressed"] === true
 
-    # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set 
+    # ANW-285: Only serialize file versions that are published, unless include_unpublished flag is set
     file_versions_to_display = digital_object['file_versions'].select {|fv| fv['publish'] == true || @include_unpublished }
 
     title = digital_object['title']
@@ -555,7 +558,7 @@ class EADSerializer < ASpaceExport::Serializer
       atts['xlink:actuate'] = file_version['xlink_actuate_attribute'] || 'onRequest'
       atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
       atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
-      atts['xlink:href'] = file_version['file_uri'] 
+      atts['xlink:href'] = file_version['file_uri']
       atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
@@ -565,7 +568,7 @@ class EADSerializer < ASpaceExport::Serializer
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         file_versions_to_display.each do |file_version|
           atts['xlink:type'] = 'locator'
-          atts['xlink:href'] = file_version['file_uri'] 
+          atts['xlink:href'] = file_version['file_uri']
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
           atts['xlink:title'] = file_version['caption'] if file_version['caption']
           atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
