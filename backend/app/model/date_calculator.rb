@@ -66,20 +66,67 @@ class DateCalculator
         date_query = date_query.filter(:label_id => label_id)
       end
 
-      date_query.map {|row|
+      min_begin_sort_key = nil
+      min_begin_raw = nil
+
+      max_end_sort_key = nil
+      max_end_raw = nil
+
+      date_query.each do |row|
         begin_raw = row[:begin]
         end_raw = row[:end]
         end_raw ||= begin_raw unless @opts[:allow_open_end]
 
-        begin_date = coerce_begin_date(begin_raw)
-        end_date = coerce_end_date(end_raw)
+        # begin_date = coerce_begin_date(begin_raw)
+        # end_date = coerce_end_date(end_raw)
 
-        @min_begin_date = [@min_begin_date, begin_date].compact.min
-        @min_begin = begin_raw if @min_begin_date == begin_date
+        padded_begin = date_sort_key_begin(begin_raw)
 
-        @max_end_date = [@max_end_date, end_date].compact.max
-        @max_end = end_raw if @max_end_date == end_date
-      }
+        if min_begin_sort_key.nil? || padded_begin < min_begin_sort_key
+          min_begin_sort_key = padded_begin
+          min_begin_raw = begin_raw
+        end
+
+        if end_raw
+          padded_end = date_sort_key_end(end_raw)
+
+          if max_end_sort_key.nil? || padded_end > max_end_sort_key
+            max_end_sort_key = padded_end
+            max_end_raw = end_raw
+          end
+        end
+      end
+
+      @min_begin_date = Date.parse(min_begin_sort_key)
+      @min_begin = min_begin_raw
+
+      if max_end_sort_key
+        @max_end_date = coerce_end_date(max_end_raw)
+        @max_end = max_end_raw
+      end
+    end
+  end
+
+  def date_sort_key_begin(date_str)
+    if date_str.length == 10
+      date_str
+    elsif date_str.length == 7
+      date_str + "-01"
+    else
+      date_str + "-01-01"
+    end
+  end
+
+  # NOTE: This won't produce correct dates most of the time, but the comparison
+  # between strings produced by this function will sort the real underlying
+  # dates correctly.
+  def date_sort_key_end(date_str)
+    if date_str.length == 10
+      date_str
+    elsif date_str.length == 7
+      date_str + "-31"
+    else
+      date_str + "-12-31"
     end
   end
 
@@ -101,20 +148,6 @@ class DateCalculator
   end
 
   private
-
-  def coerce_begin_date(raw_date)
-    return if raw_date.nil?
-
-    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/
-      Date.strptime(raw_date, '%Y-%m-%d')
-    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/
-      Date.strptime("#{raw_date}-01", '%Y-%m-%d')
-    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]$/
-      Date.strptime("#{raw_date}-01-01", '%Y-%m-%d')
-    else
-      raise "Not a date: #{raw_date}"
-    end
-  end
 
   def coerce_end_date(raw_date)
     return if raw_date.nil?
