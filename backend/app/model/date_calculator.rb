@@ -1,3 +1,11 @@
+# QSA NOTE: This version of the date calculator has been optimised for
+# collections with record counts in the millions.  It's roughly compatible with
+# the standard ArchivesSpace date calculator, *except* that it assumes all dates
+# will be in strict iso8601 format.
+#
+# Specifically, the padding is significant.  We need 2000-01-01 and never
+# 2000-1-1.
+
 class DateCalculator
 
   attr_reader :min_begin, :max_end, :min_begin_date, :max_end_date
@@ -22,9 +30,13 @@ class DateCalculator
 
   def calculate!
     DB.open do |db|
+      # substring/concat trickery: pad each date to the maximum extent possibly
+      # needed and then substring to chop off the excess.
       date_query = db[:date]
                      .filter(Sequel.|(Sequel.~(:begin => nil), Sequel.~(:end => nil)))
-                     .select(:begin, :end)
+                     .select(Sequel.lit('min(begin) min_begin'),
+                             Sequel.lit('max(substring(concat(begin, "-99-99"), 1, 10)) max_begin_padded'),
+                             Sequel.lit('max(substring(concat(end, "-99-99"), 1, 10)) max_end_padded'))
 
 
       if @root_object.is_a?(Resource)
@@ -53,8 +65,7 @@ class DateCalculator
           end
         end
 
-        date_query = date_query
-                       .filter(:archival_object_id => ao_ids)
+        date_query = date_query.filter(:archival_object_id => ao_ids)
       end
 
       if @label
@@ -66,67 +77,21 @@ class DateCalculator
         date_query = date_query.filter(:label_id => label_id)
       end
 
-      min_begin_sort_key = nil
-      min_begin_raw = nil
+      result = date_query.first
 
-      max_end_sort_key = nil
-      max_end_raw = nil
-
-      date_query.each do |row|
-        begin_raw = row[:begin]
-        end_raw = row[:end]
-        end_raw ||= begin_raw unless @opts[:allow_open_end]
-
-        # begin_date = coerce_begin_date(begin_raw)
-        # end_date = coerce_end_date(end_raw)
-
-        padded_begin = date_sort_key_begin(begin_raw)
-
-        if min_begin_sort_key.nil? || padded_begin < min_begin_sort_key
-          min_begin_sort_key = padded_begin
-          min_begin_raw = begin_raw
-        end
-
-        if end_raw
-          padded_end = date_sort_key_end(end_raw)
-
-          if max_end_sort_key.nil? || padded_end > max_end_sort_key
-            max_end_sort_key = padded_end
-            max_end_raw = end_raw
-          end
-        end
+      if result.fetch(:min_begin)
+        @min_begin = result.fetch(:min_begin)
+        @min_begin_date = coerce_begin_date(result.fetch(:min_begin))
       end
 
-      @min_begin_date = Date.parse(min_begin_sort_key)
-      @min_begin = min_begin_raw
-
-      if max_end_sort_key
-        @max_end_date = coerce_end_date(max_end_raw)
-        @max_end = max_end_raw
+      if result.fetch(:max_end_padded)
+        @max_end = strip_date_padding(result.fetch(:max_end_padded))
+        @max_end_date = coerce_end_date(@max_end)
+      elsif !@opts[:allow_open_end] && result.fetch(:max_begin_padded)
+        # Try the begin date
+        @max_end = strip_date_padding(result.fetch(:max_begin_padded))
+        @max_end_date = coerce_end_date(@max_end)
       end
-    end
-  end
-
-  def date_sort_key_begin(date_str)
-    if date_str.length == 10
-      date_str
-    elsif date_str.length == 7
-      date_str + "-01"
-    else
-      date_str + "-01-01"
-    end
-  end
-
-  # NOTE: This won't produce correct dates most of the time, but the comparison
-  # between strings produced by this function will sort the real underlying
-  # dates correctly.
-  def date_sort_key_end(date_str)
-    if date_str.length == 10
-      date_str
-    elsif date_str.length == 7
-      date_str + "-31"
-    else
-      date_str + "-12-31"
     end
   end
 
@@ -149,19 +114,40 @@ class DateCalculator
 
   private
 
+
+  def coerce_begin_date(raw_date)
+    return if raw_date.nil?
+
+    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/
+      Date.strptime(raw_date, '%Y-%m-%d')
+    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/
+      Date.strptime("#{raw_date}-01", '%Y-%m-%d')
+    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]$/
+      Date.strptime("#{raw_date}-01-01", '%Y-%m-%d')
+    else
+      raise "Not a date: #{raw_date}"
+    end
+  end
+
   def coerce_end_date(raw_date)
     return if raw_date.nil?
 
-    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/
+    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/
       Date.strptime(raw_date, '%Y-%m-%d')
-    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/
-      year, month = raw_date.match(/([0-9][0-9][0-9][0-9])-([0-9][0-9]?)/).captures
+    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/
+      year, month = raw_date.match(/([0-9][0-9][0-9][0-9])-([0-9][0-9])/).captures
       Date.civil(year.to_i, month.to_i, -1)
     elsif raw_date =~ /^[0-9][0-9][0-9][0-9]$/
       Date.civil(raw_date.to_i, -1, -1)
     else
       raise "Not a date: #{raw_date}"
     end
+  end
+
+  def strip_date_padding(s)
+    # Our SQL query will append '-99' to pad missing months and days as needed.
+    # Take those off now.
+    s.gsub(/(-99)+/, '')
   end
 
 end
