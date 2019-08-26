@@ -48,6 +48,10 @@ PLUGINS = [
     :path => 'plugins/qsa_kitchensink',
     :url => 'https://github.com/hudmol/qsa_kitchensink.git',
   },
+  {
+    :path => 'plugins/qsa_www',
+    :url => 'https://github.com/hudmol/qsa_www.git',
+  },
 ]
 
 
