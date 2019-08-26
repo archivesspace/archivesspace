@@ -1,4 +1,4 @@
-class ARKName < Sequel::Model(:ark_name)
+class ArkName < Sequel::Model(:ark_name)
   include ASModel
   corresponds_to JSONModel(:ark_name)
 
@@ -29,17 +29,19 @@ class ARKName < Sequel::Model(:ark_name)
   end
 
   def self.create_from_resource(resource)
-    self.insert(:resource_id      => resource.id,
-                :created_by       => 'admin',
-                :last_modified_by => 'admin',
-                :create_time      => Time.now,
-                :system_mtime     => Time.now,
-                :user_mtime       => Time.now,
-                :lock_version     => 0)
+    self.insert(:archival_object_id => nil,
+                :resource_id        => resource.id,
+                :created_by         => 'admin',
+                :last_modified_by   => 'admin',
+                :create_time        => Time.now,
+                :system_mtime       => Time.now,
+                :user_mtime         => Time.now,
+                :lock_version       => 0)
   end
 
   def self.create_from_archival_object(archival_object)
     self.insert(:archival_object_id => archival_object.id,
+                :resource_id        => nil,
                 :created_by         => 'admin',
                 :last_modified_by   => 'admin',
                 :create_time        => Time.now,
@@ -60,18 +62,18 @@ class ARKName < Sequel::Model(:ark_name)
       return nil
     end
 
-    ark = ARKName.first(id_field => id)
+    external_url = get_external_ark_url(id, klass_sym)
 
-    if ark
-      external_url = get_external_ark_url(ark.send(id_field), klass_sym)
-
-      if external_url
-        return external_url
-      else
-        return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}"
-      end
+    if !external_url.nil?
+      return external_url
     else
-      return nil
+      ark = ArkName.first(id_field => id)
+
+      if !ark.nil?
+        return "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{ark.id}"
+      else
+        return nil
+      end
     end
   end
 
@@ -97,5 +99,23 @@ class ARKName < Sequel::Model(:ark_name)
     # So, for now, we get around this by using raw SQL.
     entity = klass.fetch("SELECT external_ark_url from #{table} WHERE id = #{id.to_i}").first
     return entity.send(:external_ark_url)
+  end
+
+  def self.ark_name_exists?(id, type)
+    case type
+    when Resource
+      id_field = :resource_id
+    when ArchivalObject
+      id_field = :archival_object_id
+    else
+      return false
+    end
+
+    if ArkName.first(id_field => id).nil?
+      return false
+    else
+      return true
+    end
+
   end
 end

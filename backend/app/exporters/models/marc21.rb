@@ -575,7 +575,7 @@ class MARCModel < ASpaceExport::ExportModel
     #  <subfield code="u">ARK URL</subfield>
     #</datafield>
     if(AppConfig[:arks_enabled] == true)
-       ark_url = ARKName::get_ark_url(resource_id, :resource)
+       ark_url = ArkName::get_ark_url(resource_id, :resource)
        df('856', '4', '2').with_sfs(
                                     ['z', "Archival Resource Key:"],
                                     ['u', ark_url]

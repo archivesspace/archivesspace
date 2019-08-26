@@ -721,7 +721,7 @@ class EADSerializer < ASpaceExport::Serializer
 
   def serialize_eadheader(data, xml, fragments)
     eadid_url = AppConfig[:arks_enabled] ?
-                  ARKName::get_ark_url(data.id, :resource) :
+                  ArkName::get_ark_url(data.id, :resource) :
                   data.ead_location
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",

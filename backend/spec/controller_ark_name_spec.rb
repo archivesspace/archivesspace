@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'ARK Name controller' do
   it "should resolve a resource" do
     resource = create_resource(:title => generate(:generic_title))
-    ark = ARKName.first(:resource_id => resource.id)
+    ark = ArkName.first(:resource_id => resource.id)
 
     get "/ark:/f00001/#{ark.id}"
     response_hash = JSON.parse(last_response.body)
@@ -18,7 +18,7 @@ describe 'ARK Name controller' do
   it "should redirect to archival object" do
     json = build(:json_archival_object)
     archival_object = ArchivalObject.create_from_json(json)
-    ark = ARKName.first(:archival_object_id => archival_object.id)
+    ark = ArkName.first(:archival_object_id => archival_object.id)
 
     get "/ark:/f00001/#{ark.id}"
     response_hash = JSON.parse(last_response.body)
@@ -40,7 +40,7 @@ describe 'ARK Name controller' do
   it "should redirect to external_ark_url in resource if defined" do
     resource = create_resource(:title => generate(:generic_title),
                                :external_ark_url => "http://foo.bar/ark:/123/123")
-    ark = ARKName.first(:resource_id => resource.id)
+    ark = ArkName.first(:resource_id => resource.id)
 
     get "/ark:/f00001/#{ark.id}"
     response_hash = JSON.parse(last_response.body)
@@ -54,7 +54,7 @@ describe 'ARK Name controller' do
   it "should redirect to external_ark_url in archival_object if defined" do
     json = build(:json_archival_object, {:external_ark_url => "http://foo.bar/ark:/123/123" })
     archival_object = ArchivalObject.create_from_json(json)
-    ark = ARKName.first(:archival_object_id => archival_object.id)
+    ark = ArkName.first(:archival_object_id => archival_object.id)
 
     get "/ark:/f00001/#{ark.id}"
     response_hash = JSON.parse(last_response.body)

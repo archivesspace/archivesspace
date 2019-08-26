@@ -23,14 +23,16 @@ class OAIMODSMapper
                               (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
                             end
 
-        ark_url = ""
-        if jsonmodel['jsonmodel_type'] == 'resource'
-          ark_url = ARKName::get_ark_url(jsonmodel.id, :resource)
-        elsif jsonmodel['jsonmodel_type'] == 'archival_object'
-          ark_url = ARKName::get_ark_url(jsonmodel.id, :archival_object)
-        end
-        unless ark_url.empty? || AppConfig[:arks_enabled] == false
-          xml.identifier(ark_url)
+        if AppConfig[:arks_enabled]
+          ark_url = ""
+          if jsonmodel['jsonmodel_type'] == 'resource'
+            ark_url = ArkName::get_ark_url(jsonmodel.id, :resource)
+          elsif jsonmodel['jsonmodel_type'] == 'archival_object'
+            ark_url = ArkName::get_ark_url(jsonmodel.id, :archival_object)
+          end
+          unless ark_url.nil? || ark_url.empty?
+            xml.identifier(ark_url)
+          end
         end
 
         # Creator -> name/namePart

@@ -2023,6 +2023,7 @@ fr:
       report_job: Creer un rapport
       container_conversion_job: Creer un rapport
       generate_slugs_job: Générer des URL sémantiques pour les entitées
+      create_arks_job: Create ARKs in Bulk
       trim_whitespace_job: Couper les espaces
       unknown_job_type: Type de tâche inconnu
     status: Statut

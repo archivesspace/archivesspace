@@ -650,4 +650,4 @@ AppConfig[:ark_naan] = "f00001"
 # In most cases this will be the same as the PUI URL.
 AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 # Flag for turning ARKs in exports off and on
-AppConfig[:arks_enabled] = true
+AppConfig[:arks_enabled] = false

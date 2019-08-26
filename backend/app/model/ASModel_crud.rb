@@ -218,6 +218,12 @@ module ASModel
 
       self.class.fire_update(json, self)
 
+      puts "LANEY AppConfig[:arks_enabled] ArkName.ark_name_exists?(id, self.class)"
+      puts "LANEY #{AppConfig[:arks_enabled]} #{ArkName.ark_name_exists?(id, self.class)}"
+      if AppConfig[:arks_enabled] && !ArkName.ark_name_exists?(id, self.class)
+        self.create_ark_name
+      end
+
       self
     end
 
@@ -253,8 +259,8 @@ module ASModel
             ids_to_delete.each do |id|
               deleted_model = model.my_jsonmodel(true)
 
-              # ARKNames don't have URIs, so they are deleted above
-              unless model == ARKName
+              # ArkNames don't have URIs, so they are deleted above
+              unless model == ArkName
                 deleted_uri = deleted_model.uri_for(id, :repo_id => model.active_repository)
               end
 
@@ -326,22 +332,23 @@ module ASModel
     end
 
     def create_ark_name
+      puts "LANEY self #{self.inspect}"
       if self.class == Resource
-        ARKName.create_from_resource(self)
+        ArkName.create_from_resource(self)
       end
 
       if self.class == ArchivalObject
-        ARKName.create_from_archival_object(self)
+        ArkName.create_from_archival_object(self)
       end
     end
 
     def delete_ark_name
       if self.class == Resource
-        ARKName.first(:resource_id => self.id).delete
+        ArkName.first(:resource_id => self.id).delete
       end
 
       if self.class == ArchivalObject
-        ARKName.first(:archival_object_id => self.id).delete
+        ArkName.first(:archival_object_id => self.id).delete
       end
     end
 
@@ -367,7 +374,7 @@ module ASModel
         fire_update(json, obj)
 
         obj.refresh
-        obj.create_ark_name
+        obj.create_ark_name if AppConfig[:arks_enabled]
         obj
       end
 

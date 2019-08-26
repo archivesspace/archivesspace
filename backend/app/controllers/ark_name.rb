@@ -6,7 +6,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([404, "Not found"],
              [302, :redirect]) \
   do
-    if ark = ARKName[params[:id]]
+    if ark = ArkName[params[:id]]
       response_hash = find_entity_data(ark)
       json_response(response_hash)
     else

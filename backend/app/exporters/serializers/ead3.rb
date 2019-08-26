@@ -589,7 +589,7 @@ class EAD3Serializer < EADSerializer
     xml.control(control_atts) {
 
       ins_url = AppConfig[:arks_enabled] ?
-                    ARKName::get_ark_url(data.id, :resource) :
+                    ArkName::get_ark_url(data.id, :resource) :
                     data.ead_location
 
       recordid_atts = {

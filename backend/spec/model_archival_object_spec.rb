@@ -427,7 +427,7 @@ describe 'ArchivalObject model' do
                                                 :title => 'A new archival object'
                                                 ),
                                           :repo_id => $repo_id)
-    expect(ARKName.first(:archival_object_id => ao.id)).to_not be_nil
+    expect(ArkName.first(:archival_object_id => ao.id)).to_not be_nil
     ao.delete
   end
 
@@ -438,8 +438,8 @@ describe 'ArchivalObject model' do
                                                 :title => 'A new archival object'
                                                 ),
                                           :repo_id => $repo_id)
-    expect(ARKName.first(:archival_object_id => ao[:id])).to_not be_nil
+    expect(ArkName.first(:archival_object_id => ao[:id])).to_not be_nil
     ao.delete
-    expect(ARKName.first(:archival_object_id => ao[:id])).to be_nil
+    expect(ArkName.first(:archival_object_id => ao[:id])).to be_nil
   end
 end

@@ -2024,6 +2024,7 @@ en:
       report_job: Create Report
       container_conversion_job: Create Report
       generate_slugs_job: Generate Slugs in Bulk
+      create_arks_job: Create ARKs in Bulk
       trim_whitespace_job: Trim Whitespace
       unknown_job_type: Unknown job type
     status: Status

@@ -639,6 +639,7 @@ FactoryBot.define do
     instances { [ build(:json_instance) ] }
     revision_statements {  [build(:json_revision_statement)]  }
   end
+
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
     date { generate(:alphanumstr) }
     description { generate(:alphanumstr) }
@@ -765,6 +766,9 @@ FactoryBot.define do
   end
 
   factory :generate_slugs_job, class: JSONModel(:generate_slugs_job) do
+  end
+
+  factory :create_arks_job, class: JSONModel(:create_arks_job) do
   end
 
   factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do

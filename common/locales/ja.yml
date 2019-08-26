@@ -1545,6 +1545,7 @@ ja:
       report_job: レポートを作成
       container_conversion_job: レポートを作成
       generate_slugs_job: エンティティのスラッグを生成する
+      create_arks_job: Create ARKs in Bulk
       trim_whitespace_job: 空白をトリム
       unknown_job_type: 不明なジョブタイプ
     status: 状態
