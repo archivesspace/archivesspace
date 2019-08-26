@@ -736,8 +736,8 @@ class EAD3Serializer < EADSerializer
           }
 
           unless data.finding_aid_language_note.nil?
-            xml.descriptivenote() {
-              xml.text(data.finding_aid_language_note)
+            xml.descriptivenote {
+              sanitize_mixed_content(data.finding_aid_language_note, xml, fragments)
             }
           end
 
