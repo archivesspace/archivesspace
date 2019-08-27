@@ -218,8 +218,6 @@ module ASModel
 
       self.class.fire_update(json, self)
 
-      puts "LANEY AppConfig[:arks_enabled] ArkName.ark_name_exists?(id, self.class)"
-      puts "LANEY #{AppConfig[:arks_enabled]} #{ArkName.ark_name_exists?(id, self.class)}"
       if AppConfig[:arks_enabled] && !ArkName.ark_name_exists?(id, self.class)
         self.create_ark_name
       end
@@ -332,7 +330,6 @@ module ASModel
     end
 
     def create_ark_name
-      puts "LANEY self #{self.inspect}"
       if self.class == Resource
         ArkName.create_from_resource(self)
       end
