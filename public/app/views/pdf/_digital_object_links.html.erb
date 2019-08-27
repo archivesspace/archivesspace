@@ -1,5 +1,5 @@
 <% Array(instances).each do |instance| %>
-    <% next if instance['_inherited'] || instance['digital_object']['_resolved']['publish'] == false %>
+    <% next if instance['_inherited'] || (instance.key?('digital_object') && instance['digital_object']['_resolved']['publish'] == false) %>
     <% if instance['instance_type'] == 'digital_object' && instance['digital_object'] %>
       <% file_versions = instance['digital_object']['_resolved']['file_versions'] %>
       <% Array(file_versions).each do |file| %>
