@@ -184,7 +184,8 @@
     <div id="footer" class="footer" style="position: running(footer);">
       <div class="timestamp">
         <% if report.repo_id %>
-          Scoped for Repository: <%= report.repository %><br/>
+          <% cleaned = xml_clean!(report.repository) %>
+          Scoped for Repository: <%= cleaned || report.repository %><br/>
         <% end %>
         Report Generated at <%= DateTime.now.strftime("%Y-%m-%d %H:%M %Z") %>
       </div>

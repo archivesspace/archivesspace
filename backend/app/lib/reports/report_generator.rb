@@ -101,24 +101,22 @@ class ReportGenerator
     end
   end
 
+  INVALID_CHARS = {
+    '"' => '&quot;',
+    '&' => '&amp;',
+    "'" => '&apos;',
+    '<' => '&lt;',
+    '>' => '&gt;'
+  }
+
   def xml_clean!(data)
-    data_array = data.is_a?(Array) ? data : [data]
-    invalid_chars = {}
-    invalid_chars['"'] = '&quot;'
-    invalid_chars['&'] = '&amp;'
-    invalid_chars["'"] = '&apos;'
-    invalid_chars['<'] = '&lt;'
-    invalid_chars['>'] = '&gt;'
-    data_array.each do |item|
-      next unless item.is_a?(Hash)
-      item.each do |_key, value|
-        if value.is_a?(Array)
-          xml_clean!(value)
-        elsif value
-          value.to_s.gsub!(/[#{invalid_chars.keys.join('')}]/) do |ch|
-            invalid_chars[ch]
-          end
-        end
+    if data.is_a?(Array)
+      data.each {|item| xml_clean!(item)}
+    elsif data.is_a?(Hash)
+      data.each {|_key, value| xml_clean!(value)}
+    elsif data.is_a?(String)
+      data.gsub!(/[#{INVALID_CHARS.keys.join('')}]/) do |ch|
+        INVALID_CHARS[ch]
       end
     end
   end
