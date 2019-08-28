@@ -6,7 +6,7 @@ permalink: /user/running-archivesspace-as-a-windows-service/
 Running ArchivesSpace as a Windows service requires some additional
 configuration.
 
-You can also use Apache [procrun]((http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have
+You can also use Apache [procrun](http://commons.apache.org/proper/commons-daemon/procrun.html) to configure ArchivesSpace. We have
 provided a service.bat script that will attempt to configure
 procrun for you (under `launcher\service.bat`).
 

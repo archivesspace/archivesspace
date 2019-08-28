@@ -6,7 +6,7 @@
 <title>
   Module: ViewHelper
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -147,6 +147,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#archival_object_base_url-instance_method" title="#archival_object_base_url (instance method)">#<strong>archival_object_base_url</strong>(result)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#classification_base_url-instance_method" title="#classification_base_url (instance method)">#<strong>classification_base_url</strong>(result)  &#x21d2; Object </a>
     
 
@@ -171,29 +194,6 @@
   <span class="summary_signature">
     
       <a href="#digital_object_base_url-instance_method" title="#digital_object_base_url (instance method)">#<strong>digital_object_base_url</strong>(result)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#object_base_url-instance_method" title="#object_base_url (instance method)">#<strong>object_base_url</strong>(result)  &#x21d2; Object </a>
     
 
     
@@ -398,6 +398,69 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="archival_object_base_url-instance_method">
+  
+    #<strong>archival_object_base_url</strong>(result)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 120</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_archival_object_base_url identifier id'>archival_object_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_name_in_slugs</span><span class='rbrack token'>]</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_resolved_repository identifier id'>resolved_repository</span><span class='lbrack token'>[</span><span class='string val'>&quot;slug&quot;</span><span class='rbrack token'>]</span>
+        <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;repositories/#{result.resolved_repository[&quot;slug&quot;]}/archival_objects/&quot;</span> <span class='plus op'>+</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span>
+
+    <span class='comment val'># otherwise, generate URL without repo slug</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='string val'>&quot;archival_objects/&quot;</span> <span class='plus op'>+</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_url identifier id'>url</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="classification_base_url-instance_method">
   
     #<strong>classification_base_url</strong>(result)  &#x21d2; <tt>Object</tt> 
@@ -510,69 +573,6 @@
     <span class='comment val'># otherwise, generate URL without repo slug</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='string val'>&quot;digital_objects/&quot;</span> <span class='plus op'>+</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
-  <span class='rubyid_end end kw'>end</span>
-
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_url identifier id'>url</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="object_base_url-instance_method">
-  
-    #<strong>object_base_url</strong>(result)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 120</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_object_base_url identifier id'>object_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_name_in_slugs</span><span class='rbrack token'>]</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_resolved_repository identifier id'>resolved_repository</span><span class='lbrack token'>[</span><span class='string val'>&quot;slug&quot;</span><span class='rbrack token'>]</span>
-        <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;repositories/#{result.resolved_repository[&quot;slug&quot;]}/archival_objects/&quot;</span> <span class='plus op'>+</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_else else kw'>else</span>
-        <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
-      <span class='rubyid_end end kw'>end</span>
-
-    <span class='comment val'># otherwise, generate URL without repo slug</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='string val'>&quot;archival_objects/&quot;</span> <span class='plus op'>+</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
@@ -760,9 +760,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:12 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:06 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

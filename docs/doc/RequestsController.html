@@ -6,7 +6,7 @@
 <title>
   Class: RequestsController
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -91,6 +91,11 @@
   
   
   
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="PrefixHelper.html" title="PrefixHelper (module)">PrefixHelper</a></span></dd>
+  </dl>
+  
   
 
   
@@ -152,6 +157,17 @@
     </ul>
   
 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="PrefixHelper.html" title="PrefixHelper (module)">PrefixHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PrefixHelper.html#app_prefix-class_method" title="PrefixHelper.app_prefix (method)">app_prefix</a></span>, <span class='object_link'><a href="PrefixHelper.html#app_prefix-instance_method" title="PrefixHelper#app_prefix (method)">#app_prefix</a></span>, <span class='object_link'><a href="PrefixHelper.html#app_prefix_js-class_method" title="PrefixHelper.app_prefix_js (method)">app_prefix_js</a></span>, <span class='object_link'><a href="PrefixHelper.html#app_prefix_js-instance_method" title="PrefixHelper#app_prefix_js (method)">#app_prefix_js</a></span></p>
 
   
   
@@ -242,8 +258,6 @@
       <pre class="lines">
 
 
-4
-5
 6
 7
 8
@@ -259,10 +273,12 @@
 18
 19
 20
-21</pre>
+21
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/requests_controller.rb', line 4</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/requests_controller.rb', line 6</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_request identifier id'>make_request</span>
   <span class='rubyid_@request ivar id'>@request</span> <span class='assign token'>=</span> <span class='rubyid_RequestItem constant id'>RequestItem</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
@@ -276,10 +292,10 @@
     <span class='rubyid_RequestMailer constant id'>RequestMailer</span><span class='dot token'>.</span><span class='rubyid_request_received_staff_email identifier id'>request_received_staff_email</span><span class='lparen token'>(</span><span class='rubyid_@request ivar id'>@request</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_deliver identifier id'>deliver</span>
     <span class='rubyid_RequestMailer constant id'>RequestMailer</span><span class='dot token'>.</span><span class='rubyid_request_received_email identifier id'>request_received_email</span><span class='lparen token'>(</span><span class='rubyid_@request ivar id'>@request</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_deliver identifier id'>deliver</span>
 
-    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;base_url&#39;</span><span class='comma token'>,</span> <span class='rubyid_request identifier id'>request</span><span class='lbrack token'>[</span><span class='symbol val'>:request_uri</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;base_url&#39;</span><span class='comma token'>,</span> <span class='rubyid_app_prefix identifier id'>app_prefix</span><span class='lparen token'>(</span><span class='rubyid_request identifier id'>request</span><span class='lbrack token'>[</span><span class='symbol val'>:request_uri</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_errs identifier id'>errs</span>
-    <span class='rubyid_redirect_back identifier id'>redirect_back</span><span class='lparen token'>(</span><span class='label val'>fallback_location:</span> <span class='rubyid_request identifier id'>request</span><span class='lbrack token'>[</span><span class='symbol val'>:request_uri</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_return return kw'>return</span>
+    <span class='rubyid_redirect_back identifier id'>redirect_back</span><span class='lparen token'>(</span><span class='label val'>fallback_location:</span> <span class='rubyid_app_prefix identifier id'>app_prefix</span><span class='lparen token'>(</span><span class='rubyid_request identifier id'>request</span><span class='lbrack token'>[</span><span class='symbol val'>:request_uri</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_return return kw'>return</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -293,9 +309,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:32 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:28 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>
