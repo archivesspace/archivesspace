@@ -59,7 +59,7 @@ module ASModel
         # If the slug is empty at this point and is_slug_auto is enabled,
         # then we didn't have enough data to generate one, so we'll turn
         # is_slug_auto off
-        if SlugHelpers.sluggable_class?(self.class) &&
+        if SlugHelpers.base_sluggable_class?(self.class) &&
            (self[:slug].nil? || self[:slug].empty?) &&
            !SlugHelpers.is_agent_type?(self.class) &&
            SlugHelpers.is_slug_auto_enabled?(self)

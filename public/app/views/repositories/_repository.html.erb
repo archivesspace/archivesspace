@@ -4,7 +4,7 @@
 
 <%= (full ? '<h1>' : '<h2>').html_safe %>
 
-<% if !full %><a class="record-title" href="<%= repository_base_url(result) %>"><% end %><%= result['name']%>
+<% if !full %><a class="record-title" href="<%= app_prefix(repository_base_url(result)) %>"><% end %><%= result['name']%>
 <% if !full %></a><% end %>
 	<% if result.has_key?('image_url') %>
 		<%= link_to image_tag(result['image_url'], :alt => "#{t('repository._singular')}: #{result['name']}"), result['uri'], {:class => 'repository-logo'} %>

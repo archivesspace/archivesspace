@@ -29,6 +29,7 @@ require_relative 'lib/progress_ticker'
 require 'solr_snapshotter'
 
 require 'barcode_check'
+require 'benchmark'
 require 'record_inheritance'
 
 require 'uri'
@@ -309,15 +310,15 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   get '/' do
-    sys_info =  DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION}) 
-    
+    sys_info =  DB.sysinfo.merge({ "archivesSpaceVersion" =>  ASConstants.VERSION})
+
     request.accept.each do |type|
         case type
           when 'application/json'
-            content_type :json 
+            content_type :json
             halt sys_info.to_json
         end
-    end  
+    end
     JSON.pretty_generate(sys_info )
   end
 

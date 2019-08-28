@@ -3,11 +3,11 @@
   <li <% unless enabled %>class="disabled"<% end %>>
   	<% case action
   		 when :show
-  		 	 url = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
+         url = app_prefix("/repositories/#{params[:rid]}/resources/#{params[:id]}")
   		 when :infinite
-  		 	 url = "/repositories/#{params[:rid]}/resources/#{params[:id]}/collection_organization"
+         url = app_prefix("/repositories/#{params[:rid]}/resources/#{params[:id]}/collection_organization")
   		 when :inventory
-  		 	 url = "/repositories/#{params[:rid]}/resources/#{params[:id]}/inventory"
+         url = app_prefix("/repositories/#{params[:rid]}/resources/#{params[:id]}/inventory")
   		 end
   	%>
 

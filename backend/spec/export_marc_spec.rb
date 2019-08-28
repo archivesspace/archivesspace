@@ -65,23 +65,12 @@ describe 'MARC Export' do
       @xml = @marc.to_xml
     end
 
-
-    it "root node should have marc namespace" do
-      expect(@xml).to match(/<marc:collection/)
-      expect(@xml).to match(/<\/marc:collection>/)
-    end
-
-    it "root node should have xmlns:marc defined" do
-      expect(@xml).to match(/<marc:collection.*xmlns:marc="http:\/\/www.loc.gov\/MARC21\/slim"/)
-
-    end
-
     it "root node should have xmlns:xsi defined" do
-      expect(@xml).to match(/<marc:collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
+      expect(@xml).to match(/<collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
     end
 
     it "root node should have xsi:schemaLocation defined" do
-      expect(@xml).to match(/<marc:collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd http:\/\/www.loc.gov\/MARC21\/slim"/)
+      expect(@xml).to match(/<collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/MARC21\/slim http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd"/)
     end
   end
 
