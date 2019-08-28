@@ -341,11 +341,11 @@ module ASModel
 
     def delete_ark_name
       if self.class == Resource
-        ArkName.first(:resource_id => self.id).delete
+        ArkName.first(:resource_id => self.id).delete unless ArkName.first(:resource_id => self.id).nil?
       end
 
       if self.class == ArchivalObject
-        ArkName.first(:archival_object_id => self.id).delete
+        ArkName.first(:archival_object_id => self.id).delete unless ArkName.first(:archival_object_id => self.id).nil?
       end
     end
 

@@ -368,10 +368,12 @@ describe 'Archival Object controller' do
   end
 
   it "includes the ARK name in the resource's JSON" do
+    AppConfig[:arks_enabled] = true
     ao = create(:json_archival_object)
     uri = JSONModel(:archival_object).uri_for(ao.id)
     json = JSONModel::HTTP.get_json(uri)
     expect(json['ark_name']).to_not be_nil
     expect(json['ark_name']['id']).to_not be_nil
+    AppConfig[:arks_enabled] = false
   end
 end

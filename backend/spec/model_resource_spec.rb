@@ -13,18 +13,23 @@ describe 'Resource model' do
   end
 
   it "creates an ARK name with resource" do
+    AppConfig[:arks_enabled] = true
     opts = {:title => generate(:generic_title)}
     resource = create_resource(opts)
     expect(ArkName.first(:resource_id => resource.id)).to_not be_nil
     resource.delete
+    AppConfig[:arks_enabled] = false
   end
+
   it "deletes ARK Name when resource is deleted" do
+    AppConfig[:arks_enabled] = true
     opts = {:title => generate(:generic_title)}
     resource = create_resource(opts)
     resource_id = resource.id
     expect(ArkName.first(:resource_id => resource_id)).to_not be_nil
     resource.delete
     expect(ArkName.first(:resource_id => resource_id)).to be_nil
+    AppConfig[:arks_enabled] = false
   end
 
   it "prevents duplicate IDs " do
