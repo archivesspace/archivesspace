@@ -6,7 +6,7 @@
 <title>
   File: backup
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -97,10 +97,10 @@ database, but backing them up can reduce your recovery time if
 disaster strikes on a large site.  You can create periodic Solr
 snapshots using the following configuration settings:</p>
 
-<pre class="code ruby"><code class="ruby"> <span class='comment val'># Create one snapshot per hour and keep only one.</span>
+<pre class="code ruby"><code class="ruby"> <span class='comment val'># Create one snapshot at midnight and keep only one.</span>
  <span class='comment val'>#</span>
  <span class='comment val'># Solr snapshots are written to &#39;data/solr_backups&#39; by default.</span>
- <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_schedule</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;0 \* \* \* \*&quot;</span>
+ <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_backup_schedule</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;0 0 \* \* \*&quot;</span>
  <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr</span>\<span class='rubyid__backup identifier id'>_backup</span>\<span class='rubyid__number identifier id'>_number</span>\<span class='rubyid__to identifier id'>_to</span>\<span class='rubyid__keep identifier id'>_keep</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
 </code></pre>
 
@@ -224,9 +224,9 @@ corruption.  To test an index, run the following command from your
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:04 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:46:58 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

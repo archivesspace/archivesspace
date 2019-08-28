@@ -6,7 +6,7 @@
 <title>
   Module: ASModel::SequelHooks
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -591,7 +591,7 @@ so skip them.</p>
     <span class='comment val'># If the slug is empty at this point and is_slug_auto is enabled,</span>
     <span class='comment val'># then we didn&#39;t have enough data to generate one, so we&#39;ll turn</span>
     <span class='comment val'># is_slug_auto off</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_sluggable_class? fid id'>sluggable_class?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_base_sluggable_class? fid id'>base_sluggable_class?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
        <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
        <span class='notop op'>!</span><span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_is_agent_type? fid id'>is_agent_type?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
        <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_is_slug_auto_enabled? fid id'>is_slug_auto_enabled?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -675,9 +675,9 @@ so skip them.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:07 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:01 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>
