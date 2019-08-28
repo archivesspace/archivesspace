@@ -52,6 +52,10 @@ PLUGINS = [
     :path => 'plugins/qsa_www',
     :url => 'https://github.com/hudmol/qsa_www.git',
   },
+  {
+    :path => 'plugins/qsa_migration_adapter',
+    :url => 'https://github.com/hudmol/qsa_migration_adapter',
+  }
 ]
 
 
