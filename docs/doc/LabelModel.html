@@ -6,7 +6,7 @@
 <title>
   Class: LabelModel
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -106,6 +106,39 @@
 
 
 
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#file-instance_method" title="#file (instance method)">#<strong>file</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute file.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
 
 
 
@@ -176,7 +209,53 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#append-instance_method" title="#append (instance method)">#<strong>append</strong>(row)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#children-instance_method" title="#children (instance method)">#<strong>children</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#full_row-instance_method" title="#full_row (instance method)">#<strong>full_row</strong>(row)  &#x21d2; Object </a>
     
 
     
@@ -339,7 +418,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#rows-instance_method" title="#rows (instance method)">#<strong>rows</strong>  &#x21d2; Object </a>
+      <a href="#stream-instance_method" title="#stream (instance method)">#<strong>stream</strong>  &#x21d2; Object </a>
     
 
     
@@ -353,7 +432,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The first 3 cells are pulled from the tip-top AO, with the rest being  added once we pull child AOs, Instance, TC, C.Profile, etc.</p>
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -435,21 +514,27 @@
       <pre class="lines">
 
 
-30
 31
 32
 33
 34
-35</pre>
+35
+36
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 30</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 31</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   <span class='rubyid_@json ivar id'>@json</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span>
   <span class='rubyid_@tree ivar id'>@tree</span> <span class='assign token'>=</span> <span class='rubyid_tree identifier id'>tree</span>
 
-  <span class='rubyid_@rows ivar id'>@rows</span> <span class='assign token'>=</span> <span class='rubyid_generate_label_rows identifier id'>generate_label_rows</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='rparen token'>)</span> 
+  <span class='rubyid_@file ivar id'>@file</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='lparen token'>(</span><span class='string val'>&#39;labels_&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_append identifier id'>append</span><span class='lparen token'>(</span><span class='rubyid_headers identifier id'>headers</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_generate_label_rows identifier id'>generate_label_rows</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -480,16 +565,16 @@
       <pre class="lines">
 
 
-68
-69
-70
-71
-72
-73
-74</pre>
+80
+81
+82
+83
+84
+85
+86</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@json ivar id'>@json</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='rubyid_meth identifier id'>meth</span><span class='rparen token'>)</span>
@@ -505,6 +590,54 @@
 </div>
   
 </div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="file-instance_method">
+  
+    #<strong>file</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 29</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_file identifier id'>file</span>
+  <span class='rubyid_@file ivar id'>@file</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
 
 
   <div id="class_method_details" class="method_details_list">
@@ -526,18 +659,18 @@
       <pre class="lines">
 
 
-54
-55
-56
-57
-58</pre>
+66
+67
+68
+69
+70</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 66</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_aspace_object identifier id'>from_aspace_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   <span class='rubyid_labler identifier id'>labler</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_labler identifier id'>labler</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -561,18 +694,18 @@
       <pre class="lines">
 
 
-61
-62
-63
-64
-65</pre>
+73
+74
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
   <span class='rubyid_labler identifier id'>labler</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_from_aspace_object identifier id'>from_aspace_object</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_tree identifier id'>tree</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_labler identifier id'>labler</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -588,7 +721,38 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="children-instance_method">
+  <h3 class="signature first" id="append-instance_method">
+  
+    #<strong>append</strong>(row)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 42</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_append identifier id'>append</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span>
+  <span class='rubyid_CSV constant id'>CSV</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_@file ivar id'>@file</span><span class='comma token'>,</span> <span class='string val'>&#39;a&#39;</span><span class='comma token'>,</span> <span class='label val'>col_sep:</span> <span class='string val'>&quot;\t&quot;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_csv identifier id'>csv</span><span class='bitor op'>|</span> <span class='rubyid_csv identifier id'>csv</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_row identifier id'>row</span> <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="children-instance_method">
   
     #<strong>children</strong>  &#x21d2; <tt>Object</tt> 
   
@@ -602,16 +766,16 @@
       <pre class="lines">
 
 
-92
-93
-94
-95
-96
-97
-98</pre>
+104
+105
+106
+107
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 104</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_children identifier id'>children</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_@tree ivar id'>@tree</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span>
@@ -619,6 +783,37 @@
   <span class='rubyid_ao_class identifier id'>ao_class</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_instance_variable_get identifier id'>instance_variable_get</span><span class='lparen token'>(</span><span class='symbol val'>:@ao</span><span class='rparen token'>)</span>
 
   <span class='rubyid_@tree ivar id'>@tree</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_subtree identifier id'>subtree</span><span class='bitor op'>|</span> <span class='rubyid_ao_class identifier id'>ao_class</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_subtree identifier id'>subtree</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="full_row-instance_method">
+  
+    #<strong>full_row</strong>(row)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 47</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_full_row identifier id'>full_row</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_repo_name identifier id'>repo_name</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_row identifier id'>row</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -641,19 +836,6 @@
       <pre class="lines">
 
 
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
 125
 126
 127
@@ -686,56 +868,67 @@
 154
 155
 156
-157</pre>
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 112</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 125</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_label_rows identifier id'>generate_label_rows</span><span class='lparen token'>(</span><span class='rubyid_objects identifier id'>objects</span><span class='rparen token'>)</span>
   <span class='rubyid_@top_containers ivar id'>@top_containers</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_@series ivar id'>@series</span> <span class='opasgn op'>||=</span> <span class='string val'>&quot;&quot;</span>
-  <span class='rubyid_rows identifier id'>rows</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-  
+
   <span class='rubyid_objects identifier id'>objects</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
-    <span class='rubyid_@series ivar id'>@series</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_level identifier id'>level</span> <span class='eq op'>==</span> <span class='string val'>&#39;series&#39;</span> 
+    <span class='rubyid_@series ivar id'>@series</span> <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_level identifier id'>level</span> <span class='eq op'>==</span> <span class='string val'>&#39;series&#39;</span>
     <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_instances identifier id'>instances</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_instance identifier id'>instance</span><span class='bitor op'>|</span>
       <span class='rubyid_next next kw'>next</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='lparen token'>(</span><span class='rubyid_sub identifier id'>sub</span> <span class='assign token'>=</span> <span class='rubyid_instance identifier id'>instance</span><span class='lbrack token'>[</span><span class='string val'>&#39;sub_container&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-      <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_sub identifier id'>sub</span><span class='lbrack token'>[</span><span class='string val'>&#39;top_container&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-      <span class='rubyid_@top_containers ivar id'>@top_containers</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_sub identifier id'>sub</span><span class='lbrack token'>[</span><span class='string val'>&#39;top_container&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span>
-     
+      <span class='comment val'># output each unique container per series (a container may be used in multiple series)</span>
+      <span class='rubyid_digest identifier id'>digest</span> <span class='assign token'>=</span> <span class='rubyid_Digest constant id'>Digest</span><span class='colon2 op'>::</span><span class='rubyid_SHA1 constant id'>SHA1</span><span class='dot token'>.</span><span class='rubyid_hexdigest identifier id'>hexdigest</span><span class='lparen token'>(</span><span class='rubyid_@series ivar id'>@series</span> <span class='plus op'>+</span> <span class='rubyid_sub identifier id'>sub</span><span class='lbrack token'>[</span><span class='string val'>&#39;top_container&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;ref&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@top_containers ivar id'>@top_containers</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_digest identifier id'>digest</span><span class='rparen token'>)</span>
+      <span class='rubyid_@top_containers ivar id'>@top_containers</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_digest identifier id'>digest</span>
+
       <span class='comment val'># We get the Series ( the ancestor AO with the level == &#39;series&#39; ) and</span>
       <span class='comment val'># the name of the AO we&#39;re processing</span>
-      <span class='rubyid_container_row identifier id'>container_row</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@series ivar id'>@series</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span><span class='rbrack token'>]</span> 
+      <span class='rubyid_container_row identifier id'>container_row</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_@series ivar id'>@series</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span><span class='rbrack token'>]</span>
 
       <span class='comment val'># Top Container time</span>
       <span class='rubyid_top identifier id'>top</span> <span class='assign token'>=</span> <span class='rubyid_sub identifier id'>sub</span><span class='lbrack token'>[</span><span class='string val'>&#39;top_container&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span>
 
-      <span class='comment val'># this will give us: </span>
+      <span class='comment val'># this will give us:</span>
       <span class='comment val'>#  &quot;#{name} [#{depth}d, #{height}h, #{width}w #{dimension_units}] extent measured by #{extent_dimension}&quot;</span>
       <span class='rubyid_container_row identifier id'>container_row</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_value_or_blank identifier id'>value_or_blank</span><span class='lparen token'>(</span> <span class='rubyid_top identifier id'>top</span><span class='comma token'>,</span> <span class='dstring node'>%w( container_profile _resolved display_string )</span><span class='rparen token'>)</span>
 
       <span class='rubyid_container_row identifier id'>container_row</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{value_or_blank( top, %w( type ))}: #{value_or_blank( top, %w( indicator ))}&quot;</span>
-     
+
       <span class='rubyid_container_row identifier id'>container_row</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_value_or_blank identifier id'>value_or_blank</span><span class='lparen token'>(</span><span class='rubyid_top identifier id'>top</span><span class='comma token'>,</span> <span class='dstring node'>%w( barcode )</span><span class='rparen token'>)</span>
 
       <span class='comment val'># these get the grandchild SubContainers of the Top Container</span>
       <span class='comment val'># e.g. Carton: 1 and Folder: 71</span>
       <span class='rubyid_container_row identifier id'>container_row</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span> <span class='rubyid_value_or_blank identifier id'>value_or_blank</span><span class='lparen token'>(</span> <span class='rubyid_sub identifier id'>sub</span><span class='comma token'>,</span> <span class='dstring node'>%w( type_2 )</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_value_or_blank identifier id'>value_or_blank</span><span class='lparen token'>(</span> <span class='rubyid_sub identifier id'>sub</span><span class='comma token'>,</span> <span class='dstring node'>%w( indicator_2 )</span> <span class='rparen token'>)</span> <span class='rbrack token'>]</span>
-        <span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;:&quot;</span><span class='rparen token'>)</span> 
+        <span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;:&quot;</span><span class='rparen token'>)</span>
       <span class='rubyid_container_row identifier id'>container_row</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span> <span class='rubyid_value_or_blank identifier id'>value_or_blank</span><span class='lparen token'>(</span> <span class='rubyid_sub identifier id'>sub</span><span class='comma token'>,</span> <span class='dstring node'>%w( type_3 )</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_value_or_blank identifier id'>value_or_blank</span><span class='lparen token'>(</span> <span class='rubyid_sub identifier id'>sub</span><span class='comma token'>,</span> <span class='dstring node'>%w( indicator_3 )</span> <span class='rparen token'>)</span> <span class='rbrack token'>]</span>
-        <span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;:&quot;</span><span class='rparen token'>)</span> 
+        <span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;:&quot;</span><span class='rparen token'>)</span>
 
-      
+
       <span class='rubyid_current_location identifier id'>current_location</span> <span class='assign token'>=</span> <span class='rubyid_top identifier id'>top</span><span class='lbrack token'>[</span><span class='string val'>&quot;container_locations&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_loc identifier id'>loc</span><span class='bitor op'>|</span> <span class='rubyid_loc identifier id'>loc</span><span class='lbrack token'>[</span><span class='string val'>&quot;status&quot;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='string val'>&#39;current&#39;</span>  <span class='rbrace token'>}</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-      <span class='rubyid_container_row identifier id'>container_row</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_value_or_blank identifier id'>value_or_blank</span><span class='lparen token'>(</span> <span class='rubyid_current_location identifier id'>current_location</span><span class='comma token'>,</span> <span class='dstring node'>%w( _resolved title  )</span> <span class='rparen token'>)</span> 
+      <span class='rubyid_container_row identifier id'>container_row</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_value_or_blank identifier id'>value_or_blank</span><span class='lparen token'>(</span> <span class='rubyid_current_location identifier id'>current_location</span><span class='comma token'>,</span> <span class='dstring node'>%w( _resolved title  )</span> <span class='rparen token'>)</span>
 
-      <span class='rubyid_rows identifier id'>rows</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_container_row identifier id'>container_row</span>
+      <span class='rubyid_append identifier id'>append</span><span class='lparen token'>(</span><span class='rubyid_full_row identifier id'>full_row</span><span class='lparen token'>(</span><span class='rubyid_container_row identifier id'>container_row</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_rows identifier id'>rows</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_generate_label_rows identifier id'>generate_label_rows</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_generate_label_rows identifier id'>generate_label_rows</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='rparen token'>)</span>
 
   <span class='rubyid_end end kw'>end</span>
-  
-  <span class='rubyid_rows identifier id'>rows</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -758,22 +951,22 @@
       <pre class="lines">
 
 
-38
-39
-40
-41
-42
-43
-44</pre>
+52
+53
+54
+55
+56
+57
+58</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 52</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_headers identifier id'>headers</span>
   <span class='dstring node'>%w(
     Repository\ Name Resource\ Title  Resource\ Identifier Series\ Archival\ Object\ Title
     Archival\ Object\ Title Container\ Profile Top\ Container Top\ Container\ Barcode
-    SubContainer\ 1 SubContainer\ 2 Current\ Location 
+    SubContainer\ 1 SubContainer\ 2 Current\ Location
   )</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -797,18 +990,18 @@
       <pre class="lines">
 
 
-76
-77
-78
-79
-80</pre>
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 88</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_identifier identifier id'>identifier</span>
   <span class='rubyid_@identifier ivar id'>@identifier</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='symbol val'>:id_0</span><span class='comma token'>,</span> <span class='symbol val'>:id_1</span><span class='comma token'>,</span> <span class='symbol val'>:id_2</span><span class='comma token'>,</span> <span class='symbol val'>:id_3</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_i identifier id'>i</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span> <span class='rubyid_i identifier id'>i</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;-&quot;</span><span class='rparen token'>)</span>
-  
+
   <span class='rubyid_@identifier ivar id'>@identifier</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -832,16 +1025,16 @@
       <pre class="lines">
 
 
-83
-84
-85
-86
-87
-88
-89</pre>
+95
+96
+97
+98
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_repo_name identifier id'>repo_name</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_repository identifier id'>repository</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_repository identifier id'>repository</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;_resolved&#39;</span><span class='rparen token'>)</span>
@@ -857,40 +1050,29 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="rows-instance_method">
+  <h3 class="signature " id="stream-instance_method">
   
-    #<strong>rows</strong>  &#x21d2; <tt>Object</tt> 
-  
-
+    #<strong>stream</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
-</h3><div class="docstring">
-  <div class="discussion">
-    <p>The first 3 cells are pulled from the tip-top AO, with the rest being 
-added once we pull child AOs, Instance, TC, C.Profile, etc</p>
 
-
-  </div>
-</div>
-<div class="tags">
   
-
-</div><table class="source_code">
+</h3><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 61</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_rows identifier id'>rows</span>
-  <span class='rubyid_@rows ivar id'>@rows</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_repo_name identifier id'>repo_name</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_r identifier id'>r</span> <span class='rbrace token'>}</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_stream identifier id'>stream</span>
+  <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_@file ivar id'>@file</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='comment val'># enumerator for stream response</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -924,18 +1106,18 @@ from an array of keys or a blank string ( if it does not exist )</p>
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107
-108
-109
-110</pre>
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/models/labels.rb', line 115</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_value_or_blank identifier id'>value_or_blank</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='comma token'>,</span> <span class='rubyid_keys identifier id'>keys</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span>
   <span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_reduce identifier id'>reduce</span><span class='lparen token'>(</span><span class='rubyid_hash identifier id'>hash</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_memo identifier id'>memo</span><span class='comma token'>,</span> <span class='rubyid_k identifier id'>k</span><span class='bitor op'>|</span>
@@ -957,9 +1139,9 @@ from an array of keys or a blank string ( if it does not exist )</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:20 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:15 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

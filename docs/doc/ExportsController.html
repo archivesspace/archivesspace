@@ -6,7 +6,7 @@
 <title>
   Class: ExportsController
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -418,8 +418,8 @@
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 10</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_container_labels identifier id'>container_labels</span>
-  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
-    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resource_labels/#{params[:id]}.tsv&quot;</span><span class='rparen token'>)</span>
+ <span class='rubyid_@resource ivar id'>@resource</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
+ <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:layout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -575,7 +575,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_marc identifier id'>download_marc</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
-    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> 
+    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span>
     <span class='symbol val'>:include_unpublished_marc</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:include_unpublished_marc</span><span class='rbrack token'>]</span>
     <span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -689,9 +689,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:26 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:22 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

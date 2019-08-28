@@ -168,7 +168,7 @@ Set to true if you have enabled MySQL binary logging.
 Set Solr back up schedule. By default, Solr backups will run at midnight.  See https://crontab.guru/ for
  information about the schedule syntax.
 
-`AppConfig[:solr_backup_schedule] = "0 0 * * *"`
+`AppConfig[:solr_backup_schedule] = "0 * * * *"`
 
 
 #### `AppConfig[:solr_backup_number_to_keep]`
@@ -1080,10 +1080,6 @@ clause to the scopecontent rule, like this:
 `AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain`
 
 
-#### `AppConfig[:pui_enable_staff_link]`
-
-`AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface`
-
 
 #### `AppConfig[:pui_max_concurrent_pdfs]`
 
@@ -1139,12 +1135,6 @@ tab/pill is hidden on resource/collection page
 
 ```
 AppConfig[:pui_hide][:container_inventory] = false
-```
-
-Don't display the accession ("unprocessed material") link on the main navigation menu
-
-```
-AppConfig[:pui_hide][:accessions] = true
 ```
 
 
@@ -1230,6 +1220,11 @@ Enable / disable PUI resource/archival object page 'request' action
 Enable / disable PUI resource/archival object page 'print' action
 
 `AppConfig[:pui_page_actions_print] = true`
+
+
+#### `AppConfig[:pui_enable_staff_link]`
+
+`AppConfig[:pui_enable_staff_link] = true # when a user is authenticated, add a link back to the staff interface from the specified record`
 
 
 
