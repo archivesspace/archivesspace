@@ -256,16 +256,6 @@ describe "EAD3 export mappings" do
       end
     end
 
-    describe "ARK URLs" do
-      it "maps ARK URL to eadid/@url if ARK URLs are enabled" do
-        expect(@doc.to_s).to match(/<recordid.*instanceurl=\"http.*\/ark:/)
-      end
-      it "does not map ARK URL to eadid/@url if ARK URLs are disabled" do
-        expect(@doc_ark_disabled.to_s).to_not match(/<recordid.*instanceurl=\"http.*\/ark:/)
-      end
-    end
-
-
     it "maps resource.finding_aid_title to filedesc/titlestmt/titleproper" do
       mt(@resource.finding_aid_title, "control/filedesc/titlestmt/titleproper[not(@type)]")
     end

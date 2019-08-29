@@ -93,12 +93,12 @@ class ArkName < Sequel::Model(:ark_name)
       return nil
     end
 
-    # this should be a call to #where, but the scoping restrictions in ASmodel_crud gets us in trouble here.
-    # Since we are loading records given an ARK Name, we don't know the repo
-    # our entity resides in and can't provide the right scoping.
-    # So, for now, we get around this by using raw SQL.
-    entity = klass.fetch("SELECT external_ark_url from #{table} WHERE id = #{id.to_i}").first
-    return entity.send(:external_ark_url)
+    entity = klass.any_repo.filter(:id => id).first
+    if entity.nil? || entity.external_ark_url.nil?
+      return nil
+    else
+      return entity.external_ark_url
+    end
   end
 
   def self.ark_name_exists?(id, type)

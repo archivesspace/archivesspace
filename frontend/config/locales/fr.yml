@@ -509,6 +509,8 @@ fr:
         save: Sauvegarder logiciel
 
   archival_object:
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: Document d'archives <strong>%{archival_object.display_string}</strong> de la ressource <strong>%{resource.title}</strong> créé

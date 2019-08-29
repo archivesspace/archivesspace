@@ -281,6 +281,19 @@ class EADSerializer < ASpaceExport::Serializer
 
         if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
+          if AppConfig[:arks_enabled]
+            ark_url = ArkName::get_ark_url(data.id, :archival_object)
+            if ark_url
+              # <unitid><extref xlink:href="ARK" xlink:actuate="onLoad" xlink:show="new" xlink:linktype="simple">ARK</extref></unitid>
+              xml.unitid {
+                xml.extref ({"xlink:href" => ark_url,
+                            "xlink:actuate" => "onLoad",
+                            "xlink:show" => "new",
+                            "xlink:type" => "simple"
+                            }) { xml.text 'Archival Resource Key' }
+                            }
+            end
+          end
         end
 
         if @include_unpublished
@@ -720,9 +733,11 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def serialize_eadheader(data, xml, fragments)
-    eadid_url = AppConfig[:arks_enabled] ?
-                  ArkName::get_ark_url(data.id, :resource) :
-                  data.ead_location
+
+    ark_url = AppConfig[:arks_enabled] ? ArkName::get_ark_url(data.id, :resource) : nil
+
+    eadid_url = ark_url.nil? ? data.ead_location : ark_url
+
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",
                       :countryencoding => "iso3166-1",

@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe 'ArkName model' do
 
+  before (:all) do
+    AppConfig[:arks_enabled] = true
+  end
+
+  after (:all) do
+    AppConfig[:arks_enabled] = false
+  end
+
   it "creates a ArkName to a resource when a resource is created" do
     resource = create_resource(:title => generate(:generic_title))
     ark = ArkName.first(:resource_id => resource[:id])

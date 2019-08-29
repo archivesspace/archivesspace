@@ -11,15 +11,20 @@ class CreateArksRunner < JobRunner
       @job.write_output("================================")
 
       Resource.any_repo.each do |r|
-        if ArkName.count == 0 || ArkName.first(resource_id: r[:id]).nil?
-          ArkName.insert(:archival_object_id => nil,
-                         :resource_id        => r[:id],
-                         :created_by         => 'admin',
-                         :last_modified_by   => 'admin',
-                         :create_time        => Time.now,
-                         :system_mtime       => Time.now,
-                         :user_mtime         => Time.now,
-                         :lock_version       => 0)
+        begin
+          if ArkName.count == 0 || ArkName.first(resource_id: r[:id]).nil?
+            @job.write_output("Generating ARK for resource id: #{r[:id]}")
+            ArkName.insert(:archival_object_id => nil,
+                           :resource_id        => r[:id],
+                           :created_by         => 'admin',
+                           :last_modified_by   => 'admin',
+                           :create_time        => Time.now,
+                           :system_mtime       => Time.now,
+                           :user_mtime         => Time.now,
+                           :lock_version       => 0)
+          end
+        rescue => e
+          @job.write_output(" -> Error generating ARK for id: #{r[:id]} => #{e.message}")
         end
       end
 
@@ -28,15 +33,20 @@ class CreateArksRunner < JobRunner
       @job.write_output("================================")
 
       ArchivalObject.any_repo.each do |r|
-        if ArkName.count == 0 || ArkName.first(archival_object_id: r[:id]).nil?
-          ArkName.insert(:archival_object_id => r[:id],
-                         :resource_id        => nil,
-                         :created_by         => 'admin',
-                         :last_modified_by   => 'admin',
-                         :create_time        => Time.now,
-                         :system_mtime       => Time.now,
-                         :user_mtime         => Time.now,
-                         :lock_version       => 0)
+        begin
+          if ArkName.count == 0 || ArkName.first(archival_object_id: r[:id]).nil?
+            @job.write_output("Generating ARK for Archival Object id: #{r[:id]}")
+            ArkName.insert(:archival_object_id => r[:id],
+                           :resource_id        => nil,
+                           :created_by         => 'admin',
+                           :last_modified_by   => 'admin',
+                           :create_time        => Time.now,
+                           :system_mtime       => Time.now,
+                           :user_mtime         => Time.now,
+                           :lock_version       => 0)
+          end
+        rescue => e
+          @job.write_output(" -> Error generating ARK for id: #{r[:id]} => #{e.message}")
         end
       end
 

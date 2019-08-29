@@ -588,9 +588,9 @@ class EAD3Serializer < EADSerializer
 
     xml.control(control_atts) {
 
-      ins_url = AppConfig[:arks_enabled] ?
-                    ArkName::get_ark_url(data.id, :resource) :
-                    data.ead_location
+      ark_url = AppConfig[:arks_enabled] ? ArkName::get_ark_url(data.id, :resource) : nil
+
+      ins_url = ark_url.nil? ? data.ead_location : ark_url
 
       recordid_atts = {
         instanceurl: ins_url
@@ -1099,6 +1099,18 @@ class EAD3Serializer < EADSerializer
 
         if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
+          if AppConfig[:arks_enabled]
+            ark_url = ArkName::get_ark_url(data.id, :archival_object)
+            if ark_url
+              # <unitid><ref href=”ARK” show="new" actuate="onload">ARK</ref></unitid>
+              xml.unitid {
+                xml.ref ({"href" => ark_url,
+                          "actuate" => "onLoad",
+                          "show" => "new"
+                          }) { xml.text 'Archival Resource Key' }
+                          }
+            end
+          end
         end
 
         if @include_unpublished

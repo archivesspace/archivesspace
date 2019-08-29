@@ -12,7 +12,6 @@ class MARCModel < ASpaceExport::ExportModel
 
   @archival_object_map = {
     [:repository, :finding_aid_language] => :handle_repo_code,
-    # [:id] => :handle_ark, TODO
     [:title, :linked_agents, :dates] => :handle_title,
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
@@ -23,7 +22,7 @@ class MARCModel < ASpaceExport::ExportModel
   @resource_map = {
     [:id_0, :id_1, :id_2, :id_3] => :handle_id,
     [:ead_location] => :handle_ead_loc,
-    [:id] => :handle_ark,
+    [:id, :jsonmodel_type] => :handle_ark,
     :notes => :handle_notes,
     :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e')
   }
@@ -568,14 +567,14 @@ class MARCModel < ASpaceExport::ExportModel
     end
   end
 
-  def handle_ark(resource_id)
+  def handle_ark(id, type)
     # If ARKs are enabled, add an 856
     #<datafield tag="856" ind1="4" ind2="2">
     #  <subfield code="z">Archival Resource Key:</subfield>
     #  <subfield code="u">ARK URL</subfield>
     #</datafield>
-    if(AppConfig[:arks_enabled] == true)
-       ark_url = ArkName::get_ark_url(resource_id, :resource)
+    if AppConfig[:arks_enabled]
+       ark_url = ArkName::get_ark_url(id, type.to_sym)
        df('856', '4', '2').with_sfs(
                                     ['z', "Archival Resource Key:"],
                                     ['u', ark_url]

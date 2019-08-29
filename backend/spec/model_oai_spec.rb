@@ -36,7 +36,6 @@ describe 'OAI handler' do
 
   def check_oai_request_against_fixture(fixture_name, params)
     fixture_file = File.join(FIXTURES_DIR, 'responses', fixture_name) + ".xml"
-
     result = ArchivesSpaceOaiProvider.new.process_request(params)
 
     # Setting the OAI_SPEC_RECORD will override our stored fixtures with
@@ -56,6 +55,10 @@ describe 'OAI handler' do
   ###
 
   describe "OAI protocol and mapping support" do
+
+    before (:all) do
+      AppConfig[:arks_enabled] = false
+    end
 
     RESOURCE_BASED_FORMATS = ['oai_ead']
     RESOURCE_AND_COMPONENT_BASED_FORMATS = ['oai_dc', 'oai_dcterms', 'oai_mods', 'oai_marc']
