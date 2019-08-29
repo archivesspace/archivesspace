@@ -117,7 +117,7 @@ module ViewHelper
     return url
   end
 
-  def object_base_url(result)
+  def archival_object_base_url(result)
     if result.json['slug'] && AppConfig[:use_human_readable_urls]
       if AppConfig[:repo_name_in_slugs]
         if result.resolved_repository["slug"]

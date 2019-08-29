@@ -7,16 +7,19 @@
      <% when 'resource' %>
       <i class="fa fa-archive fa-4x"></i>
      <% when 'record' %>
-      <i class="far fa-file fa-4x"></i>
+      <i class="fa fa-files-o fa-4x"></i>
      <% when 'digital_object' %>
       <input type="hidden" name="limit" value="digital_object" />
-      <i class="far fa-file-image fa-4x"></i>
+      <i class="fa fa-file-image-o fa-4x"></i>
      <% when 'accession' %>
-      <i class="far fa-file-alt fa-4x"></i>
+      <i class="fa fa-file-text-o fa-4x"></i>
      <% when 'subject' %>
       <i class="fa fa-tags fa-4x"></i>
      <% when 'agent' %>
-      <i class="fa fa-users fa-4x"></i>
+     <span class="fa-stack fa-2x">
+       <i class="fa fa-institution fa-stack-2x"></i>
+       <i class="fa fa-users fa-stack-1x fa-inverse"></i>
+     </span>
      <% when 'classification' %>
       <i class="fa fa-share-alt fa-4x"></i>
      <% end %>
