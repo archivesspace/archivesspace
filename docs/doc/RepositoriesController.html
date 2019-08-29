@@ -6,7 +6,7 @@
 <title>
   Class: RepositoriesController
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -112,32 +112,38 @@
 
 
 
-  <h2>Constant Summary</h2>
-  <dl class="constants">
-    
-      <dt id="DEFAULT_SEARCH_FACET_TYPES-constant" class="">DEFAULT_SEARCH_FACET_TYPES =
-        
-      </dt>
-      <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;published_agents&#39;</span><span class='rbrack token'>]</span>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="DEFAULT_SEARCH_FACET_TYPES-constant" class="">DEFAULT_SEARCH_FACET_TYPES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;subjects&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;published_agents&#39;</span><span class='rbrack token'>]</span>
 </pre></dd>
-    
-      <dt id="DEFAULT_REPO_SEARCH_OPTS-constant" class="">DEFAULT_REPO_SEARCH_OPTS =
-        
-      </dt>
-      <dd><pre class="code"><span class='lbrace token'>{</span>
+      
+        <dt id="DEFAULT_REPO_SEARCH_OPTS-constant" class="">DEFAULT_REPO_SEARCH_OPTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
    <span class='string val'>&#39;sort&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;title_sort asc&#39;</span><span class='comma token'>,</span>
   <span class='string val'>&#39;resolve[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository:id&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;resource:id@compact_resource&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;ancestors:id@compact_resource&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container_uri_u_sstr:id&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
   <span class='string val'>&#39;facet.mincount&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>1</span>
 <span class='rbrace token'>}</span>
 </pre></dd>
-    
-      <dt id="DEFAULT_TYPES-constant" class="">DEFAULT_TYPES =
-        
-      </dt>
-      <dd><pre class="code"><span class='dstring node'>%w{archival_object digital_object agent resource accession}</span>
+      
+        <dt id="DEFAULT_TYPES-constant" class="">DEFAULT_TYPES =
+          
+        </dt>
+        <dd><pre class="code"><span class='dstring node'>%w{archival_object digital_object agent resource accession}</span>
 </pre></dd>
-    
-  </dl>
+      
+    </dl>
+  
 
 
 
@@ -270,6 +276,29 @@
 
   
     <span class="summary_desc"><div class='inline'><p>get all repositories TODO: get this somehow in line with using the Searchable module.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#metadata-instance_method" title="#metadata (instance method)">#<strong>metadata</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
 </div></span>
   
 </li>
@@ -806,6 +835,121 @@ TODO: get this somehow in line with using the Searchable module</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="metadata-instance_method">
+  
+    #<strong>metadata</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/repositories_controller.rb', line 80</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_metadata identifier id'>metadata</span>
+  <span class='rubyid_md identifier id'>md</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+        <span class='string val'>&#39;@context&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;http://schema.org/&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;@type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;ArchiveOrganization&#39;</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;@id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:public_proxy_url</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+        <span class='comment val'>#this next bit will always be the repo name, not the name associated with the agent record (which is overwritten if the repo record is updated)</span>
+        <span class='string val'>&#39;name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_representation&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_name&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;sort_name&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;url&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;url&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;logo&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;image_url&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;identifier&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;country&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;country&#39;</span><span class='rbrack token'>]</span><span class='plus op'>+</span><span class='string val'>&#39;-&#39;</span><span class='plus op'>+</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;org_code&#39;</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;org_code&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+        <span class='comment val'>#this next bit will never work since ASpace has a bug with how it enacts its repo-to-agent concept (at least in versions 2.4 and 2.5).... and you can&#39;t add an authority ID directly to a repo record.</span>
+        <span class='string val'>&#39;sameAs&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;agent_representation&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_name&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;authority_id&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;description&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;top&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;description&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;email&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;email&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;parentOrganization&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&#39;@type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;Organization&#39;</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;name&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;parent_institution_name&#39;</span><span class='rbrack token'>]</span>
+        <span class='rbrace token'>}</span>
+        <span class='comment val'># removing contactPoint, since this would need to be on the repo record (along with different contact types... e.g. reference assistance, digitization requests, whatever)</span>
+        <span class='comment val'># &#39;contactPoint&#39; =&gt; @result[&#39;agent_representation&#39;][&#39;_resolved&#39;][&#39;agent_contacts&#39;][0][&#39;name&#39;]</span>
+      <span class='rbrace token'>}</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;telephones&#39;</span><span class='rbrack token'>]</span>
+        <span class='rubyid_md identifier id'>md</span><span class='lbrack token'>[</span><span class='string val'>&#39;faxNumber&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;telephones&#39;</span><span class='rbrack token'>]</span>
+          <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>&#39;number_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;fax&#39;</span><span class='rbrace token'>}</span>
+          <span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span> <span class='rubyid_f identifier id'>f</span><span class='lbrack token'>[</span><span class='string val'>&#39;number&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+
+        <span class='rubyid_md identifier id'>md</span><span class='lbrack token'>[</span><span class='string val'>&#39;telephone&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span>  <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;telephones&#39;</span><span class='rbrack token'>]</span>
+          <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_t identifier id'>t</span><span class='bitor op'>|</span> <span class='rubyid_t identifier id'>t</span><span class='lbrack token'>[</span><span class='string val'>&#39;number_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;business&#39;</span><span class='rbrace token'>}</span>
+          <span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_b identifier id'>b</span><span class='bitor op'>|</span> <span class='rubyid_b identifier id'>b</span><span class='lbrack token'>[</span><span class='string val'>&#39;number&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;address&#39;</span><span class='rbrack token'>]</span>
+        <span class='rubyid_md identifier id'>md</span><span class='lbrack token'>[</span><span class='string val'>&#39;address&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&#39;@type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;PostalAddress&#39;</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;streetAddress&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;address&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;, &quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;addressLocality&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;city&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;addressRegion&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;region&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;postalCode&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;post_code&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;addressCountry&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@result ivar id'>@result</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_info&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;country&#39;</span><span class='rbrack token'>]</span>
+        <span class='rbrace token'>}</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_md identifier id'>md</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="new-instance_method">
   
     #<strong>new</strong>  &#x21d2; <tt>Object</tt> 
@@ -944,12 +1088,12 @@ TODO: get this somehow in line with using the Searchable module</p>
   <span class='rubyid_@repo_id ivar id'>@repo_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_require identifier id'>require</span><span class='lparen token'>(</span><span class='symbol val'>:rid</span><span class='rparen token'>)</span>
   <span class='rubyid_@base_search ivar id'>@base_search</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{repo_id}/search?&quot;</span>
   <span class='rubyid_begin begin kw'>begin</span>
-    <span class='rubyid_new_search_opts identifier id'>new_search_opts</span> <span class='assign token'>=</span>  <span class='rubyid_DEFAULT_REPO_SEARCH_OPTS constant id'>DEFAULT_REPO_SEARCH_OPTS</span> 
+    <span class='rubyid_new_search_opts identifier id'>new_search_opts</span> <span class='assign token'>=</span>  <span class='rubyid_DEFAULT_REPO_SEARCH_OPTS constant id'>DEFAULT_REPO_SEARCH_OPTS</span>
     <span class='rubyid_new_search_opts identifier id'>new_search_opts</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_id&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@repo_id ivar id'>@repo_id</span>
     <span class='rubyid_set_up_advanced_search identifier id'>set_up_advanced_search</span><span class='lparen token'>(</span><span class='rubyid_DEFAULT_TYPES constant id'>DEFAULT_TYPES</span><span class='comma token'>,</span> <span class='rubyid_DEFAULT_SEARCH_FACET_TYPES constant id'>DEFAULT_SEARCH_FACET_TYPES</span><span class='comma token'>,</span> <span class='rubyid_new_search_opts identifier id'>new_search_opts</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='comment val'>#   NOTE the redirect back here on error!</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_error identifier id'>error</span>
-    <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span> <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_backtrace identifier id'>backtrace</span> <span class='rparen token'>)</span> 
+    <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span> <span class='rubyid_error identifier id'>error</span><span class='dot token'>.</span><span class='rubyid_backtrace identifier id'>backtrace</span> <span class='rparen token'>)</span>
     <span class='rubyid_flash identifier id'>flash</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.unexpected_error&#39;</span><span class='rparen token'>)</span>
     <span class='rubyid_redirect_back identifier id'>redirect_back</span><span class='lparen token'>(</span><span class='label val'>fallback_location:</span> <span class='dstring node'>&quot;/repositories/#{@repo_id}/&quot;</span> <span class='rparen token'>)</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_return return kw'>return</span>
   <span class='rubyid_end end kw'>end</span>
@@ -962,7 +1106,7 @@ TODO: get this somehow in line with using the Searchable module</p>
     <span class='rubyid_process_search_results identifier id'>process_search_results</span><span class='lparen token'>(</span><span class='rubyid_@base_search ivar id'>@base_search</span><span class='rparen token'>)</span>
     <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;@repo_id: #{@repo_id}&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_render identifier id'>render</span>
-  <span class='rubyid_end end kw'>end</span> 
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1188,9 +1332,9 @@ TODO: get this somehow in line with using the Searchable module</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:28 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:23 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

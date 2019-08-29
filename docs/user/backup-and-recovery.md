@@ -39,10 +39,10 @@ database, but backing them up can reduce your recovery time if
 disaster strikes on a large site.  You can create periodic Solr
 snapshots using the following configuration settings:
 
-     # Create one snapshot per hour and keep only one.
+     # Create one snapshot at midnight and keep only one.
      #
      # Solr snapshots are written to 'data/solr_backups' by default.
-     AppConfig[:solr_backup_schedule] = "0 \* \* \* \*"
+     AppConfig[:solr_backup_schedule] = "0 0 \* \* \*"
      AppConfig[:solr\_backup\_number\_to\_keep] = 1
 
 ## Creating backups using the provided script

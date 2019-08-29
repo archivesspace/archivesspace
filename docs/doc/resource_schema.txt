@@ -44,7 +44,11 @@ string (max length: 65000)	finding_aid_author
 
 string	finding_aid_description_rules
 
-string (max length: 255)	finding_aid_language
+string	finding_aid_language
+
+string	finding_aid_script
+
+string (max length: 65000)	finding_aid_language_note
 
 string (max length: 65000)	finding_aid_sponsor
 

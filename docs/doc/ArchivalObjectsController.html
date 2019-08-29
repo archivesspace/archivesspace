@@ -6,7 +6,7 @@
 <title>
   Class: ArchivalObjectsController
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -554,12 +554,12 @@
       <pre class="lines">
 
 
-110
 111
-112</pre>
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 111</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_accept_children identifier id'>accept_children</span>
   <span class='rubyid_handle_accept_children identifier id'>handle_accept_children</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -585,7 +585,6 @@
       <pre class="lines">
 
 
-210
 211
 212
 213
@@ -625,10 +624,11 @@
 247
 248
 249
-250</pre>
+250
+251</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 210</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 211</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_children identifier id'>add_children</span>
   <span class='rubyid_@parent ivar id'>@parent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -692,7 +692,6 @@
       <pre class="lines">
 
 
-40
 41
 42
 43
@@ -722,10 +721,11 @@
 67
 68
 69
-70</pre>
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 41</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:archival_object</span><span class='comma token'>,</span>
@@ -779,7 +779,6 @@
       <pre class="lines">
 
 
-115
 116
 117
 118
@@ -789,10 +788,11 @@
 122
 123
 124
-125</pre>
+125
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 116</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_defaults identifier id'>defaults</span>
   <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>&#39;archival_object&#39;</span>
@@ -826,7 +826,6 @@
       <pre class="lines">
 
 
-175
 176
 177
 178
@@ -848,10 +847,11 @@
 194
 195
 196
-197</pre>
+197
+198</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 176</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_archival_object identifier id'>archival_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -897,7 +897,6 @@
       <pre class="lines">
 
 
-29
 30
 31
 32
@@ -905,10 +904,11 @@
 34
 35
 36
-37</pre>
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
   <span class='rubyid_@archival_object ivar id'>@archival_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
@@ -956,7 +956,8 @@
 24
 25
 26
-27</pre>
+27
+28</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 11</span>
@@ -965,6 +966,7 @@
   <span class='rubyid_@archival_object ivar id'>@archival_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
   <span class='rubyid_@archival_object ivar id'>@archival_object</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:archival_object_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object_id</span><span class='rparen token'>)</span>
   <span class='rubyid_@archival_object ivar id'>@archival_object</span><span class='dot token'>.</span><span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;ref&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:resource_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:resource_id</span><span class='rparen token'>)</span>
+  <span class='rubyid_@archival_object ivar id'>@archival_object</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span><span class='lbrack token'>[</span><span class='string val'>&#39;default_values&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_DefaultValues constant id'>DefaultValues</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>&#39;archival_object&#39;</span>
@@ -999,17 +1001,17 @@
       <pre class="lines">
 
 
-200
 201
 202
 203
 204
 205
 206
-207</pre>
+207
+208</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 201</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_rde identifier id'>rde</span>
   <span class='rubyid_@parent ivar id'>@parent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1040,17 +1042,17 @@
       <pre class="lines">
 
 
-100
 101
 102
 103
 104
 105
 106
-107</pre>
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 101</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@resource_id ivar id'>@resource_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;resource_id&#39;</span><span class='rbrack token'>]</span>
@@ -1081,16 +1083,16 @@
       <pre class="lines">
 
 
-264
 265
 266
 267
 268
 269
-270</pre>
+270
+271</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 265</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppress identifier id'>suppress</span>
   <span class='rubyid_archival_object identifier id'>archival_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1120,7 +1122,6 @@
       <pre class="lines">
 
 
-150
 151
 152
 153
@@ -1142,10 +1143,11 @@
 169
 170
 171
-172</pre>
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 151</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_transfer identifier id'>transfer</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -1191,16 +1193,16 @@
       <pre class="lines">
 
 
-273
 274
 275
 276
 277
 278
-279</pre>
+279
+280</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 274</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unsuppress identifier id'>unsuppress</span>
   <span class='rubyid_archival_object identifier id'>archival_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1230,7 +1232,6 @@
       <pre class="lines">
 
 
-73
 74
 75
 76
@@ -1254,10 +1255,11 @@
 94
 95
 96
-97</pre>
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 74</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;archival_object&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;position&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;archival_object&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;position&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;archival_object&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;position&#39;</span><span class='rbrack token'>]</span>
@@ -1305,7 +1307,6 @@
       <pre class="lines">
 
 
-128
 129
 130
 131
@@ -1324,10 +1325,11 @@
 144
 145
 146
-147</pre>
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 129</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_defaults identifier id'>update_defaults</span>
 
@@ -1370,7 +1372,6 @@
       <pre class="lines">
 
 
-253
 254
 255
 256
@@ -1378,10 +1379,11 @@
 258
 259
 260
-261</pre>
+261
+262</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 253</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 254</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate_rows identifier id'>validate_rows</span>
   <span class='rubyid_row_data identifier id'>row_data</span> <span class='assign token'>=</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:archival_record_children</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_record_children</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
@@ -1403,9 +1405,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:28 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:24 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

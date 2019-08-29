@@ -6,7 +6,7 @@
 <title>
   File: configuration
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -207,7 +207,7 @@ Note that this will have a performance impact!</p>
 <p>Set Solr back up schedule. By default, Solr backups will run at midnight.  See https://crontab.guru/ for
  information about the schedule syntax.</p>
 
-<p><code>AppConfig[:solr_backup_schedule] = "0 0 * * *"</code></p>
+<p><code>AppConfig[:solr_backup_schedule] = "0 * * * *"</code></p>
 
 <h4 id="appconfigsolrbackupnumbertokeep"><code>AppConfig[:solr_backup_number_to_keep]</code></h4>
 
@@ -1079,10 +1079,6 @@ clause to the scopecontent rule, like this:</p>
 
 <p><code>AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referer' when going outside the domain</code></p>
 
-<h4 id="appconfigpuienablestafflink"><code>AppConfig[:pui_enable_staff_link]</code></h4>
-
-<p><code>AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface</code></p>
-
 <h4 id="appconfigpuimaxconcurrentpdfs"><code>AppConfig[:pui_max_concurrent_pdfs]</code></h4>
 
 <p>The number of PDFs we’ll generate (in the background) at the same time.</p>
@@ -1135,12 +1131,6 @@ tab/pill is hidden on resource/collection page</p>
 
 <p><code>
 AppConfig[:pui_hide][:container_inventory] = false
-</code></p>
-
-<p>Don’t display the accession (“unprocessed material”) link on the main navigation menu</p>
-
-<p><code>
-AppConfig[:pui_hide][:accessions] = true
 </code></p>
 
 <h4 id="appconfigpuirequestspermittedfortypes"><code>AppConfig[:pui_requests_permitted_for_types]</code></h4>
@@ -1221,6 +1211,10 @@ AppConfig[:pui_repos]['foo'][:hide][:counts] = true
 <p>Enable / disable PUI resource/archival object page ‘print’ action</p>
 
 <p><code>AppConfig[:pui_page_actions_print] = true</code></p>
+
+<h4 id="appconfigpuienablestafflink"><code>AppConfig[:pui_enable_staff_link]</code></h4>
+
+<p><code>AppConfig[:pui_enable_staff_link] = true # when a user is authenticated, add a link back to the staff interface from the specified record</code></p>
 
 <h4 id="appconfigpuipagecustomactions"><code>AppConfig[:pui_page_custom_actions]</code></h4>
 
@@ -1355,9 +1349,9 @@ AppConfig[:pui_email_smtp_settings] = {
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:03 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:46:58 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

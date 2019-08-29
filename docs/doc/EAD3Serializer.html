@@ -6,7 +6,7 @@
 <title>
   Class: EAD3Serializer
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -1635,18 +1635,18 @@ content</p>
       <pre class="lines">
 
 
-1058
-1059
-1060
-1061
-1062
-1063
 1064
 1065
-1066</pre>
+1066
+1067
+1068
+1069
+1070
+1071
+1072</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1058</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1064</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extract_head_text identifier id'>extract_head_text</span><span class='lparen token'>(</span><span class='rubyid_content identifier id'>content</span><span class='comma token'>,</span> <span class='rubyid_backup identifier id'>backup</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_content identifier id'>content</span> <span class='opasgn op'>||=</span> <span class='string val'>&quot;&quot;</span>
@@ -2063,12 +2063,6 @@ content</p>
       <pre class="lines">
 
 
-1339
-1340
-1341
-1342
-1343
-1344
 1345
 1346
 1347
@@ -2084,10 +2078,16 @@ content</p>
 1357
 1358
 1359
-1360</pre>
+1360
+1361
+1362
+1363
+1364
+1365
+1366</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1339</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1345</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_bibliographies identifier id'>serialize_bibliographies</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_bibliographies identifier id'>bibliographies</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
@@ -2132,12 +2132,6 @@ content</p>
       <pre class="lines">
 
 
-1069
-1070
-1071
-1072
-1073
-1074
 1075
 1076
 1077
@@ -2201,10 +2195,16 @@ content</p>
 1135
 1136
 1137
-1138</pre>
+1138
+1139
+1140
+1141
+1142
+1143
+1144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1069</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1075</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_child identifier id'>serialize_child</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_c_depth identifier id'>c_depth</span> <span class='assign token'>=</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -2297,12 +2297,6 @@ content</p>
       <pre class="lines">
 
 
-1242
-1243
-1244
-1245
-1246
-1247
 1248
 1249
 1250
@@ -2339,10 +2333,16 @@ content</p>
 1281
 1282
 1283
-1284</pre>
+1284
+1285
+1286
+1287
+1288
+1289
+1290</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1242</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1248</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_container identifier id'>serialize_container</span><span class='lparen token'>(</span><span class='rubyid_inst identifier id'>inst</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -2626,7 +2626,13 @@ content</p>
 794
 795
 796
-797</pre>
+797
+798
+799
+800
+801
+802
+803</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 579</span>
@@ -2786,13 +2792,19 @@ content</p>
     <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_finding_aid_language identifier id'>finding_aid_language</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
       <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_languagedeclaration identifier id'>languagedeclaration</span><span class='lparen token'>(</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
 
-        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span><span class='lparen token'>(</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-          <span class='rubyid_strip_tags_and_sanitize identifier id'>strip_tags_and_sanitize</span><span class='lparen token'>(</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_finding_aid_language identifier id'>finding_aid_language</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span> <span class='rparen token'>)</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>langcode:</span> <span class='dstring node'>&quot;#{data.finding_aid_language}&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.language_iso639_2.#{data.finding_aid_language}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
         <span class='rbrace token'>}</span>
 
-        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_script identifier id'>script</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>scriptcode:</span> <span class='string val'>&quot;Latn&quot;</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='string val'>&#39;Latin&#39;</span><span class='rparen token'>)</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_script identifier id'>script</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='label val'>scriptcode:</span> <span class='dstring node'>&quot;#{data.finding_aid_script}&quot;</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.script_iso15924.#{data.finding_aid_script}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
         <span class='rbrace token'>}</span>
+
+        <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_finding_aid_language_note identifier id'>finding_aid_language_note</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_descriptivenote identifier id'>descriptivenote</span><span class='lparen token'>(</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+            <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_finding_aid_language_note identifier id'>finding_aid_language_note</span><span class='rparen token'>)</span>
+          <span class='rbrace token'>}</span>
+        <span class='rubyid_end end kw'>end</span>
 
       <span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
@@ -2871,12 +2883,6 @@ content</p>
       <pre class="lines">
 
 
-1141
-1142
-1143
-1144
-1145
-1146
 1147
 1148
 1149
@@ -2911,10 +2917,16 @@ content</p>
 1178
 1179
 1180
-1181</pre>
+1181
+1182
+1183
+1184
+1185
+1186
+1187</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1141</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1147</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_controlaccess identifier id'>serialize_controlaccess</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
 
@@ -2978,12 +2990,6 @@ content</p>
       <pre class="lines">
 
 
-860
-861
-862
-863
-864
-865
 866
 867
 868
@@ -3037,10 +3043,16 @@ content</p>
 916
 917
 918
-919</pre>
+919
+920
+921
+922
+923
+924
+925</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 860</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 866</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_dates identifier id'>serialize_dates</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_add_unitdate identifier id'>add_unitdate</span> <span class='assign token'>=</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_context identifier id'>context</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_atts identifier id'>atts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='bitor op'>|</span>
@@ -3123,12 +3135,6 @@ content</p>
       <pre class="lines">
 
 
-943
-944
-945
-946
-947
-948
 949
 950
 951
@@ -3165,10 +3171,16 @@ content</p>
 982
 983
 984
-985</pre>
+985
+986
+987
+988
+989
+990
+991</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 943</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 949</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_did_notes identifier id'>serialize_did_notes</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
@@ -3234,12 +3246,6 @@ content</p>
       <pre class="lines">
 
 
-1287
-1288
-1289
-1290
-1291
-1292
 1293
 1294
 1295
@@ -3283,10 +3289,16 @@ content</p>
 1333
 1334
 1335
-1336</pre>
+1336
+1337
+1338
+1339
+1340
+1341
+1342</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1287</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1293</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_digital_object identifier id'>serialize_digital_object</span><span class='lparen token'>(</span><span class='rubyid_digital_object identifier id'>digital_object</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_digital_object identifier id'>digital_object</span><span class='lbrack token'>[</span><span class='string val'>&quot;publish&quot;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_false false kw'>false</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@include_unpublished ivar id'>@include_unpublished</span>
@@ -3359,12 +3371,6 @@ content</p>
       <pre class="lines">
 
 
-800
-801
-802
-803
-804
-805
 806
 807
 808
@@ -3416,10 +3422,16 @@ content</p>
 854
 855
 856
-857</pre>
+857
+858
+859
+860
+861
+862
+863</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 800</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 806</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_extents identifier id'>serialize_extents</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_extents identifier id'>extents</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span>
@@ -3500,12 +3512,6 @@ content</p>
       <pre class="lines">
 
 
-1363
-1364
-1365
-1366
-1367
-1368
 1369
 1370
 1371
@@ -3548,10 +3554,16 @@ content</p>
 1408
 1409
 1410
-1411</pre>
+1411
+1412
+1413
+1414
+1415
+1416
+1417</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1363</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1369</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_indexes identifier id'>serialize_indexes</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_indexes identifier id'>indexes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
@@ -3623,18 +3635,18 @@ content</p>
       <pre class="lines">
 
 
-1012
-1013
-1014
-1015
-1016
-1017
 1018
 1019
-1020</pre>
+1020
+1021
+1022
+1023
+1024
+1025
+1026</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1012</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1018</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_nondid_notes identifier id'>serialize_nondid_notes</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
@@ -3666,12 +3678,6 @@ content</p>
       <pre class="lines">
 
 
-988
-989
-990
-991
-992
-993
 994
 995
 996
@@ -3687,10 +3693,16 @@ content</p>
 1006
 1007
 1008
-1009</pre>
+1009
+1010
+1011
+1012
+1013
+1014
+1015</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 988</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 994</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_note_content identifier id'>serialize_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_note identifier id'>note</span><span class='lbrack token'>[</span><span class='string val'>&quot;publish&quot;</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_false false kw'>false</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@include_unpublished ivar id'>@include_unpublished</span>
@@ -3735,12 +3747,6 @@ content</p>
       <pre class="lines">
 
 
-1023
-1024
-1025
-1026
-1027
-1028
 1029
 1030
 1031
@@ -3764,10 +3770,16 @@ content</p>
 1049
 1050
 1051
-1052</pre>
+1052
+1053
+1054
+1055
+1056
+1057
+1058</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1023</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1029</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_origination identifier id'>serialize_origination</span><span class='lparen token'>(</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_creators_and_sources identifier id'>creators_and_sources</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -3820,12 +3832,6 @@ content</p>
       <pre class="lines">
 
 
-1184
-1185
-1186
-1187
-1188
-1189
 1190
 1191
 1192
@@ -3875,10 +3881,16 @@ content</p>
 1236
 1237
 1238
-1239</pre>
+1239
+1240
+1241
+1242
+1243
+1244
+1245</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1184</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 1190</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_subnotes identifier id'>serialize_subnotes</span><span class='lparen token'>(</span><span class='rubyid_subnotes identifier id'>subnotes</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='comma token'>,</span> <span class='rubyid_include_p identifier id'>include_p</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_subnotes identifier id'>subnotes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_sn identifier id'>sn</span><span class='bitor op'>|</span>
@@ -4232,12 +4244,6 @@ content</p>
       <pre class="lines">
 
 
-922
-923
-924
-925
-926
-927
 928
 929
 930
@@ -4250,10 +4256,16 @@ content</p>
 937
 938
 939
-940</pre>
+940
+941
+942
+943
+944
+945
+946</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 922</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead3.rb', line 928</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_strip_invalid_children_from_note_content identifier id'>strip_invalid_children_from_note_content</span><span class='lparen token'>(</span><span class='rubyid_content identifier id'>content</span><span class='comma token'>,</span> <span class='rubyid_parent_element_name identifier id'>parent_element_name</span><span class='rparen token'>)</span>
   <span class='comment val'># convert &amp; to @@ before generating XML fragment for processing</span>
@@ -4722,9 +4734,9 @@ content</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:22 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:17 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

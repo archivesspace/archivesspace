@@ -6,7 +6,7 @@
 <title>
   Class: EADSerializer
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -2149,7 +2149,7 @@ content</p>
       <span class='rubyid_creation identifier id'>creation</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;This finding aid was produced using ArchivesSpace on &lt;date&gt;#{Time.now}&lt;/date&gt;.&quot;</span>
       <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_creation identifier id'>creation</span> <span class='lbrace token'>{</span>  <span class='rubyid_sanitize_mixed_content identifier id'>sanitize_mixed_content</span><span class='lparen token'>(</span> <span class='rubyid_creation identifier id'>creation</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_fragments identifier id'>fragments</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
 
-      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_finding_aid_language identifier id'>finding_aid_language</span><span class='rparen token'>)</span>
+      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_finding_aid_language_note identifier id'>finding_aid_language_note</span><span class='rparen token'>)</span>
         <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_langusage identifier id'>langusage</span> <span class='lparen token'>(</span><span class='rubyid_fragments identifier id'>fragments</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
       <span class='rubyid_end end kw'>end</span>
 
@@ -3028,9 +3028,9 @@ content</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed May 29 15:59:21 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:16 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>
