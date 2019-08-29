@@ -258,7 +258,11 @@ AbstractRelationship = Class.new(Sequel::Model) do
     # Find all columns in our relationship's table that are named after obj's table
     # These will contain references to instances of obj's class
     reference_columns = self.reference_columns_for(obj.class)
-    matching_relationships = reference_columns.map {|col| self.filter(col => obj.id).all}.flatten(1)
+    filters = reference_columns.map {|col| { col => obj.id }}
+
+    return [] if filters.empty?
+
+    matching_relationships = self.filter(Sequel.|(*filters)).all
     our_columns = participating_models.map {|m| reference_columns_for(m)}.flatten(1)
 
     # Reject any relationship that links to obj.id but not another model we're interested in.
@@ -280,10 +284,12 @@ AbstractRelationship = Class.new(Sequel::Model) do
     return result if participant_ids.empty?
     reference_columns = self.reference_columns_for(participant_model)
 
-    reference_columns.each do |col|
-      self.filter(col => participant_ids).each do |relationship|
-        result << relationship
-      end
+    filters = reference_columns.map {|col| { col => participant_ids }}
+
+    return [] if filters.empty?
+
+    self.filter(Sequel.|(*filters)).each do |relationship|
+      result << relationship
     end
 
     result
