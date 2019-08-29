@@ -199,5 +199,10 @@ Sequel.migration do
     langmaterial = self[:enumeration_value].where(:value => 'langmaterial', :enumeration_id => enum )
     langmaterial.delete
 
+    # Drop old langmaterial note from note_digital_object_type enumerations list
+    enum = self[:enumeration].filter(:name => 'note_digital_object_type').get(:id)
+    langmaterial = self[:enumeration_value].where(:value => 'langmaterial', :enumeration_id => enum )
+    langmaterial.delete
+
   end
 end
