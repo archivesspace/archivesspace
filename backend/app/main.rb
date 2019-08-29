@@ -58,6 +58,18 @@ class ArchivesSpaceService < Sinatra::Base
     end
   end
 
+  @plugins_loaded_hooks = []
+  @archivesspace_plugins_loaded = false
+
+  def self.plugins_loaded_hook(&block)
+    if @archivesspace_plugins_loaded
+      block.call
+    else
+      @plugins_loaded_hooks << block
+    end
+  end
+
+
 
   configure :development do |config|
     require 'sinatra/reloader'
@@ -220,6 +232,11 @@ class ArchivesSpaceService < Sinatra::Base
         end
 
         BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
+
+        @plugins_loaded_hooks.each do |hook|
+          hook.call
+        end
+        @archivesspace_plugins_loaded = true
 
         Notifications.notify("BACKEND_STARTED")
         Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize
