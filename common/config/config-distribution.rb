@@ -48,6 +48,7 @@ class AppConfig
     @@aliases ||= {}
   end
 
+
   def self.deprecated_parameters
     @@deprecated_parameters ||= {}
   end
@@ -109,7 +110,7 @@ class AppConfig
       # Explicit Java property
       java.lang.System.getProperty("aspace.config")
     elsif ENV['ASPACE_CONFIG'] && File.exist?(ENV['ASPACE_CONFIG'])
-      # Setting a system config
+      # Setting a system config 
       ENV['ASPACE_CONFIG']
     elsif ENV['ASPACE_LAUNCHER_BASE'] && File.exist?(File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb"))
       File.join(ENV['ASPACE_LAUNCHER_BASE'], "config", "config.rb")
@@ -179,7 +180,6 @@ class AppConfig
     @@changed_from_default = {}
 
     require_relative 'config-aliases'
-    require_relative 'config-deprecated'
 
     AppConfig.load_defaults
 
@@ -197,10 +197,6 @@ class AppConfig
 
     aliases[alias_parameter] = target_parameter
     deprecated_parameters[alias_parameter] = options.fetch(:deprecated, false)
-  end
-
-  def self.set_deprecated_values(options)
-    @@parameters[options.fetch(:option)] = options.fetch(:value)
   end
 
   def self.parse_environment_value(value)
