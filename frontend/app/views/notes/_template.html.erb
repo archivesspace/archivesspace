@@ -52,7 +52,7 @@
           <label class="control-label col-sm-2"><%= I18n.t("note.note_type") %></label>
           <div class="col-sm-4">
             <select class="form-control top-level-note-type">
-              <option></option>
+              <% unless nested_in_jsonmodel == 'lang_material' %><option></option><% end %>
               <% model_note_types = all_note_types ? all_note_types : note_types_for(nested_in_jsonmodel || form['jsonmodel_type']) %>
               <% model_note_types.sort_by {|value, hash| hash[:i18n]}.each do |value, hash| %>
                 <option value="<%= hash[:target] %>"><%= hash[:i18n] %></option>
