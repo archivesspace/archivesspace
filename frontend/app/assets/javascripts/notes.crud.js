@@ -367,6 +367,7 @@ $(function() {
       };
 
       $(".subrecord-form-heading:first .btn.add-note", $this).click(createTopLevelNote);
+      $(".subrecord-form-heading:first .btn.add-note", $this.filter("#lang_material_notes")).triggerHandler('click');
 
       $(".subrecord-form-heading:first .btn.apply-note-order", $this).click(applyNoteOrder);
 
