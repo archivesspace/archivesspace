@@ -130,73 +130,24 @@
 
 <% define_template("report_job", jsonmodel_definition(:report_job)) do |form| %>
 
-  <div class="col-md-12">
-    <h3>Reports</h3>
+  <%= form.hidden_input :report_type %>
 
-    <div class="accordion" id="reportListing">
+  <div class="report-list">
 
-      <% @report_data["reports"].values.sort {|x,y| I18n.t("reports.#{x['code']}.title") <=> I18n.t("reports.#{y['code']}.title") }.each do | report | %>
-        <div class='report-listing'>
-          <div class="alert alert-info with-hide-alert">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>">
-              <%= I18n.t("reports.#{report["code"]}.title") %>
-            </a>
-            <button class="pull-right btn btn-default  hide selected-message" disabled>Selected</button>
-            <button class="pull-right btn btn-default select-record" data-report="<%= report['code'] %>">Select</button>
-            <a class="pull-right btn btn-default accordion-toggle" data-toggle="collapse" data-parent="#reportListing" href="#reportListing_<%= report["code"] %>" >
-              <%= I18n.t("job.show_description") %>
-            </a>
-          </div>
-          <div id="reportListing_<%= report["code"] %>" class="accordion-body collapse">
-            <div class="accordion-inner">
-              <p><%= I18n.t("reports.#{report["code"]}.description", :default => report["code"]) %></p>
+    <% @report_data['reports'].sort_by { |code, report| I18n.t("reports.#{code}.title") }.each do |code, report| %>
+      <div class="report-listing" id="<%= code %>">
+        <div class="heading">
+          <button class="report-title btn btn-link" for="<%= code %>" type="button">
+            <%= I18n.t("reports.#{code}.title") %>
+          </button>
 
-              <%= form.hidden_input :report_type, report['code'] %>
-              <% report_params = report["params"].reject{|p| ["format", "repo_id"].include?(p[0])} %>
+          <button class="pull-right btn btn-primary select-report" for="<%= code %>" type="button">
+            Select
+          </button>
+          <button class="pull-right btn btn-primary unselect-report" for="<%= code %>" type="button">
+            Back
+          </button>
 
-              <% if report_params.length > 0 %>
-                <hr/>
-                 <% report_params.each do | param | %>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label"><%= I18n.t("reports.parameters.#{param[0]}", :default => param[0]) %></label>
-                    <div class="col-sm-9">
-                      <% if param[1] === "Date" %>
-                        <%= text_field_tag "job[job_params][#{param[0]}]", nil,  :class => 'date-field form-control', :'data-format' => 'yyyy-mm-dd', :placeholder => 'yyyy-mm-dd'  %>
-                      <% elsif param[1] === "String" && param.length > 3 && param[3].has_key?("enumeration") %>
-                        <%= select_tag( "job[job_params][#{param[0]}]", options_for_select(
-                                                JSONModel.enum_values(param[3]["enumeration"]).map{|v| [I18n.t("enumerations.#{param[3]["enumeration"]}.#{v}", :default => v), v]},
-                                       )) %>
-                      <% elsif param[1] === "String" %>
-                        <%= text_field_tag "job[job_params][#{param[0]}]", nil  , :class => 'form-control' %>
-                      <% elsif param[1] === "Boolean" %>
-                        <%= check_box_tag "job[job_params][#{param[0]}]" %>
-                      <% else %>
-                        <%# Custom types will be rendered using a partial with the corresponding name %>
-                        <% form.push('job_params') do |form| %>
-                          <%= render_aspace_partial :partial => "jobs/report_partials/#{param[1].downcase}", :locals => {:object => @job, :form => form, :name => param[0]} %>
-                        <% end %>
-                      <% end %>
-                    </div>
-                  </div>
-                <% end %>
-              <% end %>
-              <hr/>
-              <div class="form-group">
-                <div class="col-sm-9">
-                  <% formats = @report_data["formats"] || %w{ json csv html pdf } %>
-                  <%= form.label_and_select :format, formats.collect{|format| [I18n.t("reports.formats.#{format}", :default => format), format]} %>
-                </div>
-                <div class="csv_options" hidden="true">
-                  <label class="col-sm-2 control-label">Linked Records in JSON</label>
-                  <div class="col-sm-1 checkbox">
-                    <%= check_box_tag("job[job_params][csv_show_json]") %>
-                  </div>
-                </div>
-              </div>
-              <hr/>
-
-            </div>
-          </div>
         </div>
 
         <div class="report-description" for="<%= code %>">
