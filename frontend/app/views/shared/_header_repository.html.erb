@@ -166,7 +166,7 @@
                   <% end %>
 
                   <li><%= link_to I18n.t("navbar.list_reports"), :controller => :jobs, :action => :new, :job_type => 'report_job' %></li>
-                  <% if user_can?('create_job') %>
+                  <% if user_can?('create_job') && AppConfig[:enable_custom_reports] %>
                     <li><%= link_to I18n.t("custom_report_template._plural"), :controller => :custom_report_templates, :action => :index %></li>
                   <% end %>
 
