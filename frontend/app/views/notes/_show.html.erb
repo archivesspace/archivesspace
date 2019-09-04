@@ -13,6 +13,10 @@
      all_note_types[type] = :note_digital_object
    end
 
+   JSONModel.enum_values(JSONModel(:note_langmaterial).schema['properties']['type']['dynamic_enum']).each do |type|
+     all_note_types[type] = :note_langmaterial
+   end
+
    JSONModel.enum_values(JSONModel(:note_rights_statement).schema['properties']['type']['dynamic_enum']).each do |type|
      all_note_types[type] = :note_rights_statement
    end

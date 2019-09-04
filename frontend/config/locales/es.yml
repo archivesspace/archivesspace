@@ -713,6 +713,12 @@
         add_digital_object: Agregar objeto Digital
         add: Añadir representación
 
+  lang_material:
+    _frontend:
+      action:
+        add: Añadir idioma
+        add_note: Añadir nota de idioma
+
   linked_agent:
     _frontend:
       action:
@@ -952,6 +958,7 @@
     column_label: Columna
     sections:
       basic_information: Información básica
+      language: Idioma
       date: Fecha
       extent: Extensión
       instance: Representación

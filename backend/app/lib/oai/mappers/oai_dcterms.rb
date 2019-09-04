@@ -115,9 +115,25 @@ class OAIDCTermsMapper
           end
         end
 
-        # Language
-        if jsonmodel['language']
-          xml['dcterms'].language(jsonmodel['language'])
+        # Languages
+        if (lang_materials = Array(jsonmodel['lang_materials']))
+          language_vals = lang_materials.map{|l| l['language_and_script']}.compact
+          if !language_vals.empty?
+            language_vals.each do |l|
+              xml['dcterms'].language(l['language'])
+              if l.include?('script')
+                xml['dcterms'].language(l['script'])
+              end
+            end
+          end
+          language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+          if !language_notes.empty?
+            language_notes.each do |note|
+              OAIUtils.extract_published_note_content(note).each do |content|
+                xml['dcterms'].language(content)
+              end
+            end
+          end
         end
 
         # Description note types

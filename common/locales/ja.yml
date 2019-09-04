@@ -61,6 +61,9 @@ ja:
     content_tooltip: "<p>ノートの内容。 </p>"
 
   section_tooltips: &section_tooltips
+    lang_materials_tooltip: |
+        ""<p>説明されている資料に示されている言語およびスクリプト。</p>
+        <p>See DACS 4.5</p>""
     dates_tooltip: "<p>記載されている資料の作成、組み立て、蓄積、および/または保守および使用に関連する日付を識別し、記録する。 </p><p>
       DACS 2.4を参照</p>"
     extents_tooltip: "<p>記載されている材料の範囲と物理的性質を示します。 </p><p>DACS 2.5を参照</p>"
@@ -105,8 +108,6 @@ ja:
     digital_object_type: デジタルオブジェクトタイプ
     digital_object_type_tooltip: "<p>デジタルオブジェクトの基本コンテンツタイプを示す総称用語。デフォルトのオプションは、MODS
       &lt;typeOfResource&gt;要素に対応します。 </p>"
-    language: 言語
-    language_tooltip: "<p>デジタルコンテンツの言語。 </p>"
     restrictions: 制限？
     restrictions_tooltip: "<p>制限が適用されることを示すチェックボックス。この制限は、NoteサブレコードまたはRightsサブレコードを使用して説明できます。
       </p>"
@@ -564,6 +565,7 @@ ja:
     note_index: インデックス
     note_bibliography: 参考文献
     note_digital_object: デジタルオブジェクトノート
+    note_langmaterial: 材料の言語メモ
     note_bioghist: バイオグラフィー/歴史的メモ
     note_citation: 引用
     note_abstract: 抽象
@@ -604,6 +606,9 @@ ja:
     sub_notes_singular: サブノート
 
   note_digital_object:
+    <<: *note_attributes
+
+  note_langmaterial:
     <<: *note_attributes
 
   note_rights_statement:
@@ -749,6 +754,23 @@ ja:
       29 cm </li><li> 7 1/4 x 3 1/2インチ</li><li> 1/2インチのテープ</li></ul>"
     _plural: エクステント
     _singular: エクステント
+
+  lang_material: &lang_material_attributes
+    _plural: 言語
+    _singular: 言語
+
+  language_and_script:
+    <<: *lang_material_attributes
+    language: 言語
+    language_tooltip: &language_language_tooltip |
+        <p>必須フィールド：説明されている資料に記載されている言語の用語およびコード。 ISO 639-2bから引き出されたコード：言語名の表現のためのコード。</p>
+    script: スクリプト
+    script_tooltip: &language_script_tooltip |
+        <p>説明されている資料に記載されているスクリプトの用語とコード。 ISO 15924から引用したコード：スクリプトの名前を表すためのコード。</p>
+        <p>See DACS 4.5</p>
+
+  language_note:
+    <<: *lang_material_attributes
 
   external_document: &external_document_attributes
     title: タイトル
@@ -1049,6 +1071,7 @@ ja:
     ref_id_export_prefix: aspace_
     dates: 日付
     extents: エクステント
+    lang_materials: 言語
     ref_id_auto_generation_message: "- 保存時に自動生成 -"
     component_id: コンポーネント一意識別子
     component_id_tooltip: "<p>コンポーネントの部品について、リソース記述のコンテキスト内で一意のIDを表します。 </p><p>例：
@@ -1072,8 +1095,6 @@ ja:
     repository_processing_note_tooltip: "<p>マテリアルの処理に関する情報を記録するアプリケーション固有のフィールド。このメモは、エクスポートやレポートには含まれておらず、インポートによって生成されません。
       </p>"
     automate_title: 自動的にタイトルを生成する
-    language: 言語
-    language_tooltip: "<p>説明されている資料で表現されている言語の用語とコード。 </p><p>DACS 4.5を参照</p>"
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: 祖先は未公開ですか？
     _singular: アーカイブオブジェクト
@@ -1489,6 +1510,7 @@ ja:
     max_length_is_50_characters: 50文字を超えてはいけません
     too_few_items: 少なくとも%{min_items}アイテムが必要です
     must_contain_at_least_one_subnote: 少なくとも1つのSub Noteを含む必要があります
+    must_contain_at_least_one_language: 少なくとも1つの言語を含める必要があります
     invalid_value: 値 '%{value}'が無効です。 '%{valid_set}'のいずれかである必要があります
     wrong_type: "%{desired_type} （あなたは%{actual_type}を提供しています）でなければなりません"
     must_be_one_of: "%{allowed_types} （あなたは%{actual_type}を提供しました）のいずれかでなければなりません"

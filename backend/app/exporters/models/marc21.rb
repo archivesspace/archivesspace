@@ -16,7 +16,7 @@ class MARCModel < ASpaceExport::ExportModel
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
     :extents => :handle_extents,
-    :language => :handle_language
+    :lang_materials => :handle_languages
   }
 
   @resource_map = {
@@ -135,12 +135,18 @@ class MARCModel < ASpaceExport::ExportModel
       string += "xx"
     end
 
+    # If only one Language and Script subrecord its code value should be exported in the MARC 008 field position 35-37; If more than one Language and Script subrecord is recorded, a value of "mul" should be exported in the MARC 008 field position 35-37.
+    lang_materials = obj.lang_materials
+    languages = lang_materials.map{|l| l['language_and_script']}.compact
+    langcode = languages.count == 1 ? languages[0]['language'] : 'mul'
+
     # variable number of spaces needed since country code could have 2 or 3 chars
     (35-(string.length)).times { string += ' ' }
-    string += (obj.language || '|||')
+    string += (langcode || '|||')
     string += ' d'
 
     string
+
   end
 
 
@@ -203,8 +209,28 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  def handle_language(langcode)
-    df('041', '0', '7').with_sfs(['a', langcode], ['2', 'iso639-2b'])
+  def handle_languages(lang_materials)
+
+    # ANW-697: The Language subrecord code values should be exported in repeating subfield $a entries in the MARC 041 field.
+
+    languages = lang_materials.map{|l| l['language_and_script']}.compact
+
+    languages.each do |language|
+
+      df('041', ' ', ' ').with_sfs(['a', language['language']])
+
+    end
+
+    # ANW-697: Language Text subrecords should be exported in the MARC 546 subfield $a
+
+    language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }
+
+    if language_notes
+      language_notes.each do |note|
+        handle_notes(note)
+      end
+    end
+
   end
 
 
@@ -230,7 +256,7 @@ class MARCModel < ASpaceExport::ExportModel
     end
   end
 
-  def handle_repo_code(repository, langcode)
+  def handle_repo_code(repository, *finding_aid_language)
     repo = repository['_resolved']
     return false unless repo
 
@@ -256,7 +282,7 @@ class MARCModel < ASpaceExport::ExportModel
     end
 
     df('852', ' ', ' ').with_sfs(*subfields_852)
-    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', langcode],['c', repo['org_code']])
+    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', finding_aid_language[0]],['c', repo['org_code']])
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
 
     if repo.has_key?('country') && !repo['country'].empty?

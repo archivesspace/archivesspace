@@ -711,6 +711,12 @@ fr:
         add_digital_object: Ajouter objet numérique
         add: Ajouter instance
 
+  lang_material:
+    _frontend:
+      action:
+        add: Ajouter une langue
+        add_note: Ajouter une note de langue
+
   linked_agent:
     _frontend:
       action:
@@ -950,6 +956,7 @@ fr:
     column_label: Colonne
     sections:
       basic_information: Information de base
+      language: La langue
       date: Date
       extent: Importance matérielle
       instance: Instance

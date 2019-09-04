@@ -1,0 +1,40 @@
+<%
+   section_id = "lang_materials" if section_id.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3>Languages</h3>
+  <div class="accordion details" id="lang_materials_accordion">
+    <% lang_materials.each_with_index do | lang_material, index | %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <% if lang_material["language_and_script"] and lang_material["language_and_script"].length > 0 %>
+            <div class="row collapsed accordion-toggle" data-toggle="collapse" data-parent="#lang_materials_accordion" href="#lang_material_<%= index %>">
+              <div class="col-md-1">
+                <span class="glyphicon"></span>
+              </div>
+              <div class="col-md-4">
+                  <%= I18n.t('enumerations.language_iso639_2.'+lang_material["language_and_script"]['language'], :default => lang_material["language_and_script"]['language'])%>
+                  <% if lang_material["language_and_script"]['script'] %>
+                    <%= "(" + I18n.t('enumerations.script_iso15924.'+lang_material["language_and_script"]['script'], :default => lang_material["language_and_script"]['script']) + " script)" %>
+                  <% end %>
+              </div>
+            </div>
+          <% elsif lang_material["notes"].length > 0 %>
+            <%= readonly_context :lang_material, lang_material do |readonly| %>
+              <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => lang_material['notes'], :context => readonly, :section_id => "lang_material_#{index}_notes" } %>
+            <% end %>
+          <% end %>
+        </div>
+        <div id="lang_material_<%= index %>" class="panel-collapse collapse">
+          <div class="panel-body">
+            <%= read_only_view(lang_material) %>
+            <% if lang_material["language_and_script"] and lang_material["language_and_script"].length > 0 %>
+              <%= render_aspace_partial :partial => "language_and_scripts/show", :locals => { :language_and_script => lang_material["language_and_script"], :id => "lang_material_#{index}_language_and_script" } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

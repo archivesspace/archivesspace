@@ -376,4 +376,17 @@ describe 'Archival Object controller' do
     expect(json['ark_name']['id']).to_not be_nil
     AppConfig[:arks_enabled] = false
   end
+
+  it "lets you create a archival object with a language" do
+
+    opts = {:language_and_script => {:language => generate(:language)}}
+
+    lang_materials = [build(:json_lang_material, opts)]
+
+    archival_object = create(:json_archival_object, :lang_materials => lang_materials)
+
+    expect(JSONModel(:archival_object).find(archival_object.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+    expect(JSONModel(:archival_object).find(archival_object.id).lang_materials[0]['note']).to eq(nil)
+  end
+
 end

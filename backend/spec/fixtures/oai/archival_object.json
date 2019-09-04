@@ -21,7 +21,26 @@
         }
     ],
     "jsonmodel_type": "archival_object",
-    "language": "eng",
+    "lang_materials": [
+        {
+            "language_and_script": {
+                "language": "eng",
+                "script": "Latn"
+            }
+        },
+        {
+            "notes": [
+                {
+                    "jsonmodel_type": "note_langmaterial",
+                    "type": "langmaterial",
+                    "publish": true,
+                    "content": [
+                        "Language note"
+                    ]
+                }
+            ]
+        }
+    ],
     "level": "file",
     "linked_agents": [
         {
@@ -58,15 +77,6 @@
                 }
             ],
             "type": "dimensions"
-        },
-        {
-            "content": [
-                "language of materials note"
-            ],
-            "jsonmodel_type": "note_singlepart",
-            "persistent_id": "7918ce3890da8ee41ad29a79909efb76",
-            "publish": true,
-            "type": "langmaterial"
         },
         {
             "jsonmodel_type": "note_multipart",

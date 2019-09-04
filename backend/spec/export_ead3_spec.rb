@@ -96,6 +96,9 @@ describe "EAD3 export mappings" do
                  :parent => parent ? {:ref => parent} : nil,
                  :notes => build_archival_object_notes(5),
                  :linked_agents => build_linked_agents(@agents),
+                 :lang_materials => [build(:json_lang_material),
+                                     build(:json_lang_material),
+                                     build(:json_lang_material_with_note)],
                  :instances => [build(:json_instance_digital),
                                 build(:json_instance,
                                       :sub_container => build(:json_sub_container,
@@ -425,15 +428,21 @@ describe "EAD3 export mappings" do
       end
     end
 
-    it "maps {archival_object}.language to {desc_path}/did/langmaterial/language" do
-      data = object.language ? translate('enumerations.language_iso639_2', object.language) : nil
-      code = object.language
+    it "maps {archival_object}.lang_materials to {desc_path}/did/langmaterial" do
+      language = object.lang_materials[0]['language_and_script']['language']
+      script = object.lang_materials[0]['language_and_script']['script']
+      language_notes = object.lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
 
-      mt(data, "#{desc_path}/did/langmaterial/language")
-      mt(code, "#{desc_path}/did/langmaterial/language", 'langcode')
+      mt(translate('enumerations.language_iso639_2', language), "#{desc_path}/did/langmaterial/languageset/language")
+      mt(language, "#{desc_path}/did/langmaterial/languageset/language", 'langcode')
+      mt(translate('enumerations.script_iso15924', script), "#{desc_path}/did/langmaterial/languageset/script")
+      mt(script, "#{desc_path}/did/langmaterial/languageset/script", 'scriptcode')
+
+      language_notes.select {|n| n['type'] == 'langmaterial'}.each_with_index do |note, i|
+        mt(note_content(note), "#{desc_path}/did/langmaterial/descriptivenote")
+      end
+
     end
-
-
 
 
     describe "How {archival_object}.instances[].sub_container data is mapped." do

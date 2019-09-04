@@ -111,20 +111,20 @@ describe 'OAI handler' do
 
     # TODO: Fix this test and fixtures
     # RESOURCE_AND_COMPONENT_BASED_FORMATS.each do |prefix|
-    #   it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
-    #     expect {
-    #       check_oai_request_against_fixture("getrecord_#{prefix}",
-    #                                         :verb => 'GetRecord',
-    #                                         :identifier => 'oai:archivesspace/' + @test_archival_object_record,
-    #                                         :metadataPrefix => prefix)
-    #
-    #       check_oai_request_against_fixture("getrecord_resource_#{prefix}",
-    #                                         :verb => 'GetRecord',
-    #                                         :identifier => 'oai:archivesspace/' + @test_resource_record,
-    #                                         :metadataPrefix => prefix)
-    #     }.not_to raise_error
-    #   end
-    # end
+    #  it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
+    #    expect {
+    #      check_oai_request_against_fixture("getrecord_#{prefix}",
+    #                                        :verb => 'GetRecord',
+    #                                        :identifier => 'oai:archivesspace/' + @test_archival_object_record,
+    #                                        :metadataPrefix => prefix)
+
+    #     check_oai_request_against_fixture("getrecord_resource_#{prefix}",
+    #                                        :verb => 'GetRecord',
+    #                                        :identifier => 'oai:archivesspace/' + @test_resource_record,
+    #                                        :metadataPrefix => prefix)
+    #    }.not_to raise_error
+    #  end
+    #end
   end
 
   describe "ListIdentifiers" do

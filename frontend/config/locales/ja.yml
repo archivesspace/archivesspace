@@ -719,6 +719,12 @@ ja:
         add_digital_object: デジタルオブジェクトを追加する
         add: インスタンスを追加する
 
+  lang_material:
+    _frontend:
+      action:
+        add: 言語を追加
+        add_note: 言語メモを追加
+
   linked_agent:
     _frontend:
       action:
@@ -961,6 +967,7 @@ ja:
     column_label: カラム
     sections:
       basic_information: 基本情報
+      language: 言語
       date: 日付
       extent: エクステント
       instance: インスタンス

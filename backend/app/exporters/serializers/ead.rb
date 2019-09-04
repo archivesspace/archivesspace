@@ -94,9 +94,24 @@ class EADSerializer < ASpaceExport::Serializer
     content = content.gsub(/\xE2\x80\x9C/, '"').gsub(/\xE2\x80\x9D/, '"').gsub(/\xE2\x80\x98/, "\'").gsub(/\xE2\x80\x99/, "\'")
   end
 
-  def sanitize_mixed_content(content, context, fragments, allow_p = false  )
-#    return "" if content.nil?
 
+  # ANW-669: Fix for attributes in mixed content causing errors when validating against the EAD schema.
+
+  # If content looks like it contains a valid XML element with an attribute from the expected list,
+  # then replace the attribute like " foo=" with " xlink:foo=".
+
+  # References used for valid element and attribute names:
+  # https://www.xml.com/pub/a/2001/07/25/namingparts.html
+  # https://razzed.com/2009/01/30/valid-characters-in-attribute-names-in-htmlxml/
+
+  def add_xlink_prefix(content)
+    %w{ actuate arcrole entityref from href id linktype parent role show target title to xpointer }.each do | xa |
+      content.gsub!(/ #{xa}=/) {|match| " xlink:#{match.strip}"} if content =~ / #{xa}=/
+    end
+    content
+  end
+
+  def sanitize_mixed_content(content, context, fragments, allow_p = false  )
     # remove smart quotes from text
     content = remove_smart_quotes(content)
 
@@ -110,6 +125,12 @@ class EADSerializer < ASpaceExport::Serializer
       escape_content(content)
       content = strip_p(content)
     end
+
+    # ANW-669 - only certain EAD elements will have attributes that need
+    # xlink added so only do this processing if the element is there
+    # attribute check is inside the add_xlink_prefix method
+    xlink_eles = %w{ arc archref bibref extptr extptrloc extref extrefloc linkgrp ptr ptrloc ref refloc resource title }
+    content = add_xlink_prefix(content) if xlink_eles.any? { |word| content =~ /<#{word}\s/ }
 
     begin
       if ASpaceExport::Utils.has_html?(content)
@@ -157,15 +178,6 @@ class EADSerializer < ASpaceExport::Serializer
 
           xml.did {
 
-
-            if (val = data.language)
-              xml.langmaterial {
-                xml.language(:langcode => val) {
-                  xml.text I18n.t("enumerations.language_iso639_2.#{val}", :default => val)
-                }
-              }
-            end
-
             if (val = data.repo.name)
               xml.repository {
                 xml.corpname { sanitize_mixed_content(val, xml, @fragments) }
@@ -191,6 +203,10 @@ class EADSerializer < ASpaceExport::Serializer
             serialize_dates(data, xml, @fragments)
 
             serialize_did_notes(data, xml, @fragments)
+
+            if (languages = data.lang_materials)
+              serialize_languages(languages, xml)
+            end
 
             data.instances_with_sub_containers.each do |instance|
               serialize_container(instance, xml, @fragments)
@@ -306,6 +322,10 @@ class EADSerializer < ASpaceExport::Serializer
         serialize_extents(data, xml, fragments)
         serialize_dates(data, xml, fragments)
         serialize_did_notes(data, xml, fragments)
+
+        if (languages = data.lang_materials)
+          serialize_languages(languages, xml)
+        end
 
         EADSerializer.run_serialize_step(data, xml, fragments, :did)
 
@@ -633,6 +653,67 @@ class EADSerializer < ASpaceExport::Serializer
       else
         xml.send(note['type'], att.merge(audatt)) {
           sanitize_mixed_content(content, xml, fragments,ASpaceExport::Utils.include_p?(note['type']))
+        }
+      end
+    end
+  end
+
+  def serialize_languages(languages, xml)
+    lm = []
+    language_notes = languages.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+    if !language_notes.empty?
+      language_notes.each do |note|
+        unless note["publish"] === false && !@include_unpublished
+          audatt = note["publish"] === false ? {:audience => 'internal'} : {}
+          content = ASpaceExport::Utils.extract_note_text(note, @include_unpublished)
+
+          att = { :id => prefix_id(note['persistent_id']) }.reject {|k,v| v.nil? || v.empty? || v == "null" }
+          att ||= {}
+
+          xml.send(note['type'], att.merge(audatt)) {
+            sanitize_mixed_content(content, xml,ASpaceExport::Utils.include_p?(note['type']))
+          }
+          lm << note
+        end
+      end
+      if lm == []
+        languages = languages.map{|l| l['language_and_script']}.compact
+        xml.langmaterial {
+          languages.map {|language|
+            punctuation = language.equal?(languages.last) ? '.' : ', '
+            lang_translation = I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
+            if language['script']
+              xml.language(:langcode => language['language'], :scriptcode => language['script']) {
+                xml.text(lang_translation)
+              }
+            else
+              xml.language(:langcode => language['language']) {
+                xml.text(lang_translation)
+              }
+            end
+            xml.text(punctuation)
+          }
+        }
+      end
+    # ANW-697: If no Language Text subrecords are available, the Language field translation values for each Language and Script subrecord should be exported, separated by commas, enclosed in <language> elements with associated @langcode and @scriptcode attribute values, and terminated by a period.
+    else
+      languages = languages.map{|l| l['language_and_script']}.compact
+      if !languages.empty?
+        xml.langmaterial {
+          languages.map {|language|
+            punctuation = language.equal?(languages.last) ? '.' : ', '
+            lang_translation = I18n.t("enumerations.language_iso639_2.#{language['language']}", :default => language['language'])
+            if language['script']
+              xml.language(:langcode => language['language'], :scriptcode => language['script']) {
+                xml.text(lang_translation)
+              }
+            else
+              xml.language(:langcode => language['language']) {
+                xml.text(lang_translation)
+              }
+            end
+            xml.text(punctuation)
+          }
         }
       end
     end

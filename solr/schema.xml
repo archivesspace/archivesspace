@@ -98,7 +98,7 @@
    <field name="use_restrictions" type="boolean" indexed="true" stored="true" multiValued="false" />
 
    <!-- Resource properties required for browse sorting -->
-   <field name="language" type="string" indexed="true" stored="true" multiValued="false" />
+   <!-- <field name="language" type="string" indexed="true" stored="true" multiValued="false" /> -->
    <field name="restrictions" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="ead_id" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="finding_aid_status" type="string" indexed="true" stored="true" multiValued="false" />

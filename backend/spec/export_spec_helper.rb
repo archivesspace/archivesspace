@@ -130,7 +130,7 @@ end
 
 
 def singlepart_note_set(publish = true)
-  ["abstract", "physdesc", "langmaterial", "physloc", "materialspec", "physfacet"].map do |type|
+  ["abstract", "physdesc", "physloc", "materialspec", "physfacet"].map do |type|
     build(:json_note_singlepart, {
             :publish => publish,
             :type => type
@@ -145,7 +145,7 @@ end
 
 
 def digital_object_note_set
-  ["summary", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "edition", "extent", "altformavail", "originalsloc", "note", "acqinfo", "inscription", "langmaterial", "legalstatus", "physdesc", "prefercite", "processinfo", "relatedmaterial"].map do |type|
+  ["summary", "bioghist", "accessrestrict", "userestrict", "custodhist", "dimensions", "edition", "extent", "altformavail", "originalsloc", "note", "acqinfo", "inscription", "legalstatus", "physdesc", "prefercite", "processinfo", "relatedmaterial"].map do |type|
     build(:json_note_digital_object, {
             :publish => true,
             :type => type
