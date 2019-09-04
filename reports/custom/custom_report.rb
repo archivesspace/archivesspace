@@ -1,7 +1,7 @@
 class CustomReport < AbstractReport
 
 	register_report(params: [['template', CustomReportTemplate,
-		'Template to use for the custom report.']])
+		'Template to use for the custom report.']]) if AppConfig[:enable_custom_reports]
 
 	attr_accessor :record_type, :subreports
 
@@ -54,7 +54,7 @@ class CustomReport < AbstractReport
 			begin
 				@fields.push(field) if template['fields'][field_name]['include']
 			rescue NoMethodError => e
-				
+
 			end
 
 			if (ASUtils.present?(template['fields'][field_name]['narrow_by'])) &&
@@ -97,7 +97,7 @@ class CustomReport < AbstractReport
 					@subreports.push(subreport_class)
 				end
 			rescue NoMethodError => e
-				
+
 			end
 		end
 
@@ -174,10 +174,10 @@ class CustomReport < AbstractReport
 			name_table = agent_type.gsub('agent', 'name')
 			fields = "#{type_fields},
 			name.sort_name as name#{select_fields}"
-			
+
 			agent_query = "select #{agent_type}.id#{fields}
 							from #{agent_type}
-								left outer join 
+								left outer join
 								(select
 									sort_name,
 									#{agent_type}_id as id,
@@ -313,7 +313,7 @@ class CustomReport < AbstractReport
 					:default => value)
 				value_names.push(value_name)
 			end
-			info[field_name] = value_names.join(', ')		
+			info[field_name] = value_names.join(', ')
 		rescue Exception => e
 			info[field_name] = values.join(', ')
 		end
