@@ -1,4 +1,5 @@
 //= require slug
+//= require lang_materials.crud
 
 $(function() {
   $.fn.init_archival_object_form = function() {

@@ -4,6 +4,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
 
   include Subjects
   include Extents
+  include LangMaterials
   include Dates
   include ExternalDocuments
   include Agents

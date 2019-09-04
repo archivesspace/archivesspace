@@ -62,6 +62,9 @@ es:
         <p>El contenido de la nota.</p>
 
   section_tooltips: &section_tooltips
+    lang_materials_tooltip: |
+        <p>Los lenguajes y scripts representados en los materiales descritos.</p>
+        <p>Ver DACS 4.5</p>
     dates_tooltip: |
         <p>Identifica y registra las fechas que corresponden a la creación, Asamblea, acumulación, o mantenimiento y utilización de los materiales que se está describiendo.</p>
         <p>Ver DACS 2.4</p>
@@ -120,8 +123,6 @@ es:
     digital_object_type: Tipo de objeto digital
     digital_object_type_tooltip: |
         <p>Un término genérico que indica el tipo de contenido básico del objeto digital. Las opciones por defecto corresponden al elemento MODS &lt; typeOfResource &gt;.</p>
-    language: Idioma
-    language_tooltip:
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
         <p>Una casilla de verificación para indicar que se aplican restricciones. Las restricciones pueden explicarse mediante los subregistros nota o subregistros de derechos.</p>
@@ -717,6 +718,7 @@ es:
     note_index: Índice
     note_bibliography: Bibliografía
     note_digital_object: Nota de objeto digital
+    note_langmaterial: Lenguaje de materiales Nota
     note_bioghist: "Nota de biografía histórica"
     note_citation: Cita
     note_abstract: Resumen
@@ -757,6 +759,9 @@ es:
     sub_notes_singular: Subnotas
 
   note_digital_object:
+    <<: *note_attributes
+
+  note_langmaterial:
     <<: *note_attributes
 
   note_rights_statement:
@@ -944,6 +949,23 @@ es:
         </ul>
     _plural: Extensión
     _singular: Extensión
+
+  lang_material: &lang_material_attributes
+    _plural: Idiomas
+    _singular: Idioma
+
+  language_and_script:
+    <<: *lang_material_attributes
+    language: Idioma
+    language_tooltip: &language_language_tooltip |
+        <p>CAMPO REQUERIDO: El término de idioma y el código representado en el (los) material (es) descrito (s). Códigos extraídos de ISO 639-2b: Códigos para la representación de nombres de idiomas.</p>
+    script: Guión
+    script_tooltip: &language_script_tooltip |
+        <p>El término de script y el código representado en el (los) material (es) descrito (s). Códigos extraídos de ISO 15924: Códigos para la representación de nombres de scripts.</p>
+        <p>Ver DACS 4.5</p>
+
+  language_note:
+    <<: *lang_material_attributes
 
   external_document: &external_document_attributes
     title: Título
@@ -1356,6 +1378,7 @@ es:
     dates_tooltip: |
         <p>SUBREGISTRO CONDICIONAL REQUERIDO. Un objeto de archivo debe tener un título o un subregistro de fecha.</p>
     extents: Extensiones
+    lang_materials: Idiomas
     ref_id_auto_generation_message: "--generado automáticamente al guardar..."
     component_id: Identificador único de componente
     component_id_tooltip: |
@@ -1395,10 +1418,6 @@ es:
     repository_processing_note_tooltip: |
          <p>Un campo específico de la aplicación para registrar información sobre el procesamiento de los materiales. Esta nota no se incluye en ninguna exportación o informe, y no está poblada por importaciones.</p>
     automate_title: Generar automáticamente el título
-    language: Idioma
-    language_tooltip: |
-        <p>El término lengua y código representado en el material descrito.</p>
-        <p>Ver DACS 4.5</p>
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: ¿Tiene una serie/subserie por encima sin publicar?
     _singular: Documento de archivo
@@ -1945,6 +1964,7 @@ es:
     max_length_is_50_characters: No debe superar los 50 caracteres.
     too_few_items: "Por lo menos los elementos %{min_items} es necesario"
     must_contain_at_least_one_subnote: Debe contener al menos una nota secundaria
+    must_contain_at_least_one_language: Debe contener al menos un idioma
     invalid_value: "Valor no válido '%{valor}'. Debe ser uno de '%{valid_set}'"
     wrong_type: "Debe ser un %{desired_type} (proporcionó un %{actual_type})"
     must_be_one_of: "Debe ser uno de %{allowed_types} (proporcionó un %{actual_type})"

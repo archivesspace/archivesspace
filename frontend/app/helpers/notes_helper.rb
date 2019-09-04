@@ -24,6 +24,16 @@ module NotesHelper
         }
       end
 
+    elsif jsonmodel_type =~ /lang_material/
+
+      note_types = {
+        "langmaterial" => {
+          :target => :note_langmaterial,
+          :value => "langmaterial",
+          :i18n => I18n.t("enumerations._note_types.langmaterial", :default => "langmaterial")
+        }
+      }
+
     elsif jsonmodel_type =~ /agent/
 
       note_types = {

@@ -104,6 +104,8 @@ describe "EAD export mappings" do
                  :parent => parent ? {:ref => parent} : nil,
                  :notes => build_archival_object_notes(5),
                  :linked_agents => build_linked_agents(@agents),
+                 :lang_materials => [build(:json_lang_material),
+                                     build(:json_lang_material)],
                  :instances => [build(:json_instance_digital),
                                 build(:json_instance,
                                       :sub_container => build(:json_sub_container,
@@ -270,12 +272,33 @@ describe "EAD export mappings" do
     end
 
 
-    it "maps {archival_object}.language to {desc_path}/did/langmaterial/language" do
-      data = object.language ? translate('enumerations.language_iso639_2', object.language) : nil
-      code = object.language
+    it "maps {archival_object}.lang_materials['language_and_script'] to {desc_path}/did/langmaterial/language" do
 
-      mt(data, "#{desc_path}/did/langmaterial/language")
-      mt(code, "#{desc_path}/did/langmaterial/language", 'langcode')
+      language = object.lang_materials[0]['language_and_script']['language']
+      script = object.lang_materials[0]['language_and_script']['script']
+
+      mt(translate('enumerations.language_iso639_2', language), "#{desc_path}/did/langmaterial/language")
+      mt(language, "#{desc_path}/did/langmaterial/language", 'langcode')
+      mt(script, "#{desc_path}/did/langmaterial/language", 'scriptcode')
+    end
+
+
+    it "maps {archival_object}.lang_materials['notes'] to {desc_path}/did/langmaterial if present" do
+
+      language_notes = object.lang_materials << build(:json_lang_material_with_note)
+
+      language_notes.select {|n| n['type'] == 'langmaterial'}.each_with_index do |note, i|
+        content = note_content(note)
+        path = "#{desc_path}/did/langmaterial[text()='#{content}']"
+        if note['persistent_id']
+          mt("aspace_" + note['persistent_id'], path, "id")
+        else
+          mt(nil, path, "id")
+        end
+      end
+
+      language_notes.pop
+      
     end
 
 

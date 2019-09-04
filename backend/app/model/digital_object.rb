@@ -5,6 +5,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include AutoGenerator
   include Subjects
   include Extents
+  include LangMaterials
   include Dates
   include ExternalDocuments
   include Agents

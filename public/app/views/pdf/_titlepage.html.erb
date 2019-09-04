@@ -11,7 +11,7 @@
 
     <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today %></p>
     <% if record.finding_aid['language'] %>
-        <p><%= I18n.t('pdf_reports.finding_aid_written_in') %> <%= record.finding_aid['language'] %></p>
+        <p><%= I18n.t('pdf_reports.finding_aid_written_in') %> <%= t('enumerations.language_iso639_2.' + record.finding_aid['language']) %></p>
     <% end %>
 
     <% if record.finding_aid['description_rules'] %>

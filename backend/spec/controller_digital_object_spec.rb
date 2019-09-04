@@ -22,9 +22,15 @@ describe 'Digital Objects controller' do
 
 
   it "can give a list of digital objects" do
+    # ensure we're starting fresh
+    dos = JSONModel(:digital_object).all(:page => 1)['results']
+    unless dos == []
+      dos.each {|d| d.delete}
+    end
+
     create(:json_digital_object)
     create(:json_digital_object)
-    expect(JSONModel(:digital_object).all(:page => 1)['results'].count).to eq(3)
+    expect(JSONModel(:digital_object).all(:page => 1)['results'].count).to eq(2)
   end
 
 
@@ -45,7 +51,7 @@ describe 'Digital Objects controller' do
       docs << doc
     end
 
-    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => digital_object.id).to_hash
+    tree = JSONModel(:digital_object_tree).find(nil, :digital_object_id => id).to_hash
 
     expect(tree['children'][0]['record_uri']).to eq(docs[0].uri)
     expect(tree['children'][0]['children'][0]['record_uri']).to eq(docs[1].uri)
@@ -216,4 +222,17 @@ describe 'Digital Objects controller' do
       expect(archival_object).not_to be_nil
       expect(archival_object.instances.count).to be(0)
     end
+
+
+    it "lets you create a digital object with a language" do
+      opts = {:language_and_script => {:language => generate(:language)}}
+
+      lang_materials = [build(:json_lang_material, opts)]
+
+      digital_object = create(:json_digital_object, :lang_materials => lang_materials)
+
+      expect(JSONModel(:digital_object).find(digital_object.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+      expect(JSONModel(:digital_object).find(digital_object.id).lang_materials[0]['note']).to eq(nil)
+    end
+
 end
