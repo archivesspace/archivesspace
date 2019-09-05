@@ -387,8 +387,8 @@ describe 'OAI handler' do
         expect(response.body).to match(/<dc:identifier>#{ark_url}<\/dc:identifier>/)
       end
       it "should not output ARK name in identifer tag if ARK output is disabled" do
-        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
         AppConfig[:arks_enabled] = false
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
         response = get uri
         resource_id = @test_resource_record.split("/")[4]
         ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
@@ -398,16 +398,16 @@ describe 'OAI handler' do
     end
     describe 'DCTerms output' do
       xit "should output ARK name in identifer tag" do
-        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
         AppConfig[:arks_enabled] = true
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
         response = get uri
         resource_id = @test_resource_record.split("/")[4]
         ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
         expect(response.body).to match(/<dcterms:identifer>#{ark_url}<\/dcterms:identifer>/)
       end
       it "should not output ARK name in identifer tag if ARK output is disabled" do
-        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
         AppConfig[:arks_enabled] = false
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
         response = get uri
         resource_id = @test_resource_record.split("/")[4]
         ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
@@ -417,6 +417,7 @@ describe 'OAI handler' do
     end
     describe 'MODS output' do
       it "should output ARK name in identifer tag" do
+        AppConfig[:arks_enabled] = true
         uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_mods"
         response = get uri
         resource_id = @test_resource_record.split("/")[4]

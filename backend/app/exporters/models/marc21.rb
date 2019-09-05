@@ -593,7 +593,7 @@ class MARCModel < ASpaceExport::ExportModel
     end
   end
 
-  def handle_ark(id, type)
+  def handle_ark(id, type='resource')
     # If ARKs are enabled, add an 856
     #<datafield tag="856" ind1="4" ind2="2">
     #  <subfield code="z">Archival Resource Key:</subfield>

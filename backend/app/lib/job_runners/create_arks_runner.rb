@@ -10,6 +10,7 @@ class CreateArksRunner < JobRunner
       @job.write_output("Creating ARKs for Resources")
       @job.write_output("================================")
 
+      count_res = 0
       Resource.any_repo.each do |r|
         begin
           if ArkName.count == 0 || ArkName.first(resource_id: r[:id]).nil?
@@ -22,16 +23,23 @@ class CreateArksRunner < JobRunner
                            :system_mtime       => Time.now,
                            :user_mtime         => Time.now,
                            :lock_version       => 0)
+           count_res += 1
           end
         rescue => e
           @job.write_output(" -> Error generating ARK for id: #{r[:id]} => #{e.message}")
         end
       end
 
+      if count_res == 0
+        @job.write_output("No Resource ARKs were created because all Resource records already have ARKs")
+        @job.write_output("================================")
+      end
+
       # Archival Object
       @job.write_output("Creating ARKs for Archival Objects")
       @job.write_output("================================")
 
+      count_aos = 0
       ArchivalObject.any_repo.each do |r|
         begin
           if ArkName.count == 0 || ArkName.first(archival_object_id: r[:id]).nil?
@@ -44,10 +52,16 @@ class CreateArksRunner < JobRunner
                            :system_mtime       => Time.now,
                            :user_mtime         => Time.now,
                            :lock_version       => 0)
+           count_aos += 1
           end
         rescue => e
           @job.write_output(" -> Error generating ARK for id: #{r[:id]} => #{e.message}")
         end
+      end
+
+      if count_aos == 0
+        @job.write_output("No Archival Object ARKs were created because all Archival Object records already have ARKs")
+        @job.write_output("================================")
       end
 
       self.success!

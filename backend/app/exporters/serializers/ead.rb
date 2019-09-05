@@ -295,21 +295,22 @@ class EADSerializer < ASpaceExport::Serializer
           xml.unittitle {  sanitize_mixed_content( val,xml, fragments) }
         end
 
+        if AppConfig[:arks_enabled]
+          ark_url = ArkName::get_ark_url(data.id, :archival_object)
+          if ark_url
+            # <unitid><extref xlink:href="ARK" xlink:actuate="onLoad" xlink:show="new" xlink:linktype="simple">ARK</extref></unitid>
+            xml.unitid {
+              xml.extref ({"xlink:href" => ark_url,
+                          "xlink:actuate" => "onLoad",
+                          "xlink:show" => "new",
+                          "xlink:type" => "simple"
+                          }) { xml.text 'Archival Resource Key' }
+                          }
+          end
+        end
+
         if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
-          if AppConfig[:arks_enabled]
-            ark_url = ArkName::get_ark_url(data.id, :archival_object)
-            if ark_url
-              # <unitid><extref xlink:href="ARK" xlink:actuate="onLoad" xlink:show="new" xlink:linktype="simple">ARK</extref></unitid>
-              xml.unitid {
-                xml.extref ({"xlink:href" => ark_url,
-                            "xlink:actuate" => "onLoad",
-                            "xlink:show" => "new",
-                            "xlink:type" => "simple"
-                            }) { xml.text 'Archival Resource Key' }
-                            }
-            end
-          end
         end
 
         if @include_unpublished

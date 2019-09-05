@@ -641,7 +641,7 @@ FactoryBot.define do
     id_0 { generate(:alphanumstr) }
     extents { [build(:json_extent)] }
     level { generate(:archival_record_level) }
-    language { generate(:language) }
+    lang_materials { [build(:json_lang_material)] }
     dates { [build(:json_date), build(:json_date_single)] }
     finding_aid_description_rules { [nil, generate(:finding_aid_description_rules)].sample }
     ead_id { nil_or_whatever }
