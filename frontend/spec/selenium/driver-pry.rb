@@ -1,4 +1,6 @@
-require_relative 'spec/spec_helper'
+# frozen_string_literal: true
+
+require_relative 'spec_helper'
 
 include BackendClientMethods
 # include DriverMacroMethods
@@ -13,4 +15,3 @@ $period = PeriodicIndexer.new
 
 $admin = BackendClientMethods::ASpaceUser.new('admin', 'admin')
 $driver = Driver.get
-

@@ -14,7 +14,7 @@ require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 require_relative '../../indexer/app/lib/pui_indexer'
 
-require_relative '../../selenium/common/backend_client_mixin'
+require_relative '../../common/selenium/backend_client_mixin'
 module BackendClientMethods
   alias :run_all_indexers_orig :run_all_indexers
   # patch this to also run our PUI indexer.
@@ -98,7 +98,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include BackendClientMethods
-  
+
   # show retry status in spec process
   config.verbose_retry = true
   # Try thrice (retry twice)

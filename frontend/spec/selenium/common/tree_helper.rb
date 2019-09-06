@@ -1,5 +1,6 @@
-module TreeHelperMethods
+# frozen_string_literal: true
 
+module TreeHelperMethods
   class Node
     def initialize(obj)
       @obj = obj
@@ -16,7 +17,6 @@ module TreeHelperMethods
     def a_selector
       "#{li_selector} a.record-title"
     end
-
   end
 
   def tree_drag_and_drop(source, target, where_to_drop)
@@ -39,34 +39,33 @@ module TreeHelperMethods
   end
 
   def tree_click(node)
-    @driver.find_element(:css => node.a_selector).click
+    @driver.find_element(css: node.a_selector).click
   end
 
   def tree_node_for_title(title)
-    tree_node_link_for_title(title) 
-    .find_element_orig(:xpath => "ancestor::tr")
+    tree_node_link_for_title(title)
+      .find_element_orig(xpath: 'ancestor::tr')
   end
 
-  def tree_node_link_for_title(title) 
-    @driver.find_element_with_text('//div[@id="tree-container"]//a[@class="record-title"]', /#{title}/ )
+  def tree_node_link_for_title(title)
+    @driver.find_element_with_text('//div[@id="tree-container"]//a[@class="record-title"]', /#{title}/)
   end
-
 
   def tree_current
-    @driver.find_element(:css => "#tree-container .current")
+    @driver.find_element(css: '#tree-container .current')
   end
 
   def tree_nodes_at_level(level)
-    @driver.blocking_find_elements(:css => "#tree-container .largetree-node.indent-level-#{level}")
+    @driver.blocking_find_elements(css: "#tree-container .largetree-node.indent-level-#{level}")
   end
 
   def tree_add_sibling
-    @driver.click_and_wait_until_gone(:link, "Add Sibling")
+    @driver.click_and_wait_until_gone(:link, 'Add Sibling')
     @driver.wait_for_ajax
   end
 
   def tree_add_child
-    @driver.click_and_wait_until_gone(:link, "Add Child")
+    @driver.click_and_wait_until_gone(:link, 'Add Child')
     @driver.wait_for_ajax
   end
 
@@ -101,17 +100,13 @@ module TreeHelperMethods
   end
 
   def expand_tree_pane
-    begin
-      # if we're already maximized, we unmaximize first ( since it's possible
-      # there been children added since last maximization, so we need to resize ) 
-      @driver.find_element_orig( :css => ".ui-resizable-handle.ui-resizable-s.maximized").find_element("a.tree-resize-toggle")
-    rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
-      # we aren't currently maximized, so please continue.. 
-    ensure 
-      # now we maximize! 
-      @driver.find_element(:css => "a.tree-resize-toggle").click
-    end
+    # if we're already maximized, we unmaximize first ( since it's possible
+    # there been children added since last maximization, so we need to resize )
+    @driver.find_element_orig(css: '.ui-resizable-handle.ui-resizable-s.maximized').find_element('a.tree-resize-toggle')
+  rescue Selenium::WebDriver::Error::NoSuchElementError, Selenium::WebDriver::Error::StaleElementReferenceError => e
+    # we aren't currently maximized, so please continue..
+  ensure
+    # now we maximize!
+    @driver.find_element(css: 'a.tree-resize-toggle').click
   end
-
-
 end

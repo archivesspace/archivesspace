@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require 'ashttp'
-require 'active_support/all'
 
 module BackendClientMethods
 
@@ -134,25 +135,24 @@ module BackendClientMethods
     ASpaceUser.new(user, pass)
   end
 
-
   def create_subjects
-    ['cultural_context', 'function', 'genre_form', 'geographic', 'occupation', 'style_period', 'technique', 'temporal', 'topical', 'uniform_title'].each do |term|
+    %w[cultural_context function genre_form geographic occupation style_period technique temporal topical uniform_title].each do |term|
+      params = { 'lock_version' => '1',
+                 'title' => term,
+                 'vocabulary' => '/vocabularies/1',
+                 'authority_id' => rand(10_000).to_s,
+                 'source' => 'local',
+                 'scope_note' => 'Test',
+                 'terms' => [
+                   { 'vocabulary' => '/vocabularies/1',
+                     'term' => term,
+                     'term_type' => term }
+                 ] }
 
-     params = {"lock_version" => "1", 
-               "title" => term, 
-               "vocabulary"=>"/vocabularies/1", 
-               "authority_id" => rand(10000).to_s, 
-               "source"=>"local", 
-               "scope_note"=>"Test", 
-               "terms"=>[
-                  {"vocabulary"=>"/vocabularies/1", 
-                   "term"=> term, 
-                   "term_type"=> term}]}
-
-      req = Net::HTTP::Post.new("/subjects")
+      req = Net::HTTP::Post.new('/subjects')
       req['Content-Type'] = 'text/json'
       req.body = params.to_json
-      
+
       admin_backend_request(req)
     end
   end
