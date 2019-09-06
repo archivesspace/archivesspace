@@ -70,7 +70,7 @@ def migrate_langmaterial_notes
                       :system_mtime => Time.now,
                       :user_mtime => Time.now
                     )
-                  self[:language_and_script].insert(
+                  language_and_script = self[:language_and_script].insert(
                       :json_schema_version => 1,
                       :language_id => langcode,
                       :lang_material_id => parsed_language_record,
@@ -86,20 +86,8 @@ def migrate_langmaterial_notes
                   scriptcode = self[:enumeration_value].filter(:value => script, :enumeration_id => enum ).get(:id)
 
                   puts "Updating script code for #{obj} #{record_id}: #{script} (#{scriptcode})"
-                  parsed_script_record = self[:lang_material].insert(
-                      :json_schema_version => 1,
-                      "#{obj}" => record_id,
-                      :create_time => Time.now,
-                      :system_mtime => Time.now,
-                      :user_mtime => Time.now
-                    )
-                  self[:language_and_script].insert(
-                      :json_schema_version => 1,
-                      :language_id => scriptcode,
-                      :lang_material_id => parsed_script_record,
-                      :create_time => Time.now,
-                      :system_mtime => Time.now,
-                      :user_mtime => Time.now
+                  self[:language_and_script].filter(:id => language_and_script).update(
+                      :script_id => scriptcode,
                     )
                 end
               end
