@@ -509,6 +509,8 @@ fr:
         save: Sauvegarder logiciel
 
   archival_object:
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: Document d'archives <strong>%{archival_object.display_string}</strong> de la ressource <strong>%{resource.title}</strong> créé
@@ -1073,6 +1075,7 @@ fr:
         slug_config_title: Des URL sémantiques vont être générées à partir du nom ou de l'intitulé de l'entité.
         slug_config_eadid: Des URL sémantiques pour <b>ressources</b> vont être générées à partir de l'identifiant EAD.
         slug_config_cuid: Les slugs pour les <b> objets d'archives </b> seront générés à l'aide de l'ID de composant unique, le cas échéant.
+        ark_creation: This job will create ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
 
   shortcuts:
     quick_reference_window: "Référence rapide: raccourcis clavier"

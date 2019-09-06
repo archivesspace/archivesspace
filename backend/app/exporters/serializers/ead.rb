@@ -295,6 +295,20 @@ class EADSerializer < ASpaceExport::Serializer
           xml.unittitle {  sanitize_mixed_content( val,xml, fragments) }
         end
 
+        if AppConfig[:arks_enabled]
+          ark_url = ArkName::get_ark_url(data.id, :archival_object)
+          if ark_url
+            # <unitid><extref xlink:href="ARK" xlink:actuate="onLoad" xlink:show="new" xlink:linktype="simple">ARK</extref></unitid>
+            xml.unitid {
+              xml.extref ({"xlink:href" => ark_url,
+                          "xlink:actuate" => "onLoad",
+                          "xlink:show" => "new",
+                          "xlink:type" => "simple"
+                          }) { xml.text 'Archival Resource Key' }
+                          }
+          end
+        end
+
         if !data.component_id.nil? && !data.component_id.empty?
           xml.unitid data.component_id
         end
@@ -801,6 +815,11 @@ class EADSerializer < ASpaceExport::Serializer
 
 
   def serialize_eadheader(data, xml, fragments)
+
+    ark_url = AppConfig[:arks_enabled] ? ArkName::get_ark_url(data.id, :resource) : nil
+
+    eadid_url = ark_url.nil? ? data.ead_location : ark_url
+
     eadheader_atts = {:findaidstatus => data.finding_aid_status,
                       :repositoryencoding => "iso15511",
                       :countryencoding => "iso3166-1",
@@ -810,7 +829,7 @@ class EADSerializer < ASpaceExport::Serializer
     xml.eadheader(eadheader_atts) {
 
       eadid_atts = {:countrycode => data.repo.country,
-              :url => data.ead_location,
+              :url => eadid_url,
               :mainagencycode => data.mainagencycode}.reject{|k,v| v.nil? || v.empty? || v == "null" }
 
       xml.eadid(eadid_atts) {

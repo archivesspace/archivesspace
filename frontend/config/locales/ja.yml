@@ -516,6 +516,8 @@ ja:
         save: ソフトウェアを保存する
 
   archival_object:
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: リソース<strong>%{resource.title}</strong>アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>が作成されました
@@ -1085,6 +1087,7 @@ ja:
         slug_config_title: スラッグは、エンティティ名またはタイトルを使用して生成されます。
         slug_config_eadid: <b>リソース</b>のスラッグは、必要に応じてEAD IDを使用して生成されます。
         slug_config_cuid: <b>アーカイブオブジェクト</b>のスラッグは、必要に応じてコンポーネントの固有IDを使用して生成されます。
+        ark_creation: This job will create ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
 
   shortcuts:
     quick_reference_window: クイックリファレンス：キーボードショートカット

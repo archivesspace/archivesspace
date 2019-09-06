@@ -137,6 +137,10 @@ describe "Exported Dublin Core metadata" do
       end
     end
 
+    it "maps to identifier" do
+      pending "missing test"
+      expect(false).to eq(true)
+    end
 
     it "maps dates to date" do
       @digital_object.dates.each do |date|

@@ -511,6 +511,8 @@
         save: Guardar Software
 
   archival_object:
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: Documento de archivo <strong>%{archival_object.display_string}</strong> del fondo <strong>%{resource.title}</strong> creado
@@ -1075,6 +1077,7 @@
         slug_config_title: Las babosas se generarán usando el nombre o título de la entidad.
         slug_config_eadid: Las babosas para <b> Recursos </b> se generarán utilizando el ID de EAD cuando sea apropiado.
         slug_config_cuid: Los slugs para <b> Objetos de archivo </b> se generarán usando la ID Única del Componente cuando sea apropiado.
+        ark_creation: This job will create ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
 
   shortcuts:
     quick_reference_window: "Referencia: accesos directos del teclado "

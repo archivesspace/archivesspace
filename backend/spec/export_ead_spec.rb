@@ -96,6 +96,20 @@ describe "EAD export mappings" do
 
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
 
+    AppConfig[:arks_enabled] = true
+    resource = create(:json_resource,  :linked_agents => build_linked_agents(@agents),
+                      :notes => build_archival_object_notes(10) + [@mixed_subnotes_tracer, @another_note_tracer],
+                      :subjects => @subjects.map{|ref, s| {:ref => ref}},
+                      :instances => instances,
+                      :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
+                      :finding_aid_filing_title => "this is a filing title",
+                      :finding_aid_series_statement => "here is the series statement",
+                      :publish => true,
+                      )
+
+    @resource_with_ark = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
+    AppConfig[:arks_enabled] = true
+
     @archival_objects = {}
 
     10.times {
@@ -215,10 +229,15 @@ describe "EAD export mappings" do
       as_test_user("admin") do
         DB.open(true) do
           load_export_fixtures
+          AppConfig[:arks_enabled] = true
           @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+          @doc_with_ark = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_with_ark.id}.xml?include_unpublished=true&include_daos=true")
 
           @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
 
+          AppConfig[:arks_enabled] = false
+          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+          AppConfig[:arks_enabled] = true
 
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
@@ -823,7 +842,9 @@ describe "EAD export mappings" do
     end
 
     it "maps resource.ead_location to eadid/@url" do
-      mt(@resource.ead_location, "eadheader/eadid", 'url')
+      if !AppConfig[:arks_enabled]
+        mt(@resource.ead_location, "eadheader/eadid", 'url')
+      end
     end
 
     it "maps resource.ead_id to eadid" do
@@ -1012,6 +1033,17 @@ describe "EAD export mappings" do
     end
   end
 
+  describe "ARK URLs" do
+    it "maps ARK URL to eadid/@url if ARK URLs are enabled" do
+      expect(@doc_with_ark.to_s).to match(/<eadid.*url=\"http.*\/ark:/)
+    end
+    it "does not map ARK URL to eadid/@url if ARK URLs are disabled" do
+      expect(@doc_ark_disabled.to_s).to_not match(/<eadid.*url=\"http.*\/ark:/)
+    end
+    it "maps resource.ead_location to eadid/@url if ARK URLs are disabled" do
+      expect(@doc_ark_disabled.to_s).to match(/<eadid.*url=\"#{@resource.ead_location}/)
+    end
+  end
 
   describe "How digital_objects are mapped to <dao> nodes >> " do
     let(:digital_objects) { @digital_objects.values }

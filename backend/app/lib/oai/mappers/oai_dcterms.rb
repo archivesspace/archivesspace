@@ -19,6 +19,7 @@ class OAIDCTermsMapper
         end
 
         # Identifier (own component ID + IDs of parents)
+        # TODO: Reuse after implementing 'off' switch for ARK
         merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
                               ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.uniq.join(".")
                             else
@@ -27,6 +28,18 @@ class OAIDCTermsMapper
 
         unless merged_identifier.empty?
           xml['dcterms'].identifier(merged_identifier)
+        end
+
+        if AppConfig[:arks_enabled]
+          ark_url = ""
+          if jsonmodel['jsonmodel_type'] == 'resource'
+            ark_url = ArkName::get_ark_url(jsonmodel.id, :resource)
+          elsif jsonmodel['jsonmodel_type'] == 'archival_object'
+            ark_url = ArkName::get_ark_url(jsonmodel.id, :archival_object)
+          end
+          unless ark_url.nil? || ark_url.empty?
+            xml['dcterms'].identifier(ark_url)
+          end
         end
 
         # And a second identifier containing the public url - if public is running

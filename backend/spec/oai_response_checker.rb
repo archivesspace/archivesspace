@@ -8,7 +8,7 @@ class OAIResponseChecker
   FORBIDDEN_TEXT = nil
 
   # These elements will change in normal operation, and that's OK.
-  SKIPPED_ELEMENT_NAMES = ['responseDate', 'datestamp', 'resumptionToken', 'date', 'identifier', 'id']
+  SKIPPED_ELEMENT_NAMES = ['responseDate', 'datestamp', 'resumptionToken', 'date', 'identifier', 'id', 'url']
 
   # Compare two XML-string OAI responses to see if they differ in any meaningful way.
   #
