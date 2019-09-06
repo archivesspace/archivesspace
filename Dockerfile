@@ -1,5 +1,11 @@
 FROM ubuntu:18.04 as build_release
 
+# Please note: Docker is not supported as an install method.
+# Docker configuration is being used for internal purposes only.
+# Use of Docker by anyone else is "use at your own risk".
+# Docker related files may be updated at anytime without
+# warning or presence in release notes.
+
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && \
     apt-get -y install --no-install-recommends \
