@@ -6,7 +6,7 @@
 <title>
   Module: TreeNodes::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -239,7 +239,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#next_position_for_parent-instance_method" title="#next_position_for_parent (instance method)">#<strong>next_position_for_parent</strong>(parent_name)  &#x21d2; Object </a>
+      <a href="#next_position_for_parent-instance_method" title="#next_position_for_parent (instance method)">#<strong>next_position_for_parent</strong>(root_record_id, parent_id)  &#x21d2; Object </a>
     
 
     
@@ -467,10 +467,6 @@
       <pre class="lines">
 
 
-437
-438
-439
-440
 441
 442
 443
@@ -483,10 +479,14 @@
 450
 451
 452
-453</pre>
+453
+454
+455
+456
+457</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 437</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 441</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_has_unpublished_ancestor identifier id'>calculate_has_unpublished_ancestor</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_check_root_record identifier id'>check_root_record</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_check_root_record identifier id'>check_root_record</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span>
@@ -526,10 +526,6 @@
       <pre class="lines">
 
 
-456
-457
-458
-459
 460
 461
 462
@@ -539,10 +535,14 @@
 466
 467
 468
-469</pre>
+469
+470
+471
+472
+473</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 456</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 460</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_calculate_object_graph identifier id'>calculate_object_graph</span><span class='lparen token'>(</span><span class='rubyid_object_graph identifier id'>object_graph</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_object_graph identifier id'>object_graph</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_id_list identifier id'>id_list</span><span class='bitor op'>|</span>
@@ -579,10 +579,6 @@
       <pre class="lines">
 
 
-332
-333
-334
-335
 336
 337
 338
@@ -602,10 +598,14 @@
 352
 353
 354
-355</pre>
+355
+356
+357
+358
+359</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 332</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 336</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_extra_values identifier id'>extra_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -652,10 +652,6 @@
       <pre class="lines">
 
 
-358
-359
-360
-361
 362
 363
 364
@@ -685,10 +681,14 @@
 388
 389
 390
-391</pre>
+391
+392
+393
+394
+395</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 358</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 362</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_determine_tree_position_for_new_node identifier id'>determine_tree_position_for_new_node</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -720,7 +720,7 @@
   <span class='comment val'># maximum position assigned so far and go TreeNodes::POSITION_STEP places</span>
   <span class='comment val'># after that.  If another create_from_json gets in first, we&#39;ll have to</span>
   <span class='comment val'># retry, but that&#39;s fine.</span>
-  <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&quot;position&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;parent_name&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&quot;position&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;root_record_id&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;parent_id&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
   <span class='rubyid_result identifier id'>result</span>
 <span class='rubyid_end end kw'>end</span>
@@ -745,19 +745,19 @@
       <pre class="lines">
 
 
-321
-322
-323
-324
 325
 326
 327
 328
 329
-330</pre>
+330
+331
+332
+333
+334</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 321</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 325</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_consistent_tree identifier id'>ensure_consistent_tree</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span>
@@ -790,10 +790,6 @@
       <pre class="lines">
 
 
-472
-473
-474
-475
 476
 477
 478
@@ -802,10 +798,14 @@
 481
 482
 483
-484</pre>
+484
+485
+486
+487
+488</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 472</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 476</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_delete identifier id'>handle_delete</span><span class='lparen token'>(</span><span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span>
   <span class='rubyid_ids identifier id'>ids</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span> <span class='rparen token'>)</span>
@@ -814,10 +814,10 @@
   <span class='rubyid_root_model identifier id'>root_model</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
 
   <span class='comment val'># lets get a group of records that have unique parents or root_records</span>
-  <span class='rubyid_parents identifier id'>parents</span> <span class='assign token'>=</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_select_group identifier id'>select_group</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span><span class='comma token'>,</span> <span class='symbol val'>:root_record_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>   
-  <span class='comment val'># we then nil out the parent id so deletes can do its thing </span>
+  <span class='rubyid_parents identifier id'>parents</span> <span class='assign token'>=</span> <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_select_group identifier id'>select_group</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span><span class='comma token'>,</span> <span class='symbol val'>:root_record_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span>
+  <span class='comment val'># we then nil out the parent id so deletes can do its thing</span>
   <span class='rubyid_ids identifier id'>ids</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
-  <span class='comment val'># trigger the deletes... </span>
+  <span class='comment val'># trigger the deletes...</span>
   <span class='rubyid_super super kw'>super</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -829,7 +829,7 @@
       <div class="method_details ">
   <h3 class="signature " id="next_position_for_parent-instance_method">
   
-    #<strong>next_position_for_parent</strong>(parent_name)  &#x21d2; <tt>Object</tt> 
+    #<strong>next_position_for_parent</strong>(root_record_id, parent_id)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -841,25 +841,25 @@
       <pre class="lines">
 
 
-393
-394
-395
-396
 397
 398
 399
 400
 401
 402
-403</pre>
+403
+404
+405
+406
+407</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 393</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 397</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span>
   <span class='rubyid_max_position identifier id'>max_position</span> <span class='assign token'>=</span> <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
     <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='rubyid_node_model identifier id'>node_model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rbrack token'>]</span>
-      <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span>
+      <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span> <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_max identifier id'>max</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
@@ -888,12 +888,12 @@
       <pre class="lines">
 
 
-317
-318
-319</pre>
+321
+322
+323</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 321</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node_model identifier id'>node_model</span>
   <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_node_record_type identifier id'>node_record_type</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span>
@@ -919,12 +919,12 @@
       <pre class="lines">
 
 
-307
-308
-309</pre>
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 307</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 311</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node_record_type identifier id'>node_record_type</span>
   <span class='rubyid_@node_record_type ivar id'>@node_record_type</span>
@@ -960,12 +960,12 @@
       <pre class="lines">
 
 
-487
-488
-489</pre>
+491
+492
+493</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 487</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 491</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ordered_record_properties identifier id'>ordered_record_properties</span><span class='lparen token'>(</span><span class='rubyid_record_ids identifier id'>record_ids</span><span class='rparen token'>)</span>
   <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -991,10 +991,6 @@
       <pre class="lines">
 
 
-280
-281
-282
-283
 284
 285
 286
@@ -1007,10 +1003,14 @@
 293
 294
 295
-296</pre>
+296
+297
+298
+299
+300</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 280</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 284</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_retry_db_update identifier id'>retry_db_update</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_finished identifier id'>finished</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
@@ -1050,12 +1050,12 @@
       <pre class="lines">
 
 
-312
-313
-314</pre>
+316
+317
+318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 312</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 316</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_root_model identifier id'>root_model</span>
   <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='dot token'>.</span><span class='rubyid_camelize identifier id'>camelize</span><span class='rparen token'>)</span>
@@ -1081,12 +1081,12 @@
       <pre class="lines">
 
 
-303
-304
-305</pre>
+307
+308
+309</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 307</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_root_record_type identifier id'>root_record_type</span>
   <span class='rubyid_@root_record_type ivar id'>@root_record_type</span>
@@ -1112,10 +1112,6 @@
       <pre class="lines">
 
 
-405
-406
-407
-408
 409
 410
 411
@@ -1141,10 +1137,14 @@
 431
 432
 433
-434</pre>
+434
+435
+436
+437
+438</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 405</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 409</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1197,13 +1197,13 @@
       <pre class="lines">
 
 
-298
-299
-300
-301</pre>
+302
+303
+304
+305</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 302</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_tree_record_types identifier id'>tree_record_types</span><span class='lparen token'>(</span><span class='rubyid_root identifier id'>root</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
   <span class='rubyid_@root_record_type ivar id'>@root_record_type</span> <span class='assign token'>=</span> <span class='rubyid_root identifier id'>root</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
@@ -1220,9 +1220,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:38 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:02 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

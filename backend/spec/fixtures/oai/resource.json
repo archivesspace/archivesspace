@@ -28,7 +28,9 @@
     "finding_aid_description_rules": "aacr",
     "finding_aid_edition_statement": "Edition statement",
     "finding_aid_filing_title": "Finding Aid Filing Title",
-    "finding_aid_language": "English",
+    "finding_aid_language": "eng",
+    "finding_aid_script": "Latn",
+    "finding_aid_language_note": "English",
     "finding_aid_note": "Finding Aid Note",
     "finding_aid_series_statement": "Series statement",
     "finding_aid_sponsor": "THE_SPONSOR",
@@ -39,7 +41,26 @@
     "id_1": "OAI",
     "id_2": "1",
     "jsonmodel_type": "resource",
-    "language": "eng",
+    "lang_materials": [
+        {
+            "language_and_script": {
+                "language": "eng",
+                "script": "Latn"
+            }
+        },
+        {
+            "notes": [
+                {
+                    "jsonmodel_type": "note_langmaterial",
+                    "type": "langmaterial",
+                    "publish": true,
+                    "content": [
+                        "Language note"
+                    ]
+                }
+            ]
+        }
+    ],
     "level": "file",
     "linked_agents": [
         {
@@ -58,6 +79,12 @@
             "relator": "cre",
             "role": "creator",
             "title": "UNPUBLISHED Creator Agent"
+        },
+        {
+            "ref": "/agents/people/import_5",
+            "relator": "fmo",
+            "role": "source",
+            "title": "UNPUBLISHED Corporate Agent"
         }
     ],
     "notes": [
@@ -82,15 +109,6 @@
                 }
             ],
             "type": "dimensions"
-        },
-        {
-            "content": [
-                "language of materials note"
-            ],
-            "jsonmodel_type": "note_singlepart",
-            "persistent_id": "7918ce3890da8ee41ad29a79909efb76",
-            "publish": true,
-            "type": "langmaterial"
         },
         {
             "jsonmodel_type": "note_multipart",

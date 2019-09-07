@@ -79,10 +79,12 @@ class Solr
     def add_solr_params_from_config
       if AppConfig[:solr_params].any?
         AppConfig[:solr_params].each do |param, value|
-          if value.respond_to? :call
-            add_solr_param(param, self.instance_eval(&value))
+          if value.is_a? Array
+            value.each do |v|
+              add_solr_param(param, v.respond_to?(:call) ? self.instance_eval(&v) : v)
+            end
           else
-            add_solr_param(param, value)
+            add_solr_param(param, value.respond_to?(:call) ? self.instance_eval(&value) : value)
           end
         end
       end
@@ -203,6 +205,10 @@ class Solr
       self
     end
 
+    def limit_fields_to(fields)
+      @fields_to_show = fields
+      self
+    end
 
     def add_solr_param(param, value)
       @solr_params << [param, value]
@@ -220,6 +226,10 @@ class Solr
 
     def to_solr_url
       raise "Missing pagination settings" unless @pagination
+
+      if @fields_to_show
+        add_solr_param(:fl, @fields_to_show.join(', '))
+      end
 
       unless @show_excluded_docs
         add_solr_param(:fq, "-exclude_by_default:true")
@@ -266,8 +276,8 @@ class Solr
       url.path += "/select"
       url.query = URI.encode_www_form([[:q, @query_string],
                                        [:wt, @writer_type],
-                                       ["csv.escape", '\\'], 
-                                       ["csv.encapsulator", '"'], 
+                                       ["csv.escape", '\\'],
+                                       ["csv.encapsulator", '"'],
                                        ["csv.header", @csv_header ],
                                        [:start, (@pagination[:page] - 1) * @pagination[:page_size]],
                                        [:rows, @pagination[:page_size]]] +
@@ -300,7 +310,7 @@ class Solr
       solr_response = http.request(req)
 
       if solr_response.code == '200'
-        return solr_response.body unless query.get_writer_type == "json" 
+        return solr_response.body unless query.get_writer_type == "json"
         json = ASUtils.json_parse(solr_response.body)
 
         result = {}

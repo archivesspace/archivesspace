@@ -94,7 +94,8 @@
                     <a href="javascript:void(0);"><%= I18n.t("job._singular") %></a>
                     <ul class="dropdown-menu">
                       <% job_types.each do |type, perms| %>
-                        <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_URLs] %>
+                        <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_urls] %>
+                        <% next if type == 'create_arks_job' && !AppConfig[:arks_enabled] %>
                         <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
                           <li><%= link_to I18n.t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %></li>
                         <% end %>
@@ -141,7 +142,7 @@
                   <% if user_can?('manage_assessment_attributes') %>
                     <li><%= link_to I18n.t("navbar.manage_assessment_attributes"), :controller => :assessment_attributes, :action => :edit %></li>
                   <% end %>
-                  <% if user_can?('manage_container_record') %>
+                  <% if user_can?('view_repository') %>
                     <% found_an_item = true %>
                     <li><%= link_to I18n.t("navbar.manage_top_containers"), :controller => :top_containers, :action => :index %></li>
                   <% end %>

@@ -444,13 +444,6 @@ en:
     save: Save Changes
     dismiss: Dismiss Changes
 
-  slug: &slug_attributes
-    slug: Slug
-    public_url: Public URL
-    is_slug_auto: Automatically generate Slug?
-    autogen_disabled: " -- Generated empty slug, Automatically generate slug option disabled"
-    autogen_repo_slug: " -- Empty slug field so automatically generated repository slug"
-
   linker:
     link_to_prefix: Link to
     create_and_link_to_prefix: Create and Link to
@@ -530,7 +523,6 @@ en:
     linked_to_assessment: Record cannot be deleted as it is linked to an assessment
 
   accession:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Accession <strong>%{accession.display_string}</strong> created
@@ -550,7 +542,6 @@ en:
         save: Save Accession
 
   agent: &agent_attributes
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Agent Created
@@ -584,31 +575,28 @@ en:
         add: Add Telephone Number
 
   agent_corporate_entity:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Save Corporate Entity
 
   agent_family:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Save Family
 
   agent_person:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Save Person
 
   agent_software:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Save Software
 
   archival_object:
-    <<: *slug_attributes
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: Archival Object <strong>%{archival_object.display_string}</strong> on Resource <strong>%{resource.title}</strong> created
@@ -634,7 +622,6 @@ en:
         new_record_title: New Archival Object
 
   classification:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Classification <strong>%{classification.title}</strong> created"
@@ -650,7 +637,6 @@ en:
         add: Add Classification
 
   classification_term:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Classification Term <strong>%{classification_term.title}</strong> created"
@@ -700,7 +686,6 @@ en:
         add: Add Deaccession
 
   digital_object:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Digital Object <strong>%{digital_object.title}</strong> Created"
@@ -724,7 +709,6 @@ en:
         save: Save Digital Object
 
   digital_object_component:
-    <<: *slug_attributes
     _frontend:
       messages:
         created_with_parent: Digital Object Component <strong>%{digital_object_component.display_string}</strong> created as child of <strong>%{parent.display_string}</strong> on Digital Object <strong>%{digital_object.title}</strong>
@@ -812,6 +796,12 @@ en:
       action:
         add_digital_object: Add Digital Object
         add: Add Instance
+
+  lang_material:
+    _frontend:
+      action:
+        add: Add Language
+        add_note: Add Language Note
 
   linked_agent:
     _frontend:
@@ -924,7 +914,6 @@ en:
     oai_sets_available: Sets included in OAI
 
   repository:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Repository Created
@@ -954,7 +943,6 @@ en:
         _plural: OAI Harvest Settings
 
   resource:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Resource <strong>%{resource.title}</strong> created"
@@ -979,6 +967,8 @@ en:
         create: Create Resource
         save: Save Resource
         delete_multiple: Delete Resources
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
 
   preference:
     _frontend:
@@ -1001,7 +991,6 @@ en:
     ref: Destination Repository
 
   subject:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Subject Created
@@ -1055,6 +1044,7 @@ en:
     column_label: Column
     sections:
       basic_information: Basic Information
+      language: Language
       date: Date
       extent: Extent
       instance: Instance
@@ -1166,13 +1156,14 @@ en:
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
         report_instructions: Choose a report to run by using the <b>Select</b> button.
-        slug_lost_warning: <b>WARNING! </b> All auto generated slugs will be regenerated!
-        slug_generation: This job will generate a slug and enable slug autogeneration for all <b>Resources</b>, <b>Archival Objects</b>, <b>Digital Objects</b>, <b>Digital Object Components</b>, <b>Accessions</b>, <b>Classifications</b>, <b>Agents</b>, <b>Subjects</b>, and <b>Repositories</b>. <br /><em>Slugs which have been manually added will not be changed.</em>
-        slug_config_msg: <b>Based on your ArchivesSpace configuration settings in config.rb:</b>
+        slug_lost_warning: <b>WARNING! </b> All auto-generated slugs will be regenerated! This job applies to all records across all repositories.
+        slug_generation: This job will generate slugs for all <b>Resources</b>, <b>Archival Objects</b>, <b>Digital Objects</b>, <b>Digital Object Components</b>, <b>Accessions</b>, <b>Classifications</b>, <b>Agents</b>, <b>Subjects</b>, and <b>Repositories</b> that do not already have a manually added slug. <br /><br /><em>Slugs that have been manually added will not be changed, unless the Automatically Generate Slug box on the record has been checked to indicate that the slug should be replaced.</em>
+        slug_config_msg: <b>Based on your configuration settings in config.rb:</b>
         slug_config_id: Slugs will be generated using the entity identifier where appropriate.
         slug_config_title: Slugs will be generated using the entity name or title.
         slug_config_eadid: Slugs for <b>Resources</b> will be generated using the EAD ID where appropriate.
-        slug_config_cuid: Slugs for <b>Archival Objects</b> will be generated using the Component ID where appropriate.
+        slug_config_cuid: Slugs for <b>Archival Objects</b> will be generated using the Component Unique ID where appropriate.
+        ark_creation: This job will create ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
 
   shortcuts:
     quick_reference_window: "Quick Reference: Keyboard Shortcuts"

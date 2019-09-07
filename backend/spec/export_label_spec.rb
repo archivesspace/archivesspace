@@ -71,8 +71,8 @@ describe 'Export Labels Mappings' do
     end
 
     it "should have the proper values" do
-      # header, parent, 16 arch objs
-      expect(@labels.split("\r").length).to eq(18)
+      # header, 16 arch objs
+      expect(@labels.split("\n").length).to eq(17)
     end
   end
 
@@ -93,7 +93,7 @@ describe 'Export Labels Mappings' do
 
     it "only lists a top container once" do
       # header and single row
-      expect(@labels.chomp.split("\r").length).to eq(2)
+      expect(@labels.chomp.split("\n").length).to eq(2)
     end
 
   end

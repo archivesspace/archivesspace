@@ -15,6 +15,7 @@
 
   <%= form.hidden_input "parent", nil, {"data-base-name" => "digital_object_component[parent]", "class" => "hidden-parent-uri"} %>
   <%= form.hidden_input "digital_object" %>
+  <%= form.hidden_input "position" %>
 
   <%= hidden_field_tag "id", @digital_object_component.id %>
   <%= hidden_field_tag "uri", @digital_object_component.uri %>
@@ -29,7 +30,7 @@
       <%= form.label_and_textarea "title", :required => :conditionally %>
       <%= form.label_and_textfield "component_id" %>
 
-      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @digital_object_component} if AppConfig[:use_human_readable_URLs] %>
+      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @digital_object_component} if AppConfig[:use_human_readable_urls] %>
 
       <div class="form-group">
         <%= form.label "publish", :class => 'control-label col-sm-2' %>
@@ -40,7 +41,6 @@
           <% end %>
         </div>
       </div>
-      <%= form.label_and_select "language", form.possible_options_for("language", true) %>
 
     </section>
   <% end %>
@@ -49,6 +49,7 @@
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
 
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date", :required => :conditionally} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 

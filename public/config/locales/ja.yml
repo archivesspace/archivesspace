@@ -285,6 +285,7 @@ ja:
       header:
         dates: 日付
         lang: 言語
+        script: スクリプト
         physdesc: 身体的特徴
         storage: コンテナ情報
         access: アクセスを管理する条件
@@ -312,7 +313,8 @@ ja:
       identifier: 識別
       extent: エクステント
       dates: 日付
-      lang: 言語
+      lang: 材料の言語
+      script: スクリプト
       digital_object: デジタルオブジェクト
       physdesc: 身体的特徴
       storage: コンテナ情報
@@ -334,6 +336,8 @@ ja:
         description_rules: 説明ルール
         identifier: 識別
         language: 説明の言語
+        script: 説明のスクリプト
+        language_note: 説明文の言語
         sponsor: スポンサー
         edition_statement: 版ステートメント
         series_statement: シリーズ声明

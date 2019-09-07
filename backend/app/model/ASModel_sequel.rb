@@ -33,11 +33,10 @@ module ASModel
       # - all slugs are cleaned.
       # - if we end up autogenning an empty slug, we turn is_slug_auto off for that entity
       # - the special cases for Agents are handled
-      # - ignores setting for use_human_readable_URLs for repositories which have
-      #   slugs generated regardless of the setting for use_human_readable_URLs
+      # - ignores setting for use_human_readable_urls for repositories which have
+      #   slugs generated regardless of the setting for use_human_readable_urls
 
-      if AppConfig[:use_human_readable_URLs] || self.class == Repository
-
+      if AppConfig[:use_human_readable_urls]
         # Special case for generating slugs for Agents by name
         # This special case is necessary because the NameAgent classes don't have a slug field themselves, but they have the data we need to generate the slug.
         if SlugHelpers.is_agent_name_type?(self.class) &&
@@ -60,7 +59,7 @@ module ASModel
         # If the slug is empty at this point and is_slug_auto is enabled,
         # then we didn't have enough data to generate one, so we'll turn
         # is_slug_auto off
-        if SlugHelpers.sluggable_class?(self.class) &&
+        if SlugHelpers.base_sluggable_class?(self.class) &&
            (self[:slug].nil? || self[:slug].empty?) &&
            !SlugHelpers.is_agent_type?(self.class) &&
            SlugHelpers.is_slug_auto_enabled?(self)
@@ -68,13 +67,12 @@ module ASModel
         end
 
         # Repositories must always have a slug so, if repository and
-        # is_slug_auto turned off but no manual slug entered, auto
-        # generate a repo slug based on repo_code.
+        # there is no slug, auto generate a repo slug based on repo_code.
         if self.class == Repository &&
-           (self[:slug].nil? || self[:slug].empty?) &&
-           !SlugHelpers.is_slug_auto_enabled?(self)
-          self[:slug] = SlugHelpers.clean_slug(self[:repo_code])
-          self[:is_slug_auto] = 1
+           (self[:slug].nil? || self[:slug].empty?)
+         cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
+         self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+         self[:is_slug_auto] = 1
         end
 
         # This block is the same as above, but a special case for Agent classes when generating by ID only.
@@ -86,7 +84,13 @@ module ASModel
           SlugHelpers.is_slug_auto_enabled?(self)
             self[:is_slug_auto] = 0
         end
-
+      elsif self.class == Repository
+        if (!self.exists? && (self[:slug].nil? || self[:slug].empty?)) ||
+            self.column_changed?(:repo_code)
+          cleaned_slug = SlugHelpers.clean_slug(self[:repo_code])
+          self[:slug] = SlugHelpers.run_dedupe_slug(cleaned_slug)
+        end
+        self[:is_slug_auto] = 1
       end
     end
 

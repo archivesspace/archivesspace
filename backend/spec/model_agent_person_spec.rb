@@ -401,7 +401,7 @@ describe 'Agent model' do
     it "will catch duplications resulting from updates" do
       agent.names[0]['primary_name'] << "x"
 
-      agent_obj = AgentPerson.create_from_json(agent)
+      agent_obj = AgentPerson.create_from_json(agent, :is_slug_auto => false)
 
       agent.names[0]['primary_name'].chomp!('x')
 
@@ -424,7 +424,7 @@ describe 'Agent model' do
 
     describe "slug tests" do
       before (:all) do
-        AppConfig[:use_human_readable_URLs] = true
+        AppConfig[:use_human_readable_urls] = true
       end
 
       describe "slug autogen enabled" do

@@ -73,7 +73,7 @@ AppConfig[:mysql_binlog] = false
 
 # By default, Solr backups will run at midnight.  See https://crontab.guru/ for
 # information about the schedule syntax.
-AppConfig[:solr_backup_schedule] = "0 * * * *"
+AppConfig[:solr_backup_schedule] = "0 0 * * *"
 AppConfig[:solr_backup_number_to_keep] = 1
 AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
 # add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { "q.op" => "AND" }
@@ -387,8 +387,8 @@ AppConfig[:record_inheritance] = {
                             :inherit_directly => false
                           },
                           {
-                            :property => 'language',
-                            :inherit_directly => true
+                            :property => 'lang_materials',
+                            :inherit_directly => false
                           },
                           {
                             :property => 'dates',
@@ -482,7 +482,6 @@ AppConfig[:record_inheritance] = {
 AppConfig[:pui_search_results_page_size] = 10
 AppConfig[:pui_branding_img] = 'archivesspace.small.png'
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain
-AppConfig[:pui_enable_staff_link] = true # attempt to add a link back to the staff interface
 
 # The number of PDFs that can be generated (in the background) at the same time.
 #
@@ -514,9 +513,6 @@ AppConfig[:pui_hide][:classification_badge] = false
 AppConfig[:pui_hide][:counts] = false
 # The following determines globally whether the 'container inventory' navigation tab/pill is hidden on resource/collection page
 AppConfig[:pui_hide][:container_inventory] = false
-# Other usage examples:
-# Don't display the accession ("unprocessed material") link on the main navigation menu
-# AppConfig[:pui_hide][:accessions] = true
 
 # Whether to display linked decaccessions
 AppConfig[:pui_display_deaccessions] = true
@@ -529,6 +525,7 @@ AppConfig[:pui_page_actions_cite] = true
 AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
+AppConfig[:pui_enable_staff_link] = true # when a user is authenticated, add a link back to the staff interface from the specified record
 
 # PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)
 # the following determine on what kinds of records the request button is displayed
@@ -617,24 +614,29 @@ AppConfig[:pui_page_custom_actions] = []
 #   'erb_partial' => 'shared/my_special_action',
 # }
 
-# use_human_readable_URLs:
+# For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
+AppConfig[:sort_accession_date_filter_asc] = false
+
+# Human-Readable URLs options
+# use_human_readable_urls: determines whether fields and options related to human-readable URLs appear in the staff interface
+
 # Changing this option will not remove or clear any slugs that exist currently.
 # This setting only affects links that are displayed. URLs that point to valid slugs will still work.
 # WARNING: Changing this setting may require an index rebuild for changes to take effect.
 
-# TODO: for release, uncomment below and remove line that follows that so that HRU's are off by default.
-#AppConfig[:use_human_readable_URLs] = false
-AppConfig[:use_human_readable_URLs] = false
+AppConfig[:use_human_readable_urls] = false
 
-# Use the repository in slug based URLs
+# Use the repository in human-readable URLs
 # Warning: setting repo_name_in_slugs to true when it has previously been set to false will break links, unless all slugs are regenerated.
 AppConfig[:repo_name_in_slugs] = false
 
-# Autogenerate slugs based on IDs. If this is set to false, then slugs will autogenerate based on name.
+# Autogenerate slugs based on IDs. If this is set to false, then slugs will autogenerate based on name or title.
 AppConfig[:auto_generate_slugs_with_id] = false
 
 # For Resources: if this option and auto_generate_slugs_with_id are both enabled, then slugs for Resources will be generated with EADID instead of the identifier.
 AppConfig[:generate_resource_slugs_with_eadid] = false
+
+# For archival objects: if this option and auto_generate_slugs_with_id are both enabled, then slugs for archival resources will be generated with Component Unique Identifier instead of the identifier.
 AppConfig[:generate_archival_object_slugs_with_cuid] = false
 
 # For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
@@ -642,3 +644,16 @@ AppConfig[:sort_accession_date_filter_asc] = false
 
 # Use to specify the maximum number of columns to display when searching or browsing
 AppConfig[:max_search_columns] = 5
+
+# Determines if the subject source is shown along with the subject heading in records' subject listings
+# This can help differentiate between subjects with the same heading
+AppConfig[:show_source_in_subject_listing] = false
+
+# NAAN value to use in ARK URLs.
+# Should be set to institutional NAAN, or any other value valid in URLs.
+AppConfig[:ark_naan] = "f00001"
+# URL prefix to use in ARK URLs.
+# In most cases this will be the same as the PUI URL.
+AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
+# Flag for turning ARKs in exports off and on
+AppConfig[:arks_enabled] = false

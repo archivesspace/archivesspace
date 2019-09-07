@@ -194,8 +194,10 @@ def run_tests(opts)
                 :title => "integration test resource #{$$}",
                 :id_0 => "abc123",
                 :dates => [ { "date_type" => "single", "label" => "creation", "expression" => "1492"   } ],
+                :finding_aid_language => "eng",
+                :finding_aid_script => "Latn",
                 :subjects => [{"ref" => "/subjects/#{subject_id}"}],
-                :language => "eng",
+                :lang_materials => [{"language_and_script" => {"language" => "eng"}}],
                 :level => "collection",
                 :extents => [{"portion" => "whole", "number" => "5 or so", "extent_type" => "reels"}]
               }.to_json,

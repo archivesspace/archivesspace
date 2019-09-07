@@ -6,7 +6,7 @@
 <title>
   Module: ASpaceExport::ArchivalObjectDescriptionHelpers
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -322,7 +322,6 @@ or archival_object models during serialization</p>
       <pre class="lines">
 
 
-118
 119
 120
 121
@@ -356,10 +355,11 @@ or archival_object models during serialization</p>
 149
 150
 151
-152</pre>
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_archdesc_dates identifier id'>archdesc_dates</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@archdesc_dates ivar id'>@archdesc_dates</span>
@@ -518,7 +518,8 @@ or archival_object models during serialization</p>
 77
 78
 79
-80</pre>
+80
+81</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 41</span>
@@ -528,7 +529,7 @@ or archival_object models during serialization</p>
     <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
     <span class='rubyid_linked identifier id'>linked</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_linked_agents identifier id'>linked_agents</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
     <span class='rubyid_linked identifier id'>linked</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_link identifier id'>link</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
-      <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span>
+      <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;creator&#39;</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@include_unpublished ivar id'>@include_unpublished</span><span class='rparen token'>)</span>
       <span class='rubyid_role identifier id'>role</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;relator&#39;</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='lparen token'>(</span><span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;role&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;source&#39;</span> <span class='question op'>?</span> <span class='string val'>&#39;fmo&#39;</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
 
       <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_dup identifier id'>dup</span>
@@ -554,6 +555,7 @@ or archival_object models during serialization</p>
       <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:source</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_source identifier id'>source</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_source identifier id'>source</span>
       <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:rules</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_rules identifier id'>rules</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_rules identifier id'>rules</span>
       <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:authfilenumber</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_authfilenumber identifier id'>authfilenumber</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_authfilenumber identifier id'>authfilenumber</span>
+      <span class='rubyid_atts identifier id'>atts</span><span class='lbrack token'>[</span><span class='symbol val'>:audience</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&#39;internal&#39;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;publish&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span>
 
       <span class='rubyid_results identifier id'>results</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:node_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_name identifier id'>node_name</span><span class='comma token'>,</span> <span class='symbol val'>:atts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_atts identifier id'>atts</span><span class='comma token'>,</span> <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_content identifier id'>content</span><span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
@@ -584,7 +586,6 @@ or archival_object models during serialization</p>
       <pre class="lines">
 
 
-83
 84
 85
 86
@@ -616,10 +617,11 @@ or archival_object models during serialization</p>
 112
 113
 114
-115</pre>
+115
+116</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 84</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_controlaccess_subjects identifier id'>controlaccess_subjects</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@controlaccess_subjects ivar id'>@controlaccess_subjects</span>
@@ -780,9 +782,9 @@ or archival_object models during serialization</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:39 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:03 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

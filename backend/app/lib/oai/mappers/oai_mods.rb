@@ -16,14 +16,23 @@ class OAIMODSMapper
         }
 
         # Identifier -> identifier
+        # TODO: Reuse after implementing 'off' switch for ARK
         merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
                               ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.join(".")
                             else
                               (0..3).map {|id| jsonmodel["id_#{id}"]}.compact.join('.')
                             end
 
-        unless merged_identifier.empty?
-          xml.identifier(merged_identifier)
+        if AppConfig[:arks_enabled]
+          ark_url = ""
+          if jsonmodel['jsonmodel_type'] == 'resource'
+            ark_url = ArkName::get_ark_url(jsonmodel.id, :resource)
+          elsif jsonmodel['jsonmodel_type'] == 'archival_object'
+            ark_url = ArkName::get_ark_url(jsonmodel.id, :archival_object)
+          end
+          unless ark_url.nil? || ark_url.empty?
+            xml.identifier(ark_url)
+          end
         end
 
         # Creator -> name/namePart
@@ -69,9 +78,29 @@ class OAIMODSMapper
           end
         end
 
-        # Language -> language/languageTerm
-        if jsonmodel['language']
-          xml.language { xml.languageTerm({'authority' => 'iso639-2b'}, jsonmodel['language']) }
+        # Languages -> language/languageTerm
+        if (lang_materials = Array(jsonmodel['lang_materials']))
+          language_vals = lang_materials.map{|l| l['language_and_script']}.compact
+          if !language_vals.empty?
+            language_vals.each do |l|
+              xml.language {
+                xml.languageTerm({'authority' => 'iso639-2b', 'type' => 'text'}, I18n.t("enumerations.language_iso639_2." + l['language']))
+                xml.languageTerm({'authority' => 'iso639-2b', 'type' => 'code'}, l['language'])
+                if l['script']
+                  xml.scriptTerm({'authority' => 'iso15924', 'type' => 'text'}, I18n.t("enumerations.script_iso15924." + l['script']))
+                  xml.scriptTerm({'authority' => 'iso15924', 'type' => 'code'}, l['script'])
+                end
+              }
+            end
+          end
+          language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+          if !language_notes.empty?
+            language_notes.each do |note|
+              OAIUtils.extract_published_note_content(note).each do |content|
+                xml.note({'type' => 'language'}, content)
+              end
+            end
+          end
         end
 
         # Abstract note -> abstract
@@ -89,12 +118,8 @@ class OAIMODSMapper
               xml.note({'type' => 'organization'}, content)
             when 'altformavail'
               xml.note({'type' => 'additionalform'}, content)
-            when 'altformavail'
-              xml.note({'type' => 'additionalform'}, content)
             when 'accessrestrict'
               xml.accessCondition({'type' => 'restrictionOnAccess'}, content)
-            when 'userestrict'
-              xml.accessCondition({'type' => 'useAndReproduction'}, content)
             when 'userestrict'
               xml.accessCondition({'type' => 'useAndReproduction'}, content)
             when 'accruals'

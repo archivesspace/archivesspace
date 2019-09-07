@@ -5,7 +5,7 @@ permalink: /user/getting-started-with-archivesspace/
 ---
 ## System requirements
 
-* Java 1.7 or 1.8.
+* Java 1.8 only.
 * At least 1024 MB RAM allocated to the application; at least 2 GB for optimal performance.
 
 ArchivesSpace has been tested on Ubuntu Linux, Mac OS X, and
@@ -24,10 +24,12 @@ the latest distribution `.zip` file from the following URL:
 
   https://github.com/archivesspace/archivesspace/releases
 
-You will need to have Java 1.7 or 1.8 installed on your machine.
+You will need to have Java 1.8 installed on your machine.
 You can check your Java version by running the command:
 
      java -version
+     
+If you are running an earlier version of java upgrade to 1.8 (not the newest version). If you are running a newer version of Java you should revert back to 1.8 or force your machine to use 1.8 for ArchivesSpace. 
 
 When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate

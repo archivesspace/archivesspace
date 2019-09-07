@@ -11,6 +11,7 @@
 
   <%= form.hidden_input "parent", nil, {"data-base-name" => "classification_term[parent]", "class" => "hidden-parent-uri"} %>
   <%= form.hidden_input "classification" %>
+  <%= form.hidden_input "position" %>
 
   <%= hidden_field_tag "id", @classification_term.id %>
   <%= hidden_field_tag "uri", @classification_term.uri %>
@@ -22,7 +23,7 @@
       <%= form.label_and_textfield "identifier" %>
       <%= form.label_and_textfield "title" %>
 
-      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification_term} if AppConfig[:use_human_readable_URLs] %>
+      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @classification_term} if AppConfig[:use_human_readable_urls] %>
 
       <%= form.label_and_textarea "description" %>
 

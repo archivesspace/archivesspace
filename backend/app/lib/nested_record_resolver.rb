@@ -38,37 +38,47 @@ class NestedRecordResolver
       json = jsonmodel.new(self.class.map_db_types_to_json(jsonmodel.schema,
                                                            obj.values.reject {|k, v| v.nil? }))
 
-      uri = jsonmodel.uri_for(obj.id, :repo_id => obj.class.active_repository)
-      json.uri = uri if uri
+      unless skip_resolve?(json["jsonmodel_type"])
+        uri = jsonmodel.uri_for(obj.id, :repo_id => obj.class.active_repository)
 
-      if obj.class.model_scope == :repository
-        json['repository'] = {'ref' => JSONModel(:repository).uri_for(obj.class.active_repository)}
-      end
 
-      # If there are nested records for this class, insert them into our
-      # JSON structure here.
-      nested_records.each do |nested_record|
-        model = Kernel.const_get(nested_record[:association][:class_name])
+        json.uri = uri if uri
 
-        nested_objs = Array(obj.send(nested_record[:association][:name]))
-
-        unless nested_record[:association][:order]
-          nested_objs.sort_by!{ |rec| rec[:id] }
+        if obj.class.model_scope == :repository
+          json['repository'] = {'ref' => JSONModel(:repository).uri_for(obj.class.active_repository)}
         end
 
-        records = model.sequel_to_jsonmodel(nested_objs).map {|rec|
-          rec.to_hash(:trusted)
-        }
+        # If there are nested records for this class, insert them into our
+        # JSON structure here.
+        nested_records.each do |nested_record|
+          model = Kernel.const_get(nested_record[:association][:class_name])
 
-        is_array = nested_record[:is_array] && ![:many_to_one, :one_to_one].include?(nested_record[:association][:type])
+          nested_objs = Array(obj.send(nested_record[:association][:name]))
 
-        json[nested_record[:json_property]] = (is_array ? records : records[0])
+          unless nested_record[:association][:order]
+            nested_objs.sort_by!{ |rec| rec[:id] }
+          end
+
+          records = model.sequel_to_jsonmodel(nested_objs).map {|rec|
+            rec.to_hash(:trusted)
+          }
+
+          is_array = nested_record[:is_array] && ![:many_to_one, :one_to_one].include?(nested_record[:association][:type])
+
+          json[nested_record[:json_property]] = (is_array ? records : records[0])
+        end
       end
 
       ASModel::CRUD.set_audit_fields(json, obj)
 
       json
     }
+  end
+
+  # we don't need to resolve some types.
+  # TODO: Figure out why do_resolve breaks for ark_name JSON models.
+  def skip_resolve?(type)
+    ['ark_name'].include?(type)
   end
 
   def load_with_all_associations(objs)

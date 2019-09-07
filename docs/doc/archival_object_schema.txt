@@ -12,6 +12,10 @@ string (max length: 255)	other_level
 
 string (max length: 8192)	title
 
+string	slug
+
+boolean	is_slug_auto
+
 string (max length: 8192)	display_string
 
 boolean	restrictions_apply

@@ -35,7 +35,7 @@ module SlugHelpers
 
   # Generates URLs for display in hirearchial tree links in public interface for Archival Objects and Digital object components
   def self.get_slugged_url_for_largetree(jsonmodel_type, repo_id, slug)
-    if slug && AppConfig[:use_human_readable_URLs]
+    if slug && AppConfig[:use_human_readable_urls]
       if AppConfig[:repo_name_in_slugs]
         repo = Repository.first(:id => repo_id)
         repo_slug = repo && repo.slug ? repo.slug : ""

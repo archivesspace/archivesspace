@@ -1,3 +1,10 @@
+<% define_template("container_labels_job", jsonmodel_definition(:container_labels_job)) do |form| %>
+
+  <%= form.hidden_input :source, :class => 'translation-placeholder' %>
+  <%= render_aspace_partial :partial => "resources/linker", :locals => { :form => form, :field_label => I18n.t("actions.container_labels") }%>
+
+<% end %>
+
 <% define_template("find_and_replace_job", jsonmodel_definition(:find_and_replace_job)) do |form| %>
     <p><%= I18n.t("job._frontend.messages.find_and_replace_instructions") %></p>
 
@@ -74,6 +81,13 @@
 
 <% end %>
 
+<% define_template("create_arks_job", jsonmodel_definition(:create_arks_job)) do |form| %>
+  <hr/>
+  <br/>
+  <br/>
+  <p><%= I18n.t("job._frontend.messages.ark_creation") %></p>
+  <br/>
+<% end %>
 
 <% define_template("job", jsonmodel_definition(:job)) do |form| %>
 
@@ -160,7 +174,7 @@
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>
-  <% next if ['find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job'].include?(type) %>
+  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job', 'create_arks_job'].include?(type) %>
 
   <% define_template(type, jsonmodel_definition(type.intern)) do |form| %>
 

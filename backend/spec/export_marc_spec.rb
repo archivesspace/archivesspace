@@ -34,6 +34,16 @@ describe 'MARC Export' do
     expect(xml_content).to match(/#{note_string}/)
   end
 
+  def lang_note_test(notes, marc, dfcodes, sfcode)
+
+    return unless notes.count > 0
+    xml_content = marc.df(*dfcodes).sf_t(sfcode)
+    expect(xml_content).not_to be_empty
+    note_string = notes.map{|n| note_content(n)}.join('')
+    xml_content.gsub!(".", "") # code to append punctuation can interfere with this test.
+    expect(xml_content).to match(/#{note_string}/)
+  end
+
 
   def source_to_code(source)
     code =  case source
@@ -55,23 +65,12 @@ describe 'MARC Export' do
       @xml = @marc.to_xml
     end
 
-
-    it "root node should have marc namespace" do
-      expect(@xml).to match(/<marc:collection/)
-      expect(@xml).to match(/<\/marc:collection>/)
-    end
-
-    it "root node should have xmlns:marc defined" do
-      expect(@xml).to match(/<marc:collection.*xmlns:marc="http:\/\/www.loc.gov\/MARC21\/slim"/)
-
-    end
-
     it "root node should have xmlns:xsi defined" do
-      expect(@xml).to match(/<marc:collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
+      expect(@xml).to match(/<collection.*xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance"/)
     end
 
     it "root node should have xsi:schemaLocation defined" do
-      expect(@xml).to match(/<marc:collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd http:\/\/www.loc.gov\/MARC21\/slim"/)
+      expect(@xml).to match(/<collection.*xsi:schemaLocation="http:\/\/www.loc.gov\/MARC21\/slim http:\/\/www.loc.gov\/standards\/marcxml\/schema\/MARC21slim.xsd"/)
     end
   end
 
@@ -564,10 +563,25 @@ end
                                            :end => '1850')
                                     ]
                           )
+      @resource4 = create(:json_resource,
+                          :level => 'item',
+                          :dates => [
+                                     build(:json_date,
+                                           :date_type => 'bulk',
+                                           :begin => '1800',
+                                           :end => '1850')
+                                    ],
+                          :lang_materials => [
+                                         build(:json_lang_material),
+                                         build(:json_lang_material),
+                                         build(:json_lang_material_with_note)
+                                        ]
+                          )
 
       @marc1 = get_marc(@resource1)
       @marc2 = get_marc(@resource2)
       @marc3 = get_marc(@resource3)
+      @marc4 = get_marc(@resource4)
 
     end
 
@@ -576,6 +590,7 @@ end
       @resource1.delete
       @resource2.delete
       @resource3.delete
+      @resource4.delete
     end
 
     it "provides default values for record/leader: 00000np$ a2200000 u 4500" do
@@ -610,8 +625,13 @@ end
     end
 
 
-    it "sets record/controlfield[@tag='008']/text()[35..37] with resource.language" do
-      expect(@marc1.at("record/controlfield")).to have_inner_text(Regexp.new("^.{35}#{@resource1.language}"))
+    it "sets record/controlfield[@tag='008']/text()[35..37] with resource.lang_materials[0]['language_and_script']['language']" do
+      expect(@marc1.at("record/controlfield")).to have_inner_text(Regexp.new("^.{35}#{@resource1.lang_materials[0]['language_and_script']['language']}"))
+    end
+
+
+    it "sets record/controlfield[@tag='008']/text()[35..37] with 'mul' if more than one language" do
+      expect(@marc4.at("record/controlfield")).to have_inner_text(Regexp.new("^.{35}#{'mul'}"))
     end
 
     it "sets record/controlfield[@tag='008']/text()[38..39] with ' d'" do
@@ -624,9 +644,8 @@ end
       expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='c']")).to have_inner_text(org_code)
     end
 
-    it "maps language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
-      org_code = JSONModel(:repository).find($repo_id).org_code
-      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']")).to have_inner_text(@resource1.language)
+    it "maps finding aid language code to datafield[@tag='040' and @ind1=' ' and @ind2=' '] subfield b" do
+      expect(@marc1.at("datafield[@tag='040'][@ind1=' '][@ind2=' ']/subfield[@code='b']")).to have_inner_text(@resource1.finding_aid_language)
     end
 
     it "maps resource.finding_aid_description_rules to df[@tag='040' and @ind1=' ' and @ind2=' ']/sf[@code='e']" do
@@ -634,10 +653,23 @@ end
     end
 
 
-    it "maps resource.language to df[@tag='041' and @ind1='0' and @ind2='7']/sf[@code='a']" do
-      expect(@marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='a']")).to have_inner_text(@resource1.language)
-      expect(@marc1.at("datafield[@tag='041'][@ind1='0'][@ind2='7']/subfield[@code='2']")).to have_inner_text('iso639-2b')
+    it "maps languages to repeated df[@tag='041' and @ind1=' ' and @ind2=' ']/sf[@code='a']" do
+      language1 = @resource4.lang_materials[0]['language_and_script']['language']
+      language2 = @resource4.lang_materials[1]['language_and_script']['language']
+
+      expect(@marc4.at("datafield[@tag='041'][@ind1=' '][@ind2=' ']/subfield[@code='a'][1]")).to have_inner_text(language1)
+      expect(@marc4.at("datafield[@tag='041'][@ind1=' '][@ind2=' ']/subfield[@code='a'][2]")).to have_inner_text(language2)
     end
+
+
+  it "maps language notes to df 546 (' ', ' '), sf a" do
+
+    lang_materials = @resource4.lang_materials.select{|n| n.include?('notes')}.reject {|e|  e['notes'] == [] }
+    notes = lang_materials[0]['notes']
+
+    lang_note_test(notes, @marc4, ['546', ' ', ' '], 'a')
+
+  end
 
 
     it "maps resource.id_\\d to df[@tag='099' and @ind1=' ' and @ind2=' ']/sf[@code='a']" do
@@ -1123,17 +1155,42 @@ end
     end
 
 
-    it "maps notes of type 'langmaterial' to df 546 (' ', ' '), sf a" do
-      note_test(@resource, @marc, %w(langmaterial), ['546', ' ', ' '], 'a')
-    end
-
-
     it "maps resource.ead_location to df 856 ('4', '2'), sf u" do
       df = @marc.df('856', '4', '2')
-      expect(df.sf_t('u')).to eq(@resource.ead_location)
-      expect(df.sf_t('z')).to eq("Finding aid online:")
+      expect(df.sf_t('u')).to include(@resource.ead_location)
+      expect(df.sf_t('z')).to include("Finding aid online:")
     end
 
+    it "maps ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are enabled" do
+      AppConfig[:arks_enabled] = true
+      resource = create(:json_resource_blank_ead_location)
+      marc = get_marc(resource)
+      ark_url = ArkName.get_ark_url(resource.id, :resource)
+      df = marc.df('856', '4', '2')
+      df.sf_t('u').should eq(ark_url)
+      df.sf_t('z').should eq("Archival Resource Key:")
+      resource.delete
+    end
+
+    it "does not map ARK url to df 856 ('4', '2'), sf u if ead_location is blank and ARKs are disabled" do
+      # Make sure the resource has an ARK
+      AppConfig[:arks_enabled] = true
+      resource = create(:json_resource_blank_ead_location)
+      # Disable ARKs to check the ARK does not get exported as an 856
+      AppConfig[:arks_enabled] = false
+      marc = get_marc(resource)
+      ark_url = ArkName.get_ark_url(resource.id, :resource)
+      df = marc.df('856', '4', '2')
+      expect(df.sf_t('u')).to_not eq(ark_url)
+      resource.delete
+    end
+
+    it "maps resource.finding_aid_note to df 555 ('0', ' '), sf u" do
+      pending "should this test be removed?"
+      df = @marc.df('555', '0', ' ')
+      df.sf_t('u').should eq(@resource.finding_aid_note)
+      df.sf_t('3').should eq("Finding aids:")
+    end
 
     it "maps public notes of type 'custodhist' to df 561 ('1', ' '), sf a" do
       note_test(@resource, @marc, %w(custodhist), ['561', '1', ' '], 'a', {'publish' => true})
@@ -1249,7 +1306,6 @@ end
     after(:all) do
       @resource.delete
     end
-
 
     it "maps org_code to 049 tag" do
       expect(@marc.at("datafield[@tag='049'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text(@org_code)

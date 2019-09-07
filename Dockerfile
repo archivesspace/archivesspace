@@ -1,14 +1,26 @@
-FROM openjdk:8-jre-slim as build_release
-LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
+FROM ubuntu:18.04 as build_release
+
+# Please note: Docker is not supported as an install method.
+# Docker configuration is being used for internal purposes only.
+# Use of Docker by anyone else is "use at your own risk".
+# Docker related files may be updated at anytime without
+# warning or presence in release notes.
 
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && \
-    apt-get -y install --no-install-recommends git wget unzip build-essential
+    apt-get -y install --no-install-recommends \
+      build-essential \
+      git \
+      openjdk-8-jre-headless \
+      wget \
+      unzip
 
 COPY . /source
 
 RUN cd /source && \
-    export ARCHIVESSPACE_VERSION=`git symbolic-ref -q --short HEAD || git describe --tags --match v*` && \
+    ARCHIVESSPACE_VERSION=${SOURCE_BRANCH:-`git symbolic-ref -q --short HEAD || git describe --tags --match v*`} && \
+    ARCHIVESSPACE_VERSION=${ARCHIVESSPACE_VERSION#"heads/"} && \
+    echo "Using version: $ARCHIVESSPACE_VERSION" && \
     ./scripts/build_release $ARCHIVESSPACE_VERSION && \
     mv ./*.zip / && \
     cd / && \
@@ -19,7 +31,9 @@ RUN cd /source && \
 ADD docker-startup.sh /archivesspace/startup.sh
 RUN chmod u+x /archivesspace/startup.sh
 
-FROM openjdk:8-jre-slim
+FROM ubuntu:18.04
+
+LABEL maintainer="ArchivesSpaceHome@lyrasis.org"
 
 ENV ARCHIVESSPACE_LOGS=/dev/null \
     LANG=C.UTF-8
@@ -28,7 +42,11 @@ COPY --from=build_release /archivesspace /archivesspace
 
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update && \
-    apt-get -y install --no-install-recommends wget unzip && \
+    apt-get -y install --no-install-recommends \
+      ca-certificates \
+      openjdk-8-jre-headless \
+      wget \
+      unzip && \
     rm -rf /var/lib/apt/lists/* && \
     groupadd -g 1000 archivesspace && \
     useradd -l -M -u 1000 -g archivesspace archivesspace && \

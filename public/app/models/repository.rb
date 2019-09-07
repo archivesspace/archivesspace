@@ -17,7 +17,7 @@ class Repository < Struct.new(:code, :name, :uri, :display_name, :parent, :paren
     list = []
     %i(resource record digital_object accession subject agent classification).each do |sym|
       badge = "#{sym}_badge".to_sym
-      unless AppConfig[:pui_repos].dig(repo_code, :hide, badge).nil? ? AppConfig[:pui_hide][badge] :  AppConfig[:pui_repos][repo_code][:hide][badge]
+      unless AppConfig[:pui_repos].dig(repo_code, :hide, badge).nil? ? AppConfig[:pui_hide][badge] : AppConfig[:pui_repos][repo_code][:hide][badge]
         list.push(sym.to_s)
       end
     end
@@ -30,7 +30,7 @@ class Repository < Struct.new(:code, :name, :uri, :display_name, :parent, :paren
     self.uri = uri
     self.display_name = display_name
     self.parent = parent
-    self.parent_url = parent_url if !parent_url.blank? &&  !parent_url.end_with?("url\.unspecified")
+    self.parent_url = parent_url if !parent_url.blank? && !parent_url.end_with?("url\.unspecified")
   end
 
   def self.from_json(json)

@@ -53,16 +53,14 @@ class RepositoriesController < ApplicationController
 
                   return render :json => @repository.to_hash if inline?
 
-                  success_msg = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
+                  flash[:success] = I18n.t("repository._frontend.messages.created", JSONModelI18nWrapper.new(:repository => @repository))
 
-                  if params["repository"]["repository"] &&
+                  if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
                      !params["repository"]["repository"]["is_slug_auto"]
-                    success_msg << I18n.t("slug.autogen_repo_slug")
+                    flash[:success] = I18n.t("slug.autogen_repo_slug")
                   end
-
-                  flash[:success] = success_msg
 
                   return redirect_to :controller => :repositories, :action => :new, :last_repo_id => id if params.has_key?(:plus_one)
 
@@ -86,16 +84,14 @@ class RepositoriesController < ApplicationController
                 :on_valid => ->(id){
                   MemoryLeak::Resources.refresh(:repository)
 
-                  success_msg = I18n.t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
+                  flash[:success] = I18n.t("repository._frontend.messages.updated", JSONModelI18nWrapper.new(:repository => @repository))
 
-                  if params["repository"]["repository"] &&
+                  if AppConfig[:use_human_readable_urls] && params["repository"]["repository"] &&
                      (params["repository"]["repository"]["slug"].nil? ||
                       params["repository"]["repository"]["slug"].empty?)  &&
                      !params["repository"]["repository"]["is_slug_auto"]
-                    success_msg << I18n.t("slug.autogen_repo_slug")
+                    flash[:warning] = I18n.t("slug.autogen_repo_slug")
                   end
-
-                  flash[:success] = success_msg
 
                   redirect_to :controller => :repositories, :action => :show, :id => id
                 })

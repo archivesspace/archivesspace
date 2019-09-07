@@ -2,6 +2,10 @@ JSON Schema: Agent_family
 /agents/families
 Properties
 
+string	slug
+
+boolean	is_slug_auto
+
 array (JSONModel(:name_family) object)	names
 
 JSONModel(:name_family) object	display_name

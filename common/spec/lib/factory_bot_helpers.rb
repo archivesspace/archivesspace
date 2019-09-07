@@ -50,6 +50,7 @@ FactoryBot::Syntax::Default::DSL.send(:include, FactoryBotSyntaxHelpers)
 FactoryBot.define do
 
   sequence(:alphanumstr) { (0..4).map{ rand(3)==1?rand(1000):(65 + rand(25)).chr }.join }
+  sequence(:ark_name) { sample(JSONModel(:ark_name).schema['properties']) }
   sequence(:number) { rand(100).to_s }
 
   sequence(:agent_role) { sample(JSONModel(:event).schema['properties']['linked_agents']['items']['properties']['role']) }
@@ -60,6 +61,7 @@ FactoryBot.define do
 
   sequence(:multipart_note_type) { sample(JSONModel(:note_multipart).schema['properties']['type'])}
   sequence(:digital_object_note_type) { sample(JSONModel(:note_digital_object).schema['properties']['type'])}
+  sequence(:langmaterial_note_type) { sample(JSONModel(:note_langmaterial).schema['properties']['type'])}
   sequence(:rights_statement_note_type) { sample(JSONModel(:note_rights_statement).schema['properties']['type'])}
   sequence(:rights_statement_act_note_type) { sample(JSONModel(:note_rights_statement_act).schema['properties']['type'])}
   sequence(:singlepart_note_type) { sample(JSONModel(:note_singlepart).schema['properties']['type'])}
@@ -72,6 +74,8 @@ FactoryBot.define do
   sequence(:event_type) { sample(JSONModel(:event).schema['properties']['event_type']) }
   sequence(:extent_type) { sample(JSONModel(:extent).schema['properties']['extent_type']) }
   sequence(:portion) { sample(JSONModel(:extent).schema['properties']['portion']) }
+  sequence(:language) { sample(JSONModel(:language_and_script).schema['properties']['language']) }
+  sequence(:script) { sample(JSONModel(:language_and_script).schema['properties']['script']) }
   sequence(:instance_type) { sample(JSONModel(:instance).schema['properties']['instance_type'], ['digital_object']) }
 
   sequence(:rights_type) { sample(JSONModel(:rights_statement).schema['properties']['rights_type']) }
@@ -90,9 +94,10 @@ FactoryBot.define do
   sequence(:xlink_actuate_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_actuate_attribute']) }
   sequence(:xlink_show_attribute) { sample(JSONModel(:file_version).schema['properties']['xlink_show_attribute']) }
   sequence(:file_format_name) { sample(JSONModel(:file_version).schema['properties']['file_format_name']) }
-  sequence(:language) { sample(JSONModel(:resource).schema['properties']['language']) }
   sequence(:archival_record_level) { sample(JSONModel(:resource).schema['properties']['level'], ['otherlevel']) }
   sequence(:finding_aid_description_rules) { sample(JSONModel(:resource).schema['properties']['finding_aid_description_rules']) }
+  sequence(:finding_aid_language) { sample(JSONModel(:resource).schema['properties']['finding_aid_language']) }
+  sequence(:finding_aid_script) { sample(JSONModel(:resource).schema['properties']['finding_aid_script']) }
 
   sequence(:relator) { sample(JSONModel(:abstract_archival_object).schema['properties']['linked_agents']['items']['properties']['relator']) }
   sequence(:subject_source) { sample(JSONModel(:subject).schema['properties']['source']) }

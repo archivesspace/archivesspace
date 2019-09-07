@@ -132,6 +132,13 @@ describe 'Repository controller' do
       end
     end
 
+    it "has access to agent contact details" do
+      as_test_user(user) do
+        agent = create(:json_agent_corporate_entity)
+        agent.agent_contacts[0]['name'] = "No problems here"
+        agent.save
+      end
+    end
 
     it "has normal access to subjects" do
       as_test_user(user) do

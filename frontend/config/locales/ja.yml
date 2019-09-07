@@ -365,13 +365,6 @@ ja:
     save: 変更内容を保存
     dismiss: 変更を閉じる
 
-  slug: &slug_attributes
-    slug: Slug
-    public_url: 公開URL
-    is_slug_auto: 自動生成 Slug?
-    autogen_disabled: " -- 空スラグを生成、スラグを自動的に生成オプションを無効にします"
-    autogen_repo_slug: " -- スラッグフィールドが空のため、自動的に生成されたリポジトリスラッグ"
-
   linker:
     link_to_prefix: リンク先
     create_and_link_to_prefix: 作成してリンクする
@@ -451,7 +444,6 @@ ja:
     linked_to_assessment: レコードは評価にリンクされているため削除できません
 
   accession:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: アクセッション<strong>%{accession.display_string}</strong>作成されました
@@ -471,7 +463,6 @@ ja:
         save: 登録を保存
 
   agent: &agent_attributes
-    <<: *slug_attributes
     _frontend:
       messages:
         created: 作成されたエージェント
@@ -505,31 +496,28 @@ ja:
         add: 電話番号を追加
 
   agent_corporate_entity:
-    <<: *slug_attributes
     _frontend:
       action:
         save: 企業エンティティを保存する
 
   agent_family:
-    <<: *slug_attributes
     _frontend:
       action:
         save: 家族を救う
 
   agent_person:
-    <<: *slug_attributes
     _frontend:
       action:
         save: 人を保存する
 
   agent_software:
-    <<: *slug_attributes
     _frontend:
       action:
         save: ソフトウェアを保存する
 
   archival_object:
-    <<: *slug_attributes
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: リソース<strong>%{resource.title}</strong>アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>が作成されました
@@ -556,7 +544,6 @@ ja:
         new_record_title: 新しいアーカイブオブジェクト
 
   classification:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: 分類<strong>%{classification.title}</strong>作成されました
@@ -572,7 +559,6 @@ ja:
         add: 分類を追加する
 
   classification_term:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: 分類用語<strong>%{classification_term.title}</strong>作成されました
@@ -622,7 +608,6 @@ ja:
         add: デアクセスを追加
 
   digital_object:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: デジタルオブジェクト<strong>%{digital_object.title}</strong>作成
@@ -646,7 +631,6 @@ ja:
         save: デジタルオブジェクトを保存する
 
   digital_object_component:
-    <<: *slug_attributes
     _frontend:
       messages:
         created_with_parent: デジタルオブジェクト<strong>%{digital_object_component.display_string}</strong>の<strong>%{parent.display_string}</strong>子として作成されたデジタルオブジェクトコンポーネント<strong>%{digital_object.title}</strong>
@@ -734,6 +718,12 @@ ja:
       action:
         add_digital_object: デジタルオブジェクトを追加する
         add: インスタンスを追加する
+
+  lang_material:
+    _frontend:
+      action:
+        add: 言語を追加
+        add_note: 言語メモを追加
 
   linked_agent:
     _frontend:
@@ -846,7 +836,6 @@ ja:
     oai_is_disabled: OAIハーベスティングは無効？
     oai_sets_available: OAIに含まれるセット
   repository:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: 作成されたリポジトリ
@@ -879,7 +868,6 @@ ja:
         _plural: OAI収穫設定
 
   resource:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: リソース<strong>%{resource.title}</strong>作成されました
@@ -926,7 +914,6 @@ ja:
     ref: 宛先リポジトリ
 
   subject:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: 作成された科目
@@ -980,6 +967,7 @@ ja:
     column_label: カラム
     sections:
       basic_information: 基本情報
+      language: 言語
       date: 日付
       extent: エクステント
       instance: インスタンス
@@ -1092,12 +1080,14 @@ ja:
           「取り消し」はありません。
         find_and_replace_instructions: この検索および置換操作の範囲を指定するベースレコードを選択します。ターゲットとなるレコードタイプとそのタイプのプロパティを選択します。操作は、ベースレコードのツリー内のすべてのターゲットレコード、またはターゲットタイプが「リソース」の場合はベースレコード自体で実行されます。
         report_instructions: 選択ボタンを使用して実行するレポートを<b>選択し</b>ます。
-        slug_lost_warning: <b>警告！ </b>以前に作成されたナメクジはすべて失われます。
-        slug_generation: このジョブはスラッグを生成し、すべての<b>リソース</b>、<b>アーカイブオブジェクト</b>、<b>デジタルオブジェクト</b>、<b>デジタルオブジェクトコンポーネント</ bに対してスラッグの自動生成を有効にします。</ b >、<b>アクセス</b>、<b>分類</b>、<b>エージェント</b>、<b>サブジェクト</b>、<b> <b>リポジトリ</b>。
-        slug_config_msg: <b> config.rbのArchivesSpace設定に基づいて：</b>
+        slug_lost_warning: <b>警告！ </b>自動生成されたスラグはすべて再生されます。このジョブは、すべてのリポジトリにまたがるすべてのレコードに適用されます。
+        slug_generation: このジョブはスラッグを生成し、すべての<b>リソース</b>、<b>アーカイブオブジェクト</b>、<b>デジタルオブジェクト</b>、<b>デジタルオブジェクトコンポーネントのスラッグ自動生成ボックスをオンにします。 </b>、<b>登録</b>、<b>分類</b>、<b>エージェント</b>、<b>サブジェクト</b>、<b> <b>リポジトリ</b> それはまだナメクジを持っていません。 <br /> <em>手動で追加されたスラグは、自動生成ボックスをオンにして置き換える必要があることをそれらのレコードに示さない限り、変更されません。
+        slug_config_msg: <b> config.rbの設定に基づきます。</b>
         slug_config_id: 必要に応じて、スラッグはエンティティ識別子を使用して生成されます。
         slug_config_title: スラッグは、エンティティ名またはタイトルを使用して生成されます。
         slug_config_eadid: <b>リソース</b>のスラッグは、必要に応じてEAD IDを使用して生成されます。
+        slug_config_cuid: <b>アーカイブオブジェクト</b>のスラッグは、必要に応じてコンポーネントの固有IDを使用して生成されます。
+        ark_creation: This job will create ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
 
   shortcuts:
     quick_reference_window: クイックリファレンス：キーボードショートカット

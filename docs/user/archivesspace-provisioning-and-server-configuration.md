@@ -10,5 +10,6 @@ permalink: /user/archivesspace-provisioning-and-server-configuration/
 * [Running ArchivesSpace against MySQL](./mysql.md)
 * [Application monitoring with New Relic](./newrelic.md)
 * [Running ArchivesSpace under a prefix](./prefix.md)
+* [robots.txt](./robots.md)
 * [Running ArchivesSpace with external Solr](./solr.md)
 * [Tuning ArchivesSpace](./tuning.md)

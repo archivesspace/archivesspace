@@ -360,13 +360,6 @@
     save: Guardar cambios
     dismiss: Descartar cambios
 
-  slug: &slug_attributes
-    slug: Slug
-    public_url: URL pública
-    is_slug_auto: Generar automáticamente Slug?
-    autogen_disabled: " -- Slug vacío generado, Generar automáticamente la opción slug deshabilitada"
-    autogen_repo_slug: " -- Campo de slug vacío por lo que automáticamente se genera slug repositorio"
-
   linker:
     link_to_prefix: Enlace a
     create_and_link_to_prefix: Crear y vincular
@@ -446,7 +439,6 @@
     linked_to_assessment: El registro no se puede eliminar ya que está vinculado a una evaluación
 
   accession:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Acta de ingreso <strong>%{accession.display_string}</strong> creada
@@ -466,7 +458,6 @@
         save: Guardar el acta de ingreso
 
   agent: &agent_attributes
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Autoridad creada
@@ -500,31 +491,28 @@
         add: Agregar número de teléfono
 
   agent_corporate_entity:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar la entidad corporativa
 
   agent_family:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar familia
 
   agent_person:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar persona
 
   agent_software:
-    <<: *slug_attributes
     _frontend:
       action:
         save: Guardar Software
 
   archival_object:
-    <<: *slug_attributes
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: Documento de archivo <strong>%{archival_object.display_string}</strong> del fondo <strong>%{resource.title}</strong> creado
@@ -550,7 +538,6 @@
         new_record_title: Nuevo objeto de archivo
 
   classification:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Clasificación <strong>%{classification.title}</strong> creada"
@@ -566,7 +553,6 @@
         add: Agregue clasificación
 
   classification_term:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Término de clasificación <strong>%{classification_term.title}</strong> creado"
@@ -616,7 +602,6 @@
         add: Añadir expurgo
 
   digital_object:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Objeto digital <strong>%{digital_object.title}</strong> creado"
@@ -640,7 +625,6 @@
         save: Guardar objeto Digital
 
   digital_object_component:
-    <<: *slug_attributes
     _frontend:
       messages:
         created_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> creado como hijo de <strong>%{parent.display_string}</strong> del objeto Digital <strong>%{digital_object.title}</strong>
@@ -728,6 +712,12 @@
       action:
         add_digital_object: Agregar objeto Digital
         add: Añadir representación
+
+  lang_material:
+    _frontend:
+      action:
+        add: Añadir idioma
+        add_note: Añadir nota de idioma
 
   linked_agent:
     _frontend:
@@ -840,7 +830,6 @@
     oai_sets_available: Conjuntos incluidos en OAI
 
   repository:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Repositorio creado
@@ -870,7 +859,6 @@
         _plural: Ajustes de cosecha OAI
 
   resource:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: "Fondo <strong>%{resource.title}</strong> creado"
@@ -917,7 +905,6 @@
     ref: Repositorio de destino
 
   subject:
-    <<: *slug_attributes
     _frontend:
       messages:
         created: Materia creada
@@ -971,6 +958,7 @@
     column_label: Columna
     sections:
       basic_information: Información básica
+      language: Idioma
       date: Fecha
       extent: Extensión
       instance: Representación
@@ -1030,10 +1018,10 @@
       sticky_columns: |
                   <div><strong>Columnas pegajosas </strong></div>
                   <div><small>Columnas resaltadas son pegajosas y se replicarán cuando se agregan nuevas filas. Alternar 'pegajosa' haciendo clic en el encabezado de la tabla correspondiente.</small></div>
-                  <div><small>Al hacer clic en <strong> Añadir fila </ strong> copiará los valores de la última fila; La fila de <strong> + </strong> para copiar los valores de la fila centrado actualmente.</small></div>
+                  <div><small>Al hacer clic en <strong> Añadir fila </strong> copiará los valores de la última fila; La fila de <strong> + </strong> para copiar los valores de la fila centrado actualmente.</small></div>
       fill_column: |
                   <div><strong>Llenar la Columna - Básico</strong></div>
-                  <div><small>Para llenar una columna con un valor único, haga clic en <strong> Rellenar Columna </ strong> y en el <strong> Basic </strong> seleccionar el objetivo <strong> Columna </ strong>, introduzca la deseada <strong> Llene valor </strong> y haga clic en <strong> Aplicar relleno</strong>.</small></div>
+                  <div><small>Para llenar una columna con un valor único, haga clic en <strong> Rellenar Columna </strong> y en el <strong> Basic </strong> seleccionar el objetivo <strong> Columna </strong>, introduzca la deseada <strong> Llene valor </strong> y haga clic en <strong> Aplicar relleno</strong>.</small></div>
                   <br/>
                   <div><strong>Rellenar Columna - Secuencia</strong></div>
                   <div><small>Para solicitar una secuencia de una columna, haga clic en <strong> Rellenar Columna </strong> y bajo la <strong> Secuencia de </strong> seleccionar el objetivo <strong> Columna </strong> y finalice el <strong> Rellenar Valor </strong> campos para generar la secuencia que usted desea. Un mensaje de advertencia aparecerá si la secuencia generada no cumplirá el número de filas de la forma.</small></div>
@@ -1082,12 +1070,14 @@
         find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
         find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
         report_instructions: Elige el informe utilizando el botón <b>Seleccionar</b>.
-        slug_lost_warning: <b> ¡ADVERTENCIA! </b> ¡Cualquier babosa creada previamente se perderá!
-        slug_generation: Este trabajo generará un slug y habilitará la autogeneración de slug para todos los <b> Recursos </b>, <b> Objetos de archivo </b>, <b> Objetos digitales </b>, <b> Componentes de objetos digitales </ b >, <b> Accesiones </b>, <b> Clasificaciones </b>, <b> Agentes </b>, <b> Temas </b> y <b> Repositorios </b>.
-        slug_config_msg: <b>En función de sus ajustes de configuración de ArchivesSpace en config.rb:</b>
+        slug_lost_warning: <b> ¡ADVERTENCIA! </b> ¡Todas las babosas generadas automáticamente serán regeneradas! Este trabajo se aplica a todos los registros en todos los repositorios.
+        slug_generation: Este trabajo generará slugs y marcará el cuadro de generación automática de slug para todos los <b> Recursos </b>, <b> Objetos de archivo </b>, <b> Objetos digitales </b>, <b> Componentes de objetos digitales </b>, <b> Accesiones </b>, <b> Clasificaciones </b>, <b> Agentes </b>, <b> Temas </b> y <b> Repositorios </b> que no tienen ya una babosa. <br /> <em> Las babosas que se han agregado manualmente no se cambiarán, a menos que indique en esos registros que deben reemplazarse al marcar la casilla de generación automática. </em>
+        slug_config_msg: <b> Según sus ajustes de configuración en config.rb</b>
         slug_config_id: Las babosas se generarán usando el identificador de la entidad cuando sea apropiado.
         slug_config_title: Las babosas se generarán usando el nombre o título de la entidad.
         slug_config_eadid: Las babosas para <b> Recursos </b> se generarán utilizando el ID de EAD cuando sea apropiado.
+        slug_config_cuid: Los slugs para <b> Objetos de archivo </b> se generarán usando la ID Única del Componente cuando sea apropiado.
+        ark_creation: This job will create ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
 
   shortcuts:
     quick_reference_window: "Referencia: accesos directos del teclado "
@@ -1191,8 +1181,8 @@
         updated: Contenedor Top actualizado
         filter_required: Por favor proporcionar un filtro
         max_results_limit_reached: No se han incluido todos los resultados. Por favor refine su búsqueda.
-        max_results_limit_details: "Mostrando <strong>% {visibles} </ strong> de <strong> {% num_found} </ strong> Resultados de la búsqueda"
-        results_summary: "Los resultados coinciden con: <strong> {% num_found} </ strong>"
+        max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong> {% num_found} </strong> Resultados de la búsqueda"
+        results_summary: "Los resultados coinciden con: <strong> {% num_found} </strong>"
         bulk_selection_sort_help: Haga clic en una columna para establecer el orden de clasificación. Deja la tecla shift presionada para ordenar por varias columnas.
         bulk_action_success: Contenedores Top actualizado
         bulk_action_success_info: Tenga en cuenta que antes de que los cambios se reflejen en los resultados de búsqueda puede pasar un rato.

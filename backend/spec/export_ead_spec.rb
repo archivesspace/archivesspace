@@ -15,7 +15,7 @@ describe "EAD export mappings" do
   def load_export_fixtures
     @agents = {}
     5.times {
-      a = create([:json_agent_person, :json_agent_corporate_entity, :json_agent_family].sample)
+      a = create([:json_agent_person, :json_agent_corporate_entity, :json_agent_family].sample, :publish => true)
       @agents[a.uri] = a
     }
 
@@ -96,6 +96,20 @@ describe "EAD export mappings" do
 
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
 
+    AppConfig[:arks_enabled] = true
+    resource = create(:json_resource,  :linked_agents => build_linked_agents(@agents),
+                      :notes => build_archival_object_notes(10) + [@mixed_subnotes_tracer, @another_note_tracer],
+                      :subjects => @subjects.map{|ref, s| {:ref => ref}},
+                      :instances => instances,
+                      :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
+                      :finding_aid_filing_title => "this is a filing title",
+                      :finding_aid_series_statement => "here is the series statement",
+                      :publish => true,
+                      )
+
+    @resource_with_ark = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
+    AppConfig[:arks_enabled] = true
+
     @archival_objects = {}
 
     10.times {
@@ -104,6 +118,8 @@ describe "EAD export mappings" do
                  :parent => parent ? {:ref => parent} : nil,
                  :notes => build_archival_object_notes(5),
                  :linked_agents => build_linked_agents(@agents),
+                 :lang_materials => [build(:json_lang_material),
+                                     build(:json_lang_material)],
                  :instances => [build(:json_instance_digital),
                                 build(:json_instance,
                                       :sub_container => build(:json_sub_container,
@@ -213,10 +229,15 @@ describe "EAD export mappings" do
       as_test_user("admin") do
         DB.open(true) do
           load_export_fixtures
+          AppConfig[:arks_enabled] = true
           @doc = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+          @doc_with_ark = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource_with_ark.id}.xml?include_unpublished=true&include_daos=true")
 
           @doc_unpub = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_daos=true")
 
+          AppConfig[:arks_enabled] = false
+          @doc_ark_disabled = get_xml("/repositories/#{$repo_id}/resource_descriptions/#{@resource.id}.xml?include_unpublished=true&include_daos=true")
+          AppConfig[:arks_enabled] = true
 
           @doc_nsless = Nokogiri::XML::Document.parse(@doc.to_xml)
           @doc_nsless.remove_namespaces!
@@ -270,12 +291,33 @@ describe "EAD export mappings" do
     end
 
 
-    it "maps {archival_object}.language to {desc_path}/did/langmaterial/language" do
-      data = object.language ? translate('enumerations.language_iso639_2', object.language) : nil
-      code = object.language
+    it "maps {archival_object}.lang_materials['language_and_script'] to {desc_path}/did/langmaterial/language" do
 
-      mt(data, "#{desc_path}/did/langmaterial/language")
-      mt(code, "#{desc_path}/did/langmaterial/language", 'langcode')
+      language = object.lang_materials[0]['language_and_script']['language']
+      script = object.lang_materials[0]['language_and_script']['script']
+
+      mt(translate('enumerations.language_iso639_2', language), "#{desc_path}/did/langmaterial/language")
+      mt(language, "#{desc_path}/did/langmaterial/language", 'langcode')
+      mt(script, "#{desc_path}/did/langmaterial/language", 'scriptcode')
+    end
+
+
+    it "maps {archival_object}.lang_materials['notes'] to {desc_path}/did/langmaterial if present" do
+
+      language_notes = object.lang_materials << build(:json_lang_material_with_note)
+
+      language_notes.select {|n| n['type'] == 'langmaterial'}.each_with_index do |note, i|
+        content = note_content(note)
+        path = "#{desc_path}/did/langmaterial[text()='#{content}']"
+        if note['persistent_id']
+          mt("aspace_" + note['persistent_id'], path, "id")
+        else
+          mt(nil, path, "id")
+        end
+      end
+
+      language_notes.pop
+      
     end
 
 
@@ -800,7 +842,9 @@ describe "EAD export mappings" do
     end
 
     it "maps resource.ead_location to eadid/@url" do
-      mt(@resource.ead_location, "eadheader/eadid", 'url')
+      if !AppConfig[:arks_enabled]
+        mt(@resource.ead_location, "eadheader/eadid", 'url')
+      end
     end
 
     it "maps resource.ead_id to eadid" do
@@ -915,8 +959,8 @@ describe "EAD export mappings" do
       mt(Regexp.new(date_regex), "//profiledesc/creation/date")
     end
 
-    it "maps resource.finding_aid_language to profiledesc/langusage" do
-      mt(@resource.finding_aid_language, "eadheader/profiledesc/langusage")
+    it "maps resource.finding_aid_language_note to profiledesc/langusage" do
+      mt(@resource.finding_aid_language_note, "eadheader/profiledesc/langusage")
     end
 
     it "maps resource.finding_aid_description_rules to profiledesc/descrules" do
@@ -989,6 +1033,17 @@ describe "EAD export mappings" do
     end
   end
 
+  describe "ARK URLs" do
+    it "maps ARK URL to eadid/@url if ARK URLs are enabled" do
+      expect(@doc_with_ark.to_s).to match(/<eadid.*url=\"http.*\/ark:/)
+    end
+    it "does not map ARK URL to eadid/@url if ARK URLs are disabled" do
+      expect(@doc_ark_disabled.to_s).to_not match(/<eadid.*url=\"http.*\/ark:/)
+    end
+    it "maps resource.ead_location to eadid/@url if ARK URLs are disabled" do
+      expect(@doc_ark_disabled.to_s).to match(/<eadid.*url=\"#{@resource.ead_location}/)
+    end
+  end
 
   describe "How digital_objects are mapped to <dao> nodes >> " do
     let(:digital_objects) { @digital_objects.values }
@@ -1156,6 +1211,19 @@ describe "EAD export mappings" do
   describe "Testing EAD Serializer mixed content behavior" do
 
     let(:note_with_p) { "<p>A NOTE!</p>" }
+    let(:note_with_archref) {"<archref audience='external'/>"}
+    let(:note_with_bibref) {"<bibref audience='internal'/>"}
+    let(:note_with_extptr) {"<extptr linktype='simple' entityref='entref' title='title' show='embed'/>"}
+    let(:note_with_extptrloc) {"<extptrloc href='http://www.example.com'/>"}
+    let(:note_with_extrefloc) {"<extrefloc href='http://www.example.com'/>"}
+    let(:note_with_linkgrp) {"<linkgrp linktype='extended'><extrefloc href='http://www.someserver.edu/findaids/3270.xml'><archref>archref</archref></extrefloc><extrefloc href='http://www.someserver.edu/findaids/9248.xml'><archref>archref</archref></extrefloc></linkgrp>"}
+    let(:note_with_ptr) {"<ptr linktype='simple' actuate='onrequest' show='replace' target='mss1982-062_add2'/>"}
+    let(:note_with_ptrloc) {"<ptrloc audience='external'/>"}
+    let(:note_with_ref) {"<ref linktype='simple' target='NonC:21-2' show='replace' actuate='onrequest'>"}
+    let(:note_with_refloc) {"<refloc target='a9'></refloc>"}
+    let(:note_with_resource) {"<resource linktype='resource' label='start'/>"}
+    let(:note_with_title) {"<title render='italic'/>"}
+    let(:note_with_extref) { "<extref linktype='simple' entityref='site' title='title' actuate='onrequest' show='new' href='http://duckduckgo.com'>A Good Search Engine</p>" }
     let(:note_with_linebreaks) { "Something, something,\n\nsomething." }
     let(:note_with_linebreaks_and_good_mixed_content) { "Something, something,\n\n<bioghist>something.</bioghist>\n\n" }
     let(:note_with_linebreaks_and_evil_mixed_content) { "Something, something,\n\n<bioghist>something.\n\n</bioghist>\n\n" }
@@ -1167,6 +1235,26 @@ describe "EAD export mappings" do
 
     it "can strip <p> tags from content when disallowed" do
       expect(serializer.strip_p(note_with_p)).to eq("A NOTE!")
+    end
+
+    it "adds xlink prefix to attributes in mixed content" do
+      expect(serializer.add_xlink_prefix(note_with_extref)).to eq("<extref xlink:linktype='simple' xlink:entityref='site' xlink:title='title' xlink:actuate='onrequest' xlink:show='new' xlink:href='http://duckduckgo.com'>A Good Search Engine</p>")
+      expect(serializer.add_xlink_prefix(note_with_archref)).to eq("<archref audience='external'/>")
+      expect(serializer.add_xlink_prefix(note_with_bibref)).to eq("<bibref audience='internal'/>")
+      expect(serializer.add_xlink_prefix(note_with_extptr)).to eq("<extptr xlink:linktype='simple' xlink:entityref='entref' xlink:title='title' xlink:show='embed'/>")
+      expect(serializer.add_xlink_prefix(note_with_extptrloc)).to eq("<extptrloc xlink:href='http://www.example.com'/>")
+      expect(serializer.add_xlink_prefix(note_with_extrefloc)).to eq("<extrefloc xlink:href='http://www.example.com'/>")
+      expect(serializer.add_xlink_prefix(note_with_linkgrp)).to eq("<linkgrp xlink:linktype='extended'><extrefloc xlink:href='http://www.someserver.edu/findaids/3270.xml'><archref>archref</archref></extrefloc><extrefloc xlink:href='http://www.someserver.edu/findaids/9248.xml'><archref>archref</archref></extrefloc></linkgrp>")
+      expect(serializer.add_xlink_prefix(note_with_ptr)).to eq("<ptr xlink:linktype='simple' xlink:actuate='onrequest' xlink:show='replace' xlink:target='mss1982-062_add2'/>")
+      expect(serializer.add_xlink_prefix(note_with_ptrloc)).to eq("<ptrloc audience='external'/>")
+      expect(serializer.add_xlink_prefix(note_with_ref)).to eq("<ref xlink:linktype='simple' xlink:target='NonC:21-2' xlink:show='replace' xlink:actuate='onrequest'>")
+      expect(serializer.add_xlink_prefix(note_with_refloc)).to eq("<refloc xlink:target='a9'></refloc>")
+      expect(serializer.add_xlink_prefix(note_with_resource)).to eq("<resource xlink:linktype='resource' label='start'/>")
+      expect(serializer.add_xlink_prefix(note_with_title)).to eq("<title render='italic'/>")
+    end
+
+    it "does not add xlink prefix when mixed content has no attributes" do
+      expect(serializer.add_xlink_prefix(note_with_p)).to eq(note_with_p)
     end
 
     it "can leave <p> tags in content" do

@@ -12,6 +12,7 @@ class ArchivalObjectsController < ApplicationController
     @archival_object = JSONModel(:archival_object).new._always_valid!
     @archival_object.parent = {'ref' => JSONModel(:archival_object).uri_for(params[:archival_object_id])} if params.has_key?(:archival_object_id)
     @archival_object.resource = {'ref' => JSONModel(:resource).uri_for(params[:resource_id])} if params.has_key?(:resource_id)
+    @archival_object.position = params[:position]
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'archival_object'
@@ -47,18 +48,21 @@ class ArchivalObjectsController < ApplicationController
                                       I18n.t("archival_object._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => @archival_object['parent']['_resolved']).enable_parse_mixed_content!(url_for(:root))) :
                                       I18n.t("archival_object._frontend.messages.created", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
 
+                  if params.has_key?(:plus_one)
+                    flash[:success] = success_message
+                  else
+                    flash.now[:success] = success_message
+                  end
 
                   if @archival_object["is_slug_auto"] == false &&
                      @archival_object["slug"] == nil &&
                      params["archival_object"] &&
                      params["archival_object"]["is_slug_auto"] == "1"
-                    success_message << I18n.t("slug.autogen_disabled")
-                  end                                      
-
-                  if params.has_key?(:plus_one)
-                    flash[:success] = success_message
-                  else
-                    flash.now[:success] = success_message
+                     if params.has_key?(:plus_one)
+                       flash[:warning] = I18n.t("slug.autogen_disabled")
+                     else
+                       flash.now[:warning] = I18n.t("slug.autogen_disabled")
+                     end
                   end
 
                   render_aspace_partial :partial => "archival_objects/edit_inline"
@@ -78,7 +82,7 @@ class ArchivalObjectsController < ApplicationController
                 :obj => @archival_object,
                 :on_invalid => ->(){ return render_aspace_partial :partial => "edit_inline" },
                 :on_valid => ->(id){
-                  success_message = parent ?
+                  flash.now[:success] = parent ?
                     I18n.t("archival_object._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved'], :parent => parent).enable_parse_mixed_content!(url_for(:root))) :
                     I18n.t("archival_object._frontend.messages.updated", JSONModelI18nWrapper.new(:archival_object => @archival_object, :resource => @archival_object['resource']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
 
@@ -86,10 +90,8 @@ class ArchivalObjectsController < ApplicationController
                      @archival_object["slug"] == nil &&
                      params["archival_object"] &&
                      params["archival_object"]["is_slug_auto"] == "1"
-                    success_message << I18n.t("slug.autogen_disabled")
+                    flash.now[:warning] = I18n.t("slug.autogen_disabled")
                   end
-
-                  flash.now[:success] = success_message
 
                   render_aspace_partial :partial => "edit_inline"
                 })

@@ -6,7 +6,7 @@
 <title>
   Module: Searchable
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -106,11 +106,16 @@
   
 </p>
 
-  <h2>Constant Summary</h2>
-  <dl class="constants">
-    
-      <dt id="ABSTRACT-constant" class="">ABSTRACT =
-        <div class="docstring">
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="ABSTRACT-constant" class="">ABSTRACT =
+          <div class="docstring">
   <div class="discussion">
     <p>also sets up searches, handles search results.
 TODO: refactor processing</p>
@@ -122,11 +127,12 @@ TODO: refactor processing</p>
   
 
 </div>
-      </dt>
-      <dd><pre class="code"><span class='dstring node'>%w(abstract scopecontent)</span>
+        </dt>
+        <dd><pre class="code"><span class='dstring node'>%w(abstract scopecontent)</span>
 </pre></dd>
-    
-  </dl>
+      
+    </dl>
+  
 
 
 
@@ -443,21 +449,39 @@ TODO: refactor processing</p>
       <pre class="lines">
 
 
-329
-330
-331
-332
 333
 334
-335</pre>
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 329</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 333</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_default_search_opts identifier id'>default_search_opts</span><span class='lparen token'>(</span><span class='rubyid_default identifier id'>default</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
   <span class='rubyid_default identifier id'>default</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
     <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_v identifier id'>v</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_params</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span>
+    <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_params</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_param identifier id'>param</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span> <span class='colon op'>:</span><span class='rubyid_call identifier id'>call</span>
+        <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='rubyid_param identifier id'>param</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='rubyid_param identifier id'>param</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_opts identifier id'>opts</span>
 <span class='rubyid_end end kw'>end</span>
@@ -482,8 +506,6 @@ TODO: refactor processing</p>
       <pre class="lines">
 
 
-174
-175
 176
 177
 178
@@ -491,12 +513,16 @@ TODO: refactor processing</p>
 180
 181
 182
-183</pre>
+183
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 176</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_years identifier id'>get_years</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='rubyid_sanitize_params identifier id'>sanitize_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_years identifier id'>years</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
   <span class='rubyid_from identifier id'>from</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:filter_from_year</span><span class='comma token'>,</span><span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
   <span class='rubyid_to identifier id'>to</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:filter_to_year</span><span class='comma token'>,</span><span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
@@ -539,18 +565,18 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-220
-221
-222
 223
 224
 225
 226
 227
-228</pre>
+228
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 223</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_results identifier id'>handle_results</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='comma token'>,</span> <span class='rubyid_full identifier id'>full</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='comment val'># FIXME: move facet handling to SolrResults</span>
@@ -592,18 +618,18 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-271
-272
-273
 274
 275
 276
 277
 278
-279</pre>
+279
+280
+281
+282</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 271</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 274</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_html_notes identifier id'>html_notes</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_full identifier id'>full</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;html&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -645,9 +671,6 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-231
-232
-233
 234
 235
 236
@@ -681,10 +704,13 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 264
 265
 266
-267</pre>
+267
+268
+269
+270</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 231</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 234</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_results identifier id'>process_results</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='comma token'>,</span> <span class='rubyid_full identifier id'>full</span><span class='rparen token'>)</span>
   <span class='rubyid_results identifier id'>results</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_result identifier id'>result</span><span class='bitor op'>|</span>
@@ -744,9 +770,6 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-185
-186
-187
 188
 189
 190
@@ -772,10 +795,13 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 210
 211
 212
-213</pre>
+213
+214
+215
+216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 188</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_search_results identifier id'>process_search_results</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='assign token'>=</span><span class='string val'>&quot;/search&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_@facets ivar id'>@facets</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -827,16 +853,16 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-337
-338
-339
-340
-341
-342
-343</pre>
+350
+351
+352
+353
+354
+355
+356</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 337</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 350</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_repo_context identifier id'>repo_context</span><span class='lparen token'>(</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_cont identifier id'>cont</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -866,9 +892,6 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-296
-297
-298
 299
 300
 301
@@ -897,12 +920,17 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 324
 325
 326
-327</pre>
+327
+328
+329
+330
+331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 296</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 299</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_search_terms identifier id'>search_terms</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='rubyid_sanitize_params identifier id'>sanitize_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_terms identifier id'>terms</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
   <span class='rubyid_queries identifier id'>queries</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:q</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_queries identifier id'>queries</span>
@@ -955,7 +983,6 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-79
 80
 81
 82
@@ -1047,12 +1074,15 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 168
 169
 170
-171</pre>
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_up_advanced_search identifier id'>set_up_advanced_search</span><span class='lparen token'>(</span><span class='rubyid_default_types identifier id'>default_types</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span><span class='rubyid_default_facets identifier id'>default_facets</span><span class='assign token'>=</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span><span class='rubyid_default_search_opts identifier id'>default_search_opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='rubyid_sanitize_params identifier id'>sanitize_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_@search ivar id'>@search</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@search ivar id'>@search</span><span class='lbrack token'>[</span><span class='symbol val'>:limit</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
     <span class='rubyid_default_types identifier id'>default_types</span> <span class='assign token'>=</span> <span class='rubyid_@search ivar id'>@search</span><span class='lbrack token'>[</span><span class='symbol val'>:limit</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;,&quot;</span><span class='rparen token'>)</span>
@@ -1166,7 +1196,6 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-68
 69
 70
 71
@@ -1175,10 +1204,11 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 74
 75
 76
-77</pre>
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_up_and_run_search identifier id'>set_up_and_run_search</span><span class='lparen token'>(</span><span class='rubyid_default_types identifier id'>default_types</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span><span class='rubyid_default_facets identifier id'>default_facets</span><span class='assign token'>=</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span><span class='rubyid_default_search_opts identifier id'>default_search_opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_set_up_advanced_search identifier id'>set_up_advanced_search</span><span class='lparen token'>(</span><span class='rubyid_default_types identifier id'>default_types</span><span class='comma token'>,</span> <span class='rubyid_default_facets identifier id'>default_facets</span><span class='comma token'>,</span> <span class='rubyid_default_search_opts identifier id'>default_search_opts</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
@@ -1265,12 +1295,14 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 63
 64
 65
-66</pre>
+66
+67</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 12</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_up_search identifier id'>set_up_search</span><span class='lparen token'>(</span><span class='rubyid_default_types identifier id'>default_types</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span><span class='rubyid_default_facets identifier id'>default_facets</span><span class='assign token'>=</span><span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span><span class='rubyid_default_search_opts identifier id'>default_search_opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_q identifier id'>q</span><span class='assign token'>=</span><span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='rubyid_sanitize_params identifier id'>sanitize_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_@search ivar id'>@search</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_limit identifier id'>limit</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:limit</span><span class='comma token'>,</span><span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_field identifier id'>field</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='symbol val'>:field</span><span class='comma token'>,</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
@@ -1356,9 +1388,6 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
       <pre class="lines">
 
 
-282
-283
-284
 285
 286
 287
@@ -1367,10 +1396,13 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 290
 291
 292
-293</pre>
+293
+294
+295
+296</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/searchable.rb', line 285</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_strip_facet_fields identifier id'>strip_facet_fields</span><span class='lparen token'>(</span><span class='rubyid_facet_fields identifier id'>facet_fields</span><span class='rparen token'>)</span>
   <span class='rubyid_facet_fields identifier id'>facet_fields</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_arr identifier id'>arr</span><span class='bitor op'>|</span>
@@ -1395,9 +1427,9 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:42 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:06 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

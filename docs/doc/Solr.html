@@ -6,7 +6,7 @@
 <title>
   Class: Solr
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -252,8 +252,6 @@
       <pre class="lines">
 
 
-291
-292
 293
 294
 295
@@ -297,10 +295,12 @@
 333
 334
 335
-336</pre>
+336
+337
+338</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 291</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/solr.rb', line 293</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
 
@@ -314,7 +314,7 @@
     <span class='rubyid_solr_response identifier id'>solr_response</span> <span class='assign token'>=</span> <span class='rubyid_http identifier id'>http</span><span class='dot token'>.</span><span class='rubyid_request identifier id'>request</span><span class='lparen token'>(</span><span class='rubyid_req identifier id'>req</span><span class='rparen token'>)</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_solr_response identifier id'>solr_response</span><span class='dot token'>.</span><span class='rubyid_code identifier id'>code</span> <span class='eq op'>==</span> <span class='string val'>&#39;200&#39;</span>
-      <span class='rubyid_return return kw'>return</span> <span class='rubyid_solr_response identifier id'>solr_response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_get_writer_type identifier id'>get_writer_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;json&quot;</span> 
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_solr_response identifier id'>solr_response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_get_writer_type identifier id'>get_writer_type</span> <span class='eq op'>==</span> <span class='string val'>&quot;json&quot;</span>
       <span class='rubyid_json identifier id'>json</span> <span class='assign token'>=</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_solr_response identifier id'>solr_response</span><span class='dot token'>.</span><span class='rubyid_body identifier id'>body</span><span class='rparen token'>)</span>
 
       <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -390,9 +390,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:44 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:07 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

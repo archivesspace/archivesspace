@@ -6,7 +6,7 @@
 <title>
   Module: ManipulateNode
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -329,7 +329,7 @@ TODO:  look at replacing these gsubs with syntax like:
             <span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\r\n\r\n/</span><span class='comma token'>,</span><span class='string val'>&quot;&lt;br /&gt;&lt;br /&gt;&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_txt identifier id'>txt</span> <span class='assign token'>=</span> <span class='rubyid_txt identifier id'>txt</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/ &amp; /</span><span class='comma token'>,</span> <span class='string val'>&#39; &amp;amp; &#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_txt identifier id'>txt</span> <span class='assign token'>=</span> <span class='rubyid_txt identifier id'>txt</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/&amp;(?![A-Za-z]+;|#[0-9]+;)/</span><span class='comma token'>,</span> <span class='string val'>&#39;&amp;amp;&#39;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_txt identifier id'>txt</span> <span class='assign token'>=</span> <span class='rubyid_txt identifier id'>txt</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;xlink\:type=\&quot;simple\&quot;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
 
@@ -419,9 +419,9 @@ TODO:  look at replacing these gsubs with syntax like:
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:43 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:06 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

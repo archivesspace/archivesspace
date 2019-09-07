@@ -6,7 +6,7 @@
 <title>
   Module: SearchHelper
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -96,13 +96,18 @@
   
 </p>
 
-  <h2>Constant Summary</h2>
-  <dl class="constants">
-    
-      <dt id="IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP-constant" class="">IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP =
-        
-      </dt>
-      <dd><pre class="code"><span class='lbrace token'>{</span>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP-constant" class="">IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
   <span class='string val'>&quot;accession&quot;</span>                <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;identifier&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&quot;agent_corporate_entity&quot;</span>   <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;authority_id&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&quot;agent_family&quot;</span>             <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;authority_id&quot;</span><span class='comma token'>,</span>
@@ -120,8 +125,9 @@
   <span class='string val'>&quot;subject&quot;</span>                  <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;authority_id&quot;</span><span class='comma token'>,</span>
 <span class='rbrace token'>}</span>
 </pre></dd>
-    
-  </dl>
+      
+    </dl>
+  
 
 
 
@@ -1071,8 +1077,6 @@
       <pre class="lines">
 
 
-212
-213
 214
 215
 216
@@ -1086,10 +1090,12 @@
 224
 225
 226
-227</pre>
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 214</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_context_ancestor identifier id'>context_ancestor</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_case case kw'>case</span>
@@ -1159,16 +1165,16 @@
       <pre class="lines">
 
 
-204
-205
 206
 207
 208
 209
-210</pre>
+210
+211
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 204</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 206</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_context_separator identifier id'>context_separator</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;ancestors&#39;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;linked_instance_uris&#39;</span><span class='rbrack token'>]</span>
@@ -1198,12 +1204,12 @@
       <pre class="lines">
 
 
-229
-230
-231</pre>
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 231</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extra_columns identifier id'>extra_columns</span>
   <span class='rubyid_@extra_columns ivar id'>@extra_columns</span>
@@ -1252,14 +1258,14 @@
       <pre class="lines">
 
 
-234
-235
 236
 237
-238</pre>
+238
+239
+240</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 234</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 236</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_extra_columns? fid id'>extra_columns?</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_false false kw'>false</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@extra_columns ivar id'>@extra_columns</span> <span class='eq op'>==</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -1293,16 +1299,20 @@
 199
 200
 201
-202</pre>
+202
+203
+204</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/search_helper.rb', line 196</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_ancestor_title identifier id'>get_ancestor_title</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&#39;resources&#39;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&#39;digital_objects&#39;</span><span class='rparen token'>)</span>
-    <span class='rubyid_clean_mixed_content identifier id'>clean_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_clean_mixed_content identifier id'>clean_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_string&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&#39;resources&#39;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_field identifier id'>field</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&#39;digital_objects&#39;</span><span class='rparen token'>)</span>
+      <span class='rubyid_clean_mixed_content identifier id'>clean_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_clean_mixed_content identifier id'>clean_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_string&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1746,9 +1756,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:41 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:04 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

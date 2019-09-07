@@ -12,6 +12,7 @@ class DigitalObjectComponentsController < ApplicationController
     @digital_object_component.title = I18n.t("digital_object_component.title_default", :default => "")
     @digital_object_component.parent = {'ref' => JSONModel(:digital_object_component).uri_for(params[:digital_object_component_id])} if params.has_key?(:digital_object_component_id)
     @digital_object_component.digital_object = {'ref' => JSONModel(:digital_object).uri_for(params[:digital_object_id])} if params.has_key?(:digital_object_id)
+    @digital_object_component.position = params[:position]
 
     if user_prefs['default_values']
       defaults = DefaultValues.get 'digital_object_component'
@@ -48,7 +49,7 @@ class DigitalObjectComponentsController < ApplicationController
                   # so need to do it manually)
                   @digital_object_component = JSONModel(:digital_object_component).find(id, find_opts)
 
-                  success_message = @digital_object_component.parent ?
+                  flash[:success] = @digital_object_component.parent ?
                     I18n.t("digital_object_component._frontend.messages.created_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved'], :parent => @digital_object_component['parent']['_resolved']).enable_parse_mixed_content!(url_for(:root))) :
                     I18n.t("digital_object_component._frontend.messages.created", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => @digital_object_component['digital_object']['_resolved']).enable_parse_mixed_content!(url_for(:root)))
 
@@ -56,10 +57,8 @@ class DigitalObjectComponentsController < ApplicationController
                      @digital_object_component["slug"] == nil &&
                      params["digital_object_component"] &&
                      params["digital_object_component"]["is_slug_auto"] == "1"
-                    success_message << I18n.t("slug.autogen_disabled")
+                    flash[:warning] = I18n.t("slug.autogen_disabled")
                   end
-
-                  flash[:success] = success_message
 
                   render_aspace_partial :partial => "digital_object_components/edit_inline"
                 })
@@ -77,7 +76,7 @@ class DigitalObjectComponentsController < ApplicationController
                 :obj => @digital_object_component,
                 :on_invalid => ->(){ return render_aspace_partial :partial => "edit_inline" },
                 :on_valid => ->(id){
-                  success_msg = parent ?
+                  flash.now[:success] = parent ?
                     I18n.t("digital_object_component._frontend.messages.updated_with_parent", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object, :parent => parent).enable_parse_mixed_content!(url_for(:root))) :
                     I18n.t("digital_object_component._frontend.messages.updated", JSONModelI18nWrapper.new(:digital_object_component => @digital_object_component, :digital_object => digital_object).enable_parse_mixed_content!(url_for(:root)))
 
@@ -85,10 +84,8 @@ class DigitalObjectComponentsController < ApplicationController
                      @digital_object_component["slug"] == nil &&
                      params["digital_object_component"] &&
                      params["digital_object_component"]["is_slug_auto"] == "1"
-                    success_msg << I18n.t("slug.autogen_disabled")
+                    flash.now[:warning] = I18n.t("slug.autogen_disabled")
                   end
-
-                  flash.now[:success] = success_msg
 
                   render_aspace_partial :partial => "edit_inline"
                 })

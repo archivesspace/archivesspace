@@ -213,7 +213,7 @@ underlying index.
 
 ## Adding Custom Reports
 
-Custom reports may be added to plug-ins by adding a new report model as a subclass of `AbstractReport` to `plugins/[plugin-name]/backend/model/`. Look to existing reports in reports subdirectory of the ArchivesSpace base directory for examples of how to structure a report model.
+Custom reports may be added to plug-ins by adding a new report model as a subclass of `AbstractReport` to `plugins/[plugin-name]/backend/model/`, and the translations for said model to `plugins/[plugin-name]/frontend/locales/[language].yml`. Look to existing reports in reports subdirectory of the ArchivesSpace base directory for examples of how to structure a report model.
 
 There are several limitations to adding reports to plug-ins, including that reports from plug-ins may only use the generic report template. ArchivesSpace only searches for report templates in the reports subdirectory of the ArchivesSpace base directory, not in plug-in directories. If you would like to implement a custom report with a custom template, consider adding the report to `archivesspace/reports/` instead of `archivesspace/plugins/[plugin-name]/backend/model/`.
 

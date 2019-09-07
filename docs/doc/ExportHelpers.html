@@ -6,7 +6,7 @@
 <title>
   Module: ExportHelpers
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -629,7 +629,7 @@
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_resolve_references identifier id'>resolve_references</span><span class='lparen token'>(</span><span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_resource identifier id'>resource</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;repository&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_labels identifier id'>labels</span> <span class='assign token'>=</span> <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='dot token'>.</span><span class='rubyid_model identifier id'>model</span><span class='lparen token'>(</span><span class='symbol val'>:labels</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_resource identifier id'>from_resource</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                                      <span class='rubyid_resource identifier id'>resource</span><span class='dot token'>.</span><span class='rubyid_tree identifier id'>tree</span><span class='lparen token'>(</span><span class='symbol val'>:all</span><span class='comma token'>,</span> <span class='rubyid_mode identifier id'>mode</span> <span class='assign token'>=</span> <span class='symbol val'>:sparse</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-  <span class='rubyid_ASpaceExport constant id'>ASpaceExport</span><span class='colon2 op'>::</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_labels identifier id'>labels</span><span class='comma token'>,</span> <span class='symbol val'>:serializer</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:tsv</span><span class='rparen token'>)</span>
+  <span class='rubyid_labels identifier id'>labels</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -938,7 +938,7 @@ usefuly for filenaming on exports.</p>
       <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_tsv_response identifier id'>tsv_response</span><span class='lparen token'>(</span><span class='rubyid_tsv identifier id'>tsv</span><span class='rparen token'>)</span>
-  <span class='lbrack token'>[</span><span class='rubyid_status identifier id'>status</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>&quot;Content-Type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;text/tab-separated-values&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rubyid_tsv identifier id'>tsv</span> <span class='plus op'>+</span> <span class='string val'>&quot;\n&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+  <span class='lbrack token'>[</span><span class='rubyid_status identifier id'>status</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>&quot;Content-Type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;text/tab-separated-values&quot;</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_tsv identifier id'>tsv</span><span class='dot token'>.</span><span class='rubyid_stream identifier id'>stream</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -982,9 +982,9 @@ usefuly for filenaming on exports.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:36 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:46:59 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

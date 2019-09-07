@@ -12,6 +12,10 @@ string (max length: 8192)	display_string
 
 array (JSONModel(:file_version) object)	file_versions
 
+string	slug
+
+boolean	is_slug_auto
+
 object	parent
 
 object	digital_object

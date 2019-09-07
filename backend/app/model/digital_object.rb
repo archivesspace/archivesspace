@@ -5,6 +5,7 @@ class DigitalObject < Sequel::Model(:digital_object)
   include AutoGenerator
   include Subjects
   include Extents
+  include LangMaterials
   include Dates
   include ExternalDocuments
   include Agents
@@ -37,7 +38,7 @@ class DigitalObject < Sequel::Model(:digital_object)
 
   auto_generate :property => :slug,
                 :generator => proc { |json|
-                  if AppConfig[:use_human_readable_URLs]
+                  if AppConfig[:use_human_readable_urls]
                     if json["is_slug_auto"]
                       AppConfig[:auto_generate_slugs_with_id] ? 
                         SlugHelpers.id_based_slug_for(json, DigitalObject) : 

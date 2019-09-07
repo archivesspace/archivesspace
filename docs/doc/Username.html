@@ -6,7 +6,7 @@
 <title>
   Class: Username
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -179,7 +179,7 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
   <span class='rubyid_s identifier id'>s</span> <span class='assign token'>=</span> <span class='rubyid_s identifier id'>s</span><span class='dot token'>.</span><span class='rubyid_downcase identifier id'>downcase</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_s identifier id'>s</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\A[a-zA-Z0-9\-_. ]+\z/</span> <span class='orop op'>||</span> <span class='rubyid_s identifier id'>s</span> <span class='match op'>=~</span> <span class='regexp val'>/  +/</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_s identifier id'>s</span> <span class='nmatch op'>!~</span> <span class='regexp val'>/\A[a-zA-Z0-9\-_. @]+\z/</span> <span class='orop op'>||</span> <span class='rubyid_s identifier id'>s</span> <span class='match op'>=~</span> <span class='regexp val'>/  +/</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_InvalidUsernameException constant id'>InvalidUsernameException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -196,9 +196,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:44 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:08 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

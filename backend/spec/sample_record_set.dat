@@ -29,7 +29,7 @@
                 "number": "123", 
                 "portion": "whole"
             }
-        ], 
+        ],
         "external_documents": [
             {
                 "jsonmodel_type": "external_document", 
@@ -117,13 +117,24 @@
                 "publish": true, 
                 "title": "A test external document"
             }
-        ], 
-        "external_ids": [], 
-        "id_0": "res001", 
-        "instances": [], 
-        "jsonmodel_type": "resource", 
-        "language": "eng", 
-        "level": "class", 
+        ],
+        "external_ids": [],
+        "finding_aid_language": "eng",
+        "finding_aid_script": "Latn",
+        "id_0": "res001",
+        "instances": [],
+        "jsonmodel_type": "resource",
+        "lang_materials": [
+            {
+                "jsonmodel_type": "lang_material",
+                "language_and_script": {
+                    "language": "eng",
+                    "script": "Latn",
+                    "jsonmodel_type": "language_and_script"
+                    }
+            }
+        ],
+        "level": "class",
         "linked_agents": [
             {
                 "ref": "/agents/software/1", 
@@ -136,318 +147,318 @@
             {
                 "content": [
                     "a test note"
-                ], 
-                "internal": false, 
-                "jsonmodel_type": "note_singlepart", 
-                "label": "test", 
-                "publish": true, 
+                ],
+                "internal": false,
+                "jsonmodel_type": "note_singlepart",
+                "label": "test",
+                "publish": true,
                 "type": "abstract"
             }
-        ], 
-        "publish": false, 
+        ],
+        "publish": false,
         "related_accessions": [
             {
                 "ref": "/repositories/{{repo_id}}/accessions/1"
             }
-        ], 
+        ],
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
-        "restrictions": false, 
-        "rights_statements": [], 
+        },
+        "restrictions": false,
+        "rights_statements": [],
         "subjects": [
             {
                 "ref": "/subjects/1"
             }
-        ], 
-        "title": "A test resource", 
+        ],
+        "title": "A test resource",
         "tree": {
             "ref": "/repositories/{{repo_id}}/resources/1/tree"
-        }, 
-        "uri": "/repositories/{{repo_id}}/resources/1", 
+        },
+        "uri": "/repositories/{{repo_id}}/resources/1",
         "user_defined": {
-            "boolean_1": true, 
-            "boolean_2": false, 
-            "integer_1": "123", 
-            "jsonmodel_type": "user_defined", 
+            "boolean_1": true,
+            "boolean_2": false,
+            "integer_1": "123",
+            "jsonmodel_type": "user_defined",
             "repository": {
                 "ref": "/repositories/{{repo_id}}"
             }
         }
-    }, 
+    },
     {
-        "event_type": "accession", 
-        "external_ids": [], 
-        "jsonmodel_type": "event", 
+        "event_type": "accession",
+        "external_ids": [],
+        "jsonmodel_type": "event",
         "linked_agents": [
             {
-                "ref": "/agents/software/1", 
+                "ref": "/agents/software/1",
                 "role": "authorizer"
             }
-        ], 
+        ],
         "linked_records": [
             {
-                "ref": "/repositories/{{repo_id}}/accessions/1", 
+                "ref": "/repositories/{{repo_id}}/accessions/1",
                 "role": "outcome"
             }
-        ], 
-        "outcome": "pass", 
+        ],
+        "outcome": "pass",
         "outcome_note": "test event 1",
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
-        "suppressed": false, 
-        "timestamp": "2000-01-01T00:00:00Z", 
+        },
+        "suppressed": false,
+        "timestamp": "2000-01-01T00:00:00Z",
         "uri": "/repositories/{{repo_id}}/events/4"
-    }, 
+    },
     {
-        "event_type": "agreement_received", 
-        "external_ids": [], 
-        "jsonmodel_type": "event", 
+        "event_type": "agreement_received",
+        "external_ids": [],
+        "jsonmodel_type": "event",
         "linked_agents": [
             {
-                "ref": "/agents/software/1", 
+                "ref": "/agents/software/1",
                 "role": "transmitter"
             }
-        ], 
+        ],
         "linked_records": [
             {
-                "ref": "/repositories/{{repo_id}}/resources/1", 
+                "ref": "/repositories/{{repo_id}}/resources/1",
                 "role": "source"
             }
-        ], 
-        "outcome": "partial pass", 
-        "outcome_note": "test event 2", 
+        ],
+        "outcome": "partial pass",
+        "outcome_note": "test event 2",
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
-        "suppressed": false, 
-        "timestamp": "2001-02-02T00:00:00Z", 
+        },
+        "suppressed": false,
+        "timestamp": "2001-02-02T00:00:00Z",
         "uri": "/repositories/{{repo_id}}/events/5"
-    }, 
+    },
     {
-        "dates": [], 
-        "extents": [], 
-        "external_documents": [], 
-        "external_ids": [], 
-        "instances": [], 
-        "internal_only": false, 
-        "jsonmodel_type": "archival_object", 
-        "label": "test archival object 1", 
-        "level": "file", 
-        "linked_agents": [], 
-        "notes": [], 
-        "publish": true, 
-        "ref_id": "b7148c25fb96b7355a68303572320413", 
+        "dates": [],
+        "extents": [],
+        "external_documents": [],
+        "external_ids": [],
+        "instances": [],
+        "internal_only": false,
+        "jsonmodel_type": "archival_object",
+        "label": "test archival object 1",
+        "level": "file",
+        "linked_agents": [],
+        "notes": [],
+        "publish": true,
+        "ref_id": "b7148c25fb96b7355a68303572320413",
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
+        },
         "resource": {
             "ref": "/repositories/{{repo_id}}/resources/1"
-        }, 
-        "rights_statements": [], 
-        "subjects": [], 
-        "title": "test archival object 1", 
+        },
+        "rights_statements": [],
+        "subjects": [],
+        "title": "test archival object 1",
         "uri": "/repositories/{{repo_id}}/archival_objects/1"
-    }, 
+    },
     {
-        "dates": [], 
-        "extents": [], 
-        "external_documents": [], 
-        "external_ids": [], 
-        "instances": [], 
-        "internal_only": false, 
-        "jsonmodel_type": "archival_object", 
-        "label": "test archival object 2", 
-        "level": "file", 
-        "linked_agents": [], 
-        "notes": [], 
-        "publish": true, 
-        "ref_id": "aa99bb1229b122f94f0c4b482d7df783", 
+        "dates": [],
+        "extents": [],
+        "external_documents": [],
+        "external_ids": [],
+        "instances": [],
+        "internal_only": false,
+        "jsonmodel_type": "archival_object",
+        "label": "test archival object 2",
+        "level": "file",
+        "linked_agents": [],
+        "notes": [],
+        "publish": true,
+        "ref_id": "aa99bb1229b122f94f0c4b482d7df783",
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
+        },
         "resource": {
             "ref": "/repositories/{{repo_id}}/resources/1"
-        }, 
-        "rights_statements": [], 
-        "subjects": [], 
-        "title": "test archival object 2", 
+        },
+        "rights_statements": [],
+        "subjects": [],
+        "title": "test archival object 2",
         "uri": "/repositories/{{repo_id}}/archival_objects/2"
-    }, 
+    },
     {
-        "dates": [], 
-        "extents": [], 
-        "external_documents": [], 
-        "external_ids": [], 
-        "instances": [], 
-        "internal_only": false, 
-        "jsonmodel_type": "archival_object", 
-        "label": "test archival object 1.5", 
-        "level": "series", 
-        "linked_agents": [], 
-        "notes": [], 
+        "dates": [],
+        "extents": [],
+        "external_documents": [],
+        "external_ids": [],
+        "instances": [],
+        "internal_only": false,
+        "jsonmodel_type": "archival_object",
+        "label": "test archival object 1.5",
+        "level": "series",
+        "linked_agents": [],
+        "notes": [],
         "parent": {
             "ref": "/repositories/{{repo_id}}/archival_objects/1"
-        }, 
-        "publish": true, 
-        "ref_id": "2f2bf77283de1dbffa17969bb0af71a8", 
+        },
+        "publish": true,
+        "ref_id": "2f2bf77283de1dbffa17969bb0af71a8",
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
+        },
         "resource": {
             "ref": "/repositories/{{repo_id}}/resources/1"
-        }, 
-        "rights_statements": [], 
-        "subjects": [], 
-        "title": "test archival object 1.5", 
+        },
+        "rights_statements": [],
+        "subjects": [],
+        "title": "test archival object 1.5",
         "uri": "/repositories/{{repo_id}}/archival_objects/3"
-    }, 
+    },
     {
-        "authority_id": "abc", 
-        "external_documents": [], 
-        "external_ids": [], 
-        "jsonmodel_type": "subject", 
-        "source": "local", 
+        "authority_id": "abc",
+        "external_documents": [],
+        "external_ids": [],
+        "jsonmodel_type": "subject",
+        "source": "local",
         "terms": [
             {
-                "jsonmodel_type": "term", 
-                "term": "a", 
-                "term_type": "cultural_context", 
-                "uri": "/terms/1", 
+                "jsonmodel_type": "term",
+                "term": "a",
+                "term_type": "cultural_context",
+                "uri": "/terms/1",
                 "vocabulary": "/vocabularies/1"
-            }, 
+            },
             {
-                "jsonmodel_type": "term", 
-                "term": "test", 
-                "term_type": "cultural_context", 
-                "uri": "/terms/2", 
+                "jsonmodel_type": "term",
+                "term": "test",
+                "term_type": "cultural_context",
+                "uri": "/terms/2",
                 "vocabulary": "/vocabularies/1"
-            }, 
+            },
             {
-                "jsonmodel_type": "term", 
-                "term": "subject", 
-                "term_type": "cultural_context", 
-                "uri": "/terms/3", 
+                "jsonmodel_type": "term",
+                "term": "subject",
+                "term_type": "cultural_context",
+                "uri": "/terms/3",
                 "vocabulary": "/vocabularies/1"
             }
-        ], 
-        "title": "a -- test -- subject", 
-        "uri": "/subjects/1", 
+        ],
+        "title": "a -- test -- subject",
+        "uri": "/subjects/1",
         "vocabulary": "/vocabularies/1"
-    }, 
+    },
     {
         "dates": [
             {
-                "begin": "2013-05-01", 
-                "date_type": "single", 
-                "jsonmodel_type": "date", 
+                "begin": "2013-05-01",
+                "date_type": "single",
+                "jsonmodel_type": "date",
                 "label": "agent_relation"
             }
-        ], 
-        "digital_object_id": "digobj1", 
-        "digital_object_type": "cartographic", 
+        ],
+        "digital_object_id": "digobj1",
+        "digital_object_type": "cartographic",
         "extents": [
             {
-                "extent_type": "cassettes", 
-                "jsonmodel_type": "extent", 
-                "number": "123", 
+                "extent_type": "cassettes",
+                "jsonmodel_type": "extent",
+                "number": "123",
                 "portion": "whole"
             }
-        ], 
-        "external_documents": [], 
-        "external_ids": [], 
+        ],
+        "external_documents": [],
+        "external_ids": [],
         "file_versions": [
             {
-                "file_uri": "http://www.archivesspace.org/", 
-                "jsonmodel_type": "file_version", 
+                "file_uri": "http://www.archivesspace.org/",
+                "jsonmodel_type": "file_version",
                 "publish": true
             }
-        ], 
-        "jsonmodel_type": "digital_object", 
-        "linked_agents": [], 
-        "linked_instances": [], 
-        "notes": [], 
-        "publish": true, 
+        ],
+        "jsonmodel_type": "digital_object",
+        "linked_agents": [],
+        "linked_instances": [],
+        "notes": [],
+        "publish": true,
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
-        "restrictions": false, 
-        "rights_statements": [], 
-        "subjects": [], 
-        "title": "A test digital object", 
+        },
+        "restrictions": false,
+        "rights_statements": [],
+        "subjects": [],
+        "title": "A test digital object",
         "tree": {
             "ref": "/repositories/{{repo_id}}/digital_objects/1/tree"
-        }, 
+        },
         "uri": "/repositories/{{repo_id}}/digital_objects/1"
-    }, 
+    },
     {
-        "component_id": "abc", 
-        "dates": [], 
+        "component_id": "abc",
+        "dates": [],
         "digital_object": {
             "ref": "/repositories/{{repo_id}}/digital_objects/1"
-        }, 
-        "extents": [], 
-        "external_documents": [], 
-        "external_ids": [], 
-        "file_versions": [], 
-        "jsonmodel_type": "digital_object_component", 
-        "linked_agents": [], 
-        "notes": [], 
-        "publish": true, 
+        },
+        "extents": [],
+        "external_documents": [],
+        "external_ids": [],
+        "file_versions": [],
+        "jsonmodel_type": "digital_object_component",
+        "linked_agents": [],
+        "notes": [],
+        "publish": true,
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
-        "rights_statements": [], 
-        "subjects": [], 
-        "title": "digital object child 1", 
+        },
+        "rights_statements": [],
+        "subjects": [],
+        "title": "digital object child 1",
         "uri": "/repositories/{{repo_id}}/digital_object_components/1"
-    }, 
+    },
     {
-        "component_id": "def", 
-        "dates": [], 
+        "component_id": "def",
+        "dates": [],
         "digital_object": {
             "ref": "/repositories/{{repo_id}}/digital_objects/1"
-        }, 
-        "extents": [], 
-        "external_documents": [], 
-        "external_ids": [], 
-        "file_versions": [], 
-        "jsonmodel_type": "digital_object_component", 
-        "linked_agents": [], 
-        "notes": [], 
-        "publish": true, 
+        },
+        "extents": [],
+        "external_documents": [],
+        "external_ids": [],
+        "file_versions": [],
+        "jsonmodel_type": "digital_object_component",
+        "linked_agents": [],
+        "notes": [],
+        "publish": true,
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
-        "rights_statements": [], 
-        "subjects": [], 
-        "title": "digital object child 2", 
+        },
+        "rights_statements": [],
+        "subjects": [],
+        "title": "digital object child 2",
         "uri": "/repositories/{{repo_id}}/digital_object_components/2"
-    }, 
+    },
     {
-        "component_id": "xyz", 
-        "dates": [], 
+        "component_id": "xyz",
+        "dates": [],
         "digital_object": {
             "ref": "/repositories/{{repo_id}}/digital_objects/1"
-        }, 
-        "extents": [], 
-        "external_documents": [], 
-        "external_ids": [], 
-        "file_versions": [], 
-        "jsonmodel_type": "digital_object_component", 
-        "linked_agents": [], 
-        "notes": [], 
+        },
+        "extents": [],
+        "external_documents": [],
+        "external_ids": [],
+        "file_versions": [],
+        "jsonmodel_type": "digital_object_component",
+        "linked_agents": [],
+        "notes": [],
         "parent": {
             "ref": "/repositories/{{repo_id}}/digital_object_components/1"
-        }, 
-        "publish": true, 
+        },
+        "publish": true,
         "repository": {
             "ref": "/repositories/{{repo_id}}"
-        }, 
-        "rights_statements": [], 
-        "subjects": [], 
-        "title": "digital object child 1.5", 
+        },
+        "rights_statements": [],
+        "subjects": [],
+        "title": "digital object child 1.5",
         "uri": "/repositories/{{repo_id}}/digital_object_components/3"
     }
 ]

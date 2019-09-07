@@ -6,7 +6,7 @@
 <title>
   Class: LargeTree
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -106,16 +106,22 @@
 
 
 
-  <h2>Constant Summary</h2>
-  <dl class="constants">
-    
-      <dt id="WAYPOINT_SIZE-constant" class="">WAYPOINT_SIZE =
-        
-      </dt>
-      <dd><pre class="code"><span class='integer val'>200</span>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="WAYPOINT_SIZE-constant" class="">WAYPOINT_SIZE =
+          
+        </dt>
+        <dd><pre class="code"><span class='integer val'>200</span>
 </pre></dd>
-    
-  </dl>
+      
+    </dl>
+  
 
 
 
@@ -426,9 +432,6 @@
       <pre class="lines">
 
 
-105
-106
-107
 108
 109
 110
@@ -456,10 +459,13 @@
 132
 133
 134
-135</pre>
+135
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 108</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node identifier id'>node</span><span class='lparen token'>(</span><span class='rubyid_node_record identifier id'>node_record</span><span class='rparen token'>)</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
@@ -513,9 +519,6 @@
       <pre class="lines">
 
 
-137
-138
-139
 140
 141
 142
@@ -601,10 +604,13 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 140</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node_from_root identifier id'>node_from_root</span><span class='lparen token'>(</span><span class='rubyid_node_ids identifier id'>node_ids</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
   <span class='rubyid_child_to_parent_map identifier id'>child_to_parent_map</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -777,7 +783,10 @@
 100
 101
 102
-103</pre>
+103
+104
+105
+106</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 83</span>
@@ -790,8 +799,11 @@
                   <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_published_filter identifier id'>published_filter</span><span class='rparen token'>)</span>
                   <span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
 
+
+    <span class='comment val'># ANW-617: generate a slugged URL for inclusion in the JSON for the root node that&#39;s being returned to the LargeTree JS so it can be used in place of the URIs if needed.</span>
     <span class='rubyid_response identifier id'>response</span> <span class='assign token'>=</span> <span class='rubyid_waypoint_response identifier id'>waypoint_response</span><span class='lparen token'>(</span><span class='rubyid_child_count identifier id'>child_count</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>&quot;title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@root_record ivar id'>@root_record</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span>
                                                     <span class='string val'>&quot;uri&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@root_record ivar id'>@root_record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span>
+                                                    <span class='string val'>&quot;slugged_url&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_get_slugged_url_for_largetree identifier id'>get_slugged_url_for_largetree</span><span class='lparen token'>(</span><span class='rubyid_@root_record ivar id'>@root_record</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='rubyid_@root_record ivar id'>@root_record</span><span class='dot token'>.</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span> <span class='rubyid_@root_record ivar id'>@root_record</span><span class='dot token'>.</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                                     <span class='string val'>&quot;jsonmodel_type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@root_table ivar id'>@root_table</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span>
                                                     <span class='string val'>&quot;parsed_title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_MixedContentParser constant id'>MixedContentParser</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_@root_record ivar id'>@root_record</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
     <span class='rubyid_@decorators ivar id'>@decorators</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_decorator identifier id'>decorator</span><span class='bitor op'>|</span>
@@ -824,9 +836,6 @@
       <pre class="lines">
 
 
-228
-229
-230
 231
 232
 233
@@ -869,22 +878,31 @@
 270
 271
 272
-273</pre>
+273
+274
+275
+276
+277
+278
+279
+280</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 228</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree.rb', line 231</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_waypoint identifier id'>waypoint</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_offset identifier id'>offset</span><span class='rparen token'>)</span>
   <span class='rubyid_record_ids identifier id'>record_ids</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_records identifier id'>records</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
+
+    <span class='comment val'># ANW-617: We need to grab the slug field from the database so we can use it to generate a slugged URL later.</span>
     <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='rubyid_@node_table ivar id'>@node_table</span><span class='rbrack token'>]</span>
       <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@root_record ivar id'>@root_record</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
               <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_published_filter identifier id'>published_filter</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
-      <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span><span class='comma token'>,</span> <span class='symbol val'>:title</span><span class='comma token'>,</span> <span class='symbol val'>:position</span><span class='rparen token'>)</span>
+      <span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lparen token'>(</span><span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span><span class='comma token'>,</span> <span class='symbol val'>:title</span><span class='comma token'>,</span> <span class='symbol val'>:position</span><span class='comma token'>,</span> <span class='symbol val'>:slug</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_offset identifier id'>offset</span><span class='lparen token'>(</span><span class='rubyid_offset identifier id'>offset</span> <span class='mult op'>*</span> <span class='rubyid_WAYPOINT_SIZE constant id'>WAYPOINT_SIZE</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_limit identifier id'>limit</span><span class='lparen token'>(</span><span class='rubyid_WAYPOINT_SIZE constant id'>WAYPOINT_SIZE</span><span class='rparen token'>)</span>
       <span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
@@ -904,7 +922,9 @@
       <span class='rubyid_row identifier id'>row</span> <span class='assign token'>=</span> <span class='rubyid_records identifier id'>records</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
       <span class='rubyid_child_count identifier id'>child_count</span> <span class='assign token'>=</span> <span class='rubyid_child_counts identifier id'>child_counts</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
 
+      <span class='comment val'># ANW-617: generate a slugged URL for inclusion in the JSON for the standard node that&#39;s being returned to the LargeTree JS so it can be used in place of the URIs if needed.</span>
       <span class='rubyid_waypoint_response identifier id'>waypoint_response</span><span class='lparen token'>(</span><span class='rubyid_child_count identifier id'>child_count</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>&quot;title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:title</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                                           <span class='string val'>&quot;slugged_url&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_get_slugged_url_for_largetree identifier id'>get_slugged_url_for_largetree</span><span class='lparen token'>(</span><span class='rubyid_@node_type ivar id'>@node_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                            <span class='string val'>&quot;parsed_title&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_MixedContentParser constant id'>MixedContentParser</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:title</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                            <span class='string val'>&quot;uri&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_@node_type ivar id'>@node_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                            <span class='string val'>&quot;position&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_offset identifier id'>offset</span> <span class='mult op'>*</span> <span class='rubyid_WAYPOINT_SIZE constant id'>WAYPOINT_SIZE</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='rubyid_idx identifier id'>idx</span><span class='comma token'>,</span>
@@ -931,9 +951,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:46 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:10 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

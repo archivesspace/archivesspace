@@ -1,6 +1,5 @@
 language: java
 jdk:
-- openjdk7
 - openjdk8
 - oraclejdk8
 matrix:
@@ -11,13 +10,8 @@ env:
   - SCREENSHOT_ON_ERROR=1
   - SELENIUM_CHROME=true
   matrix:
-  - DB=mysql TASK=travis:test
-  # - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=1"
-  # - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=2"
-  # - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=3"
-  # - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=4"
-  # - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=5"
-  # - DB=mysql TASK=travis:selenium:staff TASK_OPTS="-Dcores=6 -Dgroups=6"
+  - DB=mysql TASK=travis:other:test
+  - DB=mysql TASK=travis:rails:test
   - TASK=dist
 before_install:
 - cat /etc/hosts # Fix buffer overflow in getLocalHostName of OpenJDK 6/7 by shortening the host name
@@ -51,7 +45,11 @@ script:
 notifications:
   email: false
 bundler_args: --retry 5
+dist: trusty
 addons:
+  apt:
+    packages:
+    - libgconf-2-4
   chrome: stable
   artifacts:
     debug: true

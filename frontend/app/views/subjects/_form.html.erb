@@ -14,7 +14,7 @@
       <%= form.label_and_select "source", form.possible_options_for("source", true) %>
       <%= form.label_and_textarea "scope_note" %>
 
-      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @subject} if AppConfig[:use_human_readable_URLs] %>
+      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @subject} if AppConfig[:use_human_readable_urls] %>
 
     </section>
   <% end %>

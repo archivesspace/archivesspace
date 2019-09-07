@@ -281,6 +281,7 @@ AjaxTree.prototype.add_new_after = function(node, level) {
 
     var target_position = 0;
     var parent_id = null;
+    var position = null;
 
     var root_node = $('#'+this.tree.large_tree.root_tree_id);
     var root_uri_parts = TreeIds.uri_to_parts(root_node.data('uri'));
@@ -311,12 +312,13 @@ AjaxTree.prototype.add_new_after = function(node, level) {
             }
         }
     } else {
-        /* We're adding a new sibling to the end of the current level */
-        var endmarker = node.nextAll('.end-marker.indent-level-'+level+':last');
-        endmarker.after($new_tr);
+        /* We're adding a new sibling after selected node */
+        tree.large_tree.collapseNode(node);
+        node.after($new_tr);
         $new_tr.find('.record-title')[0].focus();
 
         parent_id = node.data('parent_id');
+        position = node.data('position') + 1;
     }
 
     var params = {
@@ -327,6 +329,10 @@ AjaxTree.prototype.add_new_after = function(node, level) {
 
     if (parent_id) {
         params[node_uri_parts.type + '_id'] = parent_id;
+    }
+
+    if (position) {
+        params['position'] = position;
     }
 
     var url = AS.app_prefix(self._new_node_form_url_for(node.data('jsonmodel_type')));
@@ -410,7 +416,7 @@ AjaxTree.prototype.confirmChanges = function(target_tree_id) {
 
     $("#dismissChangesButton", "#saveYourChangesModal").on("click", function() {
         $form.data("form_changed", false);
-        
+
         $("#saveYourChangesModal").modal("hide");
         var tree_id = self.tree_id_from_hash();
         var uri = $('#' + tree_id).data('uri');
@@ -455,7 +461,7 @@ AjaxTree.prototype.blockout_form = function() {
     }
     var $blockout = $('<div>').addClass('blockout');
     $blockout.height(self.$pane.height());
-    // add 30 to take into account for outer margin :/ 
+    // add 30 to take into account for outer margin :/
     $blockout.width(self.$pane.width() + 30);
     $blockout.css('left', '-15px');
     self.$pane.prepend($blockout);

@@ -6,7 +6,7 @@
 <title>
   Class: ArchivesSpaceDynamicEnumAttribute
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -182,7 +182,10 @@
 149
 150
 151
-152</pre>
+152
+153
+154
+155</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/archivesspace_json_schema.rb', line 136</span>
@@ -195,7 +198,10 @@
     <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='dstring node'>&quot;The property &#39;#{build_fragment(fragments)}&#39; value #{data.inspect} &quot;</span> <span class='plus op'>+</span>
                <span class='dstring node'>&quot;did not match one of the following configurable values: #{possible_values.join(&#39;, &#39;)}&quot;</span><span class='rparen token'>)</span>
    
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_editable? fid id'>editable?</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
+    <span class='comment val'># 11/26/18: added this check because many Selenium tests were failing here with a NoMethodError</span>
+    <span class='rubyid_enum_source identifier id'>enum_source</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_init_args identifier id'>init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_enum_source identifier id'>enum_source</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:editable?</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> 
+       <span class='rubyid_enum_source identifier id'>enum_source</span><span class='dot token'>.</span><span class='rubyid_editable? fid id'>editable?</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
       <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_klass identifier id'>klass</span> <span class='assign token'>=</span> <span class='rubyid_ArchivesSpaceReadOnlyDynamicEnumAttribute constant id'>ArchivesSpaceReadOnlyDynamicEnumAttribute</span>
@@ -215,9 +221,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:03:00 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:26 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

@@ -6,7 +6,7 @@
 <title>
   File: domains
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -107,10 +107,27 @@ practice. Separate documentation is available if you wish to <a href="prefix.md"
 
 <p>The purpose of ProxyPass is to route <em>incoming</em> traffic on the public URL (public.myarchive.org) to port 8081 of your server, where ArchivesSpace’s public interface sits. The purpose of ProxyPassReverse is to intercept <em>outgoing</em> traffic and rewrite the header to match the URL that the browser is expecting to see (public.myarchive.org).</p>
 
-<h3 id="nginx">Nginx</h3>
-<blockquote>
-  <p>FIXME Need nginx documentation</p>
-</blockquote>
+<h3 id="nginx">nginx</h3>
+
+<p>Using nginx as a reverse proxy needs a configuration file like so:</p>
+
+<pre class="code ruby"><code class="ruby">  <span class='rubyid_server identifier id'>server</span> <span class='lbrace token'>{</span>
+  <span class='rubyid_listen identifier id'>listen</span> <span class='integer val'>80</span><span class='semicolon token'>;</span>
+  <span class='rubyid_listen identifier id'>listen</span> <span class='lbrack token'>[</span><span class='colon3 op'>::</span><span class='rbrack token'>]</span><span class='symbol val'>:80</span><span class='semicolon token'>;</span>
+  <span class='rubyid_server_name identifier id'>server_name</span> <span class='rubyid_staff identifier id'>staff</span><span class='dot token'>.</span><span class='rubyid_myarchive identifier id'>myarchive</span><span class='dot token'>.</span><span class='rubyid_org identifier id'>org</span><span class='semicolon token'>;</span>
+  <span class='rubyid_location identifier id'>location</span> <span class='div op'>/</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_proxy_pass identifier id'>proxy_pass</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8080/</span><span class='semicolon token'>;</span>
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+        <span class='rubyid_server identifier id'>server</span> <span class='lbrace token'>{</span>
+  <span class='rubyid_listen identifier id'>listen</span> <span class='integer val'>80</span><span class='semicolon token'>;</span>
+  <span class='rubyid_listen identifier id'>listen</span> <span class='lbrack token'>[</span><span class='colon3 op'>::</span><span class='rbrack token'>]</span><span class='symbol val'>:80</span><span class='semicolon token'>;</span>
+  <span class='rubyid_server_name identifier id'>server_name</span> <span class='rubyid_public identifier id'>public</span><span class='dot token'>.</span><span class='rubyid_myarchive identifier id'>myarchive</span><span class='dot token'>.</span><span class='rubyid_org identifier id'>org</span><span class='semicolon token'>;</span>
+  <span class='rubyid_location identifier id'>location</span> <span class='div op'>/</span> <span class='lbrace token'>{</span>
+      <span class='rubyid_proxy_pass identifier id'>proxy_pass</span> <span class='label val'>http:</span><span class='div op'>/</span><span class='regexp val'>/localhost:8081/</span><span class='semicolon token'>;</span>
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+</code></pre>
 
 <h2 id="step-3-configuring-archivesspace">Step 3: Configuring ArchivesSpace</h2>
 
@@ -126,9 +143,9 @@ practice. Separate documentation is available if you wish to <a href="prefix.md"
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:35 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:46:58 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

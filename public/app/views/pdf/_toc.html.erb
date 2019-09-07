@@ -13,11 +13,15 @@
             <% next if ['physdesc'].include?(note_type) %>
             <li class="level-1">
                 <a href="#note-<%= note_type %>">
-                    <% if note['label'] %>
-                        <%= note['label'] %>
+                  <% labels = [] %>
+                  <% note.each do |n| %>
+                    <% if n['label'] %>
+                        <% labels << n['label'] %>
                     <% else %>
-                        <%= I18n.t("enumerations._note_types.#{note_type}") %>
+                        <% labels <<  I18n.t("enumerations._note_types.#{note_type}") %>
                     <% end %>
+                  <% end %>
+                  <%== process_mixed_content(labels.uniq.join(", ")) %>
                 </a>
             </li>
         <% end %>

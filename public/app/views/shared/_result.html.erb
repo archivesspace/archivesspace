@@ -17,6 +17,9 @@
           end
 	  if !note_struct['note_text'].blank? %>
           <div class="abstract single_note"><span class='inline-label'><%= note_struct['label'] %></span>
+            <% unless note_struct['is_inherited'].blank? %>
+              <%= inheritance(note_struct['is_inherited']).html_safe %>
+            <% end %>
            <% if note_struct['note_text'].length > AppConfig[:abstract_note_length] %>
              <% truncated_note = note_struct['note_text'][0..AppConfig[:abstract_note_length]-1] %>
              <% end_index = truncated_note.rindex(' ') || AppConfig[:abstract_note_length]-1 %>
@@ -37,6 +40,18 @@
             r_name = result['_resolved_repository']['json']['name'] || ''
 	  end
        %>
+    <% end %>
+
+    <% if result['json'].has_key?('dates') || result['json'].has_key?('dates_of_existence') %>
+      <div class="dates">
+
+        <% dates = (result['json']['dates'] || result['json']['dates_of_existence']
+        ).collect {|date| parse_date(date)}.reject{|label, expression| expression.blank?} %>
+        <% unless dates.empty? %>
+          <strong><%= t('dates') %>: </strong>
+        <% end %>
+        <%= dates.collect {|label, expression| label.blank? ? expression : "#{label}#{expression}"}.join('; ') %>
+      </div>
     <% end %>
 
     <% if result.resolved_repository %>

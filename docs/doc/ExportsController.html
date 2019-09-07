@@ -6,7 +6,7 @@
 <title>
   Class: ExportsController
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -292,6 +292,29 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#print_to_pdf-instance_method" title="#print_to_pdf (instance method)">#<strong>print_to_pdf</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -327,7 +350,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="JsonHelper.html" title="JsonHelper (module)">JsonHelper</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="JsonHelper.html#process_json_notes-instance_method" title="JsonHelper#process_json_notes (method)">#process_json_notes</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="JsonHelper.html#merge_notes-instance_method" title="JsonHelper#merge_notes (method)">#merge_notes</a></span>, <span class='object_link'><a href="JsonHelper.html#process_json_notes-instance_method" title="JsonHelper#process_json_notes (method)">#process_json_notes</a></span></p>
 
   
   
@@ -386,17 +409,17 @@
       <pre class="lines">
 
 
-9
 10
 11
-12</pre>
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 10</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_container_labels identifier id'>container_labels</span>
-  <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
-    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resource_labels/#{params[:id]}.tsv&quot;</span><span class='rparen token'>)</span>
+ <span class='rubyid_@resource ivar id'>@resource</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
+ <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:layout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -419,13 +442,13 @@
       <pre class="lines">
 
 
-23
 24
 25
-26</pre>
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 24</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_dc identifier id'>download_dc</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
@@ -452,13 +475,13 @@
       <pre class="lines">
 
 
-59
 60
 61
-62</pre>
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_eac identifier id'>download_eac</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
@@ -485,7 +508,6 @@
       <pre class="lines">
 
 
-42
 43
 44
 45
@@ -499,10 +521,11 @@
 53
 54
 55
-56</pre>
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_ead identifier id'>download_ead</span>
 
@@ -540,19 +563,19 @@
       <pre class="lines">
 
 
-15
 16
 17
 18
 19
-20</pre>
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 16</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_marc identifier id'>download_marc</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
-    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span> 
+    <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/resources/marc21/#{params[:id]}.xml&quot;</span><span class='comma token'>,</span>
     <span class='symbol val'>:include_unpublished_marc</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:include_unpublished_marc</span><span class='rbrack token'>]</span>
     <span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -577,13 +600,13 @@
       <pre class="lines">
 
 
-36
 37
 38
-39</pre>
+39
+40</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 37</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_mets identifier id'>download_mets</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
@@ -610,17 +633,50 @@
       <pre class="lines">
 
 
-29
 30
 31
-32</pre>
+32
+33</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_mods identifier id'>download_mods</span>
   <span class='rubyid_download_export identifier id'>download_export</span><span class='lparen token'>(</span>
     <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/digital_objects/mods/#{params[:id]}.xml&quot;</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="print_to_pdf-instance_method">
+  
+    #<strong>print_to_pdf</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/exports_controller.rb', line 65</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_print_to_pdf identifier id'>print_to_pdf</span>
+  <span class='rubyid_@resource ivar id'>@resource</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_find_opts identifier id'>find_opts</span><span class='rparen token'>)</span>
+  <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:layout</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -633,9 +689,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:56 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:22 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

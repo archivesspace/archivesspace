@@ -30,7 +30,8 @@ class Search
       highlighting(params[:hl]).
       set_writer_type( params[:dt] || "json" )
 
-    query.remove_csv_header if ( params[:dt] == "csv" and params[:no_csv_header] ) 
+    query.remove_csv_header if ( params[:dt] == "csv" and params[:no_csv_header] )
+    query.limit_fields_to(params[:fields]) if params[:fields]
 
     results = Solr.search(query)
 
@@ -166,8 +167,8 @@ class Search
     end
   end
 
-  def self.search_csv( params, repo_id )  
-    # first let's get a json response with the number of pages 
+  def self.search_csv( params, repo_id )
+    # first let's get a json response with the number of pages
     p = params.dup
     p[:dt] = "json"
     result = search(p, repo_id)
@@ -175,13 +176,13 @@ class Search
     page = 2 # we start on the second page bc the first will have headers
 
     Enumerator.new do |y|
-      # we get page 1 of csv w headers 
+      # we get page 1 of csv w headers
       y << search(params, repo_id)
-      params[:no_csv_header] = true 
-      while page <= total_pages 
+      params[:no_csv_header] = true
+      while page <= total_pages
         params[:page] = page
         y << search(params, repo_id)
-        page +=1 
+        page +=1
       end
     end
   end

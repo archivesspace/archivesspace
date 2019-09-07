@@ -4,9 +4,9 @@ require 'advanced_query_builder'
 
 class TopContainersController < ApplicationController
 
-  set_access_control  "view_repository" => [:show, :typeahead, :bulk_operations_browse],
+  set_access_control  "view_repository" => [:bulk_operations_browse, :bulk_operation_search, :index, :show, :typeahead],
                       "update_container_record" => [:new, :create, :edit, :update],
-                      "manage_container_record" => [:index, :delete, :batch_delete, :bulk_operations, :bulk_operation_search, :bulk_operation_update, :update_barcodes, :update_locations]
+                      "manage_container_record" => [:delete, :batch_delete, :bulk_operations, :bulk_operation_update, :update_barcodes, :update_locations]
 
 
   def index
@@ -97,7 +97,7 @@ class TopContainersController < ApplicationController
     search_params = params_for_backend_search
 
     search_params["q"] = "display_string:#{search_params["q"]}"
-    
+
     search_params = search_params.merge(search_filter_for(params[:uri]))
     search_params = search_params.merge("sort" => "typeahead_sort_key_u_sort asc")
 
@@ -146,7 +146,7 @@ class TopContainersController < ApplicationController
     else
       render :text => "You must provide a field to update.", :status => 500
     end
-      
+
     response = JSONModel::HTTP::post_form(post_uri, post_params)
     result = ASUtils.json_parse(response.body)
 

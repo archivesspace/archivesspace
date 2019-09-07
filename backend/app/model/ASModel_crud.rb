@@ -218,6 +218,10 @@ module ASModel
 
       self.class.fire_update(json, self)
 
+      if AppConfig[:arks_enabled] && !ArkName.ark_name_exists?(id, self.class)
+        self.create_ark_name
+      end
+
       self
     end
 
@@ -231,6 +235,9 @@ module ASModel
 
       successfully_deleted_models = []
       last_error = nil
+
+      #delete ARK Name (if exists) first
+      self.delete_ark_name
 
       while true
         progressed = false
@@ -248,8 +255,12 @@ module ASModel
 
           if model.my_jsonmodel(true)
             ids_to_delete.each do |id|
-              deleted_uri = model.my_jsonmodel(true).
-                                  uri_for(id, :repo_id => model.active_repository)
+              deleted_model = model.my_jsonmodel(true)
+
+              # ArkNames don't have URIs, so they are deleted above
+              unless model == ArkName
+                deleted_uri = deleted_model.uri_for(id, :repo_id => model.active_repository)
+              end
 
               if deleted_uri
                 deleted_uris << deleted_uri
@@ -318,6 +329,25 @@ module ASModel
       @system_modified = true
     end
 
+    def create_ark_name
+      if self.class == Resource
+        ArkName.create_from_resource(self)
+      end
+
+      if self.class == ArchivalObject
+        ArkName.create_from_archival_object(self)
+      end
+    end
+
+    def delete_ark_name
+      if self.class == Resource
+        ArkName.first(:resource_id => self.id).delete unless ArkName.first(:resource_id => self.id).nil?
+      end
+
+      if self.class == ArchivalObject
+        ArkName.first(:archival_object_id => self.id).delete unless ArkName.first(:archival_object_id => self.id).nil?
+      end
+    end
 
     module ClassMethods
 
@@ -341,6 +371,7 @@ module ASModel
         fire_update(json, obj)
 
         obj.refresh
+        obj.create_ark_name if AppConfig[:arks_enabled]
         obj
       end
 
@@ -529,7 +560,7 @@ module ASModel
 
       def update_mtime_for_repo_id(repo_id)
         if model_scope == :repository
-          self.dataset.filter(:repo_id => repo_id).update(:system_mtime => Time.now)
+          self.dataset.filter(:repo_id => repo_id).update(:system_mtime => Time.now) if self.dataset.columns.include? :repo_id
         end
       end
 

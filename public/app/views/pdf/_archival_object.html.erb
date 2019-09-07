@@ -14,7 +14,7 @@ end
 
 <div class="avoid-break">
     <div class="print-record-border print-record level-<%= level %>">
-        <p><a class="record-title" id="<%= record.uri %>"><%== record.display_string %></a></p>
+        <p><a class="record-title" id="<%= record.uri %>"><%== process_mixed_content(record.display_string) %></a></p>
 
         <% Array(record.instances).each do |instance| %>
             <% if instance['sub_container'] %>
@@ -43,15 +43,19 @@ end
 
         <div class="indented">
             <% record.notes.each do |note_type, note| %>
-                <% if note_type != 'physdesc' && !note['is_inherited'] %>
-                    <h3>
-                        <% if note['label'] %>
-                            <%= note['label'] %>
+                <% if note_type != 'physdesc' %>
+                  <% note.each do |n| %>
+                    <% if !n['is_inherited'] %>
+                      <h3>
+                        <% if n['label'] %>
+                            <%== process_mixed_content(n['label']) %>
                         <% else %>
                             <%= I18n.t("enumerations._note_types.#{note_type}") %>
                         <% end %>
-                    </h3>
-                    <p><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></p>
+                      </h3>
+                      <p><%== process_mixed_content(n['note_text']) %></p>
+                    <% end %>
+                  <% end %>
                 <% end %>
             <% end %>
 
@@ -72,10 +76,22 @@ end
                     <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%= extent['display'] %></dd>
                 <% end %>
 
+                <% unless record.notes.include?('langmaterial') || record.lang_materials.blank? %>
+                  <% record.lang_materials.each do |lang_material| %>
+                    <% next if lang_material['_inherited'] %>
+                    <dt><%= I18n.t('resource._public.lang') %></dt>
+                        <dd><%= t('enumerations.language_iso639_2.' + lang_material['language'])%></dd>
+                  <% end %>
+                <% end %>
+
                 <% record.notes.each do |note_type, note| %>
-                    <% if note_type == 'physdesc' && !note['is_inherited'] %>
-                        <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%== note['note_text'].gsub(/&(?!amp;)/,'&amp;') %></dd>
+                  <% if note_type == 'physdesc' %>
+                    <% note.each do |n| %>
+                      <% if !n['is_inherited'] %>
+                        <dt><%= I18n.t('resource._public.physdesc') %></dt><dd><%== process_mixed_content(n['note_text']) %></dd>
+                      <% end %>
                     <% end %>
+                  <% end %>
                 <% end %>
 
                 <%= render(:partial => 'digital_object_links', :locals => {

@@ -40,12 +40,29 @@ en:
     _singular: User Defined
     _plural: User Defined
 
+  slug: &slug_attributes
+    slug: Slug
+    slug_tooltip: |
+        <p>When using human-readable URLs, the last part of the public URL for this record in the ArchivesSpace public interface. The slug can be manually added or updated, or generated automatically based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+    public_url: Public URL
+    public_url_tooltip: |
+        <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
+        <p>Whether human-readable URLs are being used or not, the original URI for this record always remains valid.</p>
+    is_slug_auto: Automatically Generate Slug?
+    is_slug_auto_tooltip: |
+        <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+    autogen_disabled: "A slug cannot be automatically generated from the provided data based on the current configuration settings"
+    autogen_repo_slug: "Since a slug was not manually entered the repository slug was automatically generated using the repository short name"
+
   content_items:
     content: Content
     content_tooltip: |
         <p>The content of the note.</p>
 
   section_tooltips: &section_tooltips
+    lang_materials_tooltip: |
+        <p>The languages and scripts represented in the material(s) described.</p>
+        <p>See DACS 4.5</p>
     dates_tooltip: |
         <p>Identifies and records the date(s) that pertain to the creation, assembly, accumulation, and/or maintenance and use of the materials being described.</p>
         <p>See DACS 2.4</p>
@@ -75,6 +92,7 @@ en:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     title: Title
@@ -103,8 +121,6 @@ en:
     digital_object_type: Digital Object Type
     digital_object_type_tooltip: |
         <p>A generic term indicating the basic content type of the digital object. The default options correspond to the MODS &lt;typeOfResource&gt; element.</p>
-    language: Language
-    language_tooltip: <p>The language for the digital content.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
         <p>A check box for indicating that restrictions apply. The restrictions can be explained using Note subrecords or Rights subrecords.</p>
@@ -115,6 +131,7 @@ en:
 
   digital_object_component:
     <<: *digital_object_attributes
+    <<: *slug_attributes
     label: Label
     label_tooltip: |
         <p>A term used to describe the part and its position within the Digital Object being described. More often used for the component parts of the Digital Object than the top-level Digital Object record.</p>
@@ -700,6 +717,7 @@ en:
     note_index: Index
     note_bibliography: Bibliography
     note_digital_object: Digital Object Note
+    note_langmaterial: Language of Materials Note
     note_bioghist: "Biography/Historical Note"
     note_citation: Citation
     note_abstract: Abstract
@@ -740,6 +758,9 @@ en:
     sub_notes_singular: Sub Note
 
   note_digital_object:
+    <<: *note_attributes
+
+  note_langmaterial:
     <<: *note_attributes
 
   note_rights_statement:
@@ -932,6 +953,23 @@ en:
     _plural: Extents
     _singular: Extent
 
+  lang_material: &lang_material_attributes
+    _plural: Languages
+    _singular: Language
+
+  language_and_script:
+    <<: *lang_material_attributes
+    language: Language
+    language_tooltip: &language_language_tooltip |
+        <p>REQUIRED FIELD: The language term and code represented in the material(s) described. Codes drawn from ISO 639-2b: Codes for the Representation of Names of Languages.</p>
+    script: Script
+    script_tooltip: &language_script_tooltip |
+        <p>The script term and code represented in the material(s) described. Codes drawn from ISO 15924: Codes for the representation of names of scripts.</p>
+        <p>See DACS 4.5</p>
+
+  language_note:
+    <<: *lang_material_attributes
+
   external_document: &external_document_attributes
     title: Title
     title_tooltip: |
@@ -1116,6 +1154,7 @@ en:
 
   accession:
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     accession_date: Accession Date
@@ -1269,6 +1308,7 @@ en:
 
 
   agent: &agent_attributes
+    <<: *slug_attributes
     type: Agent Type
     type_tooltip: |
         <p>The type of entity represented by the Agent record.</p>
@@ -1301,21 +1341,25 @@ en:
 
   agent_person:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Person
     _plural: People
 
   agent_family:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Family
     _plural: Families
 
   agent_software:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Software
     _plural: Software
 
   agent_corporate_entity:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Corporate Entity
     _plural: Corporate Entities
 
@@ -1330,6 +1374,7 @@ en:
 
   archival_object: &archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     title: Title
     title_tooltip: |
         <p>CONDITIONALLY REQUIRED FIELD: The title assigned to the materials described. An Archival Object must have either a Title or a Date subrecord.</p>
@@ -1351,6 +1396,7 @@ en:
     dates_tooltip: |
         <p>CONDITIONALLY REQUIRED SUBRECORD. An Archival Object must have either a Title or a Date subrecord.</p>
     extents: Extents
+    lang_materials: Languages
     ref_id_auto_generation_message: "-- auto-generated upon save --"
     component_id: Component Unique Identifier
     component_id_tooltip: |
@@ -1390,10 +1436,6 @@ en:
     repository_processing_note_tooltip: |
          <p>An application-specific field for recording information about processing of the materials. This note is not included in any exports or reports, and is not populated by imports.</p>
     automate_title: Automatically generate title
-    language: Language
-    language_tooltip: |
-        <p>The language term and code represented in the material(s) described.</p>
-        <p>See DACS 4.5</p>
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: Has Unpublished Ancestor?
     _singular: Archival Object
@@ -1420,6 +1462,7 @@ en:
       update_location_record: create/modify/delete location records in this repository
       update_subject_record: create/update subject records
       update_agent_record: create/update agent records
+      view_agent_contact_record: view contact details for agent records
       update_vocabulary_record: create/update vocabulary records
       update_accession_record: create/update accessions in this repository
       update_resource_record: create/update resources in this repository
@@ -1458,6 +1501,7 @@ en:
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     id_0: Identifier
@@ -1546,6 +1590,12 @@ en:
     finding_aid_language: Language of Description
     finding_aid_language_tooltip: |
         <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
+    finding_aid_script: Script of Description
+    finding_aid_script_tooltip: |
+        <p>Indicates all the scripts present in the finding aid generated from the resource description.</p>
+    finding_aid_language_note: Language of Description Note
+    finding_aid_language_note_tooltip: |
+        <p>Notes on the languages present in the finding aid generated from the resource description.</p>
     finding_aid_sponsor: Sponsor
     finding_aid_sponsor_tooltip: |
         <p>Indicates any sponsors that contributed to the description of the finding aid.</p>
@@ -1586,6 +1636,7 @@ en:
     _plural: Related Resources
 
   repository:
+    <<: *slug_attributes
     repo_code: Repository Short Name
     repo_code_tooltip: |
         <p>REQUIRED FIELD. An abbreviation or acronym of the repository name, which can be better accommodated in the user interface.</p>
@@ -1666,10 +1717,12 @@ en:
     _plural: Terms
 
   subject:
+    <<: *slug_attributes
     authority_id: Authority ID
     authority_id_tooltip: |
         <p>The unique identifier for the record within the source from which it was acquired, (i.e. an LCSH number). The identifier may be represented as a URI.</p>
     source: Source
+    subject_source: Subject Source
     source_tooltip: |
         <p>The vocabulary from which an established term is taken.</p>
         <p>Values in this Controlled Value List may be modified.</p>
@@ -1698,7 +1751,7 @@ en:
   user:
     username: Username
     username_tooltip: |
-        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application. Permitted characters include a-z, A-Z, @, numbers, hyphen, dash, and dot.</P>
+        <p>REQUIRED FIELD. The username for the account that the user will use to authenticate to the application. Permitted characters include a-z, A-Z, @, numbers, hyphen, dash, and dot.</p>
     name: Full name
     name_tooltip: |
         <p>REQUIRED FIELD. The full name of the user designated by the username.</p>
@@ -1820,6 +1873,7 @@ en:
     _plural: Controlled Value lists
 
   classification:
+    <<: *slug_attributes
     _singular: Classification
     _plural: Classifications
     identifier: Identifier
@@ -1829,6 +1883,7 @@ en:
     id_separator: /
 
   classification_term:
+    <<: *slug_attributes
     _singular: Classification Term
     _plural: Classification Terms
     identifier: Identifier
@@ -1900,6 +1955,7 @@ en:
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
     subject_must_be_unique: Subject records cannot be identical
+    conflicting_record: Conflicting record
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
     not_a_valid_date: Not a valid date
@@ -1914,6 +1970,7 @@ en:
     max_length_is_50_characters: Must not exceed 50 characters
     too_few_items: At least %{min_items} item(s) is required
     must_contain_at_least_one_subnote: Must contain at least one Sub Note
+    must_contain_at_least_one_language: Must contain at least one Language
     invalid_value: Invalid value '%{value}'. Must be one of '%{valid_set}'
     wrong_type: Must be a %{desired_type} (you provided a %{actual_type})
     must_be_one_of: Must be one of %{allowed_types} (you provided a %{actual_type})
@@ -1966,12 +2023,14 @@ en:
     _plural: Background Jobs
     job_type: Job Type
     types:
+      container_labels_job: Container Labels
       print_to_pdf_job: Generate PDF
       import_job: Import Data
       find_and_replace_job: Batch Find and Replace (Beta)
       report_job: Create Report
       container_conversion_job: Create Report
-      generate_slugs_job: Generate Slugs for Entities
+      generate_slugs_job: Generate Slugs in Bulk
+      create_arks_job: Create ARKs in Bulk
       trim_whitespace_job: Trim Whitespace
       unknown_job_type: Unknown job type
     status: Status

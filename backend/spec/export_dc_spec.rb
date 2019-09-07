@@ -50,6 +50,9 @@ describe "Exported Dublin Core metadata" do
                              :linked_agents => linked_agents,
                              :subjects => linked_subjects,
                              :dates => dates,
+                             :lang_materials => [build(:json_lang_material),
+                                                 build(:json_lang_material),
+                                                 build(:json_lang_material_with_note)],
                              :notes => notes)
 
     use_statements = []
@@ -116,10 +119,28 @@ describe "Exported Dublin Core metadata" do
 
   describe "Dublin Core mappings" do
 
-    it "maps language to language" do
-      expect(@dc).to have_tag "dc/language" => @digital_object.language
+    it "maps lang_materials['language_and_script'] to language" do
+      language_vals = @digital_object.lang_materials.map{|l| l['language_and_script']}.compact
+      language_vals.each do |language|
+        lang_val = language['language']
+        expect(@dc).to have_tag "dc/language" => lang_val
+        script = language['script']
+        expect(@dc).to have_tag "dc/language" => script
+      end
     end
 
+
+    it "maps lang_materials['notes'] to language" do
+      language_notes = @digital_object.lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+      language_notes.each do |note|
+        expect(@dc).to have_tag "dc/language" => note_content(note)
+      end
+    end
+
+    it "maps to identifier" do
+      pending "missing test"
+      expect(false).to eq(true)
+    end
 
     it "maps dates to date" do
       @digital_object.dates.each do |date|

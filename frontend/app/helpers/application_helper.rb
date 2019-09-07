@@ -255,6 +255,14 @@ module ApplicationHelper
 
   def display_audit_info(hash, opts = {})
     fmt = opts[:format] || 'wide'
+    ark_url = nil
+    if AppConfig[:arks_enabled]
+      if hash["external_ark_url"]
+        ark_url = hash["external_ark_url"]
+      elsif hash["ark_name"] && hash["ark_name"]["id"]
+        ark_url = "#{AppConfig[:ark_url_prefix]}/ark:/#{AppConfig[:ark_naan]}/#{hash['ark_name']['id']}"
+      end
+    end
     html = "<div class='audit-display-#{fmt}'><small>"
     if hash['create_time'] and hash['user_mtime']
       if fmt == 'wide'
@@ -265,8 +273,12 @@ module ApplicationHelper
         html << " #{Time.parse(hash['user_mtime']).getlocal}"
         html << ' | '
         html << "<strong>URI:</strong> "
-        html << "<input type=\"text\" readonly=\"1\" value=\"#{hash['uri']}\" size=\"#{hash['uri'].length}\"
-            style=\"background: #f1f1f1 !important; border: none !important; font-family: monospace;\"/>"
+        html << "<input type=\"text\" readonly=\"1\" value=\"#{hash['uri']}\" size=\"#{hash['uri'].length}\" style=\"background: #f1f1f1 !important; border: none !important; font-family: monospace;\"/>"
+        if !ark_url.nil?
+          html << ' | '
+          html << "<strong>ARK:</strong> "
+          html << "<input type=\"text\" readonly=\"1\" value=\"#{ark_url}\" size=\"#{ark_url.length}\" style=\"background: #f1f1f1 !important; border: none !important; font-family: monospace;\"/>"
+        end
       else
         html << "<dl>"
         html << "<dt>#{I18n.t("search_results.created")} #{hash['created_by']}</dt>"

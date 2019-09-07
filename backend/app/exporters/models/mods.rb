@@ -4,7 +4,8 @@ class MODSModel < ASpaceExport::ExportModel
   include JSONModel
 
   attr_accessor :title
-  attr_accessor :language_term
+  attr_accessor :lang_materials
+  attr_accessor :lang_notes
   attr_accessor :extents
   attr_accessor :notes
   attr_accessor :extent_notes
@@ -18,7 +19,7 @@ class MODSModel < ASpaceExport::ExportModel
 
   @archival_object_map = {
     :title => :title=,
-    :language => :handle_language,
+    [:lang_materials, :lang_notes] => :handle_langmaterials,
     [:extents, :notes] => :handle_extents,
     :subjects => :handle_subjects,
     :linked_agents => :handle_agents,
@@ -57,6 +58,8 @@ class MODSModel < ASpaceExport::ExportModel
     @names = []
     @parts = []
     @dates = []
+    @lang_materials = []
+    @lang_notes = []
   end
 
 
@@ -165,7 +168,27 @@ class MODSModel < ASpaceExport::ExportModel
     end
   end
 
-  # notes relating to extents are treated differently than other notes 
+
+  def handle_langmaterials(lang_materials)
+
+    self.lang_materials = lang_materials.map{|l| l['language_and_script']}.compact
+
+    language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+    if !language_notes.empty?
+      language_notes.each do |note|
+        content = ASpaceExport::Utils.extract_note_text(note)
+        mods_note = new_mods_note('note',
+                                  'language',
+                                  note['label'],
+                                  content)
+        self.lang_notes << mods_note
+      end
+    end
+
+  end
+
+
+  # notes relating to extents are treated differently than other notes
   # when the model is serialized.
   def handle_extents_notes(notes)
     notes.each do |note|
@@ -252,15 +275,6 @@ class MODSModel < ASpaceExport::ExportModel
     dates.each do |date|
       self.dates.push date
     end
-  end
-
-
-  def handle_language(language_term)
-      unless language_term.nil? || language_term.empty?
-        self.language_term = I18n.t("enumerations.language_iso639_2." + language_term) + ":" + language_term
-      else
-        self.language_term = nil
-      end
   end
 
 

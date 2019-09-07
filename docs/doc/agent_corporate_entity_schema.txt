@@ -2,6 +2,10 @@ JSON Schema: Agent_corporate_entity
 /agents/corporate_entities
 Properties
 
+string	slug
+
+boolean	is_slug_auto
+
 array (JSONModel(:name_corporate_entity) object)	names
 
 JSONModel(:name_corporate_entity) object	display_name

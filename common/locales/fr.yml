@@ -40,12 +40,29 @@ fr:
     _singular: Défini par l'utilisateur
     _plural: Défini par l'utilisateur
 
+  slug: &slug_attributes
+    slug: Slug
+    slug_tooltip: |
+        <p>When using human-readable URLs, the last part of the public URL for this record in the ArchivesSpace public interface. The slug can be manually added or updated, or generated automatically based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+    public_url: Public URL
+    public_url_tooltip: |
+        <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
+        <p>Whether human-readable URLs are being used or not, the original URI for this record always remains valid.</p>
+    is_slug_auto: Automatically generate Slug?
+    is_slug_auto_tooltip: |
+        <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+    autogen_disabled: "A slug cannot be automatically generated from the provided data based on the current configuration settings"
+    autogen_repo_slug: "Since a slug was not manually entered the repository slug was automatically generated using the repository short name"
+
   content_items:
     content: Contenu
     content_tooltip: |
         <p>Le contenu de la note.</p>
 
   section_tooltips: &section_tooltips
+    lang_materials_tooltip: |
+        <p>Les langues et les scripts représentés dans le (s) matériel (s) décrit (s).</p>
+        <p>Voir DACS 4.5</p>
     dates_tooltip: |
         <p>Précise et enregistre les dates correspondant à la création, à l'assemblage, à l'accumulation, et/ou à la maintenance et à l'utilisation des documents décrits.</p>
         <p>Voir DACS 2.4</p>
@@ -75,6 +92,7 @@ fr:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     title: Intitulé
@@ -103,8 +121,6 @@ fr:
     digital_object_type: Type d'objet numérique
     digital_object_type_tooltip: |
         <p>Terme générique indiquant le type de contenu basic de l'objet numérique. Les options par défaut correspondent à l'élément MODS &lt;typeOfResource&gt;.</p>
-    language: Langue
-    language_tooltip: <p>Langue pour le contenu numérique.</p>
     restrictions: Restrictions?
     restrictions_tooltip: |
       <p>Une case à cocher pour indiquer que des restrictions s'appliquent. Les restrictions peuvent être spécifiées en recourant aux sous-notices Note ou aux sous-notices Droits.</p>
@@ -115,6 +131,7 @@ fr:
 
   digital_object_component:
     <<: *digital_object_attributes
+    <<: *slug_attributes
     label: Label
     label_tooltip: |
         <p>Terme utilisé pour décrire la partie et sa position dans l'objet numérique en cours de décription. Plus souvent utilisé pour les composants de l'objet numérique que pour la notice de premier niveau de l'objet numérique.</p>
@@ -700,6 +717,7 @@ fr:
     note_index: Index
     note_bibliography: Bibliographie
     note_digital_object: Note d'objet numérique
+    note_langmaterial: Note sur la langue des matériaux
     note_bioghist: "Note biographique/historique"
     note_citation: Citation
     note_abstract: Résumé
@@ -740,6 +758,9 @@ fr:
     sub_notes_singular: Sous-note
 
   note_digital_object:
+    <<: *note_attributes
+
+  note_langmaterial:
     <<: *note_attributes
 
   note_rights_statement:
@@ -932,6 +953,23 @@ fr:
     _plural: Dimensions
     _singular: Importance matérielle
 
+  lang_material: &lang_material_attributes
+    _plural: Les langues
+    _singular: La langue
+
+  language_and_script:
+    <<: *lang_material_attributes
+    language: La langue
+    language_tooltip: &language_language_tooltip |
+        <p>CHAMP OBLIGATOIRE: Le terme de langue et le code représentés dans le ou les matériaux décrits. Codes tirés de l'ISO 639-2b: Codes pour la représentation des noms de langues.</p>
+    script: Scénario
+    script_tooltip: &language_script_tooltip |
+        <p>Le terme de script et le code représentés dans le (s) matériau (x) décrit (s). Codes tirés de l'ISO 15924: Codes pour la représentation des noms de scripts.</p>
+        <p>Voir DACS 4.5</p>
+
+  language_note:
+    <<: *lang_material_attributes
+
   external_document: &external_document_attributes
     title: Intitulé
     title_tooltip: |
@@ -1116,6 +1154,7 @@ fr:
 
   accession:
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     accession_date: Date d'entrée
@@ -1269,6 +1308,7 @@ fr:
 
 
   agent: &agent_attributes
+    <<: *slug_attributes
     type: Type d'agent
     type_tooltip: |
         <p>Le type d'entité représenté par la notice agent.</p>
@@ -1301,21 +1341,25 @@ fr:
 
   agent_person:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Personne
     _plural: Personnes
 
   agent_family:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Famille
     _plural: Familles
 
   agent_software:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Logiciel
     _plural: Logiciels
 
   agent_corporate_entity:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Personne morale
     _plural: Personnes morales
 
@@ -1330,6 +1374,7 @@ fr:
 
   archival_object: &archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     title: Intitulé
     title_tooltip: |
         <p>CHAMP OBLIGATOIRE CONDITIONNEL. L'intitulé assigné aux documents décrits. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
@@ -1351,6 +1396,7 @@ fr:
     dates_tooltip: |
         <p>SOUS-NOTICE OBLIGATOIRE CONDITIONNELLE. Un objet archivistique doit avoir soit un intitulé soit une sous-notice date.</p>
     extents: Importance matérielle
+    lang_materials: Langues
     ref_id_auto_generation_message: "-- auto-généré à la sauvegarde --"
     component_id: Identifiant unique de composant
     component_id_tooltip: |
@@ -1390,10 +1436,6 @@ fr:
     repository_processing_note_tooltip: |
          <p>Champ spécifique à l'application pour enregistrer une information concernant le traitement des documents. Cette note n'est incluse dans aucun rapport ou export, et n'est pas renseignée par import.</p>
     automate_title: Intitulé automatiquement généré
-    language: Langue
-    language_tooltip: |
-        <p>Langue(s), script(s) et système de symboles employés dans les documents décrits.</p>
-        <p>Voir DACS 4.5</p>
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: A un ancêtre publié?
     _singular: Document d'archive
@@ -1420,6 +1462,7 @@ fr:
       update_location_record: créer/modifier/supprimer des notices de localisations dans ce service d'archives
       update_subject_record: créer/actualiser des notices matières
       update_agent_record: créer/actualiser des notices agents
+      view_agent_contact_record: afficher les coordonnées des enregistrements d'agent
       update_vocabulary_record: créer/actualiser des notices de vocabulaire
       update_accession_record: créer/actualiser des entrées dans ce service d'archives
       update_resource_record: créer/actualiser des ressources dans ce service d'archives
@@ -1458,6 +1501,7 @@ fr:
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     id_0: Identifiant
@@ -1546,6 +1590,12 @@ fr:
     finding_aid_language: Langue de description
     finding_aid_language_tooltip: |
         <p>Indique toutes les langues présentes dans l'instrument de recherche généré à partir de la description de ressource.</p>
+    finding_aid_script: Script de description
+    finding_aid_script_tooltip: |
+        <p>Indique tous les scripts présents dans l'instrument de recherche généré à partir de la description de la ressource.</p>
+    finding_aid_language_note: Langue de description Note
+    finding_aid_language_note_tooltip: |
+        <p>Notes sur les langues présentes dans l'instrument de recherche généré à partir de la description de la ressource.</p>
     finding_aid_sponsor: Sponsor
     finding_aid_sponsor_tooltip: |
         <p>Indique tout sponsor ayant contribué à la description de l'instrument de recherche.</p>
@@ -1586,6 +1636,7 @@ fr:
     _plural: Ressources associées
 
   repository:
+    <<: *slug_attributes
     repo_code: Nom abrégé du service
     repo_code_tooltip: |
         <p>CHAMP OBLIGATOIRE. Abréviation ou acronyme pour le nom du service d'archives, qui peut être plus adapté dans l'interface utilisateur.</p>
@@ -1666,10 +1717,12 @@ fr:
     _plural: Termes
 
   subject:
+    <<: *slug_attributes
     authority_id: Identifiant d'autorité
     authority_id_tooltip: |
         <p>L'identifiant unique pour la notice dans la source d'où provient l'acquisition, (par ex. un numéro LCSH). L'identifiant peut être représenté sous forme d'URI.</p>
     source: Source
+    subject_source: Sujet Source
     source_tooltip: |
         <p>Le glossaire d'où provient un terme standard.</p>
         <p>Les valeurs dans cette liste de valeurs contrôlées peuvent être modifiées.</p>
@@ -1698,7 +1751,7 @@ fr:
   user:
     username: Nom d'utilisateur
     username_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le nom d'utilisateur pour le compte dont l'utilisateur se servira pour s'authentifier dans l'application. Les caractères autorisés incluent a-z, A-Z, @, nombres, trait d'union, tiret et point.</P>
+        <p>CHAMP OBLIGATOIRE. Le nom d'utilisateur pour le compte dont l'utilisateur se servira pour s'authentifier dans l'application. Les caractères autorisés incluent a-z, A-Z, @, nombres, trait d'union, tiret et point.</p>
     name: Nom complet
     name_tooltip: |
         <p>CHAMP OBLIGATOIRE. Le nom complet de l'utilisateur désigné par le nom d'utilisateur.</p>
@@ -1820,6 +1873,7 @@ fr:
     _plural: Listes contrôlées
 
   classification:
+    <<: *slug_attributes
     _singular: Classement
     _plural: Classements
     identifier: Identifiant
@@ -1829,6 +1883,7 @@ fr:
     id_separator: /
 
   classification_term:
+    <<: *slug_attributes
     _singular: Terme de classement
     _plural: Termes de classement
     identifier: Identifiant
@@ -1887,6 +1942,7 @@ fr:
   validation_errors:
     agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques
     subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
+    conflicting_record: Enregistrement contradictoire
     missing_required_property: Propriété requise qui manquait
     missing_property: Propriété manquante
     not_a_valid_date: N'est pas une date valide
@@ -1901,6 +1957,7 @@ fr:
     max_length_is_50_characters: Ne doit pas excéder 50 caractères
     too_few_items: Un minimum de %{min_items} item(s) est requis
     must_contain_at_least_one_subnote: Doit contenir au moins une sous-note
+    must_contain_at_least_one_language: Doit contenir au moins une langue
     invalid_value: Valeur invalide '%{value}'. Doit être comprise dans '%{valid_set}'
     wrong_type: Doit être du type %{desired_type} (vous avez entré %{actual_type})
     must_be_one_of: Le type doit être compris dans %{allowed_types} (vous avez entré %{actual_type})
@@ -1952,12 +2009,14 @@ fr:
     _plural: Tâches d'arrière-plan
     job_type: Type de tâche
     types:
+      container_labels_job: Container Labels
       print_to_pdf_job: Générer un PDF
       import_job: Importer des données
       find_and_replace_job: Rechercher et remplacer en masse (Bêta)
       report_job: Creer un rapport
       container_conversion_job: Creer un rapport
       generate_slugs_job: Générer des URL sémantiques pour les entitées
+      create_arks_job: Create ARKs in Bulk
       trim_whitespace_job: Couper les espaces
       unknown_job_type: Type de tâche inconnu
     status: Statut

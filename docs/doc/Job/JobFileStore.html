@@ -6,7 +6,7 @@
 <title>
   Class: Job::JobFileStore
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -291,13 +291,15 @@
 28
 29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 27</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
-  <span class='rubyid_@job_path ivar id'>@job_path</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:job_file_path</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='rubyid_@job_dir ivar id'>@job_dir</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span>
+  <span class='rubyid_@job_path ivar id'>@job_path</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:job_file_path</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_@job_dir ivar id'>@job_dir</span><span class='rparen token'>)</span>
   <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_mkdir_p identifier id'>mkdir_p</span><span class='lparen token'>(</span><span class='rubyid_@job_path ivar id'>@job_path</span><span class='rparen token'>)</span>
   <span class='rubyid_@output_path ivar id'>@output_path</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_@job_path ivar id'>@job_path</span><span class='comma token'>,</span> <span class='string val'>&quot;output.log&quot;</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -329,15 +331,15 @@
       <pre class="lines">
 
 
-60
-61
 62
 63
 64
-65</pre>
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 62</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_close_output identifier id'>close_output</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@output ivar id'>@output</span>
@@ -366,17 +368,17 @@
       <pre class="lines">
 
 
-50
-51
 52
 53
 54
 55
 56
-57</pre>
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 52</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_output_stream identifier id'>get_output_stream</span><span class='lparen token'>(</span><span class='rubyid_offset identifier id'>offset</span> <span class='assign token'>=</span> <span class='integer val'>0</span><span class='rparen token'>)</span>
   <span class='rubyid_@output ivar id'>@output</span><span class='dot token'>.</span><span class='rubyid_flush identifier id'>flush</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@output ivar id'>@output</span>
@@ -407,23 +409,25 @@
       <pre class="lines">
 
 
-34
 35
 36
 37
 38
 39
-40</pre>
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_store identifier id'>store</span><span class='lparen token'>(</span><span class='rubyid_file identifier id'>file</span><span class='rparen token'>)</span>
-  <span class='rubyid_target identifier id'>target</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_@job_path ivar id'>@job_path</span><span class='comma token'>,</span> <span class='rubyid_SecureRandom constant id'>SecureRandom</span><span class='dot token'>.</span><span class='rubyid_hex identifier id'>hex</span><span class='rparen token'>)</span>
+  <span class='rubyid_filename identifier id'>filename</span> <span class='assign token'>=</span> <span class='rubyid_SecureRandom constant id'>SecureRandom</span><span class='dot token'>.</span><span class='rubyid_hex identifier id'>hex</span>
+  <span class='rubyid_target identifier id'>target</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_@job_path ivar id'>@job_path</span><span class='comma token'>,</span> <span class='rubyid_filename identifier id'>filename</span><span class='rparen token'>)</span>
 
   <span class='rubyid_FileUtils constant id'>FileUtils</span><span class='dot token'>.</span><span class='rubyid_cp identifier id'>cp</span><span class='lparen token'>(</span><span class='rubyid_file identifier id'>file</span><span class='dot token'>.</span><span class='rubyid_path identifier id'>path</span><span class='comma token'>,</span> <span class='rubyid_target identifier id'>target</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_target identifier id'>target</span>
+  <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_@job_dir ivar id'>@job_dir</span><span class='comma token'>,</span> <span class='rubyid_filename identifier id'>filename</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -446,12 +450,12 @@
       <pre class="lines">
 
 
-68
-69
-70</pre>
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unlink identifier id'>unlink</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
   <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_unlink identifier id'>unlink</span><span class='lparen token'>(</span><span class='rubyid_path identifier id'>path</span><span class='rparen token'>)</span>
@@ -477,14 +481,14 @@
       <pre class="lines">
 
 
-43
-44
 45
 46
-47</pre>
+47
+48
+49</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 45</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_write_output identifier id'>write_output</span><span class='lparen token'>(</span><span class='rubyid_s identifier id'>s</span><span class='rparen token'>)</span>
   <span class='rubyid_@output ivar id'>@output</span> <span class='opasgn op'>||=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_@output_path ivar id'>@output_path</span><span class='comma token'>,</span> <span class='string val'>&quot;a&quot;</span><span class='rparen token'>)</span>
@@ -502,9 +506,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:43 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:07 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

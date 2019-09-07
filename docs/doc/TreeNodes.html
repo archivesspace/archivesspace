@@ -6,7 +6,7 @@
 <title>
   Module: TreeNodes
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -114,11 +114,16 @@ objects, digital object components)</p>
   
 </p>
 
-  <h2>Constant Summary</h2>
-  <dl class="constants">
-    
-      <dt id="POSITION_STEP-constant" class="">POSITION_STEP =
-        <div class="docstring">
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="POSITION_STEP-constant" class="">POSITION_STEP =
+          <div class="docstring">
   <div class="discussion">
     <p>We’ll space out our positions by this amount.  This means we can insert
 log2(POSITION_STEP) nodes before any given node before needing to rebalance.</p>
@@ -136,12 +141,12 @@ of numbers.</p>
   
 
 </div>
-      </dt>
-      <dd><pre class="code"><span class='integer val'>1000</span>
+        </dt>
+        <dd><pre class="code"><span class='integer val'>1000</span>
 </pre></dd>
-    
-      <dt id="DB_RETRIES-constant" class="">DB_RETRIES =
-        <div class="docstring">
+      
+        <dt id="DB_RETRIES-constant" class="">DB_RETRIES =
+          <div class="docstring">
   <div class="discussion">
     <p>The number of times we’ll retry an update that might transiently fail due to
 concurrent updates.</p>
@@ -153,11 +158,12 @@ concurrent updates.</p>
   
 
 </div>
-      </dt>
-      <dd><pre class="code"><span class='integer val'>100</span>
+        </dt>
+        <dd><pre class="code"><span class='integer val'>100</span>
 </pre></dd>
-    
-  </dl>
+      
+    </dl>
+  
 
 
 
@@ -700,10 +706,6 @@ concurrent updates.</p>
       <pre class="lines">
 
 
-200
-201
-202
-203
 204
 205
 206
@@ -739,10 +741,14 @@ concurrent updates.</p>
 236
 237
 238
-239</pre>
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 204</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_attempt_set_parent_and_position identifier id'>attempt_set_parent_and_position</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
   <span class='rubyid_root_uri identifier id'>root_uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:root_record_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -768,7 +774,7 @@ concurrent updates.</p>
     <span class='rubyid_new_values identifier id'>new_values</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='comment val'># Append this node to the new parent initially</span>
-    <span class='rubyid_new_values identifier id'>new_values</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span>
+    <span class='rubyid_new_values identifier id'>new_values</span><span class='lbrack token'>[</span><span class='symbol val'>:position</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span> <span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># Run through the standard validation without actually saving</span>
@@ -886,14 +892,18 @@ position number stored in the database, which may have gaps.</p>
 122
 123
 124
-125</pre>
+125
+126
+127</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_attempt_set_position_in_list identifier id'>attempt_set_position_in_list</span><span class='lparen token'>(</span><span class='rubyid_target_logical_position identifier id'>target_logical_position</span><span class='rparen token'>)</span>
   <span class='rubyid_DB constant id'>DB</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_db identifier id'>db</span><span class='bitor op'>|</span>
-    <span class='rubyid_ordered_siblings identifier id'>ordered_siblings</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_node_model identifier id'>node_model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
+    <span class='rubyid_ordered_siblings identifier id'>ordered_siblings</span> <span class='assign token'>=</span> <span class='rubyid_db identifier id'>db</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_node_model identifier id'>node_model</span><span class='dot token'>.</span><span class='rubyid_table_name identifier id'>table_name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span>
+      <span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span> <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span>
+    <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
     <span class='rubyid_siblings_count identifier id'>siblings_count</span> <span class='assign token'>=</span> <span class='rubyid_ordered_siblings identifier id'>ordered_siblings</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
 
     <span class='rubyid_target_logical_position identifier id'>target_logical_position</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_target_logical_position identifier id'>target_logical_position</span><span class='comma token'>,</span> <span class='rubyid_siblings_count identifier id'>siblings_count</span> <span class='minus op'>-</span> <span class='integer val'>1</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_min identifier id'>min</span>
@@ -1111,12 +1121,12 @@ position number stored in the database, which may have gaps.</p>
       <pre class="lines">
 
 
-242
-243
-244</pre>
+246
+247
+248</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 242</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 246</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_children identifier id'>children</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_order identifier id'>order</span><span class='lparen token'>(</span><span class='symbol val'>:position</span><span class='rparen token'>)</span>
@@ -1142,8 +1152,6 @@ position number stored in the database, which may have gaps.</p>
       <pre class="lines">
 
 
-127
-128
 129
 130
 131
@@ -1160,10 +1168,12 @@ position number stored in the database, which may have gaps.</p>
 142
 143
 144
-145</pre>
+145
+146
+147</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 129</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_gap identifier id'>ensure_gap</span><span class='lparen token'>(</span><span class='rubyid_start_physical_position identifier id'>start_physical_position</span><span class='rparen token'>)</span>
   <span class='rubyid_siblings identifier id'>siblings</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span>
@@ -1228,12 +1238,12 @@ position number stored in the database, which may have gaps.</p>
       <pre class="lines">
 
 
-247
-248
-249</pre>
+251
+252
+253</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 247</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 251</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_has_children? fid id'>has_children?</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
@@ -1259,17 +1269,21 @@ position number stored in the database, which may have gaps.</p>
       <pre class="lines">
 
 
-148
-149
 150
-151</pre>
+151
+152
+153
+154
+155</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_logical_position identifier id'>logical_position</span>
   <span class='rubyid_relative_position identifier id'>relative_position</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:parent_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='lt op'>&lt;</span> <span class='rubyid_relative_position identifier id'>relative_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span>
+    <span class='symbol val'>:root_record_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span> <span class='symbol val'>:parent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span>
+  <span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span> <span class='lbrace token'>{</span> <span class='rubyid_position identifier id'>position</span> <span class='lt op'>&lt;</span> <span class='rubyid_relative_position identifier id'>relative_position</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1292,10 +1306,6 @@ position number stored in the database, which may have gaps.</p>
       <pre class="lines">
 
 
-252
-253
-254
-255
 256
 257
 258
@@ -1304,10 +1314,14 @@ position number stored in the database, which may have gaps.</p>
 261
 262
 263
-264</pre>
+264
+265
+266
+267
+268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 256</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_previous_node identifier id'>previous_node</span>
   <span class='rubyid_pos identifier id'>pos</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span>
@@ -1343,14 +1357,14 @@ position number stored in the database, which may have gaps.</p>
       <pre class="lines">
 
 
-193
-194
-195
-196
-197</pre>
+197
+198
+199
+200
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 193</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 197</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set_parent_and_position identifier id'>set_parent_and_position</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_retry_db_update identifier id'>retry_db_update</span> <span class='rubyid_do do kw'>do</span>
@@ -1453,7 +1467,7 @@ position number stored in the database, which may have gaps.</p>
     <span class='rubyid_root_uri identifier id'>root_uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rparen token'>)</span>
     <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;root@#{root_uri}&quot;</span>
 
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_name identifier id'>parent_name</span><span class='rparen token'>)</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_position identifier id'>position</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_next_position_for_parent identifier id'>next_position_for_parent</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_save identifier id'>save</span>
@@ -1484,23 +1498,23 @@ position number stored in the database, which may have gaps.</p>
       <pre class="lines">
 
 
-267
-268
-269
-270
 271
 272
 273
 274
-275</pre>
+275
+276
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 267</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 271</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='comment val'># All records under this one will be transferred too</span>
   <span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='comma token'>,</span> <span class='rubyid_i identifier id'>i</span><span class='bitor op'>|</span>
-    <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> 
+    <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># ensure that the sequence if updated</span>
@@ -1527,13 +1541,13 @@ position number stored in the database, which may have gaps.</p>
       <pre class="lines">
 
 
-187
-188
-189
-190</pre>
+191
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 187</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 191</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_trigger_index_of_child_nodes identifier id'>trigger_index_of_child_nodes</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_update identifier id'>update</span><span class='lparen token'>(</span><span class='symbol val'>:system_mtime</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='rparen token'>)</span>
@@ -1560,10 +1574,6 @@ position number stored in the database, which may have gaps.</p>
       <pre class="lines">
 
 
-154
-155
-156
-157
 158
 159
 160
@@ -1590,10 +1600,14 @@ position number stored in the database, which may have gaps.</p>
 181
 182
 183
-184</pre>
+184
+185
+186
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/tree_nodes.rb', line 158</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_extra_values identifier id'>extra_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_root_uri identifier id'>root_uri</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_root_record_type identifier id'>root_record_type</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_root_record_id identifier id'>root_record_id</span><span class='rparen token'>)</span>
@@ -1637,9 +1651,9 @@ position number stored in the database, which may have gaps.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:38 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:02 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

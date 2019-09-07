@@ -6,13 +6,13 @@ class Record
   include PrefixHelper
 
   attr_reader :raw, :full, :json, :display_string, :container_display, :container_summary_for_badge,
-              :notes, :dates, :external_documents, :resolved_repository,
+              :notes, :dates, :lang_materials, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
               :container_titles_and_uris
 
-  attr_accessor :criteria 
+  attr_accessor :criteria
 
   ABSTRACT = %w(abstract scopecontent)
 
@@ -42,6 +42,7 @@ class Record
     @linked_digital_objects = parse_digital_object_instances
     @notes =  parse_notes
     @dates = parse_dates
+    @lang_materials = parse_lang_materials
     @external_documents = parse_external_documents
     @resolved_repository = parse_repository
     @resolved_top_container = parse_top_container
@@ -157,7 +158,20 @@ class Record
 
   def parse_notes
 
-    if json.has_key?('notes')
+    if json.has_key?('notes') && json.has_key?('lang_materials')
+      notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
+
+      # We need to do some special manipuation for language of material notes since they are held inside of a lang_material record, not notes
+      lang_material_notes = json['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+      lang_notes = process_json_notes(lang_material_notes.flatten, (!full ? ABSTRACT : nil))
+      unless lang_notes.empty?
+        lang_notes['langmaterial'].each do |s|
+          s['is_inherited'] = json['lang_materials'][0].dig('_inherited')
+        end
+      end
+      
+      notes_html = notes_html.merge(lang_notes)
+    elsif json.has_key?('notes')
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
     else
       {}
@@ -168,13 +182,30 @@ class Record
     return unless (json.has_key?('dates') || json.has_key?('dates_of_existence')) && full
 
     dates = []
-
+    #adding the date label & type below so that it'll be easy to figure out which dates to include in other mappings, such as the schema.org mappings
     (json['dates'] || json['dates_of_existence']).each do |date|
       label, exp = parse_date(date)
-      dates.push({'final_expression' => label + exp, '_inherited' => date.dig('_inherited')})
+      dates.push({'final_expression' => label + exp, '_inherited' => date.dig('_inherited'), 'label' => date['label'], 'date_type' => date['date_type']})
     end
 
     dates
+  end
+
+
+  def parse_lang_materials
+    return unless json.has_key?('lang_materials') && full
+
+    lang_materials = []
+
+    json['lang_materials'].each do |lang_material|
+      unless lang_material['language_and_script'].blank?
+        lang = lang_material['language_and_script']['language'] || ''
+        script = lang_material['language_and_script']['script'] || ''
+        lang_materials.push({'language' => lang, 'script' => script, '_inherited' => lang_material.dig('_inherited')})
+      end
+    end
+
+    lang_materials
   end
 
   def parse_external_documents
@@ -327,7 +358,7 @@ class Record
     end
     info
   end
-  
+
   def archives_space_client
     ArchivesSpaceClient.instance
   end
@@ -358,6 +389,7 @@ class Record
 
   def parse_sub_container_display_string(sub_container, inst, opts = {})
     summary = opts.fetch(:summary, false)
+    citation = opts.fetch(:citation, false)
     parts = []
 
     instance_type = I18n.t("enumerations.instance_instance_type.#{inst.fetch('instance_type')}", :default => inst.fetch('instance_type'))
@@ -396,7 +428,7 @@ class Record
       parts << "#{type}: #{sub_container.fetch('indicator_3')}"
     end
 
-    summary ? parts.join(", ") : "#{parts.join(", ")} (#{instance_type})"
+    (summary || citation) ? parts.join(", ") : "#{parts.join(", ")} (#{instance_type})"
   end
 
   def parse_digital_object_instances

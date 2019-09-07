@@ -329,6 +329,7 @@ fr:
       header:
        dates: Dates
        lang: Langue
+       script: Scénario
        physdesc: Description physique
        storage: Information de conditionnement
        access: Conditions d'accès
@@ -360,7 +361,8 @@ fr:
       identifier: Identifiant
       extent: Volume
       dates: Dates
-      lang: Langue
+      lang: Langue des matériaux
+      script: Scénario
       digital_object: Objet numérique
       physdesc: Description physique
       storage: Info conditionnement
@@ -382,6 +384,8 @@ fr:
         description_rules: Règles de description
         identifier: Identifiant
         language: Langue de description
+        script: Script de description
+        language_note: Langue de la note de description
         sponsor: Sponsor
         edition_statement: Mention d'édition
         series_statement: Mention de série

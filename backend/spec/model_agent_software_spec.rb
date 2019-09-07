@@ -14,7 +14,7 @@ describe 'Agent model' do
   end
 
   it "doesn't allow a software agent record to be created without a name" do
-
+    AppConfig[:use_human_readable_urls] = false
     expect {
       AgentSoftware.create_from_json(build(:json_agent_software, :names => []))
       }.to raise_error(JSONModel::ValidationException)
@@ -69,7 +69,7 @@ describe 'Agent model' do
 
     describe "slug tests" do
       before (:all) do
-        AppConfig[:use_human_readable_URLs] = true
+        AppConfig[:use_human_readable_urls] = true
       end
 
       describe "slug autogen enabled" do

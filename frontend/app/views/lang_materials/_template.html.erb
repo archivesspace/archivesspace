@@ -1,0 +1,31 @@
+<%= render_aspace_partial :partial => "language_and_scripts/template" %>
+
+<% define_template "language_fields", jsonmodel_definition(:lang_material) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="subrecord-form-container">
+      <%= form.fields_for(form["language_and_script"] || {}, "language_and_script") do |item| %>
+        <% form.emit_template("language_and_script", item) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "language_notes", jsonmodel_definition(:lang_material) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="subrecord-form-container">
+      <%= form.hidden_input "langmaterial_type", "language_note" %>
+      <%= render_aspace_partial :partial => "notes/form", :locals => {:header_size => "h4", :form => form, :show_apply_note_order_action => false, :nested_in_jsonmodel => 'lang_material', :nested_note_jsonmodel => 'lang_material_notes'} %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "lang_material", jsonmodel_definition(:lang_material) do |form| %>
+  <% if form["language_and_script"] %>
+    <% form.emit_template("language_fields") %>
+  <% elsif !form["notes"].blank? %>
+    <% form.emit_template("language_notes") %>
+  <%#  If there is no lang_material in an existing record default to showing a new language_and_script %>
+  <% else %>
+    <% form.emit_template("language_fields") %>
+  <% end %>
+<% end %>

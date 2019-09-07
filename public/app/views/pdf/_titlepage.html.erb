@@ -2,16 +2,16 @@
     <div class="logo"><%= image_tag( record.resolved_repository['image_url'] || asset_path("archivesspace.small.png") ) %></div>
     <div class="title-block">
     <% if record.finding_aid['title'] %>
-        <h3 class="title"><%= record.finding_aid['title'] %></h3>
-        <h4 class="subtitle"><%= record.finding_aid['subtitle'] %></h4>
+        <h3 class="title"><%== process_mixed_content(record.finding_aid['title'], :preserve_newlines => true) %></h3>
+        <h4 class="subtitle"><%== if record.finding_aid['subtitle'] then process_mixed_content(record.finding_aid['subtitle'], :preserve_newlines => true) end %></h4>
     <% else %>
-        <h3 class="title"><%= record.display_string %></h3>
+        <h3 class="title"><%== process_mixed_content(record.display_string, :preserve_newlines => true) %></h3>
     <% end %>
     </div>
 
     <p><%= I18n.t('pdf_reports.finding_aid_date_prefix') %> <%= Date.today %></p>
     <% if record.finding_aid['language'] %>
-        <p><%= I18n.t('pdf_reports.finding_aid_written_in') %> <%= record.finding_aid['language'] %></p>
+        <p><%= I18n.t('pdf_reports.finding_aid_written_in') %> <%= t('enumerations.language_iso639_2.' + record.finding_aid['language']) %></p>
     <% end %>
 
     <% if record.finding_aid['description_rules'] %>

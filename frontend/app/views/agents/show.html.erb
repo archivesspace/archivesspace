@@ -21,7 +21,7 @@
             <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
           </div>
 
-          <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_URLs] %>
+          <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
 
           <%= readonly.label_and_boolean "publish" %>
           <%= display_audit_info(@agent) %>
@@ -63,7 +63,7 @@
         </section>
 
 
-        <% if @agent.agent_contacts.length > 0 %>
+        <% if @agent.agent_contacts.length > 0 && user_can?('view_agent_contact_record') %>
           <%= render_aspace_partial :partial => "agents/contact_details" %>
 
           <section id="<%= @agent.agent_type %>_contact_details">

@@ -40,7 +40,6 @@ permalink: /user/archivesspace-technical-documentation/
 * [Information for developers and code contributors](./development)
   * [ArchivesSpace build system](./development/build.md)
   * [Building an ArchivesSpace release](./development/release.md)
-  * [Selenium test suite](./development/selenium.md)
   * [Using Supervisord for development](./development/supervisord.md)
   * [Contributor license agreements](./development/license_agreements.md)
 * [Importing and exporting data in ArchivesSpace](./import_export)

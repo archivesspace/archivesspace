@@ -6,7 +6,7 @@
 <title>
   Module: MarcXMLBaseMap
   
-    &mdash; Documentation by YARD 0.9.12
+    &mdash; Documentation by YARD 0.9.20
   
 </title>
 
@@ -89,14 +89,19 @@
 </div>
 
 
-  <h2>Constant Summary</h2>
-  <dl class="constants">
-    
-      <dt id="AUTH_SUBJECT_SOURCE-constant" class="">AUTH_SUBJECT_SOURCE =
-        
-      </dt>
-      <dd><pre class="code"><span class='lbrace token'>{</span>
-  <span class='string val'>&#39;a&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;Library of Congress Subject Headings&quot;</span><span class='comma token'>,</span>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="AUTH_SUBJECT_SOURCE-constant" class="">AUTH_SUBJECT_SOURCE =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='string val'>&#39;a&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;lcsh&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&#39;b&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;LC subject headings for children&#39;s literature&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&#39;c&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;Medical Subject Headings&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&#39;d&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;National Agricultural Library subject authority file&quot;</span><span class='comma token'>,</span>
@@ -108,12 +113,12 @@
   <span class='string val'>&#39;z&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;Other&quot;</span>
 <span class='rbrace token'>}</span>
 </pre></dd>
-    
-      <dt id="BIB_SUBJECT_SOURCE-constant" class="">BIB_SUBJECT_SOURCE =
-        
-      </dt>
-      <dd><pre class="code"><span class='lbrace token'>{</span>
-  <span class='string val'>&#39;0&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;Library of Congress Subject Headings&quot;</span><span class='comma token'>,</span>
+      
+        <dt id="BIB_SUBJECT_SOURCE-constant" class="">BIB_SUBJECT_SOURCE =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='string val'>&#39;0&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;lcsh&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&#39;1&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;LC subject headings for children&#39;s literature&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&#39;2&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;Medical Subject Headings&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&#39;3&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;National Agricultural Library subject authority file&quot;</span><span class='comma token'>,</span>
@@ -122,8 +127,9 @@
   <span class='string val'>&#39;6&#39;</span><span class='assign token'>=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;R\u00E9pertoire de vedettes-matic\u00E8re&quot;</span>
 <span class='rbrace token'>}</span>
 </pre></dd>
-    
-  </dl>
+      
+    </dl>
+  
 
 
 
@@ -1908,7 +1914,12 @@ the extending class.</p>
 1292
 1293
 1294
-1295</pre>
+1295
+1296
+1297
+1298
+1299
+1300</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 655</span>
@@ -1918,6 +1929,8 @@ the extending class.</p>
     <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:resource</span><span class='comma token'>,</span>
     <span class='symbol val'>:defaults</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
      <span class='symbol val'>:level</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection&#39;</span><span class='comma token'>,</span>
+     <span class='symbol val'>:finding_aid_language</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;und&#39;</span><span class='comma token'>,</span>
+     <span class='symbol val'>:finding_aid_script</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;Zyyy&#39;</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
     <span class='symbol val'>:map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='comment val'>#LEADER</span>
@@ -1972,6 +1985,9 @@ the extending class.</p>
 
       <span class='comment val'># description rules</span>
       <span class='string val'>&quot;datafield[@tag=&#39;040&#39;]/subfield[@code=&#39;e&#39;]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:finding_aid_description_rules</span><span class='comma token'>,</span>
+
+      <span class='comment val'># language of description</span>
+      <span class='string val'>&quot;datafield[@tag=&#39;040&#39;]/subfield[@code=&#39;b&#39;]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:finding_aid_language</span><span class='comma token'>,</span>
 
       <span class='comment val'># 200s</span>
       <span class='string val'>&quot;datafield[@tag=&#39;210&#39;]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_mix identifier id'>mix</span><span class='lparen token'>(</span><span class='rubyid_multipart_note identifier id'>multipart_note</span><span class='lparen token'>(</span><span class='string val'>&#39;odd&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;Abbreviated Title&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;{$a: }{$b }{($2)}&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_is_fallback_resource_title identifier id'>is_fallback_resource_title</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -4147,9 +4163,9 @@ the end attempts to keep the punctuation normal.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.5.2.a Documentation Generated on Mon Jan 14 08:02:40 2019 by
+  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:04 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.12.
+  0.9.20.
 </div>
 
     </div>

@@ -42,12 +42,29 @@ es:
     _singular: Definido por el usuario
     _plural: Definido por los usuarios
 
+  slug: &slug_attributes
+    slug: Slug
+    slug_tooltip: |
+        <p>When using human-readable URLs, the last part of the public URL for this record in the ArchivesSpace public interface. The slug can be manually added or updated, or generated automatically based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+    public_url: Public URL
+    public_url_tooltip: |
+        <p>If this record is published or updated to be published, the full URL for this record in the public user interface. If human-readable URLs are being used the end of the URL will be the slug.</p>
+        <p>Whether human-readable URLs are being used or not, the original URI for this record always remains valid.</p>
+    is_slug_auto: Automatically generate Slug?
+    is_slug_auto_tooltip: |
+        <p>If this field is checked, the slug for this record will be automatically generated when the record is saved based on the configuration settings for human-readable URLs in the config.rb file on the server.</p>
+    autogen_disabled: "A slug cannot be automatically generated from the provided data based on the current configuration settings"
+    autogen_repo_slug: "Since a slug was not manually entered the repository slug was automatically generated using the repository short name"
+
   content_items:
     content: Contenido
     content_tooltip: |
         <p>El contenido de la nota.</p>
 
   section_tooltips: &section_tooltips
+    lang_materials_tooltip: |
+        <p>Los lenguajes y scripts representados en los materiales descritos.</p>
+        <p>Ver DACS 4.5</p>
     dates_tooltip: |
         <p>Identifica y registra las fechas que corresponden a la creación, Asamblea, acumulación, o mantenimiento y utilización de los materiales que se está describiendo.</p>
         <p>Ver DACS 2.4</p>
@@ -77,6 +94,7 @@ es:
 
   digital_object: &digital_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     title: Título
@@ -105,8 +123,6 @@ es:
     digital_object_type: Tipo de objeto digital
     digital_object_type_tooltip: |
         <p>Un término genérico que indica el tipo de contenido básico del objeto digital. Las opciones por defecto corresponden al elemento MODS &lt; typeOfResource &gt;.</p>
-    language: Idioma
-    language_tooltip:
     restrictions: ¿Restricciones?
     restrictions_tooltip: |
         <p>Una casilla de verificación para indicar que se aplican restricciones. Las restricciones pueden explicarse mediante los subregistros nota o subregistros de derechos.</p>
@@ -117,6 +133,7 @@ es:
 
   digital_object_component:
     <<: *digital_object_attributes
+    <<: *slug_attributes
     label: Etiqueta
     label_tooltip: |
         <p>Un término usado para describir la parte y su posición dentro del objeto Digital que se está describiendo. Más a menudo utilizado para los componentes del objeto Digital que el nivel récord de objeto Digital.</p>
@@ -701,6 +718,7 @@ es:
     note_index: Índice
     note_bibliography: Bibliografía
     note_digital_object: Nota de objeto digital
+    note_langmaterial: Lenguaje de materiales Nota
     note_bioghist: "Nota de biografía histórica"
     note_citation: Cita
     note_abstract: Resumen
@@ -741,6 +759,9 @@ es:
     sub_notes_singular: Subnotas
 
   note_digital_object:
+    <<: *note_attributes
+
+  note_langmaterial:
     <<: *note_attributes
 
   note_rights_statement:
@@ -929,6 +950,23 @@ es:
     _plural: Extensión
     _singular: Extensión
 
+  lang_material: &lang_material_attributes
+    _plural: Idiomas
+    _singular: Idioma
+
+  language_and_script:
+    <<: *lang_material_attributes
+    language: Idioma
+    language_tooltip: &language_language_tooltip |
+        <p>CAMPO REQUERIDO: El término de idioma y el código representado en el (los) material (es) descrito (s). Códigos extraídos de ISO 639-2b: Códigos para la representación de nombres de idiomas.</p>
+    script: Guión
+    script_tooltip: &language_script_tooltip |
+        <p>El término de script y el código representado en el (los) material (es) descrito (s). Códigos extraídos de ISO 15924: Códigos para la representación de nombres de scripts.</p>
+        <p>Ver DACS 4.5</p>
+
+  language_note:
+    <<: *lang_material_attributes
+
   external_document: &external_document_attributes
     title: Título
     title_tooltip: |
@@ -1112,13 +1150,14 @@ es:
 
   accession:
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
       <<: *user_defined_attributes
     accession_date: Fecha de entrada
     accession_date_unknown: desconocida
     accession_date_inline_help: por ejemplo AAAA-MM-DD
     accession_date_tooltip: |
-      <p> CAMPO REQUERIDO: La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
+      <p>CAMPO REQUERIDO: La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
     accession_id: Identificador
     accession_id_tooltip: |
         <p>El número de la base de datos interna para un registro específico de acta de ingreso.</p>
@@ -1128,16 +1167,16 @@ es:
     id_2: Identificador 3
     id_3: Identificador 4
     id_0_tooltip: |
-        <p> CAMPO REQUERIDO: el identificador único para una accesión dentro de un repositorio. </p>
-        <p> En ArchivesSpace, se proporcionan cuatro campos para analizar un identificador de acceso en sus partes componentes. Cada segmento está limitado a 50 caracteres, o 200 caracteres en total para el identificador. Al menos la primera parte debe usarse para un registro de acceso válido. </p>
-        <p> Los valores predeterminados se pueden usar para completar las partes componentes que son iguales en todos los números de acceso. </p>
+        <p>CAMPO REQUERIDO: el identificador único para una accesión dentro de un repositorio. </p>
+        <p>En ArchivesSpace, se proporcionan cuatro campos para analizar un identificador de acceso en sus partes componentes. Cada segmento está limitado a 50 caracteres, o 200 caracteres en total para el identificador. Al menos la primera parte debe usarse para un registro de acceso válido. </p>
+        <p>Los valores predeterminados se pueden usar para completar las partes componentes que son iguales en todos los números de acceso. </p>
         <p>Ver DACS 5.2.5</p>
     content_description: Descripción de contenido
     content_description_tooltip: |
-        <p> Una descripción de los tipos de documentos y contenidos temáticos de la adhesión. </p>
-        <p> Ver DACS 3.1.4-3.1.7 </p>
-        <p> Ejemplos: </p>
-        <p> Diez cartones de materiales que contienen notas de campo, diarios y borradores de mapas que documentan los 10 años de residencia del Sr. Smith en Otay Mesa Ranch. </p>
+        <p>Una descripción de los tipos de documentos y contenidos temáticos de la adhesión. </p>
+        <p>Ver DACS 3.1.4-3.1.7 </p>
+        <p>Ejemplos: </p>
+        <p>Diez cartones de materiales que contienen notas de campo, diarios y borradores de mapas que documentan los 10 años de residencia del Sr. Smith en Otay Mesa Ranch. </p>
     condition_description: Descripción de la condición
     condition_description_tooltip: |
         <p>Una descripción de la condición física de los contenidos de la
@@ -1222,7 +1261,7 @@ es:
         <p>Ver DACS 4.1.5 - 4.1.6; 4.2.5 - 4.2.7, 4.3.4 - 4.3.6</p>
     title: Título
     title_tooltip: |
-        <p> El título asignado a una accesión o recurso. El título de la accesión no necesita ser el mismo que el título del recurso. Además, no es necesario expresar un título para el registro de acceso, ya que puede heredarse implícitamente del registro de recursos al que está vinculado el acceso. </p>
+        <p>El título asignado a una accesión o recurso. El título de la accesión no necesita ser el mismo que el título del recurso. Además, no es necesario expresar un título para el registro de acceso, ya que puede heredarse implícitamente del registro de recursos al que está vinculado el acceso. </p>
         <p>Ver 2.3.18-2.3.22 DACS</p>
     related_resources_tooltip: |
         <p>Utilizado para vincular los recursos asociados con este proceso de entrada.</p>
@@ -1252,6 +1291,7 @@ es:
 
 
   agent: &agent_attributes
+    <<: *slug_attributes
     type: Tipo de autoridad
     type_tooltip: |
         <p>El tipo de entidad representada por el registro del autoridad.</p>
@@ -1284,21 +1324,25 @@ es:
 
   agent_person:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Persona
     _plural: Personas
 
   agent_family:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Familia
     _plural: Familias
 
   agent_software:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Software
     _plural: Software
 
   agent_corporate_entity:
     <<: *agent_attributes
+    <<: *slug_attributes
     _singular: Entidad corporativa
     _plural: Entidades corporativas
 
@@ -1312,6 +1356,7 @@ es:
     related_agents: Agentes relacionados
   archival_object: &archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     title: Título
     title_tooltip: |
         <p>CAMPO OBLIGATORIO CONDICIONAL
@@ -1333,6 +1378,7 @@ es:
     dates_tooltip: |
         <p>SUBREGISTRO CONDICIONAL REQUERIDO. Un objeto de archivo debe tener un título o un subregistro de fecha.</p>
     extents: Extensiones
+    lang_materials: Idiomas
     ref_id_auto_generation_message: "--generado automáticamente al guardar..."
     component_id: Identificador único de componente
     component_id_tooltip: |
@@ -1372,10 +1418,6 @@ es:
     repository_processing_note_tooltip: |
          <p>Un campo específico de la aplicación para registrar información sobre el procesamiento de los materiales. Esta nota no se incluye en ninguna exportación o informe, y no está poblada por importaciones.</p>
     automate_title: Generar automáticamente el título
-    language: Idioma
-    language_tooltip: |
-        <p>El término lengua y código representado en el material descrito.</p>
-        <p>Ver DACS 4.5</p>
     "[:resource_id, :ref_id]": Ref ID
     has_unpublished_ancestor: ¿Tiene una serie/subserie por encima sin publicar?
     _singular: Documento de archivo
@@ -1402,6 +1444,7 @@ es:
       update_location_record: crear/modificar/borrar location records en este repositorio
       update_subject_record: crear/modificar registros de subject
       update_agent_record: crear/modificar registros de autoridad
+      view_agent_contact_record: ver los detalles de contacto de los registros del agente
       update_vocabulary_record: crear/modificar registros de vocabulary
       update_accession_record: crear/modificar registros de entradas en este repositorio
       update_resource_record: crear/modificar resources en este repositorio
@@ -1440,6 +1483,7 @@ es:
   resource:
     <<: *archival_object_attributes
     <<: *section_tooltips
+    <<: *slug_attributes
     user_defined:
        <<: *user_defined_attributes
     id_0: Identificador
@@ -1528,6 +1572,12 @@ es:
     finding_aid_language: Lengua del instrumento de descripción
     finding_aid_language_tooltip: |
         <p>Indica todas las lenguas presentes en el instrumento de descripción.</p>
+    finding_aid_script: Guión de Descripción
+    finding_aid_script_tooltip: |
+        <p>Indica todos los scripts presentes en la ayuda de búsqueda generada a partir de la descripción del recurso.</p>
+    finding_aid_language_note: Idioma de la descripción Nota
+    finding_aid_language_note_tooltip: |
+        <p>Notas sobre los idiomas presentes en la ayuda para la búsqueda generada a partir de la descripción del recurso.</p>
     finding_aid_sponsor: Patrocinador
     finding_aid_sponsor_tooltip: |
         <p>Indica patrocinadores que contribuyeron a la descripción.</p>
@@ -1568,6 +1618,7 @@ es:
     _plural: Fondos relacionados
 
   repository:
+    <<: *slug_attributes
     repo_code: Nombre corto del repositorio
     repo_code_tooltip: |
         <p>CAMPO OBLIGATORIO. Una abreviatura o acrónimo del nombre del repositorio, que pueden ser mejor acomodados en la interfaz de usuario.</p>
@@ -1647,10 +1698,12 @@ es:
     _plural: Términos
 
   subject:
+    <<: *slug_attributes
     authority_id: Identificador de autoridad
     authority_id_tooltip: |
         <p>El identificador único para el registro de la fuente de la cual fue adquirida, (es decir, un número LCSH). El identificador puede ser representado como un URI.</p>
     source: Fuente
+    subject_source: Fuente de la materia
     source_tooltip: |
         <p>El vocabulario desde donde se toma un plazo establecido.</p>
         <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
@@ -1800,6 +1853,7 @@ es:
     _plural: Listas de valor controladas
 
   classification:
+    <<: *slug_attributes
     _singular: Clasificación
     _plural: Clasificaciones
     identifier: Identificador
@@ -1809,6 +1863,7 @@ es:
     id_separator: /
 
   classification_term:
+    <<: *slug_attributes
     _singular: Término de clasificación
     _plural: Términos de clasificación
     identifier: Identificador
@@ -1867,6 +1922,7 @@ es:
   validation_errors:
     agent_must_be_unique: Registros de autoridad no pueden ser idénticos
     subject_must_be_unique: Los registros de sujetos no pueden ser idénticos
+    conflicting_record: Registro conflictivo
     missing_required_property: Propiedad es necesaria pero falta
     missing_property: Faltaba propiedad
     not_a_valid_date: No es una fecha válida
@@ -1881,6 +1937,7 @@ es:
     max_length_is_50_characters: No debe superar los 50 caracteres.
     too_few_items: "Por lo menos los elementos %{min_items} es necesario"
     must_contain_at_least_one_subnote: Debe contener al menos una nota secundaria
+    must_contain_at_least_one_language: Debe contener al menos un idioma
     invalid_value: "Valor no válido '%{valor}'. Debe ser uno de '%{valid_set}'"
     wrong_type: "Debe ser un %{desired_type} (proporcionó un %{actual_type})"
     must_be_one_of: "Debe ser uno de %{allowed_types} (proporcionó un %{actual_type})"
@@ -1932,12 +1989,14 @@ es:
     _plural: Tareas en el background
     job_type: Tipo de tarea
     types:
+      container_labels_job: Container Labels
       print_to_pdf_job: Generar PDF
       import_job: Importar Datos
       find_and_replace_job: Busca y reemplaza en bloque (Beta)
       report_job: Crear informe
       container_conversion_job: Crear informe
       generate_slugs_job: Generar Slugs para Entidades
+      create_arks_job: Create ARKs in Bulk
       trim_whitespace_job: Recortar espacios en blanco
       unknown_job_type: Tipo de trabajo desconocido
     status: Estado

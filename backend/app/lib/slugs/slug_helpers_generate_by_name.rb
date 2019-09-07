@@ -15,10 +15,15 @@ module SlugHelpers
   # 'entity' is a data structure that has what we need. It may be a JSONModel or a Sequel object.
 
   def self.name_based_slug_for(entity, klass)
-    if !entity[:title].nil? && !entity[:title].empty? && !is_agent_name_type?(klass)
-      slug = entity[:title]
-    elsif !entity[:name].nil? && !entity[:name].empty? && !is_agent_name_type?(klass)
-      slug = entity[:name]
+    if klass == Repository
+      # Always use repo_code for repository slug
+      slug = entity[:repo_code]
+    elsif !is_agent_name_type?(klass)
+      if !entity[:title].nil? && !entity[:title].empty?
+        slug = entity[:title]
+      elsif !entity[:name].nil? && !entity[:name].empty?
+        slug = entity[:name]
+      end
     # This codepath is run on updating slugs for agents, where we get either a Sequel Name object, or a Hash
     elsif is_agent_name_type?(klass)
       if entity.class == Hash
@@ -32,16 +37,6 @@ module SlugHelpers
       end
     else
       slug = ""
-    end
-
-    slug = clean_slug(slug)
-
-    # only de-dupe and update if our base slug has changed from it's previous value
-    previous_slug = entity[:slug]
-    if base_slug_changed?(slug, previous_slug)
-      return run_dedupe_slug(slug)
-    else
-      return previous_slug
     end
 
     slug = clean_slug(slug)
