@@ -367,7 +367,11 @@ $(function() {
       };
 
       $(".subrecord-form-heading:first .btn.add-note", $this).click(createTopLevelNote);
-      $(".subrecord-form-heading:first .btn.add-note", $this.filter("#lang_material_notes")).triggerHandler('click');
+      $this.filter("#lang_material_notes").each(function() {
+        if ($("li", $this).length == 0) {
+          $(".subrecord-form-heading:first .btn.add-note", $this).triggerHandler("click");
+        }
+      });
 
       $(".subrecord-form-heading:first .btn.apply-note-order", $this).click(applyNoteOrder);
 
