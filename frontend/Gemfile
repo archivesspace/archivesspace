@@ -60,7 +60,7 @@ gem 'net-http-persistent', '2.8'
 gem 'rubyzip', '~> 1.2.2'
 gem 'zip-zip', '0.3'
 
-gem 'nokogiri', '1.8.5'
+gem 'nokogiri', '>= 1.10.4'
 
 require 'asutils'
 
