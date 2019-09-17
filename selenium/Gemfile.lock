@@ -7,7 +7,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     atomic (1.0.1-java)
-    childprocess (1.0.1)
+    childprocess (2.0.0)
       rake (< 13.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
@@ -33,9 +33,9 @@ GEM
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (>= 0.0.9, < 0.2)
     method_source (0.9.2)
-    mime-types (3.2.2)
+    mime-types (3.3)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2019.0331)
+    mime-types-data (3.2019.0904)
     minitest (5.11.3)
     multi_json (1.13.1)
     multipart-post (1.2.0)
@@ -69,9 +69,9 @@ GEM
     rspec-retry (0.6.1)
       rspec-core (> 3.3)
     rspec-support (3.6.0)
-    rubyzip (1.2.3)
-    selenium-webdriver (3.142.3)
-      childprocess (>= 0.5, < 2.0)
+    rubyzip (1.2.4)
+    selenium-webdriver (3.142.4)
+      childprocess (>= 0.5, < 3.0)
       rubyzip (~> 1.2, >= 1.2.2)
     sinatra (1.4.7)
       rack (~> 1.5)
@@ -83,7 +83,7 @@ GEM
     tilt (2.0.9)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2019.2)
+    tzinfo-data (1.2019.3)
       tzinfo (>= 1.0.0)
     unf (0.1.4-java)
     webrobots (0.1.2)
@@ -113,4 +113,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.16.1
+   1.17.3
