@@ -1077,7 +1077,7 @@
         slug_config_title: Las babosas se generarán usando el nombre o título de la entidad.
         slug_config_eadid: Las babosas para <b> Recursos </b> se generarán utilizando el ID de EAD cuando sea apropiado.
         slug_config_cuid: Los slugs para <b> Objetos de archivo </b> se generarán usando la ID Única del Componente cuando sea apropiado.
-        ark_creation: This job will create ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
+        ark_generation: Este trabajo generará ARK para todos los <b> Recursos </b> y <b> Objetos de archivo </b> que aún no tienen un ARK. <br/> <br/> <em> ARK externos no se cambiarán. </em>
 
   shortcuts:
     quick_reference_window: "Referencia: accesos directos del teclado "

@@ -35,7 +35,7 @@
 
     <%= form.label_with_field "import_type", job['import_type'] %>
 
-    <% if job["job_type"] != 'generate_slugs_job' && job["job_type"] != 'create_arks_job' %>
+    <% if job["job_type"] != 'generate_slugs_job' && job["job_type"] != 'generate_arks_job' %>
       <div class="form-group">
         <label class="col-sm-3 control-label"><%= I18n.t("repository._singular") %></label>
         <div class="col-sm-9 controls label-only"><%= resolve_readonly_link_to job.repository['_resolved']['repo_code'], job.repository['ref'] %></div>

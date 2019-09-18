@@ -1077,7 +1077,7 @@ en:
         slug_config_title: Slugs will be generated using the entity name or title.
         slug_config_eadid: Slugs for <b>Resources</b> will be generated using the EAD ID where appropriate.
         slug_config_cuid: Slugs for <b>Archival Objects</b> will be generated using the Component Unique ID where appropriate.
-        ark_creation: This job will create ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
+        ark_generation: This job will generate ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
 
   shortcuts:
     quick_reference_window: "Quick Reference: Keyboard Shortcuts"

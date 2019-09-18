@@ -784,7 +784,7 @@ FactoryBot.define do
   factory :generate_slugs_job, class: JSONModel(:generate_slugs_job) do
   end
 
-  factory :create_arks_job, class: JSONModel(:create_arks_job) do
+  factory :generate_arks_job, class: JSONModel(:generate_arks_job) do
   end
 
   factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do
