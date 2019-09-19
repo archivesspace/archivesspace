@@ -1,6 +1,6 @@
 class ResourcesListReport < AbstractReport
 	register_report
-	
+
 	def query_string
 		"select
 			id,
@@ -8,7 +8,6 @@ class ResourcesListReport < AbstractReport
 			identifier,
 			level_id as level,
 			resource_type_id as resource_type,
-			language_id as language,
 			publish,
 			restrictions
 		from resource
@@ -16,7 +15,7 @@ class ResourcesListReport < AbstractReport
 	end
 
 	def fix_row(row)
-		ReportUtils.get_enum_values(row, [:level, :resource_type, :language])
+		ReportUtils.get_enum_values(row, [:level, :resource_type])
 		ReportUtils.fix_boolean_fields(row, [:publish, :restrictions])
 		ReportUtils.fix_identifier_format(row)
 		row[:date] = ResourcesListDatesSubreport.new(self, row[:id]).get_content
