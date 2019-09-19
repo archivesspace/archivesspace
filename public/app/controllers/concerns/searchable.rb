@@ -418,10 +418,18 @@ module Searchable
         v.each do | val |
           sanitized << ActionController::Base.helpers.sanitize(val)
         end
-      else
+      elsif v.is_a?(Hash)
+        sanitized = {}
+        v.each do | _key, value |
+          sanitized.merge!(_key: ActionController::Base.helpers.sanitize(value))
+        end
+      elsif v.is_a?(String)
         sanitized = ActionController::Base.helpers.sanitize(v)
+      elsif v.is_a?(Fixnum)
+        sanitized = v
       end
       unsanitized[k.to_sym] = sanitized
     end
+    return unsanitized
   end
 end
