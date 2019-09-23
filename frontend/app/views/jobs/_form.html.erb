@@ -81,11 +81,11 @@
 
 <% end %>
 
-<% define_template("create_arks_job", jsonmodel_definition(:create_arks_job)) do |form| %>
+<% define_template("generate_arks_job", jsonmodel_definition(:generate_arks_job)) do |form| %>
   <hr/>
   <br/>
   <br/>
-  <p><%= I18n.t("job._frontend.messages.ark_creation") %></p>
+  <p><%= I18n.t("job._frontend.messages.ark_generation") %></p>
   <br/>
 <% end %>
 
@@ -174,7 +174,7 @@
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>
-  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job', 'create_arks_job'].include?(type) %>
+  <% next if ['container_labels_job', 'find_and_replace_job', 'print_to_pdf_job', 'import_job', 'report_job', 'generate_slugs_job', 'generate_arks_job'].include?(type) %>
 
   <% define_template(type, jsonmodel_definition(type.intern)) do |form| %>
 

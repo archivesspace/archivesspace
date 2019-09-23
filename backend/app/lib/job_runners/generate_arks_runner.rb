@@ -1,5 +1,5 @@
-class CreateArksRunner < JobRunner
-  register_for_job_type('create_arks_job',
+class GenerateArksRunner < JobRunner
+  register_for_job_type('generate_arks_job',
                         {:create_permissions => :administer_system,
                          :cancel_permissions => :administer_system})
 
@@ -7,7 +7,7 @@ class CreateArksRunner < JobRunner
     begin
 
       # RESOURCES
-      @job.write_output("Creating ARKs for Resources")
+      @job.write_output("Generating ARKs for Resources")
       @job.write_output("================================")
 
       count_res = 0
@@ -31,12 +31,12 @@ class CreateArksRunner < JobRunner
       end
 
       if count_res == 0
-        @job.write_output("No Resource ARKs were created because all Resource records already have ARKs")
+        @job.write_output("No Resource ARKs were generated because all Resource records already have ARKs")
         @job.write_output("================================")
       end
 
       # Archival Object
-      @job.write_output("Creating ARKs for Archival Objects")
+      @job.write_output("Generating ARKs for Archival Objects")
       @job.write_output("================================")
 
       count_aos = 0
@@ -60,7 +60,7 @@ class CreateArksRunner < JobRunner
       end
 
       if count_aos == 0
-        @job.write_output("No Archival Object ARKs were created because all Archival Object records already have ARKs")
+        @job.write_output("No Archival Object ARKs were generated because all Archival Object records already have ARKs")
         @job.write_output("================================")
       end
 
