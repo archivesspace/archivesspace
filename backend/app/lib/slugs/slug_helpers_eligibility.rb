@@ -8,7 +8,6 @@ module SlugHelpers
   ].freeze
 
   BASE_RECORD_TYPES = [
-    Repository,
     Resource,
     Subject,
     DigitalObject,
