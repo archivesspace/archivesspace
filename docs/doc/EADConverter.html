@@ -1429,7 +1429,46 @@
 979
 980
 981
-982</pre>
+982
+983
+984
+985
+986
+987
+988
+989
+990
+991
+992
+993
+994
+995
+996
+997
+998
+999
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+1016
+1017
+1018
+1019
+1020
+1021</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 92</span>
@@ -1558,31 +1597,71 @@
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
+
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>&quot;langmaterial&quot;</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='bitor op'>|</span>
-    <span class='comment val'># first, assign the primary language to the ead</span>
+    <span class='comment val'># if &lt;langmaterial&gt; contains encoded &lt;language&gt; tags create a matching language_and_script record</span>
     <span class='rubyid_langmaterial identifier id'>langmaterial</span> <span class='assign token'>=</span> <span class='rubyid_Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='rubyid_XML constant id'>XML</span><span class='colon2 op'>::</span><span class='rubyid_DocumentFragment constant id'>DocumentFragment</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='rparen token'>)</span>
-    <span class='rubyid_langmaterial identifier id'>langmaterial</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_child identifier id'>child</span><span class='bitor op'>|</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='eq op'>==</span> <span class='string val'>&#39;language&#39;</span>
-        <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:language</span><span class='comma token'>,</span> <span class='rubyid_child identifier id'>child</span><span class='dot token'>.</span><span class='rubyid_attr identifier id'>attr</span><span class='lparen token'>(</span><span class='string val'>&quot;langcode&quot;</span><span class='rparen token'>)</span>
-        <span class='rubyid_break break kw'>break</span>
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_language identifier id'>language</span> <span class='assign token'>=</span> <span class='rubyid_langmaterial identifier id'>langmaterial</span><span class='dot token'>.</span><span class='rubyid_xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>&#39;.//language&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_size identifier id'>size</span> <span class='neq op'>!=</span> <span class='integer val'>0</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_langcode identifier id'>langcode</span> <span class='assign token'>=</span> <span class='rubyid_langmaterial identifier id'>langmaterial</span><span class='dot token'>.</span><span class='rubyid_xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>&#39;.//language&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_attr identifier id'>attr</span><span class='lparen token'>(</span><span class='string val'>&#39;langcode&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_script identifier id'>script</span> <span class='assign token'>=</span> <span class='rubyid_language identifier id'>language</span><span class='dot token'>.</span><span class='rubyid_attr identifier id'>attr</span><span class='lparen token'>(</span><span class='string val'>&#39;scriptcode&#39;</span><span class='rparen token'>)</span>
+      <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:lang_material</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:jsonmodel_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;lang_material&#39;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:language_and_script</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;language_and_script&#39;</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;language&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_langcode identifier id'>langcode</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;script&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_script identifier id'>script</span> <span class='integer val'>? </span><span class='rubyid_script identifier id'>script</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span>
+        <span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_lang identifier id'>lang</span><span class='bitor op'>|</span>
+      <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:lang_materials</span><span class='comma token'>,</span> <span class='rubyid_lang identifier id'>lang</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='comment val'># if we don&#39;t have an encoded language inside the &lt;langmaterial&gt; set it to undetermined.</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:lang_material</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:jsonmodel_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;lang_material&#39;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:language_and_script</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;language_and_script&#39;</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;language&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;und&#39;</span>
+        <span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_lang identifier id'>lang</span><span class='bitor op'>|</span>
+      <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:lang_materials</span><span class='comma token'>,</span> <span class='rubyid_lang identifier id'>lang</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
 
-    <span class='comment val'># write full tag content to a note, subbing out the language tags</span>
+    <span class='comment val'># write full &lt;langmaterial&gt; content to a note, subbing out the language tags (if present)</span>
     <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span>
-    <span class='rubyid_next next kw'>next</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_content identifier id'>content</span> <span class='match op'>=~</span> <span class='regexp val'>/\A&lt;language langcode=\&quot;[a-z]+\&quot;\/&gt;\Z/</span>
-
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/\A&lt;language langcode=\&quot;[a-z]+\&quot;\s*&gt;([^&lt;]+)&lt;\/language&gt;\Z/</span><span class='rparen token'>)</span>
-      <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_$1 nth_ref id'>$1</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/(&lt;language langcode=&quot;[a-z]+&quot; scriptcode=&quot;[A-z]+&quot;&gt;(.*)&lt;\/language&gt;)|(&lt;language langcode=&quot;[a-z]+&quot;&gt;(.*)&lt;\/language&gt;)|(&lt;language langcode=&quot;[a-z]+&quot;\/&gt;)/</span><span class='rparen token'>)</span>
+      <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/(&lt;language langcode=&quot;[a-z]+&quot; scriptcode=&quot;[A-z]+&quot;&gt;(.*)&lt;\/language&gt;)|(&lt;language langcode=&quot;[a-z]+&quot;&gt;(.*)&lt;\/language&gt;)|(&lt;language langcode=&quot;[a-z]+&quot;\/&gt;)/</span><span class='comma token'>,</span> <span class='string val'>&#39;\\2\\4&#39;</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
-    <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:note_singlepart</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
-      <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;langmaterial&quot;</span><span class='comma token'>,</span>
-      <span class='symbol val'>:persistent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-      <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;audience&#39;</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span><span class='comma token'>,</span>
-      <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/&lt;head&gt;.*?&lt;\/head&gt;/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span> <span class='rparen token'>)</span>
-    <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
-      <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:notes</span><span class='comma token'>,</span> <span class='rubyid_note identifier id'>note</span>
+    <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_content identifier id'>content</span> <span class='eq op'>==</span> <span class='string val'>&#39;&#39;</span>
+      <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:lang_material</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:jsonmodel_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;lang_material&#39;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:notes</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_langmaterial&#39;</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;langmaterial&#39;</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;persistent_id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;publish&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;audience&#39;</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;content&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/&lt;head&gt;.*?&lt;\/head&gt;/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span> <span class='rparen token'>)</span><span class='rbrack token'>]</span>
+        <span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+        <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:lang_materials</span><span class='comma token'>,</span> <span class='rubyid_note identifier id'>note</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># If we&#39;ve gotten this far and still haven&#39;t hit a &lt;langmaterial&gt;&lt;language&gt; we must assign an undetermined language value</span>
+  <span class='rubyid_with identifier id'>with</span> <span class='string val'>&quot;archdesc/did&quot;</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_context_obj identifier id'>context_obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;resource&#39;</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&#39;&lt;langmaterial&gt;&#39;</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='rubyid_false false kw'>false</span>
+      <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:lang_material</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
+        <span class='symbol val'>:jsonmodel_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;lang_material&#39;</span><span class='comma token'>,</span>
+        <span class='symbol val'>:language_and_script</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+          <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;language_and_script&#39;</span><span class='comma token'>,</span>
+          <span class='string val'>&#39;language&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;und&#39;</span>
+        <span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_lang identifier id'>lang</span><span class='bitor op'>|</span>
+      <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:lang_materials</span><span class='comma token'>,</span> <span class='rubyid_lang identifier id'>lang</span>
+      <span class='rubyid_break break kw'>break</span>
+      <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
@@ -2168,7 +2247,6 @@
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-
   <span class='rubyid_with identifier id'>with</span> <span class='string val'>&#39;revisiondesc/change&#39;</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='bitor op'>|</span>
     <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:revision_statement</span>
     <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:revision_statements</span><span class='comma token'>,</span> <span class='rubyid_proxy identifier id'>proxy</span>
@@ -2432,26 +2510,26 @@
       <pre class="lines">
 
 
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650</pre>
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 634</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 674</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_to_instance identifier id'>add_to_instance</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_parent_id identifier id'>parent_id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='rubyid_recall_instance identifier id'>recall_instance</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -2541,52 +2619,52 @@ actually want to ever see them.</p>
       <pre class="lines">
 
 
-652
-653
-654
-655
-656
-657
-658
-659
-660
-661
-662
-663
-664
-665
-666
-667
-668
-669
-670
-671
-672
-673
-674
-675
-676
-677
-678
-679
-680
-681
-682
-683
-684
-685
-686
-687
-688
-689
-690
-691
 692
 693
-694</pre>
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 652</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 692</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_make_top_container_uri identifier id'>get_or_make_top_container_uri</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span>
   <span class='comment val'># remember the top_containers we make in this hash</span>
@@ -2833,27 +2911,27 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-988
-989
-990
-991
-992
-993
-994
-995
-996
-997
-998
-999
-1000
-1001
-1002
-1003
-1004
-1005</pre>
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 988</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1027</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_corp_template identifier id'>make_corp_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2894,27 +2972,27 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-1008
-1009
-1010
-1011
-1012
-1013
-1014
-1015
-1016
-1017
-1018
-1019
-1020
-1021
-1022
-1023
-1024
-1025</pre>
+1047
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061
+1062
+1063
+1064</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1008</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1047</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_family_template identifier id'>make_family_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2955,24 +3033,24 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274</pre>
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 300</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_nested_note identifier id'>make_nested_note</span><span class='lparen token'>(</span><span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span> <span class='rubyid_tag identifier id'>tag</span><span class='rparen token'>)</span>
   <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_tag identifier id'>tag</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span>
@@ -3010,28 +3088,28 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-1028
-1029
-1030
-1031
-1032
-1033
-1034
-1035
-1036
-1037
-1038
-1039
-1040
-1041
-1042
-1043
-1044
-1045
-1046</pre>
+1067
+1068
+1069
+1070
+1071
+1072
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080
+1081
+1082
+1083
+1084
+1085</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1028</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1067</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_person_template identifier id'>make_person_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -3073,23 +3151,23 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258</pre>
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 245</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 285</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_single_note identifier id'>make_single_note</span><span class='lparen token'>(</span><span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span> <span class='rubyid_tag identifier id'>tag</span><span class='comma token'>,</span> <span class='rubyid_tag_name identifier id'>tag_name</span><span class='assign token'>=</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_tag identifier id'>tag</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span>
@@ -3126,12 +3204,12 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-630
-631
-632</pre>
+670
+671
+672</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 630</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 670</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_recall_instance identifier id'>recall_instance</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_id identifier id'>id</span> <span class='integer val'>? </span><span class='rubyid_@instances ivar id'>@instances</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_@last_instance ivar id'>@last_instance</span>
@@ -3157,14 +3235,14 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-624
-625
-626
-627
-628</pre>
+664
+665
+666
+667
+668</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 624</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 664</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_remember_instance identifier id'>remember_instance</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_@instances ivar id'>@instances</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -3182,7 +3260,7 @@ which greatly helps the performance.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:16 2019 by
+  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:43:04 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

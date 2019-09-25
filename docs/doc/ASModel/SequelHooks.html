@@ -375,11 +375,6 @@ so skip them.</p>
       <pre class="lines">
 
 
-107
-108
-109
-110
-111
 112
 113
 114
@@ -397,10 +392,15 @@ so skip them.</p>
 126
 127
 128
-129</pre>
+129
+130
+131
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 112</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_around_save identifier id'>around_save</span>
   <span class='rubyid_values_to_reapply identifier id'>values_to_reapply</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -553,7 +553,12 @@ so skip them.</p>
 92
 93
 94
-95</pre>
+95
+96
+97
+98
+99
+100</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 29</span>
@@ -617,12 +622,17 @@ so skip them.</p>
         <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:is_slug_auto</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_Repository constant id'>Repository</span>
-    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='orop op'>||</span>
-        <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_column_changed? fid id'>column_changed?</span><span class='lparen token'>(</span><span class='symbol val'>:repo_code</span><span class='rparen token'>)</span>
+    <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_exists? fid id'>exists?</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
       <span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_clean_slug identifier id'>clean_slug</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_code</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
       <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_run_dedupe_slug identifier id'>run_dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span><span class='rparen token'>)</span>
+      <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:is_slug_auto</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='notop op'>!</span><span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='colon2 op'>::</span><span class='rubyid_is_slug_auto_enabled? fid id'>is_slug_auto_enabled?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+          <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span>
+          <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_column_changed? fid id'>column_changed?</span><span class='lparen token'>(</span><span class='symbol val'>:slug</span><span class='rparen token'>)</span>
+      <span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_clean_slug identifier id'>clean_slug</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:slug</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_SlugHelpers constant id'>SlugHelpers</span><span class='dot token'>.</span><span class='rubyid_run_dedupe_slug identifier id'>run_dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_cleaned_slug identifier id'>cleaned_slug</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='symbol val'>:is_slug_auto</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span>
+
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -646,16 +656,16 @@ so skip them.</p>
       <pre class="lines">
 
 
-98
-99
-100
-101
-102
 103
-104</pre>
+104
+105
+106
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_sequel.rb', line 103</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_update identifier id'>before_update</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span>
@@ -675,7 +685,7 @@ so skip them.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:01 2019 by
+  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:42:49 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

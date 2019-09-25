@@ -374,6 +374,8 @@
       <pre class="lines">
 
 
+25
+26
 27
 28
 29
@@ -473,10 +475,25 @@
 123
 124
 125
-126</pre>
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 25</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_mods_inner identifier id'>serialize_mods_inner</span><span class='lparen token'>(</span><span class='rubyid_mods identifier id'>mods</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
 
@@ -488,17 +505,34 @@
 
   <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_typeOfResource identifier id'>typeOfResource</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_type_of_resource identifier id'>type_of_resource</span>
 
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
-  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_language_term identifier id'>language_term</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
-    <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span> <span class='lbrace token'>{</span>
-      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_languageTerm identifier id'>languageTerm</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;text&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:authority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;iso639-2b&#39;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_language_term identifier id'>language_term</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;:&quot;</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
-      <span class='rbrace token'>}</span>
+    <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_language identifier id'>language</span><span class='bitor op'>|</span>
+      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span> <span class='lbrace token'>{</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_languageTerm identifier id'>languageTerm</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;text&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:authority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;iso639-2b&#39;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations.language_iso639_2.&quot;</span> <span class='plus op'>+</span> <span class='rubyid_language identifier id'>language</span><span class='lbrack token'>[</span><span class='string val'>&#39;language&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+        <span class='rbrace token'>}</span>
 
-      <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_languageTerm identifier id'>languageTerm</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;code&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:authority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;iso639-2b&#39;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
-        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_language_term identifier id'>language_term</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;:&quot;</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_languageTerm identifier id'>languageTerm</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;code&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:authority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;iso639-2b&#39;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_language identifier id'>language</span><span class='lbrack token'>[</span><span class='string val'>&#39;language&#39;</span><span class='rbrack token'>]</span>
+        <span class='rbrace token'>}</span>
+
+        <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_language identifier id'>language</span><span class='lbrack token'>[</span><span class='string val'>&#39;script&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_scriptTerm identifier id'>scriptTerm</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;text&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:authority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;iso15924&#39;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+            <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;enumerations.script_iso15924.&quot;</span> <span class='plus op'>+</span> <span class='rubyid_language identifier id'>language</span><span class='lbrack token'>[</span><span class='string val'>&#39;script&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+          <span class='rbrace token'>}</span>
+
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_scriptTerm identifier id'>scriptTerm</span><span class='lparen token'>(</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;code&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:authority</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;iso15924&#39;</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+            <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span> <span class='rubyid_language identifier id'>language</span><span class='lbrack token'>[</span><span class='string val'>&#39;script&#39;</span><span class='rbrack token'>]</span>
+          <span class='rbrace token'>}</span>
+        <span class='rubyid_end end kw'>end</span>
       <span class='rbrace token'>}</span>
-    <span class='rbrace token'>}</span>
+    <span class='rubyid_end end kw'>end</span>
+
+    <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_lang_notes identifier id'>lang_notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+      <span class='rubyid_serialize_note identifier id'>serialize_note</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_mods identifier id'>mods</span><span class='dot token'>.</span><span class='rubyid_dates identifier id'>dates</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_date identifier id'>date</span><span class='bitor op'>|</span>
@@ -599,30 +633,30 @@
       <pre class="lines">
 
 
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
 144
 145
 146
 147
 148
-149</pre>
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 144</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_name identifier id'>serialize_name</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='string val'>&#39;type&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
@@ -666,18 +700,18 @@
       <pre class="lines">
 
 
-152
-153
-154
-155
-156
-157
-158
-159
-160</pre>
+167
+168
+169
+170
+171
+172
+173
+174
+175</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/mods.rb', line 167</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_serialize_note identifier id'>serialize_note</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span>
   <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -699,7 +733,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:17 2019 by
+  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:43:05 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

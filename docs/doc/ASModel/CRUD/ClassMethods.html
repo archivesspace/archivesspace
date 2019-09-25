@@ -617,13 +617,13 @@ Instance is a nested record of an Archival Object.</p>
       <pre class="lines">
 
 
-425
-426
-427
-428</pre>
+456
+457
+458
+459</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 425</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 456</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_enclosing_association identifier id'>add_enclosing_association</span><span class='lparen token'>(</span><span class='rubyid_association identifier id'>association</span><span class='rparen token'>)</span>
   <span class='rubyid_@enclosing_associations ivar id'>@enclosing_associations</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -650,14 +650,14 @@ Instance is a nested record of an Archival Object.</p>
       <pre class="lines">
 
 
-490
-491
-492
-493
-494</pre>
+521
+522
+523
+524
+525</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 490</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 521</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_associations_to_eagerly_load identifier id'>associations_to_eagerly_load</span>
   <span class='comment val'># Allow subclasses to force eager loading of certain associations to</span>
@@ -685,23 +685,23 @@ Instance is a nested record of an Archival Object.</p>
       <pre class="lines">
 
 
-458
-459
-460
-461
-462
-463
-464
-465
-466
-467
-468
-469
-470
-471</pre>
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 458</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 489</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_corresponds_to identifier id'>corresponds_to</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='rparen token'>)</span>
   <span class='rubyid_@jsonmodel ivar id'>@jsonmodel</span> <span class='assign token'>=</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span>
@@ -749,29 +749,30 @@ nested record instances that it contains.</p>
       <pre class="lines">
 
 
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345</pre>
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 356</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_extra_values identifier id'>extra_values</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strict_param_setting identifier id'>strict_param_setting</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
@@ -791,6 +792,7 @@ nested record instances that it contains.</p>
   <span class='rubyid_fire_update identifier id'>fire_update</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 
   <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_refresh identifier id'>refresh</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_create_ark_name identifier id'>create_ark_name</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:arks_enabled</span><span class='rbrack token'>]</span>
   <span class='rubyid_obj identifier id'>obj</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -855,25 +857,25 @@ include them in the response.</p>
       <pre class="lines">
 
 
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419</pre>
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 404</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 435</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_def_nested_record identifier id'>def_nested_record</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:association</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_association_reflection identifier id'>association_reflection</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:corresponding_to_association</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -923,12 +925,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-432
-433
-434</pre>
+463
+464
+465</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 432</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 463</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_enclosing_associations identifier id'>enclosing_associations</span>
   <span class='rubyid_@enclosing_associations ivar id'>@enclosing_associations</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -964,24 +966,24 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
-367
-368</pre>
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 354</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 385</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_fire_update identifier id'>fire_update</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_sequel_obj identifier id'>sequel_obj</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_high_priority? fid id'>high_priority?</span>
@@ -1019,17 +1021,17 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-437
-438
-439
-440
-441
-442
-443
-444</pre>
+468
+469
+470
+471
+472
+473
+474
+475</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 437</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 468</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_nested_graph identifier id'>get_nested_graph</span>
   <span class='rubyid_Hash constant id'>Hash</span><span class='lbrack token'>[</span><span class='rubyid_nested_records identifier id'>nested_records</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_nested_record identifier id'>nested_record</span><span class='bitor op'>|</span>
@@ -1060,18 +1062,18 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-447
-448
-449
-450
-451
-452
-453
-454
-455</pre>
+478
+479
+480
+481
+482
+483
+484
+485
+486</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 447</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 478</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_model_scope identifier id'>model_scope</span> <span class='eq op'>==</span> <span class='symbol val'>:repository</span>
@@ -1103,12 +1105,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-525
-526
-527</pre>
+556
+557
+558</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 525</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 556</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_delete identifier id'>handle_delete</span><span class='lparen token'>(</span><span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ids_to_delete identifier id'>ids_to_delete</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span>
@@ -1157,12 +1159,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-475
-476
-477</pre>
+506
+507
+508</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 475</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 506</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_has_jsonmodel? fid id'>has_jsonmodel?</span>
   <span class='notop op'>!</span><span class='rubyid_@jsonmodel ivar id'>@jsonmodel</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1211,12 +1213,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-348
-349
-350</pre>
+379
+380
+381</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 348</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 379</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_high_priority? fid id'>high_priority?</span>
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:is_high_priority</span><span class='rparen token'>)</span>
@@ -1265,12 +1267,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-556
-557
-558</pre>
+587
+588
+589</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 556</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 587</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_is_relationship? fid id'>is_relationship?</span>
   <span class='rubyid_false false kw'>false</span>
@@ -1306,12 +1308,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-481
-482
-483</pre>
+512
+513
+514</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 481</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 512</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_my_jsonmodel identifier id'>my_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_ok_if_missing identifier id'>ok_if_missing</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_@jsonmodel ivar id'>@jsonmodel</span> <span class='rubyid_or or kw'>or</span> <span class='lparen token'>(</span><span class='rubyid_ok_if_missing identifier id'>ok_if_missing</span> <span class='integer val'>? </span><span class='rubyid_nil nil kw'>nil</span> <span class='colon op'>:</span> <span class='rubyid_raise identifier id'>raise</span><span class='lparen token'>(</span><span class='dstring node'>&quot;No corresponding JSONModel set for model #{self.inspect}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -1337,12 +1339,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-371
-372
-373</pre>
+402
+403
+404</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 371</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 402</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_nested_records identifier id'>nested_records</span>
   <span class='rubyid_@nested_records ivar id'>@nested_records</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1368,13 +1370,13 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-550
-551
-552
-553</pre>
+581
+582
+583
+584</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 550</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 581</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_repo_unique_constraint identifier id'>repo_unique_constraint</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_constraints identifier id'>constraints</span><span class='rparen token'>)</span>
   <span class='rubyid_@repo_unique_constraints ivar id'>@repo_unique_constraints</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1401,12 +1403,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-545
-546
-547</pre>
+576
+577
+578</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 545</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 576</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_repo_unique_constraints identifier id'>repo_unique_constraints</span>
   <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_@repo_unique_constraints ivar id'>@repo_unique_constraints</span><span class='rparen token'>)</span>
@@ -1432,12 +1434,12 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-486
-487
-488</pre>
+517
+518
+519</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 486</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 517</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_NestedRecordResolver constant id'>NestedRecordResolver</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_nested_records identifier id'>nested_records</span><span class='comma token'>,</span> <span class='rubyid_objs identifier id'>objs</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_resolve identifier id'>resolve</span>
@@ -1463,35 +1465,35 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-497
-498
-499
-500
-501
-502
-503
-504
-505
-506
-507
-508
-509
-510
-511
-512
-513
-514
-515
-516
-517
-518
-519
-520
-521
-522</pre>
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 497</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 528</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_jsonmodel identifier id'>to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_is_id_query identifier id'>is_id_query</span>     <span class='assign token'>=</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Integer constant id'>Integer</span><span class='rparen token'>)</span>
@@ -1540,15 +1542,15 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-537
-538
-539
-540
-541
-542</pre>
+568
+569
+570
+571
+572
+573</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 537</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 568</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_mtime_for_ids identifier id'>update_mtime_for_ids</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='rparen token'>)</span>
   <span class='rubyid_now identifier id'>now</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -1577,14 +1579,14 @@ back to our parent(s).  Top-level records just return an empty list.</p>
       <pre class="lines">
 
 
-530
-531
-532
-533
-534</pre>
+561
+562
+563
+564
+565</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 530</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/ASModel_crud.rb', line 561</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_mtime_for_repo_id identifier id'>update_mtime_for_repo_id</span><span class='lparen token'>(</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_model_scope identifier id'>model_scope</span> <span class='eq op'>==</span> <span class='symbol val'>:repository</span>
@@ -1602,7 +1604,7 @@ back to our parent(s).  Top-level records just return an empty list.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:00 2019 by
+  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:42:49 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

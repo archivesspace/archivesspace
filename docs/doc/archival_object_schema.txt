@@ -10,6 +10,8 @@ string	level
 
 string (max length: 255)	other_level
 
+string	external_ark_url
+
 string (max length: 8192)	title
 
 string	slug
@@ -39,6 +41,8 @@ array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:n
 boolean	has_unpublished_ancestor
 
 JSONModel(:file_version) object	representative_image
+
+JSONModel(:ark_name) object	ark_name
 
 
 

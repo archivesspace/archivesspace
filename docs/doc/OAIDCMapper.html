@@ -324,7 +324,36 @@
 163
 164
 165
-166</pre>
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/oai/mappers/oai_dc.rb', line 5</span>
@@ -345,6 +374,7 @@
       <span class='rubyid_end end kw'>end</span>
 
       <span class='comment val'># Identifier (own component ID + IDs of parents)</span>
+      <span class='comment val'># TODO: Reuse after implementing &#39;off&#39; switch for ARK</span>
       <span class='rubyid_merged_identifier identifier id'>merged_identifier</span> <span class='assign token'>=</span> <span class='rubyid_if if kw'>if</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;archival_object&#39;</span>
                             <span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;component_id&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;ancestors&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_a identifier id'>a</span><span class='bitor op'>|</span> <span class='rubyid_a identifier id'>a</span><span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;component_id&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_reverse identifier id'>reverse</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;.&quot;</span><span class='rparen token'>)</span>
                           <span class='rubyid_else else kw'>else</span>
@@ -353,6 +383,18 @@
 
       <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_merged_identifier identifier id'>merged_identifier</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
         <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dc&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='lparen token'>(</span><span class='rubyid_merged_identifier identifier id'>merged_identifier</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:arks_enabled</span><span class='rbrack token'>]</span>
+        <span class='rubyid_ark_url identifier id'>ark_url</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;resource&#39;</span>
+          <span class='rubyid_ark_url identifier id'>ark_url</span> <span class='assign token'>=</span> <span class='rubyid_ArkName constant id'>ArkName</span><span class='colon2 op'>::</span><span class='rubyid_get_ark_url identifier id'>get_ark_url</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:resource</span><span class='rparen token'>)</span>
+        <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;jsonmodel_type&#39;</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&#39;archival_object&#39;</span>
+          <span class='rubyid_ark_url identifier id'>ark_url</span> <span class='assign token'>=</span> <span class='rubyid_ArkName constant id'>ArkName</span><span class='colon2 op'>::</span><span class='rubyid_get_ark_url identifier id'>get_ark_url</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:archival_object</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_ark_url identifier id'>ark_url</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='rubyid_ark_url identifier id'>ark_url</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dc&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='lparen token'>(</span><span class='rubyid_ark_url identifier id'>ark_url</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
 
       <span class='comment val'># And a second identifier containing the public url - if public is running</span>
@@ -415,9 +457,25 @@
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
 
-      <span class='comment val'># Language</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;language&#39;</span><span class='rbrack token'>]</span>
-        <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dc&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;language&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='comment val'># Languages</span>
+      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_lang_materials identifier id'>lang_materials</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_jsonmodel identifier id'>jsonmodel</span><span class='lbrack token'>[</span><span class='string val'>&#39;lang_materials&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+        <span class='rubyid_language_vals identifier id'>language_vals</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;language_and_script&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+        <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_language_vals identifier id'>language_vals</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+          <span class='rubyid_language_vals identifier id'>language_vals</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span>
+            <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dc&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span><span class='lparen token'>(</span><span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;language&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+            <span class='rubyid_if if kw'>if</span> <span class='rubyid_l identifier id'>l</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&#39;script&#39;</span><span class='rparen token'>)</span>
+              <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dc&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span><span class='lparen token'>(</span><span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;script&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+            <span class='rubyid_end end kw'>end</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_language_notes identifier id'>language_notes</span> <span class='assign token'>=</span> <span class='rubyid_lang_materials identifier id'>lang_materials</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_l identifier id'>l</span><span class='bitor op'>|</span> <span class='rubyid_l identifier id'>l</span><span class='lbrack token'>[</span><span class='string val'>&#39;notes&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>  <span class='rubyid_e identifier id'>e</span> <span class='eq op'>==</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span>
+        <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_language_notes identifier id'>language_notes</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+          <span class='rubyid_language_notes identifier id'>language_notes</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
+            <span class='rubyid_OAIUtils constant id'>OAIUtils</span><span class='dot token'>.</span><span class='rubyid_extract_published_note_content identifier id'>extract_published_note_content</span><span class='lparen token'>(</span><span class='rubyid_note identifier id'>note</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_content identifier id'>content</span><span class='bitor op'>|</span>
+              <span class='rubyid_xml identifier id'>xml</span><span class='lbrack token'>[</span><span class='string val'>&#39;dc&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span><span class='lparen token'>(</span><span class='rubyid_content identifier id'>content</span><span class='rparen token'>)</span>
+            <span class='rubyid_end end kw'>end</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
 
       <span class='comment val'># Description note types</span>
@@ -502,7 +560,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:14 2019 by
+  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:43:02 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

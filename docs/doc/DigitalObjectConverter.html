@@ -553,7 +553,19 @@
 334
 335
 336
-337</pre>
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/digital_object_converter.rb', line 28</span>
@@ -638,7 +650,9 @@
 
     <span class='string val'>&#39;digital_object_cataloged_note&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;collection_management.cataloged_note&#39;</span><span class='comma token'>,</span>
 
-    <span class='string val'>&#39;digital_object_language&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.language&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_language&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;lang_material.language&#39;</span><span class='comma token'>,</span>
+    <span class='string val'>&#39;digital_object_script&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;lang_material.script&#39;</span><span class='comma token'>,</span>
+
     <span class='string val'>&#39;digital_object_level&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.level&#39;</span><span class='comma token'>,</span>
     <span class='string val'>&#39;digital_object_publish&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rubyid_normalize_boolean identifier id'>normalize_boolean</span><span class='comma token'>,</span> <span class='string val'>&#39;d.publish&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
     <span class='string val'>&#39;digital_object_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;d.digital_object_type&#39;</span><span class='comma token'>,</span>
@@ -825,6 +839,16 @@
       <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
+    <span class='symbol val'>:lang_material</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:on_create</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
+        <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_language_and_script identifier id'>language_and_script</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;language_and_script&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;language&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;language&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;script&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;script&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='symbol val'>:on_row_complete</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_cache identifier id'>cache</span><span class='comma token'>,</span> <span class='rubyid_this identifier id'>this</span><span class='bitor op'>|</span>
+        <span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_record_type identifier id'>record_type</span> <span class='match op'>=~</span> <span class='regexp val'>/^digital_object/</span> <span class='rbrace token'>}</span>
+        <span class='rubyid_digital_object identifier id'>digital_object</span><span class='dot token'>.</span><span class='rubyid_lang_materials identifier id'>lang_materials</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_this identifier id'>this</span>
+      <span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span><span class='comma token'>,</span>
+
     <span class='symbol val'>:note_bioghist</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:on_create</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Proc constant id'>Proc</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_data identifier id'>data</span><span class='comma token'>,</span> <span class='rubyid_obj identifier id'>obj</span><span class='bitor op'>|</span>
         <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_subnotes identifier id'>subnotes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_text&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;content&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_data identifier id'>data</span><span class='lbrack token'>[</span><span class='string val'>&#39;content&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
@@ -959,7 +983,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:19 2019 by
+  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:43:07 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

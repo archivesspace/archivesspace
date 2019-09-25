@@ -8,8 +8,6 @@ array (JSONModel(:external_id) object)	external_ids
 
 string (max length: 16384)	title
 
-string	language
-
 boolean	publish
 
 array (Object (ref, _resolved))	subjects
@@ -17,6 +15,8 @@ array (Object (ref, _resolved))	subjects
 array (Object (ref, _resolved))	linked_events
 
 array (JSONModel(:extent) object)	extents
+
+array (JSONModel(:lang_material) object)	lang_materials
 
 array (JSONModel(:date) object)	dates
 
