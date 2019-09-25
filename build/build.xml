@@ -85,7 +85,22 @@
       <env key="HOME" value="${build.home}" />
       <arg line="gems/bin/bundle install --gemfile='${gemfile}' --no-deployment ${bundle-without-option}" />
     </java>
+
+    <!-- Remove the BUNDLED WITH section from Gemfile.lock to avoid hitting
+         differences in bundler versions -->
+    <antcall target="clear_bundled_with">
+      <param name="gemfile" value="${gemfile}" />
+    </antcall>
   </target>
+
+  <target name="clear_bundled_with">
+    <replaceregexp file="${gemfile}.lock"
+                   flags="m"
+                   match="^BUNDLED WITH\n.*$"
+                   replace="" />
+  </target>
+
+
 
   <target name="bootstrap" depends="bootstrap-downloads" description="Download JRuby and install all required gems">
     <delete dir="gems/bundler" />

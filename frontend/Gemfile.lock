@@ -296,5 +296,4 @@ DEPENDENCIES
   xlsx_streaming_reader!
   zip-zip (= 0.3)
 
-BUNDLED WITH
-   1.16.1
+

@@ -73,5 +73,4 @@ DEPENDENCIES
   sinatra (= 1.4.7)
   sinatra-contrib (= 1.4.7)
 
-BUNDLED WITH
-   1.16.1
+
