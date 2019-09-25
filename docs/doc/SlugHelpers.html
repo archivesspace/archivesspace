@@ -119,7 +119,6 @@
           
         </dt>
         <dd><pre class="code"><span class='lbrack token'>[</span>
-  <span class='string val'>&quot;Repository&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&quot;Resource&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&quot;Subject&quot;</span><span class='comma token'>,</span>
   <span class='string val'>&quot;DigitalObject&quot;</span><span class='comma token'>,</span>
@@ -717,8 +716,6 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
       <pre class="lines">
 
 
-106
-107
 108
 109
 110
@@ -749,10 +746,12 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
 135
 136
 137
-138</pre>
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 108</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_base_slug_changed? fid id'>base_slug_changed?</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='comma token'>,</span> <span class='rubyid_previous_slug identifier id'>previous_slug</span><span class='rparen token'>)</span>
   <span class='comment val'># first, compare the two slugs from left to right to see what they have in common. Remove anything in common.</span>
@@ -831,15 +830,15 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
       <pre class="lines">
 
 
+158
 159
-160
-161</pre>
+160</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 158</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_base_sluggable_class? fid id'>base_sluggable_class?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
-  <span class='rubyid_BASE_RECORD_TYPES constant id'>BASE_RECORD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
+  <span class='rubyid_BASE_RECORD_TYPES constant id'>BASE_RECORD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1111,24 +1110,28 @@ NOTE: If changes are made here, then they should be also made in migration 119.<
       <pre class="lines">
 
 
-151
-152
-153
 154
 155
 156
 157
-158</pre>
+158
+159
+160
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 154</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dedupe_slug identifier id'>dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_dupe_slug identifier id'>dupe_slug</span><span class='comma token'>,</span> <span class='rubyid_count identifier id'>count</span><span class='rparen token'>)</span>
+
   <span class='rubyid_new_slug identifier id'>new_slug</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{dupe_slug}_#{count}&quot;</span>
   <span class='rubyid_loop identifier id'>loop</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_break break kw'>break</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_slug_in_use? fid id'>slug_in_use?</span><span class='lparen token'>(</span><span class='rubyid_new_slug identifier id'>new_slug</span><span class='rparen token'>)</span>
     <span class='rubyid_new_slug identifier id'>new_slug</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{dupe_slug}_#{count += 1}&quot;</span>
   <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_new_slug identifier id'>new_slug</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1533,15 +1536,15 @@ controller is asking, and whether we’re scoping by repo slug or not.</p>
       <pre class="lines">
 
 
+150
 151
-152
-153</pre>
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_agent_name_type? fid id'>is_agent_name_type?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
-  <span class='rubyid_NAME_RECORD_TYPES constant id'>NAME_RECORD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
+  <span class='rubyid_NAME_RECORD_TYPES constant id'>NAME_RECORD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1587,15 +1590,15 @@ controller is asking, and whether we’re scoping by repo slug or not.</p>
       <pre class="lines">
 
 
+154
 155
-156
-157</pre>
+156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 155</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 154</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_agent_type? fid id'>is_agent_type?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
-  <span class='rubyid_AGENT_RECORD_TYPES constant id'>AGENT_RECORD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='rparen token'>)</span>
+  <span class='rubyid_AGENT_RECORD_TYPES constant id'>AGENT_RECORD_TYPES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1641,6 +1644,7 @@ controller is asking, and whether we’re scoping by repo slug or not.</p>
       <pre class="lines">
 
 
+136
 137
 138
 139
@@ -1652,11 +1656,10 @@ controller is asking, and whether we’re scoping by repo slug or not.</p>
 145
 146
 147
-148
-149</pre>
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 136</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_is_slug_auto_enabled? fid id'>is_slug_auto_enabled?</span><span class='lparen token'>(</span><span class='rubyid_entity identifier id'>entity</span><span class='rparen token'>)</span>
   <span class='rubyid_enabled identifier id'>enabled</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
@@ -1954,12 +1957,15 @@ generated slugs are in use from before this job was run
 95
 96
 97
-98</pre>
+98
+99
+100</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 89</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_run_dedupe_slug identifier id'>run_dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
+
   <span class='comment val'># search for dupes</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_slug_in_use? fid id'>slug_in_use?</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
     <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='rubyid_dedupe_slug identifier id'>dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
@@ -1967,6 +1973,7 @@ generated slugs are in use from before this job was run
     <span class='rubyid_slug identifier id'>slug</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_cache identifier id'>cache</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_slug identifier id'>slug</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_job_running? fid id'>job_running?</span>
+
   <span class='rubyid_slug identifier id'>slug</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -2015,6 +2022,7 @@ slug will be updated iff this method returns true</p>
       <pre class="lines">
 
 
+35
 36
 37
 38
@@ -2112,11 +2120,10 @@ slug will be updated iff this method returns true</p>
 130
 131
 132
-133
-134</pre>
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_slug_data_updated? fid id'>slug_data_updated?</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='rparen token'>)</span>
 
@@ -2262,22 +2269,24 @@ return false otherwise.</p>
       <pre class="lines">
 
 
-142
-143
 144
 145
 146
 147
-148</pre>
+148
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 142</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 144</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_slug_in_use? fid id'>slug_in_use?</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_job_running? fid id'>job_running?</span>
     <span class='rubyid_cache identifier id'>cache</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_slug identifier id'>slug</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_slug_record_types identifier id'>slug_record_types</span><span class='dot token'>.</span><span class='rubyid_inject identifier id'>inject</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_count identifier id'>count</span><span class='comma token'>,</span> <span class='rubyid_klass identifier id'>klass</span><span class='bitor op'>|</span> <span class='rubyid_count identifier id'>count</span> <span class='plus op'>+</span> <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='symbol val'>:slug</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='rbrace token'>}</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
+    <span class='lparen token'>(</span><span class='rubyid_slug_record_types identifier id'>slug_record_types</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span><span class='rubyid_Repository constant id'>Repository</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_inject identifier id'>inject</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_count identifier id'>count</span><span class='comma token'>,</span> <span class='rubyid_klass identifier id'>klass</span><span class='bitor op'>|</span> <span class='rubyid_count identifier id'>count</span> <span class='plus op'>+</span> <span class='rubyid_klass identifier id'>klass</span><span class='dot token'>.</span><span class='rubyid_where identifier id'>where</span><span class='lparen token'>(</span><span class='symbol val'>:slug</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_count identifier id'>count</span> <span class='rbrace token'>}</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -2301,15 +2310,15 @@ return false otherwise.</p>
       <pre class="lines">
 
 
+28
 29
-30
-31</pre>
+30</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_eligibility.rb', line 28</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_slug_record_types identifier id'>slug_record_types</span>
-  <span class='rubyid_@@slug_record_types ivar id'>@@slug_record_types</span> <span class='opasgn op'>||=</span> <span class='lparen token'>(</span><span class='rubyid_AGENT_RECORD_TYPES constant id'>AGENT_RECORD_TYPES</span> <span class='plus op'>+</span> <span class='rubyid_BASE_RECORD_TYPES constant id'>BASE_RECORD_TYPES</span><span class='rparen token'>)</span>
+  <span class='rubyid_@@slug_record_types ivar id'>@@slug_record_types</span> <span class='opasgn op'>||=</span> <span class='lparen token'>(</span><span class='rubyid_AGENT_RECORD_TYPES constant id'>AGENT_RECORD_TYPES</span> <span class='plus op'>+</span> <span class='rubyid_BASE_RECORD_TYPES constant id'>BASE_RECORD_TYPES</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_string identifier id'>string</span><span class='bitor op'>|</span> <span class='rubyid_Kernel constant id'>Kernel</span><span class='dot token'>.</span><span class='rubyid_const_get identifier id'>const_get</span><span class='lparen token'>(</span><span class='rubyid_string identifier id'>string</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -2322,7 +2331,7 @@ return false otherwise.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:01 2019 by
+  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:42:50 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

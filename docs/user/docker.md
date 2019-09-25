@@ -5,6 +5,13 @@ permalink: /user/docker/
 ---
 The [Docker](https://www.docker.com/) configuration is used to create [automated builds](https://hub.docker.com/r/archivesspace/archivesspace/) on Docker Hub, which are deployed to [the latest version](http://test.archivesspace.org) when the build completes.
 
+Please note:
+
+- Docker is not supported as an install method.
+- Docker configuration is being used for internal purposes only.
+- Use of Docker by anyone else is "use at your own risk".
+- Docker related files may be updated at anytime without warning or presence in release notes.
+
 ## Custom builds
 
 Run ArchivesSpace with MySQL, external Solr and a Web Proxy. Switch to the

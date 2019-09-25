@@ -10,11 +10,11 @@ string (max length: 255)	id_2
 
 string (max length: 255)	id_3
 
+string	external_ark_url
+
 string	level
 
 string (max length: 255)	other_level
-
-	language
 
 string	slug
 
@@ -60,6 +60,8 @@ string	finding_aid_status
 
 string (max length: 65000)	finding_aid_note
 
+array (JSONModel(:lang_material) object)	lang_materials
+
 array (JSONModel(:extent) object)	extents
 
 array (JSONModel(:revision_statement) object)	revision_statements
@@ -81,6 +83,8 @@ array (Object (ref, _resolved))	classifications
 array ([{"type"=>"JSONModel(:note_bibliography) object"}, {"type"=>"JSONModel(:note_index) object"}, {"type"=>"JSONModel(:note_multipart) object"}, {"type"=>"JSONModel(:note_singlepart) object"}])	notes
 
 JSONModel(:file_version) object	representative_image
+
+JSONModel(:ark_name) object	ark_name
 
 
 

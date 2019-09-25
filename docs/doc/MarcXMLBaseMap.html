@@ -470,6 +470,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#langmaterial_note-instance_method" title="#langmaterial_note (instance method)">#<strong>langmaterial_note</strong>(*tmpl_args)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#make_term-instance_method" title="#make_term (instance method)">#<strong>make_term</strong>(term_type, term)  &#x21d2; Object </a>
     
 
@@ -907,20 +930,20 @@
       <pre class="lines">
 
 
-436
-437
-438
-439
-440
-441
-442
-443
-444
-445
-446</pre>
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 436</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 452</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_adds_agent_term identifier id'>adds_agent_term</span><span class='lparen token'>(</span><span class='rubyid_term_type identifier id'>term_type</span><span class='comma token'>,</span> <span class='rubyid_prefix identifier id'>prefix</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_agent identifier id'>agent</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -954,19 +977,19 @@
       <pre class="lines">
 
 
-529
-530
-531
-532
-533
-534
-535
-536
-537
-538</pre>
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 529</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 545</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_adds_prefixed_qualifier identifier id'>adds_prefixed_qualifier</span><span class='lparen token'>(</span><span class='rubyid_prefix identifier id'>prefix</span><span class='comma token'>,</span> <span class='rubyid_separator identifier id'>separator</span> <span class='assign token'>=</span> <span class='string val'>&#39;: &#39;</span><span class='rparen token'>)</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -1221,16 +1244,16 @@
       <pre class="lines">
 
 
-550
-551
-552
-553
-554
-555
-556</pre>
+566
+567
+568
+569
+570
+571
+572</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 550</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 566</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_appends_subordinate_name_2 identifier id'>appends_subordinate_name_2</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -1274,22 +1297,6 @@ the extending class.</p>
       <pre class="lines">
 
 
-655
-656
-657
-658
-659
-660
-661
-662
-663
-664
-665
-666
-667
-668
-669
-670
 671
 672
 673
@@ -1919,10 +1926,55 @@ the extending class.</p>
 1297
 1298
 1299
-1300</pre>
+1300
+1301
+1302
+1303
+1304
+1305
+1306
+1307
+1308
+1309
+1310
+1311
+1312
+1313
+1314
+1315
+1316
+1317
+1318
+1319
+1320
+1321
+1322
+1323
+1324
+1325
+1326
+1327
+1328
+1329
+1330
+1331
+1332
+1333
+1334
+1335
+1336
+1337
+1338
+1339
+1340
+1341
+1342
+1343
+1344
+1345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 655</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 671</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_BASE_RECORD_MAP constant id'>BASE_RECORD_MAP</span>
   <span class='lbrace token'>{</span>
@@ -1947,7 +1999,22 @@ the extending class.</p>
       <span class='string val'>&quot;//controlfield[@tag=&#39;008&#39;]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
         <span class='rubyid_control identifier id'>control</span> <span class='assign token'>=</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
         <span class='rubyid_set_record_properties identifier id'>set_record_properties</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_control identifier id'>control</span><span class='lbrack token'>[</span><span class='integer val'>11</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_control identifier id'>control</span><span class='lbrack token'>[</span><span class='integer val'>10</span><span class='rbrack token'>]</span>
-        <span class='rubyid_resource identifier id'>resource</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span> <span class='assign token'>=</span> <span class='rubyid_control identifier id'>control</span><span class='lbrack token'>[</span><span class='float val'>35</span><span class='dot2 op'>..</span><span class='integer val'>37</span><span class='rbrack token'>]</span>
+
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_control identifier id'>control</span><span class='lbrack token'>[</span><span class='float val'>35</span><span class='dot2 op'>..</span><span class='integer val'>37</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='string val'>&quot;   &quot;</span>
+          <span class='rubyid_make identifier id'>make</span><span class='lparen token'>(</span><span class='symbol val'>:lang_material</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_lang identifier id'>lang</span><span class='bitor op'>|</span>
+            <span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_language_and_script identifier id'>language_and_script</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;language_and_script&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;language&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_control identifier id'>control</span><span class='lbrack token'>[</span><span class='float val'>35</span><span class='dot2 op'>..</span><span class='integer val'>37</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+
+            <span class='rubyid_resource identifier id'>resource</span><span class='dot token'>.</span><span class='rubyid_lang_materials identifier id'>lang_materials</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_lang identifier id'>lang</span>
+
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_else else kw'>else</span>
+          <span class='rubyid_make identifier id'>make</span><span class='lparen token'>(</span><span class='symbol val'>:lang_material</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_lang identifier id'>lang</span><span class='bitor op'>|</span>
+            <span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_language_and_script identifier id'>language_and_script</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;language_and_script&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;language&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;und&#39;</span><span class='rbrace token'>}</span>
+
+            <span class='rubyid_resource identifier id'>resource</span><span class='dot token'>.</span><span class='rubyid_lang_materials identifier id'>lang_materials</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_lang identifier id'>lang</span>
+
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_end end kw'>end</span>
 
         <span class='rubyid_if if kw'>if</span> <span class='dstring node'>%w(i k s)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_control identifier id'>control</span><span class='lbrack token'>[</span><span class='integer val'>6</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
           <span class='rubyid_make identifier id'>make</span><span class='lparen token'>(</span><span class='symbol val'>:date</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_date identifier id'>date</span><span class='bitor op'>|</span>
@@ -2311,7 +2378,21 @@ the extending class.</p>
                                                 <span class='rbrace token'>}</span><span class='comma token'>,</span>
                                                 <span class='string val'>&quot;{$a }{($u)}.{\n$b.}&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
 
-      <span class='string val'>&quot;datafield[@tag=&#39;546&#39;]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_singlepart_note identifier id'>singlepart_note</span><span class='lparen token'>(</span><span class='string val'>&#39;langmaterial&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;Language of Material&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;{$3: }{$a }{($b)}.&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='comment val'># ANW-697: Language notes now mapped to language of materials note inside a lang_material record</span>
+      <span class='string val'>&quot;datafield[@tag=&#39;546&#39;]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_resource identifier id'>resource</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
+
+        <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_subfield_template identifier id'>subfield_template</span><span class='lparen token'>(</span><span class='string val'>&quot;{$3: }{$a }{($b)}.&quot;</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='rparen token'>)</span>
+
+        <span class='rubyid_make identifier id'>make</span><span class='lparen token'>(</span><span class='symbol val'>:lang_material</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_lang identifier id'>lang</span><span class='bitor op'>|</span>
+          <span class='rubyid_lang identifier id'>lang</span><span class='dot token'>.</span><span class='rubyid_notes identifier id'>notes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='string val'>&quot;jsonmodel_type&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;note_langmaterial&quot;</span><span class='comma token'>,</span>
+                         <span class='string val'>&quot;type&quot;</span><span class='colon op'>:</span> <span class='string val'>&quot;langmaterial&quot;</span><span class='comma token'>,</span>
+                         <span class='string val'>&quot;content&quot;</span><span class='colon op'>:</span> <span class='lbrack token'>[</span><span class='rubyid_content identifier id'>content</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+
+          <span class='rubyid_resource identifier id'>resource</span><span class='dot token'>.</span><span class='rubyid_lang_materials identifier id'>lang_materials</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_lang identifier id'>lang</span>
+
+        <span class='rubyid_end end kw'>end</span>
+
+      <span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;datafield[@tag=&#39;561&#39;]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_multipart_note identifier id'>multipart_note</span><span class='lparen token'>(</span><span class='string val'>&#39;custodhist&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;Ownership and Custodial History&#39;</span><span class='comma token'>,</span> <span class='string val'>&quot;{$3: }{$a}.&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
 
@@ -2652,27 +2733,27 @@ the extending class.</p>
       <pre class="lines">
 
 
-607
-608
-609
-610
-611
-612
-613
-614
-615
-616
-617
-618
-619
-620
-621
-622
 623
-624</pre>
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 607</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 623</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_concatenate_subfields identifier id'>concatenate_subfields</span><span class='lparen token'>(</span><span class='rubyid_codearray identifier id'>codearray</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_delim identifier id'>delim</span><span class='assign token'>=</span><span class='string val'>&#39; &#39;</span><span class='comma token'>,</span> <span class='rubyid_subfield_order identifier id'>subfield_order</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
@@ -2962,18 +3043,18 @@ the extending class.</p>
       <pre class="lines">
 
 
-627
-628
-629
-630
-631
-632
-633
-634
-635</pre>
+643
+644
+645
+646
+647
+648
+649
+650
+651</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 627</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 643</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_dates_of_existence_date_for identifier id'>dates_of_existence_date_for</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_subfields identifier id'>subfields</span><span class='rparen token'>)</span>
   <span class='rubyid_date identifier id'>date</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -3074,19 +3155,19 @@ the extending class.</p>
       <pre class="lines">
 
 
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647</pre>
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 638</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 654</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_is_fallback_resource_title identifier id'>is_fallback_resource_title</span>
   <span class='lbrace token'>{</span>
@@ -3095,6 +3176,59 @@ the extending class.</p>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:subnotes</span><span class='rparen token'>)</span>
         <span class='rubyid_resource identifier id'>resource</span><span class='lbrack token'>[</span><span class='string val'>&#39;_fallback_titles&#39;</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_subnotes identifier id'>subnotes</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;content&#39;</span><span class='rbrack token'>]</span>
       <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="langmaterial_note-instance_method">
+  
+    #<strong>langmaterial_note</strong>(*tmpl_args)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 436</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_langmaterial_note identifier id'>langmaterial_note</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_tmpl_args identifier id'>tmpl_args</span><span class='rparen token'>)</span>
+  <span class='lbrace token'>{</span>
+    <span class='symbol val'>:obj</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:note_langmaterial</span><span class='comma token'>,</span>
+    <span class='symbol val'>:rel</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:notes</span><span class='comma token'>,</span>
+    <span class='symbol val'>:map</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
+      <span class='string val'>&quot;self::datafield&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_note identifier id'>note</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
+        <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_template identifier id'>template</span> <span class='integer val'>? </span><span class='rubyid_subfield_template identifier id'>subfield_template</span><span class='lparen token'>(</span><span class='rubyid_template identifier id'>template</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_tmpl_args identifier id'>tmpl_args</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_node identifier id'>node</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span>
+        <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_label identifier id'>label</span> <span class='assign token'>=</span> <span class='string val'>&#39;Language of Material&#39;</span>
+        <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='string val'>&#39;langmaterial&#39;</span>
+        <span class='rubyid_note identifier id'>note</span><span class='dot token'>.</span><span class='rubyid_content identifier id'>content</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_content identifier id'>content</span>
+      <span class='rbrace token'>}</span>
     <span class='rbrace token'>}</span>
   <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
@@ -3538,25 +3672,25 @@ the extending class.</p>
       <pre class="lines">
 
 
-449
-450
-451
-452
-453
-454
-455
-456
-457
-458
-459
-460
-461
-462
-463
-464</pre>
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 449</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 465</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sets_authority_properties identifier id'>sets_authority_properties</span><span class='lparen token'>(</span><span class='rubyid_primary identifier id'>primary</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_authorized identifier id'>authorized</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='symbol val'>:name</span><span class='rparen token'>)</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_auth identifier id'>auth</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -3595,19 +3729,19 @@ the extending class.</p>
       <pre class="lines">
 
 
-479
-480
-481
-482
-483
-484
-485
-486
-487
-488</pre>
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 479</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 495</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sets_name_order_from_ind1 identifier id'>sets_name_order_from_ind1</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -3640,15 +3774,15 @@ the extending class.</p>
       <pre class="lines">
 
 
-491
-492
-493
-494
-495
-496</pre>
+507
+508
+509
+510
+511
+512</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 491</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 507</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sets_name_source_from_code identifier id'>sets_name_source_from_code</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -3677,14 +3811,14 @@ the extending class.</p>
       <pre class="lines">
 
 
-499
-500
-501
-502
-503</pre>
+515
+516
+517
+518
+519</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 499</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 515</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sets_other_name_source identifier id'>sets_other_name_source</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -3712,20 +3846,20 @@ the extending class.</p>
       <pre class="lines">
 
 
-466
-467
-468
-469
-470
-471
-472
-473
-474
-475
-476</pre>
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 466</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 482</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sets_primary_and_rest_of_name identifier id'>sets_primary_and_rest_of_name</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -3802,30 +3936,30 @@ the extending class.</p>
       <pre class="lines">
 
 
-506
-507
-508
-509
-510
-511
-512
-513
-514
-515
-516
-517
-518
-519
-520
-521
 522
 523
 524
 525
-526</pre>
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 506</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 522</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sets_use_date_from_code_d identifier id'>sets_use_date_from_code_d</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -3936,22 +4070,6 @@ the end attempts to keep the punctuation normal.</p>
       <pre class="lines">
 
 
-563
-564
-565
-566
-567
-568
-569
-570
-571
-572
-573
-574
-575
-576
-577
-578
 579
 580
 581
@@ -3977,10 +4095,26 @@ the end attempts to keep the punctuation normal.</p>
 601
 602
 603
-604</pre>
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 563</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 579</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_subfield_template identifier id'>subfield_template</span><span class='lparen token'>(</span><span class='rubyid_template identifier id'>template</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_map identifier id'>map</span><span class='assign token'>=</span><span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_template identifier id'>template</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
@@ -4134,16 +4268,16 @@ the end attempts to keep the punctuation normal.</p>
       <pre class="lines">
 
 
-541
-542
-543
-544
-545
-546
-547</pre>
+557
+558
+559
+560
+561
+562
+563</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 541</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/lib/marcxml_base_map.rb', line 557</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_trim identifier id'>trim</span><span class='lparen token'>(</span><span class='rubyid_property identifier id'>property</span><span class='comma token'>,</span> <span class='rubyid_trailing_char identifier id'>trailing_char</span> <span class='assign token'>=</span> <span class='string val'>&#39;,&#39;</span><span class='comma token'>,</span> <span class='rubyid_remove_chars identifier id'>remove_chars</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='minus op'>-</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_node identifier id'>node</span> <span class='lbrace token'>{</span>
@@ -4163,7 +4297,7 @@ the end attempts to keep the punctuation normal.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:04 2019 by
+  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:42:52 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

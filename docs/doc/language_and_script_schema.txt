@@ -1,0 +1,12 @@
+JSON Schema: Language_and_script
+
+Properties
+
+string	language
+
+string	script
+
+
+
+
+

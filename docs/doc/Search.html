@@ -2352,7 +2352,6 @@
       <pre class="lines">
 
 
-106
 107
 108
 109
@@ -2413,10 +2412,11 @@
 164
 165
 166
-167</pre>
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_type_counts identifier id'>record_type_counts</span><span class='lparen token'>(</span><span class='rubyid_record_types identifier id'>record_types</span><span class='comma token'>,</span> <span class='rubyid_for_repo_uri identifier id'>for_repo_uri</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:enforce_suppression</span><span class='rparen token'>)</span>
@@ -2501,7 +2501,6 @@
       <pre class="lines">
 
 
-75
 76
 77
 78
@@ -2530,10 +2529,11 @@
 101
 102
 103
-104</pre>
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 76</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_records_for_uris identifier id'>records_for_uris</span><span class='lparen token'>(</span><span class='rubyid_uris identifier id'>uris</span><span class='comma token'>,</span> <span class='rubyid_resolve identifier id'>resolve</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:enforce_suppression</span><span class='rparen token'>)</span>
@@ -2654,7 +2654,8 @@
 70
 71
 72
-73</pre>
+73
+74</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 5</span>
@@ -2687,7 +2688,8 @@
     <span class='rubyid_highlighting identifier id'>highlighting</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:hl</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span>
     <span class='rubyid_set_writer_type identifier id'>set_writer_type</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:dt</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;json&quot;</span> <span class='rparen token'>)</span>
 
-  <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_remove_csv_header identifier id'>remove_csv_header</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:dt</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;csv&quot;</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:no_csv_header</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span> 
+  <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_remove_csv_header identifier id'>remove_csv_header</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:dt</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;csv&quot;</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:no_csv_header</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span>
+  <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_limit_fields_to identifier id'>limit_fields_to</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:fields</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:fields</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_Solr constant id'>Solr</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
 
@@ -2749,7 +2751,6 @@
       <pre class="lines">
 
 
-169
 170
 171
 172
@@ -2767,13 +2768,14 @@
 184
 185
 186
-187</pre>
+187
+188</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 170</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search_csv identifier id'>search_csv</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='rparen token'>)</span>  
-  <span class='comment val'># first let&#39;s get a json response with the number of pages </span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search_csv identifier id'>search_csv</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='rparen token'>)</span>
+  <span class='comment val'># first let&#39;s get a json response with the number of pages</span>
   <span class='rubyid_p identifier id'>p</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_dup identifier id'>dup</span>
   <span class='rubyid_p identifier id'>p</span><span class='lbrack token'>[</span><span class='symbol val'>:dt</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;json&quot;</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_p identifier id'>p</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
@@ -2781,13 +2783,13 @@
   <span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='integer val'>2</span> <span class='comment val'># we start on the second page bc the first will have headers</span>
 
   <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
-    <span class='comment val'># we get page 1 of csv w headers </span>
+    <span class='comment val'># we get page 1 of csv w headers</span>
     <span class='rubyid_y identifier id'>y</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
-    <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:no_csv_header</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span> 
-    <span class='rubyid_while while kw'>while</span> <span class='rubyid_page identifier id'>page</span> <span class='leq op'>&lt;=</span> <span class='rubyid_total_pages identifier id'>total_pages</span> 
+    <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:no_csv_header</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_while while kw'>while</span> <span class='rubyid_page identifier id'>page</span> <span class='leq op'>&lt;=</span> <span class='rubyid_total_pages identifier id'>total_pages</span>
       <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_page identifier id'>page</span>
       <span class='rubyid_y identifier id'>y</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='rparen token'>)</span>
-      <span class='rubyid_page identifier id'>page</span> <span class='opasgn op'>+=</span><span class='integer val'>1</span> 
+      <span class='rubyid_page identifier id'>page</span> <span class='opasgn op'>+=</span><span class='integer val'>1</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -3182,7 +3184,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.6.0.a Documentation Generated on Wed Aug 28 09:47:08 2019 by
+  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:42:57 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

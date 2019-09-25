@@ -1,0 +1,12 @@
+JSON Schema: Note_langmaterial
+
+Properties
+
+array (string)	content
+
+string	type
+
+
+
+
+
