@@ -9,7 +9,7 @@ Sequel.migration do
       parsed = JSON.parse(pref[:defaults])
 
       # Remove all existing langmaterials from the note_order array following ANW-697
-      if parsed['note_order'].include?('langmaterial')
+      if parsed['note_order']&.include?('langmaterial')
         parsed['note_order'].delete('langmaterial')
         self[:preference].filter(:id => pref[:id]).update(
           :defaults => JSON.dump(parsed).to_sequel_blob,
