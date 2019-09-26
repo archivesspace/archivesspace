@@ -993,6 +993,9 @@ $(function() {
             if (select_func($colHeader)) {
               $option.attr("selected", "selected");
             }
+            if ($(this).hasClass('required')) {
+              $option.attr("disabled", true);
+            }
             $select.append($option);
           }
         });
