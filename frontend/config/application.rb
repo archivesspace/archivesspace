@@ -8,6 +8,7 @@ require 'sprockets/railtie'
 require 'java'
 require 'config/config-distribution'
 require 'asutils'
+require 'aspace_i18n'
 
 require 'aspace_logger'
 
@@ -57,9 +58,9 @@ module ArchivesSpace
 
 
     config.log_formatter = ::Logger::Formatter.new
-    logger = if AppConfig.changed?(:frontend_log) 
-                      ASpaceLogger.new(AppConfig[:frontend_log]) 
-                    else 
+    logger = if AppConfig.changed?(:frontend_log)
+                      ASpaceLogger.new(AppConfig[:frontend_log])
+                    else
                       ASpaceLogger.new($stderr)
                     end
     logger.formatter = config.log_formatter
@@ -67,7 +68,7 @@ module ArchivesSpace
 
 
     config.log_level = AppConfig[:frontend_log_level].intern
-    
+
     # Load the shared 'locales'
     ASUtils.find_locales_directories.map{|locales_directory| File.join(locales_directory)}.reject { |dir| !Dir.exist?(dir) }.each do |locales_directory|
       config.i18n.load_path += Dir[File.join(locales_directory, '**' , '*.{rb,yml}')].reject {|path| path =~ /public/}
