@@ -1914,6 +1914,7 @@ fr:
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs par défaut.
     browse_column: Colonne %{num}
     browse_column_tooltip: Le champ à montrer dans la colonne %{num}.
+    locale: Language Selection
     accession_browse_section: Colonnes d'exploration des entrées
     resource_browse_section: Colonnes d'exploration ressource
     digital_object_browse_section: Colonnes d'exploration object numérique

@@ -1440,6 +1440,7 @@ ja:
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
     browse_column: 列%{num}
     browse_column_tooltip: 列%{num}に表示するフィールド。
+    locale: Language Selection
     accession_browse_section: アクセス列を参照
     resource_browse_section: リソース参照列
     digital_object_browse_section: Digital_Object列を参照

@@ -403,4 +403,7 @@ module ApplicationHelper
     end
   end
 
+  def supported_locales_options
+    I18n.supported_locales.map{ |k, v| [v, k] }
+  end
 end

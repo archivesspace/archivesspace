@@ -1914,6 +1914,7 @@ en:
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
     browse_column: Column %{num}
     browse_column_tooltip: The field to show in column %{num}.
+    locale: Language Selection
     accession_browse_section: Accession Browse Columns
     resource_browse_section: Resource Browse Columns
     archival_object_browse_section: Archival Object Browse Columns

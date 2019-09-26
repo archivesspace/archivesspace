@@ -1894,6 +1894,7 @@ es:
     default_values_tooltip: Si quiere pre-popular un nuevo Fondo o Acta de ingreso
     browse_column: Columna %{num}
     browse_column_tooltip: El campo para mostrar en la columna %{num}.
+    locale: Language Selection
     accession_browse_section: Navegar columnas de entrada
     resource_browse_section: Fondos ver columnas
     digital_object_browse_section: Objeto digital ver columnas

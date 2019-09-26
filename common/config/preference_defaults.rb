@@ -3,6 +3,7 @@
 # Only keys matching propoerties declared in common/schemas/defaults.rb will be loaded.
 # TAKE CARE editing this file as errors will prevent the system from starting.
 {
+  'locale' => AppConfig[:locale].to_s,
   'show_suppressed' => false,
   'publish' => false,
   'accession_browse_column_1' => 'title',

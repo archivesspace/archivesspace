@@ -88,7 +88,7 @@ browse_column_enums.keys.each do |type|
       "required" => false
     }
 end
-
+locale_enum = I18n.supported_locales.keys
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
@@ -98,6 +98,12 @@ end
 
       "show_suppressed" =>  {"type" => "boolean", "required" => false},
       "publish" =>  {"type" => "boolean", "required" => false},
+
+      "locale" => {
+        "type" => "string",
+        "enum" => locale_enum,
+        "required" => false
+      },
 
       "default_values" => {
         "type" => "boolean",
