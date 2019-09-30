@@ -30,6 +30,12 @@ class PeriodicIndexer < IndexerCommon
     @thread_count = AppConfig[:indexer_thread_count].to_i
     @records_per_thread = AppConfig[:indexer_records_per_thread].to_i
 
+    # Space out our request threads a little, such that half the threads are
+    # waiting on the backend while the other half are mapping documents &
+    # indexing.
+    concurrent_requests = (@thread_count <= 2) ? @thread_count : (@thread_count.to_f / 2).ceil
+    @backend_fetch_sem = java.util.concurrent.Semaphore.new(concurrent_requests)
+
     @timing = IndexerTiming.new
   end
 
@@ -54,7 +60,12 @@ class PeriodicIndexer < IndexerCommon
           break if (id_subset == :finished || id_subset.nil?)
 
           records = @timing.time_block(:record_fetch_ms) do
-            fetch_records(record_type, id_subset, resolved_attributes)
+            @backend_fetch_sem.acquire
+            begin
+              fetch_records(record_type, id_subset, resolved_attributes)
+            ensure
+              @backend_fetch_sem.release
+            end
           end
 
           if !records.empty?
