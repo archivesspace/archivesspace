@@ -119,7 +119,6 @@ class PeriodicIndexer < IndexerCommon
       JSONModel.set_repository(repository.id)
 
       checkpoints = []
-      did_something = false
 
       record_types.each do |type|
         next if @@global_types.include?(type) && i > 0
@@ -163,20 +162,15 @@ class PeriodicIndexer < IndexerCommon
         # If any worker reports that they indexed some records, we'll send a
         # commit.
         results = workers.map {|thread| thread.join; thread.value}
-        did_something ||= results.any? {|status| status}
+        did_something = results.any? {|status| status}
 
-        checkpoints << [repository, type, start]
+        send_commit if did_something
+        @state.set_last_mtime(repository.id, type, start)
 
         log("Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds")
       end
 
       index_round_complete(repository)
-
-      send_commit if did_something
-
-      checkpoints.each do |repository, type, start|
-        @state.set_last_mtime(repository.id, type, start)
-      end
     end
 
     handle_deletes
