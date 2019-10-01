@@ -614,9 +614,6 @@ AppConfig[:pui_page_custom_actions] = []
 #   'erb_partial' => 'shared/my_special_action',
 # }
 
-# For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
-AppConfig[:sort_accession_date_filter_asc] = false
-
 # Human-Readable URLs options
 # use_human_readable_urls: determines whether fields and options related to human-readable URLs appear in the staff interface
 
@@ -660,6 +657,3 @@ AppConfig[:ark_naan] = "f00001"
 # URL prefix to use in ARK URLs.
 # In most cases this will be the same as the PUI URL.
 AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
-
-# Use to specify the maximum number of columns to display when searching or browsing
-AppConfig[:max_search_columns] = 5
