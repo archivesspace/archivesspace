@@ -639,6 +639,12 @@ AppConfig[:generate_resource_slugs_with_eadid] = false
 # For archival objects: if this option and auto_generate_slugs_with_id are both enabled, then slugs for archival resources will be generated with Component Unique Identifier instead of the identifier.
 AppConfig[:generate_archival_object_slugs_with_cuid] = false
 
+# For Accessions browse set if accession date year filter values should be sorted ascending rather than descending (default)
+AppConfig[:sort_accession_date_filter_asc] = false
+
+# Use to specify the maximum number of columns to display when searching or browsing
+AppConfig[:max_search_columns] = 5
+
 # Determines if the subject source is shown along with the subject heading in records' subject listings
 # This can help differentiate between subjects with the same heading
 AppConfig[:show_source_in_subject_listing] = false
