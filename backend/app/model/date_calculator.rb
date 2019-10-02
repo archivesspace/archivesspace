@@ -39,14 +39,28 @@ class DateCalculator
                              Sequel.lit('max(substring(concat(end, "-99-99"), 1, 10)) max_end_padded'))
 
 
+      if @label
+        label_id = BackendEnumSource.id_for_value('date_label', @label)
+        date_query = date_query.filter(:label_id => label_id)
+      end
+
       if @root_object.is_a?(Resource)
         ao_ids = db[:archival_object]
                   .filter(:root_record_id => @root_object.id)
                   .select(:id)
 
-        date_query = date_query
-                      .filter(Sequel.|({:resource_id => @resource.id},
-                                       {:archival_object_id => ao_ids}))
+        # Index hitery trickery: handle resources and AOs as two independent
+        # subqueries so that we hit the right indexes in each case.  Union the
+        # result because that's cheap.
+        #
+        # Time to calculate dates for 32 resources dropped from 7 seconds to
+        # 200ms with this change, so who's laughing now...
+        date_query_resource = date_query.filter(:resource_id => @resource.id)
+        date_query_ao = date_query.filter(:archival_object_id => ao_ids)
+
+        date_query = date_query_resource.union(date_query_ao).select(Sequel.lit('min(min_begin) min_begin'),
+                                                                     Sequel.lit('max(max_begin_padded) max_begin_padded'),
+                                                                     Sequel.lit('max(max_end_padded) max_end_padded'))
       else
         ao_ids = [@root_object.id]
         parent_ids = [@root_object.id]
@@ -66,15 +80,6 @@ class DateCalculator
         end
 
         date_query = date_query.filter(:archival_object_id => ao_ids)
-      end
-
-      if @label
-        label_id = db[:enumeration_value]
-                     .filter(:enumeration_id => db[:enumeration].filter(:name => 'date_label').select(:id))
-                     .filter(:value => @label)
-                     .select(:id)
-
-        date_query = date_query.filter(:label_id => label_id)
       end
 
       result = date_query.first
@@ -111,6 +116,7 @@ class DateCalculator
       :max_end => @max_end
     }
   end
+
 
   private
 
