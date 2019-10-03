@@ -111,6 +111,55 @@ client.post('/merge_requests/top_container?repo_id=2',
   end
 
 
+  Endpoint.post('/merge_requests/top_container')
+    .description("Carry out a merge request against Top Container records")
+    .example('shell') do
+    <<-SHELL
+curl -H 'Content-Type: application/json' \\
+    -H "X-ArchivesSpace-Session: $SESSION" \\
+    -d '{"uri": "merge_requests/top_container", "target": {"ref": "/repositories/2/top_containers/1" },"victims": [{"ref": "/repositories/2/top_containers/2"}]}' \\
+    "http://localhost:8089/merge_requests/top_container?repo_id=2"
+    SHELL
+    end
+    .example('python') do
+    <<-PYTHON
+from asnake.client import ASnakeClient
+client = ASnakeClient()
+client.authorize()
+client.post('/merge_requests/top_container?repo_id=2',
+            json={
+                'uri': 'merge_requests/top_container',
+                'target': {
+                    'ref': '/repositories/2/top_containers/80'
+                  },
+                'victims': [
+                    {
+                        'ref': '/repositories/2/top_containers/171'
+                    }
+                  ]
+                }
+          )
+    PYTHON
+    end
+    .params(["repo_id", :repo_id],
+            ["merge_request",
+             JSONModel(:merge_request), "A merge request",
+             :body => true])
+    .permissions([:manage_container_record])
+    .returns([200, :updated]) \
+  do
+    target, victims = parse_references(params[:merge_request])
+
+    check_repository(target, victims, params[:repo_id])
+    ensure_type(target, victims, 'top_container')
+
+    TopContainer.get_or_die(target[:id]).assimilate(victims.map {|v| TopContainer.get_or_die(v[:id])})
+
+    json_response(:status => "OK")
+
+  end
+
+
   Endpoint.post('/merge_requests/agent')
     .description("Carry out a merge request against Agent records")
     .params(["merge_request",
