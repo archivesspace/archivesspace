@@ -1,6 +1,6 @@
 # NOTE: Many of the translations in this file have been generated using
 # Google translate
-﻿es:
+es:
   actions:
     add: Añadir
     add_event: Agregar evento
@@ -1181,8 +1181,8 @@
         updated: Contenedor Top actualizado
         filter_required: Por favor proporcionar un filtro
         max_results_limit_reached: No se han incluido todos los resultados. Por favor refine su búsqueda.
-        max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong> {% num_found} </strong> Resultados de la búsqueda"
-        results_summary: "Los resultados coinciden con: <strong> {% num_found} </strong>"
+        max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong> %{num_found} </strong> Resultados de la búsqueda"
+        results_summary: "Los resultados coinciden con: <strong> %{num_found} </strong>"
         bulk_selection_sort_help: Haga clic en una columna para establecer el orden de clasificación. Deja la tecla shift presionada para ordenar por varias columnas.
         merged: Contenedor (es) superior (es) fusionados
         bulk_action_success: Contenedores Top actualizado
@@ -1219,6 +1219,7 @@
         rapid_barcode_entry_new_barcode: Nuevo código de barras
         batch_merge: Fusionar contenedores superiores
         batch_merge_help: Fusionar todos los contenedores seleccionados.
+        batch_merge_instructions: Combinar los siguientes contenedores superiores en el contenedor superior seleccionado
         batch_delete: Borrar Contenedores Top
         batch_delete_help: Borrar todos los contenedores seleccionados.
         update_n_records: "Actualizar %{n} registros"

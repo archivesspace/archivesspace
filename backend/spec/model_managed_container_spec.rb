@@ -148,7 +148,7 @@ describe 'Managed Container model' do
     let (:top_container) { TopContainer[box.id] }
 
     it "can show a display string for a top container that isn't linked to anything" do
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
 
@@ -197,7 +197,7 @@ describe 'Managed Container model' do
           'ref' => grandparent.uri,
           'identifier' => grandparent.component_id,
           'display_string' => grandparent.display_string,
-          'level_display_string' => 'Series',
+          'level_display_string' => "#{I18n.t("enumerations.archival_record_level.series")}",
           'publish' => false
         })
       end
@@ -220,7 +220,7 @@ describe 'Managed Container model' do
                                                              'component_id' => "3",
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Series 3 [barcode: 123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: #{I18n.t("enumerations.archival_record_level.series")} 3 [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
     it "doesn't show a display string for a non-series other-level AO" do
@@ -231,7 +231,7 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Handbag'
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
 
@@ -242,7 +242,7 @@ describe 'Managed Container model' do
                                                              'level' => 'series'
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
 
@@ -254,20 +254,20 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Accession'
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Accession 9 [barcode: 123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Accession 9 [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
     it "shows a display string for a linked accession" do
       accession = create_accession({"instances" => [build_instance(box)]})
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
 
     it "shows a display string for a linked resource" do
       resource = create_resource({"instances" => [build_instance(box)]})
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
   end
