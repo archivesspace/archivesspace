@@ -691,6 +691,7 @@ ja:
 
   instance_container:
     <<: *instance_attributes
+    barcode: バーコード
 
   instance_digital_object:
     <<: *instance_attributes
