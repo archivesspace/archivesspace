@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+MERGEABLE_TYPES = ['subject', 'top_container', 'agent', 'resource', 'digital_object']
+
 describe 'Merge request controller' do
 
   it "can merge two subjects" do
@@ -18,31 +20,42 @@ describe 'Merge request controller' do
   end
 
 
-  it "doesn't mess things up if you merge something with itself" do
-    target = create(:json_subject)
+  MERGEABLE_TYPES.each do |type|
+    it "doesn't mess things up if you merge a #{type} record with itself" do
 
-    request = JSONModel(:merge_request).new
-    request.target = {'ref' => target.uri}
-    request.victims = [{'ref' => target.uri}]
+      if type == 'agent'
+        agent_type = ['corporate_entity', 'family', 'person', 'software'].sample
+        target = create(:"json_#{type}_#{agent_type}")
+      else
+        target = create(:"json_#{type}")
+      end
 
-    request.save(:record_type => 'subject')
+      request = JSONModel(:merge_request).new
+      request.target = {'ref' => target.uri}
+      request.victims = [{'ref' => target.uri}]
 
-    expect {
-      JSONModel(:subject).find(target.id)
-    }.not_to raise_error
+      request.save(:record_type => "#{type}")
+
+      expect {
+        agent_type ? JSONModel(:"#{type}_#{agent_type}").find(target.id) : JSONModel(:"#{type}").find(target.id)
+      }.not_to raise_error
+    end
   end
 
 
-  it "throws an error if you ask it to merge something other than a subject" do
-    target = create(:json_subject)
-    victim = create(:json_agent_person)
+  it "throws an error if you ask it to merge records of two different types" do
+    # Gonna skip agents cause they're just more complicated than its worth
+    MERGEABLE_TYPES.delete('agent')
+    types = MERGEABLE_TYPES.sample(2)
+    target = create(:"json_#{types[0]}")
+    victim = create(:"json_#{types[1]}")
 
     request = JSONModel(:merge_request).new
     request.target = {'ref' => target.uri}
     request.victims = [{'ref' => victim.uri}]
 
     expect {
-      request.save(:record_type => 'subject')
+      request.save(:record_type => "#{types[0]}")
     }.to raise_error(JSONModel::ValidationException)
   end
 
@@ -137,6 +150,22 @@ describe 'Merge request controller' do
   end
 
 
+  it "can merge two top containers" do
+    target = create(:json_top_container)
+    victim = create(:json_top_container)
+
+    request = JSONModel(:merge_request).new
+    request.target = {'ref' => target.uri}
+    request.victims = [{'ref' => victim.uri}]
+
+    request.save(:record_type => 'top_container')
+
+    # Victim is gone
+    expect {
+      JSONModel(:top_container).find(victim.id)
+    }.to raise_error(RecordNotFound)
+
+  end
 
 
 end

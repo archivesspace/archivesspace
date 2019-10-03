@@ -515,6 +515,38 @@ BulkActionBarcodeRapidEntry.prototype.setup_form_submission = function($modal) {
 
 
 /***************************************************************************
+ * BulkActionMerge - bulk action for merge
+ *
+ */
+
+function changeCheckbox(event) {
+   let item = document.getElementById('chkPref');
+   switch(item.getAttribute('aria-checked')) {
+       case "true":
+           item.setAttribute('aria-checked', "false");
+           break;
+       case "false":
+           item.setAttribute('aria-checked', "true");
+           break;
+   }
+ };
+
+function BulkActionMerge(bulkContainerSearch) {
+  var self = this;
+
+  self.bulkContainerSearch = bulkContainerSearch;
+
+  var $link = $("#bulkActionMerge", self.bulkContainerSearch.$toolbar);
+
+  $link.on("click", function() {
+    AS.openCustomModal("bulkActionModal", "Merge Top Containers", AS.renderTemplate("bulk_action_merge", {
+      selection: self.bulkContainerSearch.get_selection()
+    }), 'full');
+  });
+};
+
+
+/***************************************************************************
  * BulkActionDelete - bulk action for delete
  *
  */
@@ -549,5 +581,6 @@ $(function() {
   new BulkActionContainerProfileUpdate(bulkContainerSearch);
   new BulkActionLocationUpdate(bulkContainerSearch);
   new BulkActionMultipleLocationUpdate(bulkContainerSearch);
+  new BulkActionMerge(bulkContainerSearch);
   new BulkActionDelete(bulkContainerSearch);
 });
