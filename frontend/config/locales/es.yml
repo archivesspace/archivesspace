@@ -1184,6 +1184,7 @@
         max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong> {% num_found} </strong> Resultados de la búsqueda"
         results_summary: "Los resultados coinciden con: <strong> {% num_found} </strong>"
         bulk_selection_sort_help: Haga clic en una columna para establecer el orden de clasificación. Deja la tecla shift presionada para ordenar por varias columnas.
+        merged: Contenedor (es) superior (es) fusionados
         bulk_action_success: Contenedores Top actualizado
         bulk_action_success_info: Tenga en cuenta que antes de que los cambios se reflejen en los resultados de búsqueda puede pasar un rato.
         no_active_restrictions: Sin restricciones activas
@@ -1216,9 +1217,12 @@
         rapid_barcode_entry: Entrada rápida de código de barras rápida
         rapid_barcode_entry_existing_barcode: Código de barras existente
         rapid_barcode_entry_new_barcode: Nuevo código de barras
+        batch_merge: Fusionar contenedores superiores
+        batch_merge_help: Fusionar todos los contenedores seleccionados.
         batch_delete: Borrar Contenedores Top
         batch_delete_help: Borrar todos los contenedores seleccionados.
         update_n_records: "Actualizar %{n} registros"
+        merge_n_records: "Va %{n} registros"
         delete_n_records: "Borrar %{n} registros"
         update_locations_current_location: Ubicación actual
         update_locations_new_location: Nueva ubicación
