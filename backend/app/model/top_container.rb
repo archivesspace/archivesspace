@@ -31,7 +31,7 @@ class TopContainer < Sequel::Model(:top_container)
 
   def format_barcode
     if self.barcode
-      "[barcode: #{self.barcode}]"
+      "[#{I18n.t("instance_container.barcode")}: #{self.barcode}]"
     end
   end
 
