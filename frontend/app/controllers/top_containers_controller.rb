@@ -6,7 +6,7 @@ class TopContainersController < ApplicationController
 
   set_access_control  "view_repository" => [:bulk_operations_browse, :bulk_operation_search, :index, :show, :typeahead],
                       "update_container_record" => [:new, :create, :edit, :update],
-                      "manage_container_record" => [:delete, :batch_delete, :bulk_operations, :bulk_operation_update, :update_barcodes, :update_locations]
+                      "manage_container_record" => [:delete, :batch_delete, :batch_merge, :bulk_operations, :bulk_operation_update, :update_barcodes, :update_locations]
 
 
   def index
@@ -66,6 +66,16 @@ class TopContainersController < ApplicationController
                   flash[:success] = I18n.t("top_container._frontend.messages.updated")
                   redirect_to :controller => :top_containers, :action => :show, :id => id
                 })
+  end
+
+
+  def batch_merge
+      merge_list = params[:victims]
+      target = params[:target]
+      victims = merge_list - target
+      handle_merge( victims,
+                    target[0],
+                    'top_container')
   end
 
 

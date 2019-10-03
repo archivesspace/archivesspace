@@ -148,7 +148,7 @@ describe 'Managed Container model' do
     let (:top_container) { TopContainer[box.id] }
 
     it "can show a display string for a top container that isn't linked to anything" do
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
     end
 
 
@@ -220,7 +220,7 @@ describe 'Managed Container model' do
                                                              'component_id' => "3",
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Series 3 [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Series 3 [barcode: 123]")
     end
 
     it "doesn't show a display string for a non-series other-level AO" do
@@ -231,7 +231,7 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Handbag'
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
     end
 
 
@@ -242,7 +242,7 @@ describe 'Managed Container model' do
                                                              'level' => 'series'
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
     end
 
 
@@ -254,20 +254,20 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Accession'
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Accession 9 [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Accession 9 [barcode: 123]")
     end
 
     it "shows a display string for a linked accession" do
       accession = create_accession({"instances" => [build_instance(box)]})
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
     end
 
 
     it "shows a display string for a linked resource" do
       resource = create_resource({"instances" => [build_instance(box)]})
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [barcode: 123]")
     end
 
   end
