@@ -1181,6 +1181,7 @@ ja:
         max_results_limit_details: "<strong>%{num_found}</strong>一致する結果の<strong>%{visible}</strong>を<strong>%{visible}</strong>ます"
         results_summary: 一致する結果： <strong>%{num_found}</strong>
         bulk_selection_sort_help: 並べ替え順序を設定する列をクリックします。 Shiftキーを押しながら複数の列で並べ替えます。
+        merged: 結合された上位コンテナ
         bulk_action_success: 上位のコンテナが正常に更新されました
         bulk_action_success_info: 変更が検索結果に反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
         no_active_restrictions: アクティブな制限はありません
@@ -1213,9 +1214,12 @@ ja:
         rapid_barcode_entry: 迅速なバーコード入力
         rapid_barcode_entry_existing_barcode: 既存のバーコード
         rapid_barcode_entry_new_barcode: 新しいバーコード
+        batch_merge: 上位コンテナのマージ
+        batch_merge_help: 選択したすべてのコンテナをマージします。
         batch_delete: トップコンテナの削除
         batch_delete_help: 選択したすべてのコンテナを削除します。
         update_n_records: "%{n}レコードを更新する"
+        merge_n_records: "%{n} 件記録"
         delete_n_records: "%{n}レコードを削除する"
         update_locations_current_location: 現在位置
         update_locations_new_location: 新しい場所

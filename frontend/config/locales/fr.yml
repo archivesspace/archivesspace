@@ -1183,6 +1183,7 @@ fr:
         max_results_limit_details: "<strong>%{visible}</strong> résulats correspondants affichés sur <strong>%{num_found}</strong>"
         results_summary: "Résultats correspondants: <strong>%{num_found}</strong>"
         bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
+        merged: Top conteneur (s) fusionné
         bulk_action_success: Top conditionnements actualisés avec succès
         bulk_action_success_info: Attention! Un certain temps peut s'écouler avant que les modifications ne soient répercutées dans les résultats de la recherche.
         no_active_restrictions: Pas de restrictions en vigueur
@@ -1215,9 +1216,12 @@ fr:
         rapid_barcode_entry: Saisie rapide de code-barres
         rapid_barcode_entry_existing_barcode: Code-barres existant
         rapid_barcode_entry_new_barcode: Nouveau code-barres
+        batch_merge: Fusionner les conteneurs
+        batch_merge_help: Fusionner tous les conteneurs sélectionnés.
         batch_delete: Supprimer Top conditionnements
         batch_delete_help: Supprimer tous les conditionnements sélectionnés.
         update_n_records: "Actualiser %{n} notices"
+        merge_n_records: "Ça va %{n} enregistrements"
         delete_n_records: "Supprimer %{n} notices"
         update_locations_current_location: Localisation actuelle
         update_locations_new_location: Nouvelle localisation
