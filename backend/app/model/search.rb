@@ -27,6 +27,7 @@ class Search
       set_facets(params[:facet], (params[:facet_mincount] || 0)).
       set_sort(params[:sort]).
       set_root_record(params[:root_record]).
+      set_field_list(params[:fields]).
       highlighting(params[:hl]).
       set_writer_type( params[:dt] || "json" )
 
