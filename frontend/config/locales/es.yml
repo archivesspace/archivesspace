@@ -1,6 +1,6 @@
 # NOTE: Many of the translations in this file have been generated using
 # Google translate
-﻿es:
+es:
   actions:
     add: Añadir
     add_event: Agregar evento
@@ -160,7 +160,6 @@
       level: Nivel
       classification_path: Clasificación
       accession_date_year: Fecha de entrada
-      creators: Creador
       source: Fuente
       rules: Reglas
       parent_type: Tipo de registro
