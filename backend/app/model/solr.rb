@@ -152,6 +152,15 @@ class Solr
     end
 
 
+    def set_field_list(fields)
+      if fields
+        add_solr_param(:fl, fields.join(','))
+      end
+
+      self
+    end
+
+
     def set_excluded_ids(ids)
       if ids
         query = ids.map { |id| "\"#{id}\"" }.join(' OR ')
