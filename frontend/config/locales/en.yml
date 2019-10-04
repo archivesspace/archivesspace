@@ -1184,6 +1184,7 @@ en:
         max_results_limit_details: "Showing <strong>%{visible}</strong> of <strong>%{num_found}</strong> matching results"
         results_summary: "Matching results: <strong>%{num_found}</strong>"
         bulk_selection_sort_help: Click a column to set the sort ordering.  Hold shift to sort by multiple columns.
+        merged: Top Container(s) Merged
         bulk_action_success: Top Containers successfully updated
         bulk_action_success_info: Please be aware it may take a moment before changes are reflected in the search results.
         no_active_restrictions: No Active Restrictions
@@ -1216,9 +1217,13 @@ en:
         rapid_barcode_entry: Rapid Barcode Entry
         rapid_barcode_entry_existing_barcode: Existing Barcode
         rapid_barcode_entry_new_barcode: New Barcode
+        batch_merge: Merge Top Containers
+        batch_merge_help: Merge all selected containers.
+        batch_merge_instructions: Merge the following top container(s) into the selected top container
         batch_delete: Delete Top Containers
         batch_delete_help: Delete all selected containers.
         update_n_records: "Update %{n} records"
+        merge_n_records: "Merge %{n} records"
         delete_n_records: "Delete %{n} records"
         update_locations_current_location: Current Location
         update_locations_new_location: New Location
