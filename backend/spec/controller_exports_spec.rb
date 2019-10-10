@@ -190,7 +190,7 @@ describe 'Exports controller' do
   it "lets you export a digital object in METS" do
     dig = create(:json_digital_object)
     get "/repositories/#{$repo_id}/digital_objects/mets/#{dig.id}.xml"
-    expect(last_response.body).to include("<mods:title>#{dig.title}</mods:title>")
+    expect(last_response.body).to match(/<mods:title.*>#{dig.title}<\/mods:title>/)
   end
 
 

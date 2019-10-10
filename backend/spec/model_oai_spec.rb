@@ -94,8 +94,8 @@ describe 'OAI handler' do
       result = ArchivesSpaceOaiProvider.new.process_request(:verb => 'ListSets')
       expect(result).to match(/<setSpec>sponsor_set_name<\/setSpec><setName>sponsor_set_name<\/setName>/)
       expect(result).to match(/<setSpec>repo_set_name<\/setSpec><setName>repo_set_name<\/setName>/)
-      expect(result).to match(/<oai_dc:description>bimbaz<\/oai_dc:description>/)
-      expect(result).to match(/<oai_dc:description>foobar<\/oai_dc:description>/)
+      expect(result).to match(/<oai_dc:description.*>bimbaz<\/oai_dc:description>/)
+      expect(result).to match(/<oai_dc:description.*>foobar<\/oai_dc:description>/)
     end
 
     RESOURCE_BASED_FORMATS.each do |prefix|
@@ -359,8 +359,8 @@ describe 'OAI handler' do
         uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dc"
 
         response = get uri
-        expect(response.body).to match(/<dc:rights>conditions governing access note<\/dc:rights>/)
-        expect(response.body).to match(/<dc:rights>conditions governing use note<\/dc:rights>/)
+        expect(response.body).to match(/<dc:rights.*>conditions governing access note<\/dc:rights>/)
+        expect(response.body).to match(/<dc:rights.*>conditions governing use note<\/dc:rights>/)
 
         expect(response.body).not_to match(/<dc:relation>conditions governing access note<\/dc:relation>/)
         expect(response.body).not_to match(/<dc:relation>conditions governing use note<\/dc:relation>/)
@@ -371,9 +371,9 @@ describe 'OAI handler' do
 
         response = get uri
 
-        expect(response.body).to match(/<dc:format>10 Volumes; Container summary<\/dc:format>/)
-        expect(response.body).to match(/<dc:format>physical description note<\/dc:format>/)
-        expect(response.body).to match(/<dc:format>dimensions note<\/dc:format>/)
+        expect(response.body).to match(/<dc:format.*>10 Volumes; Container summary<\/dc:format>/)
+        expect(response.body).to match(/<dc:format.*>physical description note<\/dc:format>/)
+        expect(response.body).to match(/<dc:format.*>dimensions note<\/dc:format>/)
 
         expect(response.body).not_to match(/<dc:extent>10 Volumes; Container summary<\/dc:extent>/)
         expect(response.body).not_to match(/<dc:extent>physical description note<\/dc:extent>/)
@@ -384,7 +384,7 @@ describe 'OAI handler' do
         response = get uri
         resource_id = @test_resource_record.split("/")[4]
         ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to match(/<dc:identifier>#{ark_url}<\/dc:identifier>/)
+        expect(response.body).to match(/<dc:identifier.*>#{ark_url}<\/dc:identifier>/)
       end
       it "should not output ARK name in identifer tag if ARK output is disabled" do
         AppConfig[:arks_enabled] = false
@@ -392,7 +392,7 @@ describe 'OAI handler' do
         response = get uri
         resource_id = @test_resource_record.split("/")[4]
         ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to_not match(/<dc:identifer><url>#{ark_url}<\/url><\/dc:identifer>/)
+        expect(response.body).to_not match(/<dc:identifer.*>#{ark_url}<\/dc:identifer>/)
         AppConfig[:arks_enabled] = true
       end
     end
@@ -403,7 +403,7 @@ describe 'OAI handler' do
         response = get uri
         resource_id = @test_resource_record.split("/")[4]
         ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to match(/<dcterms:identifer>#{ark_url}<\/dcterms:identifer>/)
+        expect(response.body).to match(/<dcterms:identifer.*>#{ark_url}<\/dcterms:identifer>/)
       end
       it "should not output ARK name in identifer tag if ARK output is disabled" do
         AppConfig[:arks_enabled] = false
@@ -411,7 +411,7 @@ describe 'OAI handler' do
         response = get uri
         resource_id = @test_resource_record.split("/")[4]
         ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to_not match(/<dcterms:identifer>#{ark_url}<\/dcterms:identifer>/)
+        expect(response.body).to_not match(/<dcterms:identifer.*>#{ark_url}<\/dcterms:identifer>/)
         AppConfig[:arks_enabled] = true
       end
     end
@@ -422,7 +422,7 @@ describe 'OAI handler' do
         response = get uri
         resource_id = @test_resource_record.split("/")[4]
         ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
-        expect(response.body).to match(/<identifier>#{ark_url}<\/identifier>/)
+        expect(response.body).to match(/<identifier.*>#{ark_url}<\/identifier>/)
       end
     end
   end
