@@ -84,8 +84,9 @@ describe "EAD export mappings" do
                             })
 
 
-    resource = create(:json_resource,  :linked_agents => build_linked_agents(@agents),
-                      :notes => build_archival_object_notes(10) + [@mixed_subnotes_tracer, @another_note_tracer],
+    resource = create(:json_resource,
+                      :linked_agents => build_linked_agents(@agents),
+                      :notes => build_archival_object_notes(30) + [@mixed_subnotes_tracer, @another_note_tracer],
                       :subjects => @subjects.map{|ref, s| {:ref => ref}},
                       :instances => instances,
                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
@@ -97,8 +98,9 @@ describe "EAD export mappings" do
     @resource = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
 
     AppConfig[:arks_enabled] = true
-    resource = create(:json_resource,  :linked_agents => build_linked_agents(@agents),
-                      :notes => build_archival_object_notes(10) + [@mixed_subnotes_tracer, @another_note_tracer],
+    ark_resource = create(:json_resource,
+                      :linked_agents => build_linked_agents(@agents),
+                      :notes => build_archival_object_notes(30) + [@mixed_subnotes_tracer, @another_note_tracer],
                       :subjects => @subjects.map{|ref, s| {:ref => ref}},
                       :instances => instances,
                       :finding_aid_status => %w(completed in_progress under_revision unprocessed).sample,
@@ -107,7 +109,7 @@ describe "EAD export mappings" do
                       :publish => true,
                       )
 
-    @resource_with_ark = JSONModel(:resource).find(resource.id, 'resolve[]' => 'top_container')
+    @resource_with_ark = JSONModel(:resource).find(ark_resource.id, 'resolve[]' => 'top_container')
     AppConfig[:arks_enabled] = true
 
     @archival_objects = {}
@@ -639,15 +641,13 @@ describe "EAD export mappings" do
 
       it "maps notes of type 'dimensions' to did/physdesc/dimensions" do
         notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
-          path = "#{desc_path}/did/physdesc[dimensions][#{i+1}]/dimensions"
-          mt(note_content(note).gsub("<p>",'').gsub("</p>", ""), path, :markup)
-          if note['persistent_id']
-            mt("aspace_" + note['persistent_id'], path, "id")
-          else
-            mt(nil, path, "id")
-          end
-
-          mt(note['label'], path, "label") if note['label']
+          id = "aspace_" + note['persistent_id']
+          content = note_content(note).gsub("<p>",'').gsub("</p>", "")
+          path = "did/physdesc[not(@altrender)][dimensions][#{i+1}]/dimensions"
+          path += id ? "[@id='#{id}']" : "[p[contains(text(), #{content})]]"
+          full_path = "#{desc_path}/#{path}"
+          mt(content, full_path, :markup)
+          mt(note['label'], full_path, "label") if note['label']
         end
       end
 
@@ -707,17 +707,16 @@ describe "EAD export mappings" do
 
       it "maps notes of type 'physfacet' to did/physdesc/physfacet" do
         notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
-          path = "#{desc_path}/did/physdesc[physfacet][#{i}]/physfacet"
-          mt(note_content(note), path)
-          if !note['persistent_id'].nil?
-            mt("aspace_" + note['persistent_id'], path, "id")
-          else
-            mt(nil, path, "id")
-          end
-
-          mt(note['label'], path, "label") if note['label']
+          id = "aspace_" + note['persistent_id']
+          content = note_content(note)
+          path = "did/physdesc[not(@altrender)][physfacet][#{i+1}]/physfacet"
+          path += id ? "[@id='#{id}']" : "[p[contains(text(), #{content})]]"
+          full_path = "#{desc_path}/#{path}"
+          mt(content, full_path)
+          mt(note['label'], full_path, "label") if note['label']
         end
       end
+
     end
 
 
