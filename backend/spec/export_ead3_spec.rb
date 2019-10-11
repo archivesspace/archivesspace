@@ -632,8 +632,9 @@ describe "EAD3 export mappings" do
         end
       end
 
-
-       it "maps notes of type 'dimensions' to did/physdesc" do
+      # This is not appropriate EAD3 via http://eadiva.com/physdesc/ which states:
+      # More importantly, much of [physdec's] functionality was moved to <physdescstructured> and it was left with only generic elements. It may not longer contain <dimensions>, <extent>, or <physfacet>.
+       xit "maps notes of type 'dimensions' to did/physdesc" do
          notes.select {|n| n['type'] == 'dimensions'}.each_with_index do |note, i|
            content = note_content(note)
            path = "#{desc_path}/did/physdesc[text()='#{content}']"
@@ -663,8 +664,9 @@ describe "EAD3 export mappings" do
         end
       end
 
-
-      it "maps notes of type 'physfacet' to did/physdesc" do
+      # This is not appropriate EAD3 via http://eadiva.com/physdesc/ which states:
+      # More importantly, much of [physdec's] functionality was moved to <physdescstructured> and it was left with only generic elements. It may not longer contain <dimensions>, <extent>, or <physfacet>.
+      xit "maps notes of type 'physfacet' to did/physdesc" do
         notes.select {|n| n['type'] == 'physfacet'}.each_with_index do |note, i|
           content = note_content(note)
           path = "#{desc_path}/did/physdesc[text()='#{content}']"
