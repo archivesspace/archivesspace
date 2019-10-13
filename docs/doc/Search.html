@@ -2689,7 +2689,7 @@
     <span class='rubyid_set_writer_type identifier id'>set_writer_type</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:dt</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;json&quot;</span> <span class='rparen token'>)</span>
 
   <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_remove_csv_header identifier id'>remove_csv_header</span> <span class='rubyid_if if_mod kw'>if</span> <span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:dt</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;csv&quot;</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:no_csv_header</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span>
-  <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_limit_fields_to identifier id'>limit_fields_to</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:fields</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:fields</span><span class='rbrack token'>]</span>
+  <span class='rubyid_query identifier id'>query</span><span class='dot token'>.</span><span class='rubyid_limit_fields_to identifier id'>limit_fields_to</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:fields</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:fields</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:limit_csv_fields</span><span class='rbrack token'>]</span>
 
   <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_Solr constant id'>Solr</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_query identifier id'>query</span><span class='rparen token'>)</span>
 
@@ -3184,7 +3184,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:42:57 2019 by
+  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:03:49 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

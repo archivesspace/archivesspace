@@ -657,3 +657,6 @@ AppConfig[:ark_naan] = "f00001"
 # URL prefix to use in ARK URLs.
 # In most cases this will be the same as the PUI URL.
 AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
+
+# Specifies if the fields that show up in csv should be limited to those in search results
+AppConfig[:limit_csv_fields] = true

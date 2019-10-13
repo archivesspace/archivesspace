@@ -114,7 +114,7 @@ script that rips apart the READMEs. Also, links in the site’s side bar need to
 added to <a href="https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html">Jekyll’s
 sidebar</a>.</p>
 
-<p>Before the <code>build/run doc:build</code> step, but sure you run the <code>build/run backend:test</code> step. This will run all your tests, including the documentation_spec.rb spec, which runs through all the endpoints, generates factory girl fixture json, and spits it into a json file ( endpoint_examples.json ).</p>
+<p>Before the <code>build/run doc:build</code> step, be sure you run the <code>build/run backend:test</code> step. This will run all your tests, including the documentation_spec.rb spec, which runs through all the endpoints, generates factory bot fixture json, and spits it into a json file (endpoint_examples.json).</p>
 
 <p>To build the documentation:</p>
 
@@ -140,65 +140,62 @@ sidebar</a>.</p>
     <p>Run the backend unit tests
 <code>
   $ build/run backend:test
+</code>
+Alternatively, if only updating the API docs
+<code>
+  $ build/run backend:test -Dspec='documentation_spec.rb'
 </code></p>
   </li>
   <li>
-    <p>Update the fallback_version value in common/asconstants.rb with the new version number so that the documentation with have the correct version number in the footer
+    <p>Update the fallback_version value in common/asconstants.rb with the new version number so that the documentation will have the correct version number in the footer
 <code>
   fallback_version = "vX.X.X.a"
 </code></p>
   </li>
   <li>
-    <p>Rip apart the READMEs for content by running the doc:build ANT task</p>
-  </li>
-</ol>
-
-<p><code>
+    <p>Rip apart the READMEs for content by running the doc:build ANT task
+<code>
   $ build/run doc:build
 </code></p>
-
-<ol>
-  <li>Build Slate ( using a standard Ruby )</li>
-</ol>
-
-<p><code>
+  </li>
+  <li>
+    <p>Build Slate/API docs (using a standard Ruby)
+  <em>Note</em>: At present, middleman requires a bundler version &lt; 2.0 so the docs have been updated to reflect this.
+<code>
   $ cd docs/slate
-  $ gem install bundler
+  $ gem install bundler --version '&lt; 2.0'
   $ bundle install --binstubs
   $ ./bin/middleman build
   $ ./bin/middleman server # optional if you want to have a look at the site.
   $ rm -r ../api
   $ mv build ../api
 </code></p>
-
-<ol>
-  <li>Compile Jekyll</li>
-</ol>
-
-<p><code>
+  </li>
+  <li>
+    <p>Compile Jekyll
+<code>
   $ cd docs
   $ gem install bundler
   $ bundle install --binstubs
   $ ./bin/jekyll build
   $ ./bin/jekyll serve # optional if you want to have a look at the site.
 </code></p>
-
-<ol>
-  <li>Commit the docs directory to git then push it to the gh-pages branch</li>
-</ol>
-
-<p><code>
-$ cd ../ # go to top of the working tree
-$ git add # all files related to the docs that just got created/updated (eg. docs/*, index.html files, etc) (do NOT add common/asconstants.rb)
-$ git commit # with appropriate commit message
-$  git subtree push --prefix docs origin gh-pages
-( or, if you get a FF error )
-$ git push origin `git subtree split --prefix docs master`:gh-pages --force
+  </li>
+  <li>
+    <p>Commit the docs directory to git then push it to the gh-pages branch
+<code>
+  $ cd ../ # go to top of the working tree
+  $ git add # all files related to the docs that just got created/updated (eg. docs/*, index.html files, etc) (do NOT add common/asconstants.rb)
+  $ git commit # with appropriate commit message
+  $  git subtree push --prefix docs origin gh-pages
+  ( or, if you get a FF error )
+  $ git push origin `git subtree split --prefix docs master`:gh-pages --force
 </code></p>
-
-<ol>
-  <li>Now merge in the docs directory back into master by committing the new-document
-branch, creating a PR, and merging the PR</li>
+  </li>
+  <li>
+    <p>Now merge in the docs directory back into master by committing the new-document
+branch, creating a PR, and merging the PR</p>
+  </li>
 </ol>
 
 <h2 id="build-the-release">Build the release</h2>
@@ -264,7 +261,7 @@ end</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0-RC1.a Documentation Generated on Wed Sep 25 11:42:47 2019 by
+  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:03:37 2019 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

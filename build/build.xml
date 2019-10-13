@@ -108,7 +108,7 @@
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <env key="HOME" value="${build.home}" />
-      <arg line="-S gem install bundler -v 1.16.1" />
+      <arg line="-S gem install bundler -v 1.17.3" />
     </java>
 
     <antcall target="bundler">
@@ -1014,12 +1014,13 @@
       <arg line="gems/bin/rubocop --safe-auto-correct ../selenium" />
     </java>
   </target>
+
   <target name="all:cops" description="Run Rubocop on major components">
-    <antcall target="public:cop" />
     <antcall target="indexer:cop" />
     <antcall target="frontend:cop" />
     <antcall target="backend:cop"/>
     <antcall target="selenium:cop"/>
+    <antcall target="public:cop" />
   </target>
 
 
