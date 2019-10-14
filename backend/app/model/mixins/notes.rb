@@ -43,26 +43,22 @@ module Notes
     end
 
 
-    def populate_persistent_ids(json)
-      json.notes.each do |note|
-        JSONSchemaUtils.map_hash_with_schema(note, JSONModel(note['jsonmodel_type']).schema,
-                                             [proc {|hash, schema|
-                                                if schema['properties']['persistent_id']
-                                                  hash['persistent_id'] ||= SecureRandom.hex
-                                                end
-
-                                                hash
-                                              }])
-      end
-    end
-
-
-    def populate_metadata(note)
+    def populate_metadata_and_persistent_ids(note, publish_notes_by_default)
       metadata = []
+      persistent_ids = []
 
       toplevel = true
       result = JSONSchemaUtils.map_hash_with_schema(note, JSONModel(note['jsonmodel_type']).schema,
                                                     [proc {|hash, schema|
+                                                       if schema['properties']['persistent_id']
+                                                         hash['persistent_id'] ||= SecureRandom.hex
+
+                                                         persistent_ids << hash['persistent_id']
+                                                       end
+
+                                                       hash
+                                                     },
+                                                     proc {|hash, schema|
                                                        if toplevel
                                                          toplevel = false
                                                          hash
@@ -71,7 +67,7 @@ module Notes
 
                                                          metadata << {
                                                            :guid => guid,
-                                                           :publish => Publishable.db_value_for(hash)
+                                                           :publish => hash.has_key?('publish') ? hash['publish'] : publish_notes_by_default
                                                          }
 
                                                          hash.merge('subnote_guid' => guid)
@@ -80,7 +76,7 @@ module Notes
                                                        end
                                                      }])
 
-      [metadata, result]
+      [metadata, result, persistent_ids]
     end
 
 
@@ -108,21 +104,25 @@ module Notes
     end
 
     def apply_notes(obj, json)
-      if obj.note_dataset.first
-    	association = self.association_reflection(:note)                                                                            
-        # MySQL supports modifying joins, derby does not... 
-        begin 
-          SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))                  
-             .filter( association[:key] => obj.id  ).delete 
-        rescue Sequel::InvalidOperation # for derby
-          SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
-        end
-        obj.note_dataset.delete 
+      association = self.association_reflection(:note)                                                                            
+      # MySQL supports modifying joins, derby does not... 
+      begin
+        SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))                  
+          .filter( association[:key] => obj.id  ).delete
+      rescue Sequel::InvalidOperation # for derby
+        SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
       end
-      populate_persistent_ids(json)
+      obj.note_dataset.delete
+
+      publish_notes_by_default = if AppConfig[:plugins].include?('qsa_migration_adapter')
+                                   false
+                                 else
+                                   Preference.defaults['publish']
+                                 end
+
 
       json.notes.each do |note|
-        metadata, note = populate_metadata(note)
+        metadata, note, persistent_ids = populate_metadata_and_persistent_ids(note, publish_notes_by_default)
 
         publish = note['publish'] ? 1 : 0
         note.delete('publish')
@@ -130,7 +130,8 @@ module Notes
         note_obj = Note.create(:notes_json_schema_version => json.class.schema_version,
                                :publish => publish,
                                :lock_version => 0,
-                               :notes => JSON(note))
+                               :notes => JSON(note),
+                               association[:key] => obj.id)
 
         metadata.each do |m|
           SubnoteMetadata.create(:publish => m.fetch(:publish),
@@ -138,10 +139,8 @@ module Notes
                                  :guid => m.fetch(:guid))
         end
 
-	note_obj.add_persistent_ids(extract_persistent_ids(note),
-				     *obj.persistent_id_context)
-        
-        obj.add_note(note_obj)
+	note_obj.add_persistent_ids(persistent_ids,
+				    *obj.persistent_id_context)
       end
         
     	obj
