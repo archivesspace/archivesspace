@@ -11,6 +11,9 @@ module RecordableCataloging
 
       obj = super
 
+      # QSA doesn't use this
+      return obj
+
       agent_uri = AgentSoftware.archivesspace_record.uri
 
       # If the current user has a linked agent, use it.
