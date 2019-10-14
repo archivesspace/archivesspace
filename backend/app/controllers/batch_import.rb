@@ -90,6 +90,11 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
+      if success && AppConfig[:plugins].include?('qsa_migration_adapter')
+        QSAIdSequenceMangler.mangle!
+      end
+
+
       results = {:saved => []}
 
       if !params[:skip_results] && batch && batch.created_records
