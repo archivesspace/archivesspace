@@ -159,8 +159,10 @@ class StreamingImport
 
       logical_urls[rec['uri']] = nil
 
-      # Take the opportunity to validate the record too
-      to_jsonmodel(rewrite(rec, {}))
+      unless AppConfig[:plugins].include?('qsa_migration_adapter')
+        # Take the opportunity to validate the record too
+        to_jsonmodel(rewrite(rec, {}))
+      end
 
       @ticker.tick
     end
@@ -231,7 +233,9 @@ class StreamingImport
         record['position'] += @position_offsets[record['uri']]
       end
 
-      json = to_jsonmodel(record, true)
+      needs_validate = !AppConfig[:plugins].include?('qsa_migration_adapter')
+
+      json = to_jsonmodel(record, needs_validate)
 
       model = model_for(record['jsonmodel_type'])
 

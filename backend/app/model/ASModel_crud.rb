@@ -333,8 +333,10 @@ module ASModel
 
         values['created_by'] = RequestContext.get(:current_username)
 
+        mode = AppConfig[:plugins].include?('qsa_migration_adapter') ? :trusted : :validated
+
         obj = self.create(prepare_for_db(json.class,
-                                         json.to_hash.merge(values)))
+                                         json.to_hash(mode).merge(values)))
 
         obj.apply_nested_records(json, true)
 
