@@ -525,7 +525,12 @@ AppConfig[:pui_page_actions_cite] = true
 AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
-AppConfig[:pui_enable_staff_link] = true # when a user is authenticated, add a link back to the staff interface from the specified record
+
+# when a user is authenticated, add a link back to the staff interface from the specified record
+AppConfig[:pui_enable_staff_link] = true
+# by default, staff link will open record in staff interface in edit mode,
+# change this to 'readonly' for it to open in readonly mode
+AppConfig[:pui_staff_link_mode] = 'edit'
 
 # PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)
 # the following determine on what kinds of records the request button is displayed
