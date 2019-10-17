@@ -39,17 +39,23 @@ class PeriodicIndexer < IndexerCommon
     @timing = IndexerTiming.new
   end
 
+  WORKER_STATUS_NOTHING_INDEXED = 0
+  WORKER_STATUS_INDEX_SUCCESS = 1
+  WORKER_STATUS_INDEX_ERROR = 2
+
   def start_worker_thread(queue, record_type)
     repo_id = JSONModel.repository
     session = JSONModel::HTTP.current_backend_session
 
     Thread.new do
+      # Each worker thread will yield a value (Thread.value) indicating either
+      # "did nothing", "complete success" or "errors encountered".
+      worker_status = WORKER_STATUS_NOTHING_INDEXED
+
       begin
         # Inherit the repo_id and user session from the parent thread
         JSONModel.set_repository(repo_id)
         JSONModel::HTTP.current_backend_session = session
-
-        did_something = false
 
         while true
           id_subset = queue.poll(10000, java.util.concurrent.TimeUnit::MILLISECONDS)
@@ -62,27 +68,77 @@ class PeriodicIndexer < IndexerCommon
           records = @timing.time_block(:record_fetch_ms) do
             @backend_fetch_sem.acquire
             begin
-              fetch_records(record_type, id_subset, resolved_attributes)
+              # Happy path: we request all of our records in one shot and
+              # everything goes to plan.
+              begin
+                fetch_records(record_type, id_subset, resolved_attributes)
+              rescue
+                worker_status = WORKER_STATUS_INDEX_ERROR
+
+                # Sad path: the fetch failed for some reason, possibly because
+                # one or more records are malformed and triggering a bug
+                # somewhere.  Recover as best we can by fetching records
+                # individually.
+                salvaged_records = []
+
+                id_subset.each do |id|
+                  begin
+                    salvaged_records << fetch_records(record_type, [id], resolved_attributes)[0]
+                  rescue
+                    # Not seeing new workers get started?
+                    Log.error("Failed fetching #{record_type} id=#{id}: #{$!}")
+                  end
+                end
+
+                salvaged_records
+              end
             ensure
               @backend_fetch_sem.release
             end
           end
 
           if !records.empty?
-            did_something = true
-            index_records(records.map {|record|
-                            {
-                              'record' => record.to_hash(:trusted),
-                              'uri' => record.uri
-                            }
-                          })
+            if worker_status == WORKER_STATUS_NOTHING_INDEXED
+              worker_status = WORKER_STATUS_INDEX_SUCCESS
+            end
+
+            begin
+              # Happy path: index all of our records in one shot
+              index_records(records.map {|record|
+                              {
+                                'record' => record.to_hash(:trusted),
+                                'uri' => record.uri
+                              }
+                            })
+            rescue
+              worker_status = WORKER_STATUS_INDEX_ERROR
+
+              # Sad path: indexing of one or more records failed, possibly due
+              # to weird data or bugs in mapping rules.  Index as much as we
+              # can before reporting the error.
+              records.each do |record|
+                begin
+                  index_records([
+                                  {
+                                    'record' => record.to_hash(:trusted),
+                                    'uri' => record.uri
+                                  }
+                                ])
+                rescue
+                  Log.error("Failure while indexing record: #{record.uri}: #{$!}")
+                  Log.exception($!)
+                end
+              end
+            end
           end
         end
 
-        did_something
+        worker_status
       rescue
         Log.error("Failure in #{@indexer_name} worker thread: #{$!}")
-        raise $!
+        Log.error($@.join("\n"))
+
+        return WORKER_STATUS_INDEX_ERROR
       end
     end
   end
@@ -144,6 +200,9 @@ class PeriodicIndexer < IndexerCommon
           id_set.each_slice(@records_per_thread) do |id_subset|
             # This will block if all threads are currently busy indexing.
             while !work_queue.offer(id_subset, 5000, java.util.concurrent.TimeUnit::MILLISECONDS)
+              # The work queue is full.  Threads might just be busy, but check
+              # for failed workers too.
+
               # If any of the workers have caught an exception, rethrow it immediately
               workers.each do |thread|
                 thread.value if thread.status.nil?
@@ -153,7 +212,6 @@ class PeriodicIndexer < IndexerCommon
             indexed_count += id_subset.length
             log("~~~ Indexed #{indexed_count} of #{id_set.length} #{type} records in repository #{repository.repo_code}")
           end
-
         ensure
           # Once we're done, instruct the workers to finish up.
           @thread_count.times { work_queue.offer(:finished, 5000, java.util.concurrent.TimeUnit::MILLISECONDS) }
@@ -161,13 +219,23 @@ class PeriodicIndexer < IndexerCommon
 
         # If any worker reports that they indexed some records, we'll send a
         # commit.
-        results = workers.map {|thread| thread.join; thread.value}
-        did_something = results.any? {|status| status}
+        worker_statuses = workers.map {|thread|
+            thread.join
+            thread.value
+        }
 
-        send_commit if did_something
-        @state.set_last_mtime(repository.id, type, start)
+        # Commit if anything was added to Solr
+        unless worker_statuses.all? {|status| status == WORKER_STATUS_NOTHING_INDEXED}
+          send_commit
+        end
 
         log("Indexed #{id_set.length} records in #{Time.now.to_i - start.to_i} seconds")
+
+        if worker_statuses.include?(WORKER_STATUS_INDEX_ERROR)
+          Log.info("Skipping update of indexer state for record type #{type} in repository #{repository.id} due to previous failures")          
+        else
+          @state.set_last_mtime(repository.id, type, start)
+        end
       end
 
       index_round_complete(repository)
