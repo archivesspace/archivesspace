@@ -333,7 +333,11 @@ module ASModel
 
         values['created_by'] = RequestContext.get(:current_username)
 
-        mode = AppConfig[:plugins].include?('qsa_migration_adapter') ? :trusted : :validated
+        mode = :validated
+
+        if AppConfig.has_key?(:migration_skip_validate) && AppConfig[:migration_skip_validate]
+          mode = :trusted
+        end
 
         obj = self.create(prepare_for_db(json.class,
                                          json.to_hash(mode).merge(values)))

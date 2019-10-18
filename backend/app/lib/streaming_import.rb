@@ -7,6 +7,8 @@ require_relative 'dependency_set'
 require_relative 'streaming_json_reader'
 require_relative 'cycle_finder'
 
+require 'pp'
+
 class StreamingImport
 
   include JSONModel
@@ -159,9 +161,16 @@ class StreamingImport
 
       logical_urls[rec['uri']] = nil
 
-      unless AppConfig[:plugins].include?('qsa_migration_adapter')
-        # Take the opportunity to validate the record too
-        to_jsonmodel(rewrite(rec, {}))
+      unless AppConfig.has_key?(:migration_skip_validate) && AppConfig[:migration_skip_validate]
+        begin
+          # Take the opportunity to validate the record too
+          to_jsonmodel(rewrite(rec, {}))
+        rescue
+          $stderr.puts("*** THIS RECORD FAILED TO VALIDATE (#{$!}")
+          $stderr.puts(rec.pretty_inspect)
+
+          raise $!
+        end
       end
 
       @ticker.tick
