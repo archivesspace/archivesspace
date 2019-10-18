@@ -1,0 +1,22 @@
+<fop version="1.0">
+	<font-base>./fonts</font-base>
+	<complex-scripts disabled="true" />
+	<renderers>
+		<renderer mime="application/pdf">
+		<fonts>
+			<font embed-url="NotoSerif-SemiCondensed.ttf">
+				<font-triplet name="NotoSerif" style="normal" weight="normal"/>
+			</font>
+			<font embed-url="NotoSerif-SemiCondensedBold.ttf">
+				<font-triplet name="NotoSerif" style="normal" weight="bold"/>
+			</font>
+			<font embed-url="NotoSerif-SemiCondensedBoldItalic.ttf">
+				<font-triplet name="NotoSerif" style="italic" weight="bold"/>
+			</font>
+			<font embed-url="NotoSerif-SemiCondensedItalic.ttf">
+				<font-triplet name="NotoSerif" style="italic" weight="normal"/>
+			</font>
+		</fonts>
+	</renderer>
+	</renderers>
+</fop>
