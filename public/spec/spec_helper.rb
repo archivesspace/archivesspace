@@ -24,13 +24,9 @@ module BackendClientMethods
   end
 end
 
-# IF we want simplecov reports
 if ENV['COVERAGE_REPORTS'] == 'true'
-  require 'simplecov'
-  SimpleCov.start('rails') do
-    add_filter '/spec'
-  end
-  SimpleCov.command_name 'spec'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('public:test', 'rails')
 end
 
 require 'aspace_gems'

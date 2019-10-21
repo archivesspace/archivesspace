@@ -25,6 +25,11 @@ module BackendClientMethods
   end
 end
 
+if ENV['COVERAGE_REPORTS'] == 'true'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('frontend:test', 'rails')
+end
+
 # This defines how we startup the Backend and Solr. It's called by rspec in the
 # before(:suite) block
 $server_pids = []

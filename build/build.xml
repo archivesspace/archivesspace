@@ -383,6 +383,7 @@
           failonerror="true"
           dir="../frontend">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -785,7 +786,9 @@
   <target name="indexer:coverage" depends="set-classpath, indexer:test" description="Generate coverage reports for the indexer">
   </target>
 
-  <target name="frontend:coverage" depends="set-classpath, frontend:clean"
+  <!-- Note: Selenium tests for frontend are not currently included
+   in coverage reports -->
+  <target name="frontend:coverage" depends="set-classpath, frontend:clean, frontend:test"
           description="Generate coverage reports for the frontend">
   </target>
 
