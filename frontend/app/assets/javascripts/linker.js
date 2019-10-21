@@ -213,7 +213,7 @@ $(function() {
             });
           });
           $("#"+config.modal_id).modal('hide');
-          $this.triggerHandler("change");
+          $this.trigger("change");
         };
 
         AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'large', {}, this);
