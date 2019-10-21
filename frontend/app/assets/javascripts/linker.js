@@ -217,7 +217,7 @@ $(function() {
             });
           });
           $("#"+config.modal_id).modal('hide');
-          $this.triggerHandler("change");
+          $this.trigger("change");
         };
 
         // Ensure all typeahead dropdowns are hidden (sometimes blur leaves them visible)
