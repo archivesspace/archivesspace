@@ -797,7 +797,7 @@
   </target>
 
 
-  <target name="test" depends="headless-tests"
+  <target name="test" depends="headless-tests, frontend:selenium"
           description="Run the full suite of tests">
   </target>
 
