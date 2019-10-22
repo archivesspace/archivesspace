@@ -9,8 +9,28 @@ describe 'Resource model' do
     resource = create_resource(opts)
 
     expect(Resource[resource[:id]].title).to eq(opts[:title])
+    resource.delete
   end
 
+  it "creates an ARK name with resource" do
+    AppConfig[:arks_enabled] = true
+    opts = {:title => generate(:generic_title)}
+    resource = create_resource(opts)
+    expect(ArkName.first(:resource_id => resource.id)).to_not be_nil
+    resource.delete
+    AppConfig[:arks_enabled] = false
+  end
+
+  it "deletes ARK Name when resource is deleted" do
+    AppConfig[:arks_enabled] = true
+    opts = {:title => generate(:generic_title)}
+    resource = create_resource(opts)
+    resource_id = resource.id
+    expect(ArkName.first(:resource_id => resource_id)).to_not be_nil
+    resource.delete
+    expect(ArkName.first(:resource_id => resource_id)).to be_nil
+    AppConfig[:arks_enabled] = false
+  end
 
   it "prevents duplicate IDs " do
     opts = {:id_0 => generate(:alphanumstr)}
@@ -93,7 +113,7 @@ describe 'Resource model' do
 
 
   it "throws an error when no language is provided" do
-    opts = {:language => nil}
+    opts = {:lang_materials => [{"language_and_script" => {"language" => nil, "script" => "Latn"}}]}
 
     expect { create_resource(opts) }.to raise_error(JSONModel::ValidationException)
   end
@@ -395,6 +415,7 @@ describe 'Resource model' do
       describe "by id" do
         before(:all) do
           AppConfig[:auto_generate_slugs_with_id] = true
+          AppConfig[:generate_resource_slugs_with_eadid] = false
         end
         it "autogenerates a slug via identifier" do
           resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true))

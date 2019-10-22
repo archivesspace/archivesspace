@@ -1,0 +1,8 @@
+<% define_template "language_and_script", jsonmodel_definition(:language_and_script) do |form| %>
+  <%= form.label_and_select("language", form.possible_options_for("language", true)) %>
+  <%= form.label_and_select("script", form.possible_options_for("script", true)) %>
+<% end %>
+
+<%= readonly_context :language_and_script, language_and_script do |readonly| %>
+  <%= readonly.emit_template ("language_and_script") %>
+<% end %>

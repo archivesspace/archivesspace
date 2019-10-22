@@ -158,7 +158,6 @@ en:
       level: Level
       classification_path: Classification
       accession_date_year: Accession Date
-      creators: Creator
       source: Source
       rules: Rules
       parent_type: Record Type
@@ -509,6 +508,8 @@ en:
         save: Save Software
 
   archival_object:
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: Archival Object <strong>%{archival_object.display_string}</strong> on Resource <strong>%{resource.title}</strong> created
@@ -709,6 +710,12 @@ en:
         add_digital_object: Add Digital Object
         add: Add Instance
 
+  lang_material:
+    _frontend:
+      action:
+        add: Add Language
+        add_note: Add Language Note
+
   linked_agent:
     _frontend:
       action:
@@ -873,6 +880,8 @@ en:
         create: Create Resource
         save: Save Resource
         delete_multiple: Delete Resources
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
 
   preference:
     _frontend:
@@ -948,6 +957,7 @@ en:
     column_label: Column
     sections:
       basic_information: Basic Information
+      language: Language
       date: Date
       extent: Extent
       instance: Instance
@@ -1066,6 +1076,7 @@ en:
         slug_config_title: Slugs will be generated using the entity name or title.
         slug_config_eadid: Slugs for <b>Resources</b> will be generated using the EAD ID where appropriate.
         slug_config_cuid: Slugs for <b>Archival Objects</b> will be generated using the Component Unique ID where appropriate.
+        ark_generation: This job will generate ARKs for all <b>Resources</b> and <b>Archival Objects</b> that do not already have an ARK. <br /><br /><em>External ARKs will not be changed.</em>
 
   shortcuts:
     quick_reference_window: "Quick Reference: Keyboard Shortcuts"

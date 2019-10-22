@@ -86,11 +86,8 @@ class RepositoriesController < ApplicationController
           'name' => @result['agent_representation']['_resolved']['display_name']['sort_name'],
           'url' => @result['url'],
           'logo' => @result['image_url'],
-          'identifier' => @result['country'] ? @result['country']+'-'+ @result['org_code'] : @result['org_code'],
           #this next bit will never work since ASpace has a bug with how it enacts its repo-to-agent concept (at least in versions 2.4 and 2.5).... and you can't add an authority ID directly to a repo record.
           'sameAs' => @result['agent_representation']['_resolved']['display_name']['authority_id'],
-          'description' => @result['repo_info']['top']['description'],
-          'email' => @result['repo_info']['email'],
           'parentOrganization' => {
             '@type' => 'Organization',
             'name' => @result['parent_institution_name']
@@ -99,28 +96,42 @@ class RepositoriesController < ApplicationController
           # 'contactPoint' => @result['agent_representation']['_resolved']['agent_contacts'][0]['name']
         }
 
-        if @result['repo_info']['telephones']
-          md['faxNumber'] = @result['repo_info']['telephones']
-            .select{|t| t['number_type'] == 'fax'}
-            .map{|f| f['number']}
+    if @result['org_code']
+      if @result['country']
+        md['identifier'] = @result['country']+'-'+ @result['org_code']
+      else
+        md['identifier'] = @result['org_code']
+      end
+    end
 
-          md['telephone'] =  @result['repo_info']['telephones']
-            .select{|t| t['number_type'] == 'business'}
-            .map{|b| b['number']}
-        end
+    if @result['repo_info']
 
-        if @result['repo_info']['address']
-          md['address'] = {
-            '@type' => 'PostalAddress',
-            'streetAddress' => @result['repo_info']['address'].join(", "),
-            'addressLocality' => @result['repo_info']['city'],
-            'addressRegion' => @result['repo_info']['region'],
-            'postalCode' => @result['repo_info']['post_code'],
-            'addressCountry' => @result['repo_info']['country']
-          }
-        end
+      md['description'] = @result['repo_info']['top']['description'] if @result['repo_info']['top'] && @result['repo_info']['top']['description']
+      md['email'] = @result['repo_info']['email'] if @result['repo_info']['email']
 
-        md.compact
+      if @result['repo_info']['telephones']
+        md['faxNumber'] = @result['repo_info']['telephones']
+          .select{|t| t['number_type'] == 'fax'}
+          .map{|f| f['number']}
+
+        md['telephone'] =  @result['repo_info']['telephones']
+          .select{|t| t['number_type'] == 'business'}
+          .map{|b| b['number']}
+      end
+
+      if @result['repo_info']['address']
+        md['address'] = {
+          '@type' => 'PostalAddress',
+          'streetAddress' => @result['repo_info']['address'].join(", "),
+          'addressLocality' => @result['repo_info']['city'],
+          'addressRegion' => @result['repo_info']['region'],
+          'postalCode' => @result['repo_info']['post_code'],
+          'addressCountry' => @result['repo_info']['country']
+        }
+      end
+    end
+
+    md.compact
   end
 
   def show
@@ -134,7 +145,6 @@ class RepositoriesController < ApplicationController
     @criteria = {}
     @criteria[:page_size] = 1
     @data =  archivesspace.search(query, 1, @criteria) || {}
-    @result
     if !@data['results'].blank?
       @result = ASUtils.json_parse(@data['results'][0]['json'])
       @badges = Repository.badge_list(@result['repo_code'].downcase)

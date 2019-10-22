@@ -105,7 +105,9 @@ class DigitalObjectConverter < Converter
 
       'digital_object_cataloged_note' => 'collection_management.cataloged_note',
 
-      'digital_object_language' => 'd.language',
+      'digital_object_language' => 'lang_material.language',
+      'digital_object_script' => 'lang_material.script',
+
       'digital_object_level' => 'd.level',
       'digital_object_publish' => [normalize_boolean, 'd.publish'],
       'digital_object_type' => 'd.digital_object_type',
@@ -289,6 +291,16 @@ class DigitalObjectConverter < Converter
         :on_row_complete => Proc.new {|cache, extent|
           digital_object = cache.find {|obj| obj.class.record_type =~ /^digital_object/ }
           digital_object.extents << extent
+        }
+      },
+
+      :lang_material => {
+        :on_create => Proc.new {|data, obj|
+          obj.language_and_script = {'jsonmodel_type' => 'language_and_script', 'language' => data['language'], 'script' => data['script']}
+        },
+        :on_row_complete => Proc.new {|cache, this|
+          digital_object = cache.find {|obj| obj.class.record_type =~ /^digital_object/ }
+          digital_object.lang_materials << this
         }
       },
 

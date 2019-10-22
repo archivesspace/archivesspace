@@ -15,15 +15,18 @@ describe 'Resources controller' do
                                                 "expression" => "1901" }],
                                               "id_0" => "abc123",
                                               "level" => "collection",
-                                              "language" => "eng",
+                                              "lang_materials" => [{
+                                                "language_and_script" => {
+                                                  "language" => "eng",
+                                                  "script" => "Latn"}}],
                                               "finding_aid_language" => "eng",
                                               "finding_aid_script" => "Latn",
                                               "extents" => [{
                                                 "portion" => "whole",
                                                 "number" => "5 or so",
                                                 "extent_type" => "reels"}])
-    id = resource.save
 
+    id = resource.save
     expect(JSONModel(:resource).find(id).title).to eq("a resource")
   end
 
@@ -46,6 +49,26 @@ describe 'Resources controller' do
   end
 
 
+  it "lets you create a resource with a language" do
+    opts = {:language_and_script => {:language => generate(:language)}}
+
+    lang_materials = [build(:json_lang_material, opts)]
+
+    resource = create(:json_resource, :lang_materials => lang_materials)
+
+    expect(JSONModel(:resource).find(resource.id).lang_materials[0]['language_and_script']['language'].length).to eq(3)
+    expect(JSONModel(:resource).find(resource.id).lang_materials[0]['note']).to eq(nil)
+  end
+
+
+  it "doesn't let you create a resource without at least one language" do
+    expect {
+      create(:json_resource,
+             :lang_materials => nil)
+    }.to raise_error(JSONModel::ValidationException)
+   end
+
+
   it "doesn't let you create a resource without a finding_aid_language" do
     expect {
       create(:json_resource,
@@ -58,6 +81,14 @@ describe 'Resources controller' do
     expect {
       create(:json_resource,
              :finding_aid_script => nil)
+    }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "doesn't let you create a resource with a script of scripty" do
+    expect {
+      create(:json_resource,
+             :lang_materials => [build(:json_lang_material, {:language_and_script => {:script=> 'scripty'}})])
     }.to raise_error(JSONModel::ValidationException)
   end
 
@@ -530,4 +561,13 @@ describe 'Resources controller' do
 
   end
 
+  it "includes the ARK name in the resource's JSON" do
+    AppConfig[:arks_enabled] = true
+    resource = create(:json_resource)
+    ArkName.create_from_resource(resource)
+    uri = JSONModel(:resource).uri_for(resource.id)
+    json = JSONModel::HTTP.get_json(uri)
+    expect(json['ark_name']).to_not be_nil
+    expect(json['ark_name']['id']).to_not be_nil
+  end
 end

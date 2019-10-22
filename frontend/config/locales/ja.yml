@@ -516,6 +516,8 @@ ja:
         save: ソフトウェアを保存する
 
   archival_object:
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: リソース<strong>%{resource.title}</strong>アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>が作成されました
@@ -716,6 +718,12 @@ ja:
       action:
         add_digital_object: デジタルオブジェクトを追加する
         add: インスタンスを追加する
+
+  lang_material:
+    _frontend:
+      action:
+        add: 言語を追加
+        add_note: 言語メモを追加
 
   linked_agent:
     _frontend:
@@ -959,6 +967,7 @@ ja:
     column_label: カラム
     sections:
       basic_information: 基本情報
+      language: 言語
       date: 日付
       extent: エクステント
       instance: インスタンス
@@ -1078,6 +1087,7 @@ ja:
         slug_config_title: スラッグは、エンティティ名またはタイトルを使用して生成されます。
         slug_config_eadid: <b>リソース</b>のスラッグは、必要に応じてEAD IDを使用して生成されます。
         slug_config_cuid: <b>アーカイブオブジェクト</b>のスラッグは、必要に応じてコンポーネントの固有IDを使用して生成されます。
+        ark_generation: このジョブは、ARKをまだ持っていないすべての<b>リソース</b>および<b>アーカイブオブジェクト</b>のARKを生成します。 <br/> <br/> <em>外部ARKは変更されません。</em>
 
   shortcuts:
     quick_reference_window: クイックリファレンス：キーボードショートカット

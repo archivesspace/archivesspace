@@ -1,6 +1,6 @@
 # NOTE: Many of the translations in this file have been generated using
 # Google translate
-﻿es:
+es:
   actions:
     add: Añadir
     add_event: Agregar evento
@@ -160,7 +160,6 @@
       level: Nivel
       classification_path: Clasificación
       accession_date_year: Fecha de entrada
-      creators: Creador
       source: Fuente
       rules: Reglas
       parent_type: Tipo de registro
@@ -511,6 +510,8 @@
         save: Guardar Software
 
   archival_object:
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: External ARK URL Tooltip
     _frontend:
       messages:
         created: Documento de archivo <strong>%{archival_object.display_string}</strong> del fondo <strong>%{resource.title}</strong> creado
@@ -710,6 +711,12 @@
       action:
         add_digital_object: Agregar objeto Digital
         add: Añadir representación
+
+  lang_material:
+    _frontend:
+      action:
+        add: Añadir idioma
+        add_note: Añadir nota de idioma
 
   linked_agent:
     _frontend:
@@ -950,6 +957,7 @@
     column_label: Columna
     sections:
       basic_information: Información básica
+      language: Idioma
       date: Fecha
       extent: Extensión
       instance: Representación
@@ -1068,6 +1076,7 @@
         slug_config_title: Las babosas se generarán usando el nombre o título de la entidad.
         slug_config_eadid: Las babosas para <b> Recursos </b> se generarán utilizando el ID de EAD cuando sea apropiado.
         slug_config_cuid: Los slugs para <b> Objetos de archivo </b> se generarán usando la ID Única del Componente cuando sea apropiado.
+        ark_generation: Este trabajo generará ARK para todos los <b> Recursos </b> y <b> Objetos de archivo </b> que aún no tienen un ARK. <br/> <br/> <em> ARK externos no se cambiarán. </em>
 
   shortcuts:
     quick_reference_window: "Referencia: accesos directos del teclado "

@@ -387,8 +387,8 @@ AppConfig[:record_inheritance] = {
                             :inherit_directly => false
                           },
                           {
-                            :property => 'language',
-                            :inherit_directly => true
+                            :property => 'lang_materials',
+                            :inherit_directly => false
                           },
                           {
                             :property => 'dates',
@@ -642,3 +642,18 @@ AppConfig[:generate_archival_object_slugs_with_cuid] = false
 # Determines if the subject source is shown along with the subject heading in records' subject listings
 # This can help differentiate between subjects with the same heading
 AppConfig[:show_source_in_subject_listing] = false
+
+# ARKs configuration options
+# determines whether fields and options related to ARKs appear in the staff interface
+AppConfig[:arks_enabled] = false
+
+# NAAN value to use in ARK URLs.
+# Should be set to institutional NAAN, or any other value valid in URLs.
+AppConfig[:ark_naan] = "f00001"
+
+# URL prefix to use in ARK URLs.
+# In most cases this will be the same as the PUI URL.
+AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
+
+# Specifies if the fields that show up in csv should be limited to those in search results
+AppConfig[:limit_csv_fields] = true

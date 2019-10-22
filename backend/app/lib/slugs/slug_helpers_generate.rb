@@ -87,6 +87,7 @@ module SlugHelpers
 
   # runs dedupe if necessary
   def self.run_dedupe_slug(slug)
+
     # search for dupes
     if !slug.empty? && slug_in_use?(slug)
       slug = dedupe_slug(slug, 1)
@@ -94,6 +95,7 @@ module SlugHelpers
       slug
     end
     cache << slug if job_running?
+
     slug
   end
 
@@ -140,20 +142,23 @@ module SlugHelpers
   # given a slug, return true if slug is used by another entity.
   # return false otherwise.
   def self.slug_in_use?(slug)
+
     if job_running?
       cache.include? slug
     else
-      slug_record_types.inject(0) {|count, klass| count + klass.where(:slug => slug).count } > 0
+      (slug_record_types + [Repository]).inject(0) {|count, klass| count + klass.where(:slug => slug).count } > 0
     end
   end
 
   # dupe_slug is already in use.
   def self.dedupe_slug(dupe_slug, count)
+
     new_slug = "#{dupe_slug}_#{count}"
     loop do
       break unless slug_in_use?(new_slug)
       new_slug = "#{dupe_slug}_#{count += 1}"
     end
+
     new_slug
   end
 end

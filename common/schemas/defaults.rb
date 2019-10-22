@@ -4,7 +4,7 @@ accession_browse_column_enum = [
                       "publish", 'no_value'
                      ]
 resource_browse_column_enum = [
-                      "identifier", "resource_type", "level", "language", "restrictions",
+                      "identifier", "resource_type", "level", "restrictions",
                       "ead_id", "finding_aid_status", "publish", 'no_value'
                      ]
 digital_object_browse_column_enum = [

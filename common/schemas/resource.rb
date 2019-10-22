@@ -13,11 +13,10 @@
       "id_1" => {"type" => "string", "maxLength" => 255},
       "id_2" => {"type" => "string", "maxLength" => 255},
       "id_3" => {"type" => "string", "maxLength" => 255},
+      "external_ark_url" => {"type" => "string", "required" => false},
 
       "level" => {"type" => "string", "ifmissing" => "error", "dynamic_enum" => "archival_record_level"},
       "other_level" => {"type" => "string", "maxLength" => 255},
-
-      "language" => {"ifmissing" => "warn"},
 
       "slug" => {"type" => "string"},
       "is_slug_auto" => {"type" => "boolean", "default" => true},
@@ -61,11 +60,14 @@
       "finding_aid_status" => {"type" => "string", "dynamic_enum" => "resource_finding_aid_status"},
       "finding_aid_note" => {"type" => "string", "maxLength" => 65000},
 
+      # Languages (overrides abstract schema)
+      "lang_materials" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:lang_material) object"}},
+
       # Extents (overrides abstract schema)
       "extents" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:extent) object"}},
-      
+
       "revision_statements" => {"type" => "array", "items" => {"type" => "JSONModel(:revision_statement) object"}},
-      
+
       # Dates (overrides abstract schema)
       "dates" => {"type" => "array", "ifmissing" => "error", "minItems" => 1, "items" => {"type" => "JSONModel(:date) object"}},
 
@@ -89,7 +91,7 @@
           }
         }
       },
-     
+
       "classifications" => {
               "type" => "array",
               "items" => {
@@ -120,6 +122,11 @@
       "representative_image" => {
         "type" => "JSONModel(:file_version) object",
         "readonly" => true
+      },
+      "ark_name" => {
+        "type" => "JSONModel(:ark_name) object",
+        "readonly" => true,
+        "required" => false
       }
 
     },

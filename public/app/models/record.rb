@@ -6,7 +6,7 @@ class Record
   include PrefixHelper
 
   attr_reader :raw, :full, :json, :display_string, :container_display, :container_summary_for_badge,
-              :notes, :dates, :external_documents, :resolved_repository,
+              :notes, :dates, :lang_materials, :external_documents, :resolved_repository,
               :resolved_resource, :resolved_top_container, :primary_type, :uri,
               :subjects, :agents, :extents, :repository_information,
               :identifier, :classifications, :level, :other_level, :linked_digital_objects,
@@ -42,6 +42,7 @@ class Record
     @linked_digital_objects = parse_digital_object_instances
     @notes =  parse_notes
     @dates = parse_dates
+    @lang_materials = parse_lang_materials
     @external_documents = parse_external_documents
     @resolved_repository = parse_repository
     @resolved_top_container = parse_top_container
@@ -157,7 +158,20 @@ class Record
 
   def parse_notes
 
-    if json.has_key?('notes')
+    if json.has_key?('notes') && json.has_key?('lang_materials')
+      notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
+
+      # We need to do some special manipuation for language of material notes since they are held inside of a lang_material record, not notes
+      lang_material_notes = json['lang_materials'].map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+      lang_notes = process_json_notes(lang_material_notes.flatten, (!full ? ABSTRACT : nil))
+      unless lang_notes.empty?
+        lang_notes['langmaterial'].each do |s|
+          s['is_inherited'] = json['lang_materials'][0].dig('_inherited')
+        end
+      end
+      
+      notes_html = notes_html.merge(lang_notes)
+    elsif json.has_key?('notes')
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
     else
       {}
@@ -175,6 +189,23 @@ class Record
     end
 
     dates
+  end
+
+
+  def parse_lang_materials
+    return unless json.has_key?('lang_materials') && full
+
+    lang_materials = []
+
+    json['lang_materials'].each do |lang_material|
+      unless lang_material['language_and_script'].blank?
+        lang = lang_material['language_and_script']['language'] || ''
+        script = lang_material['language_and_script']['script'] || ''
+        lang_materials.push({'language' => lang, 'script' => script, '_inherited' => lang_material.dig('_inherited')})
+      end
+    end
+
+    lang_materials
   end
 
   def parse_external_documents

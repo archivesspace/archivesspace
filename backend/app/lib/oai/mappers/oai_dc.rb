@@ -18,6 +18,7 @@ class OAIDCMapper
         end
 
         # Identifier (own component ID + IDs of parents)
+        # TODO: Reuse after implementing 'off' switch for ARK
         merged_identifier = if jsonmodel['jsonmodel_type'] == 'archival_object'
                               ([jsonmodel['component_id']] + jsonmodel['ancestors'].map {|a| a['_resolved']['component_id']}).compact.reverse.uniq.join(".")
                             else
@@ -26,6 +27,18 @@ class OAIDCMapper
 
         unless merged_identifier.empty?
           xml['dc'].identifier(merged_identifier)
+        end
+
+        if AppConfig[:arks_enabled]
+          ark_url = ""
+          if jsonmodel['jsonmodel_type'] == 'resource'
+            ark_url = ArkName::get_ark_url(jsonmodel.id, :resource)
+          elsif jsonmodel['jsonmodel_type'] == 'archival_object'
+            ark_url = ArkName::get_ark_url(jsonmodel.id, :archival_object)
+          end
+          unless ark_url.nil? || ark_url.empty?
+            xml['dc'].identifier(ark_url)
+          end
         end
 
         # And a second identifier containing the public url - if public is running
@@ -88,9 +101,25 @@ class OAIDCMapper
           end
         end
 
-        # Language
-        if jsonmodel['language']
-          xml['dc'].language(jsonmodel['language'])
+        # Languages
+        if (lang_materials = Array(jsonmodel['lang_materials']))
+          language_vals = lang_materials.map{|l| l['language_and_script']}.compact
+          if !language_vals.empty?
+            language_vals.each do |l|
+              xml['dc'].language(l['language'])
+              if l.include?('script')
+                xml['dc'].language(l['script'])
+              end
+            end
+          end
+          language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
+          if !language_notes.empty?
+            language_notes.each do |note|
+              OAIUtils.extract_published_note_content(note).each do |content|
+                xml['dc'].language(content)
+              end
+            end
+          end
         end
 
         # Description note types

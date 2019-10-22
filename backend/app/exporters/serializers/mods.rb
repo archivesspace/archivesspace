@@ -22,8 +22,6 @@ class MODSSerializer < ASpaceExport::Serializer
     }
   end
 
-
-
   def serialize_mods_inner(mods, xml)
 
     xml.titleInfo {
@@ -34,17 +32,34 @@ class MODSSerializer < ASpaceExport::Serializer
 
     xml.typeOfResource mods.type_of_resource
 
+    unless mods.lang_materials.nil?
 
-    unless mods.language_term.nil?
-      xml.language {
-        xml.languageTerm(:type => 'text', :authority => 'iso639-2b') {
-          xml.text mods.language_term.split(":")[0]
-        }
+      mods.lang_materials.each do |language|
+        xml.language {
+          xml.languageTerm(:type => 'text', :authority => 'iso639-2b') {
+            xml.text I18n.t("enumerations.language_iso639_2." + language['language'])
+          }
 
-        xml.languageTerm(:type => 'code', :authority => 'iso639-2b') {
-          xml.text mods.language_term.split(":")[1]
+          xml.languageTerm(:type => 'code', :authority => 'iso639-2b') {
+            xml.text language['language']
+          }
+
+          unless language['script'].nil?
+            xml.scriptTerm(:type => 'text', :authority => 'iso15924') {
+              xml.text I18n.t("enumerations.script_iso15924." + language['script'])
+            }
+
+            xml.scriptTerm(:type => 'code', :authority => 'iso15924') {
+              xml.text language['script']
+            }
+          end
         }
-      }
+      end
+
+      mods.lang_notes.each do |note|
+        serialize_note(note, xml)
+      end
+
     end
 
     mods.dates.each do |date|

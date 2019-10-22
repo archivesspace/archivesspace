@@ -1578,6 +1578,8 @@ ja:
       rights_statement: 権利
     note_digital_object_type:
       <<: *note_type_definitions
+    note_langmaterial_type:
+      <<: *note_type_definitions
     note_multipart_type:
       <<: *note_type_definitions
     note_singlepart_type:
@@ -1808,6 +1810,7 @@ ja:
     name_source: 名前ソース
     note_bibliography_type: 注参考文献タイプ
     note_digital_object_type: メモデジタルオブジェクトタイプ
+    note_langmaterial_type: 品目タイプの注記言語
     note_index_item_type: 索引項目タイプ
     note_index_type: インデックスタイプ
     note_multipart_type: マルチパートタイプ

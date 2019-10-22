@@ -36,7 +36,6 @@ describe 'OAI handler' do
 
   def check_oai_request_against_fixture(fixture_name, params)
     fixture_file = File.join(FIXTURES_DIR, 'responses', fixture_name) + ".xml"
-
     result = ArchivesSpaceOaiProvider.new.process_request(params)
 
     # Setting the OAI_SPEC_RECORD will override our stored fixtures with
@@ -56,6 +55,10 @@ describe 'OAI handler' do
   ###
 
   describe "OAI protocol and mapping support" do
+
+    before (:all) do
+      AppConfig[:arks_enabled] = false
+    end
 
     RESOURCE_BASED_FORMATS = ['oai_ead']
     RESOURCE_AND_COMPONENT_BASED_FORMATS = ['oai_dc', 'oai_dcterms', 'oai_mods', 'oai_marc']
@@ -80,19 +83,19 @@ describe 'OAI handler' do
 
     it "includes sets defined in OAIConfig table in ListSets request" do
       oc = OAIConfig.first
-      oc.update(:repo_set_codes       => ['foo', 'bar'].to_json, 
+      oc.update(:repo_set_codes       => ['foo', 'bar'].to_json,
                 :repo_set_description => "foobar",
                 :repo_set_name        => "repo_set_name",
-                :sponsor_set_names    => ['bim', 'baz'].to_json, 
+                :sponsor_set_names    => ['bim', 'baz'].to_json,
                 :sponsor_set_description => "bimbaz",
                 :sponsor_set_name        => "sponsor_set_name",
-                ) 
-      
+                )
+
       result = ArchivesSpaceOaiProvider.new.process_request(:verb => 'ListSets')
       expect(result).to match(/<setSpec>sponsor_set_name<\/setSpec><setName>sponsor_set_name<\/setName>/)
       expect(result).to match(/<setSpec>repo_set_name<\/setSpec><setName>repo_set_name<\/setName>/)
-      expect(result).to match(/<oai_dc:description>bimbaz<\/oai_dc:description>/)
-      expect(result).to match(/<oai_dc:description>foobar<\/oai_dc:description>/)
+      expect(result).to match(/<oai_dc:description.*>bimbaz<\/oai_dc:description>/)
+      expect(result).to match(/<oai_dc:description.*>foobar<\/oai_dc:description>/)
     end
 
     RESOURCE_BASED_FORMATS.each do |prefix|
@@ -108,20 +111,20 @@ describe 'OAI handler' do
 
     # TODO: Fix this test and fixtures
     # RESOURCE_AND_COMPONENT_BASED_FORMATS.each do |prefix|
-    #   it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
-    #     expect {
-    #       check_oai_request_against_fixture("getrecord_#{prefix}",
-    #                                         :verb => 'GetRecord',
-    #                                         :identifier => 'oai:archivesspace/' + @test_archival_object_record,
-    #                                         :metadataPrefix => prefix)
-    #
-    #       check_oai_request_against_fixture("getrecord_resource_#{prefix}",
-    #                                         :verb => 'GetRecord',
-    #                                         :identifier => 'oai:archivesspace/' + @test_resource_record,
-    #                                         :metadataPrefix => prefix)
-    #     }.not_to raise_error
-    #   end
-    # end
+    #  it "responds to a GetRecord request for type #{prefix}, mapping appropriately" do
+    #    expect {
+    #      check_oai_request_against_fixture("getrecord_#{prefix}",
+    #                                        :verb => 'GetRecord',
+    #                                        :identifier => 'oai:archivesspace/' + @test_archival_object_record,
+    #                                        :metadataPrefix => prefix)
+
+    #     check_oai_request_against_fixture("getrecord_resource_#{prefix}",
+    #                                        :verb => 'GetRecord',
+    #                                        :identifier => 'oai:archivesspace/' + @test_resource_record,
+    #                                        :metadataPrefix => prefix)
+    #    }.not_to raise_error
+    #  end
+    #end
   end
 
   describe "ListIdentifiers" do
@@ -259,7 +262,7 @@ describe 'OAI handler' do
 
     it "supports OAI sets based on repositories" do
       oc = OAIConfig.first
-      oc.update(:repo_set_codes       => ['oai_test'].to_json, 
+      oc.update(:repo_set_codes       => ['oai_test'].to_json,
                 :repo_set_name        => "repo_set_name",
                 :repo_set_description => "repo_set_description")
 
@@ -282,7 +285,7 @@ describe 'OAI handler' do
 
       it "supports OAI sets based on sponsors for resource records too" do
         oc = OAIConfig.first
-        oc.update(:sponsor_set_names       => ['sponsor_0'].to_json, 
+        oc.update(:sponsor_set_names       => ['sponsor_0'].to_json,
                   :sponsor_set_name        => "sponsor_set_name",
                   :sponsor_set_description => "sponsor_set_description")
 
@@ -297,7 +300,7 @@ describe 'OAI handler' do
 
       it "supports OAI sets based on repositories for resource records too" do
         oc = OAIConfig.first
-        oc.update(:repo_set_codes          => ['oai_test'].to_json, 
+        oc.update(:repo_set_codes          => ['oai_test'].to_json,
                   :repo_set_name        => "repo_set_name",
                   :repo_set_description    => "repo_set_description")
 
@@ -356,8 +359,8 @@ describe 'OAI handler' do
         uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dc"
 
         response = get uri
-        expect(response.body).to match(/<dc:rights>conditions governing access note<\/dc:rights>/)
-        expect(response.body).to match(/<dc:rights>conditions governing use note<\/dc:rights>/)
+        expect(response.body).to match(/<dc:rights.*>conditions governing access note<\/dc:rights>/)
+        expect(response.body).to match(/<dc:rights.*>conditions governing use note<\/dc:rights>/)
 
         expect(response.body).not_to match(/<dc:relation>conditions governing access note<\/dc:relation>/)
         expect(response.body).not_to match(/<dc:relation>conditions governing use note<\/dc:relation>/)
@@ -368,13 +371,58 @@ describe 'OAI handler' do
 
         response = get uri
 
-        expect(response.body).to match(/<dc:format>10 Volumes; Container summary<\/dc:format>/)
-        expect(response.body).to match(/<dc:format>physical description note<\/dc:format>/)
-        expect(response.body).to match(/<dc:format>dimensions note<\/dc:format>/)
+        expect(response.body).to match(/<dc:format.*>10 Volumes; Container summary<\/dc:format>/)
+        expect(response.body).to match(/<dc:format.*>physical description note<\/dc:format>/)
+        expect(response.body).to match(/<dc:format.*>dimensions note<\/dc:format>/)
 
         expect(response.body).not_to match(/<dc:extent>10 Volumes; Container summary<\/dc:extent>/)
         expect(response.body).not_to match(/<dc:extent>physical description note<\/dc:extent>/)
         expect(response.body).not_to match(/<dc:extent>dimensions note<\/dc:extent>/)
+      end
+      it "should output ARK name in identifer tag" do
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dc"
+        response = get uri
+        resource_id = @test_resource_record.split("/")[4]
+        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
+        expect(response.body).to match(/<dc:identifier.*>#{ark_url}<\/dc:identifier>/)
+      end
+      it "should not output ARK name in identifer tag if ARK output is disabled" do
+        AppConfig[:arks_enabled] = false
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
+        response = get uri
+        resource_id = @test_resource_record.split("/")[4]
+        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
+        expect(response.body).to_not match(/<dc:identifer.*>#{ark_url}<\/dc:identifer>/)
+        AppConfig[:arks_enabled] = true
+      end
+    end
+    describe 'DCTerms output' do
+      xit "should output ARK name in identifer tag" do
+        AppConfig[:arks_enabled] = true
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
+        response = get uri
+        resource_id = @test_resource_record.split("/")[4]
+        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
+        expect(response.body).to match(/<dcterms:identifer.*>#{ark_url}<\/dcterms:identifer>/)
+      end
+      it "should not output ARK name in identifer tag if ARK output is disabled" do
+        AppConfig[:arks_enabled] = false
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_dcterms"
+        response = get uri
+        resource_id = @test_resource_record.split("/")[4]
+        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
+        expect(response.body).to_not match(/<dcterms:identifer.*>#{ark_url}<\/dcterms:identifer>/)
+        AppConfig[:arks_enabled] = true
+      end
+    end
+    describe 'MODS output' do
+      it "should output ARK name in identifer tag" do
+        AppConfig[:arks_enabled] = true
+        uri = "/oai?verb=GetRecord&identifier=oai:archivesspace/#{@test_resource_record}&metadataPrefix=oai_mods"
+        response = get uri
+        resource_id = @test_resource_record.split("/")[4]
+        ark_url = ArkName.get_ark_url(resource_id.to_i, :resource)
+        expect(response.body).to match(/<identifier.*>#{ark_url}<\/identifier>/)
       end
     end
   end

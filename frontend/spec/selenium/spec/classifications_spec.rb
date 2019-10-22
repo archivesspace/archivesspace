@@ -62,12 +62,14 @@ describe 'Classifications' do
 
     @driver.clear_and_send_keys([:id, 'resource_title_'], 'a resource')
     @driver.complete_4part_id('resource_id_%d_')
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]')
+    @driver.find_element(:id, 'resource_level_').select_option('collection')
+
+    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
     combo.clear
     combo.click
     combo.send_keys('eng')
     combo.send_keys(:tab)
-    @driver.find_element(:id, 'resource_level_').select_option('collection')
+
     @driver.clear_and_send_keys([:id, 'resource_extents__0__number_'], '10')
     @driver.find_element(id: 'resource_extents__0__extent_type_').select_option('cassettes')
 

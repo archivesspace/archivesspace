@@ -40,7 +40,7 @@ describe 'Resources and archival objects' do
 
     @driver.find_element(:id, 'resource_level_').select_option('collection')
 
-    res_lang_combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]')
+    res_lang_combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
     res_lang_combo.clear
     res_lang_combo.click
     res_lang_combo.send_keys('eng')
@@ -97,7 +97,8 @@ describe 'Resources and archival objects' do
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Number - Property is required but was missing/)
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Type - Property is required but was missing/)
-    @driver.find_element_with_text('//div[contains(@class, "warning")]', /Language - Property was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Language of Description - Property is required but was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Script of Description - Property is required but was missing/)
 
     @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
   end
@@ -127,13 +128,14 @@ describe 'Resources and archival objects' do
 
     @driver.find_element(id: 'resource_dates__0__date_type_').select_option('single')
     @driver.clear_and_send_keys([:id, 'resource_dates__0__begin_'], '1978')
+    @driver.find_element(:id, 'resource_level_').select_option('collection')
 
-    combo = @driver.find_element(xpath: '//div[@class="combobox-container"][following-sibling::select/@id="resource_language_"]//input[@type="text"]')
+    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
     combo.clear
     combo.click
     combo.send_keys('eng')
     combo.send_keys(:tab)
-    @driver.find_element(:id, 'resource_level_').select_option('collection')
+
     @driver.clear_and_send_keys([:id, 'resource_extents__0__number_'], '10')
     @driver.find_element(id: 'resource_extents__0__extent_type_').select_option('cassettes')
     @driver.find_element(css: "form#resource_form button[type='submit']").click

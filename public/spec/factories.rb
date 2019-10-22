@@ -90,6 +90,9 @@ module AspaceFactories
       sequence(:xlink_show_attribute) {  ["new", "replace", "embed", "other", "none"].sample }
       sequence(:file_format) { %w[aiff avi gif jpeg mp3 pdf tiff txt].sample }
 
+      sequence(:language) { sample(JSONModel(:language_and_script).schema['properties']['language']) }
+      sequence(:script) { sample(JSONModel(:language_and_script).schema['properties']['script']) }
+
       sequence(:finding_aid_language) { sample(JSONModel(:resource).schema['properties']['finding_aid_language']) }
       sequence(:finding_aid_script) { sample(JSONModel(:resource).schema['properties']['finding_aid_script']) }
 
@@ -175,7 +178,7 @@ module AspaceFactories
         extents { [build(:extent)] }
         dates { [build(:date)] }
         level { "collection" }
-        language { "eng" }
+        lang_materials { [build(:lang_material)] }
         finding_aid_language {  [generate(:finding_aid_language)].sample  }
         finding_aid_script {  [generate(:finding_aid_script)].sample  }
         finding_aid_language_note { nil_or_whatever }
@@ -187,7 +190,7 @@ module AspaceFactories
         extents { [build(:extent)] }
         dates { [build(:date)] }
         level { "collection" }
-        language { "eng" }
+        lang_materials { [build(:lang_material)] }
         finding_aid_language {  [generate(:finding_aid_language)].sample  }
         finding_aid_script {  [generate(:finding_aid_script)].sample  }
         notes { [build(:json_note_multipart)] }
@@ -202,7 +205,7 @@ module AspaceFactories
 
       factory :digital_object, class: JSONModel(:digital_object) do
         title { generate :digital_object_title }
-        language { "eng" }
+        lang_materials { [build(:lang_material)] }
         digital_object_id { generate(:ref_id) }
         extents { [build(:extent)] }
         file_versions { [build(:file_version)] }
@@ -231,6 +234,24 @@ module AspaceFactories
         checksum_method { generate(:checksum_method) }
       end
 
+      factory :lang_material, class: JSONModel(:lang_material) do
+        language_and_script { build(:language_and_script) }
+      end
+
+      factory :lang_material_with_note, class: JSONModel(:lang_material) do
+        language_and_script { build(:language_and_script) }
+        notes { [build(:note_langmaterial)] }
+      end
+
+      factory :language_and_script, class: JSONModel(:language_and_script) do
+        language { generate(:language) }
+        script { generate(:script) }
+      end
+
+      factory :note_langmaterial, class: JSONModel(:note_langmaterial) do
+        type { generate(:langmaterial_note_type)}
+        content { [ generate(:string), generate(:string) ] }
+      end
 
       factory :extent, class: JSONModel(:extent) do
         portion { "whole" }
@@ -260,7 +281,7 @@ module AspaceFactories
       factory :json_note_multipart, class: JSONModel(:note_multipart) do
         type { 'scopecontent' }
         subnotes { [ build(:json_note_text, :publish => true) ] }
-        publish { true } 
+        publish { true }
       end
 
       factory :json_note_text, class: JSONModel(:note_text) do

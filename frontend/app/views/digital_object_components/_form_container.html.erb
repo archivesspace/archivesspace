@@ -22,10 +22,10 @@
 
   <% define_template("digital_object_component", jsonmodel_definition(:digital_object_component)) do |form| %>
     <section id="basic_information">
-      <h2>
+      <h3>
         <%= I18n.t("digital_object_component._frontend.section.basic_information") %>
         <%= link_to_help :topic => "digital_object_component_basic_information" %>
-      </h2>
+      </h3>
       <%= form.label_and_textfield "label", :required => :conditionally %>
       <%= form.label_and_textarea "title", :required => :conditionally %>
       <%= form.label_and_textfield "component_id" %>
@@ -41,7 +41,6 @@
           <% end %>
         </div>
       </div>
-      <%= form.label_and_select "language", form.possible_options_for("language", true) %>
 
     </section>
   <% end %>
@@ -50,6 +49,7 @@
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "file_versions"} %>
 
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date", :required => :conditionally} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 

@@ -16,12 +16,13 @@ class MARCModel < ASpaceExport::ExportModel
     :linked_agents => :handle_agents,
     :subjects => :handle_subjects,
     :extents => :handle_extents,
-    :language => :handle_language
+    :lang_materials => :handle_languages
   }
 
   @resource_map = {
     [:id_0, :id_1, :id_2, :id_3] => :handle_id,
-    :ead_location => :handle_ead_loc,
+    [:ead_location] => :handle_ead_loc,
+    [:id, :jsonmodel_type] => :handle_ark,
     :notes => :handle_notes,
     :finding_aid_description_rules => df_handler('fadr', '040', ' ', ' ', 'e')
   }
@@ -93,7 +94,6 @@ class MARCModel < ASpaceExport::ExportModel
   def self.from_archival_object(obj, opts = {})
 
     marc = self.from_aspace_object(obj, opts)
-
     marc.apply_map(obj, @archival_object_map)
 
     marc
@@ -114,6 +114,7 @@ class MARCModel < ASpaceExport::ExportModel
 
 
   def self.assemble_controlfield_string(obj)
+
     date = obj.dates[0] || {}
     string = obj['system_mtime'].scan(/\d{2}/)[1..3].join('')
     string += obj.level == 'item' && date['date_type'] == 'single' ? 's' : 'i'
@@ -134,12 +135,18 @@ class MARCModel < ASpaceExport::ExportModel
       string += "xx"
     end
 
+    # If only one Language and Script subrecord its code value should be exported in the MARC 008 field position 35-37; If more than one Language and Script subrecord is recorded, a value of "mul" should be exported in the MARC 008 field position 35-37.
+    lang_materials = obj.lang_materials
+    languages = lang_materials.map{|l| l['language_and_script']}.compact
+    langcode = languages.count == 1 ? languages[0]['language'] : 'mul'
+
     # variable number of spaces needed since country code could have 2 or 3 chars
     (35-(string.length)).times { string += ' ' }
-    string += (obj.language || '|||')
+    string += (langcode || '|||')
     string += ' d'
 
     string
+
   end
 
 
@@ -202,8 +209,28 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
-  def handle_language(langcode)
-    df('041', '0', '7').with_sfs(['a', langcode], ['2', 'iso639-2b'])
+  def handle_languages(lang_materials)
+
+    # ANW-697: The Language subrecord code values should be exported in repeating subfield $a entries in the MARC 041 field.
+
+    languages = lang_materials.map{|l| l['language_and_script']}.compact
+
+    languages.each do |language|
+
+      df('041', ' ', ' ').with_sfs(['a', language['language']])
+
+    end
+
+    # ANW-697: Language Text subrecords should be exported in the MARC 546 subfield $a
+
+    language_notes = lang_materials.map {|l| l['notes']}.compact.reject {|e|  e == [] }
+
+    if language_notes
+      language_notes.each do |note|
+        handle_notes(note)
+      end
+    end
+
   end
 
 
@@ -229,7 +256,7 @@ class MARCModel < ASpaceExport::ExportModel
     end
   end
 
-  def handle_repo_code(repository, langcode)
+  def handle_repo_code(repository, *finding_aid_language)
     repo = repository['_resolved']
     return false unless repo
 
@@ -255,7 +282,7 @@ class MARCModel < ASpaceExport::ExportModel
     end
 
     df('852', ' ', ' ').with_sfs(*subfields_852)
-    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', langcode],['c', repo['org_code']])
+    df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', finding_aid_language[0]],['c', repo['org_code']])
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
 
     if repo.has_key?('country') && !repo['country'].empty?
@@ -551,19 +578,34 @@ class MARCModel < ASpaceExport::ExportModel
   end
 
 
+  # 3/28/18: Updated: ANW-318
   def handle_ead_loc(ead_loc)
-    ead_loc_present = ead_loc && !ead_loc.empty?
-
     # If there is EADlocation
     #<datafield tag="856" ind1="4" ind2="2">
     #  <subfield code="z">Finding aid online:</subfield>
     #  <subfield code="u">EADlocation</subfield>
     #</datafield>
-    if ead_loc_present
+    if ead_loc && !ead_loc.empty?
       df('856', '4', '2').with_sfs(
                                     ['z', "Finding aid online:"],
                                     ['u', ead_loc]
                                   )
+    end
+  end
+
+  def handle_ark(id, type='resource')
+    # If ARKs are enabled, add an 856
+    #<datafield tag="856" ind1="4" ind2="2">
+    #  <subfield code="z">Archival Resource Key:</subfield>
+    #  <subfield code="u">ARK URL</subfield>
+    #</datafield>
+    if AppConfig[:arks_enabled]
+       ark_url = ArkName::get_ark_url(id, type.to_sym)
+       df('856', '4', '2').with_sfs(
+                                    ['z', "Archival Resource Key:"],
+                                    ['u', ark_url]
+                                  ) unless ark_url.nil? || ark_url.empty?
+
     end
   end
 

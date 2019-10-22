@@ -24,16 +24,17 @@
 
       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_urls] %>
 
+      <%= form.label_and_textfield "external_ark_url" if AppConfig[:arks_enabled] %>
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_textfield "other_level", :required => true %>
       <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
-      <%= form.label_and_select "language", form.possible_options_for("language", true) %>
       <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
       <%= form.label_and_textarea "repository_processing_note" %>
     </fieldset>
   </section>
 
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
@@ -88,4 +89,3 @@
 <%= render_aspace_partial :partial => "external_ids/edit", :locals => {:form => form, :section_id => "external_ids"} %>
 
   <%= form_plugins_for("resource", form) %>
-  

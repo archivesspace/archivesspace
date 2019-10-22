@@ -109,9 +109,9 @@ module SeleniumFactories
         extents { [build(:extent)] }
         dates { [build(:date)] }
         level { 'collection' }
-        language { 'eng' }
         finding_aid_language { 'eng' }
         finding_aid_script { 'Latn' }
+        lang_materials { [build(:json_lang_material)] }
       end
 
       factory :archival_object, class: JSONModel(:archival_object) do
@@ -122,7 +122,7 @@ module SeleniumFactories
 
       factory :digital_object, class: JSONModel(:digital_object) do
         title { generate :digital_object_title }
-        language { 'eng' }
+        lang_materials { [build(:json_lang_material)] }
         digital_object_id { generate(:ref_id) }
         extents { [build(:extent)] }
         file_versions { [build(:file_version)] }
@@ -163,6 +163,15 @@ module SeleniumFactories
         self.begin { '1900-01-01' }
         self.end { '1999-12-31' }
         expression { '1900s' }
+      end
+
+      factory :json_lang_material, class: JSONModel(:lang_material) do
+        language_and_script { build(:json_language_and_script) }
+      end
+
+      factory :json_language_and_script, class: JSONModel(:language_and_script) do
+        language { generate(:language) }
+        script { generate(:script) }
       end
 
       factory :rde_template, class: JSONModel(:rde_template) do
