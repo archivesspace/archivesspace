@@ -6,7 +6,7 @@
     <thead>
     <tr>
       <% if allow_multi_select? %>
-        <th><span class="sr-only">Selected?</span></th>
+        <th><span class="sr-only"><%= I18n.t("search_results.selected") %></span></th>
       <% end %>
       <% if params[:linker]==='true' %>
         <th></th>
@@ -44,7 +44,7 @@
       <% end %>
       <th class="col audit-info"><span class="sr-only">Audit information</span></th>
       <% if !params[:linker] || params[:linker] === 'false' %>
-        <th class="col actions"><span class="sr-only">Actions</span><!-- actions --></th>
+        <th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- actions --></th>
       <% end %>
     </tr>
     </thead>
@@ -56,7 +56,7 @@
         <% if allow_multi_select? %>
           <td class="multiselect-column">
             <label>
-              <span class="sr-only">Selected?</span>
+              <span class="sr-only"><%= I18n.t("search_results.selected") %></span>
               <%= check_box_tag "multiselect-item", result["id"], false %>
             </label>
           </td>
