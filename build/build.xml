@@ -931,6 +931,7 @@
     <antcall target="indexer:cop" />
     <antcall target="frontend:cop" />
     <antcall target="backend:cop"/>
+    <antcall target="public:cop"/>
   </target>
 
 
