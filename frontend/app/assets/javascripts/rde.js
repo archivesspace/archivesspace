@@ -996,7 +996,6 @@ $(function() {
               if ($.inArray(colId, VISIBLE_COLUMN_IDS) < 0) {
                 VISIBLE_COLUMN_IDS.push(colId);
               }
-              console.log(VISIBLE_COLUMN_IDS);
               showColumn($(this).attr("columnIndex"));
             }
             if (select_func($colHeader)) {
