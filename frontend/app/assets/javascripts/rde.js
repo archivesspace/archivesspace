@@ -990,12 +990,17 @@ $(function() {
             option_text += $colHeader.text();
 
             $option.val($colHeader.attr("id")).text(option_text);
+            if ($(this).hasClass('required')) {
+              $option.attr("disabled", true);
+              var colId = $(this).attr("id");
+              if ($.inArray(colId, VISIBLE_COLUMN_IDS) < 0) {
+                VISIBLE_COLUMN_IDS.push(colId);
+              }
+              console.log(VISIBLE_COLUMN_IDS);
+              showColumn($(this).attr("columnIndex"));
+            }
             if (select_func($colHeader)) {
               $option.attr("selected", "selected");
-            }
-            if ($(this).hasClass('required')) {
-              console.log(this);
-              $option.attr("disabled", true);
             }
             $select.append($option);
           }
