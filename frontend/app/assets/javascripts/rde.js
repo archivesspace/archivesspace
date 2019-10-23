@@ -994,6 +994,7 @@ $(function() {
               $option.attr("selected", "selected");
             }
             if ($(this).hasClass('required')) {
+              console.log(this);
               $option.attr("disabled", true);
             }
             $select.append($option);
