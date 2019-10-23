@@ -20,7 +20,7 @@ $(function() {
   }).done(function( data ) {
     if (data === true) {
       var staff = $('#staff-link');
-      link = FRONTEND_URL + "/resolve/edit?uri=" + RECORD_URI + "&autoselect_repo=true";
+      link = FRONTEND_URL + "/resolve/" + STAFF_LINK_MODE + "?uri=" + RECORD_URI + "&autoselect_repo=true";
       staff.attr("href", link);
       staff.removeClass("hide");
     }

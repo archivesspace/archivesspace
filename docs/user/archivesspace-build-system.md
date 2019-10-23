@@ -20,7 +20,7 @@ The bootstrap task:
 Will bootstrap your development environment by downloading all
 dependencies--JRuby, Gems, Solr, etc..
 
-## Running components indiviually
+## Running components individually
 
 To run a development instance of all ArchivesSpace components:
 
