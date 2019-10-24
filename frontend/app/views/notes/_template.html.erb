@@ -143,7 +143,7 @@
   <div class="subrecord-form-fields" data-type="note_singlepart">
     <h3 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("enumerations.note_singlepart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= I18n.t("enumerations.#{JSONModel(:note_singlepart).schema['properties']['type']['dynamic_enum']}.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_singlepart") %>
       <% end %>
@@ -221,7 +221,7 @@
   <div class="subrecord-form-fields" data-type="note_multipart">
     <h3 class="subrecord-form-heading">
       <% if form.readonly? %>
-        <%= I18n.t("enumerations.note_multipart_type.#{form.obj["type"]}", :default => form.obj["type"]) %>
+        <%= I18n.t("enumerations.#{JSONModel(:note_multipart).schema['properties']['type']['dynamic_enum']}.#{form.obj["type"]}", :default => form.obj["type"]) %>
       <% else %>
         <%= I18n.t("note.note_multipart") %>
       <% end %>
