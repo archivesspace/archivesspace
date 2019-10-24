@@ -652,9 +652,9 @@ AppConfig[:show_source_in_subject_listing] = false
 # determines whether fields and options related to ARKs appear in the staff interface
 AppConfig[:arks_enabled] = false
 
-# NAAN value to use in ARK URLs.
-# Should be set to institutional NAAN, or any other value valid in URLs.
-AppConfig[:ark_naan] = "f00001"
+# If you are planning on using ARKs, change this to a valid, registered NAAN.
+# Institutional NAAN value to use in ARK URLs. 
+AppConfig[:ark_naan] = "99999"
 
 # URL prefix to use in ARK URLs.
 # In most cases this will be the same as the PUI URL.
