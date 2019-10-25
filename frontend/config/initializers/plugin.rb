@@ -38,6 +38,8 @@ module Plugins
     @facets_for_type = {}
 
     @facet_group_i18n_handlers = {}
+
+    @note_types_handlers = []
   end
 
 
@@ -137,6 +139,21 @@ module Plugins
 
   def self.sections_for(record, mode)
     @sections.select{|plugin_section| plugin_section.supports?(record, mode)}
+  end
+
+
+  def self.handle_note_types_for(jsonmodel_type, note_types, context)
+    @note_types_handlers.each do |proc|
+      note_types = proc.call(jsonmodel_type, note_types, context)
+    end
+
+    note_types
+  end
+
+  def self.register_note_types_handler(proc)
+    # Ensure your proc returns the note_types as this will be passed to the next
+    # handler and onwards to the template
+    @note_types_handlers << proc
   end
 
 
