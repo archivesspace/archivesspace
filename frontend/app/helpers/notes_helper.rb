@@ -87,6 +87,8 @@ module NotesHelper
       }
     end
 
+    note_types = Plugins.handle_note_types_for(jsonmodel_type, note_types, self)
+
     note_types
   end
 
