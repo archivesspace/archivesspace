@@ -97,6 +97,11 @@ module SearchHelper
   end
 
 
+  def no_actions!
+    @no_actions = true
+  end
+
+
   def show_identifier_column?
     @display_identifier
   end
@@ -119,6 +124,11 @@ module SearchHelper
 
   def show_audit_column?
     !@no_audit
+  end
+
+
+  def show_action_column?
+    !@no_actions
   end
 
 
