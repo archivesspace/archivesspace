@@ -42,7 +42,9 @@
           </th>
         <% end %>
       <% end %>
-      <th class="col audit-info"></th>
+      <% if show_audit_column? %>
+        <th class="col audit-info"></th>
+      <% end %>
       <% if !params[:linker] || params[:linker] === 'false' %>
         <th class="col actions"><!-- actions --></th>
       <% end %>
@@ -97,9 +99,11 @@
             <td><%= col.value_for(result) %></td>
           <% end %>
         <% end %>
-        <td>
-          <%= display_audit_info(result, :format => 'compact') %>
-        </td>
+        <% if show_audit_column? %>
+          <td>
+            <%= display_audit_info(result, :format => 'compact') %>
+          </td>
+        <% end %>
         <% if !params[:linker] || params[:linker] === 'false' %>
           <td class="table-record-actions">
             <% if not deleted %>

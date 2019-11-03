@@ -92,6 +92,11 @@ module SearchHelper
     @no_title = true
   end
 
+  def no_audit!
+    @no_audit = true
+  end
+
+
   def show_identifier_column?
     @display_identifier
   end
@@ -109,6 +114,11 @@ module SearchHelper
 
   def show_title_column?
     @search_data.has_titles? && !@no_title
+  end
+
+
+  def show_audit_column?
+    !@no_audit
   end
 
 
