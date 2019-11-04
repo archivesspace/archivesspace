@@ -2,6 +2,7 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.post('/repositories/:repo_id/events')
     .description("Create an Event")
+    .documentation("Create an event, really, that's what it does!")
     .params(["event", JSONModel(:event), "The record to create", :body => true],
             ["repo_id", :repo_id])
     .permissions([:update_event_record])
