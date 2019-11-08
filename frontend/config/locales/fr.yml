@@ -139,6 +139,7 @@ fr:
   search_results:
     title: Résultats de la recherche
     context: Trouvé dans
+    selected: Choisi?
     no_results: Aucune notice trouvée
     no_results_prefix: Pas de résultat pour
     result_type: Type de notice
@@ -147,6 +148,7 @@ fr:
     filtered_by: Filtré par
     modified: Modifié en dernier par
     created: Créé par
+    actions: Actions
     text_placeholder: Filtrer par texte
     clear_all: Tout effacer
     component_switch: Montrer composants
