@@ -1,19 +1,19 @@
 topics:
-  # Accession Topics (100-)
-  accession: 100
-  accession_basic_information: 101
-  accession_extents: 102
-  accession_dates: 103
-  accession_related_resources: 104
-  accession_linked_agents: 105
-  accession_subjects: 106
-  accession_external_documents: 107
-  accession_rights_statements: 108
-  accession_deaccessions: 109
-  accession_instances: 110
-  accession_collection_management: 111
-  accession_classification: 112
-  accession_user_defined: 113
+  # Accession Topics
+  accession: '890044514/Managing+Accessions'
+  accession_basic_information: '894107705/Creating+a+Minimal+Accession+Record'
+  accession_extents: '894140545/Extents+Sub-Record+-+Accessions'
+  accession_dates: '894205962/Dates+Sub-Record+-+Accessions'
+  accession_related_resources: '893976733/Related+Resources+Link'
+  accession_linked_agents: '893911098/Agent+Links+-+Accessions'
+  accession_subjects: '893911102/Subject+Links+-+Accessions'
+  accession_external_documents: '894140549/External+Documents+Sub-Record+-+Accessions'
+  accession_rights_statements: '894107722/Rights+Statements+Sub-Record+%28v2.1.0%29+-+Accessions'
+  accession_deaccessions: '894206022/Deaccessions+Sub-Record+-+Accessions'
+  accession_instances: '894205992/Instances+Sub-Record+%28as+of+v1.5.0%29+-+Accessions'
+  accession_collection_management: '893878417/Collection+Management+Sub-Record+-+Accessions'
+  accession_classification: '893878432/Classifications+Sub-Record+-+Accessions'
+  accession_user_defined: '893976727/User+Defined+Fields+-+Accessions'
   # Resource Topics (200-)
   resource: 200
   resource_basic_information: 201
