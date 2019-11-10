@@ -39,6 +39,7 @@ group :test do
   gem 'parallel_tests', '~> 2.14.0'
   gem 'rspec-retry'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
+  gem 'mechanize'
 
   # need access to ActiveSupport for helpers
   gem 'activesupport', '5.0.7.2'

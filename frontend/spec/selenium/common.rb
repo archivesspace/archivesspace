@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ashttp'
 require "uri"
 require "json"
@@ -10,9 +12,8 @@ require 'config/config-distribution'
 require 'securerandom'
 
 require_relative 'common/webdriver'
-require_relative 'common/backend_client_mixin'
+require_relative '../../../common/selenium/backend_client_mixin'
 require_relative 'common/tree_helper'
-require_relative 'common/rspec_class_helpers'
 require_relative 'common/driver'
 
 
@@ -26,7 +27,6 @@ module Selenium
     end
   end
 end
-
 
 def cleanup
   if ENV["COVERAGE_REPORTS"] == 'true'
@@ -42,9 +42,24 @@ def cleanup
   end
 end
 
-
 def selenium_init(backend_fn, frontend_fn)
   standalone = true
+
+  if ENV["ASPACE_BACKEND_URL"] and ENV["ASPACE_FRONTEND_URL"]
+    $backend = ENV["ASPACE_BACKEND_URL"]
+    $frontend = ENV["ASPACE_FRONTEND_URL"]
+
+    if ENV["ASPACE_SOLR_URL"]
+      AppConfig[:solr_url] = ENV["ASPACE_SOLR_URL"]
+    end
+
+    AppConfig[:help_enabled] = true
+    AppConfig[:help_url] = "http://localhost:9999/help_stub"
+    AppConfig[:help_topic_prefix] = "?topic="
+
+    standalone = false
+  end
+
 
   AppConfig[:backend_url] = $backend
 
@@ -56,7 +71,6 @@ def selenium_init(backend_fn, frontend_fn)
   end
 end
 
-
 def assert(times = nil, &block)
   try = 0
   times ||= Selenium::Config.retries
@@ -65,7 +79,7 @@ def assert(times = nil, &block)
     block.call
   rescue
     try += 1
-    if try < times #&& !ENV['ASPACE_TEST_NO_RETRIES']
+    if try < times # && !ENV['ASPACE_TEST_NO_RETRIES']
       $sleep_time += 0.1
       sleep 0.5
       retry
@@ -82,18 +96,14 @@ def assert(times = nil, &block)
   end
 end
 
-
 def report_sleep
   puts "Total time spent sleeping: #{$sleep_time.inspect} seconds"
 end
-
-
 
 require 'uri'
 require 'net/http'
 
 module SeleniumTest
-
   def self.upload_file(path)
     uri = URI("http://aspace.hudmol.com/cgi-bin/store.cgi")
 
@@ -108,7 +118,7 @@ module SeleniumTest
   end
 
   def self.save_screenshot(driver)
-    outfile = File.join( ENV['SCREENSHOT_DIR'] || Dir.tmpdir,  "#{Time.now.to_i}_#{$$}.png" ) 
+    outfile = File.join(ENV['SCREENSHOT_DIR'] || Dir.tmpdir, "#{Time.now.to_i}_#{$$}.png")
     puts "Saving screenshot to #{outfile}"
     puts "Saving screenshot from Thread #{java.lang.Thread.currentThread.get_name}"
 
