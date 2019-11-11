@@ -129,3 +129,5 @@ topics:
   user: 901
   # Controlled Value Lists (902)
   enumeration: 902
+  # Assessments
+  assessment: '894435657/Managing+Assessments'
