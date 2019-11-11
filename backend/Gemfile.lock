@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/hudmol/map_validator.git
-  revision: ecea84859cbe5d8265992cb7efab2d18dd83b5fb
+  revision: f5e897d482cb2d67854d0665205e512bcdedafcd
   tag: master
   specs:
     map_validator (0.0.1)
@@ -66,7 +66,10 @@ GEM
     json (1.8.6-java)
     json-schema (1.0.10)
     ladle (0.2.0-java)
+    mail (2.7.1)
+      mini_mime (>= 0.1.1)
     method_source (0.8.2)
+    mini_mime (1.0.2)
     minitest (5.11.3)
     mizuno (0.6.11)
       childprocess (>= 0.2.6)
@@ -191,6 +194,7 @@ DEPENDENCIES
   json (= 1.8.6)
   json-schema (= 1.0.10)
   ladle (= 0.2.0)
+  mail
   map_validator!
   mizuno (= 0.6.11)
   multi_json (~> 1.13.1)
@@ -223,4 +227,5 @@ DEPENDENCIES
   xlsx_streaming_reader!
   zip-zip (= 0.3)
 
-
+BUNDLED WITH
+   1.16.1
