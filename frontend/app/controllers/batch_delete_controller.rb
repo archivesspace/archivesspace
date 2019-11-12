@@ -5,8 +5,9 @@ class BatchDeleteController < ApplicationController
                       "delete_agent_record" => [:agents],
                       "delete_classification_record" => [:classifications],
                       "administer_system" => [:locations],
-                      "delete_assessment_record" => [:assessments]
-  
+                      "delete_assessment_record" => [:assessments],
+                      "manage_container_profile_record" => [:container_profiles]
+
   def locations
     delete_records(params[:record_uris])
   end
@@ -28,6 +29,10 @@ class BatchDeleteController < ApplicationController
   end
 
   def assessments
+    delete_records(params[:record_uris])
+  end
+
+  def container_profiles
     delete_records(params[:record_uris])
   end
 
