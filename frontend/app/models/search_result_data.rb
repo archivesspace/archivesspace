@@ -67,7 +67,7 @@ class SearchResultData
 
   def facets_for_filter
     facet_data_for_filter = @facet_data.clone
-    facet_data_for_filter.each {|facet_group, facets| 
+    facet_data_for_filter.each {|facet_group, facets|
       facets.delete_if{|facet, facet_map|
         facet_map[:count] === @search_data['total_hits']
       }
@@ -268,6 +268,10 @@ class SearchResultData
 
   def self.DIGITAL_OBJECT_FACETS
     ["subjects", "publish", "digital_object_type", "level", "primary_type"]
+  end
+
+  def self.CONTAINER_PROFILE_FACETS
+    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"]
   end
 
   def self.LOCATION_FACETS
