@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 group :doc do
-  gem 'yard', '>= 0.9.20'
   gem 'kramdown'
+  gem 'yard', '>= 0.9.20'
 end
