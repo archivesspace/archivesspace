@@ -1894,11 +1894,11 @@ en:
   preference: &preference_attributes
     defaults: Defaults
     global: Global Preference Defaults
-    global_message: Edit these values to set system-wide user preference defaults. These values can be overridden by repository defaults or a user's own preferences.
+    global_message: Edit these values to set system-wide preferences. These values can be overridden by repository defaults or a user's own preferences unless you check Override Repository and User Defaults.
     repo: User Preference Defaults
-    repo_message: Edit these values to set user preference defaults for the current repository. These values can be overridden by a user's own preferences.
+    repo_message: Edit these values to set your repository-wide preferences. If your system administrator has set global preferences those options will be greyed out. These values can be overridden by repository defaults or a user's own preferences unless you check Override User Defaults.
     user_global: Global Preferences
-    user_global_message: Edit these values to set your system-wide user preferences. These values can be overridden by repository defaults or by your own preferences for a repository.
+    user_global_message: Edit these values to set your user preferences. If your repository manager or system administrator has set global or repository preferences those options will be greyed out.
     user_repo: Repository Preferences
     user_repo_message: Edit these values to set your user preferences for this repository. These values cannot be overridden.
     _singular: Preferences
