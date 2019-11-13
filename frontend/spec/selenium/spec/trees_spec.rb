@@ -1,9 +1,10 @@
-require_relative 'spec_helper'
+# frozen_string_literal: true
 
-describe "Tree UI" do
+require_relative '../spec_helper'
 
+describe 'Tree UI' do
   before(:all) do
-    @repo = create(:repo, :repo_code => "trees_test_#{Time.now.to_i}")
+    @repo = create(:repo, repo_code: "trees_test_#{Time.now.to_i}")
     set_repo @repo
 
     @viewer_user = create_user(@repo => ['repository-viewers'])
@@ -13,46 +14,39 @@ describe "Tree UI" do
   end
 
   before(:each) do
-
     @r = create(:resource)
-    @a1 = create(:archival_object, {:resource => {:ref => @r.uri}})
-    @a2 = create(:archival_object, {:resource => {:ref => @r.uri}})
-    @a3 = create(:archival_object, {:resource => {:ref => @r.uri}})
+    @a1 = create(:archival_object, resource: { ref: @r.uri })
+    @a2 = create(:archival_object, resource: { ref: @r.uri })
+    @a3 = create(:archival_object, resource: { ref: @r.uri })
 
     @driver.get_edit_page(@r)
     @driver.wait_for_ajax
   end
 
-
   after(:all) do
-    @driver.quit
+    @driver ? @driver.quit : next
   end
 
-
-  it "can add a sibling" do
-
-    expect(@driver.find_elements(:css => ".root-row").length).to eq(1)
-    expect(@driver.find_elements(:css => ".largetree-node").length).to eq(3)
+  it 'can add a sibling' do
+    expect(@driver.find_elements(css: '.root-row').length).to eq(1)
+    expect(@driver.find_elements(css: '.largetree-node').length).to eq(3)
 
     tree_click(tree_node(@a3))
 
     tree_add_sibling
 
-    @driver.clear_and_send_keys([:id, "archival_object_title_"], "Sibling")
-    @driver.find_element(:id, "archival_object_level_").select_option("item")
+    @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'Sibling')
+    @driver.find_element(:id, 'archival_object_level_').select_option('item')
     @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
     @driver.wait_for_ajax
 
-    expect(@driver.find_elements(:css => ".largetree-node").length).to eq(4)
+    expect(@driver.find_elements(css: '.largetree-node').length).to eq(4)
 
     # reload the parent form to make sure the changes stuck
-    @driver.get("#{$frontend}/#{@r.uri.sub(/\/repositories\/\d+/, '')}/edit")
+    @driver.get("#{$frontend}/#{@r.uri.sub(%r{/repositories/\d+}, '')}/edit")
     @driver.wait_for_ajax
 
-    expect(@driver.find_elements(:css => ".root-row").length).to eq(1)
-    expect(@driver.find_elements(:css => ".largetree-node").length).to eq(4)
+    expect(@driver.find_elements(css: '.root-row').length).to eq(1)
+    expect(@driver.find_elements(css: '.largetree-node').length).to eq(4)
   end
 end
-
-
-

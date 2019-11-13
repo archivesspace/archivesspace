@@ -94,7 +94,7 @@ end
 
 
 def generate_secret_for(secret)
-  file = File.join(AppConfig[:data_directory], "#{secret}_cookie_secret.dat")
+  file = File.join(AppConfig[:data_directory], "#{secret}.dat")
 
   if !File.exist?(file)
     File.write(file, SecureRandom.hex)
@@ -146,7 +146,7 @@ def main
   end
 
   cookie_secrets = [:frontend_cookie_secret, :public_cookie_secret].each do |secret|
-    if !AppConfig.has_key?("#{secret}_cookie_secret".intern)
+    if !AppConfig.has_key?("#{secret}".intern)
       java.lang.System.set_property("aspace.config.#{secret}",
                                     generate_secret_for(secret))
     end

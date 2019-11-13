@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="q"><%= I18n.t("top_container._frontend.bulk_operations.barcodes_criteria") %></label>
+        <label class="control-label col-sm-2" for="barcodes"><%= I18n.t("top_container._frontend.bulk_operations.barcodes_criteria") %></label>
         <div class="controls col-sm-8">
           <%= text_field_tag "barcodes", params["barcodes"], :class => "form-control" %>
         </div>
@@ -46,15 +46,15 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="location"><%= I18n.t("top_container.exported_to_ils") %></label>
+        <label class="control-label col-sm-2" for="exported"><%= I18n.t("top_container.exported_to_ils") %></label>
         <div class="controls col-sm-4">
-          <select name="exported" class="form-control"><option></option><option value="yes"><%= I18n.t("top_container._frontend.bulk_operations.exported_to_ils_true") %></option><option value="no"><%= I18n.t("top_container._frontend.bulk_operations.exported_to_ils_false") %></option></select>
+          <select name="exported" id="exported" class="form-control"><option></option><option value="yes"><%= I18n.t("top_container._frontend.bulk_operations.exported_to_ils_true") %></option><option value="no"><%= I18n.t("top_container._frontend.bulk_operations.exported_to_ils_false") %></option></select>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="location"><%= I18n.t("top_container._frontend.bulk_operations.empty") %></label>
+        <label class="control-label col-sm-2" for="empty"><%= I18n.t("top_container._frontend.bulk_operations.empty") %></label>
         <div class="controls col-sm-4">
-          <select name="empty" class="form-control"><option></option><option value="yes"><%= I18n.t("top_container._frontend.bulk_operations.empty_true") %></option><option value="no"><%= I18n.t("top_container._frontend.bulk_operations.empty_false") %></option></select>
+          <select name="empty" id="empty" class="form-control"><option></option><option value="yes"><%= I18n.t("top_container._frontend.bulk_operations.empty_true") %></option><option value="no"><%= I18n.t("top_container._frontend.bulk_operations.empty_false") %></option></select>
         </div>
       </div>
       <div class="form-group">

@@ -139,6 +139,7 @@ en:
   search_results:
     title: Search Results
     context: Found in
+    selected: Selected?
     no_results: No records found
     no_results_prefix: There were no search results for
     result_type: Record Type
@@ -147,6 +148,7 @@ en:
     filtered_by: Filtered By
     modified: Last Modified by
     created: Created by
+    actions: Actions
     text_placeholder: Filter by text
     clear_all: Clear All
     component_switch: Show Components

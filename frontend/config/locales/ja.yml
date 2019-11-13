@@ -148,6 +148,7 @@ ja:
   search_results:
     title: の検索結果
     context: 見つかった
+    selected: 選択しましたか？
     no_results: レコードが見つかりません
     no_results_prefix: の検索結果はありませんでした
     result_type: レコードタイプ
@@ -156,6 +157,7 @@ ja:
     filtered_by: フィルタリングされた
     modified: 最終更新者
     created: によって作成された
+    actions: 行動
     text_placeholder: テキストで絞り込む
     clear_all: すべてクリア
     component_switch: コンポーネントを表示する

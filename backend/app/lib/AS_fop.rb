@@ -29,6 +29,7 @@ class ASFop
      @pdf_image = pdf_image
    end
    @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl'))
+   @config = StaticAssetFinder.new(File.join('stylesheets')).find('fop-config.xml')
   end
 
 
@@ -43,6 +44,7 @@ class ASFop
       fo = StringIO.new(to_fo).to_inputstream
       fopfac = FopFactory.newInstance
       fopfac.setBaseURL( File.join(ASUtils.find_base_directory, 'stylesheets') )
+      fopfac.setUserConfig(@config)
       fop = fopfac.newFop(MimeConstants::MIME_PDF, @output.to_outputstream)
       transformer = TransformerFactory.newInstance.newTransformer()
       res = SAXResult.new(fop.getDefaultHandler)
@@ -58,6 +60,7 @@ class ASFop
       fo = StringIO.new(to_fo).to_inputstream
       fopfac = FopFactory.newInstance
       fopfac.setBaseURL( File.join(ASUtils.find_base_directory, 'stylesheets') )
+      fopfac.setUserConfig(@config)
       fop = fopfac.newFop(MimeConstants::MIME_PDF, @output.to_outputstream)
       transformer = TransformerFactory.newInstance.newTransformer()
       res = SAXResult.new(fop.getDefaultHandler)

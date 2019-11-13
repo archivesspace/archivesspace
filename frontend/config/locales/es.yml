@@ -141,6 +141,7 @@ es:
   search_results:
     title: Resultados de la búsqueda
     context: Encontrado en
+    selected: ¿Seleccionado?
     no_results: Registros no encontrados
     no_results_prefix: No hay resultados de la búsqueda
     result_type: Tipo de registro
@@ -149,6 +150,7 @@ es:
     filtered_by: Filtrado por
     modified: Modificado por
     created: Creado por
+    actions: Comportamiento
     text_placeholder: Filtrar por texto
     clear_all: Borrar todo
     component_switch: Mostrar componentes
