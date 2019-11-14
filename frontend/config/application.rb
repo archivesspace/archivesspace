@@ -24,6 +24,8 @@ module ArchivesSpace
 
   class Application < Rails::Application
 
+    config.middleware.use Rack::TempfileReaper
+
     def self.extend_aspace_routes(routes_file)
       ArchivesSpace::Application.config.paths['config/routes.rb'].concat([routes_file])
     end
