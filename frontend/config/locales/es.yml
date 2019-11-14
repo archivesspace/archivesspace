@@ -1219,8 +1219,7 @@ es:
         rapid_barcode_entry_existing_barcode: Código de barras existente
         rapid_barcode_entry_new_barcode: Nuevo código de barras
         batch_merge: Fusionar contenedores superiores
-        batch_merge_help: Fusionar todos los contenedores seleccionados.
-        batch_merge_instructions: Combinar los siguientes contenedores superiores en el contenedor superior seleccionado
+        batch_merge_instructions: Seleccione el contenedor superior en el que se fusionarán todos los demás contenedores superiores enumerados. Los registros vinculados se volverán a vincular a este contenedor y se eliminará toda la información de los otros contenedores principales.
         batch_delete: Borrar Contenedores Top
         batch_delete_help: Borrar todos los contenedores seleccionados.
         update_n_records: "Actualizar %{n} registros"

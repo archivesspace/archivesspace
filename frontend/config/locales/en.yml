@@ -1219,8 +1219,7 @@ en:
         rapid_barcode_entry_existing_barcode: Existing Barcode
         rapid_barcode_entry_new_barcode: New Barcode
         batch_merge: Merge Top Containers
-        batch_merge_help: Merge all selected containers.
-        batch_merge_instructions: Merge the following top container(s) into the selected top container
+        batch_merge_instructions: Select the top container into which all of the other listed top container(s) will merge. Any linked records will be re-linked to this container and all information for the other top container(s) will be deleted.
         batch_delete: Delete Top Containers
         batch_delete_help: Delete all selected containers.
         update_n_records: "Update %{n} records"
