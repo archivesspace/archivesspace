@@ -1219,8 +1219,7 @@ fr:
         rapid_barcode_entry_new_barcode: Nouveau code-barres
         rapid_barcode_entry_help: Entrez un code-barres pour chaque conteneur sélectionné. Laissez le champ Nouveau code-barres vide pour supprimer le code-barres actuel sans le remplacer par une nouvelle valeur.
         batch_merge: Fusionner les conteneurs
-        batch_merge_help: Fusionner tous les conteneurs sélectionnés.
-        batch_merge_instructions: Fusionner les conteneurs supérieurs suivants dans le conteneur supérieur sélectionné
+        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Tous les enregistrements liés seront liés à ce conteneur et toutes les informations relatives au (x) autre (s) conteneur (s) supérieur (s) seront supprimées.
         batch_delete: Supprimer Top conditionnements
         batch_delete_help: Supprimer tous les conditionnements sélectionnés.
         update_n_records: "Actualiser %{n} notices"
