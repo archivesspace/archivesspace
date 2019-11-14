@@ -10,6 +10,20 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
+  Endpoint.get('/config/enumerations/csv')
+    .description("List all defined enumerations as a csv")
+    .params()
+    .permissions([])
+    .returns([200, "(csv)"]) \
+  do
+    [
+      200,
+      {"Content-Type" => "text/csv"},
+      Enumeration.csv
+    ]
+  end
+
+
   Endpoint.post('/config/enumerations')
     .description("Create an enumeration")
     .params(["enumeration", JSONModel(:enumeration), "The record to create", :body => true])
@@ -136,5 +150,6 @@ class ArchivesSpaceService < Sinatra::Base
     sup_state = EnumerationValue.handle_suppressed([ params[:enum_val_id] ], params[:suppressed])
     suppressed_response(params[:enum_val_id], sup_state)
   end
+
 
 end

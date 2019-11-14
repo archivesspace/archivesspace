@@ -1,3 +1,5 @@
+require 'csv'
+
 class Enumeration < Sequel::Model(:enumeration)
 
   include ASModel
@@ -182,4 +184,29 @@ class Enumeration < Sequel::Model(:enumeration)
   end
 
 
+  def self.csv
+    out = [
+           'Enumeration code',
+           'Enumeration',
+           'Value code',
+           'Value',
+          ].to_csv
+    Enumeration.sequel_to_jsonmodel(Enumeration.all).each do |enum|
+      out << [
+              enum.name,
+              I18n.t("enumeration_names.#{enum.name}", :default => enum.name),
+             ].to_csv
+
+      enum.values.each do |val|
+        out << [
+                enum.name,
+                I18n.t("enumeration_names.#{enum.name}", :default => enum.name),
+                val,
+                I18n.t("enumerations.#{enum.name}.#{val}", :default => val),
+               ].to_csv
+      end
+    end
+
+    out
+  end
 end
