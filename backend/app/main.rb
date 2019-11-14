@@ -35,6 +35,8 @@ require 'uri'
 require 'sinatra/base'
 require 'active_support/inflector'
 
+require 'rack/tempfile_reaper'
+
 class ArchivesSpaceService < Sinatra::Base
 
   include URIResolver
@@ -339,6 +341,9 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   use RequestWrappingMiddleware
+
+  # Clean up multipart upload temp files
+  use Rack::TempfileReaper
 
 
   before do
