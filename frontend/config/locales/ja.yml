@@ -1217,8 +1217,7 @@ ja:
         rapid_barcode_entry_new_barcode: 新しいバーコード
         rapid_barcode_entry_help: 選択した各コンテナのバーコードを入力します。 [新しいバーコード]フィールドを空白のままにして、現在のバーコードを新しい値に置き換えずに削除します。
         batch_merge: 上位コンテナのマージ
-        batch_merge_help: 選択したすべてのコンテナをマージします。
-        batch_merge_instructions: 次のトップコンテナを選択したトップコンテナにマージします
+        batch_merge_instructions: リストされている他のすべてのトップコンテナがマージされるトップコンテナを選択します。リンクされたレコードはすべてこのコンテナに再リンクされ、他のトップコンテナのすべての情報が削除されます。
         batch_delete: トップコンテナの削除
         batch_delete_help: 選択したすべてのコンテナを削除します。
         update_n_records: "%{n}レコードを更新する"
