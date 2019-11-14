@@ -694,6 +694,7 @@ en:
         create_value: Create Value
         delete_value: Delete Value
         merge_value: Merge Value
+        download_csv: Download CSV
 
   event:
     _frontend:
