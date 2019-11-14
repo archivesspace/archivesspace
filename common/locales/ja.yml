@@ -914,7 +914,7 @@ ja:
     accession_date: 受付日
     accession_date_unknown: 道の
     accession_date_inline_help: 例：YYYY-MM-DD
-    accession_date_tooltip: "<p>必須フィールド：加盟が行われた日付。必ずしもレコード作成時と同じ日付ではありません。 </p>"
+    accession_date_tooltip: "<p>加盟が行われた日付。必ずしもレコード作成時と同じ日付ではありません。 </p>"
     accession_id: 識別
     accession_id_tooltip: "<p>特定のアクセス記録の内部データベース番号。 </p>"
     identifier: 識別

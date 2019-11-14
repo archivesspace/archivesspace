@@ -1161,7 +1161,7 @@ fr:
     accession_date_unknown: inconnu
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
-        <p>CHAMP REQUIS. Date à laquelle l'entrée a eu lieu. N'est pas
+        <p>Date à laquelle l'entrée a eu lieu. N'est pas
         nécessairement la date de création de la notice.</p>
     accession_id: Identifiant
     accession_id_tooltip: |
