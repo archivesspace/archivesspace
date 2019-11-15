@@ -19,7 +19,7 @@ module ASpaceCoverage
       add_filter "backend/spec"
       add_filter "backend/tests"
       add_filter "frontend/spec"
-      add_filter "selenium"
+      add_filter "public/spec"
     end
   end
 end

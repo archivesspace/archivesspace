@@ -1,6 +1,13 @@
 AllCops:
   Exclude:
-    - build/**
-  Include:
-    # Start with Gemfiles only
-    - '**/Gemfile'
+    - build/**/*
+    - docs/**/*
+
+Style/Documentation:
+  Enabled: false
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/WordArray:
+  EnforcedStyle: brackets

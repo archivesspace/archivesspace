@@ -72,7 +72,7 @@ describe 'Solr model' do
     expect(http.request.body).to match(/hello\+world/)
     expect(http.request.body).to match(/wt=json/)
     expect(http.request.body).to match(/suppressed%3Afalse/)
-    expect(http.request.body).to match(/fq=types%3A%28]?%22optional_record_type/)
+    expect(http.request.body).to match(/fq=types%3A%28?%22optional_record_type/)
     expect(http.request.body).to match(/-id%3A%28%22alpha%22\+OR\+%22omega/)
     expect(http.request.body).to match(/hl=true/)
     expect(http.request.body).to match(/bq=title%3A%22hello\+world%22\*/)

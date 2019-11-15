@@ -1,642 +1,505 @@
-require_relative 'spec_helper'
+# frozen_string_literal: true
 
-describe "Resources Form" do
+require_relative '../spec_helper'
 
+describe 'Resources and archival objects' do
   before(:all) do
-    @repo = create(:repo, :repo_code => "resources_test_#{Time.now.to_i}")
-
-    create_subjects
+    @repo = create(:repo, repo_code: "resources_test_#{Time.now.to_i}")
     set_repo @repo
-    run_all_indexers
 
+    @accession = create(:accession,
+                        collection_management: build(:collection_management))
 
-    @viewer_user = create_user(@repo => ['repository-viewers'])
+    @resource = create(:resource)
 
-    @driver = Driver.get
-    @driver.login_to_repo($admin, @repo)
+    @archival_object = create(:archival_object, resource: { 'ref' => @resource.uri })
+
+    @user = create_user(@repo => ['repository-managers'])
+    @driver = Driver.get.login_to_repo(@user, @repo)
   end
 
   before(:each) do
-    @r = create(:resource)
-
-    @driver.get_edit_page(@r)
-    @driver.wait_for_ajax
+    @driver.go_home
   end
-
 
   after(:all) do
-    @driver.quit
+    @driver ? @driver.quit : next
   end
 
+  it 'can spawn a resource from an existing accession' do
+    @driver.get_view_page(@accession)
 
-  describe "search dropdown" do
-    it "displays correct icon for cultural_context term_type in search dropdown" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  cultural_context")
-  
-      @driver.find_element(:css, ".subject_type_cultural_context")
-    end
-  
-    it "displays correct icon for function term_type in search dropdown"   do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  function")
-  
-      @driver.find_element(:css, ".subject_type_function")
-    end
-  
-    it "displays correct icon for genre_form term_type in search dropdown  " do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  genre_form")
-  
-      @driver.find_element(:css, ".subject_type_genre_form")
-    end
-  
-    it "displays correct icon for technique term_type in search dropdown  " do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "technique")
+    # Spawn a resource from the accession we just created
+    @driver.find_element(:link, 'Spawn').click
+    @driver.find_element(:link, 'Resource').click
 
-      @driver.find_element(:css, ".subject_type_technique")
-    end
-  
-    it "displays correct icon for occupation term_type in search dropdown" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "occupation")
-  
-      @driver.find_element(:css, ".subject_type_occupation")
-    end
-  
-    it "displays correct icon for style_period term_type in search dropdown" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "style_period")
-  
-      @driver.find_element(:css, ".subject_type_style_period")
-    end
-  
-    it "displays correct icon for technique term_type in search dropdown" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "technique")
-  
-      @driver.find_element(:css, ".subject_type_technique")
-    end
-  
-    it "displays correct icon for temporal term_type in search dropdown" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "temporal")
-  
-      @driver.find_element(:css, ".subject_type_temporal")
-    end
-  
-    it "displays correct icon for topical term_type in search dropdown" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "topical")
-  
-      @driver.find_element(:css, ".subject_type_topical")
-    end
-  
-    it "displays correct icon for uniform_title term_type in search dropdown" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "uniform_title")
-  
-      @driver.find_element(:css, ".subject_type_uniform_title")
-    end
+    # The relationship back to the original accession is prepopulated
+    expect(@driver.find_element(css: 'div.accession').text).to match(@accession.title)
+
+    @driver.complete_4part_id('resource_id_%d_')
+
+    @driver.find_element(:id, 'resource_level_').select_option('collection')
+
+    res_lang_combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
+    res_lang_combo.clear
+    res_lang_combo.click
+    res_lang_combo.send_keys('eng')
+    res_lang_combo.send_keys(:tab)
+
+    fa_lang_combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_language_"]//input[@type="text"]')
+    fa_lang_combo.clear
+    fa_lang_combo.click
+    fa_lang_combo.send_keys('eng')
+    fa_lang_combo.send_keys(:tab)
+
+    fa_script_combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_script_"]//input[@type="text"]')
+    fa_script_combo.clear
+    fa_script_combo.click
+    fa_script_combo.send_keys('Latn')
+    fa_script_combo.send_keys(:tab)
+
+    # no collection managment
+    expect(@driver.find_elements(:id, 'resource_collection_management__cataloged_note_').length).to eq(0)
+
+    # condition and content descriptions have come across as notes fields
+    notes_toggle = @driver.blocking_find_elements(css: '#notes .collapse-subrecord-toggle')
+    notes_toggle[0].click
+    @driver.wait_for_ajax
+
+    @driver.find_element_orig(:css, '#resource_notes__0__subnotes__0__content_').wait_for_class('initialised')
+    @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
+    assert(5) { expect(@driver.find_element(id: 'resource_notes__0__subnotes__0__content_').attribute('value')).to eq(@accession.content_description) }
+
+    notes_toggle[1].click
+
+    expect(@driver.find_element(id: 'resource_notes__1__content__0_').text).to match(@accession.condition_description)
+
+    @driver.find_element(id: 'resource_dates__0__date_type_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'resource_dates__0__begin_'], '1978')
+
+    @driver.clear_and_send_keys([:id, 'resource_extents__0__number_'], '10')
+    @driver.find_element(id: 'resource_extents__0__extent_type_').select_option('cassettes')
+
+    @driver.click_and_wait_until_gone(css: "form#resource_form button[type='submit']")
+
+    # Success!
+    expect(@driver.find_element_with_text('//div', /Resource .* created/)).not_to be_nil
+    expect(@driver.find_element(:id, 'resource_dates__0__begin_').attribute('value')).to eq('1978')
   end
 
-  describe "subject selection" do
-    it "displays correct icon for cultural_context term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+  it 'reports errors and warnings when creating an invalid Resource' do
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Resource')
+    @driver.find_element(:id, 'resource_title_').clear
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  cultural_context")
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Identifier - Property is required but was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Number - Property is required but was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Type - Property is required but was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Language of Description - Property is required but was missing/)
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Script of Description - Property is required but was missing/)
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_cultural_context").click
+    @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
+  end
 
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_cultural_context")
-    end
+  it 'can create a resource' do
+    resource_title = "Pony <emph render='italic'>Express</emph>"
+    resource_stripped = 'Pony Express'
+    resource_regex = /^.*?\bPony\b.*?$/m
 
-    it "displays correct icon for function term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Resource')
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  function")
+    @driver.clear_and_send_keys([:id, 'resource_title_'], resource_title)
+    @driver.complete_4part_id('resource_id_%d_')
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_function").click
+    fa_lang_combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_language_"]//input[@type="text"]')
+    fa_lang_combo.clear
+    fa_lang_combo.click
+    fa_lang_combo.send_keys('eng')
+    fa_lang_combo.send_keys(:tab)
 
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_function")
-    end
+    fa_script_combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_script_"]//input[@type="text"]')
+    fa_script_combo.clear
+    fa_script_combo.click
+    fa_script_combo.send_keys('Latn')
+    fa_script_combo.send_keys(:tab)
 
-    it "displays correct icon for genre_form term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+    @driver.find_element(id: 'resource_dates__0__date_type_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'resource_dates__0__begin_'], '1978')
+    @driver.find_element(:id, 'resource_level_').select_option('collection')
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  genre_form")
+    combo = @driver.find_element(xpath: '//*[@id="resource_lang_materials__0_"]/div[1]/div/div/div/div[1]/div/div/div/input[@type="text"]')
+    combo.clear
+    combo.click
+    combo.send_keys('eng')
+    combo.send_keys(:tab)
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_genre_form").click
+    @driver.clear_and_send_keys([:id, 'resource_extents__0__number_'], '10')
+    @driver.find_element(id: 'resource_extents__0__extent_type_').select_option('cassettes')
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
 
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_genre_form")
-    end
-  
-    it "displays correct icon for technique term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  technique")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_technique").click
-
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_technique")
-    end
-
-    it "displays correct icon for occupation term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  occupation")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_occupation").click
-
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_occupation")
-    end
-
-    it "displays correct icon for style_period term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  style_period")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_style_period").click
-
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_style_period")
-    end
-
-    it "displays correct icon for technique term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  technique")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_technique").click
-
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_technique")
-    end
-  
-    it "displays correct icon for temporal term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  temporal")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_temporal").click
-
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_temporal")
-    end
-
-    it "displays correct icon for topical term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  topical")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_topical").click
-
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_topical")
-    end
-
-    it "displays correct icon for uniform_title term_type in subject selection" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  uniform_title")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_uniform_title").click
-
-      # find now selected token
-      @driver.find_element(:css, ".icon-token.subject_type_uniform_title")
+    # The new Resource shows up on the tree
+    assert(5) do
+      sleep 2
+      expect(tree_current.text.strip).to match(resource_regex)
     end
   end
 
-  describe "resource with previously saved subject (edit view)" do
-    it "displays correct icon (cultural_context) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+  it 'reports warnings when updating a Resource with invalid data' do
+    @driver.get_edit_page(@resource)
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  cultural_context")
+    @driver.find_element(:id, 'resource_title_')
+    @driver.clear_and_send_keys([:id, 'resource_title_'], '')
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_cultural_context").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_cultural_context")
+    sleep(5)
+    if @driver.find_element(css: "form#resource_form button[type='submit']").enabled?
+      sleep(5)
+      @driver.find_elements(css: "form#resource_form button[type='submit']")[1].click
     end
 
-    it "displays correct icon (function) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+    expect do
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - Property is required but was missing/)
+    end.not_to raise_error
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  function")
+    @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
+  end
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_function").click
+  it 'reports errors if adding an empty child to a Resource' do
+    @driver.get_edit_page(@resource)
 
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
+    @driver.find_element(:link, 'Add Child').click
+    @driver.wait_for_ajax
+    @driver.clear_and_send_keys([:id, 'archival_object_title_'], ' ')
+    @driver.wait_for_ajax
 
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_function")
-    end
-     
-    it "displays correct icon (genre_form) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+    sleep(5) unless @driver.find_element(id: 'createPlusOne')
+    # False start: create an object without filling it out
+    @driver.find_element(id: 'createPlusOne').click
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  genre_form")
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Level of Description - Property is required but was missing/)
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_genre_form").click
+    # click on another node
+    tree_click(tree_node(@resource))
 
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
+    @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
+  end
 
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_genre_form")
-    end
-  
-    it "displays correct icon (technique) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+  it 'reports error if title is empty and no date is provided' do
+    @driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  technique")
+    @driver.find_element(:link, 'Add Child').click
+    @driver.wait_for_ajax
+    @driver.find_element(:id, 'archival_object_level_').select_option('item')
+    @driver.clear_and_send_keys([:id, 'archival_object_title_'], '')
+    @driver.wait_for_ajax
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_technique").click
+    # False start: create an object without filling it out
+    @driver.find_element(id: 'createPlusOne').click
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Dates - one or more required \(or enter a Title\)/i)
 
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
+    @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string \(or enter a Date\)/i)
 
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_technique")
-    end
+    tree_click(tree_node(@resource))
+    @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
+  end
 
-    it "displays correct icon (occupation) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+  it 'can create a new digital object instance with a note to a resource' do
+    @driver.get_edit_page(@resource)
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  occupation")
+    # Wait for the form to load in
+    @driver.find_element(css: "form#resource_form button[type='submit']")
+    @driver.find_element(css: '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="digital-instance"]').click
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_occupation").click
+    # Wait for the linker to initialise to make sure the dropdown click events are bound
+    @driver.find_hidden_element(css: '#resource_instances__0__digital_object__ref_.initialised')
 
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
+    elt = @driver.find_element(css: "div[data-id-path='resource_instances__0__digital_object_']")
 
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_occupation")
-    end
+    elt.find_element(css: 'a.dropdown-toggle').click
+    @driver.wait_for_dropdown
+    elt.find_element(css: 'a.linker-create-btn').click
 
-    it "displays correct icon (style_period) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+    modal = @driver.find_element(css: '#resource_instances__0__digital_object__ref__modal')
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  style_period")
+    modal.clear_and_send_keys([:id, 'digital_object_title_'], 'digital_object_title')
+    modal.clear_and_send_keys([:id, 'digital_object_digital_object_id_'], Digest::MD5.hexdigest(Time.now.to_s))
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_style_period").click
+    @driver.execute_script("$('#digital_object_notes.initialised .subrecord-form-heading .btn.add-note').focus()")
+    modal.find_element(css: '#digital_object_notes.initialised .subrecord-form-heading .btn.add-note').click
+    modal.find_last_element(css: '#digital_object_notes select.top-level-note-type').select_option_with_text('Summary')
 
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
+    modal.clear_and_send_keys([:id, 'digital_object_notes__0__label_'], 'Summary label')
+    @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').setValue('Summary content')")
+    @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').save()")
 
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_style_period")
-    end
-  
-    it "displays correct icon (temporal) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
+    @driver.execute_script("$('#digital_object_notes__0__content__0_').data('CodeMirror').toTextArea()")
+    expect(@driver.find_element(id: 'digital_object_notes__0__content__0_').attribute('value')).to eq('Summary content')
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  temporal")
+    modal.find_element(:id, 'createAndLinkButton').click
+    @driver.click_and_wait_until_gone(css: "form#resource_form button[type='submit']")
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_temporal").click
+    @driver.find_element(:css, '.token-input-token .digital_object').click
 
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
+    # so the subject is here now
+    assert(5) { expect(@driver.find_element(:css, '.token-input-token .digital_object').text).to match(/digital_object_title/) }
+  end
 
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_temporal")
+
+  # This guy is causing subsequent tests to fail with a missing locales file error.  Pending it until I have more time to investigate.
+  xit 'can have a lot of associated records that do not show in the field but are not lost' do
+    subjects = []
+    accessions = []
+    classifications = []
+    dos = []
+    instances = []
+    agents = []
+
+    10.times do |_i|
+      subjects << create(:subject)
+      accessions << create(:accession)
+      classifications << create(:classification)
+      dos << create(:digital_object)
+      instances = dos.map { |d| { instance_type: 'digital_object', digital_object: { ref: d.uri } } }
+      agents << create(:agent_person)
     end
 
-    it "displays correct icon (topical) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  topical")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_topical").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_topical")
+    linked_agents = agents.map do |a|
+      { ref: a.uri,
+        role: 'creator',
+        relator: generate(:relator),
+        title: generate(:alphanumstr) }
     end
-  
-    it "displays correct icon (uniform_title) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
 
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  uniform_title")
+    resource = create(:resource,
+                      linked_agents: linked_agents,
+                      subjects: subjects.map { |s| { ref: s.uri } },
+                      related_accessions: accessions.map { |a| { ref: a.uri } },
+                      instances: instances,
+                      classifications: classifications.map { |c| { ref: c.uri } })
 
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_uniform_title").click
+    run_index_round
 
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
+    # let's go to the edit page
+    @driver.get_edit_page(resource)
 
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_uniform_title")
+    # Wait for the form to load in
+    @driver.find_element(css: "form#resource_form button[type='submit']")
+
+    # now lets make a small change...
+    @driver.find_element(css: '#resource_extents_ .subrecord-form-heading .btn:not(.show-all)').click
+    @driver.clear_and_send_keys([:id, 'resource_extents__1__number_'], '5')
+    @driver.find_element(id: 'resource_extents__1__extent_type_').select_option('volumes')
+
+    # submit it
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+
+    # no errors!
+    expect(@driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/)).not_to be_nil
+
+    # let's open all all the too-manys and make sure everything is still
+    # there..
+    @driver.find_elements(css: '.alert-too-many').each { |c| c.click }
+
+    [subjects, accessions, classifications, dos].each do |klass|
+      klass.each do |a|
+        expect(@driver.find_element(id: a[:uri].gsub('/', '_')).text).to match(/#{ a[:display_title] }/)
+      end
+    end
+
+    # agents are weird.
+    linked_agents.each_with_index do |a, i|
+      assert(5) { expect(@driver.find_element(css: "#resource_linked_agents__#{i}__role_").get_select_value).to eq(a[:role]) }
+      if a.key?(:title)
+        assert(5) { expect(@driver.find_element(css: "#resource_linked_agents__#{i}__title_").attribute('value')).to eq(a[:title]) }
+      end
+      assert(5) { expect(@driver.find_input_by_name("resource[linked_agents][#{i}][relator]").attribute('value')).to eq(a[:relator]) }
+      assert(5) { expect(@driver.find_element(css: "#resource_linked_agents__#{i}_ .linker-wrapper .token-input-token").text).to match(/#{ agents[i][:primary_name] }/) }
+    end
+
+    # Delete the resource
+    @driver.find_element(:css, '.delete-record.btn').click
+    @driver.click_and_wait_until_gone(:css, '#confirmChangesModal #confirmButton')
+  end
+
+  it 'can edit a Resource, add a second Extent, then remove it' do
+    @driver.get_edit_page(@resource)
+
+    @driver.find_element(css: '#resource_extents_ .subrecord-form-heading .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'resource_extents__1__number_'], '5')
+    @driver.find_element(id: 'resource_extents__1__extent_type_').select_option('volumes')
+
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+
+    expect(@driver.find_element_with_text('//div', /\bResource\b.*\bupdated\b/)).not_to be_nil
+
+    @driver.find_element(:link, 'Close Record').click
+
+    # it can see two Extents on the saved Resource
+    extent_headings = @driver.blocking_find_elements(css: '#resource_extents_ .panel-heading')
+
+    expect(extent_headings.length).to eq 2
+    assert(5) { expect(extent_headings[0].text).to match /^\d.*/ }
+    assert(5) { expect(extent_headings[1].text).to match /^\d.*/ }
+
+    # it can remove an Extent when editing a Resource
+    @driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
+
+    @driver.blocking_find_elements(css: '#resource_extents_ .subrecord-form-remove')[1].click
+    @driver.find_element(css: '#resource_extents_ .confirm-removal').click
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+
+    @driver.find_element(:link, 'Close Record').click
+
+    extent_headings = @driver.blocking_find_elements(css: '#resource_extents_ .panel-heading')
+
+    expect(extent_headings.length).to eq 1
+    assert(5) { expect(extent_headings[0].text).to match /^\d.*/ }
+  end
+
+  # Archival Object Trees
+  it 'can populate the archival object tree' do
+    @driver.get_edit_page(@resource)
+
+    @driver.find_element(:link, 'Add Child').click
+
+    @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'Lost mail')
+    @driver.find_element(:id, 'archival_object_level_').select_option('item')
+
+    @driver.click_and_wait_until_gone(id: 'createPlusOne')
+
+    %w[January February December]. each do |month|
+      # Wait for the new empty form to be populated.  There's a tricky race
+      # condition here that I can't quite track down, so here's my blunt
+      # instrument fix.
+      @driver.find_element(:xpath, "//textarea[@id='archival_object_title_' and not(text())]")
+
+      @driver.clear_and_send_keys([:id, 'archival_object_title_'], month)
+      @driver.find_element(:id, 'archival_object_level_').select_option('item')
+
+      old_element = @driver.find_element(:id, 'archival_object_title_')
+      @driver.click_and_wait_until_gone(id: 'createPlusOne')
+    end
+
+    elements = tree_nodes_at_level(1).map { |li| li.text.strip }
+
+    %w[January February December].each do |month|
+      expect(elements.any? { |elt| elt =~ /#{month}/ }).to be_truthy
+    end
+
+    @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
+  end
+
+  it 'can cancel edits to Archival Objects' do
+    ao_id = @archival_object.uri.sub(%r{.*/}, '')
+    @driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit#tree::archival_object_#{ao_id}")
+
+    # sanity check..
+    tree_click(tree_node(@archival_object))
+    pane_resize_handle = @driver.find_element(css: '.ui-resizable-handle.ui-resizable-s')
+
+    @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'unimportant change')
+
+    tree_click(tree_node(@resource))
+    @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
+  end
+
+  it 'reports warnings when updating an Archival Object with invalid data' do
+    ao_id = @archival_object.uri.sub(%r{.*/}, '')
+    @driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit#tree::archival_object_#{ao_id}")
+
+    # Wait for the form to load in
+    @driver.find_element(css: "form#archival_object_form button[type='submit']")
+
+    @driver.find_element(:id, 'archival_object_level_').select_option('item')
+    @driver.clear_and_send_keys([:id, 'archival_object_title_'], '')
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    expect do
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Title - must not be an empty string/)
+    end.not_to raise_error
+    tree_click(tree_node(@resource))
+    @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
+  end
+
+  it 'can update an existing Archival Object' do
+    @driver.get_edit_page(@archival_object)
+
+    # Wait for the form to load in
+    @driver.find_element(css: "form#archival_object_form button[type='submit']")
+
+    @driver.clear_and_send_keys([:id, 'archival_object_title_'], 'save this please')
+    @driver.find_element(css: "form .record-pane button[type='submit']").click
+    @driver.wait_for_ajax
+    assert(5) { expect(@driver.find_element(:css, 'h2').text).to eq('save this please Archival Object') }
+    assert(5) { expect(@driver.find_element(css: 'div.alert.alert-success').text).to eq('Archival Object save this please updated') }
+    @driver.clear_and_send_keys([:id, 'archival_object_title_'], @archival_object.title)
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+  end
+
+  it 'can add a assign, remove, and reassign a Subject to an archival object' do
+    @driver.get_edit_page(@archival_object)
+
+    @driver.find_element(css: '#archival_object_subjects_ .subrecord-form-heading .btn:not(.show-all)').click
+    sleep(10)
+
+    @driver.find_element(css: '#archival_object_subjects_ .linker-wrapper a.btn').click
+
+    @driver.find_element(css: '#archival_object_subjects_ a.linker-create-btn').click
+
+    @driver.find_element(:css, '.modal #subject_terms_ .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([id: 'subject_terms__0__term_'], "#{$$}TestTerm123")
+    @driver.clear_and_send_keys([id: 'subject_terms__1__term_'], "#{$$}FooTerm456")
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.find_element(:id, 'createAndLinkButton').click
+
+    # remove the linked Subject but find it using typeahead and re-add it" do
+    @driver.find_element(:css, '.token-input-delete-token').click
+
+    # search for the created subject
+    assert(5) do
+      run_index_round
+      @driver.clear_and_send_keys([:id, 'token-input-archival_object_subjects__0__ref_'], "#{$$}TestTerm123")
+      @driver.find_element(:css, 'li.token-input-dropdown-item2').click
+    end
+
+    @driver.click_and_wait_until_gone(:css, "form#archival_object_form button[type='submit']")
+
+    # so the subject is here now
+    assert(5) { expect(@driver.find_element(:css, '#archival_object_subjects_ ul.token-input-list').text).to match(/#{$$}FooTerm456/) }
+  end
+
+  it 'can view a read only Archival Object' do
+    @driver.get_edit_page(@archival_object)
+
+    @driver.find_element(:link, 'Close Record').click
+
+    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to eq("#{@archival_object.title} Archival Object") }
+  end
+
+  xit 'exports and downloads the resource to xml' do
+    @driver.get_view_page(@resource)
+
+    @driver.find_element(:link, 'Export').click
+    response = @driver.find_element(:link, 'Download EAD').click
+    @driver.wait_for_ajax
+    assert(5) { expect(Dir.glob(File.join(Dir.tmpdir, '*_ead.xml')).length).to eq(1) }
+    system("rm -f #{File.join(Dir.tmpdir, '*_ead.xml')}")
+  end
+
+  # # this is a pretty weak test, but pdf functionality has been move down to
+  # jobs, where it's tested..
+  it 'displays a link for downloading pdf' do
+    @driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}")
+
+    @driver.find_element(:link, 'Export').click
+    expect do
+      @driver.find_element_with_text(:link, /Print Resource to PDF/)
     end
   end
 
-  describe "resource with previously saved subject (show view)" do
-    it "displays correct icon (cultural_context) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  cultural_context")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_cultural_context").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_cultural_context")
-    end
-
-    it "displays correct icon (function) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  function")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_function").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_function")
-    end
-
-     it "displays correct icon (genre_form) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  genre_form")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_genre_form").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_genre_form")
-    end    
-
-    it "displays correct icon (technique) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  technique")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_technique").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_technique")
-    end
-
-    it "displays correct icon (occupation) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  occupation")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_occupation").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_occupation")
-    end
-
-     it "displays correct icon (style_period) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  style_period")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_style_period").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_style_period")
-    end    
-
-    it "displays correct icon (technique) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  technique")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_technique").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_technique")
-    end
-     
-    it "displays correct icon (temporal) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  temporal")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_temporal").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_temporal")
-    end
-
-    it "displays correct icon (topical) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  topical")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_topical").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_topical")
-    end    
-
-    it "displays correct icon (uniform_title) for subjects when loading a saved one" do
-      # click on Add Subject button
-      @driver.find_element(:css, "#resource_subjects_ button").click
-
-      # select input box and type "a" to bring up a list of subjects
-      @driver.clear_and_send_keys([:css, "#resource_subjects_ input"], "  uniform_title")
-
-      # click on option in search bar to select it
-      @driver.find_element(:css, ".subject_type_uniform_title").click
-
-      # save form & reload page
-      @driver.find_element(:css, "button.btn-primary").click
-      @driver.navigate.refresh
-
-      # navigate to show page
-      @driver.find_element(:css, ".breadcrumb li:nth-of-type(3) a").click
-
-      # look for icon class after form loads again
-      @driver.find_element(:css, ".icon-token.subject_type_uniform_title")
-    end
-  end
 end
-

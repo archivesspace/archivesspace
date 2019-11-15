@@ -14,7 +14,7 @@ require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
 require_relative '../../indexer/app/lib/pui_indexer'
 
-require_relative '../../selenium/common/backend_client_mixin'
+require_relative '../../common/selenium/backend_client_mixin'
 module BackendClientMethods
   alias :run_all_indexers_orig :run_all_indexers
   # patch this to also run our PUI indexer.
@@ -24,13 +24,9 @@ module BackendClientMethods
   end
 end
 
-# IF we want simplecov reports
 if ENV['COVERAGE_REPORTS'] == 'true'
-  require 'simplecov'
-  SimpleCov.start('rails') do
-    add_filter '/spec'
-  end
-  SimpleCov.command_name 'spec'
+  require 'aspace_coverage'
+  ASpaceCoverage.start('public:test', 'rails')
 end
 
 require 'aspace_gems'
@@ -98,7 +94,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include BackendClientMethods
-  
+
   # show retry status in spec process
   config.verbose_retry = true
   # Try thrice (retry twice)

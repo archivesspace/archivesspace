@@ -139,6 +139,7 @@ en:
   search_results:
     title: Search Results
     context: Found in
+    selected: Selected?
     no_results: No records found
     no_results_prefix: There were no search results for
     result_type: Record Type
@@ -147,6 +148,7 @@ en:
     filtered_by: Filtered By
     modified: Last Modified by
     created: Created by
+    actions: Actions
     text_placeholder: Filter by text
     clear_all: Clear All
     component_switch: Show Components
@@ -158,7 +160,6 @@ en:
       level: Level
       classification_path: Classification
       accession_date_year: Accession Date
-      creators: Creator
       source: Source
       rules: Rules
       parent_type: Record Type
@@ -1218,8 +1219,7 @@ en:
         rapid_barcode_entry_existing_barcode: Existing Barcode
         rapid_barcode_entry_new_barcode: New Barcode
         batch_merge: Merge Top Containers
-        batch_merge_help: Merge all selected containers.
-        batch_merge_instructions: Merge the following top container(s) into the selected top container
+        batch_merge_instructions: Select the top container into which all of the other listed top container(s) will merge. Any linked records will be re-linked to this container and all information for the other top container(s) will be deleted.
         batch_delete: Delete Top Containers
         batch_delete_help: Delete all selected containers.
         update_n_records: "Update %{n} records"

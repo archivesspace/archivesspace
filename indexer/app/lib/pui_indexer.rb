@@ -182,7 +182,9 @@ class PUIIndexer < PeriodicIndexer
     end
 
     if tree_indexer.deletes.length > 0
-      delete_records(tree_indexer.deletes, :parent_id_field => 'pui_parent_id')
+      tree_indexer.deletes.each_slice(100) do |deletes|
+        delete_records(deletes, :parent_id_field => 'pui_parent_id')
+      end
     end
 
     handle_deletes(:parent_id_field => 'pui_parent_id')

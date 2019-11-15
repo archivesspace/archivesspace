@@ -148,6 +148,7 @@ ja:
   search_results:
     title: の検索結果
     context: 見つかった
+    selected: 選択しましたか？
     no_results: レコードが見つかりません
     no_results_prefix: の検索結果はありませんでした
     result_type: レコードタイプ
@@ -156,6 +157,7 @@ ja:
     filtered_by: フィルタリングされた
     modified: 最終更新者
     created: によって作成された
+    actions: 行動
     text_placeholder: テキストで絞り込む
     clear_all: すべてクリア
     component_switch: コンポーネントを表示する
@@ -1213,8 +1215,7 @@ ja:
         rapid_barcode_entry_existing_barcode: 既存のバーコード
         rapid_barcode_entry_new_barcode: 新しいバーコード
         batch_merge: 上位コンテナのマージ
-        batch_merge_help: 選択したすべてのコンテナをマージします。
-        batch_merge_instructions: 次のトップコンテナを選択したトップコンテナにマージします
+        batch_merge_instructions: リストされている他のすべてのトップコンテナがマージされるトップコンテナを選択します。リンクされたレコードはすべてこのコンテナに再リンクされ、他のトップコンテナのすべての情報が削除されます。
         batch_delete: トップコンテナの削除
         batch_delete_help: 選択したすべてのコンテナを削除します。
         update_n_records: "%{n}レコードを更新する"
