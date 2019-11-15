@@ -93,6 +93,8 @@ GEM
     ffi (1.9.25-java)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
+    html2text (0.2.1)
+      nokogiri (~> 1.6)
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
     jmespath (1.4.0)
@@ -264,6 +266,7 @@ DEPENDENCIES
   coffee-rails (= 4.2.1)
   coffee-script
   coffee-script-source
+  html2text
   i18n (= 0.9.1)
   jquery-rails
   jquery-ui-rails
