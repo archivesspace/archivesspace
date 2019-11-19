@@ -3,7 +3,7 @@ require 'find'
 
 FileUtils.rm_rf("./docs/doc")
 
-git_url = "git@github.com:archivesspace/tech-docs.git"
+git_url = "https://github.com/archivesspace/tech-docs.git"
 localFolder = "./tech_docs"
 
 FileUtils.rm_rf("#{localFolder}") if File.directory?("#{localFolder}")
