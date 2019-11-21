@@ -15,7 +15,7 @@ module Notes
 
   def update_from_json(json, opts = {}, apply_nested_records = true)
     obj = super
-    self.class.apply_notes(obj, json)
+    self.class.apply_notes(obj, json, :update)
   end
 
 
@@ -103,18 +103,21 @@ module Notes
       super
     end
 
-    def apply_notes(obj, json)
+    def apply_notes(obj, json, mode = nil)
       association = self.association_reflection(:note)                                                                            
-      # MySQL supports modifying joins, derby does not... 
-      begin
-        SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))                  
-          .filter( association[:key] => obj.id  ).delete
-      rescue Sequel::InvalidOperation # for derby
-        SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
-      end
-      obj.note_dataset.delete
 
-      publish_notes_by_default = if AppConfig[:plugins].include?('qsa_migration_adapter')
+      unless mode == :create
+        # MySQL supports modifying joins, derby does not... 
+        begin
+          SubnoteMetadata.join(:note, Sequel.qualify(:note, :id) => Sequel.qualify(:subnote_metadata, :note_id))                  
+            .filter( association[:key] => obj.id  ).delete
+        rescue Sequel::InvalidOperation # for derby
+          SubnoteMetadata.filter(:note_id => obj.note_dataset.select(:id)).delete
+        end
+        obj.note_dataset.delete
+      end
+
+      publish_notes_by_default = if ASUtils.migration_mode?
                                    false
                                  else
                                    Preference.defaults['publish']
@@ -139,17 +142,17 @@ module Notes
                                  :guid => m.fetch(:guid))
         end
 
-	note_obj.add_persistent_ids(persistent_ids,
-				    *obj.persistent_id_context)
+        note_obj.add_persistent_ids(persistent_ids,
+                                    *obj.persistent_id_context)
       end
-        
-    	obj
+
+      obj
     end
 
 
     def create_from_json(json, opts = {})
       obj = super
-      apply_notes(obj, json)
+      apply_notes(obj, json, :create)
     end
 
 

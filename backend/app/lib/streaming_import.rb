@@ -242,7 +242,7 @@ class StreamingImport
         record['position'] += @position_offsets[record['uri']]
       end
 
-      needs_validate = !AppConfig[:plugins].include?('qsa_migration_adapter')
+      needs_validate = !ASUtils.migration_mode?
 
       json = to_jsonmodel(record, needs_validate)
 

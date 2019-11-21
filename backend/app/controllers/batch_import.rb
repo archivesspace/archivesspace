@@ -90,7 +90,7 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
 
-      if success && AppConfig[:plugins].include?('qsa_migration_adapter')
+      if success && ASUtils.migration_mode?
         QSAIdSequenceMangler.mangle!
       end
 

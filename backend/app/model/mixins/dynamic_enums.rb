@@ -24,7 +24,7 @@ module DynamicEnums
                 enum_value_id = BackendEnumSource.id_for_value(enum_name, value)
 
                 # Give the BackendEnumSource with :create_enums a chance to create it
-                if !enum_value_id && AppConfig[:plugins].include?('qsa_migration_adapter')
+                if !enum_value_id && ASUtils.migration_mode?
                   BackendEnumSource.valid?(enum_name, value)
                   enum_value_id = BackendEnumSource.id_for_value(enum_name, value)
                 end

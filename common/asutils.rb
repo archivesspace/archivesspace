@@ -425,4 +425,12 @@ ERRMSG
       ordered_plugins.index(plugin_name) or raise "Expected to find #{plugin_name} but didn't!"
     }
   end
+
+  def self.migration_mode?
+    if @migration_mode.nil?
+      @migration_mode = AppConfig[:plugins].include?('qsa_migration_adapter')
+    end
+
+    @migration_mode
+  end
 end
