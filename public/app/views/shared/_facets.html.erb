@@ -2,28 +2,28 @@
 
 <div class="filters">
  <% unless @filters.blank? && @search.filters_blank? %>
-    <h3><%= t('search_results.filtered_by')%> </h3> 
+    <h3><%= t('search_results.filtered_by')%> </h3>
        <ul>
         <% @search.get_filter_q_arr(@page_search).each do |f_q| %>
 	  <% unless f_q['v'].blank? %>
-	   <li class="list-group-item"><span class="filter"><%= t('search_results.search_term') %>: <%= f_q['v'] %> 
+	   <li class="list-group-item"><span class="filter"><%= t('search_results.search_term') %>: <%= f_q['v'] %>
 	       <a href="<%= app_prefix(f_q['uri']) %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter">X</a></span></li>
           <% end %>
         <% end %>
       <% unless @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
-      <% 
+      <%
 	 from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
 	 to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
       %>
       <li class="list-group-item"><span class="filter"><%= t('search_results.filter.from_to', {:begin=> from_year, :end => to_year  })%>
-	  <a href="<%= app_prefix(@page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}",""))%>" 
+	  <a href="<%= app_prefix(@page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}",""))%>"
 	     title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
       </span></li>
       </ul>
-  <% end  %> 
+  <% end  %>
    <% @filters.each do |k,h|  %>
     <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
-<a href="<%= app_prefix(h['uri'])%>" 
+<a href="<%= app_prefix(h['uri'])%>"
 title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></li>
    <% end %>
  </ul>
@@ -37,27 +37,30 @@ title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></l
         <%= render partial: 'shared/hidden_params', :locals => { :no_ids => true } %>
         <% if @search[:text_within] %>
           <div class="form-group">
-           <%= hidden_field_tag('sort', "", :id => nil) %>
-            <%= label_tag(:filter_q1, t('actions.search_within'), :class => 'sr-only') %>
-     <%= text_field_tag('filter_q[]', nil,:id => 'filter_q1', :placeholder =>  t('actions.search_within'), :title => t('actions.search_within'), :class=> "form-control", :id => nil) %>
+            <%= hidden_field_tag('sort', "", :id => nil) %>
+            <%= label_tag('filter_q[]', t('actions.search_within'), :class => 'sr-only') %>
+            <%= text_field_tag('filter_q[]', nil, :id => nil, :placeholder =>  t('actions.search_within'),
+            :class=> "form-control", 'aria-label' => t('actions.search_within')) %>
           </div>
         <% end %>
         <% if @search.search_dates_within? %>
           <div class="form-group">
             <div class="col-md-6 year_from">
-            	<%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
-            	<%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from_year'),
-            	:class=>"form-control", :id => nil) %>
+              <%= label_tag(:filter_from_year, t('search_results.filter.from_year'), :class => 'sr-only') %>
+              <%= text_field_tag(:filter_from_year, nil, :size => 4,:maxlength => 4,
+              :placeholder => t('search_results.filter.from_year'), :class=>"form-control",
+              :id => nil, 'aria-label' => t('search_results.filter.from_year')) %>
             </div>
             <div class="col-md-6 year_to">
-            	<%= label_tag(:filter_to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
-            	<%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control",
-            	:placeholder => t('search_results.filter.to_year'), :id => nil) %>
+              <%= label_tag(:filter_to_year, t('search_results.filter.to_year'), :class=> 'sr-only') %>
+              <%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4,
+              :class=> "form-control", :placeholder => t('search_results.filter.to_year'),
+              :id => nil, 'aria-label' => t('search_results.filter.to_year')) %>
             </div>
           </div>
-          <% else %>
-            <%= hidden_field_tag(:filter_from_year, @search[:filter_from_year], :id => nil) %>
-            <%= hidden_field_tag(:filter_to_year, @search[:filter_to_year], :id => nil) %>
+        <% else %>
+          <%= hidden_field_tag(:filter_from_year, @search[:filter_from_year], :id => nil) %>
+          <%= hidden_field_tag(:filter_to_year, @search[:filter_to_year], :id => nil) %>
         <% end %>
 
        <%= submit_tag(t('search-button.label'), :class=>'btn btn-primary', :id => nil) %>
