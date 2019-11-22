@@ -1,45 +1,63 @@
 class Sequence
 
+  QUEUE = java.util.concurrent.ArrayBlockingQueue.new(1024)
+
   def self.init(sequence, value)
-    DB.open(true) do |db|
-      db[:sequence].insert(:sequence_name => sequence.to_s, :value => value)
-    end
+    result = java.util.concurrent.CompletableFuture.new
+    QUEUE.add({action: :init, sequence: sequence, value: value, result: result})
+    result.get
   end
 
-
   def self.get(sequence)
-    DB.open(true) do |db|
+    result = java.util.concurrent.CompletableFuture.new
+    QUEUE.add({action: :get, sequence: sequence, result: result})
+    result.get
+  end
 
-      Thread.current[:initialised_sequences] ||= {}
+  Thread.new do
+    initialised_sequences = {}
 
-      if !Thread.current[:initialised_sequences][sequence]
-        Thread.current[:initialised_sequences][sequence] = true
-
-        DB.attempt {
-          init(sequence, 0)
-          return 0
-        }.and_if_constraint_fails {
-          # Sequence is already defined, which is fine
-        }
-      end
-
-      # If we make it to here, the sequence already exists and needs to be incremented
-      1000.times do
-        old_value = db[:sequence].filter(:sequence_name => sequence.to_s).get(:value)
-        updated_count = db[:sequence].filter(:sequence_name => sequence.to_s, :value => old_value).
-                                      update(:value => old_value + 1)
-
-        if updated_count == 0
-          # Need to retry
-          sleep(0.01)
-        elsif updated_count == 1
-          return old_value + 1
-        else
-          raise SequenceError.new("Unrecognised response from SQL update when generating next element in sequence '#{sequence}': #{updated_count}")
+    while request = QUEUE.take
+      if request[:action] == :init
+        DB.open(true) do |db|
+          db[:sequence].insert(:sequence_name => request[:sequence].to_s, :value => request[:value])
+          request[:result].complete(request[:value])
         end
-      end
+      elsif request == :get
+        sequence = request[:sequence]
+        DB.open(true) do |db|
+          if !initialised_sequences[sequence]
+            initialised_sequences[sequence] = true
 
-      raise SequenceError.new("Gave up trying to generate a sequence number for: '#{sequence}'")
+            DB.attempt {
+              init(sequence, 0)
+              request[:result].complete(0)
+            }.and_if_constraint_fails {
+              # Sequence is already defined, which is fine
+            }
+          end
+
+          # If we make it to here, the sequence already exists and needs to be incremented
+          1000.times do
+            old_value = db[:sequence].filter(:sequence_name => sequence.to_s).get(:value)
+            updated_count = db[:sequence].filter(:sequence_name => sequence.to_s, :value => old_value).
+                              update(:value => old_value + 1)
+
+            if updated_count == 0
+              # Need to retry
+              sleep(0.01)
+            elsif updated_count == 1
+              request[:result].complete(old_value + 1)
+            else
+              Log.error("Unrecognised response from SQL update when generating next element in sequence '#{sequence}': #{updated_count}")
+            end
+          end
+
+          Log.error("Gave up trying to generate a sequence number for: '#{sequence}'")
+          request[:result].completeExceptionally(Exception.new("Gave up trying to generate a sequence number for: '#{sequence}'"))
+        end
+
+      end
     end
   end
 

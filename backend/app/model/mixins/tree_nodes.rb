@@ -344,9 +344,11 @@ module TreeNodes
         raise last_error
       end
 
-      migration = extra_values[:migration] ? extra_values[:migration].value : false
-      if json.position && !migration
-        obj.set_position_in_list(json.position)
+      unless ASUtils.migration_mode?
+        migration = extra_values[:migration] ? extra_values[:migration].value : false
+        if json.position && !migration
+          obj.set_position_in_list(json.position)
+        end
       end
 
       unless ASUtils.migration_mode?
@@ -383,11 +385,15 @@ module TreeNodes
         result["parent_name"] = "root@#{root_record_uri}"
       end
 
-      # We'll add this new node to the end of the list.  To do that, find the
-      # maximum position assigned so far and go TreeNodes::POSITION_STEP places
-      # after that.  If another create_from_json gets in first, we'll have to
-      # retry, but that's fine.
-      result["position"] = next_position_for_parent(result['parent_name'])
+      if ASUtils.migration_mode?
+        result["position"] = json.position
+      else
+        # We'll add this new node to the end of the list.  To do that, find the
+        # maximum position assigned so far and go TreeNodes::POSITION_STEP places
+        # after that.  If another create_from_json gets in first, we'll have to
+        # retry, but that's fine.
+        result["position"] = next_position_for_parent(result['parent_name'])
+      end
 
       result
     end

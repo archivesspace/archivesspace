@@ -25,7 +25,10 @@ class ArchivalObject < Sequel::Model(:archival_object)
   include RightsRestrictionNotes
   include RepresentativeImages
   include Assessments::LinkedRecord
-  include TouchRecords
+
+  unless ASUtils.migration_mode?
+    include TouchRecords
+  end
 
   enable_suppression
 

@@ -135,7 +135,9 @@ class DB
           rescue Sequel::NoExistingObject, Sequel::DatabaseError => e
             if (attempt + 1) < retries && is_retriable_exception(e, opts) && transaction
               Log.info("Retrying transaction after retriable exception (#{e})")
-              sleep(opts[:retry_delay] || 1)
+
+              Log.info("Waiting: #{((opts[:retry_delay] || 1) + ((opts[:retry_delay] || 1) * rand))}")
+              sleep ((opts[:retry_delay] || 1) + ((opts[:retry_delay] || 1) * rand))
             else
               raise e
             end

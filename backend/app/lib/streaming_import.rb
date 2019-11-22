@@ -6,6 +6,8 @@ require 'tempfile'
 require_relative 'dependency_set'
 require_relative 'streaming_json_reader'
 require_relative 'cycle_finder'
+require_relative 'pooled_executor'
+
 
 require 'pp'
 
@@ -19,6 +21,8 @@ class StreamingImport
     @migration = migration ? Atomic.new(true) : Atomic.new(false)
    
     raise StandardError.new("Nothing to stream") unless stream
+
+    @ao_positions = {}
 
     @ticker = ticker
 
@@ -45,12 +49,50 @@ class StreamingImport
       @ticker.log("No records were found in the input file!")
     end
 
+    if ASUtils.migration_mode?
+      with_status("Calculating AO positions") do
+        resource_counters = {}
+
+        @jstream.each do |record|
+          next unless record['jsonmodel_type'] == 'archival_object'
+
+          resource_counters[record['resource']['ref']] ||= 0
+          resource_counters[record['resource']['ref']] += 1000
+
+          @ao_positions[record['uri']] = resource_counters[record['resource']['ref']]
+        end
+      end
+    end
+
     with_status("Validating records and checking links") do
       @logical_urls = load_logical_urls
     end
 
     with_status("Evaluating record relationships") do
       @dependencies, @position_offsets = load_dependencies
+    end
+
+    if ASUtils.migration_mode?
+      with_status("Creating any enumeration values that need to be there") do
+        count = 0
+        @jstream.each do |record|
+          MigrationHelpers.walk_hash_with_schema(record, JSONModel.JSONModel(record['jsonmodel_type'].intern).schema,
+                                                 proc {|record, schema|
+                                                   schema['properties'].each do |property, schema_def|
+                                                     if schema_def['dynamic_enum'] && record[property]
+                                                       BackendEnumSource.valid?(schema_def['dynamic_enum'], record[property])
+                                                     end
+                                                   end
+
+                                                   record
+                                                 })
+
+          count += 1
+          if (count % 1000) == 0
+            puts "Up to: #{count}"
+          end
+        end
+      end
     end
 
     @limbs_for_reattaching = {}
@@ -95,6 +137,27 @@ class StreamingImport
         progressed = false
 
         with_status("Saving records: cycle #{round}") do
+          created_uri_map = java.util.concurrent.ConcurrentHashMap.new
+
+          pool = PooledExecutor.new(thread_count: 12,
+                                    queue_size: 1024,
+                                    request_context: RequestContext.dump) do |db, work|
+            record = work[:record]
+            logical_uri = work[:logical_uri]
+            logical_urls = work[:logical_urls]
+
+            begin
+              DB.open(true) do
+                created_uri = do_create(rewrite(record, logical_urls))
+                created_uri_map.put(logical_uri, created_uri)
+              end
+            rescue
+              $stderr.puts("FAILURE SAVING RECORD: #{$!}")
+              $stderr.puts($@.join("\n"))
+              retry
+            end
+          end
+
           @ticker.tick_estimate = @jstream.count
           @jstream.each do |rec|
             abort_if_import_canceled
@@ -103,8 +166,12 @@ class StreamingImport
             dependencies = @dependencies[uri]
 
             if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
+              if @ao_positions[uri]
+                rec['position'] = @ao_positions[uri]
+              end
+
               # migrate it
-              @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
+              pool.submit({record: rec, logical_uri: uri, logical_urls: @logical_urls})
 
               # Now that it's created, we don't need to see the JSON record for
               # this again either.  This will speed up subsequent cycles.
@@ -118,6 +185,13 @@ class StreamingImport
             end
 
             @ticker.tick
+          end
+
+          pool.shutdown
+
+          # Merge created URIs
+          created_uri_map.each do |uri, created_uri|
+            @logical_urls[uri] = created_uri
           end
         end
 

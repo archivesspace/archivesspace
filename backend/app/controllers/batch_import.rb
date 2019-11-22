@@ -50,7 +50,8 @@ class ArchivesSpaceService < Sinatra::Base
 
       # Wrap the import in a transaction if the DB supports MVCC
       begin
-        DB.open(DB.supports_mvcc?,
+        # No transaction if we're running in migration mode
+        DB.open((!ASUtils.migration_mode? && DB.supports_mvcc?),
                 :retry_on_optimistic_locking_fail => true,
                 :isolation_level => :committed) do
           last_error = nil
