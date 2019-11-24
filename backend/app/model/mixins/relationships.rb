@@ -669,7 +669,7 @@ module Relationships
           # models), update the referent's lock version to ensure that a
           # concurrent update to that object won't clobber our changes.
 
-          unless MIGRATION_MODE
+          unless ASUtils.migration_mode?
             if referent_model.find_relationship(relationship_name, true) && !opts[:system_generated]
               DB.increase_lock_version_or_fail(referent)
             end
