@@ -93,8 +93,15 @@ class ArchivesSpaceService < Sinatra::Base
 
       if success && ASUtils.migration_mode?
         QSAIdSequenceMangler.mangle!
-      end
 
+        # Analyze all tables to ensure statistics are OK
+        DB.open do |db|
+          db.tables.each do |tbl|
+            $stderr.puts("Analyzing table: #{tbl}")
+            $stderr.puts(db["analyze table ?", tbl].all.inspect)
+          end
+        end
+      end
 
       results = {:saved => []}
 
