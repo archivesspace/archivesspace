@@ -23,12 +23,6 @@ module DynamicEnums
               Array(definition[:uses_enum]).each do |enum_name|
                 enum_value_id = BackendEnumSource.id_for_value(enum_name, value)
 
-                # Give the BackendEnumSource with :create_enums a chance to create it
-                if !enum_value_id && ASUtils.migration_mode?
-                  BackendEnumSource.valid?(enum_name, value)
-                  enum_value_id = BackendEnumSource.id_for_value(enum_name, value)
-                end
-
                 if !enum_value_id && value == 'other_unmapped' && AppConfig[:allow_other_unmapped]
                   # Ensure this value exists for this enumeration
                   enum = Enumeration[:name => definition[:uses_enum]]
