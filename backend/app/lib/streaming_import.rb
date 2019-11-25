@@ -50,6 +50,40 @@ class StreamingImport
     end
 
     if ASUtils.migration_mode?
+      with_status("Creating any enumeration values that need to be there") do
+        count = 0
+        @jstream.each do |record|
+          MigrationHelpers.walk_hash_with_schema(record, JSONModel.JSONModel(record['jsonmodel_type'].intern).schema,
+                                                 proc {|record, schema|
+                                                   schema['properties'].each do |property, schema_def|
+                                                     if schema_def['dynamic_enum'] && record[property]
+
+                                                       if record['jsonmodel_type'] =~ /series_system.*relationship/
+                                                         relator_enum = JSONModel(record['jsonmodel_type'].intern).schema['properties']['relator']['dynamic_enum']
+
+                                                         acceptable_values = BackendEnumSource.values_for(relator_enum)
+                                                         unless acceptable_values.include?(record[property])
+                                                           $stderr.puts("WARNING: enum value '#{record[property]}' isn't a valid value for #{relator_enum}")
+                                                           $stderr.puts("Acceptable values are: #{acceptable_values.inspect}")
+                                                         end
+                                                       end
+
+                                                       BackendEnumSource.valid?(schema_def['dynamic_enum'], record[property])
+                                                     end
+                                                   end
+
+                                                   record
+                                                 })
+
+          count += 1
+          if (count % 1000) == 0
+            puts "Up to: #{count}"
+          end
+        end
+      end
+    end
+
+    if ASUtils.migration_mode?
       with_status("Calculating AO positions") do
         resource_counters = {}
 
@@ -70,29 +104,6 @@ class StreamingImport
 
     with_status("Evaluating record relationships") do
       @dependencies, @position_offsets = load_dependencies
-    end
-
-    if ASUtils.migration_mode?
-      with_status("Creating any enumeration values that need to be there") do
-        count = 0
-        @jstream.each do |record|
-          MigrationHelpers.walk_hash_with_schema(record, JSONModel.JSONModel(record['jsonmodel_type'].intern).schema,
-                                                 proc {|record, schema|
-                                                   schema['properties'].each do |property, schema_def|
-                                                     if schema_def['dynamic_enum'] && record[property]
-                                                       BackendEnumSource.valid?(schema_def['dynamic_enum'], record[property])
-                                                     end
-                                                   end
-
-                                                   record
-                                                 })
-
-          count += 1
-          if (count % 1000) == 0
-            puts "Up to: #{count}"
-          end
-        end
-      end
     end
 
     @limbs_for_reattaching = {}
