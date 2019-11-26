@@ -325,7 +325,7 @@ class EADSerializer < ASpaceExport::Serializer
         serialize_did_notes(data, xml, fragments)
 
         if (languages = data.lang_materials)
-          serialize_languages(languages, xml)
+          serialize_languages(languages, xml, fragments)
         end
 
         EADSerializer.run_serialize_step(data, xml, fragments, :did)
