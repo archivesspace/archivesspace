@@ -434,6 +434,24 @@ describe 'Managed Container model' do
       expect(ao.refresh.system_mtime).to be > original_mtime
     end
 
+
+    it "reindexes top container when it is updated with an empty location" do
+      location = create(:json_location, :temporary => nil)
+
+      container = create(:json_top_container, 'container_locations' => [build_container_location(location.uri)])
+
+      starting_mtime = TopContainer.to_jsonmodel(container.id).system_mtime
+
+      # Confirm that the location update doesn't occur in the same second as the initial container creation
+      sleep(1) until starting_mtime != Time.now.utc.iso8601.to_s
+
+      TopContainer.bulk_update_location([container.id], {})
+
+      ending_mtime = TopContainer.to_jsonmodel(container.id).system_mtime
+
+      expect(ending_mtime).to be > starting_mtime
+    end
+
   end
 
 
