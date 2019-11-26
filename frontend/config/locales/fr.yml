@@ -1205,13 +1205,13 @@ fr:
         empty_false: "Non"
         search: Recherche
         update_ils_holding_ids: Actualiser ILS Holding IDs
-        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         update_container_profiles: Actualiser profils de conditionnements
-        update_container_profiles_help: Choisir un profil de conditionnement pour tous les conditionnements sélectionnés.
+        update_container_profiles_help: Choisir un profil de conditionnement pour tous les conditionnements sélectionnés.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         update_locations_singular: "Actualiser localisations: localisation unique"
-        update_locations_singular_help: Choisir une localisation pour tous les conditionnements sélectionnés.
+        update_locations_singular_help: Choisir une localisation pour tous les conditionnements sélectionnés.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         update_locations_multiple: "Actualiser localisations: localisations multiples"
-        update_locations_multiple_help: Choisir une localisation pour chaque conditionnement sélectionné.
+        update_locations_multiple_help: Choisir une localisation pour chaque conditionnement sélectionné.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         rapid_barcode_entry: Saisie rapide de code-barres
         rapid_barcode_entry_existing_barcode: Code-barres existant
         rapid_barcode_entry_new_barcode: Nouveau code-barres
