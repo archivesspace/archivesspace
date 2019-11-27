@@ -1,71 +1,31 @@
-$(function() {
+get_selection = function() {
+  var results = [];
 
-  var init_multiselect_listing = function() {
-    var $table = $(this);
-
-
-    $table.on("click", "tbody td:not(.table-record-actions)", function(event) {
-      event.stopPropagation();
-      event.preventDefault();
-
-      var $row = $(this).closest("tr");
-      $(".multiselect-column :input", $row).trigger("click");
-    }).on("click", ".multiselect-column :input", function(event) {
-      event.stopPropagation();
-
-      var $this = $(this);
-      var $row = $this.closest("tr");
-      $row.toggleClass("selected");
-
-      setTimeout(function() {
-        if ($(".multiselect-column :input:checked", $table).length > 0) {
-          $table.trigger("multiselectselected.aspace");
-        } else {
-          $table.trigger("multiselectempty.aspace");
-        }
-      });
+  $(document).find(".multiselect-column :input:checked").each(function(i, checkbox) {
+    results.push({
+      uri: checkbox.value,
+      display_string: $(checkbox).data("display-string"),
+      row: $(checkbox).closest("tr")
     });
+  });
 
-    $(".multiselect-enabled").each(function() {
-      var $multiselectEffectedWidget = $(this);
-      var target = "";
-      if ($table.is($multiselectEffectedWidget.data("multiselect"))) {
-        $table.on("multiselectselected.aspace", function() {
-          $multiselectEffectedWidget.removeAttr("disabled");
-          if ($(".multiselect-column :input:checked", $table).length == 1) {
-            target = $(".multiselect-column :input:checked", $table).val();
-          }
-          console.log("Target " + target);
-          var sel = $(".multiselect-column :input:checked", $table).map(function() {
-            if ($(this).val() != target) {
-              return $(this).val();
-            }
-          });
-          var selected_records = $.makeArray(sel);
-          console.log("Selected Records " + selected_records);
-          selected_records.unshift(target);
-          console.log("Target first selected_records " + selected_records);
-          // $multiselectEffectedWidget.data("form-data", {
-          //   record_uris: selected_records
-          // });
-          //entered new
-          $(document).on("click", "#batchMerge", function() {
-            let dialog_content = AS.renderTemplate("batch_merge", {selection: selected_records});
-            AS.openCustomModal("batchMergeModal", "Merge Container Profiles", dialog_content,
-            'full');
-                });
-          // end entered new
-        }).on("multiselectempty.aspace", function() {
-          $multiselectEffectedWidget.attr("disabled", "disabled");
-            $multiselectEffectedWidget.data("form-data", {});
-        });
-      }
-    });
+  return results;
+};
 
-    $(".multiselect-column :input:checked", $table).closest("tr").addClass("selected");
-
+function activateBtn(event) {
+  var merge_btn = document.getElementsByClassName("merge-button")[0];
+  if ($('input:checked').length > 0) {
+    merge_btn.removeAttribute("disabled");
+  } else {
+    merge_btn.attr("disabled", "disabled");
   };
+};
 
-  $(".table-search-results[data-multiselect]").each(init_multiselect_listing);
 
+$(document).on("click", ".merge-button", function() {
+  let dialog_content = AS.renderTemplate("batch_merge", {
+    selection: get_selection()
+  });
+  AS.openCustomModal("batchMergeModal", "Merge Container Profiles", dialog_content,
+    'full');
 });

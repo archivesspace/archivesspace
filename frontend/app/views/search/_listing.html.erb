@@ -57,7 +57,7 @@
           <td class="multiselect-column">
             <label>
               <span class="sr-only">Selected?</span>
-              <%= check_box_tag "multiselect-item", result["id"], false %>
+              <%= check_box_tag "multiselect-item", result["id"], false, "data-display-string" => "#{clean_mixed_content(result["title"]).html_safe || clean_mixed_content(result['display_string']).html_safe}" %>
             </label>
           </td>
         <% end %>

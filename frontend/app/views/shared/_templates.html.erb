@@ -30,11 +30,10 @@
   <div class="selected-record-list well" id="mergeList">
     <div role="radiogroup" aria-labelledby="mergeList">
       {for profile in selection}
-        <% profile_uri = "${profile}" %>
-        <%= profile_uri %>
-        <div id="chkPref" role="radio" aria-checked="false" tabindex="0" onclick="changeCheckbox()" onKeyPress="changeCheckbox()">
+        <% profile_uri = "${profile.uri}" %>
+        <div id="chkPref" role="radio" aria-checked="false" tabindex="0" onclick="activateBtn()" onKeyPress="activateBtn()">
           <%= radio_button_tag "target[]", "${profile.uri}", false, :"data-object" => profile_uri, :"aria-label" => "${profile.display_string}", :"id" => "${profile.uri}" %>
-          ${profile}
+          <span>${profile.display_string}</span>
         </div>
       {/for}
     </div>
