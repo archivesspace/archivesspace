@@ -1,15 +1,14 @@
 <div class="container-fluid global-header">
   <nav class="navbar">
     <div class="container-fluid">
-
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".nav-global-collapse">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".nav-global-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
       </div>
-
       <% if !session[:user] %>
         <button type="button" class="btn btn-default pull-right btn-collapse-login navbar-btn" data-toggle="collapse" data-target=".nav-global-collapse">
           <%= I18n.t("navbar.login") %>
