@@ -20,31 +20,31 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/merge_requests/container_profile')
     .description("Carry out a merge request against Container Profile records")
     .example('shell') do
-    <<-SHELL
-curl -H 'Content-Type: application/json' \\
-    -H "X-ArchivesSpace-Session: $SESSION" \\
-    -d '{"uri": "merge_requests/container_profile", "target": {"ref": "/container_profiles/1" },"victims": [{"ref": "/container_profiles/2"}]}' \\
-    "http://localhost:8089/merge_requests/container_profile"
+    <<~SHELL
+    curl -H 'Content-Type: application/json' \\
+        -H "X-ArchivesSpace-Session: $SESSION" \\
+        -d '{"uri": "merge_requests/container_profile", "target": {"ref": "/container_profiles/1" },"victims": [{"ref": "/container_profiles/2"}]}' \\
+        "http://localhost:8089/merge_requests/container_profile"
     SHELL
     end
     .example('python') do
-    <<-PYTHON
-from asnake.client import ASnakeClient
-client = ASnakeClient()
-client.authorize()
-client.post('/merge_requests/container_profile',
-        json={
-            'uri': 'merge_requests/container_profile',
-            'target': {
-                'ref': '/container_profiles/1'
-              },
-            'victims': [
-                {
-                    'ref': '/container_profiles/2'
+    <<~PYTHON
+    from asnake.client import ASnakeClient
+    client = ASnakeClient()
+    client.authorize()
+    client.post('/merge_requests/container_profile',
+            json={
+                'uri': 'merge_requests/container_profile',
+                'target': {
+                    'ref': '/container_profiles/1'
+                  },
+                'victims': [
+                    {
+                        'ref': '/container_profiles/2'
+                    }
+                  ]
                 }
-              ]
-            }
-      )
+          )
     PYTHON
     end
     .params(["merge_request",
