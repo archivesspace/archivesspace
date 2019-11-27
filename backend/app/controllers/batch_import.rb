@@ -61,7 +61,11 @@ class ArchivesSpaceService < Sinatra::Base
               # QSA modification: don't process RAPs until the end of the batch.
               RAP.with_deferred_propagations do
                 batch = StreamingImport.new(stream, job_monitor, false,  migration )
-                batch.process
+                if ASUtils.migration_mode?
+                  batch.process_migration_mode
+                else
+                  batch.process
+                end
                 success = true
               end
             rescue JSONModel::ValidationException, ImportException, Sequel::ValidationFailed, ReferenceError => e

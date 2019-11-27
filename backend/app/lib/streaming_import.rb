@@ -123,8 +123,7 @@ class StreamingImport
   end
 
 
-  def process
-
+  def process_migration_mode
     round = 0
     finished = true
 
@@ -203,6 +202,82 @@ class StreamingImport
           # Merge created URIs
           created_uri_map.each do |uri, created_uri|
             @logical_urls[uri] = created_uri
+          end
+        end
+
+
+        if finished
+          break
+        end
+
+        if !progressed
+          raise "Failed to make any progress on the current import cycle.  This shouldn't happen!"
+        end
+      end
+
+    ensure
+      with_status("Cleaning up") do
+        if finished
+          reattach_severed_limbs
+          touch_toplevel_records
+        end
+
+        cleanup
+      end
+    end
+
+    @logical_urls
+  end
+
+
+  def process
+
+    round = 0
+    finished = true
+
+    begin
+      with_status("Looking for cyclic relationships") do
+        uris_causing_cycles = []
+
+        CycleFinder.new(@dependencies, @ticker).each do |cycle_uri|
+          uris_causing_cycles << cycle_uri unless uris_causing_cycles.include?(cycle_uri)
+        end
+
+        create_records_without_relationships(uris_causing_cycles)
+      end
+
+      # Now we know our data is acyclic, we can run rounds without thinking
+      # about it.
+      while true
+        round += 1
+
+        finished = true
+        progressed = false
+
+        with_status("Saving records: cycle #{round}") do
+          @ticker.tick_estimate = @jstream.count
+          @jstream.each do |rec|
+            abort_if_import_canceled
+
+            uri = rec['uri']
+            dependencies = @dependencies[uri]
+
+            if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
+              # migrate it
+              @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
+
+              # Now that it's created, we don't need to see the JSON record for
+              # this again either.  This will speed up subsequent cycles.
+              @jstream.delete_current
+
+              progressed = true
+            end
+
+            if !@logical_urls[uri]
+              finished = false
+            end
+
+            @ticker.tick
           end
         end
 
