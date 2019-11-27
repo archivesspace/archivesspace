@@ -311,8 +311,8 @@ es:
     manage_top_containers: Gestionar Top Containers
     manage_enumerations: Administrar listas de valores controlados
     global_preferences: Preferencias globales
-    user_repo_preferences: Preferencias de repositorio
-    repo_preferences: Valores predeterminados de preferencia de usuario
+    user_repo_preferences: Valores predeterminados de preferencia de usuario
+    repo_preferences: Preferencias de repositorio
     manage_user_access: Administrar el acceso de usuario
     logout: Salir
     login: Iniciar sesión
