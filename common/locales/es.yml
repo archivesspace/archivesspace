@@ -1157,7 +1157,7 @@ es:
     accession_date_unknown: desconocida
     accession_date_inline_help: por ejemplo AAAA-MM-DD
     accession_date_tooltip: |
-      <p>CAMPO REQUERIDO: La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
+      <p>La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
     accession_id: Identificador
     accession_id_tooltip: |
         <p>El número de la base de datos interna para un registro específico de acta de ingreso.</p>

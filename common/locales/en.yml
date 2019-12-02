@@ -1161,7 +1161,7 @@ en:
     accession_date_unknown: unknown
     accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
-        <p>REQUIRED FIELD: The date the accession took place. It is not
+        <p>The date the accession took place. It is not
         necessarily the same date as when the record is created.</p>
     accession_id: Identifier
     accession_id_tooltip: |
