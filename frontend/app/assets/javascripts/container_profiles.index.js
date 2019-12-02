@@ -1,2 +1,2 @@
 //= require search
-//= require container_profiles.browse_merge
+//= require browse_merge

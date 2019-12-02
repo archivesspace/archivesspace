@@ -17,7 +17,7 @@
           ['title', 'container_profile_width_u_sstr', 'container_profile_height_u_sstr', 'container_profile_depth_u_sstr', 'container_profile_dimension_units_u_sstr', 'empty_u_sbool'] }), id: "searchExport", class: "btn btn-sm btn-info" %>
         <%= link_to I18n.t("container_profile._frontend.action.create"), {:controller => :container_profiles, :action => :new}, :class => "btn btn-sm btn-default" %>
         <% if user_can?('manage_container_profile_record') %>
-          <button id="batchMerge" class="btn btn-sm btn-default merge-button multiselect-enabled" disabled="disabled" data-multiselect="#tabledSearchResults"><%= I18n.t("actions.merge")%></button>
+          <button id="batchMerge" class="btn btn-sm btn-default multiselect-enabled" disabled="disabled" data-multiselect="#tabledSearchResults"><%= I18n.t("actions.merge")%></button>
         <% end %>
        <% if user_can?("manage_container_profile_record") %>
          <%= button_delete_multiple_action(:container_profiles) %>
