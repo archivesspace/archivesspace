@@ -309,8 +309,8 @@ fr:
     manage_top_containers: Gérer Top conditionnements
     manage_enumerations: Gérer listes de valeurs contrôlées
     global_preferences: Préférences globales
-    user_repo_preferences: Préférences de service d'archives
-    repo_preferences: Préférences par défaut de l'utilisateur
+    user_repo_preferences: Préférences par défaut de l'utilisateur
+    repo_preferences: Préférences de service d'archives
     manage_user_access: Gérer les accès utilisateurs
     logout: Déconnexion
     login: Connexion
