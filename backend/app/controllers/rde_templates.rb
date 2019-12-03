@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    check_permissions(params)
+    check_rde_permissions(params)
     handle_create(RdeTemplate, params[:rde_template])
   end
 
@@ -47,7 +47,7 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
 
-  def check_permissions(params)
+  def check_rde_permissions(params)
     if !current_user.can?(:manage_rde_templates)
       raise AccessDeniedException.new
     end
