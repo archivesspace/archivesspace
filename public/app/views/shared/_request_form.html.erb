@@ -28,8 +28,10 @@
       <%= text_area_tag :note, nil, :rows=> "3", :cols => "25", :placeholder => t('request.note'), :class => 'form-control' %>
     </div>
     <div class="form-group honeypot">
-      <%= label_tag :comment %>
-      <%= text_field_tag :comment, nil, tabindex: '-1', :class => 'form-control'%>
+      <span class="aria-hidden">
+        <%= label_tag :comment %>
+        <%= text_field_tag :comment, nil, tabindex: '-1', :class => 'form-control'%>
+      </span>
     </div>
     <button type="submit" class="btn btn-primary action-btn noscript"><%= t('request.submit') %></button>
   </div>
