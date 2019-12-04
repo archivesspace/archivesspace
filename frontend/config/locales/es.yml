@@ -65,6 +65,7 @@ es:
     transfer_successful: Transferencia exitosa.  Los registros pueden tardar un momento en aparecer en el repositorio de destino mientras nueva indexación se lleva a cabo.
     transfer_failed: Transferencia fallida
     transfer_failed_records_using_digital_objects: "Los siguientes registros se vinculan a objetos digitales que se transferirían, pero hacerlo rompería sus enlaces de instancia"
+    transfer_failed_digital_objects_linked_to_records: "Este objeto digital se vincula a otros registros contenidos en este repositorio. Para continuar con esta transferencia, elimine los enlaces en los siguientes registros"
     unset_default: Desactivada por defecto
     unsuppress: Desactivar
     unsuppress_confirm_title: ¿Bloquear este registro?
