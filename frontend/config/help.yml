@@ -104,30 +104,30 @@ topics:
   agent_software_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
   agent_software_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
   # Location (601)
-  location: 601
+  location: '889946202/Managing+Locations'
   # Event (602-)
-  event: 602
-  event_basic_information: 603
-  event_date: 604
-  event_linked_agents: 605
-  event_linked_records: 606
+  event: '890011766/Events'
+  event_basic_information: '894697657/Events+Basic+Information'
+  event_date: '894501206/Events+Date'
+  event_linked_agents: '894533814/Events+Agent+Links'
+  event_linked_records: '894566764/Events+Record+Links'
   # Classification (607)
-  classification: 607
+  classification: '890208308/Managing+Classifications'
   # Classification Term
-  classification_term: 607
+  classification_term: '894664901/Defining+a+Classification+Hierarchy'
   # Import (700)
-  import: 700
+  import: '894566467/Importing+Records+Overview'
   # Search (701)
-  search: 701
+  search: '892174361/About+Searching+and+Sorting+Results'
   # Manage Groups (800)
-  repository_groups: 800
+  repository_groups: '893583404/Managing+User+Permission+Groups'
   # Managing User Access (801)
-  repository_users: 801
+  repository_users: '890011725/Managing+User+Accounts+and+User+Permissions'
   # Repositories (900)
-  repository: 900
+  repository: '890339516/Managing+Repositories'
   # Manage Users (901)
-  user: 901
+  user: '890011725/Managing+User+Accounts+and+User+Permissions'
   # Controlled Value Lists (902)
-  enumeration: 902
+  enumeration: '890208293/Managing+Controlled+Value+Lists'
   # Assessments
   assessment: '894435657/Managing+Assessments'
