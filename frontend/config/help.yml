@@ -67,42 +67,42 @@ topics:
   digital_object_component_external_documents: '896696508/External+Documents+Sub-Record+-+Digital+Objects'
   digital_object_component_rights_statements: '896958557/Rights+Statements+Sub-Record+v2.1.0+-+Digital+Objects'
   # Subjects (400-)
-  subject: 400
-  subject_basic_information: 401
-  subject_terms: 402
-  subject_external_documents: 403
+  subject: '890339535/Managing+Subjects'
+  subject_basic_information: '894566641/Creating+New+Subject+Records'
+  subject_terms: 894664812/Subject+Record+Fields
+  subject_external_documents: '894435522/External+Document+Sub-Record'
   # Agent Persons (500-)
-  agent_person: 500
-  agent_person_dates_of_existence: 501
-  agent_person_names: 502
-  agent_person_contact_details: 503
-  agent_person_notes: 504
-  agent_person_related_agents: 505
-  agent_person_external_documents: 506
+  agent_person: '890011751/Managing+Agents'
+  agent_person_dates_of_existence: '894533774/Agent+Record+Fields'
+  agent_person_names: '894533774/Agent+Record+Fields'
+  agent_person_contact_details: '894533774/Agent+Record+Fields'
+  agent_person_notes: '894533774/Agent+Record+Fields'
+  agent_person_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
+  agent_person_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
   # Agent Family (507-)
-  agent_family: 507
-  agent_family_dates_of_existence: 508
-  agent_family_names: 509
-  agent_family_contact_details: 510
-  agent_family_notes: 511
-  agent_family_related_agents: 512
-  agent_family_external_documents: 513
+  agent_family: '890011751/Managing+Agents'
+  agent_family_dates_of_existence: '894533774/Agent+Record+Fields'
+  agent_family_names: '894533774/Agent+Record+Fields'
+  agent_family_contact_details: '894533774/Agent+Record+Fields'
+  agent_family_notes: '894533774/Agent+Record+Fields'
+  agent_family_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
+  agent_family_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
   # Agent Corporate Entity (514-)
-  agent_corporate_entity: 514
-  agent_corporate_entity_dates_of_existence: 515
-  agent_corporate_entity_names: 516
-  agent_corporate_entity_contact_details: 517
-  agent_corporate_entity_notes: 518
-  agent_corporate_entity_related_agents: 519
-  agent_corporate_entity_external_documents: 520
+  agent_corporate_entity: '890011751/Managing+Agents'
+  agent_corporate_entity_dates_of_existence: '894533774/Agent+Record+Fields'
+  agent_corporate_entity_names: '894533774/Agent+Record+Fields'
+  agent_corporate_entity_contact_details: '894533774/Agent+Record+Fields'
+  agent_corporate_entity_notes: '894533774/Agent+Record+Fields'
+  agent_corporate_entity_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
+  agent_corporate_entity_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
   # Agent Software (521-)
-  agent_software: 521
-  agent_software_dates_of_existence: 522
-  agent_software_names: 523
-  agent_software_contact_details: 524
-  agent_software_notes: 525
-  agent_software_related_agents: 526
-  agent_software_external_documents: 527
+  agent_software: '890011751/Managing+Agents'
+  agent_software_dates_of_existence: '894533774/Agent+Record+Fields'
+  agent_software_names: '894533774/Agent+Record+Fields'
+  agent_software_contact_details: '894533774/Agent+Record+Fields'
+  agent_software_notes: '894533774/Agent+Record+Fields'
+  agent_software_related_agents: '894664846/Related+Agents+-+Linking+Agent+Record+s+to+an+Agent+Record'
+  agent_software_external_documents: '894435542/External+Document+Sub-Record+-+Agent+Records'
   # Location (601)
   location: 601
   # Event (602-)
