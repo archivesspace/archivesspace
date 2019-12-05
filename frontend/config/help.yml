@@ -15,33 +15,33 @@ topics:
   accession_classification: '893878432/Classifications+Sub-Record+-+Accessions'
   accession_user_defined: '893976727/User+Defined+Fields+-+Accessions'
   # Resource Topics (200-)
-  resource: 200
-  resource_basic_information: 201
-  resource_dates: 202
-  resource_extents: 203
-  resource_finding_aid: 204
-  resource_related_accessions: 205
-  resource_linked_agents: 205
-  resource_subjects: 206
-  resource_notes: 207
-  resource_external_documents: 208
-  resource_rights_statements: 209
-  resource_instances: 210
-  resource_deaccessions: 211
-  resource_collection_management: 212
-  resource_classification: 213
-  resource_user_defined: 214
+  resource: '890142825/Managing+Resources'
+  resource_basic_information: '893878578/Creating+and+Managing+Resource+Records'
+  resource_dates: '896237734/Dates+Sub-Record+-+Resources'
+  resource_extents: '895812021/Extents+Sub-Record+-+Resources'
+  resource_finding_aid: '894206166/Creating+a+Minimal+Resource+Record'
+  resource_related_accessions: '893976733/Related+Resources+Link'
+  resource_linked_agents: '896204929/Agent+Links+-+Resources'
+  resource_subjects: '896204960/Subject+Links+-+Resources'
+  resource_notes: '916947033/Notes+Sub-Records'
+  resource_external_documents: '895910272/External+Documents+Sub-Record+-+Resources'
+  resource_rights_statements: '896172159/Rights+Statements+Sub-Record+v2.1.0+-+Resources'
+  resource_instances: '896204987/Instances+Sub-Record+as+of+v1.5.0+-+Resources'
+  resource_deaccessions: '895812081/Deaccessions+Sub-Record+-+Resources'
+  resource_collection_management: '896172244/Collection+Management+Sub-Record+-+Resources'
+  resource_classification: '895910283/Classifications+Sub-Record+-+Resources'
+  resource_user_defined: '895812108/User+Defined+Fields+-+Resources'
   # Archival Objects
-  archival_object: 215
-  archival_object_basic_information: 216
-  archival_object_dates: 217
-  archival_object_extents: 218
-  archival_object_linked_agents: 219
-  archival_object_subjects: 220
-  archival_object_notes: 221
-  archival_object_external_documents: 222
-  archival_object_rights_statements: 223
-  archival_object_instances: 224
+  archival_object: '894107902/Resource+Records+Components'
+  archival_object_basic_information: '894206166/Creating+a+Minimal+Resource+Record'
+  archival_object_dates: '896237734/Dates+Sub-Record+-+Resources'
+  archival_object_extents: '895812021/Extents+Sub-Record+-+Resources'
+  archival_object_linked_agents: '896204929/Agent+Links+-+Resources'
+  archival_object_subjects: '896204960/Subject+Links+-+Resources'
+  archival_object_notes: '916947033/Notes+Sub-Records'
+  archival_object_external_documents: '895910272/External+Documents+Sub-Record+-+Resources'
+  archival_object_rights_statements: '896172159/Rights+Statements+Sub-Record+v2.1.0+-+Resources'
+  archival_object_instances: '896204987/Instances+Sub-Record+as+of+v1.5.0+-+Resources'
   # Digital Object Topics (300-)
   digital_object: 300
   digital_object_basic_information: 301
