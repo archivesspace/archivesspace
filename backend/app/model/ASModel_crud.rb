@@ -374,8 +374,14 @@ module ASModel
 
           DB.after_commit do
             RequestContext.open(:repo_id => repo_id) do
-              hash = model.to_jsonmodel(model.any_repo.filter(:id => record_id).first).to_hash(:trusted)
-              RealtimeIndexing.record_update(hash, uri)
+              # if the record was created in a transaction that was rolled back
+              # then it won't exist after the rollback, so we make sure it's there
+              # before trying to fire the update
+              record = model.any_repo.filter(:id => record_id).first
+              if record
+                hash = model.to_jsonmodel(record).to_hash(:trusted)
+                RealtimeIndexing.record_update(hash, uri)
+              end
             end
           end
         end
