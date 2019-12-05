@@ -285,6 +285,7 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 <% end %>
+
 <% e[:params].each do |param| %>
   <% if param.is_a? String %>
     <% opts = {} %>
@@ -294,12 +295,12 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
   <% unless opts.empty? %>
     <% vs = opts[:validation] ? " -- #{opts[:validation][0]}" : "" %>
     <% optional = opts[:optional] ? " (Optional)" : "" %>
-<% if opts[:body] %>
-	<%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
-<% else %>
-	<%= "#{param[1]} #{param[0]}#{optional} -- #{param[2]}#{vs}" %>
-<% end %>
-<% end %>
+  <% end %>
+  <% if opts[:body] %>
+	  <%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
+  <% else %>
+	  <%= "#{param[1]} #{param[0]}#{optional} -- #{param[2]}#{vs}" %>
+  <% end %>
 <% end %>
 
 __Returns__
