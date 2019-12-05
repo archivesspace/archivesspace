@@ -301,7 +301,7 @@ AppConfig[:allow_user_registration] = true
 
 # Help Configuration
 AppConfig[:help_enabled] = true
-AppConfig[:help_url] = "http://docs.archivesspace.org"
+AppConfig[:help_url] = "https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/overview"
 AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"
 AppConfig[:help_topic_base_url] = "https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/"
 
