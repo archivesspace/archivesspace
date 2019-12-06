@@ -288,6 +288,7 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def self.batch_update(ids, fields)
+    fields.each_value(&:strip!)
     out = {}
     begin
       n = self.filter(:id => ids).update(fields.merge({:system_mtime => Time.now, :user_mtime => Time.now}))

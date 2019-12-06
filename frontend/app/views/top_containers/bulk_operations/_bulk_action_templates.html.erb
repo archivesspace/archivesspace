@@ -169,7 +169,7 @@
 <div id="template_bulk_barcode_action_dialog"><!--
   <%= form_tag({:controller => :top_containers, :action => :update_barcodes}, {:class => "form-horizontal", :id => "bulk_update_form" }) do |f| %>
   <div class="modal-body">
-    <div id="alertBucket"></div>
+    <div class="alert alert-info" id="alertBucket"><%= I18n.t("top_container._frontend.bulk_operations.rapid_barcode_entry_help") %></div>
     <table class="table table-striped table-bordered table-condensed table-hover">
     <thead>
       <tr>

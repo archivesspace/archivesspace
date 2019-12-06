@@ -1215,6 +1215,7 @@ fr:
         rapid_barcode_entry: Saisie rapide de code-barres
         rapid_barcode_entry_existing_barcode: Code-barres existant
         rapid_barcode_entry_new_barcode: Nouveau code-barres
+        rapid_barcode_entry_help: Entrez un code-barres pour chaque conteneur sélectionné. Laissez le champ Nouveau code-barres vide pour supprimer le code-barres actuel sans le remplacer par une nouvelle valeur.
         batch_delete: Supprimer Top conditionnements
         batch_delete_help: Supprimer tous les conditionnements sélectionnés.
         update_n_records: "Actualiser %{n} notices"

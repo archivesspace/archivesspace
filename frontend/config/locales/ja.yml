@@ -1213,6 +1213,7 @@ ja:
         rapid_barcode_entry: 迅速なバーコード入力
         rapid_barcode_entry_existing_barcode: 既存のバーコード
         rapid_barcode_entry_new_barcode: 新しいバーコード
+        rapid_barcode_entry_help: 選択した各コンテナのバーコードを入力します。 [新しいバーコード]フィールドを空白のままにして、現在のバーコードを新しい値に置き換えずに削除します。
         batch_delete: トップコンテナの削除
         batch_delete_help: 選択したすべてのコンテナを削除します。
         update_n_records: "%{n}レコードを更新する"

@@ -1217,6 +1217,7 @@ es:
         rapid_barcode_entry: Entrada rápida de código de barras rápida
         rapid_barcode_entry_existing_barcode: Código de barras existente
         rapid_barcode_entry_new_barcode: Nuevo código de barras
+        rapid_barcode_entry_help: Ingrese un código de barras para cada contenedor seleccionado. Deje en blanco el campo Nuevo código de barras para eliminar el código de barras actual sin reemplazarlo por un nuevo valor.
         batch_delete: Borrar Contenedores Top
         batch_delete_help: Borrar todos los contenedores seleccionados.
         update_n_records: "Actualizar %{n} registros"
