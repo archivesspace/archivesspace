@@ -196,7 +196,7 @@ class SearchResultData
   end
 
   def sorted?
-    @search_data[:criteria].has_key?("sort")
+    @search_data[:criteria]["sort"]
   end
 
   def weightable?

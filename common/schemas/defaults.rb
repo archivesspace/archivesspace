@@ -67,6 +67,10 @@ browse_column_enums = {
   ]
 }
 
+solr_fields = ASUtils.json_parse(
+  ASHTTP.get(URI.join(AppConfig[:solr_url], 'schema'))
+  )['schema']['fields'].map { |field| [field['name'], field] }.to_h
+
 browse_columns = {}
 browse_column_enums.keys.each do |type|
   Array(1..AppConfig[:max_search_columns]).each do |i|
@@ -76,6 +80,13 @@ browse_column_enums.keys.each do |type|
       "required" => false
     }
   end
+  browse_columns["#{type}_sort_column"] = {
+      "type" => "string",
+      "enum" => browse_column_enums[type].select{
+        |c| solr_fields[c] && !solr_fields[c]['multiValued']
+        } + ['create_time', 'user_mtime', 'no_value'],
+      "required" => false
+    }
 end
 
 {
