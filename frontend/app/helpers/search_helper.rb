@@ -18,6 +18,19 @@ module SearchHelper
     "subject"                  => "authority_id",
   }
 
+  def identifier_for_search_result(result)
+    identifier = IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP.fetch(result["primary_type"], "")
+    unless identifier.empty?
+      if result.has_key? identifier
+        identifier = result[identifier]
+      else
+        json       = ASUtils.json_parse(result["json"])
+        identifier = json.fetch(identifier, "")
+      end
+    end
+    identifier.to_s.html_safe
+  end
+
   def build_search_params(opts = {})
 
     removing_record_type_filter = false
