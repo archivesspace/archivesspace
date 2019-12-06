@@ -328,6 +328,33 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # helper_method :browse_columns
+  # def browse_columns
+  #   @browse_columns ||= if session[:repo_id]
+  #     JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+  #   else
+  #     JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+  #   end
+  # end
+
+  helper_method :browse_columns
+  def browse_columns
+    @browse_columns ||= if session[:repo_id]
+      JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+    else
+      JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+    end
+  end
+
+  helper_method :browse_columns
+  def browse_columns
+    @browse_columns ||= if session[:repo_id]
+      JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+    else
+      JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+    end
+  end
+
   def user_repository_cookie
     cookies[user_repository_cookie_key]
   end
