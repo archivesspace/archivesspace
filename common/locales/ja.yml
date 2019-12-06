@@ -914,7 +914,7 @@ ja:
     accession_date: 受付日
     accession_date_unknown: 道の
     accession_date_inline_help: 例：YYYY-MM-DD
-    accession_date_tooltip: "<p>必須フィールド：加盟が行われた日付。必ずしもレコード作成時と同じ日付ではありません。 </p>"
+    accession_date_tooltip: "<p>加盟が行われた日付。必ずしもレコード作成時と同じ日付ではありません。 </p>"
     accession_id: 識別
     accession_id_tooltip: "<p>特定のアクセス記録の内部データベース番号。 </p>"
     identifier: 識別
@@ -1421,11 +1421,11 @@ ja:
     defaults: デフォルト
     global: グローバルプリファレンスのデフォルト
     global_message: これらの値を編集して、システム全体のユーザー設定のデフォルトを設定します。これらの値は、リポジトリーのデフォルトまたはユーザー自身のプリファレンスによってオーバーライドできます。
-    repo: ユーザー設定のデフォルト
+    repo: リポジトリの設定
     repo_message: これらの値を編集して、現在のリポジトリのユーザー設定のデフォルトを設定します。これらの値は、ユーザーの好みによって上書きできます。
     user_global: グローバル設定
     user_global_message: これらの値を編集して、システム全体のユーザー設定を設定します。これらの値は、リポジトリーのデフォルトまたはリポジトリーの独自のプリファレンスによってオーバーライドできます。
-    user_repo: リポジトリの設定
+    user_repo: ユーザー設定のデフォルト
     user_repo_message: これらの値を編集して、このリポジトリのユーザー設定を設定します。これらの値はオーバーライドできません。
     _singular: 設定
     _plural: 設定

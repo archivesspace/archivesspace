@@ -1161,7 +1161,7 @@ fr:
     accession_date_unknown: inconnu
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
-        <p>CHAMP REQUIS. Date à laquelle l'entrée a eu lieu. N'est pas
+        <p>Date à laquelle l'entrée a eu lieu. N'est pas
         nécessairement la date de création de la notice.</p>
     accession_id: Identifiant
     accession_id_tooltip: |
@@ -1895,11 +1895,11 @@ fr:
     defaults: Valeurs par défaut
     global: Valeurs par défaut de préférences globales
     global_message: Editez ces valeurs pour définir les préférences utilisateur par défaut à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives ou par les préférences propres d'un utilisateur.
-    repo: Valeurs par défauts des préférences utilisateur
+    repo: Préférences Service
     repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le service d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
     user_global: Mes préférences globales
     user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives ou par vos propres préférences pour un service d'archives.
-    user_repo: Préférences Service
+    user_repo: Valeurs par défauts des préférences utilisateur
     user_repo_message: Editez ces valeurs pour définir vos préférences utilisateur pour ce service d'archives. Ces valeurs ne peuvent pas être écrasées.
     _singular: Préférences
     _plural: Préférences
