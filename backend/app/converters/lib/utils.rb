@@ -151,6 +151,8 @@ module ASpaceImport
     end
 
 
+    IMPORT_ID_REGEX = /\Aimport_[0-9a-f]+\z/
+
     def self.update_record_references(record, ref_source)
       if record.is_a?(Array) || record.respond_to?(:to_array)
         record.map {|e| update_record_references(e, ref_source)}
@@ -163,10 +165,19 @@ module ASpaceImport
 
         fixed
       else
-        ref_source[record] || record
+        if record.is_a?(String) && record =~ IMPORT_ID_REGEX
+          ref_source.fetch(record) do
+            raise ASpaceImportUnmappedIdentifier.new("Unmapped identifier in source data: #{record}")
+          end
+        else
+          record
+        end
       end
     end
 
+
+    class ASpaceImportUnmappedIdentifier < StandardError
+    end
 
     class ASpaceImportException < StandardError
       attr_accessor :property
