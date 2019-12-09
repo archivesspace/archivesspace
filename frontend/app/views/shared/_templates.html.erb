@@ -24,8 +24,7 @@
 --></div>
 
 <div id="batch_merge_modal_template"><!--
-<% return unless controller_name == "container_profiles" %>
-<%= form_tag({:controller => :batch_merge, :action => controller_name}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
+<%= form_tag({:controller => :batch_merge, :action => :container_profiles}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
 <div class="modal-body">
   <div class="alert alert-info" id="alertBucket"><%= I18n.t("actions.batch_merge") %></div>
   <div class="selected-record-list well" id="mergeList">
