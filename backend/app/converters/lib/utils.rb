@@ -153,26 +153,31 @@ module ASpaceImport
 
     IMPORT_ID_REGEX = %r{/import_[0-9a-f]+\z}
 
-    def self.update_record_references(record, ref_source)
+    def self.update_record_references(record, ref_source, root_uri = nil)
       if record.is_a?(Array) || record.respond_to?(:to_array)
-        record.map {|e| update_record_references(e, ref_source)}
+        record.map {|e| update_record_references(e, ref_source, root_uri)}
       elsif record.is_a?(Hash) || record.respond_to?(:each)
         fixed = {}
 
         record.each do |k, v|
-          fixed[k] = update_record_references(v, ref_source)
+          fixed[k] = update_record_references(v, ref_source, root_uri)
         end
 
         fixed
       else
         if record.is_a?(String) && record =~ IMPORT_ID_REGEX
-          uri = ref_source.fetch(record) do
-            raise ASpaceImportUnmappedIdentifier.new("Unmapped identifier in source data: #{record}")
+          uri = ref_source[record]
+
+          if uri.nil?
+            if record == root_uri
+              # We're not worried about these because the top-level import URI isn't expected to exist yet
+              return record
+            else
+              raise ASpaceImportUnmappedIdentifier.new("Unmapped identifier in source data: #{record}")
+            end
           end
 
-          # uri will be nil when its the URI of the record being processed.
-          # Just return as normal in that case.
-          uri || record
+          uri
         else
           record
         end

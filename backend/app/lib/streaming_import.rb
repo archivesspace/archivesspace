@@ -158,7 +158,7 @@ class StreamingImport
 
             begin
               DB.open(true) do
-                created_uri = do_create(rewrite(record, logical_urls))
+                created_uri = do_create(rewrite(record, logical_urls, logical_uri))
                 created_uri_map.put(logical_uri, created_uri)
               end
             rescue
@@ -215,6 +215,9 @@ class StreamingImport
         end
       end
 
+    rescue
+      $stderr.puts("UNEXPECTED ERROR: #{$!}")
+      $stderr.puts($@.join("\n"))
     ensure
       with_status("Cleaning up") do
         if finished
@@ -264,7 +267,7 @@ class StreamingImport
 
             if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
               # migrate it
-              @logical_urls[uri] = do_create(rewrite(rec, @logical_urls))
+              @logical_urls[uri] = do_create(rewrite(rec, @logical_urls, uri))
 
               # Now that it's created, we don't need to see the JSON record for
               # this again either.  This will speed up subsequent cycles.
@@ -324,7 +327,7 @@ class StreamingImport
       unless AppConfig.has_key?(:migration_skip_validate) && AppConfig[:migration_skip_validate]
         begin
           # Take the opportunity to validate the record too
-          to_jsonmodel(rewrite(rec, {}))
+          to_jsonmodel(rewrite(rec, {}, nil))
         rescue
           $stderr.puts("*** THIS RECORD FAILED TO VALIDATE (#{$!}")
           $stderr.puts(rec.pretty_inspect)
@@ -396,6 +399,27 @@ class StreamingImport
   end
 
 
+  def assert_no_import_uris!(rec)
+    if rec.is_a?(Hash)
+      assert_no_import_uris!(rec.values)
+    elsif rec.is_a?(JSONModelType)
+      assert_no_import_uris!(rec.to_hash(:trusted))
+    elsif rec.is_a?(Array)
+      rec.each do |elt|
+        assert_no_import_uris!(elt)
+      end
+    elsif rec.is_a?(String)
+      if rec =~ ASpaceImport::Utils::IMPORT_ID_REGEX
+        raise "Found unresolved import ID: #{rec}"
+      end
+    elsif rec.is_a?(Integer)
+    elsif [nil, true, false].include?(rec)
+    else
+      raise "Was not expecting type: #{rec.class} of #{rec}"
+    end
+  end
+
+
   def do_create(record, noerror = false)
     begin
       if record['position'] && @position_offsets[record['uri']]
@@ -405,6 +429,17 @@ class StreamingImport
       needs_validate = !ASUtils.migration_mode?
 
       json = to_jsonmodel(record, needs_validate)
+
+      # This will contain the import URI, but it's ignored anyway.
+      json['uri'] = nil
+
+      begin
+        assert_no_import_uris!(json)
+      rescue
+        $stderr.puts("FAILURE on #{json.inspect}")
+        $stderr.puts("ERROR was: #{$!}")
+        raise $!
+      end
 
       model = model_for(record['jsonmodel_type'])
 
@@ -427,8 +462,8 @@ class StreamingImport
   end
 
 
-  def rewrite(record, logical_urls)
-    ASpaceImport::Utils.update_record_references(record, logical_urls)
+  def rewrite(record, logical_urls, root_uri)
+    ASpaceImport::Utils.update_record_references(record, logical_urls, root_uri)
   end
 
 
@@ -456,8 +491,8 @@ class StreamingImport
       end
 
       # Create the cut down record--we'll put its relationships back later
-      created_uri = do_create(rewrite(rec, @logical_urls), true)
 
+      created_uri = do_create(rewrite(rec, @logical_urls, uri), true)
       if created_uri
         # It worked!
         @logical_urls[uri] = created_uri
@@ -503,14 +538,14 @@ class StreamingImport
           #    stored originally, we'll lose that relationship with D.
           #
           # To avoid losing that relationship, we just merge the lists and dedupe the relationships.
-          json[k.to_s] += rewrite(v, @logical_urls)
+          json[k.to_s] += rewrite(v, @logical_urls, logical_uri)
           json[k.to_s] = json[k.to_s].uniq
         else
           # The same thing can happen in the 1:1 relationship case too.  We just
           # sanity check things by making sure that, if the relationship was
           # added through the reciprocal relationship with another record, we
           # agree on who we're relating to.
-          ref = rewrite(v, @logical_urls)
+          ref = rewrite(v, @logical_urls, logical_uri)
 
           if json[k.to_s] && json[k.to_s] != ref
             raise "Assertion failed: expected relationship #{ref.inspect} to match #{json[k.to_s]} but they differ!" +

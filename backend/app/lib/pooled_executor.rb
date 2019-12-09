@@ -74,6 +74,10 @@ class PooledExecutor
       end
 
       @threads.each(&:join)
+
+      unless @queue.empty?
+        raise "BUG: queue still had work in it following shutdown"
+      end
     end
   end
 end
