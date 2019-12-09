@@ -24,28 +24,30 @@
 --></div>
 
 <div id="batch_merge_modal_template"><!--
-<%= form_tag({:controller => :batch_merge, :action => :container_profiles}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
-<div class="modal-body">
-  <div class="alert alert-info" id="alertBucket"><%= I18n.t("actions.batch_merge") %></div>
-  <div class="selected-record-list well" id="mergeList">
-    <div role="radiogroup" aria-labelledby="mergeList">
+<% if ["container_profiles"].include?(controller_name) %>
+  <%= form_tag({:controller => :batch_merge, :action => controller_name}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
+  <div class="modal-body">
+    <div class="alert alert-info" id="alertBucket"><%= I18n.t("actions.batch_merge") %></div>
+    <div class="selected-record-list well" id="mergeList">
+      <div role="radiogroup" aria-labelledby="mergeList">
+        {for item in selection}
+          <% item_uri = "${item.uri}" %>
+          <div id="chkPref" role="radio" tabindex="0">
+            <%= radio_button_tag "target[]", "${item.uri}", false, :"data-object" => item_uri, :"aria-label" => "${item.display_string}", :"id" => "${item.uri}", :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
+            <span>${item.display_string}</span>
+          </div>
+        {/for}
+      </div>
       {for item in selection}
-        <% item_uri = "${item.uri}" %>
-        <div id="chkPref" role="radio" tabindex="0">
-          <%= radio_button_tag "target[]", "${item.uri}", false, :"data-object" => item_uri, :"aria-label" => "${item.display_string}", :"id" => "${item.uri}", :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
-          <span>${item.display_string}</span>
-        </div>
+        <input type="hidden" name="victims[]" value="${item.uri}">
       {/for}
     </div>
-    {for item in selection}
-      <input type="hidden" name="victims[]" value="${item.uri}">
-    {/for}
   </div>
-</div>
-<div class="modal-footer">
-    <button type="submit" class="btn btn-danger merge-button" disabled="disabled"><%= I18n.t("actions.merge_n_records", {:n => "${selection.length}"}) %></button>
-    <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
-</div>
+  <div class="modal-footer">
+      <button type="submit" class="btn btn-danger merge-button" disabled="disabled"><%= I18n.t("actions.merge_n_records", {:n => "${selection.length}"}) %></button>
+      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+  </div>
+  <% end %>
 <% end %>
 --></div>
 
