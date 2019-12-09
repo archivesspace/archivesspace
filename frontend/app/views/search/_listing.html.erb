@@ -6,7 +6,7 @@
     <thead>
     <tr>
       <% if allow_multi_select? %>
-        <th><span class="sr-only"><%= I18n.t("search_results.selected") %></span></th>
+        <th><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %></th>
       <% end %>
       <% if params[:linker]==='true' %>
         <th></th>
