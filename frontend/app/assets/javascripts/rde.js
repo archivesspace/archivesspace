@@ -993,7 +993,7 @@ $(function() {
             if ($(this).hasClass('required')) {
               $option.attr("disabled", true);
               var colId = $(this).attr("id");
-              if ($.inArray(colId, VISIBLE_COLUMN_IDS) < 0) {
+              if (VISIBLE_COLUMN_IDS != null && $.inArray(colId, VISIBLE_COLUMN_IDS) < 0) {
                 VISIBLE_COLUMN_IDS.push(colId);
               }
               showColumn($(this).attr("columnIndex"));
