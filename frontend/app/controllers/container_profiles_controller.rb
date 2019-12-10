@@ -1,7 +1,7 @@
 class ContainerProfilesController < ApplicationController
 
-  set_access_control  "view_repository" => [:show, :typeahead],
-                      "update_container_profile_record" => [:new, :index, :edit, :create, :update, :delete]
+  set_access_control  "view_repository" => [:show, :index, :typeahead],
+                      "update_container_profile_record" => [:new, :edit, :create, :update, :delete]
 
   include ExportHelper
 
