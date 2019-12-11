@@ -4,6 +4,8 @@
    else
      selected_json = "{}"
    end
+
+   exclude_ids = [] if exclude_ids.blank?
 %>
 <div class="form-group required">
   <label class="control-label col-sm-2"><%= I18n.t("digital_object._singular") %></label>
@@ -21,6 +23,7 @@
              data-format_property="title"
              data-multiplicity="one"
              data-types='["digital_object"]'
+             data-exclude='<%= exclude_ids.to_json %>'
       />
       
       <% if form.obj.has_key?('_resolved') %>
