@@ -63,6 +63,7 @@ fr:
     transfer_successful: Transfert réussi.  L'apparition des notices dans le service d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
     transfer_failed: Echec du transfert
     transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'instances"
+    transfer_failed_digital_objects_linked_to_records: "Cet objet numérique est lié à d'autres enregistrements de ce référentiel. Pour procéder à ce transfert, supprimez les liens des enregistrements suivants"
     unset_default: Désactiver défaut
     unsuppress: Débloquer
     unsuppress_confirm_title: Débloquer cette notice?

@@ -14,6 +14,15 @@
                     <% end %>
                 </ul>
             </p>
+        <% elsif @transfer_errors.values.all? {|e| e['message'] == 'DIGITAL_OBJECT_HAS_LINK'} %>
+            <p>
+                <%= I18n.t('actions.transfer_failed_digital_objects_linked_to_records') %>:
+                <ul>
+                    <% @transfer_errors.keys.each do |uri| %>
+                        <li><%= link_to uri, {:controller => :resolver, :action => :resolve_readonly, :uri => uri} %></li>
+                    <% end %>
+                </ul>
+            </p>
         <% else %>
             <%# Shouldn't happen, but give something to report... %>
             <%= @transfer_errors.inspect %>
