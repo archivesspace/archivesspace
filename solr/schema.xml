@@ -346,6 +346,7 @@
         -->
         <filter class="solr.LowerCaseFilterFactory"/>
 	<filter class="solr.ASCIIFoldingFilterFactory"/>
+        <filter class="solr.SnowballPorterFilterFactory"/>
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.StandardTokenizerFactory"/>
@@ -353,6 +354,7 @@
         <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
         <filter class="solr.LowerCaseFilterFactory"/>
 	<filter class="solr.ASCIIFoldingFilterFactory"/>
+        <filter class="solr.SnowballPorterFilterFactory"/>
       </analyzer>
     </fieldType>
 
