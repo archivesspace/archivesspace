@@ -31,6 +31,8 @@ gem 'jruby-jars', '= 9.1.17.0'
 
 group :test do
   gem 'rspec', '~> 3.6.0'
+  # For performance testing
+  gem 'rspec-benchmark'
   gem 'rspec-rails'
   gem 'simplecov', '0.7.1'
 

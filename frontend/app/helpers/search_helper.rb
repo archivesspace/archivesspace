@@ -26,12 +26,12 @@ module SearchHelper
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
 
     if params["multiplicity"]
-      search_params["multiplicity"] = params["multiplicity"] 
+      search_params["multiplicity"] = params["multiplicity"]
     end
 
     sort = (opts["sort"] || params["sort"])
 
-    if show_identifier_column? 
+    if show_identifier_column?
       search_params["display_identifier"] = true
     end
 
@@ -172,7 +172,7 @@ module SearchHelper
   end
 
   def add_identifier_column
-    prop = "identifier" 
+    prop = "identifier"
     add_column(identifier_column_header_label,
                    proc { |record|
                       record[prop] || ASUtils.json_parse(record['json'])[prop]
@@ -195,11 +195,12 @@ module SearchHelper
   end
 
   def get_ancestor_title(field)
-    if !JSONModel::HTTP.get_json(field).nil?
+    field_json = JSONModel::HTTP.get_json(field)
+    unless field_json.nil?
       if field.include?('resources') || field.include?('digital_objects')
-        clean_mixed_content(JSONModel::HTTP.get_json(field)['title'])
+        clean_mixed_content(field_json['title'])
       else
-        clean_mixed_content(JSONModel::HTTP.get_json(field)['display_string'])
+        clean_mixed_content(field_json['display_string'])
       end
     end
   end
