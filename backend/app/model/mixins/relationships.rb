@@ -457,11 +457,11 @@ module Relationships
     .select(:instance_id).filter(:digital_object_id => transferee)
     .map {|row| row[:instance_id]}
 
-    if !instances.empty?
+    if instances.empty?
+      true
+    else
       do_has_link_error(instances)
       false
-    else
-      true
     end
   end
 
