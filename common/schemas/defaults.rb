@@ -67,9 +67,13 @@ browse_column_enums = {
   ]
 }
 
-solr_fields = ASUtils.json_parse(
-  ASHTTP.get(URI.join(AppConfig[:solr_url], 'schema'))
-  )['schema']['fields'].map { |field| [field['name'], field] }.to_h
+solr_fields = begin
+  ASUtils.json_parse(
+    ASHTTP.get(URI.join(AppConfig[:solr_url], 'schema'))
+    )['schema']['fields'].map { |field| [field['name'], field] }.to_h
+rescue Errno::ECONNREFUSED
+  nil
+end 
 
 browse_columns = {}
 browse_column_enums.keys.each do |type|
@@ -83,7 +87,7 @@ browse_column_enums.keys.each do |type|
   browse_columns["#{type}_sort_column"] = {
       "type" => "string",
       "enum" => browse_column_enums[type].select{
-        |c| solr_fields[c] && !solr_fields[c]['multiValued']
+        |c| !solr_fields || (solr_fields[c] && !solr_fields[c]['multiValued'])
         } + ['create_time', 'user_mtime', 'no_value'],
       "required" => false
     }
