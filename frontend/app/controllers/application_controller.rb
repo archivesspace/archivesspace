@@ -725,6 +725,12 @@ class ApplicationController < ActionController::Base
         query["empty"] = query["value"].blank?
       end
 
+      if query["type"] == "range"
+        query["from"] = params["fv#{i}"]
+        query["to"] = params["tv#{i}"]
+        query.delete('value')
+      end
+
       query
     }
   end

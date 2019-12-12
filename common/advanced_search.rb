@@ -62,7 +62,7 @@ class AdvancedSearch
 
     def type=(val)
       s = val.to_s
-      raise "Invalid advanced search field type: #{val}" unless ['text', 'date', 'boolean', 'enum'].include?(s)
+      raise "Invalid advanced search field type: #{val}" unless ['text', 'date', 'boolean', 'enum', 'range'].include?(s)
       self[:type] = s
     end
 
