@@ -64,7 +64,7 @@ module SearchHelper
     if params["advanced"]
       search_params["advanced"] = params["advanced"]
       params.keys.each do |param_key|
-        ["op", "f", "v", "dop", "t", "top"].each do |adv_search_prefix|
+        ["op", "f", "v", "dop", "t", "top", "r", "vf", "vt"].each do |adv_search_prefix|
           if param_key =~ /^#{adv_search_prefix}\d+/
             search_params[param_key] = params[param_key]
           end

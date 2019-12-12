@@ -13,8 +13,14 @@ class SearchController < ApplicationController
   def advanced_search
     criteria = params_for_backend_search
 
-    queries = advanced_search_queries.reject{|field|
-      (field["value"].nil? || field["value"] == "") && !field["empty"]
+    queries = advanced_search_queries
+
+    queries = queries.reject{|field|
+      if field['type'] === 'range'
+        field['from'].nil? && field['to'].nil?
+      else
+        (field["value"].nil? || field["value"] == "") && !field["empty"]
+      end
     }
 
     if not queries.empty?

@@ -4,7 +4,7 @@
 
   values_for = {}
 
-  [:text, :boolean, :date, :enum].each do |type|
+  [:text, :boolean, :date, :enum, :range].each do |type|
     values_for[type] = AdvancedSearch.fields_matching(:type => type, :visibility => :staff).map {|field|
       OpenStruct.new(:label => I18n.t("advanced_search.#{type}.#{field.name}"),
                      :field => field.name,
@@ -13,7 +13,7 @@
   end
 
   options_for_enums = Hash[values_for[:enum].map {|op|
-    options = JSONModel.enum_values(op.field).map {|value| [I18n.t("enumerations.#{op.field}.#{value}"), value]}
+    options = JSONModel.enum_values(op.field).map {|value| [I18n.t("enumerations.#{op.field}.#{value}", :default => value), value]}
     options << [I18n.t("advanced_search.enum_field.empty"), '']
     [op.field, options]
   }]
@@ -178,7 +178,7 @@
         </select>
       </div>
       <label for="v${index}" class="sr-only">Advanced search text field</label>
-      <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => 'form-control'%>
+      <%= text_field_tag "v${index}", "", :id => "v${index}", :class => 'form-control'%>
     </div>
   </div>
 --></div>
@@ -202,7 +202,7 @@
           <% end %>
         </select>
       </div>
-      <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d') %>
+      <%= text_field_tag "v${index}", "", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d') %>
     </div>
   </div>
 --></div>
@@ -242,6 +242,23 @@
   </div>
 --></div>
 
+
+<div id="template_advanced_search_range_fields"><!--
+  <div class="col-md-3">
+      <select name="f${index}" id="f${index}" class="form-control" <% if values_for[:range].length > AspaceFormHelper::COMBOBOX_MIN_LIMIT %> data-combobox="true"<% end %>>
+      <% values_for[:range].each do |op| %>
+        <%= emit_option(op) %>
+      <% end %>
+    </select>
+  </div>
+  <div class="col-md-3">
+      <%= text_field_tag "vf${index}", "", :id => "vf${index}", :class => 'form-control', :placeholder => "From" %>
+  </div>
+  <div class="col-md-3">
+      <%= text_field_tag "vt${index}", "", :id => "vt${index}", :class => 'form-control', :placeholder => "To" %>
+  </div>
+--></div>
+
 <%= form_tag(url_for(:controller => :search, :action => :advanced_search), :method => :get, :class => "advanced-search") do %>
   <%= hidden_field_tag "advanced", true %>
 
@@ -263,6 +280,9 @@
           <li><%= link_to I18n.t("advanced_search.type.boolean"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-bool-row", "data-type" => "boolean" %></li>
           <% if !values_for[:enum].empty? %>
             <li><%= link_to I18n.t("advanced_search.type.controlled_value"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-enum-row", "data-type" => "enum" %></li>
+          <% end %>
+          <% if !values_for[:range].empty? %>
+            <li><%= link_to I18n.t("advanced_search.type.range"), "javascript:void(0)", :class => "advanced-search-add-row advanced-search-add-range-row", "data-type" => "range" %></li>
           <% end %>
         </ul>
       </div>
