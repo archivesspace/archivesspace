@@ -26,7 +26,13 @@ module ArchivesSpaceHelp
   end
 
   def self.url_for_topic(topic)
-    return "#{base_url}#{topic_prefix}#{self[topic]}" if self[topic]
+    if self[topic]
+      if self[topic].is_a? Fixnum
+        return "#{base_url}#{topic_prefix}#{self[topic]}"
+      else
+        return "#{AppConfig[:help_topic_base_url]}#{self[topic]}"
+      end
+    end
   end
 
   def self.topic?(key)
