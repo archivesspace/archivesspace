@@ -10,7 +10,7 @@
     <%= render_aspace_partial :partial => "accessions/toolbar" %>
     <div class="record-pane">
       <%= readonly_context :accession, @accession do |readonly| %>
-          <h2><%= @accession.display_string %> <span class="label label-info label-default"><%= I18n.t("accession._singular") %></span></h2>
+          <h2><%= clean_mixed_content(@accession.display_string) %> <span class="label label-info label-default"><%= I18n.t("accession._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
