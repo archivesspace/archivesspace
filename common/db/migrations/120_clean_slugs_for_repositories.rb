@@ -11,6 +11,7 @@ Sequel.migration do
                           .gsub("--", "")
                           .gsub("'", "")
                           .gsub(/[&;?$<>#%{}|\\^~\[\]`\/\*\(\)@=:+,!.]/, "")
+                          .gsub(/[\u2013-\u2014]/,"")
                           .gsub(/_[_]+/, "_")
                           .gsub(/^_/, "")
                           .gsub(/_$/, "")
@@ -18,6 +19,8 @@ Sequel.migration do
 
       if slug.match(/^(\d)+$/)
         slug = slug.prepend("__")
+      else
+        slug = slug.parameterize
       end
       self[:repository].where(:id => r[:id]).update(:slug => slug)
     end
