@@ -50,11 +50,11 @@ module SearchHelper
     end
 
     sort = (opts["sort"] || params["sort"])
-
-    # if the browse list was sorted by default
-    if sort.nil? && !@search_data.nil? && @search_data.sorted?
-      sort = @search_data[:criteria]["sort"]
-    end
+    
+    # # if the browse list was sorted by default
+    # if sort.nil? && !@search_data.nil? && @search_data.sorted?
+    #   sort = @search_data[:criteria]["sort"]
+    # end
 
     if sort
       sort = sort.split(', ')

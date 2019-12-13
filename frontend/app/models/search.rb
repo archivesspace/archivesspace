@@ -13,8 +13,14 @@ class Search
   def self.all(repo_id, criteria)
     build_filters(criteria)
 
+    puts 'here1'
+    puts criteria
+
     criteria["page"] = 1 if not criteria.has_key?("page")
-    criteria["sort"] ||= sort(criteria["type[]"])
+    criteria["sort"] ||= sort(criteria["type[]"] || (criteria["filter_term[]"] || []).collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact)
+
+    puts 'here2'
+    puts criteria
 
     search_data = JSONModel::HTTP::get_json("/repositories/#{repo_id}/search", criteria)
     search_data[:criteria] = criteria
@@ -38,7 +44,9 @@ class Search
 
   def self.sort(types)
     types ||= []
-    type = if types.length == 1
+    type = if types.length > 0 && types.all? { |t| t.include? 'agent' }
+      'agent'
+    elsif types.length == 1
       types[0]
     elsif types.length == 2 && types.include?('resource') && types.include?('archival_object')
       'resource'
@@ -55,8 +63,10 @@ class Search
       JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
     end
     
-    if prefs["#{type}_sort_column"]
-      "#{prefs["#{type}_sort_column"]} #{(prefs["#{type}_sort_direction"] || "asc")}"
+    sort_col = prefs["#{type}_sort_column"] || prefs["#{type}_browse_column_1"]
+    if sort_col
+      sort_col = 'title_sort' if sort_col == 'title'
+      "#{sort_col} #{(prefs["#{type}_sort_direction"] || "asc")}"
     else
       nil
     end
