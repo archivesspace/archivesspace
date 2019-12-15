@@ -19,6 +19,7 @@ class XMLCleaner
     attempt = 0
     begin
       attempt += 1
+      replace_nbsp(file_path)
       builder.parse(java.io.File.new(file_path))
     rescue NamespaceCorrectingErrorHandler::RetryParse
       if attempt >= MAX_ITERATIONS
@@ -30,6 +31,19 @@ class XMLCleaner
     rescue
       raise "Failed to clean XML: #{$!}"
     end
+  end
+
+  def replace_nbsp(file_path)
+    File.open(file_path + ".tmp", "w") do |outfile|
+      File.open(file_path) do |infile|
+        infile.each_with_index do |line, index|
+          # nbsp is not a valid XML character so convert it to ASCII equivalent
+          line.gsub!(/\&nbsp;/,160.chr("UTF-8"))
+          outfile.puts(line)
+        end
+      end
+    end
+    File.rename(file_path + ".tmp", file_path)
   end
 
   # An error handler that rewrites the underlying XML to resolve missing
