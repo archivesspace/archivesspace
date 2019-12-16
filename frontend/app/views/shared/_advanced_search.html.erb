@@ -13,7 +13,7 @@
   end
 
   options_for_enums = Hash[values_for[:enum].map {|op|
-    options = JSONModel.enum_values(op.field).map {|value| [I18n.t("enumerations.#{op.field}.#{value}"), value]}
+    options = JSONModel.enum_values(op.field).map {|value| [I18n.t("enumerations.#{op.field}.#{value}", :default => value), value]}
     options << [I18n.t("advanced_search.enum_field.empty"), '']
     [op.field, options]
   }]
