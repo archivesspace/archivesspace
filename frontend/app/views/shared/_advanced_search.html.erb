@@ -173,7 +173,7 @@
           <option value="empty" {if query.empty}selected{/if}><%= I18n.t("advanced_search.text_operator.empty") %></option>
         </select>
       </div>
-      <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => 'form-control'%>
+      <%= text_field_tag "v${index}", "", :id => "v${index}", :class => 'form-control'%>
     </div>
   </div>
 --></div>
@@ -195,7 +195,7 @@
           <% end %>
         </select>
       </div>
-      <%= text_field_tag "v${index}", "${query.value}", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d') %>
+      <%= text_field_tag "v${index}", "", :id => "v${index}", :class => "date-field form-control", :"data-format" => "yyyy-mm-dd", :"data-date" => Date.today.strftime('%Y-%m-%d') %>
     </div>
   </div>
 --></div>
@@ -242,10 +242,10 @@
     </select>
   </div>
   <div class="col-md-3">
-      <%= text_field_tag "fv${index}", "${query.from}", :id => "fv${index}", :class => 'form-control', :placeholder => "From" %>
+      <%= text_field_tag "fv${index}", "", :id => "fv${index}", :class => 'form-control', :placeholder => "From" %>
   </div>
   <div class="col-md-3">
-      <%= text_field_tag "tv${index}", "${query.to}", :id => "tv${index}", :class => 'form-control', :placeholder => "To" %>
+      <%= text_field_tag "tv${index}", "", :id => "tv${index}", :class => 'form-control', :placeholder => "To" %>
   </div>
 --></div>
 
