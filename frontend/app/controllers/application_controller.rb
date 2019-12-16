@@ -726,8 +726,8 @@ class ApplicationController < ActionController::Base
       end
 
       if query["type"] == "range"
-        query["from"] = params["fv#{i}"]
-        query["to"] = params["tv#{i}"]
+        query["from"] = params["vf#{i}"]
+        query["to"] = params["vt#{i}"]
         query.delete('value')
       end
 
