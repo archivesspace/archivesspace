@@ -76,7 +76,7 @@ describe "Exported METS document" do
 
 
   it "has the correct schema location" do
-    expect(@mets).to have_schema_location "http://www.loc.gov/standards/mets/mets.xsd"
+    expect(@mets).to have_schema_location "http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd"
   end
 
 
