@@ -86,6 +86,10 @@ describe "Exported METS document" do
       expect(@mets).to have_tag "metsHdr[@CREATEDATE]"
     end
 
+    it "outputs CREATEDATE attribute in ISO 8601" do
+      createdate = @mets.css('metsHdr').first.attribute('CREATEDATE').value
+      expect(createdate).to eq Time.strptime(createdate, "%FT%T%:z").iso8601
+    end
 
     it "has an agent statement" do
       expect(@mets).to have_tag "metsHdr/agent[@ROLE='CREATOR'][@TYPE='ORGANIZATION']/name" => @repo.name
