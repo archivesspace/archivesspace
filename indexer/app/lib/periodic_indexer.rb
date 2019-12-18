@@ -127,6 +127,7 @@ class PeriodicIndexer < IndexerCommon
                                 ])
                 rescue
                   Log.error("Failure while indexing record: #{record.uri}: #{$!}")
+                  Log.exception($!)
                 end
               end
             end
