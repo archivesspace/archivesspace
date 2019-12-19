@@ -222,39 +222,40 @@ $(function() {
       addAdvancedSearchRow(i, query["type"], i == 0, query);
     });
   }
-
-
-  // Series system advanced search function
-  (function () {
-    var set_placeholder = function(row, index, from_placeholder, to_placeholder) {
-      row.find('#vf' + index).attr('placeholder', from_placeholder);
-      row.find('#vt' + index).attr('placeholder', to_placeholder);
-    };
-
-    const handle_select = function (row) {
-      const selected = row.find('.series_system_search_selector').val()
-
-      $('.series_system_subform', row).hide();
-      $('.series_system_subform :input', row).attr('disabled', 'disabled');
-
-      if (selected === 'series_system_agency_rlshp') {
-        // Agency
-        $('.series_system_agent_subform', row).show();
-        $('.series_system_agent_subform :input', row).attr('disabled', null);
-      } else {
-        // Series
-        $('.series_system_series_subform', row).show();
-        $('.series_system_series_subform :input', row).attr('disabled', null);
-      }
-    }
-
-    $(document).bind('initadvancedsearchrow.aspace', function (event, field_data, row) {
-      if (field_data.type === 'series_system') {
-        handle_select(row);
-        row.find('select#f' + field_data.index).on('change', function () { handle_select(row) });
-      }
-    });
-  }());
-
-
 });
+
+
+// Series system advanced search function
+(function () {
+  const handle_select = function (row) {
+    const selected = row.find('.series_system_search_selector').val()
+
+    $('.series_system_subform', row).hide();
+    $('.series_system_subform :input', row).attr('disabled', 'disabled');
+
+    if (selected === 'series_system_agency_rlshp') {
+      // Agency
+      $('.series_system_agent_subform', row).show();
+      $('.series_system_agent_subform :input', row).attr('disabled', null);
+    } else {
+      // Series
+      $('.series_system_series_subform', row).show();
+      $('.series_system_series_subform :input', row).attr('disabled', null);
+    }
+  }
+
+  $(document).bind('initadvancedsearchrow.aspace', function (event, field_data, row) {
+    if (field_data.type === 'series_system') {
+      handle_select(row);
+      row.find('select#f' + field_data.index).on('change', function () { handle_select(row) });
+
+      if (field_data.query.relator) {
+        row.find('select[name=r' + field_data.index + ']').val(field_data.query.relator);
+      }
+
+      row.find('input[name=v' + field_data.index + ']').val(field_data.query.value);
+    }
+  });
+}());
+
+

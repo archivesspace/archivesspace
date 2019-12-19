@@ -731,6 +731,11 @@ class ApplicationController < ActionController::Base
         query.delete('value')
       end
 
+      if query["type"] == "series_system"
+        query["relator"] = params["r#{i}"]
+        query["value"] = params["v#{i}"]
+      end
+
       query
     }
   end
