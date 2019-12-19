@@ -14,6 +14,8 @@ class SearchController < ApplicationController
     queries = queries.reject{|field|
       if field['type'] === 'range'
         field['from'].nil? && field['to'].nil?
+      elsif field['type'] === 'series_system'
+        false
       else
         (field["value"].nil? || field["value"] == "") && !field["empty"]
       end
