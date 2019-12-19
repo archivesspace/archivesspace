@@ -1,0 +1,33 @@
+<%
+record_relators = []
+record_relator_labels = {}
+
+RelationshipRules.instance.rules_for_jsonmodel_type(jsonmodel_type)
+.each do |rule|
+    rule.relationship_types.each do |relationship_type_key|
+        rule_relators = RelationshipRules.instance.find_relator_values(relationship_type_key)
+
+        if rule.source_jsonmodel_category == category
+            record_relators << rule_relators[:source]
+            record_relator_labels[rule_relators[:source]] = I18n.t("enumerations.series_system_#{relationship_type_key}_relator.#{rule_relators[:source]}", nil)
+        end
+
+        if rule.target_jsonmodel_category == category
+            record_relators << rule_relators[:target]
+            record_relator_labels[rule_relators[:target]] = I18n.t("enumerations.series_system_#{relationship_type_key}_relator.#{rule_relators[:target]}", nil)
+        end
+    end
+end
+%>
+
+<div class="input-group">
+    <div class="input-group-addon">
+        <select name="r${index}">
+            <% record_relators.uniq.each do |relator| %>
+                <option value="<%= relator %>"><%= (record_relator_labels[relator] || relator) %></option>
+            <% end %>
+        </select>
+    </div>
+
+    <input class="form-control" name="v${index}" type="text" placeholder="QSA ID for <%= category %> record"></input>
+</div>
