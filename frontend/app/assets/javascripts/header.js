@@ -168,8 +168,8 @@ $(function() {
     var $row = $(AS.renderTemplate("template_advanced_search_row", {field_data: field_data}));
 
     if (type === 'range') {
-      $row.find('#fv'+index).val(query.from);
-      $row.find('#tv'+index).val(query.to);
+      $row.find('#vf'+index).val(query.from);
+      $row.find('#vt'+index).val(query.to);
     } else {
       $row.find('#v'+index).val(query.value);
     }
