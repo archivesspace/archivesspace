@@ -8,13 +8,13 @@ RelationshipRules.instance.rules_for_jsonmodel_type(jsonmodel_type)
         rule_relators = RelationshipRules.instance.find_relator_values(relationship_type_key)
 
         if rule.source_jsonmodel_category == category
-            record_relators << rule_relators[:source]
-            record_relator_labels[rule_relators[:source]] = I18n.t("enumerations.series_system_#{relationship_type_key}_relator.#{rule_relators[:source]}", nil)
+            record_relators << rule_relators[:target]
+            record_relator_labels[rule_relators[:target]] = I18n.t("enumerations.series_system_#{relationship_type_key}_relator.#{rule_relators[:target]}", nil)
         end
 
         if rule.target_jsonmodel_category == category
-            record_relators << rule_relators[:target]
-            record_relator_labels[rule_relators[:target]] = I18n.t("enumerations.series_system_#{relationship_type_key}_relator.#{rule_relators[:target]}", nil)
+            record_relators << rule_relators[:source]
+            record_relator_labels[rule_relators[:source]] = I18n.t("enumerations.series_system_#{relationship_type_key}_relator.#{rule_relators[:source]}", nil)
         end
     end
 end

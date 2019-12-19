@@ -6,8 +6,16 @@
     "properties" => {
 
       "op" => {"type" => "string", "enum" => ["AND", "OR", "NOT"], "ifmissing" => "error"},
-      "subqueries" => {"type" => ["JSONModel(:boolean_query) object", "JSONModel(:field_query) object", "JSONModel(:boolean_field_query) object", "JSONModel(:date_field_query) object", "JSONModel(:range_query) object"], "ifmissing" => "error", "minItems" => 1},
-
+      "subqueries" => {"type" => [
+                         "JSONModel(:boolean_query) object",
+                         "JSONModel(:field_query) object",
+                         "JSONModel(:boolean_field_query) object",
+                         "JSONModel(:date_field_query) object",
+                         "JSONModel(:range_query) object",
+                         "JSONModel(:series_system_query) object",
+                       ],
+                       "ifmissing" => "error",
+                       "minItems" => 1},
     },
   },
 }

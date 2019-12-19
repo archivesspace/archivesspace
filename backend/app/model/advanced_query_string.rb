@@ -57,6 +57,20 @@ class AdvancedQueryString
       end
     elsif @query["jsonmodel_type"] == "range_query"
       "[#{@query["from"] || '*'} TO #{@query["to"] || '*'}]"
+    elsif @query["jsonmodel_type"] == "series_system_query"
+      ref = SecureRandom.hex    # Won't match anything by default...
+      parsed_qsaid = QSAId.parse_prefixed_id(@query['value'])
+
+      unless parsed_qsaid.empty?
+        row = parsed_qsaid[:model].filter(:qsa_id => parsed_qsaid[:id]).select(:id).first
+        record_id = (row || {})[:id]
+
+        if record_id
+          ref = parsed_qsaid[:model].my_jsonmodel.uri_for(record_id, :repo_id => RequestContext.get(:repo_id))
+        end
+      end
+
+      '%s::%s' % [@query['relator'], ref]
     elsif @query["jsonmodel_type"] == "field_query" && (use_literal? || @query["literal"])
       "(\"#{solr_escape(@query['value'])}\")"
     else
@@ -72,6 +86,8 @@ class AdvancedQueryString
     elsif @query["jsonmodel_type"] == "field_query"
       @query["comparator"] == "empty"
     elsif @query["jsonmodel_type"] == "range_query"
+      false
+    elsif @query["jsonmodel_type"] == "series_system_query"
       false
     else
       raise "Unknown field query type: #{@query["jsonmodel_type"]}" 

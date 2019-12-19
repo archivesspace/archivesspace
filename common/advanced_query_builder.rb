@@ -154,6 +154,8 @@ class AdvancedQueryBuilder
       JSONModel::JSONModel(:boolean_field_query).from_hash(query_data)
     elsif query_data['type'] == "range"
       JSONModel::JSONModel(:range_query).from_hash(query_data)
+    elsif query_data['type'] == "series_system"
+      JSONModel::JSONModel(:series_system_query).from_hash(query_data)
     else
       if query_data["type"] == "enum" && query_data["value"].blank?
         query_data["comparator"] = "empty"
