@@ -58,8 +58,12 @@ class AdvancedQueryString
     elsif @query["jsonmodel_type"] == "range_query"
       "[#{@query["from"] || '*'} TO #{@query["to"] || '*'}]"
     elsif @query["jsonmodel_type"] == "series_system_query"
-      ref = SecureRandom.hex    # Won't match anything by default...
-      parsed_qsaid = QSAId.parse_prefixed_id(@query['value'])
+      ref = nil    # Won't match anything by default...
+      parsed_qsaid = {}
+
+      if @query['value']
+        parsed_qsaid = QSAId.parse_prefixed_id(@query['value'])
+      end
 
       unless parsed_qsaid.empty?
         row = parsed_qsaid[:model].filter(:qsa_id => parsed_qsaid[:id]).select(:id).first
@@ -70,7 +74,13 @@ class AdvancedQueryString
         end
       end
 
-      '%s::%s' % [@query['relator'], ref]
+      if ref
+        '%s::%s' % [@query['relator'], ref]
+      else
+        # Just query on the relator
+        @query['relator']
+      end
+
     elsif @query["jsonmodel_type"] == "field_query" && (use_literal? || @query["literal"])
       "(\"#{solr_escape(@query['value'])}\")"
     else
