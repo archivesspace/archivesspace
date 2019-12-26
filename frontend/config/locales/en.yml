@@ -537,6 +537,7 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Archival Object
+        load_bulk: Load via Spreadsheet
       tree:
         new_record_title: New Archival Object
 
@@ -884,6 +885,7 @@ en:
       action:
         add_child: Add Child
         create: Create Resource
+        load_bulk: Load via Spreadsheet
         save: Save Resource
         delete_multiple: Delete Resources
     external_ark_url: External ARK URL
@@ -1508,3 +1510,11 @@ en:
         _plural: Sponsor Sets
       repo_settings:
         _plural: Per Repository OAI-PMH Settings
+  bulk_import:
+    _frontend:
+      messages:
+        missing_file: You have not added a file
+        not_excel: The file you have chosen is not an Excel Spreadsheet
+        processed: The file has been processed
+        error: "ERROR: %{status}; Error(s) detected"
+        
