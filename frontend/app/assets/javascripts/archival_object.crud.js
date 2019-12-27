@@ -1,6 +1,7 @@
 //= require slug
 //= require lang_materials.crud
 //= require bulk_import
+//= require clipboard
 
 $(function() {
     $.fn.init_archival_object_form = function() {

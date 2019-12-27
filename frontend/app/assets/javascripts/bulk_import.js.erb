@@ -71,9 +71,8 @@
 		    event.stopImmediatePropagation();
 		});
 	    /* submit via ajax */
-	    $form = $("#bulk_import_ingest_form");
+	    $form = $("#bulk_import_form");
 	    rid = $form.find("#rid").val();
-	    $form.attr("action", backend_url + "resources/" + rid + "/bulk_import");
 	    $form.ajaxSubmit({
 	       type: "POST",
 	       beforeSubmit:  function(arr, $form, options) {
@@ -117,21 +116,21 @@
 		    $("body").css("overflow", "auto");
 		});
     }
-		var openFileModal = function() {
+	var openFileModal = function() {
 	    $file_form_modal = AS.openCustomModal("bulkIngestFileModal", "Load Spreadsheet",  file_modal_html, 'large', null, $("#bulkFileButton").get(0));
 	    initExcelFileUploadSection();
 	    $("#bulkFileButton").on("click",  function(event) {
 		    event.stopPropagation();
 		    event.preventDefault();
-		    handleFileUpload($file_form_modal);
+		    handleBulkFileUpload($file_form_modal);
 		});
 	    var clipboard = new Clipboard('.clip-btn');
+
 	    clipboard.on('success', function(e) {
 		    alert("<%= I18n.t('bulk_import._frontend.messages.error.copied') %>");
 		});
-
 	    clipboard.on('error', function(e) {
-		    alert("<%= I18n.t('bulk_import._frontend.messages.uncopy') %>");
+		    alert("<%= I18n.t('bulk_import._frontend.messages.uncopied') %>");
 		});
 
 	    $file_form_modal.show();
@@ -159,64 +158,4 @@
 		    window.location.reload(true);
 		});
 	}
-	       /* submit the file for processing */
-	var handleFileUpload = function($modal) {
-	    /* don't let the modal disappear on submission */
-	    $modal.on("hide.bs.modal", function (event){
-		    event.preventDefault();
-		    event.stopImmediatePropagation();
-		});
-	    /* submit via ajax */
-	    $form = $("#bulk_import_form");
-	    rid = $form.find("#rid").val();
-	    /* I do this because ajaxSubmit doesn't like the URL property? */
-	    $form.attr("action", APP_PATH + "resources/" + rid + "/ssload");
-	    $form.ajaxSubmit({
-	       type: "POST",
-	       beforeSubmit:  function(arr, $form, options) {
-			var names = "";
-			var hasFile = false;
-			var missingFile = 'You have not added a file';
-			for (var i=0; i < arr.length; i++) {
-			    if (arr[i].type === "file") {
-				fileObj = arr[i].value; 
-				if  (typeof(fileObj) === "object") {
-				    if (typeof(fileObj.type) !== "undefined" && fileObj.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ) {
-					hasFile = true; 
-				    }
-				    else {
-					missingFile = 'The file you have chosen is not an Excel Spreadsheet';
-				    }
-				}
-			    }
-			}
-			if (!hasFile) {
-			    alert(missingFile);
-			    $(".bulkbtn").removeClass("disabled");
-			    return false;
-			}
-			$(".bulkbtn").addClass('disabled');
-			return true;
-		    },		
-			/*		uploadProgress:  function(event, position, total, percentComplete) {
-			var percentVal = percentComplete + '%';
-                        console.log("Percent: " + percentVal);
-			}, */
-		success: function(data, status, xhr) {
-			/*display? */
-			alert("<%= I18n.t('bulk_import._frontend.messages.processed')%>");
-			$("#bulk_messages").html(data);
-			modalSuccess($file_form_modal);
-		    },
-		error: function(xhr, status, err) {
-			alert("<%= I18n.t('bulk_import._frontend.messages.error')%> " + err);
-			$("#bulk_messages").html(xhr.responseText);
-			modalError($file_form_modal);
-		    }
-		});
-	    $modal.on("hidden.bs.modal", function (event){
-		    /*console.log("hide hit"); */
-		    $modal.hide();
-		    $("body").css("overflow", "auto");
-		});
-	}
+	
