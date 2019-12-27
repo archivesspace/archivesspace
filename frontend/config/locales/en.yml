@@ -534,10 +534,10 @@ en:
       section:
         basic_information: Basic Information
       action:
-        bulk_import: Load via Spreadsheet
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Archival Object
+        bulk_import: Load via Spreadsheet
       tree:
         new_record_title: New Archival Object
 
