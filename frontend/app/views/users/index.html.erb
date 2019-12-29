@@ -7,6 +7,11 @@
 
        <div class="record-toolbar">
          <div class="btn-group pull-right">
+           <% if params[:show_inactive] %>
+             <%= link_to I18n.t('user._frontend.action.hide_inactive'), {  :controller => :users }, :class => "btn btn-sm btn-default"   %>
+           <% else %>
+             <%= link_to I18n.t('user._frontend.action.show_inactive'), {  :controller => :users, :show_inactive => true }, :class => "btn btn-sm btn-default"   %>
+           <% end %>
            <%= link_to I18n.t("user._frontend.action.create"), {:controller => :users, :action => :new}, :class => "btn btn-sm btn-default" %>
          </div>
          <br style="clear:both" /> <!-- So dirty! -->
@@ -35,18 +40,30 @@
          </thead>
          <tbody>
           <% @search_data['results'].each do |user| %>
-             <tr>
-              <td><%= user.username %></td>
-              <td>
-                 <div class="btn-group" style="float: right">
-                   <% if @manage_access; disabled = user.is_admin ? " disabled" : "" %>
-                      <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default".concat(disabled) %>
-                   <% else %>
-                    <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-xs btn-primary" %>
+            <% if user.is_active_user || params[:show_inactive] %>
+                <tr>
+                 <td>
+                   <% unless user.is_active_user %>
+                     <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                    <% end %>
-                 </div>
-              </td>
-            </tr>
+                   <%= user.username %>
+                 </td>
+                <td>
+                   <div class="btn-group" style="float: right">
+                     <% if @manage_access; disabled = user.is_admin ? " disabled" : "" %>
+                        <%= link_to I18n.t("actions.edit_groups"), {:controller => :users, :action => :edit_groups, :id => user.id}, :class => "btn btn-xs btn-default".concat(disabled) %>
+                     <% else %>
+                        <% if !user.is_active_user && !user.is_system_user %>
+                          <%= link_to I18n.t("user._frontend.action.activate_user"), user_activate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-xs btn-danger" %>
+                        <% elsif !user.is_system_user %>
+                          <%= link_to I18n.t("user._frontend.action.deactivate_user"), user_deactivate_path(user.id), :confirm => "Are you sure?", :class => "btn btn-xs btn-danger" %>
+                        <% end %>
+                      <%= link_to I18n.t("actions.edit"), {:controller => :users, :action => :edit, :id => user.id}, :class => "btn btn-xs btn-primary" %>
+                     <% end %>
+                   </div>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
          </tbody>
        </table>

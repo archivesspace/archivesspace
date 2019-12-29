@@ -34,6 +34,9 @@ ArchivesSpace::Application.routes.draw do
     match 'users/:id' => 'users#show', :via => [:get]
     match 'users/:id' => 'users#update', :via => [:post]
     match 'users/:id/delete' => 'users#delete', :via => [:post]
+    match('/users/:id/activate' => 'users#activate', :via => [:get], :as => :user_activate)
+    match('/users/:id/deactivate' => 'users#deactivate', :via => [:get], :as => :user_deactivate)
+
     resources :users
 
     resources :groups
@@ -258,54 +261,32 @@ ArchivesSpace::Application.routes.draw do
     match('date_calculator/calculate' => 'date_calculator#calculate', :via => [:post])
     match('date_calculator/create_date' => 'date_calculator#create_date', :via => [:post])
 
-    resources :location_profiles
-    match('location_profiles/search/typeahead' => 'location_profiles#typeahead', :via => [:get])
-    match('location_profiles/:id' => 'location_profiles#update', :via => [:post])
-    match('location_profiles/:id/delete' => 'location_profiles#delete', :via => [:post])
+      # resources :custom_report_templates
+      # match('custom_report_templates/:id/delete' => 'custom_report_templates#delete', :via => [:post])
+      # match('custom_report_templates/:id' => 'custom_report_templates#update', :via => [:post])
 
-    match('space_calculator' => 'space_calculator#show', :via => [:get])
-    match('space_calculator' => 'space_calculator#calculate', :via => [:post])
-
-
-    match 'assessments/embedded_search' => 'assessments#embedded_search', :via => [:get]
-    resources :assessments
-    match 'assessments/:id' => 'assessments#update', :via => [:post]
-    match 'assessments/:id/delete' => 'assessments#delete', :via => [:post]
-    match 'assessment_attributes' => 'assessment_attributes#edit', :via => [:get]
-    match 'assessment_attributes' => 'assessment_attributes#update', :via => [:post]
-
-    match 'oai_config/edit'   => 'oai_config#edit',   :via => [:get]
-    match 'oai_config/update' => 'oai_config#update', :via => [:post]
-
-    # resources :custom_report_templates
-    # match('custom_report_templates/:id/delete' => 'custom_report_templates#delete', :via => [:post])
-    # match('custom_report_templates/:id' => 'custom_report_templates#update', :via => [:post])
-
-
-
-    if Plugins.system_menu_items?
-      scope '/plugins' do
-        Plugins.system_menu_items.each do |plugin|
-          unless Plugins.config_for(plugin)['no_automatic_routes']
-            resources plugin.intern
+      if Plugins.system_menu_items?
+        scope '/plugins' do
+          Plugins.system_menu_items.each do |plugin|
+            unless Plugins.config_for(plugin)['no_automatic_routes']
+              resources plugin.intern
+            end
           end
         end
       end
-    end
-    if Plugins.repository_menu_items?
-      scope '/plugins' do
-        Plugins.repository_menu_items.each do |plugin|
-          unless Plugins.config_for(plugin)['no_automatic_routes']
-            resources plugin.intern
+      if Plugins.repository_menu_items?
+        scope '/plugins' do
+          Plugins.repository_menu_items.each do |plugin|
+            unless Plugins.config_for(plugin)['no_automatic_routes']
+              resources plugin.intern
+            end
           end
         end
       end
-    end
 
-    match "system_info" => "system_info#show", :via => [ :get ]
-    match "system_info/log" => "system_info#stream_log", :via => [:get]
+      match "system_info" => "system_info#show", :via => [ :get ]
+      match "system_info/log" => "system_info#stream_log", :via => [:get]
 
-    root :to => 'welcome#index'
-
+      root :to => 'welcome#index'
   end
 end

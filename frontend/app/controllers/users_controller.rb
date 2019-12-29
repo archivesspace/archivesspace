@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  set_access_control  "manage_users" => [:index, :edit, :update, :delete],
+    set_access_control "manage_users" => [:index, :edit, :update, :delete, :activate, :deactivate],
                       "manage_repository" => [:manage_access, :edit_groups, :update_groups, :complete],
                       :public => [:new, :create]
 
@@ -8,9 +8,9 @@ class UsersController < ApplicationController
   before_action :user_needs_to_be_a_user_manager_or_new_user, :only => [:new, :create]
   before_action :user_needs_to_be_a_user, :only => [:show]
 
-
   def index
-    @search_data = JSONModel(:user).all(:page => selected_page)
+    show_inactive = params[:show_inactive] || false
+    @search_data = JSONModel(:user).all(:page => selected_page, :show_inactive => show_inactive)
   end
 
   def manage_access
@@ -161,6 +161,23 @@ class UsersController < ApplicationController
                 })
   end
 
+  def activate
+    if JSONModel::HTTP::get_json("/users/#{params[:id]}/activate")
+      flash[:success] = I18n.t("user._frontend.messages.activated")
+    else
+      flash[:error] = I18n.t("user._frontend.messages.error_activate")
+    end
+    redirect_to :action => :index
+  end
+
+  def deactivate
+    if JSONModel::HTTP::get_json("/users/#{params[:id]}/deactivate")
+      flash[:success] = I18n.t("user._frontend.messages.deactivated")
+    else
+      flash[:error] = I18n.t("user._frontend.messages.error_deactivate")
+    end
+    redirect_to :action => :index
+  end
 
   private
 

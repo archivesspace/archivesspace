@@ -3,7 +3,7 @@
  <fieldset>
    <%= form.label_and_textfield "username", { :field_opts => { :readonly => !!@user.id }, :required => true } %>
    <%= form.label_and_textfield "name", {:field_opts => {:size => 30, :class => "input-xxlarge"}, :required => true} %>
-   
+
    <%= form.label_and_textfield "email", {:field_opts => {:size => 30, :class => "input-large"}} %>
    <%= form.label_and_textfield "first_name", {:field_opts => {:size => 30, :class => "input-large"}} %>
    <%= form.label_and_textfield "last_name", {:field_opts => {:size => 30, :class => "input-large"}} %>
@@ -19,6 +19,10 @@
 
    <% if user_can?('administer_system') && form['username'] != session[:user] %>
      <%= form.label_and_boolean "is_admin" %>
+   <% end %>
+
+   <% if user_can?('manage_users') %>
+     <%= form.label_and_boolean "is_active_user" %>
    <% end %>
 
 </fieldset>
