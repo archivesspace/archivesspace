@@ -28,6 +28,15 @@
             <%= form.select("#{type}_sort_column", form.possible_options_for("#{type}_sort_column", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? I18n.t("search.#{type}.#{default}") : I18n.t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
           </div>
         </div>
+        <div class="form-group">
+          <label for="<%= form.id_for("#{type}_sort_direction") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= I18n.t("defaults.sort_direction_tooltip") %>">
+            <%= I18n.t("defaults._sort_direction") %>
+          </label>
+          <div class="col-sm-9">
+            <% default = @inherited_defaults["#{type}_sort_direction"] %>
+            <%= form.select("#{type}_sort_direction", form.possible_options_for("#{type}_sort_direction", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? I18n.t("search.#{type}.#{default}") : I18n.t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
+          </div>
+        </div>
       <% end %>
 
       <h3><%= I18n.t "defaults.note_order_section" %></h3>

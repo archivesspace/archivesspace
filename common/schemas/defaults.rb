@@ -91,6 +91,11 @@ browse_column_enums.keys.each do |type|
         } + ['create_time', 'user_mtime', 'no_value'],
       "required" => false
     }
+  browse_columns["#{type}_sort_direction"] = {
+    "type" => "string",
+    "enum" => ['asc', 'desc'],
+    "required" => false
+  }
 end
 
 {
