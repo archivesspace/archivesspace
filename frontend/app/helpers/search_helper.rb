@@ -244,6 +244,12 @@ module SearchHelper
         add_column(I18n.t("search.#{model}.#{prop}"), opts)
       end
     end
+    models.each do |model|
+      prop = browse_columns["#{model}_sort_column"]
+      next if added.include?(prop) || !prop || prop == 'no_value'
+      added << prop
+      @search_data.add_sort_field((prop == 'title') ? 'title_sort' : prop, I18n.t("search.#{model}.#{prop}"))
+    end
   end
 
   def multi_columns
