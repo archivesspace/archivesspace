@@ -4,7 +4,6 @@
 
 	var file_modal_html = '';
 	var $file_form_modal;
-	var backend_url = "<%= JSONModel::HTTP.backend_url%>"
 /* returns a hash with information about the selected archival object or resource */
 	var get_object_info = function() {
 	    var ret_obj = new Object;
@@ -75,6 +74,7 @@
 	    rid = $form.find("#rid").val();
 	    $form.ajaxSubmit({
 	       type: "POST",
+		   dataType: "html",
 	       beforeSubmit:  function(arr, $form, options) {
 			var names = "";
 			var hasFile = false;
