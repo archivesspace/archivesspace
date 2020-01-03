@@ -114,6 +114,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/transfer' => 'resources#transfer', :via => [:post]
     match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:post]
     match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:get]
+    match 'resources/:id/uploadbulkfile' => 'bulk_import#submit_file', :via => [:post]
     
 
     
