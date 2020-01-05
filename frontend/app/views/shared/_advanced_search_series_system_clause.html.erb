@@ -22,12 +22,12 @@ end
 
 <div class="input-group">
     <div class="input-group-addon">
-        <select name="r${index}">
+        <select name="r${index}" id="r${index}">
             <% record_relators.uniq.each do |relator| %>
                 <option value="<%= relator %>"><%= (record_relator_labels[relator] || relator) %></option>
             <% end %>
         </select>
     </div>
 
-    <input class="form-control" name="v${index}" type="text" placeholder="QSA ID for <%= category %> record"></input>
+    <input class="form-control" name="v${index}" id="v${index}" type="text" placeholder="QSA ID for <%= category %> record"/>
 </div>
