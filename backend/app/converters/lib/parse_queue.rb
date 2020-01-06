@@ -144,7 +144,7 @@ module ASpaceImport
         @batch_file.write(",") unless i == 0
 
         rec = ASUtils.json_parse(line)
-        rec = ASpaceImport::Utils.update_record_references(rec, @uri_remapping)
+        rec = ASpaceImport::Utils.update_record_references(rec, @uri_remapping, rec['uri'])
 
         uris << rec['uri']
 
