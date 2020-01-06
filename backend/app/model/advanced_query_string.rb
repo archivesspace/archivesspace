@@ -62,15 +62,19 @@ class AdvancedQueryString
       parsed_qsaid = {}
 
       if @query['value']
-        parsed_qsaid = QSAId.parse_prefixed_id(@query['value'])
-      end
+        parsed_qsaid = QSAId.parse_prefixed_id(@query['value'].upcase)
 
-      unless parsed_qsaid.empty?
-        row = parsed_qsaid[:model].filter(:qsa_id => parsed_qsaid[:id]).select(:id).first
-        record_id = (row || {})[:id]
+        # take the provided value, but we'll try to match it up with the
+        # corresponding record model and ID in a moment
+        ref = @query['value']
 
-        if record_id
-          ref = parsed_qsaid[:model].my_jsonmodel.uri_for(record_id, :repo_id => RequestContext.get(:repo_id))
+        unless parsed_qsaid.empty? || parsed_qsaid[:model].nil?
+          row = parsed_qsaid[:model].filter(:qsa_id => parsed_qsaid[:id]).select(:id).first
+          record_id = (row || {})[:id]
+
+          if record_id
+            ref = parsed_qsaid[:model].my_jsonmodel.uri_for(record_id, :repo_id => RequestContext.get(:repo_id))
+          end
         end
       end
 
