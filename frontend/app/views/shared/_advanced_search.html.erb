@@ -122,6 +122,8 @@
         operator.on("change", function() {
           handleEmptyValueOption($(":selected", operator).val());
         });
+      } else if (field_data.type === 'boolean') {
+        row.find('#v' + field_data.index).val(field_data.query.value + '');
       }
 
   });
