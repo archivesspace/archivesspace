@@ -79,7 +79,7 @@ class AdvancedQueryString
       end
 
       if ref
-        '%s::%s' % [@query['relator'], ref]
+        '("%s::%s")' % [@query['relator'], ref]
       else
         # Just query on the relator
         @query['relator']
