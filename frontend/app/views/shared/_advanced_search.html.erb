@@ -123,7 +123,11 @@
           handleEmptyValueOption($(":selected", operator).val());
         });
       } else if (field_data.type === 'boolean') {
-        row.find('#v' + field_data.index).val(field_data.query.value + '');
+        if (field_data.query && typeof field_data.query.value === 'boolean') {
+          row.find('#v' + field_data.index).val(field_data.query.value + '');
+        } else {
+          row.find('#v' + field_data.index).val('true');
+        }
       }
 
   });
