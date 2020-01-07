@@ -242,10 +242,21 @@
 
       <p class="alert alert-danger" id="alertBucket" role="alert">Are you sure you want to merge the top containers as listed below?</p>
 
+      <h4>Merge the following top containers:</h4>
+      <ul>
+        {for victim in victims}
+          <li>${victim.display_string}</li>
+        {/for}
+      </ul>
+      <h4>into this container:</h4>
+      <ul>
+        <li>${target.display_string}</li>
+      </ul>
+
       <div class="selected-record-list" id="mergeList">
       
-        {for victimUri in victims}
-          <input type="hidden" name="victims[]" value="${victimUri}">
+        {for victim in victims}
+          <input type="hidden" name="victims[]" value="${victim.uri}">
         {/for}
         
         <input type="hidden" name="target[]" value="${target.uri}">
