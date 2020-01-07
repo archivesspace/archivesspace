@@ -20,7 +20,7 @@ class GenerateSlugsRunner < JobRunner
       end
     end
     puts "#{('Processed ' + slug).strip}: [#{thing.class}, #{thing[:id]}]\n#{elapsed}\n"
-    slug
+    slug.parameterize
    end
 
   def run

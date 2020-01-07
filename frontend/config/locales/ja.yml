@@ -65,6 +65,7 @@ ja:
     transfer_successful: 転送成功。インデックスの再作成中にレコードがターゲットリポジトリに表示されるまでに時間がかかることがあります。
     transfer_failed: 転送に失敗しました
     transfer_failed_records_using_digital_objects: 次のレコードは、転送されるデジタルオブジェクトにリンクしますが、そのようにすると、インスタンスリンクが破損します
+    transfer_failed_digital_objects_linked_to_records: 「このデジタルオブジェクトは、このリポジトリに保持されている他のレコードにリンクしています。この転送を続行するには、次のレコードのリンクを削除してください」
     unset_default: 既定の設定を解除する
     unsuppress: 抑止力
     unsuppress_confirm_title: この記録を抑止しますか？
@@ -317,8 +318,8 @@ ja:
     manage_top_containers: トップコンテナを管理する
     manage_enumerations: 管理された値リストの管理
     global_preferences: グローバル設定
-    user_repo_preferences: リポジトリの設定
-    repo_preferences: ユーザー設定
+    user_repo_preferences: ユーザー設定
+    repo_preferences: リポジトリの設定
     manage_user_access: ユーザーアクセスを管理する
     logout: ログアウト
     login: サインイン
@@ -1203,16 +1204,17 @@ ja:
         empty_false: いいえ
         search: サーチ
         update_ils_holding_ids: ILS保有IDを更新する
-        update_ils_holding_ids_help: 選択したすべてのコンテナのILS保留IDの値を入力します。
+        update_ils_holding_ids_help: 選択したすべてのコンテナのILS保留IDの値を入力します。  現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         update_container_profiles: コンテナプロファイルの更新
-        update_container_profiles_help: 選択したすべてのコンテナのコンテナプロファイルを選択します。
+        update_container_profiles_help: 選択したすべてのコンテナのコンテナプロファイルを選択します。  現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         update_locations_singular: 更新場所：単一の場所
-        update_locations_singular_help: 選択したすべてのコンテナの場所を選択します。
+        update_locations_singular_help: 選択したすべてのコンテナの場所を選択します。  現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         update_locations_multiple: 更新場所：複数の場所
-        update_locations_multiple_help: 選択した各コンテナの場所を選択します。
+        update_locations_multiple_help: 選択した各コンテナの場所を選択します。  現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         rapid_barcode_entry: 迅速なバーコード入力
         rapid_barcode_entry_existing_barcode: 既存のバーコード
         rapid_barcode_entry_new_barcode: 新しいバーコード
+        rapid_barcode_entry_help: 選択した各コンテナのバーコードを入力します。 [新しいバーコード]フィールドを空白のままにして、現在のバーコードを新しい値に置き換えずに削除します。
         batch_delete: トップコンテナの削除
         batch_delete_help: 選択したすべてのコンテナを削除します。
         update_n_records: "%{n}レコードを更新する"

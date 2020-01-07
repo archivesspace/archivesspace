@@ -269,6 +269,29 @@ describe 'Record transfers' do
     end
   end
 
+  it "will not transfer digital objects linked to a repository-scoped parent" do
+    digital_object = create(:json_digital_object)
+    do_instance = build(:json_instance_digital,
+                        :digital_object => {:ref => digital_object.uri})
+
+    resource = create(:json_resource)
+
+    ao = create(:json_archival_object,
+                :title => "hello again",
+                :instances => [do_instance],
+                :resource => {'ref' => resource.uri})
+
+    begin
+      DigitalObject[digital_object.id].transfer_to_repository(@target_repo)
+    rescue TransferConstraintError
+      error = $!
+    end
+
+    expect(error).not_to be_nil
+    expect(error.conflicts[ao.uri][:message]).to eq('DIGITAL_OBJECT_HAS_LINK')
+
+  end
+
   it "detects when a digital object can't be moved as a part of a transfer" do
     digital_object = create(:json_digital_object)
     do_instance = build(:json_instance_digital,

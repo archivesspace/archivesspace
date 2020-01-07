@@ -1157,7 +1157,7 @@ es:
     accession_date_unknown: desconocida
     accession_date_inline_help: por ejemplo AAAA-MM-DD
     accession_date_tooltip: |
-      <p>CAMPO REQUERIDO: La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
+      <p>La fecha en que se realizó la adhesión. No es necesariamente la misma fecha que cuando se crea el registro. </p>
     accession_id: Identificador
     accession_id_tooltip: |
         <p>El número de la base de datos interna para un registro específico de acta de ingreso.</p>
@@ -1875,11 +1875,11 @@ es:
     defaults: Valores predeterminados
     global: Valores predeterminados de preferencia global
     global_message: Editar estos valores para establecer valores predeterminados de preferencia de usuario todo el sistema. Estos valores pueden ser reemplazados por impagos de repositorio o de un usuario propias preferencias.
-    repo: Valores predeterminados de preferencia de usuario
+    repo: Preferencias de repositorio
     repo_message: Editar estos valores para establecer valores predeterminados de preferencia de usuario para el repositorio actual. Estos valores pueden ser reemplazados por un usuario propias preferencias.
     user_global: Mis preferencias globales
     user_global_message: Editar estos valores para definir las preferencias de usuario de todo el sistema. Estos valores pueden ser anulados por el repositorio por defecto o por sus propias preferencias para un repositorio.
-    user_repo: Preferencias de repositorio
+    user_repo: Valores predeterminados de preferencia de usuario
     user_repo_message: Editar estos valores para definir las preferencias de usuario de este repositorio. Estos valores no se pueden sustituir.
     _singular: Preferencias
     _plural: Preferencias

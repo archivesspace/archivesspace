@@ -65,6 +65,7 @@ es:
     transfer_successful: Transferencia exitosa.  Los registros pueden tardar un momento en aparecer en el repositorio de destino mientras nueva indexación se lleva a cabo.
     transfer_failed: Transferencia fallida
     transfer_failed_records_using_digital_objects: "Los siguientes registros se vinculan a objetos digitales que se transferirían, pero hacerlo rompería sus enlaces de instancia"
+    transfer_failed_digital_objects_linked_to_records: "Este objeto digital se vincula a otros registros contenidos en este repositorio. Para continuar con esta transferencia, elimine los enlaces en los siguientes registros"
     unset_default: Desactivada por defecto
     unsuppress: Desactivar
     unsuppress_confirm_title: ¿Bloquear este registro?
@@ -311,8 +312,8 @@ es:
     manage_top_containers: Gestionar Top Containers
     manage_enumerations: Administrar listas de valores controlados
     global_preferences: Preferencias globales
-    user_repo_preferences: Preferencias de repositorio
-    repo_preferences: Valores predeterminados de preferencia de usuario
+    user_repo_preferences: Valores predeterminados de preferencia de usuario
+    repo_preferences: Preferencias de repositorio
     manage_user_access: Administrar el acceso de usuario
     logout: Salir
     login: Iniciar sesión
@@ -1207,16 +1208,17 @@ es:
         empty_false: "No"
         search: Buscar
         update_ils_holding_ids: Actualzar ILS Holding IDs
-        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo por otro valor.
         update_container_profiles: Actualizar perfiles de contenedores
-        update_container_profiles_help: Elige un perfil de contenedor para los contenedores seleccionados
+        update_container_profiles_help: Elige un perfil de contenedor para los contenedores seleccionados.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo por otro valor.
         update_locations_singular: "Actualizar ubicaciones: Ubicación simple"
-        update_locations_singular_help: Elige ubicación para los contenedores seleccionados
+        update_locations_singular_help: Elige ubicación para los contenedores seleccionados.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo por otro valor.
         update_locations_multiple: "Actualizar ubicaciones: ubicaciones multiples"
-        update_locations_multiple_help: Elige ubicación para cada uno de los contenedores seleccionados
+        update_locations_multiple_help: Elige ubicación para cada uno de los contenedores seleccionados.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo por otro valor.
         rapid_barcode_entry: Entrada rápida de código de barras rápida
         rapid_barcode_entry_existing_barcode: Código de barras existente
         rapid_barcode_entry_new_barcode: Nuevo código de barras
+        rapid_barcode_entry_help: Ingrese un código de barras para cada contenedor seleccionado. Deje en blanco el campo Nuevo código de barras para eliminar el código de barras actual sin reemplazarlo por un nuevo valor.
         batch_delete: Borrar Contenedores Top
         batch_delete_help: Borrar todos los contenedores seleccionados.
         update_n_records: "Actualizar %{n} registros"

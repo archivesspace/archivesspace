@@ -63,6 +63,7 @@ fr:
     transfer_successful: Transfert réussi.  L'apparition des notices dans le service d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
     transfer_failed: Echec du transfert
     transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'instances"
+    transfer_failed_digital_objects_linked_to_records: "Cet objet numérique est lié à d'autres enregistrements de ce référentiel. Pour procéder à ce transfert, supprimez les liens des enregistrements suivants"
     unset_default: Désactiver défaut
     unsuppress: Débloquer
     unsuppress_confirm_title: Débloquer cette notice?
@@ -309,8 +310,8 @@ fr:
     manage_top_containers: Gérer Top conditionnements
     manage_enumerations: Gérer listes de valeurs contrôlées
     global_preferences: Préférences globales
-    user_repo_preferences: Préférences de service d'archives
-    repo_preferences: Préférences par défaut de l'utilisateur
+    user_repo_preferences: Préférences par défaut de l'utilisateur
+    repo_preferences: Préférences de service d'archives
     manage_user_access: Gérer les accès utilisateurs
     logout: Déconnexion
     login: Connexion
@@ -1205,16 +1206,17 @@ fr:
         empty_false: "Non"
         search: Recherche
         update_ils_holding_ids: Actualiser ILS Holding IDs
-        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         update_container_profiles: Actualiser profils de conditionnements
-        update_container_profiles_help: Choisir un profil de conditionnement pour tous les conditionnements sélectionnés.
+        update_container_profiles_help: Choisir un profil de conditionnement pour tous les conditionnements sélectionnés.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         update_locations_singular: "Actualiser localisations: localisation unique"
-        update_locations_singular_help: Choisir une localisation pour tous les conditionnements sélectionnés.
+        update_locations_singular_help: Choisir une localisation pour tous les conditionnements sélectionnés.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         update_locations_multiple: "Actualiser localisations: localisations multiples"
-        update_locations_multiple_help: Choisir une localisation pour chaque conditionnement sélectionné.
+        update_locations_multiple_help: Choisir une localisation pour chaque conditionnement sélectionné.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         rapid_barcode_entry: Saisie rapide de code-barres
         rapid_barcode_entry_existing_barcode: Code-barres existant
         rapid_barcode_entry_new_barcode: Nouveau code-barres
+        rapid_barcode_entry_help: Entrez un code-barres pour chaque conteneur sélectionné. Laissez le champ Nouveau code-barres vide pour supprimer le code-barres actuel sans le remplacer par une nouvelle valeur.
         batch_delete: Supprimer Top conditionnements
         batch_delete_help: Supprimer tous les conditionnements sélectionnés.
         update_n_records: "Actualiser %{n} notices"

@@ -6,6 +6,7 @@ require 'json'
 require 'digest'
 require 'rspec'
 require 'rspec/retry'
+require 'rspec-benchmark'
 require 'test_utils'
 require 'config/config-distribution'
 require 'securerandom'
@@ -155,6 +156,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include BackendClientMethods
+  config.include RSpec::Benchmark::Matchers
 
   # show retry status in spec process
   config.verbose_retry = true
