@@ -173,7 +173,11 @@ module ASpaceImport
               # We're not worried about these because the top-level import URI isn't expected to exist yet
               return record
             else
-              raise ASpaceImportUnmappedIdentifier.new("Unmapped identifier in source data: #{record}")
+              if ASUtils.migration_mode?
+                raise ASpaceImportUnmappedIdentifier.new("Unmapped identifier in source data: #{record}")
+              else
+                return record
+              end
             end
           end
 
