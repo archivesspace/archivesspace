@@ -539,6 +539,33 @@ function BulkActionMerge(bulkContainerSearch) {
     AS.openCustomModal("bulkActionModal", "Merge Top Containers", AS.renderTemplate("bulk_action_merge", {
       selection: self.bulkContainerSearch.get_selection()
     }), 'full');
+
+    // Access modal1 DOM
+    const $mergeBtn = $("[data-js='merge']");
+    
+    $mergeBtn.on("click", function() {
+      // Set up data for form submission
+      const victims = self.bulkContainerSearch
+                          .get_selection()
+                          .map(container => container.uri);
+
+      const target = {};
+      
+      target.el = document.querySelector('input[name="target[]"]:checked');
+      target.label = target.el.getAttribute('aria-label');
+      target.uri = target.el.getAttribute('value');
+
+      // Remove modal1
+      $("#bulkActionModal").remove();
+
+      // Init modal2
+      AS.openCustomModal("bulkActionModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
+        victims,
+        target
+      }), 'full');
+
+    })
+
   });
 };
 
