@@ -547,12 +547,15 @@ function BulkActionMerge(bulkContainerSearch) {
       // Set up data for form submission
       const victims = self.bulkContainerSearch
                           .get_selection()
-                          .map(container => container.uri);
+                          .map(container => ({
+                            uri: container.uri,
+                            display_string: container.display_string
+                          }));
 
       const target = {};
       
       target.el = document.querySelector('input[name="target[]"]:checked');
-      target.label = target.el.getAttribute('aria-label');
+      target.display_string = target.el.getAttribute('aria-label');
       target.uri = target.el.getAttribute('value');
 
       // Remove modal1
