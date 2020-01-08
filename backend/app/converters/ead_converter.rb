@@ -290,7 +290,8 @@ class EADConverter < Converter
       make :note_singlepart, {
         :type => note_name,
         :persistent_id => att('id'),
-		    :publish => att('audience') != 'internal',
+        :label => att('label'),
+        :publish => att('audience') != 'internal',
         :content => format_content( content.sub(/<head>.?<\/head>/, '').strip)
       } do |note|
         set ancestor(:resource, :archival_object), :notes, note
@@ -303,7 +304,8 @@ class EADConverter < Converter
       make :note_multipart, {
         :type => note_name,
         :persistent_id => att('id'),
-		    :publish => att('audience') != 'internal',
+        :label => att('label'),
+        :publish => att('audience') != 'internal',
         :subnotes => {
           'jsonmodel_type' => 'note_text',
           'content' => format_content( content )

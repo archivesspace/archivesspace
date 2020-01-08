@@ -409,14 +409,14 @@ describe 'Accession model' do
         end
         it "cleans slug when autogenerating by id" do
           accession = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
-          expect(accession[:slug]).to eq("foo_bar_baz-")
+          expect(accession[:slug]).to eq("foo_bar_baz")
         end
 
         it "dedupes slug when autogenerating by id" do
           accession1 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "foo", :id_1 => "", :id_2 => "", :id_3 => ""))
           accession2 = Accession.create_from_json(build(:json_accession, :is_slug_auto => true, :id_0 => "foo#", :id_1 => "", :id_2 => "", :id_3 => ""))
-          expect(accession1[:slug]).to eq("foo-")
-          expect(accession2[:slug]).to eq("foo-_1")
+          expect(accession1[:slug]).to eq("foo")
+          expect(accession2[:slug]).to eq("foo_1")
         end
       end
     end

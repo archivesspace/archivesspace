@@ -23,6 +23,7 @@
               <li class="divider"></li>
               <li><%= link_to I18n.t("subject._plural"), :controller => :subjects, :action => :index %></li>
               <li><%= link_to I18n.t("agent._plural"), :controller => :agents, :action => :index %></li>
+              <li><%= link_to I18n.t("container_profile._plural"), :controller => :container_profiles, :action => :index %></li>
               <li><%= link_to I18n.t("location._plural"), :controller => :locations, :action => :index %></li>
               <li><%= link_to I18n.t("event._plural"), :controller => :events, :action => :index %></li>
               <li><%= link_to I18n.t("collection_management._plural"), :controller => :collection_management, :action => :index %></li>
@@ -34,7 +35,7 @@
           </li>
           <% if ['update_accession_record', 'update_resource_record', 'update_digital_object_record',
                  'update_subject_record', 'update_event_record',
-                 'update_agent_record', 'update_location_record'].find {|p| user_can?(p)} %>
+                 'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
             <li class="dropdown create-container">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= I18n.t("navbar.create") %> <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -50,7 +51,7 @@
                   <% end %>
 
                   <% if ['update_subject_record', 'update_event_record',
-                         'update_agent_record', 'update_location_record'].find {|p| user_can?(p)} %>
+                         'update_agent_record', 'update_location_record', 'update_container_profile'].find {|p| user_can?(p)} %>
                     <li class="divider"></li>
                   <% end %>
                 <% end %>
@@ -67,6 +68,9 @@
                       <li><%= link_to I18n.t("agent_software._singular"), :controller => :agents, :action => :new, :agent_type => :agent_software %></li>
                     </ul>
                   </li>
+                <% end %>
+                <% if user_can?('update_container_profile_record') %>
+                  <li><%= link_to I18n.t("container_profile._singular"), :controller => :container_profiles, :action => :new %></li>
                 <% end %>
                 <% if user_can?('update_location_record') %>
                   <li class="dropdown-submenu">

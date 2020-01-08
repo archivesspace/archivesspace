@@ -195,7 +195,7 @@ BulkActionIlsHoldingUpdate.prototype.perform_update = function($form, $modal) {
     type: "post",
     success: function(html) {
       $form.replaceWith(html);
-      $modal.trigger("resize");
+      $modal.trigger("resize.modal");
     },
     error: function(jqXHR, textStatus, errorThrown) {
       var error = AS.renderTemplate("template_bulk_operation_error_message", {message: jqXHR.responseText});
@@ -261,7 +261,7 @@ BulkActionContainerProfileUpdate.prototype.perform_update = function($form, $mod
     type: "post",
     success: function(html) {
       $form.replaceWith(html);
-      $modal.trigger("resize");
+      $modal.trigger("resize.modal");
     },
     error: function(jqXHR, textStatus, errorThrown) {
       var error = AS.renderTemplate("template_bulk_operation_error_message", {message: jqXHR.responseText});
@@ -327,7 +327,7 @@ BulkActionLocationUpdate.prototype.perform_update = function($form, $modal) {
     type: "post",
     success: function(html) {
       $form.replaceWith(html);
-      $modal.trigger("resize");
+      $modal.trigger("resize.modal");
     },
     error: function(jqXHR, textStatus, errorThrown) {
       var error = AS.renderTemplate("template_bulk_operation_error_message", {message: jqXHR.responseText});
@@ -386,7 +386,7 @@ BulkActionMultipleLocationUpdate.prototype.setup_update_form = function($modal) 
     },
     success: function(html) {
       $form.replaceWith(html);
-      $modal.trigger("resize");
+      $modal.trigger("resize.modal");
     },
     error: function(jqXHR, textStatus, errorThrown) {
       var error = $("<div>").attr("id", "alertBucket").html(jqXHR.responseText);
@@ -499,7 +499,7 @@ BulkActionBarcodeRapidEntry.prototype.setup_form_submission = function($modal) {
     },
     success: function(html) {
       $form.replaceWith(html);
-      $modal.trigger("resize");
+      $modal.trigger("resize.modal");
     },
     error: function(jqXHR, textStatus, errorThrown) {
       var error = $("<div>").attr("id", "alertBucket").html(jqXHR.responseText);
