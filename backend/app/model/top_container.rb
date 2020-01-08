@@ -303,7 +303,8 @@ class TopContainer < Sequel::Model(:top_container)
   end
 
 
-  def self.bulk_update_container_profile(ids, container_profile_uri)
+  def self.
+      _container_profile(ids, container_profile_uri)
     out = {:records_updated => ids.length}
 
     relationship = TopContainer.find_relationship(:top_container_profile)
