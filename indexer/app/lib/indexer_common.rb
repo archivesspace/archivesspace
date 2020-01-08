@@ -289,6 +289,7 @@ class IndexerCommon
       if doc['primary_type'] == 'archival_object'
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['display_string']
+        doc['identifier'] = record['record']['component_id']
         doc['component_id'] = record['record']['component_id']
         doc['ref_id'] = record['record']['ref_id']
         doc['slug'] = record['record']['slug']
@@ -376,6 +377,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']['ref']
+        doc['digital_object_id'] = record['record']['component_id']
         doc['title'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']

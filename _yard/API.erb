@@ -28,8 +28,6 @@ This example API documentation page was created with [Slate](http://github.com/t
 
 # Authentication
 
-> To authorize, use this code:
-
 <!--
 ```ruby
 require 'kittn'
@@ -44,11 +42,21 @@ api = kittn.authorize('meowmeowmeow')
 ```
 -->
 
-> Example Request:
+> Example Authentication Request:
 
 ```shell
-# With shell, you can just pass the correct header with each request
+# With shell, you can pass the correct header with each request
 curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+```
+
+```python
+# Using the ArchivesSnake library
+from asnake.client import ASnakeClient
+
+client = ASnakeClient(baseurl="http://localhost:8089",
+                      username="admin",
+                      password="admin")
+client.authorize()
 ```
 
 > Example Response:
@@ -161,15 +169,29 @@ curl -s -F password="admin" "http://localhost:8089/users/admin/login"
 }
 ```
 
-> It's a good idea to save the "session" id, since this will be used for later requests.
+> It's a good idea to save the session key since this will be used for later requests:
 
+```shell
+# Mac/Unix terminal
+export SESSION="9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e"
 
-Most requests to the ArchivesSpace backend requires a user to be authenticated.
-This can be done with a simple POST request to the /users/:user_name/login
-endpoint, with :user_name and :password parameters being supplied.
+# Windows Command Prompt
+set SESSION="9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e"
 
-The JSON that is returned will have a session key, which can be stored and used
-for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.
+# Windows PowerShell
+$env:SESSION="9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e"
+```
+
+```python
+# Handled by ArchivesSnake library
+# For more information, see:
+# https://github.com/archivesspace-labs/ArchivesSnake/#low-level-api
+```
+
+Most requests to the ArchivesSpace backend require a user to be authenticated.  This can be done with a POST request to the /users/:user_name/login endpoint, with :user_name and :password parameters being supplied.
+
+The JSON that is returned will have a session key, which can be stored and used for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.
+
 
 # ArchivesSpace REST API
 As of <%= @time.inspect %> the following REST endpoints exist in the master branch of the development repository:
@@ -232,20 +254,26 @@ As of <%= @time.inspect %> the following REST endpoints exist in the master bran
 <% if e[:method] == [:get] %>
 <% if e[:paginated] %>
 # return first 10 records
-curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?page=1&page_size=10"
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>?page=1&page_size=10"
 # return first 5 records in the Fibonacci sequence
-curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?id_set=1,2,3,5,8"
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>?id_set=1,2,3,5,8"
 # return an array of all the ids
-curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>?all_ids=true"
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>?all_ids=true"
 <% else %>
-curl -H "X-ArchivesSpace-Session: $SESSION" "<%= request_uri %>"
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>"
 <% end %>
 <% elsif e[:method] == [:post] %>
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '<%= data_example %>' \
   "<%= request_uri %>"
 <% elsif e[:method] == [:delete] %>
-curl -H "X-ArchivesSpace-Session: $SESSION" -X DELETE "<%= request_uri %>"
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  -X DELETE \
+  "<%= request_uri %>"
 <% else %>
 <% example.each_pair do |k,v| %>
   <% next if e[:uri].include?("/:#{k}") %>
@@ -285,6 +313,7 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
 </ul>
 </aside>
 <% end %>
+
 <% e[:params].each do |param| %>
   <% if param.is_a? String %>
     <% opts = {} %>
@@ -294,12 +323,12 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
   <% unless opts.empty? %>
     <% vs = opts[:validation] ? " -- #{opts[:validation][0]}" : "" %>
     <% optional = opts[:optional] ? " (Optional)" : "" %>
-<% if opts[:body] %>
-	<%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
-<% else %>
-	<%= "#{param[1]} #{param[0]}#{optional} -- #{param[2]}#{vs}" %>
-<% end %>
-<% end %>
+  <% end %>
+  <% if opts[:body] %>
+	  <%= "#{param[1]} <request body> -- #{param[2]}#{vs}" %>
+  <% else %>
+	  <%= "#{param[1]} #{param[0]}#{optional} -- #{param[2]}#{vs}" %>
+  <% end %>
 <% end %>
 
 __Returns__

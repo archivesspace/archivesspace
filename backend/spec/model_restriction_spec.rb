@@ -5,7 +5,7 @@ require_relative 'container_spec_helper'
 
 def add_restriction_to_record(record,
                               begin_date = '2000-01-01',
-                              end_date = '2020-01-01',
+                              end_date = '2100-01-01',
                               local_access_restriction_type = ["RestrictedSpecColl", "RestrictedCurApprSpecColl",
                                                                "RestrictedFragileSpecColl", "InProcessSpecColl",
                                                                "ColdStorageBrbl"])
@@ -85,7 +85,7 @@ describe 'Managed Container restrictions' do
     restriction = json['active_restrictions'].first
 
     expect(restriction['begin']).to eq('2000-01-01')
-    expect(restriction['end']).to eq('2020-01-01')
+    expect(restriction['end']).to eq('2100-01-01')
     expect(restriction['local_access_restriction_type']).to eq(["RestrictedSpecColl", "RestrictedCurApprSpecColl",
                                                             "RestrictedFragileSpecColl", "InProcessSpecColl",
                                                             "ColdStorageBrbl"])
@@ -119,7 +119,7 @@ describe 'Managed Container restrictions' do
 
     add_restriction_to_record(Resource.to_jsonmodel(resource.id),
                               nil,
-                              '2020-01-01',
+                              '2100-01-01',
                               nil)
 
     expect(box_record.restrictions.count).to eq(1)
@@ -149,7 +149,7 @@ describe 'Managed Container restrictions' do
                               nil)
 
     expect(box_record.restrictions.count).to eq(1)
-    expect(box_record.active_restrictions( double( :today => Date.parse('2020-01-01')))).to be_empty
+    expect(box_record.active_restrictions( double( :today => Date.parse('2100-01-01')))).to be_empty
   end
 
 
@@ -162,7 +162,7 @@ describe 'Managed Container restrictions' do
                               ["RestrictedSpecColl"])
 
     expect(box_record.restrictions.count).to eq(1)
-    expect(box_record.active_restrictions( double( :today => Date.parse('2020-01-01')))).to be_empty
+    expect(box_record.active_restrictions( double( :today => Date.parse('2100-01-01')))).to be_empty
   end
 
 

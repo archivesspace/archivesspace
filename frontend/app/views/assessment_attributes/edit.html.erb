@@ -9,7 +9,6 @@
 
       <div class="col-md-9">
         <div class="record-pane">
-          <%= link_to_help :topic => "assessment_attribute_definitions" %>
           <h2><%= I18n.t('assessment_attribute_definitions._frontend.title') %></h2>
 
           <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @assessment_attribute_definitions, :form => form} %>

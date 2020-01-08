@@ -6,6 +6,42 @@ module MigrationUtils
   def self.shorten_table(name)
     name.to_s.split("_").map {|s| s[0...3]}.join("_")
   end
+
+  module RDETemplateFix
+    ::RDETemplateFix = MigrationUtils::RDETemplateFix
+    CONFIG = {
+      deprecated: 'colLang',
+      replacements: {
+        'colLanguage' => 'eng',
+        'colScript' => 'Latn',
+      },
+      field_updates: {
+        order: :update_array,
+        visible: :update_array,
+        defaults: :update_hash
+      }
+    }
+    def self.update_array(obj)
+      did_something = false
+      deprecated_idx = obj.index(CONFIG[:deprecated])
+      if deprecated_idx
+        obj.insert(deprecated_idx, *CONFIG[:replacements].keys)
+        obj.delete(CONFIG[:deprecated])
+        did_something = true
+      end
+      did_something
+    end
+
+    def self.update_hash(obj)
+      did_something = false
+      if obj.key? CONFIG[:deprecated]
+        obj.merge!(CONFIG[:replacements])
+        obj.delete((CONFIG[:deprecated]))
+        did_something = true
+      end
+      did_something
+    end
+  end
 end
 
 
