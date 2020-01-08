@@ -386,6 +386,7 @@ class EADSerializer < ASpaceExport::Serializer
                     when 'agent_person'; 'persname'
                     when 'agent_family'; 'famname'
                     when 'agent_corporate_entity'; 'corpname'
+                    when 'agent_software'; 'name'
                     end
 
         origination_attrs = {:label => role}
@@ -405,20 +406,17 @@ class EADSerializer < ASpaceExport::Serializer
   def serialize_controlaccess(data, xml, fragments)
     if (data.controlaccess_subjects.length + data.controlaccess_linked_agents.length) > 0
       xml.controlaccess {
-
         data.controlaccess_subjects.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
             sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
           }
         end
 
-
         data.controlaccess_linked_agents.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
             sanitize_mixed_content( node_data[:content], xml, fragments,ASpaceExport::Utils.include_p?(node_data[:node_name]) )
           }
         end
-
       } #</controlaccess>
     end
   end
