@@ -50,11 +50,6 @@ module SearchHelper
     end
 
     sort = (opts["sort"] || params["sort"])
-    
-    # # if the browse list was sorted by default
-    # if sort.nil? && !@search_data.nil? && @search_data.sorted?
-    #   sort = @search_data[:criteria]["sort"]
-    # end
 
     if sort
       sort = sort.split(', ')
@@ -100,6 +95,7 @@ module SearchHelper
 
   def can_edit_search_result?(record)
     return user_can?('update_container_record', record['id']) if record['primary_type'] === "top_container"
+    return user_can?('update_container_profile_record') if record['primary_type'] === "container_profile"
     return user_can?('manage_repository', record['id']) if record['primary_type'] === "repository"
     return user_can?('update_location_record') if record['primary_type'] === "location"
     return user_can?('update_subject_record') if record['primary_type'] === "subject"
@@ -211,7 +207,11 @@ module SearchHelper
 
   def add_multiselect_column
     @allow_multiselect = true
-    add_column(sr_only('Selected?'), :template => 'shared/multiselect',
+    header = ('<label for="select_all" class="sr-only">' + 
+      I18n.t("search_results.selected") + '</label>' + 
+      check_box_tag("select_all", 1, false, "autocomplete" => "off")).html_safe
+
+    add_column(header, :template => 'shared/multiselect',
       :class => 'multiselect-column')
   end
 
@@ -305,11 +305,12 @@ module SearchHelper
   end
 
   def get_ancestor_title(field)
-    if !JSONModel::HTTP.get_json(field).nil?
+    field_json = JSONModel::HTTP.get_json(field)
+    unless field_json.nil?
       if field.include?('resources') || field.include?('digital_objects')
-        clean_mixed_content(JSONModel::HTTP.get_json(field)['title'])
+        clean_mixed_content(field_json['title'])
       else
-        clean_mixed_content(JSONModel::HTTP.get_json(field)['display_string'])
+        clean_mixed_content(field_json['display_string'])
       end
     end
   end
