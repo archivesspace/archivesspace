@@ -38,7 +38,7 @@ describe 'EAD converter' do
   <c id="2" level="file">
     <unittitle>whatever</unittitle>
     <container id="cid3" type="Box" label="Text">FOO</container>
-    <controlaccess><persname rules="dacs" source='local' id='thesame'>Art, Makah</persname></controlaccess>
+    <controlaccess><persname rules="dacs" source='local' authfilenumber='thesame'>Art, Makah</persname></controlaccess>
   </c>
 </c>
 </dsc>
