@@ -161,57 +161,6 @@ ja:
     text_placeholder: テキストで絞り込む
     clear_all: すべてクリア
     component_switch: コンポーネントを表示する
-    filter:
-      query: テキスト
-      subjects: 件名
-      primary_type: レコードタイプ
-      digital_object_type: タイプ
-      level: レベル
-      classification_path: 分類
-      accession_date_year: 受付日
-      creators: クリエイター
-      source: ソース
-      rules: ルール
-      parent_type: レコードタイプ
-      processing_priority: 処理優先度
-      processing_status: 状態
-      publish: 発行済み
-      temporary: 一時的
-      outcome: 結果
-      event_type: タイプ
-      first_term_type: 期間型（First）
-      classification_uri: 分類
-      location_uris: ロケーション
-      agents: エージェント
-      fullrecord: キーワード
-      subjects_text: 件名
-      title: タイトル
-      creators_text: クリエイター
-      notes: ノート
-      container_profile_width_u_sstr: 幅
-      container_profile_height_u_sstr: 高さ
-      container_profile_depth_u_sstr: 深さ
-      container_profile_dimension_units_u_sstr: 寸法単位
-      building: 建物
-      floor: 床
-      room: ルーム
-      area: エリア
-      location_profile_display_string_u_ssort: ロケーションプロファイル
-      location_profile_width_u_sstr: 幅
-      location_profile_height_u_sstr: 高さ
-      location_profile_depth_u_sstr: 深さ
-      location_profile_dimension_units_u_sstr: 寸法単位
-      rights_statement_agent_uris: 権利ステートメントエージェント
-      assessment_surveyors: 調査者
-      assessment_review_required: レビューが必要です
-      assessment_sensitive_material: センシティブマテリアル
-      assessment_reviewer_uris: レビューア
-      assessment_surveyed_by_uris: 調査者
-      assessment_reviewers: レビューア
-      assessment_inactive: 非アクティブ
-      assessment_survey_year: 調査年
-      assessment_record_types: レコードタイプ
-      assessment_completed: 完了しました
     help:
       row_selection: 一括操作のために行をクリックして選択します。 Altキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
 
@@ -220,44 +169,213 @@ ja:
     and: そして：
     asc: 上昇
     desc: 降順
-    relevance: 関連性
-    title_sort: タイトル
-    user_mtime: 変更された
-    primary_type: レコードタイプ
-    processing_priority: 処理優先度
-    processing_status: 処理ステータス
-    processing_hours_total: 合計時間
-    parent_id: レコードタイプ
-    create_time: 作成した
-    authority_id: オーソリティID
-    source: ソース
-    rules: ルール
-    outcome: 結果
-    event_type: タイプ
-    identifier: 識別
-    select: 選択
-    building: 建物
-    floor: 床
-    room: ルーム
-    area: エリア
-    resource_type: リソースタイプ
-    acquisition_type: 獲得タイプ
-    accession_date: 受付日
-    restrictions_apply: 制限が適用されます
-    access_restrictions: アクセス制限
-    use_restrictions: 使用制限
-    level: 説明のレベル
-    language: 言語
-    restrictions: 制限事項
-    ead_id: EAD ID
-    finding_aid_status: 援助の状況を見つける
-    digital_object_id: デジタルオブジェクトID
-    digital_object_type: デジタルオブジェクトタイプ
-    publish: 公開する
-    location_profile_display_string_u_ssort: ロケーションプロファイル
-    assessment_survey_begin: 調査開始日
-    assessment_survey_end: 調査完了日
-    assessment_id: ID
+
+  search:
+    accession:
+      title: Title
+      publish: Published
+      subjects: Subject
+      identifier: Identifier
+      acquisition_type: Acquisition Type
+      accession_date: Accession Date
+      resource_type: Resource Type
+      restrictions_apply: Restrictions Apply
+      access_restrictions: Access Restrictions
+      use_restrictions: Use Restrictions
+      audit_info: Audit Information
+      creators: Creator
+      accession_date_year: Accession Date
+      dates: Dates
+      extents: Extent
+      processing_priority: Processing Priority
+      processors: Processors
+      user_mtime: Modified
+      create_time: Created
+    resource:
+      title: Title
+      publish: Published
+      level: Level
+      identifier: Identifier
+      resource_type: Resource Type
+      language: Language
+      restrictions: Restrictions
+      ead_id: EAD ID
+      finding_aid_status: Finding Aid Status
+      audit_info: Audit Information
+      classification_path: Classification Path
+      subjects: Subject
+      dates: Dates
+      extents: Extent
+      processing_priority: Processing Priority
+      processors: Processors
+      user_mtime: Modified
+      create_time: Created
+    archival_object:
+      title: Title
+      publish: Published
+      context: Parent Resource
+      component_id: Component ID
+      ref_id: Ref ID
+      level: Level
+      audit_info: Audit Information
+      language: Language
+      dates: Dates
+      extents: Extent
+      user_mtime: Modified
+      create_time: Created
+    subjects:
+      source: Source
+      first_term_type: Term Type (First)
+      title: Terms
+      publish: Published
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+    digital_object:
+      title: Title
+      publish: Published
+      subjects: Subject
+      level: Level
+      digital_object_type: Digital Object Type
+      digital_object_id: Digital Object ID
+      restrictions: Restrictions
+      audit_info: Audit Information
+      language: Language
+      dates: Dates
+      extents: Extent
+      user_mtime: Modified
+      create_time: Created
+    digital_object_component:
+      title: Title
+      publish: Published
+      context: Found in
+      audit_info: Audit Information
+      language: Language
+      dates: Dates
+      extents: Extent
+      user_mtime: Modified
+      create_time: Created
+    agent:
+      title: Name
+      primary_type: Agent Type
+      publish: Published
+      authority_id: Authority ID
+      source: Source
+      rules: Rules
+      is_user: Is User?
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+    location:
+      title: Location
+      publish: Published
+      building: Building
+      floor: Floor
+      room: Room
+      area: Area
+      location_holdings: Holdings for Current Repository
+      location_profile_display_string_u_ssort: Location Profile
+      audit_info: Audit Information
+      temporary: Temporary
+      user_mtime: Modified
+      create_time: Created
+    event:
+      agents: Agent
+      event_type: Type
+      outcome: Outcome
+      linked_records: Record Links
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+    collection_management:
+      parent_title: Title
+      parent_type: Record Type
+      processing_priority: Processing Priority
+      processing_status: Processing Status
+      processing_hours_total: Total Hours
+      processing_funding_source: Processing Funding Source
+      processors: Processors
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+    classification:
+      title: Title
+      publish: Published
+      has_classification_terms: Has classification terms?
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+    assessment:
+      assessment_id: Assessment ID
+      assessment_records: Record
+      assessment_record_types: Record Type
+      assessment_surveyors: Surveyor
+      assessment_survey_begin: Survey Begin
+      assessment_review_required: Review Required
+      assessment_sensitive_material: Sensitive Material
+      assessment_inactive: Inactive
+      assessment_survey_year: Survey Year
+      assessment_collections: Collection
+      assessment_completed: Assessment Completed
+      assessment_formats: Formats
+      assessment_ratings: Ratings
+      assessment_conservation_issues: Conservation Issues
+      audit_info: Audit Information
+      assessment_reviewers: Reviewer
+      user_mtime: Modified
+      create_time: Created
+    repositories:
+      title: Title
+      publish: Published
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+    top_container:
+      title: Title
+      publish: Published
+      container_profile_display_string_u_sstr: Container Profile
+      location_display_string_u_sstr: Location
+      type: Type
+      indicator: Indicator
+      barcode: Barcode
+      context: Resource/Accession
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+    container_profile:
+      title: Title
+      publish: Published
+      container_profile_width_u_sstr: Width
+      container_profile_height_u_sstr: Height
+      container_profile_depth_u_sstr: Depth
+      container_profile_dimension_units_u_sstr: Dimension Units
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+    location_profile:
+      title: Title
+      publish: Published
+      location_profile_width_u_sstr: Width
+      location_profile_height_u_sstr: Height
+      location_profile_depth_u_sstr: Depth
+      location_profile_dimension_units_u_sstr: Dimension Units
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+    multi:
+      primary_type: Record Type
+      creators: Creator
+      subjects: Subject
+      title: Title
+      context: Found in
+      identifier: Identifier
+      audit_info: Audit Information
+      query: Text
+      relevance: Relevance
+      user_mtime: Modified
+      create_time: Created
+      dates: Dates
+      extents: Extent
 
   advanced_search:
     operator:
