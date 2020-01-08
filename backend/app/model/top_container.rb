@@ -303,7 +303,8 @@ class TopContainer < Sequel::Model(:top_container)
   end
 
 
-  def self.bulk_update_container_profile(ids, container_profile_uri)
+  def self.
+      _container_profile(ids, container_profile_uri)
     out = {:records_updated => ids.length}
 
     relationship = TopContainer.find_relationship(:top_container_profile)
@@ -389,28 +390,6 @@ class TopContainer < Sequel::Model(:top_container)
       updated = []
 
       ids = barcode_data.map{|uri,_| my_jsonmodel.id_for(uri)}
-
-      # null out barcodes to avoid duplicate error as bulk updates are
-      # applied
-      TopContainer.filter(:id => ids).update(:barcode => nil)
-
-      barcode_data.each do |uri, barcode|
-        id = my_jsonmodel.id_for(uri)
-
-        top_container = TopContainer[id]
-        top_container.barcode = barcode
-        top_container.system_mtime = Time.now
-
-        top_container.save(:columns => [:barcode, :system_mtime])
-        updated << id
-      end
-
-      TopContainer.update_mtime_for_ids(ids)
-      updated
-
-  end
-
-    ids = barcode_data.map{|uri,_| my_jsonmodel.id_for(uri)}
     
     # null out barcodes to avoid duplicate error as bulk updates are
     # applied
