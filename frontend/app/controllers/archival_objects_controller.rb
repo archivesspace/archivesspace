@@ -241,8 +241,13 @@ class ArchivalObjectsController < ApplicationController
         return render :text => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
         @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
+        
+        if @exceptions.all?(&:blank?)
+          e.errors.each { |key, vals| flash.now[:error] = "#{key} : #{vals.join('<br/>')}" }
+        else
+          flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
+        end
 
-        flash.now[:error] = I18n.t("rde.messages.rows_with_errors", :count => @exceptions.select{|e| !e.empty?}.length)
       end
 
     end
