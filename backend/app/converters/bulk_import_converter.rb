@@ -42,7 +42,7 @@ def initialize_info
     @orig_filename = @opts[:filename]
     
     @report_out = []
-    @report = BulkIngestTracker.new
+    @report = BulkImportTracker.new
     @headers
     @digital_load  = @opts(:digital_load,'') == 'true'
     @report.set_file_name(@orig_filename)

@@ -1,4 +1,4 @@
-class BulkIngestTracker
+class BulkImportTracker
   require 'pp'
   def initialize
     @rows = []
