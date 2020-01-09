@@ -205,7 +205,7 @@ class EADSerializer < ASpaceExport::Serializer
             serialize_did_notes(data, xml, @fragments)
 
             if (languages = data.lang_materials)
-              serialize_languages(languages, xml)
+              serialize_languages(languages, xml, @fragments)
             end
 
             data.instances_with_sub_containers.each do |instance|
@@ -325,7 +325,7 @@ class EADSerializer < ASpaceExport::Serializer
         serialize_did_notes(data, xml, fragments)
 
         if (languages = data.lang_materials)
-          serialize_languages(languages, xml)
+          serialize_languages(languages, xml, fragments)
         end
 
         EADSerializer.run_serialize_step(data, xml, fragments, :did)
@@ -657,7 +657,7 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
-  def serialize_languages(languages, xml)
+  def serialize_languages(languages, xml, fragments)
     lm = []
     language_notes = languages.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
     if !language_notes.empty?
@@ -670,7 +670,7 @@ class EADSerializer < ASpaceExport::Serializer
           att ||= {}
 
           xml.send(note['type'], att.merge(audatt)) {
-            sanitize_mixed_content(content, xml,ASpaceExport::Utils.include_p?(note['type']))
+            sanitize_mixed_content(content, xml, fragments, ASpaceExport::Utils.include_p?(note['type']))
           }
           lm << note
         end
