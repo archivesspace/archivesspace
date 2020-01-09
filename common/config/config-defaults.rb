@@ -663,3 +663,5 @@ AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
+# For Bulk Import: specifies whether the "Load Digital Objects" button is available at the Resource Level
+AppConfig[:hide_do_load] = false
