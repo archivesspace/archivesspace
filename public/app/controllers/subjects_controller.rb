@@ -106,11 +106,7 @@ Rails.logger.debug("we hit search!")
       @page_title = strip_mixed_content(@result.display_string) || "#{I18n.t('subject._singular')} #{uri}"
       @context = []
     rescue RecordNotFound
-      @type = I18n.t('subject._singular')
-      @page_title = I18n.t('errors.error_404', :type =>@type)
-      @uri = uri
-      @back_url = request.referer || ''
-      render  'shared/not_found', :status => 404
+      record_not_found(uri, 'subject')
     end
   end
   private

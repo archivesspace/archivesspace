@@ -137,6 +137,8 @@ class ResourcesController < ApplicationController
       render 'search/search_results'
     end
   end
+
+
   def show
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     begin
@@ -154,11 +156,7 @@ class ResourcesController < ApplicationController
 #      @rep_image = get_rep_image(@result['json']['instances'])
       fill_request_info
     rescue RecordNotFound
-      @type = I18n.t('resource._singular')
-      @page_title = I18n.t('errors.error_404', :type => @type)
-      @uri = uri
-      @back_url = request.referer || ''
-      render  'shared/not_found', :status => 404
+      record_not_found(uri, 'resource')
     end
   end
 
@@ -166,8 +164,11 @@ class ResourcesController < ApplicationController
   def resolve
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     results = archivesspace.search("ref_id:#{params[:ref_id]} AND resource:\"#{uri}\"", 1, 'type[]' => 'pui')
-    return render('shared/not_found', :status => 404) unless results['results'].length == 1
-    redirect_to results['results'][0]['uri']
+    if results['results'].length == 1
+      redirect_to results['results'][0]['uri']
+    else
+      record_not_resolved("#{uri}/resolve/#{params[:ref_id]}", 'archival_object')
+    end
   end
 
 
@@ -185,11 +186,7 @@ class ResourcesController < ApplicationController
       fill_request_info
       @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
     rescue RecordNotFound
-      @type = I18n.t('resource._singular')
-      @page_title = I18n.t('errors.error_404', :type => @type)
-      @uri = @root_uri
-      @back_url = request.referer || ''
-      render  'shared/not_found', :status => 404
+      record_not_found(uri, 'resource')
     end
   end
 
@@ -257,13 +254,8 @@ class ResourcesController < ApplicationController
 		end
 
 	rescue RecordNotFound
-		@type = I18n.t('resource._singular')
-		@page_title = I18n.t('errors.error_404', :type => @type)
-		@uri = uri
-		@back_url = request.referer || ''
-		render  'shared/not_found', :status => 404
+    record_not_found(uri, 'resource')
   end
-
 
   private
 
