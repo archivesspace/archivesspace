@@ -28,6 +28,7 @@ class BulkImportConverter < Converter
 
   def run
     Log.error("RUN")
+    initialize_info
   end
 
   def initialize(input_file, opts = {})
@@ -35,6 +36,7 @@ class BulkImportConverter < Converter
     @batch = ASpaceImport::RecordBatch.new
     @opts = opts
     Log.error("OPTS: #{@opts}")
+    #WAAY more initialization to come
   end
 
   private
@@ -48,8 +50,11 @@ class BulkImportConverter < Converter
     @digital_load = @opts[:digital_load] == "true"
     @report.set_file_name(@orig_filename)
     # initialize_handler_enums
-    @resource = Resource.find(@opts[:rid])
-    @repository = @resource["repository"]["ref"]
+    @resource = Resource.get_or_die(@opts[:rid])
+    Log.error("BulkImport got resource: #{@resource.inspect}")
+    Log.error("BulkImport repo_id match? #{@opts[:repo_id] == @resouce[:repo_id]}")
+    @repository = Repository.get_or_die(@opts[:repo_id])
+    Log.error("BulkImport got repo: #{@repository.inspect}")
     @hier = 1
     # ingest archival objects needs this
     unless @digital_load
