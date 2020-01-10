@@ -536,7 +536,7 @@ function BulkActionMerge(bulkContainerSearch) {
   var $link = $("#bulkActionMerge", self.bulkContainerSearch.$toolbar);
 
   $link.on("click", function() {
-    AS.openCustomModal("bulkActionModal", "Merge Top Containers", AS.renderTemplate("bulk_action_merge", {
+    AS.openCustomModal("bulkMergeModal", "Merge Top Containers", AS.renderTemplate("bulk_action_merge", {
       selection: self.bulkContainerSearch.get_selection()
     }), 'full');
 
@@ -559,7 +559,7 @@ function BulkActionMerge(bulkContainerSearch) {
       target.uri = target.el.getAttribute('value');
 
       // Remove modal1
-      $("#bulkActionModal").remove();
+      $("#bulkMergeModal").remove();
 
       // Init modal2
       AS.openCustomModal("bulkActionModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
