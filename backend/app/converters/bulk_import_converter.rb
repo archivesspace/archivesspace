@@ -18,9 +18,9 @@ class BulkImportConverter < Converter
       },
     ]
   end
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     if type == "bulk_import_excel"
-      self.new(input_file)
+      self.new(input_file, opts)
     else
       nil
     end
@@ -34,6 +34,7 @@ class BulkImportConverter < Converter
     @input_file = input_file
     @batch = ASpaceImport::RecordBatch.new
     @opts = opts
+    Log.error("OPTS: #{@opts}")
   end
 
   private
