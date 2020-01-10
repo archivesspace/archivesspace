@@ -67,12 +67,12 @@ AbstractRelationship = Class.new(Sequel::Model) do
       # Suppress this new relationship if it points to a suppressed record
       values[:suppressed] = 1
     end
-   
-    # some objects ( like events? ) seem to leak their ids into the mix. 
+
+    # some objects ( like events? ) seem to leak their ids into the mix.
     values.reject! { |key| key == :id or key == "id"  }
     if ( obj1.is_a?(Location) or obj2.is_a?(Location) )
       values.reject! { |key| key == :jsonmodel_type or key == "jsonmodel_type"  }
-    end 
+    end
     self.create(values)
   end
 
@@ -419,9 +419,16 @@ module Relationships
 
 
   def transfer_to_repository(repository, transfer_group = [])
-    if transfer_group.first.class == DigitalObject && !do_transferable?(transfer_group)
-      do_has_link_error(instances)
+    if transfer_group.empty?
+      do_id = self.class == DigitalObject ? self[:id] : 0
+    else
+      do_id = transfer_group.first.class == DigitalObject ? transfer_group.first[:id] : 0
     end
+
+    unless do_id == 0
+      return unless do_transferable?(do_id)
+    end
+
     # When a record is being transferred to another repository, any
     # relationships it has to records within the current repository must be
     # cleared.
@@ -447,14 +454,12 @@ module Relationships
   end
 
 
-  def do_transferable?(transfer_group = [])
+  def do_transferable?(do_id)
     # ANW-151: Digital objects should not be transferable if they have instance links to other repository-scoped record types. If not transferrable, we throw an error and abort the transfer.
-    transferee = transfer_group.first[:id]
-
     do_relationship = DigitalObject.find_relationship(:instance_do_link)
 
     instances = do_relationship
-    .select(:instance_id).filter(:digital_object_id => transferee)
+    .select(:instance_id).filter(:digital_object_id => do_id)
     .map {|row| row[:instance_id]}
 
     if instances.empty?
