@@ -30,8 +30,20 @@ module ComponentsAddChildren
           'ref' => self.uri
         }
       end
-
-      node_model.create_from_json(obj)
+      
+      begin
+        node_model.create_from_json(obj)
+      rescue Sequel::ValidationFailed => e
+        # We've run into something that the DB doesnt like.
+        # since we are dealing with a batch, we can add the
+        # offending value to the error message in an attempt 
+        # to enlighten our  user
+        e.errors.keys.each do |key|
+          next unless obj[key]
+          e.errors[key].map! { |msg| msg << " ( #{key}: #{obj[key]} )"}
+        end
+        raise e
+      end
     end
   end
 
