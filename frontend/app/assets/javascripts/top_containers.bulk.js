@@ -562,7 +562,7 @@ function BulkActionMerge(bulkContainerSearch) {
       $("#bulkMergeModal").remove();
 
       // Init modal2
-      AS.openCustomModal("bulkActionModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
+      AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
         victims,
         target
       }), 'full');
