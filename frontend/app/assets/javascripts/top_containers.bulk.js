@@ -565,8 +565,7 @@ function BulkActionMerge(bulkContainerSearch) {
       AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
         victims,
         target
-      }), 'full');
-
+      }), false);
     })
 
   });
