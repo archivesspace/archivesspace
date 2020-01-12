@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/hudmol/map_validator.git
-  revision: a8204aa204df35de9a8ff77f7be549bc61f10387
+  revision: 0a972b4f618a45e3fe77675d655bb00b169c15ae
   tag: master
   specs:
     map_validator (0.0.1)
@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/hudmol/xlsx_streaming_reader.git
-  revision: f75361a39905f56ace57bc55291951a711781355
+  revision: 9a279fd2fbb6173e9a6a2a6335b3d941ee610dbc
   branch: master
   specs:
     xlsx_streaming_reader (0.0.1)
