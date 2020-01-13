@@ -558,9 +558,6 @@ function BulkActionMerge(bulkContainerSearch) {
       target.display_string = target.el.getAttribute('aria-label');
       target.uri = target.el.getAttribute('value');
 
-      // Remove modal1
-      $("#bulkMergeModal").remove();
-
       // Init modal2
       AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
         victims,
