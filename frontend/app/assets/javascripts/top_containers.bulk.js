@@ -543,7 +543,9 @@ function BulkActionMerge(bulkContainerSearch) {
     // Access modal1 DOM
     const $mergeBtn = $("[data-js='merge']");
     
-    $mergeBtn.on("click", function() {
+    $mergeBtn.on("click", function(e) {
+      e.preventDefault();
+
       // Set up data for form submission
       const victims = self.bulkContainerSearch
                           .get_selection()
