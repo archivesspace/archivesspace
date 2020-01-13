@@ -424,13 +424,13 @@ describe 'Resource model' do
         end
         it "cleans slug" do
           resource = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "Foo Bar Baz&&&&", :id_1 => "", :id_2 => "", :id_3 => ""))
-          expect(resource[:slug]).to eq("foo_bar_baz-")
+          expect(resource[:slug]).to eq("foo_bar_baz")
         end
         it "dedupes slug" do
           resource1 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "foo", :id_1 => "", :id_2 => "", :id_3 => ""))
           resource2 = Resource.create_from_json(build(:json_resource, :is_slug_auto => true, :id_0 => "foo#", :id_1 => "", :id_2 => "", :id_3 => ""))
-          expect(resource1[:slug]).to eq("foo-")
-          expect(resource2[:slug]).to eq("foo-_1")
+          expect(resource1[:slug]).to eq("foo")
+          expect(resource2[:slug]).to eq("foo_1")
         end
       end
       describe "by eadid" do

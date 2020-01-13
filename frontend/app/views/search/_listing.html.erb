@@ -6,7 +6,7 @@
     <thead>
     <tr>
       <% if allow_multi_select? %>
-        <th><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all" %></th>
+        <th><label for="select_all" class="sr-only"><%= I18n.t("search_results.selected") %></label><%= check_box_tag "select_all", 1, false, "autocomplete" => "off" %></th>
       <% end %>
       <% if params[:linker]==='true' %>
         <th></th>
@@ -57,7 +57,7 @@
           <td class="multiselect-column">
             <label>
               <span class="sr-only"><%= I18n.t("search_results.selected") %></span>
-              <%= check_box_tag "multiselect-item", result["id"], false %>
+              <%= check_box_tag "multiselect-item", result["id"], false, "autocomplete" => "off" %>
             </label>
           </td>
         <% end %>
