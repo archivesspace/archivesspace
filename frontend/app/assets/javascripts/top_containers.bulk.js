@@ -571,6 +571,11 @@ function BulkActionMerge(bulkContainerSearch) {
         return acc;
       }, [])
 
+      const target = {
+        display_string: targetEl.getAttribute('aria-label'),
+        uri: targetEl.getAttribute('value')
+      };
+
       // Init modal2
       AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
         victims,
