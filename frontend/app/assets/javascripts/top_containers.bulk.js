@@ -554,12 +554,13 @@ function BulkActionMerge(bulkContainerSearch) {
                             display_string: container.display_string
                           }));
 
-      const target = {};
-      
-      target.el = document.querySelector('input[name="target[]"]:checked');
-      target.display_string = target.el.getAttribute('aria-label');
-      target.uri = target.el.getAttribute('value');
+      const targetEl = document.querySelector('input[name="target[]"]:checked');
 
+      const target = {
+        display_string: targetEl.getAttribute('aria-label'),
+        uri: targetEl.getAttribute('value')
+      };
+      
       // Init modal2
       AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
         victims,
