@@ -549,10 +549,12 @@ function BulkActionMerge(bulkContainerSearch) {
       // Set up data for form submission
       const victims = self.bulkContainerSearch
                           .get_selection()
-                          .map(container => ({
-                            uri: container.uri,
-                            display_string: container.display_string
-                          }));
+                          .map(function(container) {
+                            return {
+                              uri: container.uri,
+                              display_string: container.display_string
+                            }
+                          });
 
       const targetEl = document.querySelector('input[name="target[]"]:checked');
 
