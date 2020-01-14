@@ -434,6 +434,24 @@ describe 'Managed Container model' do
       expect(ao.refresh.system_mtime).to be > original_mtime
     end
 
+
+    it "reindexes top container when it is updated with an empty location" do
+      location = create(:json_location, :temporary => nil)
+
+      container = create(:json_top_container, 'container_locations' => [build_container_location(location.uri)])
+
+      starting_mtime = TopContainer.to_jsonmodel(container.id).system_mtime
+
+      # Confirm that the location update doesn't occur in the same second as the initial container creation
+      sleep(1) until starting_mtime != Time.now.utc.iso8601.to_s
+
+      TopContainer.bulk_update_location([container.id], {})
+
+      ending_mtime = TopContainer.to_jsonmodel(container.id).system_mtime
+
+      expect(ending_mtime).to be > starting_mtime
+    end
+
   end
 
 
@@ -460,9 +478,6 @@ describe 'Managed Container model' do
       it "throws exception when attempt to update to an invalid barcode" do
         container1_json = create(:json_top_container)
         container2_json = create(:json_top_container)
-
-        original_barcode_1 = TopContainer[container1_json.id].barcode
-        original_barcode_2 = TopContainer[container2_json.id].barcode
 
         stub_barcode_length(4, 6)
 
@@ -602,17 +617,33 @@ describe 'Managed Container model' do
         temp_location = create(:json_location, :temporary => 'loan')
 
         container_location1 = build_container_location(location1.uri)
-        container_location2 = build_container_location(location2.uri)
         prev_container_location = build_container_location(temp_location.uri, 'previous')
 
         container1 = create(:json_top_container, 'container_locations' => [container_location1, prev_container_location])
 
-        results = TopContainer.bulk_update_location([container1.id], location2.uri)
+        TopContainer.bulk_update_location([container1.id], location2.uri)
 
         json = JSONModel(:top_container).find(container1.id)
         expect(json['container_locations'].length).to eq(2)
         expect(json['container_locations'].map{|v| v['ref']}.include?(location2.uri)).to be_truthy
         expect(json['container_locations'].map{|v| v['ref']}.include?(temp_location.uri)).to be_truthy
+      end
+
+      it "removes location if updated with a blank location" do
+        location = create(:json_location, :temporary => nil)
+
+        container = create(:json_top_container, 'container_locations' => [build_container_location(location.uri)])
+
+        results = TopContainer.bulk_update_location([container.id], {})
+
+        expect {
+          results.to eq(1)
+        }
+
+        json = JSONModel(:top_container).find(container.id)
+
+        expect(json['container_locations'].length).to eq(0)
+        expect(json['container_locations'].empty?).to be_truthy
       end
 
 
@@ -623,11 +654,10 @@ describe 'Managed Container model' do
 
         container_location1 = build_container_location(location1.uri)
         container_location2 = build_container_location(location2.uri)
-        container_location3 = build_container_location(location3.uri)
 
         container1 = create(:json_top_container, 'container_locations' => [container_location1, container_location2])
 
-        results = TopContainer.bulk_update_location([container1.id], location3.uri)
+        TopContainer.bulk_update_location([container1.id], location3.uri)
 
         json = JSONModel(:top_container).find(container1.id)
         expect(json['container_locations'].length).to eq(1)

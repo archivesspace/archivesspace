@@ -8,7 +8,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :created],
              [400, :error]) \
   do
-    check_permissions(params)
+    check_prefs_permissions(params)
     handle_create(Preference, params[:preference])
   end
 
@@ -70,7 +70,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, :updated],
              [400, :error]) \
   do
-    check_permissions(params)
+    check_prefs_permissions(params)
     handle_update(Preference, params[:id], params[:preference])
   end
 
@@ -93,12 +93,12 @@ class ArchivesSpaceService < Sinatra::Base
     .permissions([:delete_archival_record])
     .returns([200, :deleted]) \
   do
-    check_permissions(params)
+    check_prefs_permissions(params)
     handle_delete(Preference, params[:id])
   end
 
 
-  def check_permissions(params)
+  def check_prefs_permissions(params)
     if (params.has_key?(:preference))
       user_id = params[:preference]['user_id']
       repo_id = params[:preference]['repo_id']
@@ -111,18 +111,18 @@ class ArchivesSpaceService < Sinatra::Base
     if user_id.nil? &&
         repo_id == Repository.global_repo_id &&
         !current_user.can?(:administer_system)
-      raise AccessDeniedException.new
+      raise AccessDeniedException.new('Error editing Global preferences')
     end
 
     # trying to edit repo prefs
     if user_id.nil? &&
         !current_user.can?(:manage_repository)
-      raise AccessDeniedException.new
+      raise AccessDeniedException.new('Error editing Repository preferences')
     end
 
     # trying to edit user prefs
     if user_id && user_id != current_user.id
-      raise AccessDeniedException.new
+      raise AccessDeniedException.new('Error editing User preferences')
     end
   end
 

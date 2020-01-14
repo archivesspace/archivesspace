@@ -1,14 +1,9 @@
 class ContainerProfilesController < ApplicationController
 
-  set_access_control  "view_repository" => [:show, :typeahead],
-                      "update_container_profile_record" => [:new, :index, :edit, :create, :update, :delete]
+  set_access_control  "view_repository" => [:show, :index, :typeahead],
+                      "update_container_profile_record" => [:new, :edit, :create, :update, :delete]
 
-  FACETS = ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"]
-
-
-  def self.FACETS
-    FACETS
-  end
+  include ExportHelper
 
   def new
     @container_profile = JSONModel(:container_profile).new._always_valid!
@@ -18,7 +13,17 @@ class ContainerProfilesController < ApplicationController
 
 
   def index
-    @search_data = Search.for_type(session[:repo_id], "container_profile", params_for_backend_search.merge({"facet[]" => FACETS}))
+    respond_to do |format|
+      format.html {
+        @search_data = Search.for_type(session[:repo_id], "container_profile", params_for_backend_search.merge({"facet[]" => SearchResultData.CONTAINER_PROFILE_FACETS}))
+      }
+      format.csv {
+        search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.CONTAINER_PROFILE_FACETS})
+        search_params["type[]"] = "container_profile"
+        uri = "/repositories/#{session[:repo_id]}/search"
+        csv_response( uri, search_params )
+      }
+    end
   end
 
 

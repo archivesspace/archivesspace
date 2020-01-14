@@ -16,6 +16,9 @@ def clean_slug(slug)
     # remove double hypens
     slug = slug.gsub("--", "")
 
+    # remove en and em dashes
+    slug = slug.gsub(/[\u2013-\u2014]/, "")
+
     # remove single quotes
     slug = slug.gsub("'", "")
 
@@ -41,7 +44,7 @@ def clean_slug(slug)
     slug = ""
   end
 
-  return slug
+  return slug.parameterize
 end
 
 

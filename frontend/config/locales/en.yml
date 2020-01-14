@@ -63,6 +63,7 @@ en:
     transfer_successful: Transfer Successful.  Records may take a moment to appear in the target repository while re-indexing takes place.
     transfer_failed: Transfer Failed
     transfer_failed_records_using_digital_objects: "The following records link to digital objects that would be transferred, but doing so would break their instance links"
+    transfer_failed_digital_objects_linked_to_records: "This digital object links to other records held in this repository. To proceed with this transfer, remove the links in the following records"
     unset_default: Unset Default
     unsuppress: Unsuppress
     unsuppress_confirm_title: Unsuppress this Record?
@@ -309,8 +310,8 @@ en:
     manage_top_containers: Manage Top Containers
     manage_enumerations: Manage Controlled Value Lists
     global_preferences: Global Preferences
-    user_repo_preferences: Repository Preferences
-    repo_preferences: User Preferences
+    user_repo_preferences: User Preferences
+    repo_preferences: Repository Preferences
     manage_user_access: Manage User Access
     logout: Logout
     login: Sign In
@@ -1208,13 +1209,13 @@ en:
         empty_false: "No"
         search: Search
         update_ils_holding_ids: Update ILS Holding IDs
-        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.  Leave this blank to remove the current value without replacing it with another value.
         update_container_profiles: Update Container Profiles
-        update_container_profiles_help: Choose a Container Profile for all selected containers.
+        update_container_profiles_help: Choose a Container Profile for all selected containers.  Leave this blank to remove the current value without replacing it with another value.
         update_locations_singular: "Update Locations: Single Location"
-        update_locations_singular_help: Choose a Location for all selected containers.
+        update_locations_singular_help: Choose a Location for all selected containers.  Leave this blank to remove the current value without replacing it with another value.
         update_locations_multiple: "Update Locations: Multiple Locations"
-        update_locations_multiple_help: Choose a Location for each selected container.
+        update_locations_multiple_help: Choose a Location for each selected container.  Leave this blank to remove the current value without replacing it with another value.
         rapid_barcode_entry: Rapid Barcode Entry
         rapid_barcode_entry_existing_barcode: Existing Barcode
         rapid_barcode_entry_new_barcode: New Barcode
@@ -1224,6 +1225,7 @@ en:
         batch_merge_confirm_question: Are you sure you want to merge the top containers as listed below? This action is irreversible.
         batch_merge_confirm_victims: "Merge the following top container(s):" 
         batch_merge_confirm_target: "Into this top container:"
+        rapid_barcode_entry_help: Enter a barcode for each selected container.  Leave the New Barcode field blank to remove the current barcode without replacing it with a new value.
         batch_delete: Delete Top Containers
         batch_delete_help: Delete all selected containers.
         update_n_records: "Update %{n} records"
