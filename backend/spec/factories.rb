@@ -742,7 +742,7 @@ FactoryBot.define do
 
   factory :json_subject, class: JSONModel(:subject) do
     terms { [build(:json_term)] }
-    vocabulary { create(:json_vocab).uri }
+    vocabulary { create(:json_vocabulary).uri }
     authority_id { generate(:url) }
     scope_note { generate(:alphanumstr) }
     source { generate(:subject_source) }
@@ -751,7 +751,7 @@ FactoryBot.define do
   factory :json_term, class: JSONModel(:term) do
     term { generate(:term) }
     term_type { generate(:term_type) }
-    vocabulary { create(:json_vocab).uri }
+    vocabulary { create(:json_vocabulary).uri }
   end
 
   factory :json_user, class: JSONModel(:user) do
@@ -759,7 +759,7 @@ FactoryBot.define do
     name { generate(:generic_name) }
   end
 
-  factory :json_vocab, class: JSONModel(:vocabulary) do
+  factory :json_vocabulary, class: JSONModel(:vocabulary) do
     name { generate(:vocab_name) }
     ref_id { generate(:vocab_refid) }
   end
