@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BulkImportTracker
   require 'pp'
   def initialize
@@ -9,8 +11,8 @@ class BulkImportTracker
   end
 
   def add_errors(errors)
-      @error_rows += 1 if @current_row.errors.blank?
-      @current_row.add_errors(errors)
+    @error_rows += 1 if @current_row.errors.blank?
+    @current_row.add_errors(errors)
   end
 
   def add_info(info)
@@ -18,15 +20,15 @@ class BulkImportTracker
   end
 
   def add_archival_object(ao)
-    @current_row.archival_object(ao)if ao
+    @current_row.archival_object(ao) if ao
   end
 
   # If we stop processing before getting to the end of the spreadsheet, we want that reported out special
   def add_terminal_error(error, counter)
     if counter
-      @terminal_error = I18n.t('plugins.aspace-import-excel.error.stopped', :row => counter, :msg => error)
+      @terminal_error = I18n.t('plugins.aspace-import-excel.error.stopped', row: counter, msg: error)
     else
-      @terminal_error = I18n.t('plugins.aspace-import-excel.error.initialize', :msg => error)
+      @terminal_error = I18n.t('plugins.aspace-import-excel.error.initialize', msg: error)
     end
   end
 
@@ -39,40 +41,31 @@ class BulkImportTracker
     @current_row = nil
   end
 
-  def file_name
-    @file_name
-  end
+  attr_reader :file_name
 
   def new_row(row_number)
     @rows.push @current_row if @current_row
     @current_row = Row.new(row_number)
   end
 
-
   def set_file_name(file_name)
     @file_name = file_name || I18n.t('plugins.aspace-import-excel.error.file_name')
   end
 
+  attr_reader :rows
 
-  def rows
-    @rows
-  end
+  attr_reader :terminal_error
 
-  def terminal_error
-    @terminal_error
-  end
-
-  Row = Struct.new(:archival_object_id,:archival_object_display,:ref_id, :row, :errors, :info) do
-
+  Row = Struct.new(:archival_object_id, :archival_object_display, :ref_id, :row, :errors, :info) do
     def initialize(row_number)
-      self.row = I18n.t('plugins.aspace-import-excel.row', :row => row_number)
+      self.row = I18n.t('plugins.aspace-import-excel.row', row: row_number)
       self.errors = []
       self.info = []
       self.archival_object_id = nil
       self.archival_object_display = nil
       self.ref_id = nil
     end
-    
+
     # if other structures (top_container, agent, etc.) were created along the way
     def add_info(info)
       self.info.push info
@@ -85,7 +78,7 @@ class BulkImportTracker
         self.errors.push errors
       end
     end
-    
+
     def archival_object(ao)
       self.archival_object_id = ao.uri
       self.archival_object_display = ao.display_string
