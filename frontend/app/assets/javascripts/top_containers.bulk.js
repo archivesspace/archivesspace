@@ -103,8 +103,53 @@ BulkContainerSearch.prototype.update_button_state = function() {
 };
 
 BulkContainerSearch.prototype.setup_table_sorter = function() {
-  function padValue(value) {
-    return (new Array(255).join("#") + value).slice(-255)
+  function padNumber(number) {
+    // Get rid of preceding zeros from numbers (so 003 will sort with 3 instead of in the hundreds)
+    // Then pad it (so 10 doesn't sort between 1 and 2)
+    number = parseInt(number).toString()
+    return  (new Array(255).join("#") + number).slice(-255)
+  }
+
+  function parseIndicator(value) {
+    // Creates a string of alternating number/non-number values separated by commas for indicator sort
+    if (!value || value.length === 0) {
+      return value
+    }
+
+    let letterOrNumber = isNaN(parseInt(value[0])) ? "letter" : "number"
+
+    let valueArray = [value[0]]
+    let valueArrayCurrentIndex = 0;
+    for (i = 1; i < value.length; i++) {
+      switch (letterOrNumber) {
+        case "letter":
+          if (isNaN(parseInt(value[i]))) {
+            valueArray[valueArrayCurrentIndex] += value[i]
+          } else {
+            valueArray[valueArrayCurrentIndex] = valueArray[valueArrayCurrentIndex].trim()
+            valueArrayCurrentIndex += 1
+            valueArray[valueArrayCurrentIndex] = value[i]
+            letterOrNumber = "number"
+          }
+          break;
+        case "number":
+          if (isNaN(parseInt(value[i]))) {
+            valueArray[valueArrayCurrentIndex] = padNumber(valueArray[valueArrayCurrentIndex])
+            valueArrayCurrentIndex += 1
+            valueArray[valueArrayCurrentIndex] = value[i]
+            letterOrNumber = "letter"
+          } else {
+            valueArray[valueArrayCurrentIndex] += value[i]
+          }
+          break;
+      }
+    }
+
+    if (!isNaN(parseInt(valueArray[valueArray.length - 1]))) {
+      valueArray[valueArray.length - 1] = padNumber(valueArray[valueArray.length - 1])
+    }
+
+    return valueArray.toString()
   };
 
   var tablesorter_opts = {
@@ -133,11 +178,9 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
         }
       } else if ($node.hasClass("top-container-indicator")) {
         var value = $node.text().trim();
-        // check for non-decimal and take the first
-        var first_number = value.split(/[^0-9]/)[0];
-
+        
         // pad the indicator values so they sort correctly with digit and alpha values
-        return padValue(first_number) + padValue(value);
+        return parseIndicator(value);
       }
 
       return $node.text().trim();
