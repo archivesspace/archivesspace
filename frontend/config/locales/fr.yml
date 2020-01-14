@@ -1227,6 +1227,7 @@ fr:
         batch_delete: Supprimer Top conditionnements
         batch_delete_help: Supprimer tous les conditionnements sélectionnés.
         update_n_records: "Actualiser %{n} notices"
+        select_merge_target: Sélectionner la cible de fusion
         merge_n_records: "Ça va %{n} enregistrements"
         delete_n_records: "Supprimer %{n} notices"
         update_locations_current_location: Localisation actuelle
