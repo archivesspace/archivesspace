@@ -1227,6 +1227,7 @@ en:
         batch_delete: Delete Top Containers
         batch_delete_help: Delete all selected containers.
         update_n_records: "Update %{n} records"
+        select_merge_target: Select merge target
         merge_n_records: "Merge %{n} records"
         delete_n_records: "Delete %{n} records"
         update_locations_current_location: Current Location

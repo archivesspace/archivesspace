@@ -1227,6 +1227,7 @@ es:
         batch_delete: Borrar Contenedores Top
         batch_delete_help: Borrar todos los contenedores seleccionados.
         update_n_records: "Actualizar %{n} registros"
+        select_merge_target: Seleccionar objetivo de fusión
         merge_n_records: "Va %{n} registros"
         delete_n_records: "Borrar %{n} registros"
         update_locations_current_location: Ubicación actual
