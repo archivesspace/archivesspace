@@ -536,9 +536,49 @@ function BulkActionMerge(bulkContainerSearch) {
   var $link = $("#bulkActionMerge", self.bulkContainerSearch.$toolbar);
 
   $link.on("click", function() {
-    AS.openCustomModal("bulkActionModal", "Merge Top Containers", AS.renderTemplate("bulk_action_merge", {
+    AS.openCustomModal("bulkMergeModal", "Merge Top Containers", AS.renderTemplate("bulk_action_merge", {
       selection: self.bulkContainerSearch.get_selection()
     }), 'full');
+
+    // Access modal1 DOM
+    const $mergeBtn = $("[data-js='merge']");
+    
+    $mergeBtn.on("click", function(e) {
+      e.preventDefault();
+
+      // Set up data for form submission
+      const victims = self.bulkContainerSearch
+                          .get_selection()
+                          .map(function(container) {
+                            return {
+                              uri: container.uri,
+                              display_string: container.display_string
+                            }
+                          });
+
+      const targetEl = document.querySelector('input[name="target[]"]:checked');
+
+      const target = {
+        display_string: targetEl.getAttribute('aria-label'),
+        uri: targetEl.getAttribute('value')
+      };
+      
+      // compute victims list for template rendering
+      const victimsNoTarget = victims.reduce(function(acc, victim) {
+        if (victim.display_string !== target.display_string) {
+          acc.push(victim.display_string);
+        }
+        return acc;
+      }, [])
+      
+      // Init modal2
+      AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
+        victims,
+        victimsNoTarget,
+        target
+      }), false);
+    })
+
   });
 };
 
