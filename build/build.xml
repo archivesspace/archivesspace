@@ -413,15 +413,19 @@
     </java>
   </target>
 
-   <target name="frontend:clean" depends="solr:nuke, db:delete" description="Delete the Rails tmp directory, solr index and test database">
+   <target name="frontend:clean" description="Delete the Rails tmp directory">
     <delete failonerror="false" dir="../frontend/tmp" />
     <delete failonerror="false" dir="../frontend/public/assets" />
     <mkdir dir="../frontend/public/assets" />
     <mkdir dir="../frontend/public/assets/00-do-not-put-things-here" />
   </target>
 
-  <target name="db:delete" depends="set-classpath" description="Delete test database">
-    <delete dir="build/archivesspace_demo_db" />
+  <target name="solr-db-delete" description="Delete the solr index, test database, and log files">
+    <delete failonerror="false" file="${aspace.data_directory}/frontend_test_log.out" />
+    <delete failonerror="false" file="${aspace.data_directory}/backend_test_log.out" />
+    <delete failonerror="false" file="${aspace.data_directory}/derby.log" />
+    <delete failonerror="false" dir="${aspace.data_directory}/archivesspace_demo_db" />
+    <antcall target="solr:nuke" />
   </target>
 
   <target name="frontend:devserver" depends="set-classpath, frontend:clean" description="Start an instance of the ArchivesSpace frontend development server">

@@ -469,6 +469,12 @@ class MARCModel < ASpaceExport::ExportModel
         code = '600'
         ind1 = '3'
         sfs = gather_agent_family_subfield_mappings(name, relator_sf, subject)
+
+      when 'agent_software'
+        code = '653'
+        ind1 = ' '
+        sfs = [['a', name['software_name']]]
+
       end
 
       terms.each do |t|
