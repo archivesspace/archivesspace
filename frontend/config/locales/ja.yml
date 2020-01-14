@@ -1225,6 +1225,7 @@ ja:
         batch_delete: トップコンテナの削除
         batch_delete_help: 選択したすべてのコンテナを削除します。
         update_n_records: "%{n}レコードを更新する"
+        select_merge_target: マージターゲットを選択
         merge_n_records: "%{n} 件記録"
         delete_n_records: "%{n}レコードを削除する"
         update_locations_current_location: 現在位置
