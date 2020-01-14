@@ -561,9 +561,18 @@ function BulkActionMerge(bulkContainerSearch) {
         uri: targetEl.getAttribute('value')
       };
       
+      // compute victims list for template rendering
+      const victimsNoTarget = victims.reduce(function(acc, victim) {
+        if (victim.display_string !== target.display_string) {
+          acc.push(victim.display_string);
+        }
+        return acc;
+      }, [])
+      
       // Init modal2
       AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
         victims,
+        victimsNoTarget,
         target
       }), false);
     })
