@@ -1,0 +1,10 @@
+<%= stylesheet_link_tag "#{AppConfig[:frontend_prefix]}assets/work_order.css" %>
+<%= javascript_include_tag "#{AppConfig[:frontend_prefix]}assets/work_order.js" %>
+<script type="text/template" id="workOrderButtonTemplate">
+  <%= link_to I18n.t("plugins.digitization_work_order.toolbar_button"), {:controller => :work_order, :action => :index, :resource => @resource ? @resource.uri : nil}, {:class => "btn btn-xs btn-default"} %>
+</script>
+<script type="text/template" id="workOrderLoadingTemplate">
+  <div class="modal-body" id="workOrderForm">
+    <%= I18n.t("plugins.digitization_work_order.loading") %>
+  </div>
+</script>

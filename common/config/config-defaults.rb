@@ -95,8 +95,7 @@ AppConfig[:solr_params] = { "q.op" => "AND" }
 # a list of available locale codes)
 AppConfig[:locale] = :en
 
-# Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local',  'lcnaf']
+
 
 # The number of concurrent threads available to run background jobs
 # Resist the urge to set this to a big number as it will affect performance
@@ -284,13 +283,7 @@ AppConfig[:report_page_layout] = "letter"
 AppConfig[:report_pdf_font_paths] = proc { ["#{AppConfig[:backend_url]}/reports/static/fonts/dejavu/DejaVuSans.ttf"] }
 AppConfig[:report_pdf_font_family] = "\"DejaVu Sans\", sans-serif"
 
-# Path to system Java -- required when creating PDFs on Windows
-AppConfig[:path_to_java] = "java"
 
-# By default, the plugins directory will be in your ASpace Home.
-# If you want to override that, update this with an absolute
-# path
-AppConfig[:plugins_directory] = "plugins"
 
 # URL to direct the feedback link
 # You can remove this from the footer by making the value blank.
