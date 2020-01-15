@@ -93,7 +93,7 @@ describe 'Subject model' do
   end
 
   it "ensures subject heading identifiers are unique within a source" do
-    vocab = create(:json_vocab)
+    vocab = create(:json_vocabulary)
     heading_id = "12aBCD12"
     subject_a = create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => heading_id})
 
@@ -110,7 +110,7 @@ describe 'Subject model' do
 
 
   it "allows authority ids to have spaces and funny characters" do
-    vocab = create(:json_vocab)
+    vocab = create(:json_vocabulary)
 
     expect {
       create(:json_subject, {:vocabulary => vocab.uri, :source => "local", :authority_id => "H0w N0w Br0wn C9w"})
