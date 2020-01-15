@@ -294,7 +294,6 @@ class IndexerCommon
         doc['ref_id'] = record['record']['ref_id']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
-        doc['language'] = record['record']['language']
       end
     }
 
@@ -386,7 +385,6 @@ class IndexerCommon
         doc['title'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
-        doc['language'] = record['record']['language']
       end
     }
 
@@ -419,7 +417,6 @@ class IndexerCommon
         doc['restrictions'] = record['record']['restrictions']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
-        doc['language'] = record['record']['language']
 
         doc['linked_instance_uris'] = record['record']['linked_instances'].
                                          collect{|instance| instance["ref"]}.

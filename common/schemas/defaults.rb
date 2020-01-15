@@ -5,20 +5,20 @@ browse_column_enums = {
     'dates', 'extents', 'processing_priority', 'processors'
   ],
   'resource' => [
-    'title', 'identifier', 'level', 'resource_type', 'language', 'publish',
+    'title', 'identifier', 'level', 'resource_type', 'publish',
     'restrictions', 'dates', 'extents', 'ead_id', 'finding_aid_status',
     'processing_priority', 'processors'
   ],
   'archival_object' => [
     "title", "publish", "context", "component_id", "ref_id", "level", 'dates',
-    'extents', 'language'
+    'extents'
   ],
   'digital_object' => [
-    'title', 'digital_object_id', 'publish', 'level', 'digital_object_type', 'language',
+    'title', 'digital_object_id', 'publish', 'level', 'digital_object_type',
     'restrictions', 'dates', 'extents'
   ],
   'digital_object_component' => [
-    "title", "publish", "context", 'dates', 'extents', 'language'
+    "title", "publish", "context", 'dates', 'extents'
   ],
   'subjects' => [
     "title", "publish", "source", "first_term_type"
