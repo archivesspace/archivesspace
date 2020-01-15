@@ -159,7 +159,7 @@ library available.  To do this, place it in the `lib/` directory of
 the ArchivesSpace package:
 
      cd /aspace/archivesspace/software/stable/lib
-     wget http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar
+     wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.24/mysql-connector-java-5.1.24.jar
 
 
 ## Defining a new tenant
