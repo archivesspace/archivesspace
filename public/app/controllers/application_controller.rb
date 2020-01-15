@@ -134,4 +134,25 @@ class ApplicationController < ActionController::Base
       return added_params
     end
 
+    def record_not_found(uri, type)
+      @page_title = I18n.t('errors.error_404', :type => I18n.t("#{type}._singular"))
+      @uri = uri
+      @back_url = request.referer || ''
+      render  'shared/not_found', :status => 404
+    end
+
+    def record_not_resolved(uri, type)
+      @page_title = I18n.t('errors.error_404', :type => I18n.t("#{type}._singular"))
+      @uri = uri
+      @back_url = request.referer || ''
+      render  'shared/not_found', :status => 404
+    end
+
+    def ark_not_resolved(uri)
+      @page_title = I18n.t('errors.error_404', :type => 'ARK')
+      @uri = uri
+      @back_url = request.referer || ''
+      render  'shared/not_found', :status => 404
+    end
+
 end
