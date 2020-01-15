@@ -33,3 +33,9 @@ The `batch_merge_modal_template` template in frontend/app/views/shared/\_templat
   - the `<h3>` in the `modal_custom_template` template in the file frontend/app/views/shared/\_templates.html.erb needs to be changed
 
 - the js as written doesn't adhere to basic js conventions, like including snake casing variable names (see browse_merge.js (also, the filenaming as in this case is not camelCased))
+
+## Notes
+
+### 2020-01-15
+
+There's is this wierd thing where lots of modals get injected into the DOM as commented out html inside a div with an id. The div#id is how they access the modal text, then they use that data _from the DOM_ in a js function call (`AS.openCustomModal`) to output more DOM!!!?!?!
