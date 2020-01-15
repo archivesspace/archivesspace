@@ -15,14 +15,14 @@ describe 'Repository controller' do
 
 
   it "supports creating a repository" do
-    repo = create(:json_repo)
+    repo = create(:json_repository)
 
     expect(JSONModel(:repository).find(repo.id).repo_code).to eq(repo.repo_code)
   end
 
 
   it "supports updating a repository" do
-    repo = create(:json_repo)
+    repo = create(:json_repository)
     repo.name = "A new name"
     repo.save
 
@@ -42,7 +42,7 @@ describe 'Repository controller' do
 
     as_test_user(user.username) do
       expect {
-        create(:json_repo)
+        create(:json_repository)
       }.to raise_error(AccessDeniedException)
     end
   end
@@ -166,7 +166,7 @@ describe 'Repository controller' do
 
 
     it "can delete an empty repository and all of its groups" do
-      victim_repo = create(:json_repo, {:repo_code => "TARGET_REPO"})
+      victim_repo = create(:json_repository, {:repo_code => "TARGET_REPO"})
 
       victim_repo.delete
 

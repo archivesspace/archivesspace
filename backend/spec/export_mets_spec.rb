@@ -10,7 +10,7 @@ describe "Exported METS document" do
 
   before(:all) do
     $old_repo_id = $repo_id
-    @repo = create(:json_repo)
+    @repo = create(:json_repository)
     $repo_id = @repo.id
 
     JSONModel.set_repository($repo_id)

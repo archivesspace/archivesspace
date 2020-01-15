@@ -661,7 +661,7 @@ FactoryBot.define do
     description { generate(:alphanumstr) }
   end
 
-  factory :json_repo, class: JSONModel(:repository) do
+  factory :json_repositorysitory, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -670,7 +670,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :json_repo_without_country, class: JSONModel(:repository) do
+  factory :json_repository_without_country, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -679,7 +679,7 @@ FactoryBot.define do
     country { nil }
   end
 
-  factory :json_repo_us, class: JSONModel(:repository) do
+  factory :json_repository_us, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -688,7 +688,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :json_repo_not_us, class: JSONModel(:repository) do
+  factory :json_repository_not_us, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -697,12 +697,12 @@ FactoryBot.define do
     country { 'TH' }
   end
 
-  factory :json_repo_with_agent, class: JSONModel(:repository_with_agent) do
-    repository { build(:json_repo) }
+  factory :json_repository_with_agent, class: JSONModel(:repository_with_agent) do
+    repository { build(:json_repository) }
     agent_representation { build(:json_agent_corporate_entity) }
   end
 
-  factory :json_repo_no_org_code, class: JSONModel(:repository) do
+  factory :json_repository_no_org_code, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     image_url { generate(:url) }
@@ -710,7 +710,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :json_repo_parent_org, class: JSONModel(:repository) do
+  factory :json_repository_parent_org, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
