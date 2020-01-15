@@ -21,6 +21,7 @@
         <% if user_can?('manage_container_profile_record') %>
           <button id="batchMerge" class="btn btn-sm btn-default multiselect-enabled" disabled="disabled" data-multiselect="#tabledSearchResults"><%= I18n.t("actions.merge")%></button>
         <% end %>
+        <%#= NEED TO REMOVE multiselect-enabled class here for better un disabling %>
        <% if user_can?("manage_container_profile_record") %>
          <%= button_delete_multiple_action(:container_profiles) %>
        <% end %>
