@@ -134,8 +134,15 @@ FactoryBot.define do
       parent_id { nil }
     end
   end
-  # JSON Models:
 
+  # JSON Models:
+  # NOTE: these factories are used to generate example objects
+  #       for the API docs - those docs currently rely on there
+  #       being a factory named: "json_#{name_of_jsonmodel}",
+  #       e.g. json_repository -> repository, json_term -> term
+  #
+  #       There can be additional factories per type which you can
+  #       name whatever you want
   factory :json_accession, class: JSONModel(:accession) do
     id_0 { generate(:alphanumstr) }
     id_1 { generate(:alphanumstr) }
@@ -781,10 +788,10 @@ FactoryBot.define do
     source  { create(:json_resource).uri }
   end
 
-  factory :generate_slugs_job, class: JSONModel(:generate_slugs_job) do
+  factory :json_generate_slugs_job, class: JSONModel(:generate_slugs_job) do
   end
 
-  factory :generate_arks_job, class: JSONModel(:generate_arks_job) do
+  factory :json_generate_arks_job, class: JSONModel(:generate_arks_job) do
   end
 
   factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do
