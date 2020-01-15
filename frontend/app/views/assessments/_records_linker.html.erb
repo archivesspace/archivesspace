@@ -23,10 +23,11 @@
            data-multiplicity="many"
            data-sortable="true"
            data-types='["resource", "accession", "digital_object", "archival_object"]'
+           aria-label="Link to record"
     />
 
     <div class="input-group-btn">
-      <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="Link to record" aria-label="Link to record"><span class="caret"></span></a>
+      <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to record"><span class="caret"></span></a>
       <ul class="dropdown-menu">
         <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
       </ul>

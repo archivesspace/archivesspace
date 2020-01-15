@@ -291,6 +291,10 @@ class SearchResultData
     ["subjects", "publish", "digital_object_type", "level", "primary_type"]
   end
 
+  def self.CONTAINER_PROFILE_FACETS
+    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"]
+  end
+
   def self.LOCATION_FACETS
     ["temporary", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"]
   end

@@ -1915,6 +1915,10 @@ en:
     browse_column: Column %{num}
     browse_column_tooltip: The field to show in column %{num}.
     locale: Language Selection
+    sort_column: Default Sort Column
+    sort_column_tooltip: The default field for sorting results.
+    sort_direction: Default Sort Direction
+    sort_direction_tooltip: Default direction to sort results.
     accession_browse_section: Accession Browse Columns
     resource_browse_section: Resource Browse Columns
     archival_object_browse_section: Archival Object Browse Columns

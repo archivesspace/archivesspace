@@ -37,7 +37,8 @@ module SlugHelpers
   end
 
   # remove invalid chars and truncate slug
-  # NOTE: If changes are made here, then they should be also made in migration 119.
+  # NOTE: If changes are made here, then they should be also made in
+  # migration 120 and spec_slugs_helper.rb
   def self.clean_slug(slug)
 
     if slug
@@ -56,6 +57,9 @@ module SlugHelpers
 
       # remove double hypens
       slug = slug.gsub("--", "")
+
+      # remove en and em dashes
+      slug = slug.gsub(/[\u2013-\u2014]/, "")
 
       # remove single quotes
       slug = slug.gsub("'", "")
@@ -82,7 +86,7 @@ module SlugHelpers
       slug = ""
     end
 
-    return slug
+    return slug.parameterize
   end
 
   # runs dedupe if necessary

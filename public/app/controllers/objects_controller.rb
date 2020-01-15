@@ -113,11 +113,8 @@ class ObjectsController <  ApplicationController
       end
       render
     rescue RecordNotFound
-      @type = I18n.t("#{(params[:obj_type] == 'archival_objects'? 'archival' : 'digital')}_object._singular")
-      @page_title = I18n.t('errors.error_404', :type => @type)
-      @uri = uri
-      @back_url = request.referer || ''
-      render  'shared/not_found', :status => 404
+      type = "#{(params[:obj_type] == 'archival_objects' ? 'archival' : 'digital')}_object"
+      record_not_found(uri, type)
     end
   end
 
