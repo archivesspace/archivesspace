@@ -661,7 +661,7 @@ FactoryBot.define do
     description { generate(:alphanumstr) }
   end
 
-  factory :json_repositorysitory, class: JSONModel(:repository) do
+  factory :json_repository, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
