@@ -6,10 +6,10 @@
   <property name="jruby_url" value="https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.1.17.0/jruby-complete-9.1.17.0.jar" />
   <property name="jruby_file" value="jruby-complete-9.1.17.0.jar" />
 
-  <property name="solr_url" value="http://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
+  <property name="solr_url" value="https://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
 
-  <property name="jettyrunner_url" value="http://central.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.2.22.v20170606/jetty-runner-9.2.22.v20170606.jar" />
+  <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.2.22.v20170606/jetty-runner-9.2.22.v20170606.jar" />
   <property name="jettyrunner_file" value="jetty-runner-9.2.22.v20170606.jar" />
 
   <property name="gem_home" location="gems" />
