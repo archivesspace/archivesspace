@@ -62,6 +62,7 @@ module ASpaceExport
                       when 'agent_person'; 'persname'
                       when 'agent_family'; 'famname'
                       when 'agent_corporate_entity'; 'corpname'
+                      when 'agent_software'; 'name'
                       end
 
           atts = {}

@@ -292,7 +292,7 @@ class SearchResultData
   end
 
   def self.CONTAINER_PROFILE_FACETS
-      ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"]
+    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"]
   end
 
   def self.LOCATION_FACETS

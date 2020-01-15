@@ -150,6 +150,7 @@ module ResultInfo
              dig_f = process_file_versions(it)
              dig_f['caption'] = CGI::escapeHTML(title) if dig_f['caption'].blank? && !title.blank?
            end
+          dig_f['material'] = it['digital_object_type'].blank? ? '' : '(' << it['digital_object_type'] << ')'
         end
         dig_objs.push(dig_f) unless dig_f.blank?
       end

@@ -1,5 +1,9 @@
 <%= setup_context(:title => I18n.t("container_profile._plural")) %>
 
+<%
+   @show_multiselect_column = user_can?("update_container_profile_record")
+%>
+
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">
@@ -14,6 +18,12 @@
         <% if user_can?('update_container_profile_record') %>
           <%= link_to I18n.t("container_profile._frontend.action.create"), {:controller => :container_profiles, :action => :new}, :class => "btn btn-sm btn-default" %>
         <% end %>
+        <% if user_can?('manage_container_profile_record') %>
+          <button id="batchMerge" class="btn btn-sm btn-default multiselect-enabled" disabled="disabled" data-multiselect="#tabledSearchResults"><%= I18n.t("actions.merge")%></button>
+        <% end %>
+       <% if user_can?("manage_container_profile_record") %>
+         <%= button_delete_multiple_action(:container_profiles) %>
+       <% end %>
       </div>
       <br style="clear:both" />
     </div>

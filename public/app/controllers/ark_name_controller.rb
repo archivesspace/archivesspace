@@ -11,7 +11,7 @@ class ArkNameController <  ApplicationController
       uri = "/ark:/#{params[:naan]}/#{params[:id]}"
 
       json_response = send_ark_request(uri)
-      redirect_to_entity_url(json_response)
+      redirect_to_entity_url(json_response, uri)
     end
 
 
@@ -27,7 +27,7 @@ class ArkNameController <  ApplicationController
     end
 
 
-    def redirect_to_entity_url(json_response)
+    def redirect_to_entity_url(json_response, uri)
       case json_response["type"]
       when "external"
         redirect_to json_response["external_url"]
@@ -36,7 +36,7 @@ class ArkNameController <  ApplicationController
       when "ArchivalObject"
         redirect_to "/repositories/" + json_response["repo_id"].to_s + "/archival_objects/" + json_response["id"].to_s
       else
-        render '/shared/not_found'
+        ark_not_resolved(uri)
       end
     end
 end
