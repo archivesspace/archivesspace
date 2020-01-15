@@ -38,25 +38,26 @@
              <% if multiplicity === "many" %>data-sortable="true"<% end %>
              data-types='<%= linkable_types.to_json %>'
              data-exclude='<%= exclude_ids.to_json %>'
+             aria-label="Link to agent"
       />
-    
-      
+
+
       <% if form.obj.has_key?('_resolved') %>
-      
-        <input type="text" 
-          class='prelinker' 
+
+        <input type="text"
+          class='prelinker'
           name="<%= form.path %>[_resolved]"
           value="<%= selected_json %>" />
-          
-        <input type="text" 
-          class='prelinker' 
+
+        <input type="text"
+          class='prelinker'
           name="<%= form.path %>[ref]"
           value="<%= form.obj["ref"] %>" />
 
       <% end %>
-      
+
       <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="Link to agent" aria-label="Link to agent"><span class="caret"></span></a>
+        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to agent"><span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
           <% if user_can?('update_agent_record') %>
