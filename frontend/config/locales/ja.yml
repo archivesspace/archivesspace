@@ -1236,6 +1236,14 @@ ja:
         updated: 更新されたコンテナプロファイル
       section:
         basic_information: 基本情報
+      bulk_operations:
+        merge: コンテナプロファイルのマージ
+        merge_instructions: リストされている他のすべてのコンテナプロファイルがマージされるコンテナプロファイルを選択します。 リンクされたレコードはすべてこのプロファイルに再リンクされ、他のコンテナプロファイルのすべての情報が削除されます。
+        merge_select_target: マージターゲットを選択
+        confirm_merge: マージコンテナプロファイルの確認
+        confirm_merge_question: 以下にリストされているように、コンテナープロファイルをマージしてもよろしいですか？ このアクションは元に戻せません。
+        confirm_merge_victims: "次のコンテナプロファイルをマージします:" 
+        confirm_merge_target: "このコンテナプロファイルに:"
     name: 名
     name_tooltip: "<p>必要なフィールド。コンテナプロファイルの名前。ジェネリックまたは特定のものがあります。 </p><p>例： </p><ul><li>ドキュメントボックス</li><li>ページ15
       </li><li>小さなカードのファイルボックス</li></ul>"

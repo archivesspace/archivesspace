@@ -1240,6 +1240,14 @@ es:
         updated: Perfil de contenedor actualizado
       section:
         basic_information: Información básica
+      bulk_operations:
+        merge: Fusionar perfiles de contenedores
+        merge_instructions: Seleccione el perfil de contenedor en el que se fusionarán todos los demás perfiles de contenedor enumerados. Todos los registros vinculados se volverán a vincular a este perfil y se eliminará toda la información para los otros perfiles de contenedor.
+        merge_select_target: Seleccionar objetivo de fusión
+        confirm_merge: Confirmar perfiles de contenedor de fusión
+        confirm_merge_question: ¿Está seguro de que desea fusionar los perfiles del contenedor como se enumeran a continuación? Esta acción es irreversible.
+        confirm_merge_victims: "Combinar los siguientes perfiles de contenedor:" 
+        confirm_merge_target: "En este perfil de contenedor:"
     name: Nombre
     name_tooltip: |
         <p>CAMPO REQUERIDO. El nombre del perfil de contenedores. Pueden ser genéricos o específicos.</p>
