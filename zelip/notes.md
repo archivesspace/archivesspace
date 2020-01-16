@@ -39,3 +39,7 @@ The `batch_merge_modal_template` template in frontend/app/views/shared/\_templat
 ### 2020-01-15
 
 There's is this wierd thing where lots of modals get injected into the DOM as commented out html inside a div with an id. The div#id is how they access the modal text, then they use that data _from the DOM_ in a js function call (`AS.openCustomModal`) to output more DOM!!!?!?!
+
+### 2020-01-16
+
+Planning to submit ANW-550-confirm-merge-container-profiles PR today.
