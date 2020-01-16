@@ -13,9 +13,9 @@ describe "Exported Dublin Core metadata" do
     @repo_agent = build(:json_agent_corporate_entity,
                          :agent_contacts => [@repo_contact])
 
-    @repo = build(:json_repo)
+    @repo = build(:json_repository)
 
-    @repo_with_agent = create(:json_repo_with_agent,
+    @repo_with_agent = create(:json_repository_with_agent,
                               :repository => @repo,
                               :agent_representation => @repo_agent)
 

@@ -69,12 +69,12 @@ $(function() {
 
 // sidebar action
 $(function() {
-  
+
   var getSubMenuHTML = function(numberOfRecords) {
-    if ( numberOfRecords < 1 ) { 
-      return ''; 
+    if ( numberOfRecords < 1 ) {
+      return '';
     } else {
-      return  $("<span class='nav-list-record-count badge'>" + numberOfRecords + "</span>") 
+      return  $("<span class='nav-list-record-count badge'>" + numberOfRecords + "</span>")
      }
   };
 
@@ -806,6 +806,7 @@ $(function() {
 
       // add a close icon to the alert
       var $close = $("<a>").attr("href", "javascript:void(0);").addClass("hide-alert");
+      $close.text("Close Alert").addClass("sr-only");
       $close.append($("<span>").addClass("glyphicon glyphicon-remove"));
       $close.click(handleCloseAlert);
 

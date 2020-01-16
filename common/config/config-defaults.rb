@@ -294,7 +294,7 @@ AppConfig[:plugins_directory] = "plugins"
 
 # URL to direct the feedback link
 # You can remove this from the footer by making the value blank.
-AppConfig[:feedback_url] = "http://archivesspace.org/feedback"
+AppConfig[:feedback_url] = "https://archivesspace.org/contact"
 
 # Allow an unauthenticated user to create an account
 AppConfig[:allow_user_registration] = true

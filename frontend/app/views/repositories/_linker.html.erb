@@ -29,9 +29,10 @@
              data-multiplicity="one"
              data-types='<%= linkable_types.to_json %>'
              data-exclude='<%= exclude_ids.to_json %>'
+             aria-label="Link to repository"
       />
       <div class="input-group-btn">
-        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" title="Link to repository" aria-label="Link to repository"><span class="caret"></span></a>
+        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to repository"><span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
         </ul>

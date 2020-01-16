@@ -2,7 +2,7 @@ require 'spec_helper'
 
 def generate_slugs_job
      build( :json_job,
-            :job => build(:generate_slugs_job)
+            :job => build(:json_generate_slugs_job)
           )
 end
 

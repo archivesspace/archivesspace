@@ -2,7 +2,7 @@ require 'spec_helper'
 
 def generate_arks_job
      build( :json_job,
-            :job => build(:generate_arks_job)
+            :job => build(:json_generate_arks_job)
           )
 end
 
