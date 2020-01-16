@@ -22,8 +22,8 @@ function activateBtn(event) {
 };
 
 $(document).on("click", "#batchMerge", function() {
-  let modal_title = $(this).text() + " " + $("h2").text()
-  let dialog_content = AS.renderTemplate("batch_merge_modal_template", {
+  let modal_title = "Merge Container Profiles";
+  let dialog_content = AS.renderTemplate("merge_container_profiles_modal", {
     selection: get_selection()
   });
   AS.openCustomModal("batchMergeModal", modal_title, dialog_content,
