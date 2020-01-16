@@ -51,6 +51,29 @@
 <% end %>
 --></div>
 
+<div id="merge_container_profiles_modal"><!--
+  <%= form_tag({:controller => :container_profiles}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
+    <div class="modal-body">
+      <p class="alert alert-info" id="alertBucket"><%= I18n.t("container_profile._frontend.bulk_operations.merge_instructions") %></p>
+      <div class="selected-record-list well" id="mergeList">
+        <div role="radiogroup" aria-labelledby="mergeList">
+          {for item in selection}
+            <% item_uri = "${item.uri}" %>
+            <div id="chkPref" role="radio" tabindex="0">
+              <%= radio_button_tag "target[]", "${item.uri}", false, :"data-object" => item_uri, :"aria-label" => "${item.display_string}", :"id" => "${item.uri}", :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
+              <span>${item.display_string}</span>
+            </div>
+          {/for}
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary merge-button" data-js="selectTarget" disabled="disabled"><%= I18n.t("container_profile._frontend.bulk_operations.merge_select_target") %></button>
+      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+    </div>
+  <% end %>
+--></div>
+
 <div id="save_changes_modal_template"><!--
    <div class="modal-body">
       <%= I18n.t "save_changes_modal.body" %>
