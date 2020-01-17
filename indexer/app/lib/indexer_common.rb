@@ -899,6 +899,7 @@ class IndexerCommon
     out = value.gsub(/<[^>]+>/, '')
     out.gsub!(/-/, ' ')
     out.gsub!(/[^\w\s]/, '')
+    out.gsub!(/\s+/, ' ')
     out.strip
   end
 
