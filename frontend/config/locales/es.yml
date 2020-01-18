@@ -42,6 +42,9 @@ es:
     merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad. Al hacer clic en el botón Comparar les autoridades, aparecerá una pantalla que le brinda la opción de elegir qué campos y sub-registros retener de cada registro. "
     merge_agent_from_browse_confirm_message: "El primer autoridad seleccionado tendrá los registros seleccionados posteriormente fusionados en él. Todos los registros seleccionados posteriormente se eliminarán y los registros vinculados se volverán a vincular al primer autoridad seleccionado."
     merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este fondo."
+    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
+    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
+    merge_n_records: "Merge %{n} records"
     move: Mover
     move_up_a_level: Un nivel
     move_up: Arriba
@@ -187,6 +190,8 @@ es:
       processors: Procesadores
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     resource:
       title: Título
       publish: Publicado
@@ -206,6 +211,8 @@ es:
       processors: Procesadores
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     archival_object:
       title: Título
       publish: Publicado
@@ -219,6 +226,8 @@ es:
       extents: Extensión
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     subjects:
       source: Fuente
       first_term_type: Tipo del término (primero)
@@ -227,6 +236,8 @@ es:
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     digital_object:
       title: Título
       publish: Publicado
@@ -241,6 +252,8 @@ es:
       extents: Extensión
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     digital_object_component:
       title: Título
       publish: Publicado
@@ -251,6 +264,8 @@ es:
       extents: Extensión
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     agent:
       title: Nombre
       primary_type: Tipo de autoridad
@@ -262,6 +277,8 @@ es:
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     location:
       title: Ubicación
       publish: Publicado
@@ -275,6 +292,8 @@ es:
       temporary: Temporal
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     event:
       agents: Autoridades
       event_type: Tipo
@@ -283,6 +302,8 @@ es:
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     collection_management:
       parent_title: Título
       parent_type: Tipo de registro
@@ -294,6 +315,8 @@ es:
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     classification:
       title: Título
       publish: Publicado
@@ -301,6 +324,8 @@ es:
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     assessment:
       assessment_id: ID
       assessment_records: Archivos
@@ -320,12 +345,16 @@ es:
       assessment_reviewers: Reviewer
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     repositories:
       title: Título
       publish: Publicado
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     top_container:
       title: Título
       publish: Publicado
@@ -338,6 +367,8 @@ es:
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     container_profile:
       title: Título
       publish: Publicado
@@ -348,6 +379,8 @@ es:
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     location_profile:
       title: Título
       publish: Publicado
@@ -358,6 +391,8 @@ es:
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     multi:
       primary_type: Tipo de registro
       creators: Creadores
@@ -372,6 +407,8 @@ es:
       create_time: Creado
       dates: Fechas
       extents: Extensión
+      asc: Ascendente
+      desc: Descendente
 
   advanced_search:
     operator:
@@ -1004,6 +1041,8 @@ es:
         create: Crear fondo
         save: Guardar fondos
         delete_multiple: Eliminar fondos
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
 
   preference:
     _frontend:
@@ -1357,6 +1396,7 @@ es:
       messages:
         created: Perfil de contenedor creado
         updated: Perfil de contenedor actualizado
+        merged: Container Profiles(s) Merged
       section:
         basic_information: Información básica
     name: Nombre

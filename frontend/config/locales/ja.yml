@@ -42,6 +42,9 @@ ja:
     merge_agent_confirm_message: エージェント '%{source}'には、選択したレコードがマージされます。選択したレコードはすべて削除され、リンクされたレコードはこのエージェントに再リンクされます。 [エージェントの比較]ボタンをクリックすると、各レコードからどのフィールドとサブレコードを保持するかを選択するための画面が表示されます。
     merge_agent_from_browse_confirm_message: "選択された最初のエージェントには、後で選択されたレコードがマージされます。その後選択されたすべてのレコードは削除され、リンクされたレコードは選択された最初のエージェントに再リンクされます."
     merge_resource_confirm_message: リソース '%{source}'には、選択したレコードがマージされます。選択したすべてのレコードが削除され、リンクされたレコードはすべてこのリソースに再リンクされます。
+    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
+    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
+    merge_n_records: "Merge %{n} records"
     move: 移動
     move_up_a_level: レベルアップ
     move_up: アップ
@@ -170,6 +173,7 @@ ja:
     and: そして：
     asc: 上昇
     desc: 降順
+    select: Seleccione
 
   search:
     accession:
@@ -192,6 +196,8 @@ ja:
       processors: プロセッサー
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     resource:
       title: タイトル
       publish: 発行済み
@@ -211,6 +217,8 @@ ja:
       processors: プロセッサー
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     archival_object:
       title: タイトル
       publish: 発行済み
@@ -224,6 +232,8 @@ ja:
       extents: エクステント
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     subjects:
       source: ソース
       first_term_type: 期間型（First)
@@ -232,6 +242,8 @@ ja:
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     digital_object:
       title: タイトル
       publish: 発行済み
@@ -246,6 +258,8 @@ ja:
       extents: エクステント
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     digital_object_component:
       title: タイトル
       publish: 発行済み
@@ -256,6 +270,8 @@ ja:
       extents: エクステント
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     agent:
       title: 名前フォーム
       primary_type: エージェントの種類
@@ -267,6 +283,8 @@ ja:
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     location:
       title: ロケーション
       publish: 発行済み
@@ -280,6 +298,8 @@ ja:
       temporary: 一時的
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     event:
       agents: エージェント
       event_type: タイプ
@@ -288,6 +308,8 @@ ja:
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     collection_management:
       parent_title: タイトル
       parent_type: レコードタイプ
@@ -299,6 +321,8 @@ ja:
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     classification:
       title: タイトル
       publish: 発行済み
@@ -306,6 +330,8 @@ ja:
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     assessment:
       assessment_id: ID
       assessment_records: 記録
@@ -325,12 +351,16 @@ ja:
       assessment_reviewers: レビューア
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     repositories:
       title: タイトル
       publish: 発行済み
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     top_container:
       title: タイトル
       publish: 発行済み
@@ -343,6 +373,8 @@ ja:
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     container_profile:
       title: タイトル
       publish: 発行済み
@@ -353,6 +385,8 @@ ja:
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     location_profile:
       title: タイトル
       publish: 発行済み
@@ -363,6 +397,8 @@ ja:
       audit_info: 監査データ
       user_mtime: 更新しました
       create_time: 作成した
+      asc: 上昇
+      desc: 降順
     multi:
       primary_type: レコードタイプ
       creators: クリエイター
@@ -377,6 +413,8 @@ ja:
       create_time: 作成した
       dates: 日付
       extents: エクステント
+      asc: 上昇
+      desc: 降順
 
   advanced_search:
     operator:
@@ -1013,6 +1051,8 @@ ja:
         create: リソースの作成
         save: リソースを保存
         delete_multiple: リソースを削除する
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
 
   preference:
     _frontend:
@@ -1352,6 +1392,7 @@ ja:
       messages:
         created: 作成されたコンテナプロファイル
         updated: 更新されたコンテナプロファイル
+        merged: Container Profiles(s) Merged
       section:
         basic_information: 基本情報
     name: 名

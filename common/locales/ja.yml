@@ -1440,10 +1440,27 @@ ja:
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
     browse_column: 列%{num}
     browse_column_tooltip: 列%{num}に表示するフィールド。
+    sort_column: デフォルトのソート列
+    sort_column_tooltip: 結果をソートするためのデフォルトのフィールド。
+    sort_direction: デフォルトのソート方向
+    sort_direction_tooltip: 結果をソートするデフォルトの方向。
     accession_browse_section: アクセス列を参照
     resource_browse_section: リソース参照列
+    archival_object_browse_section: アーカイブオブジェクトの参照列
     digital_object_browse_section: Digital_Object列を参照
+    digital_object_component_browse_section: デジタルオブジェクトコンポーネントの参照列
     subject_browse_section: 件名ブラウズコラム
+    agent_browse_section: エージェント参照列
+    location_browse_section: 場所の参照列
+    event_browse_section: イベント参照列
+    collection_management_browse_section: コレクション管理の参照列
+    top_container_browse_section: 上位コンテナ参照列
+    classification_browse_section: 分類参照列
+    assessment_browse_section: 評価の参照列
+    repositories_browse_section: リポジトリ参照列
+    location_profile_browse_section: ロケーションプロファイルの参照列
+    container_profile_browse_section: コンテナプロファイルの参照列
+    multi_browse_section: 検索列
     note_order_section: 注文書
     accept_default_message: "&gt;デフォルトを受け入れる："
     no_value: "[値なし]"
@@ -1568,7 +1585,7 @@ ja:
     import_type_accession_csv: 加盟CSV
     import_type_digital_object_csv: デジタルオブジェクトCSV
     import_type_eac_xml: EAC
-    import_type_location: Location CSV
+    import_type_location_csv: ロケーションCSV
     import_type_marcxml: MarcXML（リソース）
     import_type_marcxml_accession: MarcXML（アクセッション）
     import_type_marcxml_subjects_and_agents: MarcXML（主題と代理人のみ）
