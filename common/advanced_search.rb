@@ -14,6 +14,15 @@ class AdvancedSearch
     }
   end
 
+  def self.solr_field_for_exact_match(field)
+    load_definitions
+    field = @fields.fetch(field.to_s) do
+      return field
+    end
+
+    field.solr_field_exact_match || field.solr_field
+  end
+
 
   def self.solr_field_for(field)
     load_definitions
@@ -56,7 +65,7 @@ class AdvancedSearch
   end
 
 
-  AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default) do
+  AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default, :solr_field_exact_match) do
 
     def initialize(opts)
       opts.each do |k, v|

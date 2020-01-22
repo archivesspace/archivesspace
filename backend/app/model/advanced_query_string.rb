@@ -41,7 +41,11 @@ class AdvancedQueryString
   end
 
   def field
-    AdvancedSearch.solr_field_for(@query['field'])
+    if exact_match_search?
+      AdvancedSearch.solr_field_for_exact_match(@query['field'])
+    else
+      AdvancedSearch.solr_field_for(@query['field'])
+    end
   end
 
   def value
