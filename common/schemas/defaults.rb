@@ -14,56 +14,56 @@ browse_column_enums = {
     'restrictions', 'dates', 'extents'
   ],
   'multi' => [
-    "primary_type", "title", "context", "identifier", 'dates', 'extents'
+    'primary_type', 'title', 'context', 'identifier', 'dates', 'extents'
   ],
   'location' => [
-    "title", "publish", "building", "floor", "room", "area", "location_holdings",
-    "location_profile_display_string_u_ssort", 'temporary'
+    'title', 'publish', 'building', 'floor', 'room', 'area', 'location_holdings',
+    'location_profile_display_string_u_ssort', 'temporary'
   ],
   'agent' => [
-    "title", "primary_type", "publish", "authority_id", "source", "rules", "is_user"
+    'title', 'primary_type', 'publish', 'authority_id', 'source', 'rules', 'is_user'
   ],
   'archival_object' => [
-    "title", "publish", "context", "component_id", "ref_id", "level", 'dates',
+    'title', 'publish', 'context', 'component_id', 'ref_id', 'level', 'dates',
     'extents'
   ],
   'assessment' => [
-    "assessment_id", "assessment_records", "assessment_record_types", "assessment_surveyors",
-    "assessment_survey_begin", "assessment_review_required", "assessment_sensitive_material",
-    "assessment_inactive", "assessment_survey_year", "assessment_collections",
-    "assessment_completed", "assessment_formats", "assessment_ratings",
-    "assessment_conservation_issues"
+    'assessment_id', 'assessment_records', 'assessment_record_types', 'assessment_surveyors',
+    'assessment_survey_begin', 'assessment_review_required', 'assessment_sensitive_material',
+    'assessment_inactive', 'assessment_survey_year', 'assessment_collections',
+    'assessment_completed', 'assessment_formats', 'assessment_ratings',
+    'assessment_conservation_issues'
   ],
   'classification' => [
-    "title", "publish", "has_classification_terms"
+    'title', 'has_classification_terms', 'identifier'
   ],
   'collection_management' => [
-    "parent_title", "parent_type", "processing_priority", "processing_status", "processing_hours_total",
-    "processing_funding_source", "processors"
+    'parent_title', 'parent_type', 'processing_priority', 'processing_status', 'processing_hours_total',
+    'processing_funding_source', 'processors', 'publish'
   ],
   'container_profile' => [
-    "title", "publish", "container_profile_width_u_sstr", "container_profile_height_u_sstr",
-    "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"
+    'title', 'container_profile_width_u_sstr', 'container_profile_height_u_sstr',
+    'container_profile_depth_u_sstr', 'container_profile_dimension_units_u_sstr'
   ],
   'digital_object_component' => [
-    "title", "publish", "context", 'dates', 'extents'
+    'title', 'publish', 'context', 'dates', 'extents'
   ],
   'event' => [
-    "agents", "event_type", "outcome", "linked_records"
+    'agents', 'event_type', 'outcome', 'linked_records'
   ],
   'location_profile' => [
-    "title", "publish", "location_profile_width_u_sstr", "location_profile_height_u_sstr",
-    "location_profile_depth_u_sstr", "location_profile_dimension_units_u_sstr"
+    'title', 'location_profile_width_u_sstr', 'location_profile_height_u_sstr',
+    'location_profile_depth_u_sstr', 'location_profile_dimension_units_u_sstr'
   ],
   'repositories' => [
-    "title", "publish"
+    'title', 'publish'
   ],
   'subjects' => [
-    "title", "publish", "source", "first_term_type"
+    'title', 'source', 'first_term_type'
   ],
   'top_container' => [
-    "title", "publish", "container_profile_display_string_u_sstr", "location_display_string_u_sstr", "type",
-    "indicator", "barcode", "context"
+    'title', 'container_profile_display_string_u_sstr', 'location_display_string_u_sstr', 'type',
+    'indicator', 'barcode', 'context'
   ]
 }
 
