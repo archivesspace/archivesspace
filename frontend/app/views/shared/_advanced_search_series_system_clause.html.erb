@@ -24,6 +24,7 @@ end
     <div class="input-group-addon">
         <select name="r${index}" id="r${index}">
             <% record_relators.uniq.each do |relator| %>
+                <% next if category == :series && ['documents', 'is_restricted_by'].include?(relator) %>
                 <option value="<%= relator %>"><%= (record_relator_labels[relator] || relator) %></option>
             <% end %>
         </select>
