@@ -1,7 +1,13 @@
-# frozen_string_literal: true
 
+include 'lib/bulk_import/BulkImportMixins'
 require_relative 'converter'
 require_relative 'lib/bulk_import/bulk_import_tracker'
+require_relative 'lib/bulk_import/agent_handler'
+require_relative 'lib/bulk_import/container_instance_handler'
+require_relative 'lib/bulk_import/digital_object_handler'
+require_relative 'lib/bulk_import/lang_handler'
+require_relative 'lib/bulk_import/notes_handler'
+require_relative 'lib/bulk_import/subject_handler'
 require 'nokogiri'
 require 'pp'
 require 'rubyXL'
@@ -30,6 +36,8 @@ class BulkImportConverter < Converter
     initialize_info
   end
 
+  
+
   def initialize(input_file, opts = {})
     @input_file = input_file
     @batch = ASpaceImport::RecordBatch.new
@@ -37,7 +45,15 @@ class BulkImportConverter < Converter
     Log.error("OPTS: #{@opts}")
     # WAAY more initialization to come
   end
-
+  # this refreshes the controlled list enumerations, which may have changed since the last import
+  def initialize_handler_enums
+    ContainerInstanceHandler.renew
+    DigitalObjectHandler.renew
+    SubjectHandler.renew
+    AgentHandler.renew
+    LangHandler.renew
+  end
+  
   private
 
   # set up all the @ variables (except for @header)
@@ -57,8 +73,6 @@ class BulkImportConverter < Converter
     @hier = 1
     # ingest archival objects needs this
     unless @digital_load
-      @note_types = note_types_for(:archival_object)
-      tree = JSONModel(:resource_tree).find(nil, resource_id: @opts[:rid]).to_hash
       @ao = nil
       aoid = @opts[:aoid] || nil
       @resource_level = aoid.nil?
@@ -86,4 +100,9 @@ class BulkImportConverter < Converter
     Log.error('Got sheet: ')
     rows = sheet.enum_for(:each)
   end
+
+  def row_values(row)
+    (1...row.size).map {|i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil}
+  end
+
 end
