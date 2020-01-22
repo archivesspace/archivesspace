@@ -10,7 +10,7 @@
       "value" => {"type" => "string"},
 
       "literal" => {"type" => "boolean", "default" => false},
-      "comparator" => {"type" => "string", "enum" => ["contains", "empty"]},
+      "comparator" => {"type" => "string", "enum" => ["contains", "equals", "empty"]},
 
     },
   },

@@ -87,9 +87,15 @@ class AdvancedQueryString
 
     elsif @query["jsonmodel_type"] == "field_query" && (use_literal? || @query["literal"])
       "(\"#{solr_escape(@query['value'])}\")"
+    elsif exact_match_search?
+      "(\"#{solr_escape(@query['value'])}\")"
     else
       "(#{replace_reserved_chars(@query['value'].to_s)})"
     end
+  end
+
+  def exact_match_search?
+    @query["comparator"] == "equals"
   end
 
   def empty_search?
