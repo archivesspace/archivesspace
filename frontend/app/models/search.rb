@@ -14,6 +14,7 @@ class Search
     build_filters(criteria)
 
     criteria["page"] = 1 if not criteria.has_key?("page")
+    criteria["sort"] ||= sort(criteria["type[]"] || (criteria["filter_term[]"] || []).collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact)
 
     search_data = JSONModel::HTTP::get_json("/repositories/#{repo_id}/search", criteria)
     search_data[:criteria] = criteria
@@ -34,6 +35,36 @@ class Search
   end
 
   private
+
+  def self.sort(types)
+    types ||= []
+    type = if types.length > 0 && types.all? { |t| t.include? 'agent' }
+      'agent'
+    elsif types.length == 1
+      types[0]
+    elsif types.length == 2 && types.include?('resource') && types.include?('archival_object')
+      'resource'
+    elsif types.length == 2 && types.include?('digital_object') && types.include?('digital_object_component')
+      'digital_object'
+    else
+      'multi'
+    end
+
+    repo = JSONModel.repository
+    prefs = if repo
+      JSONModel::HTTP::get_json("/repositories/#{repo}/current_preferences")['defaults']
+    else
+      JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+    end
+
+    sort_col = prefs["#{type}_sort_column"] || prefs["#{type}_browse_column_1"]
+    if sort_col
+      sort_col = 'title_sort' if sort_col == 'title'
+      "#{sort_col} #{(prefs["#{type}_sort_direction"] || "asc")}"
+    else
+      nil
+    end
+  end
 
   def self.build_filters(criteria)
     queries = AdvancedQueryBuilder.new
