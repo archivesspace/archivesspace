@@ -665,4 +665,4 @@ AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 AppConfig[:limit_csv_fields] = true
 
 # Use to specify the maximum number of columns to display when searching or browsing
-AppConfig[:max_search_columns] = 5
+AppConfig[:max_search_columns] = 7

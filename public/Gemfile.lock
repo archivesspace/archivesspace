@@ -113,6 +113,7 @@ GEM
     formatador (0.2.5)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    htmlentities (4.3.4)
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
@@ -298,6 +299,7 @@ DEPENDENCIES
   factory_bot_rails (~> 4.11, >= 4.11.1)
   fog-aws (= 2.0.0)
   font-awesome-sass (= 4.7.0)
+  htmlentities (~> 4.3, >= 4.3.4)
   i18n (= 0.9.1)
   jquery-rails
   json (= 1.8.6)

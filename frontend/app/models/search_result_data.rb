@@ -315,6 +315,10 @@ class SearchResultData
     []
   end
 
+  def self.TOP_CONTAINER_FACETS
+    []
+  end
+
   def self.ASSESSMENT_FACETS
     ['assessment_record_types', 'assessment_surveyors', 'assessment_review_required', 'assessment_reviewers', 'assessment_completed', 'assessment_inactive', 'assessment_survey_year', 'assessment_sensitive_material']
   end

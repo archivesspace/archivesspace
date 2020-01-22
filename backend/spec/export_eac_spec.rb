@@ -268,7 +268,7 @@ describe 'EAC Export' do
   describe "agent_family" do
 
     before(:all) do
-      @repo = create(:json_repo)
+      @repo = create(:json_repository)
       $old_repo_id = $repo_id
       $repo_id = @repo.id
       JSONModel.set_repository($repo_id)
@@ -522,7 +522,7 @@ describe 'EAC Export' do
 
   describe "Relations" do
     before(:each) do
-      @repo = create(:json_repo)
+      @repo = create(:json_repository)
       $old_repo_id = $repo_id
       $repo_id = @repo.id
 
@@ -606,7 +606,7 @@ describe 'EAC Export' do
   describe "maintenanceAgency" do
 
     it "maps the repository name and org code" do
-      repo = create(:json_repo)
+      repo = create(:json_repository)
 
       JSONModel.set_repository(repo.id)
 

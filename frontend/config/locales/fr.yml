@@ -40,6 +40,9 @@ fr:
     merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à cet agent. En cliquant sur le bouton Comparer les agents, un écran apparaît vous proposant de choisir les champs et sous-enregistrements à conserver dans chaque enregistrement."
     merge_agent_from_browse_confirm_message: "Les premiers éléments sélectionnés seront fusionnés avec le premier agent sélectionné. Tous les enregistrements sélectionnés ultérieurement seront supprimés et tous les enregistrements liés seront liés au premier agent sélectionné."
     merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans la ressource '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera réaffectée à cette ressource."
+    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
+    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
+    merge_n_records: "Merge %{n} records"
     move: Déplacer
     move_up_a_level: Un niveau plus haut
     move_up: Plus haut
@@ -162,6 +165,7 @@ fr:
     and: "et"
     asc: Ascendant
     desc: Descendant
+    select: Seleccione
 
   search:
     accession:
@@ -184,6 +188,8 @@ fr:
       processors: Processeurs
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     resource:
       title: Intitulé
       publish: Publié
@@ -203,6 +209,8 @@ fr:
       processors: Processeurs
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     archival_object:
       title: Intitulé
       publish: Publié
@@ -216,6 +224,8 @@ fr:
       extents: Importance matérielle
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     subjects:
       source: Source
       first_term_type: Type de terme (premier)
@@ -224,6 +234,8 @@ fr:
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     digital_object:
       title: Intitulé
       publish: Publié
@@ -238,6 +250,8 @@ fr:
       extents: Importance matérielle
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     digital_object_component:
       title: Intitulé
       publish: Publié
@@ -248,6 +262,8 @@ fr:
       extents: Importance matérielle
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     agent:
       title: Nom
       primary_type: Type d'agent
@@ -259,6 +275,8 @@ fr:
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     location:
       title: Localisation
       publish: Publié
@@ -272,6 +290,8 @@ fr:
       temporary: Temporary
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     event:
       agents: Agent
       event_type: Type
@@ -280,6 +300,8 @@ fr:
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     collection_management:
       parent_title: Intitulé
       parent_type: Types de notices
@@ -291,6 +313,8 @@ fr:
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     classification:
       title: Intitulé
       publish: Publié
@@ -298,6 +322,8 @@ fr:
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     assessment:
       assessment_id: ID
       assessment_records: Notices
@@ -317,12 +343,16 @@ fr:
       assessment_reviewers: Agent
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     repositories:
       title: Intitulé
       publish: Publié
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     top_container:
       title: Intitulé
       publish: Publié
@@ -335,6 +365,8 @@ fr:
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     container_profile:
       title: Intitulé
       publish: Publié
@@ -345,6 +377,8 @@ fr:
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     location_profile:
       title: Intitulé
       publish: Publié
@@ -355,6 +389,8 @@ fr:
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
+      asc: Ascendant
+      desc: Descendant
     multi:
       primary_type: Type de notice
       creators: Producteur
@@ -369,6 +405,8 @@ fr:
       create_time: Créé
       dates: Dates
       extents: Importance matérielle
+      asc: Ascendant
+      desc: Descendant
 
   advanced_search:
     operator:
@@ -1001,6 +1039,8 @@ fr:
         create: Créer ressource
         save: Sauvegarder ressource
         delete_multiple: Supprimer ressources
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
 
   preference:
     _frontend:
@@ -1354,6 +1394,7 @@ fr:
       messages:
         created: Profil de conditionnement créé
         updated: Profil de conditionnement actualisé
+        merged: Container Profiles(s) Merged
       section:
         basic_information: Information de base
     name: Nom

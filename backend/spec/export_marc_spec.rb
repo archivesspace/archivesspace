@@ -6,7 +6,7 @@ describe 'MARC Export' do
 
   before(:all) do
     $old_repo_id = $repo_id
-    @repo = create(:json_repo)
+    @repo = create(:json_repository)
     $repo_id = @repo.id
 
     JSONModel.set_repository($repo_id)
@@ -383,7 +383,7 @@ end
 
   describe "record leader mappings - country not defined in repo" do
     before(:all) do
-      @repo_nc = create(:json_repo_without_country)
+      @repo_nc = create(:json_repository_without_country)
 
       $another_repo_id = $repo_id
       $repo_id = @repo_nc.id
@@ -415,7 +415,7 @@ end
 
   describe "record leader mappings - US is country defined" do
     before(:all) do
-      @repo_us = create(:json_repo_us)
+      @repo_us = create(:json_repository_us)
 
       $another_repo_id = $repo_id
       $repo_id = @repo_us.id
@@ -447,7 +447,7 @@ end
 
   describe "record leader mappings - country defined - NOT US" do
     before(:all) do
-      @repo_not_us = create(:json_repo_not_us)
+      @repo_not_us = create(:json_repository_not_us)
 
       $another_repo_id = $repo_id
       $repo_id = @repo_not_us.id
@@ -479,7 +479,7 @@ end
 
   describe "record leader mappings - parent_org_defined" do
     before(:all) do
-      @repo_parent = create(:json_repo_parent_org)
+      @repo_parent = create(:json_repository_parent_org)
 
       @parent_institution_name = @repo_parent.parent_institution_name
       @name = @repo_parent.name
@@ -512,7 +512,7 @@ end
 
   describe "record leader mappings - NO org_code defined" do
     before(:all) do
-      @repo_no_org_code = create(:json_repo_no_org_code)
+      @repo_no_org_code = create(:json_repository_no_org_code)
 
       @name = @repo_no_org_code.name
 

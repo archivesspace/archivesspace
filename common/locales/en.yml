@@ -1924,7 +1924,7 @@ en:
     archival_object_browse_section: Archival Object Browse Columns
     digital_object_browse_section: Digital Object Browse Columns
     digital_object_component_browse_section: Digital Object Component Browse Columns
-    subjects_browse_section: Subject Browse Columns
+    subject_browse_section: Subject Browse Columns
     agent_browse_section: Agent Browse Columns
     location_browse_section: Location Browse Columns
     event_browse_section: Event Browse Columns
