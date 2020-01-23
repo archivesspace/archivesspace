@@ -102,6 +102,9 @@ module ApplicationHelper
     html += "token " if not opts[:inside_token_editor] 
     html += "#{opts[:type]} has-popover' data-trigger='#{opts[:trigger] || "custom"}' data-html='true' data-placement='#{opts[:placement] || "bottom"}' data-content=\"#{CGI.escape_html(popover)}\" data-template=\"#{popover_template}\" tabindex='1'>"
     html += "<span class='icon-token'></span>"
+    if opts[:object] && opts[:object]['qsa_id_prefixed'] && !opts[:label].start_with?(opts[:object]['qsa_id_prefixed'])
+      html += opts[:object]['qsa_id_prefixed'] + ' '
+    end
     html += opts[:label]
     html += "</div>"
     html.html_safe

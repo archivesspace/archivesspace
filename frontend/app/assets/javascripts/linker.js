@@ -63,7 +63,7 @@ $(function() {
 
                 $this.tokenInput("add", {
                   id: response.uri,
-                  name: response.display_string || response.title,
+                  name: formatDisplayString(response),
                   json: response
                 });
                 $this.triggerHandler("change");
@@ -208,7 +208,7 @@ $(function() {
           $.each(currentlySelected, function(uri, object) {
             $this.tokenInput("add", {
               id: uri,
-              name: object.display_string || object.title,
+              name: formatDisplayString(object),
               json: object
             });
           });
@@ -225,6 +225,16 @@ $(function() {
         return false; // IE patch
       };
 
+      var formatDisplayString = function(obj) {
+        var result = obj.display_string || obj.title;
+        if (obj.qsa_id_prefixed) {
+          result = obj.qsa_id_prefixed + ' ' + result;
+        } else if (obj.qsa_id_u_ssort) {
+          result = obj.qsa_id_u_ssort + ' ' + result;
+        }
+        return result;
+      };
+
       var formatResults = function(searchData) {
         var formattedResults = [];
 
@@ -236,7 +246,7 @@ $(function() {
 
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
-              name: obj.display_string || obj.title,
+              name: formatDisplayString(obj),
               id: obj.id,
               json: obj
             });
@@ -288,7 +298,7 @@ $(function() {
           }
           return [{
               id: $this.data("selected").uri,
-              name: $this.data("selected").display_string || $this.data("selected").title,
+              name: formatDisplayString($this.data("selected")),
               json: $this.data("selected")
           }];
         } else {
@@ -302,7 +312,7 @@ $(function() {
             }
             return {
               id: item.uri,
-              name: item.display_string || item.title,
+              name: formatDisplayString(item),
               json: item
             };
           });
