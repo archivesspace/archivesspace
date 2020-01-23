@@ -55,7 +55,6 @@ def selenium_init(backend_fn, frontend_fn)
 
     AppConfig[:help_enabled] = true
     AppConfig[:help_url] = "http://localhost:9999/help_stub"
-    AppConfig[:help_topic_prefix] = "?topic="
 
     standalone = false
   end
