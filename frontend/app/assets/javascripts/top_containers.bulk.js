@@ -11,6 +11,34 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
 
   this.setup_form();
   this.setup_results_list();
+  //If there is any stored search parameters, reload them
+  //when navigating or refreshing
+  var data = sessionStorage.getItem("top_container_search_data");
+  if (data != null && data != undefined) {
+	  var parsed_data = JSON.parse(data);
+	  $.each( parsed_data, function( key, value ) {
+		  //This part is not complete because of the token input fields
+		  //(resource, accession, profile, location)
+		  //This is where the data for the collection resource token input is being stored 
+		  //It has collection_resource[ref] and collection_resource[_resolved]
+		  //These fields are created dynamically in the form when the user selects a value
+		  //from the modal dropdown list that appears when typing.
+		  if (key == 'collection_resource[ref]') {
+			  var crr = parsed_data['collection_resource[_resolved]'];
+			  var parsed_crr = JSON.parse(crr);
+			  //This did not work.
+			  //Prepopulation might work but I'm not sure how to override it easily enough.
+			  //Ideally there would be a way to trigger an event for selection and just pass
+			  //this value (crr) to it.
+			  //$("#" + parsed_crr["id"]).tokenInput('add', crr);  
+		  }
+		  else {
+			  $("#"+key).val(value);
+		  }
+	  });
+	  this.perform_search(parsed_data);
+	  
+  }
 }
 
 BulkContainerSearch.prototype.setup_form = function() {
@@ -20,6 +48,15 @@ BulkContainerSearch.prototype.setup_form = function() {
 
   this.$search_form.on("submit", function(event) {
     event.preventDefault();
+    //Store the search parameters so they can be reloaded when
+    //navigating or refreshing
+    var values = {};
+    $.each(self.$search_form.serializeArray(), function(i, field) {
+    	if (field.name != 'authenticity_token' && field.name != 'utf8' && field.value != ''){
+    		values[field.name] = field.value;
+        }
+    });
+    sessionStorage.setItem("top_container_search_data", JSON.stringify(values));
     self.perform_search(self.$search_form.serializeArray());
   });
 };
@@ -107,6 +144,16 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
     return (new Array(255).join("#") + value).slice(-255)
   };
 
+  //Get the most recent sort, if it exists
+  var currentSort = sessionStorage.getItem("top_container_sort");
+  if (currentSort == null || currentSort == undefined) {
+	  // default sort: Collection, Series, Indicator
+	  currentSort = [[1,0],[2,0],[4,0]];
+  }
+  else {
+	  currentSort = JSON.parse(currentSort);
+  }
+  
   var tablesorter_opts = {
     // only sort on the second row of header columns
     selectorHeaders: "thead tr.sortable-columns th",
@@ -114,8 +161,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
     headers: {
         0: { sorter: false}
     },
-    // default sort: Collection, Series, Indicator
-    sortList: [[1,0],[2,0],[4,0]],
+    sortList: currentSort,
     // customise text extraction to pull only the first collection/series
     textExtraction: function(node) {
       var $node = $(node);
@@ -143,7 +189,13 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
       return $node.text().trim();
     }
   };
-  this.$results_container.find("table").tablesorter(tablesorter_opts);
+  this.$results_container.find("table").tablesorter(tablesorter_opts)
+  	.bind("sortEnd", function(e) {
+  	  //Store the sort in the session storage so it resorts the same way
+  		//when navigating and refreshing.
+  	  currentSort = e.target.config.sortList;
+  	  sessionStorage.setItem("top_container_sort", JSON.stringify(currentSort));
+  	});
 };
 
 BulkContainerSearch.prototype.get_selection = function() {
