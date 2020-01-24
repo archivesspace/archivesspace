@@ -145,7 +145,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
       currentSort = JSON.parse(currentSort);
     }
   }
-  
+
   var tablesorter_opts = {
     // only sort on the second row of header columns
     selectorHeaders: "thead tr.sortable-columns th",
