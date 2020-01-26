@@ -1,6 +1,6 @@
 class NotesHandler < Handler
-    @@note_types = ao_note_types
-    @@do_note_types = do_note_types
+    @@ao_note_types = {}
+    @@do_note_types = {}
 
     def self.ao_note_types
         note_types = bib_note
@@ -24,7 +24,7 @@ class NotesHandler < Handler
   end
    
   def self.bib_note
-      note_types = {}note_types = {
+      note_types = {
         "bibliography" => {
           :target => :note_bibliography,
           :value => "bibliography",
@@ -35,9 +35,9 @@ class NotesHandler < Handler
   end
   def self.create_notes(row, publish, report, dig_obj = false)
     notes = []
-    note_types = dig_obj? @@do_note_types : @@ao_note_types
+    note_types = dig_obj ? @@do_note_types : @@ao_note_types
     notes_keys = @row_hash.keys.grep(/^n_/)
-    nnotes_keys.each do |key|
+    notes_keys.each do |key|
       content = @row_hash[key]
       type = key.match(/n_(.+)$/)[1]
       note_type = note_types[type]
@@ -81,5 +81,20 @@ class NotesHandler < Handler
       }
     end
     note_types
+  end
+
+  
+  def self.init
+    if @@ao_note_types.empty?
+      @@ao_note_types = self.ao_note_types
+    end
+    if @@do_note_types.empty?
+      @@do_note_types = self.do_note_types
+    end
+  end
+  def self.wellformed(note)
+    if note.match("</?[a-zA-Z]+>")
+      frag = Nokogiri::XML("<root xmlns:xlink='https://www.w3.org/1999/xlink'>#{note}</root>") {|config| config.strict}
+    end
   end
 end
