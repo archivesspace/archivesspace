@@ -1,11 +1,25 @@
+require 'pp'
+include JSONModel
+require_relative "../../../model/backend_enum_source"
+
+
+JSONModel::init(:allow_other_unmapped => AppConfig[:allow_other_unmapped],
+ :enum_source => BackendEnumSource)
+Log.error("JSONM initted?")
 class CvList
-  require 'pp'
+    
   @list = []
   @list_hash = {}
   @which = ''
 
   def initialize(which)
     @which = which
+    begin
+      jm = JSONModel.init_args 
+      Log.error("jm? #{jm.pretty_inspect}  #{jm.class.name}") 
+     rescue Exception => exception
+      Log.error("no init_args")
+     end
     renew
   end
 
@@ -26,9 +40,14 @@ class CvList
   def renew
     @list = []
     list_hash = {}
-    enums =  JSONModel(:enumeration).all
-    enums_list = ASUtils.jsonmodels_to_hashes(enums)
-    enums_list.each do |enum|
+    test = JSONModel::JSONModel(:enumeration).new
+    
+    Log.error("TEST? #{test.pretty_inspect}")
+=begin   
+    enums =  JSONModel::JSONModel(:enumeration).all
+     enums_list = ASUtils.jsonmodels_to_hashes(enums)
+    Log.error(enums_list.pretty_inspect)
+ enums_list.each do |enum|
       if enum['name'] == @which
         enum['values'].each do |v|
           if v
@@ -43,7 +62,8 @@ class CvList
         end
         break
       end
-    end
+    end 
+=end
     @list_hash = list_hash
   end
 end
