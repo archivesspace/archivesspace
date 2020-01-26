@@ -1,4 +1,5 @@
-  class AgentHandler < Handler
+require_relative 'handler'
+class AgentHandler < Handler
     @@agents = {} 
     @@agent_role ||= CvList.new('linked_agent_role')
     @@agent_relators ||= CvList.new('linked_agent_archival_record_relators')

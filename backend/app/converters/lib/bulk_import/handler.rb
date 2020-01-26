@@ -8,7 +8,7 @@
 # might already be in the database 
 
 class Handler
-  require 'cv_list'
+  require_relative 'cv_list'
   require 'pp'
 
   DISAMB_STR = ' DISAMBIGUATE ME!'
