@@ -24,6 +24,11 @@ class AdvancedSearch
     field.solr_field
   end
 
+  def self.record_type_limit(field)
+    load_definitions
+    field = @fields.fetch(field.to_s, nil)
+    field ? field.record_type_limit : nil
+  end
 
   def self.load_definitions
     unless @loaded
@@ -56,7 +61,7 @@ class AdvancedSearch
   end
 
 
-  AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default) do
+  AdvancedSearchField = Struct.new(:name, :type, :visibility, :solr_field, :is_default, :record_type_limit) do
 
     def initialize(opts)
       opts.each do |k, v|

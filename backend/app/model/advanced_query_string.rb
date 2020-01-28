@@ -10,12 +10,22 @@ class AdvancedQueryString
     return empty_solr_s if empty_search?
 
     solr_field = AdvancedSearch.solr_field_for(@query.fetch('field'))
+    record_type_limit = AdvancedSearch.record_type_limit(@query.fetch('field'))
 
-    if solr_field.respond_to?(:to_solr_s)
-      "#{prefix}(#{solr_field.to_solr_s(@query)})"
-    else
-      "#{prefix}#{field}:#{value}"
+    query = if solr_field.respond_to?(:to_solr_s)
+              "#{prefix}(#{solr_field.to_solr_s(@query)})"
+            else
+              "#{prefix}#{field}:#{value}"
+            end
+
+    if record_type_limit
+      query = "(%s) AND types:(%s)" % [
+        query,
+        record_type_limit.join(' OR ')
+      ]
     end
+
+    query
   end
 
   private
@@ -32,7 +42,13 @@ class AdvancedQueryString
         "#{field}:['' TO *]"
       end
     else
-      "(*:* NOT #{field}:*)"
+      record_type_limit = AdvancedSearch.record_type_limit(@query.fetch('field'))
+
+      if record_type_limit
+        "(types:(%s) NOT %s:*)" % [record_type_limit.join(' OR '), field]
+      else
+        "(*:* NOT #{field}:*)"
+      end
     end
   end
 
