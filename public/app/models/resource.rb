@@ -270,7 +270,7 @@ class Resource < Record
         cite += " #{ repository_information['top']['name']}."
       end
     end
-    "#{cite}   #{cite_url_and_timestamp}."
+    HTMLEntities.new.decode("#{cite}   #{cite_url_and_timestamp}.")
   end
 
   def parse_notes
