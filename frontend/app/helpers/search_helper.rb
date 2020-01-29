@@ -264,7 +264,7 @@ module SearchHelper
   end
 
   def add_linker_column
-    add_column(sr_only('Linker'),
+    add_column(sr_only('Linker'), {},
       proc { |record|
         if params[:multiplicity] === 'many'
           check_box_tag "linker-item", record["id"], false, :"data-object" => record.to_json
