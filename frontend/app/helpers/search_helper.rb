@@ -207,20 +207,20 @@ module SearchHelper
 
   def add_multiselect_column
     @allow_multiselect = true
-    header = ('<label for="select_all" class="sr-only">' + 
-      I18n.t("search_results.selected") + '</label>' + 
+    header = ('<label for="select_all" class="sr-only">' +
+      I18n.t("search_results.selected") + '</label>' +
       check_box_tag("select_all", 1, false, "autocomplete" => "off")).html_safe
 
-    add_column(header, :template => 'shared/multiselect',
-      :class => 'multiselect-column')
+    add_column(header, {:template => 'shared/multiselect',
+      :class => 'multiselect-column'})
   end
 
   def add_pref_columns(models)
     models = [models] unless models.is_a? Array
     added = []
     if models.length > 1
-      add_column(I18n.t("search.multi.primary_type"), :field => 'primary_type', :locale_key => '_singular',
-        :sortable => true, :type => 'string')
+      add_column(I18n.t("search.multi.primary_type"), {:field => 'primary_type', :locale_key => '_singular',
+        :sortable => true, :type => 'string'})
       added << 'primary_type'
     end
     for n in 1..AppConfig[:max_search_columns]
@@ -259,8 +259,8 @@ module SearchHelper
   end
 
   def add_actions_column
-    add_column(sr_only('Actions'), :template => 'shared/actions',
-      :class => 'actions table-record-actions')
+    add_column(sr_only('Actions'), {:template => 'shared/actions',
+      :class => 'actions table-record-actions'})
   end
 
   def add_linker_column
