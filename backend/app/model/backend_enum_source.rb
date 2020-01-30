@@ -66,6 +66,7 @@ class BackendEnumSource
           editable = true 
           db[:enumeration].join(:enumeration_value, :enumeration_id => :id).
                            filter(:name => enum_name).
+                           order(:position).
                            select(:value, Sequel.qualify(:enumeration_value, :id), :editable).
                            all.each do |row|
             value_to_id_map[row[:value]] = row[:id]
