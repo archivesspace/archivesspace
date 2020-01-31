@@ -95,11 +95,13 @@ class TopContainersController < ApplicationController
 
   def typeahead
     search_params = params_for_backend_search
+    search_params["q"] = "*" + search_params["q"].gsub(" ", "")
 
-    search_params["q"] = "display_string:#{search_params["q"]}"
+    search_params["q"] = "top_container_u_typeahead_utext:#{search_params["q"]}"
 
     search_params = search_params.merge(search_filter_for(params[:uri]))
-    search_params = search_params.merge("sort" => "typeahead_sort_key_u_sort asc")
+
+    search_params = search_params.merge("sort" => "top_container_u_typeahead_utext asc")
 
     render :json => Search.all(session[:repo_id], search_params)
   end
