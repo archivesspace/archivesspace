@@ -332,10 +332,6 @@ class IndexerCommon
                                           compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
-        if cm = record['record']['collection_management']
-          doc['processing_priority'] = cm['processing_priority']
-          doc['processors'] = cm['processors']
-        end
       end
     }
 
@@ -403,10 +399,6 @@ class IndexerCommon
                                            compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
-        if cm = record['record']['collection_management']
-          doc['processing_priority'] = cm['processing_priority']
-          doc['processors'] = cm['processors']
-        end
       end
 
       if doc['primary_type'] == 'digital_object'
