@@ -3,12 +3,8 @@ $(function() {
   var init_multiselect_listing = function() {
     var $table = $(this);
 
-    $table.on("click", "tbody td a", function(event) {
-      event.stopPropagation();
-    });
 
-
-    $table.on("click", "tbody td", function(event) {
+    $table.on("click", "tbody td:not(.table-record-actions)", function(event) {
       event.stopPropagation();
       event.preventDefault();
 

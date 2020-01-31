@@ -1,5 +1,12 @@
 <%= setup_context(:title => I18n.t("accession._plural")) %>
 
+<%
+   @show_multiselect_column = user_can?("delete_archival_record")
+
+   add_browse_columns("accession")
+
+%>
+
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">
