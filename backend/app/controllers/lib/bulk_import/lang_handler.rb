@@ -1,13 +1,16 @@
 class LangHandler < Handler
-  @@language_types = CvList.new('language_iso639_2')
-  @@script_types = CvList.new('script_iso15924')
-
-  def self.renew
-      clear(@@language_types)
-      clear(@@script_types)
+  
+  def initialize(current_user)
+    @language_types = CvList.new('language_iso639_2', current_user)
+    @script_types = CvList.new('script_iso15924', current_user)
   end
 
-  def self.create_language(lang_val, script, langmaterial, publish, report)
+  def renew
+      clear(@language_types)
+      clear(@script_types)
+  end
+
+  def create_language(lang_val, script, langmaterial, publish, report)
     langs = []
     have_lang = !lang_val.nil?
     have_note = !langmaterial
@@ -15,16 +18,16 @@ class LangHandler < Handler
       lang_code = nil
       if !have_lang
         begin
-          lang_code = @@language_types.value(langmaterial)
+          lang_code = @language_types.value(langmaterial)
           have_note = false
         rescue Exception => n
           #we know that the note isn't just the language
         end
       else
         begin
-          lang_code = @@language_types.value(lang_val)
+          lang_code = @language_types.value(lang_val)
         rescue Exception => n
-          report.add_errors( I18n.t('plugins.aspace-import-excel.error.lang_code', :lang =>lang_val))
+          report.add_errors( I18n.t('bulk_import.error.lang_code', :lang =>lang_val))
         end
       end
       if lang_code
@@ -32,9 +35,9 @@ class LangHandler < Handler
         langscript.language = lang_code
         if !script.nil?
           begin
-            langscript.script = @@script_types.value(script)
+            langscript.script = @script_types.value(script)
           rescue Exception => n
-            report.add_errors( I18n.t('plugins.aspace-import-excel.error.script_code', :script => script))
+            report.add_errors( I18n.t('bulk_import.error.script_code', :script => script))
           end
         end
         lang = JSONModel(:lang_material).new
@@ -53,7 +56,7 @@ class LangHandler < Handler
           lang.notes.push note
           langs.push lang 
         rescue Exception => e
-          report.add_errors(I18n.t('plugins.aspace-import-excel.error.bad_note', :type => 'langmaterial' , :msg => CGI::escapeHTML( e.message)))
+          report.add_errors(I18n.t('bulk_import.error.bad_note', :type => 'langmaterial' , :msg => CGI::escapeHTML( e.message)))
         end                     
       end
     end
@@ -61,7 +64,7 @@ class LangHandler < Handler
   end
 
   # currently a repeat from the controller
-  def self.wellformed(note)
+  def wellformed(note)
     if note.match("</?[a-zA-Z]+>")
       frag = Nokogiri::XML("<root xmlns:xlink='https://www.w3.org/1999/xlink'>#{note}</root>") {|config| config.strict}
     end

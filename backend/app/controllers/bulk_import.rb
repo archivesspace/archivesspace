@@ -2,7 +2,7 @@
 
 class ArchivesSpaceService < Sinatra::Base
   require 'pp'
-  require_relative '../converters/bulk_import_converter'
+  require_relative 'lib/bulk_import/bulk_importer'
   # Supports bulk import of spreadsheets
   Endpoint.post('/bulkimport/ssload')
           .description('Bulk Import an Excel Spreadsheet')
@@ -18,8 +18,9 @@ class ArchivesSpaceService < Sinatra::Base
           .returns([200, 'HTML'],
                    [400, :error]) do
     # right now, just return something!
-    importer = BulkImportConverter.new(params.fetch(:filepath), params)
-    importer.run
+    importer = BulkImporter.new(params.fetch(:filepath), params, current_user)
+    report = importer.run
+    Log.error("report: #{report.pretty_inspect}")
     erb :'bulk/bulk_import_response'
   end
 end
