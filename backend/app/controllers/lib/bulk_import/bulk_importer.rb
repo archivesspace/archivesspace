@@ -1,10 +1,10 @@
-require_relative 'lib/bulk_import/bulk_import_mixins'
-require_relative 'lib/bulk_import/agent_handler'
-require_relative 'lib/bulk_import/container_instance_handler'
-require_relative 'lib/bulk_import/digital_object_handler'
-require_relative 'lib/bulk_import/lang_handler'
-require_relative 'lib/bulk_import/notes_handler'
-require_relative 'lib/bulk_import/subject_handler'
+require_relative 'bulk_import_mixins'
+require_relative 'agent_handler'
+require_relative 'container_instance_handler'
+require_relative 'digital_object_handler'
+require_relative 'lang_handler'
+require_relative 'notes_handler'
+require_relative 'subject_handler'
 require 'nokogiri'
 require 'pp'
 require 'rubyXL'
@@ -18,7 +18,7 @@ class BulkImporter
     def run
         Log.error('RUN')
         begin
-            rows = initialize_info(@input_file, @opts)
+            rows = initialize_info
             while @headers.nil? && (row = rows.next)
                 @counter += 1
                 if (row[0] && (row[0].value.to_s =~ @start_marker))
@@ -27,7 +27,7 @@ class BulkImporter
                     begin
                     check_for_code_dups
                     rescue Exception => e
-                    raise StopExcelImportException.new(e.message)
+                    raise StopBulkImportException.new(e.message)
                     end
                     # Skip the human readable header too
                     rows.next
@@ -35,26 +35,26 @@ class BulkImporter
                 end
             end
         rescue Exception => e
-            if e.is_a?( ExcelImportException) || e.is_a?( StopExcelImportException)
-            @report.add_terminal_error(I18n.t('plugins.aspace-import-excel.error.excel', :errs => e.message), @counter)
+            if e.is_a?( BulkImportException) || e.is_a?( StopBulkImportException)
+            @report.add_terminal_error(I18n.t('bulk_import.error.excel', :errs => e.message), @counter)
             elsif e.is_a?(StopIteration) && @headers.nil?
-            @report.add_terminal_error(I18n.t('plugins.aspace-import-excel.error.no_header'), @counter)
+            @report.add_terminal_error(I18n.t('bulk_import.error.no_header'), @counter)
             else # something else went wrong
-            @report.add_terminal_error(I18n.t('plugins.aspace-import-excel.error.system', :msg => e.message), @counter)
+            @report.add_terminal_error(I18n.t('bulk_import.error.system', :msg => e.message), @counter)
             Log.error("UNEXPECTED EXCEPTION on bulkimport load! #{e.message}")
             Log.error( e.backtrace.pretty_inspect[0])
             end
         end
-        return render_aspace_partial :partial => "resources/bulk_response", :locals => {:rid => params[:rid], :report => @report,
-        :do_load => @digital_load}
+        return @report
     end
     
 
-    def initialize(input_file, opts = {})
+    def initialize(input_file, opts = {}, current_user)
         @input_file = input_file
-        @batch = ASpaceImport::RecordBatch.new
+#        @batch = ASpaceImport::RecordBatch.new
         @opts = opts
         Log.error("OPTS: #{@opts}")
+        @current_user = current_user
         @report_out = []
         @report = BulkImportReport.new
         @headers
@@ -68,14 +68,14 @@ class BulkImporter
         else
           @created_ao_refs = []
           @first_level_aos = []
-          @archival_levels = CvList.new('archival_record_level')
-          @container_types = CvList.new('container_type')
-          @date_types = CvList.new('date_type')
-          @date_labels = CvList.new('date_label')
-          @date_certainty = CvList.new('date_certainty')
-          @extent_types = CvList.new('extent_extent_type')
-          @extent_portions = CvList.new('extent_portion')
-          @instance_types ||= CvList.new('instance_instance_type')
+          @archival_levels = CvList.new('archival_record_level', @current_user)
+          @container_types = CvList.new('container_type', @current_user)
+          @date_types = CvList.new('date_type', @current_user)
+          @date_labels = CvList.new('date_label', @current_user)
+          @date_certainty = CvList.new('date_certainty', @current_user)
+          @extent_types = CvList.new('extent_extent_type', @current_user)
+          @extent_portions = CvList.new('extent_portion', @current_user)
+          @instance_types ||= CvList.new('instance_instance_type', @current_user)
           @parents = ParentTracker.new
           @start_marker = START_MARKER
         end
@@ -85,11 +85,11 @@ class BulkImporter
       end
       # this refreshes the controlled list enumerations, which may have changed since the last import
       def initialize_handler_enums
-        ContainerInstanceHandler.renew
-        DigitalObjectHandler.renew
-        SubjectHandler.renew
-        AgentHandler.renew
-        LangHandler.renew
+        cih = ContainerInstanceHandler(@current_user)
+        doh = DigitalObjectHandler(@current_user)
+        sh = SubjectHandler(@current_user)
+        ah = AgentHandler(@current_user)
+        lh = LangHandler(@current_user)
       end
       
       private
@@ -105,7 +105,7 @@ class BulkImporter
           end
         end
         if !dups.empty?
-          raise Exception.new( I18n.t('plugins.aspace-import-excel.error.duplicates', :codes => dups))
+          raise Exception.new( I18n.t('bulk_import.error.duplicates', :codes => dups))
         end
       end
     

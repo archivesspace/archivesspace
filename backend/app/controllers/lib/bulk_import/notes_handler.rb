@@ -1,3 +1,5 @@
+include ASpaceImportClient
+
 class NotesHandler < Handler
     @@ao_note_types = {}
     @@do_note_types = {}
@@ -63,7 +65,7 @@ class NotesHandler < Handler
         end
         notes.push note
       rescue Exception => e
-        report.add_errors(I18n.t('plugins.aspace-import-excel.error.bad_note', :type => note_type[:value] , :msg => CGI::escapeHTML( e.message)))
+        report.add_errors(I18n.t('bulk_import.error.bad_note', :type => note_type[:value] , :msg => CGI::escapeHTML( e.message)))
       end
     end
     notes

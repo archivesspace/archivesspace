@@ -1,22 +1,8 @@
-
-include 'lib/bulk_import/BulkImportMixins'
 require_relative 'converter'
-require_relative 'lib/bulk_import/bulk_import_tracker'
-require_relative 'lib/bulk_import/agent_handler'
-require_relative 'lib/bulk_import/container_instance_handler'
-require_relative 'lib/bulk_import/digital_object_handler'
-require_relative 'lib/bulk_import/lang_handler'
-require_relative 'lib/bulk_import/notes_handler'
-require_relative 'lib/bulk_import/subject_handler'
 require 'nokogiri'
 require 'pp'
 require 'rubyXL'
 require 'asutils'
-
-START_MARKER = /ArchivesSpace field code/.freeze
-DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
-# set_access_control "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children, :load_ss, :load_dos]
-
 class BulkImportConverter < Converter
   def self.import_types(_show_hidden = false)
     [
@@ -40,19 +26,14 @@ class BulkImportConverter < Converter
 
   def initialize(input_file, opts = {})
     @input_file = input_file
-    @batch = ASpaceImport::RecordBatch.new
+   # @batch = ASpaceImport::RecordBatch.new
     @opts = opts
     Log.error("OPTS: #{@opts}")
+    initialize_handler_enums
     # WAAY more initialization to come
   end
   # this refreshes the controlled list enumerations, which may have changed since the last import
-  def initialize_handler_enums
-    ContainerInstanceHandler.renew
-    DigitalObjectHandler.renew
-    SubjectHandler.renew
-    AgentHandler.renew
-    LangHandler.renew
-  end
+  
   
   private
 

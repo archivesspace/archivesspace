@@ -6,40 +6,46 @@
 
 # One of the main differences is that we do lookups against the database for objects (such as agent, subject) that
 # might already be in the database 
-
+require_relative 'json_client_mixin'
+include ASpaceImportClient
 class Handler
   require_relative 'cv_list'
   require 'pp'
-
+ 
   DISAMB_STR = ' DISAMBIGUATE ME!'
 
+  def initialize(current_user)
+    @current_user = current_user
+  end
   # centralize the checking for an already-found object
-  def self.stored(hash, id, key)
+  def stored(hash, id, key)
     ret_obj = hash.fetch(id, nil) || hash.fetch(key, nil)
   end
 
 
- # returns nil, a hash of a jason model (if 1 found), or throws a multiples found error
-  # if repo_id is nil, do a global search (subject and agent)
-  # this is using   archivesspace/frontend/app/models/search.rb
-  def self.search(repo_id,params,jmsym, type = '', match = '')
+   # if repo_id is nil, do a global search (subject and agent)
+  # this is using   archivesspace/backend/app/models/search.rb
+  def search(repo_id,params,jmsym, type = '', match = '')
     obj = nil
     search = nil
     matches = match.split(':')
+    # need to add these default-y values to the params
+    params[:page_size] = 10
+    params[:page] = 1
+    params[:sort] = ''
     if repo_id
-      search  = Search.all(repo_id, params)
+      search  = Search.search( params, repo_id)
     else
       begin
-        search = Search.global(params,type)
+        search = Search.search(params,nil)
       rescue Exception => e
-        s = JSONModel::HTTP::get_json("/search/#{type}", params)
         raise e if !e.message.match('<h1>Not Found</h1>')  # global search doesn't handle this gracefully :-(
         search = {'total_hits' => 0}
       end
     end
     total_hits = search['total_hits'] || 0
-    if total_hits == 1 && !search['results'].blank? # for some reason, you get a hit of '1' but still have empty results??
-      obj = JSONModel(jmsym).find_by_uri(search['results'][0]['id'])
+    if total_hits == 1 && !search['results'].empty? # for some reason, you get a hit of '1' but still have empty results??
+      obj = jmsym_from_string(jmsym,search['results'][0]['json'])
     elsif  total_hits > 1
       if matches.length == 2
         match_ct = 0
@@ -48,19 +54,19 @@ class Handler
         search['results'].each do |result|
           # if we have a disambiguate result get it
           if result[matches[0]] == disam
-            disam_obj = JSONModel(jmsym).find_by_uri(result['id'])
+            disam_obj = jmsym_from_string(jmsym,result['json'])
           elsif result[matches[0]] == matches[1]
             match_ct += 1           
-            obj = JSONModel(jmsym).find_by_uri(result['id'])
+            obj = jmsym_from_string(jmsym,result['json'])
           end
         end
         # if we have more than one exact match, then return disam_obj if we have one, or bail!
         if match_ct > 1
           return disam_obj if disam_obj
-          raise  Exception.new(I18n.t('plugins.aspace-import-excel.error.too_many'))
+          raise  Exception.new(I18n.t('bulk_import.error.too_many'))
         end
       else
-       raise Exception.new(I18n.t('plugins.aspace-import-excel.error.too_many'))
+       raise Exception.new(I18n.t('bulk_import.error.too_many'))
       end
     elsif total_hits == 0
 #      Rails.logger.info("No hits found")
@@ -68,7 +74,7 @@ class Handler
     obj
   end
 
-  def self.clear(enum_list)
+  def clear(enum_list)
     enum_list.renew
   end
 

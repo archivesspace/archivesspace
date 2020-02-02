@@ -1,13 +1,15 @@
 require_relative 'handler'
 class AgentHandler < Handler
-    @@agents = {} 
-    @@agent_role ||= CvList.new('linked_agent_role')
-    @@agent_relators ||= CvList.new('linked_agent_archival_record_relators')
-    AGENT_TYPES = { 'families' => 'family', 'corporate_entities' => 'corporate_entity', 'people' => 'person'}
+  AGENT_TYPES = { 'families' => 'family', 'corporate_entities' => 'corporate_entity', 'people' => 'person'}
+    def initialize(current_user)
+      @agents = {} 
+      @agent_role ||= CvList.new('linked_agent_role', current_user)
+      @agent_relators ||= CvList.new('linked_agent_archival_record_relators', current_user)
+    end
     def self.renew
-      clear(@@agent_relators)
-      clear(@@agent_role)
-      @@agents = {}
+      clear(@agent_relators)
+      clear(@agent_role)
+      @agents = {}
     end
     def self.key_for(agent)
       key = "#{agent[:type]} #{agent[:name]}"
@@ -22,7 +24,7 @@ class AgentHandler < Handler
      {
        :type => AGENT_TYPES[type],
        :id => id,
-       :name => input_name || (id ? I18n.t('plugins.aspace-import-excel.unfound_id', :id => id, :type => 'Agent') : nil),
+       :name => input_name || (id ? I18n.t('bulk_import.unfound_id', :id => id, :type => 'Agent') : nil),
        :role => role,
        :relator => row.fetch("#{type}_agent_relator_#{num}", nil) ,
        :id_but_no_name => id && !input_name
@@ -32,13 +34,13 @@ class AgentHandler < Handler
    def self.get_or_create(row, type, num, resource_uri, report)
      agent = build(row, type, num)
      agent_key = key_for(agent)
-     if !(agent_obj = stored(@@agents, agent[:id], agent_key))
+     if !(agent_obj = stored(@agents, agent[:id], agent_key))
        unless agent[:id].blank?
          begin
            agent_obj = JSONModel("agent_#{agent[:type]}".to_sym).find(agent[:id])
          rescue Exception => e
            if e.message != 'RecordNotFound'
-             raise ExcelImportException.new( I18n.t('plugins.aspace-import-excel.error.no_agent', :num => num, :why => e.message))
+             raise BulkImportException.new( I18n.t('bulk_import.error.no_agent', :num => num, :why => e.message))
            end
          end
        end
@@ -49,7 +51,7 @@ class AgentHandler < Handler
           rescue Exception => e
             if e.message == 'More than one match found in the database'
               agent[:name] = agent[:name] + DISAMB_STR
-              report.add_info(I18n.t('plugins.aspace-import-excel.warn.disam', :name => agent[:name]))
+              report.add_info(I18n.t('bulk_import.warn.disam', :name => agent[:name]))
             else
               raise e
             end
@@ -57,37 +59,37 @@ class AgentHandler < Handler
         end
         if !agent_obj
           agent_obj = create_agent(agent, num)
-          report.add_info(I18n.t('plugins.aspace-import-excel.created', :what =>"#{I18n.t('plugins.aspace-import-excel.agent')}[#{agent[:name]}]", :id => agent_obj.uri))
+          report.add_info(I18n.t('bulk_import.created', :what =>"#{I18n.t('bulk_import.agent')}[#{agent[:name]}]", :id => agent_obj.uri))
         end
      rescue Exception => e
-       raise ExcelImportException.new( I18n.t('plugins.aspace-import-excel.error.no_agent', :num =>  num,  :why => e.message))
+       raise BulkImportException.new( I18n.t('bulk_import.error.no_agent', :num =>  num,  :why => e.message))
      end
     end
     agent_link = nil
       if agent_obj
         if agent[:id_but_no_name]
-         @@agents[agent[:id].to_s] = agent_obj
+         @agents[agent[:id].to_s] = agent_obj
         else
-         @@agents[agent_obj.id.to_s] = agent_obj
+         @agents[agent_obj.id.to_s] = agent_obj
         end
-        @@agents[agent_key] = agent_obj
+        @agents[agent_key] = agent_obj
         agent_link = {"ref" => agent_obj.uri}
         begin
-          agent_link["role"] = @@agent_role.value(agent[:role])
+          agent_link["role"] = @agent_role.value(agent[:role])
         rescue Exception => e
           if e.message.start_with?("NOT FOUND")
-            raise ExcelImportException.new(I18n.t('plugins.aspace-import-excel.error.bad_role', :label => agent[:role]))
+            raise BulkImportException.new(I18n.t('bulk_import.error.bad_role', :label => agent[:role]))
           else
-            raise ExcelImportException.new(I18n.t('plugins.aspace-import-excel.error.role_invalid', :label => agent[:role], :why => e.message))
+            raise BulkImportException.new(I18n.t('bulk_import.error.role_invalid', :label => agent[:role], :why => e.message))
         end
       end
       begin
-        agent_link["relator"] =  @@agent_relators.value(agent[:relator]) if !agent[:relator].blank?
+        agent_link["relator"] =  @agent_relators.value(agent[:relator]) if !agent[:relator].blank?
       rescue Exception => e
         if e.message.start_with?("NOT FOUND")
-          raise ExcelImportException.new(I18n.t('plugins.aspace-import-excel.error.bad_relator', :label => agent[:relator]))
+          raise BulkImportException.new(I18n.t('bulk_import.error.bad_relator', :label => agent[:relator]))
         else
-          raise ExcelImportException.new(I18n.t('plugins.aspace-import-excel.error.relator_invalid', :label => agent[:relator], :why => e.message))
+          raise BulkImportException.new(I18n.t('bulk_import.error.relator_invalid', :label => agent[:relator], :why => e.message))
         end
       end
     end
@@ -101,7 +103,7 @@ class AgentHandler < Handler
       ret_agent.publish = !(agent[:id_but_no_name] || agent[:name].ends_with?(DISAMB_STR))
       ret_agent.save
     rescue Exception => e
-       raise Exception.new(I18n.t('plugins.aspace-import-excel.error.no_agent', :num => num, :why => e.message))
+       raise Exception.new(I18n.t('bulk_import.error.no_agent', :num => num, :why => e.message))
     end
     ret_agent
   end
@@ -113,7 +115,7 @@ class AgentHandler < Handler
         ret_ag = JSONModel("agent_#{agent[:type]}".to_sym).find(agent[:id])
       rescue Exception => e
         if e.message != 'RecordNotFound' 
-          raise ExcelImportException.new( I18n.t('plugins.aspace-import-excel.error.no_agent', :num => num, :why => e.message))
+          raise BulkImportException.new( I18n.t('bulk_import.error.no_agent', :num => num, :why => e.message))
         end
       end
     end
