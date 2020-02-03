@@ -1,14 +1,18 @@
 require_relative 'bulk_import_mixins'
+# require_relative 'json_client_mixin'
 require_relative 'agent_handler'
 require_relative 'container_instance_handler'
 require_relative 'digital_object_handler'
 require_relative 'lang_handler'
 require_relative 'notes_handler'
 require_relative 'subject_handler'
+require_relative '../../../lib/uri_resolver'
 require 'nokogiri'
 require 'pp'
 require 'rubyXL'
 require 'asutils'
+include ASpaceImportClient
+include URIResolver
 
 START_MARKER = /ArchivesSpace field code/.freeze
 DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
@@ -17,6 +21,15 @@ class BulkImporter
 
     def run
         Log.error('RUN')
+        begin
+          JSONModel::init(:allow_other_unmapped => AppConfig[:allow_other_unmapped], 
+            :client_mode => true, :url  => AppConfig[:backend_url])  
+          ao = JSONModel(:archival_object).new._always_valid!
+          Log.error("GOT OBJECT? #{ao}")
+        rescue Exception => e
+          Log.error("BIG FAIL: #{e.message}")
+        end
+
         begin
             rows = initialize_info
             while @headers.nil? && (row = rows.next)
@@ -42,7 +55,7 @@ class BulkImporter
             else # something else went wrong
             @report.add_terminal_error(I18n.t('bulk_import.error.system', :msg => e.message), @counter)
             Log.error("UNEXPECTED EXCEPTION on bulkimport load! #{e.message}")
-            Log.error( e.backtrace.pretty_inspect[0])
+            Log.error( e.backtrace.pretty_inspect)
             end
         end
         return @report
@@ -85,11 +98,11 @@ class BulkImporter
       end
       # this refreshes the controlled list enumerations, which may have changed since the last import
       def initialize_handler_enums
-        cih = ContainerInstanceHandler(@current_user)
-        doh = DigitalObjectHandler(@current_user)
-        sh = SubjectHandler(@current_user)
-        ah = AgentHandler(@current_user)
-        lh = LangHandler(@current_user)
+        @cih = ContainerInstanceHandler(@current_user)
+        @doh = DigitalObjectHandler(@current_user)
+        @sh = SubjectHandler(@current_user)
+        @ah = AgentHandler(@current_user)
+        @lh = LangHandler(@current_user)
       end
       
       private
@@ -113,27 +126,29 @@ class BulkImporter
       def initialize_info
         @orig_filename = @opts[:filename]
         @report_out = []
-        @report = BulkImportTracker.new
+        @report = BulkImportReport.new
         @headers
         @digital_load = @opts[:digital_load] == 'true'
         @report.set_file_name(@orig_filename)
         # initialize_handler_enums
-        @resource = Resource.get_or_die(@opts[:rid])
-        Log.error("BulkImport got resource: #{@resource.inspect}")
-        Log.error("BulkImport repo_id match? #{@opts[:repo_id] == @resouce[:repo_id]}")
-        @repository = Repository.get_or_die(@opts[:repo_id])
-        Log.error("BulkImport got repo: #{@repository.inspect}")
+        @resource = resolve_references(Resource.to_jsonmodel(@opts[:rid]),['repository'])
+        Log.error("BulkImport got resource: #{@resource.pretty_inspect}")
+        @repository = @resource['repository']['ref']
+        Log.error("BulkImport got repo: #{@repository.pretty_inspect}")
         @hier = 1
         unless @digital_load
           @ao = nil
+          Log.error("aoid |#{@opts[:aoid]}|")
           aoid = @opts[:aoid] || nil
-          @resource_level = aoid.nil?
+          @resource_level = (aoid.nil? || aoid.strip.empty?)
+          Log.error("Resource level? #{@resource_level}")
           @first_one = false # to determine whether we need to worry about positioning
           if @resource_level
             @parents.set_uri(0, nil)
             @hier = 0
           else
-            @ao = JSONModel(:archival_object).find(aoid, find_opts)
+            json = ArchivalObject.to_jsonmodel(Integer(aoid))
+            @ao = json_response(resolve_references(json, resolves))  
             Log.error("Archival Object found: #{@ao.pretty_inspect}")
             @start_position = @ao.position
             parent = @ao.parent # we need this for sibling/child disabiguation later on
