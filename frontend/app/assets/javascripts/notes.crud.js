@@ -255,7 +255,7 @@ $(function() {
         $note_form.data("type");
         $note_form.attr("data-index", $subform.data("index"));
 
-        var matchingNoteType = $(".note-type option:contains('"+$(":selected", this).text()+"')", $note_form);
+        var matchingNoteType = $(".note-type option:contains('"+$(":selected", this).text().replace(/'/g, "\\'")+"')", $note_form);
         $(".note-type", $note_form).val(matchingNoteType.val());
 
         initNoteForm($note_form, true);
