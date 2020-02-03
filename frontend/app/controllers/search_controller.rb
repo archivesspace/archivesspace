@@ -11,6 +11,8 @@ class SearchController < ApplicationController
   include ExportHelper
 
   def advanced_search
+    @display_context = true
+
     criteria = params_for_backend_search
 
     queries = advanced_search_queries
@@ -121,6 +123,8 @@ class SearchController < ApplicationController
 
       params[:q] = "(#{q}) OR (#{q.gsub('*', '')})"
     end
+
+    @display_context = true
 
     respond_to do |format|
       format.json {

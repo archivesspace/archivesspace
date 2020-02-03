@@ -27,7 +27,7 @@
         </th>
       <% end %>
 
-      <% if (request.path =~ /\/(advanced_)?search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first))) %>
+      <% if show_identifier_column? && (request.path =~ /\/(advanced_)?search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first))) %>
         <th class="col identifier sortable <% if @search_data.sorted_by === "identifier"%>sort-<%= @search_data.current_sort_direction %><% end %>">
           <%= link_to I18n.t("search_results.result_identifier"), build_search_params("sort" => @search_data.sort_filter_for("identifier")) %>
         </th>
@@ -93,7 +93,7 @@
             <%= render_aspace_partial :partial => "search/context", :locals => {:result => result} %>
           </td>
         <% end %>
-        <% if request.path =~ /\/(advanced_)*search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first)) %>
+        <% if show_search_result_identifier_column? && (request.path =~ /\/(advanced_)*search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first)) )%>
           <td>
             <%= identifier_for_search_result(result) %>
           </td>

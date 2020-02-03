@@ -114,6 +114,20 @@ module SearchHelper
   end
 
 
+  def show_audit_column?
+    !@no_audit
+  end
+
+
+  def show_action_column?
+    !@no_actions
+  end
+
+  def show_search_result_identifier_column?
+    (@show_search_result_identifier_column.nil? || @show_search_result_identifier_column) && request.path =~ /\/(advanced_)*search/
+  end
+
+
   def title_column_header(title_header)
     @title_column_header = title_header
   end
