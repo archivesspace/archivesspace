@@ -95,7 +95,7 @@ class TopContainersController < ApplicationController
 
   def typeahead
     search_params = params_for_backend_search
-    search_params["q"] = "*" + search_params["q"].gsub(" ", "")
+    search_params["q"] = "*" + search_params["q"].gsub(/[^0-9A-Za-z]/, '').downcase + "*"
 
     search_params["q"] = "top_container_u_typeahead_utext:#{search_params["q"]}"
 
