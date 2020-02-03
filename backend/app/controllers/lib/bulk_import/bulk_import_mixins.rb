@@ -1,6 +1,22 @@
 require_relative '../../../lib/crud_helpers'
 
 # containes classes and methods that might be needed for more than one bulk import converter
+
+# METHOD(s)
+def resolves
+  ["subjects", "related_resources", "linked_agents",
+    "revision_statements",
+    "container_locations", "digital_object", "classifications",
+    "related_agents", "resource", "parent", "creator",
+    "linked_instances", "linked_records", "related_accessions",
+    "linked_events", "linked_events::linked_records",
+    "linked_events::linked_agents",
+    "top_container", "container_profile", "location_profile",
+    "owner_repo"]
+end
+
+
+
 # addition to app/lib/crud_helpers.rb to deal with not having the env hash
 module CrudHelpers
   def handle_raw_listing(model, where = {}, current_user)
