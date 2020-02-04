@@ -188,6 +188,7 @@ en:
       type_enum_s: Type
       published_series_title_u_sstr: Series
       instance_type_enum_s: Instance type
+      langcode: Language
 
   search_sorting:
     sort_by: "Sort by:"
