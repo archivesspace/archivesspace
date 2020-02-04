@@ -3,7 +3,7 @@
 <dl id="facets">
 
   <%
-    preferred_facet_order = %w(repository primary_type agents subjects)
+    preferred_facet_order = %w(repository primary_type agents subjects langcode)
     ordered_facet_types = @facets.keys.sort{|a,b|
       if preferred_facet_order.include?(a) && preferred_facet_order.include?(b)
         preferred_facet_order.index(a) <=> preferred_facet_order.index(b)
