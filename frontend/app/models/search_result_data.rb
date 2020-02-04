@@ -251,7 +251,7 @@ class SearchResultData
   end
 
   def self.BASE_FACETS
-    ["primary_type","creators","subjects"]
+    ["primary_type","creators","subjects","langcode"]
   end
 
   def self.AGENT_FACETS
@@ -263,11 +263,11 @@ class SearchResultData
   end
 
   def self.RESOURCE_FACETS
-    ["subjects", "publish", "level", "classification_path", "primary_type"]
+    ["subjects", "publish", "level", "classification_path", "primary_type", "langcode"]
   end
 
   def self.DIGITAL_OBJECT_FACETS
-    ["subjects", "publish", "digital_object_type", "level", "primary_type"]
+    ["subjects", "publish", "digital_object_type", "level", "primary_type", "langcode"]
   end
 
   def self.CONTAINER_PROFILE_FACETS
