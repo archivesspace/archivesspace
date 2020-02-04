@@ -275,7 +275,7 @@ class SearchResultData
   end
 
   def self.LOCATION_FACETS
-    ["temporary", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"]
+    ["temporary", "owner_repo_display_string_u_ssort", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"]
   end
 
   def self.SUBJECT_FACETS
