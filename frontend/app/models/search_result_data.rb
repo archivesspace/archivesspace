@@ -105,6 +105,8 @@ class SearchResultData
     return I18n.t("enumerations.event_outcome.#{facet.to_s}", :default => facet) if facet_group === "outcome"
     return I18n.t("enumerations.subject_term_type.#{facet.to_s}", :default => facet) if facet_group === "first_term_type"
 
+    return I18n.t("enumerations.language_iso639_2.#{facet}", :default => facet) if facet_group === "langcode"
+
     if facet_group === "source"
       if single_type? and types[0] === "subject"
         return I18n.t("enumerations.subject_source.#{facet}", :default => facet)
