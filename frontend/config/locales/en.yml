@@ -191,6 +191,7 @@ en:
       floor: Floor
       room: Room
       area: Area
+      owner_repo_display_string_u_ssort: Repository
       location_profile_display_string_u_ssort: Location Profile
       location_profile_width_u_sstr: Width
       location_profile_height_u_sstr: Height
