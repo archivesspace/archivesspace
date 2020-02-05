@@ -389,7 +389,7 @@ class TopContainer < Sequel::Model(:top_container)
     updated = []
 
     ids = barcode_data.map{|uri,_| my_jsonmodel.id_for(uri)}
-
+    
     # null out barcodes to avoid duplicate error as bulk updates are
     # applied
     TopContainer.filter(:id => ids).update(:barcode => nil)
