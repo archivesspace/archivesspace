@@ -1,4 +1,5 @@
 require 'logger'
+require 'active_support/inflector'
 
 if $0 =~ /scripts[\/\\]rb[\/\\]migrate_db.rb$/
   # This script runs in two contexts: build/run as a part of development, and
