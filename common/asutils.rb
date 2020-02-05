@@ -253,7 +253,7 @@ ERRMSG
       gemfile = File.join(plugin, 'Gemfile')
       if File.exist?(gemfile)
         # only load Gemfiles we find
-        context.instance_eval(File.read(gemfile))
+        context.instance_eval(File.read(gemfile), gemfile, 1)
       end
     end
   end
