@@ -1,15 +1,11 @@
-GIT
-  remote: https://github.com/hudmol/map_validator.git
-  revision: 885d79476b62b9ca7ccd8abf3699e927a1ba11d8
-  tag: master
+PATH
+  remote: ../plugins/as_cartography/local_gems/map_validator
   specs:
     map_validator (0.0.1)
       xlsx_streaming_reader (= 0.0.1)
 
-GIT
-  remote: https://github.com/hudmol/xlsx_streaming_reader.git
-  revision: 9a279fd2fbb6173e9a6a2a6335b3d941ee610dbc
-  branch: master
+PATH
+  remote: ../plugins/as_cartography/local_gems/xlsx_streaming_reader
   specs:
     xlsx_streaming_reader (0.0.1)
 
