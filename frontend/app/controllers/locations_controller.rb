@@ -219,6 +219,11 @@ class LocationsController < ApplicationController
                                          proc {|record| record["location_profile_display_string_u_ssort"]},
                                          { :sortable => true, :sort_by => "location_profile_display_string_u_ssort" },
                                          @search_data)
+        @search_data.sort_fields << "owner_repo_display_string_u_ssort"
+        @extra_columns << SearchHelper::ExtraColumn.new(I18n.t("repository._singular"),
+                                          proc {|record| record["owner_repo_display_string_u_ssort"]},
+                                          { :sortable => true, :sort_by => "owner_repo_display_string_u_ssort" },
+                                          @search_data)
 
         render_aspace_partial :partial => "search/results"
       }

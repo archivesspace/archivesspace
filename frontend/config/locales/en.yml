@@ -252,6 +252,7 @@ en:
     digital_object_type: Digital Object Type
     publish: Publish
     location_profile_display_string_u_ssort: Location Profile
+    owner_repo_display_string_u_ssort: Repository
     assessment_survey_begin: Survey Begin Date
     assessment_survey_end: Survey Completed Date
     assessment_id: ID

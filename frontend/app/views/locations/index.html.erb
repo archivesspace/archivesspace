@@ -7,6 +7,7 @@
      add_column(I18n.t("location.#{place}"), proc {|record| record[place]}, :sortable => true, :sort_by => place)
    end
    add_column(I18n.t("location_profile._singular"), proc {|record| record["location_profile_display_string_u_ssort"]}, :sortable => true, :sort_by => "location_profile_display_string_u_ssort" )
+   add_column(I18n.t("repository._singular"), proc {|record| record["owner_repo_display_string_u_ssort"]}, :sortable => true, :sort_by => "owner_repo_display_string_u_ssort" )
    add_column(current_repo['repo_code'] + " " + I18n.t("location.holdings"), proc {|record|
     filter_term = {"location_uris" => record['uri']}.to_json
     ajax_search_url = url_for({:controller => :search, :action => :do_search, :format => :json, :listing_only => true}.merge({"filter_term" => filter_term, "type" => "top_container"}))
@@ -26,7 +27,7 @@
               <%= link_to I18n.t("actions.edit_default_values"), {:controller => :locations, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
           <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-            ['title', 'building', 'floor', 'room', 'area', 'location_profile_display_string_u_ssort']
+            ['title', 'owner_repo_display_string_u_ssort', 'building', 'floor', 'room', 'area', 'location_profile_display_string_u_ssort']
             }), id: "searchExport",  class:  "btn btn-sm btn-info" %>
           <%= link_to I18n.t("location._frontend.action.create"), {:controller => :locations, :action => :new}, :class => "btn btn-sm btn-default" %>
           <%= link_to I18n.t("location._frontend.action.batch"), {:controller => :locations, :action => :batch}, :class => "btn btn-sm btn-default" %>
