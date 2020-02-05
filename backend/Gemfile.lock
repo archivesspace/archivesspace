@@ -1,14 +1,3 @@
-PATH
-  remote: ../plugins/as_cartography/local_gems/map_validator
-  specs:
-    map_validator (0.0.1)
-      xlsx_streaming_reader (= 0.0.1)
-
-PATH
-  remote: ../plugins/as_cartography/local_gems/xlsx_streaming_reader
-  specs:
-    xlsx_streaming_reader (0.0.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -194,7 +183,6 @@ DEPENDENCIES
   json-schema (= 1.0.10)
   ladle (= 0.2.0)
   mail
-  map_validator!
   mizuno (= 0.6.11)
   multi_json (~> 1.13.1)
   multipart-post (= 1.2.0)
@@ -223,7 +211,6 @@ DEPENDENCIES
   tzinfo
   tzinfo-data
   warbler (= 2.0.4)
-  xlsx_streaming_reader!
   zip-zip (= 0.3)
 
 
