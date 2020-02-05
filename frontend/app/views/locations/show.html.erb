@@ -32,7 +32,7 @@
       <% if @location['owner_repo'] %>
         <div class="form-horizontal">
           <div class="form-group token-list">
-            <div class="control-label col-sm-2"><%= I18n.t("location.owner_repo") %></div>
+            <div class="control-label col-sm-2"><%= I18n.t("repository._singular") %></div>
             <div class="label-only col-sm-8">
               <%= render_token :object => @location["owner_repo"]["_resolved"],
                :label => @location["owner_repo"]["_resolved"]["display_string"],

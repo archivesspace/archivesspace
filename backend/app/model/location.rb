@@ -22,6 +22,12 @@ class Location < Sequel::Model(:location)
                     :contains_records_of_type => :location_function,
                     :corresponding_to_association  => :location_function)
 
+                    
+#  def validate
+#    super
+#    validates_presence(:owner_repo, :message => "repository must not be empty")
+#  end
+  
   def self.generate_title(json)
     title = ""
 
