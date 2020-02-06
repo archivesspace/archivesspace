@@ -117,7 +117,7 @@ describe 'Archival Object controller' do
 
 
   it "lets you create an archival object with a subject" do
-    vocab = create(:json_vocab)
+    vocab = create(:json_vocabulary)
 
     subject = create(:json_subject, {:terms => [build(:json_term, :vocabulary => vocab.uri)], :vocabulary => vocab.uri})
 
@@ -128,7 +128,7 @@ describe 'Archival Object controller' do
 
 
   it "can resolve subjects for you" do
-    vocab = create(:json_vocab)
+    vocab = create(:json_vocabulary)
 
     opts = {:term => generate(:term)}
 
@@ -211,7 +211,7 @@ describe 'Archival Object controller' do
 
 
   it "will re-resolve the subrecords upon refetch" do
-    vocab = create(:json_vocab)
+    vocab = create(:json_vocabulary)
     opts = {:term => generate(:term)}
     subject = create(:json_subject, {:terms =>
                                        [build(

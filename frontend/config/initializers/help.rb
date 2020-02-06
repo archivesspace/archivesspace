@@ -21,17 +21,9 @@ module ArchivesSpaceHelp
     AppConfig[:help_url]
   end
 
-  def self.topic_prefix
-    AppConfig[:help_topic_prefix] || ""
-  end
-
   def self.url_for_topic(topic)
     if self[topic]
-      if self[topic].is_a? Fixnum
-        return "#{base_url}#{topic_prefix}#{self[topic]}"
-      else
-        return "#{AppConfig[:help_topic_base_url]}#{self[topic]}"
-      end
+      return "#{AppConfig[:help_topic_base_url]}#{self[topic]}"
     end
   end
 

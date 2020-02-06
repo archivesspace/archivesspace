@@ -32,7 +32,7 @@ if ENV['ASPACE_BACKEND_URL']
     end
   end
 
-  $repo_record = create(:json_repo)
+  $repo_record = create(:json_repository)
   $repo_id = $repo_record.id
 
   JSONModel.set_repository($repo_id)

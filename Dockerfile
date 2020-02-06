@@ -25,7 +25,7 @@ RUN cd /source && \
     mv ./*.zip / && \
     cd / && \
     unzip /*.zip -d / && \
-    wget http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar && \
+    wget https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar && \
     cp /mysql-connector-java-5.1.39.jar /archivesspace/lib/
 
 ADD docker-startup.sh /archivesspace/startup.sh

@@ -19,10 +19,123 @@ describe 'Merge request controller' do
     }.to raise_error(RecordNotFound)
   end
 
+  ['accession', 'digital_object', 'resource'].each do |type|
+    it "can merge two subjects, but delete duplicate relationships" do
+      target = create(:json_subject)
+      victim = create(:json_subject)
+
+      parent = create(:"json_#{type}", :subjects => [
+                        {
+                          :ref => target.uri
+                        },
+                        {
+                          :ref => victim.uri
+                        }
+                      ])
+
+      # Target and victim are present
+      expect(parent.subjects.count).to eq(2)
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'subject')
+
+      # Victim is gone
+      expect(JSONModel(:"#{type}").find(parent.id).subjects.count).to eq(1)
+    end
+
+
+    it "can merge two subjects, but retain and update unrelated relationships" do
+      target = create(:json_subject)
+      victim = create(:json_subject)
+
+      parent1 = create(:"json_#{type}", :subjects => [
+                           {
+                             :ref => target.uri
+                           }
+                         ])
+
+      parent2 = create(:"json_#{type}", :subjects => [
+                           {
+                             :ref => victim.uri
+                           }
+                         ])
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'subject')
+
+      # Relationships updated and victim is gone
+      expect(JSONModel(:"#{type}").find(parent1.id).subjects.count).to eq(1)
+      expect(JSONModel(:"#{type}").find(parent2.id).subjects.count).to eq(1)
+      expect(JSONModel(:"#{type}").find(parent2.id).subjects).not_to include(victim)
+    end
+
+
+    it "can merge two agents, but delete duplicate relationships" do
+      target = create(:json_agent_person)
+      victim = create(:json_agent_person)
+
+      parent = create(:"json_#{type}",
+                      :linked_agents => [{
+                        'ref' => target.uri,
+                        'role' => 'creator'
+                      },
+                      {
+                        'ref' => victim.uri,
+                        'role' => 'creator'
+                      }])
+
+      # Target and victim are present
+      expect(parent.linked_agents.count).to eq(2)
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'agent')
+
+      # Victim and relationship are gone
+      expect(JSONModel(:"#{type}").find(parent.id).linked_agents.count).to eq(1)
+      expect(JSONModel(:"#{type}").find(parent.id).linked_agents).not_to include(victim)
+    end
+
+
+    it "can merge two agents, but retain and update unrelated relationships" do
+      target = create(:json_agent_person)
+      victim = create(:json_agent_person)
+
+      parent1 = create(:"json_#{type}",
+                       :linked_agents => [{
+                         'ref' => target.uri,
+                         'role' => 'creator'
+                       }])
+
+      parent2 = create(:"json_#{type}",
+                       :linked_agents => [{
+                         'ref' => victim.uri,
+                         'role' => 'creator'
+                       }])
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'agent')
+
+      # Relationships updated and victim is gone
+      expect(JSONModel(:"#{type}").find(parent1.id).linked_agents.count).to eq(1)
+      expect(JSONModel(:"#{type}").find(parent2.id).linked_agents.count).to eq(1)
+      expect(JSONModel(:"#{type}").find(parent2.id).linked_agents).not_to include(victim)
+    end
+  end
 
   MERGEABLE_TYPES.each do |type|
     it "doesn't mess things up if you merge a #{type} record with itself" do
-
       if type == 'agent'
         agent_type = ['corporate_entity', 'family', 'person', 'software'].sample
         target = create(:"json_#{type}_#{agent_type}")
@@ -31,8 +144,8 @@ describe 'Merge request controller' do
       end
 
       request = JSONModel(:merge_request).new
-      request.target = {'ref' => target.uri}
-      request.victims = [{'ref' => target.uri}]
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => target.uri }]
 
       request.save(:record_type => "#{type}")
 
@@ -155,8 +268,8 @@ describe 'Merge request controller' do
     victim = create(:json_top_container)
 
     request = JSONModel(:merge_request).new
-    request.target = {'ref' => target.uri}
-    request.victims = [{'ref' => victim.uri}]
+    request.target = { 'ref' => target.uri }
+    request.victims = [{ 'ref' => victim.uri }]
 
     request.save(:record_type => 'top_container')
 
@@ -164,8 +277,101 @@ describe 'Merge request controller' do
     expect {
       JSONModel(:top_container).find(victim.id)
     }.to raise_error(RecordNotFound)
-
   end
 
 
+  ['accession', 'resource'].each do |type|
+    it "can merge two top containers, but delete duplicate instances, subcontainers, and relationships" do
+      target = create(:json_top_container)
+      victim = create(:json_top_container)
+
+      parent = create(:"json_#{type}",
+                      :instances => [build(:json_instance,
+                                        :sub_container => build(:json_sub_container,
+                                                             :indicator_2 => nil,
+                                                             :type_2 => nil,
+                                                             :indicator_3 => nil,
+                                                             :type_3 => nil,
+                                                             :top_container => { :ref => target.uri })),
+                                  build(:json_instance,
+                                        :sub_container => build(:json_sub_container,
+                                                             :indicator_2 => nil,
+                                                             :type_2 => nil,
+                                                             :indicator_3 => nil,
+                                                             :type_3 => nil,
+                                                             :top_container => { :ref => victim.uri }))])
+
+      # Target and victim are present
+      expect(parent.instances.count).to eq(2)
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'top_container')
+
+      # Victim is gone
+      expect(JSONModel(:"#{type}").find(parent.id).instances.count).to eq(1)
+    end
+
+
+    it "can merge two top containers, but retain instances and relationships if subcontainers are not empty" do
+      target = create(:json_top_container)
+      victim = create(:json_top_container)
+
+      parent = create(:"json_#{type}",
+                      :instances => [build(:json_instance,
+                                        :sub_container => build(:json_sub_container,
+                                                             :top_container => { :ref => target.uri })),
+                                  build(:json_instance,
+                                        :sub_container => build(:json_sub_container,
+                                                             :top_container => { :ref => victim.uri }))])
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'top_container')
+
+      # Two instances remain
+      expect(JSONModel(:"#{type}").find(parent.id).instances.count).to eq(2)
+      # But the victim uri is gone
+      expect(JSONModel(:"#{type}").find(parent.id).instances).not_to include(victim.uri)
+    end
+
+
+    it "can merge two top containers, but retain unrelated instances, subcontainers, and relationships" do
+      target = create(:json_top_container)
+      victim = create(:json_top_container)
+
+      parent1 = create(:"json_#{type}",
+                       :instances => [build(:json_instance,
+                                         :sub_container => build(:json_sub_container,
+                                                              :indicator_2 => nil,
+                                                              :type_2 => nil,
+                                                              :indicator_3 => nil,
+                                                              :type_3 => nil,
+                                                              :top_container => { :ref => target.uri }))])
+
+      parent2 = create(:"json_#{type}",
+                       :instances => [build(:json_instance,
+                                         :sub_container => build(:json_sub_container,
+                                                              :indicator_2 => nil,
+                                                              :type_2 => nil,
+                                                              :indicator_3 => nil,
+                                                              :type_3 => nil,
+                                                              :top_container => { :ref => victim.uri }))])
+
+      request = JSONModel(:merge_request).new
+      request.target = { 'ref' => target.uri }
+      request.victims = [{ 'ref' => victim.uri }]
+
+      request.save(:record_type => 'top_container')
+
+      # Relationships updated and victim is gone
+      expect(JSONModel(:"#{type}").find(parent1.id).instances.count).to eq(1)
+      expect(JSONModel(:"#{type}").find(parent2.id).instances.count).to eq(1)
+      expect(JSONModel(:"#{type}").find(parent2.id).instances).not_to include(victim)
+    end
+  end
 end

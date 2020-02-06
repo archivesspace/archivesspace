@@ -468,7 +468,7 @@ describe 'OAI handler' do
 
   describe "respository with OAI harvesting disabled" do
     before(:all) do
-      @repo_disabled = create(:json_repo, :oai_is_disabled => true)
+      @repo_disabled = create(:json_repository, :oai_is_disabled => true)
 
       $another_repo_id = $repo_id
       $repo_id = @repo_disabled.id
