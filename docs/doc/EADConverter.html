@@ -1468,7 +1468,9 @@
 1018
 1019
 1020
-1021</pre>
+1021
+1022
+1023</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 92</span>
@@ -1674,6 +1676,7 @@
     <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:note_singlepart</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span>
       <span class='symbol val'>:persistent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;label&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
       <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;audience&#39;</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span><span class='comma token'>,</span>
       <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/&lt;head&gt;.?&lt;\/head&gt;/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='rparen token'>)</span>
     <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
@@ -1687,6 +1690,7 @@
     <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:note_multipart</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
       <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span>
       <span class='symbol val'>:persistent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+      <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;label&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
       <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;audience&#39;</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span><span class='comma token'>,</span>
       <span class='symbol val'>:subnotes</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_text&#39;</span><span class='comma token'>,</span>
@@ -2510,8 +2514,6 @@
       <pre class="lines">
 
 
-674
-675
 676
 677
 678
@@ -2526,10 +2528,12 @@
 687
 688
 689
-690</pre>
+690
+691
+692</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 674</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 676</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_to_instance identifier id'>add_to_instance</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_parent_id identifier id'>parent_id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='rubyid_recall_instance identifier id'>recall_instance</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -2619,8 +2623,6 @@ actually want to ever see them.</p>
       <pre class="lines">
 
 
-692
-693
 694
 695
 696
@@ -2661,10 +2663,12 @@ actually want to ever see them.</p>
 731
 732
 733
-734</pre>
+734
+735
+736</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 692</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 694</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_make_top_container_uri identifier id'>get_or_make_top_container_uri</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_indicator identifier id'>indicator</span><span class='comma token'>,</span> <span class='rubyid_barcode identifier id'>barcode</span><span class='comma token'>,</span> <span class='rubyid_container_profile_name identifier id'>container_profile_name</span><span class='rparen token'>)</span>
   <span class='comment val'># remember the top_containers we make in this hash</span>
@@ -2911,8 +2915,6 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-1027
-1028
 1029
 1030
 1031
@@ -2928,10 +2930,12 @@ which greatly helps the performance.</p>
 1041
 1042
 1043
-1044</pre>
+1044
+1045
+1046</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1027</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1029</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_corp_template identifier id'>make_corp_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -2945,7 +2949,7 @@ which greatly helps the performance.</p>
   <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:name_corporate_entity</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:primary_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='comma token'>,</span>
     <span class='symbol val'>:rules</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;rules&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-    <span class='symbol val'>:authority_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:authority_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;authfilenumber&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
     <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;source&#39;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='string val'>&#39;ingest&#39;</span>
   <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
     <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:agent_corporate_entity</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:names</span><span class='comma token'>,</span> <span class='rubyid_proxy identifier id'>proxy</span>
@@ -2972,8 +2976,6 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-1047
-1048
 1049
 1050
 1051
@@ -2989,10 +2991,12 @@ which greatly helps the performance.</p>
 1061
 1062
 1063
-1064</pre>
+1064
+1065
+1066</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1047</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1049</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_family_template identifier id'>make_family_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -3006,7 +3010,7 @@ which greatly helps the performance.</p>
   <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:name_family</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:family_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='comma token'>,</span>
     <span class='symbol val'>:rules</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;rules&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-    <span class='symbol val'>:authority_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:authority_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;authfilenumber&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
     <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;source&#39;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='string val'>&#39;ingest&#39;</span>
   <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
     <span class='rubyid_set identifier id'>set</span> <span class='rubyid_ancestor identifier id'>ancestor</span><span class='lparen token'>(</span><span class='symbol val'>:agent_family</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:names</span><span class='comma token'>,</span> <span class='rubyid_name identifier id'>name</span>
@@ -3033,7 +3037,6 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-300
 301
 302
 303
@@ -3047,10 +3050,12 @@ which greatly helps the performance.</p>
 311
 312
 313
-314</pre>
+314
+315
+316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 300</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 301</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_nested_note identifier id'>make_nested_note</span><span class='lparen token'>(</span><span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span> <span class='rubyid_tag identifier id'>tag</span><span class='rparen token'>)</span>
   <span class='rubyid_content identifier id'>content</span> <span class='assign token'>=</span> <span class='rubyid_tag identifier id'>tag</span><span class='dot token'>.</span><span class='rubyid_inner_text identifier id'>inner_text</span>
@@ -3058,6 +3063,7 @@ which greatly helps the performance.</p>
   <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:note_multipart</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span>
     <span class='symbol val'>:persistent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;label&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
     <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;audience&#39;</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span><span class='comma token'>,</span>
     <span class='symbol val'>:subnotes</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span>
       <span class='string val'>&#39;jsonmodel_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;note_text&#39;</span><span class='comma token'>,</span>
@@ -3088,8 +3094,6 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-1067
-1068
 1069
 1070
 1071
@@ -3106,10 +3110,12 @@ which greatly helps the performance.</p>
 1082
 1083
 1084
-1085</pre>
+1085
+1086
+1087</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1067</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 1069</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_make_person_template identifier id'>make_person_template</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -3123,7 +3129,7 @@ which greatly helps the performance.</p>
   <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:name_person</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:name_order</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;inverted&#39;</span><span class='comma token'>,</span>
     <span class='symbol val'>:primary_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_inner_xml identifier id'>inner_xml</span><span class='comma token'>,</span>
-    <span class='symbol val'>:authority_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:authority_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;authfilenumber&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
     <span class='symbol val'>:rules</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;rules&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
     <span class='symbol val'>:source</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;source&#39;</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='string val'>&#39;ingest&#39;</span>
   <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
@@ -3164,7 +3170,8 @@ which greatly helps the performance.</p>
 295
 296
 297
-298</pre>
+298
+299</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 285</span>
@@ -3177,6 +3184,7 @@ which greatly helps the performance.</p>
   <span class='rubyid_make identifier id'>make</span> <span class='symbol val'>:note_singlepart</span><span class='comma token'>,</span> <span class='lbrace token'>{</span>
     <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_note_name identifier id'>note_name</span><span class='comma token'>,</span>
     <span class='symbol val'>:persistent_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;label&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
     <span class='symbol val'>:publish</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_att identifier id'>att</span><span class='lparen token'>(</span><span class='string val'>&#39;audience&#39;</span><span class='rparen token'>)</span> <span class='neq op'>!=</span> <span class='string val'>&#39;internal&#39;</span><span class='comma token'>,</span>
     <span class='symbol val'>:content</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format_content identifier id'>format_content</span><span class='lparen token'>(</span> <span class='rubyid_content identifier id'>content</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/&lt;head&gt;.?&lt;\/head&gt;/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span><span class='rparen token'>)</span>
   <span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_note identifier id'>note</span><span class='bitor op'>|</span>
@@ -3204,12 +3212,12 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-670
-671
-672</pre>
+672
+673
+674</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 670</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 672</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_recall_instance identifier id'>recall_instance</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_id identifier id'>id</span> <span class='integer val'>? </span><span class='rubyid_@instances ivar id'>@instances</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_@last_instance ivar id'>@last_instance</span>
@@ -3235,14 +3243,14 @@ which greatly helps the performance.</p>
       <pre class="lines">
 
 
-664
-665
 666
 667
-668</pre>
+668
+669
+670</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 664</span>
+      <pre class="code"><span class="info file"># File 'backend/app/converters/ead_converter.rb', line 666</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_remember_instance identifier id'>remember_instance</span><span class='lparen token'>(</span><span class='rubyid_instance identifier id'>instance</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_@instances ivar id'>@instances</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -3260,7 +3268,7 @@ which greatly helps the performance.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:03:56 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:50 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

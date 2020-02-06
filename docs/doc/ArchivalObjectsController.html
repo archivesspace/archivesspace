@@ -625,7 +625,12 @@
 248
 249
 250
-251</pre>
+251
+252
+253
+254
+255
+256</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 211</span>
@@ -663,8 +668,13 @@
       <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;rde.messages.success&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
       <span class='rubyid_@exceptions ivar id'>@exceptions</span> <span class='assign token'>=</span> <span class='rubyid_@children ivar id'>@children</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='bitor op'>|</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_c identifier id'>c</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__exceptions identifier id'>_exceptions</span><span class='rbrace token'>}</span>
+      
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@exceptions ivar id'>@exceptions</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:blank?</span><span class='rparen token'>)</span>
+        <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_vals identifier id'>vals</span><span class='bitor op'>|</span> <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{key} : #{vals.join(&#39;&lt;br/&gt;&#39;)}&quot;</span> <span class='rbrace token'>}</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;rde.messages.rows_with_errors&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:count</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@exceptions ivar id'>@exceptions</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='notop op'>!</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
 
-      <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;rde.messages.rows_with_errors&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:count</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@exceptions ivar id'>@exceptions</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='notop op'>!</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_end end kw'>end</span>
@@ -1083,16 +1093,16 @@
       <pre class="lines">
 
 
-265
-266
-267
-268
-269
 270
-271</pre>
+271
+272
+273
+274
+275
+276</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 265</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 270</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppress identifier id'>suppress</span>
   <span class='rubyid_archival_object identifier id'>archival_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1193,16 +1203,16 @@
       <pre class="lines">
 
 
-274
-275
-276
-277
-278
 279
-280</pre>
+280
+281
+282
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 279</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unsuppress identifier id'>unsuppress</span>
   <span class='rubyid_archival_object identifier id'>archival_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1372,18 +1382,18 @@
       <pre class="lines">
 
 
-254
-255
-256
-257
-258
 259
 260
 261
-262</pre>
+262
+263
+264
+265
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 254</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/archival_objects_controller.rb', line 259</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate_rows identifier id'>validate_rows</span>
   <span class='rubyid_row_data identifier id'>row_data</span> <span class='assign token'>=</span> <span class='rubyid_cleanup_params_for_schema identifier id'>cleanup_params_for_schema</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:archival_record_children</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_record_children</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
@@ -1405,7 +1415,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:04:04 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:08:00 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

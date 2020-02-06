@@ -280,6 +280,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#CONTAINER_PROFILE_FACETS-class_method" title="CONTAINER_PROFILE_FACETS (class method)">.<strong>CONTAINER_PROFILE_FACETS</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#DIGITAL_OBJECT_FACETS-class_method" title="DIGITAL_OBJECT_FACETS (class method)">.<strong>DIGITAL_OBJECT_FACETS</strong>  &#x21d2; Object </a>
     
 
@@ -1157,13 +1180,13 @@
       <pre class="lines">
 
 
-298
-299
-300
-301</pre>
+302
+303
+304
+305</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 302</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_result_hook identifier id'>add_result_hook</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_@result_hooks ivar id'>@result_hooks</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1221,12 +1244,12 @@
       <pre class="lines">
 
 
-293
-294
-295</pre>
+297
+298
+299</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 297</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_ASSESSMENT_FACETS constant id'>ASSESSMENT_FACETS</span>
   <span class='lbrack token'>[</span><span class='string val'>&#39;assessment_record_types&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;assessment_surveyors&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;assessment_review_required&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;assessment_reviewers&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;assessment_completed&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;assessment_inactive&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;assessment_survey_year&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;assessment_sensitive_material&#39;</span><span class='rbrack token'>]</span>
@@ -1314,15 +1337,46 @@
       <pre class="lines">
 
 
-289
-290
-291</pre>
+293
+294
+295</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 289</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 293</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_CLASSIFICATION_FACETS constant id'>CLASSIFICATION_FACETS</span>
   <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="CONTAINER_PROFILE_FACETS-class_method">
+  
+    .<strong>CONTAINER_PROFILE_FACETS</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+273
+274
+275</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 273</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_CONTAINER_PROFILE_FACETS constant id'>CONTAINER_PROFILE_FACETS</span>
+  <span class='lbrack token'>[</span><span class='string val'>&quot;container_profile_width_u_sstr&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;container_profile_height_u_sstr&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;container_profile_depth_u_sstr&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;container_profile_dimension_units_u_sstr&quot;</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1376,12 +1430,12 @@
       <pre class="lines">
 
 
-281
-282
-283</pre>
+285
+286
+287</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 281</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 285</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_EVENT_FACETS constant id'>EVENT_FACETS</span>
   <span class='lbrack token'>[</span><span class='string val'>&quot;event_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;outcome&quot;</span><span class='rbrack token'>]</span>
@@ -1407,12 +1461,12 @@
       <pre class="lines">
 
 
-273
-274
-275</pre>
+277
+278
+279</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 277</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_LOCATION_FACETS constant id'>LOCATION_FACETS</span>
   <span class='lbrack token'>[</span><span class='string val'>&quot;temporary&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;building&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;floor&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;room&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;area&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;location_profile_display_string_u_ssort&quot;</span><span class='rbrack token'>]</span>
@@ -1469,15 +1523,15 @@
       <pre class="lines">
 
 
-304
-305
-306
-307
 308
-309</pre>
+309
+310
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 308</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_run_result_hooks identifier id'>run_result_hooks</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='rparen token'>)</span>
   <span class='rubyid_@result_hooks ivar id'>@result_hooks</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1506,12 +1560,12 @@
       <pre class="lines">
 
 
-277
-278
-279</pre>
+281
+282
+283</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 277</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 281</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_SUBJECT_FACETS constant id'>SUBJECT_FACETS</span>
   <span class='lbrack token'>[</span><span class='string val'>&quot;source&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;first_term_type&quot;</span><span class='rbrack token'>]</span>
@@ -1537,12 +1591,12 @@
       <pre class="lines">
 
 
-285
-286
-287</pre>
+289
+290
+291</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 285</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search_result_data.rb', line 289</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_UNTITLED_TYPES constant id'>UNTITLED_TYPES</span>
   <span class='lbrack token'>[</span><span class='string val'>&quot;event&quot;</span><span class='rbrack token'>]</span>
@@ -1971,7 +2025,7 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_facets_for_filter identifier id'>facets_for_filter</span>
   <span class='rubyid_facet_data_for_filter identifier id'>facet_data_for_filter</span> <span class='assign token'>=</span> <span class='rubyid_@facet_data ivar id'>@facet_data</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
-  <span class='rubyid_facet_data_for_filter identifier id'>facet_data_for_filter</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_facet_group identifier id'>facet_group</span><span class='comma token'>,</span> <span class='rubyid_facets identifier id'>facets</span><span class='bitor op'>|</span> 
+  <span class='rubyid_facet_data_for_filter identifier id'>facet_data_for_filter</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_facet_group identifier id'>facet_group</span><span class='comma token'>,</span> <span class='rubyid_facets identifier id'>facets</span><span class='bitor op'>|</span>
     <span class='rubyid_facets identifier id'>facets</span><span class='dot token'>.</span><span class='rubyid_delete_if identifier id'>delete_if</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_facet identifier id'>facet</span><span class='comma token'>,</span> <span class='rubyid_facet_map identifier id'>facet_map</span><span class='bitor op'>|</span>
       <span class='rubyid_facet_map identifier id'>facet_map</span><span class='lbrack token'>[</span><span class='symbol val'>:count</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='rubyid_@search_data ivar id'>@search_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;total_hits&#39;</span><span class='rbrack token'>]</span>
     <span class='rbrace token'>}</span>
@@ -2785,7 +2839,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:04:00 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:55 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

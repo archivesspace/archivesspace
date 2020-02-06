@@ -602,7 +602,12 @@
 215
 216
 217
-218</pre>
+218
+219
+220
+221
+222
+223</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 178</span>
@@ -640,8 +645,13 @@
       <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;rde.messages.success&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
       <span class='rubyid_@exceptions ivar id'>@exceptions</span> <span class='assign token'>=</span> <span class='rubyid_@children ivar id'>@children</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='bitor op'>|</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_c identifier id'>c</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__exceptions identifier id'>_exceptions</span><span class='rbrace token'>}</span>
+      
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@exceptions ivar id'>@exceptions</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:blank?</span><span class='rparen token'>)</span>
+        <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_vals identifier id'>vals</span><span class='bitor op'>|</span> <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{key} : #{vals.join(&#39;&lt;br/&gt;&#39;)}&quot;</span> <span class='rbrace token'>}</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;rde.messages.rows_with_errors&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:count</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@exceptions ivar id'>@exceptions</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='notop op'>!</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
 
-      <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;rde.messages.rows_with_errors&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:count</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@exceptions ivar id'>@exceptions</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='notop op'>!</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_end end kw'>end</span>
@@ -1026,16 +1036,16 @@
       <pre class="lines">
 
 
-221
-222
-223
-224
-225
 226
-227</pre>
+227
+228
+229
+230
+231
+232</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 221</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 226</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppress identifier id'>suppress</span>
   <span class='rubyid_digital_object_component identifier id'>digital_object_component</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1065,16 +1075,16 @@
       <pre class="lines">
 
 
-230
-231
-232
-233
-234
 235
-236</pre>
+236
+237
+238
+239
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 230</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/digital_object_components_controller.rb', line 235</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unsuppress identifier id'>unsuppress</span>
   <span class='rubyid_digital_object_component identifier id'>digital_object_component</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object_component</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1279,7 +1289,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:04:05 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:08:01 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>
