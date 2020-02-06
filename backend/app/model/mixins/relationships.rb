@@ -178,7 +178,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
                   else
                     # Found a free column.  Store our updated reference here.
-                    target_pre[0][parent_col] == relationship[parent_col] ? relationship_dups << relationship : relationship[target_col] = target.id
+                    !target_pre.empty? && target_pre[0][parent_col] == relationship[parent_col] ? relationship_dups << relationship : relationship[target_col] = target.id
                     break
                   end
 

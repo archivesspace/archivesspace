@@ -73,11 +73,11 @@ curl -H 'Content-Type: application/json' \\
     SHELL
     end
     .example('python') do
-    <<-PYTHON
-from asnake.client import ASnakeClient
-client = ASnakeClient()
-client.authorize()
-client.post('/merge_requests/top_container?repo_id=2',
+    <<~PYTHON
+    from asnake.client import ASnakeClient
+    client = ASnakeClient()
+    client.authorize()
+    client.post('/merge_requests/top_container?repo_id=2',
             json={
                 'uri': 'merge_requests/top_container',
                 'target': {
