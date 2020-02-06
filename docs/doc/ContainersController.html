@@ -246,11 +246,7 @@
 14
 15
 16
-17
-18
-19
-20
-21</pre>
+17</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/controllers/containers_controller.rb', line 3</span>
@@ -267,11 +263,7 @@
     <span class='comment val'># fetch all the objects in this container</span>
     <span class='rubyid_fetch_objects_in_container identifier id'>fetch_objects_in_container</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_RecordNotFound constant id'>RecordNotFound</span>
-    <span class='rubyid_@type ivar id'>@type</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;top_container._singular&#39;</span><span class='rparen token'>)</span>
-    <span class='rubyid_@page_title ivar id'>@page_title</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.error_404&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@type ivar id'>@type</span><span class='rparen token'>)</span>
-    <span class='rubyid_@uri ivar id'>@uri</span> <span class='assign token'>=</span> <span class='rubyid_uri identifier id'>uri</span>
-    <span class='rubyid_@back_url ivar id'>@back_url</span> <span class='assign token'>=</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_referer identifier id'>referer</span> <span class='orop op'>||</span> <span class='string val'>&#39;&#39;</span>
-    <span class='rubyid_render identifier id'>render</span>  <span class='string val'>&#39;shared/not_found&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>404</span>
+    <span class='rubyid_record_not_found identifier id'>record_not_found</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='string val'>&#39;top_container&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -285,7 +277,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:04:09 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:08:05 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

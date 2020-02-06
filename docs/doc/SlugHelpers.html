@@ -290,7 +290,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>remove invalid chars and truncate slug NOTE: If changes are made here, then they should be also made in migration 119.</p>
+    <span class="summary_desc"><div class='inline'><p>remove invalid chars and truncate slug NOTE: If changes are made here, then they should be also made in spec_slugs_helper.rb.</p>
 </div></span>
   
 </li>
@@ -716,12 +716,6 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
       <pre class="lines">
 
 
-108
-109
-110
-111
-112
-113
 114
 115
 116
@@ -748,10 +742,16 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
 137
 138
 139
-140</pre>
+140
+141
+142
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 114</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_base_slug_changed? fid id'>base_slug_changed?</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='comma token'>,</span> <span class='rubyid_previous_slug identifier id'>previous_slug</span><span class='rparen token'>)</span>
   <span class='comment val'># first, compare the two slugs from left to right to see what they have in common. Remove anything in common.</span>
@@ -969,7 +969,10 @@ slug = “foo_123”, previous_slug = “foo_124_1” =&gt; true</p>
 </h3><div class="docstring">
   <div class="discussion">
     <p>remove invalid chars and truncate slug
-NOTE: If changes are made here, then they should be also made in migration 119.</p>
+NOTE: If changes are made here, then they should be also made in
+spec_slugs_helper.rb. Also, there may need to be a new migration
+if the cleaning changes need to be done on repository slugs,
+eg. migration 129</p>
 
 
   </div>
@@ -983,9 +986,6 @@ NOTE: If changes are made here, then they should be also made in migration 119.<
       <pre class="lines">
 
 
-41
-42
-43
 44
 45
 46
@@ -1028,10 +1028,16 @@ NOTE: If changes are made here, then they should be also made in migration 119.<
 83
 84
 85
-86</pre>
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 44</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_clean_slug identifier id'>clean_slug</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
 
@@ -1051,6 +1057,9 @@ NOTE: If changes are made here, then they should be also made in migration 119.<
 
     <span class='comment val'># remove double hypens</span>
     <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;--&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
+
+    <span class='comment val'># remove en and em dashes</span>
+    <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/[\u2013-\u2014]/</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
 
     <span class='comment val'># remove single quotes</span>
     <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='string val'>&quot;&#39;&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
@@ -1077,7 +1086,7 @@ NOTE: If changes are made here, then they should be also made in migration 119.<
     <span class='rubyid_slug identifier id'>slug</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_slug identifier id'>slug</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_slug identifier id'>slug</span><span class='dot token'>.</span><span class='rubyid_parameterize identifier id'>parameterize</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1110,19 +1119,19 @@ NOTE: If changes are made here, then they should be also made in migration 119.<
       <pre class="lines">
 
 
-154
-155
-156
-157
-158
-159
 160
 161
 162
-163</pre>
+163
+164
+165
+166
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 160</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_dedupe_slug identifier id'>dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_dupe_slug identifier id'>dupe_slug</span><span class='comma token'>,</span> <span class='rubyid_count identifier id'>count</span><span class='rparen token'>)</span>
 
@@ -1948,21 +1957,21 @@ generated slugs are in use from before this job was run
       <pre class="lines">
 
 
-89
-90
-91
-92
-93
-94
 95
 96
 97
 98
 99
-100</pre>
+100
+101
+102
+103
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_run_dedupe_slug identifier id'>run_dedupe_slug</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
 
@@ -2269,17 +2278,17 @@ return false otherwise.</p>
       <pre class="lines">
 
 
-144
-145
-146
-147
-148
-149
 150
-151</pre>
+151
+152
+153
+154
+155
+156
+157</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/slugs/slug_helpers_generate.rb', line 150</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_slug_in_use? fid id'>slug_in_use?</span><span class='lparen token'>(</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
 
@@ -2331,7 +2340,7 @@ return false otherwise.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:03:41 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:32 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>
