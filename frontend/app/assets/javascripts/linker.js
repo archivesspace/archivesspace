@@ -227,9 +227,9 @@ $(function() {
 
       var formatDisplayString = function(obj) {
         var result = obj.display_string || obj.title;
-        if (obj.qsa_id_prefixed) {
+        if (obj.qsa_id_prefixed && result.indexOf(obj.qsa_id_prefixed) !== 0) {
           result = obj.qsa_id_prefixed + ' ' + result;
-        } else if (obj.qsa_id_u_ssort) {
+        } else if (obj.qsa_id_u_ssort && result.indexOf(obj.qsa_id_u_ssort) !== 0) {
           result = obj.qsa_id_u_ssort + ' ' + result;
         }
         return result;
