@@ -65,6 +65,9 @@ module TreeNodes
       current_physical_position = self.position
       current_logical_position = ordered_siblings.where { position < current_physical_position }.count
 
+      # If we are already are the correct logical position, do nothing
+      return if (target_logical_position == current_logical_position)
+
       # We'll determine which node will fall to the left of our moved node, and
       # which will fall to the right.  We're going to set our physical position to
       # the halfway point of those two nodes.  For example, if left node is
@@ -173,7 +176,16 @@ module TreeNodes
       end
     end
 
+    # Save the logical position to use in setting the position further on.
+    logical_position = json.position
+
+    # Reset json.position to physical position before saving to the database
+    json.position = self.position
+
     obj = super(json, extra_values, apply_nested_records)
+
+    # Set json.position back to logical position for any further processing
+    json.position = logical_position
 
     if json.position
       # Our incoming JSON wants to set the position.  That's fine
