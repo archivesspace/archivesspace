@@ -19,7 +19,7 @@ class AgentsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.AGENT_FACETS})
         search_params["type[]"] = "agent"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
+        csv_response( uri, Search.build_filters(search_params), 'agents.' )
       }
     end
   end
