@@ -6,7 +6,19 @@
     <thead>
     <tr>
       <% if allow_multi_select? %>
-        <th></th>
+        <th>
+          <label for="select_all_on_page" class="sr-only">Select all on page</label>
+          <%= check_box_tag 'select_all_on_page', 'select_all_on_page', false, {:id => 'select_all_on_page'} %>
+          <script>
+            $('#select_all_on_page').on('click', function(e) {
+              if (e.target.checked) {
+                $('#tabledSearchResults .multiselect-column :checkbox:not(:checked)').trigger('click');
+              } else {
+                $('#tabledSearchResults .multiselect-column :checkbox:checked').trigger('click');
+              }
+            });
+          </script>
+        </th>
       <% end %>
       <% if params[:linker]==='true' %>
         <th></th>

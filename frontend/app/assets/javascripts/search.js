@@ -20,8 +20,14 @@ $(function() {
       setTimeout(function() {
         if ($(".multiselect-column :input:checked", $table).length > 0) {
           $table.trigger("multiselectselected.aspace");
+          if ($(".multiselect-column :input:checked", $table).length == 1) {
+            $('#selected-summary').html(', 1 result selected');
+          } else {
+            $('#selected-summary').html(', ' + $(".multiselect-column :input:checked", $table).length + ' results selected');
+          }
         } else {
           $table.trigger("multiselectempty.aspace");
+          $('#selected-summary').html('');
         }
       });
     });
