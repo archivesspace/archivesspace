@@ -1,12 +1,13 @@
 <%
-   if params['container_profile'].blank?
-     selected_json = "{}"
-   else
-     selected_json = params['container_profile']['_resolved']
-   end
+  if params['container_profile'].blank? && !@top_container_previous_search["container_profile"]
+    selected_json = "{}"
+  elsif @top_container_previous_search["container_profile"]
+    selected_json = @top_container_previous_search["container_profile"].to_json
+  else
+    selected_json = params['container_profile']['_resolved']
+  end
 
-   linkable_types = ["container_profile"]
-
+  linkable_types = ["container_profile"]
 %>
 
 <div class="input-group linker-wrapper">
