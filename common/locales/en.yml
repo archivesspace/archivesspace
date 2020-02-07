@@ -2388,7 +2388,7 @@ en:
       no_data: No processible data rows found!
       excel: "Error(s) parsing Excel File %{errs}"
       no_agent: "Unable to create Agent %{num}: [%{why}]"
-      no_tc: "Unable to create Top Container %{num}: [%{why}]"
+      no_tc: "Unable to create Top Container %{number}: [%{why}]"
       missing_instance_type: Missing container instance type
       no_container_instance: "Unable to create Container Instance: [%{why}]"
       no_subject: "Unable to create Subject %{num}: [%{why}]"
