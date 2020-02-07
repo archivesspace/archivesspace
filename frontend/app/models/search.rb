@@ -63,6 +63,7 @@ class Search
     end
 
     criteria['filter'] = new_filter.to_json
+    criteria
   end
 
 end
