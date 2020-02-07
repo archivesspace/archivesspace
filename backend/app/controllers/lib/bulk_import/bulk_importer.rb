@@ -11,7 +11,6 @@ require 'nokogiri'
 require 'pp'
 require 'rubyXL'
 require 'asutils'
-include ASpaceImportClient
 include URIResolver
 
 START_MARKER = /ArchivesSpace field code/.freeze
