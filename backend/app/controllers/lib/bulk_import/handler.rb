@@ -6,8 +6,8 @@
 
 # One of the main differences is that we do lookups against the database for objects (such as agent, subject) that
 # might already be in the database 
-require_relative 'json_client_mixin'
-include ASpaceImportClient
+#require_relative 'json_client_mixin'
+#include ASpaceImportClient
 class Handler
   require_relative 'cv_list'
   require 'pp'
@@ -17,11 +17,12 @@ class Handler
   def initialize(current_user)
     @current_user = current_user
   end
-  # centralize the checking for an already-found object
-  def stored(hash, id, key)
-    ret_obj = hash.fetch(id, nil) || hash.fetch(key, nil)
+  
+  def save(obj, model)
+    saved = model.create_from_json(obj)
+    objs = model.sequel_to_jsonmodel([saved])
+    revived = objs[0] if !objs.empty?
   end
-
 
    # if repo_id is nil, do a global search (subject and agent)
   # this is using   archivesspace/backend/app/models/search.rb
@@ -74,6 +75,10 @@ class Handler
     obj
   end
 
+  # centralize the checking for an already-found object
+  def stored(hash, id, key)
+    ret_obj = hash.fetch(id, nil) || hash.fetch(key, nil)
+  end
   def clear(enum_list)
     enum_list.renew
   end
