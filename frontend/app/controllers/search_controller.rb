@@ -43,7 +43,7 @@ class SearchController < ApplicationController
       }
       format.csv {
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, criteria )
+        csv_response( uri, Search.build_filters(criteria), 'search_results.' )
       }
     end
   end
@@ -102,11 +102,11 @@ class SearchController < ApplicationController
       format.html {
         # default render
       }
-      format.csv {
+      format.csv { 
         criteria = params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS})
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, criteria )
-      }
+        csv_response( uri, Search.build_filters(criteria), 'search_results.' )
+      }  
     end
   end
 
