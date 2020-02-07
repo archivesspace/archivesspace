@@ -450,7 +450,30 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#check_permissions-instance_method" title="#check_permissions (instance method)">#<strong>check_permissions</strong>(params)  &#x21d2; Object </a>
+      <a href="#check_prefs_permissions-instance_method" title="#check_prefs_permissions (instance method)">#<strong>check_prefs_permissions</strong>(params)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check_rde_permissions-instance_method" title="#check_rde_permissions (instance method)">#<strong>check_rde_permissions</strong>(params)  &#x21d2; Object </a>
     
 
     
@@ -1647,9 +1670,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="check_permissions-instance_method">
+  <h3 class="signature " id="check_prefs_permissions-instance_method">
   
-    #<strong>check_permissions</strong>(params)  &#x21d2; <tt>Object</tt> 
+    #<strong>check_prefs_permissions</strong>(params)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -1692,7 +1715,7 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/controllers/preferences.rb', line 101</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_check_permissions identifier id'>check_permissions</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_check_prefs_permissions identifier id'>check_prefs_permissions</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
     <span class='rubyid_user_id identifier id'>user_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:preference</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;user_id&#39;</span><span class='rbrack token'>]</span>
     <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:preference</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo_id&#39;</span><span class='rbrack token'>]</span>
@@ -1705,17 +1728,52 @@
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_id identifier id'>user_id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span>
       <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='eq op'>==</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_global_repo_id identifier id'>global_repo_id</span> <span class='andop op'>&amp;&amp;</span>
       <span class='notop op'>!</span><span class='rubyid_current_user identifier id'>current_user</span><span class='dot token'>.</span><span class='rubyid_can? fid id'>can?</span><span class='lparen token'>(</span><span class='symbol val'>:administer_system</span><span class='rparen token'>)</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&#39;Error editing Global preferences&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># trying to edit repo prefs</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_id identifier id'>user_id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span>
       <span class='notop op'>!</span><span class='rubyid_current_user identifier id'>current_user</span><span class='dot token'>.</span><span class='rubyid_can? fid id'>can?</span><span class='lparen token'>(</span><span class='symbol val'>:manage_repository</span><span class='rparen token'>)</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&#39;Error editing Repository preferences&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='comment val'># trying to edit user prefs</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_user_id identifier id'>user_id</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_user_id identifier id'>user_id</span> <span class='neq op'>!=</span> <span class='rubyid_current_user identifier id'>current_user</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&#39;Error editing User preferences&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="check_rde_permissions-instance_method">
+  
+    #<strong>check_rde_permissions</strong>(params)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53
+54</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/controllers/rde_templates.rb', line 50</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_check_rde_permissions identifier id'>check_rde_permissions</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_current_user identifier id'>current_user</span><span class='dot token'>.</span><span class='rubyid_can? fid id'>can?</span><span class='lparen token'>(</span><span class='symbol val'>:manage_rde_templates</span><span class='rparen token'>)</span>
     <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -2075,7 +2133,7 @@ particular types of jobs, so we have special handling for it here</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:03:47 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:39 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

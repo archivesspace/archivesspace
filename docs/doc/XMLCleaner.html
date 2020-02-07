@@ -204,6 +204,29 @@ before giving up.</p>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#replace_html_entities-instance_method" title="#replace_html_entities (instance method)">#<strong>replace_html_entities</strong>(file_path)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Decode HTML entities so they can be parsed as XML.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -295,7 +318,8 @@ before giving up.</p>
 30
 31
 32
-33</pre>
+33
+34</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/lib/xml_cleaner.rb', line 11</span>
@@ -311,6 +335,7 @@ before giving up.</p>
   <span class='rubyid_attempt identifier id'>attempt</span> <span class='assign token'>=</span> <span class='integer val'>0</span>
   <span class='rubyid_begin begin kw'>begin</span>
     <span class='rubyid_attempt identifier id'>attempt</span> <span class='opasgn op'>+=</span> <span class='integer val'>1</span>
+    <span class='rubyid_replace_html_entities identifier id'>replace_html_entities</span><span class='lparen token'>(</span><span class='rubyid_file_path identifier id'>file_path</span><span class='rparen token'>)</span>
     <span class='rubyid_builder identifier id'>builder</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_io identifier id'>io</span><span class='dot token'>.</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_file_path identifier id'>file_path</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_NamespaceCorrectingErrorHandler constant id'>NamespaceCorrectingErrorHandler</span><span class='colon2 op'>::</span><span class='rubyid_RetryParse constant id'>RetryParse</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_attempt identifier id'>attempt</span> <span class='geq op'>&gt;=</span> <span class='rubyid_MAX_ITERATIONS constant id'>MAX_ITERATIONS</span>
@@ -329,12 +354,77 @@ before giving up.</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="replace_html_entities-instance_method">
+  
+    #<strong>replace_html_entities</strong>(file_path)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Decode HTML entities so they can be parsed as XML</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/lib/xml_cleaner.rb', line 37</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_replace_html_entities identifier id'>replace_html_entities</span><span class='lparen token'>(</span><span class='rubyid_file_path identifier id'>file_path</span><span class='rparen token'>)</span>
+  <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_file_path identifier id'>file_path</span> <span class='plus op'>+</span> <span class='string val'>&quot;.tmp&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;w&quot;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_outfile identifier id'>outfile</span><span class='bitor op'>|</span>
+    <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='rubyid_file_path identifier id'>file_path</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_infile identifier id'>infile</span><span class='bitor op'>|</span>
+      <span class='rubyid_infile identifier id'>infile</span><span class='dot token'>.</span><span class='rubyid_each_with_index identifier id'>each_with_index</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_line identifier id'>line</span><span class='comma token'>,</span> <span class='rubyid_index identifier id'>index</span><span class='bitor op'>|</span>
+        <span class='rubyid_line identifier id'>line</span> <span class='assign token'>=</span> <span class='rubyid_HTMLEntities constant id'>HTMLEntities</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid_decode identifier id'>decode</span><span class='lparen token'>(</span><span class='rubyid_line identifier id'>line</span><span class='rparen token'>)</span>
+        <span class='comment val'># decode turns &amp;amp; into &amp; so need to undo that here for PDF to work</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_line identifier id'>line</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/&amp;\s+/</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_line identifier id'>line</span><span class='dot token'>.</span><span class='rubyid_match identifier id'>match</span><span class='lparen token'>(</span><span class='regexp val'>/&amp;[a-z]+[^;]/</span><span class='rparen token'>)</span>
+          <span class='rubyid_line identifier id'>line</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='string val'>&#39;&amp;&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;&amp;amp;&#39;</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_outfile identifier id'>outfile</span><span class='dot token'>.</span><span class='rubyid_puts identifier id'>puts</span><span class='lparen token'>(</span><span class='rubyid_line identifier id'>line</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_rename identifier id'>rename</span><span class='lparen token'>(</span><span class='rubyid_file_path identifier id'>file_path</span> <span class='plus op'>+</span> <span class='string val'>&quot;.tmp&quot;</span><span class='comma token'>,</span> <span class='rubyid_file_path identifier id'>file_path</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:04:08 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:08:04 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

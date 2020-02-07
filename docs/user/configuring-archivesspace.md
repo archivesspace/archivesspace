@@ -768,7 +768,7 @@ If you want to override that, update this with an absolute path
 URL to direct the feedback link.
 You can remove this from the footer by making the value blank.
 
-`AppConfig[:feedback_url] = "http://archivesspace.org/feedback"`
+`AppConfig[:feedback_url] = "http://archivesspace.org/contact"`
 
 
 ### User registration
@@ -794,15 +794,13 @@ Allow an unauthenticated user to create an account
 
 > TODO - Needs more documentation
 
-`AppConfig[:help_url] = "http://docs.archivesspace.org"`
+`AppConfig[:help_url] = "https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/overview"``
 
-
-#### `AppConfig[:help_topic_prefix]`
+#### `AppConfig[:help_topic_base_url]`
 
 > TODO - Needs more documentation
 
-`AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"`
-
+`AppConfig[:help_topic_base_url] = "https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/"``
 
 
 ### Shared storage
@@ -1224,8 +1222,17 @@ Enable / disable PUI resource/archival object page 'print' action
 
 #### `AppConfig[:pui_enable_staff_link]`
 
-`AppConfig[:pui_enable_staff_link] = true # when a user is authenticated, add a link back to the staff interface from the specified record`
+when a user is authenticated, add a link back to the staff interface from the specified record
 
+`AppConfig[:pui_enable_staff_link] = true`
+
+
+#### `AppConfig[:pui_staff_link_mode]`
+
+by default, staff link will open record in staff interface in edit mode,
+change this to 'readonly' for it to open in readonly mode
+
+`AppConfig[:pui_staff_link_mode] = 'edit'`
 
 
 #### `AppConfig[:pui_page_custom_actions]`
@@ -1370,3 +1377,9 @@ AppConfig[:pui_email_smtp_settings] = {
 The number of characters to truncate before showing the 'Read More' link on notes
 
 `AppConfig[:pui_readmore_max_characters] = 450`
+
+#### `AppConfig[:max_search_columns]`
+
+Use to specify the maximum number of columns to display when searching or browsing
+
+`AppConfig[:max_search_columns] = 7`

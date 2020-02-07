@@ -60,6 +60,8 @@ To stop supervisord: `Ctrl-c`.
 
 ```
 
+ArchivesSpace is started with the staff interface running on http://localhost:3000/ and the PUI on http://localhost:3001/
+
 ## Running with a MySQL backend
 
 To override configuration defaults create the file `common/config/config.rb`

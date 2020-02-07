@@ -542,7 +542,7 @@ function BulkActionMerge(bulkContainerSearch) {
 
     // Access modal1 DOM
     const $mergeBtn = $("[data-js='merge']");
-    
+
     $mergeBtn.on("click", function(e) {
       e.preventDefault();
 
@@ -562,7 +562,7 @@ function BulkActionMerge(bulkContainerSearch) {
         display_string: targetEl.getAttribute('aria-label'),
         uri: targetEl.getAttribute('value')
       };
-      
+
       // compute victims list for template rendering
       const victimsNoTarget = victims.reduce(function(acc, victim) {
         if (victim.display_string !== target.display_string) {
@@ -570,7 +570,7 @@ function BulkActionMerge(bulkContainerSearch) {
         }
         return acc;
       }, [])
-      
+
       // Init modal2
       AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
         victims,

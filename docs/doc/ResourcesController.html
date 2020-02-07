@@ -936,12 +936,12 @@
       <pre class="lines">
 
 
-305
-306
-307</pre>
+309
+310
+311</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 305</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 309</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_accept_children identifier id'>accept_children</span>
   <span class='rubyid_handle_accept_children identifier id'>handle_accept_children</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -1007,7 +1007,11 @@
 284
 285
 286
-287</pre>
+287
+288
+289
+290
+291</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 247</span>
@@ -1046,7 +1050,11 @@
     <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
       <span class='rubyid_@exceptions ivar id'>@exceptions</span> <span class='assign token'>=</span> <span class='rubyid_@children ivar id'>@children</span><span class='dot token'>.</span><span class='rubyid_children identifier id'>children</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='bitor op'>|</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_c identifier id'>c</span><span class='comma token'>,</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid__exceptions identifier id'>_exceptions</span><span class='rbrace token'>}</span>
 
-      <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;rde.messages.rows_with_errors&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:count</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@exceptions ivar id'>@exceptions</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='notop op'>!</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='rparen token'>)</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_@exceptions ivar id'>@exceptions</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:blank?</span><span class='rparen token'>)</span>
+        <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_vals identifier id'>vals</span><span class='bitor op'>|</span> <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{key} : #{vals.join(&#39;&lt;br/&gt;&#39;)}&quot;</span> <span class='rbrace token'>}</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_flash identifier id'>flash</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;rde.messages.rows_with_errors&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:count</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@exceptions ivar id'>@exceptions</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='notop op'>!</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_end end kw'>end</span>
@@ -1367,7 +1375,6 @@
       <pre class="lines">
 
 
-174
 175
 176
 177
@@ -1384,13 +1391,10 @@
 188
 189
 190
-191
-192
-193
-194</pre>
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 175</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_infinite identifier id'>infinite</span>
   <span class='rubyid_@root_uri ivar id'>@root_uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{params[:rid]}/resources/#{params[:id]}&quot;</span>
@@ -1406,11 +1410,7 @@
     <span class='rubyid_fill_request_info identifier id'>fill_request_info</span>
     <span class='rubyid_@ordered_records ivar id'>@ordered_records</span> <span class='assign token'>=</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_get_record identifier id'>get_record</span><span class='lparen token'>(</span><span class='rubyid_@root_uri ivar id'>@root_uri</span> <span class='plus op'>+</span> <span class='string val'>&#39;/ordered_records&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;uris&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_RecordNotFound constant id'>RecordNotFound</span>
-    <span class='rubyid_@type ivar id'>@type</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;resource._singular&#39;</span><span class='rparen token'>)</span>
-    <span class='rubyid_@page_title ivar id'>@page_title</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.error_404&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@type ivar id'>@type</span><span class='rparen token'>)</span>
-    <span class='rubyid_@uri ivar id'>@uri</span> <span class='assign token'>=</span> <span class='rubyid_@root_uri ivar id'>@root_uri</span>
-    <span class='rubyid_@back_url ivar id'>@back_url</span> <span class='assign token'>=</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_referer identifier id'>referer</span> <span class='orop op'>||</span> <span class='string val'>&#39;&#39;</span>
-    <span class='rubyid_render identifier id'>render</span>  <span class='string val'>&#39;shared/not_found&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>404</span>
+    <span class='rubyid_record_not_found identifier id'>record_not_found</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='string val'>&#39;resource&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1434,6 +1434,9 @@
       <pre class="lines">
 
 
+233
+234
+235
 236
 237
 238
@@ -1456,17 +1459,10 @@
 255
 256
 257
-258
-259
-260
-261
-262
-263
-264
-265</pre>
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 236</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 233</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_inventory identifier id'>inventory</span>
   <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{params[:rid]}/resources/#{params[:id]}&quot;</span>
@@ -1492,11 +1488,7 @@
   <span class='rubyid_end end kw'>end</span>
 
 <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_RecordNotFound constant id'>RecordNotFound</span>
-  <span class='rubyid_@type ivar id'>@type</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;resource._singular&#39;</span><span class='rparen token'>)</span>
-  <span class='rubyid_@page_title ivar id'>@page_title</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;errors.error_404&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@type ivar id'>@type</span><span class='rparen token'>)</span>
-  <span class='rubyid_@uri ivar id'>@uri</span> <span class='assign token'>=</span> <span class='rubyid_uri identifier id'>uri</span>
-  <span class='rubyid_@back_url ivar id'>@back_url</span> <span class='assign token'>=</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_referer identifier id'>referer</span> <span class='orop op'>||</span> <span class='string val'>&#39;&#39;</span>
-  <span class='rubyid_render identifier id'>render</span>  <span class='string val'>&#39;shared/not_found&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>404</span>
+  <span class='rubyid_record_not_found identifier id'>record_not_found</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='string val'>&#39;resource&#39;</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1519,14 +1511,14 @@
       <pre class="lines">
 
 
-310
-311
-312
-313
-314</pre>
+314
+315
+316
+317
+318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 310</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 314</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_merge identifier id'>merge</span>
   <span class='rubyid_handle_merge identifier id'>handle_merge</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:refs</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -1554,17 +1546,17 @@
       <pre class="lines">
 
 
-335
-336
-337
-338
 339
 340
 341
-342</pre>
+342
+343
+344
+345
+346</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 335</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 339</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_models_in_graph identifier id'>models_in_graph</span>
   <span class='rubyid_list_uri identifier id'>list_uri</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='plus op'>+</span> <span class='string val'>&quot;/models_in_graph&quot;</span>
@@ -1705,10 +1697,6 @@
       <pre class="lines">
 
 
-290
-291
-292
-293
 294
 295
 296
@@ -1717,10 +1705,14 @@
 299
 300
 301
-302</pre>
+302
+303
+304
+305
+306</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 290</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 294</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_publish identifier id'>publish</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_Resource constant id'>Resource</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1801,21 +1793,27 @@
       <pre class="lines">
 
 
+164
+165
 166
 167
 168
 169
 170
-171</pre>
+171
+172</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 164</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_resolve identifier id'>resolve</span>
   <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{params[:rid]}/resources/#{params[:id]}&quot;</span>
   <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='dstring node'>&quot;ref_id:#{params[:ref_id]} AND resource:\&quot;#{uri}\&quot;&quot;</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='string val'>&#39;type[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;pui&#39;</span><span class='rparen token'>)</span>
-  <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span><span class='lparen token'>(</span><span class='string val'>&#39;shared/not_found&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>404</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
-  <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>1</span>
+    <span class='rubyid_redirect_to identifier id'>redirect_to</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_record_not_resolved identifier id'>record_not_resolved</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{uri}/resolve/#{params[:ref_id]}&quot;</span><span class='comma token'>,</span> <span class='string val'>&#39;archival_object&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -2012,16 +2010,16 @@
       <pre class="lines">
 
 
-317
-318
-319
-320
 321
 322
-323</pre>
+323
+324
+325
+326
+327</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 321</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_suppress identifier id'>suppress</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -2141,15 +2139,15 @@
       <pre class="lines">
 
 
+226
+227
+228
 229
 230
-231
-232
-233
-234</pre>
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 226</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_tree_node_from_root identifier id'>tree_node_from_root</span>
   <span class='rubyid_@root_uri ivar id'>@root_uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{params[:rid]}/resources/#{params[:id]}&quot;</span>
@@ -2264,16 +2262,16 @@
       <pre class="lines">
 
 
-326
-327
-328
-329
 330
 331
-332</pre>
+332
+333
+334
+335
+336</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 326</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/resources_controller.rb', line 330</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_unsuppress identifier id'>unsuppress</span>
   <span class='rubyid_resource identifier id'>resource</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:resource</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -2435,6 +2433,9 @@
       <pre class="lines">
 
 
+193
+194
+195
 196
 197
 198
@@ -2442,13 +2443,10 @@
 200
 201
 202
-203
-204
-205
-206</pre>
+203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/resources_controller.rb', line 193</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_waypoints identifier id'>waypoints</span>
   <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
@@ -2472,7 +2470,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:04:03 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:58 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

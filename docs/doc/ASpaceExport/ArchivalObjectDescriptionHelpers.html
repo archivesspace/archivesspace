@@ -322,7 +322,6 @@ or archival_object models during serialization</p>
       <pre class="lines">
 
 
-119
 120
 121
 122
@@ -356,10 +355,11 @@ or archival_object models during serialization</p>
 150
 151
 152
-153</pre>
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 120</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_archdesc_dates identifier id'>archdesc_dates</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@archdesc_dates ivar id'>@archdesc_dates</span>
@@ -519,7 +519,8 @@ or archival_object models during serialization</p>
 78
 79
 80
-81</pre>
+81
+82</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 41</span>
@@ -548,6 +549,7 @@ or archival_object models during serialization</p>
                   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_person&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;persname&#39;</span>
                   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_family&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;famname&#39;</span>
                   <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_corporate_entity&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;corpname&#39;</span>
+                  <span class='rubyid_when when kw'>when</span> <span class='string val'>&#39;agent_software&#39;</span><span class='semicolon token'>;</span> <span class='string val'>&#39;name&#39;</span>
                   <span class='rubyid_end end kw'>end</span>
 
       <span class='rubyid_atts identifier id'>atts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -586,7 +588,6 @@ or archival_object models during serialization</p>
       <pre class="lines">
 
 
-84
 85
 86
 87
@@ -618,10 +619,11 @@ or archival_object models during serialization</p>
 113
 114
 115
-116</pre>
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'backend/app/exporters/lib/export_helpers.rb', line 85</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_controlaccess_subjects identifier id'>controlaccess_subjects</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_@controlaccess_subjects ivar id'>@controlaccess_subjects</span>
@@ -782,7 +784,7 @@ or archival_object models during serialization</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:03:43 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:34 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

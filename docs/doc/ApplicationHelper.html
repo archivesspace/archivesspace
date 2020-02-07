@@ -2118,7 +2118,7 @@ controller, etc.)</p>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;&lt;span class=&#39;icon-token&#39;&gt;&lt;/span&gt;&quot;</span>
   <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:label</span><span class='rbrack token'>]</span>
+  <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='rubyid_clean_mixed_content identifier id'>clean_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:label</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_html identifier id'>html</span> <span class='opasgn op'>+=</span> <span class='string val'>&quot;&lt;/div&gt;&quot;</span>
   <span class='rubyid_html identifier id'>html</span><span class='dot token'>.</span><span class='rubyid_html_safe identifier id'>html_safe</span>
 <span class='rubyid_end end kw'>end</span>
@@ -2372,7 +2372,7 @@ controller, etc.)</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.0.a Documentation Generated on Tue Oct  8 14:03:45 2019 by
+  ArchivesSpace Version v2.7.1-RC1.a Documentation Generated on Thu Feb  6 10:07:36 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>
