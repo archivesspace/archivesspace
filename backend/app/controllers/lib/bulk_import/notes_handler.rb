@@ -1,4 +1,3 @@
-include ASpaceImportClient
 
 class NotesHandler < Handler
     @@ao_note_types = {}
