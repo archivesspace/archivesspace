@@ -11,33 +11,20 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
 
   this.setup_form();
   this.setup_results_list();
-  //If there is any stored search parameters, reload them
-  //when navigating or refreshing
-  var data = sessionStorage.getItem("top_container_search_data");
-  if (data != null && data != undefined) {
-	  var parsed_data = JSON.parse(data);
-	  $.each( parsed_data, function( key, value ) {
-		  //This part is not complete because of the token input fields
-		  //(resource, accession, profile, location)
-		  //This is where the data for the collection resource token input is being stored 
-		  //It has collection_resource[ref] and collection_resource[_resolved]
-		  //These fields are created dynamically in the form when the user selects a value
-		  //from the modal dropdown list that appears when typing.
-		  if (key == 'collection_resource[ref]') {
-			  var crr = parsed_data['collection_resource[_resolved]'];
-			  var parsed_crr = JSON.parse(crr);
-			  //This did not work.
-			  //Prepopulation might work but I'm not sure how to override it easily enough.
-			  //Ideally there would be a way to trigger an event for selection and just pass
-			  //this value (crr) to it.
-			  //$("#" + parsed_crr["id"]).tokenInput('add', crr);  
-		  }
-		  else {
-			  $("#"+key).val(value);
-		  }
-	  });
-	  this.perform_search(parsed_data);
-	  
+  // If there is any stored search parameters and we're still looking at the same repository, reload them
+  // when navigating or refreshing. Else wipe the stored search params.
+  if ($(".repo-container > div > a").attr("href") === sessionStorage.getItem("currentRepository")) {
+    var data = sessionStorage.getItem("top_container_search_data");
+    if (data != null && data != undefined) {
+      var parsed_data = JSON.parse(data);
+      $.each( parsed_data, function( key, value ) {
+        $("#"+key).val(value);
+      });
+      this.perform_search(parsed_data);
+    }
+  } else {
+    sessionStorage.setItem("top_container_search_data", null)
+    sessionStorage.setItem("currentRepository", null)
   }
 }
 
@@ -57,6 +44,7 @@ BulkContainerSearch.prototype.setup_form = function() {
         }
     });
     sessionStorage.setItem("top_container_search_data", JSON.stringify(values));
+    sessionStorage.setItem("currentRepository", $(".repo-container > div > a").attr("href"))
     self.perform_search(self.$search_form.serializeArray());
   });
 };
@@ -144,14 +132,18 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
     return (new Array(255).join("#") + value).slice(-255)
   };
 
-  //Get the most recent sort, if it exists
-  var currentSort = sessionStorage.getItem("top_container_sort");
-  if (currentSort == null || currentSort == undefined) {
-	  // default sort: Collection, Series, Indicator
-	  currentSort = [[1,0],[2,0],[4,0]];
-  }
-  else {
-	  currentSort = JSON.parse(currentSort);
+  let currentSort = []
+  // only load a sort if we've hit some results
+  if ($(".table-search-results tr").length > 1) {
+    // Get the most recent sort, if it exists
+    currentSort = sessionStorage.getItem("top_container_sort");
+    if (currentSort == null || currentSort == undefined) {
+      // default sort: Collection, Series, Indicator
+      currentSort = [[1,0],[2,0],[4,0]];
+    }
+    else {
+      currentSort = JSON.parse(currentSort);
+    }
   }
   
   var tablesorter_opts = {
