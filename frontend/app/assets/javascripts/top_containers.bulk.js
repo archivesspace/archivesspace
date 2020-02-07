@@ -116,32 +116,29 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
       return value
     }
 
-    let letterOrNumber = isNaN(parseInt(value[0])) ? "letter" : "number"
+    let isNumber = isNaN(parseInt(value[0])) ? false : true
 
     let valueArray = [value[0]]
     let valueArrayCurrentIndex = 0;
     for (i = 1; i < value.length; i++) {
-      switch (letterOrNumber) {
-        case "letter":
-          if (isNaN(parseInt(value[i]))) {
-            valueArray[valueArrayCurrentIndex] += value[i]
-          } else {
-            valueArray[valueArrayCurrentIndex] = valueArray[valueArrayCurrentIndex].trim()
-            valueArrayCurrentIndex += 1
-            valueArray[valueArrayCurrentIndex] = value[i]
-            letterOrNumber = "number"
-          }
-          break;
-        case "number":
-          if (isNaN(parseInt(value[i]))) {
-            valueArray[valueArrayCurrentIndex] = padNumber(valueArray[valueArrayCurrentIndex])
-            valueArrayCurrentIndex += 1
-            valueArray[valueArrayCurrentIndex] = value[i]
-            letterOrNumber = "letter"
-          } else {
-            valueArray[valueArrayCurrentIndex] += value[i]
-          }
-          break;
+      if (!isNumber) {
+        if (isNaN(parseInt(value[i]))) {
+          valueArray[valueArrayCurrentIndex] += value[i]
+        } else {
+          valueArray[valueArrayCurrentIndex] = valueArray[valueArrayCurrentIndex].trim()
+          valueArrayCurrentIndex += 1
+          valueArray[valueArrayCurrentIndex] = value[i]
+          isNumber = true
+        }
+      } else {
+        if (isNaN(parseInt(value[i]))) {
+          valueArray[valueArrayCurrentIndex] = padNumber(valueArray[valueArrayCurrentIndex])
+          valueArrayCurrentIndex += 1
+          valueArray[valueArrayCurrentIndex] = value[i]
+          isNumber = false
+        } else {
+          valueArray[valueArrayCurrentIndex] += value[i]
+        }
       }
     }
 
@@ -179,7 +176,8 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
       } else if ($node.hasClass("top-container-indicator")) {
         var value = $node.text().trim();
         
-        // pad the indicator values so they sort correctly with digit and alpha values
+        // turn the indicator into a string of alternating non-number/padded-number values separated by commas for sorting
+        // eg "box,#############11,folder,#############4"
         return parseIndicator(value);
       }
 
