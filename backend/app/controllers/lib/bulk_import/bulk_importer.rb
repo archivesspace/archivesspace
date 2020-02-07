@@ -1,4 +1,8 @@
 require_relative 'bulk_import_mixins'
+<<<<<<< HEAD
+=======
+# require_relative 'json_client_mixin'
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
 require_relative 'agent_handler'
 require_relative 'container_instance_handler'
 require_relative 'digital_object_handler'
@@ -10,9 +14,15 @@ require 'nokogiri'
 require 'pp'
 require 'rubyXL'
 require 'asutils'
+<<<<<<< HEAD
 include URIResolver
 
 
+=======
+include ASpaceImportClient
+include URIResolver
+
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
 START_MARKER = /ArchivesSpace field code/.freeze
 DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
 
@@ -20,7 +30,13 @@ class BulkImporter
 
   def run
       Log.error('RUN')
+<<<<<<< HEAD
       begin
+=======
+        begin
+        JSONModel::init(:allow_other_unmapped => AppConfig[:allow_other_unmapped], 
+          :client_mode => true, :url  => AppConfig[:backend_url])  
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
         rows = initialize_info
         while @headers.nil? && (row = rows.next)
           @counter += 1
@@ -37,6 +53,7 @@ class BulkImporter
             @counter += 1 # for the skipping
           end
         end
+<<<<<<< HEAD
         begin
           while (row = rows.next)
             @counter += 1
@@ -69,6 +86,8 @@ class BulkImporter
         if @rows_processed == 0
           raise BulkImportException.new( I18n.t('bulk_import.error.no_data'))
         end
+=======
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
       rescue Exception => e
         if e.is_a?( BulkImportException) || e.is_a?( StopBulkImportException)
           @report.add_terminal_error(I18n.t('bulk_import.error.excel', :errs => e.message), @counter)
@@ -88,6 +107,10 @@ class BulkImporter
     @input_file = input_file
 #        @batch = ASpaceImport::RecordBatch.new
     @opts = opts
+<<<<<<< HEAD
+=======
+    Log.error("OPTS: #{@opts}")
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
     @current_user = current_user
     @report_out = []
     @report = BulkImportReport.new
@@ -117,6 +140,7 @@ class BulkImporter
     @need_to_move = false
   end
 
+<<<<<<< HEAD
   def initialize_handler_enums
     @cih = ContainerInstanceHandler.new(@current_user)
    # @doh = DigitalObjectHandler(@current_user)
@@ -475,4 +499,81 @@ class BulkImporter
   def row_values(row)
     (1...row.size).map {|i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil}
   end
+=======
+    def initialize_handler_enums
+      @cih = ContainerInstanceHandler(@current_user)
+      @doh = DigitalObjectHandler(@current_user)
+      @sh = SubjectHandler(@current_user)
+      @ah = AgentHandler(@current_user)
+      @lh = LangHandler(@current_user)
+    end
+      
+    private
+    
+    def check_for_code_dups
+      test = {}
+      dups = ""
+      @headers.each do |head|
+        if test[head]
+          dups = "#{dups} #{head},"
+        else
+          test[head] = true
+        end
+      end
+      if !dups.empty?
+        raise Exception.new( I18n.t('bulk_import.error.duplicates', :codes => dups))
+      end
+    end
+  
+    # set up all the @ variables (except for @header)
+    def initialize_info
+      @orig_filename = @opts[:filename]
+      @report_out = []
+      @report = BulkImportReport.new
+      @headers
+      @digital_load = @opts[:digital_load] == 'true'
+      @report.set_file_name(@orig_filename)
+      # initialize_handler_enums
+      @resource = resolve_references(Resource.to_jsonmodel(@opts[:rid]),['repository'])
+      @repository = @resource['repository']['ref']
+      @hier = 1
+      unless @digital_load
+        @ao = nil
+        Log.error("aoid |#{@opts[:aoid]}|")
+        aoid = @opts[:aoid] || nil
+        @resource_level = (aoid.nil? || aoid.strip.empty?)
+        @first_one = false # to determine whether we need to worry about positioning
+        if @resource_level
+          @parents.set_uri(0, nil)
+          @hier = 0
+        else
+          @ao = ArchivalObject.to_jsonmodel(Integer(aoid))
+=begin
+          Log.error("JSONMODEL? #{json.pretty_inspect}")
+          @ao = resolve_references(json, resolves)  
+          Log.error("Archival Object found: #{@ao.pretty_inspect}")
+=end
+          @start_position = @ao.position
+          parent = @ao.parent # we need this for sibling/child disabiguation later on
+          @parents.set_uri(0, (parent ? ASUtils.jsonmodels_to_hashes(parent)['ref'] : nil))
+          @parents.set_uri(1, @ao.uri)
+          @first_one = true
+          Log.error("start_pos: #{@start_position}, parents: #{@parents.pretty_inspect} ")
+        end
+      end
+      @counter = 0
+      @rows_processed = 0
+      @error_rows = 0
+      Log.error("About to open #{@input_file}")
+      workbook = RubyXL::Parser.parse(@input_file)
+      Log.error('Got workbook ')
+      sheet = workbook[0]
+      Log.error('Got sheet: ')
+      rows = sheet.enum_for(:each)
+    end
+  
+    def row_values(row)
+      (1...row.size).map {|i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil}
+    end
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
 end

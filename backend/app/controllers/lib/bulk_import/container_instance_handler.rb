@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+# Supporting multiple containers in the row
+
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
 class ContainerInstanceHandler < Handler
 
   def initialize(current_user)

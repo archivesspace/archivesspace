@@ -15,6 +15,7 @@ def resolves
     "owner_repo"]
 end
 
+<<<<<<< HEAD
 def archival_object_from_ref(ref_id)
   dataset = CrudHelpers.scoped_dataset(ArchivalObject, {'ref_id' => ref_id})
   ao = nil
@@ -113,6 +114,11 @@ end
 
 # addition to app/lib/crud_helpers.rb to deal with not having the env hash
 
+=======
+
+
+# addition to app/lib/crud_helpers.rb to deal with not having the env hash
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
 module CrudHelpers
   def handle_raw_listing(model, where = {}, current_user)
       dataset = CrudHelpers.scoped_dataset(model, where)
@@ -130,7 +136,10 @@ module CrudHelpers
       jsons
   end
 end
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
 class BulkImportException < Exception
 end
 class StopBulkImportException < Exception
@@ -146,7 +155,11 @@ class BulkImportReport
   end
 
   def add_errors(errors)
+<<<<<<< HEAD
     @error_rows += 1 if @current_row.errors.empty?
+=======
+    @error_rows += 1 if @current_row.errors.blank?
+>>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
     @current_row.add_errors(errors)
   end
 
