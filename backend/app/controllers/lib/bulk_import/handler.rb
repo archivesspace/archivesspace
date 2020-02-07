@@ -34,6 +34,9 @@ class Handler
     params[:page_size] = 10
     params[:page] = 1
     params[:sort] = ''
+    unless type.empty? && !params['q']
+      params['q'] = "primary_type:#{type} AND #{params['q']}"
+    end
     if repo_id
       search  = Search.search( params, repo_id)
     else
@@ -44,6 +47,7 @@ class Handler
         search = {'total_hits' => 0}
       end
     end
+    Log.error("SEARCH: params: #{params.pretty_inspect}\n\t results: #{search['total_hits'] }")
     total_hits = search['total_hits'] || 0
     if total_hits == 1 && !search['results'].empty? # for some reason, you get a hit of '1' but still have empty results??
       obj = jmsym_from_string(jmsym,search['results'][0]['json'])

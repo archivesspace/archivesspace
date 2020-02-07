@@ -15,9 +15,104 @@ def resolves
     "owner_repo"]
 end
 
+def archival_object_from_ref(ref_id)
+  dataset = CrudHelpers.scoped_dataset(ArchivalObject, {'ref_id' => ref_id})
+  ao = nil
+  if !dataset.empty?
+    objs = dataset.respond_to?(:all) ? dataset.all : dataset
+    jsonms = model.sequel_to_jsonmodel(objs)
+    if jsonms.length == 1
+      ao = jsonms[0]
+    else
+      raise BulkImportException.new(I18n.t('bulk_import.error.ao_ref_id', :ref_id => ref_id))
+    end
+  end
+  ao
+end
+ 
+# The following methods assume @report is defined, and is a BulkImportReport object
+def create_date(dates_label,	date_begin,	date_end,	date_type,	expression,	date_certainty)
+  date_str = "(Date: type:#{date_type}, label: #{dates_label}, begin: #{date_begin}, end: #{date_end}, expression: #{expression})"
+    begin
+    date_type = @date_types.value(date_type || 'inclusive')
+  rescue Exception => e
+    @report.add_errors(I18n.t('bulk_import.error.date_type', :what => date_type,:date_str => date_str ))
+  end
+  begin
+    date =  { 'date_type' => date_type,
+      'label' =>  @date_labels.value(dates_label || 'creation') }
+  rescue Exception => e
+    @report.add_errors(I18n.t('bulk_import.error.date_label',
+      :what => dates_label,:date_str => date_str))
+    #don't bother processsing if the label mis-matches
+    return nil
+  end
+
+  if date_certainty
+    begin
+      date['certainty'] = @date_certainty.value(date_certainty)
+    rescue Exception => e
+      @report.add_errors(I18n.t('bulk_import.error.certainty', :what => e.message,:date_str => date_str))
+    end
+  end
+  date['begin'] = date_begin if date_begin
+  date['end']  = date_end if date_end
+  date['expression'] = expression if expression
+  invalids = JSONModel::Validations.check_date(date)
+  unless (invalids.nil? || invalids.empty?)
+    err_msg = ''
+    invalids.each do |inv|
+      err_msg << " #{inv[0]}: #{inv[1]}"
+    end
+    @report.add_errors(I18n.t('bulk_import.error.invalid_date', :what => err_msg,:date_str => date_str))
+    return nil
+  end
+  if date_type == "single" && !date_end.nil?
+    @report.add_errors(I18n.t('bulk_import.warn.single_date_end', :date_str => date_str))
+  end
+  d = JSONModel(:date).new(date)
+end
+def handle_notes(ao, hash)
+  publish = ao.publish
+  errs = []
+  notes_keys = hash.keys.grep(/^n_/)
+  notes_keys.each do |key|
+    unless hash[key].nil?
+      content = hash[key]
+      type = key.match(/n_(.+)$/)[1]
+      note_type = @note_types[type]
+      note = JSONModel(note_type[:target]).new
+      pubnote = hash["p_#{type}"]
+      if pubnote.nil?
+        pubnote = publish
+      else
+        pubnote = (pubnote == '1')
+      end
+      note.publish = pubnote
+      note.type = note_type[:value]
+      begin
+        wellformed(content)
+# if the target is multipart, then the data goes in a JSONMODEL(:note_text).content;, which is pushed to the note.subnote array; otherwise it's just pushed to the note.content array
+        if note_type[:target] == :note_multipart
+          inner_note = JSONModel(:note_text).new
+          inner_note.content = content
+          inner_note.publish = pubnote
+          note.subnotes.push inner_note
+        else
+          note.content.push content
+        end
+        ao.notes.push note
+      rescue Exception => e
+        errs.push(I18n.t('bulk_import.error.bad_note', :type => note_type[:value] , :msg => CGI::escapeHTML( e.message)))
+      end
+    end
+  end
+  errs
+end
 
 
 # addition to app/lib/crud_helpers.rb to deal with not having the env hash
+
 module CrudHelpers
   def handle_raw_listing(model, where = {}, current_user)
       dataset = CrudHelpers.scoped_dataset(model, where)
@@ -35,6 +130,7 @@ module CrudHelpers
       jsons
   end
 end
+
 class BulkImportException < Exception
 end
 class StopBulkImportException < Exception
@@ -50,7 +146,7 @@ class BulkImportReport
   end
 
   def add_errors(errors)
-    @error_rows += 1 if @current_row.errors.blank?
+    @error_rows += 1 if @current_row.errors.empty?
     @current_row.add_errors(errors)
   end
 
