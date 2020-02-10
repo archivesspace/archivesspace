@@ -124,3 +124,32 @@ td .btn-group {
   &.render-singlequote:before, &.render-boldsinglequote:before {content: "'"}
   &.render-singlequote:after, &.render-boldsinglequote:after {content: "'"}
 }
+
+// Atomic/utility classes
+.mt0 {
+  margin-top: 0;
+}
+
+.p30px {
+  padding: 30px;
+}
+
+@media (max-width: 767px) {
+  .xs-py15px {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .sm-mxn15px {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+}
+
+@media (min-width: 992px) {
+  .md-mt20px {
+    margin-top: 20px;
+  }
+}
