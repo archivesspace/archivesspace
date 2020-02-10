@@ -9,6 +9,7 @@ class AdvancedQueryString
   def to_solr_s
     return empty_solr_s if empty_search?
 
+    return value if field == "fullrecord"
     "#{prefix}#{field}:#{value}"
   end
 

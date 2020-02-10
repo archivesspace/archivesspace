@@ -30,10 +30,11 @@ module Searchable
       @query = q
       @base_search = "#{@base_search}q=#{q}"
     else
-      pq = params.fetch(:q, '*').strip
+      pq = params.fetch(:q, '*')
+      pq.strip if pq.is_a? String
       pq = '*' if pq.blank?
       @query += "#{field}:" if !field.blank?
-      @query += pq
+      @query += pq[0] if pq.is_a? Array
       @base_search = "#{@base_search}q=#{@query}"
     end
     res_id = params.fetch(:res_id, '')
@@ -85,7 +86,6 @@ module Searchable
     end
     set_search_statement
     raise I18n.t('navbar.error_no_term') unless @search.has_query?
-    queries = @search[:q]
     have_query = false
     advanced_query_builder = AdvancedQueryBuilder.new
     @search[:q].each_with_index { |query, i|
@@ -155,7 +155,7 @@ module Searchable
       advanced_query_builder.and(this_repo)
     end
     advanced_query_builder.and('types', 'pui')
-    advanced_query_builder.and('publish', true)
+    # advanced_query_builder.and('publish', true)
     @base_search += "&limit=#{@search[:limit]}" unless @search[:limit].blank?
 
     @facet_filter = FacetFilter.new(default_facets, @search[:filter_fields],  @search[:filter_values])

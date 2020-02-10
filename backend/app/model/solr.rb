@@ -34,8 +34,7 @@ class Solr
 
 
     def self.create_advanced_search(advanced_query_json)
-      new(construct_advanced_query_string(advanced_query_json['query'])).
-        use_standard_query_type
+      new(construct_advanced_query_string(advanced_query_json['query']))
     end
 
 
@@ -224,34 +223,35 @@ class Solr
       @writer_type
     end
 
+    def pui_qf
+      "four_part_id^50 title^25 finding_aid_title^25 notes summary agents subjects access_restrictions_note content_description general_note inventory provenance use_restrictions_note"
+    end
+    def staff_ui_qf
+      "four_part_id^50 title^25 finding_aid_filing_title^25 fullrecord"
+    end
     def to_solr_url
       raise "Missing pagination settings" unless @pagination
 
-      if @fields_to_show
-        add_solr_param(:fl, @fields_to_show.join(', '))
-      end
+      add_solr_param(:fl, @fields_to_show.join(', ')) if @fields_to_show
 
-      unless @show_excluded_docs
-        add_solr_param(:fq, "-exclude_by_default:true")
-      end
+      add_solr_param(:fq, "-exclude_by_default:true") unless @show_excluded_docs
 
       if @show_published_only
         add_solr_param(:fq, "publish:true")
+        add_solr_param(:qf, pui_qf) unless AppConfig[:solr_params].has_key? :qf
+      else
+        add_solr_param(:qf, staff_ui_qf) unless AppConfig[:solr_params].has_key? :qf
       end
-
 
       if @highlighting
         add_solr_param(:hl, "true")
-        if @query_type == :standard
-          add_solr_param(:"hl.fl", "*")
-        end
+        add_solr_param(:"hl.fl", "*") if @query_type == :standard
       end
 
-      unless @show_suppressed
-        add_solr_param(:fq, "suppressed:false")
-      end
+      add_solr_param(:fq, "suppressed:false") unless @show_suppressed
 
       add_solr_param(:facet, "true")
+
       unless @facet_fields.empty?
         add_solr_param(:"facet.field", @facet_fields)
         add_solr_param(:"facet.limit", AppConfig[:solr_facet_limit])
@@ -260,8 +260,10 @@ class Solr
 
       if @query_type == :edismax
         add_solr_param(:defType, "edismax")
-        add_solr_param(:pf, "four_part_id^4")
-        add_solr_param(:qf, "four_part_id^3 title^2 finding_aid_filing_title^2 fullrecord")
+        add_solr_param(:mm, "6<-1 6<90%") unless AppConfig[:solr_params].has_key? :mm
+        unless AppConfig[:solr_params].has_key? :bq
+          add_solr_param(:bq, "primary_type:resource^100 primary_type:accession^100 primary_type:subject^50 primary_type:agent_person^50 primary_type:agent_corporate_entity^30 primary_type:agent_family^30")
+        end
       end
 
       # do it here so instance variables can be resolved

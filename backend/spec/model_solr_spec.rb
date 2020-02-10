@@ -135,7 +135,7 @@ describe 'Solr model' do
     it "compensates for purely negative expressions by adding a match-all clause" do
       query_string = Solr::Query.construct_advanced_query_string(canned_query)
 
-      expect(query_string).to eq("((-title:(Hornstein) AND *:*) AND ((fullrecord:(*))))")
+      expect(query_string).to eq("((-title:(Hornstein) AND *:*) AND (((*))))")
     end
 
   end
