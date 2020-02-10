@@ -328,6 +328,11 @@ en:
     system_info: System Information
     unpublished: Unpublished
     manage_assessment_attributes: Manage Assessment Attributes
+    toggle_navigation: Toggle Navigation
+
+  header:
+    staff_interface: ArchivesSpace Staff Interface
+
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
@@ -1044,7 +1049,7 @@ en:
   job:
     _frontend:
       audit_data: Audit Data
-      action:
+      actions:
         create: Create Job
         save: Start Job
         new: New Background Job
