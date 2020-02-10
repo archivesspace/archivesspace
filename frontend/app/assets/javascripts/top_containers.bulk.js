@@ -116,7 +116,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
       return value
     }
 
-    let isNumber = isNaN(parseInt(value[0])) ? false : true
+    let isNumber = !isNaN(parseInt(value[0]))
 
     let valueArray = [value[0]]
     let valueArrayCurrentIndex = 0;
