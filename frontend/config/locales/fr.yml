@@ -314,10 +314,6 @@ fr:
     repo_preferences: Préférences de service d'archives
     manage_user_access: Gérer les accès utilisateurs
     logout: Déconnexion
-    login: Connexion
-    login_expired_link: Svp %{link} de nouveau.
-    login_fail: Echec de la tentative de connexion
-    login_success: Connexion réussie. Redirection...
     register: S'inscrire maintenant
     register_prefix: Créer un compte?
     list_reports: Rapports
@@ -351,6 +347,13 @@ fr:
     heading: Bienvenue sur ArchivesSpace
     message: Votre gestionnaire d'archives convivial.
     message_logged_in: Votre gestionnaire d'archives convivial.
+
+  login:
+    login: Connexion
+    login_please: Veuillez vous connecter
+    login_expired_link: Svp %{link} de nouveau.
+    login_fail: Echec de la tentative de connexion
+    login_success: Connexion réussie. Redirection...
 
   breadcrumb:
     home: Page d'accueil
