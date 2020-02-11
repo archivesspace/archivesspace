@@ -208,6 +208,7 @@ en:
       assessment_survey_year: Survey Year
       assessment_record_types: Record Type
       assessment_completed: Completed
+      none: None
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multiple previous rows.
 
