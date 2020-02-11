@@ -11,10 +11,10 @@ class LocationsController < ApplicationController
   def index
     respond_to do |format| 
       format.html {   
-        @search_data = Search.for_type(session[:repo_id], "location", params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
+        @search_data = Search.for_type(session[:repo_id], "location", params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS, "blank_facet_query_fields" => ["owner_repo_display_string_u_ssort"]}))
       }
       format.csv { 
-        search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS})
+        search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS, "blank_facet_query_fields" => ["owner_repo_display_string_u_ssort"]})
         search_params["type[]"] = "location"
         uri = "/repositories/#{session[:repo_id]}/search"
         csv_response( uri, search_params )
@@ -211,7 +211,7 @@ class LocationsController < ApplicationController
   def search
     respond_to do |format|
       format.js {
-        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS}))
+        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.LOCATION_FACETS, "blank_facet_query_fields" => ["owner_repo_display_string_u_ssort"]}))
         @display_identifier = false
         @extra_columns = []
         @search_data.sort_fields << "location_profile_display_string_u_ssort"

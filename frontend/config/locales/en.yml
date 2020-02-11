@@ -213,6 +213,7 @@ en:
       report_type: Report Type
       owner: Owner
       langcode: Language of Materials
+      none: None
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multiple previous rows.
 
