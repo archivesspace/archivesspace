@@ -101,7 +101,6 @@
 			return true;
 		    },
 		success: function(data, status, xhr) {
-			alert("<%= I18n.t('bulk_import._frontend.messages.processed') %>");
 			$("#bulk_messages").html(data);
 			modalSuccess($file_form_modal);
 		    },
@@ -127,7 +126,7 @@
 	    var clipboard = new Clipboard('.clip-btn');
 
 	    clipboard.on('success', function(e) {
-		    alert("<%= I18n.t('bulk_import._frontend.messages.error.copied') %>");
+		    alert("<%= I18n.t('bulk_import._frontend.messages.copied') %>");
 		});
 	    clipboard.on('error', function(e) {
 		    alert("<%= I18n.t('bulk_import._frontend.messages.uncopied') %>");

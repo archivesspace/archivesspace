@@ -13,14 +13,18 @@ class ArchivesSpaceService < Sinatra::Base
                   ['type', String, 'resource or archival_object'],
                   ['aoid', String, 'archival object ID'],
                   ['filename', String, 'the original file name'],
-                  ['filepath', String, 'the spreadsheet temp path'])
+                  ['filepath', String, 'the spreadsheet temp path'],
+                  ['digital_load', String, 'whether to load digital objects']
+                )
           .permissions([:update_resource_record])
           .returns([200, 'HTML'],
                    [400, :error]) do
     # right now, just return something!
     importer = BulkImporter.new(params.fetch(:filepath), params, current_user)
     report = importer.run
+    digital_load = params.fetch(:digital_load)
+    digital_load = digital_load.nil? || digital_load.empty? ? false : true
     Log.error("report: #{report.pretty_inspect}")
-    erb :'bulk/bulk_import_response'
+    erb :'bulk/bulk_import_response', locals: {report: report, digital_load: digital_load}
   end
 end
