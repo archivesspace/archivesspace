@@ -1124,11 +1124,9 @@ class IndexerCommon
 
     if !batch.empty?
       # For any record we're updating, delete any child records first (where applicable)
-      records_with_children = batch.map {|e|
-        if self.records_with_children.include?(e['primary_type'].to_s)
-          "\"#{e['id']}\""
-        end
-      }.compact
+      records_with_children = self.records_with_children.map {|record_type|
+        batch.record_info_for_type(record_type).map {|info| '"%s"' % [info[:id]]}
+      }.flatten
 
       if !records_with_children.empty?
         req = Net::HTTP::Post.new("#{solr_url.path}/update")
