@@ -13,7 +13,7 @@ class AgentsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @search_data = Search.for_type(session[:repo_id], "agent", {"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.AGENT_FACETS})))
+        @search_data = Search.for_type(session[:repo_id], "agent", params_for_backend_search.merge({"facet[]" => SearchResultData.AGENT_FACETS}))
       }
       format.csv {
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.AGENT_FACETS})

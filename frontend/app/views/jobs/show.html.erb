@@ -30,7 +30,7 @@
               <ul>
                  <% @files.each do |file| %>
                    <li><%= link_to file_label(@job["job_type"]), :controller =>  :jobs, :action => :download_file, :id => file, :job_id => @job.id %></li>
-                <% end %>
+                <% end %> 
               </ul>
             </div>
           </section>
