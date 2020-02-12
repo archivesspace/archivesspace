@@ -106,7 +106,7 @@ class SearchResultData
     return I18n.t("enumerations.subject_term_type.#{facet.to_s}", :default => facet) if facet_group === "first_term_type"
 
     if facet_group === "source"
-      if get_type and types[0] === "subject"
+      if get_type.include? "subject"
         return I18n.t("enumerations.subject_source.#{facet}", :default => facet)
       else
         return I18n.t("enumerations.name_source.#{facet}", :default => facet)
