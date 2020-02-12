@@ -13,6 +13,10 @@ class IndexBatch
     @record_count = 0
     @closed = false
 
+    # Store basic metadata about what's in this batch to avoid having to reparse
+    # everything.
+    @record_info_by_primary_type = {}
+
     @filestore = ASUtils.tempfile('index_batch')
 
     # Don't mess up our line breaks under Windows!
@@ -37,7 +41,17 @@ class IndexBatch
   end
 
 
+  def record_info_for_type(record_type)
+    @record_info_by_primary_type.fetch(record_type, [])
+  end
+
   def <<(doc)
+    primary_type = doc['primary_type'].to_s
+    unless primary_type.empty?
+      @record_info_by_primary_type[primary_type] ||= []
+      @record_info_by_primary_type[primary_type] << {id: doc['id']}
+    end
+
     json = ASUtils.to_json(doc)
 
     if @record_count > 0
