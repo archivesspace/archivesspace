@@ -121,27 +121,35 @@ class IndexerCommon
   end
 
 
+  EXCLUDED_STRING_VALUE_PROPERTIES = Set.new(%w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order))
+
   def self.extract_string_values(doc)
-    text = ""
-    doc.each do |key, val|
-      if %w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order).include?(key)
-      elsif key =~ /_enum_s$/
-      elsif val.is_a?(String)
-        text << "#{val} "
-      elsif val.is_a?(Hash)
-        text << self.extract_string_values(val)
-      elsif val.is_a?(Array)
-        val.each do |v|
-          if v.is_a?(String)
-            text << "#{v} "
-          elsif v.is_a?(Hash)
-            text << self.extract_string_values(v)
+    queue = [doc]
+    strings = []
+
+    while !queue.empty?
+      doc = queue.pop
+
+      doc.each do |key, val|
+        if EXCLUDED_STRING_VALUE_PROPERTIES.include?(key) || key =~ /_enum_s$/
+          # ignored
+        elsif val.is_a?(String)
+          strings.push(val)
+        elsif val.is_a?(Hash)
+          queue.push(val)
+        elsif val.is_a?(Array)
+          val.each do |v|
+            if v.is_a?(String)
+              strings.push(v)
+            elsif v.is_a?(Hash)
+              queue.push(v)
+            end
           end
         end
       end
     end
 
-    text
+    strings.join(' ')
   end
 
 
@@ -149,12 +157,12 @@ class IndexerCommon
     fullrecord = IndexerCommon.extract_string_values(record)
     %w(finding_aid_subtitle finding_aid_author).each do |field|
       if record['record'].has_key?(field)
-        fullrecord << "#{record['record'][field]} "
+        fullrecord << " #{record['record'][field]}"
       end
     end
 
     if record['record'].has_key?('names')
-      fullrecord << record['record']['names'].map {|name|
+      fullrecord << " " + record['record']['names'].map {|name|
         IndexerCommon.extract_string_values(name)
       }.join(" ")
     end
