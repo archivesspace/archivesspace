@@ -76,11 +76,19 @@
         <td class="top-container-current-location"><%= Array(doc['location_display_string_u_sstr']).first %></td>
         <td><%= container_json['ils_holding_id'] %></td>
         <td><%= I18n.t("boolean.#{container_json['restricted']}") %></td>
+
         <% if container_json['exported_to_ils'].blank? %>
           <td><%= I18n.t("top_container.not_exported") %></td>
         <% else %>
           <td><%= container_json['exported_to_ils'] %></td>
         <% end %>
+
+        <% if container_json['has_location'].blank? %>
+          <td>False</td>
+        <% else %>
+          <td>True</td>
+        <% end %>
+        <% puts("container_json #{container_json}") %>
 
         <% if show_edit_actions %>
         <td>
