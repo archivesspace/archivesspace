@@ -34,6 +34,7 @@
       <th><%= I18n.t("top_container.ils_holding_id") %></th>
       <th><%= I18n.t("top_container.restricted") %></th>
       <th><%= I18n.t("top_container.exported_to_ils") %></th>
+      <th><%= I18n.t("top_container.has_location") %></th>
       <% if show_edit_actions %><th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- Actions --></th><% end %>
     </tr>
   </thead>
@@ -76,20 +77,16 @@
         <td class="top-container-current-location"><%= Array(doc['location_display_string_u_sstr']).first %></td>
         <td><%= container_json['ils_holding_id'] %></td>
         <td><%= I18n.t("boolean.#{container_json['restricted']}") %></td>
-
         <% if container_json['exported_to_ils'].blank? %>
           <td><%= I18n.t("top_container.not_exported") %></td>
         <% else %>
           <td><%= container_json['exported_to_ils'] %></td>
         <% end %>
-
-        <% if container_json['has_location'].blank? %>
-          <td>False</td>
-        <% else %>
+        <% if doc['has_location_u_abool'] == true %>
           <td>True</td>
+        <% else %>
+          <td>False</td>
         <% end %>
-        <% puts("container_json #{container_json}") %>
-
         <% if show_edit_actions %>
         <td>
           <div class="btn-group pull-right">

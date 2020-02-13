@@ -565,7 +565,7 @@ class IndexerCommon
         end
 
         if record['record']['container_locations'].length > 0
-          doc['has_location_u_sbool'] = true
+          doc['has_location_u_abool'] = true
           record['record']['container_locations'].each do |container_location|
             if container_location['status'] == 'current'
               doc['location_uri_u_sstr'] = container_location['ref']
@@ -574,7 +574,7 @@ class IndexerCommon
             end
           end
         else
-          doc['has_location_u_sbool'] = false
+          doc['has_location_u_abool'] = false
         end
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?

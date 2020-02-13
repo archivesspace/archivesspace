@@ -289,7 +289,7 @@ class TopContainersController < ApplicationController
     end
 
     unless params['has_location'].blank?
-      builder.and('has_location_u_sbool', (params['has_location'] == "yes" ? true : false), 'boolean')
+      builder.and('has_location_u_abool', (params['has_location'] == "yes" ? true : false), 'boolean')
     end
 
     if builder.empty? && params['q'].blank?
