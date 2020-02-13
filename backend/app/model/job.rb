@@ -197,6 +197,12 @@ class Job < Sequel::Model(:job)
   end
 
 
+  def running?
+    self.reload
+    self.status == 'running'
+  end
+
+
   def success?
     self.reload
     self.status == 'completed'
