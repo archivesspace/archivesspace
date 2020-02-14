@@ -23,23 +23,23 @@ include CrudHelpers
       key = "#{subject[:term]} #{subject[:source]}: #{subject[:type]}"
       key
     end
-    def build(row, num)
-      id =  row.fetch("subject_#{num}_record_id", nil)
-      input_term = row.fetch("subject_#{num}_term", nil)
+    def build(id, term, type, source)
+      type = type.nil? ? 'topical' : @subject_term_types.value(type)
+      source = source.nil? ? 'ingest' : @subject_sources.value(source)
       {
         :id => id,
-        :term =>  input_term || (id ? I18n.t('bulk_import.unfound_id', :id => id, :type => 'subject') : nil),
-        :type =>   @subject_term_types.value(row.fetch("subject_#{num}_type") || 'topical'),
-        :source => @subject_sources.value( row.fetch("subject_#{num}_source") || 'ingest'),
-        :id_but_no_term => id && !input_term
+        :term =>  term || (id ? I18n.t('bulk_import.unfound_id', :id => id, :type => 'subject') : nil),
+        :type =>  type,
+        :source => source,
+        :id_but_no_term => id && !term
       }
     end
  
-    def get_or_create(row, num, repo_id, report)
-      subject = build(row, num)
+    def get_or_create(id, term, type, source, repo_id, num, report)
+      subject = build(id, term, type, source)
       subject_key = key_for(subject)
       if !(subj = stored(@subjects, subject[:id], subject_key))
-        unless subject[:id].blank?
+        unless subject[:id].nil?
           begin
             subj = Subject.get_or_die(subject[:id])
           rescue Exception => e
@@ -91,7 +91,7 @@ include CrudHelpers
         subj.terms.push term
         subj.source = subject[:source]
         subj.vocabulary = '/vocabularies/1'  # we're making a gross assumption here
-        subj.save
+        subj= save(subj, Subject)
       rescue Exception => e
         raise BulkImportException.new(I18n.t('bulk_import.error.no_subject',:num => num, :why => e.message))
       end

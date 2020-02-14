@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-# Supporting multiple containers in the row
-
->>>>>>> 7d094a7d4af12942ae451061fbe1853d805181c7
 class ContainerInstanceHandler < Handler
 
   def initialize(current_user)
@@ -59,10 +54,10 @@ class ContainerInstanceHandler < Handler
     Log.error("top_container: #{top_container}")
     if !(ret_tc = get_db_tc_by_barcode(top_container[:barcode], repo_id))
       tc_str = "#{top_container[:type]} #{top_container[:indicator]}"
-      tc_str += ": [#{top_container[:barcode]}]" if top_container[:barcode]
+      # tc_str += ": [#{top_container[:barcode]}]" if top_container[:barcode]
       tc_params = {}
-      tc_params['q'] = "display_string:\"#{tc_str}\" AND collection_uri_u_sstr:\"#{resource_uri}\""
-      ret_tc = search(repo_id,tc_params, :top_container,'top_container', "display_string:#{tc_str}")
+      tc_params[:q] = "display_string:\"#{tc_str}\" AND collection_uri_u_sstr:\"#{resource_uri}\""
+      ret_tc = search(nil,tc_params, :top_container,'top_container', "display_string:#{tc_str}")
     end
     ret_tc
   end
@@ -72,7 +67,7 @@ class ContainerInstanceHandler < Handler
     if barcode
       begin
         tc_params = {}
-        tc_params["q"] = "barcode_u_sstr:[\"#{barcode}\"]"
+        tc_params[:q] = "barcode_u_sstr:\"#{barcode}\""
         ret_tc = search(repo_id,tc_params, :top_container, 'top_container')
       rescue Exception => e
         # we don't care why
@@ -86,6 +81,7 @@ class ContainerInstanceHandler < Handler
     raise  BulkImportException.new(I18n.t('bulk_import.error.missing_instance_type')) if instance_type.nil?
     begin
       tc = get_or_create(type, indicator, barcode, resource_uri, report)
+      Log.error("TC CLASS: #{tc.class.name}")
       sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodeltype' => 'sub_container'}
       %w(2 3).each do |num|
         if subcont["type_#{num}"]
@@ -100,6 +96,7 @@ class ContainerInstanceHandler < Handler
       raise ee
     rescue Exception => e
       msg = e.message #+ "\n" + e.backtrace()[0]
+      Log.error(e.backtrace)
       raise BulkImportException.new(msg)
     end
     instance

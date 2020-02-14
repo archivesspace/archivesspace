@@ -16,7 +16,7 @@ def resolves
 end
 
 def archival_object_from_ref(ref_id)
-  dataset = CrudHelpers.scoped_dataset(ArchivalObject, {'ref_id' => ref_id})
+  dataset = CrudHelpers.scoped_dataset(ArchivalObject, {:ref_id => ref_id})
   ao = nil
   if !dataset.empty?
     objs = dataset.respond_to?(:all) ? dataset.all : dataset
@@ -29,7 +29,9 @@ def archival_object_from_ref(ref_id)
   end
   ao
 end
- 
+
+      
+
 # The following methods assume @report is defined, and is a BulkImportReport object
 def create_date(dates_label,	date_begin,	date_end,	date_type,	expression,	date_certainty)
   date_str = "(Date: type:#{date_type}, label: #{dates_label}, begin: #{date_begin}, end: #{date_end}, expression: #{expression})"
@@ -117,6 +119,7 @@ module CrudHelpers
   def handle_raw_listing(model, where = {}, current_user)
       dataset = CrudHelpers.scoped_dataset(model, where)
       objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      Log.error("handle raw dataset #{dataset.pretty_inspect}, al? #{dataset.respond_to?(:all)}")
       opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
 
       jsons = model.sequel_to_jsonmodel(objs, opts).map {|json|

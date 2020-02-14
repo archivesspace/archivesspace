@@ -10,11 +10,12 @@
 #include ASpaceImportClient
 class Handler
   require_relative 'cv_list'
+  require_relative 'bulk_import_mixins'
   require 'pp'
  
   DISAMB_STR = ' DISAMBIGUATE ME!'
 
-  def initialize(current_user)
+    def initialize(current_user)
     @current_user = current_user
   end
   
@@ -26,7 +27,7 @@ class Handler
 
    # if repo_id is nil, do a global search (subject and agent)
   # this is using   archivesspace/backend/app/models/search.rb
-  def search(repo_id,params,jmsym, type = '', match = '')
+  def search(repo_id,params,sym, type = '', match = '')
     obj = nil
     search = nil
     matches = match.split(':')
@@ -34,23 +35,22 @@ class Handler
     params[:page_size] = 10
     params[:page] = 1
     params[:sort] = ''
-    unless type.empty? && !params['q']
-      params['q'] = "primary_type:#{type} AND #{params['q']}"
+    unless type.empty? && !params[:q]
+      params[:q] = "primary_type:#{type} AND #{params[:q]}"
     end
     if repo_id
-      search  = Search.search( params, repo_id)
-    else
-      begin
-        search = Search.search(params,nil)
-      rescue Exception => e
-        raise e if !e.message.match('<h1>Not Found</h1>')  # global search doesn't handle this gracefully :-(
-        search = {'total_hits' => 0}
-      end
+      params[:q] = "repository:\"/repositories/#{repo_id}\" AND  #{params[:q]}"
     end
-    Log.error("SEARCH: params: #{params.pretty_inspect}\n\t results: #{search['total_hits'] }")
+    begin
+      search = Search.search(params,nil)
+    rescue Exception => e
+      raise e if !e.message.match('<h1>Not Found</h1>')  # global search doesn't handle this gracefully :-(
+      search = {'total_hits' => 0}
+    end
     total_hits = search['total_hits'] || 0
-    if total_hits == 1 && !search['results'].empty? # for some reason, you get a hit of '1' but still have empty results??
-      obj = jmsym_from_string(jmsym,search['results'][0]['json'])
+    Log.error("total hits: #{total_hits} \nresults length: #{search['results'].length}")
+    if total_hits == 1 #&& !search['results'].empty? # for some reason, you get a hit of '1' but still have 
+      obj = ASUtils.json_parse(search['results'][0]['json'])
     elsif  total_hits > 1
       if matches.length == 2
         match_ct = 0
@@ -59,15 +59,15 @@ class Handler
         search['results'].each do |result|
           # if we have a disambiguate result get it
           if result[matches[0]] == disam
-            disam_obj = jmsym_from_string(jmsym,result['json'])
+            disam_obj = ASUtils.json_parse(result['json'])
           elsif result[matches[0]] == matches[1]
             match_ct += 1           
-            obj = jmsym_from_string(jmsym,result['json'])
+            obj = ASUtils.json_parse(result['json'])
           end
         end
         # if we have more than one exact match, then return disam_obj if we have one, or bail!
         if match_ct > 1
-          return disam_obj if disam_obj
+          obj =  disam_obj if disam_obj
           raise  Exception.new(I18n.t('bulk_import.error.too_many'))
         end
       else
@@ -76,6 +76,7 @@ class Handler
     elsif total_hits == 0
 #      Rails.logger.info("No hits found")
     end
+    obj = JSONModel(sym).from_hash(obj) if !obj.nil?
     obj
   end
 
