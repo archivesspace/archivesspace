@@ -160,7 +160,11 @@ module ASpaceImport
         fixed = {}
 
         record.each do |k, v|
-          fixed[k] = update_record_references(v, ref_source, root_uri)
+          if k == 'uri'
+            fixed[k] = v
+          else
+            fixed[k] = update_record_references(v, ref_source, root_uri)
+          end
         end
 
         fixed

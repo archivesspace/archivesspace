@@ -158,13 +158,12 @@ class StreamingImport
 
             begin
               DB.open(true) do
-                created_uri = do_create(rewrite(record, logical_urls, logical_uri))
-                created_uri_map.put(logical_uri, created_uri)
+                do_create(rewrite(record, logical_urls, logical_uri), created_uri_map)
               end
             rescue
               $stderr.puts("FAILURE SAVING RECORD: #{$!}")
               $stderr.puts($@.join("\n"))
-              retry
+              raise
             end
           end
 
@@ -267,7 +266,7 @@ class StreamingImport
 
             if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
               # migrate it
-              @logical_urls[uri] = do_create(rewrite(rec, @logical_urls, uri))
+              do_create(rewrite(rec, @logical_urls, uri), @logical_urls)
 
               # Now that it's created, we don't need to see the JSON record for
               # this again either.  This will speed up subsequent cycles.
@@ -323,6 +322,17 @@ class StreamingImport
       end
 
       logical_urls[rec['uri']] = nil
+
+      if rec['jsonmodel_type'] == 'archival_object'
+        # Might contain representations with their own logical URLs.  Deal with those as well.
+        ['physical_representations', 'digital_representations'].each do |rep_type|
+          Array(rec[rep_type]).each do |rep|
+            if rep['uri']
+              logical_urls[rep['uri']] = nil
+            end
+          end
+        end
+      end
 
       unless AppConfig.has_key?(:migration_skip_validate) && AppConfig[:migration_skip_validate]
         begin
@@ -420,7 +430,7 @@ class StreamingImport
   end
 
 
-  def do_create(record, noerror = false)
+  def do_create(record, logical_urls, noerror = false)
     begin
       if record['position'] && @position_offsets[record['uri']]
         record['position'] += @position_offsets[record['uri']]
@@ -431,7 +441,22 @@ class StreamingImport
       json = to_jsonmodel(record, needs_validate)
 
       # This will contain the import URI, but it's ignored anyway.
+      logical_uri = json['uri']
       json['uri'] = nil
+
+      # If we're creating an AO with some physical representations, note their logical URIs now.
+      nested_representations = {}
+      if json['jsonmodel_type'] == 'archival_object'
+        ['physical_representations', 'digital_representations'].each do |rep_type|
+          Array(json[rep_type]).each_with_index do |rep, idx|
+            if rep['uri']
+              nested_representations[rep_type] ||= {}
+              nested_representations[rep_type][idx] = rep['uri']
+              rep.delete('uri')
+            end
+          end
+        end
+      end
 
       begin
         assert_no_import_uris!(json)
@@ -451,7 +476,29 @@ class StreamingImport
 
       @ticker.log("Created: #{record['uri']}")
 
-      obj.uri
+      # Top-level record
+      logical_urls[logical_uri] = obj.uri
+
+      # And any representations
+      unless nested_representations.empty?
+        DB.open do |db|
+          db[:physical_representation].filter(:archival_object_id => obj.id).order(:id).select(:repo_id, :id).all.each_with_index do |physrep, idx|
+            if logical_uri = nested_representations['physical_representations'][idx]
+              physical_uri = JSONModel(:physical_representation).uri_for(physrep[:id], :repo_id => physrep[:repo_id])
+              logical_urls[logical_uri] = physical_uri
+            end
+          end
+
+          db[:digital_representation].filter(:archival_object_id => obj.id).order(:id).select(:repo_id, :id).all.each_with_index do |digrep, idx|
+            if logical_uri = nested_representations['digital_representations'][idx]
+              physical_uri = JSONModel(:digital_representation).uri_for(digrep[:id], :repo_id => digrep[:repo_id])
+              logical_urls[logical_uri] = physical_uri
+            end
+          end
+        end
+      end
+
+      true
     rescue
       if noerror
         nil
@@ -492,10 +539,8 @@ class StreamingImport
 
       # Create the cut down record--we'll put its relationships back later
 
-      created_uri = do_create(rewrite(rec, @logical_urls, uri), true)
-      if created_uri
-        # It worked!
-        @logical_urls[uri] = created_uri
+      if do_create(rewrite(rec, @logical_urls, uri), @logical_urls, true)
+        # Success!
       else
         raise "Failed to import the record #{uri} without its dependencies." +
               "  Since it contains circular dependencies with other records, the import cannot continue."
@@ -588,7 +633,7 @@ class StreamingImport
       refs = []
 
       record.each do |k, v|
-        if k != '_resolved'
+        if k != '_resolved' && k != 'uri'
           refs += extract_logical_urls(v, logical_urls)
         end
       end
