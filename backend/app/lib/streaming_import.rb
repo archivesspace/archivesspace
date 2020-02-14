@@ -491,14 +491,14 @@ class StreamingImport
       unless nested_representations.empty?
         DB.open do |db|
           db[:physical_representation].filter(:archival_object_id => obj.id).order(:id).select(:repo_id, :id).all.each_with_index do |physrep, idx|
-            if logical_uri = nested_representations['physical_representations'][idx]
+            if logical_uri = nested_representations.fetch('physical_representations', {})[idx]
               physical_uri = JSONModel(:physical_representation).uri_for(physrep[:id], :repo_id => physrep[:repo_id])
               logical_urls[logical_uri] = physical_uri
             end
           end
 
           db[:digital_representation].filter(:archival_object_id => obj.id).order(:id).select(:repo_id, :id).all.each_with_index do |digrep, idx|
-            if logical_uri = nested_representations['digital_representations'][idx]
+            if logical_uri = nested_representations.fetch('digital_representations', {})[idx]
               physical_uri = JSONModel(:digital_representation).uri_for(digrep[:id], :repo_id => digrep[:repo_id])
               logical_urls[logical_uri] = physical_uri
             end
