@@ -352,7 +352,12 @@
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
     <copy file="${solr_file}" tofile="solr.war" overwrite="true" />
     <war destfile="solr.war" update="true">
-      <zipfileset dir="../solr" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="schema.xml" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="solrconfig.xml" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="stopwords.txt" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="synonyms.txt" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="Dockerfile" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr/lib" prefix="WEB-INF/lib"/>
     </war>
   </target>
 
