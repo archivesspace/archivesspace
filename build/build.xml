@@ -258,14 +258,18 @@
     <mkdir dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
 
     <mkdir dir="../build/solr_home/collection1/conf" />
+    <mkdir dir="../build/solr_home/collection1/lib" />
+    <copy todir="../build/solr_home/collection1/lib">
+	    <fileset dir="../solr/lib" />
+    </copy>
 
     <parallel>
       <daemons>
         <java
-          classpath="${jettyrunner_file}:../solr:../common/lib/*"
+	  classpath="${jettyrunner_file}:../solr:../common/lib/*"
           classname="org.eclipse.jetty.runner.Runner" fork="true">
           <jvmarg line="${default_java_options} ${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/jettyrunner.${user.name}" />
-          <arg line="--port ${aspace.solr.port} ${solr_file}" />
+	  <arg line="--port ${aspace.solr.port} ${solr_file}" />
         </java>
       </daemons>
       <record name="backend_test_log.out" action="start" />
@@ -352,12 +356,12 @@
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
     <copy file="${solr_file}" tofile="solr.war" overwrite="true" />
     <war destfile="solr.war" update="true">
-	    <zipfileset dir="../solr" includes="schema.xml" prefix="WEB-INF/classes"/>
+      	    <zipfileset dir="../solr" includes="schema.xml" prefix="WEB-INF/classes"/>
 	    <zipfileset dir="../solr" includes="solrconfig.xml" prefix="WEB-INF/classes"/>
 	    <zipfileset dir="../solr" includes="stopwords.txt" prefix="WEB-INF/classes"/>
 	    <zipfileset dir="../solr" includes="synonyms.txt" prefix="WEB-INF/classes"/>
-	    <zipfileset dir="../solr" includes="Dockerfile" prefix="WEB-INF/classes"/>
-	    <zipfileset dir="../solr/lib" prefix="WEB-INF/lib"/>
+   	    <zipfileset dir="../solr" includes="Dockerfile" prefix="WEB-INF/classes"/>
+    	    <zipfileset dir="../solr/lib" prefix="WEB-INF/lib"/>
     </war>
   </target>
 
