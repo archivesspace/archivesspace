@@ -148,6 +148,7 @@ class StreamingImport
 
         with_status("Saving records: cycle #{round}") do
           created_uri_map = java.util.concurrent.ConcurrentHashMap.new
+          worker_failed = java.util.concurrent.atomic.AtomicBoolean.new(false)
 
           pool = PooledExecutor.new(thread_count: 12,
                                     queue_size: 1024,
@@ -163,6 +164,7 @@ class StreamingImport
             rescue
               $stderr.puts("FAILURE SAVING RECORD: #{$!}")
               $stderr.puts($@.join("\n"))
+              worker_failed.set(true)
               raise
             end
           end
@@ -198,6 +200,11 @@ class StreamingImport
 
           pool.shutdown
 
+          if worker_failed.get
+            raise "Hit errors while creating records.  Migration can't continue--check logs for details."
+          end
+
+
           # Merge created URIs
           created_uri_map.each do |uri, created_uri|
             @logical_urls[uri] = created_uri
@@ -217,6 +224,7 @@ class StreamingImport
     rescue
       $stderr.puts("UNEXPECTED ERROR: #{$!}")
       $stderr.puts($@.join("\n"))
+      raise
     ensure
       with_status("Cleaning up") do
         if finished
