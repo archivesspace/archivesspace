@@ -135,6 +135,8 @@ module CrudHelpers
 end
 class BulkImportException < Exception
 end
+class BulkImportDisambigException < BulkImportException
+end
 class StopBulkImportException < Exception
 end
 class BulkImportReport

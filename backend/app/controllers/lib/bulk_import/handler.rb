@@ -67,11 +67,13 @@ class Handler
         end
         # if we have more than one exact match, then return disam_obj if we have one, or bail!
         if match_ct > 1
-          obj =  disam_obj if disam_obj
-          raise  Exception.new(I18n.t('bulk_import.error.too_many'))
+          if disam_obj
+            obj =  disam_obj
+            report.add_info(I18n.t('bulk_import.warn.disam', :name => disam))
+          else
+            raise  BulkImportDisambigException.new(I18n.t('bulk_import.error.too_many'))
+          end
         end
-      else
-       raise Exception.new(I18n.t('bulk_import.error.too_many'))
       end
     elsif total_hits == 0
 #      Rails.logger.info("No hits found")

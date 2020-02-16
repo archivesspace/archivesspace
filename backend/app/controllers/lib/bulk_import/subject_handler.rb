@@ -41,10 +41,12 @@ include CrudHelpers
       if !(subj = stored(@subjects, subject[:id], subject_key))
         unless subject[:id].nil?
           begin
-            subj = Subject.get_or_die(subject[:id])
+            subj = Subject.get_or_die(Integer(subject[:id]))
           rescue Exception => e
              if e.message != 'RecordNotFound'
                raise BulkImportException.new( I18n.t('bulk_import.error.no_subject',:num => num, :why => e.message))
+             else
+              raise e
              end
           end
         end
@@ -53,7 +55,7 @@ include CrudHelpers
             begin
               subj = get_db_subj(subject)
             rescue Exception => e
-              if e.message == 'More than one match found in the database'
+              if e.is_a?(BulkImportDisambigException)
                 subject[:term] = subject[:term] + DISAMB_STR
                 report.add_info(I18n.t('bulk_import.warn.disam', :name => subject[:term]))
               else
@@ -66,7 +68,7 @@ include CrudHelpers
             report.add_info(I18n.t('bulk_import.created', :what =>"#{I18n.t('bulk_import.subj')}[#{subject[:term]}]", :id => subj.uri))
           end
         rescue Exception => e
-          Rails.logger.error(e.backtrace)
+          Log.error(e.backtrace)
           raise BulkImportException.new( I18n.t('bulk_import.error.no_subject',:num => num, :why => e.message))
         end
         if subj
@@ -100,7 +102,7 @@ include CrudHelpers
 
     def get_db_subj(subject)
       s_params = {}
-      s_params["q"] = "title:\"#{subject[:term]}\" AND first_term_type:#{subject[:type]}"
-      ret_subj = search(nil, s_params, :subject, 'subjects',"title:#{subject[:term]}" )
+      s_params[:q] = "title:\"#{subject[:term]}\" AND term_type_enum_s:\"#{subject[:type]}\" AND source_enum_s:\"#{subject[:source]}\""
+      ret_subj = search(nil, s_params, :subject, 'subject',"title:#{subject[:term]}" )
     end
   end
