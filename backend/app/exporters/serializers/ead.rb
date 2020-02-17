@@ -543,14 +543,14 @@ class EADSerializer < ASpaceExport::Serializer
     content = ""
     content << title if title
     content << ": " if date['expression'] || date['begin']
-      if date['expression']
-        content << date['expression']
-      elsif date['begin']
-      content << date['begin']
-      if date['end'] != date['begin']
-          content << "-#{date['end']}"
-        end
+    if date['expression']
+      content << date['expression']
+    elsif date['begin']
+    content << date['begin']
+    if date['end'] != date['begin']
+        content << "-#{date['end']}"
       end
+    end
     atts['xlink:title'] = digital_object['title'] if digital_object['title']
 
 
