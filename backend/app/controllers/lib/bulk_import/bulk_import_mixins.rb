@@ -112,6 +112,17 @@ def handle_notes(ao, hash)
   errs
 end
 
+def test_exceptions(obj, what = '')
+  ret_val = false
+  begin
+    obj._exceptions
+    ret_val = true
+  rescue Exception => e
+    raise BulkImportException.new("editable?") if e.message.include?("editable?")
+    raise e
+  end
+  ret_val
+end
 
 # addition to app/lib/crud_helpers.rb to deal with not having the env hash
 
