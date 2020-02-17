@@ -35,7 +35,7 @@ include CrudHelpers
       }
     end
  
-    def get_or_create(id, term, type, source, repo_id, num, report)
+    def get_or_create(id, term, type, source, repo_id, report)
       subject = build(id, term, type, source)
       subject_key = key_for(subject)
       if !(subj = stored(@subjects, subject[:id], subject_key))
@@ -44,7 +44,7 @@ include CrudHelpers
             subj = Subject.get_or_die(Integer(subject[:id]))
           rescue Exception => e
              if e.message != 'RecordNotFound'
-               raise BulkImportException.new( I18n.t('bulk_import.error.no_subject',:num => num, :why => e.message))
+               raise BulkImportException.new( I18n.t('bulk_import.error.no_create', :why => e.message))
              else
               raise e
              end
@@ -64,12 +64,12 @@ include CrudHelpers
             end
           end
           if !subj
-            subj = create_subj(subject, num)
+            subj = create_subj(subject)
             report.add_info(I18n.t('bulk_import.created', :what =>"#{I18n.t('bulk_import.subj')}[#{subject[:term]}]", :id => subj.uri))
           end
         rescue Exception => e
           Log.error(e.backtrace)
-          raise BulkImportException.new( I18n.t('bulk_import.error.no_subject',:num => num, :why => e.message))
+          raise BulkImportException.new( I18n.t('bulk_import.error.no_create', :why => e.message))
         end
         if subj
           if subj[:id_but_no_term]
@@ -83,7 +83,7 @@ include CrudHelpers
       subj
     end
 
-    def create_subj(subject, num)
+    def create_subj(subject)
       begin
         term = JSONModel(:term).new._always_valid!
         term.term =  subject[:term]
@@ -95,7 +95,7 @@ include CrudHelpers
         subj.vocabulary = '/vocabularies/1'  # we're making a gross assumption here
         subj= save(subj, Subject)
       rescue Exception => e
-        raise BulkImportException.new(I18n.t('bulk_import.error.no_subject',:num => num, :why => e.message))
+        raise BulkImportException.new(I18n.t('bulk_import.error.no_create',:why => e.message))
       end
       subj
     end   
