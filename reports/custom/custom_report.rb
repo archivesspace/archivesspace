@@ -16,6 +16,7 @@ class CustomReport < AbstractReport
 				template_record.description.empty?)
 				info[:template_description] = template_record.description
 			end
+			@limit = template_record.limit
 			ASUtils.json_parse(template_record.data)
 		end
 
@@ -112,11 +113,8 @@ class CustomReport < AbstractReport
 	end
 
 	def query
-	results = unless record_type == 'agent'
-							db.fetch(query_string)
-						else
-							db.fetch(agent_query_string)
-						end
+		q = record_type == 'agent' ? agent_query_string : query_string
+		results = db.fetch(q).limit(@limit)
 		info[:total_count] = results.count
 		results
 	end

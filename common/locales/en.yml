@@ -2304,6 +2304,7 @@ en:
     description: Description
     record_type: Record Type
     display: Display?
+    limit: Limit
     narrow_by: Narrow By?
     values: Values
     value: Value
