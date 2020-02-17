@@ -522,13 +522,14 @@ class EAD3Serializer < EADSerializer
 
             EADSerializer.run_serialize_step(data, xml, @fragments, :did)
 
+            # Change from EAD 2002: dao must be children of did in EAD3, not archdesc
+            data.digital_objects.each do |dob|
+              serialize_digital_object(dob, xml, @fragments)
+            end
+
           }# </did>
 
           serialize_nondid_notes(data, xml, @fragments)
-
-          data.digital_objects.each do |dob|
-                serialize_digital_object(dob, xml, @fragments)
-          end
 
           serialize_bibliographies(data, xml, @fragments)
 
