@@ -128,7 +128,9 @@
   <div class="form-group <% if opts[:required] %>required<% end %>">
     <label class="control-label"><%= I18n.t("content_items.content") %></label>
     <div class="controls content-list">
-      <%= form.list_for((form["content"] || [""]), "content[]") do |item| %>
+      <% content_array = form["content"] || [""] %>
+      <% content_array << '' if content_array.empty? %>
+      <%= form.list_for(content_array, "content[]") do |item| %>
         <% form.emit_template("content_item", item) %>
       <% end %>
       <% if not form.readonly? %>
