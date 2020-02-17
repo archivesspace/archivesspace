@@ -22,7 +22,7 @@ class Handler
   def save(obj, model)
     saved = model.create_from_json(obj)
     objs = model.sequel_to_jsonmodel([saved])
-    revived = objs.empty? ? nil :objs[0] if !objs.empty?
+    revived = objs.empty? ? nil : objs[0] if !objs.empty?
   end
 
    # if repo_id is nil, do a global search (subject and agent)
