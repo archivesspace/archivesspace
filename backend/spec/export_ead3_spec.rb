@@ -1144,6 +1144,34 @@ describe "EAD3 export mappings" do
       content
     end
 
+    # ANW-805
+    it "sets audience attribute in dao tags according to publish status of both digital object and file version" do
+      # for each digital object generated
+      digital_objects.each do |d|
+
+        file_versions = d['file_versions']
+
+        if file_versions.length == 0
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+        elsif file_versions.length == 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+        elsif file_versions.length > 1
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:daoset/xmlns:dao"
+        end
+
+        # for each file version in the digital object
+        file_versions.each do |fv|
+
+          publish = fv['publish'] && d['publish']
+
+          if publish
+            expect(@doc).to have_node(basepath + "[not(@audience='internal')]")
+          else
+            expect(@doc).to have_node(basepath + "[@audience='internal']")
+          end
+        end
+      end
+    end
 
     it "maps each resource.instances[].instance.digital_object to archdesc/dao" do
       digital_objects.each do |obj|
