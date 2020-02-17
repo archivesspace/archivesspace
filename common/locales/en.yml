@@ -2339,6 +2339,7 @@ en:
     ao: Archival Object
     created: "%{what} created: %{id}"
     updated: "%{what}: %{id}"
+    clip_btn: Copy to Clipboard   
     clip_created:  "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
     clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
     clip_info: "\t\t\t\t\t%{what}\n"
@@ -2351,13 +2352,7 @@ en:
     dig: Digital Object
     unfound_id: "PLACEHOLDER FOR %{type} ID %{id} NOT FOUND"
     ref_id_notfound: "Ref Id %{refid} not found"
-    processed: The file has been processed
-    clip_btn: Copy to Clipboard
-    clip_created:  "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
-    clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
-    clip_info: "\t\t\t\t\t%{what}\n"
-    clip_err: "\t\t\t\t\tERROR: %{err}\n"
-    clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo"
+    processed: The file has been processed 
     warn:
       dup: "Managed Controlled Value List %{which} has multiple instances for the Translation '%{trans}'. '%{used}' will be used as the value."
       disam: "Multiple match(es) found. Creating %{name} for disabiguation."
@@ -2401,7 +2396,7 @@ en:
       missing_instance_type: Missing container instance type
       no_ao: No Archival Object created
       no_container_instance: "Unable to create Container Instance: [%{why}]"
-      no_subject: "Unable to create Subject %{num}: [%{why}]"
+      no_create: "Unable to create: [%{why}]"      
       no_move: "Unable to move the archival objects from the end of the list (response code %{code})"
       bad_note: "%{type} note is not wellformed: %{msg}"
       bad_relator: "Unable to create agent link: '%{label}' is not a valid relator"
@@ -2419,3 +2414,4 @@ en:
       ao_validation: "Validation error when attempting to save Archival Object: %{err}"
       lang_code: "Cannot validate language (%{lang})"
       script_code: "Cannot validate a language script (%{script})"
+      process_error: "Error processing %{type} %{num}: %{why}"
