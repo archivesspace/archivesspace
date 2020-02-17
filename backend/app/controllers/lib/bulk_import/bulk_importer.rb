@@ -119,7 +119,7 @@ class BulkImporter
 
   def initialize_handler_enums
     @cih = ContainerInstanceHandler.new(@current_user)
-   # @doh = DigitalObjectHandler(@current_user)
+    @doh = DigitalObjectHandler.new(@current_user)
     @sh = SubjectHandler.new(@current_user)
    # @ah = AgentHandler.new(@current_user)
    # @lh = LangHandler.new(@current_user)
@@ -273,7 +273,7 @@ class BulkImporter
       raise BulkImportException.new(msg)
     end
     ao.instances = create_top_container_instances 
-    if (dig_instance = DigitalObjectHandler.create(@row_hash, ao, @report))
+    if (dig_instance = @doh.create(@row_hash['digital_object_title'], @row_hash['digital_object_link'],@row_hash['thumbnail'],@row_hash['digital_object_id'], @row_hash['publish'], ao, @report))
       ao.instances ||= []
       ao.instances << dig_instance
     end
