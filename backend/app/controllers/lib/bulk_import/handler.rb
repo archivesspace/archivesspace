@@ -22,7 +22,7 @@ class Handler
   def save(obj, model)
     saved = model.create_from_json(obj)
     objs = model.sequel_to_jsonmodel([saved])
-    revived = objs.empty? ? nil :objs[0] 
+    revived = objs.empty? ? nil :objs[0] if !objs.empty?
   end
 
    # if repo_id is nil, do a global search (subject and agent)
@@ -74,6 +74,8 @@ class Handler
             raise  BulkImportDisambigException.new(I18n.t('bulk_import.error.too_many'))
           end
         end
+      else 
+        raise  BulkImportDisambigException.new(I18n.t('bulk_import.error.too_many'))
       end
     elsif total_hits == 0
 #      Rails.logger.info("No hits found")
