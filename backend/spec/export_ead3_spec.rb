@@ -1151,12 +1151,11 @@ describe "EAD3 export mappings" do
 
         file_versions = d['file_versions']
 
-        if file_versions.length == 0
+        if file_versions.length < 2
           basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
-        elsif file_versions.length == 1
+        else
+          # The EAD3 export probably should output a daoset but currently does not
           basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
-        elsif file_versions.length > 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:daoset/xmlns:dao"
         end
 
         # for each file version in the digital object

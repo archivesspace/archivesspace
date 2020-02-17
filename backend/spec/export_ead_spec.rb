@@ -1166,11 +1166,9 @@ describe "EAD export mappings" do
 
         file_versions = d['file_versions']
 
-        if file_versions.length == 0
+        if file_versions.length < 2
           basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
-        elsif file_versions.length == 1
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
-        elsif file_versions.length > 1
+        else
           basepath = "/xmlns:ead/xmlns:archdesc/xmlns:daogrp/xmlns:daoloc"
         end
 
