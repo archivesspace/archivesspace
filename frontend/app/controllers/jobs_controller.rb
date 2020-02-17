@@ -110,14 +110,6 @@ class JobsController < ApplicationController
   def download_file
     @job = JSONModel(:job).find(params[:job_id], "resolve[]" => "repository")
 
-    if params[:ext]
-      format = params[:ext].delete_prefix('.')
-    elsif @job.job.has_key?("format") && !@job.job["format"].blank?
-      format = @job.job["format"]
-    else
-      format = "pdf"
-    end
-
     # this is a hacky solution
     # there should be a better way for jobs to specify file names
     if @job['job_type'] == 'report_job'
@@ -127,7 +119,7 @@ class JobsController < ApplicationController
     end
 
     url = "/repositories/#{JSONModel::repository}/jobs/#{params[:job_id]}/output_files/#{params[:id]}"
-    stream_file(url, {:format => format, :filename => "job_#{params[:job_id].to_s}_#{filename_end}" } )
+    stream_file(url, {:format => download_file_format(@job), :filename => "job_#{params[:job_id].to_s}_#{filename_end}" } )
   end
 
 
@@ -137,6 +129,16 @@ class JobsController < ApplicationController
   end
 
   private
+
+  def download_file_format(job)
+    if params[:ext]
+      format = params[:ext].delete_prefix('.')
+    elsif @job.job.has_key?("format") && !@job.job["format"].blank?
+      format = @job.job["format"]
+    else
+      format = "pdf"
+    end
+  end
 
   def selected_page
     [Integer(params[:page] || 1), 1].max
