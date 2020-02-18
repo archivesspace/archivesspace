@@ -65,6 +65,7 @@
    <field name="system_generated" type="boolean" indexed="true" stored="true" multiValued="false" />
 
    <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="subject_uris" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="published_agents" type="string" indexed="true" stored="true" multiValued="true"/>
