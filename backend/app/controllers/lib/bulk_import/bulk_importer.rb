@@ -121,7 +121,7 @@ class BulkImporter
     @cih = ContainerInstanceHandler.new(@current_user)
     @doh = DigitalObjectHandler.new(@current_user)
     @sh = SubjectHandler.new(@current_user)
-   # @ah = AgentHandler.new(@current_user)
+    @ah = AgentHandler.new(@current_user)
    # @lh = LangHandler.new(@current_user)
   end
       
@@ -257,7 +257,7 @@ class BulkImporter
     ao.restrictions_apply = @row_hash['restrictions_flag']
     ao.parent = {'ref' => parent_uri} unless parent_uri.nil?
     begin
-      ao.extents = create_extents
+      ao.extents = process_extents
     rescue Exception => e
       @report.add_errors(e.message)
     end
@@ -283,10 +283,10 @@ class BulkImporter
     ao.linked_agents = links
     ao
   end
-  def create_extents
-    extents = []
-    #TODO: fill this up
-  end
+
+  
+
+ 
   def create_dates
     dates = []
     cntr = 1
@@ -300,10 +300,22 @@ class BulkImporter
     return dates
   end
 
-  def create_subjects
-    subjs = []
-    #TODO: fill this up
+  def create_extent(substr)
+    ext_str = "Extent: #{@row_hash["portion#{substr}"] || 'whole'} #{@row_hash["number#{substr}"]} #{@row_hash["extent_type#{substr}"]} #{@row_hash["container_summary#{substr}"]} #{@row_hash["physical_details#{substr}"]} #{@row_hash["dimensions#{substr}"]}"
+    begin
+      extent = {'portion' => @extent_portions.value(@row_hash["portion#{substr}"] || 'whole'),
+        'extent_type' => @extent_types.value((@row_hash["extent_type#{substr}"]))}
+      %w(number container_summary physical_details dimensions).each do |w|
+        extent[w] = @row_hash["#{w}#{substr}"] || nil
+      end
+      ex = JSONModel(:extent).new(extent)
+      return ex if test_exceptions(ex, "Extent")
+    rescue Exception => e
+      @report.add_errors(I18n.t('plugins.aspace-import-excel.error.extent_validation', :msg => e.message, :ext => ext_str))
+      return nil
+    end
   end
+
   def create_top_container_instances
 	  instances = []
 	  cntr = 1
@@ -369,9 +381,25 @@ class BulkImporter
   end
   
   def process_agents
-    agents = []
-    #TODO: fill in
-    agents
+    agent_links = []
+    %w(people corporate_entities families).each do |type|
+      num = 1
+      while true
+        id_key = "#{type}_agent_record_id_#{num}"
+        header_key = "#{type}_agent_header_#{num}"
+        break if @row_hash[id_key].nil? && @row_hash[header_key].nil?
+        link = nil
+        begin
+          link = @ah.get_or_create(type, @row_hash[id_key], @row_hash[header_key],
+            @row_hash["#{type}_relator_#{num}"], @row_hash["#{type}_role_#{num}"], @resource['uri'], @report)
+          agent_links.push link if link
+        rescue BulkImportException => e
+           @report.add_errors(I18n.t('bulk_import.error.process_error', :type => "#{type} Agent", :num => num,:why =>e.message))
+        end
+        num += 1
+      end
+    end
+    agent_links
   end
 
   def process_do_row
@@ -404,7 +432,19 @@ class BulkImporter
       end
     end
   end
- 
+  def process_extents
+    extents = []
+    cntr = 1
+    substr = ''
+    until @row_hash["number#{substr}"].nil? && @row_hash["extent_type#{substr}"].nil?
+      extent = create_extent(substr)
+      extents << extent if extent
+      cntr +=1
+      substr = "_#{cntr}"
+    end
+    return extents
+  end
+
   def process_row
     ret_str =  resource_match
     # mismatch of resource stops all other processing
@@ -447,10 +487,10 @@ class BulkImporter
         begin
           subj = @sh.get_or_create(@row_hash["subject_#{num}_record_id"],
             @row_hash["subject_#{num}_term"], @row_hash["subject_#{num}_type"], 
-            @row_hash["subject_#{num}_source"], repo_id, num, @report)
+            @row_hash["subject_#{num}_source"], repo_id,  @report)
           ret_subjs.push subj if subj
-        rescue BulkImportException => e
-          @report.add_errors(e.message)
+        rescue Exception => e
+          @report.add_errors(I18n.t('bulk_import.error.process_error', :type => 'Subject',:num => num, :why => e.message ))
         end
       end
     end
