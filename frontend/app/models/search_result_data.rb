@@ -321,6 +321,10 @@ class SearchResultData
     ["subjects", "publish", "level", "classification_path", "primary_type", "langcode"] + Plugins.search_facets_for_type(:resource)
   end
 
+  def self.ARCHIVAL_OBJECT_FACETS
+    ["subjects", "publish", "level", "classification_path", "primary_type"] + Plugins.search_facets_for_type(:archival_object)
+  end
+
   def self.DIGITAL_OBJECT_FACETS
     ["subjects", "publish", "digital_object_type", "level", "primary_type", "langcode"] + Plugins.search_facets_for_type(:digital_object)
   end
