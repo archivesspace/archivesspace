@@ -1255,7 +1255,7 @@ en:
         merge_select_target: Select merge target
         confirm_merge: Confirm Merge Container Profiles
         confirm_merge_question: Are you sure you want to merge the container profiles as listed below? This action is irreversible.
-        confirm_merge_victims: "Merge the following container profile(s):" 
+        confirm_merge_victims: "Merge the following container profile(s):"
         confirm_merge_target: "Into this container profile:"
     name: Name
     name_tooltip: |
