@@ -83,9 +83,9 @@
           <td><%= container_json['exported_to_ils'] %></td>
         <% end %>
         <% if doc['has_location_u_abool'] == true %>
-          <td>Yes</td>
+          <td><%= I18n.t("top_container.bulk_operations.has_location_true") %></td>
         <% else %>
-          <td>No</td>
+          <td><%= I18n.t("top_container.bulk_operations.has_location_false") %></td>
         <% end %>
         <% if show_edit_actions %>
         <td>
