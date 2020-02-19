@@ -187,6 +187,8 @@ class TopContainersController < ApplicationController
 
 
   def bulk_operations_browse
+    @top_container_previous_search = {}
+    
     begin
       results = perform_search if params.has_key?("q")
     rescue MissingFilterException
