@@ -2,7 +2,7 @@
 # This class has the same purpose as ASFop: Turn an XML document into a PDF via Apache FOP.
 # However, due to issues with FOP generating garbled PDF in Windows when running under JRuby, this class calls FOP externally, using system(), bypassing JRuby.
 
-require 'saxon-xslt'
+require 'saxon-rb'
 require 'stringio'
 
 class ASFopExternal
@@ -25,14 +25,18 @@ class ASFopExternal
    @job = job
   end
 
-  def to_fo
-    transformer = Saxon.XSLT(@xslt, system_id: File.join(ASUtils.find_base_directory, 'stylesheets', 'as-ead-pdf.xsl') )
-    transformer.transform(Saxon.XML(@source), {"pdf_image" => "\'#{@pdf_image}\'"}).to_s
+  def saxon_processor
+    @saxon_processor ||= Saxon::Processor.create
+  end
+
+  def to_fo(tempfile)
+    transformer = saxon_processor.xslt_compiler.compile(Saxon::Source.create(File.join(ASUtils.find_base_directory, 'stylesheets', 'as-ead-pdf.xsl')))
+    transformer.apply_templates(Saxon::Source.create(@source), {"pdf_image" => @pdf_image}).serialize(tempfile)
   end
 
   def to_pdf
     # write fo to a tempfile
-    @fo.write(to_fo)
+    to_fo(@fo)
     @fo.close
 
     # execute command to convert PDF to tempfile specified

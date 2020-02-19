@@ -1,5 +1,5 @@
 require 'java'
-require 'saxon-xslt'
+require 'saxon-rb'
 require 'stringio'
 
 
@@ -32,23 +32,29 @@ class ASFop
    @config = StaticAssetFinder.new(File.join('stylesheets')).find('fop-config.xml')
   end
 
+  def saxon_processor
+    @saxon_processor ||= Saxon::Processor.create
+  end
 
-  def to_fo
-    transformer = Saxon.XSLT(@xslt, system_id: File.join(ASUtils.find_base_directory, 'stylesheets', 'as-ead-pdf.xsl') )
-    transformer.transform(Saxon.XML(@source), {"pdf_image" => "\'#{@pdf_image}\'"}).to_s
+  def to_fo(sax_handler)
+    transformer = saxon_processor.xslt_compiler.compile(Saxon::Source.create(File.join(ASUtils.find_base_directory, 'stylesheets', 'as-ead-pdf.xsl')))
+    sax_destination = Saxon::S9API::SAXDestination.new(sax_handler)
+    input = Saxon::Source.create(@source)
+    params = {"pdf_image" => @pdf_image}
+    transformer.apply_templates(input, {initial_template_parameters: params}).to_destination(sax_destination)
+  end
+
+  def fop_processor
+    fopfac = FopFactory.newInstance
+    fopfac.setBaseURL( File.join(ASUtils.find_base_directory, 'stylesheets') )
+    fopfac.setUserConfig(@config)
+    fopfac.newFop(MimeConstants::MIME_PDF, @output.to_outputstream)
   end
 
   # returns a temp file with the converted PDF
   def to_pdf
     begin
-      fo = StringIO.new(to_fo).to_inputstream
-      fopfac = FopFactory.newInstance
-      fopfac.setBaseURL( File.join(ASUtils.find_base_directory, 'stylesheets') )
-      fopfac.setUserConfig(@config)
-      fop = fopfac.newFop(MimeConstants::MIME_PDF, @output.to_outputstream)
-      transformer = TransformerFactory.newInstance.newTransformer()
-      res = SAXResult.new(fop.getDefaultHandler)
-      transformer.transform(StreamSource.new(fo), res)
+      to_fo(fop_processor.getDefaultHandler)
     ensure
      @output.close
     end
@@ -57,14 +63,7 @@ class ASFop
 
   def to_pdf_stream
     begin
-      fo = StringIO.new(to_fo).to_inputstream
-      fopfac = FopFactory.newInstance
-      fopfac.setBaseURL( File.join(ASUtils.find_base_directory, 'stylesheets') )
-      fopfac.setUserConfig(@config)
-      fop = fopfac.newFop(MimeConstants::MIME_PDF, @output.to_outputstream)
-      transformer = TransformerFactory.newInstance.newTransformer()
-      res = SAXResult.new(fop.getDefaultHandler)
-      transformer.transform(StreamSource.new(fo), res)
+      to_fo(fop_processor.getDefaultHandler)
       @output.rewind
       @output.read
     ensure
