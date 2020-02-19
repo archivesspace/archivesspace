@@ -34,6 +34,7 @@
       <th><%= I18n.t("top_container.ils_holding_id") %></th>
       <th><%= I18n.t("top_container.restricted") %></th>
       <th><%= I18n.t("top_container.exported_to_ils") %></th>
+      <th><%= I18n.t("top_container.has_location") %></th>
       <% if show_edit_actions %><th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- Actions --></th><% end %>
     </tr>
   </thead>
@@ -81,7 +82,11 @@
         <% else %>
           <td><%= container_json['exported_to_ils'] %></td>
         <% end %>
-
+        <% if doc['has_location_u_abool'] == true %>
+          <td>Yes</td>
+        <% else %>
+          <td>No</td>
+        <% end %>
         <% if show_edit_actions %>
         <td>
           <div class="btn-group pull-right">

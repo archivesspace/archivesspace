@@ -248,6 +248,7 @@
    <dynamicField name="*_u_sbool"  type="boolean"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_sort"  type="sort_string"  indexed="true"  stored="false" multiValued="false"/>
    <dynamicField name="*_u_ssort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_u_abool"  type="boolean"  indexed="true"  stored="true" multiValued="false"/>
 
    <!-- Field for searching/sorting top container typeahead -->
    <dynamicField name="*_u_typeahead_utext"  type="text_general"  indexed="true"  stored="true" multiValued="false"/>
