@@ -128,8 +128,7 @@ class AgentHandler < Handler
     end
     if !ret_ag
       a_params = {:q => "title:\"#{agent[:name]}\" AND primary_type:agent_#{agent[:type]}"}
-      repo = resource_uri.split('/')[2]
-      ret_ag = search(repo, a_params, "agent_#{agent[:type]}".to_sym,'', "title:#{agent[:name]}")
+      ret_ag = search(nil, a_params, "agent_#{agent[:type]}".to_sym,'', "title:#{agent[:name]}")
     end
     ret_ag
   end

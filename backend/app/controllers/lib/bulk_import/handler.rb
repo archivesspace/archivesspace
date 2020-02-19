@@ -35,11 +35,9 @@ class Handler
     params[:page_size] = 10
     params[:page] = 1
     params[:sort] = ''
-    unless type.empty? && !params[:q]
-      params[:q] = "primary_type:#{type} AND #{params[:q]}"
-    end
-    if repo_id
-      params[:q] = "repository:\"/repositories/#{repo_id}\" AND  #{params[:q]}"
+    unless !params[:q]
+      params[:q] = "primary_type:#{type} AND #{params[:q]}" if !type.empty?
+      params[:q] = "repository:\"/repositories/#{repo_id}\" AND  #{params[:q]}" if repo_id
     end
     begin
       search = Search.search(params,nil)
