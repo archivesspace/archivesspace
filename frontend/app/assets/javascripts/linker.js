@@ -34,13 +34,11 @@ $(function() {
         types: $this.data("types"),
         exclude_ids: $this.data("exclude") || []
       };
-
       config.allow_multiple = config.multiplicity === "many";
 
       if (config.format_template && config.format_template.substring(0,2) != "${") {
         config.format_template = "${" + config.format_template + "}";
       }
-
       var renderCreateFormForObject = function(form_uri) {
         var $modal = $("#"+config.modal_id);
 
@@ -126,7 +124,6 @@ $(function() {
               var $modal = $("#"+config.modal_id);
 
               var $linkerBrowseContainer = $(".linker-container", $modal);
-
               var initBrowseFormInputs = function() {
                 // add some click handlers to allow clicking of the row
                 $(":input[name=linker-item]", $linkerBrowseContainer).each(function() {
@@ -151,10 +148,8 @@ $(function() {
                       $input.closest("tr").addClass("selected");
                     }
                   });
-
                   $("td", $input.closest("tr")).click(function(event) {
                     event.preventDefault();
-
                     $input.trigger("click");
                   });
                 });
@@ -165,14 +160,12 @@ $(function() {
                     .attr("checked","checked")
                     .closest("tr").addClass("selected");
                 });
-
                 $modal.trigger("resize");
               };
 
               $linkerBrowseContainer.html(html);
               $($linkerBrowseContainer).on("click", "a", function(event) {
                 event.preventDefault();
-
                 $linkerBrowseContainer.load(event.target.href, initBrowseFormInputs);
               });
 
@@ -181,7 +174,6 @@ $(function() {
 
                 var $form = $(event.target);
                 var method = ($form.attr("method") || "get").toUpperCase();
-
 
                 if (method == "POST") {
                   jQuery.post($form.attr("action") + ".js",
@@ -223,6 +215,7 @@ $(function() {
         $("#"+config.modal_id).on("click", ".linker-list .pagination .navigation a", function() {
           renderItemsInModal($(this).attr("rel"));
         });
+        // $(".modal-dialog").find("input[type='submit']").click()
         return false; // IE patch
       };
 
@@ -284,14 +277,43 @@ $(function() {
 
       var tokensForPrepopulation = function() {
         if ($this.data("multiplicity") === "one") {
+
+          // HERE IS WHERE I WILL START DOING THE THING
+          let currentPath = window.location.pathname;
+          // If we are on a resource edit page, have an open modal with a collection_resource linker
+          // and are current looking at that specific linker with $this...
+
+
+          // THE BELOW WORKS AND WORKS WHEN SEARCH IS CLICKED. NEXT, WE HAVE TO FIND WHEN TO TRIGGER THE SEARCH
+          // BELOW IS THE JQUERY TO CLICK THE BUTTON: 
+          // $(".modal-dialog").find("input[type='submit']").click()
+          // AHHHHHH
+
+          if (currentPath.match(/^\/resources\/[\s\S]*\/edit$/) && $(".modal-dialog").find("#collection_resource").length > 0 && $this[0].id === "collection_resource") {
+            return [{
+              id: "/repositories/3/resources/9610",
+              name: "Economic Botany Artifacts, Prints and Posters Amber and Amberoid Collection (TEST)",
+              json: {
+                id: "/repositories/3/resources/9610",
+                uri: "/repositories/3/resources/9610",
+                title: "Economic Botany Artifacts, Prints and Posters Amber and Amberoid Collection (TEST)",
+                jsonmodel_type: "resource"
+              }
+            }]
+          }
+
           if ($.isEmptyObject($this.data("selected"))) {
             return [];
           }
+
           return [{
               id: $this.data("selected").uri,
               name: $this.data("selected").display_string || $this.data("selected").title,
               json: $this.data("selected")
           }];
+
+          // HERE IS WHERE I WILL BE DONE DOING THE THING
+
         } else {
           if (!$this.data("selected") || $this.data("selected").length === 0) {
             return [];
@@ -416,12 +438,15 @@ $(function() {
             enableSorting();
             $linkerWrapper.addClass("sortable");
           }
+          let currentPath = window.location.pathname
+          if ($this.context.dataset.label === "Location" && currentPath.match(/^\/resources\/[\s\S]*\/edit$/) && $(".modal-dialog").find("#collection_resource").length > 0 && $(".modal-dialog").find(".table-search-results").length < 1) {
+            $(".modal-dialog").find("input[type='submit']").click()
+          }
         });
-
         addEventBindings();
       };
-
       init();
+      
     });
   };
 });
@@ -438,3 +463,5 @@ $(document).ready(function() {
     $(".linker:not(.initialised)", subform).linker();
   });
 });
+
+// $(".modal-dialog").find("input[type='submit']").click()
