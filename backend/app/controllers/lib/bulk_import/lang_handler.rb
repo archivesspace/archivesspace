@@ -13,7 +13,7 @@ class LangHandler < Handler
   def create_language(lang_val, script, langmaterial, publish, report)
     langs = []
     have_lang = !lang_val.nil?
-    have_note = !langmaterial
+    have_note = !langmaterial.nil?
     if have_lang || have_note
       lang_code = nil
       if !have_lang
