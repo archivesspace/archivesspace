@@ -27,7 +27,7 @@ class Handler
 
    # if repo_id is nil, do a global search (subject and agent)
   # this is using   archivesspace/backend/app/models/search.rb
-  def search(repo_id,params,sym, type = '', match = '')
+  def search(repo_id,params,sym, type = '', match = '', report = nil)
     obj = nil
     search = nil
     matches = match.split(':')
@@ -67,7 +67,7 @@ class Handler
         if match_ct > 1
           if disam_obj
             obj =  disam_obj
-            report.add_info(I18n.t('bulk_import.warn.disam', :name => disam))
+            report.add_info(I18n.t('bulk_import.warn.disamuse', :what => matches[1], :name => disam)) if !report.nil?
           else
             raise  BulkImportDisambigException.new(I18n.t('bulk_import.error.too_many'))
           end

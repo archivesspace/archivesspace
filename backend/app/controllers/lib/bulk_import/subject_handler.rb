@@ -36,6 +36,7 @@ include CrudHelpers
     end
  
     def get_or_create(id, term, type, source, repo_id, report)
+      has_source = !source.nil?
       subject = build(id, term, type, source)
       subject_key = key_for(subject)
       if !(subj = stored(@subjects, subject[:id], subject_key))
@@ -53,11 +54,12 @@ include CrudHelpers
         begin
           if !subj
             begin
-              subj = get_db_subj(subject)
+              subj = get_db_subj(subject, has_source, report)
             rescue Exception => e
               if e.is_a?(BulkImportDisambigException)
-                subject[:term] = subject[:term] + DISAMB_STR
-                report.add_info(I18n.t('bulk_import.warn.disam', :name => subject[:term]))
+                disam = subject[:term] + DISAMB_STR
+                report.add_info(I18n.t('bulk_import.warn.disam', :what => subject[:term], :name => disam))
+                subject[:term] = disam
               else
                 raise e
               end
@@ -65,7 +67,7 @@ include CrudHelpers
           end
           if !subj
             subj = create_subj(subject)
-            report.add_info(I18n.t('bulk_import.created', :what =>"#{I18n.t('bulk_import.subj')}[#{subject[:term]}]", :id => subj.uri))
+            report.add_info(I18n.t('bulk_import.created', :what =>"#{I18n.t('bulk_import.subj')} [#{subject[:term]}]", :id => subj.uri))
           end
         rescue Exception => e
           Log.error(e.backtrace)
@@ -100,9 +102,11 @@ include CrudHelpers
       subj
     end   
 
-    def get_db_subj(subject)
+    def get_db_subj(subject, has_source, report)
       s_params = {}
-      s_params[:q] = "title:\"#{subject[:term]}\" AND term_type_enum_s:\"#{subject[:type]}\" AND source_enum_s:\"#{subject[:source]}\""
-      ret_subj = search(nil, s_params, :subject, 'subject',"title:#{subject[:term]}" )
+      s_params[:q] = "title:\"#{subject[:term]}\" AND term_type_enum_s:\"#{subject[:type]}\""
+      s_params[:q] = "#{s_params[:q]} AND source_enum_s:\"#{subject[:source]}\"" if has_source
+      Log.error("s_params: #{s_params[:q]}")
+      ret_subj = search(nil, s_params, :subject, 'subject',"title:#{subject[:term]}" ,report)
     end
   end

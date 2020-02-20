@@ -36,7 +36,6 @@ class AgentHandler < Handler
    def get_by_id(type, id)
     agent_obj = nil
     model = get_model(type)
-    Log.error("*****Get by id: #{type}, #{id} model: #{model}")
     begin
       agent_obj = model.get_or_die(Integer(id))
     rescue Exception => e
@@ -51,16 +50,16 @@ class AgentHandler < Handler
      if !(agent_obj = stored(@agents, agent[:id], agent_key))
        unless agent[:id].nil?
         agent_obj = get_by_id(type, agent[:id])
-        Log.error("BY ID: agent_object #{agent_obj.pretty_inspect}")
        end
        begin
         if !agent_obj
           begin
-            agent_obj = get_db_agent(agent, resource_uri)
+            agent_obj = get_db_agent(agent, resource_uri, report)
           rescue Exception => e
             if e.message == 'More than one match found in the database'
-              agent[:name] = agent[:name] + DISAMB_STR
-              report.add_info(I18n.t('bulk_import.warn.disam', :name => agent[:name]))
+              disam = agent[:name] + DISAMB_STR              
+              report.add_info(I18n.t('bulk_import.warn.disam', :which => agent[:name], :name => disam))
+              agent[:name] = disam
             else
               raise e
             end
@@ -82,7 +81,6 @@ class AgentHandler < Handler
         @agents[agent_obj.id.to_s] = agent_obj
       end
       @agents[agent_key] = agent_obj
-      Log.error("we don't have a ref? #{agent_obj.pretty_inspect}")
       agent_link = {"ref" => agent_obj.uri}
       begin
          agent_link["role"] = @agent_role.value(agent[:role])
@@ -103,7 +101,6 @@ class AgentHandler < Handler
         end
       end
     end
-    Log.error("*** RETURN agent link? #{agent_link.pretty_inspect}")
     agent_link
    end
 
@@ -113,7 +110,6 @@ class AgentHandler < Handler
       ret_agent.names = [name_obj(agent)]
       ret_agent.publish = !(agent[:id_but_no_name] || agent[:name].end_with?(DISAMB_STR))
       model = get_model(agent[:type])
-      Log.error("ABOUT TO SAVE #{ret_agent.pretty_inspect}")
       ret_agent= save(ret_agent,model)
     rescue Exception => e
        raise Exception.new(I18n.t('bulk_import.error.no_create',  :why => e.message))
@@ -121,7 +117,7 @@ class AgentHandler < Handler
     ret_agent
   end
 
-  def get_db_agent(agent, resource_uri)
+  def get_db_agent(agent, resource_uri, report)
     ret_ag = nil
     if agent[:id]
       ret_ag = get_by_id(agent[:type], agent[:id])
