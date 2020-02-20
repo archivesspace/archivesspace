@@ -2355,7 +2355,8 @@ en:
     processed: The file has been processed 
     warn:
       dup: "Managed Controlled Value List %{which} has multiple instances for the Translation '%{trans}'. '%{used}' will be used as the value."
-      disam: "Multiple match(es) found. Creating %{name} for disabiguation."
+      disam: "Multiple match(es) found for '%{what}'. Creating '%{name}' for disabiguation."
+      disamuse: "Multiple match(es) found for '%{what}'. Using already-created '%{name}' for disabiguation."
       single_date_end: "Single date %{date_str} has end date that will be ignored."
     error:
       date_type: "Date type [%{what}] invalid for %{date_str}. Defaulting to 'inclusive'"
