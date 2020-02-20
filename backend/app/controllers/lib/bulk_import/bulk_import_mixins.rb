@@ -20,7 +20,7 @@ def archival_object_from_ref(ref_id)
   ao = nil
   if !dataset.empty?
     objs = dataset.respond_to?(:all) ? dataset.all : dataset
-    jsonms = model.sequel_to_jsonmodel(objs)
+    jsonms = ArchivalObject.sequel_to_jsonmodel(objs)
     if jsonms.length == 1
       ao = jsonms[0]
     else
@@ -74,38 +74,28 @@ def create_date(dates_label,	date_begin,	date_end,	date_type,	expression,	date_c
   end
   d = JSONModel(:date).new(date)
 end
-def handle_notes(ao, hash)
+def handle_notes(ao, hash, dig_obj = false)
+  @nh = NotesHandler.new
   publish = ao.publish
   errs = []
   notes_keys = hash.keys.grep(/^n_/)
-  notes_keys.each do |key|
-    unless hash[key].nil?
-      content = hash[key]
-      type = key.match(/n_(.+)$/)[1]
-      note_type = @note_types[type]
-      note = JSONModel(note_type[:target]).new
-      pubnote = hash["p_#{type}"]
-      if pubnote.nil?
-        pubnote = publish
-      else
-        pubnote = (pubnote == '1')
-      end
-      note.publish = pubnote
-      note.type = note_type[:value]
-      begin
-        wellformed(content)
-# if the target is multipart, then the data goes in a JSONMODEL(:note_text).content;, which is pushed to the note.subnote array; otherwise it's just pushed to the note.content array
-        if note_type[:target] == :note_multipart
-          inner_note = JSONModel(:note_text).new
-          inner_note.content = content
-          inner_note.publish = pubnote
-          note.subnotes.push inner_note
+  if notes_keys
+    notes_keys.each do |key|
+      unless hash[key].nil?
+        content = hash[key]
+        type = key.match(/n_(.+)$/)[1]
+        pubnote = hash["p_#{type}"]
+        if pubnote.nil?
+          pubnote = publish
         else
-          note.content.push content
+          pubnote = (pubnote == '1')
         end
-        ao.notes.push note
-      rescue Exception => e
-        errs.push(I18n.t('bulk_import.error.bad_note', :type => note_type[:value] , :msg => CGI::escapeHTML( e.message)))
+        begin
+          note = @nh.create_note(type, content, pubnote, dig_obj)
+          ao.notes.push(note) if !note.nil?
+        rescue BulkImportException => bei
+          errs.push([bei.message])
+        end
       end
     end
   end
@@ -130,7 +120,6 @@ module CrudHelpers
   def handle_raw_listing(model, where = {}, current_user)
       dataset = CrudHelpers.scoped_dataset(model, where)
       objs = dataset.respond_to?(:all) ? dataset.all : dataset
-      Log.error("handle raw dataset #{dataset.pretty_inspect}, al? #{dataset.respond_to?(:all)}")
       opts = {:calculate_linked_repositories => current_user.can?(:index_system)}
 
       jsons = model.sequel_to_jsonmodel(objs, opts).map {|json|
