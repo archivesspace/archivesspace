@@ -13,18 +13,15 @@
 <% report.rows.each do |row| %>
 <li><%= row.row %>
    <% unless row.errors.empty? %>
-   <ul style="list-style: none; ">
-     <% row.errors.each do |err| %>
+   <ul style="list-style: none; "><% row.errors.each do |err| %>
 	<li class="bg-danger"><%= err %></li>
-     <% end %><%# of error each %>
-   </ul>
+     <% end %><%# of error each %> </ul>
    <% end %> <%# of unless no errors %>
    <% unless row.info.empty? %>
    <ul style="list-style: none; ">
      <% row.info.each do |info| %>
         <li class="bg-info"><%= info %></li>
-     <% end %><%# of info each %>
-   </ul>
+     <% end %><%# of info each %></ul>
    <% end %> <%# unless no info %>
 
    <% if row.archival_object_id.nil? %>
@@ -37,33 +34,38 @@
 <% end %><%# of row each %>
 </ul>
 <% end %> <%# of rows %>
+<%# we have to pack it in so things don't have a lot of whitespace %>
 
-<textarea id="excel_clip" readonly style="width:1px; height:1px;">
+  <% output = ''
+    report.rows.each do |row| 
+      output += row.row
+      if row.archival_object_id.nil?
+        output += " " + I18n.t('bulk_import.no_ao') if !digital_load
+      else 
+        if digital_load
+          output +=  I18n.t('bulk_import.clip_what', :what =>I18n.t('bulk_import.ao'), :id => row.archival_object_id ,
+            :nm => "'#{row.archival_object_display}'",
+            :ref_id =>  "#{row.ref_id}") 
+        else
+          output += I18n.t('bulk_import.clip_created', :what =>I18n.t('bulk_import.ao'), :id => row.archival_object_id ,
+            :nm => "'#{row.archival_object_display}'",
+           :ref_id =>  "#{row.ref_id}") 
+        end 
+      end 
+      output += "\n"
+      unless row.info.empty?
+        row.info.each do |info| 
+          output += I18n.t('bulk_import.clip_info', :what => info) + "\n"
+        end 
+      end 
+      unless row.errors.empty? 
+        row.errors.each do |err| 
+          output += I18n.t('bulk_import.clip_err', :err => err) + "\n"
+        end 
+      end 
+    end
+  %>
+  <textarea id="excel_clip" readonly style="width:1px; height:1px;">
   <%= I18n.t('bulk_import.clip_header') %>
-  <% report.rows.each do |row| %>
-  <%= row.row %>  
-  <% if row.archival_object_id.nil? %>
-     <%= I18n.t('bulk_import.no_ao') if !digital_load %>
-   <% else %>
-    <% if digital_load %>
-     <%= I18n.t('bulk_import.clip_what', :what =>I18n.t('bulk_import.ao'), :id => row.archival_object_id ,
-         :nm => "'#{row.archival_object_display}'",
-         :ref_id =>  "#{row.ref_id}") %>
-    <% else %>
-     <%= I18n.t('bulk_import.clip_created', :what =>I18n.t('bulk_import.ao'), :id => row.archival_object_id ,
-         :nm => "'#{row.archival_object_display}'",
-         :ref_id =>  "#{row.ref_id}") %>
-    <% end %>
-   <% end %>
-   <% unless row.info.empty? %>
-     <% row.info.each do |info| %> 
-      <%= I18n.t('bulk_import.clip_info', :what => info) %>
-     <% end %>
-   <% end %>
-   <%  unless row.errors.empty? %>
-     <% row.errors.each do |err| %>
-      <%= I18n.t('bulk_import.clip_err', :err => err) %>
-     <% end %>
-   <% end %>
- <% end %>
+  <%= output%>
 </textarea>
