@@ -122,7 +122,7 @@ class BulkImporter
     @doh = DigitalObjectHandler.new(@current_user)
     @sh = SubjectHandler.new(@current_user)
     @ah = AgentHandler.new(@current_user)
-   # @lh = LangHandler.new(@current_user)
+    @lh = LangHandler.new(@current_user)
   end
       
   private
@@ -256,12 +256,15 @@ class BulkImporter
     ao.publish = @row_hash['publish']
     ao.restrictions_apply = @row_hash['restrictions_flag']
     ao.parent = {'ref' => parent_uri} unless parent_uri.nil?
+    # handle language issues
+    langs = process_langs(ao.publish)
+    ao.lang_materials = langs if !langs.empty?
     begin
       ao.extents = process_extents
     rescue Exception => e
       @report.add_errors(e.message)
     end
-    errs =  handle_notes(ao, @row_hash)
+    errs = handle_notes(ao, @row_hash)
     @report.add_errors(errs) if !errs.empty?
     # we have to save the ao for the display_string
     begin
@@ -420,7 +423,9 @@ class BulkImporter
           raise  BulkImportException.new( I18n.t('bulk_import.row_error', :row => @counter, :errs => I18n.t('bulk_import.error.has_dig_obj')))
         end
       end
-      if (dig_instance = DigitalObjectHandler.create(@row_hash, ao, @report))
+      #digital_object_id	digital_object_title	publish	digital_object_link	thumbnail
+
+      if (dig_instance = @doh.create(@row_hash['digital_object_title'], @row_hash['thumbnail'], @row_hash['digital_object_link'], @row_hash['digital_object_id'], @row_hash['publish'],  ao, @report))
         ao.instances ||= []
         ao.instances << dig_instance
         begin
@@ -443,6 +448,20 @@ class BulkImporter
       substr = "_#{cntr}"
     end
     return extents
+  end
+
+  def process_langs(publish)
+    langs = []    
+	  cntr = 1
+	  substr = ''
+    until @row_hash["l_lang#{substr}"].nil? && @row_hash["l_langscript#{substr}"].nil? && @row_hash["n_langmaterial#{substr}"].nil?
+      lang = @lh.create_language(@row_hash["l_lang#{substr}"], @row_hash["l_langscript#{substr}"],@row_hash["n_langmaterial#{substr}"], @row_hash["p_langmaterial#{substr}"], @report)
+      langs.concat(lang) if !lang.empty?
+      @row_hash["n_langmaterial#{substr}"] = nil
+      cntr +=1
+      substr = "_#{cntr}"
+    end
+    return langs
   end
 
   def process_row
