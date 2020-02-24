@@ -288,7 +288,7 @@ $(function() {
           // If we are on a resource edit page, and open a top_container modal with a collection_resource linker
           // then we prepopulate the collection_resource field with resource data necessary to perform the search
           let currentPath = window.location.pathname;
-          if (currentPath.match(/^\/resources\/[\s\S]*\/edit$/) && $(".modal-dialog").find("#collection_resource").length > 0 && $this[0].id === "collection_resource") {
+          if (currentPath.match(/^\/resources\/[\s\S]*\/edit$/) && $(".label.label-info").text() === "Resource" && $(".modal-dialog").find("#collection_resource").length > 0 && $this[0].id === "collection_resource") {
             let currentForm = $("#object_container").find("form").first()
             return [{
               id: currentForm.attr("data-update-monitor-record-uri"),
@@ -439,7 +439,7 @@ $(function() {
           let currentPath = window.location.pathname
           // If this setTimeout is for the last linker in the modal, only then is it safe to execute the search
           let lastLinker = $(".modal-dialog").find(".linker").last()
-          if (lastLinker.attr("id") === $this.context.id && currentPath.match(/^\/resources\/[\s\S]*\/edit$/) && $(".modal-dialog").find("#collection_resource").length > 0 && $(".modal-dialog").find(".table-search-results").length < 1) {
+          if (lastLinker.attr("id") === $this.context.id && currentPath.match(/^\/resources\/[\s\S]*\/edit$/) && $(".label.label-info").text() === "Resource" && $(".modal-dialog").find("#collection_resource").length > 0 && $(".modal-dialog").find(".table-search-results").length < 1) {
             $(".modal-dialog").find("input[type='submit']").click()
           }
         });
