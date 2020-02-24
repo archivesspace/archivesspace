@@ -394,7 +394,7 @@ class BulkImporter
         link = nil
         begin
           link = @ah.get_or_create(type, @row_hash[id_key], @row_hash[header_key],
-            @row_hash["#{type}_relator_#{num}"], @row_hash["#{type}_role_#{num}"], @resource['uri'], @report)
+            @row_hash["#{type}_relator_#{num}"], @row_hash["#{type}_role_#{num}"], @report)
           agent_links.push link if link
         rescue BulkImportException => e
            @report.add_errors(I18n.t('bulk_import.error.process_error', :type => "#{type} Agent", :num => num,:why =>e.message))

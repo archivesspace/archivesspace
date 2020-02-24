@@ -17,7 +17,7 @@ class AgentHandler < Handler
       @agents = {}
     end
     def key_for(agent)
-      key = "#{agent[:type]} #{agent[:name]}"
+      key = "#{agent[:type]}_#{agent[:name]}"
       key
     end
     
@@ -33,28 +33,40 @@ class AgentHandler < Handler
      }
    end
 
+   def get_agent_header(type, agent_obj)
+      if type == 'family'        
+        header = agent_obj.names[0]['family_name']
+      else
+        header = agent_obj.names[0]['primary_name']
+      end
+      header
+   end
    def get_by_id(type, id)
     agent_obj = nil
     model = get_model(type)
     begin
       agent_obj = model.get_or_die(Integer(id))
+      objs = model.sequel_to_jsonmodel([agent_obj])
+      agent_obj = objs[0]
     rescue Exception => e
-      raise BulkImportException.new( I18n.t('bulk_import.error.no_create', :why => e.message))
+      if !e.message.end_with?(' not found')
+        raise BulkImportException.new( I18n.t('bulk_import.error.no_create', :why => e.message))
+      end
     end
     agent_obj
    end
 
-   def get_or_create(type, id, header, relator, role, resource_uri, report)
+   def get_or_create(type, id, header, relator, role, report)
      agent = build(type, id, header, relator, role)
      agent_key = key_for(agent)
-     if !(agent_obj = stored(@agents, agent[:id], agent_key))
+     if !(agent_obj = stored(@agents, "#{agent[:type]}_#{agent[:id]}", agent_key))
        unless agent[:id].nil?
         agent_obj = get_by_id(type, agent[:id])
        end
        begin
         if !agent_obj
           begin
-            agent_obj = get_db_agent(agent, resource_uri, report)
+            agent_obj = get_db_agent(agent, report)
           rescue Exception => e
             if e.message == 'More than one match found in the database'
               disam = agent[:name] + DISAMB_STR              
@@ -76,10 +88,11 @@ class AgentHandler < Handler
     agent_link = nil
     if agent_obj
       if agent[:id_but_no_name]
-       @agents[agent[:id].to_s] = agent_obj
-      else
-        @agents[agent_obj.id.to_s] = agent_obj
+        agent_key = "#{agent[:type]}_#{get_agent_header(type, agent_obj)}"
+        agent[:id_but_no_name] = nil
       end
+      id = "#{agent[:type]}_#{agent[:id]}"
+      @agents[id] = agent_obj
       @agents[agent_key] = agent_obj
       agent_link = {"ref" => agent_obj.uri}
       begin
@@ -117,7 +130,7 @@ class AgentHandler < Handler
     ret_agent
   end
 
-  def get_db_agent(agent, resource_uri, report)
+  def get_db_agent(agent, report)
     ret_ag = nil
     if agent[:id]
       ret_ag = get_by_id(agent[:type], agent[:id])
