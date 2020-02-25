@@ -34,7 +34,6 @@
       <th><%= I18n.t("top_container.ils_holding_id") %></th>
       <th><%= I18n.t("top_container.restricted") %></th>
       <th><%= I18n.t("top_container.exported_to_ils") %></th>
-      <th><%= I18n.t("top_container.has_location") %></th>
       <% if show_edit_actions %><th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- Actions --></th><% end %>
     </tr>
   </thead>
@@ -81,11 +80,6 @@
           <td><%= I18n.t("top_container.not_exported") %></td>
         <% else %>
           <td><%= container_json['exported_to_ils'] %></td>
-        <% end %>
-        <% if doc['has_location_u_abool'] == true %>
-          <td><%= I18n.t("top_container._frontend.bulk_operations.has_location_true") %></td>
-        <% else %>
-          <td><%= I18n.t("top_container._frontend.bulk_operations.has_location_false") %></td>
         <% end %>
         <% if show_edit_actions %>
         <td>
