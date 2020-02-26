@@ -51,7 +51,6 @@ class ContainerInstanceHandler < Handler
 
   def get_db_tc(top_container, resource_uri)
     repo_id = resource_uri.split('/')[2]
-    Log.error("top_container: #{top_container}")
     if !(ret_tc = get_db_tc_by_barcode(top_container[:barcode], repo_id))
       tc_str = "#{top_container[:type]} #{top_container[:indicator]}"
       # tc_str += ": [#{top_container[:barcode]}]" if top_container[:barcode]
@@ -81,7 +80,6 @@ class ContainerInstanceHandler < Handler
     raise  BulkImportException.new(I18n.t('bulk_import.error.missing_instance_type')) if instance_type.nil?
     begin
       tc = get_or_create(type, indicator, barcode, resource_uri, report)
-      Log.error("TC CLASS: #{tc.class.name}")
       sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodeltype' => 'sub_container'}
       %w(2 3).each do |num|
         if subcont["type_#{num}"]
@@ -96,7 +94,6 @@ class ContainerInstanceHandler < Handler
       raise ee
     rescue Exception => e
       msg = e.message #+ "\n" + e.backtrace()[0]
-      Log.error(e.backtrace)
       raise BulkImportException.new(msg)
     end
     instance

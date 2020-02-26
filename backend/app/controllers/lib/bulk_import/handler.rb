@@ -46,7 +46,6 @@ class Handler
       search = {'total_hits' => 0}
     end
     total_hits = search['total_hits'] || 0
-    Log.error("total hits: #{total_hits} \nresults length: #{search['results'].length}")
     if total_hits == 1 #&& !search['results'].empty? # for some reason, you get a hit of '1' but still have 
       obj = ASUtils.json_parse(search['results'][0]['json'])
     elsif  total_hits > 1
