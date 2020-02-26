@@ -19,14 +19,12 @@ DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
 class BulkImporter
 
   def run
-      Log.error('RUN')
       begin
         rows = initialize_info
         while @headers.nil? && (row = rows.next)
           @counter += 1
           if (row[0] && (row[0].value.to_s =~ @start_marker))
             @headers = row_values(row)
-            Log.error("we have headers!")
             begin
               check_for_code_dups
             rescue Exception => e
@@ -136,7 +134,6 @@ class BulkImporter
          archObj = ArchivalObject.create_from_json(ao)
       else
         obj = ArchivalObject.get_or_die(ao.id)
-        Log.error(" archobj: \n\t#{obj.pretty_inspect}")
         archObj = obj.update_from_json(ao)
       end
       objs = ArchivalObject.sequel_to_jsonmodel([archObj])
@@ -148,7 +145,6 @@ class BulkImporter
       Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
       raise e
     end
-    Log.error("revived? #{revived.pretty_inspect}")
     revived
   end
 
@@ -268,9 +264,7 @@ class BulkImporter
     @report.add_errors(errs) if !errs.empty?
     # we have to save the ao for the display_string
     begin
-      Log.error("About to save #{ao.pretty_inspect}")
       ao = ao_save(ao)
-      Log.error("Did we save? #{ao.id}")
     rescue Exception => e
       msg = I18n.t('bulk_import.error.initial_save_error', :title =>ao.title, :msg => e.message)
       raise BulkImportException.new(msg)
@@ -357,7 +351,6 @@ class BulkImporter
     @hier = 1
     unless @digital_load
       @ao = nil
-      Log.error("aoid |#{@opts[:aoid]}|")
       aoid = @opts[:aoid] || nil
       @resource_level = (aoid.nil? || aoid.strip.empty?)
       @first_one = false # to determine whether we need to worry about positioning
@@ -370,14 +363,11 @@ class BulkImporter
         parent = @ao.parent # we need this for sibling/child disabiguation later on
         @parents.set_uri(0, (parent ? ASUtils.jsonmodels_to_hashes(parent)['ref'] : nil))
         @parents.set_uri(1, @ao.uri)
-        @first_one = true
-        Log.error("start_pos: #{@start_position}, parents: #{@parents.pretty_inspect} ")
-      end
+        @first_one = true      end
     end
     @counter = 0
     @rows_processed = 0
     @error_rows = 0
-    Log.error("About to open #{@input_file}")
     workbook = RubyXL::Parser.parse(@input_file)
     sheet = workbook[0]
     rows = sheet.enum_for(:each)

@@ -70,7 +70,6 @@ include CrudHelpers
             report.add_info(I18n.t('bulk_import.created', :what =>"#{I18n.t('bulk_import.subj')} [#{subject[:term]}]", :id => subj.uri))
           end
         rescue Exception => e
-          Log.error(e.backtrace)
           raise BulkImportException.new( I18n.t('bulk_import.error.no_create', :why => e.message))
         end
         if subj
@@ -106,7 +105,6 @@ include CrudHelpers
       s_params = {}
       s_params[:q] = "title:\"#{subject[:term]}\" AND term_type_enum_s:\"#{subject[:type]}\""
       s_params[:q] = "#{s_params[:q]} AND source_enum_s:\"#{subject[:source]}\"" if has_source
-      Log.error("s_params: #{s_params[:q]}")
       ret_subj = search(nil, s_params, :subject, 'subject',"title:#{subject[:term]}" ,report)
     end
   end

@@ -1,4 +1,3 @@
-Log.error("CVLIST Load")
 require 'pp'
 require_relative '../../../model/enumeration'
 require_relative '../../../lib/crud_helpers'

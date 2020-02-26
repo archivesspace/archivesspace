@@ -24,7 +24,6 @@ class ArchivesSpaceService < Sinatra::Base
     report = importer.run
     digital_load = params.fetch(:digital_load)
     digital_load = digital_load.nil? || digital_load.empty? ? false : true
-    Log.error("report: #{report.pretty_inspect}")
     erb :'bulk/bulk_import_response', locals: {report: report, digital_load: digital_load}
   end
 end
