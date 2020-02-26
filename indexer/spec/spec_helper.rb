@@ -1,5 +1,4 @@
 require 'rspec'
-require 'ashttp'
 require 'jsonmodel'
 
 class IndexerEnumSource

@@ -2,8 +2,6 @@ require 'java'
 
 class PdfController <  ApplicationController
 
-  skip_before_action :verify_authenticity_token, only: :resource
-
   PDF_MUTEX = java.util.concurrent.Semaphore.new(AppConfig[:pui_max_concurrent_pdfs])
 
   def resource

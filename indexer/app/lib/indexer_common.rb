@@ -200,6 +200,7 @@ class IndexerCommon
   def add_subjects(doc, record)
     if record['record']['subjects']
       doc['subjects'] = record['record']['subjects'].map {|s| s['_resolved']['title']}.compact
+      doc['subject_uris'] = record['record']['subjects'].collect{|link| link['ref']}
     end
   end
 
@@ -332,10 +333,6 @@ class IndexerCommon
                                           compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
-        if cm = record['record']['collection_management']
-          doc['processing_priority'] = cm['processing_priority']
-          doc['processors'] = cm['processors']
-        end
       end
     }
 
@@ -403,10 +400,6 @@ class IndexerCommon
                                            compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
-        if cm = record['record']['collection_management']
-          doc['processing_priority'] = cm['processing_priority']
-          doc['processors'] = cm['processors']
-        end
       end
 
       if doc['primary_type'] == 'digital_object'
