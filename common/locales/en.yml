@@ -2262,9 +2262,6 @@ en:
         <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
     _singular: Sub Container
     _plural: Sub Containers
-    _frontend:
-      action:
-        add: Add Container Instance
 
   top_container:
     container_profile: Container Profile

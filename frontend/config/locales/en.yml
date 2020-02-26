@@ -568,6 +568,11 @@ en:
       action:
         add: Add Collection Management Fields
 
+  sub_container:
+    _frontend:
+      action:
+        add: Add Container Instance
+
   container:
     _frontend:
       action:
@@ -1065,6 +1070,7 @@ en:
       open_browse: "Open Browse menu"
       open_create: "Open Create menu"
 
+  top_container:
     _frontend:
       section:
         active_restrictions: Active Restrictions
