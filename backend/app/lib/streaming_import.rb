@@ -122,6 +122,58 @@ class StreamingImport
     end
   end
 
+  class MigrationRAPStore
+
+    def initialize(jstream)
+      @jstream = jstream
+      @index = {}
+      @tempfile = Tempfile.new("rapstore")
+
+      build!
+    end
+
+    def build!
+      offset = 0
+      @jstream.each do |rec|
+        next unless rec['jsonmodel_type'] == 'rap'
+
+        attached_to = rec.delete('attached_to')
+
+        # Don't need these now
+        rec.delete('uri')
+        rec.delete('id')
+
+        json_str = ASUtils.to_json(rewrite(rec, {}, nil))
+        @index[attached_to['ref']] = offset
+
+        @tempfile.write(json_str)
+        @tempfile.write("\n")
+
+        offset += json_str.bytesize + 1
+      end
+
+      @tempfile.flush
+    end
+
+    def lookup(import_ref)
+      offset = @index[import_ref]
+
+      return nil unless offset
+
+      @tempfile.seek(offset, :SET)
+      rap = @tempfile.readline
+
+      ASUtils.json_parse(rap)
+    end
+
+    # Copypasta
+    def rewrite(record, logical_urls, root_uri)
+      ASpaceImport::Utils.update_record_references(record, logical_urls, root_uri)
+    end
+
+
+  end
+
 
   def process_migration_mode
     round = 0
@@ -137,6 +189,8 @@ class StreamingImport
 
         create_records_without_relationships(uris_causing_cycles)
       end
+
+      rap_store = MigrationRAPStore.new(@jstream)
 
       # Now we know our data is acyclic, we can run rounds without thinking
       # about it.
@@ -173,12 +227,25 @@ class StreamingImport
           @jstream.each do |rec|
             abort_if_import_canceled
 
+            # We'll handle these ourselves
+            next if rec['jsonmodel_type'] == 'rap'
+
             uri = rec['uri']
             dependencies = @dependencies[uri]
 
             if !@logical_urls[uri] && dependencies.all? {|d| @logical_urls[d]}
               if @ao_positions[uri]
                 rec['position'] = @ao_positions[uri]
+              end
+
+              if rap = rap_store.lookup(rec['uri'])
+                if rap['open_access_metadata']
+                  rap['access_category'] = 'All public records'
+                else
+                  rap['access_category'] = 'N/A'
+                end
+
+                rec['rap_attached'] = rap
               end
 
               # migrate it
