@@ -232,6 +232,17 @@
    <field name="slug" type="string" indexed="true" stored="true" multiValued="false"/>
    <field name="is_slug_auto" type="boolean" indexed="true" stored="true" multiValued="false"/>
 
+   <!-- Job fields -->
+   <field name="status" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="job_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="report_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="owner" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="time_submitted" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="time_started" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="time_finished" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="files" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="filenames" type="string" indexed="true" stored="true" multiValued="true" />
+
    <!-- Enum Fields -->
    <dynamicField name="*_enum_s"  type="string"  indexed="true"  stored="true" multiValued="true"/>
 

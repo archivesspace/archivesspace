@@ -494,6 +494,33 @@ class IndexerCommon
       end
     }
 
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'job'
+        report_type = record['record']['job']['report_type']
+        doc['title'] = record['record']['job_type'] + (report_type ? "_#{report_type}" : '')
+        doc['types'] << record['record']['job_type']
+        doc['types'] << report_type
+        doc['job_type'] = record['record']['job_type']
+        doc['report_type'] = report_type
+        doc['status'] = record['record']['status']
+        doc['owner'] = record['record']['owner']
+        doc['time_submitted'] = record['record']['time_submitted']
+        doc['time_started'] = record['record']['time_started']
+        doc['time_finished'] = record['record']['time_finished']
+
+        filenames = record['record']['job']['filenames'] || []
+        doc['files'] = []
+        doc['filenames'] = []
+        output_files = JSONModel::HTTP::get_json("#{record['record']['uri']}/output_files")
+        output_files.each do |file|
+          job_id = record['record']['uri'].split('/').last
+          link = "/jobs/#{job_id}/file/#{file}"
+          doc['files'] << link
+          doc['filenames'] << (filenames.shift || link)
+        end
+      end
+    }
+
 
     add_document_prepare_hook {|doc, record|
       records_with_classifications = ['resource', 'accession']
