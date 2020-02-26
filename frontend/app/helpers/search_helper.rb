@@ -25,15 +25,11 @@ module SearchHelper
     search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
 
-    if params["multiplicity"]
-      search_params["multiplicity"] = params["multiplicity"]
-    end
+    search_params["multiplicity"] = params["multiplicity"] if params["multiplicity"]
+    search_params["display_identifier"] = true if show_identifier_column?
+    search_params["extra_columns"] = params["extra_columns"] if params["extra_columns"]
 
     sort = (opts["sort"] || params["sort"])
-
-    if show_identifier_column?
-      search_params["display_identifier"] = true
-    end
 
     # if the browse list was sorted by default
     if sort.nil? && !@search_data.nil? && @search_data.sorted?
