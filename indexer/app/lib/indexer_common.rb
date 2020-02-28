@@ -585,6 +585,7 @@ class IndexerCommon
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
         doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
+        doc['top_container_u_typeahead_usort'] = record['record']['display_string']
         doc['barcode_u_sstr'] = record['record']['barcode']
 
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
