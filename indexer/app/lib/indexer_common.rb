@@ -518,6 +518,7 @@ class IndexerCommon
           doc['files'] << link
           doc['filenames'] << (filenames.shift || link)
         end
+        doc['queue_position'] = record['record']['queue_position']
       end
     }
 

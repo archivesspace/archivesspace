@@ -242,6 +242,7 @@
    <field name="time_finished" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="files" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="filenames" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="queue_position" type="int" indexed="true" stored="true" multiValued="false" />
 
    <!-- Enum Fields -->
    <dynamicField name="*_enum_s"  type="string"  indexed="true"  stored="true" multiValued="true"/>
