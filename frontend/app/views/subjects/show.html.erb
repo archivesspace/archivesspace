@@ -33,7 +33,7 @@
         <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @subject.external_documents, :section_id => "subject_external_documents_" } %>
       <% end %>
 
-      <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @subject, :filter_term => {"subjects" => @subject.title}.to_json, :heading_text => I18n.t("subject._frontend.section.search_embedded")} %>
+      <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @subject, :filter_term => {"subject_uris" => @subject.uri}.to_json, :heading_text => I18n.t("subject._frontend.section.search_embedded")} %>
 
       <% if @subject.external_ids.length > 0 && show_external_ids? %>
         <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @subject.external_ids, :section_id => "subject_external_ids_" } %>

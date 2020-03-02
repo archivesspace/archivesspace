@@ -324,6 +324,11 @@ en:
     system_info: System Information
     unpublished: Unpublished
     manage_assessment_attributes: Manage Assessment Attributes
+    toggle_navigation: Toggle Navigation
+
+  header:
+    staff_interface: ArchivesSpace Staff Interface
+
   session:
     gone: Your backend session was not found
     expired: Your session expired due to inactivity
@@ -1047,7 +1052,7 @@ en:
   job:
     _frontend:
       audit_data: Audit Data
-      action:
+      actions:
         create: Create Job
         save: Start Job
         new: New Background Job
@@ -1247,6 +1252,14 @@ en:
         merged: Container Profiles(s) Merged
       section:
         basic_information: Basic Information
+      bulk_operations:
+        merge: Merge Container Profiles
+        merge_instructions: Select the container profile into which all of the other listed container profile(s) will merge. Any linked records will be re-linked to this profile and all information for the other container profile(s) will be deleted.
+        merge_select_target: Select merge target
+        confirm_merge: Confirm Merge Container Profiles
+        confirm_merge_question: Are you sure you want to merge the container profiles as listed below? This action is irreversible.
+        confirm_merge_victims: "Merge the following container profile(s):" 
+        confirm_merge_target: "Into this container profile:"
     name: Name
     name_tooltip: |
         <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>
