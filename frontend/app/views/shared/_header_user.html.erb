@@ -95,14 +95,4 @@
       </div>
     </div>
   </li>
-<% else %>
-  <li class="dropdown login-dropdown <% if params[:login] %>open<% end %>">
-    <a class="session-actions dropdown-toggle" href="#" data-toggle="dropdown"><%= I18n.t("navbar.login") %></a>
-    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-       <%= render_aspace_partial :partial => "shared/login" %>
-       <% if AppConfig[:allow_user_registration] %>
-         <p><%= I18n.t "navbar.register_prefix" %> <%= link_to I18n.t("navbar.register"), {:controller => "users", :action => "new"}, :class => "boring-link" %></p>
-       <% end %>
-    </div>
-  </li>
 <% end %>

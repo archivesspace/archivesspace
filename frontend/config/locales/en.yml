@@ -317,10 +317,6 @@ en:
     repo_preferences: Repository Preferences
     manage_user_access: Manage User Access
     logout: Logout
-    login: Sign In
-    login_expired_link: Please %{link} again.
-    login_fail: Login attempt failed
-    login_success: Login Successful. Redirecting...
     register: Register now
     register_prefix: Need an account?
     list_reports: Reports
@@ -359,6 +355,13 @@ en:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
     message_logged_in: Your friendly archives management tool.
+  
+  login:
+    login: Sign In
+    login_please: Please Sign In
+    login_expired_link: Please %{link} again.
+    login_fail: Login attempt failed
+    login_success: Login Successful. Redirecting...
 
   breadcrumb:
     home: Home

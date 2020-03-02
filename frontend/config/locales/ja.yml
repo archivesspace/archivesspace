@@ -325,10 +325,6 @@ ja:
     repo_preferences: リポジトリの設定
     manage_user_access: ユーザーアクセスを管理する
     logout: ログアウト
-    login: サインイン
-    login_expired_link: "%{link}してください。"
-    login_fail: ログイン試行に失敗しました
-    login_success: ログイン成功。リダイレクト中...
     register: 今すぐ登録
     register_prefix: アカウントが必要です？
     list_reports: レポート
@@ -367,6 +363,13 @@ ja:
     heading: ArchivesSpaceへようこそ
     message: フレンドリーなアーカイブ管理ツール。
     message_logged_in: フレンドリーなアーカイブ管理ツール。
+
+  login:
+    login: サインイン
+    login_please: サインインしてください
+    login_expired_link: "%{link}してください。"
+    login_fail: ログイン試行に失敗しました
+    login_success: ログイン成功。リダイレクト中...
 
   breadcrumb:
     home: ホーム

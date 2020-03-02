@@ -319,10 +319,6 @@ es:
     repo_preferences: Preferencias de repositorio
     manage_user_access: Administrar el acceso de usuario
     logout: Salir
-    login: Iniciar sesión
-    login_expired_link: Por favor %{link} otra vez.
-    login_fail: Fallo de inicio de sesión
-    login_success: Inicio de sesión correcto. Redireccionando...
     register: Regístrese ahora
     register_prefix: ¿Necesita una cuenta?
     list_reports: Informes
@@ -361,6 +357,13 @@ es:
     heading: Bienvenido a ArchivesSpace
     message: Tu herramienta de administración de archivos.
     message_logged_in: Tu herramienta de administración de archivos.
+
+  login:
+    login: Registrarse
+    login_please: Por favor, registrese
+    login_expired_link: Por favor %{link} otra vez.
+    login_fail: Fallo de inicio de sesión
+    login_success: Inicio de sesión correcto. Redireccionando...
 
   breadcrumb:
     home: Página de inicio
