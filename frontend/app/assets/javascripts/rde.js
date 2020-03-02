@@ -990,14 +990,6 @@ $(function() {
             option_text += $colHeader.text();
 
             $option.val($colHeader.attr("id")).text(option_text);
-            if ($(this).hasClass('required')) {
-              $option.attr("disabled", true);
-              var colId = $(this).attr("id");
-              if (VISIBLE_COLUMN_IDS != null && $.inArray(colId, VISIBLE_COLUMN_IDS) < 0) {
-                VISIBLE_COLUMN_IDS.push(colId);
-              }
-              showColumn($(this).attr("columnIndex"));
-            }
             if (select_func($colHeader)) {
               $option.attr("selected", "selected");
             }
