@@ -137,7 +137,7 @@ class TopContainersController < ApplicationController
 
   def bulk_operation_search
     session[:top_container_previous_search] = {}
-    
+
     # Store ONLY needed information from linkers in rails session so it can be repopulated for another search later
     # (The whole record is not saved because they are too big for the rails session and only a few pieces of info are used)
     if params['collection_resource']
@@ -188,7 +188,7 @@ class TopContainersController < ApplicationController
 
   def bulk_operations_browse
     @top_container_previous_search = {}
-    
+
     begin
       results = perform_search if params.has_key?("q")
     rescue MissingFilterException
@@ -348,8 +348,10 @@ class TopContainersController < ApplicationController
     unless params['barcodes'].blank?
       barcode_query = AdvancedQueryBuilder.new
 
+      # Barcode search
       ASUtils.wrap(params['barcodes'].split(" ")).each do |barcode|
         barcode_query.or('barcode_u_sstr', barcode)
+        barcode_query.or('child_container_u_sstr', barcode)
       end
 
       unless barcode_query.empty?
@@ -371,6 +373,7 @@ class TopContainersController < ApplicationController
                                           })
     end
 
+    puts(search_params)
     container_search_url = "#{JSONModel(:top_container).uri_for("")}/search"
     JSONModel::HTTP::get_json(container_search_url, search_params)
   end
