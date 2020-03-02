@@ -11,6 +11,8 @@ class Search
 
 
   def self.all(repo_id, criteria)
+    build_filters(criteria)
+
     criteria["page"] = 1 if not criteria.has_key?("page")
       
     search_data = JSONModel::HTTP::get_json("/repositories/#{repo_id}/search", criteria)
