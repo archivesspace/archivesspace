@@ -277,6 +277,7 @@ module SearchHelper
       @label = label
       @value_block = value_block
       @classes = "col " << (opts[:class] || "")
+      @cell_classes = opts[:cell_class] || ""
       @sortable = opts[:sortable] || false
       @sort_by = opts[:sort_by] || ""
       @search_data = search_data
@@ -309,5 +310,9 @@ module SearchHelper
       @classes
     end
 
+
+    def cell_class
+      @cell_classes
+    end
   end
 end

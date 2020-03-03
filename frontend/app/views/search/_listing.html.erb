@@ -108,7 +108,7 @@
         <% end %>
         <% if extra_columns? %>
           <% extra_columns.each do |col| %>
-            <td><%= col.value_for(result) %></td>
+            <td class="<%= col.cell_class %>"><%= col.value_for(result) %></td>
           <% end %>
         <% end %>
         <% if show_audit_column? %>
