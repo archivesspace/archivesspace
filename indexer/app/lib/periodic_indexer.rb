@@ -186,6 +186,26 @@ class PeriodicIndexer < IndexerCommon
         # we get all the ids of this record type out of the repo
         id_set = JSONModel::HTTP.get_json(JSONModel(type).uri_for, :all_ids => true, :modified_since => modified_since) || ''
 
+        skip_file = "/tmp/skip_#{type}_index_ids.dat"
+        ids_to_skip = []
+
+        if File.exist?(skip_file)
+          $stderr.puts("Loading records to skip from: #{skip_file}")
+
+          File.open(skip_file, "r") do |fh|
+            while skip_id = fh.gets
+              next if skip_id == ''
+              ids_to_skip << Integer(skip_id)
+            end
+          end
+
+          $stderr.puts("Found #{ids_to_skip.length} IDs to skip")
+
+          File.unlink(skip_file)
+        end
+
+        id_set -= ids_to_skip
+
         next if id_set.empty?
 
         indexed_count = 0
