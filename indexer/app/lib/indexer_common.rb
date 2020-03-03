@@ -608,7 +608,7 @@ class IndexerCommon
             end
             if instance['sub_container']['type_3']
               doc['grand_child_container_u_sstr'] ||= []
-              doc['grand_child_container_u_sstr'] << "#{instance['sub_container']['type_3']} #{instance['sub_container']['indicator_2']}"
+              doc['grand_child_container_u_sstr'] << "#{instance['sub_container']['type_3']} #{instance['sub_container']['indicator_3']}"
             end
           end
         }
