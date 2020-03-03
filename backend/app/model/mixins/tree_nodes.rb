@@ -65,7 +65,7 @@ module TreeNodes
       current_physical_position = self.position
       current_logical_position = ordered_siblings.where { position < current_physical_position }.count
 
-      # If we are already are the correct logical position, do nothing
+      # If we are already at the correct logical position, do nothing
       return if (target_logical_position == current_logical_position)
 
       # We'll determine which node will fall to the left of our moved node, and
@@ -170,22 +170,11 @@ module TreeNodes
       # change the root record on the fly.  I guess we'll allow this...
       extra_values = extra_values.merge(self.class.determine_tree_position_for_new_node(json))
     else
-      if !json.position
-        # The incoming JSON had no position set.  Just keep what we already had.
-        extra_values['position'] = self.position
-      end
+      # ensure we retain the current (physical) position when updating the record
+      extra_values['position'] = self.position
     end
 
-    # Save the logical position to use in setting the position further on.
-    logical_position = json.position
-
-    # Reset json.position to physical position before saving to the database
-    json.position = self.position
-
     obj = super(json, extra_values, apply_nested_records)
-
-    # Set json.position back to logical position for any further processing
-    json.position = logical_position
 
     if json.position
       # Our incoming JSON wants to set the position.  That's fine
