@@ -26,8 +26,10 @@ module SearchHelper
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
 
     search_params["multiplicity"] = params["multiplicity"] if params["multiplicity"]
-    search_params["display_identifier"] = true if show_identifier_column?
+    search_params["display_identifier"] = true if params[:display_identifier] || show_identifier_column?
+    search_params["hide_audit_info"] = hide_audit_info?
     search_params["extra_columns"] = params["extra_columns"] if params["extra_columns"]
+    search_params["show_context_column"] = params["show_context_column"] if params["show_context_column"]
 
     sort = (opts["sort"] || params["sort"])
 
@@ -97,6 +99,9 @@ module SearchHelper
     @display_context
   end
 
+  def hide_audit_info?
+    @hide_audit_info
+  end
 
   def context_column_header_label
     @context_column_header or I18n.t("search_results.context")
@@ -237,6 +242,9 @@ module SearchHelper
     !@extra_columns.empty?
   end
 
+  def has_identifier? type
+    IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP.key? type
+  end
 
   class ExtraColumn
 
