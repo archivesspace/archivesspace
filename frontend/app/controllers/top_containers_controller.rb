@@ -126,7 +126,7 @@ class TopContainersController < ApplicationController
 
     search_params = search_params.merge(search_filter_for(params[:uri]))
 
-    search_params = search_params.merge("sort" => "top_container_u_typeahead_utext asc")
+    search_params = search_params.merge("sort" => "top_container_u_typeahead_usort asc")
 
     render :json => Search.all(session[:repo_id], search_params)
   end
