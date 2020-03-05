@@ -882,6 +882,7 @@ ja:
 
   date_type_bulk:
     <<: *date_attributes
+    bulk: バルク
 
   date_type_inclusive:
     <<: *date_attributes
