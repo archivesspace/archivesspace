@@ -26,15 +26,9 @@
         <div class="btn btn-inline-form">
           <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
         </div>
-        <% if @agent.publish %>
-          <div class="btn btn-inline-form">
-            <% if AppConfig[:use_human_readable_urls] && !@agent['slug'].nil? && !@agent['slug'].empty? %>
-              <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], 'agents', @agent['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
-            <% else %>
-              <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @agent.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
-            <% end %>
-          </div>
-        <% end %>
+
+        <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
+
         <% if user_can?('merge_agent_record') %>
           <%=
           render_aspace_partial :partial => "agents/merge_dropdown",
