@@ -334,10 +334,25 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
   # A list of all DB columns that might contain a foreign key reference to a
   # record of type 'model'.
+  MODEL_COLUMNS_CACHE = java.util.concurrent.ConcurrentHashMap.new(128)
+
   def self.reference_columns_for(model)
-    self.db_schema.keys.select { |column_name|
-      column_name.to_s.downcase =~ /\A#{model.table_name.downcase}_id(_[0-9]+)?\z/
-    }
+    key = [self, model]
+
+    if columns = MODEL_COLUMNS_CACHE.get(key)
+      columns
+    else
+      MODEL_COLUMNS_CACHE.put(key,
+                              self.db_schema.keys.select { |column_name|
+                                [
+                                  model.table_name.downcase.to_s + "_id",
+                                  model.table_name.downcase.to_s + "_id_0",
+                                  model.table_name.downcase.to_s + "_id_1",
+                                ].include?(column_name.to_s.downcase)
+                              })
+
+      MODEL_COLUMNS_CACHE.get(key)
+    end
   end
 
 
@@ -391,6 +406,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
         end
       }
     }
+
+    raise "Failed to find a URI for other referent in #{self}: #{obj.id}"
   end
 
 
