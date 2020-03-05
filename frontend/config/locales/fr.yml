@@ -204,6 +204,7 @@ fr:
       assessment_survey_year: Année du passage en revue
       assessment_record_types: Type de notices
       assessment_completed: Effectué
+      langcode: Langue des matériaux
     help:
       row_selection: Cliquez sur une rangée pour la sélectionner en vue d'opérations en masse. Maintenir la touche alt pressée tout en cliquant une case à cocher pour sélectionner ou déselectionner plusieurs rangées précédentes.
 

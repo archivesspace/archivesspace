@@ -206,6 +206,7 @@ es:
       assessment_survey_year: Año de encuesta
       assessment_record_types: Tipo de registro
       assessment_completed: Terminado
+      langcode: Lenguaje de materiales
     help:
       row_selection: Haga clic en una fila para seleccionarla para operaciones masivas. Mantenga la tecla ALT mientras hace clic en una casilla de verificación para seleccionar o anular la selección, múltiples filas anteriores.
 

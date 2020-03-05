@@ -213,6 +213,7 @@ ja:
       assessment_survey_year: 調査年
       assessment_record_types: レコードタイプ
       assessment_completed: 完了しました
+      langcode: 材料の言語
     help:
       row_selection: 一括操作のために行をクリックして選択します。 Altキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
 
