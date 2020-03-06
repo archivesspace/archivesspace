@@ -20,4 +20,12 @@ describe "Controlled Value List" do
     value = subject_sources.value("Local sources")
     expect(value).to eq("local")
   end
+
+  it "should throw and exception for an invalid translation or value" do
+    expect {
+      current_user = User.find(:username => "admin")
+      subject_sources = CvList.new("subject_source", current_user)
+      value = subject_sources.value("Universal sources")
+    }.to raise_error(Exception)
+  end
 end
