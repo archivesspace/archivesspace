@@ -1159,6 +1159,8 @@ ja:
     not_exported: エクスポートされません
     restricted: 制限されていますか？
     parent: 親コンテナ
+    has_location: 場所がある
+
     managed_container_2_type: 子コンテナタイプ
     managed_container_2_type_tooltip: "<p>記載された材料が格納されている第2レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
       </p>"
@@ -1234,6 +1236,8 @@ ja:
         delete_n_records: "%{n}レコードを削除する"
         update_locations_current_location: 現在位置
         update_locations_new_location: 新しい場所
+        has_location_true: はい
+        has_location_false: 番号
 
   container_profile:
     _singular: コンテナプロファイル

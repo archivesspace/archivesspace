@@ -1,6 +1,9 @@
 //= require jquery.tokeninput
 
 $(function() {
+  let resource_edit_path_regex = /^\/resources\/\d+\/edit$/
+  let on_resource_edit_path = window.location.pathname.match(resource_edit_path_regex)
+
   $.fn.linker = function() {
     $(this).each(function() {
       var $this = $(this);
@@ -284,6 +287,27 @@ $(function() {
 
       var tokensForPrepopulation = function() {
         if ($this.data("multiplicity") === "one") {
+
+          // If we are on a resource edit page, and open a top_container modal with a collection_resource linker
+          // then we prepopulate the collection_resource field with resource data necessary to perform the search
+          let onResource = $(".label.label-info").text() === "Resource"
+          let modalHasResource = $(".modal-dialog").find("#collection_resource").length > 0
+          let idMatches = $this[0].id === "collection_resource"
+          
+          if (on_resource_edit_path && onResource && modalHasResource && idMatches) {
+            let currentForm = $("#object_container").find("form").first()
+            return [{
+              id: currentForm.attr("data-update-monitor-record-uri"),
+              name: $("#resource_title_").text(),
+              json: {
+                id: currentForm.attr("data-update-monitor-record-uri"),
+                uri: currentForm.attr("data-update-monitor-record-uri"),
+                title: $("#resource_title_").text(),
+                jsonmodel_type: "resource"
+              }
+            }]
+          }
+
           if ($.isEmptyObject($this.data("selected"))) {
             return [];
           }
@@ -415,6 +439,18 @@ $(function() {
           if (config.sortable && config.allow_multiple) {
             enableSorting();
             $linkerWrapper.addClass("sortable");
+          }
+
+          // This is part of automatically executing a search for the current resource on the browse top containers modal when opened from the edit resource page.
+          // If this setTimeout is for the last linker in the modal, only then is it safe to execute the search
+          let lastLinker = $(".modal-dialog").find(".linker").last()
+          let isLastLinker = lastLinker.attr("id") === $this.context.id
+          let onResource = $(".label.label-info").text() === "Resource"
+          let modalHasResource = $(".modal-dialog").find("#collection_resource").length > 0
+          let resultsEmpty = $(".modal-dialog").find(".table-search-results").length < 1
+
+          if (on_resource_edit_path && onResource && modalHasResource && resultsEmpty && isLastLinker) {
+            $(".modal-dialog").find("input[type='submit']").click()
           }
         });
 

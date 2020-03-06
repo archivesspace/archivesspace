@@ -1157,6 +1157,7 @@ es:
     not_exported: No exportado
     restricted: Restringido?
     parent: Contenedor padre
+    has_location: Tiene ubicación
 
     managed_container_2_type: Tipo de contenedor hijo
     managed_container_2_type_tooltip: |
@@ -1238,6 +1239,8 @@ es:
         delete_n_records: "Borrar %{n} registros"
         update_locations_current_location: Ubicación actual
         update_locations_new_location: Nueva ubicación
+        has_location_true: "Si"
+        has_location_false: "No"
 
   container_profile:
     _singular: Perfil de contenedor

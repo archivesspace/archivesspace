@@ -1155,6 +1155,7 @@ fr:
     not_exported: Non exporté
     restricted: Soumis à des restrictions?
     parent: conditionnement parent
+    has_location: A un emplacement
 
     managed_container_2_type: Type de conditionnement fils
     managed_container_2_type_tooltip: |
@@ -1236,6 +1237,8 @@ fr:
         delete_n_records: "Supprimer %{n} notices"
         update_locations_current_location: Localisation actuelle
         update_locations_new_location: Nouvelle localisation
+        has_location_true: "Oui"
+        has_location_false: "Non"
 
   container_profile:
     _singular: Profil de conditionnement

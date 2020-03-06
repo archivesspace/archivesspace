@@ -372,7 +372,12 @@ class IndexerCommon
         doc['floor'] = record['record']['floor']
         doc['room'] = record['record']['room']
         doc['area'] = record['record']['area']
-      end
+       if record['record']['owner_repo']
+         repo = JSONModel::HTTP.get_json(record['record']['owner_repo']['ref'])
+          doc['owner_repo_uri_u_sstr'] = record['record']['owner_repo']['ref']
+          doc['owner_repo_display_string_u_ssort'] = repo["repo_code"]
+       end
+       end
     }
 
     add_document_prepare_hook {|doc, record|
@@ -566,6 +571,7 @@ class IndexerCommon
         end
 
         if record['record']['container_locations'].length > 0
+          doc['has_location_u_abool'] = true
           record['record']['container_locations'].each do |container_location|
             if container_location['status'] == 'current'
               doc['location_uri_u_sstr'] = container_location['ref']
@@ -573,11 +579,14 @@ class IndexerCommon
               doc['location_display_string_u_sstr'] = container_location['_resolved']['title']
             end
           end
+        else
+          doc['has_location_u_abool'] = false
         end
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
-        doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
+        doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
+        doc['top_container_u_typeahead_usort'] = record['record']['display_string']
         doc['barcode_u_sstr'] = record['record']['barcode']
 
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
@@ -601,7 +610,7 @@ class IndexerCommon
             end
             if instance['sub_container']['type_3']
               doc['grand_child_container_u_sstr'] ||= []
-              doc['grand_child_container_u_sstr'] << "#{instance['sub_container']['type_3']} #{instance['sub_container']['indicator_2']}"
+              doc['grand_child_container_u_sstr'] << "#{instance['sub_container']['type_3']} #{instance['sub_container']['indicator_3']}"
             end
           end
         }
@@ -900,6 +909,7 @@ class IndexerCommon
     out = value.gsub(/<[^>]+>/, '')
     out.gsub!(/-/, ' ')
     out.gsub!(/[^\w\s]/, '')
+    out.gsub!(/\s+/, ' ')
     out.strip
   end
 

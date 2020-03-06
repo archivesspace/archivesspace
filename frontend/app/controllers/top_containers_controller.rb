@@ -10,6 +10,31 @@ class TopContainersController < ApplicationController
 
 
   def index
+    # If there was a previous top_container search, we prepopulate the form with the filled-in linkers and a search is executed in top_containers.bulk.js
+    @top_container_previous_search = {}
+
+    if session[:top_container_previous_search] && session[:top_container_previous_search] != {}
+      if session[:top_container_previous_search]["resource"]
+        @top_container_previous_search["resource"] = session[:top_container_previous_search]["resource"]
+        @top_container_previous_search["resource"]["id"] = @top_container_previous_search["resource"]["uri"]
+      end
+
+      if session[:top_container_previous_search]["accession"]
+        @top_container_previous_search["accession"] = session[:top_container_previous_search]["accession"]
+        @top_container_previous_search["accession"]["id"] = @top_container_previous_search["accession"]["uri"]
+      end
+
+      if session[:top_container_previous_search]["container_profile"]
+        @top_container_previous_search["container_profile"] = session[:top_container_previous_search]["container_profile"]
+        @top_container_previous_search["container_profile"]["id"] = @top_container_previous_search["container_profile"]["uri"]
+      end
+
+      if session[:top_container_previous_search]["location"]
+        @top_container_previous_search["location"] = session[:top_container_previous_search]["location"]
+        @top_container_previous_search["location"]["id"] = @top_container_previous_search["location"]["uri"]
+      end
+    end
+
   end
 
 
@@ -95,11 +120,13 @@ class TopContainersController < ApplicationController
 
   def typeahead
     search_params = params_for_backend_search
+    search_params["q"] = "*" + search_params["q"].gsub(/[^0-9A-Za-z]/, '').downcase + "*"
 
-    search_params["q"] = "display_string:#{search_params["q"]}"
+    search_params["q"] = "top_container_u_typeahead_utext:#{search_params["q"]}"
 
     search_params = search_params.merge(search_filter_for(params[:uri]))
-    search_params = search_params.merge("sort" => "typeahead_sort_key_u_sort asc")
+
+    search_params = search_params.merge("sort" => "top_container_u_typeahead_usort asc")
 
     render :json => Search.all(session[:repo_id], search_params)
   end
@@ -109,6 +136,46 @@ class TopContainersController < ApplicationController
 
 
   def bulk_operation_search
+    session[:top_container_previous_search] = {}
+    
+    # Store ONLY needed information from linkers in rails session so it can be repopulated for another search later
+    # (The whole record is not saved because they are too big for the rails session and only a few pieces of info are used)
+    if params['collection_resource']
+      previous_resource = JSON.parse(params["collection_resource"]["_resolved"])
+      session[:top_container_previous_search]["resource"] = {
+          "uri" => previous_resource["uri"],
+          "title" => previous_resource["title"],
+          "jsonmodel_type" => previous_resource["jsonmodel_type"]
+        }
+    end
+
+    if params["collection_accession"]
+      previous_accession  = JSON.parse(params['collection_accession']['_resolved'])
+      session[:top_container_previous_search]["accession"] = {
+        "uri" => previous_accession["uri"],
+        "title" => previous_accession["title"],
+        "jsonmodel_type" => previous_accession["jsonmodel_type"]
+      }
+    end
+
+    if params["container_profile"]
+      previous_container_profile = JSON.parse(params['container_profile']['_resolved'])
+      session[:top_container_previous_search]["container_profile"] = {
+        "uri" => previous_container_profile["uri"],
+        "title" => previous_container_profile["title"],
+        "jsonmodel_type" => previous_container_profile["jsonmodel_type"]
+      }
+    end
+
+    if params["location"]
+      previous_location = JSON.parse(params['location']['_resolved'])
+      session[:top_container_previous_search]['location'] = {
+        "uri" => previous_location["uri"],
+        "title" => previous_location["title"],
+        "jsonmodel_type" => previous_location["jsonmodel_type"]
+      }
+    end
+
     begin
       results = perform_search
     rescue MissingFilterException
@@ -120,6 +187,8 @@ class TopContainersController < ApplicationController
 
 
   def bulk_operations_browse
+    @top_container_previous_search = {}
+    
     begin
       results = perform_search if params.has_key?("q")
     rescue MissingFilterException
@@ -286,6 +355,10 @@ class TopContainersController < ApplicationController
       unless barcode_query.empty?
         builder.and(barcode_query)
       end
+    end
+
+    unless params['has_location'].blank?
+      builder.and('has_location_u_abool', (params['has_location'] == "yes" ? true : false), 'boolean')
     end
 
     if builder.empty? && params['q'].blank?
