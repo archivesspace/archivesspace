@@ -92,6 +92,7 @@ module TestUtils
     java_opts += ' -Xmx600m'
     pid = Process.spawn({ 'JAVA_OPTS' => java_opts }, find_ant, *build_args)
     TestUtils.wait_for_url("http://localhost:#{port}")
+    puts "Backend started with pid: #{pid}"
 
     pid
   end
@@ -109,6 +110,7 @@ module TestUtils
                         find_ant, *build_args)
 
     TestUtils.wait_for_url("http://localhost:#{port}")
+    puts "Frontend started with pid: #{pid}"
 
     pid
   end
@@ -124,6 +126,7 @@ module TestUtils
                         "-Daspace.public.port=#{port}")
 
     TestUtils.wait_for_url("http://localhost:#{port}")
+    puts "Public started with pid: #{pid}"
 
     pid
   end

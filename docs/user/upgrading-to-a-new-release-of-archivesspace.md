@@ -26,7 +26,7 @@ For example, on Mac OS X or Linux:
 
      $ mkdir archivesspace-1.5.x
      $ cd archivesspace-1.5.x
-     $ curl -O https://github.com/archivesspace/archivesspace/releases/download/v1.5.x/archivesspace-v1.5.x.zip
+     $ curl -LJO https://github.com/archivesspace/archivesspace/releases/download/v1.5.x/archivesspace-v1.5.x.zip
      $ unzip -x archivesspace-v1.5.x.zip
 
 ( The curl step is optional and simply downloads the distribution from github. You can also

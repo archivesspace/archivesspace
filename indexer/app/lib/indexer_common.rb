@@ -200,6 +200,7 @@ class IndexerCommon
   def add_subjects(doc, record)
     if record['record']['subjects']
       doc['subjects'] = record['record']['subjects'].map {|s| s['_resolved']['title']}.compact
+      doc['subject_uris'] = record['record']['subjects'].collect{|link| link['ref']}
     end
   end
 

@@ -38,7 +38,9 @@ module SlugHelpers
 
   # remove invalid chars and truncate slug
   # NOTE: If changes are made here, then they should be also made in
-  # migration 120 and spec_slugs_helper.rb
+  # spec_slugs_helper.rb. Also, there may need to be a new migration
+  # if the cleaning changes need to be done on repository slugs,
+  # eg. migration 129
   def self.clean_slug(slug)
 
     if slug

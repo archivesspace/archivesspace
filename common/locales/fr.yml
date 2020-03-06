@@ -2071,7 +2071,7 @@ fr:
     import_type_accession_csv: Entrée CSV
     import_type_digital_object_csv: Objet numérique CSV
     import_type_eac_xml: EAC
-    import_type_location: Location CSV
+    import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML (Ressource)
     import_type_marcxml_accession: MarcXML (Entrée)
     import_type_marcxml_subjects_and_agents: MarcXML (sujets et agents uniquement)

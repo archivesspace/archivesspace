@@ -96,7 +96,6 @@ class Driver
   def login(user, expect_fail = false)
     go_home
     @driver.wait_for_ajax
-    @driver.find_element(:link, 'Sign In').click
     @driver.clear_and_send_keys([:id, 'user_username'], user.username)
     @driver.clear_and_send_keys([:id, 'user_password'], user.password)
 
@@ -114,7 +113,6 @@ class Driver
     begin
       @driver.manage.delete_all_cookies
       @driver.navigate.to @frontend
-      @driver.find_element(:link, 'Sign In')
     rescue Exception => e
       if tries > 0
         puts "logout failed... try again! #{tries} tries left."
