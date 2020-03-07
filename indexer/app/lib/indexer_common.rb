@@ -737,6 +737,20 @@ class IndexerCommon
         doc['title_sort'] = doc['assessment_id'].to_s.rjust(10, '0')
       end
     }
+
+
+    add_document_prepare_hook {|doc, record|
+      doc['langcode'] ||= []
+      if record['record'].has_key?('lang_materials') and record['record']['lang_materials'].is_a?(Array)
+        record['record']['lang_materials'].each { |langmaterial|
+          if langmaterial.has_key?('language_and_script')
+            doc['langcode'].push(langmaterial['language_and_script']['language'])
+          end
+        }
+        doc['langcode'].uniq!
+      end
+    }
+
   end
 
 
