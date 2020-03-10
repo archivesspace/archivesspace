@@ -93,7 +93,7 @@
         <% end %>
 
         <% if @resource.notes.length > 0 %>
-          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => @resource.notes, :context => readonly } %>
+          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => @resource.notes, :context => readonly, :section_id => 'resource_notes_' } %>
         <% end %>
 
         <% if @resource.external_documents.length > 0 %>
