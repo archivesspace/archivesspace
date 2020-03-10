@@ -83,6 +83,7 @@ ja:
   search_results:
     page_title: 見つかった%{count}結果
     results_head: "%{type} ： %{start} - %{end}の%{total}"
+    result: 結果
     results: 結果
     head_prefix: 見つかった
     head_suffix: 結果
