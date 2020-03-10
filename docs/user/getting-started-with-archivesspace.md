@@ -12,10 +12,9 @@ ArchivesSpace has been tested on Ubuntu Linux, Mac OS X, and
 Windows.
 
 MySQL is not required, but is **strongly** recommended for production use.
+MariaDB is another relational database currently in use by community members so there is some community support for version 10.4.10 only.
 
-**The embedded database is for testing purposes only. You should use MySQL for
-any data intended for production, including data in a test instance that you
-intend to move over to a production instance.**
+**The embedded database is for testing purposes only. You should use MySQL or MariaDB for any data intended for production, including data in a test instance that you intend to move over to a production instance.**
 
 ## Getting started
 
@@ -28,8 +27,8 @@ You will need to have Java 1.8 installed on your machine.
 You can check your Java version by running the command:
 
      java -version
-     
-If you are running an earlier version of java upgrade to 1.8 (not the newest version). If you are running a newer version of Java you should revert back to 1.8 or force your machine to use 1.8 for ArchivesSpace. 
+
+If you are running an earlier version of java upgrade to 1.8 (not the newest version). If you are running a newer version of Java you should revert back to 1.8 or force your machine to use 1.8 for ArchivesSpace.
 
 When you extract the `.zip` file, it will create a directory called
 `archivesspace`.  To run the system, just execute the appropriate

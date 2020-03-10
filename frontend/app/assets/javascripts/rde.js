@@ -990,14 +990,6 @@ $(function() {
             option_text += $colHeader.text();
 
             $option.val($colHeader.attr("id")).text(option_text);
-            if ($(this).hasClass('required')) {
-              $option.attr("disabled", true);
-              var colId = $(this).attr("id");
-              if (VISIBLE_COLUMN_IDS != null && $.inArray(colId, VISIBLE_COLUMN_IDS) < 0) {
-                VISIBLE_COLUMN_IDS.push(colId);
-              }
-              showColumn($(this).attr("columnIndex"));
-            }
             if (select_func($colHeader)) {
               $option.attr("selected", "selected");
             }
@@ -1049,7 +1041,24 @@ $(function() {
             AS.prefixed_cookie(COOKIE_NAME_VISIBLE_COLUMN, JSON.stringify(VISIBLE_COLUMN_IDS));
           }
         });
+        
+        function disableRequiredColumns() {
+          // Don't allow omitting required fields in RDE templates
+          // by disabling the bootstratp-multiselect.js generated
+          // list items and checkboxes that represent required RDE columns
+          var $requiredColumns = $.makeArray($(".fieldset-labels th.required", $rde_form));
 
+          $requiredColumns.forEach(function(column) {
+            var id = column.id;
+            var checkboxSelector = "input[type='checkbox'][value=" + id + "]";
+            var $li = $("li").has(checkboxSelector);
+            var $input = $(checkboxSelector);
+            $li.addClass("disabled");
+            $input.prop({ disabled: true });
+          })
+        }
+
+        disableRequiredColumns();
         applyPersistentVisibleColumns();
       };
 

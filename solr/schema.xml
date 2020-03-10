@@ -70,6 +70,7 @@
    <field name="system_generated" type="boolean" indexed="true" stored="true" multiValued="false" />
 
    <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="subject_uris" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="published_agents" type="string" indexed="true" stored="true" multiValued="true"/>
@@ -260,6 +261,7 @@
 
    <!-- Field for searching/sorting top container typeahead -->
    <dynamicField name="*_u_typeahead_utext"  type="text_general"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_u_typeahead_usort"  type="sort_icu"  indexed="true"  stored="true" multiValued="false"/>
 
    <!-- ASpace Custom Dynamics -->
    <dynamicField name="*_relator_sort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>

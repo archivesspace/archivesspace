@@ -108,7 +108,7 @@
         <%= show_plugins_for(@agent, readonly) %>
 
 
-        <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"agents" => @agent.title}.to_json, :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
+        <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"agent_uris" => @agent.uri}.to_json, :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"rights_statement_agent_uris" => @agent.uri}.to_json, :heading_text => I18n.t("agent._frontend.section.linked_via_rights_statement")} %>
 
