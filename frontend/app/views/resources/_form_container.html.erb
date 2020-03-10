@@ -85,7 +85,7 @@
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_accessions", :template => "resource_related_accessions"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "resource_linked_agent"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
-<%= render_aspace_partial :partial => "notes/form", :locals => {:form => form} %>
+<%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :section_id => 'resource_notes_'} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "metadata_rights_declarations"} %>
