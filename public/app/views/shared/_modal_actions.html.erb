@@ -1,8 +1,7 @@
 <%# using clipboard.js: https://clipboardjs.com/ %>
 <%# shared modal(s) %>
-<% if @result.respond_to?(:cite) && @result.cite %>
-<%= render partial: 'shared/modal', locals: {:modal_id => 'cite_modal', :title => t('actions.cite'), 
-                    :modal_body => @result.cite} %>
+<% if @result.respond_to?(:cite) && @result.cite_item && @result.cite_item_description %>
+  <%= render partial: 'cite/modal_tabbed', locals: {:modal_id => 'cite_modal', :title => t('actions.cite'), :cite_item => @result.cite_item, :cite_item_description => @result.cite_item_description} %>
 <%# using clipboard.js: https://clipboardjs.com/ %>
 <script type ="text/javascript" >setupCite("cite_modal", "<%= t('actions.clipboard') %>")</script>
 <% end %>
