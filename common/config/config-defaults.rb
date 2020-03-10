@@ -525,6 +525,10 @@ AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
 
+# Enable / disable search-in-collection form in sidebar when viewing records
+AppConfig[:pui_search_collection_from_archival_objects] = false
+AppConfig[:pui_search_collection_from_collection_organization] = false
+
 # when a user is authenticated, add a link back to the staff interface from the specified record
 AppConfig[:pui_enable_staff_link] = true
 # by default, staff link will open record in staff interface in edit mode,
