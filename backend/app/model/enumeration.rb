@@ -36,6 +36,10 @@ class Enumeration < Sequel::Model(:enumeration)
 
     old_enum_value = self.enumeration_value.find {|val| val[:value] == old_value}
 
+    if old_enum_value.nil?
+      raise NotFoundException.new("Can't find a value '#{old_value}' in enumeration #{self.id}")
+    end
+
     if old_enum_value.readonly != 0
       raise EnumerationMigrationFailed.new("Can't transfer from a read-only enumeration value")
     end
