@@ -31,13 +31,13 @@ class Enumeration < Sequel::Model(:enumeration)
   def migrate(old_value, new_value)
     is_editable = ( self.editable === 1 or self.editable == true )
     if !is_editable
-      raise AccessDeniedException.new("Can't migrate values for non-editable enumeration #{self.id}")
+      raise EnumerationMigrationFailed.new("Can't migrate values for non-editable enumeration #{self.id}")
     end
 
     old_enum_value = self.enumeration_value.find {|val| val[:value] == old_value}
 
     if old_enum_value.readonly != 0
-      raise AccessDeniedException.new("Can't transfer from a read-only enumeration value")
+      raise EnumerationMigrationFailed.new("Can't transfer from a read-only enumeration value")
     end
 
     new_enum_value = self.enumeration_value.find {|val| val[:value] == new_value}
