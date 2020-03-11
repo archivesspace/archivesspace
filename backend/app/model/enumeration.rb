@@ -29,6 +29,11 @@ class Enumeration < Sequel::Model(:enumeration)
   # Find all database records that refer to the enumeration value identified by
   # 'source_id' and repoint them to 'destination_id'.
   def migrate(old_value, new_value)
+    is_editable = ( self.editable === 1 or self.editable == true )
+    if !is_editable
+      raise AccessDeniedException.new("Can't migrate values for non-editable enumeration #{self.id}")
+    end
+
     old_enum_value = self.enumeration_value.find {|val| val[:value] == old_value}
 
     if old_enum_value.readonly != 0
