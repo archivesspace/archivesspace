@@ -312,6 +312,41 @@ describe 'Agent model' do
   end
 
 
+  it "preserves the display name when combining two unauthorized names" do
+    unique_name = build(:json_name_person, 'authorized' => true)
+
+    name_template = build(:json_name_person, 'authorized' => false)
+    values = name_template.to_hash.reject {|name, val| val.nil?}
+
+    duplicated_name = JSONModel(:name_person).from_hash(values)
+
+    another_duplicated_name = JSONModel(:name_person).from_hash(values)
+    another_duplicated_name.is_display_name = true
+
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [unique_name, duplicated_name, another_duplicated_name]))
+
+    expect(AgentPerson.to_jsonmodel(agent.id).names.length).to eq(2)
+    expect(AgentPerson.to_jsonmodel(agent.id).names[1]['is_display_name']).to be_truthy
+  end
+
+
+  it "preserves the display name when combining the authorized name with an unauthorized name" do
+    authorized_name = build(:json_name_person, 'authorized' => true)
+
+    values = authorized_name.to_hash.reject {|name, val| val.nil?}
+    duplicated_name = JSONModel(:name_person).from_hash(values)
+    duplicated_name.authorized = false
+    duplicated_name.is_display_name = true
+
+    agent = AgentPerson.create_from_json(build(:json_agent_person,
+                                               :names => [authorized_name, duplicated_name]))
+
+    expect(AgentPerson.to_jsonmodel(agent.id).names.length).to eq(1)
+    expect(AgentPerson.to_jsonmodel(agent.id).names[0]['is_display_name']).to be_truthy
+  end
+
+
   it "can update an agent's name list" do
     name = build(:json_name_person,
                  'authorized' => true,
@@ -459,7 +494,15 @@ describe 'Agent model' do
         end
 
         it "turns off autogen if slug is blank" do
-          agent_person = AgentPerson.create_from_json(build(:json_agent_person, :is_slug_auto => true))
+          AppConfig[:auto_generate_slugs_with_id] = true
+
+          agent_name_person = build(:json_name_person, :authority_id => rand(100000).to_s)
+          agent_person = AgentPerson.create_from_json(
+            build(:json_agent_person,
+                  :is_slug_auto => true,
+                  :names => [agent_name_person])
+          )
+          expect(agent_person[:is_slug_auto]).to eq(1)
           agent_person.update(:slug => "")
           expect(agent_person[:is_slug_auto]).to eq(0)
         end
