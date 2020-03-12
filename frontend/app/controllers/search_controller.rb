@@ -19,7 +19,7 @@ class SearchController < ApplicationController
   FORMATTERS.merge!(
     {
       'stringify' => proc {|field| proc {|record| record[field].to_s } },
-      'accession/resource' => proc {|field|
+      'linked-records-listing' => proc {|field|
         proc {|record|
           identifiers = Array(record[field])
           out_html = %Q|<ul class="linked-records-listing count-#{identifiers.length}">|

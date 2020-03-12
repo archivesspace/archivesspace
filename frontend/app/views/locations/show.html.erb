@@ -58,14 +58,30 @@
         :type => "top_container",
         :show_context_column => true,
         :extra_columns => [
-          {'title' => 'top_container._frontend.bulk_operations.collection_singular',
-           'field' => 'collection_identifier_stored_u_sstr',
-           'formatter' => 'accession/resource',
-           'sort_options' => {
-             'sortable' => true,
-             'sort_by' => 'collection_identifier_stored_u_typeahead_usort'
-           }
-        }],
+          {
+            'title' => 'top_container._frontend.bulk_operations.collection_singular',
+            'field' => 'collection_identifier_stored_u_sstr',
+            'formatter' => 'linked-records-listing',
+            'sort_options' => {
+              'sortable' => true,
+              'sort_by' => 'collection_identifier_stored_u_typeahead_usort'
+            }
+          },
+          {
+            'title' => 'top_container.barcode',
+            'field' => 'barcode_u_sstr',
+            'formatter' => 'linked-records-listing',
+            'sort_options' => {
+            }
+          },
+          {
+            'title' => 'top_container.type',
+            'field' => 'type_enum_s',
+            'formatter' => 'linked-records-listing',
+            'sort_options' => {
+            }
+          }
+        ],
         :sort => 'title_sort asc'
       } %>
 
