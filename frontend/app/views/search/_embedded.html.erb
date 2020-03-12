@@ -5,7 +5,7 @@ base_opts[:hide_audit_info] = hide_audit_info if defined? hide_audit_info
 base_opts[:type] = type if defined? type
 base_opts[:extra_columns] = extra_columns if defined? extra_columns
 base_opts[:display_identifier] = display_identifier if defined? display_identifier
-
+base_opts[:show_context_column] = show_context_column if defined? show_context_column
 ajax_opts = base_opts.merge({:format => :js, :listing_only => true})
 
 ajax_search_url = url_for(ajax_opts)

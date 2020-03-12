@@ -14,11 +14,25 @@ class SearchController < ApplicationController
   #
   # FORMATTERS is customized to return a default formatter if passed a format it doesn't understand,
   # which will produce the value as returned from the field without alteration.
-  FORMATTERS = Hash.new do |key| proc {|field| proc {|record| Rails.logger.debug('default formatter called');record[field] } } end
+  FORMATTERS = Hash.new do |key| proc {|field| proc {|record| record[field] } } end
 
-  FORMATTERS.merge!({
-    'stringify' => proc {|field| proc {|record| record[field].to_s } }
-  })
+  FORMATTERS.merge!(
+    {
+      'stringify' => proc {|field| proc {|record| record[field].to_s } },
+      'accession/resource' => proc {|field|
+        proc {|record|
+          identifiers = Array(record[field])
+          out_html = %Q|<ul class="linked-records-listing count-#{identifiers.length}">|
+          out_html << identifiers.map {|identifier|
+            %Q|<li><span class="collection-identifier">#{identifier}</span></li>|
+          }.join("")
+          out_html << '</ul>'
+
+          out_html.html_safe
+        }
+      }
+    }
+  )
 
   set_access_control  "view_repository" => [:do_search, :advanced_search]
 
@@ -66,8 +80,14 @@ class SearchController < ApplicationController
     # Execute a backend search, rendering results as JSON/HTML fragment/HTML/CSS
     #
     # In addition to params handled by ApplicationController#params_for_backend_search, takes:
-    #   :extra_columns - hash with keys 'title', 'field', sort_options (hash with keys 'sortable', 'sort_by')
+    #   :extra_columns - hash with keys 'title', 'field', 'sort_options' (hash with keys 'sortable', 'sort_by')
     #   :display_identifier - whether to display the identifier column
+    #   :hide_audit_info - whether to display the updated/changed timestamps
+    #   :show_context_column - whether to display the context column
+    #
+    #
+    # 'title' in extra_columns will try to use the string as a translation key,
+    #  and fall back to the raw string if there's no translation.
     #
     # For example to add uri to the data-browse field of an AJAX-backed table:
     #
@@ -84,11 +104,11 @@ class SearchController < ApplicationController
     #
     # Note: you will need to add an entry to frontend/config/locales under the search_sorting key for the title of any column you add
 
-    unless request.format.css?
+    unless request.format.csv?
       @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
       if params[:extra_columns]
         @extra_columns = params[:extra_columns].map do |opts|
-          SearchHelper::ExtraColumn.new(opts['title'], FORMATTERS[opts['formatter']].call(opts['field']), opts['sort_options'] || {}, @search_data)
+          SearchHelper::ExtraColumn.new(I18n.t(opts['title'], default: opts['title']), FORMATTERS[opts['formatter']].call(opts['field']), opts['sort_options'] || {}, @search_data)
         end
       end
       @display_identifier = params.fetch(:display_identifier, false)
