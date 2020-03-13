@@ -14,7 +14,7 @@ $(function() {
       if ($this.hasClass("initialised") || $this.hasClass("too-many") ) {
         return;
       }
-        
+
 
       var index = $(".subrecord-form-fields", $this).length;
 
@@ -361,11 +361,17 @@ $(function() {
 
         var $topLevelNoteTypeSelector = $("select.top-level-note-type", $subform);
         $topLevelNoteTypeSelector.change(changeNoteTemplate);
+        $topLevelNoteTypeSelector.triggerHandler('change');
 
         index++;
       };
 
       $(".subrecord-form-heading:first .btn.add-note", $this).click(createTopLevelNote);
+      $this.filter("#lang_material_notes").each(function() {
+        if ($("li", $this).length == 0) {
+          $(".subrecord-form-heading:first .btn.add-note", $this).triggerHandler("click");
+        }
+      });
 
       $(".subrecord-form-heading:first .btn.apply-note-order", $this).click(applyNoteOrder);
 
@@ -374,14 +380,14 @@ $(function() {
       if ($target_subrecord_list.children("li").length > 1) {
         $(".subrecord-form-heading:first .btn.apply-note-order", $this).removeAttr("disabled");
       }
-     
+
       var initRemoveActions = function() {
         $(".subrecord-form-inline", $this).each(function() {
           initRemoveActionForSubRecord($(this));
         });
-      } 
+      }
 
-      var initNoteForms = function($noteForm ) { 
+      var initNoteForms = function($noteForm ) {
         // initialising forms
         var $list = $("ul.subrecord-form-list:first", $this)
         AS.initSubRecordSorting($list);

@@ -1,4 +1,5 @@
 class Sequence
+  # DEPRECATED: this is dead code since ArchivesSpace v2
 
   def self.init(sequence, value)
     DB.open(true) do |db|
