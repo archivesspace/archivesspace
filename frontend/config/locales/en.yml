@@ -218,7 +218,7 @@ en:
 
   search_sorting:
     sort_by: "Sort by:"
-    and: "and:"/home/sarah/archivesspace/build/gems/extensions/universal-java-1.8/2.3.0/sassc-2.2.1/gem_make.out
+    and: "and:"
     asc: Ascending
     desc: Descending
     relevance: Relevance
