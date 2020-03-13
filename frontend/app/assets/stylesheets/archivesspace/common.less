@@ -114,7 +114,7 @@ td .btn-group {
   &.render-none {font-style: italic;}
   &.render-bold, &.render-bolddoublequote, &.render-bolditalic, &.render-boldsinglequote, &.render-boldsmcaps, &.render-boldunderline {font-weight: bold}
   &.render-italic, &.render-bolditalic {font-style: italic;}
-  &.render-smcaps, &.render-boldsmcaps, {font-variant: small-caps;}
+  &.render-smcaps, &.render-boldsmcaps {font-variant: small-caps;}
   &.render-sub {vertical-align: sub; font-size: 80%;}
   &.render-super {vertical-align: super; font-size: 80%;}
   &.render-underline {text-decoration: underline;}
@@ -123,4 +123,33 @@ td .btn-group {
   &.render-doublequote:after, &.render-bolddoublequote:after {content: '"'}
   &.render-singlequote:before, &.render-boldsinglequote:before {content: "'"}
   &.render-singlequote:after, &.render-boldsinglequote:after {content: "'"}
+}
+
+// Atomic/utility classes
+.mt0 {
+  margin-top: 0;
+}
+
+.p30px {
+  padding: 30px;
+}
+
+@media (max-width: 767px) {
+  .xs-py15px {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .sm-mxn15px {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+}
+
+@media (min-width: 992px) {
+  .md-mt20px {
+    margin-top: 20px;
+  }
 }

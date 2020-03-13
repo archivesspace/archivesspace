@@ -34,6 +34,9 @@ module HandleFaceting
     pv = strip_mixed_content(v)
     if k == 'primary_type'
       pv = I18n.t("#{v}._singular")
+    elsif k == 'langcode'
+      # Lookup three-letter language codes
+      pv = I18n.t("enumerations.language_iso639_2.#{v}", :default => v)
     elsif %w(repository used_within_published_repository).include?(k)
       repos = Repository.get_repos
       if repos[v].nil?

@@ -325,10 +325,6 @@ ja:
     repo_preferences: リポジトリの設定
     manage_user_access: ユーザーアクセスを管理する
     logout: ログアウト
-    login: サインイン
-    login_expired_link: "%{link}してください。"
-    login_fail: ログイン試行に失敗しました
-    login_success: ログイン成功。リダイレクト中...
     register: 今すぐ登録
     register_prefix: アカウントが必要です？
     list_reports: レポート
@@ -367,6 +363,13 @@ ja:
     heading: ArchivesSpaceへようこそ
     message: フレンドリーなアーカイブ管理ツール。
     message_logged_in: フレンドリーなアーカイブ管理ツール。
+
+  login:
+    login: サインイン
+    login_please: サインインしてください
+    login_expired_link: "%{link}してください。"
+    login_fail: ログイン試行に失敗しました
+    login_success: ログイン成功。リダイレクト中...
 
   breadcrumb:
     home: ホーム
@@ -1247,6 +1250,14 @@ ja:
         merged: Container Profiles(s) Merged
       section:
         basic_information: 基本情報
+      bulk_operations:
+        merge: コンテナプロファイルのマージ
+        merge_instructions: リストされている他のすべてのコンテナプロファイルがマージされるコンテナプロファイルを選択します。 リンクされたレコードはすべてこのプロファイルに再リンクされ、他のコンテナプロファイルのすべての情報が削除されます。
+        merge_select_target: マージターゲットを選択
+        confirm_merge: マージコンテナプロファイルの確認
+        confirm_merge_question: 以下にリストされているように、コンテナープロファイルをマージしてもよろしいですか？ このアクションは元に戻せません。
+        confirm_merge_victims: "次のコンテナプロファイルをマージします:" 
+        confirm_merge_target: "このコンテナプロファイルに:"
     name: 名
     name_tooltip: "<p>必要なフィールド。コンテナプロファイルの名前。ジェネリックまたは特定のものがあります。 </p><p>例： </p><ul><li>ドキュメントボックス</li><li>ページ15
       </li><li>小さなカードのファイルボックス</li></ul>"

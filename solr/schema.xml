@@ -85,6 +85,7 @@
 
    <!-- Archival Record properties required for facets -->
    <field name="level" type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="langcode" type="string" indexed="true" stored="true" multiValued="true"/>
 
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
