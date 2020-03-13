@@ -1,41 +1,31 @@
 # ArchivesSpace Security Issues Policy
 
-
-## Supported Versions
-
-Only latest versions will be patched. 
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 2.7.1   | :white_check_mark: |
-| < 2.7   | :x:                |
-
-
-## Vulnerabilities in ArchivesSpace
-
-ArchivesSpace is an open source program that depends on a large number of
-third party libraries and systems. It is possible that ArchivesSpace or 
-some parts of ArchivesSpace to contain security vulnerabilities that would 
-allow triggering unexpected or dangerous behavior 
+ArchivesSpace is an open source application that depends on a large number of
+third party libraries and systems. While ArchivesSpace is developed using coding best practices and is routinely scanned for security issues, it is possible for ArchivesSpace or some components of ArchivesSpace to contain security vulnerabilities that would 
+allow unexpected or dangerous behavior to be triggered. This policy explains how to report security issues.
 
 ## Reporting vulnerabilities and other security issues
 
-Please email reports about any security related issues you find to
+Please email reports about any security-related issues you find to
 `archivesspacehome@lyrasis.org`. Your email will be acknowledged as soon
 as possible.
 
 Please use a descriptive subject line for your report email. After the initial
-reply to your report, the ArchivesSpace developers to keep you informed of
-the progress being made towards a fix and announcement.
+reply to your report, ArchivesSpace developers will keep you informed of
+the progress being made towards a fix. If you are able to patch the issue locally please consider contributing the code so that the larger community can benefit.
 
-In addition, please include the following information along with your report:
+Please include the following information along in your report:
 
 * Your name and affiliation (if any).
 * A description of the technical details of the vulnerabilities. It is very
   important to let us know how we can reproduce your findings.
-* An explanation who can exploit this vulnerability, and what they gain when
-  doing so -- write an attack scenario. This will help us evaluate your report
+* An explanation of who can exploit this vulnerability and what they gain when
+  doing so -- write an attack scenario, if you can. This will help us evaluate your report
   quickly, especially if the issue is complex.
-* Whether this vulnerability public or known to third parties. If it is, please
+* Whether this vulnerability is already public or known to third parties. If it is, please
   provide details.
+* If the vulnerability was discovered by a specific scan or scanning tool, please include a copy of the report when possible.
 
+## Supported versions
+
+Please note that when security issues are found, only the latest version of the application will be patched. Upgrade to the latest release of ArchivesSpace to ensure having all security updates.
