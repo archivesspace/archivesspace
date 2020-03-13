@@ -497,7 +497,8 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'job'
         report_type = record['record']['job']['report_type']
-        doc['title'] = record['record']['job_type'] + (report_type ? "_#{report_type}" : '')
+        doc['title'] = (report_type ? I18n.t("reports.#{report_type}.title") : 
+          I18n.t("job.types.#{record['record']['job_type']}"))
         doc['types'] << record['record']['job_type']
         doc['types'] << report_type
         doc['job_type'] = record['record']['job_type']
