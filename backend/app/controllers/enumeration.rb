@@ -50,7 +50,8 @@ class ArchivesSpaceService < Sinatra::Base
     .params(["migration", JSONModel(:enumeration_migration), "The migration request", :body => true])
     .permissions([:update_enumeration_record])
     .returns([200, :updated],
-             [400, :error]) \
+             [400, :error],
+             [404, "Not found"]) \
   do
     enum_id = JSONModel(:enumeration).id_for(params[:migration].enum_uri)
     enum = Enumeration.get_or_die(enum_id)

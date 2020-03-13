@@ -244,6 +244,7 @@ fr:
     search_all: Toutes les notices
     error_no_term: Aucun terme saisi.
     search_terms_results: "Votre recherche de {{search_terms}} a donné {{number}} résultats"
+    toggle_navigation: Toggle Navigation
 
   internal_links:
     main: Contenu principal

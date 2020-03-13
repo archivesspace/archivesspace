@@ -21,11 +21,14 @@
       </span></li>
       </ul>
   <% end  %>
-   <% @filters.each do |k,h|  %>
-    <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
-<a href="<%= app_prefix(h['uri'])%>"
-title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a></li>
-   <% end %>
+	<% @filters.each do |k, a| %>
+	  <% a.each do |h| %>
+		  <li class="list-group-item"><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
+			  <a href="<%= app_prefix(h['uri']) %>"
+					title="<%= t('search_results.remove_filter') %> " class="delete_filter">X</a>
+		  </li>
+	  <% end %>
+	<% end %>
  </ul>
  <% end %>
 </div>
