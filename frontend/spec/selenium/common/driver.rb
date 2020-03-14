@@ -46,14 +46,7 @@ class Driver
     profile['browser.helperApps.alwaysAsk.force'] = false
     profile['browser.helperApps.neverAsk.saveToDisk'] = 'application/msword, application/csv, application/pdf, application/xml,  application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed'
     profile['pdfjs.disabled'] = true
-
-    if java.lang.System.getProperty('os.name').downcase == 'linux'
-      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, '../../common', 'selenium', 'bin', 'geckodriver', 'linux')}:#{ENV['PATH']}"
-    else # osx
-      ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, '../../common', 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
-    end
-
-    options = Selenium::WebDriver::Firefox::Options.new
+    options = Selenium::WebDriver::Firefox::Options.new(args: @firefox_opts)
     options.profile = profile
     Selenium::WebDriver.for :firefox, options: options
   end
@@ -65,7 +58,7 @@ class Driver
                            directory_upgrade: true,
                            extensions_to_open: '',
                            prompt_for_download: false } },
-      args: %w[headless disable-gpu window-size=1200x800]
+      args: @chrome_opts
     )
     Selenium::WebDriver.for :chrome, options: opts
   end
@@ -74,6 +67,9 @@ class Driver
     if ENV['SELENIUM_CHROME']
       initialize_chrome
     else
+      # https://github.com/mozilla/geckodriver/issues/1354
+      ENV['MOZ_HEADLESS_WIDTH'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1920')
+      ENV['MOZ_HEADLESS_HEIGHT'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1080')
       initialize_ff
     end
   end
@@ -81,8 +77,8 @@ class Driver
   def initialize(frontend = $frontend)
     @frontend = frontend
 
-    prefs = { download: { default_directory: Dir.tmpdir } }
-    # Options: OFF SHOUT SEVERE WARNING INFO CONFIG FINE FINER FINEST ALL
+    @chrome_opts  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080').split(',')
+    @firefox_opts = ENV.fetch('FIREFOX_OPTS', '-headless').split(',')
 
     @driver = ff_or_chrome
     @wait   = Selenium::WebDriver::Wait.new(timeout: 10)
