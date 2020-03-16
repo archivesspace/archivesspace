@@ -125,19 +125,27 @@ describe 'Enumerations model' do
     }.to raise_error(NotFoundException)
   end
 
- it "protects non-editable enums from being messed with" do
-    enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_thingy_enum_delete',
-                                                                          :values => ["banana"] ))
+  it "returns not found exception when migrating (old) value does not exist" do
+    expect {
+      Enumeration[:name => 'test_role_enum'].migrate('i_do_not_exist', 'battlemage')
+    }.to raise_error(NotFoundException, /Can't find a value/)
+  end
 
-	$testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
+  it "protects non-editable enums from being messed with" do
+    enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_thingy_enum_delete',
+                                                                          :values => ["banana", "cherry"] ))
+
+	  $testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
                                 update(:editable => 0)
 
     expect {
       Enumeration.apply_values(enum, {'values' => [ "more bananas" ]})
-    }.to raise_error(AccessDeniedException)
+    }.to raise_error(AccessDeniedException, /Cannot modify a non-editable enumeration/)
 
+    expect {
+      Enumeration[:name => 'readonly_thingy_enum_delete'].migrate('banana', 'cherry')
+    }.to raise_error(EnumerationMigrationFailed, /Can't migrate values for non-editable enumeration/)
   end
-
 
   it "protects readonly enum values from being deleted or transferred" do
     enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_role_enum_delete',
@@ -150,11 +158,11 @@ describe 'Enumerations model' do
 
     expect {
       Enumeration.apply_values(enum, {'values' => [ "banana" ]})
-    }.to raise_error(AccessDeniedException)
+    }.to raise_error(AccessDeniedException, /Can't remove read-only enumeration value/)
 
     expect {
       enum.migrate('readonly_apple', 'anything')
-    }.to raise_error(AccessDeniedException)
+    }.to raise_error(EnumerationMigrationFailed, /Can't transfer from a read-only enumeration value/)
   end
 
 

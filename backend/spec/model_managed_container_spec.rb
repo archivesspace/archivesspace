@@ -331,7 +331,6 @@ describe 'Managed Container model' do
       (resource, grandparent, parent, child) = create_tree(top_container_json)
 
       original_mtime = top_container.refresh.system_mtime
-
       ArchivalObject[child.id].set_parent_and_position(grandparent.id, 1)
 
       expect(top_container.refresh.system_mtime).to be > original_mtime
@@ -343,6 +342,7 @@ describe 'Managed Container model' do
 
       original_mtime = top_container.refresh.system_mtime
       ArchivalObject[child.id].delete
+
       expect(top_container.refresh.system_mtime).to be > original_mtime
     end
 
