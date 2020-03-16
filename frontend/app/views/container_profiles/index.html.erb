@@ -14,7 +14,7 @@
     <div class="record-toolbar">
       <div class="btn-group pull-right">
         <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-          ['title', 'container_profile_width_u_sstr', 'container_profile_height_u_sstr', 'container_profile_depth_u_sstr', 'container_profile_dimension_units_u_sstr'] }), id: "searchExport", class: "btn btn-sm btn-info" %>
+          fields }), id: "searchExport", class: "btn btn-sm btn-info" %>
         <% if user_can?('update_container_profile_record') %>
           <%= link_to I18n.t("container_profile._frontend.action.create"), {:controller => :container_profiles, :action => :new}, :class => "btn btn-sm btn-default" %>
         <% end %>

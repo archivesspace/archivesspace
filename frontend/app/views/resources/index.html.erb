@@ -24,8 +24,7 @@
             </div>
           <% end %>
           <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv,
-            :fields => (params[:include_components] ? ['primary_type'] : []) + (1..AppConfig[:max_search_columns]).collect {|i|
-              browse_columns["resource_browse_column_#{i}"]}.reject {|v| v.blank? || v == 'no_value'}}
+            :fields => fields}
               ), id: "searchExport",  class:  "btn btn-sm btn-info" %>
            <%= link_to I18n.t("resource._frontend.action.create"), {:controller => :resources, :action => :new}, :class => "btn btn-sm btn-default" %>
            <% if user_can?("delete_archival_record") %>

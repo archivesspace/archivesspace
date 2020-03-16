@@ -279,6 +279,7 @@ module SearchHelper
   end
 
   def add_columns
+    return if @columns
     type = @search_data.get_type
     type = 'agent' if type.include? 'agent'
     type = 'classification' if type == 'classification_term'
@@ -304,39 +305,11 @@ module SearchHelper
     params.has_key?("deleted_uri") and Array(params["deleted_uri"]).include?(record["id"])
   end
 
-  def get_ancestor_title(field)
-    field_json = JSONModel::HTTP.get_json(field)
-    unless field_json.nil?
-      if field.include?('resources') || field.include?('digital_objects')
-        clean_mixed_content(field_json['title'])
-      else
-        clean_mixed_content(field_json['display_string'])
-      end
-    end
-  end
-
   def context_separator(result)
     if result['ancestors'] || result['linked_instance_uris']
       @separator = '>'
     else
       @separator = '<br />'.html_safe
-    end
-  end
-
-  def context_ancestor(result)
-    case
-    when result['ancestors']
-      ancestors = result['ancestors']
-    when result['linked_instance_uris']
-      ancestors = result['linked_instance_uris']
-    when result['linked_record_uris']
-      ancestors = result['linked_record_uris']
-    when result['primary_type'] == 'top_container'
-      ancestors = Array(result['collection_uri_u_sstr'])
-    when result['primary_type'] == 'digital_object_component'
-      ancestors = result['digital_object'].split
-    else
-      ancestors = ['']
     end
   end
 
@@ -346,12 +319,17 @@ module SearchHelper
       )['schema']['fields'].map { |field| [field['name'], field] }.to_h
   end
 
+  def fields
+    add_columns unless @columns
+    @columns.collect { |col| col.field }.compact
+  end
 
 
 
   class SearchColumn
 
     def initialize(label, value_block, opts, search_data)
+      @field = opts[:field]
       @label = label
       @value_block = value_block
       @classes = "col "
@@ -359,6 +337,11 @@ module SearchHelper
       @sortable = opts[:sortable] || false
       @sort_by = opts[:sort_by] || ""
       @search_data = search_data
+    end
+
+
+    def field
+      @field
     end
 
 
