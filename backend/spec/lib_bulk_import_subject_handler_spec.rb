@@ -36,11 +36,35 @@ describe "Subject Handler" do
 =end
 
   it "should create a subject" do
-    subj = @sh.get_or_create(nil, "New School", nil, "local", $repo_id, @report)
+    subject = @sh.build(nil, "New School", "topical", "local")
+    subj = @sh.create_subj(subject)
     expect(subj[:id]).to_not be_nil
+    id = subj[:id]
+    s = nil
+    expect {
+      s = Subject.get_or_die(id)
+    }.not_to raise_error
+    expect(s[:title]).to eq("New School")
     subj.delete
   end
 
-  it "should find a subject in the db" do
+  it "should find a subject from its ID" do
+    subject = @sh.build(nil, "New School", "topical", "local")
+    subj = @sh.create_subj(subject)
+    id = subj[:id]
+    subject = @sh.get_or_create(id, nil, nil, nil, $repo_id, @report)
+    expect(subject[:id]).to eq(subj[:id])
   end
+
+=begin
+
+  it "should find a subject in the db by term with and without the source" do
+    subj = @sh.get_or_create(nil, "New School", nil, "local", $repo_id, @report)
+    subject = @sh.build(nil, "New School", "topical", "local")
+    s = @sh.get_db_subj(subject, true, @report)
+    expect(s[:id]).to eq(subj[:id])
+    s = @sh.get_db_subj(subject, true, @report)
+    expect(s[:id]).to eq(subject[:id])
+  end
+=end
 end
