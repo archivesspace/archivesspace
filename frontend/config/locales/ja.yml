@@ -216,6 +216,11 @@ ja:
       assessment_survey_year: 調査年
       assessment_record_types: レコードタイプ
       assessment_completed: 完了しました
+      status: 状態
+      job_type: ジョブの種類
+      report_type: レポートタイプ
+      owner: オーナー
+      langcode: Language of Materials
     help:
       row_selection: 一括操作のために行をクリックして選択します。 Altキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
 
@@ -262,6 +267,11 @@ ja:
     assessment_survey_begin: 調査開始日
     assessment_survey_end: 調査完了日
     assessment_id: ID
+    status: 状態
+    job_type: ジョブの種類
+    report_type: レポートタイプ
+    time_started: 時間の開始
+    time_finished: 完了した時間
 
   advanced_search:
     operator:

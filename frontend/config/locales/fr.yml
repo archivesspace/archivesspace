@@ -207,6 +207,11 @@ fr:
       assessment_survey_year: Année du passage en revue
       assessment_record_types: Type de notices
       assessment_completed: Effectué
+      status: Statut
+      job_type: Type de tâche
+      report_type: Type de rapport
+      owner: Owner
+      langcode: Language of Materials
     help:
       row_selection: Cliquez sur une rangée pour la sélectionner en vue d'opérations en masse. Maintenir la touche alt pressée tout en cliquant une case à cocher pour sélectionner ou déselectionner plusieurs rangées précédentes.
 
@@ -254,6 +259,11 @@ fr:
     assessment_survey_begin: Passage en revue Début
     assessment_survey_end: Passage en revue Fin
     assessment_id: ID
+    status: Statut
+    job_type: Type de tâche
+    report_type: Type de rapport
+    time_started: Heure de commencement
+    time_finished: Heure d'achèvement
 
   advanced_search:
     operator:
