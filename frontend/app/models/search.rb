@@ -41,9 +41,7 @@ class Search
       }
 
     end
-    if not search_data
-      #require 'pry-remote';binding.remote_pry
-    end
+
     search_data[:criteria] = criteria
 
     SearchResultData.new(search_data)

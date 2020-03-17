@@ -587,7 +587,11 @@ class IndexerCommon
 
         doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
         doc['top_container_u_typeahead_usort'] = record['record']['display_string']
+
         doc['barcode_u_sstr'] = record['record']['barcode']
+        doc['barcode_u_ssort'] = record['record']['barcode']
+
+        doc['type_u_ssort'] = record['record']['type']
 
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
       end

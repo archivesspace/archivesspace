@@ -1,3 +1,20 @@
+<%#
+This is an version of the search results table for embedding an ajax-loaded table of search results.
+It corresponds to the non-ajax table produced by search/result
+partial (app/views/search/_result.html.erb).
+
+Values passed into the locals here are then passed into search as parameters, and get turned into
+the controller instance variables that control the output of 'search/_listing.html.erb'
+
+locals:
+  filter_term,
+  hide_audit_info,
+  type,
+  extra_columns,
+  display_identifier,
+  show_context_column
+
+%>
 <%
 base_opts = {:controller => :search, :action => :do_search}.merge(build_search_params({"add_filter_term" => filter_term}))
 
@@ -6,6 +23,7 @@ base_opts[:type] = type if defined? type
 base_opts[:extra_columns] = extra_columns if defined? extra_columns
 base_opts[:display_identifier] = display_identifier if defined? display_identifier
 base_opts[:show_context_column] = show_context_column if defined? show_context_column
+
 ajax_opts = base_opts.merge({:format => :js, :listing_only => true})
 
 ajax_search_url = url_for(ajax_opts)
