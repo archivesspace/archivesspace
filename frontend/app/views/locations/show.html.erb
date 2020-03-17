@@ -62,23 +62,23 @@
             'title' => 'top_container._frontend.bulk_operations.collection_singular',
             'field' => 'collection_identifier_stored_u_sstr',
             'formatter' => 'linked-records-listing',
-            'sort_options' => {
-              'sortable' => true,
-              'sort_by' => 'collection_identifier_stored_u_typeahead_usort'
-            }
           },
           {
             'title' => 'top_container.barcode',
-            'field' => 'barcode_u_sstr',
-            'formatter' => 'linked-records-listing',
+            'field' => 'barcode_u_ssort',
+            'formatter' => 'stringify',
             'sort_options' => {
+              'sortable' => true,
+              'sort_by' => 'barcode_u_ssort',
             }
           },
           {
             'title' => 'top_container.type',
-            'field' => 'type_enum_s',
-            'formatter' => 'linked-records-listing',
+            'field' => 'type_u_ssort',
+            'formatter' => 'stringify',
             'sort_options' => {
+              'sortable' => true,
+              'sort_by' => 'type_u_ssort'
             }
           }
         ],

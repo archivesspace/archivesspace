@@ -111,9 +111,9 @@ class SearchController < ApplicationController
           SearchHelper::ExtraColumn.new(I18n.t(opts['title'], default: opts['title']), FORMATTERS[opts['formatter']].call(opts['field']), opts['sort_options'] || {}, @search_data)
         end
       end
-      @display_identifier = params.fetch(:display_identifier, false)
-      @hide_audit_info = params.fetch(:hide_audit_info, false)
-      @display_context = params.fetch(:show_context_column, false)
+      @display_identifier = params.fetch(:display_identifier, false) == 'true'
+      @hide_audit_info = params.fetch(:hide_audit_info, false) == 'true'
+      @display_context = params.fetch(:show_context_column, false) == 'true'
     end
 
     respond_to do |format|

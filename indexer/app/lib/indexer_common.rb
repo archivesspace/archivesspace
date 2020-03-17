@@ -579,6 +579,9 @@ class IndexerCommon
 
         doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
         doc['barcode_u_sstr'] = record['record']['barcode']
+        doc['barcode_u_ssort'] = record['record']['barcode']
+
+        doc['type_u_ssort'] = record['record']['type']
 
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
       end

@@ -27,9 +27,10 @@ module SearchHelper
 
     search_params["multiplicity"] = params["multiplicity"] if params["multiplicity"]
     search_params["display_identifier"] = true if params[:display_identifier] || show_identifier_column?
-    search_params["hide_audit_info"] = hide_audit_info?
+    search_params["hide_audit_info"] = opts["hide_audit_info"] ? opts["hide_audit_info"] : hide_audit_info?
     search_params["extra_columns"] = params["extra_columns"] if params["extra_columns"]
-    search_params["show_context_column"] = show_context_column?
+    search_params["extra_columns"].concat(opts["extra_columns"]) if opts["extra_columns"]
+    search_params["show_context_column"] = opts["show_context_column"] ? opts["show_context_column"] : show_context_column?
 
     sort = (opts["sort"] || params["sort"])
 
