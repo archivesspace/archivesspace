@@ -425,7 +425,7 @@ describe 'Relationships' do
     archival_object = ArchivalObject[archival_object_json.id]
 
     start_time = (archival_object[:system_mtime].to_f * 1000).to_i
-    sleep 0.1
+    ArchivesSpaceService.wait(:long)
 
     # Touch the digital object
     digital_object.refetch
