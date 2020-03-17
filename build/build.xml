@@ -509,6 +509,10 @@
   </target>
 
   <target name="frontend:selenium" depends="set-classpath, frontend:clean" description="Run the Selenium tests">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <property name="spec" value=""/>
     <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
