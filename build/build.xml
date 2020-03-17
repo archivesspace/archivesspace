@@ -508,6 +508,10 @@
   </target>
 
   <target name="frontend:selenium" depends="set-classpath, frontend:clean" description="Run the Selenium tests">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <property name="spec" value=""/>
     <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
@@ -527,6 +531,7 @@
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="../../../build/gems/bin/rspec -b -f d -P '*_spec.rb' --order default ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
     </java>
+    <delete dir="integration.tmp" />
   </target>
 
 
