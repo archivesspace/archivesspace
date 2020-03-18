@@ -125,19 +125,27 @@ describe 'Enumerations model' do
     }.to raise_error(NotFoundException)
   end
 
- it "protects non-editable enums from being messed with" do
-    enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_thingy_enum_delete',
-                                                                          :values => ["banana"] ))
+  it "returns not found exception when migrating (old) value does not exist" do
+    expect {
+      Enumeration[:name => 'test_role_enum'].migrate('i_do_not_exist', 'battlemage')
+    }.to raise_error(NotFoundException, /Can't find a value/)
+  end
 
-	$testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
+  it "protects non-editable enums from being messed with" do
+    enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_thingy_enum_delete',
+                                                                          :values => ["banana", "cherry"] ))
+
+	  $testdb[:enumeration].filter(:name => 'readonly_thingy_enum_delete').
                                 update(:editable => 0)
 
     expect {
       Enumeration.apply_values(enum, {'values' => [ "more bananas" ]})
-    }.to raise_error(AccessDeniedException)
+    }.to raise_error(AccessDeniedException, /Cannot modify a non-editable enumeration/)
 
+    expect {
+      Enumeration[:name => 'readonly_thingy_enum_delete'].migrate('banana', 'cherry')
+    }.to raise_error(EnumerationMigrationFailed, /Can't migrate values for non-editable enumeration/)
   end
-
 
   it "protects readonly enum values from being deleted or transferred" do
     enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'readonly_role_enum_delete',
@@ -150,11 +158,11 @@ describe 'Enumerations model' do
 
     expect {
       Enumeration.apply_values(enum, {'values' => [ "banana" ]})
-    }.to raise_error(AccessDeniedException)
+    }.to raise_error(AccessDeniedException, /Can't remove read-only enumeration value/)
 
     expect {
       enum.migrate('readonly_apple', 'anything')
-    }.to raise_error(AccessDeniedException)
+    }.to raise_error(EnumerationMigrationFailed, /Can't transfer from a read-only enumeration value/)
   end
 
 
@@ -175,20 +183,22 @@ describe 'Enumerations model' do
   # These tests are here for now because the query by string functionality on models inheriting from ASModel is first used with Enumeration.
   describe "query via to_jsonmodel" do
     before(:all) do
-      enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'test_enum',
-                                                                            :values => ['test_value']))
+      @q_enum_name = "test_enum_querying"
+      @q_enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => @q_enum_name, :values => ['test_value']))
     end
 
     it "can query Enumerations by ID" do
-      json = Enumeration.to_jsonmodel(1)
+      json = Enumeration.to_jsonmodel(@q_enum[:id])
       expect(json).not_to be_nil
-      expect(json['id']).to eq(1)
+      expect(json['id']).to eq(@q_enum[:id])
+      expect(json['name']).to eq(@q_enum_name)
     end
 
     it "allows a query by string" do
-      json = Enumeration.to_jsonmodel("test_enum", :query => "name" )
+      json = Enumeration.to_jsonmodel(@q_enum_name, :query => "name")
       expect(json).not_to be_nil
-      expect(json['name']).to eq('test_enum')
+      expect(json['id']).to eq(@q_enum[:id])
+      expect(json['name']).to eq(@q_enum_name)
     end
   end
 end

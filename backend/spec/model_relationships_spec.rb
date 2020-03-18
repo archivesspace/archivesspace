@@ -266,6 +266,8 @@ describe 'Relationships' do
                                                        :sauce => "yogurt"
                                                      }])
     time = Time.now.to_f
+
+    ArchivesSpaceService.wait(:long)
     banana = Banana.create_from_json(banana_json)
 
     expect(banana.my_relationships(:fruit_salad)[0][:system_mtime].to_f).to be >= time
@@ -343,7 +345,7 @@ describe 'Relationships' do
                                                             }]))
 
     time = (banana.system_mtime.to_f * 1000).to_i
-    sleep 0.1
+    ArchivesSpaceService.wait(:long)
 
     cherry.update_from_json(JSONModel(:cherry).from_hash(:lock_version => 0))
     banana.refresh
@@ -423,7 +425,7 @@ describe 'Relationships' do
     archival_object = ArchivalObject[archival_object_json.id]
 
     start_time = (archival_object[:system_mtime].to_f * 1000).to_i
-    sleep 0.1
+    ArchivesSpaceService.wait(:long)
 
     # Touch the digital object
     digital_object.refetch
