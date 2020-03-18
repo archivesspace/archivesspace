@@ -56,20 +56,14 @@
         :filter_term => {"location_uris" => @location.uri}.to_json,
         :heading_text => I18n.t("location._frontend.section.search_embedded"),
         :type => "top_container",
-        :show_context_column => true,
         :extra_columns => [
           {
             'title' => 'top_container._frontend.bulk_operations.collection_singular',
-            'field' => 'collection_identifier_stored_u_sstr',
+            'field' => 'collection_display_string_u_sstr',
             'formatter' => 'linked-records-listing',
-          },
-          {
-            'title' => 'top_container.barcode',
-            'field' => 'barcode_u_ssort',
-            'formatter' => 'stringify',
             'sort_options' => {
               'sortable' => true,
-              'sort_by' => 'barcode_u_ssort',
+              'sort_by' => 'collection_display_string_stored_u_ssort'
             }
           },
           {
@@ -79,6 +73,24 @@
             'sort_options' => {
               'sortable' => true,
               'sort_by' => 'type_u_ssort'
+            }
+          },
+          {
+            'title' => 'top_container.indicator',
+            'field' => 'indicator_stored_u_ssort',
+            'formatter' => 'stringify',
+            'sort_options' => {
+              'sortable' => true,
+              'sort_by' => 'indicator_stored_u_ssort'
+            }
+          },
+          {
+            'title' => 'top_container.barcode',
+            'field' => 'barcode_u_ssort',
+            'formatter' => 'stringify',
+            'sort_options' => {
+              'sortable' => true,
+              'sort_by' => 'barcode_u_ssort',
             }
           }
         ],

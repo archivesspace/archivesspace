@@ -255,6 +255,10 @@ en:
     assessment_survey_begin: Survey Begin Date
     assessment_survey_end: Survey Completed Date
     assessment_id: ID
+    barcode_u_ssort: 'Barcode'
+    type_u_ssort: 'Container Type'
+    indicator_stored_u_ssort: 'Indicator'
+    collection_display_string_stored_u_ssort: 'Resource/Accession'
 
   advanced_search:
     operator:
@@ -356,7 +360,7 @@ en:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
     message_logged_in: Your friendly archives management tool.
-  
+
   login:
     login: Sign In
     login_please: Please Sign In

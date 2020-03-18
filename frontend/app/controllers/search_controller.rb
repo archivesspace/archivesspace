@@ -30,6 +30,19 @@ class SearchController < ApplicationController
 
           out_html.html_safe
         }
+      },
+      'combined-identifier' => proc {|field| # field is ignored, specialized formatter for combined record type
+        proc {|record|
+          identifiers = Array(record['collection_identifier_stored_u_sstr'])
+          displays = Array(record['collection_display_string_u_sstr'])
+          out_html = %Q|<ul class="linked-records-listing count-#{identifiers.length}">|
+          out_html << identifiers.zip(displays).map {|identifier, display|
+            %Q|<li><span class="collection-identifier">#{identifier}</span> <span class="collection-display-string">#{display}</span></li>|
+          }.join('')
+          out_html << '</ul>'
+
+          out_html.html_safe
+        }
       }
     }
   )
