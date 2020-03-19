@@ -290,6 +290,7 @@ describe 'Managed Container model' do
 
     it "reindexes top containers when the container profile is updated" do
       original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = ContainerProfile.to_jsonmodel(container_profile)
       json.name = "Metal box"
@@ -304,6 +305,7 @@ describe 'Managed Container model' do
       accession = create_accession({"instances" => [build_instance(top_container_json)]})
 
       original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = Accession.to_jsonmodel(accession.id)
       json.title = "New accession title"
@@ -318,6 +320,7 @@ describe 'Managed Container model' do
       (resource, grandparent, parent, child) = create_tree(top_container_json)
 
       original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = ArchivalObject.to_jsonmodel(grandparent.id)
       json.title = "A better title"
@@ -331,6 +334,7 @@ describe 'Managed Container model' do
       (resource, grandparent, parent, child) = create_tree(top_container_json)
 
       original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
       ArchivalObject[child.id].set_parent_and_position(grandparent.id, 1)
 
       expect(top_container.refresh.system_mtime).to be > original_mtime
@@ -341,6 +345,7 @@ describe 'Managed Container model' do
       (resource, grandparent, parent, child) = create_tree(top_container_json)
 
       original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
       ArchivalObject[child.id].delete
 
       expect(top_container.refresh.system_mtime).to be > original_mtime
@@ -359,6 +364,7 @@ describe 'Managed Container model' do
 
       container1_original_mtime = container1.refresh.system_mtime
       container2_original_mtime = container2.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       resource1.assimilate([resource2])
 
@@ -379,6 +385,7 @@ describe 'Managed Container model' do
 
       container1_original_mtime = container1.refresh.system_mtime
       container2_original_mtime = container2.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       ComponentTransfer.transfer(resource2.uri, parent1.uri)
 
@@ -392,6 +399,7 @@ describe 'Managed Container model' do
 
       ao = ArchivalObject[child.id]
       original_mtime = ao.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = TopContainer.to_jsonmodel(top_container_json.id)
       json.barcode = "1122334455"
@@ -407,6 +415,7 @@ describe 'Managed Container model' do
 
       ao = ArchivalObject[child.id]
       original_mtime = ao.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = TopContainer.to_jsonmodel(top_container_json.id)
 
@@ -423,6 +432,7 @@ describe 'Managed Container model' do
 
       ao = ArchivalObject[child.id]
       original_mtime = ao.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = TopContainer.to_jsonmodel(top_container_json.id)
 
@@ -685,6 +695,7 @@ describe 'Managed Container model' do
       accessions << create_accession({"instances" => [build_instance(box)]})
 
       mtimes = accessions.map {|accession| accession.system_mtime}
+      ArchivesSpaceService.wait(:long)
 
       # Refresh our lock version
       box = TopContainer.to_jsonmodel(box.id)
