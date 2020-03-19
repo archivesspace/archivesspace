@@ -102,54 +102,53 @@ AbstractRelationship = Class.new(Sequel::Model) do
         vics.each do |victim|
 
           parents = who_participates_with(victim)
-          unless parents.empty?
-            parents.each do |parent|
-              parent_col = reference_columns_for(parent.class).first
-              # Find any relationship where the current column contains a reference to
-              # our victim
-              self.exclude(parent_col => nil).filter(victim_col => vics.map(&:id)).each do |relationship|
-                target_pre = find_by_participant(target)
+          next if parents.empty?
+          parents.each do |parent|
+            parent_col = reference_columns_for(parent.class).first
+            # Find any relationship where the current column contains a reference to
+            # our victim
+            self.exclude(parent_col => nil).filter(victim_col => vics.map(&:id)).each do |relationship|
+              target_pre = find_by_participant(target)
 
-                # Remove this relationship's reference to the victim
-                relationship[victim_col] = nil
+              # Remove this relationship's reference to the victim
+              relationship[victim_col] = nil
 
-                # When merging top containers, you also have to deal with the fact
-                # that subcontainers and instances may also need to be deleted.  This
-                # array stores records that will be deleted in cleanup_duplicates.
-                dups = []
+              # When merging top containers, you also have to deal with the fact
+              # that subcontainers and instances may also need to be deleted.  This
+              # array stores records that will be deleted in cleanup_duplicates.
+              dups = []
 
-                # Now add a new reference to the target (which, if the victim and
-                # target are of different types, might require updating a different
-                # column to the one we just set to NULL)
-                target_columns.each do |target_col|
+              # Now add a new reference to the target (which, if the victim and
+              # target are of different types, might require updating a different
+              # column to the one we just set to NULL)
+              target_columns.each do |target_col|
 
-                  if relationship[target_col]
-                    # This column is already used to reference the other record in our
-                    # relationship so we'll skip over it.  But while we're here, make
-                    # sure we're not about to create a circular relationship.
+                if relationship[target_col]
+                  # This column is already used to reference the other record in our
+                  # relationship so we'll skip over it.  But while we're here, make
+                  # sure we're not about to create a circular relationship.
 
-                    if relationship[target_col] == target.id
-                      raise "Transfer would create a circular relationship!"
-                    end
-
-                  elsif relationship.is_a?(Relationships::SubContainerTopContainerLink)
-                    identify_duplicate_containers(target, relationship, target_col, dups)
-
-                  else
-                    # Found a free column.  Store our updated reference here.
-                    !target_pre.empty? && target_pre.first[parent_col] == relationship[parent_col] ? dups << relationship : relationship[target_col] = target.id
-                    break
+                  if relationship[target_col] == target.id
+                    raise "Transfer would create a circular relationship!"
                   end
 
+                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink)
+                  identify_duplicate_containers(target, relationship, target_col, dups)
+
+                else
+                  # Found a free column.  Store our updated reference here.
+                  !target_pre.empty? && target_pre.first[parent_col] == relationship[parent_col] ? dups << relationship : relationship[target_col] = target.id
+                  break
                 end
 
-                relationship[:system_mtime] = Time.now
-                relationship[:user_mtime] = Time.now
-
-                relationship.save
-
-                cleanup_duplicates(dups)
               end
+
+              relationship[:system_mtime] = Time.now
+              relationship[:user_mtime] = Time.now
+
+              relationship.save
+
+              cleanup_duplicates(dups)
             end
           end
         end
