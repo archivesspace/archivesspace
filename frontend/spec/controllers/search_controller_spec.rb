@@ -38,4 +38,5 @@ describe SearchController, type: :controller do
     expect {
       get :do_search, {'extra_columns': [{'title' => 'uri', 'field' => 'uri', 'formatter' => 'stringify', 'sort_options' => {'sortable' => true, 'sort_by' => 'uri'}}]}
     }.to have_http_status(200)
+  end
 end
