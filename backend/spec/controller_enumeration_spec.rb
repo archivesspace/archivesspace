@@ -91,7 +91,7 @@ describe "Enumeration controller" do
 
   it "can migrate a value to get rid of it" do
     pending "this test passes when run on it's own, failing when run with other tests"
-    
+
     obj = JSONModel(:enumeration).find(@enum_id)
     obj.values += ["new_value"]
     obj.save
