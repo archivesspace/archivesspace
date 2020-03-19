@@ -183,20 +183,22 @@ describe 'Enumerations model' do
   # These tests are here for now because the query by string functionality on models inheriting from ASModel is first used with Enumeration.
   describe "query via to_jsonmodel" do
     before(:all) do
-      enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => 'test_enum',
-                                                                            :values => ['test_value']))
+      @q_enum_name = "test_enum_querying"
+      @q_enum = Enumeration.create_from_json(JSONModel(:enumeration).from_hash(:name => @q_enum_name, :values => ['test_value']))
     end
 
     it "can query Enumerations by ID" do
-      json = Enumeration.to_jsonmodel(1)
+      json = Enumeration.to_jsonmodel(@q_enum[:id])
       expect(json).not_to be_nil
-      expect(json['id']).to eq(1)
+      expect(json['id']).to eq(@q_enum[:id])
+      expect(json['name']).to eq(@q_enum_name)
     end
 
     it "allows a query by string" do
-      json = Enumeration.to_jsonmodel("test_enum", :query => "name" )
+      json = Enumeration.to_jsonmodel(@q_enum_name, :query => "name")
       expect(json).not_to be_nil
-      expect(json['name']).to eq('test_enum')
+      expect(json['id']).to eq(@q_enum[:id])
+      expect(json['name']).to eq(@q_enum_name)
     end
   end
 end
