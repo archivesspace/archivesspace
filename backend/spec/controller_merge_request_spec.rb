@@ -44,6 +44,8 @@ describe 'Merge request controller' do
 
       # Victim is gone
       expect(JSONModel(:"#{type}").find(parent.id).subjects.count).to eq(1)
+      # Target still there
+      expect(JSONModel(:"#{type}").find(parent.id).subjects).to include("ref" => target.uri)
     end
 
 
