@@ -32,7 +32,8 @@ $(function() {
         modal_id: $this.data("modal_id") || ($this.attr("id") + "_modal"),
         sortable: $this.data("sortable") === true,
         types: $this.data("types"),
-        exclude_ids: $this.data("exclude") || []
+        exclude_ids: $this.data("exclude") || [],
+        identifier: JSON.parse($this.attr('data-selected')).id_0 || undefined
       };
 
       config.allow_multiple = config.multiplicity === "many";
