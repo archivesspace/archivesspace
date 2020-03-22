@@ -193,6 +193,7 @@
       <input type="hidden" name="${config.path}[_resolved]{if config.multiplicity != 'one'}[]{/if}" />
       <input type="hidden" name="${config.path}[${config.name}]{if config.multiplicity != 'one'}[]{/if}" value="${item.id}" />
       <%= render_token :label => "${item.name|h}",
+                       :id => "${config.identifier}",
                        :type => "${item.json.jsonmodel_type}",
                        :uri => "${item.id}",
                        :inside_token_editor => true %>
