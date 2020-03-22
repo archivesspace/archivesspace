@@ -107,6 +107,9 @@ module ApplicationHelper
     else
       html += "<span class='icon-token'></span>"
     end
+    html += "["
+    html += clean_mixed_content(opts[:id])
+    html += "] "
     html += clean_mixed_content(opts[:label])
     html += "</div>"
     html.html_safe
