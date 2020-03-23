@@ -84,6 +84,59 @@ describe 'Resource instances and containers' do
     expect(@driver.find_element(css: '.form-group:nth-child(3) div.label-only').text).to eq('xyzpdq')
   end
 
+
+  it 'searches containers and performs bulk container merge' do
+    @driver.navigate.to("#{$frontend}/top_containers")
+
+    @driver.find_element(:css, '#empty').select_option('yes')
+    @driver.find_element(:css, 'input.btn').click
+
+    @driver.wait_for_ajax
+
+    @driver.find_element(css: "#bulk_operation_results input[name='select_all']").click
+
+    # Pre-merge baselines for number of rows and the target uri that will remain post merge
+    row_count = @driver.all(:css, 'table tr').size
+    target_uri = @driver.find_element(xpath: '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[12]/div/a[1]').attribute('href')
+
+    # Now merge top containers
+    @driver.find_element(css: '.bulk-operation-toolbar:first-child a.dropdown-toggle').click
+    @driver.wait_for_dropdown
+
+    @driver.find_element(id: 'bulkActionMerge').click
+
+    modal = @driver.find_element(id: 'bulkMergeModal')
+    modal.find_element(:css, "input[name='target[]").click
+    modal.find_element(css: '.merge-button').click
+
+    # Should be given a confirmation modal
+    expect do
+      @modal_confirm = @driver.find_element(id: 'bulkMergeConfirmModal')
+    end.not_to raise_error
+
+    @modal_confirm.find_element(css: '.merge-button').click
+
+    # Should be redirected to surviving top container with success message
+    expect do
+      @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Top .+ Merged/)
+    end.not_to raise_error
+
+    # Indexers aren't running as normal, so must manually reindex post merge
+    run_all_indexers
+
+    @driver.navigate.to("#{$frontend}/top_containers")
+    @driver.find_element(:css, '#empty').select_option('yes')
+    @driver.find_element(css: 'input.btn').click
+
+    @driver.wait_for_ajax
+
+    # There should be fewer rows now
+    expect(@driver.all(:css, 'table tr').size).not_to eq(row_count)
+    # The target should remain
+    expect(@driver.find_element(xpath: '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[12]/div/a[1]').attribute('href')).to eq(target_uri)
+  end
+
+
   it 'can attach instances to resources and create containers and locations along the way' do
     @driver.navigate.to("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
     @driver.find_element(css: '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
