@@ -19,7 +19,7 @@ describe 'Merge request controller' do
     }.to raise_error(RecordNotFound)
   end
 
-  ['accession', 'digital_object', 'resource'].each do |type|
+  ['accession', 'digital_object', 'resource', 'archival_object', 'digital_object_component'].each do |type|
     it "can merge two subjects, but delete duplicate relationships" do
       target = create(:json_subject)
       victim = create(:json_subject)
@@ -172,6 +172,26 @@ describe 'Merge request controller' do
     expect {
       request.save(:record_type => "#{types[0]}")
     }.to raise_error(JSONModel::ValidationException)
+  end
+
+
+  it "throws an error if you ask it to merge records belonging to different repositories" do
+    ['accession', 'resource', 'digital_object', 'top_container'].each do |type|
+      victim = create(:"json_#{type}")
+
+      # New repo
+      create(:repo)
+      target = create(:"json_#{type}")
+
+      request = JSONModel(:merge_request).new
+      request.target = {'ref' => target.uri}
+      request.victims = [{'ref' => victim.uri}]
+
+      # Victim is gone
+      expect {
+        request.save(:record_type => type)
+      }.to raise_error(JSONModel::ValidationException)
+    end
   end
 
 

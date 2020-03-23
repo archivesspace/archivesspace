@@ -101,9 +101,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
         vics.each do |victim|
 
-          parents = who_participates_with(victim)
-          next if parents.empty?
-          parents.each do |parent|
+          who_participates_with(victim).each do |parent|
             parent_col = reference_columns_for(parent.class).first
             # Find any relationship where the current column contains a reference to
             # our victim
@@ -182,8 +180,7 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
 
   def self.identify_duplicate_containers(target, relationship, target_col, dups)
-    target_relationships = find_by_participant(target)
-    target_relationships.each do |target_relationship|
+    find_by_participant(target).each do |target_relationship|
       subcontainer = SubContainer[relationship[:sub_container_id]]
       target_subcontainer = SubContainer[target_relationship[:sub_container_id]]
       # Only proceed if the subcontainer record is empty
