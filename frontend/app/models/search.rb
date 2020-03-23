@@ -14,7 +14,7 @@ class Search
     build_filters(criteria)
 
     criteria["page"] = 1 if not criteria.has_key?("page")
-
+      
     search_data = JSONModel::HTTP::get_json("/repositories/#{repo_id}/search", criteria)
 
     #If the criteria contains a 'blank_facet_query_fields' field,
