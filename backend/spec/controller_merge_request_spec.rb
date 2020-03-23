@@ -175,6 +175,7 @@ describe 'Merge request controller' do
   end
 
 
+  it "throws an error if you ask it to merge records belonging to different repositories" do
     ['accession', 'resource', 'digital_object', 'top_container'].each do |type|
       victim = create(:"json_#{type}")
 
