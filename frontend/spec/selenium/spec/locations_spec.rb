@@ -296,5 +296,27 @@ describe 'Locations' do
       assert(5) { expect(@driver.find_element(:id,  'location_batch_room_').attribute('value')).to eq('201') }
       assert(5) { expect(@driver.find_element(:id, 'location_batch_area_').attribute('value')).to eq('Corner') }
     end
+
+    it 'correctly sorts locations in the browse list' do
+      @driver.get($frontend)
+
+      @driver.find_element(:link, 'Browse').click
+      @driver.wait_for_dropdown
+      @driver.click_and_wait_until_gone(:link, 'Locations')
+
+      @driver.find_elements(:css, 'th')[1].click
+
+      table_rows = @driver.find_elements(:css, "tr")
+      table_rows.shift
+
+      table_rows_location_text = []
+      table_rows.each do |row|
+        table_rows_location_text << row.find_elements(:css, "td")[1].text
+      end
+
+      table_rows_location_text_sorted = table_rows_location_text.sort
+
+      expect(table_rows_location_text).to eq(table_rows_location_text_sorted)
+    end
   end
 end
