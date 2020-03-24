@@ -1,33 +1,34 @@
 require 'capybara/rails'
 require 'launchy'
 
-# Headless chrome
-Capybara.register_driver(:selenium_chrome) do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w[headless disable-gpu] }
-  )
+CHROME_OPTS  = ENV.fetch('CHROME_OPTS', '--headless,--disable-gpu,--window-size=1920x1080').split(',')
+FIREFOX_OPTS = ENV.fetch('FIREFOX_OPTS', '-headless').split(',')
+# https://github.com/mozilla/geckodriver/issues/1354
+ENV['MOZ_HEADLESS_WIDTH'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1920')
+ENV['MOZ_HEADLESS_HEIGHT'] = ENV.fetch('MOZ_HEADLESS_WIDTH', '1080')
 
+# Chrome
+Capybara.register_driver(:chrome) do |app|
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    desired_capabilities: capabilities
+    options: Selenium::WebDriver::Chrome::Options.new(args: CHROME_OPTS)
   )
 end
 
-# Heady Chrome
-Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+# Firefox
+Capybara.register_driver :firefox do |app|
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :firefox,
+    options: Selenium::WebDriver::Firefox::Options.new(args: FIREFOX_OPTS)
+  )
 end
 
-# We can use Headless Chrome, Regular Chrome, of FF (using geckodriver)
 if ENV['SELENIUM_CHROME']
-  Capybara.javascript_driver = :selenium_chrome
-elsif ENV['SELENIUM_HEADY_CHROME']
   Capybara.javascript_driver = :chrome
-elsif java.lang.System.getProperty('os.name').downcase == 'linux'
-  ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'common', 'selenium', 'bin', 'geckodriver', 'linux')}:#{ENV['PATH']}"
-else #osx
-  ENV['PATH'] = "#{File.join(ASUtils.find_base_directory, 'common', 'selenium', 'bin', 'geckodriver', 'osx')}:#{ENV['PATH']}"
+else
+  Capybara.javascript_driver = :firefox
 end
 
 # This should change once the app gets to a point where it's not just throwing
