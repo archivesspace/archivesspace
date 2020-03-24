@@ -90,7 +90,42 @@
             <% end %>
           </section>
 
-          <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @top_container, :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
+          <%= render_aspace_partial :partial => "search/embedded",
+           :locals => {
+             :record => @top_container,
+             :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json,
+             :heading_text => I18n.t("location._frontend.section.search_embedded"),
+             :show_context_column => true,
+             :extra_columns => [
+               {
+                 title: 'search_sorting.resource_type',
+                 field: 'resource_type',
+                 formatter: 'stringify',
+                 sort_options: {
+                   sortable: true,
+                   sort_by: 'resource_type',
+                 }
+               },
+               {
+                 title: 'search_sorting.level',
+                 field: 'level',
+                 formatter: 'stringify',
+                 sort_options: {
+                   sortable: true,
+                   sort_by: 'level'
+                 }
+               },
+               {
+                 title: 'search_sorting.ead_id',
+                 field: 'ead_id',
+                 formatter: 'stringify',
+                 sort_options: {
+                   sortable: true,
+                   sort_by: 'ead_id'
+                 }
+               }
+             ]
+             } %>
 
           <hr>
           <%= display_audit_info(@top_container) %>
