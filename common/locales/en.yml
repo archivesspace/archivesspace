@@ -2405,7 +2405,6 @@ en:
       relator_invalid: "Unable to create agent link due to problem with relator '%{label}': %{why}" 
       bad_role: "Unable to create agent link: '%{label}' is not a valid role"
       role_invalid: "Unable to create agent link due to problem with role '%{label}': %{why}" 
-
       has_dig_obj: "Archival object already has an associated digital object"
       dig_unassoc: "Unable to save archival object with associated digital object: %{msg}"
       ref_id_miss: No Ref Id specified
