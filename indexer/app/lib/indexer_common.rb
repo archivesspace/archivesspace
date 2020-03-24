@@ -76,6 +76,9 @@ class IndexerCommon
       end
     end
 
+    # Force load up front
+    self.enum_fields
+
     configure_doc_rules
 
     @@init_hooks.each do |hook|
@@ -267,15 +270,39 @@ class IndexerCommon
     end
   end
 
-  # TODO: We should fix this to read from the JSON schemas
-  HARDCODED_ENUM_FIELDS = ["relator", "type", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "extent_type", "language", "script", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"]
+
+  def enum_fields
+    if @enum_fields
+      @enum_fields
+    else
+      enum_fields = []
+
+      queue = JSONModel.models.map {|_,model| model.schema['properties']}.flatten.uniq
+
+      while !queue.empty?
+        elt = queue.shift
+
+        if elt.is_a?(Hash)
+          elt.each do |k, v|
+            enum_fields.push(k) if v.is_a?(Hash) && v['dynamic_enum']
+            queue << v
+          end
+        elsif elt.is_a?(Array)
+          queue.concat(elt)
+        end
+      end
+
+      @enum_fields = enum_fields.uniq
+    end
+  end
+
 
   def configure_doc_rules
 
     add_document_prepare_hook {|doc, record|
       found_keys = Set.new
 
-      ASUtils.search_nested(record["record"], HARDCODED_ENUM_FIELDS, ['_resolved']) do |field, field_value|
+      ASUtils.search_nested(record["record"], enum_fields, ['_resolved']) do |field, field_value|
         key = "#{field}_enum_s"
 
         doc[key] ||= Set.new
