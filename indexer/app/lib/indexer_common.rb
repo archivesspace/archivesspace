@@ -77,6 +77,9 @@ class IndexerCommon
       end
     end
 
+    # Force load up front
+    self.enum_fields
+
     configure_doc_rules
 
     @@init_hooks.each do |hook|
@@ -271,11 +274,28 @@ class IndexerCommon
 
 
   def enum_fields
-    @enum_fields ||= JSONModel.models.map{|_,model|
-      model.schema['properties'].select{|_,hash| hash.has_key?('dynamic_enum')}.map{|prop,_| prop}
-    }.flatten.uniq
+    if @enum_fields
+      @enum_fields
+    else
+      enum_fields = []
 
-    @enum_fields
+      queue = JSONModel.models.map {|_,model| model.schema['properties']}.flatten.uniq
+
+      while !queue.empty?
+        elt = queue.shift
+
+        if elt.is_a?(Hash)
+          elt.each do |k, v|
+            enum_fields.push(k) if v.is_a?(Hash) && v['dynamic_enum']
+            queue << v
+          end
+        elsif elt.is_a?(Array)
+          queue.concat(elt)
+        end
+      end
+
+      @enum_fields = enum_fields.uniq
+    end
   end
 
 
