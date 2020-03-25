@@ -1,4 +1,3 @@
-require 'srusearcher'
 require 'opensearcher'
 require 'securerandom'
 
@@ -22,11 +21,7 @@ class LcnafController < ApplicationController
 
 
   def import
-    if params[:lcnaf_service] == 'oclc'
-      marcxml_file = searcher.results_to_marcxml_file(SRUQuery.lccn_search(params[:lccn]))
-    elsif params[:lcnaf_service] == 'lcnaf' || params[:lcnaf_service] == 'lcsh'
-      marcxml_file = searcher.results_to_marcxml_file(params[:lccn])
-    end
+    marcxml_file = searcher.results_to_marcxml_file(params[:lccn])
 
     begin
       job = Job.new("import_job", {
@@ -46,20 +41,12 @@ class LcnafController < ApplicationController
   private
 
   def do_search(params)
-    case params[:lcnaf_service]
-    when 'oclc'
-      query = SRUQuery.name_search(params[:family_name], params[:given_name]  )
-      searcher.search(query, params[:page].to_i, params[:records_per_page].to_i)
-    when 'lcnaf', 'lcsh'
-      searcher.search(params[:family_name], params[:page].to_i, params[:records_per_page].to_i)
-    end
+    searcher.search(params[:family_name], params[:page].to_i, params[:records_per_page].to_i)
   end
 
 
   def searcher
     case params[:lcnaf_service]
-    when 'oclc'
-      SRUSearcher.new('http://alcme.oclc.org/srw/search/lcnaf')
     when  'lcnaf'
       OpenSearcher.new('http://id.loc.gov/search/', 'http://id.loc.gov/authorities/names')
     when 'lcsh'

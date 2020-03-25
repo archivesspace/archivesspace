@@ -1595,7 +1595,7 @@ ja:
     import_type_accession_csv: 加盟CSV
     import_type_digital_object_csv: デジタルオブジェクトCSV
     import_type_eac_xml: EAC
-    import_type_location: Location CSV
+    import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML（リソース）
     import_type_marcxml_accession: MarcXML（アクセッション）
     import_type_marcxml_subjects_and_agents: MarcXML（主題と代理人のみ）

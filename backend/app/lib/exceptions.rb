@@ -39,6 +39,8 @@ end
 class MergeRequestFailed < StandardError
 end
 
+class EnumerationMigrationFailed < StandardError
+end
 
 class BatchDeleteFailed < StandardError
   attr_accessor :errors
@@ -178,6 +180,11 @@ module Exceptions
         end
 
         error MergeRequestFailed do
+          Log.exception(request.env['sinatra.error'])
+          json_response({:error => request.env['sinatra.error']}, 400)
+        end
+
+        error EnumerationMigrationFailed do
           Log.exception(request.env['sinatra.error'])
           json_response({:error => request.env['sinatra.error']}, 400)
         end

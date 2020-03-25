@@ -18,10 +18,10 @@ class ArchivesSpaceService < Sinatra::Base
              [409, :error]) \
   do
 
-    # some migrators (like Archivists Toolkit) use the batch_import endpoint. 
-    # however, we can disable some checks, since AT has managed the data in a particular way, so 
+    # some migrators (like Archivists Toolkit) use the batch_import endpoint.
+    # however, we can disable some checks, since AT has managed the data in a particular way, so
     # things like ordering should not need to be checked.
-    migration = params[:migration] ? true : false 
+    migration = params[:migration] ? true : false
 
     # The first time we're invoked, spool our input into a file.  Since the
     # transaction might get aborted and restarted, the body of this endpoint
@@ -67,7 +67,7 @@ class ArchivesSpaceService < Sinatra::Base
               last_error = e
 
               # Roll back the transaction (if there is one)
-              raise Sequel::Rollback
+              raise Sequel::Rollback, last_error
             end
           end
         end

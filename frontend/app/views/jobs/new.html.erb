@@ -12,14 +12,14 @@
       <div class="col-md-9">
         <div class="record-pane">
           <%= link_to_help :topic => "job" %>
-          <h2><%= I18n.t("job._frontend.action.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type]) %> <span class="label label-info"><%= I18n.t("job._singular") %></span></h2>
+          <h2><%= I18n.t("job._frontend.actions.new") %> &mdash; <%= I18n.t("job.types.#{params[:job_type]}", :default => params[:job_type]) %> <span class="label label-info"><%= I18n.t("job._singular") %></span></h2>
 
           <%= render_aspace_partial :partial => "form", :locals => {:form => form} %>
 
           <br/>
           <div class="form-actions">
             <div class="btn-group">
-              <button type="submit" class="btn btn-primary"><%= I18n.t("job._frontend.action.save") %></button>
+              <button type="submit" class="btn btn-primary"><%= I18n.t("job._frontend.actions.save") %></button>
             </div>
             <%= link_to I18n.t("actions.cancel"), :back, :class => "btn btn-cancel btn-default" %>
           </div>

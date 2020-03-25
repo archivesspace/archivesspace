@@ -35,6 +35,7 @@ if [ "$orig" != "$1" ]; then
         export INTEGRATION_LOGFILE="/dev/null"
     fi
 
+    echo "INTEGRATION MODE FOR: $orig" # just a pointer we are here
     exec java -cp "ant/*" org.apache.tools.ant.launch.Launcher $orig -Daspace.integration=true ${1+"$@"} >>"$INTEGRATION_LOGFILE" 2>&1
 else
     exec java -cp "ant/*" org.apache.tools.ant.launch.Launcher ${1+"$@"}
