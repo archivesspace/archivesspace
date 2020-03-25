@@ -39,9 +39,7 @@ describe "Agent Handler" do
     @agents = @ah.instance_variable_get(:@agents)
     @report = BulkImportReport.new
     @report.new_row(1)
-  end
-
-  def add_ingest
+    # because the internal db doesn't have this value!!!
     enum = Enumeration[name: "name_source"]
     enum.add_enumeration_value(:value => "ingest")
   end
@@ -56,7 +54,6 @@ describe "Agent Handler" do
     res = build_return_key("people", nil, "Smith, John", "aut", nil)
     expect(res[:key]).to eq("person_Smith, John")
     expect(res[:agent][:role]).to eq("creator")
-    add_ingest
   end
 
   it "should build an agent entry  with the 'id_but_no_name' value as true " do
@@ -65,7 +62,6 @@ describe "Agent Handler" do
   end
 
   it "should create an person agent using 'create_agent', then retrieve it with 'get_or_create'" do
-    add_ingest
     res = build_return_key("people", nil, "Smith, John", "aut", nil)
     created = @ah.create_agent(res[:agent])
     id = created[:id]
