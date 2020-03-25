@@ -122,6 +122,8 @@ module SearchHelper
       user_can? 'update_location_record'
     when 'classification'
       user_can? 'delete_classification_record'
+    when 'container_profile'
+      user_can? 'update_container_profile_record'
     else
       false
     end
