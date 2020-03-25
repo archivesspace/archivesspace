@@ -1,14 +1,13 @@
-require 'pp'
-require_relative '../../../model/enumeration'
-require_relative '../../../lib/crud_helpers'
-require_relative 'bulk_import_mixins'
+require "pp"
+require_relative "../../../model/enumeration"
+require_relative "../../../lib/crud_helpers"
+require_relative "bulk_import_mixins"
 include CrudHelpers
 
 class CvList
-    
   @list = []
   @list_hash = {}
-  @which = ''
+  @which = ""
   @current_user
 
   def initialize(which, current_user)
@@ -19,11 +18,11 @@ class CvList
 
   def value(label)
     if @list_hash[label]
-      v =  @list_hash[label]
+      v = @list_hash[label]
     elsif @list.index(label)
       v = label
     end
-    raise Exception.new(I18n.t('bulk_import.error.enum',:label =>label,:which => @which)) if !v
+    raise Exception.new(I18n.t("bulk_import.error.enum", :label => label, :which => @which)) if !v
     v
   end
 
@@ -34,15 +33,15 @@ class CvList
   def renew
     @list = []
     list_hash = {}
-    enums = handle_raw_listing(Enumeration, {:name => @which}, @current_user)
-    enums[0]['values'].each do |v|
-      if !v['suppressed']
+    enums = handle_raw_listing(Enumeration, { :name => @which }, @current_user)
+    enums[0]["values"].each do |v|
+      if !v["suppressed"]
         trans = I18n.t("enumerations.#{@which}.#{v}", default: v)
         if !list_hash[trans]
           list_hash[trans] = v
           @list.push v
         else
-          Rails.logger.warn(I18n.t('bulk_import.warn.dup', :which => @which, :trans => trans,  :used => list_hash[trans]))
+          Log.warn(I18n.t("bulk_import.warn.dup", :which => @which, :trans => trans, :used => list_hash[trans]))
         end
       end
     end
