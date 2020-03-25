@@ -50,7 +50,7 @@
             }
 
 	    $.ajax({
-			url: APP_PATH + "resources/" + obj.rid + "/getbulkfile",
+			url: AS.app_prefix("/resources/" + obj.rid + "/getbulkfile"),
 			type: "POST",
 			data: {aoid: obj.aoid, type: obj.type, ref_id: obj.ref_id, resource: obj.resource, position: obj.position},
 			dataType: "html",

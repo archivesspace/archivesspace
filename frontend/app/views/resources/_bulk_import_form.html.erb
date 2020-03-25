@@ -1,7 +1,8 @@
 <div id="bulk_import_file_template">
   <div class="bulk_import_wrapper">
 <!-- <%= "/resources/#{rid}/ssload" %> -->
-    <%= form_tag url_for("/resources/#{rid}/uploadbulkfile"), :method => "post", multipart: true, :id => 'bulk_import_form' do %>
+    <%= form_tag url_for(:controller => :bulk_import, :action => :submit_file, :id => rid),
+     :method => "post", multipart: true, :id => 'bulk_import_form' do %>
 <!-- <%= "#{rid}  #{ref_id}" %> -->
     <div class="modal-body">
 	 <input type='hidden' name='repo_id' id='repo_id' value='<%= repo_id %>'/>
