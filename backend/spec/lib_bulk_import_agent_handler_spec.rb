@@ -4,6 +4,7 @@ require_relative "../app/model/mixins/dynamic_enums"
 require_relative "../app/model/enumeration"
 
 describe "Agent Handler" do
+  # define some agents by type
   let(:person_agent) {
     build(:json_agent_person,
           :names => [build(:json_name_person)],
