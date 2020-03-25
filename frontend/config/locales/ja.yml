@@ -42,6 +42,9 @@ ja:
     merge_agent_confirm_message: エージェント '%{source}'には、選択したレコードがマージされます。選択したレコードはすべて削除され、リンクされたレコードはこのエージェントに再リンクされます。 [エージェントの比較]ボタンをクリックすると、各レコードからどのフィールドとサブレコードを保持するかを選択するための画面が表示されます。
     merge_agent_from_browse_confirm_message: "選択された最初のエージェントには、後で選択されたレコードがマージされます。その後選択されたすべてのレコードは削除され、リンクされたレコードは選択された最初のエージェントに再リンクされます."
     merge_resource_confirm_message: リソース '%{source}'には、選択したレコードがマージされます。選択したすべてのレコードが削除され、リンクされたレコードはすべてこのリソースに再リンクされます。
+    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
+    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
+    merge_n_records: "Merge %{n} records"
     move: 移動
     move_up_a_level: レベルアップ
     move_up: アップ
@@ -322,10 +325,6 @@ ja:
     repo_preferences: リポジトリの設定
     manage_user_access: ユーザーアクセスを管理する
     logout: ログアウト
-    login: サインイン
-    login_expired_link: "%{link}してください。"
-    login_fail: ログイン試行に失敗しました
-    login_success: ログイン成功。リダイレクト中...
     register: 今すぐ登録
     register_prefix: アカウントが必要です？
     list_reports: レポート
@@ -333,6 +332,11 @@ ja:
     system_info: システムインフォメーション
     unpublished: 未発表
     manage_assessment_attributes: アセスメント属性の管理
+    toggle_navigation: Toggle Navigation
+
+  header:
+    staff_interface: ArchivesSpace Staff Interface
+
   session:
     gone: バックエンドセッションが見つかりませんでした
     expired: あなたのセッションは非アクティブのため失効しました
@@ -359,6 +363,13 @@ ja:
     heading: ArchivesSpaceへようこそ
     message: フレンドリーなアーカイブ管理ツール。
     message_logged_in: フレンドリーなアーカイブ管理ツール。
+
+  login:
+    login: サインイン
+    login_please: サインインしてください
+    login_expired_link: "%{link}してください。"
+    login_fail: ログイン試行に失敗しました
+    login_success: ログイン成功。リダイレクト中...
 
   breadcrumb:
     home: ホーム
@@ -895,6 +906,8 @@ ja:
         create: リソースの作成
         save: リソースを保存
         delete_multiple: リソースを削除する
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
 
   preference:
     _frontend:
@@ -1146,6 +1159,8 @@ ja:
     not_exported: エクスポートされません
     restricted: 制限されていますか？
     parent: 親コンテナ
+    has_location: 場所がある
+
     managed_container_2_type: 子コンテナタイプ
     managed_container_2_type_tooltip: "<p>記載された材料が格納されている第2レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
       </p>"
@@ -1221,6 +1236,8 @@ ja:
         delete_n_records: "%{n}レコードを削除する"
         update_locations_current_location: 現在位置
         update_locations_new_location: 新しい場所
+        has_location_true: はい
+        has_location_false: 番号
 
   container_profile:
     _singular: コンテナプロファイル
@@ -1234,8 +1251,17 @@ ja:
       messages:
         created: 作成されたコンテナプロファイル
         updated: 更新されたコンテナプロファイル
+        merged: Container Profiles(s) Merged
       section:
         basic_information: 基本情報
+      bulk_operations:
+        merge: コンテナプロファイルのマージ
+        merge_instructions: リストされている他のすべてのコンテナプロファイルがマージされるコンテナプロファイルを選択します。 リンクされたレコードはすべてこのプロファイルに再リンクされ、他のコンテナプロファイルのすべての情報が削除されます。
+        merge_select_target: マージターゲットを選択
+        confirm_merge: マージコンテナプロファイルの確認
+        confirm_merge_question: 以下にリストされているように、コンテナープロファイルをマージしてもよろしいですか？ このアクションは元に戻せません。
+        confirm_merge_victims: "次のコンテナプロファイルをマージします:" 
+        confirm_merge_target: "このコンテナプロファイルに:"
     name: 名
     name_tooltip: "<p>必要なフィールド。コンテナプロファイルの名前。ジェネリックまたは特定のものがあります。 </p><p>例： </p><ul><li>ドキュメントボックス</li><li>ページ15
       </li><li>小さなカードのファイルボックス</li></ul>"

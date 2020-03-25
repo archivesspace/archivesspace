@@ -30,7 +30,7 @@
               <ul>
                  <% @files.each do |file| %>
                    <li><%= link_to file_label(@job["job_type"]), :controller =>  :jobs, :action => :download_file, :id => file, :job_id => @job.id %></li>
-                <% end %> 
+                <% end %>
               </ul>
             </div>
           </section>
@@ -42,7 +42,7 @@
               <%= I18n.t("job._frontend.section.logs") %>
               <% if @job.status === "running" %>
                 <div class="btn-group pull-right">
-                  <button class="btn btn-sm active btn-follow-log"><%= I18n.t("job._frontend.action.follow_log") %></button>
+                  <button class="btn btn-sm active btn-follow-log"><%= I18n.t("job._frontend.actions.follow_log") %></button>
                 </div>
               <% end %>
             </h3>

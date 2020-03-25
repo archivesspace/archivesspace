@@ -225,6 +225,7 @@ es:
     search_all: All Records
     error_no_term: No search term(s) entered.
     search_terms_results: "Your search for {{search_terms}} yielded {{number}} results"
+    toggle_navigation: Toggle Navigation
 
   internal_links:
     main: Main Content

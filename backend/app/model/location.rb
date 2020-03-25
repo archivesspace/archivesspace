@@ -22,6 +22,7 @@ class Location < Sequel::Model(:location)
                     :contains_records_of_type => :location_function,
                     :corresponding_to_association  => :location_function)
 
+
   def self.generate_title(json)
     title = ""
 
@@ -78,7 +79,7 @@ class Location < Sequel::Model(:location)
     locations = generate_locations_for_batch(batch)
     locations.map{|location| self.create_from_json(location)}
   end
-  
+
   def self.batch_update(location)
     location[:record_uris].map do |uri|
       id = JSONModel.parse_reference(uri)[:id]

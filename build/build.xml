@@ -227,6 +227,10 @@
 
 
   <target name="backend:integration" depends="set-classpath" description="Run the integration test suite">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../backend">
@@ -237,6 +241,7 @@
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="tests/integration.rb" />
     </java>
+    <delete dir="integration.tmp" />
   </target>
 
 
@@ -253,19 +258,23 @@
 
 
   <target name="backend:devserver" depends="set-classpath, setup-solr" description="Start an instance of the ArchivesSpace backend development server">
-    <delete dir="integration.tmp" />
+    <!--<delete dir="integration.tmp" />-->
     <delete dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
     <mkdir dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
 
     <mkdir dir="../build/solr_home/collection1/conf" />
+    <mkdir dir="../build/solr_home/collection1/lib" />
+    <copy todir="../build/solr_home/collection1/lib">
+	    <fileset dir="../solr/lib" />
+    </copy>
 
     <parallel>
       <daemons>
         <java
-          classpath="${jettyrunner_file}:../solr:../common/lib/*"
+	  classpath="${jettyrunner_file}:../solr:../common/lib/*"
           classname="org.eclipse.jetty.runner.Runner" fork="true">
           <jvmarg line="${default_java_options} ${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/jettyrunner.${user.name}" />
-          <arg line="--port ${aspace.solr.port} ${solr_file}" />
+	  <arg line="--port ${aspace.solr.port} ${solr_file}" />
         </java>
       </daemons>
       <record name="backend_test_log.out" action="start" />
@@ -352,7 +361,12 @@
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
     <copy file="${solr_file}" tofile="solr.war" overwrite="true" />
     <war destfile="solr.war" update="true">
-      <zipfileset dir="../solr" prefix="WEB-INF/classes"/>
+      	    <zipfileset dir="../solr" includes="schema.xml" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="solrconfig.xml" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="stopwords.txt" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="synonyms.txt" prefix="WEB-INF/classes"/>
+   	    <zipfileset dir="../solr" includes="Dockerfile" prefix="WEB-INF/classes"/>
+    	    <zipfileset dir="../solr/lib" prefix="WEB-INF/lib"/>
     </war>
   </target>
 
@@ -371,6 +385,10 @@
 
   <!-- Frontend -->
   <target name="frontend:test" depends="set-classpath, frontend:clean" description="Run the non-Selenium unit test suite">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <property name="spec" value=""/>
     <condition property="spec-arg" value="${spec}" else="">
       <isset property="spec"/>
@@ -389,6 +407,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/gems/bin/rspec -b --format d -P '*/*_spec.rb' --order rand:1 ${example-arg} spec/${spec-arg}" />
     </java>
+    <delete dir="integration.tmp"/>
   </target>
 
 
@@ -398,10 +417,11 @@
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
       <isset property="example"/>
     </condition>
-    <dirset id="plugins" dir="../plugins">
-            <include name="**/frontend/spec"/>
+    <dirset id="plugins" dir="../..">
+            <include name="frontend/spec"/>
             <include name="archivesspace/plugins/**/frontend/spec"/>
     </dirset>
+    <pathconvert pathsep=" " property="plugin-spec-dirs" refid="plugins"/>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../frontend">
@@ -409,7 +429,7 @@
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} spec/${spec}" />
+      <arg line="../build/gems/bin/rspec -b --format d -P '*_spec.rb' --order rand:1 ${example-arg} ${plugin-spec-dirs}" />
     </java>
   </target>
 
@@ -489,6 +509,10 @@
   </target>
 
   <target name="frontend:selenium" depends="set-classpath, frontend:clean" description="Run the Selenium tests">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <property name="spec" value=""/>
     <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
@@ -508,6 +532,7 @@
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="../../../build/gems/bin/rspec -b -f d -P '*_spec.rb' --order default ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
     </java>
+    <delete dir="integration.tmp" />
   </target>
 
 
@@ -852,6 +877,10 @@
   </target>
 
   <target name="public:test" depends="set-classpath, public:copy-shared-resources" description="Run the unit test suite">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <property name="spec" value=""/>
     <condition property="spec-arg" value="${spec}" else="">
       <isset property="spec"/>
@@ -870,6 +899,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/gems/bin/rspec -b --format d --order rand:1 ${example-arg} spec/${spec-arg}" />
     </java>
+    <delete dir="integration.tmp"/>
   </target>
 
 

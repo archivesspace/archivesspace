@@ -10,51 +10,57 @@
     <h3><%= I18n.t("top_container._plural") %></h3>
     <%= form_tag(form_target, {:class => "form-horizontal", :id => "bulk_operation_form"}) do |f| %>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="q"><%= I18n.t("top_container._frontend.bulk_operations.keyword_criteria") %></label>
+        <label class="control-label col-sm-3" for="q"><%= I18n.t("top_container._frontend.bulk_operations.keyword_criteria") %></label>
         <div class="controls col-sm-8">
           <%= text_field_tag "q", params["q"], :class => "form-control" %>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="barcodes"><%= I18n.t("top_container._frontend.bulk_operations.barcodes_criteria") %></label>
+        <label class="control-label col-sm-3" for="barcodes"><%= I18n.t("top_container._frontend.bulk_operations.barcodes_criteria") %></label>
         <div class="controls col-sm-8">
           <%= text_field_tag "barcodes", params["barcodes"], :class => "form-control" %>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="collection_resource"><%= I18n.t("top_container._frontend.bulk_operations.collection_resource_singular") %></label>
+        <label class="control-label col-sm-3" for="collection_resource"><%= I18n.t("top_container._frontend.bulk_operations.collection_resource_singular") %></label>
         <div class="controls col-sm-8">
           <%= render_aspace_partial :partial => "top_containers/bulk_operations/collection_resource_linker" %>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="collection_accession"><%= I18n.t("top_container._frontend.bulk_operations.collection_accession_singular") %></label>
+        <label class="control-label col-sm-3" for="collection_accession"><%= I18n.t("top_container._frontend.bulk_operations.collection_accession_singular") %></label>
         <div class="controls col-sm-8">
           <%= render_aspace_partial :partial => "top_containers/bulk_operations/collection_accession_linker" %>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="container_profile"><%= I18n.t("container_profile._singular") %></label>
+        <label class="control-label col-sm-3" for="container_profile"><%= I18n.t("container_profile._singular") %></label>
         <div class="controls col-sm-8">
           <%= render_aspace_partial :partial => "top_containers/bulk_operations/container_profile_linker" %>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="location"><%= I18n.t("location._singular") %></label>
+        <label class="control-label col-sm-3" for="location"><%= I18n.t("location._singular") %></label>
         <div class="controls col-sm-8">
           <%= render_aspace_partial :partial => "top_containers/bulk_operations/location_linker" %>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="exported"><%= I18n.t("top_container.exported_to_ils") %></label>
+        <label class="control-label col-sm-3" for="exported"><%= I18n.t("top_container.exported_to_ils") %></label>
         <div class="controls col-sm-4">
           <select name="exported" id="exported" class="form-control"><option></option><option value="yes"><%= I18n.t("top_container._frontend.bulk_operations.exported_to_ils_true") %></option><option value="no"><%= I18n.t("top_container._frontend.bulk_operations.exported_to_ils_false") %></option></select>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2" for="empty"><%= I18n.t("top_container._frontend.bulk_operations.empty") %></label>
+        <label class="control-label col-sm-3" for="empty"><%= I18n.t("top_container._frontend.bulk_operations.empty") %></label>
         <div class="controls col-sm-4">
           <select name="empty" id="empty" class="form-control"><option></option><option value="yes"><%= I18n.t("top_container._frontend.bulk_operations.empty_true") %></option><option value="no"><%= I18n.t("top_container._frontend.bulk_operations.empty_false") %></option></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-3" for="has_location"><%= I18n.t("top_container.has_location") %></label>
+        <div class="controls col-sm-4">
+          <select name="has_location" id="has_location" class="form-control"><option></option><option value="yes"><%= I18n.t("top_container._frontend.bulk_operations.has_location_true") %></option><option value="no"><%= I18n.t("top_container._frontend.bulk_operations.has_location_false") %></option></select>
         </div>
       </div>
       <div class="form-group">

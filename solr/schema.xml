@@ -17,6 +17,11 @@
        1.5: omitNorms defaults to true for primitive field types
             (int, float, boolean, string...)
      -->
+  <!-- Harvard modifications 
+       2020.1: Add icu_sort field type (now used by title_sort, identifier_sort, identifier instead of string_sort), 
+               which uses ICUCollationKeyFilterFactory with numeric sort; 
+               requires icu4j, solr-analysis-extras and lucene-analyzers-icu jars
+               (last 2 match solr version, e.g. lucene-analyzers-icu-4.10.4.jar); note, in 6x and later versions, filter declaration uses different syntax, see below -->
 
  <fields>
    <!-- Valid attributes for fields:
@@ -65,6 +70,7 @@
    <field name="system_generated" type="boolean" indexed="true" stored="true" multiValued="false" />
 
    <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="subject_uris" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="published_agents" type="string" indexed="true" stored="true" multiValued="true"/>
@@ -84,10 +90,12 @@
 
    <!-- Archival Record properties required for facets -->
    <field name="level" type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="langcode" type="string" indexed="true" stored="true" multiValued="true"/>
 
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
-   <field name="identifier" type="sort_string" indexed="true" stored="true" multiValued="false" />
+   <!-- Harvard 2020.1 icu, numeric sorting -->
+   <field name="identifier" type="sort_icu" indexed="true" stored="true" multiValued="false" />
 
    <!-- Accession properties required for browse sorting -->
    <field name="acquisition_type" type="string" indexed="true" stored="true" multiValued="false" />
@@ -184,9 +192,11 @@
    <field name="processing_funding_source" type="text_general" indexed="true" stored="true" multiValued="false" />
 
    <!-- Sort fields -->
-   <field name="title_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
+   <!-- Harvard 2020.1 icu, numeric sorting -->
+   <field name="title_sort" type="sort_icu" indexed="true" stored="false" multiValued="false"/>
    <field name="repo_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
-   <field name="identifier_sort" type="sort_string" indexed="true" stored="true" multiValued="false"/>
+   <!-- Harvard 2020.1 icu, numeric sorting -->
+   <field name="identifier_sort" type="sort_icu" indexed="true" stored="true" multiValued="false"/>
 
    <!-- Agent and Subject fields -->
    <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
@@ -248,6 +258,11 @@
    <dynamicField name="*_u_sbool"  type="boolean"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_sort"  type="sort_string"  indexed="true"  stored="false" multiValued="false"/>
    <dynamicField name="*_u_ssort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_u_abool"  type="boolean"  indexed="true"  stored="true" multiValued="false"/>
+
+   <!-- Field for searching/sorting top container typeahead -->
+   <dynamicField name="*_u_typeahead_utext"  type="text_general"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_u_typeahead_usort"  type="sort_icu"  indexed="true"  stored="true" multiValued="false"/>
 
    <!-- ASpace Custom Dynamics -->
    <dynamicField name="*_relator_sort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
@@ -358,6 +373,20 @@
       </analyzer>
     </fieldType>
 
+    <!-- Harvard 2020.1 icu, numeric sorting -->
+    <!-- old way for solr 4x? -->
+    <fieldType name="sort_icu" class="solr.TextField">
+      <analyzer>
+        <tokenizer class="solr.KeywordTokenizerFactory"/>
+        <filter class="solr.ICUCollationKeyFilterFactory" locale="" strength="primary"
+          numeric="true"/>
+      </analyzer>
+    </fieldType>
+    
+    <!-- below doesn't work with solr 4x - used old syntax above, switch to below for newer versions -->
+    <!-- <fieldType name="sort_icu" class="solr.ICUCollationField" locale="" strength="primary"
+      numeric="true"/>-->
+    
     <fieldType name="sort_string" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>

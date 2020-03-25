@@ -19,34 +19,63 @@
     ${message}
   </div>
   <div class="modal-footer">
-    <button class="btn" data-dismiss="modal"><%= I18n.t "actions.continue" %></button>
+    <button class="btn btn-default" data-dismiss="modal"><%= I18n.t "actions.continue" %></button>
   </div>
 --></div>
 
-<div id="batch_merge_modal_template"><!--
+<div id="merge_container_profiles_modal"><!--
+<% if ["container_profiles"].include?(controller_name) %>
+  <%= form_tag({:controller => :container_profiles}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
+    <div class="modal-body">
+      <p class="alert alert-info" id="alertBucket"><%= I18n.t("container_profile._frontend.bulk_operations.merge_instructions") %></p>
+      <div class="selected-record-list well" id="mergeList">
+        <div role="radiogroup" aria-labelledby="mergeList">
+          {for item in selection}
+            <% item_uri = "${item.uri}" %>
+            <div id="chkPref" role="radio" tabindex="0">
+              <%= radio_button_tag "target[]", "${item.uri}", false, :"data-object" => item_uri, :"aria-label" => "${item.display_string}", :"id" => "${item.uri}", :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
+              <span>${item.display_string}</span>
+            </div>
+          {/for}
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary merge-button" data-js="selectTarget" disabled="disabled"><%= I18n.t("container_profile._frontend.bulk_operations.merge_select_target") %></button>
+      <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+    </div>
+  <% end %>
+<% end %>
+  --></div>
+
+<div id="confirm_merge_container_profiles_modal"><!--
 <% if ["container_profiles"].include?(controller_name) %>
   <%= form_tag({:controller => :batch_merge, :action => controller_name}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
-  <div class="modal-body">
-    <div class="alert alert-info" id="alertBucket"><%= I18n.t("actions.batch_merge") %></div>
-    <div class="selected-record-list well" id="mergeList">
-      <div role="radiogroup" aria-labelledby="mergeList">
-        {for item in selection}
-          <% item_uri = "${item.uri}" %>
-          <div id="chkPref" role="radio" tabindex="0">
-            <%= radio_button_tag "target[]", "${item.uri}", false, :"data-object" => item_uri, :"aria-label" => "${item.display_string}", :"id" => "${item.uri}", :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
-            <span>${item.display_string}</span>
-          </div>
+    <div class="modal-body">
+      <p class="alert alert-danger" id="alertBucket"><%= I18n.t("container_profile._frontend.bulk_operations.confirm_merge_question") %></p>
+      <h4><%= I18n.t("container_profile._frontend.bulk_operations.confirm_merge_victims") %></h4>
+      <ul>
+        {for victim in victims}
+          <li>${victim}</li>
         {/for}
+      </ul>
+      <h4><%= I18n.t("container_profile._frontend.bulk_operations.confirm_merge_target") %></h4>
+      <ul>
+        <li>${target.display_string}</li>
+      </ul>
+      <div class="selected-record-list" id="mergeList">
+      
+        {for profile in mergeList}
+          <input type="hidden" name="victims[]" value="${profile.uri}">
+        {/for}
+        
+        <input type="hidden" name="target[]" value="${target.uri}">
       </div>
-      {for item in selection}
-        <input type="hidden" name="victims[]" value="${item.uri}">
-      {/for}
     </div>
-  </div>
-  <div class="modal-footer">
-      <button type="submit" class="btn btn-danger merge-button" disabled="disabled"><%= I18n.t("actions.merge_n_records", {:n => "${selection.length}"}) %></button>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-danger merge-button"><%= I18n.t("actions.merge_n_records", {:n => "${mergeList.length}"}) %></button>
       <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
-  </div>
+    </div>
   <% end %>
 <% end %>
 --></div>

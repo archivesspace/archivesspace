@@ -20,11 +20,9 @@ describe 'Users and authentication' do
 
     expect(@driver.find_element(css: 'p.alert-danger').text).to eq('Login attempt failed')
 
-    @driver.find_element(:link, 'Sign In').click
   end
 
   it 'can register a new user' do
-    @driver.find_element(:link, 'Sign In').click
     @driver.find_element(:link, 'Register now').click
 
     @driver.clear_and_send_keys([:id, 'user_username_'], @user.username)

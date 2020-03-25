@@ -45,15 +45,16 @@ class Solr
           construct_advanced_query_string(subq, use_literal)
         }
 
-        # Solr doesn't allow purely negative expression groups, so we add a
-        # match all query to compensate when we hit one of these.
-        if advanced_query['subqueries'].all? {|subquery| subquery['negated']}
-          clauses << '*:*'
-        end
+# This causes incorrect results for X NOT Y queries via the PUI, see https://github.com/archivesspace/archivesspace/issues/1699
+#        # Solr doesn't allow purely negative expression groups, so we add a
+#        # match all query to compensate when we hit one of these.
+#        if advanced_query['subqueries'].all? {|subquery| subquery['negated']}
+#          clauses << '*:*'
+#        end
 
         subqueries = clauses.join(" #{advanced_query['op']} ")
 
-        "(#{subqueries})"
+        "#{subqueries}"
       else
         AdvancedQueryString.new(advanced_query, use_literal).to_solr_s
       end

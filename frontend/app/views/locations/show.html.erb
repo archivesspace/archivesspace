@@ -32,12 +32,12 @@
       <% if @location['owner_repo'] %>
         <div class="form-horizontal">
           <div class="form-group token-list">
-            <div class="control-label col-sm-2"><%= I18n.t("location.owner_repo") %></div>
+            <div class="control-label col-sm-2"><%= I18n.t("repository._singular") %></div>
             <div class="label-only col-sm-8">
               <%= render_token :object => @location["owner_repo"]["_resolved"],
-                               :label => @location["owner_repo"]["_resolved"]["display_string"],
-                               :type => "repository",
-                               :uri => @location["owner_repo"]["ref"] %>
+               :label => @location["owner_repo"]["_resolved"]["display_string"],
+               :type => "repository",
+               :uri => @location["owner_repo"]["ref"] %>
             </div>
           </div>
         </div>
@@ -51,7 +51,51 @@
         <%= render_aspace_partial :partial => "location_functions/show", :locals => { :functions => @location.functions, :section_id => "location_functions_" } %>
       <% end %>
 
-      <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @location, :filter_term => {"location_uris" => @location.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
+      <%= render_aspace_partial :partial => "search/embedded", :locals => {
+        :record => @location,
+        :filter_term => {"location_uris" => @location.uri}.to_json,
+        :heading_text => I18n.t("location._frontend.section.search_embedded"),
+        :type => "top_container",
+        :extra_columns => [
+          {
+            'title' => 'top_container._frontend.bulk_operations.collection_singular',
+            'field' => 'collection_display_string_u_sstr',
+            'formatter' => 'linked_records_listing',
+            'sort_options' => {
+              'sortable' => true,
+              'sort_by' => 'collection_display_string_stored_u_ssort'
+            }
+          },
+          {
+            'title' => 'top_container.type',
+            'field' => 'type_u_ssort',
+            'formatter' => 'stringify',
+            'sort_options' => {
+              'sortable' => true,
+              'sort_by' => 'type_u_ssort'
+            }
+          },
+          {
+            'title' => 'top_container.indicator',
+            'field' => 'indicator_stored_u_ssort',
+            'formatter' => 'stringify',
+            'sort_options' => {
+              'sortable' => true,
+              'sort_by' => 'indicator_stored_u_ssort'
+            }
+          },
+          {
+            'title' => 'top_container.barcode',
+            'field' => 'barcode_u_ssort',
+            'formatter' => 'stringify',
+            'sort_options' => {
+              'sortable' => true,
+              'sort_by' => 'barcode_u_ssort',
+            }
+          }
+        ],
+        :sort => 'title_sort asc'
+      } %>
 
       <%= readonly_context :location, @location do |readonly| %>
         <%= show_plugins_for(@location, readonly) %>

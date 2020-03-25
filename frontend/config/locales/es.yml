@@ -42,6 +42,9 @@ es:
     merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad. Al hacer clic en el botón Comparar les autoridades, aparecerá una pantalla que le brinda la opción de elegir qué campos y sub-registros retener de cada registro. "
     merge_agent_from_browse_confirm_message: "El primer autoridad seleccionado tendrá los registros seleccionados posteriormente fusionados en él. Todos los registros seleccionados posteriormente se eliminarán y los registros vinculados se volverán a vincular al primer autoridad seleccionado."
     merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este fondo."
+    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
+    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
+    merge_n_records: "Merge %{n} records"
     move: Mover
     move_up_a_level: Un nivel
     move_up: Arriba
@@ -316,10 +319,6 @@ es:
     repo_preferences: Preferencias de repositorio
     manage_user_access: Administrar el acceso de usuario
     logout: Salir
-    login: Iniciar sesión
-    login_expired_link: Por favor %{link} otra vez.
-    login_fail: Fallo de inicio de sesión
-    login_success: Inicio de sesión correcto. Redireccionando...
     register: Regístrese ahora
     register_prefix: ¿Necesita una cuenta?
     list_reports: Informes
@@ -327,6 +326,11 @@ es:
     system_info: Información del sistema
     unpublished: Inédito
     manage_assessment_attributes: Gestionar atributos de evaluación
+    toggle_navigation: Toggle Navigation
+
+  header:
+    staff_interface: ArchivesSpace Staff Interface
+
   session:
     gone: No se encontró su sesión backend
     expired: Su sesión expiró debido a la inactividad
@@ -353,6 +357,13 @@ es:
     heading: Bienvenido a ArchivesSpace
     message: Tu herramienta de administración de archivos.
     message_logged_in: Tu herramienta de administración de archivos.
+
+  login:
+    login: Registrarse
+    login_please: Por favor, registrese
+    login_expired_link: Por favor %{link} otra vez.
+    login_fail: Fallo de inicio de sesión
+    login_success: Inicio de sesión correcto. Redireccionando...
 
   breadcrumb:
     home: Página de inicio
@@ -885,6 +896,8 @@ es:
         create: Crear fondo
         save: Guardar fondos
         delete_multiple: Eliminar fondos
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
 
   preference:
     _frontend:
@@ -1144,6 +1157,7 @@ es:
     not_exported: No exportado
     restricted: Restringido?
     parent: Contenedor padre
+    has_location: Tiene ubicación
 
     managed_container_2_type: Tipo de contenedor hijo
     managed_container_2_type_tooltip: |
@@ -1225,6 +1239,8 @@ es:
         delete_n_records: "Borrar %{n} registros"
         update_locations_current_location: Ubicación actual
         update_locations_new_location: Nueva ubicación
+        has_location_true: "Si"
+        has_location_false: "No"
 
   container_profile:
     _singular: Perfil de contenedor
@@ -1238,8 +1254,17 @@ es:
       messages:
         created: Perfil de contenedor creado
         updated: Perfil de contenedor actualizado
+        merged: Container Profiles(s) Merged
       section:
         basic_information: Información básica
+      bulk_operations:
+        merge: Fusionar perfiles de contenedores
+        merge_instructions: Seleccione el perfil de contenedor en el que se fusionarán todos los demás perfiles de contenedor enumerados. Todos los registros vinculados se volverán a vincular a este perfil y se eliminará toda la información para los otros perfiles de contenedor.
+        merge_select_target: Seleccionar objetivo de fusión
+        confirm_merge: Confirmar perfiles de contenedor de fusión
+        confirm_merge_question: ¿Está seguro de que desea fusionar los perfiles del contenedor como se enumeran a continuación? Esta acción es irreversible.
+        confirm_merge_victims: "Combinar los siguientes perfiles de contenedor:" 
+        confirm_merge_target: "En este perfil de contenedor:"
     name: Nombre
     name_tooltip: |
         <p>CAMPO REQUERIDO. El nombre del perfil de contenedores. Pueden ser genéricos o específicos.</p>

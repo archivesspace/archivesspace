@@ -11,6 +11,21 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
 
   this.setup_form();
   this.setup_results_list();
+  // If there is any stored search parameters and we're still looking at the same repository, reload them
+  // when navigating or refreshing. Else wipe the stored search params.
+  if ($(".repo-container > div > a").attr("href") === sessionStorage.getItem("currentRepository")) {
+    var data = sessionStorage.getItem("top_container_search_data");
+    if (data != null && data != undefined) {
+      var parsed_data = JSON.parse(data);
+      $.each( parsed_data, function( key, value ) {
+        $("#"+key).val(value);
+      });
+      this.perform_search(parsed_data);
+    }
+  } else {
+    sessionStorage.setItem("top_container_search_data", null)
+    sessionStorage.setItem("currentRepository", null)
+  }
 }
 
 BulkContainerSearch.prototype.setup_form = function() {
@@ -20,6 +35,16 @@ BulkContainerSearch.prototype.setup_form = function() {
 
   this.$search_form.on("submit", function(event) {
     event.preventDefault();
+    //Store the search parameters so they can be reloaded when
+    //navigating or refreshing
+    var values = {};
+    $.each(self.$search_form.serializeArray(), function(i, field) {
+    	if (field.name != 'authenticity_token' && field.name != 'utf8' && field.value != ''){
+    		values[field.name] = field.value;
+        }
+    });
+    sessionStorage.setItem("top_container_search_data", JSON.stringify(values));
+    sessionStorage.setItem("currentRepository", $(".repo-container > div > a").attr("href"))
     self.perform_search(self.$search_form.serializeArray());
   });
 };
@@ -103,9 +128,65 @@ BulkContainerSearch.prototype.update_button_state = function() {
 };
 
 BulkContainerSearch.prototype.setup_table_sorter = function() {
-  function padValue(value) {
-    return (new Array(255).join("#") + value).slice(-255)
+  function padNumber(number) {
+    // Get rid of preceding zeros from numbers (so 003 will sort with 3 instead of in the hundreds)
+    // Then pad it (so 10 doesn't sort between 1 and 2)
+    number = parseInt(number).toString()
+    return  (new Array(255).join("#") + number).slice(-255)
+  }
+
+  function parseIndicator(value) {
+    // Creates a string of alternating number/non-number values separated by commas for indicator sort
+    if (!value || value.length === 0) {
+      return value
+    }
+
+    let isNumber = !isNaN(parseInt(value[0]))
+
+    let valueArray = [value[0]]
+    let valueArrayCurrentIndex = 0;
+    for (i = 1; i < value.length; i++) {
+      if (!isNumber) {
+        if (isNaN(parseInt(value[i]))) {
+          valueArray[valueArrayCurrentIndex] += value[i]
+        } else {
+          valueArray[valueArrayCurrentIndex] = valueArray[valueArrayCurrentIndex].trim()
+          valueArrayCurrentIndex += 1
+          valueArray[valueArrayCurrentIndex] = value[i]
+          isNumber = true
+        }
+      } else {
+        if (isNaN(parseInt(value[i]))) {
+          valueArray[valueArrayCurrentIndex] = padNumber(valueArray[valueArrayCurrentIndex])
+          valueArrayCurrentIndex += 1
+          valueArray[valueArrayCurrentIndex] = value[i]
+          isNumber = false
+        } else {
+          valueArray[valueArrayCurrentIndex] += value[i]
+        }
+      }
+    }
+
+    if (!isNaN(parseInt(valueArray[valueArray.length - 1]))) {
+      valueArray[valueArray.length - 1] = padNumber(valueArray[valueArray.length - 1])
+    }
+
+    return valueArray.toString()
   };
+
+  let currentSort = []
+  // only load a sort if we've hit some results
+  if ($(".table-search-results tr").length > 1) {
+    // Get the most recent sort, if it exists
+    currentSort = sessionStorage.getItem("top_container_sort");
+    if (currentSort == null || currentSort == undefined) {
+      // default sort: Collection, Series, Indicator
+      currentSort = [[1,0],[2,0],[4,0]];
+    }
+    else {
+      currentSort = JSON.parse(currentSort);
+    }
+  }
 
   var tablesorter_opts = {
     // only sort on the second row of header columns
@@ -114,8 +195,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
     headers: {
         0: { sorter: false}
     },
-    // default sort: Collection, Series, Indicator
-    sortList: [[1,0],[2,0],[4,0]],
+    sortList: currentSort,
     // customise text extraction to pull only the first collection/series
     textExtraction: function(node) {
       var $node = $(node);
@@ -133,17 +213,22 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
         }
       } else if ($node.hasClass("top-container-indicator")) {
         var value = $node.text().trim();
-        // check for non-decimal and take the first
-        var first_number = value.split(/[^0-9]/)[0];
-
-        // pad the indicator values so they sort correctly with digit and alpha values
-        return padValue(first_number) + padValue(value);
+        
+        // turn the indicator into a string of alternating non-number/padded-number values separated by commas for sorting
+        // eg "box,#############11,folder,#############4"
+        return parseIndicator(value);
       }
 
       return $node.text().trim();
     }
   };
-  this.$results_container.find("table").tablesorter(tablesorter_opts);
+  this.$results_container.find("table").tablesorter(tablesorter_opts)
+  	.bind("sortEnd", function(e) {
+  	  //Store the sort in the session storage so it resorts the same way
+  		//when navigating and refreshing.
+  	  currentSort = e.target.config.sortList;
+  	  sessionStorage.setItem("top_container_sort", JSON.stringify(currentSort));
+  	});
 };
 
 BulkContainerSearch.prototype.get_selection = function() {

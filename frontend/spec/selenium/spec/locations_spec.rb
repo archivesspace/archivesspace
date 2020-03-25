@@ -42,6 +42,10 @@ describe 'Locations' do
     @driver.clear_and_send_keys([:id, 'location_coordinate_1_label_'], 'Box XYZ')
     @driver.clear_and_send_keys([:id, 'location_coordinate_1_indicator_'], 'XYZ0001')
 
+    @driver.clear_and_send_keys([:id, 'token-input-location_owner_repo__ref_'], 'l')
+    sleep 2
+    @driver.find_element(css: '.token-input-dropdown').click
+
     @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
 
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Created/)
@@ -64,6 +68,16 @@ describe 'Locations' do
     @driver.click_and_wait_until_gone(:link, 'Locations')
 
     @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+  end
+
+  it 'allows the browse locations list to be filtered by repository' do
+    sidebar = @driver.find_element(css: ".sidebar").find_element_with_text('//h3', /Repository/)
+    new_location_link_text = @driver.find_element_with_text('//li', /LOCATIONS_TEST/).text
+    new_location_link_text = new_location_link_text[0...-2]
+
+    @driver.click_and_wait_until_gone(:link, new_location_link_text)
+
+    expect(@driver.find_elements(css: 'tr').length).to eq(2)
   end
 
   it 'allows the new location to be viewed in non-edit mode' do
@@ -295,6 +309,28 @@ describe 'Locations' do
       assert(5) { expect(@driver.find_element(:id,  'location_batch_floor_').attribute('value')).to eq('2nd') }
       assert(5) { expect(@driver.find_element(:id,  'location_batch_room_').attribute('value')).to eq('201') }
       assert(5) { expect(@driver.find_element(:id, 'location_batch_area_').attribute('value')).to eq('Corner') }
+    end
+
+    it 'correctly sorts locations in the browse list' do
+      @driver.get($frontend)
+
+      @driver.find_element(:link, 'Browse').click
+      @driver.wait_for_dropdown
+      @driver.click_and_wait_until_gone(:link, 'Locations')
+
+      @driver.find_elements(:css, 'th')[1].click
+
+      table_rows = @driver.find_elements(:css, "tr")
+      table_rows.shift
+
+      table_rows_location_text = []
+      table_rows.each do |row|
+        table_rows_location_text << row.find_elements(:css, "td")[1].text
+      end
+
+      table_rows_location_text_sorted = table_rows_location_text.sort
+
+      expect(table_rows_location_text).to eq(table_rows_location_text_sorted)
     end
   end
 end

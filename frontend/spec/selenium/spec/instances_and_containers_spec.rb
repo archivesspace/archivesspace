@@ -84,6 +84,27 @@ describe 'Resource instances and containers' do
     expect(@driver.find_element(css: '.form-group:nth-child(3) div.label-only').text).to eq('xyzpdq')
   end
 
+  it 'remembers the search after leaving the page' do
+    @driver.navigate.to("#{$frontend}/top_containers")
+
+    @driver.find_element(id: 'q').send_keys('Letter')
+    @driver.find_element(css: 'input.btn').click
+
+    @driver.wait_for_ajax
+
+    results = @driver.find_element(id: 'bulk_operation_results')
+    resultsLength = results.find_elements(css: 'tbody tr').length
+
+    @driver.navigate.refresh
+
+    expect(target = @driver.find_element(css: '#q').attribute('value')).to eq('Letter')
+
+    resultsAfterRefresh = @driver.find_element(id: 'bulk_operation_results')
+    resultsAfterRefreshLength = resultsAfterRefresh.find_elements(css: 'tbody tr').length
+
+    expect(resultsLength).to eq(resultsAfterRefreshLength)
+  end
+
   it 'can attach instances to resources and create containers and locations along the way' do
     @driver.navigate.to("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
     @driver.find_element(css: '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click

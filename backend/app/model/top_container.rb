@@ -104,7 +104,6 @@ class TopContainer < Sequel::Model(:top_container)
     }.select_all(:archival_object)
   end
 
-
   def walk_to_top_level_aos(ao_ids)
     result = []
     id_set = ao_ids
@@ -132,7 +131,6 @@ class TopContainer < Sequel::Model(:top_container)
   def self.find_title_for(series)
     series.respond_to?(:display_string) ? series.display_string : series.title
   end
-
 
   def level_display_string(series)
     series.other_level || I18n.t("enumerations.archival_record_level.#{series.level}", series.level)
@@ -162,6 +160,16 @@ class TopContainer < Sequel::Model(:top_container)
     [resource, series_label, container_bit, container_profile].compact.join(", ")
   end
 
+  def find_subcontainer_barcodes
+    sub_container_barcodes = ""
+    found_subcontainers = related_records(:top_container_link)
+    found_subcontainers.each do |found_subcontainer|
+      if found_subcontainer.barcode_2
+        sub_container_barcodes = sub_container_barcodes + found_subcontainer.barcode_2 + " "
+      end
+    end
+    sub_container_barcodes
+  end
 
   def self.sequel_to_jsonmodel(objs, opts = {})
     jsons = super
@@ -173,6 +181,8 @@ class TopContainer < Sequel::Model(:top_container)
 
       json['display_string'] = obj.display_string
       json['long_display_string'] = obj.long_display_string
+
+      json['subcontainer_barcodes'] = obj.find_subcontainer_barcodes
 
       obj.series.each do |series|
         json['series'] ||= []

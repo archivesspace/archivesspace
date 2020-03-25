@@ -8,10 +8,10 @@ class AgentPerson < Record
       'name' => json['display_name']['sort_name'],
       'sameAs' => raw['authority_id'],
       'alternateName' => json['names'].select{|n| !n['is_display_name']}.map{|n| n['sort_name']}
-    }.compact
+    }
 
     if (dates = json['dates_of_existence'].first)
-      md['birthDate'] = dates['begin']
+      md['birthDate'] = dates['begin'] if dates['begin']
       md['deathDate'] = dates['end'] if dates['end']
     end
 
@@ -75,7 +75,7 @@ class AgentPerson < Record
       out
     end
 
-    md.delete_if { |key,value| value.empty? }
+    md.compact.delete_if { |key,value| value.empty? }
   end
 
 
