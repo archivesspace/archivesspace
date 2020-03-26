@@ -40,9 +40,6 @@ describe "Agent Handler" do
     @agents = @ah.instance_variable_get(:@agents)
     @report = BulkImportReport.new
     @report.new_row(1)
-    # because the internal db doesn't have this value!!!
-    enum = Enumeration[name: "name_source"]
-    enum.add_enumeration_value(:value => "ingest")
   end
 
   def build_return_key(type, id, header, relator, role)
