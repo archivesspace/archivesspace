@@ -30,6 +30,9 @@
           heading_text = t('cont_arr')
         end
       %>
+      <% if AppConfig[:pui_search_collection_from_archival_objects] %>
+        <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result.resource_uri, :action_text => "#{t('actions.search_in', :type => t('resource._singular'))}"} %>
+      <% end %>
       <%= render partial: 'shared/children_tree', :locals => {:heading_text => heading_text, :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
     </div>
    <% end %>
