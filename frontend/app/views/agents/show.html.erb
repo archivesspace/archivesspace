@@ -155,17 +155,20 @@
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {
           :filter_term => {"agent_uris" => @agent.uri}.to_json,
+          :section_id => "linked_agents",
           :heading_text => I18n.t("agent._frontend.section.search_embedded")
         } %>
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {
           :filter_term => {"rights_statement_agent_uris" => @agent.uri}.to_json,
+          :section_id => "linked_via_rights_statements",
           :heading_text => I18n.t("agent._frontend.section.linked_via_rights_statement")
         } %>
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {
           :record => @agent,
           :filter_term => {"linked_record_uris" => @agent.uri}.to_json,
+          :section_id => "events",
           :heading_text => I18n.t("event._plural")
         } %>
 
