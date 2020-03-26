@@ -98,30 +98,12 @@
              :show_context_column => true,
              :extra_columns => [
                {
-                 title: 'search_sorting.resource_type',
-                 field: 'resource_type',
-                 formatter: 'stringify',
+                 title: 'search_sorting.child_container_u_typeahead_usort',
+                 field: 'child_container_u_sstr',
+                 formatter: 'linked_records_listing',
                  sort_options: {
                    sortable: true,
-                   sort_by: 'resource_type',
-                 }
-               },
-               {
-                 title: 'search_sorting.level',
-                 field: 'level',
-                 formatter: 'stringify',
-                 sort_options: {
-                   sortable: true,
-                   sort_by: 'level'
-                 }
-               },
-               {
-                 title: 'search_sorting.ead_id',
-                 field: 'ead_id',
-                 formatter: 'stringify',
-                 sort_options: {
-                   sortable: true,
-                   sort_by: 'ead_id'
+                   sort_by: 'child_container_u_typeahead_usort'
                  }
                }
              ]

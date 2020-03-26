@@ -118,6 +118,7 @@ class IndexerCommon
   end
 
 
+
   def self.extract_string_values(doc)
     text = ""
     doc.each do |key, val|
@@ -509,7 +510,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'job'
         report_type = record['record']['job']['report_type']
-        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) : 
+        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) :
           t("job.types.#{record['record']['job_type']}"))
         doc['types'] << record['record']['job_type']
         doc['types'] << report_type
@@ -655,8 +656,13 @@ class IndexerCommon
             doc['top_container_uri_u_sstr'] ||= []
             doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
             if instance['sub_container']['type_2']
+              child_type, child_indicator, child_barcode = instance['sub_container'].values_at('type_2', 'indicator_2', 'barcode_2')
+
               doc['child_container_u_sstr'] ||= []
-              doc['child_container_u_sstr'] << "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']} #{instance['sub_container']['barcode_2']}"
+
+              doc['child_container_u_sstr'] << "#{child_type} #{child_indicator} #{child_barcode}"
+              doc['child_container_u_typeahead_usort'] ||= ""
+              doc['child_container_u_typeahead_usort'] << "#{child_type} #{child_indicator},"
             end
             if instance['sub_container']['type_3']
               doc['grand_child_container_u_sstr'] ||= []
