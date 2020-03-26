@@ -6,5 +6,5 @@
            }) do |sidebar| %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_id', :property => 'external_ids') if show_external_ids? && sidebar.show_external_ids_sidebar_entry? %>
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'location_function', :property => 'functions') %>
-    <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'search_embedded') %>
+    <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'location_containers') %>
 <% end %>
