@@ -108,7 +108,7 @@ module ApplicationHelper
       html += "<span class='icon-token'></span>"
     end
     if params[:controller] == 'resources' && params[:action] == 'edit'
-      html += "[#{clean_mixed_content(opts[:id])}] "
+      html += "#{clean_mixed_content(opts[:id])}: "
     end
     html += clean_mixed_content(opts[:label])
     html += "</div>"
