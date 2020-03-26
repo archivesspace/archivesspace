@@ -56,6 +56,7 @@
         :filter_term => {"location_uris" => @location.uri}.to_json,
         :heading_text => I18n.t("location._frontend.section.search_embedded"),
         :type => "top_container",
+        :section_id => 'location_containers',
         :extra_columns => [
           {
             'title' => 'top_container._frontend.bulk_operations.collection_singular',
