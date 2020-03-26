@@ -134,8 +134,13 @@ AbstractRelationship = Class.new(Sequel::Model) do
                   identify_duplicate_containers(target, relationship, target_col, dups)
 
                 else
+                  target_pre.each do |pre|
+                    if pre[parent_col] == relationship[parent_col]
+                      dups << relationship
+                    end
+                  end
                   # Found a free column.  Store our updated reference here.
-                  !target_pre.empty? && target_pre.first[parent_col] == relationship[parent_col] ? dups << relationship : relationship[target_col] = target.id
+                  relationship[target_col] = target.id
                   break
                 end
 
