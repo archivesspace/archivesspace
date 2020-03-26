@@ -18,7 +18,19 @@ class SearchController < ApplicationController
     }
 
     if not queries.empty?
-      criteria["aq"] = AdvancedQueryBuilder.build_query_from_form(queries).to_json
+      if criteria['aq']
+        existing_filter = ASUtils.json_parse(criteria['aq'])
+        criteria['aq'] =  JSONModel::JSONModel(:advanced_query).from_hash({
+                              query: JSONModel(:boolean_query)
+                                       .from_hash({
+                                                    :jsonmodel_type => 'boolean_query',
+                                                    :op => 'AND',
+                                                    :subqueries => [existing_filter['query'], AdvancedQueryBuilder.build_query_from_form(queries)['query']]
+                                                  })
+                            }).to_json
+      else
+        criteria["aq"] = AdvancedQueryBuilder.build_query_from_form(queries).to_json
+      end
       criteria['facet[]'] = SearchResultData.BASE_FACETS
     end
 
