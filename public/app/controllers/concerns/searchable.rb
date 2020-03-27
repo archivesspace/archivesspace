@@ -47,7 +47,7 @@ module Searchable
       @query +=  "repository:\"#{repo_id}\""
       @base_search = "#{@base_search}&repo_id=#{repo_id.gsub('/','%2f')}"
     end
-    years = get_years(params)
+    years = get_filter_years(params)
     if !years.blank?
       @query = "#{@query} AND years:[#{years['from_year']} TO #{years['to_year']}]"
       @base_search = "#{@base_search}&filter_from_year=#{years['from_year']}&filter_to_year=#{years['to_year']}"
@@ -173,7 +173,7 @@ module Searchable
   end
 
 
-  def get_years(params)
+  def get_filter_years(params)
     params = sanitize_params(params)
     years = {}
     from = params.fetch(:filter_from_year,'').strip
