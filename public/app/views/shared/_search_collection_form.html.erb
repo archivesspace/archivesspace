@@ -15,15 +15,15 @@
       <%= hidden_field_tag('q[]','*') %>
 
       <div class="col-md-6 year_from">
-        <%= label_tag(:from_year0, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
-        <%= text_field_tag('from_year[]', nil, :id=>'from_year0', :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from_year'),
-                           :class=>"form-control") %>
+        <%= label_tag(:filter_from_year, "#{t('search_results.filter.from_year')}", :class => 'sr-only') %>
+        <%= text_field_tag(:filter_from_year, nil, :id=>nil, :size => 4,:maxlength => 4, :placeholder => t('search_results.filter.from_year'),
+                           :class=>"form-control", 'aria-label' => t('search_results.filter.from_year')) %>
       </div>
 
       <div class="col-md-6 year_to">
-        <%= label_tag(:to_year0, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
-        <%= text_field_tag('to_year[]', nil, :size => 4, :maxlength => 4, :class=> "form-control", :id => 'to_year0',
-                           :placeholder => t('search_results.filter.to_year')) %>
+        <%= label_tag(:filter_to_year, "#{t('search_results.filter.to_year')}", :class=> 'sr-only') %>
+        <%= text_field_tag(:filter_to_year, nil, :size => 4, :maxlength => 4, :class=> "form-control", :id => nil,
+                           :placeholder => t('search_results.filter.to_year'), 'aria-label' => t('search_results.filter.to_year')) %>
       </div>
 
     </div>
