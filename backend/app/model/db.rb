@@ -94,7 +94,39 @@ class DB
       Thread.current[:nesting_level] ||= 0
       Thread.current[:nesting_level] += 1
 
+      Thread.current[:in_transaction] ||= false
+
       begin
+        if Thread.current[:in_transaction] && ASpaceEnvironment.environment != :unit_test
+          # We are already inside another DB.open that will handle all
+          # exceptions and retries for us.  We want to avoid a situation like
+          # this:
+          #
+          # transaction scope / DB.open do |db|
+          #                   |   db[:sometable].insert(foo)
+          #                   |
+          #                   |   DB.open do |db|                                         \
+          #                   |     db[:sometable].insert(something_that_depends_on_foo)  | retry scope
+          #                   |   end                                                     /
+          #                   \ end
+          #
+          # Despite the nested DB.open calls, Sequel's default behavior is to
+          # merge the inner call to DB.transaction with the already active
+          # transaction.
+          #
+          # If the inner "retry scope" hits an exception, the whole transaction
+          # is rolled back (all of "transaction scope", including the insert of
+          # `foo`), but only the inner "retry scope" is retried.  If that
+          # succeeds on the retry, we end up losing first insert and keeping the
+          # second.
+          #
+          # So the fix here is to let the outermost DB.open take responsibility
+          # for everything: make the retry scope and the transaction scope line
+          # up with each other.
+
+          return yield @pool
+        end
+
         last_err = false
         retries = opts[:retries] || 10
 
@@ -102,7 +134,12 @@ class DB
           begin
             if transaction
               self.transaction(:isolation => opts.fetch(:isolation_level, :repeatable)) do
-                return yield @pool
+                Thread.current[:in_transaction] = true
+                begin
+                  return yield @pool
+                ensure
+                  Thread.current[:in_transaction] = false
+                end
               end
 
               # Sometimes we'll make it to here.  That means we threw a
