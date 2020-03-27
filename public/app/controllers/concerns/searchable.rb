@@ -120,15 +120,14 @@ module Searchable
       advanced_query_builder.and('keyword', value, 'text', false, false)
     end
      # we have to add filtered dates, if they exist
-    unless @search[:dates_searched] || (@search[:filter_to_year].blank? && @search[:filter_from_year].blank?)
-
-      from =  @search[:filter_from_year]
-      to = @search[:filter_to_year]
-      builder = AdvancedQueryBuilder.new
-#      builder.and('keyword','*', 'text', false)
-      builder.and('years', AdvancedQueryBuilder::RangeValue.new(from, to), 'range', false, false)
-      advanced_query_builder.and(builder)
-#      @base_search += "&filter_from_year=#{@search[:filter_from_year]}&filter_to_year=#{@search[:filter_to_year]}"
+    unless @search[:dates_searched]
+      years = get_filter_years(params)
+      unless years['from_year'].blank? && years['to_year'].blank?
+        builder = AdvancedQueryBuilder.new
+        builder.and('years', AdvancedQueryBuilder::RangeValue.new(years['from_year'], years['to_year']), 'range', false, false)
+        advanced_query_builder.and(builder)
+        @base_search = "#{@base_search}&filter_from_year=#{years['from_year']}&filter_to_year=#{years['to_year']}"
+      end
     end
     @criteria = default_search_opts
     @criteria['sort'] = @search[:sort] if @search[:sort]  # sort can be passed as default or via params
