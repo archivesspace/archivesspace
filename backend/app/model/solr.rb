@@ -54,7 +54,7 @@ class Solr
 
         subqueries = clauses.join(" #{advanced_query['op']} ")
 
-        "(#{subqueries})"
+        "#{subqueries}"
       else
         AdvancedQueryString.new(advanced_query, use_literal).to_solr_s
       end
