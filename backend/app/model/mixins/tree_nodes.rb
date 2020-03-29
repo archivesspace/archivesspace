@@ -163,16 +163,14 @@ module TreeNodes
       # change the root record on the fly.  I guess we'll allow this...
       extra_values = extra_values.merge(self.class.determine_tree_position_for_new_node(json))
     else
-      if !json.position
-        # The incoming JSON had no position set.  Just keep what we already had.
-        extra_values['position'] = self.position
-      end
+      # Initial update: leave the physical position as it was before.
+      extra_values['position'] = self.position
     end
 
     obj = super(json, extra_values, apply_nested_records)
 
+    # If the incoming JSON has a logical position, make sure we're in that spot.
     if json.position
-      # Our incoming JSON wants to set the position.  That's fine
       set_position_in_list(json.position)
     end
 
