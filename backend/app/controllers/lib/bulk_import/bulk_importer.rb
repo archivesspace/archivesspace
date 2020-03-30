@@ -393,8 +393,11 @@ class BulkImporter
   end
 
   def process_do_row
-    ret_str = resource_match
-    # mismatch of resource stops all other processing
+    begin
+      resource_match(@resource, @row_hash["ead"], @row_hash["res_uri"])
+    rescue Exception => e
+      ret_str = e.message
+    end
     if ret_str.empty?
       ret_str = check_do_row
     end
@@ -459,7 +462,11 @@ class BulkImporter
   end
 
   def process_row
-    ret_str = resource_match
+    begin
+      resource_match(@resource, @row_hash["ead"], @row_hash["res_uri"])
+    rescue Exception => e
+      ret_str = e.message
+    end
     # mismatch of resource stops all other processing
     if ret_str.empty?
       ret_str = check_row
@@ -508,18 +515,6 @@ class BulkImporter
       end
     end
     ret_subjs
-  end
-
-  # make sure that the resource ead id from the form matches that in the spreadsheet
-  # throws an exception if the designated resource ead doesn't match the spreadsheet row ead
-  def resource_match
-    ret_str = ""
-    ret_str = I18n.t("bulk_import.error.res_ead") if @resource["ead_id"].nil?
-    ret_str = " " + I18n.t("bulk_import.error.row_ead") if @row_hash["ead"].nil?
-    if ret_str.empty?
-      ret_str = I18n.t("bulk_import.error.ead_mismatch", :res_ead => @resource["ead_id"], :row_ead => @row_hash["ead"]) if @resource["ead_id"] != @row_hash["ead"]
-    end
-    ret_str
   end
 
   def row_values(row)

@@ -2376,7 +2376,9 @@ en:
       duplicates: "This spreadsheet has duplicate Archive Space Field codes: %{codes}"
       res_ead: This form's Resource is missing an EAD ID
       row_ead: This row is missing an EAD ID
+      row_missing_ead_uri: This row is missing BOTH and EAD ID and URI
       ead_mismatch:  "Form's EAD ID [%{res_ead}] does not match row's EAD ID [%{row_ead}]"
+      uri_mismatch: "Input resource's URI [%{res_uri}] does not match row's URI [%row_uri}]"
       title: Missing title
       title_and_date: Missing Title AND Valid Date definition
       hier_miss: Missing hierachy -- must be a number greater than 0
