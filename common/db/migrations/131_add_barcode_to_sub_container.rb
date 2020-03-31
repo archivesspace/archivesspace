@@ -7,4 +7,10 @@ Sequel.migration do
     	add_column(:barcode_2, String)
     end
   end
+
+  down do
+    alter_table(:sub_container) do
+      drop_column(:barcode_2)
+    end
+  end
 end
