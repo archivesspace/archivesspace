@@ -462,6 +462,7 @@ class BulkImporter
   end
 
   def process_row
+    ret_str = ""
     begin
       resource_match(@resource, @row_hash["ead"], @row_hash["res_uri"])
     rescue Exception => e
