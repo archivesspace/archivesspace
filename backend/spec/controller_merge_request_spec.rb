@@ -20,21 +20,32 @@ describe 'Merge request controller' do
   end
 
   ['accession', 'digital_object', 'resource', 'archival_object', 'digital_object_component'].each do |type|
-    it "can merge two subjects, but delete duplicate relationships" do
+    it "can merge two subjects, but delete duplicate relationships from records" do
       target = create(:json_subject)
       victim = create(:json_subject)
 
-      parent = create(:"json_#{type}", :subjects => [
+      parent1 = create(:"json_#{type}",
+                      :subjects => [
+                        {
+                          :ref => victim.uri
+                        }
+                       ]
+                      )
+
+      parent2 = create(:"json_#{type}",
+                      :subjects => [
                         {
                           :ref => target.uri
                         },
                         {
                           :ref => victim.uri
                         }
-                      ])
+                       ]
+                      )
 
       # Target and victim are present
-      expect(parent.subjects.count).to eq(2)
+      expect(parent1.subjects.count).to eq(1)
+      expect(parent2.subjects.count).to eq(2)
 
       request = JSONModel(:merge_request).new
       request.target = { 'ref' => target.uri }
@@ -43,9 +54,11 @@ describe 'Merge request controller' do
       request.save(:record_type => 'subject')
 
       # Victim is gone
-      expect(JSONModel(:"#{type}").find(parent.id).subjects.count).to eq(1)
+      expect(JSONModel(:"#{type}").find(parent1.id).subjects.count).to eq(1)
+      expect(JSONModel(:"#{type}").find(parent2.id).subjects.count).to eq(1)
       # Target still there
-      expect(JSONModel(:"#{type}").find(parent.id).subjects).to include("ref" => target.uri)
+      expect(JSONModel(:"#{type}").find(parent1.id).subjects).to include("ref" => target.uri)
+      expect(JSONModel(:"#{type}").find(parent2.id).subjects).to include("ref" => target.uri)
     end
 
 
