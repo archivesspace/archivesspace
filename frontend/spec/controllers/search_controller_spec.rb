@@ -54,7 +54,7 @@ describe SearchController, type: :controller do
   end
 
   it "formats 'linked_records_listing' extra columns in records correctly" do
-    expect(SearchController::Formatter['linked_records_listing', 'collection_display_string_stored_u_ssort'].call(record)).to eq(<<-HTML)
+    expect(SearchController::Formatter['linked_records_listing', 'collection_display_string_u_sstr'].call(record)).to eq(<<-HTML)
 <ul class="linked-records-listing count-3"><li><span class="collection-identifier">Good Papers</span></li><li><span class="collection-identifier">Bad Papers</span></li><li><span class="collection-identifier">Indifferent Papers</span></li></ul>
 HTML
   end
