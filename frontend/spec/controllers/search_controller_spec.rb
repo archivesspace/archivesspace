@@ -43,7 +43,7 @@ describe SearchController, type: :controller do
   let(:record) do
     {
       'collection_display_string_stored_u_ssort' => 'Good Papers,Bad Papers,Indifferent papers',
-      'collection_display_string_u_sstr' => ['Good Papers', 'Bad Papers, Indifferent Papers'],
+      'collection_display_string_u_sstr' => ['Good Papers', 'Bad Papers', 'Indifferent Papers'],
       'collection_identifier_stored_u_sstr' => ['COLL 1', 'COLL 2', 'COLL 3'],
       'type_u_ssort' => 'Box'
     }
