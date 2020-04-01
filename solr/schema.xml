@@ -237,6 +237,7 @@
    <field name="status" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="job_type" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="report_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="job_report_type" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="owner" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="time_submitted" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="time_started" type="string" indexed="true" stored="true" multiValued="false" />

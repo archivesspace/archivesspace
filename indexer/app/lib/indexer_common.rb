@@ -503,6 +503,7 @@ class IndexerCommon
         doc['types'] << report_type
         doc['job_type'] = record['record']['job_type']
         doc['report_type'] = report_type
+        doc['job_report_type'] = report_type || doc['job_type']
         doc['status'] = record['record']['status']
         doc['owner'] = record['record']['owner']
         doc['time_submitted'] = record['record']['time_submitted']
