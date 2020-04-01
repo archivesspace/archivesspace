@@ -35,7 +35,7 @@ describe SearchController, type: :controller do
   end
 
   it 'returns search results with extra columns correctly' do
-    expect (
+    expect(
       get(:do_search, {'extra_columns': [{'title' => 'uri', 'field' => 'uri', 'formatter' => 'stringify', 'sort_options' => {'sortable' => true, 'sort_by' => 'uri'}}]})
     ).to have_http_status(200)
   end
@@ -50,17 +50,17 @@ describe SearchController, type: :controller do
   end
 
   it "formats 'stringify' extra columns in records correctly" do
-    expect(SearchController::Formatter['stringify', 'type_u_ssort'].call(record)).to equal('Box')
+    expect(SearchController::Formatter['stringify', 'type_u_ssort'].call(record)).to eq('Box')
   end
 
   it "formats 'linked_records_listing' extra columns in records correctly" do
-    expect(SearchController::Formatter['linked_records_listing', 'collection_display_string_stored_u_ssort'].call(record)).to equal(<<-HTML)
+    expect(SearchController::Formatter['linked_records_listing', 'collection_display_string_stored_u_ssort'].call(record)).to eq(<<-HTML)
 <ul class="linked-records-listing count-3"><li><span class="collection-identifier">COLL 1</span></li><li><span class="collection-identifier">COLL 2</span></li><li><span class="collection-identifier">COLL 3</span></li></ul>
 HTML
   end
 
   it "formats 'combined_identifier' extra columns in records correctly" do
-    expect(SearchController::Formatter['combined_identifier', 'field_not_actually_used'].call(record)).to equal(<<-HTML)
+    expect(SearchController::Formatter['combined_identifier', 'field_not_actually_used'].call(record)).to eq(<<-HTML)
 <ul class="linked-records-listing count-3"><li><span class="collection-identifier">COLL 1 Good Papers</span></li><li><span class="collection-identifier">COLL 2 Bad Papers</span></li><li><span class="collection-identifier">COLL 3 Indifferent Papers</span></li></ul>
 HTML
   end
