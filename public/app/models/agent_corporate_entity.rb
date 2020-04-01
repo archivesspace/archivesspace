@@ -8,10 +8,10 @@ class AgentCorporateEntity < Record
       'name' => json['display_name']['sort_name'],
       'sameAs' => raw['authority_id'],
       'alternateName' => json['names'].select{|n| !n['is_display_name']}.map{|n| n['sort_name']}
-    }.compact
+    }
 
     if (dates = json['dates_of_existence'].first)
-      md['foundingDate'] = dates['begin']
+      md['foundingDate'] = dates['begin'] if dates['begin']
       md['dissolutionDate'] = dates['end'] if dates['end']
     end
 
@@ -20,7 +20,7 @@ class AgentCorporateEntity < Record
                         }
     md['description'] = md['description'][0] if md['description'].length == 1
 
-    md.delete_if { |key,value| value.empty? }
+    md.compact.delete_if { |key,value| value.empty? }
   end
 
 

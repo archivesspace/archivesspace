@@ -19,17 +19,13 @@ module ReindexTopContainers
     end
 
     if root_record.is_a?(Resource)
-      query = resource_instance_query(root_record.id)
-      query = ao_instance_root_record_query(root_record.id) if query.count.zero?
-      query.update(:top_container__system_mtime => Time.now)
+      resource_instance_update(root_record.id)
+      ao_instance_root_record_update(root_record.id)
     elsif root_record.is_a?(ArchivalObject)
       Log.warn("Invoking slow path for reindexing top containers")
       reindex_top_containers_by_any_means_necessary(extra_ids)
     elsif root_record.is_a?(Accession)
-      TopContainer.linked_instance_ds.
-        join(:accession, :accession__id => :instance__accession_id).
-        filter(:accession__id => root_record.id).
-        update(:top_container__system_mtime => Time.now)
+      accession_instance_root_record_update(root_record.id)
     end
 
   end
@@ -55,14 +51,23 @@ module ReindexTopContainers
     end
   end
 
-  def resource_instance_query(id)
-    TopContainer.linked_instance_ds.filter(instance__resource_id: id)
+  def resource_instance_update(id)
+    TopContainer.linked_instance_ds.filter(
+      instance__resource_id: id
+    ).update(:top_container__system_mtime => Time.now)
   end
 
-  def ao_instance_root_record_query(id)
-    TopContainer.linked_instance_ds.
-      join(:archival_object, :archival_object__id => :instance__archival_object_id).
-      filter(:archival_object__root_record_id => id)
+  def ao_instance_root_record_update(id)
+    TopContainer.linked_instance_ds.join(
+      :archival_object, :archival_object__id => :instance__archival_object_id).
+      filter(:archival_object__root_record_id => id
+    ).update(:top_container__system_mtime => Time.now)
+  end
+
+  def accession_instance_root_record_update(id)
+    TopContainer.linked_instance_ds.filter(
+      :instance__accession_id => id
+    ).update(:top_container__system_mtime => Time.now)
   end
 
   # not defined in accession or resource
