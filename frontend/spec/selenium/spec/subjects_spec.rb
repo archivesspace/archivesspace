@@ -81,13 +81,9 @@ describe 'Subjects' do
     assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("#{first} -- #{second} Subject") }
 
     # drag to become sibling of parent
+    target = @driver.find_element(css: '#subject_terms__0_ .drag-handle')
     source = @driver.find_element(css: '#subject_terms__1_ .drag-handle')
-
-    # Tuesday 14 March 14:33:42 AEDT 2017 -- selenium rejecting the negative Y
-    # value here, which seems like a bug:
-    #
-    # https://github.com/mozilla/geckodriver/issues/527
-    @driver.action.drag_and_drop_by(source, 0, -100).perform
+    @driver.action.drag_and_drop(source, target).perform
 
     # I hate you for wasting my life.
     #

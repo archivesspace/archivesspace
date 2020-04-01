@@ -18,7 +18,7 @@ gem 'rack-session-sequel', '0.0.1'
 gem 'rufus-lru', '1.0.5'
 gem 'rufus-scheduler', '~> 2.0.24'
 gem 'saxerator', '= 0.9.2'
-gem 'saxon-xslt', '~> 0.8', '>= 0.8.2.1'
+gem 'saxon-rb', '~> 0.6'
 gem 'sequel', '~> 4.20.0'
 gem 'sinatra', '1.4.7', require: false
 gem 'sinatra-contrib', '1.4.7', require: false

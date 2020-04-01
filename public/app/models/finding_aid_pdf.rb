@@ -82,7 +82,7 @@ class FindingAidPDF
       end
     end
 
-    out_html.write(renderer.render_to_string partial: 'footer', layout: false)
+    out_html.write(renderer.render_to_string partial: 'footer', layout: false, :locals => {:record => @resource})
     out_html.close
 
     out_html
