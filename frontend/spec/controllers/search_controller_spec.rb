@@ -61,7 +61,7 @@ HTML
 
   it "formats 'combined_identifier' extra columns in records correctly" do
     expect(SearchController::Formatter['combined_identifier', 'field_not_actually_used'].call(record)).to eq(<<-HTML.chomp)
-<ul class="linked-records-listing count-3"><li><span class="collection-identifier">COLL 1</span> <span class="collection-display-string">Good Papers</span></li><li><span class="collection-identifier">COLL 2</span> <span class="collection-display-string"> Bad Papers</span></li><li><span class="collection-identifier">COLL 3</span> <span class="collection-display-string"> Indifferent Papers</span></li></ul>
+<ul class="linked-records-listing count-3"><li><span class="collection-identifier">COLL 1</span> <span class="collection-display-string">Good Papers</span></li><li><span class="collection-identifier">COLL 2</span> <span class="collection-display-string">Bad Papers</span></li><li><span class="collection-identifier">COLL 3</span> <span class="collection-display-string">Indifferent Papers</span></li></ul>
 HTML
   end
 
