@@ -50,17 +50,17 @@ describe SearchController, type: :controller do
   end
 
   it "formats 'stringify' extra columns in records correctly" do
-    expect(SearchController::Formatter['stringify', 'type_u_ssort'].call(record)).to eq('Box')
+    expect(SearchHelper::Formatter['stringify', 'type_u_ssort'].call(record)).to eq('Box')
   end
 
   it "formats 'linked_records_listing' extra columns in records correctly" do
-    expect(SearchController::Formatter['linked_records_listing', 'collection_display_string_u_sstr'].call(record)).to eq(<<-HTML.chomp)
+    expect(SearchHelper::Formatter['linked_records_listing', 'collection_display_string_u_sstr'].call(record)).to eq(<<-HTML.chomp)
 <ul class="linked-records-listing count-3"><li><span class="collection-identifier">Good Papers</span></li><li><span class="collection-identifier">Bad Papers</span></li><li><span class="collection-identifier">Indifferent Papers</span></li></ul>
 HTML
   end
 
   it "formats 'combined_identifier' extra columns in records correctly" do
-    expect(SearchController::Formatter['combined_identifier', 'field_not_actually_used'].call(record)).to eq(<<-HTML.chomp)
+    expect(SearchHelper::Formatter['combined_identifier', 'field_not_actually_used'].call(record)).to eq(<<-HTML.chomp)
 <ul class="linked-records-listing count-3"><li><span class="collection-identifier">COLL 1</span> <span class="collection-display-string">Good Papers</span></li><li><span class="collection-identifier">COLL 2</span> <span class="collection-display-string">Bad Papers</span></li><li><span class="collection-identifier">COLL 3</span> <span class="collection-display-string">Indifferent Papers</span></li></ul>
 HTML
   end
