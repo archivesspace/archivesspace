@@ -2350,7 +2350,7 @@ en:
     subj: Subject
     agent: Agent
     dig: Digital Object
-    unfound_id: "PLACEHOLDER FOR %{type} ID %{id} NOT FOUND"
+    unfound_id: "%{type} ID %{id} NOT FOUND. This is a PLACEHOLDER"
     ref_id_notfound: "Ref Id %{refid} not found"
     processed: The file has been processed 
     warn:
