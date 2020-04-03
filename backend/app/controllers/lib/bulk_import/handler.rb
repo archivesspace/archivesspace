@@ -15,11 +15,13 @@ class Handler
 
   DISAMB_STR = " DISAMBIGUATE ME!"
 
-  def initialize(current_user)
+  def initialize(current_user, validate_only = false)
     @current_user = current_user
+    @validate_only = validate_only
   end
 
   def save(obj, model)
+    test_exceptions(obj)
     saved = model.create_from_json(obj)
     objs = model.sequel_to_jsonmodel([saved])
     revived = objs.empty? ? nil : objs[0] if !objs.empty?
@@ -82,6 +84,17 @@ class Handler
   # centralize the checking for an already-found object
   def stored(hash, id, key)
     ret_obj = hash.fetch(id, nil) || hash.fetch(key, nil)
+  end
+
+  def valid(obj, what, report)
+    ret_val = false
+    begin
+      test_exceptions(obj)
+      ret_val = true
+    rescue Exception => ex
+      raise BulkImportException.new(I18n.t("validation_error", :what => what, :err => ex.message))
+    end
+    ret_val
   end
 
   def clear(enum_list)
