@@ -2338,6 +2338,7 @@ en:
     no_ao: No Archival Object created
     ao: Archival Object
     created: "%{what} created: %{id}"
+    would_be: "%{what} would be created"
     updated: "%{what}: %{id}"
     clip_btn: Copy to Clipboard   
     clip_created:  "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
@@ -2415,6 +2416,8 @@ en:
       initial_save_error: "Problem with initial save of %{title} -- %{msg}"
       second_save_error: "Error on attempt to re-save archival object with 'instances' %{title} position: %{pos}.This means that the archival object has been created, but possibly not linked to its associated instances (digital object, top container, subject, etc.) [%{what}]"
       ao_validation: "Validation error when attempting to save Archival Object: %{err}"
+      validation_error: "Cannot validate %{what}: %{err}"
+      validated: "%{what} validated"
       lang_code: "Cannot validate language (%{lang})"
       script_code: "Cannot validate a language script (%{script})"
       process_error: "Error processing %{type} %{num}: %{why}"
