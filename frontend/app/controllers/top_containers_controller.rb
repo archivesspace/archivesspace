@@ -345,16 +345,11 @@ class TopContainersController < ApplicationController
       builder.and('empty_u_sbool', (params['empty'] == "yes" ? true : false), 'boolean')
     end
 
-    # Barcodes query
     unless params['barcodes'].blank?
       barcode_query = AdvancedQueryBuilder.new
 
-      # Iterate each barcode
       ASUtils.wrap(params['barcodes'].split(" ")).each do |barcode|
-        # Top Container barcode equal to barcode OR
         barcode_query.or('barcode_u_sstr', barcode)
-        # Child Container string contains barcode
-        barcode_query.or('child_container_u_sstr', "*#{barcode}*")
       end
 
       unless barcode_query.empty?
@@ -376,9 +371,7 @@ class TopContainersController < ApplicationController
                                           })
     end
 
-    puts("top_containers_controller.rb search_params #{search_params}")
     container_search_url = "#{JSONModel(:top_container).uri_for("")}/search"
-    puts("top_containers_controller.rb container_search_url #{container_search_url}")
     JSONModel::HTTP::get_json(container_search_url, search_params)
   end
 
