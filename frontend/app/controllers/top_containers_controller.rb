@@ -137,7 +137,7 @@ class TopContainersController < ApplicationController
 
   def bulk_operation_search
     session[:top_container_previous_search] = {}
-    
+
     # Store ONLY needed information from linkers in rails session so it can be repopulated for another search later
     # (The whole record is not saved because they are too big for the rails session and only a few pieces of info are used)
     if params['collection_resource']
@@ -188,7 +188,7 @@ class TopContainersController < ApplicationController
 
   def bulk_operations_browse
     @top_container_previous_search = {}
-    
+
     begin
       results = perform_search if params.has_key?("q")
     rescue MissingFilterException

@@ -619,7 +619,7 @@ class IndexerCommon
             doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
             if instance['sub_container']['type_2']
               doc['child_container_u_sstr'] ||= []
-              doc['child_container_u_sstr'] << "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']}"
+              doc['child_container_u_sstr'] << "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']} #{instance['sub_container']['barcode_2']}"
             end
             if instance['sub_container']['type_3']
               doc['grand_child_container_u_sstr'] ||= []
