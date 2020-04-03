@@ -849,6 +849,7 @@ en:
 
   instance_container:
     <<: *instance_attributes
+    barcode: Barcode
 
   instance_digital_object:
     <<: *instance_attributes
