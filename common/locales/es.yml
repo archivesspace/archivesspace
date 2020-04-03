@@ -1892,6 +1892,7 @@ es:
     publish_tooltip: Si desea publicar nuevos registros por defecto.
     default_values: ¿Pre-popular registros?
     default_values_tooltip: Si quiere pre-popular un nuevo Fondo o Acta de ingreso
+    locale: Language Selection
     accession_browse_section: Navegar columnas de entrada
     accession_browse_column_1: Columna 1
     accession_browse_column_1_tooltip: El campo para mostrar en la columna 1.

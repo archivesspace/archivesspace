@@ -403,4 +403,13 @@ module ApplicationHelper
     end
   end
 
+  def supported_locales_default
+    {
+      default: user_prefs.key?('locale') ? user_prefs['locale'] : I18n.default_locale.to_s
+    }
+  end
+
+  def supported_locales_options
+    I18n.supported_locales.map{ |k, v| [t("enumerations.language_iso639_2.#{v}"), k] }
+  end
 end
