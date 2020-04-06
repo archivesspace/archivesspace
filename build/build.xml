@@ -52,10 +52,11 @@
     <exec executable="sh"
           spawn="false"
           outputproperty="heap_size_from_config"
-          failonerror="true"
-          logError="true">
+          failonerror="false"
+          logError="true"
+          >
       <arg value="-c" />
-      <arg value="grep '^\s*AppConfig\[:java_heap_size\]' ../config/config.rb | cut -d'=' -f2 | tr -c -d '[a-z0-9]' | head -1 | sed 's/^/-Xmx/'" />
+      <arg value="(grep '^\s*AppConfig\[:java_heap_size\]' ../config/config.rb ../common/config/config.rb 2>/dev/null || true) | cut -d'=' -f2 | tr -c -d '[a-z0-9]' | head -1 | sed 's/^/-Xmx/'" />
     </exec>
   </target>
 
