@@ -162,7 +162,7 @@ case "$1" in
         $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
           (
              exec 0<&-; exec 1>&-; exec 2>&-;
-             $startup_cmd &> \"$ARCHIVESSPACE_LOGS\" &
+             $startup_cmd &>> \"$ARCHIVESSPACE_LOGS\" &
              echo \$! > \"$ASPACE_PIDFILE\"
           ) &
           disown $!"
@@ -206,7 +206,7 @@ case "$1" in
         ;;
     "")
         # Run in foreground mode
-        (cd "$ASPACE_LAUNCHER_BASE"; bash -c "$startup_cmd 2>&1 | tee '$ARCHIVESSPACE_LOGS'")
+        (cd "$ASPACE_LAUNCHER_BASE"; bash -c "$startup_cmd 2>&1 | tee -a '$ARCHIVESSPACE_LOGS'")
         ;;
     *)
         echo "Usage: $0 [start|status|stop|restart]"
