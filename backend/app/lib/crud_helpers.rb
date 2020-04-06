@@ -75,7 +75,7 @@ module CrudHelpers
       yield
     rescue Sequel::ValidationFailed => e
       if e.errors && e.errors.any? {|key, errors| errors[0].end_with?("must be unique")}
-        existing_record = model.find_matching(json)
+        existing_record = e.errors.any? {|key, errors| errors[0].include?("Authority ID")} ? model.find_matching_id(json) : model.find_matching(json)
 
         if existing_record
           e.errors[:conflicting_record] = [existing_record.uri]

@@ -1971,6 +1971,7 @@ en:
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
     subject_must_be_unique: Subject records cannot be identical
+    subject_heading_identifier_must_be_unique_within_source: Subject heading identifier must be unique within source
     conflicting_record: Conflicting record
     missing_required_property: Property is required but was missing
     missing_property: Property was missing

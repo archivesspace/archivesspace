@@ -48,16 +48,17 @@ describe 'Software agent controller' do
 
 
   it "auto-generates the sort name if one is not provided" do
-    id = create_software({:names => [build(:json_name_software,{:software_name => "ArchivesSpace", :sort_name_auto_generate => true})]}).id
+    id = create_software({:names => [build(:json_name_software,
+                                           {:software_name => "ArchivesSpace", :sort_name_auto_generate => true})]}).id
 
     agent = JSONModel(:agent_software).find(id)
 
-    expect(agent.names.first['sort_name']).to eq("ArchivesSpace")
+    expect(agent.names.first['sort_name']).to match(/\AArchivesSpace/)
 
     agent.names.first['version'] = "1.0"
     agent.save
 
-    expect(JSONModel(:agent_software).find(id).names.first['sort_name']).to eq("ArchivesSpace 1.0")
+    expect(JSONModel(:agent_software).find(id).names.first['sort_name']).to match(/\AArchivesSpace.*1\.0/)
 
   end
 
