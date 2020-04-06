@@ -160,8 +160,10 @@ class DB
       Thread.current[:nesting_level] ||= 0
       Thread.current[:nesting_level] += 1
 
+      Thread.current[:in_transaction] ||= false
+
       begin
-        if Thread.current[:nesting_level] > 1
+        if Thread.current[:in_transaction]
           # We are already inside another DB.open that will handle all
           # exceptions and retries for us.  We want to avoid a situation like
           # this:
@@ -198,7 +200,12 @@ class DB
           begin
             if transaction
               self.transaction(:isolation => opts.fetch(:isolation_level, :repeatable)) do
-                return yield @pool
+                Thread.current[:in_transaction] = true
+                begin
+                  return yield @pool
+                ensure
+                  Thread.current[:in_transaction] = false
+                end
               end
 
               # Sometimes we'll make it to here.  That means we threw a
