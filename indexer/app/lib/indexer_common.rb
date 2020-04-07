@@ -589,6 +589,7 @@ class IndexerCommon
         doc['top_container_u_typeahead_usort'] = record['record']['display_string']
         doc['barcode_u_sstr'] = record['record']['barcode']
 
+        doc['subcontainer_barcodes_u_sstr'] = record["record"]["subcontainer_barcodes"]
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
       end
     }
