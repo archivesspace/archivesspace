@@ -76,6 +76,13 @@ AjaxTree.prototype.handleHashChange = function(event) {
     var tree_id = self.tree_id_from_hash();
 
     if (tree_id == null) {
+        // the new hash is not a tree node, so try to focus the element
+        // with an ID matching the hash
+        if (location.hash && $(location.hash).length > 0) {
+          $.scrollTo($(location.hash)[0], 500);
+        }
+        // and change it back to the currently selected node's tree ID
+        self.quietly_change_hash('tree::' + tree.current().attr('id'));
         return false;
     }
 
