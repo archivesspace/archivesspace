@@ -602,6 +602,7 @@ class IndexerCommon
 
         doc['type_u_ssort'] = record['record']['type']
 
+        doc['subcontainer_barcodes_u_sstr'] = record["record"]["subcontainer_barcodes"]
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
       end
     }
