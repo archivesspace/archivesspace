@@ -262,6 +262,7 @@ en:
     status: Status
     job_type: Job Type
     report_type: Report Type
+    job_report_type: Job Type
     time_started: Time Started
     time_finished: Time Finished
 

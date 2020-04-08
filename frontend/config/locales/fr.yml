@@ -262,6 +262,7 @@ fr:
     status: Statut
     job_type: Type de tâche
     report_type: Type de rapport
+    job_report_type: Type de tâche
     time_started: Heure de commencement
     time_finished: Heure d'achèvement
 

@@ -264,6 +264,7 @@ es:
     status: Estado
     job_type: Tipo de tarea
     report_type: Tipo de informe
+    job_report_type: Tipo de tarea
     time_started: Tiempo comenzado
     time_finished: Tiempo terminado
 

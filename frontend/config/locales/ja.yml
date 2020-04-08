@@ -270,6 +270,7 @@ ja:
     status: 状態
     job_type: ジョブの種類
     report_type: レポートタイプ
+    job_report_type: ジョブの種類
     time_started: 時間の開始
     time_finished: 完了した時間
 
