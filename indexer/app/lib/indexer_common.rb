@@ -506,9 +506,9 @@ class IndexerCommon
         doc['job_report_type'] = report_type || doc['job_type']
         doc['status'] = record['record']['status']
         doc['owner'] = record['record']['owner']
-        doc['time_submitted'] = record['record']['time_submitted']
-        doc['time_started'] = record['record']['time_started']
-        doc['time_finished'] = record['record']['time_finished']
+        doc['time_submitted'] = Time.parse(record['record']['time_submitted']).getlocal
+        doc['time_started'] = Time.parse(record['record']['time_started']).getlocal
+        doc['time_finished'] = Time.parse(record['record']['time_finished']).getlocal
 
         filenames = record['record']['job']['filenames'] || []
         doc['files'] = []

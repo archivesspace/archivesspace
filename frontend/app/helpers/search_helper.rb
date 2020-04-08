@@ -112,6 +112,11 @@ module SearchHelper
   end
 
 
+  def show_audit_info_column?
+    !@no_audit_info
+  end
+
+
   def title_column_header(title_header)
     @title_column_header = title_header
   end

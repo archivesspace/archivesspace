@@ -42,7 +42,9 @@
           </th>
         <% end %>
       <% end %>
-      <th class="col audit-info"><span class="sr-only">Audit information</span></th>
+      <% if show_audit_info_column? %>
+        <th class="col audit-info"><span class="sr-only">Audit information</span></th>
+      <% end %>
       <% if !params[:linker] || params[:linker] === 'false' %>
         <th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- actions --></th>
       <% end %>
@@ -97,12 +99,14 @@
         <% end %>
         <% if extra_columns? %>
           <% extra_columns.each do |col| %>
-            <td><%= col.value_for(result) %></td>
+            <td class="<%= col.class %>"><%= col.value_for(result) %></td>
           <% end %>
         <% end %>
-        <td>
-          <%= display_audit_info(result, :format => 'compact') %>
-        </td>
+        <% if show_audit_info_column? %>
+          <td>
+            <%= display_audit_info(result, :format => 'compact') %>
+          </td>
+        <% end %>
         <% if !params[:linker] || params[:linker] === 'false' %>
           <td class="table-record-actions">
             <% if not deleted %>
