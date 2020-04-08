@@ -55,7 +55,7 @@
           <% if doc['collection_identifier_stored_u_sstr'] %>
             <ul class="linked-records-listing count-<%= Array(doc['collection_identifier_stored_u_sstr']).length %>">
               <% Array(doc['collection_identifier_stored_u_sstr']).zip(Array(doc['collection_display_string_u_sstr'])).each do |identifier, display| %>
-                <li><span class="collection-identifier"><%= identifier %></span> <span class="collection-display-string"><%= display %></span</li>
+                <li><span class="collection-identifier"><%= identifier %></span>, <span class="collection-display-string"><%= display %></span</li>
               <% end %>
             </ul>
           <% end %>

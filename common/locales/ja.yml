@@ -691,6 +691,7 @@ ja:
 
   instance_container:
     <<: *instance_attributes
+    barcode: バーコード
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1438,6 +1439,7 @@ ja:
     publish_tooltip: 既定で新しいレコードを発行するかどうか。
     default_values: レコードの事前入力？
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
+    locale: Language Selection
     accession_browse_section: アクセス列を参照
     accession_browse_column_1: 列1
     accession_browse_column_1_tooltip: 列1に表示するフィールド。

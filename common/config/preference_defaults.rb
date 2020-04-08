@@ -5,6 +5,7 @@
 {
   'show_suppressed' => false,
   'publish' => false,
+  'locale' => AppConfig[:locale].to_s,
   'accession_browse_column_1' => 'identifier',
   'accession_browse_column_2' => '',
   'accession_browse_column_3' => '',
@@ -20,4 +21,5 @@
   'digital_object_browse_column_3' => '',
   'digital_object_browse_column_4' => '',
   'digital_object_browse_column_5' => '',
+  'note_order' => [],
 }

@@ -18,6 +18,17 @@ I18n.load_path += Dir[File.join(ASUtils.find_base_directory, 'reports', '**', '*
 
 module I18n
 
+  LOCALES = {
+    'en' => 'eng',
+    'es' => 'spa',
+    'fr' => 'fre',
+    'ja' => 'jpn',
+  }.sort_by { |_, v| v }.to_h.freeze
+
+  def self.supported_locales
+    LOCALES
+  end
+
   def self.t(*args)
     self.t_raw(*args)
   end

@@ -22,19 +22,9 @@
         <% end %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
-            <% if @accession.publish %>
-              <div class="btn btn-inline-form">
-                <% if AppConfig[:use_human_readable_urls] && !@accession['slug'].nil? && !@accession['slug'].empty? %>
-                  <% if AppConfig[:repo_name_in_slugs] %>
-                    <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], 'repositories', session[:repo_slug], 'accessions', @accession['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
-                  <% else %>
-                    <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], 'accessions', @accession['slug']).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
-                  <% end %>
-                <% else %>
-                  <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], @accession.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
-                <% end %>
-              </div>
-            <% end %>
+
+            <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @accession} %>
+
             <% if user_can?('update_event_record') && !@accession.suppressed %>
               <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @accession } %>
             <% end %>

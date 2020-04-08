@@ -849,6 +849,7 @@ fr:
 
   instance_container:
     <<: *instance_attributes
+    barcode: Code-barres
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1912,6 +1913,7 @@ fr:
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs par défaut.
+    locale: Language Selection
     accession_browse_section: Colonnes d'exploration des entrées
     accession_browse_column_1: Colonne 1
     accession_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.

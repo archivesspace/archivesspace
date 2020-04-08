@@ -6,6 +6,7 @@ require_relative 'json_schema_concurrency_fix'
 require_relative 'json_schema_utils'
 require_relative 'jsonmodel_utils'
 require_relative 'asutils'
+require_relative 'aspace_i18n'
 require_relative 'validator_cache'
 
 

@@ -5,7 +5,9 @@ MERGEABLE_TYPES = [
                    {"type" => "JSONModel(:agent_software) uri"},
                    {"type" => "JSONModel(:agent_family) uri"},
                    {"type" => "JSONModel(:resource) uri"},
+                   {"type" => "JSONModel(:top_container) uri"},
                    {"type" => "JSONModel(:container_profile) uri"},
+                   {"type" => "JSONModel(:top_container) uri"},
                    {"type" => "JSONModel(:digital_object) uri"}
                   ]
 
