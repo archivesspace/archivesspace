@@ -171,9 +171,11 @@ class SearchResultData
   end
 
   def sort_fields
-    @sort_fields ||= [].concat(self.class.BASE_SORT_FIELDS)
+    return @sort_fields if @sort_fields
 
-    single_type? ? @sort_fields : @sort_fields + ['primary_type']
+    @sort_fields = [].concat(self.class.BASE_SORT_FIELDS)
+    @sort_fields << 'primary_type' if single_type?
+    @sort_fields
   end
 
   def sorted?
