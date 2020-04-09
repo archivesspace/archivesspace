@@ -18,6 +18,11 @@ require_relative 'fake_solr_timeout_response'
 
 class IndexerCommon
 
+  DO_NOT_INDEX = {"agent_person"           => ["agent_contacts"], 
+                  "agent_family"           => ["agent_contacts"],
+                  "agent_corporate_entity" => ["agent_contacts"],
+                  "agent_software"         => ["agent_contacts"]}
+
   include JSONModel
 
   @@record_types = IndexerCommonConfig.record_types
@@ -917,6 +922,36 @@ class IndexerCommon
     out.strip
   end
 
+  # ANW-1065
+  # iterate through the pre and user defined DO_NOT_INDEX lists and scrub out that part of the JSON tree 
+  # do_not_index hashes look like this: 
+  #  {"agent_person" => ["dates_of_existence"], "foo" => ["bar", "baz"]}
+  def sanitize_json(json)
+    # merge system defined do_not_index with admin defined do_not_index from config file
+    do_not_index = DO_NOT_INDEX
+    do_not_index = do_not_index.each do |k, v|
+      unless AppConfig[:do_not_index][k].nil?
+        do_not_index[k] = do_not_index[k] | AppConfig[:do_not_index][k]
+      end
+    end
+
+    AppConfig[:do_not_index].each do |k, v|
+      if do_not_index[k].nil?
+        do_not_index[k] = AppConfig[:do_not_index][k]
+      end
+    end
+
+    do_not_index.each do |k, v|
+      if json["jsonmodel_type"] == k
+        v.each do |value_to_clean|
+          json[value_to_clean] = []
+        end
+      end
+    end
+
+    return json
+  end
+
   def index_records(records, timing = IndexerTiming.new)
     batch = IndexBatch.new
 
@@ -947,7 +982,7 @@ class IndexerCommon
 
         doc['primary_type'] = record_type
         doc['types'] = [record_type]
-        doc['json'] = ASUtils.to_json(values)
+        doc['json'] = ASUtils.to_json(sanitize_json(values))
         doc['suppressed'] = values.has_key?('suppressed') && values['suppressed']
         if doc['suppressed']
           doc['publish'] = false
