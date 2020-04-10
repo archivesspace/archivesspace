@@ -1,9 +1,6 @@
 name: Indexer Testing
 
 on:
-  push:
-    paths:
-      - 'indexer/**'
   pull_request:
     paths:
       - 'indexer/**'
