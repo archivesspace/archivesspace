@@ -65,6 +65,7 @@ describe 'Solr model' do
                         set_repo_id(@repo_id).
                         set_excluded_ids(%w(alpha omega)).
                         set_record_types(['optional_record_type']).
+                        show_published_only(true).
                         highlighting
 
     response = Solr.search(query)
@@ -78,6 +79,7 @@ describe 'Solr model' do
     expect(http.request.body).to match(/bq=title%3A%22hello\+world%22\*/)
     expect(http.request.body).to match(/pf=title%5E10/)
     expect(http.request.body).to match(/ps=0/)
+    expect(http.request.body).to match(/fq=publish%3Atrue/)
 
 
     expect(response['offset_first']).to eq(1)
