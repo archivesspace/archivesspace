@@ -151,7 +151,12 @@ class BulkImporter
   def check_do_row
     err_arr = []
     begin
-      err_arr.push I18n.t("bulk_import.error.ref_id_miss") if @row_hash["ao_ref_id"].nil?
+      if @row_hash["ao_ref_id"].nil? && @row_hash["ao_uri"].nil?
+        err_arr.push I18n.t("bulk_import.error.no_uri_or_ref")
+      else
+        result = archival_object_from_ref_or_uri(@row_hash["ao_ref_id"], @row_hash["ao_uri"])
+        err_arr.push I18n.t("bulk_import.error.bad_ao", :errs => result[:errs]) if result[:ao].nil?
+      end
       obj_link = @row_hash["digital_object_link"]
       thumb = @row_hash["thumbnail"] || @row_hash["Thumbnail"]
       err_arr.push I18n.t("bulk_import.error.dig_info_miss") if @row_hash["digital_object_link"].nil? && thumb.nil?
@@ -393,6 +398,7 @@ class BulkImporter
   end
 
   def process_do_row
+    ret_str = ""
     begin
       resource_match(@resource, @row_hash["ead"], @row_hash["res_uri"])
     rescue Exception => e
@@ -403,8 +409,9 @@ class BulkImporter
     end
     raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => ret_str)) if !ret_str.empty?
     begin
-      ao = archival_object_from_ref(@row_hash["ao_ref_id"])
-      raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => I18n.t("bulk_import.ref_id_notfound", :refid => @row_hash["ao_ref_id"]))) if ao == nil
+      result = archival_object_from_ref_or_uri(@row_hash["ao_ref_id"], @row_hash["ao_uri"])
+      ao = result[:ao]
+      raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao", errs => result[:errs])) if ao.nil?
       @report.add_archival_object(ao)
       if ao.instances
         digs = []

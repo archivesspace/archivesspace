@@ -2377,7 +2377,7 @@ en:
       duplicates: "This spreadsheet has duplicate Archive Space Field codes: %{codes}"
       res_ead: This form's Resource is missing an EAD ID
       row_ead: This row is missing an EAD ID
-      row_missing_ead_uri: This row is missing BOTH and EAD ID and URI
+      row_missing_ead_uri: This row is missing BOTH an EAD ID and URI
       ead_mismatch:  "Form's EAD ID [%{res_ead}] does not match row's EAD ID [%{row_ead}]"
       uri_mismatch: "Input resource's URI [%{res_uri}] does not match row's URI [%{row_uri}]"
       title: Missing title
@@ -2421,3 +2421,8 @@ en:
       lang_code: "Cannot validate language (%{lang})"
       script_code: "Cannot validate a language script (%{script})"
       process_error: "Error processing %{type} %{num}: %{why}"
+      bad_ao_uri: " with uri %{uri}"
+      bad_ao_ref_id: " with REF ID  %{ref_id}"
+      bad_ao: "Cannot find archival object %{errs}"
+      no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
+

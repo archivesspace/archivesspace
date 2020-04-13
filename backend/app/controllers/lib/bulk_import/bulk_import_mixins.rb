@@ -25,8 +25,42 @@ def archival_object_from_ref(ref_id)
     if jsonms.length == 1
       ao = jsonms[0]
     else
-      raise BulkImportException.new(I18n.t("bulk_import.error.ao_ref_id", :ref_id => ref_id))
+      raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao_ref_id", :ref_id => ref_id))
     end
+  end
+  ao
+end
+
+def archival_object_from_ref_or_uri(ref_id, uri)
+  ao = nil
+  errs = ""
+  if uri.nil? && ref_id.nil?
+    errs = I18n.t("bulk_import.error.no_uri_or_ref")
+  elsif !uri.nil?
+    begin
+      ao = archival_object_from_uri(uri)
+    rescue BulkImportException => e
+      errs = e.message
+    end
+  elsif ao.nil? && !ref_id.nil?
+    begin
+      ao = archival_object_from_ref(ref_id)
+    rescue BulkImportException => e
+      errs = "#{errs} #{e.message}"
+    end
+  end
+  { :ao => ao, :errs => errs }
+end
+
+# accepts either the full URI or just the ID
+def archival_object_from_uri(uri)
+  ao = nil
+  begin
+    uris = uri.split("/")
+    aoid = uris.length == 1 ? uri : uris[4]
+    ao = ArchivalObject.to_jsonmodel(Integer(aoid))
+  rescue
+    raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao_uri", :uri => uri))
   end
   ao
 end
