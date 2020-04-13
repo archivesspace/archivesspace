@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require_relative "lib/bulk_import/bulk_import_mixins"
+require_relative "lib/bulk_import/top_container_linker_validator"
 
 class ArchivesSpaceService < Sinatra::Base
   require 'pp'
@@ -25,5 +27,31 @@ class ArchivesSpaceService < Sinatra::Base
     digital_load = params.fetch(:digital_load)
     digital_load = digital_load.nil? || digital_load.empty? ? false : true
     erb :'bulk/bulk_import_response', locals: {report: report, digital_load: digital_load}
+  end
+  
+  # Supports top container linking via spreadsheet
+  Endpoint.post('/bulkimport/linktopcontainers')
+          .description('Top Container linking from a Spreadsheet')
+          .params(['repo_id', :repo_id],
+                  ['filename', String, 'the original file name'],
+                  ['filepath', String, 'the spreadsheet temp path'],
+                  ['content_type', String, 'the spreadsheet content type']
+                )
+          .permissions([:update_resource_record])
+          .returns([200, 'HTML'],
+                   [400, :error]) do
+    #Validate spreadsheet
+    tclValidator = TopContainerLinkerValidator.new(params.fetch(:filepath), params.fetch(:content_type), params, current_user)
+    report = tclValidator.validate
+    # Schedule the job and run it
+    filepath = params.fetch(:filepath)
+    job = Job.create_from_json(
+      build(:json_job,
+          :job_type => 'top_container_linker_job',
+          :job => build(:json_top_container_linker_job,
+            :filename => filepath, :user => current_user)))
+    job.add_file(filepath)
+
+    erb :'bulk/top_container_linker_response', locals: {report: report}
   end
 end

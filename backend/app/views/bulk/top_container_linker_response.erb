@@ -1,0 +1,30 @@
+<% if !report.terminal_error.nil?
+  popup_msg = I18n.t('bulk_import.error.error', :term => report.terminal_error )
+  else 
+    popup_msg = I18n.t('bulk_import.processed')
+ end %>
+<script>alert('<%= popup_msg %>');</script>
+<% unless report.terminal_error.nil? %>
+<div class="bg-danger"><blockquote><%= report.terminal_error %></blockquote></div>
+
+<% end %>
+<% if report.row_count > 0 %>
+<ul style="list-style: none; ">
+<% report.rows.each do |row| %>
+<li><%= row.row %>
+   <% unless row.errors.empty? %>
+   <ul style="list-style: none; "><% row.errors.each do |err| %>
+	<li class="bg-danger"><%= err %></li>
+     <% end %><%# of error each %> </ul>
+   <% end %> <%# of unless no errors %>
+   <% unless row.info.empty? %>
+   <ul style="list-style: none; ">
+     <% row.info.each do |info| %>
+        <li class="bg-info"><%= info %></li>
+     <% end %><%# of info each %></ul>
+   <% end %> <%# unless no info %>
+
+</li>
+<% end %><%# of row each %>
+</ul>
+<% end %> 

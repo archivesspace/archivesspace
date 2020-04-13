@@ -787,6 +787,10 @@ FactoryBot.define do
   factory :json_print_to_pdf_job, class: JSONModel(:print_to_pdf_job) do
     source  { create(:json_resource).uri }
   end
+  
+  factory :json_top_container_linker_job, class: JSONModel(:top_container_linker_job) do
+    filename  { generate(:alphanumstr) }
+  end
 
   factory :json_generate_slugs_job, class: JSONModel(:generate_slugs_job) do
   end

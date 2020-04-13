@@ -1,5 +1,5 @@
 class BulkImportController < ApplicationController
-  set_access_control "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children, :submit_file, :get_file, :load_dos]
+  set_access_control "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children, :submit_file, :get_file, :load_dos, :link_top_containers_to_archival_objects]
 
   # create the file form for the spreadsheet
   def get_file
@@ -25,4 +25,18 @@ class BulkImportController < ApplicationController
     # change this when we get to diffing between errors and success?
     return render_aspace_partial :partial => "resources/bulk_import_response", :locals => {:data => response.body }
   end
+  
+  # Link the Top Containers to the Archival Objects 
+    def link_top_containers_to_archival_objects
+      url = "/bulkimport/linktopcontainers"
+      file = params.fetch("file")
+      newfile = UploadIO.new(file.tempfile, file.content_type, file.original_filename)
+      params.delete("file")
+      params[:filename] = file.original_filename
+      params[:filepath]  = newfile.local_path
+      params[:content_type] = file.content_type
+      response = JSONModel::HTTP.post_form(url, params, :multipart_form_data)
+      # change this when we get to diffing between errors and success?
+      return render_aspace_partial :partial => "resources/bulk_import_response", :locals => {:data => response.body }
+    end
 end

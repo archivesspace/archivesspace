@@ -30,7 +30,36 @@ def archival_object_from_ref(ref_id)
   ao
 end
 
-      
+#Finds the top container using the hash values (AND clause only)
+def find_top_container(where_params)
+  dataset = CrudHelpers.scoped_dataset(TopContainer, where_params)
+  tc = nil
+  if !dataset.empty?
+    objs = dataset.respond_to?(:all) ? dataset.all : dataset
+    jsonms = TopContainer.sequel_to_jsonmodel(objs)
+    if jsonms.length == 1
+     tc = jsonms[0]
+    else
+      raise BulkImportException.new(I18n.t('bulk_import.error.tc_barcode', :barcode => barcode))
+    end
+  end
+  tc
+end 
+
+def sub_container_from_barcode(barcode)
+  dataset = CrudHelpers.scoped_dataset(SubContainer, {:barcode => barcode})
+  ao = nil
+  if !dataset.empty?
+    objs = dataset.respond_to?(:all) ? dataset.all : dataset
+    jsonms = SubContainer.sequel_to_jsonmodel(objs)
+    if jsonms.length == 1
+     sc = jsonms[0]
+    else
+      raise BulkImportException.new(I18n.t('bulk_import.error.sc_barcode', :barcode => barcode))
+    end
+  end
+  ao
+end     
 
 # The following methods assume @report is defined, and is a BulkImportReport object
 def create_date(dates_label,	date_begin,	date_end,	date_type,	expression,	date_certainty)
@@ -135,9 +164,13 @@ module CrudHelpers
 end
 class BulkImportException < Exception
 end
+class TopContainerLinkerException < Exception
+end
 class BulkImportDisambigException < BulkImportException
 end
 class StopBulkImportException < Exception
+end
+class StopTopContainerLinkingException < Exception
 end
 class BulkImportReport
   require 'pp'
