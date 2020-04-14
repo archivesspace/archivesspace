@@ -12,6 +12,15 @@
   <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.2.22.v20170606/jetty-runner-9.2.22.v20170606.jar" />
   <property name="jettyrunner_file" value="jetty-runner-9.2.22.v20170606.jar" />
 
+  <property name="icu4j_url" value="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/65.1/icu4j-65.1.jar" />
+  <property name="icu4j_file" value="icu4j-65.1.jar" />
+
+  <property name="luceneicu_url" value="https://repo1.maven.org/maven2/org/apache/lucene/lucene-analyzers-icu/4.10.4/lucene-analyzers-icu-4.10.4.jar" />
+  <property name="luceneicu_file" value="lucene-analyzers-icu-4.10.4.jar" />
+
+  <property name="solrextras_url" value="https://repo1.maven.org/maven2/org/apache/solr/solr-analysis-extras/4.10.0/solr-analysis-extras-4.10.0.jar" />
+  <property name="solrextras_file" value="solr-analysis-extras-4.10.4.jar" />
+
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
@@ -65,6 +74,9 @@
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${jettyrunner_url}" dest="${jettyrunner_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${icu4j_url}" dest="../solr/lib/${icu4j_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${luceneicu_url}" dest="../solr/lib/${luceneicu_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${solrextras_url}" dest="../solr/lib/${solrextras_file}" skipexisting="true" verbose="true" usetimestamp="true" />
   </target>
 
 
@@ -365,7 +377,6 @@
 	    <zipfileset dir="../solr" includes="solrconfig.xml" prefix="WEB-INF/classes"/>
 	    <zipfileset dir="../solr" includes="stopwords.txt" prefix="WEB-INF/classes"/>
 	    <zipfileset dir="../solr" includes="synonyms.txt" prefix="WEB-INF/classes"/>
-   	    <zipfileset dir="../solr" includes="Dockerfile" prefix="WEB-INF/classes"/>
     	    <zipfileset dir="../solr/lib" prefix="WEB-INF/lib"/>
     </war>
   </target>
