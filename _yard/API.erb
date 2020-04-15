@@ -198,7 +198,7 @@ As you use the ArchivesSpace API, you may start to notice similarities between d
 
 ## Paginated Endpoints
 
-Endpoints that represent groups of objects, rather than single objects, tend to be paginated.   Paginated endpoints are called out in the documentation as special, with the following content appearing:
+Endpoints that represent groups of objects, rather than single objects, tend to be paginated.   Paginated endpoints are called out in the documentation as special, with some version of the following content appearing:
 
 <aside class="notice">
   This endpoint is paginated. :page, :id_set, or :all_ids is required
@@ -210,7 +210,7 @@ Endpoints that represent groups of objects, rather than single objects, tend to 
   </ul>
 </aside>
 
-These endpoints support:
+These endpoints support some or all of the following:
 
 - paged access to objects (via :page)
 - listing all matching ids (via :all_ids)
@@ -380,6 +380,10 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 # return an array of all the ids
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   "<%= request_uri %>?all_ids=true"
+<% elsif e[:paged] %>
+# return first 10 records
+curl -H "X-ArchivesSpace-Session: $SESSION" \
+  "<%= request_uri %>?page=1&page_size=10"
 <% else %>
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   "<%= request_uri %>"
@@ -428,6 +432,14 @@ This endpoint is paginated. :page, :id_set, or :all_ids is required
   <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
   <li>Comma separated list id_set &ndash; A list of ids to request resolved objects ( Must be smaller than default page_size )</li>
   <li>Boolean all_ids &ndash; Return a list of all object ids</li>
+</ul>
+</aside>
+<% elsif e[:paged]%>
+<aside class="notice">
+This endpoint is paginated. :page is required
+<ul>
+  <li>Integer page &ndash; The page set to be returned</li>
+  <li>Integer page_size &ndash; The size of the set to be returned ( Optional. default set in AppConfig )</li>
 </ul>
 </aside>
 <% end %>

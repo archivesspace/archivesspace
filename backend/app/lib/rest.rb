@@ -79,6 +79,7 @@ module RESTHelpers
       @preconditions = []
       @required_params = []
       @paginated = false
+      @paged = false
       @use_transaction = :unspecified
       @returns = []
       @request_context_keyvals = {}
@@ -103,6 +104,7 @@ module RESTHelpers
             :method => @methods,
             :params => @required_params,
             :paginated => @paginated,
+            :paged => @paged,
             :returns => @returns
           }
         end
@@ -159,7 +161,7 @@ module RESTHelpers
         @documentation = docs
         @prepend_to_autodoc = prepend
       end
-      
+
       self
     end
 
@@ -240,6 +242,12 @@ module RESTHelpers
       self
     end
 
+    def paged(val)
+      @paged = val
+
+      self
+    end
+
 
     def use_transaction(val)
       @use_transaction = val
@@ -258,6 +266,7 @@ module RESTHelpers
       preconditions = @preconditions
       rp = @required_params
       paginated = @paginated
+      paged = @paged
       deprecated = @deprecated
       deprecated_description = @deprecated_description
       use_transaction = @use_transaction
@@ -295,7 +304,7 @@ module RESTHelpers
 
           RequestContext.open(request_context) do
             DB.open do |db|
-              ensure_params(rp, paginated)
+              ensure_params(rp, paginated, paged)
             end
 
             Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
@@ -465,7 +474,7 @@ module RESTHelpers
       end
 
 
-      def process_pagination_params(params, known_params, errors)
+      def process_pagination_params(params, known_params, errors, paged)
         known_params['resolve'] = known_params['modified_since'] = true
 
         params['modified_since'] = coerce_type((params[:modified_since] || '0'),
@@ -484,12 +493,25 @@ module RESTHelpers
           params['all_ids'] = known_params['all_ids'] = true
 
         else
-          # Must provide either page, id_set or all_ids
-          ['page', 'id_set', 'all_ids'].each do |name|
+          # paged and paginated routes both support accessing results a page at a time,
+          #   via the page and page_size arguments
+          # paginated routes additionally support:
+          #   - fetching all database ids as an array via all_ids
+          #   - fetching a set of specific known ids via id_set
+          if paged
+            # Must provide page
             errors[:missing] << {
-              :name => name,
-              :doc => "Must provide either 'page' (a number), 'id_set' (an array of record IDs), or 'all_ids' (a boolean)"
+              :name => 'page',
+              :doc => "Must provide 'page' (a number)"
             }
+          else
+            # Must provide either page, id_set or all_ids
+            ['page', 'id_set', 'all_ids'].each do |name|
+              errors[:missing] << {
+                :name => name,
+                :doc => "Must provide either 'page' (a number), 'id_set' (an array of record IDs), or 'all_ids' (a boolean)"
+              }
+            end
           end
         end
       end
@@ -548,7 +570,7 @@ module RESTHelpers
       end
 
 
-      def ensure_params(declared_params, paginated)
+      def ensure_params(declared_params, paginated, paged)
 
         errors = {
           :missing => [],
@@ -559,7 +581,7 @@ module RESTHelpers
         known_params = {}
 
         process_declared_params(declared_params, params, known_params, errors)
-        process_pagination_params(params, known_params, errors) if paginated
+        process_pagination_params(params, known_params, errors, paged) if paginated || paged
 
         # Any params that were passed in that aren't declared by our endpoint get dropped here.
         unknown_params = params.keys.reject {|p| known_params[p.to_s] }

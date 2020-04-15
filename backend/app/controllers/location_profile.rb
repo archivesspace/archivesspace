@@ -60,7 +60,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Search across Location Profiles")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([])
-    .paginated(true)
+    .paged(true)
     .returns([200, ""]) \
   do
     json_response(Search.search(params.merge(:type => ['location_profile']), nil))

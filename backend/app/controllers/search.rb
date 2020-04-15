@@ -52,7 +52,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Search this repository")
     .params(["repo_id", :repo_id],
             *BASE_SEARCH_PARAMS)
-    .paginated(true)
+    .paged(true)
     .permissions([:view_repository])
     .returns([200, ""]) \
   do
@@ -68,7 +68,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Search this archive")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([:view_all_records])
-    .paginated(true)
+    .paged(true)
     .returns([200, ""]) \
   do
     json_response(Search.search(params, nil))
@@ -79,7 +79,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Search across repositories")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([])
-    .paginated(true)
+    .paged(true)
     .returns([200, ""]) \
   do
     json_response(Search.search(params.merge(:type => ['repository']), nil))
@@ -124,7 +124,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Search across subjects")
     .params(*BASE_SEARCH_PARAMS)
     .permissions([])
-    .paginated(true)
+    .paged(true)
     .returns([200, ""]) \
   do
     json_response(Search.search(params.merge(:type => ['subject']), nil))
