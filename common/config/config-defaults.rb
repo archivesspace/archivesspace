@@ -665,6 +665,3 @@ AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
-
-# Allows admin to specify portions of records to not be indexed. Be careful with this one, as some things are expected to be there by the public interface!
-AppConfig[:do_not_index] = {}

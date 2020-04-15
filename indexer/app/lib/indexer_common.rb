@@ -923,25 +923,9 @@ class IndexerCommon
   end
 
   # ANW-1065
-  # iterate through the pre and user defined DO_NOT_INDEX lists and scrub out that part of the JSON tree 
-  # do_not_index hashes look like this: 
-  #  {"agent_person" => ["dates_of_existence"], "foo" => ["bar", "baz"]}
+  # iterate through the DO_NOT_INDEX list and scrub out that part of the JSON tree 
   def sanitize_json(json)
-    # merge system defined do_not_index with admin defined do_not_index from config file
-    do_not_index = DO_NOT_INDEX
-    do_not_index = do_not_index.each do |k, v|
-      unless AppConfig[:do_not_index][k].nil?
-        do_not_index[k] = do_not_index[k] | AppConfig[:do_not_index][k]
-      end
-    end
-
-    AppConfig[:do_not_index].each do |k, v|
-      if do_not_index[k].nil?
-        do_not_index[k] = AppConfig[:do_not_index][k]
-      end
-    end
-
-    do_not_index.each do |k, v|
+    DO_NOT_INDEX.each do |k, v|
       if json["jsonmodel_type"] == k
         v.each do |value_to_clean|
           json[value_to_clean] = []
