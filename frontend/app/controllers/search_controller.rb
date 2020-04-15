@@ -69,6 +69,22 @@ class SearchController < ApplicationController
   def do_search
     @display_context = true
 
+    if params[:q] && params[:q].end_with?("*")
+      # Typeahead search from a linker using wildcards.  These interact badly
+      # with stemming because the wildcard causes query analysis to be skipped,
+      # so stemming isn't applied to the query.
+      #
+      # This manifests in real data when you typeahead for "agency*" and get no
+      # matches.  That term is stemmed to "agenc".
+      #
+      # Try to minimise the weird effects of this by searching for the
+      # non-wildcard version as well.  The real solution here is to stop using
+      # wildcards and use an ngram field instead.
+      q = params[:q]
+
+      params[:q] = "(#{q}) OR (#{q.gsub('*', '')})"
+    end
+
     respond_to do |format|
       format.json {
         @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
