@@ -1,5 +1,3 @@
-<%= render_aspace_partial :partial => "shared/flash_messages" %>
-
 <div id="topContainerBrowseContainer">
   <%= render_aspace_partial :partial => "top_containers/bulk_operations/search_criteria", :locals => {:form_target => {:controller => :top_containers, :action => :bulk_operations_browse}} %>
   <% unless results.nil? %>
