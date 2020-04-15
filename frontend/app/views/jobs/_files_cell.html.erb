@@ -1,7 +1,0 @@
-<ul style="padding-left: 20px;">
-	<% (record['files'] || []).each_with_index do |file, i| %>
-		<li>
-			<a href="<%= AppConfig[:frontend_proxy_url] + file %>"><%= record['filenames'][i] %></a>
-		</li>
-	<% end %>
-</ul>

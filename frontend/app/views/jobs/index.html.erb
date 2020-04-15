@@ -7,7 +7,7 @@
 
    add_column(I18n.t("job.status"), proc {|record| render_aspace_partial :partial => "jobs/status_cell", :locals => {:record => record}}, :sortable => true, :sort_by => 'status')
    add_column(I18n.t("job.job_type"), proc {|record| render_aspace_partial :partial => "jobs/job_report_type_cell", :locals => {:record => record}}, :sortable => true, :sort_by => 'job_report_type')
-   add_column(I18n.t("import_job.filenames"), proc {|record| render_aspace_partial :partial => "jobs/files_cell", :locals => {:record => record}}, :sortable => false)
+   add_column(I18n.t("job.job_data"), proc {|record| render_aspace_partial :partial => "jobs/job_data_cell", :locals => {:record => record}}, :sortable => false)
    add_column(I18n.t("job.time_started"), proc {|record| record['time_started']}, :sortable => true, :sort_by => 'time_started', :class => 'hidden')
    add_column(I18n.t("job.time_finished"), proc {|record| record['time_finished']}, :sortable => true, :sort_by => 'time_finished', :class => 'hidden')
    add_column('<span class="sr-only">Audit information</span>'.html_safe, proc {|record| render_aspace_partial :partial => "jobs/audit_info_cell", :locals => {:record => record}}, :sortable => false)

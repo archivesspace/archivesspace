@@ -506,19 +506,23 @@ class IndexerCommon
         doc['job_report_type'] = report_type || doc['job_type']
         doc['status'] = record['record']['status']
         doc['owner'] = record['record']['owner']
-        doc['time_submitted'] = Time.parse(record['record']['time_submitted']).getlocal
-        doc['time_started'] = Time.parse(record['record']['time_started']).getlocal
-        doc['time_finished'] = Time.parse(record['record']['time_finished']).getlocal
+        doc['time_submitted'] = Time.parse(record['record']['time_submitted']).getlocal if record['record']['time_submitted']
+        doc['time_started'] = Time.parse(record['record']['time_started']).getlocal if record['record']['time_started']
+        doc['time_finished'] = Time.parse(record['record']['time_finished']).getlocal if record['record']['time_finished']
 
         filenames = record['record']['job']['filenames'] || []
         doc['files'] = []
-        doc['filenames'] = []
+        doc['job_data'] = []
         output_files = JSONModel::HTTP::get_json("#{record['record']['uri']}/output_files")
         output_files.each do |file|
           job_id = record['record']['uri'].split('/').last
           link = "/jobs/#{job_id}/file/#{file}"
           doc['files'] << link
-          doc['filenames'] << (filenames.shift || link)
+          filename = filenames.shift
+          doc['job_data'] << (filename ? "Input File: #{filename}" : "Output File: #{link}")
+        end
+        record['record']['job'].reject { |k, _v| ['jsonmodel_type', 'filenames', 'report_type'].include? k }.each do |k, v|
+          doc['job_data'] << "#{I18n.t("#{record['record']['job_type']}.#{k}", :default => k)}: #{v}"
         end
         doc['queue_position'] = record['record']['queue_position']
       end
