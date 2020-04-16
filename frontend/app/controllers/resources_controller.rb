@@ -361,7 +361,11 @@ class ResourcesController < ApplicationController
 
 # refactoring note: suspiciously similar to accessions_controller.rb
   def fetch_resolved(id)
-    resource = JSONModel(:resource).find(id, find_opts)
+    # We add this so that we can get a top container location to display with the instance view
+    new_find_opts = find_opts
+    new_find_opts["resolve[]"].push("top_container::container_locations")
+    
+    resource = JSONModel(:resource).find(id, new_find_opts)
 
     if resource['classifications']
       resource['classifications'].each do |classification|
