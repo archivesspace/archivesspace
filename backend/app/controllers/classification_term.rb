@@ -36,7 +36,7 @@ class ArchivesSpaceService < Sinatra::Base
              [400, :error]) \
   do
     obj = ClassificationTerm.get_or_die(params[:id])
-    obj.update_position_only(params[:parent], params[:position])
+    obj.set_parent_and_position(params[:parent], params[:position])
 
     updated_response(obj)
   end
