@@ -1,7 +1,9 @@
 require 'csv'
+require 'enumerator'
 
 module CsvTemplateGenerator
   class Template
+
     # A template for users to fill out and upload, to make changes to system data.
     #
     def initialize(template_spec, csv_options = {})
@@ -47,11 +49,20 @@ module CsvTemplateGenerator
     end
 
     def each(dataset)
-      @headers.each do |hdr_line|
-        yield CSV.generate_line(hdr_line, **@csv_options)
+      enum = Enumerator.new do |y|
+        @headers.each do |hdr_line|
+          y.yield CSV.generate_line(hdr_line, **@csv_options)
+        end
+        dataset.paged_each do |row|
+          y.yield CSV.generate_line(@template_spec.keys.map do |field| formatted_value(field, row[field]) end, **@csv_options)
+        end
       end
-      dataset.paged_each do |row|
-        yield CSV.generate_line(@template_spec.keys.map do |field| formatted_value(field, row[field]) end, **@csv_options)
+      if not block_given?
+        return enum
+      else
+        enum.each do |el|
+          yield el
+        end
       end
     end
   end
@@ -63,10 +74,10 @@ module CsvTemplateGenerator
     end
 
     def csv_for_top_container_generation(resource_id)
-      tmpl = Template.new(archival_object_id: "Archival Object ID", ref_id: "Ref ID", component_id: "Component ID", resource_title: "Resource Title", identifier: {title: "Identifier", formatter: ->(value) { JSON.parse(identifier).compact.join(" ") }})
+      tmpl = Template.new(archival_object_id: "Archival Object ID", ref_id: "Ref ID", component_id: "Component ID", resource_title: "Resource Title", identifier: {title: "Identifier", formatter: ->(value) { JSON.parse(value).compact.join(" ") }})
       dataset = DB.open do |ds|
         ds[:resource].
-          inner_join(:archival_object, :root_record_id => :id).where(q(:resource, :id) => 8443).
+          inner_join(:archival_object, :root_record_id => :id).
           where(q(:resource, :id)  => resource_id).
           select(
             q(:archival_object, :id).as(:archival_object_id),
