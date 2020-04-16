@@ -2036,7 +2036,7 @@ en:
     sponsor_set_desc_required: Sponsor set description is required for creating an OAI sponsor set
     sponsor_set_name_required: Sponsor set name is required for creating an OAI sponsor set
     invalid_characters: Contains invalid characters
-
+    conflicting_record: "<a href='/resolve/readonly?uri=%{record_uri}' target='_blank'>View conflicting record</a>"
 
   job:
     _singular: Background Job
