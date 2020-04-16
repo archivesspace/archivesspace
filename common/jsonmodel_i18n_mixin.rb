@@ -16,7 +16,7 @@ module JSONModelI18nMixin
       [:errors, :warnings].each do |level|
         next unless exceptions[level]
         exceptions[level].clone.each do |path, msgs|
-          exceptions[level][path] = msgs.map{|m| translate_exception_message(m)}
+          exceptions[level][path] = msgs.map{|m| translate_exception_message(m, path)}
         end
       end
 
@@ -27,7 +27,11 @@ module JSONModelI18nMixin
   end
 
 
-  def translate_exception_message(msg)
+  def translate_exception_message(msg, path = nil)
+    if path == 'conflicting_record'
+      return t("validation_errors.conflicting_record", {:record_uri => msg})
+    end
+
     msg_data = case msg
       when "Can't be empty"
         [:cant_be_empty]
@@ -67,7 +71,7 @@ module JSONModelI18nMixin
         [:username_already_in_use, {:username => $1}]
       else
         [msg.downcase.gsub(/[\s,':]/, '_')]
-               end
+      end
 
     key, vars = *msg_data
     t("validation_errors.#{key.to_s}", vars)
