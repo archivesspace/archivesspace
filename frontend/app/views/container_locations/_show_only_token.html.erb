@@ -1,0 +1,20 @@
+<div class="container-subrecord">
+<% container_locations.each_with_index do |container_location, index| %>
+    <% if container_location['_resolved'] %>
+        <div class="form-group">
+            <div class="control-label">
+                <label class="control-label col-sm-2"><%= I18n.t("container_location._plural") %></label>
+                <div class="controls token-list">
+                    <%= render_token :object => container_location['_resolved'],
+                                        :label => container_location['_resolved']['title'],
+                                        :type => "location",
+                                        :uri => container_location["ref"],
+                                        :placement => "top" %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <% if index < container_locations.length-1 %><hr/><% end %>
+<% end %>
+</div>
+
