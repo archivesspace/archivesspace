@@ -318,4 +318,15 @@ class ArchivesSpaceService < Sinatra::Base
                    "mimetype" => "application/xml"})
   end
 
+  Endpoint.get('/repositories/:repo_id/resources/:id/templates/top_container_creation.csv')
+    .description("Get a CSV template useful for bulk-creating containers for archival objects of a resource")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:view_repository])
+    .returns([200, "The CSV template"]) \
+  do
+    attachment "resource_#{params[:id]}_top_containers.csv"
+    CsvTemplateGenerator.csv_for_top_container_generation(8447)
+  end
+
 end
