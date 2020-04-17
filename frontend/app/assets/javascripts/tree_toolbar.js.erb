@@ -273,7 +273,7 @@ var SHARED_TOOLBAR_ACTIONS = [
             return true;
         },
         isVisible: function(node, tree, toolbarRenderer) {
-            return !tree.large_tree.read_only;
+            return false;
         },
         onFormLoaded: function(btn, form, tree, toolbarRenderer) {
             $(btn).removeClass('disabled');
