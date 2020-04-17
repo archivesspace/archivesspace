@@ -320,6 +320,41 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/resources/:id/templates/top_container_creation.csv')
     .description("Get a CSV template useful for bulk-creating containers for archival objects of a resource")
+    .documentation do
+      <<~DOCS
+        This method returns a spreadsheet of representing all the archival objects in a resource, with the following:
+
+        * Reference Fields (Non-editable):
+          * Archival Object: ID, Ref ID, and Component ID
+          * Resource: Title and Identifier
+        * Editable Fields:
+           * Top Container: Instance type, Type, Indicator, and Barcode
+           * Child Container: Type, Indicator, Barcode
+           * Location: ID (the location must already exist in the system)
+
+      DOCS
+    end
+    .example('shell') do
+      <<~SHELL
+        # Saves the csv to file 'resource_1_top_container_creation.csv'
+        curl -H "X-ArchivesSpace-Session: $SESSION" \\
+          "http://localhost:8089/repositories/2/resources/1/templates/top_container_creation.csv" \\
+          > resource_1_top_container_creation.csv
+      SHELL
+    end
+    .example('python') do
+      <<~PYTHON
+        from asnake.client import ASnakeClient
+
+        client = ASnakeClient()
+        client.authorize()
+
+        with open('resource_1_top_container_creation.csv', 'wb') as file:
+            resp = client.get('repositories/2/resources/1/templates/top_container_creation.csv')
+            if resp.status_code == 200:
+                file.write(resp.content)
+    PYTHON
+    end
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
