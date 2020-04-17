@@ -326,7 +326,7 @@ class ArchivesSpaceService < Sinatra::Base
     .returns([200, "The CSV template"]) \
   do
     attachment "resource_#{params[:id]}_top_containers.csv"
-    CsvTemplateGenerator.csv_for_top_container_generation(8447)
+    CsvTemplateGenerator.csv_for_top_container_generation(params[:id])
   end
 
 end
