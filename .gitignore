@@ -49,4 +49,4 @@ frontend/default
 indexer/default
 public/default
 tech_docs
-solr/lib
+solr/lib/*.jar
