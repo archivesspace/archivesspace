@@ -18,6 +18,7 @@
 # Description:       Start the ArchivesSpace archival management system
 ### END INIT INFO
 
+JAVA_OPTS="-Duser.timezone=Australia/Brisbane ${JAVA_OPTS}"
 
 # http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
 function readlink_dash_f {
