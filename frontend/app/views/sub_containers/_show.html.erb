@@ -27,5 +27,5 @@
 
 <% container_locations = sub_container.dig("top_container", "_resolved", "container_locations") %>
 <% if container_locations && container_locations.length > 0 %>
-  <%= render_aspace_partial :partial => "container_locations/show_only_token", :locals => { :container_locations => sub_container["top_container"]["_resolved"]["container_locations"] } %>
+  <%= render_aspace_partial :partial => "container_locations/show_only_token", :locals => { :container_locations => container_locations } %>
 <% end %>
