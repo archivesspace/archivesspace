@@ -64,7 +64,6 @@ AppConfig[:pui_log_level] = "debug"
 AppConfig[:indexer_log] = "default"
 AppConfig[:indexer_log_level] = "debug"
 
-
 # Set to true to log all SQL statements.  Note that this will have a performance
 # impact!
 AppConfig[:db_debug_log] = false
@@ -96,23 +95,22 @@ AppConfig[:solr_params] = { "q.op" => "AND" }
 AppConfig[:locale] = :en
 
 # Plug-ins to load. They will load in the order specified
-AppConfig[:plugins] = ['local',  'lcnaf']
+AppConfig[:plugins] = ["local", "lcnaf"]
 
 # The number of concurrent threads available to run background jobs
 # Resist the urge to set this to a big number as it will affect performance
 AppConfig[:job_thread_count] = 2
 
-AppConfig[:oai_proxy_url] = 'http://your-public-oai-url.example.com'
+AppConfig[:oai_proxy_url] = "http://your-public-oai-url.example.com"
 
 # DEPRECATED OAI Settings: Moved to database in ANW-674
 # NOTE: As of release 2.5.2, these settings should be set in the Staff User interface
 # To change these settings, select Manage OAI-PMH Settings from the System menu in the staff interface
 # These three settings are at the top of the page in the General Settings section
 # These settings will be removed from the config file completely when version 2.6.0 is released
-AppConfig[:oai_admin_email] = 'admin@example.com'
-AppConfig[:oai_record_prefix] = 'oai:archivesspace'
-AppConfig[:oai_repository_name] = 'ArchivesSpace OAI Provider'
-
+AppConfig[:oai_admin_email] = "admin@example.com"
+AppConfig[:oai_record_prefix] = "oai:archivesspace"
+AppConfig[:oai_repository_name] = "ArchivesSpace OAI Provider"
 
 # In addition to the sets based on level of description, you can define OAI Sets
 # based on repository codes and/or sponsors as follows
@@ -181,7 +179,7 @@ AppConfig[:pui_indexing_frequency_seconds] = 30
 AppConfig[:pui_indexer_records_per_thread] = 25
 AppConfig[:pui_indexer_thread_count] = 1
 
-AppConfig[:index_state_class] = 'IndexState' # set to 'IndexStateS3' for amazon s3
+AppConfig[:index_state_class] = "IndexState" # set to 'IndexStateS3' for amazon s3
 # # store indexer state in amazon s3 (optional)
 # # NOTE: s3 charges for read / update requests and the pui indexer is continually
 # # writing to state files so you may want to increase pui_indexing_frequency_seconds
@@ -196,7 +194,6 @@ AppConfig[:index_state_class] = 'IndexState' # set to 'IndexStateS3' for amazon 
 AppConfig[:allow_other_unmapped] = false
 
 AppConfig[:db_url_redacted] = proc { AppConfig[:db_url].gsub(/(user|password)=(.*?)(&|$)/, '\1=[REDACTED]\3') }
-
 
 AppConfig[:demo_db_backup_schedule] = "0 4 * * *"
 
@@ -239,7 +236,6 @@ AppConfig[:enable_oai] = true
 #
 AppConfig[:use_jetty_shutdown_handler] = false
 AppConfig[:jetty_shutdown_path] = "/xkcd"
-
 
 # If you have multiple instances of the backend running behind a load
 # balancer, list the URL of each backend instance here.  This is used by the
@@ -315,7 +311,6 @@ AppConfig[:job_poll_seconds] = proc { AppConfig.has_key?(:import_poll_seconds) ?
 # and this
 AppConfig[:job_timeout_seconds] = proc { AppConfig.has_key?(:import_timeout_seconds) ? AppConfig[:import_timeout_seconds] : 300 }
 
-
 # By default, only allow jobs to be cancelled if we're running against MySQL (since we can rollback)
 AppConfig[:jobs_cancelable] = proc { (AppConfig[:db_url] != AppConfig.demo_db_url).to_s }
 
@@ -377,48 +372,48 @@ AppConfig[:jetty_request_buffer_size_bytes] = 64 * 1024
 AppConfig[:record_inheritance] = {
   :archival_object => {
     :inherited_fields => [
-                          {
-                            :property => 'title',
-                            :inherit_directly => true
+                           {
+                            :property => "title",
+                            :inherit_directly => true,
                           },
-                          {
-                            :property => 'component_id',
-                            :inherit_directly => false
+                           {
+                            :property => "component_id",
+                            :inherit_directly => false,
                           },
-                          {
-                            :property => 'lang_materials',
-                            :inherit_directly => false
+                           {
+                            :property => "lang_materials",
+                            :inherit_directly => false,
                           },
-                          {
-                            :property => 'dates',
-                            :inherit_directly => true
+                           {
+                            :property => "dates",
+                            :inherit_directly => true,
                           },
-                          {
-                            :property => 'extents',
-                            :inherit_directly => false
+                           {
+                            :property => "extents",
+                            :inherit_directly => false,
                           },
-                          {
-                            :property => 'linked_agents',
-                            :inherit_if => proc {|json| json.select {|j| j['role'] == 'creator'} },
-                            :inherit_directly => false
+                           {
+                            :property => "linked_agents",
+                            :inherit_if => proc { |json| json.select { |j| j["role"] == "creator" } },
+                            :inherit_directly => false,
                           },
-                          {
-                            :property => 'notes',
-                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'accessrestrict'} },
-                            :inherit_directly => true
+                           {
+                            :property => "notes",
+                            :inherit_if => proc { |json| json.select { |j| j["type"] == "accessrestrict" } },
+                            :inherit_directly => true,
                           },
-                          {
-                            :property => 'notes',
-                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'scopecontent'} },
-                            :inherit_directly => false
+                           {
+                            :property => "notes",
+                            :inherit_if => proc { |json| json.select { |j| j["type"] == "scopecontent" } },
+                            :inherit_directly => false,
                           },
-                          {
-                            :property => 'notes',
-                            :inherit_if => proc {|json| json.select {|j| j['type'] == 'langmaterial'} },
-                            :inherit_directly => false
+                           {
+                            :property => "notes",
+                            :inherit_if => proc { |json| json.select { |j| j["type"] == "langmaterial" } },
+                            :inherit_directly => false,
                           },
-                         ]
-  }
+                         ],
+  },
 }
 
 # To enable composite identifiers - added to the merged record in a property _composite_identifier
@@ -479,7 +474,7 @@ AppConfig[:record_inheritance] = {
 # TODO: Clean up configuration options
 
 AppConfig[:pui_search_results_page_size] = 10
-AppConfig[:pui_branding_img] = 'archivesspace.small.png'
+AppConfig[:pui_branding_img] = "archivesspace.small.png"
 AppConfig[:pui_block_referrer] = true # patron privacy; blocks full 'referrer' when going outside the domain
 
 # The number of PDFs that can be generated (in the background) at the same time.
@@ -529,7 +524,7 @@ AppConfig[:pui_page_actions_print] = true
 AppConfig[:pui_enable_staff_link] = true
 # by default, staff link will open record in staff interface in edit mode,
 # change this to 'readonly' for it to open in readonly mode
-AppConfig[:pui_staff_link_mode] = 'edit'
+AppConfig[:pui_staff_link_mode] = "edit"
 
 # PUI Request Function (used when AppConfig[:pui_page_actions_request] = true)
 # the following determine on what kinds of records the request button is displayed
@@ -661,5 +656,9 @@ AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
-# For Bulk Import: specifies whether the "Load Digital Objects" button is available at the Resource Level
+# For Bulk Import:
+# specifies whether the "Load Digital Objects" button is available at the Resource Level
 AppConfig[:hide_do_load] = false
+# upper row limit for an excel spreadsheet
+AppConfig[:bulk_import_rows] = 1000
+AppConfig[:bulk_import_size] = 256

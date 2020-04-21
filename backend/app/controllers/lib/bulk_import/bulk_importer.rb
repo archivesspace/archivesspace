@@ -15,6 +15,9 @@ include URIResolver
 
 START_MARKER = /ArchivesSpace field code/.freeze
 DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
+MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
+MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
+MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
 
 class BulkImporter
   def run
@@ -372,6 +375,15 @@ class BulkImporter
     @error_rows = 0
     workbook = RubyXL::Parser.parse(@input_file)
     sheet = workbook[0]
+
+    number_rows = sheet.sheet_data.rows.size
+    size = (File.size?(@input_file).to_f / 1000).round
+    file_info = I18n.t("bulk_import.file_info", :rows => number_rows, :size => size)
+
+    if size > MAX_FILE_SIZE || number_rows > MAX_FILE_ROWS
+      raise BulkImportException.new(I18n.t("bulk_import.error.file_too_big", :limits => MAX_FILE_INFO, :file_info => file_info))
+    end
+
     rows = sheet.enum_for(:each)
   end
 

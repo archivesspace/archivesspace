@@ -2354,6 +2354,8 @@ en:
     unfound_id: "%{type} ID %{id} NOT FOUND. This is a PLACEHOLDER"
     ref_id_notfound: "Ref Id %{refid} not found"
     processed: The file has been processed 
+    file_info: "%{size}K with %{rows} rows"
+    max_file_info: "%{size}K and %{rows} rows"
     warn:
       dup: "Managed Controlled Value List %{which} has multiple instances for the Translation '%{trans}'. '%{used}' will be used as the value."
       disam: "Multiple match(es) found for '%{what}'. Creating '%{name}' for disabiguation."
@@ -2394,7 +2396,7 @@ en:
       extent_validation: "Unable to validate extent (%{ext}): %{msg}" 
       no_header: No header (field codes) row found; are you using the correct template?
       no_data: No processible data rows found!
-      excel: "Error(s) parsing Excel File %{errs}"
+      excel: "Error(s) parsing Excel File: %{errs}"
       no_agent: "Unable to create Agent %{num}: [%{why}]"
       no_tc: "Unable to create Top Container %{number}: [%{why}]"
       missing_instance_type: Missing container instance type
@@ -2425,4 +2427,6 @@ en:
       bad_ao_ref_id: " with REF ID  %{ref_id}"
       bad_ao: "Cannot find archival object %{errs}"
       no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
+      file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
+      
 
