@@ -20,6 +20,20 @@ include URIResolver
 #This assumes that the first row are internal IDs and the 
 #second row has human readable headers. Data then begins on the 3rd row
 class BulkImportSpreadsheetParser
+  
+  #Column constants
+  REF_ID = "ref_id"
+  INSTANCE_TYPE = "instance_type"
+  TOP_CONTAINER_INDICATOR = "top_container_indicator"
+  TOP_CONTAINER_ID = "top_container_id"
+  TOP_CONTAINER_TYPE = "top_container_type"
+  TOP_CONTAINER_BARCODE = "top_container_arcode"
+  CHILD_TYPE = "child_type"
+  CHILD_INDICATOR = "child_indicator"
+  LOCATION_ID = "location_id"
+  CONTAINER_PROFILE_ID = "container_profile_id"
+  EAD_ID = "ead_id"
+  
   attr_reader :report
   
   def initialize(input_file, file_content_type, opts = {}, current_user)

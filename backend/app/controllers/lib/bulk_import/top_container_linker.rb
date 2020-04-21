@@ -82,7 +82,7 @@ class TopContainerLinker < BulkImportSpreadsheetParser
     begin
       ao = nil
       # Check that the archival object ref id exists
-      ref_id = row_hash["Ref ID"]
+      ref_id = row_hash[REF_ID]
       if ref_id.nil?
         err_arr.push I18n.t("top_container_linker.error.ref_id_miss", :row_num => @counter.to_s)
       else 
@@ -101,14 +101,14 @@ class TopContainerLinker < BulkImportSpreadsheetParser
       end
       
       #Check that the instance type exists
-      instance_type = row_hash["Instance Type"]
+      instance_type = row_hash[INSTANCE_TYPE]
       if instance_type.nil?
         err_arr.push I18n.t("top_container_linker.error.instance_type_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
       end
       
       #Check that either the Top Container Indicator or Top Container Record No. is present
-      tc_indicator = row_hash["Top Container Indicator"]
-      tc_record_no = row_hash["Top Container Record No."]
+      tc_indicator = row_hash[TOP_CONTAINER_INDICATOR]
+      tc_record_no = row_hash[TOP_CONTAINER_ID]
       #Both missing  
       if (tc_indicator.nil? && tc_record_no.nil?)
         err_arr.push I18n.t("top_container_linker.error.tc_indicator_and_record_no_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
@@ -119,16 +119,18 @@ class TopContainerLinker < BulkImportSpreadsheetParser
       end
       
       #Container type/Container indicator combo already exists 
-      tc_type = row_hash["Top Container Type"]
+      tc_type = row_hash[TOP_CONTAINER_TYPE]
       tc_obj = nil
       if (!tc_indicator.nil? && !tc_type.nil?)
         type_id = BackendEnumSource.id_for_value("container_type",tc_type.strip)
         tc_jsonmodel_obj = find_top_container({:indicator => tc_indicator, :type_id => type_id})
+        display_indicator = tc_indicator;
         if (tc_jsonmodel_obj.nil?)
           #Create new TC 
           tc_obj = create_top_container_instance(instance_type, tc_indicator, tc_type, row_hash, err_arr, ref_id, @counter.to_s)
         else
           tc_obj = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, row_hash, err_arr, ref_id, @counter.to_s)
+          display_indicator = tc_jsonmodel_obj.indicator
         end
       elsif (!tc_record_no.nil?)
         tc_jsonmodel_obj = TopContainer.get_or_die(tc_record_no.strip)
@@ -137,13 +139,14 @@ class TopContainerLinker < BulkImportSpreadsheetParser
           err_arr.push I18n.t("top_container_linker.error.tc_record_no_missing", :tc_id=> tc_record_no, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         else
           tc_obj = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, row_hash, err_arr, ref_id, @counter.to_s)
+          display_indicator = tc_jsonmodel_obj.indicator
         end
       end
       
       if (!tc_obj.nil?)
         ao.instances ||= []
         ao.instances << tc_obj
-        @report.add_info("Adding Top Container Instance " + instance_type.capitalize  + " " + tc_indicator + " to Archival Object " + ref_id)
+        @report.add_info("Adding Top Container Instance " + instance_type.capitalize  + " " + display_indicator + " to Archival Object " + ref_id)
       end
       ao_save(ao)      
     rescue StopTopContainerLinkingException => se
@@ -159,7 +162,7 @@ class TopContainerLinker < BulkImportSpreadsheetParser
   end
   
   def create_top_container_instance(instance_type, indicator, type, row_hash, err_arr, ref_id, row_num)
-    barcode = row_hash["Top Container Barcode"]
+    barcode = row_hash[TOP_CONTAINER_BARCODE]
     if (!barcode.nil?)
       tc_obj = find_top_container({:barcode => barcode.strip})
       if (tc_obj.nil?)
@@ -177,8 +180,8 @@ class TopContainerLinker < BulkImportSpreadsheetParser
       #end
     #end
     #Check if the location ID can be found in the db
-    child_type = row_hash["Child Type"]
-    child_indicator = row_hash["Child Indicator"]
+    child_type = row_hash[CHILD_TYPE]
+    child_indicator = row_hash[CHILD_INDICATOR]
     subcontainer = {}
     if (!child_type.nil? && !child_indicator.nil?)
       subcontainer = { "type_2" => child_type.strip,
@@ -196,7 +199,7 @@ class TopContainerLinker < BulkImportSpreadsheetParser
     end
          
     #Check if the location ID can be found in the db
-    loc_id = row_hash["Location Record No"]
+    loc_id = row_hash[LOCATION_ID]
     if (!loc_id.nil?)
       loc = Location.get_or_die(loc_id.strip)
       if (loc.nil?)
@@ -206,14 +209,14 @@ class TopContainerLinker < BulkImportSpreadsheetParser
           loc_jsonmodel = Location.sequel_to_jsonmodel([loc])
           instance = add_current_location(instance, loc_jsonmodel)
         rescue Exception => e
-          @report.add_errors(I18n.t("top_container_linker.problem_adding_current_location", :ref_id => ref_id.to_s, :row_num => row_num, why: e.message))
+          @report.add_errors(I18n.t("top_container_linker.error.problem_adding_current_location", :ref_id => ref_id.to_s, :row_num => row_num, why: e.message))
           instance = nil
         end
       end
     end
     
     #Check if Container Profile Record No. can be found in the db 
-    cp_id = row_hash["Container Profile Record No."]
+    cp_id = row_hash[CONTAINER_PROFILE_ID]
     if (!cp_id.nil?)
       cp = ContainerProfile.get_or_die(cp_id.strip)
       if (cp.nil?)
@@ -223,7 +226,7 @@ class TopContainerLinker < BulkImportSpreadsheetParser
             cp_jsonmodel = ContainerProfile.sequel_to_jsonmodel([cp])
             instance = set_container_profile(instance, cp_jsonmodel)
           rescue Exception => e
-            @report.add_errors(I18n.t("top_container_linker.problem_setting_container_profile", :ref_id => ref_id.to_s, :row_num => row_num, why: e.message))
+            @report.add_errors(I18n.t("top_container_linker.error.problem_setting_container_profile", :ref_id => ref_id.to_s, :row_num => row_num, why: e.message))
             instance = nil
           end
         end
