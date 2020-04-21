@@ -103,6 +103,86 @@ describe 'Resources and archival objects' do
     @driver.click_and_wait_until_gone(:css, 'a.btn.btn-cancel')
   end
 
+  it 'prepopulates the top container modal with search for current resource when linking on the resource edit page' do
+    # Create some top containers
+    location = create(:location)
+    container_location = build(:container_location,
+                               ref: location.uri)
+    container = create(:top_container,
+                        container_locations: [container_location])
+    ('A'..'E').each do |l|
+      create(:top_container,
+             indicator: "Letter #{l}",
+             container_locations: [container_location])
+    end
+
+    run_index_round
+
+    @driver.find_element(:link, 'Browse').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Resources')
+
+    table_rows = @driver.find_elements(css: "tr")
+    table_rows.each do |row|
+      if (row.text.include? "Resource 1")
+        table_rows[2].click_and_wait_until_gone(:link, 'Edit')
+        break
+      end
+    end
+
+    @driver.find_element(:link, 'Browse').click
+    @driver.find_element_with_text('//button', /Add Container Instance/).click
+
+    resource_title = @driver.find_element(css: 'h2').text[0...-9]
+
+    @driver.find_element(css: '#resource_instances__0__instance_type_').select_option('text')
+    
+    add_instance_fields_area = @driver.find_element(css: '#resource_instances__0__container_')
+    add_instance_fields_area.find_element(css: '.btn.btn-default.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
+    @driver.find_elements(:link, 'Browse')[1].click
+
+    sleep 1
+
+    @driver.find_element(css: '.token-input-delete-token').click
+    @driver.clear_and_send_keys([:css, '#q'], '*')
+
+    inputs = @driver.find_element(css: '.modal-content').find_elements(css: 'input')
+    inputs.each do |input|
+      if input.attribute('value') == "Search"
+        input.click
+        break
+      end
+    end
+
+    sleep 2
+
+    @driver.find_element(css: '.modal-content').find_elements(css: 'tr')[1].find_element(css: 'input').click
+
+    @driver.find_element(css: "#addSelectedButton").click
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+
+    run_periodic_index
+
+    add_instance_fields_area = @driver.find_element(css: '#resource_instances__0__container_')
+    add_instance_fields_area.find_element(css: '.btn.btn-default.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
+    @driver.find_elements(:link, 'Browse')[1].click
+
+    expect(@driver.find_element(css: '.modal-content').find_elements(css: 'tr').length).to eq(2)
+
+    # Clean up after ourselves so the other tests run ok
+    @driver.find_element(css: '.modal-content').find_element(css: '.btn.btn-cancel.btn-default').click
+    sleep 1
+    @driver.find_element(css: '#resource_instances__0_').find_element(css: '.subrecord-form-remove').click
+    sleep 1
+    @driver.find_element(css: '.confirm-removal').click
+
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+
+    run_periodic_index
+  end
+
   it 'can create a resource' do
     resource_title = "Pony <emph render='italic'>Express</emph>"
     resource_stripped = 'Pony Express'
