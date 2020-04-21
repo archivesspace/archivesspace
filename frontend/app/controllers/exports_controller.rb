@@ -1,7 +1,7 @@
 class ExportsController < ApplicationController
 
   set_access_control  "view_repository" => [:container_labels, :download_marc, :download_dc, :download_mods,
-                                            :download_mets, :download_ead, :download_eac]
+                                            :download_mets, :download_ead, :download_eac, :container_template]
   set_access_control "create_job" => [:print_to_pdf]
 
   include ExportHelper
@@ -67,6 +67,10 @@ class ExportsController < ApplicationController
     render :layout => false
   end
 
+  def container_template
+    uri = "/repositories/#{JSONModel::repository}/resources/#{params[:id]}/templates/top_container_creation.csv"
+    csv_response(uri)
+  end
 
   private
 

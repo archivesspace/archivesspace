@@ -91,6 +91,7 @@ en:
     export_marc: Download MARCXML
     export_dc: Download DC
     export_csv: Download CSV
+    container_template: Download Container Template
     loading: Loading...
     revert: Revert Changes
     finish_editing: Close Record

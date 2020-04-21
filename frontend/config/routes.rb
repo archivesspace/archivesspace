@@ -101,6 +101,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/defaults' => 'resources#update_defaults', :via => [:post]
     resources :resources
     match 'resources/:id/container_labels' => 'exports#container_labels', :via => [:get]
+    match 'resources/:id/container_tempate' => 'exports#container_template', :via => [:get]
     match 'resources/:id/download_marc' => 'exports#download_marc', :via => [:get]
     match 'resources/:id/download_ead' => 'exports#download_ead', :via => [:get]
     match 'resources/:id/print_to_pdf' => 'exports#print_to_pdf', :via => [:get]
