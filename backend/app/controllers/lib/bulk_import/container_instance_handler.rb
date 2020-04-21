@@ -37,13 +37,19 @@ class ContainerInstanceHandler < Handler
         tc.type = top_container[:type]
         tc.indicator = top_container[:indicator]
         tc.barcode = top_container[:barcode] if top_container[:barcode] 
-        tc.repository = {'ref' => resource.split('/')[0..2].join('/')}
+        repo_id = resource.split('/')[2]
+        repo = Repository.get_or_die(repo_id)
+        if repo.nil?
+          raise BulkImportException(I18n.t('bulk_import.error.could_not_find_repo', :repo_id => repo_id)) 
+        else
+          tc.repository = Repository.to_jsonmodel(repo)
+        end
         tc = save(tc, TopContainer)
         report.add_info(I18n.t('bulk_import.created', :what =>"#{I18n.t('bulk_import.tc')} [#{tc.type} #{tc.indicator}]", :id=> tc.uri))
         existing_tc = tc
       end
     rescue Exception => e
-      raise BulkImportException.new(e.message)
+      raise BulkImportException.new(e.message + "\n" + e.backtrace)
     end
     @top_containers[tc_key] = existing_tc if existing_tc
     existing_tc
@@ -53,7 +59,6 @@ class ContainerInstanceHandler < Handler
     repo_id = resource_uri.split('/')[2]
     if !(ret_tc = get_db_tc_by_barcode(top_container[:barcode], repo_id))
       tc_str = "#{top_container[:type]} #{top_container[:indicator]}"
-      # tc_str += ": [#{top_container[:barcode]}]" if top_container[:barcode]
       tc_params = {}
       tc_params[:q] = "display_string:\"#{tc_str}\" AND collection_uri_u_sstr:\"#{resource_uri}\""
       ret_tc = search(nil,tc_params, :top_container,'top_container', "display_string:#{tc_str}")
@@ -80,7 +85,7 @@ class ContainerInstanceHandler < Handler
     raise  BulkImportException.new(I18n.t('bulk_import.error.missing_instance_type')) if instance_type.nil?
     begin
       tc = get_or_create(type, indicator, barcode, resource_uri, report)
-      sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodeltype' => 'sub_container'}
+      sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodel_type' => 'sub_container'}
       %w(2 3).each do |num|
         if subcont["type_#{num}"]
           sc["type_#{num}"] = @container_types.value(subcont["type_#{num}"])
@@ -98,5 +103,21 @@ class ContainerInstanceHandler < Handler
     end
     instance
   end
-
+  
+  #Add a current location
+  #NOTE - If other locations exist, this does not update them
+  def add_current_location(tc_instance, location_jsonmodel)
+    tc_instance.container_locations ||= []
+    current_date = Time.now.strftime("%F")
+    cl = {'jsonmodel_type' => 'container_location', 'start_date' => current_date, 'status' => 'current', 'ref' => location_jsonmodel.uri}
+    tc_instance.container_locations << cl
+    tc_instance
+  end
+  
+  #Set the container profile
+  def set_container_profile(tc_instance, cp_jsonmodel)
+    cp = {'ref' => cp_jsonmodel.uri}
+    tc_instance.container_profile = cp
+    tc_instance
+  end
 end  # of container handler

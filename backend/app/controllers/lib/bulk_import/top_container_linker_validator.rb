@@ -5,53 +5,13 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
     begin
       initialize_info
       validate_spreadsheet_data
-      
-#      @counter = 0
-#      begin
-#        while (row = @rows.next)
-#          @counter += 1
-#          values = row_values(row)
-#          next if values.reject(&:nil?).empty?
-#          @row_hash = Hash[@headers.zip(values)]
-#          ao = nil
-#          begin
-#            @report.new_row(@counter)
-#            ao = process_row
-#            @rows_processed += 1
-#            @error_level = nil
-#          rescue StopTopContainerLinkingException => se
-#            @report.add_errors(I18n.t("bulk_import.error.stopped", :row => @counter, :msg => se.message))
-#            raise StopIteration.new
-#          rescue TopContainerLinkerException => e
-#            @error_rows += 1
-#            @report.add_errors(e.message)
-#            @error_level = @hier
-#          end
-#          @report.end_row
-#        end
-#      rescue StopIteration
-#        # we just want to catch this without processing further
-#      end
-#      if @rows_processed == 0
-#        raise TopContainerLinkerException.new(I18n.t("bulk_import.error.no_data"))
-#      end
-#    rescue Exception => e
-#      if e.is_a?(TopContainerLinkerException) || e.is_a?(StopTopContainerLinkingException)
-#        @report.add_terminal_error(I18n.t("bulk_import.error.excel", :errs => e.message), @counter)
-#      elsif e.is_a?(StopIteration) && @headers.nil?
-#        @report.add_terminal_error(I18n.t("bulk_import.error.no_header"), @counter)
-#      else # something else went wrong
-#        @report.add_terminal_error(I18n.t("bulk_import.error.system", :msg => e.message), @counter)
-#        Log.error("UNEXPECTED EXCEPTION on bulkimport load! #{e.message}")
-#        Log.error(e.backtrace.pretty_inspect)
-#      end
     end
     return @report
   end
   
   
   def initialize(input_file, file_content_type, opts = {}, current_user)
-    super(input_file, file_content_type, opts = {}, current_user)
+    super(input_file, file_content_type, opts, current_user)
   end
 
   
@@ -62,16 +22,11 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
     begin
       while (row = @rows.next)
         @counter += 1
-        #values = row_values(row)
-        #next if values.reject(&:nil?).empty?
         row_hash = get_row_hash(row)
         begin
           @report.new_row(@counter)
           errors = check_row(row_hash)
-          Log.error("ERRORS")
-          Log.error(errors)
           if !errors.empty?
-            Log.error('ADDING ERRORS AND STOPPING ITERATION')
             @report.add_errors(errors)
             @error_rows += 1
             @report.end_row
@@ -104,39 +59,18 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
   end
 
 
-  # save (create/update) the archival object, then revive it
-
-#  def ao_save(ao)
-#    revived = nil
-#    begin
-#      archObj = nil
-#      if ao.id.nil?
-#        raise TopContainerLinkerException.new(I18n.t("top_container_linker.error.ao_does_not_exist")
-#      else
-#        obj = ArchivalObject.get_or_die(ao.id)
-#        archObj = obj.update_from_json(ao)
-#      end
-#      objs = ArchivalObject.sequel_to_jsonmodel([archObj])
-#      revived = objs[0] if !objs.empty?
-#    rescue ValidationException => ve
-#      raise TopContainerLinkerException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
-#    rescue Exception => e
-#      Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
-#      Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
-#      raise e
-#    end
-#    revived
-#  end
-
   # look for all the required fields to make sure they are legit
   # strip all the strings and turn publish and restrictions_flaginto true/false
   def check_row(row_hash)
     err_arr = []
     begin
+              
       # Check that the archival object ref id exists
       ref_id = row_hash["Ref ID"]
       if ref_id.nil?
         err_arr.push I18n.t("top_container_linker.error.ref_id_miss", :row_num => @counter.to_s)
+        #REturn here because this is the most critical and the other error messages rely on it.
+        return  err_arr.join("; ")
       else 
         #Check that the AO can be found in the db
         ao = archival_object_from_ref(ref_id.strip)
@@ -144,6 +78,20 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
           err_arr.push I18n.t("top_container_linker.error.ao_not_in_db", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         end
       end
+      
+      ead_id = row_hash["EADID"]
+      if ead_id.nil?
+        err_arr.push I18n.t("top_container_linker.error.ead_id_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+      else 
+        #Check that the AO can be found in the db
+        resource = resource_from_ref(ead_id.strip)
+        if (resource.nil?)
+          err_arr.push I18n.t("top_container_linker.error.resource_not_in_db", :ead_id => ead_id.to_s, :row_num => @counter.to_s)
+        elsif (resource.uri != @resource_ref)
+          err_arr.push I18n.t("top_container_linker.error.resources_do_not_match", :spreadsheet_resource => resource.uri, :ead_id => ead_id.to_s, :current_resource => @resource_ref, :row_num => @counter.to_s)
+        end
+      end
+            
      
       #Check that the instance type exists
       instance_type = row_hash["Instance Type"]
@@ -161,6 +109,18 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
       #Both exist
       if (!tc_indicator.nil? && !tc_record_no.nil?)
         err_arr.push I18n.t("top_container_linker.error.tc_indicator_and_record_no_exist", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+      end
+      
+      if (!tc_record_no.nil?)
+        begin
+          tc_obj = TopContainer.get_or_die(tc_record_no.strip.to_i)
+        rescue NotFoundException
+          tc_obj = nil
+        end
+        if tc_obj.nil?
+          #Cannot find TC record with ID
+          err_arr.push I18n.t("top_container_linker.error.tc_record_no_missing", :tc_id=> tc_record_no, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+        end
       end
       
       #Container type/Container indicator combo already exists 
@@ -195,7 +155,11 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
       #Check if the location ID can be found in the db
       loc_id = row_hash["Location Record No"]
       if (!loc_id.nil?)
-        loc = Location.get_or_die(loc_id.strip)
+        begin
+          loc = Location.get_or_die(loc_id.strip)
+        rescue NotFoundException
+          loc = nil
+        end
         if (loc.nil?)
           err_arr.push I18n.t("top_container_linker.error.loc_not_in_db", :loc_id=> loc_id.to_s, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         end
@@ -204,7 +168,11 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
       #Check if Container Profile Record No. can be found in the db 
       cp_id = row_hash["Container Profile Record No."]
       if (!cp_id.nil?)
-        cp = ContainerProfile.get_or_die(cp_id.strip)
+        begin
+          cp = ContainerProfile.get_or_die(cp_id.strip)
+        rescue NotFoundException
+          cp = nil
+        end
         if (cp.nil?)
           err_arr.push I18n.t("top_container_linker.error.cp_not_in_db", :cp_id=> cp_id.to_s, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         end
@@ -219,56 +187,5 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
     end
     err_arr.join("; ")
   end
-
-
-  # Link an archival_object
-#  def link_archival_object(parent_uri)
-#    ao = JSONModel(:archival_object).find(aoid, find_opts) 
-#    ao.instances = create_top_container_instances
-#    ao
-#  end
-
-
-#  def create_top_container_instances
-#    instances = []
-#    cntr = 1
-#    substr = ""
-#    until @row_hash["cont_instance_type#{substr}"].nil? && @row_hash["type_1#{substr}"].nil? && @row_hash["barcode#{substr}"].nil?
-#      begin
-#        subcont = { "type_2" => @row_hash["type_2#{substr}"],
-#                    "indicator_2" => @row_hash["indicator_2#{substr}"]}
-#
-#        instance = @cih.create_container_instance(@row_hash["cont_instance_type#{substr}"],
-#                                                  @row_hash["type_1#{substr}"], @row_hash["indicator_1#{substr}"], @row_hash["barcode#{substr}"], @resource["uri"], @report, subcont)
-#      rescue Exception => e
-#        @report.add_errors(I18n.t("bulk_import.error.no_tc", number: cntr.to_s, why: e.message))
-#        instance = nil
-#      end
-#      cntr += 1
-#      substr = "_#{cntr}"
-#      instances << instance if instance
-#    end
-#    return instances
-#  end
-
-
-
-
-#  def process_row
-#    begin
-#      ao = link_archival_object
-#    rescue JSONModel::ValidationException => ve
-#      # ao won't have been linked
-#      msg = I18n.t("bulk_import.error.second_save_error", :what => ve.errors, :title => ao.title, :pos => ao.position)
-#      @report.add_errors(msg)
-#    rescue Exception => e
-#      Log.error("UNEXPECTED ON SECOND SAVE#{e.message}")
-#      Log.error(e.backtrace.pretty_inspect)
-#      Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect)
-#      raise TopContainerLinkerException.new(e.message)
-#    end
-#    @report.add_archival_object(ao) if !ao.nil?
-#    @updated_ao_refs.push ao.uri
-#  end
 
 end

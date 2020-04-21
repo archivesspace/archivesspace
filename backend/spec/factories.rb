@@ -790,6 +790,7 @@ FactoryBot.define do
   
   factory :json_top_container_linker_job, class: JSONModel(:top_container_linker_job) do
     filename  { generate(:alphanumstr) }
+    content_type { "text/csv" }
   end
 
   factory :json_generate_slugs_job, class: JSONModel(:generate_slugs_job) do

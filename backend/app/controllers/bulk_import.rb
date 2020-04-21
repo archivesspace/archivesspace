@@ -33,6 +33,7 @@ class ArchivesSpaceService < Sinatra::Base
   Endpoint.post('/bulkimport/linktopcontainers')
           .description('Top Container linking from a Spreadsheet')
           .params(['repo_id', :repo_id],
+                  ['rid', :id],
                   ['filename', String, 'the original file name'],
                   ['filepath', String, 'the spreadsheet temp path'],
                   ['content_type', String, 'the spreadsheet content type']
@@ -41,17 +42,11 @@ class ArchivesSpaceService < Sinatra::Base
           .returns([200, 'HTML'],
                    [400, :error]) do
     #Validate spreadsheet
-    tclValidator = TopContainerLinkerValidator.new(params.fetch(:filepath), params.fetch(:content_type), params, current_user)
-    report = tclValidator.validate
-    # Schedule the job and run it
     filepath = params.fetch(:filepath)
-    job = Job.create_from_json(
-      build(:json_job,
-          :job_type => 'top_container_linker_job',
-          :job => build(:json_top_container_linker_job,
-            :filename => filepath, :user => current_user)))
-    job.add_file(filepath)
-
+    content_type = params.fetch(:content_type)
+    rid = params.fetch(:rid)
+    tclValidator = TopContainerLinkerValidator.new(filepath, content_type, params, current_user)
+    report = tclValidator.validate
     erb :'bulk/top_container_linker_response', locals: {report: report}
   end
 end

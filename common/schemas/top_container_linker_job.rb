@@ -6,9 +6,17 @@
 
     "properties" => {
 
+      "resource_id" => { 
+        "type" => "number",
+        "ifmissing" => "error"
+      },
       "filename" => {
         "type" => "string",
         "ifmissing" => "error",
+      },
+      "content_type" => {
+        "type" => "string",
+        "ifmissing" => "error"
       }
 
     }

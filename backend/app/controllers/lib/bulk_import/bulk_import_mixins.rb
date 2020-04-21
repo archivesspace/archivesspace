@@ -15,6 +15,21 @@ def resolves
     "owner_repo"]
 end
 
+def resource_from_ref(ead_id)
+  dataset = CrudHelpers.scoped_dataset(Resource, {:ead_id => ead_id})
+  resource = nil
+  if !dataset.empty?
+    objs = dataset.respond_to?(:all) ? dataset.all : dataset
+    jsonms = Resource.sequel_to_jsonmodel(objs)
+    if jsonms.length == 1
+      resource = jsonms[0]
+    else
+      raise BulkImportException.new(I18n.t('bulk_import.error.resource_ref_id', :ref_id => ead_id))
+    end
+  end
+  resource 
+end
+
 def archival_object_from_ref(ref_id)
   dataset = CrudHelpers.scoped_dataset(ArchivalObject, {:ref_id => ref_id})
   ao = nil
