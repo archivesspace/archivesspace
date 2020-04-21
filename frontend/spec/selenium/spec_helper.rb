@@ -22,7 +22,7 @@ $backend_start_fn = proc {
                                 solr_port: $solr_port,
                                 session_expire_after_seconds: $expire,
                                 realtime_index_backlog_ms: 600_000,
-                                db_url: AppConfig.demo_db_url)
+                                db_url: ENV.fetch('ASPACE_TEST_DB_URL', AppConfig.demo_db_url))
 
   AppConfig[:backend_url] = $backend
 

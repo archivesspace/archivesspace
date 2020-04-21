@@ -37,7 +37,7 @@ jobs:
 
     - name: Run Backend tests
       env:
-        ASPACE_TEST_DB_URL: jdbc:mysql://localhost:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false
+        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false
       run: |
         wget -P ./common/lib https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar
         ./build/run backend:test
