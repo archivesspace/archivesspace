@@ -104,12 +104,15 @@ module CsvTemplateGenerator
         ref_id: "Ref ID",
         component_id: "Component ID",
         resource_title: "Resource Title",
+        ead_id: "EAD ID",
         identifier: {title: "Identifier", formatter: ->(value) { JSON.parse(value).compact.join(" ") }},
         # Editable
         instance_type: {title: "Instance Type", blank: true},
+        top_container_id: {title: "Top Container ID (existing top container, leave blank if creating new container)", blank: true},
         top_container_type: {title: "Top Container Type", blank: true},
         top_container_indicator: {title: "Top Container Indicator", blank: true},
         top_container_barcode: {title: "Top container barcode", blank: true},
+        container_profile_id: {title: "Container Profile ID", blank: true},
         child_type: {title: "Child Type", blank: true},
         child_indicator: {title: "Child Indicator", blank: true},
         child_barcode: {title: "Child Barcode", blank: true},
@@ -125,6 +128,7 @@ module CsvTemplateGenerator
             q(:archival_object, :ref_id),
             q(:archival_object, :component_id),
             q(:resource, :title).as(:resource_title),
+            q(:resource, :ead_id),
             q(:resource, :identifier)
           ).
           order(q(:archival_object, :id))
