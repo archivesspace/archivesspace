@@ -322,14 +322,14 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a CSV template useful for bulk-creating containers for archival objects of a resource")
     .documentation do
       <<~DOCS
-        This method returns a spreadsheet of representing all the archival objects in a resource, with the following:
+        This method returns a spreadsheet representing all the archival objects in a resource, with the following  fields:
 
         * Reference Fields (Non-editable):
           * Archival Object: ID, Ref ID, and Component ID
           * Resource: Title and Identifier
         * Editable Fields:
            * Top Container: Instance type, Type, Indicator, and Barcode
-           * Child Container: Type, Indicator, Barcode
+           * Child Container: Type, Indicator, and Barcode
            * Location: ID (the location must already exist in the system)
 
       DOCS
