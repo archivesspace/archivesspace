@@ -11,20 +11,13 @@
 <% if report.row_count > 0 %>
 <ul style="list-style: none; ">
 <% report.rows.each do |row| %>
-<li><%= row.row %>
-   <% unless row.errors.empty? %>
+<% unless row.errors.empty? %>
+<li><%= row.row %>  
    <ul style="list-style: none; "><% row.errors.each do |err| %>
 	<li class="bg-danger"><%= err %></li>
-     <% end %><%# of error each %> </ul>
-   <% end %> <%# of unless no errors %>
-   <% unless row.info.empty? %>
-   <ul style="list-style: none; ">
-     <% row.info.each do |info| %>
-        <li class="bg-info"><%= info %></li>
-     <% end %><%# of info each %></ul>
-   <% end %> <%# unless no info %>
-
+     <% end %><%# of error each %> </ul>  
 </li>
+<% end %> <%# of unless no errors %>
 <% end %><%# of row each %>
 </ul>
 <% end %> 
