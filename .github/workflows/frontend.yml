@@ -1,11 +1,6 @@
 name: Frontend Testing
 
 on:
-  push:
-    paths:
-      - 'frontend/**'
-      - 'common/**'
-      - 'solr/**'
   pull_request:
     paths:
       - 'frontend/**'

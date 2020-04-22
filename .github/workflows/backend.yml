@@ -1,11 +1,6 @@
 name: Backend Testing
 
 on:
-  push:
-    paths:
-      - 'backend/**'
-      - 'common/**'
-      - 'oai/**'
   pull_request:
     paths:
       - 'backend/**'

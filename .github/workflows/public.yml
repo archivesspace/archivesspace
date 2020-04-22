@@ -1,11 +1,6 @@
 name: Public Testing
 
 on:
-  push:
-    paths:
-      - 'public/**'
-      - 'common/**'
-      - 'solr/**'
   pull_request:
     paths:
       - 'public/**'
