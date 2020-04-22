@@ -665,6 +665,7 @@ AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
+
 # For Bulk Import:
 # specifies whether the "Load Digital Objects" button is available at the Resource Level
 AppConfig[:hide_do_load] = false
@@ -672,3 +673,6 @@ AppConfig[:hide_do_load] = false
 AppConfig[:bulk_import_rows] = 1000
 # maximum size (in KiloBytes) for an excel spreadsheet
 AppConfig[:bulk_import_size] = 256
+
+# Enable/disable the View Published links in the frontend record toolbars
+AppConfig[:show_view_published] = true

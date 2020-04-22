@@ -33,9 +33,9 @@
                           :"data-confirm-btn-class" => "btn-primary",
                         }) %>
           </div>
-
-          <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
-
+          <% if AppConfig[:show_view_published] && record.publish %>
+            <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
+          <% end %>
           <div class="btn-group">
             <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
               <%= I18n.t("actions.export") %>
