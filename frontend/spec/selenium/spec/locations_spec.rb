@@ -29,7 +29,7 @@ describe 'Locations' do
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Building - Property is required but was missing/)
 
-    @driver.clear_and_send_keys([:id, 'location_building_'], '129 W. 81st St')
+    @driver.clear_and_send_keys([:id, 'location_building_'], '329 W. 81st St')
     @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
 
     @driver.find_element_with_text('//div[contains(@class, "error")]', /You must either specify a barcode, a classification, or both a coordinate 1 label and coordinate 1 indicator/)
@@ -41,6 +41,10 @@ describe 'Locations' do
 
     @driver.clear_and_send_keys([:id, 'location_coordinate_1_label_'], 'Box XYZ')
     @driver.clear_and_send_keys([:id, 'location_coordinate_1_indicator_'], 'XYZ0001')
+
+    @driver.clear_and_send_keys([:id, 'token-input-location_owner_repo__ref_'], 'l')
+    sleep 2
+    @driver.find_element(css: '.token-input-dropdown').click
 
     @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
 
@@ -63,7 +67,17 @@ describe 'Locations' do
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Locations')
 
-    @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+    @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '329 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+  end
+
+  it 'allows the browse locations list to be filtered by repository' do
+    sidebar = @driver.find_element(css: ".sidebar").find_element_with_text('//h3', /Repository/)
+    new_location_link_text = @driver.find_element_with_text('//li', /LOCATIONS_TEST/).text
+    new_location_link_text = new_location_link_text[0...-2]
+
+    @driver.click_and_wait_until_gone(:link, new_location_link_text)
+
+    expect(@driver.find_elements(css: 'tr').length).to eq(2)
   end
 
   it 'allows the new location to be viewed in non-edit mode' do
@@ -72,10 +86,10 @@ describe 'Locations' do
     @driver.find_element(:link, 'Browse').click
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Locations')
-    @driver.clear_and_send_keys([:css, '.sidebar input.text-filter-field'], '129*')
+    @driver.clear_and_send_keys([:css, '.sidebar input.text-filter-field'], '329*')
     @driver.click_and_wait_until_gone(:css, '.sidebar input.text-filter-field + div button')
     @driver.click_and_wait_until_gone(:link, 'Edit')
-    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to match(/129 W\. 81st St/) }
+    assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to match(/329 W\. 81st St/) }
   end
 
   it 'allows creation of a location with plus one stickies' do
@@ -86,7 +100,7 @@ describe 'Locations' do
     @driver.find_element(:link, 'Location').click
 
     @driver.click_and_wait_until_gone(:link, 'Single Location')
-    @driver.clear_and_send_keys([:id, 'location_building_'], '123 Fake St')
+    @driver.clear_and_send_keys([:id, 'location_building_'], '523 Fake St')
     @driver.clear_and_send_keys([:id, 'location_floor_'], '13')
     @driver.clear_and_send_keys([:id, 'location_room_'], '237')
     @driver.clear_and_send_keys([:id, 'location_area_'], '37')
@@ -105,7 +119,7 @@ describe 'Locations' do
     end.not_to raise_error
 
     # these are sticky
-    assert(5) { expect(@driver.find_element(:id, 'location_building_').attribute('value')).to eq('123 Fake St') }
+    assert(5) { expect(@driver.find_element(:id, 'location_building_').attribute('value')).to eq('523 Fake St') }
     assert(5) { expect(@driver.find_element(:id, 'location_floor_').attribute('value')).to eq('13') }
     assert(5) { expect(@driver.find_element(:id, 'location_room_').attribute('value')).to eq('237') }
     assert(5) { expect(@driver.find_element(:id, 'location_area_').attribute('value')).to eq('37') }
@@ -122,7 +136,7 @@ describe 'Locations' do
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Locations')
 
-    @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+    @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '329 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
   end
 
   it "doesn't offer location edit actions to an archivist" do
@@ -154,7 +168,7 @@ describe 'Locations' do
     @driver.click_and_wait_until_gone(:link, 'Locations')
 
     expect do
-      @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '129 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
+      @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '329 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
     end.not_to raise_error
   end
 
@@ -316,7 +330,14 @@ describe 'Locations' do
 
       table_rows_location_text_sorted = table_rows_location_text.sort
 
-      expect(table_rows_location_text).to eq(table_rows_location_text_sorted)
+      ns_idx1 = table_rows_location_text.index { |i| i =~ /329 W\. 81st St/ }
+      ns_idx2 = table_rows_location_text.index { |i| i =~ /1978 Awesome Street/ }
+      ss_idx1 = table_rows_location_text_sorted.index { |i| i =~ /329 W\. 81st St/ }
+      ss_idx2 = table_rows_location_text_sorted.index { |i| i =~ /1978 Awesome Street/ }
+
+      expect(ns_idx1).to be < ns_idx2
+      expect(ss_idx1).to be > ss_idx2
+      expect(table_rows_location_text).not_to eq(table_rows_location_text_sorted)
     end
   end
 end
