@@ -32,7 +32,9 @@ class TopContainerLinkerRunner < JobRunner
             begin 
               tcl.run
               report = tcl.report
+              modified_uris = []
               report.rows.each do |row|
+                modified_uris << row.archival_object_id
                 #Report out the collected data:
                 if !row.errors.empty?
                   @job.write_output("Errors discovered during linker processing:")
@@ -47,7 +49,14 @@ class TopContainerLinkerRunner < JobRunner
                   end
                 end
               end
+              
+              if modified_uris.empty?
+                @job.write_output("No records modified.")
+              else
+                @job.write_output("Logging modified records.")
+              end
               self.success!
+              @job.record_created_uris(modified_uris.uniq)
             rescue Exception => e
               report = tcl.report
               @job.write_output(e.message)
