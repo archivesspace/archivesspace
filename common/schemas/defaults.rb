@@ -64,6 +64,7 @@ browse_column_enums = {
   'top_container' => [
     'title', 'container_profile_display_string_u_sstr', 'location_display_string_u_sstr', 'type',
     'indicator', 'barcode', 'context'
+  ]
 }
 
 locale_enum = I18n.supported_locales.keys
