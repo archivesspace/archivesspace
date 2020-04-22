@@ -1467,6 +1467,10 @@ ja:
       repository: リポジトリ%{type}
       action:
         save: アセスメント属性を保存する
+        add_type: 追加 %{type}
+        find_rating: ％{rating_type} 評価のレコードを検索
+        find_format: ％{format_type} マテリアルタイプ/フォーマットのレコードを検索します
+        find_issue: ％{issue_type} 保全問題のあるレコードを検索する
       messages:
         updated: 評価アトリビュートが更新されました
         error: アセスメント属性の更新中にエラーが発生しました
