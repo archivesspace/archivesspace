@@ -2061,6 +2061,7 @@ en:
     time_finished: Time Completed
     owner: Owner
     show_description: Show Description
+    job_data: Job Information
 
   report_job:
     report_type: Report Type

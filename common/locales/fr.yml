@@ -2060,6 +2060,7 @@ fr:
     time_finished: Heure d'achèvement
     owner: Owner
     show_description: Montrer description
+    job_data: Information de tâche
 
   report_job:
     report_type: Type de rapport

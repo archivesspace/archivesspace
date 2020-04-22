@@ -2040,6 +2040,7 @@ es:
     time_finished: Tiempo terminado
     owner: Propietario
     show_description: Muestra descripción
+    job_data: Informacion del trabajo
 
   report_job:
     report_type: Tipo de informe
