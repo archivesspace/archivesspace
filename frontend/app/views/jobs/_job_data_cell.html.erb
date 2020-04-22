@@ -2,7 +2,8 @@
 	<% (record['job_data'] || []).each_with_index do |data, i| %>
 		<li>
 			<% if (record['files'] || [])[i] %>
-				<a href="<%= AppConfig[:frontend_proxy_url] + record['files'][i] %>"><%= data %></a>
+				<% type, filename = data.split(' --- ', 2) %>
+				<%= type %>: <a href="<%= AppConfig[:frontend_proxy_url] + record['files'][i] %>"><%= filename %></a>
 			<% else %>
 				<%= data %>
 			<% end %>

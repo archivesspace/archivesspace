@@ -523,13 +523,13 @@ class IndexerCommon
         filenames = record['record']['job']['filenames'] || []
         doc['files'] = []
         doc['job_data'] = []
-        output_files = JSONModel::HTTP::get_json("#{record['record']['uri']}/output_files")
-        output_files.each do |file|
+        files = JSONModel::HTTP::get_json("#{record['record']['uri']}/output_files")
+        files.each do |file|
           job_id = record['record']['uri'].split('/').last
           link = "/jobs/#{job_id}/file/#{file}"
           doc['files'] << link
           filename = filenames.shift
-          doc['job_data'] << (filename ? "Input File: #{filename}" : "Output File: #{link}")
+          doc['job_data'] << (filename ? "Input File --- #{filename}" : "Output File --- #{link}")
         end
         record['record']['job'].reject { |k, _v| ['jsonmodel_type', 'filenames', 'report_type'].include? k }.each do |k, v|
           doc['job_data'] << "#{t("#{record['record']['job_type']}.#{k}", :default => k)}: #{v}"
