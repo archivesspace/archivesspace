@@ -33,7 +33,7 @@
                           :"data-confirm-btn-class" => "btn-primary",
                         }) %>
           </div>
-          <% if record.publish %>
+          <% if AppConfig[:show_view_published] && record.publish %>
           	<div class="btn-group">
               <%= link_to I18n.t("actions.view_published"), File.join(AppConfig[:public_proxy_url], record.uri).to_s, :target => "_blank", :class => "btn btn-sm btn-default" %>
             </div>

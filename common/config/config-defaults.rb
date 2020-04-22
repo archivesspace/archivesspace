@@ -605,3 +605,6 @@ AppConfig[:pui_page_custom_actions] = []
 #   # 'erb_partial' returns the path to an erb template from which the action will be rendered
 #   'erb_partial' => 'shared/my_special_action',
 # }
+
+# Enable/disable the View Published links in the frontend record toolbars
+AppConfig[:show_view_published] = true
