@@ -691,6 +691,7 @@ ja:
 
   instance_container:
     <<: *instance_attributes
+    barcode: バーコード
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1444,6 +1445,7 @@ ja:
     sort_column_tooltip: 結果をソートするためのデフォルトのフィールド。
     sort_direction: デフォルトのソート方向
     sort_direction_tooltip: 結果をソートするデフォルトの方向。
+    locale: Language Selection
     accession_browse_section: アクセス列を参照
     resource_browse_section: リソース参照列
     archival_object_browse_section: アーカイブオブジェクトの参照列
@@ -1485,6 +1487,7 @@ ja:
   validation_errors:
     agent_must_be_unique: エージェントレコードは同一ではありません
     subject_must_be_unique: 件名のレコードは同一ではありません
+    subject_heading_identifier_must_be_unique_within_source: 件名の見出し識別子はソース内で一意である必要があります
     conflicting_record: 競合するレコード
     missing_required_property: プロパティは必須ですが行方不明です
     missing_property: プロパティが見つかりませんでした

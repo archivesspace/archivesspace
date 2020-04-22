@@ -64,8 +64,9 @@ browse_column_enums = {
   'top_container' => [
     'title', 'container_profile_display_string_u_sstr', 'location_display_string_u_sstr', 'type',
     'indicator', 'barcode', 'context'
-                     ]
 }
+
+locale_enum = I18n.supported_locales.keys
 
 solr_fields = begin
   ASUtils.json_parse(
@@ -79,22 +80,22 @@ browse_columns = {}
 browse_column_enums.keys.each do |type|
   Array(1..AppConfig[:max_search_columns]).each do |i|
     browse_columns["#{type}_browse_column_#{i}"] = {
-        "type" => "string",
+      "type" => "string",
       "enum" => browse_column_enums[type] + ['audit_info', 'no_value'],
-        "required" => false
+      "required" => false
     }
   end
   browse_columns["#{type}_sort_column"] = {
-        "type" => "string",
-      "enum" => browse_column_enums[type].select{
-        |c| !solr_fields || (solr_fields[c] && !solr_fields[c]['multiValued'])
-        } + ['create_time', 'user_mtime', 'no_value'],
-        "required" => false
-    }
+    "type" => "string",
+    "enum" => browse_column_enums[type].select{
+      |c| !solr_fields || (solr_fields[c] && !solr_fields[c]['multiValued'])
+      } + ['create_time', 'user_mtime', 'no_value'],
+    "required" => false
+  }
   browse_columns["#{type}_sort_direction"] = {
-        "type" => "string",
+    "type" => "string",
     "enum" => ['asc', 'desc'],
-        "required" => false
+    "required" => false
   }
 end
 
@@ -115,6 +116,12 @@ end
         "type" => "boolean",
         "required" => false,
         "default" => false
+      },
+
+      "locale" => {
+        "type" => "string",
+        "enum" => locale_enum,
+        "required" => false
       },
 
       "default_values" => {

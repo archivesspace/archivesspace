@@ -31,7 +31,7 @@ class TopContainer < Sequel::Model(:top_container)
 
   def format_barcode
     if self.barcode
-      "[#{self.barcode}]"
+      "[#{I18n.t("instance_container.barcode")}: #{self.barcode}]"
     end
   end
 
@@ -153,13 +153,16 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def long_display_string
-    resource = collections.first
-    resource &&= Identifiers.format(Identifiers.parse(resource.identifier))
+    container_bit = ["#{type ? type.capitalize : ''}", "#{indicator}", format_barcode].compact.join(" ")
     container_profile = related_records(:top_container_profile)
     container_profile &&= container_profile.name
-    container_bit = ["#{type ? type.capitalize : ''}", "#{indicator}", format_barcode].compact.join(" ")
+    location = related_records(:top_container_housed_at).first
+    location &&= location.title
+    resource = collections.first
+    resource &&= [Identifiers.format(Identifiers.parse(resource.identifier)),  resource.title].compact.join(", ")
 
-    [resource, series_label, container_bit, container_profile].compact.join(", ")
+    # Long display string = container type container indicator [barcode: barcode], container profile name, location title, first resource/accession id, first resource/accession title, "series" label
+    [container_bit, container_profile, location, resource, series_label].compact.join(", ")
   end
 
 
@@ -386,7 +389,7 @@ class TopContainer < Sequel::Model(:top_container)
     updated = []
 
     ids = barcode_data.map{|uri,_| my_jsonmodel.id_for(uri)}
-
+    
     # null out barcodes to avoid duplicate error as bulk updates are
     # applied
     TopContainer.filter(:id => ids).update(:barcode => nil)

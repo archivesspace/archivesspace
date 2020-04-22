@@ -92,58 +92,125 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     victims_by_model = victims.reject {|v| (v.class == target.class) && (v.id == target.id)}.group_by(&:class)
 
-    victims_by_model.each do |victim_model, victims|
+    victims_by_model.each do |victim_model, vics|
 
-      # If we're merging a record of type A with relationship R into a record of
-      # type B, type B must also support that relationship type.  If it doesn't,
-      # we risk losing data through the merge and should abort.
-      #
-      unless participating_models.include?(victim_model)
-        found = self.find_by_participant_ids(victim_model, victims.map(&:id))
-
-        unless found.empty?
-          raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
-        end
-      end
-
+      confirm_accepts_target(victim_model, vics)
       victim_columns = self.reference_columns_for(victim_model)
 
       victim_columns.each do |victim_col|
 
-        # Find any relationship where the current column contains a reference to
-        # our victim
-        self.filter(victim_col => victims.map(&:id)).each do |relationship|
+        vics.each do |victim|
 
-          # Remove this relationship's reference to the victim
-          relationship[victim_col] = nil
+          who_participates_with(victim).each do |parent|
+            parent_col = reference_columns_for(parent.class).first
+            # Find any relationship where the current column contains a reference to
+            # our victim
+            self.exclude(parent_col => nil).filter(victim_col => vics.map(&:id)).each do |relationship|
+              target_pre = find_by_participant(target)
 
-          # Now add a new reference to the target (which, if the victim and
-          # target are of different types, might require updating a different
-          # column to the one we just set to NULL)
-          target_columns.each do |target_col|
+              # Remove this relationship's reference to the victim
+              relationship[victim_col] = nil
 
-            if relationship[target_col]
-              # This column is already used to reference the other record in our
-              # relationship so we'll skip over it.  But while we're here, make
-              # sure we're not about to create a circular relationship.
+              # When merging top containers, you also have to deal with the fact
+              # that subcontainers and instances may also need to be deleted.  This
+              # array stores records that will be deleted in cleanup_duplicates.
+              dups = []
 
-              if relationship[target_col] == target.id
-                raise "Transfer would create a circular relationship!"
+              # Now add a new reference to the target (which, if the victim and
+              # target are of different types, might require updating a different
+              # column to the one we just set to NULL)
+              target_columns.each do |target_col|
+
+                if relationship[target_col]
+                  # This column is already used to reference the other record in our
+                  # relationship so we'll skip over it.  But while we're here, make
+                  # sure we're not about to create a circular relationship.
+
+                  if relationship[target_col] == target.id
+                    raise "Transfer would create a circular relationship!"
+                  end
+
+                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink)
+                  identify_duplicate_containers(target, relationship, target_col, dups)
+
+                else
+                  target_pre.each do |pre|
+                    if pre[parent_col] == relationship[parent_col]
+                      dups << relationship
+                    end
+                  end
+                  # Found a free column.  Store our updated reference here.
+                  relationship[target_col] = target.id
+                  break
+                end
+
               end
 
-            else
-              # Found a free column.  Store our updated reference here.
-              relationship[target_col] = target.id
-              break
+              relationship[:system_mtime] = Time.now
+              relationship[:user_mtime] = Time.now
+
+              relationship.save
+
+              cleanup_duplicates(dups)
             end
-
           end
-
-          relationship[:system_mtime] = Time.now
-          relationship[:user_mtime] = Time.now
-
-          relationship.save
         end
+      end
+    end
+  end
+
+
+  # If we're merging a record of type A with relationship R into a record of
+  # type B, type B must also support that relationship type.  If it doesn't,
+  # we risk losing data through the merge and should abort.
+  def self.confirm_accepts_target(victim_model, vics)
+    unless participating_models.include?(victim_model)
+      found = self.find_by_participant_ids(victim_model, vics.map(&:id))
+
+      unless found.empty?
+        raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
+      end
+    end
+  end
+
+
+  # ANW-952: After merging objects together you may be left with two
+  # relationships that link to the same post-merge record.  This deletes
+  # those duplicated relationships after the merge process is complete.
+  def self.cleanup_duplicates(dups)
+    if !dups.empty?
+      dups.each {|d| d.delete}
+    end
+  end
+
+
+  def self.identify_duplicate_containers(target, relationship, target_col, dups)
+    find_by_participant(target).each do |target_relationship|
+      subcontainer = SubContainer[relationship[:sub_container_id]]
+      target_subcontainer = SubContainer[target_relationship[:sub_container_id]]
+      # Only proceed if the subcontainer record is empty
+      if [:type_2_id, :indicator_2, :type_3_id, :indicator_3].map {|k| subcontainer[k]}.compact.empty?
+        instance = Instance[subcontainer[:instance_id]]
+        target_instance = Instance[target_subcontainer[:instance_id]]
+        [:accession_id, :archival_object_id, :resource_id].each do |p|
+          next if instance[p].nil?
+          # If subcontainer is empty and if the subcontainer's instance
+          # record links to the same parent record (ao, accession, or
+          # resource), delete the subcontainer and the instance.
+          if instance[p] == target_instance[p]
+            dups << subcontainer
+            dups << instance
+            break
+          else
+            # Found a free column.  Store our updated reference here.
+            relationship[target_col] = target.id
+            break
+          end
+        end
+      else
+        # Found a free column.  Store our updated reference here.
+        relationship[target_col] = target.id
+        break
       end
     end
   end

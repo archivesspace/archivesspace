@@ -93,5 +93,7 @@
   'top_container_browse_column_4' => 'indicator',
   'top_container_browse_column_5' => 'barcode',
   'top_container_browse_column_6' => 'container_profile_display_string_u_sstr',
-  'top_container_browse_column_7' => 'location_display_string_u_sstr'
+  'top_container_browse_column_7' => 'location_display_string_u_sstr',
+  'locale' => AppConfig[:locale].to_s,
+  'note_order' => [],
 }

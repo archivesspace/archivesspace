@@ -110,6 +110,7 @@ fr:
   search_results:
     page_title: "%{count} résultats trouvés"
     results_head: "%{type} affichés: %{start} - %{end} de %{total}"
+    result: Résultats
     results: Résultats
     head_prefix: Ont été trouvés
     head_suffix: résultats

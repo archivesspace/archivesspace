@@ -30,6 +30,12 @@
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => record} %>
           <% end %>
 
+          <% if ['archival_object', 'digital_object_component'].include?(record.jsonmodel_type) %>
+            <% unless record.has_unpublished_ancestor %>
+              <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
+            <% end %>
+          <% end %>
+
           <div class="btn-group dropdown" id="other-dropdown" style="display: none">
             <a class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
               <%= I18n.t('actions.more') %>

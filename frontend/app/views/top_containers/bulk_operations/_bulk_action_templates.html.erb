@@ -199,3 +199,76 @@
   </div>
   <% end %>
 --></div>
+
+<div id="bulk_action_merge"><!--
+  <%= form_tag({:controller => :top_containers}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
+
+    <div class="modal-body">
+
+      <div class="alert alert-info" id="alertBucket"><%= I18n.t("top_container._frontend.bulk_operations.batch_merge_instructions") %></div>
+
+      <div class="selected-record-list well" id="mergeList">
+
+        <div role="radiogroup" aria-labelledby="mergeList">
+          {for container in selection}
+            <% container_uri = "${container.uri}" %>
+            <div id="chkPref" role="radio" tabindex="0">
+              <%= radio_button_tag "target[]", "${container.uri}", false, :"data-object" => container_uri, :"aria-label" => "${container.display_string}", :"id" => "${container.uri}",  :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
+              <span>${container.display_string}</span>
+            </div>
+          {/for}
+        </div>
+
+        {for container in selection}
+          <input type="hidden" name="victims[]" value="${container.uri}">
+        {/for}
+
+      </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary merge-button" disabled="disabled" data-js="merge"><%= I18n.t("top_container._frontend.bulk_operations.select_merge_target") %></button>
+        <button class="btn btn-cancel btn-default" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+    </div>
+
+  <% end %>
+
+--></div>
+
+<div id="bulk_action_merge_confirm"><!--
+  <%= form_tag({:controller => :top_containers, :action => :batch_merge}, {:class => "form-horizontal", :id => "batch_merge_form" }) do |f| %>
+
+    <div class="modal-body">
+
+      <p class="alert alert-danger" id="alertBucket" role="alert"><%= I18n.t("top_container._frontend.bulk_operations.batch_merge_confirm_question") %></p>
+
+      <h4><%= I18n.t("top_container._frontend.bulk_operations.batch_merge_confirm_victims") %></h4>
+      <ul>
+        {for victim in victimsNoTarget}
+          <li>${victim}</li>
+        {/for}
+      </ul>
+      <h4><%= I18n.t("top_container._frontend.bulk_operations.batch_merge_confirm_target") %></h4>
+      <ul>
+        <li>${target.display_string}</li>
+      </ul>
+
+      <div class="selected-record-list" id="mergeList">
+
+        {for victim in victims}
+          <input type="hidden" name="victims[]" value="${victim.uri}">
+        {/for}
+
+        <input type="hidden" name="target[]" value="${target.uri}">
+
+      </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-danger merge-button" data-js="confirmMerge"><%= I18n.t("top_container._frontend.bulk_operations.merge_n_records", {:n => "${victims.length}"}) %></button>
+        <button class="btn btn-cancel" data-dismiss="modal"><%= I18n.t("actions.cancel") %></button>
+    </div>
+
+  <% end %>
+
+--></div>

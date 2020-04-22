@@ -849,6 +849,7 @@ fr:
 
   instance_container:
     <<: *instance_attributes
+    barcode: Code-barres
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1918,6 +1919,7 @@ fr:
     sort_column_tooltip: Champ par défaut pour le tri des résultats.
     sort_direction: Direction de tri par défaut
     sort_direction_tooltip: Direction par défaut pour trier les résultats.
+    locale: Language Selection
     accession_browse_section: Colonnes d'exploration des entrées
     resource_browse_section: Colonnes d'exploration ressource
     archival_object_browse_section: Colonnes de recherche d'objets d'archives
@@ -1959,6 +1961,7 @@ fr:
   validation_errors:
     agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques
     subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
+    subject_heading_identifier_must_be_unique_within_source: L'identifiant de la vedette-matière doit être unique dans la source
     conflicting_record: Enregistrement contradictoire
     missing_required_property: Propriété requise qui manquait
     missing_property: Propriété manquante

@@ -849,6 +849,7 @@ en:
 
   instance_container:
     <<: *instance_attributes
+    barcode: Barcode
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1918,6 +1919,7 @@ en:
     sort_column_tooltip: The default field for sorting results.
     sort_direction: Default Sort Direction
     sort_direction_tooltip: Default direction to sort results.
+    locale: Language Selection
     accession_browse_section: Accession Browse Columns
     resource_browse_section: Resource Browse Columns
     archival_object_browse_section: Archival Object Browse Columns
@@ -1959,6 +1961,7 @@ en:
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
     subject_must_be_unique: Subject records cannot be identical
+    subject_heading_identifier_must_be_unique_within_source: Subject heading identifier must be unique within source
     conflicting_record: Conflicting record
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
