@@ -120,16 +120,16 @@ class TopContainerLinker < BulkImportSpreadsheetParser
       
       #Container type/Container indicator combo already exists 
       tc_type = row_hash[TOP_CONTAINER_TYPE]
-      tc_obj = nil
+      tc_instance = nil
       if (!tc_indicator.nil? && !tc_type.nil?)
         type_id = BackendEnumSource.id_for_value("container_type",tc_type.strip)
         tc_jsonmodel_obj = find_top_container({:indicator => tc_indicator, :type_id => type_id})
         display_indicator = tc_indicator;
         if (tc_jsonmodel_obj.nil?)
           #Create new TC 
-          tc_obj = create_top_container_instance(instance_type, tc_indicator, tc_type, row_hash, err_arr, ref_id, @counter.to_s)
+          tc_instance = create_top_container_instance(instance_type, tc_indicator, tc_type, row_hash, err_arr, ref_id, @counter.to_s)
         else
-          tc_obj = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, row_hash, err_arr, ref_id, @counter.to_s)
+          tc_instance = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, row_hash, err_arr, ref_id, @counter.to_s)
           display_indicator = tc_jsonmodel_obj.indicator
         end
       elsif (!tc_record_no.nil?)
@@ -138,17 +138,17 @@ class TopContainerLinker < BulkImportSpreadsheetParser
           #Cannot find TC record with ID
           err_arr.push I18n.t("top_container_linker.error.tc_record_no_missing", :tc_id=> tc_record_no, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         else
-          tc_obj = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, row_hash, err_arr, ref_id, @counter.to_s)
+          tc_instance = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, row_hash, err_arr, ref_id, @counter.to_s)
           display_indicator = tc_jsonmodel_obj.indicator
         end
       end
       
-      if (!tc_obj.nil?)
+      if (!tc_instance.nil?)
         ao.instances ||= []
-        ao.instances << tc_obj
+        ao.instances << tc_instance
         @report.add_info("Adding Top Container Instance " + instance_type.capitalize  + " " + display_indicator + " to Archival Object " + ref_id)
+        ao_save(ao)      
       end
-      ao_save(ao)      
     rescue StopTopContainerLinkingException => se
       err_arr.join("; ")
       raise StopTopContainerLinkingException.new(se.message + "; "  + err_arr)
@@ -189,52 +189,77 @@ class TopContainerLinker < BulkImportSpreadsheetParser
     #                  "barcode_2" => barcode_2}
     end
 
+    type_id = BackendEnumSource.id_for_value("container_type",type.strip)
+    #Find the top container with this indicator and type if it exists
+    tc_obj = find_top_container({:indicator => indicator, :type_id => type_id})
+      
     instance = nil
     begin
      instance = @cih.create_container_instance(instance_type,
                                                 type, indicator, barcode, @resource_ref, @report, subcontainer)
     rescue Exception => e
-      @report.add_errors(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, why: e.message))
+      @report.add_errors(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, :why => e.message))
       instance = nil
     end
-         
-    #Check if the location ID can be found in the db
-    loc_id = row_hash[LOCATION_ID]
-    if (!loc_id.nil?)
-      loc = Location.get_or_die(loc_id.strip)
-      if (loc.nil?)
-        err_arr.push I18n.t("top_container_linker.error.loc_not_in_db", :loc_id=> loc_id.to_s, :ref_id => ref_id.to_s, :row_num => row_num)
-      else
-        begin
-          loc_jsonmodel = Location.sequel_to_jsonmodel([loc])
-          instance = add_current_location(instance, loc_jsonmodel)
-        rescue Exception => e
-          @report.add_errors(I18n.t("top_container_linker.error.problem_adding_current_location", :ref_id => ref_id.to_s, :row_num => row_num, why: e.message))
-          instance = nil
+      
+    #If we created a new Top Container, then add the location and cp if they exist.
+    if (tc_obj.nil? && !instance.nil?)
+      #Get the top container that was just created
+      tc_id = instance["sub_container"]["top_container"]["ref"].split('/')[4]
+      tc_obj = TopContainer.get_or_die(tc_id)
+      if (tc_obj.nil?)
+        @report.add_errors(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, :why => "Could not find newly created Top Container"))
+        raise TopContainerLinkerException(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, :why => "Could not find newly created Top Container"))
+      end
+      now = Time.now
+        
+      #Check if the location ID can be found in the db
+      loc_id = row_hash[LOCATION_ID]
+      if (!loc_id.nil?)
+        loc = Location.get_or_die(loc_id.strip)
+        if (loc.nil?)
+          err_arr.push I18n.t("top_container_linker.error.loc_not_in_db", :loc_id=> loc_id.to_s, :ref_id => ref_id.to_s, :row_num => row_num)
+        else
+          begin
+            loc_relationship = TopContainer.find_relationship(:top_container_housed_at)
+            loc_relationship.relate(tc_obj, loc, {
+              :status => 'current',
+              :start_date => now.iso8601,
+              :aspace_relationship_position => 0,
+              :system_mtime => now,
+              :user_mtime => now
+            })
+          rescue Exception => e
+            @report.add_errors(I18n.t("top_container_linker.error.problem_adding_current_location", :ref_id => ref_id.to_s, :row_num => row_num, :why => e.message))            
+            instance = nil
+          end
+        end
+      end
+      
+      #Check if Container Profile Record No. can be found in the db 
+      cp_id = row_hash[CONTAINER_PROFILE_ID]
+      if (!cp_id.nil?)
+        cp = ContainerProfile.get_or_die(cp_id.strip)
+        if (cp.nil?)
+          err_arr.push I18n.t("top_container_linker.error.cp_not_in_db", :cp_id=> cp_id.to_s, :ref_id => ref_id.to_s, :row_num => row_num)
+        else
+          begin
+            cp_relationship = TopContainer.find_relationship(:top_container_profile)
+            cp_relationship.relate(tc_obj, cp, {
+              :aspace_relationship_position => 1,
+              :system_mtime => now,
+              :user_mtime => now
+            })
+
+          rescue Exception => e
+            @report.add_errors(I18n.t("top_container_linker.error.problem_setting_container_profile", :ref_id => ref_id.to_s, :row_num => row_num, :why => e.message))
+            instance = nil
+          end
         end
       end
     end
     
-    #Check if Container Profile Record No. can be found in the db 
-    cp_id = row_hash[CONTAINER_PROFILE_ID]
-    if (!cp_id.nil?)
-      cp = ContainerProfile.get_or_die(cp_id.strip)
-      if (cp.nil?)
-        err_arr.push I18n.t("top_container_linker.error.cp_not_in_db", :cp_id=> cp_id.to_s, :ref_id => ref_id.to_s, :row_num => row_num)
-        else
-          begin
-            cp_jsonmodel = ContainerProfile.sequel_to_jsonmodel([cp])
-            instance = set_container_profile(instance, cp_jsonmodel)
-          rescue Exception => e
-            @report.add_errors(I18n.t("top_container_linker.error.problem_setting_container_profile", :ref_id => ref_id.to_s, :row_num => row_num, why: e.message))
-            instance = nil
-          end
-        end
-    end
-    
     return instance
   end
-
-
 
 end

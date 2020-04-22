@@ -104,20 +104,4 @@ class ContainerInstanceHandler < Handler
     instance
   end
   
-  #Add a current location
-  #NOTE - If other locations exist, this does not update them
-  def add_current_location(tc_instance, location_jsonmodel)
-    tc_instance.container_locations ||= []
-    current_date = Time.now.strftime("%F")
-    cl = {'jsonmodel_type' => 'container_location', 'start_date' => current_date, 'status' => 'current', 'ref' => location_jsonmodel.uri}
-    tc_instance.container_locations << cl
-    tc_instance
-  end
-  
-  #Set the container profile
-  def set_container_profile(tc_instance, cp_jsonmodel)
-    cp = {'ref' => cp_jsonmodel.uri}
-    tc_instance.container_profile = cp
-    tc_instance
-  end
 end  # of container handler
