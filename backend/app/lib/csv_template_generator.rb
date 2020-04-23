@@ -34,6 +34,7 @@ module CsvTemplateGenerator
     #     Otherwise, the line will be omitted.
     #   :group is an arbitrary string used to group columns. If any column has a :group, all columns MUST. Otherwise, the line will be omitted.
     #   :blank means that the value should be left empty for the user to fill in
+    #   :required means the value is required, ' (required)' will be added to the column title
     # :formatter is a callable that will be applied to the returned values from the database
 
     def initialize(sheet_description:, field_name_text:, title_text:, columns:, # required fields
@@ -80,16 +81,13 @@ module CsvTemplateGenerator
       @csv_options = {encoding: 'UTF-8'}.merge(csv_options)
     end
 
-
-
-
     def get_title(field)
       spec = @template_spec.columns[field]
       case spec
       when Hash
-        spec[:title]
+        spec[:title] + spec[:required] ? ' (required)' : ''
       else
-        spec
+        spec + spec[:required] ? ' (required)' : ''
       end
     end
 
@@ -125,6 +123,11 @@ module CsvTemplateGenerator
     def is_blank?(field)
       spec = @template_spec.columns[field]
       Hash === spec && spec[:blank]
+    end
+
+    def is_required?(field)
+      spec = @template_spec.columns[field]
+      Hash === spec && spec[:required]
     end
 
     def formatted_value(field, value)
