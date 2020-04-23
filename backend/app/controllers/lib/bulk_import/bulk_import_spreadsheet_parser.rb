@@ -11,6 +11,7 @@ require "nokogiri"
 require "pp"
 require "rubyXL"
 require "asutils"
+require 'csv'
 include URIResolver
 
 
