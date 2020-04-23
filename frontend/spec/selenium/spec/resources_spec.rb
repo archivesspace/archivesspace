@@ -436,7 +436,7 @@ describe 'Resources and archival objects' do
     assert(5) { expect(@driver.find_element(:css, 'h2').text).to eq('save this please Archival Object') }
     assert(5) { expect(@driver.find_element(css: 'div.alert.alert-success').text).to eq('Archival Object save this please updated') }
     @driver.clear_and_send_keys([:id, 'archival_object_title_'], @archival_object.title)
-    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    @driver.click_and_wait_until_gone(css: "form .save-changes button[type='submit']")
   end
 
   it 'can add a assign, remove, and reassign a Subject to an archival object' do
