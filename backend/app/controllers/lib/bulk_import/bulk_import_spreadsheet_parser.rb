@@ -34,6 +34,9 @@ class BulkImportSpreadsheetParser
   CONTAINER_PROFILE_ID = "container_profile_id"
   EAD_ID = "ead_id"
   
+  #This is in column 1 and is the row in which the field names (above) reside
+  AS_FIELD_CODE = "ArchivesSpace field code (please don't edit this row)"
+  
   attr_reader :report
   
   def initialize(input_file, file_content_type, opts = {}, current_user)
@@ -42,7 +45,7 @@ class BulkImportSpreadsheetParser
     @current_user = current_user
     @file_content_type = file_content_type
     @opts = opts
-    @xslx_headers = nil
+    @headers = nil
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
     @repo_id = opts[:repo_id]
   end
@@ -55,9 +58,7 @@ class BulkImportSpreadsheetParser
     @report_out = []
     @report = BulkImportReport.new
     @report.set_file_name(@orig_filename)
-    #Start the counter at 2 since the headers
-    #are in the first two rows
-    @counter = 2
+    @counter = 0
     @rows_processed = 0
     @error_rows = 0
     
@@ -66,30 +67,35 @@ class BulkImportSpreadsheetParser
       workbook = RubyXL::Parser.parse(@input_file)
       sheet = workbook[0]
       @rows = sheet.enum_for(:each)
-      set_up_xslx_headers
     #CSV
     elsif file_is_csv?
-      table = CSV.read(@input_file, headers: true)
+      #table = CSV.read(@input_file, headers: true)
+      table = CSV.read(@input_file)
       @rows = table.enum_for(:each)
-      # Skip the human readable header
-      hr_row = @rows.next
-      begin
-        check_for_code_dups(hr_row)
-      rescue Exception => e
-        raise StopBulkImportException.new(e.message)
-      end
     end
+    set_up_headers
+    
+    begin
+      #Move to the first row of data
+      while (row = @rows.next)  
+        values = row_values(row)
+        #When the first column is blank, that is the first row of data
+        if (values[0].nil?)
+          break
+        end
+      end  
+    rescue StopIteration
+      #This should never happen because the headers and data will be populated
+      #but catch it just in case
+      raise StopBulkImportException(I18n.t("bulk_import.error.premature_stop_iteration"))
+    end  
     @rows
   end
   
   #Get a hash for the row where the headers are keys
   def get_row_hash(values)
-    if file_is_xslx?
-      values = row_values(values)
-      return Hash[@xslx_headers.zip(values)]
-    elsif file_is_csv?
-      return values.to_h
-    end
+    values = row_values(values)
+    return Hash[@headers.zip(values)]
   end
 
   private
@@ -102,19 +108,28 @@ class BulkImportSpreadsheetParser
   end 
   
 
-  #Sets up the headers for an excel spreadsheet
-  #This assumes that the first row are internal IDs and the 
-  #second row has human readable headers. Data then begins on the 3rd row
-  def set_up_xslx_headers()
-    while @xslx_headers.nil? && (row = @rows.next)
-      @xslx_headers = row_values(row)
-      begin
-        check_for_code_dups(@xslx_headers)
-      rescue Exception => e
-        raise StopBulkImportException.new(e.message)
+  #Sets up the headers 
+  #This looks for the field code in column 1
+  def set_up_headers()
+    begin
+      while @headers.nil? && (row = @rows.next)
+        @counter += 1
+        headers = row_values(row)
+        #Look for the field code row
+        if (headers[0] == AS_FIELD_CODE)
+          @headers = headers
+        end
       end
-      # Skip the human readable header
-      @rows.next
+    rescue StopIteration
+      #This should never happen because the headers will be populated
+      #but catch it just in case
+      raise StopBulkImportException(I18n.t("bulk_import.error.premature_stop_iteration"))
+     end
+    
+    begin
+      check_for_code_dups(@headers)
+    rescue Exception => e
+      raise StopBulkImportException.new(e.message)
     end
   end
   
@@ -137,6 +152,10 @@ class BulkImportSpreadsheetParser
   
 
   def row_values(row)
-    (1...row.size).map { |i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil }
+    if file_is_xslx?
+      (0...row.size).map { |i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil }
+    elsif file_is_csv?
+      (0...row.size).map { |i| (row[i] && row[i]) ? (row[i].strip.empty? ? nil : row[i].strip) : nil }
+    end
   end
 end

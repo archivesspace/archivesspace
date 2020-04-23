@@ -2419,6 +2419,7 @@ en:
       process_error: "Error processing %{type} %{num}: %{why}"
       could_not_find_repo: "Could not find repository in database %{repo_id}"
       resource_ref_id: "Resource could not be found for ref id: %{ref_id}"
+      premature_stop_iteration: "The spreadsheet rows ended prior to the data being parsed.  Please verify that the spreadsheet format is correct."
       
   top_container_linker:
     error:
