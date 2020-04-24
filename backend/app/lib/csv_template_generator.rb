@@ -182,7 +182,6 @@ module CsvTemplateGenerator
           field_name_text: "ArchivesSpace field code (please don't edit this row)",
           title_text: "Field Name",
           group_text: "Maps to ASpace Type",
-          description_text: "Description of Field",
           columns: {
             # For reference
             archival_object_id: {title: "Archival Object ID", group: "Archival Object"},
