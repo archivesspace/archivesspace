@@ -40,6 +40,13 @@ module SpecHelperMethods
       :repo_id => $repo_id
     )
   end
+  
+  def create_top_container(opts = {})
+    TopContainer.create_from_json(
+      build(:json_top_container, opts),
+      :repo_id => $repo_id
+    )
+  end
 
 
   def create_event(opts = {})

@@ -28,7 +28,7 @@ class BulkImportSpreadsheetParser
   TOP_CONTAINER_INDICATOR = "top_container_indicator"
   TOP_CONTAINER_ID = "top_container_id"
   TOP_CONTAINER_TYPE = "top_container_type"
-  TOP_CONTAINER_BARCODE = "top_container_arcode"
+  TOP_CONTAINER_BARCODE = "top_container_barcode"
   CHILD_TYPE = "child_type"
   CHILD_INDICATOR = "child_indicator"
   LOCATION_ID = "location_id"
@@ -70,25 +70,31 @@ class BulkImportSpreadsheetParser
       @rows = sheet.enum_for(:each)
     #CSV
     elsif file_is_csv?
-      #table = CSV.read(@input_file, headers: true)
-      table = CSV.read(@input_file)
+      begin
+        table = CSV.read(@input_file)
+      rescue Exception => e
+        raise StopBulkImportException.new(I18n.t("bulk_import.error.csv_parsing_failed", :why => e.message))
+      end
       @rows = table.enum_for(:each)
     end
     set_up_headers
     
     begin
+      peek = @rows.peek
       #Move to the first row of data
-      while (row = @rows.next)  
-        values = row_values(row)
+      while (!peek.nil? && !peek[0].nil?)  
+        values = row_values(peek)
         #When the first column is blank, that is the first row of data
         if (values[0].nil?)
           break
         end
+        row = @rows.next
+        peek = @rows.peek
       end  
     rescue StopIteration
       #This should never happen because the headers and data will be populated
       #but catch it just in case
-      raise StopBulkImportException(I18n.t("bulk_import.error.premature_stop_iteration"))
+      raise StopBulkImportException.new(I18n.t("bulk_import.error.premature_stop_iteration"))
     end  
     @rows
   end
@@ -124,7 +130,7 @@ class BulkImportSpreadsheetParser
     rescue StopIteration
       #This should never happen because the headers will be populated
       #but catch it just in case
-      raise StopBulkImportException(I18n.t("bulk_import.error.premature_stop_iteration"))
+      raise StopBulkImportException.new(I18n.t("bulk_import.error.premature_stop_iteration"))
      end
     
     begin
