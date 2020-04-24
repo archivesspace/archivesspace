@@ -185,23 +185,24 @@ module CsvTemplateGenerator
           description_text: "Description of Field",
           columns: {
             # For reference
-            archival_object_id: {title: "Archival Object ID", group: "Archival Object", description: "Archival Object Database ID"},
-            ref_id: {title: "Ref ID", group: "Archival Object", description: "Reference ID for AO" },
-            component_id: {title: "Component ID", group: "Archival Object", description: "foo"},
-            resource_title: {title: "Resource Title", group: "Resource", description: "foo"},
-            ead_id: {title: "EAD ID", group: "Resource" , description: "foo"},
-            identifier: {title: "Identifier", group: "Resource", formatter: ->(value) { JSON.parse(value).compact.join(" ") }, description: "foo"},
+            archival_object_id: {title: "Archival Object ID", group: "Archival Object"},
+            ref_id: {title: "Ref ID", group: "Archival Object"},
+            component_id: {title: "Component ID", group: "Archival Object"},
+            archival_object_title: {title: "Title", group: "Archival Object"},
+            resource_title: {title: "Resource Title", group: "Resource"},
+            ead_id: {title: "EAD ID", group: "Resource"},
+            identifier: {title: "Identifier", group: "Resource", formatter: ->(value) { JSON.parse(value).compact.join(" ") }},
             # Editable
-            instance_type: {title: "Instance Type", group: "Container", blank: true, description: "foo"},
-            top_container_id: {title: "Top Container ID (existing top container, leave blank if creating new container)", group: "Container", blank: true, description: "foo"},
-            top_container_type: {title: "Top Container Type", blank: true, group: "Container", description: "foo"},
-            top_container_indicator: {title: "Top Container Indicator", group: "Container", blank: true, description: "foo"},
-            top_container_barcode: {title: "Top container barcode", group: "Container", blank: true, description: "foo"},
-            container_profile_id: {title: "Container Profile ID", group: "Container", blank: true, description: "foo"},
-            child_type: {title: "Child Type", group: "Container", blank: true, description: "foo"},
-            child_indicator: {title: "Child Indicator", group: "Container", blank: true, description: "foo"},
-            child_barcode: {title: "Child Barcode", group: "Container", blank: true, description: "foo"},
-            location_id: {title: "Location ID", group: "Location", blank: true, description: "foo"}
+            instance_type: {title: "Instance Type", group: "Instance", blank: true},
+            top_container_id: {title: "Top Container ID (existing top container, leave blank if creating new container)", group: "Container", blank: true},
+            top_container_type: {title: "Top Container Type", blank: true, group: "Top Container"},
+            top_container_indicator: {title: "Top Container Indicator", group: "Top Container", blank: true},
+            top_container_barcode: {title: "Top container barcode", group: "Top Container", blank: true},
+            container_profile_id: {title: "Container Profile ID", group: "Top Container", blank: true},
+            child_type: {title: "Child Type", group: "Sub Container", blank: true},
+            child_indicator: {title: "Child Indicator", group: "Sub Container", blank: true},
+            child_barcode: {title: "Child Barcode", group: "Sub Container", blank: true},
+            location_id: {title: "Location ID", group: "Location", blank: true}
           }
         )
       )
@@ -214,6 +215,7 @@ module CsvTemplateGenerator
             q(:archival_object, :id).as(:archival_object_id),
             q(:archival_object, :ref_id),
             q(:archival_object, :component_id),
+            q(:archival_object, :title).as(:archival_object_title),
             q(:resource, :title).as(:resource_title),
             q(:resource, :ead_id),
             q(:resource, :identifier)
