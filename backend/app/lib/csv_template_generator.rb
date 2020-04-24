@@ -85,9 +85,9 @@ module CsvTemplateGenerator
       spec = @template_spec.columns[field]
       case spec
       when Hash
-        spec[:title] + spec[:required] ? ' (required)' : ''
+        spec[:title] + (spec[:required] ? ' (required)' : '')
       else
-        spec + spec[:required] ? ' (required)' : ''
+        spec + (spec[:required] ? ' (required)' : '')
       end
     end
 
