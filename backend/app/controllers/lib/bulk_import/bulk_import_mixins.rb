@@ -1,3 +1,10 @@
+require_relative "cv_list"
+require_relative "agent_handler"
+require_relative "container_instance_handler"
+require_relative "digital_object_handler"
+require_relative "lang_handler"
+require_relative "notes_handler"
+require_relative "subject_handler"
 require_relative "../../../lib/crud_helpers"
 require "pp"
 
@@ -14,6 +21,30 @@ def resolves
    "linked_events::linked_agents",
    "top_container", "container_profile", "location_profile",
    "owner_repo"]
+end
+
+# save (create/update) the archival object, then revive it
+
+def ao_save(ao)
+  revived = nil
+  begin
+    archObj = nil
+    if ao.id.nil?
+      archObj = ArchivalObject.create_from_json(ao)
+    else
+      obj = ArchivalObject.get_or_die(ao.id)
+      archObj = obj.update_from_json(ao)
+    end
+    objs = ArchivalObject.sequel_to_jsonmodel([archObj])
+    revived = objs[0] if !objs.empty?
+  rescue ValidationException => ve
+    raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
+  rescue Exception => e
+    Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
+    Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
+    raise e
+  end
+  revived
 end
 
 def archival_object_from_ref(ref_id)
