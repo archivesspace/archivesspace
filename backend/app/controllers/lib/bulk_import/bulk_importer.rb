@@ -15,6 +15,9 @@ include URIResolver
 
 START_MARKER = /ArchivesSpace field code/.freeze
 DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
+MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
+MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
+MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
 
 class BulkImporter
   def run
@@ -151,7 +154,12 @@ class BulkImporter
   def check_do_row
     err_arr = []
     begin
-      err_arr.push I18n.t("bulk_import.error.ref_id_miss") if @row_hash["ao_ref_id"].nil?
+      if @row_hash["ao_ref_id"].nil? && @row_hash["ao_uri"].nil?
+        err_arr.push I18n.t("bulk_import.error.no_uri_or_ref")
+      else
+        result = archival_object_from_ref_or_uri(@row_hash["ao_ref_id"], @row_hash["ao_uri"])
+        err_arr.push I18n.t("bulk_import.error.bad_ao", :errs => result[:errs]) if result[:ao].nil?
+      end
       obj_link = @row_hash["digital_object_link"]
       thumb = @row_hash["thumbnail"] || @row_hash["Thumbnail"]
       err_arr.push I18n.t("bulk_import.error.dig_info_miss") if @row_hash["digital_object_link"].nil? && thumb.nil?
@@ -367,6 +375,15 @@ class BulkImporter
     @error_rows = 0
     workbook = RubyXL::Parser.parse(@input_file)
     sheet = workbook[0]
+
+    number_rows = sheet.sheet_data.rows.size
+    size = (File.size?(@input_file).to_f / 1000).round
+    file_info = I18n.t("bulk_import.file_info", :rows => number_rows, :size => size)
+
+    if size > MAX_FILE_SIZE || number_rows > MAX_FILE_ROWS
+      raise BulkImportException.new(I18n.t("bulk_import.error.file_too_big", :limits => MAX_FILE_INFO, :file_info => file_info))
+    end
+
     rows = sheet.enum_for(:each)
   end
 
@@ -393,15 +410,20 @@ class BulkImporter
   end
 
   def process_do_row
-    ret_str = resource_match
-    # mismatch of resource stops all other processing
+    ret_str = ""
+    begin
+      resource_match(@resource, @row_hash["ead"], @row_hash["res_uri"])
+    rescue Exception => e
+      ret_str = e.message
+    end
     if ret_str.empty?
       ret_str = check_do_row
     end
     raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => ret_str)) if !ret_str.empty?
     begin
-      ao = archival_object_from_ref(@row_hash["ao_ref_id"])
-      raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => I18n.t("bulk_import.ref_id_notfound", :refid => @row_hash["ao_ref_id"]))) if ao == nil
+      result = archival_object_from_ref_or_uri(@row_hash["ao_ref_id"], @row_hash["ao_uri"])
+      ao = result[:ao]
+      raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao", errs => result[:errs])) if ao.nil?
       @report.add_archival_object(ao)
       if ao.instances
         digs = []
@@ -459,7 +481,12 @@ class BulkImporter
   end
 
   def process_row
-    ret_str = resource_match
+    ret_str = ""
+    begin
+      resource_match(@resource, @row_hash["ead"], @row_hash["res_uri"])
+    rescue Exception => e
+      ret_str = e.message
+    end
     # mismatch of resource stops all other processing
     if ret_str.empty?
       ret_str = check_row
@@ -508,18 +535,6 @@ class BulkImporter
       end
     end
     ret_subjs
-  end
-
-  # make sure that the resource ead id from the form matches that in the spreadsheet
-  # throws an exception if the designated resource ead doesn't match the spreadsheet row ead
-  def resource_match
-    ret_str = ""
-    ret_str = I18n.t("bulk_import.error.res_ead") if @resource["ead_id"].nil?
-    ret_str = " " + I18n.t("bulk_import.error.row_ead") if @row_hash["ead"].nil?
-    if ret_str.empty?
-      ret_str = I18n.t("bulk_import.error.ead_mismatch", :res_ead => @resource["ead_id"], :row_ead => @row_hash["ead"]) if @resource["ead_id"] != @row_hash["ead"]
-    end
-    ret_str
   end
 
   def row_values(row)

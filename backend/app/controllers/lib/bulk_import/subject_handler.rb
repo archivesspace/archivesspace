@@ -22,12 +22,19 @@ class SubjectHandler < Handler
     key
   end
 
+  # Deal with the fact that an ID without a term may not be enough of a
+  # disambiguation
+  def stored(hash, id, key)
+    ret_obj = super(hash, nil, key)
+    ret_obj
+  end
+
   def build(id, term, type, source)
     type = type.nil? ? "topical" : @subject_term_types.value(type)
     source = source.nil? ? "ingest" : @subject_sources.value(source)
     {
       :id => id,
-      :term => term || (id ? I18n.t("bulk_import.unfound_id", :id => id, :type => "subject") : nil),
+      :term => term || (id ? I18n.t("bulk_import.unfound_id", :id => id, :type => "subject [#{type}] [#{source}]") : nil),
       :type => type,
       :source => source,
       :id_but_no_term => id && !term,
@@ -43,10 +50,8 @@ class SubjectHandler < Handler
         begin
           subj = Subject.get_or_die(Integer(subject[:id]))
         rescue Exception => e
-          if e.message != "RecordNotFound"
+          if !e.message.end_with?("not found")
             raise BulkImportException.new(I18n.t("bulk_import.error.no_create", :why => e.message))
-          else
-            raise e
           end
         end
       end
