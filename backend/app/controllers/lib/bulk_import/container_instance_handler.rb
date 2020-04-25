@@ -85,22 +85,29 @@ class ContainerInstanceHandler < Handler
     raise  BulkImportException.new(I18n.t('bulk_import.error.missing_instance_type')) if instance_type.nil?
     begin
       tc = get_or_create(type, indicator, barcode, resource_uri, report)
-      sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodel_type' => 'sub_container'}
-      %w(2 3).each do |num|
-        if subcont["type_#{num}"]
-          sc["type_#{num}"] = @container_types.value(subcont["type_#{num}"])
-          sc["indicator_#{num}"] = subcont["indicator_#{num}"] || 'Unknown'
-        end
-      end
-      instance = JSONModel(:instance).new._always_valid!
-      instance.instance_type = @instance_types.value(instance_type)
-      instance.sub_container = JSONModel(:sub_container).from_hash(sc)
+      instance = format_container_instance(instance_type, tc, subcont)
     rescue BulkImportException => ee
       raise ee
     rescue Exception => e
-      msg = e.message #+ "\n" + e.backtrace()[0]
+      msg = e.message 
       raise BulkImportException.new(msg)
     end
+    instance
+  end
+  
+  #Formats the container instance without a db retrieval or creation
+  def format_container_instance(instance_type, tc, subcont = {})
+    instance = nil
+    sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodel_type' => 'sub_container'}
+    %w(2 3).each do |num|
+      if subcont["type_#{num}"]
+        sc["type_#{num}"] = @container_types.value(subcont["type_#{num}"])
+        sc["indicator_#{num}"] = subcont["indicator_#{num}"] || 'Unknown'
+      end
+    end
+    instance = JSONModel(:instance).new._always_valid!
+    instance.instance_type = @instance_types.value(instance_type)
+    instance.sub_container = JSONModel(:sub_container).from_hash(sc)
     instance
   end
   

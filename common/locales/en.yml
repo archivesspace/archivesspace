@@ -2439,5 +2439,6 @@ en:
       problem_setting_container_profile: "Problem setting the container profile (see %{ref_id} in row %{row_num}): [%{why}]"
       error_linking_tc_to_ao: "There was a problem linking the Archival Object with the Top Container: %{why}"
       ead_id_miss: "This row is missing an EAD ID: (see %{ref_id} in row %{row_num})"
+      tc_record_no_missing: "The Top Container ID cannot be found: %{tc_id} (see %{ref_id} in row %{row_num})"
       resource_not_in_db: "Can not find Resource %{ead_id} in the database in row %{row_num}"
       resources_do_not_match: "The resource in the spreadsheet %{spreadsheet_resource} (EAD ID: %{ead_id}) does not match the current resource %{current_resource} in row %{row_num}"

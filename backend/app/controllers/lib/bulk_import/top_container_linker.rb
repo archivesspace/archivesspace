@@ -33,7 +33,7 @@ class TopContainerLinker < BulkImportSpreadsheetParser
           @report.new_row(@counter)
           errors = process_row(row_hash)
           if !errors.empty?
-            raise TopContainerLinkerException.new(I18n.t("top_container_linker.error.error_linking_tc_to_ao: ", :why => errors))
+            raise TopContainerLinkerException.new(I18n.t("top_container_linker.error.error_linking_tc_to_ao", :why => errors))
           end
           @rows_processed += 1
         rescue StopTopContainerLinkingException => se
@@ -50,6 +50,7 @@ class TopContainerLinker < BulkImportSpreadsheetParser
       @report.end_row
     end
     if @rows_processed == 0
+      @report.end_row
       raise TopContainerLinkerException.new(I18n.t("bulk_import.error.no_data"))
     end
     
@@ -138,7 +139,15 @@ class TopContainerLinker < BulkImportSpreadsheetParser
           #Cannot find TC record with ID
           err_arr.push I18n.t("top_container_linker.error.tc_record_no_missing", :tc_id=> tc_record_no, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         else
-          tc_instance = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, row_hash, err_arr, ref_id, @counter.to_s)
+          child_type = row_hash[CHILD_TYPE]
+          child_indicator = row_hash[CHILD_INDICATOR]
+          subcontainer = {}
+          if (!child_type.nil? && !child_indicator.nil?)
+            subcontainer = { "type_2" => child_type.strip,
+                            "indicator_2" => child_indicator.strip}#,
+            #                  "barcode_2" => barcode_2}
+          end
+          tc_instance = @cih.format_container_instance(instance_type, tc_jsonmodel_obj, subcontainer)
           display_indicator = tc_jsonmodel_obj.indicator
         end
       end
@@ -165,9 +174,10 @@ class TopContainerLinker < BulkImportSpreadsheetParser
     barcode = row_hash[TOP_CONTAINER_BARCODE]
     if (!barcode.nil?)
       tc_obj = find_top_container({:barcode => barcode.strip})
-      if (tc_obj.nil?)
-        err_arr.push I18n.t("top_container_linker.error.tc_barcode_exists", :barcode=> barcode, :ref_id => ref_id.to_s, :row_num => row_num)
-      end
+    else
+      type_id = BackendEnumSource.id_for_value("container_type",type.strip)
+      #Find the top container with this indicator and type if it exists
+      tc_obj = find_top_container({:indicator => indicator, :type_id => type_id})
     end
     #Check if the barcode_2 already exists in the db (fail if so).  
     #This will be put in place when Harvard's code is merged
@@ -188,19 +198,21 @@ class TopContainerLinker < BulkImportSpreadsheetParser
                       "indicator_2" => child_indicator.strip}#,
     #                  "barcode_2" => barcode_2}
     end
-
-    type_id = BackendEnumSource.id_for_value("container_type",type.strip)
-    #Find the top container with this indicator and type if it exists
-    tc_obj = find_top_container({:indicator => indicator, :type_id => type_id})
-      
+ 
     instance = nil
     begin
-     instance = @cih.create_container_instance(instance_type,
-                                                type, indicator, barcode, @resource_ref, @report, subcontainer)
+      if (!tc_obj.nil?)
+        #We may have created a new TC already during the iteration so only 
+        #grab the instance data from teh cih if that is the case
+        instance = @cih.format_container_instance(instance_type, tc_obj, subcontainer)
+      else
+         instance = @cih.create_container_instance(instance_type, type, indicator, barcode, @resource_ref, @report, subcontainer)
+      end
     rescue Exception => e
       @report.add_errors(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, :why => e.message))
       instance = nil
     end
+
       
     #If we created a new Top Container, then add the location and cp if they exist.
     if (tc_obj.nil? && !instance.nil?)
