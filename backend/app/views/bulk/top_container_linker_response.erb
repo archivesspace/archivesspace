@@ -1,9 +1,8 @@
 <% if !report.terminal_error.nil?
-  popup_msg = I18n.t('bulk_import.error.error', :term => report.terminal_error )
-  else 
-    popup_msg = I18n.t('bulk_import.processed')
- end %>
-<script>alert('<%= popup_msg %>');</script>
+  popup_msg = I18n.t('bulk_import.error.error', :term => report.terminal_error ) %>
+  <script>alert('<%= popup_msg %>');</script>
+ <% end %>
+ 
 <% unless report.terminal_error.nil? %>
 <div class="bg-danger"><blockquote><%= report.terminal_error %></blockquote></div>
 
