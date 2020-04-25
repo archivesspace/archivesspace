@@ -55,7 +55,7 @@ def find_top_container(where_params)
     if jsonms.length == 1
      tc = jsonms[0]
     else
-      raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :params => where_params.pretty_inspect))
+      raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
     end
   end
   tc
