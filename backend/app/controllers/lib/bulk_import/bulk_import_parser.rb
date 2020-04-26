@@ -11,8 +11,19 @@ MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
 MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
 MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
 
-#Base class for bulk import via spreadsheet; handles both CSV's and excel spreadsheets
-
+# Base class for bulk import via spreadsheet; handles both CSV's and excel spreadsheets
+# This class is designed for spreadsheets with the following features:
+#  1. There may be multiple rows of headers, each of which have *something* in the
+#     0th column
+#  2. The header row containing the internal (machine-readble) labels will have in
+#     its 0th
+#     some defined string; this string shall be used in the sub-class's START_MARKER constant
+#  3. Only header rows contain strings in their 0th column; data rows will have an
+#     empty 0th column.  This means that there can be an arbitrary (including 0)
+#     number of header rows *after* the internal labels row; the code can handle it!
+#  4. The various handler classes are now required in the *bulk_import_mixins.rb* file.
+#  5. The method that must be implemented in the sub class is *process_row*
+#
 class BulkImportParser
   def run
     begin
@@ -76,7 +87,7 @@ class BulkImportParser
     #initialize handlers, if needed
   end
 
-  # set up all the @ variables (except for @header)
+  # set up all the @ variables
   def initialize_info
     @orig_filename = @opts[:filename]
     @report_out = []
@@ -169,6 +180,7 @@ class BulkImportParser
     end
   end
 
+  # IMPLEMENT THIS IN YOUR bulk_import_parser CLASS
   def process_row
     # overwrite this class
   end
