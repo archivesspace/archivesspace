@@ -661,4 +661,5 @@ AppConfig[:limit_csv_fields] = true
 AppConfig[:hide_do_load] = false
 # upper row limit for an excel spreadsheet
 AppConfig[:bulk_import_rows] = 1000
+# maximum size (in KiloBytes) for an excel spreadsheet
 AppConfig[:bulk_import_size] = 256
