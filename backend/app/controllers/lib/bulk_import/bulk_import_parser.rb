@@ -169,10 +169,12 @@ class BulkImportParser
     test = {}
     dups = ""
     @headers.each do |head|
-      if test[head]
-        dups = "#{dups} #{head},"
-      else
-        test[head] = true
+      if head
+        if test[head]
+          dups = "#{dups} #{head},"
+        else
+          test[head] = true
+        end
       end
     end
     if !dups.empty?
