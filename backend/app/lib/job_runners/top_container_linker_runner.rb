@@ -23,12 +23,11 @@ class TopContainerLinkerRunner < JobRunner
             current_user = User.find(:username => @job.owner.username)
             @job.write_output("Creating new top container linker...")
             @job.write_output("Repository: " + @job.repo_id.to_s)
-            tcl = TopContainerLinker.new(input_file, @json.job["content_type"], 
-              {:rid => @json.job['resource_id'], :repo_id => @job.repo_id}, current_user)
+            tcl = TopContainerLinker.new(input_file, @json.job["content_type"], current_user,
+              {:rid => @json.job['resource_id'], :repo_id => @job.repo_id})
             
             begin 
-              result = tcl.run
-              report = tcl.report
+              report = tcl.run
               write_out_errors(report)
               
               self.success!

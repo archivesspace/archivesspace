@@ -2433,6 +2433,7 @@ en:
       bad_ao: "Cannot find archival object %{errs}"
       no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
       file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
+      wrong_file_type: "File is neither a CSV nor Excel spreadsheet"
       
   top_container_linker:
     error:
@@ -2454,4 +2455,4 @@ en:
       tc_record_no_missing: "The Top Container ID cannot be found: %{tc_id} (see %{ref_id} in row %{row_num})"
       resource_not_in_db: "Can not find Resource %{ead_id} in the database in row %{row_num}"
       resources_do_not_match: "The resource in the spreadsheet %{spreadsheet_resource} (EAD ID: %{ead_id}) does not match the current resource %{current_resource} in row %{row_num}"
-      
+

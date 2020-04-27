@@ -1,6 +1,11 @@
-require_relative "bulk_import_spreadsheet_parser"
+require_relative "bulk_import_parser"
+require_relative "top_container_linker_mixins"
 
-class TopContainerLinkerValidator < BulkImportSpreadsheetParser
+class TopContainerLinkerValidator < BulkImportParser
+  
+  #ASpace field headers row indicator
+  START_MARKER = /ArchivesSpace field code (please don't edit this row)/.freeze
+   
   def validate
     begin
       initialize_info
@@ -10,9 +15,9 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
   end
   
   
-  def initialize(input_file, file_content_type, opts = {}, current_user)
-    super(input_file, file_content_type, opts, current_user)
-  end
+#  def initialize(input_file, content_type, current_user, opts)
+#    super(input_file, content_type, current_user, opts)
+#  end
 
   
   #We first want to validate spreadsheet data to make sure that the
@@ -25,7 +30,7 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
         row_hash = get_row_hash(row)
         begin
           @report.new_row(@counter)
-          errors = check_row(row_hash)
+          errors = process_row
           if !errors.empty?
             @report.add_errors(errors)
             @error_rows += 1
@@ -61,7 +66,7 @@ class TopContainerLinkerValidator < BulkImportSpreadsheetParser
 
   # look for all the required fields to make sure they are legit
   # strip all the strings and turn publish and restrictions_flaginto true/false
-  def check_row(row_hash)
+  def process_row
     err_arr = []
     begin
               

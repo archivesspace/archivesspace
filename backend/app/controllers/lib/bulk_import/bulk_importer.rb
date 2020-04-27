@@ -27,14 +27,12 @@ class BulkImporter
         @counter += 1
         if (row[0] && (row[0].value.to_s =~ @start_marker))
           @headers = row_values(row)
+          Log.error("headers: #{@headers.inspect}")
           begin
             check_for_code_dups
           rescue Exception => e
             raise StopBulkImportException.new(e.message)
           end
-          # Skip the human readable header too
-          rows.next
-          @counter += 1 # for the skipping
         end
       end
       begin
