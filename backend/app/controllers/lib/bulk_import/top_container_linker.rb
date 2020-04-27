@@ -4,8 +4,10 @@ require_relative "top_container_linker_mixins"
 class TopContainerLinker < BulkImportParser
   
   #ASpace field headers row indicator
-  START_MARKER = /ArchivesSpace field code (please don't edit this row)/.freeze
+  START_MARKER = /ArchivesSpace field code/.freeze
 
+  attr_reader :report
+  
 #  def run
 #    begin
 #      initialize_info
@@ -15,9 +17,10 @@ class TopContainerLinker < BulkImportParser
 #    return true
 #  end
   
-#  def initialize(input_file, content_type, current_user, opts)
-#    super(input_file, content_type, current_user, opts)
-#  end
+  def initialize(input_file, content_type, current_user, opts)
+    super(input_file, content_type, current_user, opts)
+    @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
+  end
   
   def initialize_handler_enums
     @cih = ContainerInstanceHandler.new(@current_user)
@@ -35,13 +38,13 @@ class TopContainerLinker < BulkImportParser
 #          @report.new_row(@counter)
 #          errors = process_row
 #          if !errors.empty?
-#            raise TopContainerLinkerException.new(I18n.t("top_container_linker.error.error_linking_tc_to_ao", :why => errors))
+#            raise BulkImportException.new(I18n.t("top_container_linker.error.error_linking_tc_to_ao", :why => errors))
 #          end
 #          @rows_processed += 1
-#        rescue StopTopContainerLinkingException => se
+#        rescue StopBulkImportException => se
 #          @report.add_errors(I18n.t("bulk_import.error.stopped", :row => @counter, :msg => se.message))
 #          raise StopIteration.new
-#        rescue TopContainerLinkerException => e
+#        rescue BulkImportException => e
 #          @error_rows += 1
 #          @report.add_errors(e.message)
 #        end
@@ -53,7 +56,7 @@ class TopContainerLinker < BulkImportParser
 #    end
 #    if @rows_processed == 0
 #      @report.end_row
-#      raise TopContainerLinkerException.new(I18n.t("bulk_import.error.no_data"))
+#      raise BulkImportException.new(I18n.t("bulk_import.error.no_data"))
 #    end
 #    
 #  end
@@ -70,7 +73,7 @@ class TopContainerLinker < BulkImportParser
 #    rescue ValidationException => ve
 #      Log.error(ve.message)
 #      Log.error(ve.backtrace)
-#      raise TopContainerLinkerException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
+#      raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
 #    rescue Exception => e
 #      Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
 #      Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
@@ -100,7 +103,7 @@ class TopContainerLinker < BulkImportParser
      
       #If the AO is nil, then just stop here before checking anything else
       if ao.nil?
-        raise TopContainerLinkerException.new("No AO found;" + err_arr)
+        raise BulkImportException.new("No AO found;" + err_arr)
       end
       
       #Check that the instance type exists
@@ -160,16 +163,18 @@ class TopContainerLinker < BulkImportParser
         @report.add_info("Adding Top Container Instance " + instance_type.capitalize  + " " + display_indicator + " to Archival Object " + ref_id)
         ao_save(ao)      
       end
-    rescue StopTopContainerLinkingException => se
+    rescue StopBulkImportException => se
       err_arr.join("; ")
-      raise StopTopContainerLinkingException.new(se.message + "; "  + err_arr)
-    rescue TopContainerLinkerException => te
+      raise StopBulkImportException.new(se.message + "; "  + err_arr)
+    rescue BulkImportException => te
       err_arr.join("; ")
-      raise TopContainerLinkerException.new(te.message + "; " + err_arr)
+      raise BulkImportException.new(te.message + "; " + err_arr)
     rescue Exception => e
       Log.error(["UNEXPLAINED EXCEPTION on process_row", e.message, e.backtrace, @row_hash].pretty_inspect)
     end
-    err_arr.join("; ")
+    if !err_arr.empty?
+      raise BulkImportException.new(err_arr.join("; "))
+    end
   end
   
   def create_top_container_instance(instance_type, indicator, type, err_arr, ref_id, row_num)
@@ -222,8 +227,7 @@ class TopContainerLinker < BulkImportParser
       tc_id = instance["sub_container"]["top_container"]["ref"].split('/')[4]
       tc_obj = TopContainer.get_or_die(tc_id)
       if (tc_obj.nil?)
-        @report.add_errors(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, :why => "Could not find newly created Top Container"))
-        raise TopContainerLinkerException(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, :why => "Could not find newly created Top Container"))
+        raise BulkImportException.new(I18n.t("top_container_linker.error.no_tc", :ref_id => ref_id.to_s, :row_num => row_num, :why => "Could not find newly created Top Container"))
       end
       now = Time.now
         

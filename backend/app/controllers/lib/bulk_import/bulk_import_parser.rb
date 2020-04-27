@@ -153,9 +153,9 @@ class BulkImportParser
   def row_values(row)
     values = row
     if @is_xslx
-      values = (1...row.size).map { |i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil }
+      values = (0...row.size).map { |i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil }
     else
-      values = (1...values.size).map { |i| (values[i]) ? (values[i].to_s.strip.empty? ? nil : values[i].to_s.strip) : nil }
+      values = (0...values.size).map { |i| (values[i]) ? (values[i].to_s.strip.empty? ? nil : values[i].to_s.strip) : nil }
     end
     values
   end

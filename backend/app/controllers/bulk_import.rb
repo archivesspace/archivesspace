@@ -58,10 +58,12 @@ class ArchivesSpaceService < Sinatra::Base
     end
     #All errors are terminal for validation
     report.rows.each do |error_row|
-      errors << error_row.errors.join(", ")
+      if (!error_row.errors.empty?)
+        errors << error_row.errors.join(", ")
+      end
     end
     if (!errors.empty?)
-      raise TopContainerLinkerException.new(errors.join(', '))
+      raise BulkImportException.new(errors.join(', '))
     end
     erb :'bulk/top_container_linker_response', locals: {report: report}
   end

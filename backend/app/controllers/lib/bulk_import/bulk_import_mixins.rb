@@ -270,13 +270,9 @@ end
 
 class BulkImportException < Exception
 end
-class TopContainerLinkerException < Exception
-end
 class BulkImportDisambigException < BulkImportException
 end
 class StopBulkImportException < Exception
-end
-class StopTopContainerLinkingException < Exception
 end
 
 class BulkImportReport

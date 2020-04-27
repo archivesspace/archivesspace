@@ -49,7 +49,9 @@ class TopContainerLinkerRunner < JobRunner
   def write_out_errors(report)
     modified_uris = []
     report.rows.each do |row|
-      modified_uris << row.archival_object_id
+      if !row.archival_object_id.nil?
+        modified_uris << row.archival_object_id
+      end
       #Report out the collected data:
       if !row.errors.empty?
         row.errors.each do |error|
