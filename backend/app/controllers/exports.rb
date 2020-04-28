@@ -159,7 +159,16 @@ class ArchivesSpaceService < Sinatra::Base
                               (params[:numbered_cs] || false),
                               (params[:ead3] || false))
 
-    pdf = generate_pdf_from_ead(ead_stream)
+    repo = resolve_references(Repository.get_or_die(params[:repo_id]),
+                              params[:resolve])
+
+    if repo['image_url']
+      image_for_pdf = repo['image_url']
+    else
+      image_for_pdf = nil
+    end
+
+    pdf = generate_pdf_from_ead(ead_stream, image_for_pdf)
     pdf_response(pdf)
   end
 
