@@ -5,65 +5,11 @@ class TopContainerLinkerValidator < BulkImportParser
   
   #ASpace field headers row indicator
   START_MARKER = /ArchivesSpace field code/.freeze
-   
-#  def validate
-#    begin
-#      initialize_info
-#      validate_spreadsheet_data
-#    end
-#    return @report
-#  end
-  
   
   def initialize(input_file, content_type, current_user, opts)
     super(input_file, content_type, current_user, opts)
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
   end
-
-  
-  #We first want to validate spreadsheet data to make sure that the
-  #required fields exist as well as verify that the populated fields
-  #have valid data
-#  def validate_spreadsheet_data
-#    begin
-#      while (row = @rows.next)
-#        @counter += 1
-#        @row_hash = get_row_hash(row)
-#        begin
-#          @report.new_row(@counter)
-#          errors = process_row
-#          if !errors.empty?
-#            @report.add_errors(errors)
-#            @error_rows += 1
-#            @report.end_row
-#            raise StopIteration.new
-#          end
-#          @rows_processed += 1
-#        rescue StopBulkImportException => se
-#          @report.add_errors(I18n.t("bulk_import.error.stopped", :row => @counter, :msg => se.message))
-#          raise StopIteration.new
-#        rescue BulkImportException => e
-#          @error_rows += 1
-#          @report.add_errors(e.message)
-#        end
-#        @report.end_row
-#      end
-#    rescue StopIteration
-#      # we just want to catch this without processing further
-#    end
-#    if @error_rows > 0
-#      errors = []
-#      @report.rows.each do |error_row| 
-#        errors << error_row.errors.join(", ")
-#      end
-#      raise BulkImportException.new(errors.join(', '))
-#    end
-#    if @rows_processed == 0
-#      raise BulkImportException.new(I18n.t("bulk_import.error.no_data"))
-#    end
-#    
-#  end
-
 
   # look for all the required fields to make sure they are legit
   # strip all the strings and turn publish and restrictions_flaginto true/false

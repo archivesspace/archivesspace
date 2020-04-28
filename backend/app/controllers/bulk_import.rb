@@ -50,7 +50,6 @@ class ArchivesSpaceService < Sinatra::Base
     filetype = params.fetch(:filetype)
     rid = params.fetch(:rid)
     tclValidator = TopContainerLinkerValidator.new(filepath, filetype, current_user, params)
-    #report = tclValidator.validate
     report = tclValidator.run
     errors = [] 
     unless report.terminal_error.nil?

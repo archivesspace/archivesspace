@@ -8,15 +8,6 @@ class TopContainerLinker < BulkImportParser
 
   attr_reader :report
   
-#  def run
-#    begin
-#      initialize_info
-#      initialize_handler_enums
-#      process_spreadsheet_data
-#    end
-#    return true
-#  end
-  
   def initialize(input_file, content_type, current_user, opts)
     super(input_file, content_type, current_user, opts)
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
@@ -26,61 +17,6 @@ class TopContainerLinker < BulkImportParser
     @cih = ContainerInstanceHandler.new(@current_user)
   end
 
-  
-  #We first want to validate spreadsheet data to make sure that the
-  #required fields exist as well as verify that the populated fields
-  #have valid data
-#  def process_spreadsheet_data
-#    begin
-#      while (row = @rows.next)
-#        @counter += 1
-#        begin
-#          @report.new_row(@counter)
-#          errors = process_row
-#          if !errors.empty?
-#            raise BulkImportException.new(I18n.t("top_container_linker.error.error_linking_tc_to_ao", :why => errors))
-#          end
-#          @rows_processed += 1
-#        rescue StopBulkImportException => se
-#          @report.add_errors(I18n.t("bulk_import.error.stopped", :row => @counter, :msg => se.message))
-#          raise StopIteration.new
-#        rescue BulkImportException => e
-#          @error_rows += 1
-#          @report.add_errors(e.message)
-#        end
-#        @report.end_row
-#      end
-#    rescue StopIteration
-#      # we just want to catch this without processing further
-#      @report.end_row
-#    end
-#    if @rows_processed == 0
-#      @report.end_row
-#      raise BulkImportException.new(I18n.t("bulk_import.error.no_data"))
-#    end
-#    
-#  end
-
-
-  # save the archival object, then revive it
-#  def ao_save(ao)
-#    revived = nil
-#    begin
-#      obj = ArchivalObject.get_or_die(ao.id)
-#      archObj = obj.update_from_json(ao)
-#      objs = ArchivalObject.sequel_to_jsonmodel([archObj])
-#      revived = objs[0] if !objs.empty?
-#    rescue ValidationException => ve
-#      Log.error(ve.message)
-#      Log.error(ve.backtrace)
-#      raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
-#    rescue Exception => e
-#      Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
-#      Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
-#      raise e
-#    end
-#    revived
-#  end
 
   # look for all the required fields to make sure they are legit
   def process_row
