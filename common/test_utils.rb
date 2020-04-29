@@ -22,8 +22,8 @@ module TestUtils
   end
 
   # rubocop:disable Metrics/MethodLength
-  def self.wait_for_url(url)
-    100.times do
+  def self.wait_for_url(url, out = nil)
+    100.times do |idx|
       begin
         uri = URI(url)
         req = Net::HTTP::Get.new(uri.request_uri)
@@ -34,6 +34,10 @@ module TestUtils
       rescue
         # Keep trying
         puts "Waiting for #{url} (#{$ERROR_INFO.inspect})"
+        if idx == 10 && !out.nil? && File.file?(out)
+          puts "Server is taking a long time to startup, dumping last 50 lines of log:"
+          puts IO.readlines(out)[-50..-1]
+        end
         sleep(5)
       end
     end
@@ -81,17 +85,23 @@ module TestUtils
   end
 
   def self.start_backend(port, config = {}, config_file = nil)
+    db_url = config.delete(:db_url)
     java_opts = build_config_string(config)
     java_opts += " -Daspace.config=#{config_file}" if config_file
 
     build_args = java_build_args(['backend:devserver:integration',
                                   "-Daspace.backend.port=#{port}",
-                                  '-Daspace_integration_test=1'])
+                                  '-Daspace_integration_test=1',
+                                  "-Daspace.config.db_url=#{db_url}"])
 
     java_opts, build_args = add_solr(java_opts, build_args, config)
-    java_opts += ' -Xmx600m'
+    java_opts += ' -Xmx1024m'
+
+    puts "Spawning backend with opts: #{java_opts}"
     pid = Process.spawn({ 'JAVA_OPTS' => java_opts }, find_ant, *build_args)
-    TestUtils.wait_for_url("http://localhost:#{port}")
+    out = File.join(find_ant.gsub(/run/, ''), 'backend_test_log.out')
+
+    TestUtils.wait_for_url("http://localhost:#{port}", out)
     puts "Backend started with pid: #{pid}"
 
     pid
