@@ -1539,6 +1539,7 @@ en:
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet
+        not_excel_csv: The file you have chosen is neither an Excel Spreadsheet nor a CSV file
         processed: The file has been processed
         error: "ERROR: Error(s) detected: "
         copied: Copied!

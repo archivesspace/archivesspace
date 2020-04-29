@@ -84,10 +84,13 @@
                     fileObj = arr[i].value;
                     if  (typeof(fileObj) === "object") {
                         if (typeof(fileObj.type) !== "undefined" && (fileObj.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileObj.name.endsWith(".xlsx"))) {
-                        hasFile = true;
+                        	hasFile = true;
                         }
+						else if (typeof(fileObj.type) !== "undefined" && fileObj.type === 'text/csv') {
+							hasFile = true;
+						}
                         else {
-                        missingFile = "<%= I18n.t('bulk_import._frontend.messages.not_excel') %>";
+                        	missingFile = "<%= I18n.t('bulk_import._frontend.messages.not_excel_csv') %>";
                         }
                     }
 			    }
