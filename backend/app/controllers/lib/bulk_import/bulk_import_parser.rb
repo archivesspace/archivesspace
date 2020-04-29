@@ -179,7 +179,7 @@ class BulkImportParser
     end
   end
 
-  # IMPLEMENT THIS IN YOUR bulk_import_parser CLASS
+  # IMPLEMENT THIS IN YOUR bulk_import_parser sub-class
   def process_row
     # overwrite this class
   end
