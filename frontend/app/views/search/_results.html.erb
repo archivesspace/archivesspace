@@ -1,3 +1,12 @@
+<%#
+Partial for rendering tables of search results direct to the browser (for ajax-loaded tables,
+see app/views/search/_embedded.html.erb).
+
+Expects to be rendered from a controller that sets an instance variable @search_data, and aspects
+of the display are controlled by other instance variables, most of which are accessed through helper
+methods in the SearchHelper class.
+
+%>
 <%
   title = I18n.t("search_results.title") if title.nil?
   @display_context = true

@@ -26,7 +26,8 @@
           <%= context_column_header_label %>
         </th>
       <% end %>
-      <% if request.path =~ /\/(advanced_)*search/ %>
+
+      <% if (request.path =~ /\/(advanced_)?search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first))) %>
         <th class="col identifier sortable <% if @search_data.sorted_by === "identifier"%>sort-<%= @search_data.current_sort_direction %><% end %>">
           <%= link_to I18n.t("search_results.result_identifier"), build_search_params("sort" => @search_data.sort_filter_for("identifier")) %>
         </th>
@@ -42,7 +43,9 @@
           </th>
         <% end %>
       <% end %>
-      <th class="col audit-info"><span class="sr-only">Audit information</span></th>
+      <% unless hide_audit_info? %>
+        <th class="col audit-info"><span class="sr-only">Audit information</span></th>
+      <% end %>
       <% if !params[:linker] || params[:linker] === 'false' %>
         <th class="col actions"><span class="sr-only"><%= I18n.t("search_results.actions") %></span><!-- actions --></th>
       <% end %>
@@ -90,7 +93,7 @@
             <%= render_aspace_partial :partial => "search/context", :locals => {:result => result} %>
           </td>
         <% end %>
-        <% if request.path =~ /\/(advanced_)*search/ %>
+        <% if request.path =~ /\/(advanced_)*search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first)) %>
           <td>
             <%= identifier_for_search_result(result) %>
           </td>
@@ -100,9 +103,11 @@
             <td><%= col.value_for(result) %></td>
           <% end %>
         <% end %>
+        <% unless hide_audit_info? %>
         <td>
           <%= display_audit_info(result, :format => 'compact') %>
         </td>
+        <% end %>
         <% if !params[:linker] || params[:linker] === 'false' %>
           <td class="table-record-actions">
             <% if not deleted %>
