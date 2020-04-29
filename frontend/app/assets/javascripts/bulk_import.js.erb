@@ -94,7 +94,8 @@
 			}
 			if (!hasFile) {
 			    alert(missingFile);
-			    $(".bulkbtn").removeClass("disabled");
+				modalError($file_form_modal);
+				 $(".bulkbtn.btn-cancel").text("<%= I18n.t('actions.cancel') %>").removeClass("disabled").removeClass("close")
 			    return false;
 			}
 			$(".bulkbtn").addClass('disabled');
@@ -136,13 +137,9 @@
 	}
 	var modalError = function($modal) {
 	    $(".bulkbtn").removeClass("disabled");
-            $(".bulkbtn.btn-cancel").text("Close").removeClass("disabled").addClass("close")
+        $(".bulkbtn.btn-cancel").text("<%= I18n.t('actions.close') %>").removeClass("disabled").addClass("close")
 	    $(".clip-btn").removeClass("disabled");
 	    $modal.find(".close").click(function(event) {
-		    $("input").each(function() { 
-			    /*console.log($(this).val()); */
-			    $(this).val("");
-			});
 		    $("#bulk_messages").html("");
 		    $("#excel_filename").html("");
 		    $modal.hide();
