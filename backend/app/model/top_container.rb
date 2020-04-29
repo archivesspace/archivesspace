@@ -31,7 +31,7 @@ class TopContainer < Sequel::Model(:top_container)
 
   def format_barcode
     if self.barcode
-      "[#{self.barcode}]"
+      "[#{I18n.t("instance_container.barcode")}: #{self.barcode}]"
     end
   end
 
@@ -153,13 +153,16 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def long_display_string
-    resource = collections.first
-    resource &&= Identifiers.format(Identifiers.parse(resource.identifier))
+    container_bit = ["#{type ? type.capitalize : ''}", "#{indicator}", format_barcode].compact.join(" ")
     container_profile = related_records(:top_container_profile)
     container_profile &&= container_profile.name
-    container_bit = ["#{type ? type.capitalize : ''}", "#{indicator}", format_barcode].compact.join(" ")
+    location = related_records(:top_container_housed_at).first
+    location &&= location.title
+    resource = collections.first
+    resource &&= [Identifiers.format(Identifiers.parse(resource.identifier)),  resource.title].compact.join(", ")
 
-    [resource, series_label, container_bit, container_profile].compact.join(", ")
+    # Long display string = container type container indicator [barcode: barcode], container profile name, location title, first resource/accession id, first resource/accession title, "series" label
+    [container_bit, container_profile, location, resource, series_label].compact.join(", ")
   end
 
 
@@ -288,6 +291,7 @@ class TopContainer < Sequel::Model(:top_container)
 
 
   def self.batch_update(ids, fields)
+    fields.each_value(&:strip!)
     out = {}
     begin
       n = self.filter(:id => ids).update(fields.merge({:system_mtime => Time.now, :user_mtime => Time.now}))
@@ -348,22 +352,24 @@ class TopContainer < Sequel::Model(:top_container)
     begin
       relationship.handle_delete(relationship.find_by_participant_ids(TopContainer, ids).select{|v| v.status == 'current'}.map(&:id))
 
-      location = Location[JSONModel(:location).id_for(location_uri)]
+      unless location_uri.empty?
+        location = Location[JSONModel(:location).id_for(location_uri)]
 
-      raise "Location not found: #{location_uri}" if !location
+        raise "Location not found: #{location_uri}" if !location
 
-      now = Time.now
+        now = Time.now
 
-      ids.each do |id|
-        top_container = TopContainer[id]
+        ids.each do |id|
+          top_container = TopContainer[id]
 
-        relationship.relate(top_container, location, {
-                              :status => 'current',
-                              :start_date => now.iso8601,
-                              :aspace_relationship_position => 0,
-                              :system_mtime => now,
-                              :user_mtime => now
-                            })
+          relationship.relate(top_container, location, {
+                                :status => 'current',
+                                :start_date => now.iso8601,
+                                :aspace_relationship_position => 0,
+                                :system_mtime => now,
+                                :user_mtime => now
+                              })
+        end
       end
 
       TopContainer.update_mtime_for_ids(ids)
@@ -379,77 +385,77 @@ class TopContainer < Sequel::Model(:top_container)
   end
 
 
- def self.bulk_update_barcodes(barcode_data)
-      updated = []
+  def self.bulk_update_barcodes(barcode_data)
+    updated = []
 
-      ids = barcode_data.map{|uri,_| my_jsonmodel.id_for(uri)}
+    ids = barcode_data.map{|uri,_| my_jsonmodel.id_for(uri)}
+    
+    # null out barcodes to avoid duplicate error as bulk updates are
+    # applied
+    TopContainer.filter(:id => ids).update(:barcode => nil)
 
-      # null out barcodes to avoid duplicate error as bulk updates are
-      # applied
-      TopContainer.filter(:id => ids).update(:barcode => nil)
-           
-      barcode_data.each do |uri, barcode|
-        id = my_jsonmodel.id_for(uri)
-      
-        top_container = TopContainer[id]
-        top_container.barcode = barcode
-        top_container.system_mtime = Time.now
-        
-        top_container.save(:columns => [:barcode, :system_mtime])
-        updated << id
-      end
-      
-      TopContainer.update_mtime_for_ids(ids)
-      updated
- 
- end
+    barcode_data.each do |uri, barcode|
+      id = my_jsonmodel.id_for(uri)
+
+      top_container = TopContainer[id]
+      top_container.barcode = barcode
+      top_container.system_mtime = Time.now
+
+      top_container.save(:columns => [:barcode, :system_mtime])
+      updated << id
+    end
+
+    TopContainer.update_mtime_for_ids(ids)
+    updated
+
+  end
 
 
- def self.bulk_update_locations(location_data)
-      out = {
-        :records_ids_updated => []
-      }
+  def self.bulk_update_locations(location_data)
+    out = {
+      :records_ids_updated => []
+    }
 
-      ids = location_data.map{|uri,_| my_jsonmodel.id_for(uri)}
+    ids = location_data.map{|uri,_| my_jsonmodel.id_for(uri)}
 
-      # remove all 'current' locations
-      relationship = TopContainer.find_relationship(:top_container_housed_at)
-      relationship.handle_delete(relationship.find_by_participant_ids(TopContainer, ids).select{|v| v.status == 'current'}.map(&:id))
+    # remove all 'current' locations
+    relationship = TopContainer.find_relationship(:top_container_housed_at)
+    relationship.handle_delete(relationship.find_by_participant_ids(TopContainer, ids).select{|v| v.status == 'current'}.map(&:id))
 
-      now = Time.now
+    now = Time.now
 
-      # add new 'current' location for each container
-      location_data.each do |uri, location_uri|
-        id = my_jsonmodel.id_for(uri)
+    # add new 'current' location for each container
+    location_data.each do |uri, location_uri|
+    id = my_jsonmodel.id_for(uri)
 
-        begin
-          location = Location[JSONModel(:location).id_for(location_uri)]
+    begin
+      location = Location[JSONModel(:location).id_for(location_uri)]
 
-          raise "Location not found: #{location_uri}" if !location
+      raise "Location not found: #{location_uri}" if !location
 
-          top_container = TopContainer[id]
+      top_container = TopContainer[id]
 
-          relationship.relate(top_container, location, {
-            :status => 'current',
-            :start_date => now.iso8601,
-            :aspace_relationship_position => 0,
-            :system_mtime => now,
-            :user_mtime => now
-          })
+      relationship.relate(top_container, location, {
+        :status => 'current',
+        :start_date => now.iso8601,
+        :aspace_relationship_position => 0,
+        :system_mtime => now,
+        :user_mtime => now
+      })
 
-          out[:records_ids_updated] << id
-        rescue
-          Log.exception($!)
+      out[:records_ids_updated] << id
+    rescue
+      Log.exception($!)
 
-          out[:error] = $!
-        end
-      end
+      out[:error] = $!
+    end
+  end
 
-      TopContainer.update_mtime_for_ids(out[:records_ids_updated])
+  TopContainer.update_mtime_for_ids(ids)
 
-      out[:records_updated] = out[:records_ids_updated].length
+  out[:records_updated] = out[:records_ids_updated].length
 
-      out
+  out
   end
 
   def self.for_barcode(barcode)

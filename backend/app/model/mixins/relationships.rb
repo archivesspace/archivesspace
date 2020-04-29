@@ -67,12 +67,12 @@ AbstractRelationship = Class.new(Sequel::Model) do
       # Suppress this new relationship if it points to a suppressed record
       values[:suppressed] = 1
     end
-   
-    # some objects ( like events? ) seem to leak their ids into the mix. 
+
+    # some objects ( like events? ) seem to leak their ids into the mix.
     values.reject! { |key| key == :id or key == "id"  }
     if ( obj1.is_a?(Location) or obj2.is_a?(Location) )
       values.reject! { |key| key == :jsonmodel_type or key == "jsonmodel_type"  }
-    end 
+    end
     self.create(values)
   end
 
@@ -92,58 +92,125 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     victims_by_model = victims.reject {|v| (v.class == target.class) && (v.id == target.id)}.group_by(&:class)
 
-    victims_by_model.each do |victim_model, victims|
+    victims_by_model.each do |victim_model, vics|
 
-      # If we're merging a record of type A with relationship R into a record of
-      # type B, type B must also support that relationship type.  If it doesn't,
-      # we risk losing data through the merge and should abort.
-      #
-      unless participating_models.include?(victim_model)
-        found = self.find_by_participant_ids(victim_model, victims.map(&:id))
-
-        unless found.empty?
-          raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
-        end
-      end
-
+      confirm_accepts_target(victim_model, vics)
       victim_columns = self.reference_columns_for(victim_model)
 
       victim_columns.each do |victim_col|
 
-        # Find any relationship where the current column contains a reference to
-        # our victim
-        self.filter(victim_col => victims.map(&:id)).each do |relationship|
+        vics.each do |victim|
 
-          # Remove this relationship's reference to the victim
-          relationship[victim_col] = nil
+          who_participates_with(victim).each do |parent|
+            parent_col = reference_columns_for(parent.class).first
+            # Find any relationship where the current column contains a reference to
+            # our victim
+            self.exclude(parent_col => nil).filter(victim_col => vics.map(&:id)).each do |relationship|
+              target_pre = find_by_participant(target)
 
-          # Now add a new reference to the target (which, if the victim and
-          # target are of different types, might require updating a different
-          # column to the one we just set to NULL)
-          target_columns.each do |target_col|
+              # Remove this relationship's reference to the victim
+              relationship[victim_col] = nil
 
-            if relationship[target_col]
-              # This column is already used to reference the other record in our
-              # relationship so we'll skip over it.  But while we're here, make
-              # sure we're not about to create a circular relationship.
+              # When merging top containers, you also have to deal with the fact
+              # that subcontainers and instances may also need to be deleted.  This
+              # array stores records that will be deleted in cleanup_duplicates.
+              dups = []
 
-              if relationship[target_col] == target.id
-                raise "Transfer would create a circular relationship!"
+              # Now add a new reference to the target (which, if the victim and
+              # target are of different types, might require updating a different
+              # column to the one we just set to NULL)
+              target_columns.each do |target_col|
+
+                if relationship[target_col]
+                  # This column is already used to reference the other record in our
+                  # relationship so we'll skip over it.  But while we're here, make
+                  # sure we're not about to create a circular relationship.
+
+                  if relationship[target_col] == target.id
+                    raise "Transfer would create a circular relationship!"
+                  end
+
+                elsif relationship.is_a?(Relationships::SubContainerTopContainerLink)
+                  identify_duplicate_containers(target, relationship, target_col, dups)
+
+                else
+                  target_pre.each do |pre|
+                    if pre[parent_col] == relationship[parent_col]
+                      dups << relationship
+                    end
+                  end
+                  # Found a free column.  Store our updated reference here.
+                  relationship[target_col] = target.id
+                  break
+                end
+
               end
 
-            else
-              # Found a free column.  Store our updated reference here.
-              relationship[target_col] = target.id
-              break
+              relationship[:system_mtime] = Time.now
+              relationship[:user_mtime] = Time.now
+
+              relationship.save
+
+              cleanup_duplicates(dups)
             end
-
           end
-
-          relationship[:system_mtime] = Time.now
-          relationship[:user_mtime] = Time.now
-
-          relationship.save
         end
+      end
+    end
+  end
+
+
+  # If we're merging a record of type A with relationship R into a record of
+  # type B, type B must also support that relationship type.  If it doesn't,
+  # we risk losing data through the merge and should abort.
+  def self.confirm_accepts_target(victim_model, vics)
+    unless participating_models.include?(victim_model)
+      found = self.find_by_participant_ids(victim_model, vics.map(&:id))
+
+      unless found.empty?
+        raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
+      end
+    end
+  end
+
+
+  # ANW-952: After merging objects together you may be left with two
+  # relationships that link to the same post-merge record.  This deletes
+  # those duplicated relationships after the merge process is complete.
+  def self.cleanup_duplicates(dups)
+    if !dups.empty?
+      dups.each {|d| d.delete}
+    end
+  end
+
+
+  def self.identify_duplicate_containers(target, relationship, target_col, dups)
+    find_by_participant(target).each do |target_relationship|
+      subcontainer = SubContainer[relationship[:sub_container_id]]
+      target_subcontainer = SubContainer[target_relationship[:sub_container_id]]
+      # Only proceed if the subcontainer record is empty
+      if [:type_2_id, :indicator_2, :type_3_id, :indicator_3].map {|k| subcontainer[k]}.compact.empty?
+        instance = Instance[subcontainer[:instance_id]]
+        target_instance = Instance[target_subcontainer[:instance_id]]
+        [:accession_id, :archival_object_id, :resource_id].each do |p|
+          next if instance[p].nil?
+          # If subcontainer is empty and if the subcontainer's instance
+          # record links to the same parent record (ao, accession, or
+          # resource), delete the subcontainer and the instance.
+          if instance[p] == target_instance[p]
+            dups << subcontainer
+            dups << instance
+            break
+          else
+            # Found a free column.  Store our updated reference here.
+            relationship[target_col] = target.id
+            break
+          end
+        end
+      else
+        # Found a free column.  Store our updated reference here.
+        relationship[target_col] = target.id
+        break
       end
     end
   end
@@ -419,6 +486,16 @@ module Relationships
 
 
   def transfer_to_repository(repository, transfer_group = [])
+    if transfer_group.empty?
+      do_id = self.class == DigitalObject ? self[:id] : 0
+    else
+      do_id = transfer_group.first.class == DigitalObject ? transfer_group.first[:id] : 0
+    end
+
+    unless do_id == 0
+      return unless do_transferable?(do_id)
+    end
+
     # When a record is being transferred to another repository, any
     # relationships it has to records within the current repository must be
     # cleared.
@@ -441,6 +518,46 @@ module Relationships
     end
 
     super
+  end
+
+
+  def do_transferable?(do_id)
+    # ANW-151: Digital objects should not be transferable if they have instance links to other repository-scoped record types. If not transferrable, we throw an error and abort the transfer.
+    do_relationship = DigitalObject.find_relationship(:instance_do_link)
+
+    instances = do_relationship
+    .select(:instance_id).filter(:digital_object_id => do_id)
+    .map {|row| row[:instance_id]}
+
+    if instances.empty?
+      true
+    else
+      do_has_link_error(instances)
+      false
+    end
+  end
+
+
+  def do_has_link_error(instances)
+    # Abort the transfer and provide the list of top-level records that are preventing it from completing.
+    exception = TransferConstraintError.new
+
+    ASModel.all_models.each do |model|
+      next unless model.associations.include?(:instance)
+
+      model
+        .eager_graph(:instance)
+        .filter(:instance__id => instances)
+        .select(Sequel.qualify(model.table_name, :id))
+        .each do |row|
+        exception.add_conflict(model.my_jsonmodel.uri_for(row[:id], :repo_id => self.class.active_repository),
+                        {:json_property => 'instances',
+                         :message => "DIGITAL_OBJECT_HAS_LINK"})
+        end
+    end
+
+    raise exception
+    return
   end
 
 

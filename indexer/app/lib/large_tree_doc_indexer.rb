@@ -39,7 +39,7 @@ class LargeTreeDocIndexer
                                       :parent_node => parent_uri,
                                       :published_only => true)
 
-      
+
       batch << {
         'id' => "#{root_record_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
         'pui_parent_id' => (parent_uri || root_record_uri),

@@ -136,6 +136,15 @@ require_relative "../app/main"
 Log.quiet_please
 
 class ArchivesSpaceService
+  INTERVALS = {
+    short: 0.1,
+    medium: 0.5,
+    long: 1.0
+  }
+  def self.wait(interval)
+    sleep interval.respond_to?(:intern) ? INTERVALS[interval] : Float(interval)
+  end
+
   class ExceptionPrintingMiddleware
     def initialize(app)
       @app = app
@@ -183,7 +192,7 @@ RSpec.configure do |config|
   config.include SpecHelperMethods
   config.include JSONModel
 
-  
+
   config.expect_with(:rspec) do |c|
     c.syntax = [:should, :expect]
   end

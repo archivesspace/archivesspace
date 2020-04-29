@@ -19,6 +19,7 @@ class XMLCleaner
     attempt = 0
     begin
       attempt += 1
+      replace_html_entities(file_path)
       builder.parse(java.io.File.new(file_path))
     rescue NamespaceCorrectingErrorHandler::RetryParse
       if attempt >= MAX_ITERATIONS
@@ -30,6 +31,23 @@ class XMLCleaner
     rescue
       raise "Failed to clean XML: #{$!}"
     end
+  end
+
+  # Decode HTML entities so they can be parsed as XML
+  def replace_html_entities(file_path)
+    File.open(file_path + ".tmp", "w") do |outfile|
+      File.open(file_path) do |infile|
+        infile.each_with_index do |line, index|
+          line = HTMLEntities.new.decode(line)
+          # decode turns &amp; into & so need to undo that here for PDF to work
+          if line.match(/&\s+/) || line.match(/&[a-z]+[^;]/)
+            line.gsub!('&', '&amp;')
+          end
+          outfile.puts(line)
+        end
+      end
+    end
+    File.rename(file_path + ".tmp", file_path)
   end
 
   # An error handler that rewrites the underlying XML to resolve missing

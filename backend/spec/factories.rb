@@ -134,8 +134,15 @@ FactoryBot.define do
       parent_id { nil }
     end
   end
-  # JSON Models:
 
+  # JSON Models:
+  # NOTE: these factories are used to generate example objects
+  #       for the API docs - those docs currently rely on there
+  #       being a factory named: "json_#{name_of_jsonmodel}",
+  #       e.g. json_repository -> repository, json_term -> term
+  #
+  #       There can be additional factories per type which you can
+  #       name whatever you want
   factory :json_accession, class: JSONModel(:accession) do
     id_0 { generate(:alphanumstr) }
     id_1 { generate(:alphanumstr) }
@@ -553,9 +560,13 @@ FactoryBot.define do
 
   factory :json_name_software, class: JSONModel(:name_software) do
     rules { generate(:name_rule) }
+    source { generate(:name_source) }
     software_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate { true }
+    dates { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
+    authority_id { generate(:url) }
   end
 
   factory :json_collection_management, class: JSONModel(:collection_management) do
@@ -661,7 +672,7 @@ FactoryBot.define do
     description { generate(:alphanumstr) }
   end
 
-  factory :json_repo, class: JSONModel(:repository) do
+  factory :json_repository, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -670,7 +681,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :json_repo_without_country, class: JSONModel(:repository) do
+  factory :json_repository_without_country, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -679,7 +690,7 @@ FactoryBot.define do
     country { nil }
   end
 
-  factory :json_repo_us, class: JSONModel(:repository) do
+  factory :json_repository_us, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -688,7 +699,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :json_repo_not_us, class: JSONModel(:repository) do
+  factory :json_repository_not_us, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -697,12 +708,12 @@ FactoryBot.define do
     country { 'TH' }
   end
 
-  factory :json_repo_with_agent, class: JSONModel(:repository_with_agent) do
-    repository { build(:json_repo) }
+  factory :json_repository_with_agent, class: JSONModel(:repository_with_agent) do
+    repository { build(:json_repository) }
     agent_representation { build(:json_agent_corporate_entity) }
   end
 
-  factory :json_repo_no_org_code, class: JSONModel(:repository) do
+  factory :json_repository_no_org_code, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     image_url { generate(:url) }
@@ -710,7 +721,7 @@ FactoryBot.define do
     country { 'US' }
   end
 
-  factory :json_repo_parent_org, class: JSONModel(:repository) do
+  factory :json_repository_parent_org, class: JSONModel(:repository) do
     repo_code { generate(:repo_code) }
     name { generate(:generic_description) }
     org_code { generate(:alphanumstr) }
@@ -742,7 +753,7 @@ FactoryBot.define do
 
   factory :json_subject, class: JSONModel(:subject) do
     terms { [build(:json_term)] }
-    vocabulary { create(:json_vocab).uri }
+    vocabulary { create(:json_vocabulary).uri }
     authority_id { generate(:url) }
     scope_note { generate(:alphanumstr) }
     source { generate(:subject_source) }
@@ -751,7 +762,7 @@ FactoryBot.define do
   factory :json_term, class: JSONModel(:term) do
     term { generate(:term) }
     term_type { generate(:term_type) }
-    vocabulary { create(:json_vocab).uri }
+    vocabulary { create(:json_vocabulary).uri }
   end
 
   factory :json_user, class: JSONModel(:user) do
@@ -759,7 +770,7 @@ FactoryBot.define do
     name { generate(:generic_name) }
   end
 
-  factory :json_vocab, class: JSONModel(:vocabulary) do
+  factory :json_vocabulary, class: JSONModel(:vocabulary) do
     name { generate(:vocab_name) }
     ref_id { generate(:vocab_refid) }
   end
@@ -781,10 +792,10 @@ FactoryBot.define do
     source  { create(:json_resource).uri }
   end
 
-  factory :generate_slugs_job, class: JSONModel(:generate_slugs_job) do
+  factory :json_generate_slugs_job, class: JSONModel(:generate_slugs_job) do
   end
 
-  factory :generate_arks_job, class: JSONModel(:generate_arks_job) do
+  factory :json_generate_arks_job, class: JSONModel(:generate_arks_job) do
   end
 
   factory :json_find_and_replace_job, class: JSONModel(:find_and_replace_job) do

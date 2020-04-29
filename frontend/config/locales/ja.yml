@@ -42,6 +42,9 @@ ja:
     merge_agent_confirm_message: エージェント '%{source}'には、選択したレコードがマージされます。選択したレコードはすべて削除され、リンクされたレコードはこのエージェントに再リンクされます。 [エージェントの比較]ボタンをクリックすると、各レコードからどのフィールドとサブレコードを保持するかを選択するための画面が表示されます。
     merge_agent_from_browse_confirm_message: "選択された最初のエージェントには、後で選択されたレコードがマージされます。その後選択されたすべてのレコードは削除され、リンクされたレコードは選択された最初のエージェントに再リンクされます."
     merge_resource_confirm_message: リソース '%{source}'には、選択したレコードがマージされます。選択したすべてのレコードが削除され、リンクされたレコードはすべてこのリソースに再リンクされます。
+    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
+    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
+    merge_n_records: "Merge %{n} records"
     move: 移動
     move_up_a_level: レベルアップ
     move_up: アップ
@@ -65,6 +68,7 @@ ja:
     transfer_successful: 転送成功。インデックスの再作成中にレコードがターゲットリポジトリに表示されるまでに時間がかかることがあります。
     transfer_failed: 転送に失敗しました
     transfer_failed_records_using_digital_objects: 次のレコードは、転送されるデジタルオブジェクトにリンクしますが、そのようにすると、インスタンスリンクが破損します
+    transfer_failed_digital_objects_linked_to_records: 「このデジタルオブジェクトは、このリポジトリに保持されている他のレコードにリンクしています。この転送を続行するには、次のレコードのリンクを削除してください」
     unset_default: 既定の設定を解除する
     unsuppress: 抑止力
     unsuppress_confirm_title: この記録を抑止しますか？
@@ -148,6 +152,7 @@ ja:
   search_results:
     title: の検索結果
     context: 見つかった
+    selected: 選択しましたか？
     no_results: レコードが見つかりません
     no_results_prefix: の検索結果はありませんでした
     result_type: レコードタイプ
@@ -156,6 +161,7 @@ ja:
     filtered_by: フィルタリングされた
     modified: 最終更新者
     created: によって作成された
+    actions: 行動
     text_placeholder: テキストで絞り込む
     clear_all: すべてクリア
     component_switch: コンポーネントを表示する
@@ -315,14 +321,10 @@ ja:
     manage_top_containers: トップコンテナを管理する
     manage_enumerations: 管理された値リストの管理
     global_preferences: グローバル設定
-    user_repo_preferences: リポジトリの設定
-    repo_preferences: ユーザー設定
+    user_repo_preferences: ユーザー設定
+    repo_preferences: リポジトリの設定
     manage_user_access: ユーザーアクセスを管理する
     logout: ログアウト
-    login: サインイン
-    login_expired_link: "%{link}してください。"
-    login_fail: ログイン試行に失敗しました
-    login_success: ログイン成功。リダイレクト中...
     register: 今すぐ登録
     register_prefix: アカウントが必要です？
     list_reports: レポート
@@ -330,6 +332,11 @@ ja:
     system_info: システムインフォメーション
     unpublished: 未発表
     manage_assessment_attributes: アセスメント属性の管理
+    toggle_navigation: Toggle Navigation
+
+  header:
+    staff_interface: ArchivesSpace Staff Interface
+
   session:
     gone: バックエンドセッションが見つかりませんでした
     expired: あなたのセッションは非アクティブのため失効しました
@@ -356,6 +363,13 @@ ja:
     heading: ArchivesSpaceへようこそ
     message: フレンドリーなアーカイブ管理ツール。
     message_logged_in: フレンドリーなアーカイブ管理ツール。
+
+  login:
+    login: サインイン
+    login_please: サインインしてください
+    login_expired_link: "%{link}してください。"
+    login_fail: ログイン試行に失敗しました
+    login_success: ログイン成功。リダイレクト中...
 
   breadcrumb:
     home: ホーム
@@ -892,6 +906,8 @@ ja:
         create: リソースの作成
         save: リソースを保存
         delete_multiple: リソースを削除する
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
 
   preference:
     _frontend:
@@ -1179,6 +1195,7 @@ ja:
         max_results_limit_details: "<strong>%{num_found}</strong>一致する結果の<strong>%{visible}</strong>を<strong>%{visible}</strong>ます"
         results_summary: 一致する結果： <strong>%{num_found}</strong>
         bulk_selection_sort_help: 並べ替え順序を設定する列をクリックします。 Shiftキーを押しながら複数の列で並べ替えます。
+        merged: 結合された上位コンテナ
         bulk_action_success: 上位のコンテナが正常に更新されました
         bulk_action_success_info: 変更が検索結果に反映されるまでにはしばらく時間がかかることがありますのでご注意ください。
         no_active_restrictions: アクティブな制限はありません
@@ -1201,19 +1218,34 @@ ja:
         empty_false: いいえ
         search: サーチ
         update_ils_holding_ids: ILS保有IDを更新する
-        update_ils_holding_ids_help: 選択したすべてのコンテナのILS保留IDの値を入力します。
+        update_ils_holding_ids_help: 選択したすべてのコンテナのILS保留IDの値を入力します。  現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         update_container_profiles: コンテナプロファイルの更新
-        update_container_profiles_help: 選択したすべてのコンテナのコンテナプロファイルを選択します。
+        update_container_profiles_help: 選択したすべてのコンテナのコンテナプロファイルを選択します。  現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         update_locations_singular: 更新場所：単一の場所
-        update_locations_singular_help: 選択したすべてのコンテナの場所を選択します。
+        update_locations_singular_help: 選択したすべてのコンテナの場所を選択します。  現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         update_locations_multiple: 更新場所：複数の場所
-        update_locations_multiple_help: 選択した各コンテナの場所を選択します。
+        update_locations_multiple_help: 選択した各コンテナの場所を選択します。  現在の値を別の値に置き換えずに削除するには、このフィールドを空白のままにします。
         rapid_barcode_entry: 迅速なバーコード入力
         rapid_barcode_entry_existing_barcode: 既存のバーコード
         rapid_barcode_entry_new_barcode: 新しいバーコード
+        batch_merge: 上位コンテナのマージ
+        batch_merge_instructions: リストされている他のすべてのトップコンテナがマージされるトップコンテナを選択します。リンクされたレコードはすべてこのコンテナに再リンクされ、他のトップコンテナのすべての情報が削除されます。
+        batch_merge_confirm: 上位コンテナのマージの確認
+        batch_merge_confirm_question: 以下にリストされているように、最上位のコンテナーをマージしてもよろしいですか？ このアクションは元に戻せません。
+        batch_merge_confirm_victims: "次の上位コンテナをマージします:"
+        batch_merge_confirm_target: "この一番上のコンテナに:"
+        rapid_barcode_entry_help: 選択した各コンテナのバーコードを入力します。 [新しいバーコード]フィールドを空白のままにして、現在のバーコードを新しい値に置き換えずに削除します。
+        batch_merge: 上位コンテナのマージ
+        batch_merge_instructions: リストされている他のすべてのトップコンテナがマージされるトップコンテナを選択します。リンクされたレコードはすべてこのコンテナに再リンクされ、他のトップコンテナのすべての情報が削除されます。
+        batch_merge_confirm: 上位コンテナのマージの確認
+        batch_merge_confirm_question: 以下にリストされているように、最上位のコンテナーをマージしてもよろしいですか？ このアクションは元に戻せません。
+        batch_merge_confirm_victims: "次の上位コンテナをマージします:"
+        batch_merge_confirm_target: "この一番上のコンテナに:"
         batch_delete: トップコンテナの削除
         batch_delete_help: 選択したすべてのコンテナを削除します。
         update_n_records: "%{n}レコードを更新する"
+        select_merge_target: マージターゲットを選択
+        merge_n_records: "%{n} 件記録"
         delete_n_records: "%{n}レコードを削除する"
         update_locations_current_location: 現在位置
         update_locations_new_location: 新しい場所
@@ -1230,8 +1262,17 @@ ja:
       messages:
         created: 作成されたコンテナプロファイル
         updated: 更新されたコンテナプロファイル
+        merged: Container Profiles(s) Merged
       section:
         basic_information: 基本情報
+      bulk_operations:
+        merge: コンテナプロファイルのマージ
+        merge_instructions: リストされている他のすべてのコンテナプロファイルがマージされるコンテナプロファイルを選択します。 リンクされたレコードはすべてこのプロファイルに再リンクされ、他のコンテナプロファイルのすべての情報が削除されます。
+        merge_select_target: マージターゲットを選択
+        confirm_merge: マージコンテナプロファイルの確認
+        confirm_merge_question: 以下にリストされているように、コンテナープロファイルをマージしてもよろしいですか？ このアクションは元に戻せません。
+        confirm_merge_victims: "次のコンテナプロファイルをマージします:" 
+        confirm_merge_target: "このコンテナプロファイルに:"
     name: 名
     name_tooltip: "<p>必要なフィールド。コンテナプロファイルの名前。ジェネリックまたは特定のものがあります。 </p><p>例： </p><ul><li>ドキュメントボックス</li><li>ページ15
       </li><li>小さなカードのファイルボックス</li></ul>"

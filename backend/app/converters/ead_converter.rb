@@ -290,7 +290,8 @@ class EADConverter < Converter
       make :note_singlepart, {
         :type => note_name,
         :persistent_id => att('id'),
-		    :publish => att('audience') != 'internal',
+        :label => att('label'),
+        :publish => att('audience') != 'internal',
         :content => format_content( content.sub(/<head>.?<\/head>/, '').strip)
       } do |note|
         set ancestor(:resource, :archival_object), :notes, note
@@ -303,7 +304,8 @@ class EADConverter < Converter
       make :note_multipart, {
         :type => note_name,
         :persistent_id => att('id'),
-		    :publish => att('audience') != 'internal',
+        :label => att('label'),
+        :publish => att('audience') != 'internal',
         :subnotes => {
           'jsonmodel_type' => 'note_text',
           'content' => format_content( content )
@@ -1036,7 +1038,7 @@ class EADConverter < Converter
     make :name_corporate_entity, {
       :primary_name => inner_xml,
       :rules => att('rules'),
-      :authority_id => att('id'),
+      :authority_id => att('authfilenumber'),
       :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_corporate_entity), :names, proxy
@@ -1056,7 +1058,7 @@ class EADConverter < Converter
     make :name_family, {
       :family_name => inner_xml,
       :rules => att('rules'),
-      :authority_id => att('id'),
+      :authority_id => att('authfilenumber'),
       :source => att('source') || 'ingest'
     } do |name|
       set ancestor(:agent_family), :names, name
@@ -1076,7 +1078,7 @@ class EADConverter < Converter
     make :name_person, {
       :name_order => 'inverted',
       :primary_name => inner_xml,
-      :authority_id => att('id'),
+      :authority_id => att('authfilenumber'),
       :rules => att('rules'),
       :source => att('source') || 'ingest'
     } do |name|

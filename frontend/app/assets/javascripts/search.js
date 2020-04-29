@@ -26,6 +26,15 @@ $(function() {
       });
     });
 
+    $table.on("click", "#select_all", function(event) {
+      var $checkbox = $(this);
+      if ($checkbox.is(":checked")) {
+        $("tbody :checkbox:not(:checked)", self.$table).trigger("click");
+      } else {
+        $("tbody :checkbox:checked", self.$table).trigger("click");
+      }
+    });
+
     $(".multiselect-enabled").each(function() {
       var $multiselectEffectedWidget = $(this);
       if ($table.is($multiselectEffectedWidget.data("multiselect"))) {

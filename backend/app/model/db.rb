@@ -50,7 +50,7 @@ class DB
           # Test if any tables exist
           pool[:schema_info].all
 
-          if !@opts[:skip_utf8_check] && pool.database_type == :mysql && AppConfig[:allow_non_utf8_mysql_database] != "true"
+          if !@opts[:skip_utf8_check] && pool.database_type == :mysql && !AppConfig[:allow_non_utf8_mysql_database]
             ensure_tables_are_utf8(pool)
           end
 
@@ -162,18 +162,18 @@ class DB
     end
 
     def sysinfo
-      jdbc_metadata.merge(system_metadata) 
+      jdbc_metadata.merge(system_metadata)
     end
 
 
     def jdbc_metadata
-      md =  open { |p|  p.synchronize { |c| c.getMetaData }} 
-      { "databaseProductName" => md.getDatabaseProductName, 
-        "databaseProductVersion" => md.getDatabaseProductVersion } 
+      md =  open { |p|  p.synchronize { |c| c.getMetaData }}
+      { "databaseProductName" => md.getDatabaseProductName,
+        "databaseProductVersion" => md.getDatabaseProductVersion }
     end
 
     def system_metadata
-      RbConfig.const_get("CONFIG").select { |key| ['host_os', 'host_cpu', 
+      RbConfig.const_get("CONFIG").select { |key| ['host_os', 'host_cpu',
                                                    'build', 'ruby_version'].include? key }
     end
 
@@ -370,7 +370,7 @@ eof
       non_utf8_tables = db[:information_schema__tables].
                         join(:information_schema__collation_character_set_applicability, :collation_name => :table_collation).
                         filter(:table_schema => Sequel.function(:database)).
-                        filter(Sequel.~(:character_set_name => 'utf8')).all
+                        filter(~Sequel.like(:character_set_name, 'utf8%')).all
 
       unless (non_utf8_tables.empty?)
         msg = <<EOF
@@ -386,7 +386,7 @@ UTF-8.
 If you want to override this restriction (not recommended!) you can set the
 following option in your config.rb file:
 
-  AppConfig[:allow_non_utf8_mysql_database] = "true"
+  AppConfig[:allow_non_utf8_mysql_database] = true
 
 But note that ArchivesSpace largely assumes that your data will be UTF-8
 encoded.  Running in a non-UTF-8 configuration is not supported.

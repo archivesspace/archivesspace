@@ -63,7 +63,7 @@ class DigitalObject < Record
       cite += " #{ repository_information['top']['name']}." unless !repository_information.dig('top','name')
     end
 
-    "#{cite}   #{cite_url_and_timestamp}."
+    HTMLEntities.new.decode("#{cite}   #{cite_url_and_timestamp}.")
   end
 
   def linked_instance_for_uri(uri)

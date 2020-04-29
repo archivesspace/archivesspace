@@ -849,6 +849,7 @@ fr:
 
   instance_container:
     <<: *instance_attributes
+    barcode: Code-barres
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1161,7 +1162,7 @@ fr:
     accession_date_unknown: inconnu
     accession_date_inline_help: par ex. AAAA-MM-JJ
     accession_date_tooltip: |
-        <p>CHAMP REQUIS. Date à laquelle l'entrée a eu lieu. N'est pas
+        <p>Date à laquelle l'entrée a eu lieu. N'est pas
         nécessairement la date de création de la notice.</p>
     accession_id: Identifiant
     accession_id_tooltip: |
@@ -1895,11 +1896,11 @@ fr:
     defaults: Valeurs par défaut
     global: Valeurs par défaut de préférences globales
     global_message: Editez ces valeurs pour définir les préférences utilisateur par défaut à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives ou par les préférences propres d'un utilisateur.
-    repo: Valeurs par défauts des préférences utilisateur
+    repo: Préférences Service
     repo_message: Editez ces valeurs pour définir les préférences utilisateur par défaut pour le service d'archives actif. Ces valeurs peuvent être écrasées par les préférences propres d'un utilisateur.
     user_global: Mes préférences globales
     user_global_message: Editez ces valeurs pour définir vos préférences utilisateur à l'échelle du système. Ces valeurs peuvent être écrasées par les valeurs par défauts du service d'archives ou par vos propres préférences pour un service d'archives.
-    user_repo: Préférences Service
+    user_repo: Valeurs par défauts des préférences utilisateur
     user_repo_message: Editez ces valeurs pour définir vos préférences utilisateur pour ce service d'archives. Ces valeurs ne peuvent pas être écrasées.
     _singular: Préférences
     _plural: Préférences
@@ -1912,6 +1913,7 @@ fr:
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs par défaut.
+    locale: Language Selection
     accession_browse_section: Colonnes d'exploration des entrées
     accession_browse_column_1: Colonne 1
     accession_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
@@ -1969,6 +1971,7 @@ fr:
   validation_errors:
     agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques
     subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
+    subject_heading_identifier_must_be_unique_within_source: L'identifiant de la vedette-matière doit être unique dans la source
     conflicting_record: Enregistrement contradictoire
     missing_required_property: Propriété requise qui manquait
     missing_property: Propriété manquante
@@ -2071,7 +2074,7 @@ fr:
     import_type_accession_csv: Entrée CSV
     import_type_digital_object_csv: Objet numérique CSV
     import_type_eac_xml: EAC
-    import_type_location: Location CSV
+    import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML (Ressource)
     import_type_marcxml_accession: MarcXML (Entrée)
     import_type_marcxml_subjects_and_agents: MarcXML (sujets et agents uniquement)

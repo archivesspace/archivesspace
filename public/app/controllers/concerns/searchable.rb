@@ -85,7 +85,6 @@ module Searchable
     end
     set_search_statement
     raise I18n.t('navbar.error_no_term') unless @search.has_query?
-    queries = @search[:q]
     have_query = false
     advanced_query_builder = AdvancedQueryBuilder.new
     @search[:q].each_with_index { |query, i|
@@ -154,8 +153,6 @@ module Searchable
 
       advanced_query_builder.and(this_repo)
     end
-    advanced_query_builder.and('types', 'pui')
-    advanced_query_builder.and('publish', true)
     @base_search += "&limit=#{@search[:limit]}" unless @search[:limit].blank?
 
     @facet_filter = FacetFilter.new(default_facets, @search[:filter_fields],  @search[:filter_values])

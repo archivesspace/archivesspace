@@ -12,7 +12,7 @@ class ObjectsController <  ApplicationController
     process_slug_or_id(params)
   }
 
-  DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects published_agents)
+  DEFAULT_OBJ_FACET_TYPES = %w(repository primary_type subjects published_agents langcode)
   DEFAULT_OBJ_SEARCH_OPTS = {
     'resolve[]' => ['repository:id', 'resource:id@compact_resource', 'ancestors:id@compact_resource', 'top_container_uri_u_sstr:id'],
     'facet.mincount' => 1,
@@ -113,11 +113,8 @@ class ObjectsController <  ApplicationController
       end
       render
     rescue RecordNotFound
-      @type = I18n.t("#{(params[:obj_type] == 'archival_objects'? 'archival' : 'digital')}_object._singular")
-      @page_title = I18n.t('errors.error_404', :type => @type)
-      @uri = uri
-      @back_url = request.referer || ''
-      render  'shared/not_found', :status => 404
+      type = "#{(params[:obj_type] == 'archival_objects' ? 'archival' : 'digital')}_object"
+      record_not_found(uri, type)
     end
   end
 

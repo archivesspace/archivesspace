@@ -16,13 +16,17 @@
     }
   }
 
+  .dropdown-menu > .disabled > a {
+    background-color: transparent;
+  }
+
   .sections, .fieldset-labels {
     th {
       &.required {
         &:before {
           // apply required icon to the inner kiketable container
           display: none;
-        } 
+        }
         .kiketable-th-text {
           background-image: asset-url('archivesspace/required_loud.png');
           background-repeat: no-repeat;

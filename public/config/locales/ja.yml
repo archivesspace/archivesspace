@@ -83,6 +83,7 @@ ja:
   search_results:
     page_title: 見つかった%{count}結果
     results_head: "%{type} ： %{start} - %{end}の%{total}"
+    result: 結果
     results: 結果
     head_prefix: 見つかった
     head_suffix: 結果
@@ -210,6 +211,7 @@ ja:
     search_all: すべてのレコード
     error_no_term: 検索語が入力されていません。
     search_terms_results: "{{search_terms}}の検索結果から{{number}}件の検索結果が見つかりました"
+    toggle_navigation: Toggle Navigation
   internal_links:
     main: メインコンテンツ
     filter: 結果をフィルタリングする

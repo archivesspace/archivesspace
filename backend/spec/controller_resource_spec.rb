@@ -137,7 +137,7 @@ describe 'Resources controller' do
 
   it "lets you create a resource with a subject" do
 
-    vocab = create(:json_vocab)
+    vocab = create(:json_vocabulary)
     vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
     subject = create(:json_subject,
                     :terms => [build(:json_term, :vocabulary => vocab_uri)],
@@ -281,7 +281,7 @@ describe 'Resources controller' do
 
     test_subject_term = generate(:term)
 
-    vocab = create(:json_vocab)
+    vocab = create(:json_vocabulary)
 
     subject = create(:json_subject, {
                         :terms => [build(:json_term, {
@@ -445,7 +445,7 @@ describe 'Resources controller' do
     })
 
 
-    vocab = create(:json_vocab)
+    vocab = create(:json_vocabulary)
     vocab_uri = JSONModel(:vocabulary).uri_for(vocab.id)
 
     subject = create(:json_subject,

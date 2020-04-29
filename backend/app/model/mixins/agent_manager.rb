@@ -137,14 +137,46 @@ module AgentManager
         return if Array(json['names']).empty?
 
         name_model = my_agent_type[:name_model]
-        seen_names = []
 
-        json.names = json.names.select {|name|
+        # We'll use this to reorder our deduplicated list of names to match the
+        # original input.
+        original_ordering = json.names.map {|name|
+          Digest::SHA1.hexdigest(name_model.assemble_hash_fields(name).sort.join('-'))
+        }
+
+        # Names in descending order of importance: authorized name first, then
+        # the display name (if different to the authorized name), then the
+        # others.
+        ranked_names = json.names
+                         .sort_by {|name| [
+                                     name['authorized'] ? 1 : 0,
+                                     name['is_display_name'] ? 1 : 0
+                                   ]}
+                         .reverse
+
+        # Keep the first occurrence of each name, prioritising the authorized
+        # and display names.
+        seen_names = []
+        json.names = ranked_names.select {|name|
           name_hash = Digest::SHA1.hexdigest(name_model.assemble_hash_fields(name).sort.join('-'))
 
-          result = name['authorized'] || !seen_names.include?(name_hash)
-          seen_names << name_hash
-          result
+          if seen_names.include?(name_hash)
+            false
+          else
+            seen_names << name_hash
+            true
+          end
+        }
+
+        # If the name marked for display was a duplicate of the authorized name,
+        # it will have been dropped.  Make sure *something* is marked as the
+        # display name.
+        ensure_display_name(json)
+
+        # Finally, reorder to match our original input.
+        json.names.sort_by! {|name|
+          name_hash = Digest::SHA1.hexdigest(name_model.assemble_hash_fields(name).sort.join('-'))
+          original_ordering.index(name_hash)
         }
       end
 
@@ -196,6 +228,15 @@ module AgentManager
           
           agent
         }
+      end
+
+
+      def find_matching_id(json)
+        authorized_id = json['names'].find {|name| name['authority_id']}
+        existing_link = NameAuthorityId.find(:authority_id => authorized_id['authority_id'])
+        existing_name_record = my_agent_type[:name_model].find(:id => existing_link[:"#{authorized_id['jsonmodel_type']}_id"])
+
+        find(:id => existing_name_record[:"#{json['jsonmodel_type']}_id"])
       end
 
 

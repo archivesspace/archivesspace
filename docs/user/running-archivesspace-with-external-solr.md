@@ -26,7 +26,7 @@ Note that doing this means that you will have to backup Solr manually.
 This config setting should point to your Solr instance:
 
 ```
-AppConfig[:solr_url] = "http://solr.somewhere.org:8983"
+AppConfig[:solr_url] = "http://solr.somewhere.org:8983/solr"
 ```
 
 Include path if required:

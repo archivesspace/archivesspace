@@ -3,10 +3,12 @@ title: Working with the ArchivesSpace API
 layout: en
 permalink: /user/working-with-the-archivesspace-api/
 ---
+> See **API section** for more detailed documentation
+
 ## Authentication
 
 Most actions against the backend require you to be logged in as a user
-with the appropriate permissions.  By sending a request like:
+with the appropriate permissions. By sending a request like:
 
      POST /users/admin/login?password=login
 

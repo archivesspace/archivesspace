@@ -67,7 +67,7 @@ class SearchResultData
 
   def facets_for_filter
     facet_data_for_filter = @facet_data.clone
-    facet_data_for_filter.each {|facet_group, facets| 
+    facet_data_for_filter.each {|facet_group, facets|
       facets.delete_if{|facet, facet_map|
         facet_map[:count] === @search_data['total_hits']
       }
@@ -104,6 +104,8 @@ class SearchResultData
     return I18n.t("enumerations.event_event_type.#{facet.to_s}", :default => facet) if facet_group === "event_type"
     return I18n.t("enumerations.event_outcome.#{facet.to_s}", :default => facet) if facet_group === "outcome"
     return I18n.t("enumerations.subject_term_type.#{facet.to_s}", :default => facet) if facet_group === "first_term_type"
+
+    return I18n.t("enumerations.language_iso639_2.#{facet}", :default => facet) if facet_group === "langcode"
 
     if facet_group === "source"
       if single_type? and types[0] === "subject"
@@ -251,7 +253,7 @@ class SearchResultData
   end
 
   def self.BASE_FACETS
-    ["primary_type","creators","subjects"]
+    ["primary_type","creators","subjects","langcode"]
   end
 
   def self.AGENT_FACETS
@@ -263,11 +265,15 @@ class SearchResultData
   end
 
   def self.RESOURCE_FACETS
-    ["subjects", "publish", "level", "classification_path", "primary_type"]
+    ["subjects", "publish", "level", "classification_path", "primary_type", "langcode"]
   end
 
   def self.DIGITAL_OBJECT_FACETS
-    ["subjects", "publish", "digital_object_type", "level", "primary_type"]
+    ["subjects", "publish", "digital_object_type", "level", "primary_type", "langcode"]
+  end
+
+  def self.CONTAINER_PROFILE_FACETS
+    ["container_profile_width_u_sstr", "container_profile_height_u_sstr", "container_profile_depth_u_sstr", "container_profile_dimension_units_u_sstr"]
   end
 
   def self.LOCATION_FACETS

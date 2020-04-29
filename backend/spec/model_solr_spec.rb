@@ -65,6 +65,7 @@ describe 'Solr model' do
                         set_repo_id(@repo_id).
                         set_excluded_ids(%w(alpha omega)).
                         set_record_types(['optional_record_type']).
+                        show_published_only(true).
                         highlighting
 
     response = Solr.search(query)
@@ -72,12 +73,13 @@ describe 'Solr model' do
     expect(http.request.body).to match(/hello\+world/)
     expect(http.request.body).to match(/wt=json/)
     expect(http.request.body).to match(/suppressed%3Afalse/)
-    expect(http.request.body).to match(/fq=types%3A%28]?%22optional_record_type/)
+    expect(http.request.body).to match(/fq=types%3A%28?%22optional_record_type/)
     expect(http.request.body).to match(/-id%3A%28%22alpha%22\+OR\+%22omega/)
     expect(http.request.body).to match(/hl=true/)
     expect(http.request.body).to match(/bq=title%3A%22hello\+world%22\*/)
     expect(http.request.body).to match(/pf=title%5E10/)
     expect(http.request.body).to match(/ps=0/)
+    expect(http.request.body).to match(/fq=publish%3Atrue/)
 
 
     expect(response['offset_first']).to eq(1)
@@ -117,7 +119,7 @@ describe 'Solr model' do
        "subqueries"=>[{"jsonmodel_type"=>"boolean_query",
                        "op"=>"AND",
                        "subqueries"=>[{"field"=>"title",
-                                       "value"=>"Hornstein",
+                                       "value"=>"tennis",
                                        "negated"=>true,
                                        "jsonmodel_type"=>"field_query",
                                        "literal"=>false}]},
@@ -126,16 +128,16 @@ describe 'Solr model' do
                        "subqueries"=>[{"jsonmodel_type"=>"boolean_query",
                                        "op"=>"AND",
                                        "subqueries"=>[{"field"=>"keyword",
-                                                       "value"=>"*",
+                                                       "value"=>"golf",
                                                        "negated"=>false,
                                                        "jsonmodel_type"=>"field_query",
                                                        "literal"=>false}]}]}]}
     }
 
-    it "compensates for purely negative expressions by adding a match-all clause" do
+    it "constructs advanced query containing Boolean NOT without adding a match-all clause" do
       query_string = Solr::Query.construct_advanced_query_string(canned_query)
 
-      expect(query_string).to eq("((-title:(Hornstein) AND *:*) AND ((fullrecord:(*))))")
+      expect(query_string).to eq("((-title:(tennis)) AND ((fullrecord:(golf))))")
     end
 
   end

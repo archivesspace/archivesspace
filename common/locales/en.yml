@@ -849,6 +849,7 @@ en:
 
   instance_container:
     <<: *instance_attributes
+    barcode: Barcode
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1161,7 +1162,7 @@ en:
     accession_date_unknown: unknown
     accession_date_inline_help: e.g. YYYY-MM-DD
     accession_date_tooltip: |
-        <p>REQUIRED FIELD: The date the accession took place. It is not
+        <p>The date the accession took place. It is not
         necessarily the same date as when the record is created.</p>
     accession_id: Identifier
     accession_id_tooltip: |
@@ -1895,12 +1896,12 @@ en:
     defaults: Defaults
     global: Global Preference Defaults
     global_message: Edit these values to set system-wide user preference defaults. These values can be overridden by repository defaults or a user's own preferences.
-    repo: User Preference Defaults
-    repo_message: Edit these values to set user preference defaults for the current repository. These values can be overridden by a user's own preferences.
+    repo: Repository Preferences
+    repo_message: Edit these values to set preferences for the current repository. These values can be overridden by a user's own preferences.
     user_global: Global Preferences
-    user_global_message: Edit these values to set your system-wide user preferences. These values can be overridden by repository defaults or by your own preferences for a repository.
-    user_repo: Repository Preferences
-    user_repo_message: Edit these values to set your user preferences for this repository. These values cannot be overridden.
+    user_global_message: Edit these values to set your user preferences. These values can be overridden by repository defaults or by your own preferences for a repository.
+    user_repo: User Preferences
+    user_repo_message: Edit these values to set your preferences for this repository. These values cannot be overridden.
     _singular: Preferences
     _plural: Preferences
 
@@ -1912,6 +1913,7 @@ en:
     publish_tooltip: Whether to publish new records by default.
     default_values: Pre-populate Records?
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
+    locale: Language Selection
     accession_browse_section: Accession Browse Columns
     accession_browse_column_1: Column 1
     accession_browse_column_1_tooltip: The field to show in column 1.
@@ -1969,6 +1971,7 @@ en:
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
     subject_must_be_unique: Subject records cannot be identical
+    subject_heading_identifier_must_be_unique_within_source: Subject heading identifier must be unique within source
     conflicting_record: Conflicting record
     missing_required_property: Property is required but was missing
     missing_property: Property was missing

@@ -205,7 +205,7 @@ class EADSerializer < ASpaceExport::Serializer
             serialize_did_notes(data, xml, @fragments)
 
             if (languages = data.lang_materials)
-              serialize_languages(languages, xml)
+              serialize_languages(languages, xml, @fragments)
             end
 
             data.instances_with_sub_containers.each do |instance|
@@ -325,7 +325,7 @@ class EADSerializer < ASpaceExport::Serializer
         serialize_did_notes(data, xml, fragments)
 
         if (languages = data.lang_materials)
-          serialize_languages(languages, xml)
+          serialize_languages(languages, xml, fragments)
         end
 
         EADSerializer.run_serialize_step(data, xml, fragments, :did)
@@ -386,6 +386,7 @@ class EADSerializer < ASpaceExport::Serializer
                     when 'agent_person'; 'persname'
                     when 'agent_family'; 'famname'
                     when 'agent_corporate_entity'; 'corpname'
+                    when 'agent_software'; 'name'
                     end
 
         origination_attrs = {:label => role}
@@ -405,20 +406,17 @@ class EADSerializer < ASpaceExport::Serializer
   def serialize_controlaccess(data, xml, fragments)
     if (data.controlaccess_subjects.length + data.controlaccess_linked_agents.length) > 0
       xml.controlaccess {
-
         data.controlaccess_subjects.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
             sanitize_mixed_content( node_data[:content], xml, fragments, ASpaceExport::Utils.include_p?(node_data[:node_name]) )
           }
         end
 
-
         data.controlaccess_linked_agents.each do |node_data|
           xml.send(node_data[:node_name], node_data[:atts]) {
             sanitize_mixed_content( node_data[:content], xml, fragments,ASpaceExport::Utils.include_p?(node_data[:node_name]) )
           }
         end
-
       } #</controlaccess>
     end
   end
@@ -659,7 +657,7 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
-  def serialize_languages(languages, xml)
+  def serialize_languages(languages, xml, fragments)
     lm = []
     language_notes = languages.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
     if !language_notes.empty?
@@ -672,7 +670,7 @@ class EADSerializer < ASpaceExport::Serializer
           att ||= {}
 
           xml.send(note['type'], att.merge(audatt)) {
-            sanitize_mixed_content(content, xml,ASpaceExport::Utils.include_p?(note['type']))
+            sanitize_mixed_content(content, xml, fragments, ASpaceExport::Utils.include_p?(note['type']))
           }
           lm << note
         end

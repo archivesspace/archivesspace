@@ -40,6 +40,9 @@ fr:
     merge_agent_confirm_message: "Les notices sélectionnées seront fusionnées dans l'agent '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera re-liée à cet agent. En cliquant sur le bouton Comparer les agents, un écran apparaît vous proposant de choisir les champs et sous-enregistrements à conserver dans chaque enregistrement."
     merge_agent_from_browse_confirm_message: "Les premiers éléments sélectionnés seront fusionnés avec le premier agent sélectionné. Tous les enregistrements sélectionnés ultérieurement seront supprimés et tous les enregistrements liés seront liés au premier agent sélectionné."
     merge_resource_confirm_message: "Les notices sélectionnées seront fusionnées dans la ressource '%{source}'. Toutes les notices sélectionnées seront détruites et toute notice liée sera réaffectée à cette ressource."
+    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
+    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
+    merge_n_records: "Merge %{n} records"
     move: Déplacer
     move_up_a_level: Un niveau plus haut
     move_up: Plus haut
@@ -63,6 +66,7 @@ fr:
     transfer_successful: Transfert réussi.  L'apparition des notices dans le service d'archives cible peut tarder, le temps qu'une réindexation ait lieu.
     transfer_failed: Echec du transfert
     transfer_failed_records_using_digital_objects: "Les notices suivantes pointent vers des objets numériques qui pourraient être transférés, mais le faire briserait leurs liens d'instances"
+    transfer_failed_digital_objects_linked_to_records: "Cet objet numérique est lié à d'autres enregistrements de ce référentiel. Pour procéder à ce transfert, supprimez les liens des enregistrements suivants"
     unset_default: Désactiver défaut
     unsuppress: Débloquer
     unsuppress_confirm_title: Débloquer cette notice?
@@ -139,6 +143,7 @@ fr:
   search_results:
     title: Résultats de la recherche
     context: Trouvé dans
+    selected: Choisi?
     no_results: Aucune notice trouvée
     no_results_prefix: Pas de résultat pour
     result_type: Type de notice
@@ -147,6 +152,7 @@ fr:
     filtered_by: Filtré par
     modified: Modifié en dernier par
     created: Créé par
+    actions: Actions
     text_placeholder: Filtrer par texte
     clear_all: Tout effacer
     component_switch: Montrer composants
@@ -307,14 +313,10 @@ fr:
     manage_top_containers: Gérer Top conditionnements
     manage_enumerations: Gérer listes de valeurs contrôlées
     global_preferences: Préférences globales
-    user_repo_preferences: Préférences de service d'archives
-    repo_preferences: Préférences par défaut de l'utilisateur
+    user_repo_preferences: Préférences par défaut de l'utilisateur
+    repo_preferences: Préférences de service d'archives
     manage_user_access: Gérer les accès utilisateurs
     logout: Déconnexion
-    login: Connexion
-    login_expired_link: Svp %{link} de nouveau.
-    login_fail: Echec de la tentative de connexion
-    login_success: Connexion réussie. Redirection...
     register: S'inscrire maintenant
     register_prefix: Créer un compte?
     list_reports: Rapports
@@ -322,6 +324,11 @@ fr:
     system_info: Infos système
     unpublished: Non publié
     manage_assessment_attributes: Gérer les attributs d'évaluation
+    toggle_navigation: Toggle Navigation
+
+  header:
+    staff_interface: ArchivesSpace Staff Interface
+
   session:
     gone: Session backend introuvable
     expired: Votre session a expiré pour cause d'inactivité
@@ -348,6 +355,13 @@ fr:
     heading: Bienvenue sur ArchivesSpace
     message: Votre gestionnaire d'archives convivial.
     message_logged_in: Votre gestionnaire d'archives convivial.
+
+  login:
+    login: Connexion
+    login_please: Veuillez vous connecter
+    login_expired_link: Svp %{link} de nouveau.
+    login_fail: Echec de la tentative de connexion
+    login_success: Connexion réussie. Redirection...
 
   breadcrumb:
     home: Page d'accueil
@@ -880,6 +894,8 @@ fr:
         create: Créer ressource
         save: Sauvegarder ressource
         delete_multiple: Supprimer ressources
+    external_ark_url: External ARK URL
+    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
 
   preference:
     _frontend:
@@ -1181,6 +1197,7 @@ fr:
         max_results_limit_details: "<strong>%{visible}</strong> résulats correspondants affichés sur <strong>%{num_found}</strong>"
         results_summary: "Résultats correspondants: <strong>%{num_found}</strong>"
         bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
+        merged: Top conteneur (s) fusionné
         bulk_action_success: Top conditionnements actualisés avec succès
         bulk_action_success_info: Attention! Un certain temps peut s'écouler avant que les modifications ne soient répercutées dans les résultats de la recherche.
         no_active_restrictions: Pas de restrictions en vigueur
@@ -1203,19 +1220,34 @@ fr:
         empty_false: "Non"
         search: Recherche
         update_ils_holding_ids: Actualiser ILS Holding IDs
-        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         update_container_profiles: Actualiser profils de conditionnements
-        update_container_profiles_help: Choisir un profil de conditionnement pour tous les conditionnements sélectionnés.
+        update_container_profiles_help: Choisir un profil de conditionnement pour tous les conditionnements sélectionnés.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         update_locations_singular: "Actualiser localisations: localisation unique"
-        update_locations_singular_help: Choisir une localisation pour tous les conditionnements sélectionnés.
+        update_locations_singular_help: Choisir une localisation pour tous les conditionnements sélectionnés.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         update_locations_multiple: "Actualiser localisations: localisations multiples"
-        update_locations_multiple_help: Choisir une localisation pour chaque conditionnement sélectionné.
+        update_locations_multiple_help: Choisir une localisation pour chaque conditionnement sélectionné.  Laissez ce champ vide pour supprimer la valeur actuelle sans la remplacer par une autre valeur.
         rapid_barcode_entry: Saisie rapide de code-barres
         rapid_barcode_entry_existing_barcode: Code-barres existant
         rapid_barcode_entry_new_barcode: Nouveau code-barres
+        batch_merge: Fusionner les conteneurs
+        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Tous les enregistrements liés seront liés à ce conteneur et toutes les informations relatives au (x) autre (s) conteneur (s) supérieur (s) seront supprimées.
+        batch_merge_confirm: Confirmer la fusion des conteneurs supérieurs
+        batch_merge_confirm_question: Voulez-vous vraiment fusionner les conteneurs supérieurs comme indiqué ci-dessous? Cette action est irréversible.
+        batch_merge_confirm_victims: "Fusionner les conteneurs supérieurs suivants:"
+        batch_merge_confirm_target: "Dans ce conteneur supérieur:"
+        rapid_barcode_entry_help: Entrez un code-barres pour chaque conteneur sélectionné. Laissez le champ Nouveau code-barres vide pour supprimer le code-barres actuel sans le remplacer par une nouvelle valeur.
+        batch_merge: Fusionner les conteneurs
+        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Tous les enregistrements liés seront liés à ce conteneur et toutes les informations relatives au (x) autre (s) conteneur (s) supérieur (s) seront supprimées.
+        batch_merge_confirm: Confirmer la fusion des conteneurs supérieurs
+        batch_merge_confirm_question: Voulez-vous vraiment fusionner les conteneurs supérieurs comme indiqué ci-dessous? Cette action est irréversible.
+        batch_merge_confirm_victims: "Fusionner les conteneurs supérieurs suivants:"
+        batch_merge_confirm_target: "Dans ce conteneur supérieur:"
         batch_delete: Supprimer Top conditionnements
         batch_delete_help: Supprimer tous les conditionnements sélectionnés.
         update_n_records: "Actualiser %{n} notices"
+        select_merge_target: Sélectionner la cible de fusion
+        merge_n_records: "Ça va %{n} enregistrements"
         delete_n_records: "Supprimer %{n} notices"
         update_locations_current_location: Localisation actuelle
         update_locations_new_location: Nouvelle localisation
@@ -1232,8 +1264,17 @@ fr:
       messages:
         created: Profil de conditionnement créé
         updated: Profil de conditionnement actualisé
+        merged: Container Profiles(s) Merged
       section:
         basic_information: Information de base
+      bulk_operations:
+        merge: Fusionner les profils de conteneur
+        merge_instructions: Sélectionnez le profil de conteneur dans lequel tous les autres profils de conteneur répertoriés fusionneront. Tous les enregistrements liés seront à nouveau liés à ce profil et toutes les informations des autres profils de conteneur seront supprimées.
+        merge_select_target: Sélectionner la cible de fusion
+        confirm_merge: Confirmer les profils de conteneur de fusion
+        confirm_merge_question: Voulez-vous vraiment fusionner les profils de conteneur comme indiqué ci-dessous? Cette action est irréversible.
+        confirm_merge_victims: "Fusionner les profils de conteneur suivants:" 
+        confirm_merge_target: "Dans ce profil de conteneur:"
     name: Nom
     name_tooltip: |
         <p>CHAMP OBLIGATOIRE. Le nom d'un profil de conditionnements. Peut être générique ou spécifique.</p>

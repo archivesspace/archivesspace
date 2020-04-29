@@ -148,7 +148,7 @@ describe 'Managed Container model' do
     let (:top_container) { TopContainer[box.id] }
 
     it "can show a display string for a top container that isn't linked to anything" do
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
 
@@ -197,7 +197,7 @@ describe 'Managed Container model' do
           'ref' => grandparent.uri,
           'identifier' => grandparent.component_id,
           'display_string' => grandparent.display_string,
-          'level_display_string' => 'Series',
+          'level_display_string' => "#{I18n.t("enumerations.archival_record_level.series")}",
           'publish' => false
         })
       end
@@ -220,7 +220,7 @@ describe 'Managed Container model' do
                                                              'component_id' => "3",
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Series 3 [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: #{I18n.t("enumerations.archival_record_level.series")} 3 [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
     it "doesn't show a display string for a non-series other-level AO" do
@@ -231,7 +231,7 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Handbag'
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
 
@@ -242,7 +242,7 @@ describe 'Managed Container model' do
                                                              'level' => 'series'
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
 
@@ -254,20 +254,20 @@ describe 'Managed Container model' do
                                                              'other_level' => 'Accession'
                                                            })
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Accession 9 [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: Accession 9 [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
     it "shows a display string for a linked accession" do
       accession = create_accession({"instances" => [build_instance(box)]})
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
 
     it "shows a display string for a linked resource" do
       resource = create_resource({"instances" => [build_instance(box)]})
 
-      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [123]")
+      expect(top_container.display_string).to eq("#{top_container.type.capitalize} 1: [#{I18n.t("instance_container.barcode")}: 123]")
     end
 
   end
@@ -290,6 +290,7 @@ describe 'Managed Container model' do
 
     it "reindexes top containers when the container profile is updated" do
       original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = ContainerProfile.to_jsonmodel(container_profile)
       json.name = "Metal box"
@@ -304,6 +305,7 @@ describe 'Managed Container model' do
       accession = create_accession({"instances" => [build_instance(top_container_json)]})
 
       original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = Accession.to_jsonmodel(accession.id)
       json.title = "New accession title"
@@ -318,6 +320,7 @@ describe 'Managed Container model' do
       (resource, grandparent, parent, child) = create_tree(top_container_json)
 
       original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = ArchivalObject.to_jsonmodel(grandparent.id)
       json.title = "A better title"
@@ -331,7 +334,7 @@ describe 'Managed Container model' do
       (resource, grandparent, parent, child) = create_tree(top_container_json)
 
       original_mtime = top_container.refresh.system_mtime
-
+      ArchivesSpaceService.wait(:long)
       ArchivalObject[child.id].set_parent_and_position(grandparent.id, 1)
 
       expect(top_container.refresh.system_mtime).to be > original_mtime
@@ -342,7 +345,9 @@ describe 'Managed Container model' do
       (resource, grandparent, parent, child) = create_tree(top_container_json)
 
       original_mtime = top_container.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
       ArchivalObject[child.id].delete
+
       expect(top_container.refresh.system_mtime).to be > original_mtime
     end
 
@@ -359,6 +364,7 @@ describe 'Managed Container model' do
 
       container1_original_mtime = container1.refresh.system_mtime
       container2_original_mtime = container2.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       resource1.assimilate([resource2])
 
@@ -379,6 +385,7 @@ describe 'Managed Container model' do
 
       container1_original_mtime = container1.refresh.system_mtime
       container2_original_mtime = container2.refresh.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       ComponentTransfer.transfer(resource2.uri, parent1.uri)
 
@@ -392,6 +399,7 @@ describe 'Managed Container model' do
 
       ao = ArchivalObject[child.id]
       original_mtime = ao.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = TopContainer.to_jsonmodel(top_container_json.id)
       json.barcode = "1122334455"
@@ -407,6 +415,7 @@ describe 'Managed Container model' do
 
       ao = ArchivalObject[child.id]
       original_mtime = ao.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = TopContainer.to_jsonmodel(top_container_json.id)
 
@@ -423,6 +432,7 @@ describe 'Managed Container model' do
 
       ao = ArchivalObject[child.id]
       original_mtime = ao.system_mtime
+      ArchivesSpaceService.wait(:long)
 
       json = TopContainer.to_jsonmodel(top_container_json.id)
 
@@ -432,6 +442,24 @@ describe 'Managed Container model' do
       TopContainer.bulk_update_barcodes(barcode_data)
 
       expect(ao.refresh.system_mtime).to be > original_mtime
+    end
+
+
+    it "reindexes top container when it is updated with an empty location" do
+      location = create(:json_location, :temporary => nil)
+
+      container = create(:json_top_container, 'container_locations' => [build_container_location(location.uri)])
+
+      starting_mtime = TopContainer.to_jsonmodel(container.id).system_mtime
+
+      # Confirm that the location update doesn't occur in the same second as the initial container creation
+      sleep(1) until starting_mtime != Time.now.utc.iso8601.to_s
+
+      TopContainer.bulk_update_location([container.id], {})
+
+      ending_mtime = TopContainer.to_jsonmodel(container.id).system_mtime
+
+      expect(ending_mtime).to be > starting_mtime
     end
 
   end
@@ -460,9 +488,6 @@ describe 'Managed Container model' do
       it "throws exception when attempt to update to an invalid barcode" do
         container1_json = create(:json_top_container)
         container2_json = create(:json_top_container)
-
-        original_barcode_1 = TopContainer[container1_json.id].barcode
-        original_barcode_2 = TopContainer[container2_json.id].barcode
 
         stub_barcode_length(4, 6)
 
@@ -602,17 +627,33 @@ describe 'Managed Container model' do
         temp_location = create(:json_location, :temporary => 'loan')
 
         container_location1 = build_container_location(location1.uri)
-        container_location2 = build_container_location(location2.uri)
         prev_container_location = build_container_location(temp_location.uri, 'previous')
 
         container1 = create(:json_top_container, 'container_locations' => [container_location1, prev_container_location])
 
-        results = TopContainer.bulk_update_location([container1.id], location2.uri)
+        TopContainer.bulk_update_location([container1.id], location2.uri)
 
         json = JSONModel(:top_container).find(container1.id)
         expect(json['container_locations'].length).to eq(2)
         expect(json['container_locations'].map{|v| v['ref']}.include?(location2.uri)).to be_truthy
         expect(json['container_locations'].map{|v| v['ref']}.include?(temp_location.uri)).to be_truthy
+      end
+
+      it "removes location if updated with a blank location" do
+        location = create(:json_location, :temporary => nil)
+
+        container = create(:json_top_container, 'container_locations' => [build_container_location(location.uri)])
+
+        results = TopContainer.bulk_update_location([container.id], {})
+
+        expect {
+          results.to eq(1)
+        }
+
+        json = JSONModel(:top_container).find(container.id)
+
+        expect(json['container_locations'].length).to eq(0)
+        expect(json['container_locations'].empty?).to be_truthy
       end
 
 
@@ -623,11 +664,10 @@ describe 'Managed Container model' do
 
         container_location1 = build_container_location(location1.uri)
         container_location2 = build_container_location(location2.uri)
-        container_location3 = build_container_location(location3.uri)
 
         container1 = create(:json_top_container, 'container_locations' => [container_location1, container_location2])
 
-        results = TopContainer.bulk_update_location([container1.id], location3.uri)
+        TopContainer.bulk_update_location([container1.id], location3.uri)
 
         json = JSONModel(:top_container).find(container1.id)
         expect(json['container_locations'].length).to eq(1)
@@ -655,6 +695,7 @@ describe 'Managed Container model' do
       accessions << create_accession({"instances" => [build_instance(box)]})
 
       mtimes = accessions.map {|accession| accession.system_mtime}
+      ArchivesSpaceService.wait(:long)
 
       # Refresh our lock version
       box = TopContainer.to_jsonmodel(box.id)

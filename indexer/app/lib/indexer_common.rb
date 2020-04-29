@@ -200,6 +200,7 @@ class IndexerCommon
   def add_subjects(doc, record)
     if record['record']['subjects']
       doc['subjects'] = record['record']['subjects'].map {|s| s['_resolved']['title']}.compact
+      doc['subject_uris'] = record['record']['subjects'].collect{|link| link['ref']}
     end
   end
 
@@ -289,6 +290,7 @@ class IndexerCommon
       if doc['primary_type'] == 'archival_object'
         doc['resource'] = record['record']['resource']['ref'] if record['record']['resource']
         doc['title'] = record['record']['display_string']
+        doc['identifier'] = record['record']['component_id']
         doc['component_id'] = record['record']['component_id']
         doc['ref_id'] = record['record']['ref_id']
         doc['slug'] = record['record']['slug']
@@ -376,6 +378,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'digital_object_component'
         doc['digital_object'] = record['record']['digital_object']['ref']
+        doc['digital_object_id'] = record['record']['component_id']
         doc['title'] = record['record']['display_string']
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
@@ -734,6 +737,20 @@ class IndexerCommon
         doc['title_sort'] = doc['assessment_id'].to_s.rjust(10, '0')
       end
     }
+
+
+    add_document_prepare_hook {|doc, record|
+      doc['langcode'] ||= []
+      if record['record'].has_key?('lang_materials') and record['record']['lang_materials'].is_a?(Array)
+        record['record']['lang_materials'].each { |langmaterial|
+          if langmaterial.has_key?('language_and_script')
+            doc['langcode'].push(langmaterial['language_and_script']['language'])
+          end
+        }
+        doc['langcode'].uniq!
+      end
+    }
+
   end
 
 

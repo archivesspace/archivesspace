@@ -1,7 +1,8 @@
-version: '2'
+version: '3.7'
 services:
   app:
     build: .
+    restart: on-failure
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -10,15 +11,16 @@ services:
       - "8090:8090"
     depends_on:
       - db
-      # - solr
+      - solr
     environment:
       APPCONFIG_DB_URL: 'jdbc:mysql://db:3306/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123'
-      # disable the embedded solr
-      # APPCONFIG_ENABLE_SOLR: 'false'
-      # APPCONFIG_SOLR_URL: 'http://solr:8983/solr/archivesspace'
-      # APPCONFIG_FRONTEND_PROXY_URL: 'http://localhost:8888/staff/'
-      # APPCONFIG_OAI_PROXY_URL: 'http://localhost:8888/oai'
-      # APPCONFIG_PUBLIC_PROXY_URL: 'http://localhost:8888/'
+      # solr config
+      APPCONFIG_ENABLE_SOLR: 'false'
+      APPCONFIG_SOLR_URL: 'http://solr:8983/solr/archivesspace'
+      # proxy config
+      APPCONFIG_FRONTEND_PROXY_URL: 'http://localhost/staff/'
+      APPCONFIG_OAI_PROXY_URL: 'http://localhost/oai'
+      APPCONFIG_PUBLIC_PROXY_URL: 'http://localhost/'
       # testing plugin initialization on startup
       ASPACE_INITIALIZE_PLUGINS: 'newrelic'
       JAVA_OPTS: "-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xss512k -Djavax.accessibility.assistive_technologies=''"
@@ -26,7 +28,7 @@ services:
       - ./plugins/newrelic:/archivesspace/plugins/newrelic
   db:
     image: mysql:5.7
-    command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2
+    command: --character-set-server=utf8 --innodb_buffer_pool_size=2G --innodb_buffer_pool_instances=2 --log_bin_trust_function_creators=1
     ports:
       - "3306:3306"
     environment:
@@ -34,17 +36,17 @@ services:
       MYSQL_DATABASE: archivesspace
       MYSQL_USER: as
       MYSQL_PASSWORD: as123
-  # solr:
-  #   build:
-  #     context: ./solr
-  #   image: archivesspace/solr:7.1
-  #   command: solr-create -p 8983 -c archivesspace -d /archivesspace
-  #   ports:
-  #     - "8983:8983"
-  # web:
-  #   build:
-  #     context: ./proxy
-  #   ports:
-  #     - "8888:80"
-  #   depends_on:
-  #     - app
+  solr:
+    build:
+      context: ./solr
+    image: archivesspace/solr:8.2
+    command: solr-create -p 8983 -c archivesspace -d /archivesspace
+    ports:
+      - "8983:8983"
+  web:
+    build:
+      context: ./proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - app

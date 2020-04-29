@@ -21,12 +21,10 @@ module ArchivesSpaceHelp
     AppConfig[:help_url]
   end
 
-  def self.topic_prefix
-    AppConfig[:help_topic_prefix] || ""
-  end
-
   def self.url_for_topic(topic)
-    return "#{base_url}#{topic_prefix}#{self[topic]}" if self[topic]
+    if self[topic]
+      return "#{AppConfig[:help_topic_base_url]}#{self[topic]}"
+    end
   end
 
   def self.topic?(key)

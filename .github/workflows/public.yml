@@ -1,0 +1,49 @@
+name: Public Testing
+
+on:
+  pull_request:
+    paths:
+      - 'public/**'
+      - 'common/**'
+      - 'solr/**'
+
+jobs:
+  public:
+    name: Public
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: archivesspace
+          MYSQL_USER: as
+          MYSQL_PASSWORD: as123
+        ports:
+          - 3306/tcp
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+
+    - name: Bootstrap ArchivesSpace
+      run: |
+        ./build/run bootstrap
+        wget -P ./common/lib https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar
+
+    - name: Migrate ArchivesSpace DB
+      env:
+        APPCONFIG_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false
+      run: |
+        ./build/run db:migrate
+
+    - name: Run Public tests
+      env:
+        ASPACE_TEST_DB_URL: jdbc:mysql://127.0.0.1:${{ job.services.mysql.ports[3306] }}/archivesspace?useUnicode=true&characterEncoding=UTF-8&user=as&password=as123&useSSL=false
+      run: |
+        ./build/run public:test

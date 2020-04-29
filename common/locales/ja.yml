@@ -691,6 +691,7 @@ ja:
 
   instance_container:
     <<: *instance_attributes
+    barcode: バーコード
 
   instance_digital_object:
     <<: *instance_attributes
@@ -914,7 +915,7 @@ ja:
     accession_date: 受付日
     accession_date_unknown: 道の
     accession_date_inline_help: 例：YYYY-MM-DD
-    accession_date_tooltip: "<p>必須フィールド：加盟が行われた日付。必ずしもレコード作成時と同じ日付ではありません。 </p>"
+    accession_date_tooltip: "<p>加盟が行われた日付。必ずしもレコード作成時と同じ日付ではありません。 </p>"
     accession_id: 識別
     accession_id_tooltip: "<p>特定のアクセス記録の内部データベース番号。 </p>"
     identifier: 識別
@@ -1421,11 +1422,11 @@ ja:
     defaults: デフォルト
     global: グローバルプリファレンスのデフォルト
     global_message: これらの値を編集して、システム全体のユーザー設定のデフォルトを設定します。これらの値は、リポジトリーのデフォルトまたはユーザー自身のプリファレンスによってオーバーライドできます。
-    repo: ユーザー設定のデフォルト
+    repo: リポジトリの設定
     repo_message: これらの値を編集して、現在のリポジトリのユーザー設定のデフォルトを設定します。これらの値は、ユーザーの好みによって上書きできます。
     user_global: グローバル設定
     user_global_message: これらの値を編集して、システム全体のユーザー設定を設定します。これらの値は、リポジトリーのデフォルトまたはリポジトリーの独自のプリファレンスによってオーバーライドできます。
-    user_repo: リポジトリの設定
+    user_repo: ユーザー設定のデフォルト
     user_repo_message: これらの値を編集して、このリポジトリのユーザー設定を設定します。これらの値はオーバーライドできません。
     _singular: 設定
     _plural: 設定
@@ -1438,6 +1439,7 @@ ja:
     publish_tooltip: 既定で新しいレコードを発行するかどうか。
     default_values: レコードの事前入力？
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
+    locale: Language Selection
     accession_browse_section: アクセス列を参照
     accession_browse_column_1: 列1
     accession_browse_column_1_tooltip: 列1に表示するフィールド。
@@ -1495,6 +1497,7 @@ ja:
   validation_errors:
     agent_must_be_unique: エージェントレコードは同一ではありません
     subject_must_be_unique: 件名のレコードは同一ではありません
+    subject_heading_identifier_must_be_unique_within_source: 件名の見出し識別子はソース内で一意である必要があります
     conflicting_record: 競合するレコード
     missing_required_property: プロパティは必須ですが行方不明です
     missing_property: プロパティが見つかりませんでした
@@ -1595,7 +1598,7 @@ ja:
     import_type_accession_csv: 加盟CSV
     import_type_digital_object_csv: デジタルオブジェクトCSV
     import_type_eac_xml: EAC
-    import_type_location: Location CSV
+    import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML（リソース）
     import_type_marcxml_accession: MarcXML（アクセッション）
     import_type_marcxml_subjects_and_agents: MarcXML（主題と代理人のみ）
