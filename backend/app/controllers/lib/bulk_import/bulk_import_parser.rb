@@ -7,17 +7,13 @@ require "csv"
 require "asutils"
 include URIResolver
 
-MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
-MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
-MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
-
 # Base class for bulk import via spreadsheet; handles both CSV's and excel spreadsheets
 # This class is designed for spreadsheets with the following features:
 #  1. There may be multiple rows of headers, each of which have *something* in the
 #     0th column
 #  2. The header row containing the internal (machine-readble) labels will have in
-#     its 0th
-#     some defined string; this string shall be used in the sub-class's START_MARKER constant
+#     its 0th column some defined string;
+#     this string shall be used in the sub-class's START_MARKER constant
 #  3. Only header rows contain strings in their 0th column; data rows will have an
 #     empty 0th column.  This means that there can be an arbitrary (including 0)
 #     number of header rows *after* the internal labels row; the code can handle it!
@@ -25,6 +21,10 @@ MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :siz
 #  5. The method that must be implemented in the sub class is *process_row*
 #
 class BulkImportParser
+  MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
+  MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
+  MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
+
   def run
     begin
       initialize_info
@@ -135,12 +135,9 @@ class BulkImportParser
   def find_headers
     while @headers.nil? && (row = @rows.next)
       @counter += 1
-      value = row[0]
-      if @is_xslx
-        value = row[0] ? row[0].value.to_s : nil
-      end
-      if (value =~ self.class::START_MARKER)
-        @headers = row_values(row)
+      values = row_values(row)
+      if (values[0] =~ self.class::START_MARKER)
+        @headers = values
       end
     end
     begin
@@ -153,9 +150,9 @@ class BulkImportParser
   def row_values(row)
     values = row
     if @is_xslx
-      values = (1...row.size).map { |i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil }
+      values = (0...row.size).map { |i| (row[i] && row[i].value) ? (row[i].value.to_s.strip.empty? ? nil : row[i].value.to_s.strip) : nil }
     else
-      values = (1...values.size).map { |i| (values[i]) ? (values[i].to_s.strip.empty? ? nil : values[i].to_s.strip) : nil }
+      values = (0...values.size).map { |i| (values[i]) ? (values[i].to_s.strip.empty? ? nil : values[i].to_s.strip) : nil }
     end
     values
   end
