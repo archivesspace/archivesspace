@@ -1122,7 +1122,6 @@ describe "EAD export mappings" do
 
           if publish
             expect(@doc_unpub).to have_node(basepath + "[@xlink:href='#{file_uri}']")
-            expect(@doc).to have_node(basepath + "[@xlink:audience='external']")
           else
             expect(@doc_unpub).not_to have_node(basepath + "[@xlink:href='#{file_uri}']")
           end
@@ -1153,14 +1152,40 @@ describe "EAD export mappings" do
 
           if publish
             expect(@doc).to have_node(basepath + "[@xlink:href='#{file_uri}']")
-            expect(@doc).to have_node(basepath + "[@xlink:audience='external']")
           else
             expect(@doc).to have_node(basepath + "[@xlink:href='#{file_uri}']")
-            expect(@doc).to have_node(basepath + "[@xlink:audience='internal']")
           end
         end
       end
     end
+
+    # ANW-805: Moved audience attribute of dao/daoloc to its own test. Still quite rudimentary.
+    it "sets audience attribute in dao tags according to publish status of both digital object and file version" do
+      # for each digital object generated
+      digital_objects.each do |d|
+
+        file_versions = d['file_versions']
+
+        if file_versions.length < 2
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:dao"
+        else
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:daogrp/xmlns:daoloc"
+        end
+
+        # for each file version in the digital object
+        file_versions.each do |fv|
+
+          publish = fv['publish'] && d['publish']
+
+          if publish
+            expect(@doc).to have_node(basepath + "[not(@audience='internal')]")
+          else
+            expect(@doc).to have_node(basepath + "[@audience='internal']")
+          end
+        end
+      end
+    end
+
   end
 
 
