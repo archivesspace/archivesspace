@@ -580,6 +580,7 @@ class IndexerCommon
         doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
         doc['barcode_u_sstr'] = record['record']['barcode']
 
+        doc['subcontainer_barcodes_u_sstr'] = record["record"]["subcontainer_barcodes"]
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
       end
     }
@@ -597,11 +598,11 @@ class IndexerCommon
             doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
             if instance['sub_container']['type_2']
               doc['child_container_u_sstr'] ||= []
-              doc['child_container_u_sstr'] << "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']}"
+              doc['child_container_u_sstr'] << "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']} #{instance['sub_container']['barcode_2']}"
             end
             if instance['sub_container']['type_3']
               doc['grand_child_container_u_sstr'] ||= []
-              doc['grand_child_container_u_sstr'] << "#{instance['sub_container']['type_3']} #{instance['sub_container']['indicator_2']}"
+              doc['grand_child_container_u_sstr'] << "#{instance['sub_container']['type_3']} #{instance['sub_container']['indicator_3']}"
             end
           end
         }
