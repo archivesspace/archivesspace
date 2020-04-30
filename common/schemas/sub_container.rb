@@ -22,6 +22,7 @@
 
       "type_2" => {"type" => "string", "dynamic_enum" => "container_type"},
       "indicator_2" => {"type" => "string", "maxLength" => 255},
+      "barcode_2" => {"type" => "string", "maxLength" => 255},
 
       "type_3" => {"type" => "string", "dynamic_enum" => "container_type"},
       "indicator_3" => {"type" => "string", "maxLength" => 255},

@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<% unless sub_container["type_2"] || sub_container["indicator_2"] ||
+<% unless sub_container["type_2"] || sub_container["indicator_2"] || sub_container["barcode_2"] ||
           sub_container["type_3"] || sub_container["indicator_3"] %>
   <br/><br/>
 <% end %>
@@ -16,6 +16,7 @@
 <% define_template "sub_container", jsonmodel_definition(:sub_container) do |form| %>
   <%= form.label_and_select "type_2", form.possible_options_for('type_2', true) %>
   <%= form.label_and_textfield  "indicator_2" %>
+  <%= form.label_and_textfield  "barcode_2" %>
   <%= form.label_and_select "type_3", form.possible_options_for('type_3', true) %>
   <%= form.label_and_textfield  "indicator_3" %>
 <% end %>
