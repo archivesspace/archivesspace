@@ -529,7 +529,7 @@ class IndexerCommon
           link = "/jobs/#{job_id}/file/#{file}"
           doc['files'] << link
           filename = filenames.shift
-          doc['job_data'] << (filename ? "Input File --- #{filename}" : "Output File --- #{link}")
+          doc['job_data'] << (filename ? "#{t("job.input_file")} --- #{filename}" : "#{t("job.output_file")} --- #{link}")
         end
         record['record']['job'].reject { |k, _v| ['jsonmodel_type', 'filenames', 'report_type'].include? k }.each do |k, v|
           doc['job_data'] << "#{t("#{record['record']['job_type']}.#{k}", :default => k)}: #{v}"

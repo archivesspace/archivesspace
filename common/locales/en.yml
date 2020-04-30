@@ -2062,6 +2062,8 @@ en:
     owner: Owner
     show_description: Show Description
     job_data: Job Information
+    input_file: Input File
+    output_file: Output File
 
   report_job:
     report_type: Report Type

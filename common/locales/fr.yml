@@ -2061,6 +2061,8 @@ fr:
     owner: Owner
     show_description: Montrer description
     job_data: Information de tâche
+    input_file: Fichier d'entrée
+    output_file: Fichier de sortie
 
   report_job:
     report_type: Type de rapport

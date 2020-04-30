@@ -2041,6 +2041,8 @@ es:
     owner: Propietario
     show_description: Muestra descripción
     job_data: Informacion del trabajo
+    input_file: Archivo de entrada
+    output_file: Archivo de salida
 
   report_job:
     report_type: Tipo de informe
