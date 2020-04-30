@@ -87,8 +87,9 @@
 <div class="top_container_location">
   <% selected_json_parsed = JSON.parse(selected_json) %>
 
-  <% if selected_json_parsed["container_locations"] && selected_json_parsed["container_locations"].length > 0 %>
-    <%= render_aspace_partial :partial => "container_locations/show_only_token", :locals => { :container_locations => selected_json_parsed["container_locations"] } %>
+  <% container_locations = selected_json_parsed.dig("container_locations") %>
+  <% if container_locations && container_locations.length > 0 %>
+    <%= render_aspace_partial :partial => "container_locations/show_only_token", :locals => { :container_locations => container_locations } %>
   <% end %>
 </div>
   
