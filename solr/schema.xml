@@ -17,11 +17,6 @@
        1.5: omitNorms defaults to true for primitive field types
             (int, float, boolean, string...)
      -->
-  <!-- Harvard modifications 
-       2020.1: Add icu_sort field type (now used by title_sort, identifier_sort, identifier instead of string_sort), 
-               which uses ICUCollationKeyFilterFactory with numeric sort; 
-               requires icu4j, solr-analysis-extras and lucene-analyzers-icu jars
-               (last 2 match solr version, e.g. lucene-analyzers-icu-4.10.4.jar); note, in 6x and later versions, filter declaration uses different syntax, see below -->
 
  <fields>
    <!-- Valid attributes for fields:
@@ -94,7 +89,6 @@
 
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
-   <!-- Harvard 2020.1 icu, numeric sorting -->
    <field name="identifier" type="sort_icu" indexed="true" stored="true" multiValued="false" />
 
    <!-- Accession properties required for browse sorting -->
@@ -192,10 +186,8 @@
    <field name="processing_funding_source" type="text_general" indexed="true" stored="true" multiValued="false" />
 
    <!-- Sort fields -->
-   <!-- Harvard 2020.1 icu, numeric sorting -->
    <field name="title_sort" type="sort_icu" indexed="true" stored="false" multiValued="false"/>
    <field name="repo_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
-   <!-- Harvard 2020.1 icu, numeric sorting -->
    <field name="identifier_sort" type="sort_icu" indexed="true" stored="true" multiValued="false"/>
 
    <!-- Agent and Subject fields -->
@@ -368,8 +360,6 @@
       </analyzer>
     </fieldType>
 
-    <!-- Harvard 2020.1 icu, numeric sorting -->
-    <!-- old way for solr 4x? -->
     <fieldType name="sort_icu" class="solr.TextField">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
