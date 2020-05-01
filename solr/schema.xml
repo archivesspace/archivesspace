@@ -89,7 +89,7 @@
 
    <!-- Accession properties required for facets -->
    <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
-   <field name="identifier" type="sort_string" indexed="true" stored="true" multiValued="false" />
+   <field name="identifier" type="sort_icu" indexed="true" stored="true" multiValued="false" />
 
    <!-- Accession properties required for browse sorting -->
    <field name="acquisition_type" type="string" indexed="true" stored="true" multiValued="false" />
@@ -186,9 +186,9 @@
    <field name="processing_funding_source" type="text_general" indexed="true" stored="true" multiValued="false" />
 
    <!-- Sort fields -->
-   <field name="title_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
+   <field name="title_sort" type="sort_icu" indexed="true" stored="false" multiValued="false"/>
    <field name="repo_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
-   <field name="identifier_sort" type="sort_string" indexed="true" stored="true" multiValued="false"/>
+   <field name="identifier_sort" type="sort_icu" indexed="true" stored="true" multiValued="false"/>
 
    <!-- Agent and Subject fields -->
    <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
@@ -360,6 +360,18 @@
       </analyzer>
     </fieldType>
 
+    <fieldType name="sort_icu" class="solr.TextField">
+      <analyzer>
+        <tokenizer class="solr.KeywordTokenizerFactory"/>
+        <filter class="solr.ICUCollationKeyFilterFactory" locale="" strength="primary"
+          numeric="true"/>
+      </analyzer>
+    </fieldType>
+    
+    <!-- below doesn't work with solr 4x - used old syntax above, switch to below for newer versions -->
+    <!-- <fieldType name="sort_icu" class="solr.ICUCollationField" locale="" strength="primary"
+      numeric="true"/>-->
+    
     <fieldType name="sort_string" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
