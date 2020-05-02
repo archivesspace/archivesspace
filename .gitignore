@@ -50,3 +50,6 @@ indexer/default
 public/default
 tech_docs
 solr/lib/*.jar
+plugins/*/Gemfile.lock
+plugins/*/gems/*
+docker-compose.override.yml
