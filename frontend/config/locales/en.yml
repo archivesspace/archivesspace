@@ -264,7 +264,7 @@ en:
     report_type: Report Type
     job_report_type: Job Type
     time_started: Time Started
-    time_finished: Time Finished
+    time_finished: Time Completed
 
   advanced_search:
     operator:
