@@ -265,6 +265,10 @@ en:
     job_report_type: Job Type
     time_started: Time Started
     time_finished: Time Completed
+    barcode_u_ssort: 'Barcode'
+    type_u_ssort: 'Container Type'
+    indicator_stored_u_ssort: 'Indicator'
+    collection_display_string_stored_u_ssort: 'Resource/Accession'
 
   advanced_search:
     operator:
@@ -366,7 +370,7 @@ en:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
     message_logged_in: Your friendly archives management tool.
-  
+
   login:
     login: Sign In
     login_please: Please Sign In
@@ -1496,6 +1500,10 @@ en:
       repository: Repository %{type}
       action:
         save: Save Assessment Attributes
+        add_type: Add %{type}
+        find_rating: Find records with a %{rating_type} rating
+        find_format: Find records with a %{format_type} material type/format
+        find_issue: Find records with a %{issue_type} conservation issue
       messages:
         updated: Assessment Attributes updated
         error: Error updating Assessment Attributes

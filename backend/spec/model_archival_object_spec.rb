@@ -185,16 +185,17 @@ describe 'ArchivalObject model' do
 
   it "auto generates a 'label' based on the date and title when both are present" do
     title = "Just a title"
-    date = build(:json_date)
+    date1 = build(:json_date, :date_type => 'inclusive')
+    date2 = build(:json_date, :date_type => 'bulk')
 
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
         :title => title,
-        :dates => [date]
+        :dates => [date1, date2]
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date['expression']}")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
   end
 
 

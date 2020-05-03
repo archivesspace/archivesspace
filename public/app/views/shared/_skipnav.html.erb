@@ -1,6 +1,6 @@
 <div class="skipnav">
   <%= link_to I18n.t('skipnav.main_content'), '#maincontent', :class => 'sr-only sr-only-focusable' %>
-  <% unless action_name == 'inventory' %>
+  <% unless action_name == 'inventory' || (action_name == 'show' && controller_name != 'repositories') %>
     <% if defined?(@search) %>
       <% if defined?(@results) %>
         <% unless defined?(@no_statement) %>

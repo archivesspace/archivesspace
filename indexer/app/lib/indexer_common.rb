@@ -578,6 +578,10 @@ class IndexerCommon
         doc['title'] = record['record']['long_display_string']
         doc['display_string'] = record['record']['display_string']
 
+        if record['record']['indicator']
+          doc['indicator_stored_u_ssort'] = record['record']['indicator']
+        end
+
         if record['record']['series']
           doc['series_uri_u_sstr'] = record['record']['series'].map {|series| series['ref']}
           doc['series_title_u_sstr'] = record['record']['series'].map {|series| series['display_string']}
@@ -598,7 +602,12 @@ class IndexerCommon
         if record['record']['collection']
           doc['collection_uri_u_sstr'] = record['record']['collection'].map {|collection| collection['ref']}
           doc['collection_display_string_u_sstr'] = record['record']['collection'].map {|collection| collection['display_string']}
+          doc['collection_display_string_stored_u_ssort'] = record['record']['collection'].map {|collection| collection['display_string']}.join(',')
           doc['collection_identifier_stored_u_sstr'] = record['record']['collection'].map {|collection| collection['identifier']}
+          doc['collection_combined_id_u_ssort'] = doc['collection_identifier_stored_u_sstr']
+                                                    .zip(doc['collection_display_string_u_sstr'])
+                                                    .map {|identifier, display| "#{identifier} #{display}"}
+                                                    .join(",")
           doc['collection_identifier_u_stext'] = record['record']['collection'].map {|collection|
             IndexerCommon.generate_permutations_for_identifier(collection['identifier'])
           }.flatten
@@ -623,6 +632,9 @@ class IndexerCommon
 
         doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
         doc['barcode_u_sstr'] = record['record']['barcode']
+        doc['barcode_u_ssort'] = record['record']['barcode']
+
+        doc['type_u_ssort'] = record['record']['type']
 
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
       end
@@ -958,6 +970,7 @@ class IndexerCommon
     out = value.gsub(/<[^>]+>/, '')
     out.gsub!(/-/, ' ')
     out.gsub!(/[^\w\s]/, '')
+    out.gsub!(/\s+/, ' ')
     out.strip
   end
 

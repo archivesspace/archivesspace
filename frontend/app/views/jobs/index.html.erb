@@ -3,7 +3,7 @@
 <%
    @show_multiselect_column = false
    @no_title = true
-   @no_audit_info = true
+   @hide_audit_info = true
 
    add_column(I18n.t("job.status"), proc {|record| render_aspace_partial :partial => "jobs/status_cell", :locals => {:record => record}}, :sortable => true, :sort_by => 'status')
    add_column(I18n.t("job.job_type"), proc {|record| render_aspace_partial :partial => "jobs/job_report_type_cell", :locals => {:record => record}}, :sortable => true, :sort_by => 'job_report_type')

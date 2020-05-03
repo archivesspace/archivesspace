@@ -1497,6 +1497,10 @@ es:
       repository: Repositorio %{type}
       action:
         save: Guardar atributos de evaluación
+        add_type: Añadir %{type}
+        find_rating: Buscar registros con una calificación %{rating_type}
+        find_format: Buscar registros con un %{format_type} tipo / formato de material
+        find_issue: Buscar registros con un problema de conservación %{issue_type}
       messages:
         updated: Atributos de evaluación actualizados
         error: Error al actualizar los atributos de evaluación

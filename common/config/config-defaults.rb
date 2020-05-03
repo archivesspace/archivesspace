@@ -76,7 +76,7 @@ AppConfig[:mysql_binlog] = false
 AppConfig[:solr_backup_schedule] = "0 0 * * *"
 AppConfig[:solr_backup_number_to_keep] = 1
 AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
-# add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { "q.op" => "AND" }
+# add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { 'mm' => '100%' }
 # Another example below sets the boost query value (bq) to boost the relevancy for the query string in the title,
 # sets the phrase fields parameter (pf) to boost the relevancy for the title when the query terms are in close proximity to
 # each other, and sets the phrase slop (ps) parameter for the pf parameter to indicate how close the proximity should be
@@ -88,7 +88,7 @@ AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory],
 # For more information about solr parameters, please consult the solr documentation
 # here: https://lucene.apache.org/solr/
 # Configuring search operator to be AND by default - ANW-427
-AppConfig[:solr_params] = { "q.op" => "AND" }
+AppConfig[:solr_params] = { 'mm' => '100%' }
 
 # Set the application's language (see the .yml files in
 # https://github.com/archivesspace/archivesspace/tree/master/common/locales for

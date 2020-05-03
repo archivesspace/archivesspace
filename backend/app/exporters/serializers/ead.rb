@@ -518,13 +518,13 @@ class EADSerializer < ASpaceExport::Serializer
     end
   end
 
-  # set daoloc audience attr == 'internal' if this is an unpublished && include_unpublished is set
-  def get_audience_flag_for_file_version(file_version)
-    if file_version['file_uri'] &&
-       (file_version['publish'] == false && @include_unpublished)
-      return "internal"
+  def is_digital_object_published?(digital_object, file_version = nil)
+    if !digital_object['publish']
+      return false
+    elsif !file_version.nil? and !file_version['publish']
+      return false
     else
-      return "external"
+      return true
     end
   end
 
@@ -538,7 +538,7 @@ class EADSerializer < ASpaceExport::Serializer
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
 
-    atts = digital_object["publish"] === false ? {:audience => 'internal'} : {}
+    atts = {}
 
     content = ""
     content << title if title
@@ -546,8 +546,8 @@ class EADSerializer < ASpaceExport::Serializer
     if date['expression']
       content << date['expression']
     elsif date['begin']
-      content << date['begin']
-      if date['end'] != date['begin']
+    content << date['begin']
+    if date['end'] != date['begin']
         content << "-#{date['end']}"
       end
     end
@@ -559,6 +559,7 @@ class EADSerializer < ASpaceExport::Serializer
       atts['xlink:href'] = digital_object['digital_object_id']
       atts['xlink:actuate'] = 'onRequest'
       atts['xlink:show'] = 'new'
+      atts['audience'] = 'internal' unless is_digital_object_published?(digital_object)
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       }
@@ -570,19 +571,22 @@ class EADSerializer < ASpaceExport::Serializer
       atts['xlink:show'] = file_version['xlink_show_attribute'] || 'new'
       atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
       atts['xlink:href'] = file_version['file_uri']
-      atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
+      atts['audience'] = 'internal' unless is_digital_object_published?(digital_object, file_version)
       xml.dao(atts) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
       }
     else
-      xml.daogrp( atts.merge( { 'xlink:type' => 'extended'} ) ) {
+      atts['xlink:type'] = 'extended'
+      atts['audience'] = 'internal' unless is_digital_object_published?(digital_object)
+      xml.daogrp( atts ) {
         xml.daodesc{ sanitize_mixed_content(content, xml, fragments, true) } if content
         file_versions_to_display.each do |file_version|
+          atts = {}
           atts['xlink:type'] = 'locator'
           atts['xlink:href'] = file_version['file_uri']
           atts['xlink:role'] = file_version['use_statement'] if file_version['use_statement']
           atts['xlink:title'] = file_version['caption'] if file_version['caption']
-          atts['xlink:audience'] = get_audience_flag_for_file_version(file_version)
+          atts['audience'] = 'internal' unless is_digital_object_published?(digital_object, file_version)
           xml.daoloc(atts)
         end
       }

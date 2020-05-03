@@ -522,13 +522,14 @@ class EAD3Serializer < EADSerializer
 
             EADSerializer.run_serialize_step(data, xml, @fragments, :did)
 
+            # Change from EAD 2002: dao must be children of did in EAD3, not archdesc
+            data.digital_objects.each do |dob|
+              serialize_digital_object(dob, xml, @fragments)
+            end
+
           }# </did>
 
           serialize_nondid_notes(data, xml, @fragments)
-
-          data.digital_objects.each do |dob|
-                serialize_digital_object(dob, xml, @fragments)
-          end
 
           serialize_bibliographies(data, xml, @fragments)
 
@@ -1350,7 +1351,7 @@ class EAD3Serializer < EADSerializer
     title = digital_object['title']
     date = digital_object['dates'][0] || {}
 
-    atts = digital_object["publish"] === false ? {:audience => 'internal'} : {}
+    atts = {}
 
     content = ""
     content << title if title
@@ -1377,6 +1378,7 @@ class EAD3Serializer < EADSerializer
       atts['href'] = digital_object['digital_object_id']
       atts['actuate'] = 'onrequest'
       atts['show'] = 'new'
+      atts['audience'] = 'internal' unless is_digital_object_published?(digital_object)
       xml.dao(atts) {
         xml.descriptivenote { sanitize_mixed_content(content, xml, fragments, true) } if content
       }
@@ -1386,6 +1388,7 @@ class EAD3Serializer < EADSerializer
         atts['actuate'] = (file_version['xlink_actuate_attribute'].respond_to?(:downcase) && file_version['xlink_actuate_attribute'].downcase) || 'onrequest'
         atts['show'] = (file_version['xlink_show_attribute'].respond_to?(:downcase) && file_version['xlink_show_attribute'].downcase) || 'new'
         atts['localtype'] = file_version['use_statement'] if file_version['use_statement']
+        atts['audience'] = 'internal' unless is_digital_object_published?(digital_object, file_version)
         xml.dao(atts) {
           xml.descriptivenote { sanitize_mixed_content(content, xml, fragments, true) } if content
         }
