@@ -3,9 +3,10 @@
 		<li>
 			<% if (record['files'] || [])[i] %>
 				<% type, filename = data.split(' --- ', 2) %>
-				<%= type %>: <a href="<%= AppConfig[:frontend_proxy_url] + record['files'][i] %>"><%= filename %></a>
+				<%= I18n.t("job.#{type}") %>: <a href="<%= AppConfig[:frontend_proxy_url] + record['files'][i] %>"><%= filename %></a>
 			<% else %>
-				<%= data %>
+				<% param, value = data.split(' --- ', 2) %>
+				<%= I18n.t("#{record['job_type']}.#{param}") %>: <%= value %>
 			<% end %>
 		</li>
 	<% end %>

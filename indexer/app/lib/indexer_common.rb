@@ -165,6 +165,8 @@ class IndexerCommon
     if @@selenium
       args[0]
     else
+      args << {} unless args.last.is_a?(Hash)
+      args[1][:default] ||= args[0].split('.').last
       I18n.t(*args)
     end
   end
@@ -507,7 +509,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'job'
         report_type = record['record']['job']['report_type']
-        doc['title'] = (report_type ? t("reports.#{report_type}.title") : 
+        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) : 
           t("job.types.#{record['record']['job_type']}"))
         doc['types'] << record['record']['job_type']
         doc['types'] << report_type
@@ -529,10 +531,10 @@ class IndexerCommon
           link = "/jobs/#{job_id}/file/#{file}"
           doc['files'] << link
           filename = filenames.shift
-          doc['job_data'] << (filename ? "#{t("job.input_file")} --- #{filename}" : "#{t("job.output_file")} --- #{link}")
+          doc['job_data'] << (filename ? "input_file --- #{filename}" : "output_file --- #{link}")
         end
         record['record']['job'].reject { |k, _v| ['jsonmodel_type', 'filenames', 'report_type'].include? k }.each do |k, v|
-          doc['job_data'] << "#{t("#{record['record']['job_type']}.#{k}", :default => k)}: #{v}"
+          doc['job_data'] << "#{k} --- #{v}"
         end
         doc['queue_position'] = record['record']['queue_position']
       end
