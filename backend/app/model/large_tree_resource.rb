@@ -19,6 +19,7 @@ class LargeTreeResource
               Sequel.as(:top_container__barcode, :top_container_barcode),
               Sequel.as(:type_2__value, :type_2),
               Sequel.as(:sub_container__indicator_2, :indicator_2),
+              Sequel.as(:sub_container__barcode_2, :barcode_2),
               Sequel.as(:type_3__value, :type_3),
               Sequel.as(:sub_container__indicator_3, :indicator_3))
     .each do |row|
@@ -31,6 +32,7 @@ class LargeTreeResource
         container_data['top_container_barcode'] = row[:top_container_barcode] if row[:top_container_barcode]
         container_data['type_2'] = row[:type_2] if row[:type_2]
         container_data['indicator_2'] = row[:indicator_2] if row[:indicator_2]
+        container_data['barcode_2'] = row[:barcode_2] if row[:barcode_2]
         container_data['type_3'] = row[:type_3] if row[:type_3]
         container_data['indicator_3'] = row[:indicator_3] if row[:indicator_3]
 
@@ -103,6 +105,7 @@ class LargeTreeResource
               Sequel.as(:top_container__barcode, :top_container_barcode),
               Sequel.as(:type_2__value, :type_2),
               Sequel.as(:sub_container__indicator_2, :indicator_2),
+              Sequel.as(:sub_container__barcode_2, :barcode_2),
               Sequel.as(:type_3__value, :type_3),
               Sequel.as(:sub_container__indicator_3, :indicator_3))
       .each do |row|
@@ -118,6 +121,7 @@ class LargeTreeResource
       container_data['top_container_barcode'] = row[:top_container_barcode] if row[:top_container_barcode]
       container_data['type_2'] = row[:type_2] if row[:type_2]
       container_data['indicator_2'] = row[:indicator_2] if row[:indicator_2]
+      container_data['barcode_2'] = row[:barcode_2] if row[:barcode_2]
       container_data['type_3'] = row[:type_3] if row[:type_3]
       container_data['indicator_3'] = row[:indicator_3] if row[:indicator_3]
 
