@@ -107,9 +107,9 @@ describe 'Jobs' do
     @driver.wait_for_dropdown
     @driver.click_and_wait_until_gone(:link, 'Background Jobs')
     expect do
-      @driver.find_element_with_text('//td', /report_job/)
-      @driver.find_element_with_text('//td', /print_to_pdf_job/)
-      @driver.find_element_with_text('//td', /find_and_replace_job/)
+      @driver.find_element_with_text('//td', /Accession Report/)
+      @driver.find_element_with_text('//td', /Generate PDF/)
+      @driver.find_element_with_text('//td', /Batch Find and Replace/)
     end.not_to raise_error
   end
 end
