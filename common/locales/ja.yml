@@ -1585,6 +1585,9 @@ ja:
     time_finished: 完了した時間
     owner: オーナー
     show_description: 説明を表示する
+    job_data: ジョブ情報
+    input_file: 入力ファイル
+    output_file: 出力ファイル
 
   report_job:
     report_type: レポートタイプ

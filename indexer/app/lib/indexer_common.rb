@@ -158,6 +158,18 @@ class IndexerCommon
     fullrecord
   end
 
+  # There's a problem with how translation paths get loaded when selenium tests are run
+  # Call this instead of I18n.t so that it won't cause an error when selenium tests are run
+  @@selenium = Dir.getwd.end_with? 'selenium'
+  def t(*args)
+    if @@selenium
+      args[0]
+    else
+      args << {} unless args.last.is_a?(Hash)
+      args[1][:default] ||= args[0].split('.').last
+      I18n.t(*args)
+    end
+  end
 
   def add_agents(doc, record)
     if record['record']['linked_agents']
@@ -188,7 +200,7 @@ class IndexerCommon
         elsif seen[link['ref']] == 'subject' && link['role'] != 'creator'
           # do nothing
         else
-          relator_label = link['relator'] ? I18n.t("enumerations.linked_agent_archival_record_relators.#{link['relator']}") : ''
+          relator_label = link['relator'] ? t("enumerations.linked_agent_archival_record_relators.#{link['relator']}") : ''
 
           doc["#{link['ref'].gsub(/\//, '_')}_relator_sort"] = "#{link['role']} #{relator_label}"
           seen[link['ref']] = link['role']
@@ -312,7 +324,7 @@ class IndexerCommon
       if doc['primary_type'] == 'accession'
         date = record['record']['accession_date']
         if date == '9999-12-31'
-          unknown = I18n.t('accession.accession_date_unknown')
+          unknown = t('accession.accession_date_unknown')
           doc['accession_date'] = unknown
           doc['fullrecord'] ||= ''
           doc['fullrecord'] << unknown + ' '
@@ -491,6 +503,40 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'classification_term'
         doc['classification'] = record['record']['classification']['ref']
+      end
+    }
+
+    add_document_prepare_hook {|doc, record|
+      if doc['primary_type'] == 'job'
+        report_type = record['record']['job']['report_type']
+        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) : 
+          t("job.types.#{record['record']['job_type']}"))
+        doc['types'] << record['record']['job_type']
+        doc['types'] << report_type
+        doc['job_type'] = record['record']['job_type']
+        doc['report_type'] = report_type
+        doc['job_report_type'] = report_type || doc['job_type']
+        doc['status'] = record['record']['status']
+        doc['owner'] = record['record']['owner']
+        doc['time_submitted'] = Time.parse(record['record']['time_submitted']).getlocal if record['record']['time_submitted']
+        doc['time_started'] = Time.parse(record['record']['time_started']).getlocal if record['record']['time_started']
+        doc['time_finished'] = Time.parse(record['record']['time_finished']).getlocal if record['record']['time_finished']
+
+        filenames = record['record']['job']['filenames'] || []
+        doc['files'] = []
+        doc['job_data'] = []
+        files = JSONModel::HTTP::get_json("#{record['record']['uri']}/output_files")
+        files.each do |file|
+          job_id = record['record']['uri'].split('/').last
+          link = "/jobs/#{job_id}/file/#{file}"
+          doc['files'] << link
+          filename = filenames.shift
+          doc['job_data'] << (filename ? "input_file --- #{filename}" : "output_file --- #{link}")
+        end
+        record['record']['job'].reject { |k, _v| ['jsonmodel_type', 'filenames', 'report_type'].include? k }.each do |k, v|
+          doc['job_data'] << "#{k} --- #{v}"
+        end
+        doc['queue_position'] = record['record']['queue_position']
       end
     }
 

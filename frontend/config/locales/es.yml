@@ -209,6 +209,11 @@ es:
       assessment_survey_year: Año de encuesta
       assessment_record_types: Tipo de registro
       assessment_completed: Terminado
+      status: Estado de trabajo
+      job_type: Tipo de tarea
+      report_type: Tipo de informe
+      owner: Propietario
+      langcode: Language of Materials
     help:
       row_selection: Haga clic en una fila para seleccionarla para operaciones masivas. Mantenga la tecla ALT mientras hace clic en una casilla de verificación para seleccionar o anular la selección, múltiples filas anteriores.
 
@@ -256,6 +261,12 @@ es:
     assessment_survey_begin: Fecha de inicio de la encuesta
     assessment_survey_end: Encuesta completada
     assessment_id: ID
+    status: Estado
+    job_type: Tipo de tarea
+    report_type: Tipo de informe
+    job_report_type: Tipo de tarea
+    time_started: Tiempo comenzado
+    time_finished: Tiempo terminado
 
   advanced_search:
     operator:
