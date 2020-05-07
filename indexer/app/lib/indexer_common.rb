@@ -799,11 +799,11 @@ class IndexerCommon
 
     add_document_prepare_hook {|doc, record|
       case
-      when doc['ancestors']
+      when doc['ancestors'] && !doc['ancestors'].empty?
         ancestors = doc['ancestors']
-      when doc['linked_instance_uris']
+      when doc['linked_instance_uris'] && !doc['linked_instance_uris'].empty?
         ancestors = doc['linked_instance_uris']
-      when doc['linked_record_uris']
+      when doc['linked_record_uris'] && !doc['linked_record_uris'].empty?
         ancestors = doc['linked_record_uris']
       when doc['primary_type'] == 'top_container'
         ancestors = Array(doc['collection_uri_u_sstr'])
