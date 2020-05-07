@@ -109,7 +109,8 @@ class TopContainersController < ApplicationController
     search_params["q"] = "display_string:#{search_params["q"]}"
 
     search_params = search_params.merge(search_filter_for(params[:uri]))
-    search_params = search_params.merge("sort" => "typeahead_sort_key_u_sort asc")
+
+    search_params = search_params.merge("sort" => "top_container_u_icusort asc")
 
     render :json => Search.all(session[:repo_id], search_params)
   end
@@ -316,4 +317,3 @@ class TopContainersController < ApplicationController
   end
 
 end
-

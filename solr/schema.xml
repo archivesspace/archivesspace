@@ -263,6 +263,11 @@
    <dynamicField name="*_u_sbool"  type="boolean"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_sort"  type="sort_string"  indexed="true"  stored="false" multiValued="false"/>
    <dynamicField name="*_u_ssort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_u_icusort"  type="sort_icu"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_u_abool"  type="boolean"  indexed="true"  stored="true" multiValued="false"/>
+
+   <!-- Field for searching/sorting top container typeahead -->
+   <dynamicField name="*_u_typeahead_utext"  type="text_general"  indexed="true"  stored="true" multiValued="false"/>
 
    <!-- ASpace Custom Dynamics -->
    <dynamicField name="*_relator_sort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
@@ -380,11 +385,11 @@
           numeric="true"/>
       </analyzer>
     </fieldType>
-    
+
     <!-- below doesn't work with solr 4x - used old syntax above, switch to below for newer versions -->
     <!-- <fieldType name="sort_icu" class="solr.ICUCollationField" locale="" strength="primary"
       numeric="true"/>-->
-    
+
     <fieldType name="sort_string" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>

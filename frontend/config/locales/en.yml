@@ -269,7 +269,7 @@ en:
     type_u_ssort: 'Container Type'
     indicator_stored_u_ssort: 'Indicator'
     collection_display_string_stored_u_ssort: 'Resource/Accession'
-    child_container_u_typeahead_usort: 'Child Container'
+    child_container_u_icusort: 'Child Container'
 
   advanced_search:
     operator:

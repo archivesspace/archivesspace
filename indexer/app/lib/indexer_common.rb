@@ -633,7 +633,9 @@ class IndexerCommon
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
-        doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
+        doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
+        doc['top_container_u_icusort'] = record['record']['display_string']
+
         doc['barcode_u_sstr'] = record['record']['barcode']
         doc['barcode_u_ssort'] = record['record']['barcode']
 
@@ -659,10 +661,9 @@ class IndexerCommon
               child_type, child_indicator, child_barcode = instance['sub_container'].values_at('type_2', 'indicator_2', 'barcode_2')
 
               doc['child_container_u_sstr'] ||= []
-
+              doc['child_container_u_icusort'] ||= ""
               doc['child_container_u_sstr'] << "#{child_type} #{child_indicator} #{child_barcode}"
-              doc['child_container_u_typeahead_usort'] ||= ""
-              doc['child_container_u_typeahead_usort'] << "#{child_type} #{child_indicator},"
+              doc['child_container_u_icusort'] << "#{child_type} #{child_indicator},"
             end
             if instance['sub_container']['type_3']
               doc['grand_child_container_u_sstr'] ||= []
