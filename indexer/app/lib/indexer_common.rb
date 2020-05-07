@@ -275,8 +275,7 @@ class IndexerCommon
       display_extents = extents if display_extents.empty?
       doc['extents'] = []
       display_extents.each do |extent|
-        doc['extents'] << "#{extent['number']} #{I18n.t(
-          'enumerations.extent_extent_type.' + extent['extent_type'], :default => extent['extent_type'])}"
+        doc['extents'] << "#{extent['number']} --- #{extent['extent_type']}"
       end
     end
   end
