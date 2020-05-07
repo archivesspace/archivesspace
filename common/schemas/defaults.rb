@@ -67,6 +67,15 @@ browse_column_enums = {
   ]
 }
 
+ASUtils.find_local_directories("browse_column_enums.rb").each do |file|
+  if File.exist?(file)
+    load File.absolute_path(file)
+    PLUGIN_BROWSE_COLUMN_OPTS.each do |k, cols|
+      browse_column_enums[k] += cols
+    end
+  end
+end
+
 locale_enum = I18n.supported_locales.keys
 
 solr_fields = begin
