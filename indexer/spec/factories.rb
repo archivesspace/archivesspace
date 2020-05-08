@@ -108,6 +108,11 @@ FactoryBot.define do
     revision_statements {  [build(:json_revision_statement)]  }
   end
 
+  factory :json_repository, class: JSONModel(:repository) do
+    repo_code { generate(:alphanumstr) }
+    name { generate(:alphanumstr) }
+  end
+
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
     date { generate(:alphanumstr) }
     description { generate(:alphanumstr) }
