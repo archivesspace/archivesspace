@@ -140,7 +140,7 @@ describe 'Resource instances and containers' do
   it 'remembers the search after leaving the page' do
     @driver.navigate.to("#{$frontend}/top_containers")
 
-    @driver.find_element(id: 'q').send_keys('Letter')
+    @driver.clear_and_send_keys([:css, '#q'], 'Letter')
     @driver.find_element(css: 'input.btn').click
 
     @driver.wait_for_ajax
@@ -233,7 +233,10 @@ describe 'Resource instances and containers' do
     run_all_indexers
     @driver.navigate.to("#{$frontend}/top_containers")
 
+    @driver.clear_and_send_keys([:css, '#q'], '')
+    @driver.find_element(:css, '#empty').select_option('')
     @driver.clear_and_send_keys([:css, '#barcodes'], 'test_child_container_barcode')
+
     @driver.find_element(css: 'input.btn').click
 
     results = @driver.find_element(id: 'bulk_operation_results')
