@@ -288,24 +288,39 @@ $(function() {
       var tokensForPrepopulation = function() {
         if ($this.data("multiplicity") === "one") {
 
-          // If we are on a resource edit page, and open a top_container modal with a collection_resource linker
-          // then we prepopulate the collection_resource field with resource data necessary to perform the search
+          // If we are on a resource or archival object edit page, and open a top_container modal with a
+          // collection_resource linker then we prepopulate the collection_resource field with resource
+          // data necessary to perform the search
           let onResource = $(".label.label-info").text() === "Resource"
+          let onArchivalObject = $(".label.label-info").text() === "Archival Object"
           let modalHasResource = $(".modal-dialog").find("#collection_resource").length > 0
           let idMatches = $this[0].id === "collection_resource"
           
-          if (on_resource_edit_path && onResource && modalHasResource && idMatches) {
+          if (on_resource_edit_path && modalHasResource && idMatches && (onResource || onArchivalObject)) {
             let currentForm = $("#object_container").find("form").first()
-            return [{
-              id: currentForm.attr("data-update-monitor-record-uri"),
-              name: $("#resource_title_").text(),
-              json: {
+            if (onResource) {
+              return [{
                 id: currentForm.attr("data-update-monitor-record-uri"),
-                uri: currentForm.attr("data-update-monitor-record-uri"),
-                title: $("#resource_title_").text(),
-                jsonmodel_type: "resource"
-              }
-            }]
+                name: $("#resource_title_").text(),
+                json: {
+                  id: currentForm.attr("data-update-monitor-record-uri"),
+                  uri: currentForm.attr("data-update-monitor-record-uri"),
+                  title: $("#resource_title_").text(),
+                  jsonmodel_type: "resource"
+                }
+              }]
+            } else if (onArchivalObject) {
+              return [{
+                id: $("#archival_object_resource_").attr("value"),
+                name: $(".record-title").first().text(),
+                json: {
+                  id: $("#archival_object_resource_").attr("value"),
+                  uri: $("#archival_object_resource_").attr("value"),
+                  title: $(".record-title").first().text(),
+                  jsonmodel_type: "resource"
+                }
+              }]
+            }
           }
 
           if ($.isEmptyObject($this.data("selected"))) {
@@ -441,15 +456,17 @@ $(function() {
             $linkerWrapper.addClass("sortable");
           }
 
-          // This is part of automatically executing a search for the current resource on the browse top containers modal when opened from the edit resource page.
+          // This is part of automatically executing a search for the current resource on the browse top
+          // containers modal when opened from the edit resource or archival object pages.
           // If this setTimeout is for the last linker in the modal, only then is it safe to execute the search
           let lastLinker = $(".modal-dialog").find(".linker").last()
           let isLastLinker = lastLinker.attr("id") === $this.context.id
           let onResource = $(".label.label-info").text() === "Resource"
+          let onArchivalObject = $(".label.label-info").text() === "Archival Object"
           let modalHasResource = $(".modal-dialog").find("#collection_resource").length > 0
           let resultsEmpty = $(".modal-dialog").find(".table-search-results").length < 1
 
-          if (on_resource_edit_path && onResource && modalHasResource && resultsEmpty && isLastLinker) {
+          if (on_resource_edit_path && modalHasResource && resultsEmpty && isLastLinker && (onResource || onArchivalObject)) {
             $(".modal-dialog").find("input[type='submit']").click()
           }
         });
