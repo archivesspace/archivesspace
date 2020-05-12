@@ -30,4 +30,4 @@ LYRASIS, and contributions from diverse persons in the archives community.
 
 # Membership
 
-ArchivesSpace is free to download and use, but has a membership model to promote sustainability and the continuing development of the application and support those who use it. Learn more about ArchivesSpace membership at https://archivesspace.org/community/why-become-a-member. Reach out to the program team at ArchivesSpaceHome@lyrasis.org if you are interested in becoming an ArchivesSpace member.
+ArchivesSpace is free to download and use, but has a membership model to promote sustainability and the continuing development of the application and to support those who use it. Learn more about ArchivesSpace membership at https://archivesspace.org/community/why-become-a-member. Reach out to the program team at ArchivesSpaceHome@lyrasis.org if you are interested in becoming an ArchivesSpace member.
