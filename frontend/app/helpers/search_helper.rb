@@ -251,6 +251,11 @@ module SearchHelper
     IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP.key? type
   end
 
+  def clear_extra_columns
+    @extra_columns = []
+  end
+
+
   class ExtraColumn
 
     def initialize(label, value_block, opts, search_data)
