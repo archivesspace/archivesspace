@@ -71,6 +71,7 @@ describe "Agent Handler" do
     a1 = @ah.get_or_create("people", id, nil, "aut", "source", @report)
     newid = a1["ref"].split("/")[3]
     expect(newid).to eq(id.to_s)
+    a.delete
   end
 
   it "should find a person agent from its ID " do
@@ -78,6 +79,7 @@ describe "Agent Handler" do
     a1 = @ah.get_or_create("people", agent_1[:id], nil, "aut", "source", @report)
     newid = a1["ref"].split("/")[3]
     expect(newid).to eq(agent_1[:id].to_s)
+    agent_1.delete
   end
   it "should find a family from its ID" do
     agent_2 = AgentFamily.create_from_json(family_agent)

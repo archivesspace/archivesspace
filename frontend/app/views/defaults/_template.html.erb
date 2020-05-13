@@ -5,7 +5,7 @@
       <%= form.label_and_boolean "show_suppressed", {}, form.default_for("show_suppressed") %>
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
       <%= form.label_and_boolean "default_values", {}, form.default_for("default_values") %>
-
+      <%= form.label_and_select "locale", supported_locales_options, supported_locales_default %>
 
       <h3><%= I18n.t "defaults.accession_browse_section" %></h3>
       <%=

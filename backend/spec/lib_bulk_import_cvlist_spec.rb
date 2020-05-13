@@ -21,7 +21,7 @@ describe "Controlled Value List" do
     expect(value).to eq("local")
   end
 
-  it "should throw and exception for an invalid translation or value" do
+  it "should throw an exception for an invalid translation or value" do
     expect {
       current_user = User.find(:username => "admin")
       subject_sources = CvList.new("subject_source", current_user)

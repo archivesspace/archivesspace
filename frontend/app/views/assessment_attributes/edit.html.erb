@@ -29,7 +29,7 @@
             <% @assessment_attribute_definitions.global_ratings.each do |rating| %>
               <tr>
                 <td>
-                  <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{rating.fetch('label')}\"" %>">
+                  <a class="btn btn-sm" target="_blank" aria-label="<%= I18n.t("assessment_attribute_definitions._frontend.action.find_rating", :rating_type =>rating.fetch('label')) %>" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{rating.fetch('label')}\"" %>">
                     <span class="glyphicon glyphicon-search"></span>
                   </a>
                   <%= rating.fetch('label') %>
@@ -52,7 +52,7 @@
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
                       </span>
                       <span class="input-group-addon repo-attribute-search">
-                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{rating.fetch('label')}\"" %>">
+                        <a target="_blank" aria-label="<%= I18n.t("assessment_attribute_definitions._frontend.action.find_rating", :rating_type =>rating.fetch('label')) %>" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_ratings:\"#{rating.fetch('label')}\"" %>">
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
@@ -70,7 +70,10 @@
             <tbody>
               <tr>
                 <td colspan="2">
-                  <button class="btn btn-sm btn-success add-repo-attribute" data-type="rating"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                  <button class="btn btn-sm btn-success add-repo-attribute" data-type="rating">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="sr-only"><%= I18n.t("assessment_attribute_definitions._frontend.action.add_type", :type => I18n.t('assessment_attribute_definitions._frontend.section.ratings')) %></span>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -92,7 +95,7 @@
               <% @assessment_attribute_definitions.global_formats.each do |format| %>
                 <tr>
                   <td>
-                    <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
+                    <a class="btn btn-sm" target="_blank" aria-label="<%= I18n.t("assessment_attribute_definitions._frontend.action.find_format", :format_type =>format.fetch('label')) %>" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
                     <span class="glyphicon glyphicon-search"></span>
                     </a>
                     <%= format.fetch('label') %>
@@ -115,7 +118,7 @@
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
                       </span>
                       <span class="input-group-addon repo-attribute-search">
-                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
+                        <a target="_blank" aria-label="<%= I18n.t("assessment_attribute_definitions._frontend.action.find_format", :format_type =>format.fetch('label')) %>" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_formats:\"#{format.fetch('label')}\"" %>">
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
@@ -133,7 +136,10 @@
             <tbody>
               <tr>
                 <td colspan="2">
-                  <button class="btn btn-sm btn-success add-repo-attribute" data-type="format"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                  <button class="btn btn-sm btn-success add-repo-attribute" data-type="format">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="sr-only"><%= I18n.t("assessment_attribute_definitions._frontend.action.add_type", :type => I18n.t('assessment_attribute_definitions._frontend.section.formats')) %></span>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -155,7 +161,7 @@
               <% @assessment_attribute_definitions.global_conservation_issues.each do |conservation_issue| %>
                 <tr>
                   <td>
-                    <a class="btn btn-sm" target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{conservation_issue.fetch('label')}\"" %>">
+                    <a class="btn btn-sm" target="_blank" aria-label="<%= I18n.t("assessment_attribute_definitions._frontend.action.find_issue", :issue_type =>conservation_issue.fetch('label')) %>" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{conservation_issue.fetch('label')}\"" %>">
                       <span class="glyphicon glyphicon-search"></span>
                     </a>
                     <%= conservation_issue.fetch('label') %>
@@ -178,7 +184,7 @@
                         <span class="glyphicon glyphicon-menu-hamburger"></span>
                       </span>
                       <span class="input-group-addon repo-attribute-search">
-                        <a target="_blank" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{conservation_issue.fetch('label')}\"" %>">
+                        <a target="_blank" aria-label="<%= I18n.t("assessment_attribute_definitions._frontend.action.find_issue", :issue_type =>conservation_issue.fetch('label')) %>" href="<%= url_for :controller => :search, :action => :do_search, :type => 'assessment', :q => "assessment_conservation_issues:\"#{conservation_issue.fetch('label')}\"" %>">
                           <span class="glyphicon glyphicon-search"></span>
                         </a>
                       </span>
@@ -196,7 +202,10 @@
             <tbody>
               <tr>
                 <td colspan="2">
-                  <button class="btn btn-sm btn-success add-repo-attribute" data-type="conservation_issue"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                  <button class="btn btn-sm btn-success add-repo-attribute" data-type="conservation_issue">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="sr-only"><%= I18n.t("assessment_attribute_definitions._frontend.action.add_type", :type => I18n.t('assessment_attribute_definitions._frontend.section.conservation_issues')) %></span>
+                  </button>
                 </td>
               </tr>
             </tbody>

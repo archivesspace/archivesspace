@@ -849,6 +849,7 @@ fr:
 
   instance_container:
     <<: *instance_attributes
+    barcode: Code-barres
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1127,6 +1128,7 @@ fr:
 
   date_type_bulk:
     <<: *date_attributes
+    bulk: masse
 
   date_type_inclusive:
     <<: *date_attributes
@@ -1912,6 +1914,7 @@ fr:
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs par défaut.
+    locale: Language Selection
     accession_browse_section: Colonnes d'exploration des entrées
     accession_browse_column_1: Colonne 1
     accession_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
@@ -1969,6 +1972,7 @@ fr:
   validation_errors:
     agent_must_be_unique: Il ne peut y avoir deux notices d'agents identiques
     subject_must_be_unique: Il ne peut y avoir deux notices sujets identiques
+    subject_heading_identifier_must_be_unique_within_source: L'identifiant de la vedette-matière doit être unique dans la source
     conflicting_record: Enregistrement contradictoire
     missing_required_property: Propriété requise qui manquait
     missing_property: Propriété manquante
@@ -2057,6 +2061,9 @@ fr:
     time_finished: Heure d'achèvement
     owner: Owner
     show_description: Montrer description
+    job_data: Information de tâche
+    input_file: Fichier d'entrée
+    output_file: Fichier de sortie
 
   report_job:
     report_type: Type de rapport

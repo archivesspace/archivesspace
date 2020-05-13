@@ -231,6 +231,15 @@ module AgentManager
       end
 
 
+      def find_matching_id(json)
+        authorized_id = json['names'].find {|name| name['authority_id']}
+        existing_link = NameAuthorityId.find(:authority_id => authorized_id['authority_id'])
+        existing_name_record = my_agent_type[:name_model].find(:id => existing_link[:"#{authorized_id['jsonmodel_type']}_id"])
+
+        find(:id => existing_name_record[:"#{json['jsonmodel_type']}_id"])
+      end
+
+
       def find_matching(json)
         find(:agent_sha1 => calculate_hash(json))
       end

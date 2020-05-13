@@ -11,6 +11,7 @@ digital_object_browse_column_enum = [
                       "digital_object_id", "digital_object_type", "level", "restrictions",
                       "publish", 'no_value'
                      ]
+locale_enum = I18n.supported_locales.keys
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
@@ -20,6 +21,12 @@ digital_object_browse_column_enum = [
 
       "show_suppressed" =>  {"type" => "boolean", "required" => false},
       "publish" =>  {"type" => "boolean", "required" => false},
+
+      "locale" => {
+        "type" => "string",
+        "enum" => locale_enum,
+        "required" => false
+      },
 
       "accession_browse_column_1" => {
         "type" => "string",

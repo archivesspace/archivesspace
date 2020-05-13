@@ -209,6 +209,11 @@ es:
       assessment_survey_year: Año de encuesta
       assessment_record_types: Tipo de registro
       assessment_completed: Terminado
+      status: Estado de trabajo
+      job_type: Tipo de tarea
+      report_type: Tipo de informe
+      owner: Propietario
+      langcode: Language of Materials
     help:
       row_selection: Haga clic en una fila para seleccionarla para operaciones masivas. Mantenga la tecla ALT mientras hace clic en una casilla de verificación para seleccionar o anular la selección, múltiples filas anteriores.
 
@@ -256,6 +261,12 @@ es:
     assessment_survey_begin: Fecha de inicio de la encuesta
     assessment_survey_end: Encuesta completada
     assessment_id: ID
+    status: Estado
+    job_type: Tipo de tarea
+    report_type: Tipo de informe
+    job_report_type: Tipo de tarea
+    time_started: Tiempo comenzado
+    time_finished: Tiempo terminado
 
   advanced_search:
     operator:
@@ -1196,9 +1207,10 @@ es:
         updated: Contenedor Top actualizado
         filter_required: Por favor proporcionar un filtro
         max_results_limit_reached: No se han incluido todos los resultados. Por favor refine su búsqueda.
-        max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong> {% num_found} </strong> Resultados de la búsqueda"
-        results_summary: "Los resultados coinciden con: <strong> {% num_found} </strong>"
+        max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong> %{num_found} </strong> Resultados de la búsqueda"
+        results_summary: "Los resultados coinciden con: <strong> %{num_found} </strong>"
         bulk_selection_sort_help: Haga clic en una columna para establecer el orden de clasificación. Deja la tecla shift presionada para ordenar por varias columnas.
+        merged: Contenedor (es) superior (es) fusionados
         bulk_action_success: Contenedores Top actualizado
         bulk_action_success_info: Tenga en cuenta que antes de que los cambios se reflejen en los resultados de búsqueda puede pasar un rato.
         no_active_restrictions: Sin restricciones activas
@@ -1231,10 +1243,24 @@ es:
         rapid_barcode_entry: Entrada rápida de código de barras rápida
         rapid_barcode_entry_existing_barcode: Código de barras existente
         rapid_barcode_entry_new_barcode: Nuevo código de barras
+        batch_merge: Fusionar contenedores superiores
+        batch_merge_instructions: Seleccione el contenedor superior en el que se fusionarán todos los demás contenedores superiores enumerados. Los registros vinculados se volverán a vincular a este contenedor y se eliminará toda la información de los otros contenedores principales.
+        batch_merge_confirm: Confirmar combinación de contenedores superiores
+        batch_merge_confirm_question: ¿Está seguro de que desea fusionar los contenedores superiores como se enumeran a continuación? Esta acción es irreversible.
+        batch_merge_confirm_victims: "Combinar los siguientes contenedores superiores:"
+        batch_merge_confirm_target: "En este contenedor superior:"
         rapid_barcode_entry_help: Ingrese un código de barras para cada contenedor seleccionado. Deje en blanco el campo Nuevo código de barras para eliminar el código de barras actual sin reemplazarlo por un nuevo valor.
+        batch_merge: Fusionar contenedores superiores
+        batch_merge_instructions: Seleccione el contenedor superior en el que se fusionarán todos los demás contenedores superiores enumerados. Los registros vinculados se volverán a vincular a este contenedor y se eliminará toda la información de los otros contenedores principales.
+        batch_merge_confirm: Confirmar combinación de contenedores superiores
+        batch_merge_confirm_question: ¿Está seguro de que desea fusionar los contenedores superiores como se enumeran a continuación? Esta acción es irreversible.
+        batch_merge_confirm_victims: "Combinar los siguientes contenedores superiores:"
+        batch_merge_confirm_target: "En este contenedor superior:"
         batch_delete: Borrar Contenedores Top
         batch_delete_help: Borrar todos los contenedores seleccionados.
         update_n_records: "Actualizar %{n} registros"
+        select_merge_target: Seleccionar objetivo de fusión
+        merge_n_records: "Va %{n} registros"
         delete_n_records: "Borrar %{n} registros"
         update_locations_current_location: Ubicación actual
         update_locations_new_location: Nueva ubicación
@@ -1471,6 +1497,10 @@ es:
       repository: Repositorio %{type}
       action:
         save: Guardar atributos de evaluación
+        add_type: Añadir %{type}
+        find_rating: Buscar registros con una calificación %{rating_type}
+        find_format: Buscar registros con un %{format_type} tipo / formato de material
+        find_issue: Buscar registros con un problema de conservación %{issue_type}
       messages:
         updated: Atributos de evaluación actualizados
         error: Error al actualizar los atributos de evaluación

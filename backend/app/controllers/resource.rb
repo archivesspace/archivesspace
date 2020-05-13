@@ -100,8 +100,9 @@ class ArchivesSpaceService < Sinatra::Base
         obj = ArchivalObject.to_jsonmodel(ref[:id])
       end
       top_container.push(obj[:instances].map {|instance|
+                    instance['instance_type'] == 'digital_object' ? nil :
                     instance['sub_container']['top_container']
-                    })
+                  }.compact)
 
     end
 

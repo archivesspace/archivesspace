@@ -47,7 +47,7 @@ module Searchable
       @query +=  "repository:\"#{repo_id}\""
       @base_search = "#{@base_search}&repo_id=#{repo_id.gsub('/','%2f')}"
     end
-    years = get_years(params)
+    years = get_filter_years(params)
     if !years.blank?
       @query = "#{@query} AND years:[#{years['from_year']} TO #{years['to_year']}]"
       @base_search = "#{@base_search}&filter_from_year=#{years['from_year']}&filter_to_year=#{years['to_year']}"
@@ -85,7 +85,6 @@ module Searchable
     end
     set_search_statement
     raise I18n.t('navbar.error_no_term') unless @search.has_query?
-    queries = @search[:q]
     have_query = false
     advanced_query_builder = AdvancedQueryBuilder.new
     @search[:q].each_with_index { |query, i|
@@ -120,15 +119,14 @@ module Searchable
       advanced_query_builder.and('keyword', value, 'text', false, false)
     end
      # we have to add filtered dates, if they exist
-    unless @search[:dates_searched] || (@search[:filter_to_year].blank? && @search[:filter_from_year].blank?)
-
-      from =  @search[:filter_from_year]
-      to = @search[:filter_to_year]
-      builder = AdvancedQueryBuilder.new
-#      builder.and('keyword','*', 'text', false)
-      builder.and('years', AdvancedQueryBuilder::RangeValue.new(from, to), 'range', false, false)
-      advanced_query_builder.and(builder)
-#      @base_search += "&filter_from_year=#{@search[:filter_from_year]}&filter_to_year=#{@search[:filter_to_year]}"
+    unless @search[:dates_searched]
+      years = get_filter_years(params)
+      unless years['from_year'].blank? && years['to_year'].blank?
+        builder = AdvancedQueryBuilder.new
+        builder.and('years', AdvancedQueryBuilder::RangeValue.new(years['from_year'], years['to_year']), 'range', false, false)
+        advanced_query_builder.and(builder)
+        @base_search = "#{@base_search}&filter_from_year=#{years['from_year']}&filter_to_year=#{years['to_year']}"
+      end
     end
     @criteria = default_search_opts
     @criteria['sort'] = @search[:sort] if @search[:sort]  # sort can be passed as default or via params
@@ -154,8 +152,6 @@ module Searchable
 
       advanced_query_builder.and(this_repo)
     end
-    advanced_query_builder.and('types', 'pui')
-    advanced_query_builder.and('publish', true)
     @base_search += "&limit=#{@search[:limit]}" unless @search[:limit].blank?
 
     @facet_filter = FacetFilter.new(default_facets, @search[:filter_fields],  @search[:filter_values])
@@ -173,7 +169,7 @@ module Searchable
   end
 
 
-  def get_years(params)
+  def get_filter_years(params)
     params = sanitize_params(params)
     years = {}
     from = params.fetch(:filter_from_year,'').strip

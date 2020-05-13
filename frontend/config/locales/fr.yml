@@ -207,6 +207,11 @@ fr:
       assessment_survey_year: Année du passage en revue
       assessment_record_types: Type de notices
       assessment_completed: Effectué
+      status: Statut
+      job_type: Type de tâche
+      report_type: Type de rapport
+      owner: Owner
+      langcode: Language of Materials
     help:
       row_selection: Cliquez sur une rangée pour la sélectionner en vue d'opérations en masse. Maintenir la touche alt pressée tout en cliquant une case à cocher pour sélectionner ou déselectionner plusieurs rangées précédentes.
 
@@ -254,6 +259,12 @@ fr:
     assessment_survey_begin: Passage en revue Début
     assessment_survey_end: Passage en revue Fin
     assessment_id: ID
+    status: Statut
+    job_type: Type de tâche
+    report_type: Type de rapport
+    job_report_type: Type de tâche
+    time_started: Heure de commencement
+    time_finished: Heure d'achèvement
 
   advanced_search:
     operator:
@@ -1197,6 +1208,7 @@ fr:
         max_results_limit_details: "<strong>%{visible}</strong> résulats correspondants affichés sur <strong>%{num_found}</strong>"
         results_summary: "Résultats correspondants: <strong>%{num_found}</strong>"
         bulk_selection_sort_help: Cliquez sur une colonne pour définir la méthode de tri.  Maintenir la touche Maj pressée pour trier par colonnes multiples.
+        merged: Top conteneur (s) fusionné
         bulk_action_success: Top conditionnements actualisés avec succès
         bulk_action_success_info: Attention! Un certain temps peut s'écouler avant que les modifications ne soient répercutées dans les résultats de la recherche.
         no_active_restrictions: Pas de restrictions en vigueur
@@ -1229,10 +1241,24 @@ fr:
         rapid_barcode_entry: Saisie rapide de code-barres
         rapid_barcode_entry_existing_barcode: Code-barres existant
         rapid_barcode_entry_new_barcode: Nouveau code-barres
+        batch_merge: Fusionner les conteneurs
+        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Tous les enregistrements liés seront liés à ce conteneur et toutes les informations relatives au (x) autre (s) conteneur (s) supérieur (s) seront supprimées.
+        batch_merge_confirm: Confirmer la fusion des conteneurs supérieurs
+        batch_merge_confirm_question: Voulez-vous vraiment fusionner les conteneurs supérieurs comme indiqué ci-dessous? Cette action est irréversible.
+        batch_merge_confirm_victims: "Fusionner les conteneurs supérieurs suivants:"
+        batch_merge_confirm_target: "Dans ce conteneur supérieur:"
         rapid_barcode_entry_help: Entrez un code-barres pour chaque conteneur sélectionné. Laissez le champ Nouveau code-barres vide pour supprimer le code-barres actuel sans le remplacer par une nouvelle valeur.
+        batch_merge: Fusionner les conteneurs
+        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Tous les enregistrements liés seront liés à ce conteneur et toutes les informations relatives au (x) autre (s) conteneur (s) supérieur (s) seront supprimées.
+        batch_merge_confirm: Confirmer la fusion des conteneurs supérieurs
+        batch_merge_confirm_question: Voulez-vous vraiment fusionner les conteneurs supérieurs comme indiqué ci-dessous? Cette action est irréversible.
+        batch_merge_confirm_victims: "Fusionner les conteneurs supérieurs suivants:"
+        batch_merge_confirm_target: "Dans ce conteneur supérieur:"
         batch_delete: Supprimer Top conditionnements
         batch_delete_help: Supprimer tous les conditionnements sélectionnés.
         update_n_records: "Actualiser %{n} notices"
+        select_merge_target: Sélectionner la cible de fusion
+        merge_n_records: "Ça va %{n} enregistrements"
         delete_n_records: "Supprimer %{n} notices"
         update_locations_current_location: Localisation actuelle
         update_locations_new_location: Nouvelle localisation
@@ -1470,6 +1496,10 @@ fr:
       repository: Dépôt %{type}
       action:
         save: Sauvegarder les attributs d'évaluation
+        add_type: Ajouter %{type}
+        find_rating: Rechercher des enregistrements avec une note %{rating_type}
+        find_format: Rechercher des enregistrements avec un type / format de matériau %{format_type}
+        find_issue: Rechercher des enregistrements avec un problème de conservation %{issue_type}
       messages:
         updated: Attribut actualisés
         error: Erreur lors de l'actualisation

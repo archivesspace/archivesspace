@@ -9,6 +9,7 @@ describe 'Resource instances and containers' do
 
     @resource = create(:resource)
     @accession = create(:accession)
+    @accession_no_container = create(:accession)
 
     @location_a = create(:location)
     @location_b = create(:location,
@@ -84,6 +85,59 @@ describe 'Resource instances and containers' do
     expect(@driver.find_element(css: '.form-group:nth-child(3) div.label-only').text).to eq('xyzpdq')
   end
 
+
+  it 'searches containers and performs bulk container merge' do
+    @driver.navigate.to("#{$frontend}/top_containers")
+
+    @driver.find_element(:css, '#empty').select_option('yes')
+    @driver.find_element(:css, 'input.btn').click
+
+    @driver.wait_for_ajax
+
+    @driver.find_element(css: "#bulk_operation_results input[name='select_all']").click
+
+    # Pre-merge baselines for number of rows and the target uri that will remain post merge
+    row_count = @driver.all(:css, 'table tr').size
+    target_uri = @driver.find_element(xpath: '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[12]/div/a[1]').attribute('href')
+
+    # Now merge top containers
+    @driver.find_element(css: '.bulk-operation-toolbar:first-child a.dropdown-toggle').click
+    @driver.wait_for_dropdown
+
+    @driver.find_element(id: 'bulkActionMerge').click
+
+    modal = @driver.find_element(id: 'bulkMergeModal')
+    modal.find_element(:css, "input[name='target[]").click
+    modal.find_element(css: '.merge-button').click
+
+    # Should be given a confirmation modal
+    expect do
+      @modal_confirm = @driver.find_element(id: 'bulkMergeConfirmModal')
+    end.not_to raise_error
+
+    @modal_confirm.find_element(css: '.merge-button').click
+
+    # Should be redirected to surviving top container with success message
+    expect do
+      @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Top .+ Merged/)
+    end.not_to raise_error
+
+    # Indexers aren't running as normal, so must manually reindex post merge
+    run_all_indexers
+
+    @driver.navigate.to("#{$frontend}/top_containers")
+    @driver.find_element(:css, '#empty').select_option('yes')
+    @driver.find_element(css: 'input.btn').click
+
+    @driver.wait_for_ajax
+
+    # There should be fewer rows now
+    expect(@driver.all(:css, 'table tr').size).not_to eq(row_count)
+    # The target should remain
+    expect(@driver.find_element(xpath: '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[12]/div/a[1]').attribute('href')).to eq(target_uri)
+  end
+
+
   it 'can attach instances to resources and create containers and locations along the way' do
     @driver.navigate.to("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
     @driver.find_element(css: '#resource_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
@@ -145,11 +199,26 @@ describe 'Resource instances and containers' do
     # re-find our original modal
     @driver.scroll_into_view(@driver.find_element_with_text('//button', /Create and Link to Top Container/)).click
 
+    #add a subcontainer_barcode
+    @driver.clear_and_send_keys([:css, '#resource_instances__0__sub_container__barcode_2_'], 'test_child_container_barcode')
+
     @driver.find_element(css: "form .record-pane button[type='submit']").click
 
     expect do
       @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Resource .+ updated/)
     end.not_to raise_error
+  end
+
+  it 'can find the top container by its associated sub_container barcode' do
+    run_all_indexers
+    @driver.navigate.to("#{$frontend}/top_containers")
+
+    @driver.clear_and_send_keys([:css, '#barcodes'], 'test_child_container_barcode')
+    @driver.find_element(css: 'input.btn').click
+
+    results = @driver.find_element(id: 'bulk_operation_results')
+
+    expect(results.find_elements(css: 'tbody tr').length).to eq(1)
   end
 
   it 'can also attach instances to accessions and create containers and locations along the way' do
@@ -201,6 +270,27 @@ describe 'Resource instances and containers' do
     expect do
       @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Accession .+ updated/)
     end.not_to raise_error
+  end
+
+  it 'can find the top container that was created using the typeahead feature for this record' do
+    run_all_indexers
+    @driver.navigate.to("#{$frontend}#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit")
+    @driver.find_element(css: '#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
+
+    token_input = @driver.find_element(:id, 'token-input-accession_instances__1__sub_container__top_container__ref_')
+    expect do
+      @driver.typeahead_and_select(token_input, 'oof')
+    end.not_to raise_error
+  end
+
+  it 'does not find the top container that was created using the typeahead feature in another record' do
+    @driver.navigate.to("#{$frontend}#{@accession_no_container.uri.sub(%r{/repositories/\d+}, '')}/edit")
+    @driver.find_element(css: '#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
+
+    token_input = @driver.find_element(:id, 'token-input-accession_instances__0__sub_container__top_container__ref_')
+    expect do
+      @driver.typeahead_and_select(token_input, 'oof', 8) # start from 8th try (we expect this to fail so don't wait so long for it)
+    end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
 
   it 'can add a location with a previous status to a top container' do

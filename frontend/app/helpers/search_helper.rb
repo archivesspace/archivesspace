@@ -25,15 +25,14 @@ module SearchHelper
     search_params["filter_term"].concat(Array(opts["add_filter_term"])) if opts["add_filter_term"]
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
 
-    if params["multiplicity"]
-      search_params["multiplicity"] = params["multiplicity"]
-    end
+    search_params["multiplicity"] = params["multiplicity"] if params["multiplicity"]
+    search_params["display_identifier"] = true if params[:display_identifier] || show_identifier_column?
+    search_params["hide_audit_info"] = opts["hide_audit_info"] ? opts["hide_audit_info"] : hide_audit_info?
+    search_params["extra_columns"] = params["extra_columns"] if params["extra_columns"]
+    search_params["extra_columns"].concat(opts["extra_columns"]) if opts["extra_columns"]
+    search_params["show_context_column"] = opts["show_context_column"] ? opts["show_context_column"] : show_context_column?
 
     sort = (opts["sort"] || params["sort"])
-
-    if show_identifier_column?
-      search_params["display_identifier"] = true
-    end
 
     # if the browse list was sorted by default
     if sort.nil? && !@search_data.nil? && @search_data.sorted?
@@ -101,6 +100,9 @@ module SearchHelper
     @display_context
   end
 
+  def hide_audit_info?
+    @hide_audit_info
+  end
 
   def context_column_header_label
     @context_column_header or I18n.t("search_results.context")
@@ -241,6 +243,9 @@ module SearchHelper
     !@extra_columns.empty?
   end
 
+  def has_identifier? type
+    IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP.key? type
+  end
 
   class ExtraColumn
 
@@ -281,4 +286,54 @@ module SearchHelper
     end
 
   end
+
+  module Formatter
+    # Formatters are procs that take a fieldname, and return a proc usable as the
+    # value_block argument in SearchHelper::ExtraColumn#new
+    #
+    # Usage:
+    #       Formatter[formatter, field].call(field)
+    #
+    # FORMATTERS is customized to return a default formatter if passed a format it doesn't understand,
+    # which will produce the value as returned from the field without alteration.
+    #
+    # Because these formatters are referenced as methods, names must be valid ruby identifiers
+    class << self
+      def [](meth, field)
+        self.send(meth.to_sym, field)
+      end
+
+      def stringify(field)
+        proc {|record| record[field].to_s }
+      end
+
+      def linked_records_listing(field)
+        proc {|record|
+          identifiers = Array(record[field])
+          out_html = %Q|<ul class="linked-records-listing count-#{identifiers.length}">|
+          out_html << identifiers.map {|identifier|
+            %Q|<li><span class="collection-identifier">#{identifier}</span></li>|
+          }.join("")
+          out_html << '</ul>'
+
+          out_html.html_safe
+        }
+      end
+
+      def combined_identifier(field)
+        proc {|record|
+          identifiers = Array(record['collection_identifier_stored_u_sstr'])
+          displays = Array(record['collection_display_string_u_sstr'])
+          out_html = %Q|<ul class="linked-records-listing count-#{identifiers.length}">|
+          out_html << identifiers.zip(displays).map {|identifier, display|
+            %Q|<li><span class="collection-identifier">#{identifier}</span> <span class="collection-display-string">#{display}</span></li>|
+          }.join('')
+          out_html << '</ul>'
+
+          out_html.html_safe
+        }
+      end
+    end
+  end
+
 end

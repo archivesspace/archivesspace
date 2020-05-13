@@ -1,7 +1,6 @@
 require_relative "handler"
 require_relative "../../../model/subject"
 require_relative "bulk_import_mixins"
-include CrudHelpers
 
 class SubjectHandler < Handler
   def initialize(current_user)

@@ -18,12 +18,10 @@ class BulkImportController < ApplicationController
   def submit_file
     url = "/bulkimport/ssload"
     file = params.fetch("file")
-    Rails.logger.error("FILE: #{file.pretty_inspect}")
     newfile = UploadIO.new(file.tempfile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", file.original_filename)
     params.delete("file")
     params[:filename] = file.original_filename
     params[:filepath] = newfile.local_path
-    params[:filetype] = file.content_type
     response = JSONModel::HTTP.post_form(url, params, :multipart_form_data)
     # change this when we get to diffing between errors and success?
     return render_aspace_partial :partial => "resources/bulk_import_response", :locals => { :data => response.body }

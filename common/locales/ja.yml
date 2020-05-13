@@ -691,6 +691,7 @@ ja:
 
   instance_container:
     <<: *instance_attributes
+    barcode: バーコード
 
   instance_digital_object:
     <<: *instance_attributes
@@ -881,6 +882,7 @@ ja:
 
   date_type_bulk:
     <<: *date_attributes
+    bulk: バルク
 
   date_type_inclusive:
     <<: *date_attributes
@@ -1438,6 +1440,7 @@ ja:
     publish_tooltip: 既定で新しいレコードを発行するかどうか。
     default_values: レコードの事前入力？
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
+    locale: Language Selection
     accession_browse_section: アクセス列を参照
     accession_browse_column_1: 列1
     accession_browse_column_1_tooltip: 列1に表示するフィールド。
@@ -1495,6 +1498,7 @@ ja:
   validation_errors:
     agent_must_be_unique: エージェントレコードは同一ではありません
     subject_must_be_unique: 件名のレコードは同一ではありません
+    subject_heading_identifier_must_be_unique_within_source: 件名の見出し識別子はソース内で一意である必要があります
     conflicting_record: 競合するレコード
     missing_required_property: プロパティは必須ですが行方不明です
     missing_property: プロパティが見つかりませんでした
@@ -1581,6 +1585,9 @@ ja:
     time_finished: 完了した時間
     owner: オーナー
     show_description: 説明を表示する
+    job_data: ジョブ情報
+    input_file: 入力ファイル
+    output_file: 出力ファイル
 
   report_job:
     report_type: レポートタイプ

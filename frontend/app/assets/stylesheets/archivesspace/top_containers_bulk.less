@@ -33,16 +33,17 @@
     overflow: auto;
 }
 
+.selected-record-list input:checked ~ span {
+  font-weight: bold;
+}
+
 #bulk_operation_results .linked-records-listing,
 #bulkActionBarcodeRapidEntryModal .linked-records-listing {
     margin: 0;
     list-style-position: inside;
 }
-#bulk_operation_results .linked-records-listing.count-1,
-#bulkActionBarcodeRapidEntryModal .linked-records-listing.count-1 {
-    list-style: none;
-    padding: 0;
-}
+
+/* See .linked-records-listing.count-1 in tables.less for handling of linked records cells */
 
 .tablesorter-header-inner {
   padding: 0 !important;

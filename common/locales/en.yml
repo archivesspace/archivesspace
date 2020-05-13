@@ -849,6 +849,7 @@ en:
 
   instance_container:
     <<: *instance_attributes
+    barcode: Barcode
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1127,6 +1128,7 @@ en:
 
   date_type_bulk:
     <<: *date_attributes
+    bulk: bulk
 
   date_type_inclusive:
     <<: *date_attributes
@@ -1912,6 +1914,7 @@ en:
     publish_tooltip: Whether to publish new records by default.
     default_values: Pre-populate Records?
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
+    locale: Language Selection
     accession_browse_section: Accession Browse Columns
     accession_browse_column_1: Column 1
     accession_browse_column_1_tooltip: The field to show in column 1.
@@ -1969,6 +1972,7 @@ en:
   validation_errors:
     agent_must_be_unique: Agent records cannot be identical
     subject_must_be_unique: Subject records cannot be identical
+    subject_heading_identifier_must_be_unique_within_source: Subject heading identifier must be unique within source
     conflicting_record: Conflicting record
     missing_required_property: Property is required but was missing
     missing_property: Property was missing
@@ -2058,6 +2062,9 @@ en:
     time_finished: Time Completed
     owner: Owner
     show_description: Show Description
+    job_data: Job Information
+    input_file: Input File
+    output_file: Output File
 
   report_job:
     report_type: Report Type
@@ -2340,7 +2347,7 @@ en:
     created: "%{what} created: %{id}"
     would_be: "%{what} would be created"
     updated: "%{what}: %{id}"
-    clip_btn: Copy to Clipboard   
+    clip_btn: Copy to Clipboard
     clip_created:  "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
     clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
     clip_info: "\t\t\t\t\t%{what}\n"
@@ -2353,7 +2360,7 @@ en:
     dig: Digital Object
     unfound_id: "%{type} ID %{id} NOT FOUND. This is a PLACEHOLDER"
     ref_id_notfound: "Ref Id %{refid} not found"
-    processed: The file has been processed 
+    processed: The file has been processed
     file_info: "%{size}K with %{rows} rows"
     max_file_info: "%{size}K and %{rows} rows"
     warn:
@@ -2385,7 +2392,7 @@ en:
       title: Missing title
       title_and_date: Missing Title AND Valid Date definition
       hier_miss: Missing hierachy -- must be a number greater than 0
-      hier_zero: Hierarchy must be greater than 0 
+      hier_zero: Hierarchy must be greater than 0
       hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row
       hier_wrong_resource:  did you mean to start processing with an archival object selected?
       hier_below_error_level: The parent archival object was not created
@@ -2393,7 +2400,7 @@ en:
       date: "Date must have at least one of: Date begin; Date end; or Date expression"
       number: Missing Extent number
       extent_type:  Missing Extent type
-      extent_validation: "Unable to validate extent (%{ext}): %{msg}" 
+      extent_validation: "Unable to validate extent (%{ext}): %{msg}"
       no_header: No header (field codes) row found; are you using the correct template?
       no_data: No processible data rows found!
       excel: "Error(s) parsing Excel File: %{errs}"
@@ -2402,14 +2409,14 @@ en:
       missing_instance_type: Missing container instance type
       no_ao: No Archival Object created
       no_container_instance: "Unable to create Container Instance: [%{why}]"
-      no_create: "Unable to create: [%{why}]"      
+      no_create: "Unable to create: [%{why}]"
       no_move: "Unable to move the archival objects from the end of the list (response code %{code})"
       bad_note: "%{type} note is not wellformed: %{msg}"
       bad_note_type: "Note type '%{type}' is not supported"
       bad_relator: "Unable to create agent link: '%{label}' is not a valid relator"
-      relator_invalid: "Unable to create agent link due to problem with relator '%{label}': %{why}" 
+      relator_invalid: "Unable to create agent link due to problem with relator '%{label}': %{why}"
       bad_role: "Unable to create agent link: '%{label}' is not a valid role"
-      role_invalid: "Unable to create agent link due to problem with role '%{label}': %{why}" 
+      role_invalid: "Unable to create agent link due to problem with role '%{label}': %{why}"
       has_dig_obj: "Archival object already has an associated digital object"
       dig_unassoc: "Unable to save archival object with associated digital object: %{msg}"
       ref_id_miss: No Ref Id specified
@@ -2428,6 +2435,3 @@ en:
       bad_ao: "Cannot find archival object %{errs}"
       no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
       file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
-      wrong_file_type: "File is neither a CSV nor Excel spreadsheet"
-      
-

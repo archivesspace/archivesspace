@@ -91,6 +91,7 @@ es:
   search_results:
     page_title: "Found %{count} Results"
     results_head: "Showing %{type}: %{start} - %{end} of %{total}"
+    result: Result
     results: Results
     head_prefix: Found
     head_suffix: Results

@@ -1,0 +1,8 @@
+<small>
+  <dl>
+  	<dt><%= I18n.t("job.owner") %></dt><dd><%= record["owner"] %></dd>
+    <dt><%= I18n.t("job.time_submitted") %></dt><dd><%= record["time_submitted"] %></dd>
+    <% if record["time_started"] %><dt><%= I18n.t("job.time_started") %></dt><dd><%= record["time_started"] %></dd><% end %>
+    <% if record["time_finished"] %><dt><%= I18n.t("job.time_finished") %></dt><dd><%= record["time_finished"] %></dd><% end %>
+  </dl>
+</small>

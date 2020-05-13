@@ -11,6 +11,7 @@ require 'test_utils'
 require 'config/config-distribution'
 require 'securerandom'
 require 'nokogiri'
+require 'factory_bot'
 
 require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'
@@ -49,7 +50,9 @@ $backend_start_fn = proc {
   TestUtils.start_backend($backend_port,
                           solr_port: $solr_port,
                           session_expire_after_seconds: $expire,
-                          realtime_index_backlog_ms: 600_000)
+                          realtime_index_backlog_ms: 600000,
+                          db_url: ENV.fetch('ASPACE_TEST_DB_URL', AppConfig.demo_db_url)
+  )
 }
 
 ENV['RAILS_ENV'] ||= 'test'

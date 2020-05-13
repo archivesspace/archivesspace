@@ -272,12 +272,12 @@ module ApplicationHelper
         html << "<strong>#{I18n.t("search_results.modified")} #{hash['last_modified_by']}</strong>"
         html << " #{Time.parse(hash['user_mtime']).getlocal}"
         html << ' | '
-        html << "<strong>URI:</strong> "
-        html << "<input type=\"text\" readonly=\"1\" value=\"#{hash['uri']}\" size=\"#{hash['uri'].length}\" style=\"background: #f1f1f1 !important; border: none !important; font-family: monospace;\"/>"
+        html << "<label for=\"uri\"><strong>URI:</strong> </label>"
+        html << "<input type=\"text\" id=\"uri\" readonly=\"1\" value=\"#{hash['uri']}\" size=\"#{hash['uri'].length}\" style=\"background: #f1f1f1 !important; border: none !important; font-family: monospace;\"/>"
         if !ark_url.nil?
           html << ' | '
-          html << "<strong>ARK:</strong> "
-          html << "<input type=\"text\" readonly=\"1\" value=\"#{ark_url}\" size=\"#{ark_url.length}\" style=\"background: #f1f1f1 !important; border: none !important; font-family: monospace;\"/>"
+          html << "<label for=\"ark\"><strong>ARK:</strong> </label>"
+          html << "<input type=\"text\" id=\"ark\" readonly=\"1\" value=\"#{ark_url}\" size=\"#{ark_url.length}\" style=\"background: #f1f1f1 !important; border: none !important; font-family: monospace;\"/>"
         end
       else
         html << "<dl>"
@@ -403,4 +403,13 @@ module ApplicationHelper
     end
   end
 
+  def supported_locales_default
+    {
+      default: user_prefs.key?('locale') ? user_prefs['locale'] : I18n.default_locale.to_s
+    }
+  end
+
+  def supported_locales_options
+    I18n.supported_locales.map{ |k, v| [t("enumerations.language_iso639_2.#{v}"), k] }
+  end
 end

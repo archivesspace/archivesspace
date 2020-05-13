@@ -1,53 +1,60 @@
 <%= setup_context(:title => I18n.t("job._plural")) %>
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="record-toolbar">
-      <div class="pull-right">
-        <div class="btn-group">
-          <% if user_can?('create_job') %>
-          <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
-            <%= I18n.t("job._frontend.actions.create") %>
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu open-aligned-right">
-            <% job_types.each do |type, perms| %>
-              <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_urls] %>
-              <% next if type == 'generate_arks_job' && !AppConfig[:arks_enabled] %>
-              <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
-                <li>
-                  <%= link_to I18n.t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %>
-                </li>
-              <% end %>
-            <% end %>
-          </ul>
-          <% end %>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-    </div>
+<%
+   @show_multiselect_column = false
+   @no_title = true
+   @hide_audit_info = true
 
+   add_column(I18n.t("job.status"), proc {|record| render_aspace_partial :partial => "jobs/status_cell", :locals => {:record => record}}, :sortable => true, :sort_by => 'status')
+   add_column(I18n.t("job.job_type"), proc {|record| render_aspace_partial :partial => "jobs/job_report_type_cell", :locals => {:record => record}}, :sortable => true, :sort_by => 'job_report_type')
+   add_column(I18n.t("job.job_data"), proc {|record| render_aspace_partial :partial => "jobs/job_data_cell", :locals => {:record => record}}, :sortable => false)
+   add_column(I18n.t("job.time_started"), proc {|record| record['time_started']}, :sortable => true, :sort_by => 'time_started', :class => 'hidden')
+   add_column(I18n.t("job.time_finished"), proc {|record| record['time_finished']}, :sortable => true, :sort_by => 'time_finished', :class => 'hidden')
+   add_column('<span class="sr-only">Audit information</span>'.html_safe, proc {|record| render_aspace_partial :partial => "jobs/audit_info_cell", :locals => {:record => record}}, :sortable => false)
+%>
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <% if user_can?('update_assessment_record') %>
+      <div class="record-toolbar">
+ 
+        <div class="pull-right">
+          <div class="btn-group">
+            <% if user_can?('create_job') %>
+            <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+              <%= I18n.t("job._frontend.actions.create") %>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu open-aligned-right">
+              <% job_types.each do |type, perms| %>
+                <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_urls] %>
+                <% next if type == 'generate_arks_job' && !AppConfig[:arks_enabled] %>
+                <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
+                  <li>
+                    <%= link_to I18n.t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+            <% end %>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+
+      </div>
+    <% end %>
     <div class="record-pane">
+      <%= link_to_help :topic => "search" %>
+
       <h2><%= I18n.t("job._plural") %></h2>
 
       <%= render_aspace_partial :partial => "shared/flash_messages" %>
 
-      <h3><%= I18n.t("job._frontend.section.active_jobs") %></h3>
-      <% if @active_jobs.length > 0 %>
-        <%= render_aspace_partial :partial => "jobs/listing", :locals => {:jobs => @active_jobs} %>
-      <% else %>
-        <p class="alert alert-info"><%= I18n.t("job._frontend.messages.no_active_jobs") %></p>
-      <% end %>
-
-      <h3><%= I18n.t("job._frontend.section.archived_jobs") %></h3>
-      <% if @search_data['results'].length > 0 %>
-        <%= render_aspace_partial :partial => "jobs/listing", :locals => {:jobs => @search_data['results']} %>
-        <%= render_aspace_partial :partial => "shared/pagination" %>
-      <% else %>
-        <p class="alert alert-info">
-          <%= I18n.t("job._frontend.messages.no_archived_jobs") %>
-        </p>
-      <% end %>
+      <%= render_aspace_partial :partial => "search/listing" %>
     </div>
   </div>
 </div>

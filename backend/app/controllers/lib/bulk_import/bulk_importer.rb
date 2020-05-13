@@ -1,4 +1,6 @@
 require_relative "bulk_import_mixins"
+require_relative "bulk_import_report"
+require_relative "parent_tracker"
 require_relative "cv_list"
 require_relative "agent_handler"
 require_relative "container_instance_handler"
@@ -8,18 +10,18 @@ require_relative "notes_handler"
 require_relative "subject_handler"
 require_relative "../../../lib/uri_resolver"
 require "nokogiri"
-require "pp"
 require "rubyXL"
 require "asutils"
-include URIResolver
-
-START_MARKER = /ArchivesSpace field code/.freeze
-DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
-MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
-MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
-MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
 
 class BulkImporter
+  include URIResolver
+  include BulkImportMixins
+  START_MARKER = /ArchivesSpace field code/.freeze
+  DO_START_MARKER = /ArchivesSpace digital object import field codes/.freeze
+  MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
+  MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
+  MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
+
   def run
     begin
       rows = initialize_info
@@ -27,12 +29,14 @@ class BulkImporter
         @counter += 1
         if (row[0] && (row[0].value.to_s =~ @start_marker))
           @headers = row_values(row)
-          Log.error("headers: #{@headers.inspect}")
           begin
             check_for_code_dups
           rescue Exception => e
             raise StopBulkImportException.new(e.message)
           end
+          # Skip the human readable header too
+          rows.next
+          @counter += 1 # for the skipping
         end
       end
       begin
@@ -275,7 +279,7 @@ class BulkImporter
       raise BulkImportException.new(msg)
     end
     ao.instances = create_top_container_instances
-    if (dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["digital_object_link"], @row_hash["thumbnail"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report))
+    if (dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report))
       ao.instances ||= []
       ao.instances << dig_instance
     end
@@ -310,7 +314,7 @@ class BulkImporter
       ex = JSONModel(:extent).new(extent)
       return ex if test_exceptions(ex, "Extent")
     rescue Exception => e
-      @report.add_errors(I18n.t("plugins.aspace-import-excel.error.extent_validation", :msg => e.message, :ext => ext_str))
+      @report.add_errors(I18n.t("bulk_import.error.extent_validation", :msg => e.message, :ext => ext_str))
       return nil
     end
   end
@@ -431,7 +435,6 @@ class BulkImporter
         end
       end
       #digital_object_id	digital_object_title	publish	digital_object_link	thumbnail
-
       if (dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report))
         ao.instances ||= []
         ao.instances << dig_instance

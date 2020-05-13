@@ -2,12 +2,9 @@
 require "spec_helper"
 require_relative "../app/controllers/lib/bulk_import/bulk_importer.rb"
 
-#fixtures/bulk_import_VFIRST01_test01.xlsx
-
 describe "Bulk Importer" do
-  FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
+  BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
   before(:each) do
-    create(:repo)
     @current_user = User.find(:username => "admin")
     # create the resource
     resource = JSONModel(:resource).from_hash("title" => "a resource",
@@ -41,7 +38,7 @@ describe "Bulk Importer" do
              :rid => @resource[:id],
              :type => "resource",
              :filename => "bulk_import_VFIRST01_test01.xlsx",
-             :filepath => FIXTURES_DIR + "/bulk_import_VFIRST01_test01.xlsx",
+             :filepath => BULK_FIXTURES_DIR + "/bulk_import_VFIRST01_test01.xlsx",
              :digital_load => "false",
              :ref_id => "",
              :aoid => "",
@@ -51,7 +48,7 @@ describe "Bulk Importer" do
     expect(report.terminal_error).to eq(nil)
     expect(report.row_count).to eq(2)
     expect(report.rows[0].errors).to eq([])
-    expect(report.rows[0].archival_object_display).to eq("The first series, 2010 - 2020")
+    expect(report.rows[0].archival_object_display).to eq("The first series, bulk: 2010 - 2020, 2020")
     expect(report.rows[1].archival_object_display).to eq("A subseries, 2010 - 2011")
     tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id).to_hash
     children = tree["children"]
