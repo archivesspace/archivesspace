@@ -114,6 +114,7 @@ module TestUtils
     build_args = java_build_args(['frontend:devserver:integration',
                                   "-Daspace.frontend.port=#{port}"])
 
+    java_opts, build_args = add_solr(java_opts, build_args, config)
     java_opts += ' -Xmx1512m'
 
     pid = Process.spawn({ 'JAVA_OPTS' => java_opts, 'TEST_MODE' => 'true' },

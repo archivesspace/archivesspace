@@ -30,7 +30,7 @@ $backend_start_fn = proc {
 }
 
 $frontend_start_fn = proc {
-  pid = TestUtils.start_frontend($frontend_port, $backend)
+  pid = TestUtils.start_frontend($frontend_port, $backend, solr_port: $solr_port)
 
   pid
 }
