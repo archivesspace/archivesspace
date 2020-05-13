@@ -2,6 +2,7 @@ require_relative "bulk_import_parser"
 require_relative "top_container_linker_mixins"
 
 class TopContainerLinkerValidator < BulkImportParser
+  include BulkImportMixins
   
   #ASpace field headers row indicator
   START_MARKER = /ArchivesSpace field code/.freeze
@@ -9,6 +10,7 @@ class TopContainerLinkerValidator < BulkImportParser
   def initialize(input_file, content_type, current_user, opts)
     super(input_file, content_type, current_user, opts)
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
+    @start_marker = START_MARKER
   end
 
   # look for all the required fields to make sure they are legit
@@ -95,13 +97,13 @@ class TopContainerLinkerValidator < BulkImportParser
       
       #Check if the barcode_2 already exists in the db (fail if so).  
       #This will be put in place when Harvard's code is merged
-      #barcode_2 = @row_hash["Child Barcode"]
-      #if (!barcode_2.empty?)
-        #sc_obj = sub_container_from_barcode(barcode_2.strip)
-        #if (sc_obj)
-        #  err_arr.push I18n.t("top_container_linker.error.sc_barcode_exists", :barcode=> barcode_2, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
-        #end
-      #end
+      barcode_2 = @row_hash[CHILD_CONTAINER_BARCODE]
+      if (!barcode_2.nil?)
+        sc_obj = sub_container_from_barcode(barcode_2.strip)
+        if (!sc_obj.nil?)
+          err_arr.push I18n.t("top_container_linker.error.sc_barcode_exists", :barcode=> barcode_2, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+        end
+      end
       
       #Check if the location ID can be found in the db
       loc_id = @row_hash[LOCATION_ID]

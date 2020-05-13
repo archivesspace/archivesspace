@@ -3,6 +3,7 @@ require_relative "bulk_import_report"
 require_relative "top_container_linker_mixins"
 
 class TopContainerLinker < BulkImportParser
+  include BulkImportMixins
   
   #ASpace field headers row indicator
   START_MARKER = /ArchivesSpace field code/.freeze
@@ -12,6 +13,7 @@ class TopContainerLinker < BulkImportParser
   def initialize(input_file, content_type, current_user, opts)
     super(input_file, content_type, current_user, opts)
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
+    @start_marker = START_MARKER
   end
   
   def initialize_handler_enums
@@ -147,24 +149,15 @@ class TopContainerLinker < BulkImportParser
       #Find the top container with this indicator and type if it exists
       tc_obj = find_top_container({:indicator => indicator, :type_id => type_id})
     end
-    #Check if the barcode_2 already exists in the db (fail if so).  
-    #This will be put in place when Harvard's code is merged
-    #barcode_2 = @row_hash["Child Barcode"]
-    #if (!barcode_2.nil?)
-      #barcode_2 = barcode_2.strip
-      #sc_obj = sub_container_from_barcode(barcode_2)
-      #if (!sc_obj.nil?)
-      #  err_arr.push I18n.t("top_container_linker.error.sc_barcode_exists", :barcode=> barcode_2, :ref_id => ref_id.to_s, :row_num => row_num)
-      #end
-    #end
     #Check if the location ID can be found in the db
     child_type = @row_hash[CHILD_TYPE]
     child_indicator = @row_hash[CHILD_INDICATOR]
+    barcode_2 = @row_hash[CHILD_CONTAINER_BARCODE]
     subcontainer = {}
     if (!child_type.nil? && !child_indicator.nil?)
       subcontainer = { "type_2" => child_type.strip,
-                      "indicator_2" => child_indicator.strip}#,
-    #                  "barcode_2" => barcode_2}
+                      "indicator_2" => child_indicator.strip,
+                      "barcode_2" => barcode_2}
     end
  
     instance = nil

@@ -88,7 +88,7 @@ module BulkImportMixins
     if !dataset.empty?
       objs = dataset.respond_to?(:all) ? dataset.all : dataset
       jsonms = TopContainer.sequel_to_jsonmodel(objs)
-      if jsonms.length == 1
+      if jsonms.length > 0
        tc = jsonms[0]
       else
         raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
@@ -98,18 +98,18 @@ module BulkImportMixins
   end 
 
   def sub_container_from_barcode(barcode)
-    dataset = CrudHelpers.scoped_dataset(SubContainer, {:barcode => barcode})
-    ao = nil
+    dataset = CrudHelpers.scoped_dataset(SubContainer, {:barcode_2 => barcode})
+    sc = nil
     if !dataset.empty?
       objs = dataset.respond_to?(:all) ? dataset.all : dataset
       jsonms = SubContainer.sequel_to_jsonmodel(objs)
-      if jsonms.length == 1
+      if jsonms.length > 0
        sc = jsonms[0]
       else
         raise BulkImportException.new(I18n.t('bulk_import.error.sc_barcode', :barcode => barcode))
       end
     end
-    ao
+    sc
   end
 
   def resource_match(resource, ead_id, uri)
