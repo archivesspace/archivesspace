@@ -1,0 +1,157 @@
+/*
+    Supports the ingest of bulk data using an Excel spreadsheet
+*/
+
+	var file_modal_html = '';
+	var $file_form_modal;
+/* returns a hash with information about the selected archival object or resource */
+	var get_object_info = function() {
+	    var ret_obj = new Object;
+	    var $tree = $("#archives_tree");
+	    var $obj_form = $("#archival_object_form");
+	    if (typeof $obj_form.attr("action") !== 'undefined') {
+            ret_obj.type = "archival_object";
+            ret_obj.aoid = $obj_form.find("#id").val();
+            ret_obj.ref_id = $obj_form.find("#archival_object_ref_id_").val();
+            ret_obj.resource = $obj_form.find("#archival_object_resource_").val();
+            ret_obj.rid =  ret_obj.resource.split('/').pop();
+            ret_obj.position = $obj_form.find("#archival_object_position_").val();
+	    }
+	    else {
+            $obj_form = $("#resource_form");
+            if (typeof $obj_form.attr("action") !== 'undefined') {
+                ret_obj.type = "resource";
+                ret_obj.resource = $obj_form.attr("action");
+                ret_obj.aoid = '';
+                ret_obj.ref_id = '';
+                ret_obj.position = '';
+                ret_obj.rid =  $obj_form.find("#id").val();
+            }
+	    }
+	    return ret_obj;
+	}
+    var initExcelFileUploadSection = function() {
+	    var handleExcelFileChange = function() {
+            var $input = $(this);
+            var filename = $input.val().split("\\").reverse()[0];
+            $("#excel_filename").html(filename);
+	    };
+	    $("#excel_file").on("change", handleExcelFileChange);
+
+	};
+	var bulkFileSelection = function() {
+	    obj = get_object_info();
+	    if ($.isEmptyObject(obj)) {
+		return;
+	    }
+	    file_modal_html = '';
+	    if (typeof($file_form_modal) !== 'undefined') {
+                   $file_form_modal.remove();
+            }
+
+	    $.ajax({
+			url: AS.app_prefix("/resources/" + obj.rid + "/getbulkfile"),
+			type: "POST",
+			data: {aoid: obj.aoid, type: obj.type, ref_id: obj.ref_id, resource: obj.resource, position: obj.position},
+			dataType: "html",
+			success: function(data) {
+				file_modal_html = data;
+				openFileModal();
+			},
+			error: function(xhr,status,err) {
+				alert("<%= I18n.t('bulk_import._frontend.messages.error') %>" + err );
+				}
+			});
+	};
+    var handleBulkFileUpload = function($modal) {
+	    /* don't let the modal disappear on submission */
+	    $modal.on("hide.bs.modal", function (event){
+		    event.preventDefault();
+		    event.stopImmediatePropagation();
+		});
+	    /* submit via ajax */
+	    $form = $("#bulk_import_form");
+	    rid = $form.find("#rid").val();
+	    $form.ajaxSubmit({
+	       type: "POST",
+		   dataType: "html",
+	       beforeSubmit:  function(arr, $form, options) {
+			var names = "";
+			var hasFile = false;
+			var missingFile = '<%= I18n.t('bulk_import._frontend.messages.missing_file') %>';
+			for (var i=0; i < arr.length; i++) {
+			    if (arr[i].type === "file") {
+                    fileObj = arr[i].value;
+                    if  (typeof(fileObj) === "object") {
+                        if (typeof(fileObj.type) !== "undefined" && (fileObj.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileObj.name.endsWith(".xlsx"))) {
+                        hasFile = true;
+                        }
+                        else {
+                        missingFile = "<%= I18n.t('bulk_import._frontend.messages.not_excel') %>";
+                        }
+                    }
+			    }
+			}
+			if (!hasFile) {
+			    alert(missingFile);
+				modalError($file_form_modal);
+				 $(".bulkbtn.btn-cancel").text("<%= I18n.t('actions.cancel') %>").removeClass("disabled").removeClass("close")
+			    return false;
+			}
+			$(".bulkbtn").addClass('disabled');
+			return true;
+		    },
+		success: function(data, status, xhr) {
+			$("#bulk_messages").html(data);
+			modalSuccess($file_form_modal);
+		    },
+		error: function(xhr, status, err) {
+			alert("<%= I18n.t('bulk_import._frontend.messages.error') %>" + status );
+			$("#bulk_messages").html(xhr.responseText);
+			modalError($file_form_modal);
+		    }
+		});
+	    $modal.on("hidden.bs.modal", function (event){
+		    $modal.hide();
+		    $("body").css("overflow", "auto");
+		});
+    }
+	var openFileModal = function() {
+	    $file_form_modal = AS.openCustomModal("bulkIngestFileModal", "Load Spreadsheet",  file_modal_html, 'large', null, $("#bulkFileButton").get(0));
+	    initExcelFileUploadSection();
+	    $("#bulkFileButton").on("click",  function(event) {
+		    event.stopPropagation();
+		    event.preventDefault();
+		    handleBulkFileUpload($file_form_modal);
+		});
+	    var clipboard = new Clipboard('.clip-btn');
+
+	    clipboard.on('success', function(e) {
+		    alert("<%= I18n.t('bulk_import._frontend.messages.copied') %>");
+		});
+	    clipboard.on('error', function(e) {
+		    alert("<%= I18n.t('bulk_import._frontend.messages.uncopied') %>");
+		});
+
+	    $file_form_modal.show();
+	}
+	var modalError = function($modal) {
+	    $(".bulkbtn").removeClass("disabled");
+        $(".bulkbtn.btn-cancel").text("<%= I18n.t('actions.close') %>").removeClass("disabled").addClass("close")
+	    $(".clip-btn").removeClass("disabled");
+	    $modal.find(".close").click(function(event) {
+		    $("#bulk_messages").html("");
+		    $("#excel_filename").html("");
+		    $modal.hide();
+		    $("body").css("overflow", "auto");
+		});
+	}
+
+	var modalSuccess = function($modal) {
+	    $(".bulkbtn.btn-cancel").text("Close").removeClass("disabled").addClass("close")
+	    $(".clip-btn").removeClass("disabled");
+	    $modal.find(".close").click(function(event) {
+		    window.location.reload(true);
+		});
+	}
+	
