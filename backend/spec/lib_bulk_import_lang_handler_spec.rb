@@ -82,9 +82,6 @@ describe "Language Handler" do
     hsh = hash_it(lang)
     expect(hsh[0]["language_and_script"]["language"]).to eq("ara")
     expect(hsh[0]["language_and_script"]["script"]).to eq("Arab")
-    puts "count"
-    puts hsh.count
-    puts hsh[1]
     note = hsh[1]["notes"]
     expect(note[0]["publish"]).to eq(false)
     expect(note[0]["type"]).to eq("langmaterial")

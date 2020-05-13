@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="example" version="1.5">
+  <!-- attribute "name" is the name of this schema and is only used for display purposes.
+       version="x.y" is Solr's version number for the schema syntax and
+       semantics.  It should not normally be changed by applications.
+
+       1.0: multiValued attribute did not exist, all fields are multiValued
+            by nature
+       1.1: multiValued attribute introduced, false by default
+       1.2: omitTermFreqAndPositions attribute introduced, true by default
+            except for text fields.
+       1.3: removed optional field compress feature
+       1.4: autoGeneratePhraseQueries attribute introduced to drive QueryParser
+            behavior when a single string produces multiple tokens.  Defaults
+            to off for version >= 1.4
+       1.5: omitNorms defaults to true for primitive field types
+            (int, float, boolean, string...)
+     -->
+
+ <fields>
+   <!-- Valid attributes for fields:
+     name: mandatory - the name for the field
+     type: mandatory - the name of a field type from the
+       <types> fieldType section
+     indexed: true if this field should be indexed (searchable or sortable)
+     stored: true if this field should be retrievable
+     multiValued: true if this field may contain multiple values per document
+     omitNorms: (expert) set to true to omit the norms associated with
+       this field (this disables length normalization and index-time
+       boosting for the field, and saves some memory).  Only full-text
+       fields or fields that need an index-time boost need norms.
+       Norms are omitted for primitive (non-analyzed) types by default.
+     termVectors: [false] set to true to store the term vector for a
+       given field.
+       When using MoreLikeThis, fields used for similarity should be
+       stored for best performance.
+     termPositions: Store position information with the term vector.
+       This will increase storage costs.
+     termOffsets: Store offset information with the term vector. This
+       will increase storage costs.
+     required: The field is required.  It will throw an error if the
+       value does not exist
+     default: a value that should be used if no value is specified
+       when adding a document.
+   -->
+
+
+   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+   <field name="uri" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+   <field name="parent_id" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+   <field name="pui_parent_id" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+   <field name="four_part_id" type="text_general" indexed="true" stored="true" multiValued="false"/>
+   <field name="title" type="text_general" indexed="true" stored="true" multiValued="false"/>
+   <field name="types" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="primary_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="repository" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="fullrecord" type="text_general" indexed="true" stored="false" multiValued="false" />
+   <field name="suppressed" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="publish" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="external_id" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="component_id" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ref_id" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <field name="system_generated" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+   <field name="subjects" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="subject_uris" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="creators" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="agents" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="published_agents" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="agent_uris" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="published_agent_uris" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="related_agent_uris" type="string" indexed="true" stored="true" multiValued="true"/>
+   <field name="notes" type="text_general" indexed="true" stored="true" multiValued="false"/>
+   <field name="years" type="int" indexed="true" stored="false" multiValued="true"/>
+   <field name="year_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
+
+   <field name="subjects_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
+   <field name="creators_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
+   <field name="agents_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
+
+   <field name="json" type="string" indexed="false" stored="true" multiValued="false" />
+   <field name="summary" type="text_general" indexed="false" stored="true" multiValued="false" />
+
+   <!-- Archival Record properties required for facets -->
+   <field name="level" type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="langcode" type="string" indexed="true" stored="true" multiValued="true"/>
+
+   <!-- Accession properties required for facets -->
+   <field name="accession_date_year" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="identifier" type="sort_icu" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Accession properties required for browse sorting -->
+   <field name="acquisition_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="accession_date" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="resource_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="restrictions_apply" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="access_restrictions" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="use_restrictions" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Resource properties required for browse sorting -->
+   <!-- <field name="language" type="string" indexed="true" stored="true" multiValued="false" /> -->
+   <field name="restrictions" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ead_id" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="finding_aid_status" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Digital Object properties required for browse sorting -->
+   <field name="digital_object_id" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Archival Objects store the URI of the resource they belong to (if any) -->
+   <!-- and the URIs for all ancestors in order of parent back up to the Resource -->
+   <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ancestors" type="string" indexed="true" stored="true" multiValued="true" />
+
+   <!-- Digital Object properties required for facets -->
+   <field name="digital_object_type" type="string" indexed="true" stored="true" multiValued="false"/>
+
+   <!-- Digital Object Components store the URI of the Digital Object they belong to (if any) -->
+   <field name="digital_object" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Subjects store all the terms as a display_string -->
+   <field name="display_string" type="text_general" indexed="true" stored="true" multiValued="false" />
+   <field name="first_term_type" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Resource stores some Finding Aid data -->
+   <field name="finding_aid_title" type="text_general" indexed="true" stored="true" multiValued="false" />
+   <field name="finding_aid_filing_title" type="text_general" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Location properties required for facets -->
+   <field name="temporary" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="building" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="floor" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="room" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="area" type="string" indexed="true" stored="true" multiValued="false" />
+
+
+
+   <!-- Trees store the URI of their root record -->
+   <field name="root_uri" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- A hint to the standard search that this isn't the record it's looking for -->
+   <field name="exclude_by_default" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+   <!-- The URI of the tree_view node -->
+   <field name="node_uri" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- A JSON blob representing the tree_view -->
+   <field name="tree_json" type="string" indexed="false" stored="true" multiValued="false" />
+
+   <!-- And for top-level records, the entire tree with all descendants -->
+   <field name="whole_tree_json" type="string" indexed="false" stored="true" multiValued="false" />
+
+   <!-- Classification fields -->
+   <field name="has_classification_terms" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Classification terms store the URI of the resource they belong to (if any) -->
+   <field name="classification" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- A JSON blob representing the classification path -->
+   <field name="classification_path" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Fields to allow view of linked records (for classifications/locations/events -->
+   <field name="classification_paths" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="classification_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="location_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="linked_record_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="digital_object_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="linked_instance_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="related_accession_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="related_resource_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="rights_statement_agent_uris" type="string" indexed="true" stored="true" multiValued="true" />
+
+   <!-- Event properties required for facets -->
+   <field name="event_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="outcome" type="string" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Collection Management fields -->
+   <field name="cm_uri" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="parent_title" type="text_general" indexed="true" stored="true" multiValued="false" />
+   <field name="parent_type" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="processing_priority" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="processing_status" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="processing_hours_total" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="processors" type="text_general" indexed="true" stored="true" multiValued="false" />
+   <field name="processing_funding_source" type="text_general" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Sort fields -->
+   <field name="title_sort" type="sort_icu" indexed="true" stored="false" multiValued="false"/>
+   <field name="repo_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
+   <field name="identifier_sort" type="sort_icu" indexed="true" stored="true" multiValued="false"/>
+
+   <!-- Agent and Subject fields -->
+   <field name="authority_id" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="source" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="rules" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="linked_agent_roles" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="used_within_repository" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="used_within_published_repository" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="is_user" type="boolean" indexed="true" stored="true" multiValued="false" />
+
+   <!-- Assessment fields -->
+   <field name="assessment_record_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_records" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_collection_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_collections" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_surveyor_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_surveyors" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_survey_begin" type="date" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_survey_end" type="date" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_review_required" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_sensitive_material" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_reviewer_uris" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_reviewers" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_inactive" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_survey_year" type="int" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_record_types" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_completed" type="boolean" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_id" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="assessment_formats" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_ratings" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="assessment_conservation_issues" type="string" indexed="true" stored="true" multiValued="true" />
+
+
+   <!-- Audit fields -->
+   <field name="created_by" type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="last_modified_by" type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="create_time" type="date" indexed="true" stored="true" multiValued="false"/>
+   <field name="system_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
+   <field name="user_mtime" type="date" indexed="true" stored="true" multiValued="false"/>
+
+   <!-- Slug fields -->
+   <field name="slug" type="string" indexed="true" stored="true" multiValued="false"/>
+   <field name="is_slug_auto" type="boolean" indexed="true" stored="true" multiValued="false"/>
+
+   <!-- Enum Fields -->
+   <dynamicField name="*_enum_s"  type="string"  indexed="true"  stored="true" multiValued="true"/>
+
+
+   <!-- Dynamic fields for site-specific use -->
+   <dynamicField name="*_u_ustr"  type="string"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_uint"  type="int"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_utext"  type="text_general"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_udate"  type="date"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_ubool"  type="boolean"  indexed="true"  stored="false" multiValued="true"/>
+   <dynamicField name="*_u_sstr"  type="string"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sint"  type="int"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_stext"  type="text_general"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sdate"  type="date"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sbool"  type="boolean"  indexed="true"  stored="true" multiValued="true"/>
+   <dynamicField name="*_u_sort"  type="sort_string"  indexed="true"  stored="false" multiValued="false"/>
+   <dynamicField name="*_u_ssort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
+
+   <!-- ASpace Custom Dynamics -->
+   <dynamicField name="*_relator_sort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
+
+ </fields>
+
+
+ <uniqueKey>id</uniqueKey>
+
+
+  <types>
+    <!-- field type definitions. The "name" attribute is
+       just a label to be used by field definitions.  The "class"
+       attribute and any other attributes determine the real
+       behavior of the fieldType.
+         Class names starting with "solr" refer to java classes in a
+       standard package such as org.apache.solr.analysis
+    -->
+
+    <!-- The StrField type is not analyzed, but indexed/stored verbatim. -->
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+
+    <!-- boolean type: "true" or "false" -->
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+
+    <!--
+      Default numeric field types. For faster range queries, consider the tint/tfloat/tlong/tdouble types.
+    -->
+    <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" positionIncrementGap="0"/>
+
+    <!--
+     Numeric field types that index each value at various levels of precision
+     to accelerate range queries when the number of values between the range
+     endpoints is large. See the javadoc for NumericRangeQuery for internal
+     implementation details.
+
+     Smaller precisionStep values (specified in bits) will lead to more tokens
+     indexed per value, slightly larger index size, and faster range queries.
+     A precisionStep of 0 disables indexing at different precision levels.
+    -->
+    <fieldType name="tint" class="solr.TrieIntField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tlong" class="solr.TrieLongField" precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tdouble" class="solr.TrieDoubleField" precisionStep="8" positionIncrementGap="0"/>
+
+    <!-- The format for this date field is of the form 1995-12-31T23:59:59Z, and
+         is a more restricted form of the canonical representation of dateTime
+         http://www.w3.org/TR/xmlschema-2/#dateTime
+         The trailing "Z" designates UTC time and is mandatory.
+         Optional fractional seconds are allowed: 1995-12-31T23:59:59.999Z
+         All other components are mandatory.
+
+         Expressions can also be used to denote calculations that should be
+         performed relative to "NOW" to determine the value, ie...
+
+               NOW/HOUR
+                  ... Round to the start of the current hour
+               NOW-1DAY
+                  ... Exactly 1 day prior to now
+               NOW/DAY+6MONTHS+3DAYS
+                  ... 6 months and 3 days in the future from the start of
+                      the current day
+
+         Consult the DateField javadocs for more information.
+
+         Note: For faster range queries, consider the tdate type
+      -->
+    <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
+
+    <!-- A Trie based date field for faster date range queries and date faceting. -->
+    <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>
+
+
+    <!--Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
+    <fieldtype name="binary" class="solr.BinaryField"/>
+
+    <!-- A text field that only splits on whitespace for exact matching of words -->
+    <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <!-- A general text field that has reasonable, generic
+         cross-language defaults: it tokenizes with StandardTokenizer,
+   removes stop words from case-insensitive "stopwords.txt"
+   (empty by default), and down cases.  At query time only, it
+   also applies synonyms. -->
+    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <!-- in this example, we will only use synonyms at query time
+        <filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
+        -->
+        <filter class="solr.LowerCaseFilterFactory"/>
+	<filter class="solr.ASCIIFoldingFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+        <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+	<filter class="solr.ASCIIFoldingFilterFactory"/>
+      </analyzer>
+    </fieldType>
+    
+    <fieldType name="sort_icu" class="solr.ICUCollationField" locale="" strength="primary"
+      numeric="true"/>
+    
+    <fieldType name="sort_string" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
+      <analyzer>
+        <tokenizer class="solr.KeywordTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+ </types>
+
+  <!-- Copy fields ... perhaps for sort fields -->
+  <copyField source="subjects" dest="subjects_text"/>
+  <copyField source="agents" dest="agents_text"/>
+  <copyField source="creators" dest="creators_text"/>
+</schema>

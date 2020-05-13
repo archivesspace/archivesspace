@@ -117,7 +117,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:get]
     match 'resources/:id/uploadbulkfile' => 'bulk_import#submit_file', :via => [:post]
     match 'resources/:id/link_top_containers' => 'bulk_import#link_top_containers_to_archival_objects', :via => [:post]
-        
+
 
     
 
@@ -260,6 +260,7 @@ ArchivesSpace::Application.routes.draw do
     match('top_containers/bulk_operations/browse' => 'top_containers#bulk_operations_browse', :via => [:get, :post])
     match('top_containers/bulk_operations/update' => 'top_containers#bulk_operation_update', :via => [:post])
     match('top_containers/batch_delete' => 'top_containers#batch_delete', :via => [:post])
+    match('top_containers/merge' => 'top_containers#batch_merge', :via => [:post])
     match('top_containers/:id' => 'top_containers#update', :via => [:post])
     match('top_containers/:id/delete' => 'top_containers#delete', :via => [:post])
 

@@ -39,13 +39,14 @@ services:
   solr:
     build:
       context: ./solr
-    image: archivesspace/solr:8.2
+    image: archivesspace/solr:6.6
     command: solr-create -p 8983 -c archivesspace -d /archivesspace
     ports:
       - "8983:8983"
   web:
     build:
       context: ./proxy
+    image: archivesspace/proxy:1.13
     ports:
       - "80:80"
     depends_on:

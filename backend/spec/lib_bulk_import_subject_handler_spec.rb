@@ -47,6 +47,18 @@ describe "Subject Handler" do
     expect(s[:title]).to eq("New School")
     subj.delete
   end
+  it "should create a subject with the default values" do
+    subject = @sh.build(nil, "New School ingested", nil, nil)
+    subj = @sh.create_subj(subject)
+    expect(subj[:id]).to_not be_nil
+    id = subj[:id]
+    s = nil
+    expect {
+      s = Subject.get_or_die(id)
+    }.not_to raise_error
+    expect(s[:title]).to eq("New School ingested")
+    subj.delete
+  end
 
   it "should find a subject from its ID" do
     subject = @sh.build(nil, "New School", "topical", "local")

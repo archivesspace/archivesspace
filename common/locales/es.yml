@@ -847,6 +847,7 @@ es:
 
   instance_container:
     <<: *instance_attributes
+    barcode: Código de barras
 
   instance_digital_object:
     <<: *instance_attributes
@@ -1123,6 +1124,7 @@ es:
 
   date_type_bulk:
     <<: *date_attributes
+    bulk: abultar
 
   date_type_inclusive:
     <<: *date_attributes
@@ -1892,6 +1894,7 @@ es:
     publish_tooltip: Si desea publicar nuevos registros por defecto.
     default_values: ¿Pre-popular registros?
     default_values_tooltip: Si quiere pre-popular un nuevo Fondo o Acta de ingreso
+    locale: Language Selection
     accession_browse_section: Navegar columnas de entrada
     accession_browse_column_1: Columna 1
     accession_browse_column_1_tooltip: El campo para mostrar en la columna 1.
@@ -1949,6 +1952,7 @@ es:
   validation_errors:
     agent_must_be_unique: Registros de autoridad no pueden ser idénticos
     subject_must_be_unique: Los registros de sujetos no pueden ser idénticos
+    subject_heading_identifier_must_be_unique_within_source: El identificador de encabezado de asunto debe ser único dentro de la fuente
     conflicting_record: Registro conflictivo
     missing_required_property: Propiedad es necesaria pero falta
     missing_property: Faltaba propiedad
@@ -2037,6 +2041,9 @@ es:
     time_finished: Tiempo terminado
     owner: Propietario
     show_description: Muestra descripción
+    job_data: Informacion del trabajo
+    input_file: Archivo de entrada
+    output_file: Archivo de salida
 
   report_job:
     report_type: Tipo de informe

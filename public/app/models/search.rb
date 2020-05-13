@@ -54,7 +54,7 @@ class Search < Struct.new(:q, :op, :field, :limit, :from_year, :to_year, :filter
   end
 
   def filters_blank?
-    filter_from_year.blank? && filter_to_year.blank? && filter_q.blank?
+    filter_from_year.blank? && filter_to_year.blank? && filter_q.all?(&:blank?)
   end
  
   def has_query?

@@ -75,7 +75,7 @@ AppConfig[:mysql_binlog] = false
 AppConfig[:solr_backup_schedule] = "0 0 * * *"
 AppConfig[:solr_backup_number_to_keep] = 1
 AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory], "solr_backups") }
-# add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { "q.op" => "AND" }
+# add default solr params, i.e. use AND for search: AppConfig[:solr_params] = { 'mm' => '100%' }
 # Another example below sets the boost query value (bq) to boost the relevancy for the query string in the title,
 # sets the phrase fields parameter (pf) to boost the relevancy for the title when the query terms are in close proximity to
 # each other, and sets the phrase slop (ps) parameter for the pf parameter to indicate how close the proximity should be
@@ -87,7 +87,7 @@ AppConfig[:solr_backup_directory] = proc { File.join(AppConfig[:data_directory],
 # For more information about solr parameters, please consult the solr documentation
 # here: https://lucene.apache.org/solr/
 # Configuring search operator to be AND by default - ANW-427
-AppConfig[:solr_params] = { "q.op" => "AND" }
+AppConfig[:solr_params] = { 'mm' => '100%' }
 
 # Set the application's language (see the .yml files in
 # https://github.com/archivesspace/archivesspace/tree/master/common/locales for
@@ -520,6 +520,10 @@ AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
 
+# Enable / disable search-in-collection form in sidebar when viewing records
+AppConfig[:pui_search_collection_from_archival_objects] = false
+AppConfig[:pui_search_collection_from_collection_organization] = false
+
 # when a user is authenticated, add a link back to the staff interface from the specified record
 AppConfig[:pui_enable_staff_link] = true
 # by default, staff link will open record in staff interface in edit mode,
@@ -659,11 +663,11 @@ AppConfig[:limit_csv_fields] = true
 
 # Turns fields for subcontainer barcodes on/off on the front end
 AppConfig[:show_subcontainer_barcode_fields] = false
-
+  
 # For Bulk Import:
 # specifies whether the "Load Digital Objects" button is available at the Resource Level
 AppConfig[:hide_do_load] = false
 # upper row limit for an excel spreadsheet
 AppConfig[:bulk_import_rows] = 1000
-# size limit (in KiloBytes) for an excel spreadsheet
+# maximum size (in KiloBytes) for an excel spreadsheet
 AppConfig[:bulk_import_size] = 256

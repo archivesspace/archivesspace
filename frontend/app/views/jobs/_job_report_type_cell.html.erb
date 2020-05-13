@@ -1,0 +1,5 @@
+<% if record['report_type'] %>
+	<%= I18n.t("reports.#{record['report_type']}.title", :default => record['report_type']) %>
+<% elsif record['job_type'] %>
+	<%= I18n.t("job.types.#{record['job_type']}", :default => record['job_type']) %>
+<% end %>

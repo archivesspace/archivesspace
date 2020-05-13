@@ -100,13 +100,13 @@
         <% end %>
         <% if extra_columns? %>
           <% extra_columns.each do |col| %>
-            <td><%= col.value_for(result) %></td>
+            <td class="<%= col.class %>"><%= col.value_for(result) %></td>
           <% end %>
         <% end %>
         <% unless hide_audit_info? %>
-        <td>
-          <%= display_audit_info(result, :format => 'compact') %>
-        </td>
+          <td>
+            <%= display_audit_info(result, :format => 'compact') %>
+          </td>
         <% end %>
         <% if !params[:linker] || params[:linker] === 'false' %>
           <td class="table-record-actions">

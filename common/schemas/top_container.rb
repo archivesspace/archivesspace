@@ -17,6 +17,7 @@
       "long_display_string" => {"type" => "string", "readonly" => true},
       "subcontainer_barcodes" => {"type" => "string", "required" => false},
 
+      "subcontainer_barcodes" => {"type" => "string", "required" => false},
 
       "ils_holding_id" => {"type" => "string", "maxLength" => 255, "required" => false},
       "ils_item_id" => {"type" => "string", "maxLength" => 255, "required" => false},

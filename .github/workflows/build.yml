@@ -1,0 +1,43 @@
+name: Build ArchivesSpace release package
+
+on:
+  push:
+    branches:
+      # use 'build' branch prefix for test packages
+      - build-*
+      - master
+    tags:
+     - v[2-9].[0-9]+.[0-9]+
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF#refs/*/}
+
+    - name: Bootstrap ArchivesSpace
+      run: |
+        ./build/run bootstrap
+
+    - name: Build ArchivesSpace release package
+      env: 
+        VERSION: ${{ steps.get_version.outputs.VERSION }}
+      run: ./scripts/build_release $VERSION
+
+    # LIMITATION: https://github.com/actions/upload-artifact/issues/39
+    - name: Upload ArchivesSpace build package
+      uses: actions/upload-artifact@v2-preview
+      with:
+        # github ui generates a zip that will contain the release zip
+        name: aspkg-${{ steps.get_version.outputs.VERSION }}
+        path: archivesspace-${{ steps.get_version.outputs.VERSION }}.zip

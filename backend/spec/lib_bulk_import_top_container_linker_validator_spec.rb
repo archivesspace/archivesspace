@@ -91,15 +91,15 @@ describe "Top Container Linker Validator" do
 #    expect(tc_obj["barcode"]).to eq(@tc.barcode)
 #  end
     
-  it "reads in a CSV file and validates that it initializes properly" do
-    tcl_real_file = TopContainerLinkerValidator.new(File.join(File.dirname(__FILE__),'testTopLinkerUpload.csv'), "text/csv", @current_user, {:rid => @resource[:id], :repo_id => @resource[:repo_id]})
-    rows = tcl_real_file.initialize_info
-    expect(rows).to be_kind_of(Enumerator)
-  end
-  it "reads in a XLSX file and validates that it initializes properly" do
-    tcl_real_file = TopContainerLinkerValidator.new(File.join(File.dirname(__FILE__),'testTopLinkerUpload.xlsx'), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", @current_user, {:rid => @resource[:id], :repo_id => @resource[:repo_id]})
-    rows = tcl_real_file.initialize_info
-    expect(rows).to be_kind_of(Enumerator)
-  end
+#  it "reads in a CSV file and validates that it initializes properly" do
+#    tcl_real_file = TopContainerLinkerValidator.new(File.join(File.dirname(__FILE__),'testTopLinkerUpload.csv'), "text/csv", @current_user, {:rid => @resource[:id], :repo_id => @resource[:repo_id]})
+#    rows = tcl_real_file.initialize_info
+#    expect(rows).to be_kind_of(Enumerator)
+#  end
+#  it "reads in a XLSX file and validates that it initializes properly" do
+#    tcl_real_file = TopContainerLinkerValidator.new(File.join(File.dirname(__FILE__),'testTopLinkerUpload.xlsx'), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", @current_user, {:rid => @resource[:id], :repo_id => @resource[:repo_id]})
+#    rows = tcl_real_file.initialize_info
+#    expect(rows).to be_kind_of(Enumerator)
+#  end
    
 end

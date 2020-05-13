@@ -560,9 +560,13 @@ FactoryBot.define do
 
   factory :json_name_software, class: JSONModel(:name_software) do
     rules { generate(:name_rule) }
+    source { generate(:name_source) }
     software_name { generate(:generic_name) }
     sort_name { generate(:sort_name) }
     sort_name_auto_generate { true }
+    dates { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
+    authority_id { generate(:url) }
   end
 
   factory :json_collection_management, class: JSONModel(:collection_management) do

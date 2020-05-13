@@ -3,9 +3,7 @@ require_relative "lib/bulk_import/bulk_import_mixins"
 require_relative "lib/bulk_import/top_container_linker_validator"
 
 class ArchivesSpaceService < Sinatra::Base
-  require "pp"
-  require_relative "lib/bulk_import/import_archival_objects"
-  require_relative "lib/bulk_import/import_digital_objects"
+  require_relative "lib/bulk_import/bulk_importer"
   # Supports bulk import of spreadsheets
   Endpoint.post("/bulkimport/ssload")
           .description("Bulk Import an Excel Spreadsheet")
@@ -17,19 +15,15 @@ class ArchivesSpaceService < Sinatra::Base
                   ["aoid", String, "archival object ID"],
                   ["filename", String, "the original file name"],
                   ["filepath", String, "the spreadsheet temp path"],
-                  ["filetype", String, "file content type"],
                   ["digital_load", String, "whether to load digital objects"])
           .permissions([:update_resource_record])
           .returns([200, "HTML"],
                    [400, :error]) do
-    digital_load = (params.fetch(:digital_load) == "true")
-    if digital_load
-      importer = ImportDigitalObjects.new(params.fetch(:filepath), params.fetch(:filetype), current_user, params)
-    else
-      importer = ImportArchivalObjects.new(params.fetch(:filepath), params.fetch(:filetype), current_user, params)
-    end
+    # right now, just return something!
+    importer = BulkImporter.new(params.fetch(:filepath), params, current_user)
     report = importer.run
-
+    digital_load = params.fetch(:digital_load)
+    digital_load = digital_load.nil? || digital_load.empty? ? false : true
     erb :'bulk/bulk_import_response', locals: { report: report, digital_load: digital_load }
   end
   

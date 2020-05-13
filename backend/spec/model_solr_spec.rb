@@ -65,6 +65,7 @@ describe 'Solr model' do
                         set_repo_id(@repo_id).
                         set_excluded_ids(%w(alpha omega)).
                         set_record_types(['optional_record_type']).
+                        show_published_only(true).
                         highlighting
 
     response = Solr.search(query)
@@ -78,6 +79,8 @@ describe 'Solr model' do
     expect(http.request.body).to match(/bq=title%3A%22hello\+world%22\*/)
     expect(http.request.body).to match(/pf=title%5E10/)
     expect(http.request.body).to match(/ps=0/)
+    expect(http.request.body).to match(/fq=publish%3Atrue/)
+    expect(http.request.body).to_not match(/fq=-types%3Apui_only/)
 
 
     expect(response['offset_first']).to eq(1)
@@ -88,6 +91,21 @@ describe 'Solr model' do
     expect(response['this_page']).to eq(1)
     expect(response['last_page']).to eq(1)
     expect(response['results'][0]['title']).to eq("A Resource")
+
+    # repeat with show_published_only false i.e. a sui search
+    query = Solr::Query.create_keyword_search("hello world").
+                        pagination(1, 10).
+                        set_repo_id(@repo_id).
+                        set_excluded_ids(%w(alpha omega)).
+                        set_record_types(['optional_record_type']).
+                        show_published_only(false).
+                        highlighting
+
+    Solr.search(query)
+
+    expect(http.request.body).to match(/hello\+world/)
+    expect(http.request.body).to_not match(/fq=publish%3Atrue/)
+    expect(http.request.body).to match(/fq=-types%3Apui_only/)
   end
 
   it "adjusts date searches for the local timezone" do

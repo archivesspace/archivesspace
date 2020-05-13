@@ -7,17 +7,7 @@ class JobsController < ApplicationController
   include ExportHelper
 
   def index
-    @active_jobs = Job.active
-    @search_data = Job.archived(selected_page)
-    @files = {}
-    (@active_jobs + @search_data['results']).each do |job|
-      @files[job['uri']] = []
-      files = JSONModel::HTTP::get_json("#{job['uri']}/output_files")
-      files.each do |file|
-        job_id = job['uri'].split('/').last
-        @files[job['uri']].push("/jobs/#{job_id}/file/#{file}")
-      end
-    end
+    @search_data = Search.for_type(session[:repo_id], "job", params_for_backend_search.merge({"facet[]" => SearchResultData.JOB_FACETS}))
   end
 
   def new

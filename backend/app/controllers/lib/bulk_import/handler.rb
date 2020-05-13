@@ -8,10 +8,13 @@
 # might already be in the database
 #require_relative 'json_client_mixin'
 #include ASpaceImportClient
+
+require_relative "cv_list"
+require_relative "bulk_import_mixins"
+
 class Handler
-  require_relative "cv_list"
-  require_relative "bulk_import_mixins"
-  require "pp"
+  include JSONModel
+  include BulkImportMixins
 
   DISAMB_STR = " DISAMBIGUATE ME!"
 

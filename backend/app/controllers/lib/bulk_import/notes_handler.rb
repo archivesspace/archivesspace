@@ -2,6 +2,15 @@ class NotesHandler < Handler
   @@ao_note_types = {}
   @@do_note_types = {}
 
+  def initialize
+    if @@ao_note_types.empty?
+      @@ao_note_types = ao_note_types
+    end
+    if @@do_note_types.empty?
+      @@do_note_types = do_note_types
+    end
+  end
+
   def ao_note_types
     note_types = bib_note
     JSONModel.enum_values(JSONModel(:note_singlepart).schema["properties"]["type"]["dynamic_enum"]).each do |type|
@@ -73,15 +82,6 @@ class NotesHandler < Handler
       }
     end
     note_types
-  end
-
-  def initialize
-    if @@ao_note_types.empty?
-      @@ao_note_types = ao_note_types
-    end
-    if @@do_note_types.empty?
-      @@do_note_types = do_note_types
-    end
   end
 
   def wellformed(note)

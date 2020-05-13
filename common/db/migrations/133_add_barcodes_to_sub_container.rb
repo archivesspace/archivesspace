@@ -13,4 +13,4 @@ Sequel.migration do
       drop_column(:barcode_2)
     end
   end
-end
+end 

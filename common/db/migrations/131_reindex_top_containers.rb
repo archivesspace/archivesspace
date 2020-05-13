@@ -3,15 +3,14 @@ require_relative 'utils'
 Sequel.migration do
 
   up do
-    $stderr.puts("Triggering a reindex of all top containers")
-
-    self[:top_container].update(:system_mtime => Time.now)
-
+    self.transaction do
+      # reindex all top_container records in response ANW-462 changes to long_display_string
+      self[:top_container].update(:system_mtime => Time.now)
+    end
   end
 
 
   down do
-    # can't unring a bell
   end
 
 end
