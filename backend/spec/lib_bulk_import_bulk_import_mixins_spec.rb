@@ -56,6 +56,8 @@ describe "Bulk Import Mixins" do
 
     id = @no_ead_json.save
     @resource_no_ead = Resource.get_or_die(id)
+    @tc = create_top_container()
+    @sc = create_sub_container()
   end
 
   it "handles missing EAD ID and URI" do
@@ -118,6 +120,17 @@ describe "Bulk Import Mixins" do
     expect(new_ao[:ao]).to eq(nil)
     expect(new_ao[:errs]).to eq("Neither an archival object URI nor a REF ID was provided")
   end
+  
+  it "Tests the find_top_container function with a barcode parameter" do
+    tc_obj = find_top_container({:barcode => @tc.barcode})
+    expect(tc_obj["barcode"]).to eq(@tc.barcode)
+  end
+  
+  it "Tests the sub_container_from_barcode function returns the expected result" do
+    sc_obj = sub_container_from_barcode(@sc.barcode_2)
+    expect(sc_obj["barcode_2"]).to eq(@sc.barcode_2)
+  end
+  
   after(:each) do
     @no_ead_json.delete
     @resource_json.delete

@@ -15,7 +15,11 @@ class TopContainerLinkerValidator < BulkImportParser
 
   # look for all the required fields to make sure they are legit
   # strip all the strings and turn publish and restrictions_flaginto true/false
-  def process_row
+  def process_row(row_hash = nil)
+    #This allows the processing of a single row
+    if (!row_hash.nil?)
+      @row_hash = row_hash
+    end
     err_arr = []
     begin
               

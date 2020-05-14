@@ -47,6 +47,13 @@ module SpecHelperMethods
       :repo_id => $repo_id
     )
   end
+  
+  def create_sub_container(opts = {})
+      SubContainer.create_from_json(
+        build(:json_sub_container, opts),
+        :repo_id => $repo_id
+      )
+    end
 
 
   def create_event(opts = {})

@@ -8,7 +8,8 @@ def top_container_linker_job(filepath)
 end
 
 describe "Top Container Linker job model" do
-
+  BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
+    
   let(:user) { create_nobody_user }
   
 
@@ -39,7 +40,7 @@ describe "Top Container Linker job model" do
     create_archival_object({:title => generate(:generic_title), :ref_id => 'hua15019c00008'})
     create_archival_object({:title => generate(:generic_title), :ref_id => 'hua15019c00009'})
         
-    tmpfilename = File.join(File.dirname(__FILE__), 'testTopLinkerUpload.csv')
+    tmpfilename = BULK_FIXTURES_DIR + '/testTopLinkerUpload.csv'
     tmpfile = File.open(tmpfilename)
     json = top_container_linker_job(tmpfile)
     job = Job.create_from_json(json,
