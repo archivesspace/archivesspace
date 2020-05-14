@@ -1116,83 +1116,12 @@ es:
       open_browse: "Abrir el menú de navegación"
       open_create: "Abrir el menú de creación"
 
-  instance_container:
-    container: Container
-
   sub_container:
-    top_container: Contenedor Top
-    top_container_tooltip: |
-        <p>CAMPO REQUERIDO. El contenedor más alto nivel en el que se aloja el material descrito.</p>
-        <p>Se puede seleccionar de una lista existente de los mejores contenedores mediante el tipo de adelante o Explorar las funciones o creadas mediante la función Crear.</p>
-    type_2: Tipo hijo
-    type_2_tooltip: |
-        <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
-    indicator_2: Indicador de hijo
-    indicator_2_tooltip: |
-        <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
-    type_3: Tipo nieto
-    type_3_tooltip: |
-        <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
-    indicator_3: Indicador de nieto
-    indicator_3_tooltip: |
-        <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
-    _singular: Sub Contenedor
-    _plural: Sub Contenedores
     _frontend:
       action:
         add: Añadir contenedor
 
   top_container:
-    container_profile: Perfil de contenedor
-    container_profile_tooltip: |
-        <p>Una descripción de varias características de un tipo particular de contenedor, incluidas las dimensiones.</p>
-    indicator: Indicador
-    indicator_tooltip: |
-        <p>CAMPO REQUERIDO. Una expresión alfanumérica para indicar el lugar del recipiente más alto nivel, que puede ser también la posición del recipiente en una secuencia de contenedores.</p>
-    barcode: Código de barras
-    barcode_tooltip: |
-        <p>Se utiliza para registrar el código de barras que identifica de manera única el contenedor más alto nivel.</p>
-    type: Tipo de contenedor
-    type_tooltip: |
-        <p>El tipo de contenedor de nivel más alto.</p>
-        <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
-    ils_holding_id: ILS Holding ID
-    ils_holding_id_tooltip: |
-        <p>Identificador de registro de explotación correspondiente en las normas internacionales del trabajo de la biblioteca</p>
-    ils_item_id: ILS Item ID
-    ils_item_id_tooltip: |
-        <p>Identificador, suministrada por la API, para un registro elemento asociado en la biblioteca ILS (sistema de campo; no se pueden editar manualmente)</p>
-    exported_to_ils: Exportar a ILS
-    not_exported: No exportado
-    restricted: Restringido?
-    parent: Contenedor padre
-
-    managed_container_2_type: Tipo de contenedor hijo
-    managed_container_2_type_tooltip: |
-        <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
-    managed_container_2_indicator: Indicador de contenido hijo
-    managed_container_2_indicator_tooltip: |
-        <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
-    managed_container_3_type: Contenedor de tipo nieto
-    managed_container_3_type_tooltip: |
-        <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
-    managed_container_3_indicator: Grandchild Container Indicator
-    managed_container_3_indicator_tooltip: |
-       <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
-    barcode_length_for_this_repository: "Longitud de código de barras para este repositorio:"
-    characters: caracteres
-
-    batch_delete:
-      success: Los contenedores top se han eliminado correctamente
-      error: Ha habido un problema borrando los contenedores top
-
-    _singular: Contenedor Top
-    _plural: Contenedores Top
-
     _frontend:
       section:
         active_restrictions: Restricciones activas
@@ -1266,8 +1195,6 @@ es:
         update_locations_new_location: Nueva ubicación
 
   container_profile:
-    _singular: Perfil de contenedor
-    _plural: Perfiles de contenedores
     _frontend:
       action:
         save: Guardar Perfil de contenedor
@@ -1288,46 +1215,6 @@ es:
         confirm_merge_question: ¿Está seguro de que desea fusionar los perfiles del contenedor como se enumeran a continuación? Esta acción es irreversible.
         confirm_merge_victims: "Combinar los siguientes perfiles de contenedor:" 
         confirm_merge_target: "En este perfil de contenedor:"
-    name: Nombre
-    name_tooltip: |
-        <p>CAMPO REQUERIDO. El nombre del perfil de contenedores. Pueden ser genéricos o específicos.</p>
-        <p>Ejemplos:</p>
-        <ul>
-        <li>document box</li>
-        <li>Paige 15</li>
-        <li>small card file box</li>
-        </ul>
-    url: URL
-    url_tooltip: |
-        <p>Un hipervínculo para una descripción externa del contenedor.</p>
-    dimension_units: Unidades de dimensión
-    dimension_units_tooltip: |
-        <p>Unidades de dimensiones</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
-    extent_dimension: Dimensión de extensión
-    extent_dimension_tooltip: |
-        <p>La dimensión utiliza para calcular e indicando la dimensión medida de los materiales en el contenedor. Esto ayuda a determinar qué dimensión se mide por la calculadora de medida.</p>
-    extent_dimension_depth: Profundidad
-    extent_dimension_depth_tooltip: |
-        <p>Valor numérico para la profundidad del contenedor.</p>
-    extent_dimension_height: Altura
-    extent_dimension_height_tooltip: |
-        <p>Valor numérico para la altura del contenedor.</p>
-    extent_dimension_width: Anchura
-    extent_dimension_width_tooltip: |
-       <p>Valor numérico para la anchura del contenedor.</p>
-    depth: Profundidad
-    depth_tooltip: |
-        <p>Valor numérico para la profundidad del contenedor.</p>
-    height: Altura
-    height_tooltip: |
-        <<p>Valor numérico para la altura del contenedor.</p>
-    width: Anchura
-    width_tooltip: |
-        <p>Valor numérico para la anchura del contenedor.</p>
-    stacking_limit: Límite de apilamiento
-    stacking_limit_tooltip: |
-        <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo.</p>
 
   rights_restriction:
     begin: Comienzo de la restricción

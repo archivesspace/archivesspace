@@ -1120,86 +1120,12 @@ en:
       open_browse: "Open Browse menu"
       open_create: "Open Create menu"
 
-  instance_container:
-    container: Container
-
   sub_container:
-    top_container: Top Container
-    top_container_tooltip: |
-        <p>REQUIRED FIELD. The highest level container in which the described material is housed.</p>
-        <p>May be selected from an existing list of top containers using the type ahead or Browse functions or created using the Create function.</p>
-    type_2: Child Type
-    type_2_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    indicator_2: Child Indicator
-    indicator_2_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
-    barcode_2: Child Container Barcode
-    barcode_2_tooltip: |
-        <p>A barcode to identify the second-level container in which the described material is housed.</p>    
-    type_3: Grandchild Type
-    type_3_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    indicator_3: Grandchild Indicator
-    indicator_3_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
-    _singular: Sub Container
-    _plural: Sub Containers
     _frontend:
       action:
         add: Add Container Instance
 
   top_container:
-    container_profile: Container Profile
-    container_profile_tooltip: |
-        <p>A description of various characteristics of a particular kind of container, including dimensions.</p>
-    indicator: Indicator
-    indicator_tooltip: |
-        <p>REQUIRED FIELD. An alphanumeric expression for indicating the place of the highest level container, which may also be the position of the container in a sequence of containers.</p>
-    barcode: Barcode
-    barcode_tooltip: |
-        <p>Used to record the barcode that uniquely identifies the highest level container.</p>
-    type: Container Type
-    type_tooltip: |
-        <p>The type of the highest level container.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    ils_holding_id: ILS Holding ID
-    ils_holding_id_tooltip: |
-        <p>Identifier of associated holding record in the library ILS</p>
-    ils_item_id: ILS Item ID
-    ils_item_id_tooltip: |
-        <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
-    exported_to_ils: Exported to ILS
-    not_exported: Not exported
-    restricted: Restricted?
-    parent: Parent Container
-
-    managed_container_2_type: Child Container Type
-    managed_container_2_type_tooltip: |
-        <p>The type of the second-level container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    managed_container_2_indicator: Child Container Indicator
-    managed_container_2_indicator_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
-    managed_container_3_type: Grandchild Container Type
-    managed_container_3_type_tooltip: |
-        <p>The type of the third-level container in which the described material is housed.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    managed_container_3_indicator: Grandchild Container Indicator
-    managed_container_3_indicator_tooltip: |
-        <p>An alphanumeric expression for indicating the ID of the third-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of third-level containers are also permissible, e.g. Folders 1-16.</p>
-    barcode_length_for_this_repository: "Barcode length for this repository:"
-    characters: characters
-
-    batch_delete:
-      success: Top Containers successfully deleted
-      error: There was a problem deleting Top Containers
-
-    _singular: Top Container
-    _plural: Top Containers
-
     _frontend:
       section:
         active_restrictions: Active Restrictions
@@ -1273,8 +1199,6 @@ en:
         update_locations_new_location: New Location
 
   container_profile:
-    _singular: Container Profile
-    _plural: Container Profiles
     _frontend:
       action:
         save: Save Container Profile
@@ -1295,46 +1219,6 @@ en:
         confirm_merge_question: Are you sure you want to merge the container profiles as listed below? This action is irreversible.
         confirm_merge_victims: "Merge the following container profile(s):"
         confirm_merge_target: "Into this container profile:"
-    name: Name
-    name_tooltip: |
-        <p>REQUIRED FIELD. The name of the container profile. May be generic or specific.</p>
-        <p>Examples:</p>
-        <ul>
-        <li>document box</li>
-        <li>Paige 15</li>
-        <li>small card file box</li>
-        </ul>
-    url: URL
-    url_tooltip: |
-        <p>A hyperlink for an external description of the container.</p>
-    dimension_units: Dimension Units
-    dimension_units_tooltip: |
-        <p>Unit of measurement for dimensions.</p>
-        <p>Values in this Controlled Value List may be modified.</p>
-    extent_dimension: Extent Dimension
-    extent_dimension_tooltip: |
-        <p>The dimension used for calculating and stating the extent dimension of the materials in the container. This helps determine which dimension will be measured by the extent calculator.</p>
-    extent_dimension_depth: Depth
-    extent_dimension_depth_tooltip: |
-        <p>Numeric value for the depth (front to back dimension) of the container.</p>
-    extent_dimension_height: Height
-    extent_dimension_height_tooltip: |
-        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
-    extent_dimension_width: Width
-    extent_dimension_width_tooltip: |
-        <p>Numeric value for the width (side to side dimension) of the container.</p>
-    depth: Depth
-    depth_tooltip: |
-        <p>Numeric value for the depth (front to back dimension) of the container.</p>
-    height: Height
-    height_tooltip: |
-        <p>Numeric value for the height (top to bottom dimension) of the container.</p>
-    width: Width
-    width_tooltip: |
-        <p>Numeric value for the width (side to side dimension) of the container.</p>
-    stacking_limit: Stacking Limit
-    stacking_limit_tooltip: |
-        <p>The number of these containers that can be stacked on top of one another. Leave blank if there is no limit. Must be a positive integer.</p>
 
   rights_restriction:
     begin: Restriction Begin
