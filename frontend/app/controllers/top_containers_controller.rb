@@ -135,8 +135,7 @@ class TopContainersController < ApplicationController
     search_params["q"] = "top_container_u_typeahead_utext:#{search_params["q"]}"
 
     search_params = search_params.merge(search_filter_for(params[:uri]))
-
-    search_params = search_params.merge("sort" => "top_container_u_typeahead_usort asc")
+    search_params = search_params.merge("sort" => "top_container_u_icusort asc")
 
     render :json => Search.all(session[:repo_id], search_params)
   end
@@ -147,7 +146,6 @@ class TopContainersController < ApplicationController
 
   def bulk_operation_search
     session[:top_container_previous_search] = {}
-
     # Store ONLY needed information from linkers in rails session so it can be repopulated for another search later
     # (The whole record is not saved because they are too big for the rails session and only a few pieces of info are used)
     if params['collection_resource']
@@ -198,7 +196,6 @@ class TopContainersController < ApplicationController
 
   def bulk_operations_browse
     @top_container_previous_search = {}
-
     begin
       results = perform_search if params.has_key?("q")
     rescue MissingFilterException
@@ -355,6 +352,10 @@ class TopContainersController < ApplicationController
       builder.and('empty_u_sbool', (params['empty'] == "yes" ? true : false), 'boolean')
     end
 
+    unless params['has_location'].blank?
+      builder.and('has_location_u_sbool', (params['has_location'] == "yes" ? true : false), 'boolean')
+    end
+
     unless params['barcodes'].blank?
       barcode_query = AdvancedQueryBuilder.new
 
@@ -389,4 +390,3 @@ class TopContainersController < ApplicationController
   end
 
 end
-

@@ -1287,7 +1287,7 @@ fr:
         merge_select_target: Sélectionner la cible de fusion
         confirm_merge: Confirmer les profils de conteneur de fusion
         confirm_merge_question: Voulez-vous vraiment fusionner les profils de conteneur comme indiqué ci-dessous? Cette action est irréversible.
-        confirm_merge_victims: "Fusionner les profils de conteneur suivants:" 
+        confirm_merge_victims: "Fusionner les profils de conteneur suivants:"
         confirm_merge_target: "Dans ce profil de conteneur:"
     name: Nom
     name_tooltip: |

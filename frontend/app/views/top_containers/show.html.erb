@@ -90,7 +90,24 @@
             <% end %>
           </section>
 
-          <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @top_container, :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
+          <%= render_aspace_partial :partial => "search/embedded",
+           :locals => {
+             :record => @top_container,
+             :filter_term => {"top_container_uri_u_sstr" => @top_container.uri}.to_json,
+             :heading_text => I18n.t("location._frontend.section.search_embedded"),
+             :show_context_column => true,
+             :extra_columns => [
+               {
+                 title: 'search_sorting.child_container_u_icusort',
+                 field: 'child_container_u_sstr',
+                 formatter: 'linked_records_listing',
+                 sort_options: {
+                   sortable: true,
+                   sort_by: 'child_container_u_icusort'
+                 }
+               }
+             ]
+             } %>
 
           <hr>
           <%= display_audit_info(@top_container) %>

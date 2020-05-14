@@ -70,16 +70,6 @@ describe 'Locations' do
     @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '329 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
   end
 
-  it 'allows the browse locations list to be filtered by repository' do
-    sidebar = @driver.find_element(css: ".sidebar").find_element_with_text('//h3', /Repository/)
-    new_location_link_text = @driver.find_element_with_text('//li', /LOCATIONS_TEST/).text
-    new_location_link_text = new_location_link_text[0...-2]
-
-    @driver.click_and_wait_until_gone(:link, new_location_link_text)
-
-    expect(@driver.find_elements(css: 'tr').length).to eq(2)
-  end
-
   it 'allows the new location to be viewed in non-edit mode' do
     @driver.get($frontend)
 
@@ -338,7 +328,6 @@ describe 'Locations' do
       expect(ns_idx1).to be < ns_idx2
       expect(ss_idx1).to be > ss_idx2
       expect(table_rows_location_text).not_to eq(table_rows_location_text_sorted)
-
     end
   end
 end

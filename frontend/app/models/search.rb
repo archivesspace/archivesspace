@@ -15,6 +15,31 @@ class Search
 
     criteria["page"] = 1 if not criteria.has_key?("page")
 
+    #If the criteria contains a 'blank_facet_query_fields' field,
+    #we want to add a facet to filter on items WITHOUT an entry in the facet
+    if (criteria.has_key?("blank_facet_query_fields"))
+      blank_facet_query = ""
+      delimiter = ""
+      criteria["blank_facet_query_fields"].each {|query_field|
+        blank_facet_query = "-" + query_field + ":*"
+        sub_criteria = criteria.clone
+        if (sub_criteria.has_key?("q"))
+          sub_criteria["q"] = criteria["q"] + " AND " + blank_facet_query
+        else
+          sub_criteria["q"] = blank_facet_query
+        end
+
+        search_data_with_blank_facet = JSONModel::HTTP::get_json("/repositories/#{repo_id}/search", sub_criteria)
+        if (!search_data["facets"]["facet_fields"].has_key?(query_field))
+          search_data["facets"]["facet_fields"][query_field] = ["none", search_data_with_blank_facet["total_hits"]]
+        else
+          search_data["facets"]["facet_fields"][query_field] << "none"
+          search_data["facets"]["facet_fields"][query_field] << search_data_with_blank_facet["total_hits"]
+        end
+      }
+
+    end
+
     search_data = JSONModel::HTTP::get_json("/repositories/#{repo_id}/search", criteria)
 
     #If the criteria contains a 'blank_facet_query_fields' field,

@@ -1289,7 +1289,7 @@ es:
         merge_select_target: Seleccionar objetivo de fusión
         confirm_merge: Confirmar perfiles de contenedor de fusión
         confirm_merge_question: ¿Está seguro de que desea fusionar los perfiles del contenedor como se enumeran a continuación? Esta acción es irreversible.
-        confirm_merge_victims: "Combinar los siguientes perfiles de contenedor:" 
+        confirm_merge_victims: "Combinar los siguientes perfiles de contenedor:"
         confirm_merge_target: "En este perfil de contenedor:"
     name: Nombre
     name_tooltip: |

@@ -118,6 +118,7 @@ class IndexerCommon
   end
 
 
+
   def self.extract_string_values(doc)
     text = ""
     doc.each do |key, val|
@@ -514,7 +515,8 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'job'
         report_type = record['record']['job']['report_type']
-        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) : 
+        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) :
+
           t("job.types.#{record['record']['job_type']}"))
         doc['types'] << record['record']['job_type']
         doc['types'] << report_type
@@ -626,7 +628,7 @@ class IndexerCommon
         end
 
         if record['record']['container_locations'].length > 0
-          doc['has_location_u_abool'] = true
+          doc['has_location_u_sbool'] = true
           record['record']['container_locations'].each do |container_location|
             if container_location['status'] == 'current'
               doc['location_uri_u_sstr'] = container_location['ref']
@@ -635,21 +637,18 @@ class IndexerCommon
             end
           end
         else
-          doc['has_location_u_abool'] = false
+          doc['has_location_u_sbool'] = false
+
         end
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
-
         doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
-        doc['top_container_u_typeahead_usort'] = record['record']['display_string']
-
-        doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
+        doc['top_container_u_icusort'] = record['record']['display_string']
         doc['barcode_u_sstr'] = record['record']['barcode']
         doc['barcode_u_ssort'] = record['record']['barcode']
 
         doc['type_u_ssort'] = record['record']['type']
-
         doc['subcontainer_barcodes_u_sstr'] = record["record"]["subcontainer_barcodes"]
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
       end
@@ -667,8 +666,12 @@ class IndexerCommon
             doc['top_container_uri_u_sstr'] ||= []
             doc['top_container_uri_u_sstr'] << instance['sub_container']['top_container']['ref']
             if instance['sub_container']['type_2']
+              child_type, child_indicator, child_barcode = instance['sub_container'].values_at('type_2', 'indicator_2', 'barcode_2')
+
               doc['child_container_u_sstr'] ||= []
-              doc['child_container_u_sstr'] << "#{instance['sub_container']['type_2']} #{instance['sub_container']['indicator_2']} #{instance['sub_container']['barcode_2']}"
+              doc['child_container_u_icusort'] ||= ""
+              doc['child_container_u_sstr'] << "#{child_type} #{child_indicator} #{child_barcode}"
+              doc['child_container_u_icusort'] << "#{child_type} #{child_indicator},"
             end
             if instance['sub_container']['type_3']
               doc['grand_child_container_u_sstr'] ||= []
