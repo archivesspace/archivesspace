@@ -385,7 +385,12 @@ class IndexerCommon
         doc['floor'] = record['record']['floor']
         doc['room'] = record['record']['room']
         doc['area'] = record['record']['area']
-      end
+       if record['record']['owner_repo']
+         repo = JSONModel::HTTP.get_json(record['record']['owner_repo']['ref'])
+          doc['owner_repo_uri_u_sstr'] = record['record']['owner_repo']['ref']
+          doc['owner_repo_display_string_u_ssort'] = repo["repo_code"]
+       end
+       end
     }
 
     add_document_prepare_hook {|doc, record|

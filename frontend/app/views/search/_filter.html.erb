@@ -48,7 +48,11 @@
   <ul>
     <% facets.each do |facet, facet_map| %>
       <li>
-        <%= link_to facet_map[:label], build_search_params({"add_filter_term" => facet_map[:filter_term]}) %> <span class="badge"><%= facet_map[:count] %></span>
+        <% if facet_map.has_key?(:q) %>
+        	<%= link_to facet_map[:label], build_search_params({"q" => facet_map[:q]}) %> <span class="badge"><%= facet_map[:count] %></span>
+      	<% else %>
+			<%= link_to facet_map[:label], build_search_params({"add_filter_term" => facet_map[:filter_term]}) %> <span class="badge"><%= facet_map[:count] %></span>
+      	<% end %>
       </li>
     <% end %>
   </ul>

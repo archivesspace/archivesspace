@@ -191,6 +191,7 @@ en:
       floor: Floor
       room: Room
       area: Area
+      owner_repo_display_string_u_ssort: Repository
       location_profile_display_string_u_ssort: Location Profile
       location_profile_width_u_sstr: Width
       location_profile_height_u_sstr: Height
@@ -212,6 +213,7 @@ en:
       report_type: Report Type
       owner: Owner
       langcode: Language of Materials
+      none: None
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multiple previous rows.
 
@@ -256,6 +258,7 @@ en:
     digital_object_type: Digital Object Type
     publish: Publish
     location_profile_display_string_u_ssort: Location Profile
+    owner_repo_display_string_u_ssort: Repository
     assessment_survey_begin: Survey Begin Date
     assessment_survey_end: Survey Completed Date
     assessment_id: ID
