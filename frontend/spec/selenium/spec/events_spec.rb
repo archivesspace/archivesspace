@@ -20,7 +20,7 @@ describe 'Events' do
 
     @agent = create(:agent_person, names: [name])
 
-    run_all_indexers
+    run_index_round
 
     @driver = Driver.get.login_to_repo(@archivist_user, @repo)
   end
@@ -122,7 +122,7 @@ describe 'Events' do
   end
 
   it 'should be searchable' do
-    run_all_indexers
+    run_index_round
     @driver.find_element(:id, 'global-search-button').click
     @driver.find_element(:link, 'Event').click
     assert(5) { @driver.find_element_with_text('//h3', /Search Results/) }

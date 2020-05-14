@@ -11,7 +11,6 @@ require 'test_utils'
 require 'config/config-distribution'
 require 'securerandom'
 require 'nokogiri'
-require 'factory_bot'
 
 require_relative '../../indexer/app/lib/realtime_indexer'
 require_relative '../../indexer/app/lib/periodic_indexer'

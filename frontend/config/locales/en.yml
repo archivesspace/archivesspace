@@ -259,16 +259,6 @@ en:
     assessment_survey_begin: Survey Begin Date
     assessment_survey_end: Survey Completed Date
     assessment_id: ID
-    status: Status
-    job_type: Job Type
-    report_type: Report Type
-    job_report_type: Job Type
-    time_started: Time Started
-    time_finished: Time Completed
-    barcode_u_ssort: 'Barcode'
-    type_u_ssort: 'Container Type'
-    indicator_stored_u_ssort: 'Indicator'
-    collection_display_string_stored_u_ssort: 'Resource/Accession'
 
   advanced_search:
     operator:
@@ -1137,7 +1127,7 @@ en:
         <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
     barcode_2: Child Container Barcode
     barcode_2_tooltip: |
-        <p>A barcode to identify the second-level container in which the described material is housed.</p>    
+        <p>A barcode to identify the second-level container in which the described material is housed.</p>
     type_3: Grandchild Type
     type_3_tooltip: |
         <p>The type of the third-level container in which the described material is housed.</p>
@@ -1579,4 +1569,4 @@ en:
         error: "ERROR: Error(s) detected: "
         copied: Copied!
         uncopied: Unable to copy
-        
+
