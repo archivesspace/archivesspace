@@ -27,3 +27,7 @@ ArchivesSpace 1.0 (released in 2013) was developed by [Hudson Molonglo](http://w
 UC San Diego Libraries, and University of Illinois Urbana-Champaign Library and with
 funding from the Andrew W. Mellon Foundation, organizational support from
 LYRASIS, and contributions from diverse persons in the archives community.
+
+# Membership
+
+ArchivesSpace is free to download and use, but has a membership model to promote sustainability and the continuing development of the application and to support those who use it. Learn more about ArchivesSpace membership at https://archivesspace.org/community/why-become-a-member. Reach out to the program team at ArchivesSpaceHome@lyrasis.org if you are interested in becoming an ArchivesSpace member.

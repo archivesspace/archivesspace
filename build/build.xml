@@ -12,6 +12,15 @@
   <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.2.22.v20170606/jetty-runner-9.2.22.v20170606.jar" />
   <property name="jettyrunner_file" value="jetty-runner-9.2.22.v20170606.jar" />
 
+  <property name="icu4j_url" value="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/65.1/icu4j-65.1.jar" />
+  <property name="icu4j_file" value="icu4j-65.1.jar" />
+
+  <property name="luceneicu_url" value="https://repo1.maven.org/maven2/org/apache/lucene/lucene-analyzers-icu/4.10.4/lucene-analyzers-icu-4.10.4.jar" />
+  <property name="luceneicu_file" value="lucene-analyzers-icu-4.10.4.jar" />
+
+  <property name="solrextras_url" value="https://repo1.maven.org/maven2/org/apache/solr/solr-analysis-extras/4.10.0/solr-analysis-extras-4.10.0.jar" />
+  <property name="solrextras_file" value="solr-analysis-extras-4.10.4.jar" />
+
   <property name="gem_home" location="gems" />
   <property name="aspace.backend.port" value="4567" />
   <property name="aspace.frontend.port" value="3000" />
@@ -24,7 +33,11 @@
       Extra options for people who like lots of GC detail: -verbose:gc -XX:+PrintTenuringDistribution -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime
   -->
   <property name="env.JAVA_OPTS" value="" />
-  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx1024m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=http://localhost:${aspace.solr.port}" />
+  <!-- export ASPACE_SOLR_URL=http://localhost:8983/solr/archivesspace -->
+  <condition property="aspace.solr.url" value="${env.ASPACE_SOLR_URL}" else="http://localhost:${aspace.solr.port}">
+    <isset property="env.ASPACE_SOLR_URL" />
+  </condition>
+  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx1024m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=${aspace.solr.url}" />
 
 
   <target name="help" description="This help">
@@ -65,6 +78,9 @@
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${jettyrunner_url}" dest="${jettyrunner_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${icu4j_url}" dest="../solr/lib/${icu4j_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${luceneicu_url}" dest="../solr/lib/${luceneicu_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${solrextras_url}" dest="../solr/lib/${solrextras_file}" skipexisting="true" verbose="true" usetimestamp="true" />
   </target>
 
 
@@ -227,6 +243,10 @@
 
 
   <target name="backend:integration" depends="set-classpath" description="Run the integration test suite">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../backend">
@@ -237,6 +257,7 @@
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="tests/integration.rb" />
     </java>
+    <delete dir="integration.tmp" />
   </target>
 
 
@@ -253,19 +274,23 @@
 
 
   <target name="backend:devserver" depends="set-classpath, setup-solr" description="Start an instance of the ArchivesSpace backend development server">
-    <delete dir="integration.tmp" />
+    <!--<delete dir="integration.tmp" />-->
     <delete dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
     <mkdir dir="${java.io.tmpdir}/jettyrunner.${user.name}" />
 
     <mkdir dir="../build/solr_home/collection1/conf" />
+    <mkdir dir="../build/solr_home/collection1/lib" />
+    <copy todir="../build/solr_home/collection1/lib">
+	    <fileset dir="../solr/lib" />
+    </copy>
 
     <parallel>
       <daemons>
         <java
-          classpath="${jettyrunner_file}:../solr:../common/lib/*"
+	  classpath="${jettyrunner_file}:../solr:../common/lib/*"
           classname="org.eclipse.jetty.runner.Runner" fork="true">
           <jvmarg line="${default_java_options} ${solr.properties} -Djava.io.tmpdir=${java.io.tmpdir}/jettyrunner.${user.name}" />
-          <arg line="--port ${aspace.solr.port} ${solr_file}" />
+	  <arg line="--port ${aspace.solr.port} ${solr_file}" />
         </java>
       </daemons>
       <record name="backend_test_log.out" action="start" />
@@ -352,7 +377,11 @@
   <target name="solr:war" depends="set-classpath, bootstrap-downloads" description="Repack the Solr .war file with our configs">
     <copy file="${solr_file}" tofile="solr.war" overwrite="true" />
     <war destfile="solr.war" update="true">
-      <zipfileset dir="../solr" prefix="WEB-INF/classes"/>
+      	    <zipfileset dir="../solr" includes="schema.xml" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="solrconfig.xml" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="stopwords.txt" prefix="WEB-INF/classes"/>
+	    <zipfileset dir="../solr" includes="synonyms.txt" prefix="WEB-INF/classes"/>
+    	    <zipfileset dir="../solr/lib" prefix="WEB-INF/lib"/>
     </war>
   </target>
 
@@ -371,6 +400,10 @@
 
   <!-- Frontend -->
   <target name="frontend:test" depends="set-classpath, frontend:clean" description="Run the non-Selenium unit test suite">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <property name="spec" value=""/>
     <condition property="spec-arg" value="${spec}" else="">
       <isset property="spec"/>
@@ -389,6 +422,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/gems/bin/rspec -b --format d -P '*/*_spec.rb' --order rand:1 ${example-arg} spec/${spec-arg}" />
     </java>
+    <delete dir="integration.tmp"/>
   </target>
 
 
@@ -490,6 +524,10 @@
   </target>
 
   <target name="frontend:selenium" depends="set-classpath, frontend:clean" description="Run the Selenium tests">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <property name="spec" value=""/>
     <property name="example" value=""/>
     <condition property="example-arg" value="-e &quot;${example}&quot;" else="">
@@ -856,6 +894,10 @@
   </target>
 
   <target name="public:test" depends="set-classpath, public:copy-shared-resources" description="Run the unit test suite">
+    <mkdir dir="integration.tmp/collection1/lib" />
+    <copy todir="integration.tmp/collection1/lib">
+      <fileset dir="../solr/lib" />
+    </copy>
     <property name="spec" value=""/>
     <condition property="spec-arg" value="${spec}" else="">
       <isset property="spec"/>
@@ -874,6 +916,7 @@
       <env key="BUNDLE_PATH" value="${gem_home}" />
       <arg line="../build/gems/bin/rspec -b --format d --order rand:1 ${example-arg} spec/${spec-arg}" />
     </java>
+    <delete dir="integration.tmp"/>
   </target>
 
 

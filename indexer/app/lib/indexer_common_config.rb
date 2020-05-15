@@ -19,7 +19,8 @@ class IndexerCommonConfig
       :archival_object,
       :digital_object_component,
       :classification_term,
-      :assessment
+      :assessment,
+      :job
     ]
   end
 

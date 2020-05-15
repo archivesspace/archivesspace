@@ -148,7 +148,7 @@ GEM
     multipart-post (1.2.0)
     net-http-persistent (2.8)
     nio4r (2.5.2-java)
-    nokogiri (1.10.7-java)
+    nokogiri (1.10.8-java)
     parallel (1.19.1)
     parser (2.7.0.1)
       ast (~> 2.4.0)
@@ -310,7 +310,7 @@ DEPENDENCIES
   mizuno (= 0.6.11)
   multipart-post (= 1.2.0)
   net-http-persistent (= 2.8)
-  nokogiri (>= 1.10.4)
+  nokogiri (>= 1.10.8)
   pry (~> 0.11.3)
   pry-nav
   pry-rails

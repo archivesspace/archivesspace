@@ -86,14 +86,27 @@
         }
 
         if (node.dates && node.dates.length > 0) {
-            var first_date = node.dates[0];
-            if (first_date.expression) {
-                title_bits.push(first_date.expression);
-            } else if (first_date.begin && first_date.end) {
-                title_bits.push(first_date.begin + '-' + first_date.end);
-            } else if (first_date.begin) {
-                title_bits.push(first_date.begin);
+          node.dates.forEach(function(date) {
+            if (date.expression) {
+              if (date.type === 'bulk') {
+                title_bits.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.expression);
+              } else {
+                title_bits.push(date.expression);
+              }
+            } else if (date.begin && date.end) {
+              if (date.type === 'bulk') {
+                title_bits.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.begin + '-' + date.end);
+              } else {
+                title_bits.push(date.begin + '-' + date.end);
+              };
+            } else if (date.begin) {
+              if (date.type === 'bulk') {
+                title_bits.push('<%= I18n.t("date_type_bulk.bulk") %>: ' + date.begin);
+              } else {
+                title_bits.push(date.begin);
+              };
             }
+          })
         }
 
         return title_bits.join(', ');

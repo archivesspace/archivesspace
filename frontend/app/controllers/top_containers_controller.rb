@@ -291,6 +291,9 @@ class TopContainersController < ApplicationController
 
       ASUtils.wrap(params['barcodes'].split(" ")).each do |barcode|
         barcode_query.or('barcode_u_sstr', barcode)
+
+        # Subcontainer string contains barcode
+        barcode_query.or('subcontainer_barcodes_u_sstr', barcode)
       end
 
       unless barcode_query.empty?

@@ -1128,6 +1128,7 @@ fr:
 
   date_type_bulk:
     <<: *date_attributes
+    bulk: masse
 
   date_type_inclusive:
     <<: *date_attributes
@@ -2050,6 +2051,8 @@ fr:
     time_finished: Heure d'achèvement
     owner: Owner
     show_description: Montrer description
+    input_file: Fichier d'entrée
+    output_file: Fichier de sortie
 
   report_job:
     report_type: Type de rapport

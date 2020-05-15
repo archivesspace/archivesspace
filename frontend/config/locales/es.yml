@@ -393,6 +393,19 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
+    job:
+      status: Estado
+      job_type: Tipo de tarea
+      report_type: Tipo de informe
+      job_report_type: Tipo de tarea
+      time_started: Tiempo comenzado
+      time_finished: Tiempo terminado
+      job_data: Informacion del trabajo
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
     multi:
       primary_type: Tipo de registro
       creators: Creadores
@@ -409,6 +422,7 @@ es:
       extents: Extensión
       asc: Ascendente
       desc: Descendente
+
 
   advanced_search:
     operator:
@@ -1639,6 +1653,10 @@ es:
       repository: Repositorio %{type}
       action:
         save: Guardar atributos de evaluación
+        add_type: Añadir %{type}
+        find_rating: Buscar registros con una calificación %{rating_type}
+        find_format: Buscar registros con un %{format_type} tipo / formato de material
+        find_issue: Buscar registros con un problema de conservación %{issue_type}
       messages:
         updated: Atributos de evaluación actualizados
         error: Error al actualizar los atributos de evaluación

@@ -161,7 +161,7 @@ describe 'ArchivalObject model' do
 
   it "auto generates a 'label' based on the date (when no title)" do
     # if an expression that will display
-    date = build(:json_date)
+    date = build(:json_date, :date_type => 'inclusive')
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
         :title => nil,
@@ -172,7 +172,7 @@ describe 'ArchivalObject model' do
     expect(ArchivalObject[ao[:id]].display_string).to eq(date['expression'])
 
     # try with begin and end
-    date = build(:json_date, :expression => nil)
+    date = build(:json_date, :date_type => 'inclusive', :expression => nil)
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
         :title => nil,
@@ -181,20 +181,42 @@ describe 'ArchivalObject model' do
       :repo_id => $repo_id)
 
     expect(ArchivalObject[ao[:id]].display_string).to eq("#{date['begin']} - #{date['end']}")
-  end
 
-  it "auto generates a 'label' based on the date and title when both are present" do
-    title = "Just a title"
-    date = build(:json_date)
-
+    date = build(:json_date, :date_type => 'bulk')
     ao = ArchivalObject.create_from_json(
       build(:json_archival_object, {
-        :title => title,
+        :title => nil,
         :dates => [date]
       }),
       :repo_id => $repo_id)
 
-    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date['expression']}")
+    expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['expression']}")
+
+    # try with begin and end
+    date = build(:json_date, :date_type => 'bulk', :expression => nil)
+    ao = ArchivalObject.create_from_json(
+      build(:json_archival_object, {
+        :title => nil,
+        :dates => [date]
+      }),
+      :repo_id => $repo_id)
+
+    expect(ArchivalObject[ao[:id]].display_string).to eq("bulk: #{date['begin']} - #{date['end']}")
+  end
+
+  it "auto generates a 'label' based on the date and title when both are present" do
+    title = "Just a title"
+    date1 = build(:json_date, :date_type => 'inclusive')
+    date2 = build(:json_date, :date_type => 'bulk')
+
+    ao = ArchivalObject.create_from_json(
+      build(:json_archival_object, {
+        :title => title,
+        :dates => [date1, date2]
+      }),
+      :repo_id => $repo_id)
+
+    expect(ArchivalObject[ao[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
   end
 
 

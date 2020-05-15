@@ -36,7 +36,7 @@ GEM
     mime-types-data (3.2019.1009)
     minitest (5.13.0)
     multi_json (1.14.1)
-    nokogiri (1.10.7-java)
+    nokogiri (1.10.8-java)
     rack (1.6.12)
     rack-protection (1.5.5)
       rack
@@ -70,7 +70,7 @@ DEPENDENCIES
   json (= 1.8.6)
   mime-types
   multi_json (~> 1.14.1)
-  nokogiri (>= 1.10.4)
+  nokogiri (>= 1.10.8)
   rack-test (~> 0.6.3)
   sinatra (= 1.4.7)
   sinatra-contrib (= 1.4.7)

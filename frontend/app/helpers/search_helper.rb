@@ -185,6 +185,9 @@ module SearchHelper
 
     if opts[:sortable] && opts[:sort_by]
       @search_data.add_sort_field(opts[:sort_by], label)
+    elsif opts[:template] == 'jobs/audit_info_cell'
+      @search_data.add_sort_field('time_started', I18n.t('search.job.time_started'))
+      @search_data.add_sort_field('time_finished', I18n.t('search.job.time_finished'))
     end
 
     col = SearchColumn.new(label, block, opts, @search_data)

@@ -1,0 +1,45 @@
+<div id="bulk_import_file_template">
+  <div class="bulk_import_wrapper">
+<!-- <%= "/resources/#{rid}/ssload" %> -->
+    <%= form_tag url_for(:controller => :bulk_import, :action => :submit_file, :id => rid),
+     :method => "post", multipart: true, :id => 'bulk_import_form' do %>
+<!-- <%= "#{rid}  #{ref_id}" %> -->
+    <div class="modal-body">
+	 <input type='hidden' name='repo_id' id='repo_id' value='<%= repo_id %>'/>
+	<input type='hidden' name='ref_id' id='ref_id' value='<%= ref_id %>'/>
+	<input  type='hidden' name='position' id='position' value='<%= position %>'/>
+	<input  type='hidden' name='type' id='type' value='<%= type %>'/>
+	<input type='hidden' name='rid' id='rid' value='<%= rid %>' />
+	<input type='hidden' name='aoid' id='aoid' value='<%= aoid %>' />
+
+      <section id="bulk_import_filename_">
+	<span class="btn btn-success btn-sm fileinput-button bulkbtn">
+	  <span class="glyphicon glyphicon-plus icon-white"></span>
+	  <span><%= I18n.t("bulk_import._frontend.actions.add_file")%></span>
+	  <input name="file" type="file" id="excel_file"/>
+	</span>
+	<span id="excel_filename"></span>
+      </section>
+      <div class="form-group">
+	<% if AppConfig[:hide_do_load] || type != 'resource' %>
+	  <input type='hidden' name='digital_load' value='false'/>
+	<% else %>
+	   <div class="btn-group" data-toggle="buttons">
+           <label class="btn btn-primary active" style="border-radius:4px;"><input type="radio" value="false" name="digital_load" checked="true"/><%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %></label>
+	   <label class="btn btn-primary" style="border-radius:4px; margin-left:.5em"><input type="radio" value="true" name="digital_load"/><%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %></label>
+	   </div>
+        <% end %>
+       </div>
+      <div id="bulk_messages">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button id="bulkFileButton" class="btn btn-primary bulkbtn"><%= I18n.t('bulk_import._frontend.actions.import') %></button>
+      <button class="btn btn-primary action-button clip-btn disabled" type="button" data-clipboard-target="#excel_clip"><%= I18n.t('bulk_import._frontend.actions.clip_btn') %></button>
+      <button class="btn btn-cancel btn-default bulkbtn" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
+    </div>
+   <% end %>
+
+  </div>
+</div>

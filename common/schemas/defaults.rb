@@ -64,6 +64,9 @@ browse_column_enums = {
   'top_container' => [
     'title', 'container_profile_display_string_u_sstr', 'location_display_string_u_sstr', 'type',
     'indicator', 'barcode', 'context'
+  ],
+  'job' => [
+    'status', 'job_report_type', 'job_data', 'time_started', 'time_finished'
   ]
 }
 

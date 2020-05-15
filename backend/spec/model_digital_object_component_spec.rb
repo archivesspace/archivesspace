@@ -12,6 +12,21 @@ describe 'DigitalObjectComponent model' do
     expect(DigitalObjectComponent[doc.id].title).to eq(doc.title)
   end
 
+  it "auto generates a 'label' based on the date and title when both are present" do
+    title = "Just a title"
+    date1 = build(:json_date, :date_type => 'inclusive')
+    date2 = build(:json_date, :date_type => 'bulk')
+
+    doc = DigitalObjectComponent.create_from_json(
+      build(:json_digital_object_component, {
+        :title => title,
+        :dates => [date1, date2]
+      }),
+      :repo_id => $repo_id)
+
+    expect(DigitalObjectComponent[doc[:id]].display_string).to eq("#{title}, #{date1['expression']}, #{I18n.t("date_type_bulk.bulk")}: #{date2['expression']}")
+  end
+
   describe "slug tests" do
     before(:all) do
       AppConfig[:use_human_readable_urls] = true

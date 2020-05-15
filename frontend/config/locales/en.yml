@@ -391,6 +391,19 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
+    job:
+      status: Status
+      job_type: Job Type
+      report_type: Report Type
+      job_report_type: Job Type
+      time_started: Time Started
+      time_finished: Time Completed
+      job_data: Job Information
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
     multi:
       primary_type: Record Type
       creators: Creator
@@ -509,7 +522,7 @@ en:
     heading: Welcome to ArchivesSpace
     message: Your friendly archives management tool.
     message_logged_in: Your friendly archives management tool.
-  
+
   login:
     login: Sign In
     login_please: Please Sign In
@@ -699,6 +712,7 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Archival Object
+        bulk_import: Load via Spreadsheet
       tree:
         new_record_title: New Archival Object
 
@@ -1046,6 +1060,7 @@ en:
       action:
         add_child: Add Child
         create: Create Resource
+        load_bulk: Load via Spreadsheet
         save: Save Resource
         delete_multiple: Delete Resources
     external_ark_url: External ARK URL
@@ -1272,6 +1287,9 @@ en:
     indicator_2: Child Indicator
     indicator_2_tooltip: |
         <p>An alphanumeric expression for indicating the ID of the second-level container, which may also indicate the second-level container's position within a sequence of such containers. Bulk ranges of second-level containers are also permissible, e.g. Folders 1-16.</p>
+    barcode_2: Child Container Barcode
+    barcode_2_tooltip: |
+        <p>A barcode to identify the second-level container in which the described material is housed.</p>
     type_3: Grandchild Type
     type_3_tooltip: |
         <p>The type of the third-level container in which the described material is housed.</p>
@@ -1639,6 +1657,10 @@ en:
       repository: Repository %{type}
       action:
         save: Save Assessment Attributes
+        add_type: Add %{type}
+        find_rating: Find records with a %{rating_type} rating
+        find_format: Find records with a %{format_type} material type/format
+        find_issue: Find records with a %{issue_type} conservation issue
       messages:
         updated: Assessment Attributes updated
         error: Error updating Assessment Attributes
@@ -1693,3 +1715,20 @@ en:
         _plural: Sponsor Sets
       repo_settings:
         _plural: Per Repository OAI-PMH Settings
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Select File
+        add_archival_objects: Import Archival Objects
+        add_digital_objects: Add Digital Objects to Archival Objects
+        import: Import from SpreadSheet
+        drag_drop: Drag and drop file here
+        clip_btn: Copy to Clipboard
+      messages:
+        missing_file: You have not added a file
+        not_excel: The file you have chosen is not an Excel Spreadsheet
+        processed: The file has been processed
+        error: "ERROR: Error(s) detected: "
+        copied: Copied!
+        uncopied: Unable to copy
+

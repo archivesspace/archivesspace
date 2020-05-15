@@ -9,7 +9,7 @@ describe "indexer common config" do
   end
   describe "record_types" do
     it "has the correct number of record_types" do
-      expect(@record_types.length).to eq(18)
+      expect(@record_types.length).to eq(19)
     end
     it "has the correct record_types" do
       expect(@record_types).to include(:resource)
@@ -30,6 +30,7 @@ describe "indexer common config" do
       expect(@record_types).to include(:digital_object_component)
       expect(@record_types).to include(:classification_term)
       expect(@record_types).to include(:assessment)
+      expect(@record_types).to include(:job)
     end
     it "does not include any blank values" do
       expect(@record_types).not_to include("")

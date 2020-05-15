@@ -1124,6 +1124,7 @@ es:
 
   date_type_bulk:
     <<: *date_attributes
+    bulk: abultar
 
   date_type_inclusive:
     <<: *date_attributes
@@ -2030,6 +2031,8 @@ es:
     time_finished: Tiempo terminado
     owner: Propietario
     show_description: Muestra descripción
+    input_file: Archivo de entrada
+    output_file: Archivo de salida
 
   report_job:
     report_type: Tipo de informe

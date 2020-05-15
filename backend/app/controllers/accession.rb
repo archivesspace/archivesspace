@@ -59,8 +59,9 @@ class ArchivesSpaceService < Sinatra::Base
   do
     accession = Accession.to_jsonmodel(params[:id])
     json_response(accession[:instances].map {|instance|
+                  instance['instance_type'] == 'digital_object' ? nil :
                   instance['sub_container']['top_container']
-                  })
+                }.compact)
   end
 
 

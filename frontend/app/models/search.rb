@@ -74,26 +74,23 @@ class Search
       queries.and(filter.keys[0], filter.values[0])
     end
 
-    # The staff interface shouldn't show records that were only created for the
-    # Public User Interface.
-    queries.and('types', 'pui_only', 'text', literal = true, negated = true)
-
-    new_filter = queries.build
+    new_filter = queries.empty? ? {} : queries.build
 
     if criteria['filter']
       # Combine our new filter with any existing ones
       existing_filter = ASUtils.json_parse(criteria['filter'])
+      subqueries = [existing_filter['query']]
+      subqueries << new_filter['query'] if new_filter['query']
 
       new_filter['query'] = JSONModel(:boolean_query)
                               .from_hash({
                                            :jsonmodel_type => 'boolean_query',
                                            :op => 'AND',
-                                           :subqueries => [existing_filter['query'], new_filter['query']]
+                                           :subqueries => subqueries
                                          })
-
     end
 
-    criteria['filter'] = new_filter.to_json
+    criteria['filter'] = new_filter['query'] ? new_filter.to_json : nil
   end
 
 end

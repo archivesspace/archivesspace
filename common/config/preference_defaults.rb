@@ -94,6 +94,11 @@
   'top_container_browse_column_5' => 'barcode',
   'top_container_browse_column_6' => 'container_profile_display_string_u_sstr',
   'top_container_browse_column_7' => 'location_display_string_u_sstr',
+  'job_browse_column_1' => 'status',
+  'job_browse_column_2' => 'job_report_type',
+  'job_browse_column_3' => 'job_data',
+  'job_browse_column_4' => 'audit_info',
+  'job_browse_column_5' => '',
   'locale' => AppConfig[:locale].to_s,
   'note_order' => [],
 }
