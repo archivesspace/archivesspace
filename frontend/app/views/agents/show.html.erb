@@ -112,10 +112,7 @@
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"rights_statement_agent_uris" => @agent.uri}.to_json, :heading_text => I18n.t("agent._frontend.section.linked_via_rights_statement")} %>
 
-        <%= render_aspace_partial :partial => "search/embedded", :locals => { 
-              :extra_columns => [ { "title" => "event.event_type", "field" => "title", "formatter" => "stringify", "sort_options" => { "sortable" => true, "sort_by" => "title" } }], 
-              :record => @agent, 
-              :filter_term => {"linked_record_uris" => @agent.uri}.to_json, :heading_text => I18n.t("event._plural")} %>
+        <%= render_aspace_partial :partial => "search/embedded", :locals => { :extra_columns => [ "event_type"], :record => @agent, :filter_term => {"linked_record_uris" => @agent.uri}.to_json, :heading_text => I18n.t("event._plural")} %>
 
         <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_surveyor_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_surveyed_by"), :section_id => 'linked_assessments_surveyed_by'} %>
 
