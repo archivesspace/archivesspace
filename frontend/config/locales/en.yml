@@ -615,6 +615,7 @@ en:
 
   date:
     _frontend:
+      expression_placeholder: Describe the date or date range
       action:
         add: Add Date
 
