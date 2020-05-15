@@ -14,8 +14,29 @@ class BulkImportController < ApplicationController
     return render_aspace_partial :partial => "resources/bulk_import_form", :locals => { :rid => rid, :aoid => aoid, :type => type, :ref_id => ref_id, :resource => resource, :position => position, :repo_id => repo_id }
   end
 
-  # submit the file to the backend
+  # create and submit a job
   def submit_file
+    file = params.fetch("file")
+    rid = params.fetch("rid")
+    repo_id = params.fetch("repo_id")
+    type = params[:type]
+    aoid = params[:aoid] || ""
+    ref_id = params[:ref_id] || ""
+    position = params[:position] || "1"
+    type = params[:type]
+    digital_load = params[:digital_load]
+    files = { file.original_filename => file }
+    job_data = { :jsonmodel_type => "bulk_import_job", :filename => file.original_filename, :content_type => params[:file_type], :resource_id => rid.to_i, :repo_id => repo_id.to_i, :rid => rid, :aoid => aoid, :ref_id => ref_id, :position => position, :type => type, :digital_load => digital_load }
+    job = Job.new("bulk_import_job", job_data, files, nil)
+    Rails.logger.error("JOB? #{job.pretty_inspect}")
+    uploaded = job.upload
+    Rails.logger.error("uploaded? #{uploaded.pretty_inspect}")
+    joburiarray = uploaded["uri"].split("/")
+    response.body = response.body + " Load via SpreadSheet Job with number " + helpers.link_to(joburiarray[4], "/" + joburiarray[3] + "/" + joburiarray[4]) + " created."
+  end
+
+  # submit the file to the backend
+  def submit_file_old
     url = "/bulkimport/ssload"
     file = params.fetch("file")
     newfile = UploadIO.new(file.tempfile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", file.original_filename)

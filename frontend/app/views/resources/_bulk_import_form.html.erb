@@ -2,7 +2,8 @@
   <div class="bulk_import_wrapper">
 <!-- <%= "/resources/#{rid}/ssload" %> -->
     <%= form_tag url_for(:controller => :bulk_import, :action => :submit_file, :id => rid),
-     :method => "post", multipart: true, :id => 'bulk_import_form' do %>
+     :method => "post", multipart: true, :id => 'bulk_import_form', 
+     :target => '_blank' do %>
 <!-- <%= "#{rid}  #{ref_id}" %> -->
     <div class="modal-body">
 	 <input type='hidden' name='repo_id' id='repo_id' value='<%= repo_id %>'/>
@@ -11,12 +12,14 @@
 	<input  type='hidden' name='type' id='type' value='<%= type %>'/>
 	<input type='hidden' name='rid' id='rid' value='<%= rid %>' />
 	<input type='hidden' name='aoid' id='aoid' value='<%= aoid %>' />
+  
 
       <section id="bulk_import_filename_">
 	<span class="btn btn-success btn-sm fileinput-button bulkbtn">
 	  <span class="glyphicon glyphicon-plus icon-white"></span>
 	  <span><%= I18n.t("bulk_import._frontend.actions.add_file")%></span>
 	  <input name="file" type="file" id="excel_file"/>
+    <input name="file_type" id="file_type" type="hidden"/>
 	</span>
 	<span id="excel_filename"></span>
       </section>
