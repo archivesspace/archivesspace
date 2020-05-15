@@ -7,7 +7,7 @@ class EACConverter < Converter
   require_relative 'lib/xml_dom'
   include ASpaceImport::XML::DOM
 
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     if type == "eac_xml"
       self.new(input_file)
     else

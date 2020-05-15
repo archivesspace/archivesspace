@@ -13,8 +13,6 @@
 
       <%= read_only_view(@location.to_hash) %>
 
-      <%= display_audit_info(@location) %>
-
       <% if @location['location_profile'] %>
         <div class="form-horizontal">
           <div class="form-group token-list">
@@ -43,6 +41,9 @@
         </div>
       <% end %>
 
+
+      <%= display_audit_info(@location) %>
+
       <% if @location.external_ids.length > 0 && show_external_ids? %>
         <%= render_aspace_partial :partial => "external_ids/show", :locals => { :external_ids => @location.external_ids, :section_id => "location_external_ids_" } %>
       <% end %>
@@ -56,6 +57,7 @@
         :filter_term => {"location_uris" => @location.uri}.to_json,
         :heading_text => I18n.t("location._frontend.section.search_embedded"),
         :type => "top_container",
+        :section_id => 'location_containers',
         :extra_columns => [
           {
             'title' => 'top_container._frontend.bulk_operations.collection_singular',

@@ -1,8 +1,8 @@
 module ExportHelper
   
-  def csv_response(request_uri, params = {} )
+  def csv_response(request_uri, params = {}, filename_prefix = '')
         self.response.headers["Content-Type"] = "text/csv" 
-        self.response.headers["Content-Disposition"] = "attachment; filename=#{Time.now.to_i}.csv"
+        self.response.headers["Content-Disposition"] = "attachment; filename=#{filename_prefix}#{Time.now.to_i}.csv"
         self.response.headers['Last-Modified'] = Time.now.ctime.to_s 
         params["dt"] = "csv" 
         self.response_body = Enumerator.new do |y|

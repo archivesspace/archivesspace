@@ -210,7 +210,7 @@ class AssessmentConverter < Converter
     ]
   end
 
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     if type == "assessment_csv"
       self.new(input_file)
     else

@@ -26,6 +26,11 @@
         <%= I18n.t("digital_object_component._frontend.section.basic_information") %>
         <%= link_to_help :topic => "digital_object_component_basic_information" %>
       </h3>
+
+      <%= render_plugin_partials("top_of_basic_information_digital_object_component",
+                                 :form => form,
+                                 :record => @digital_object_component) %>
+
       <%= form.label_and_textfield "label", :required => :conditionally %>
       <%= form.label_and_textarea "title", :required => :conditionally %>
       <%= form.label_and_textfield "component_id" %>
@@ -41,6 +46,10 @@
           <% end %>
         </div>
       </div>
+
+      <%= render_plugin_partials("basic_information_digital_object_component",
+                                 :form => form,
+                                 :record => @digital_object_component) %>
 
     </section>
   <% end %>

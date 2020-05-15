@@ -24,6 +24,9 @@ class AccessionsController < ApplicationController
     end
   end
 
+  def current_record
+    @accession
+  end
 
   def show
     @accession = fetch_resolved(params[:id])

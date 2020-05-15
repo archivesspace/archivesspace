@@ -1127,68 +1127,12 @@ ja:
       open_browse: ブラウズメニューを開く
       open_create: 作成メニューを開く
 
-  instance_container:
-    container: コンテナ
-
   sub_container:
-    top_container: トップコンテナ
-    top_container_tooltip: "<p>必要なフィールド。記載された材料が収容されている最高レベルの容器。 </p><p>先行タイプまたは参照機能を使用して既存のトップコンテナのリストから選択するか、または作成機能を使用して作成することができます。
-      </p>"
-    type_2: 子供のタイプ
-    type_2_tooltip: "<p>記載された材料が格納されている第2レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
-      </p>"
-    indicator_2: 子指標
-    indicator_2_tooltip: "<p>第2レベルコンテナのIDを示すための英数字式。コンテナのシーケンス内の第2レベルコンテナの位置を示すこともあります。第2レベルコンテナのバルク範囲も許容されます（たとえば、フォルダ1〜16）。
-      </p>"
-    type_3: 孫型
-    type_3_tooltip: "<p>記載された材料が格納されている第3レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
-      </p>"
-    indicator_3: 孫のインジケータ
-    indicator_3_tooltip: "<p>第3レベルのコンテナのIDを示すための英数字式。このコンテナのシーケンス内の第2レベルのコンテナの位置も示すことができます。第3レベルコンテナのバルク範囲も許容されます（例：フォルダ1〜16）。
-      </p>"
-    _singular: サブコンテナ
-    _plural: サブコンテナ
     _frontend:
       action:
         add: コンテナインスタンスの追加
 
   top_container:
-    container_profile: コンテナプロファイル
-    container_profile_tooltip: "<p>次元を含む特定の種類のコンテナのさまざまな特性の説明。 </p>"
-    indicator: インジケータ
-    indicator_tooltip: "<p>必要なフィールド。最高レベルのコンテナの場所を示す英数字式。コンテナのシーケンス内のコンテナの位置でもあります。
-      </p>"
-    barcode: バーコード
-    barcode_tooltip: "<p>最高レベルのコンテナを一意に識別するバーコードを記録するために使用されます。 </p>"
-    type: コンテナタイプ
-    type_tooltip: "<p>最高レベルのコンテナのタイプ。</p><p>この管理された値リストの値は変更することができます。 </p>"
-    ils_holding_id: ILSホールディングID
-    ils_holding_id_tooltip: "<p>ライブラリILS内の関連する保持レコードの識別子</p>"
-    ils_item_id: ILSアイテムID
-    ils_item_id_tooltip: "<p>ライブラリILS（システム項目：マニュアルで編集することはできません）内の関連する項目レコードに対して、APIが提供する識別子</p>"
-    exported_to_ils: ILSにエクスポート
-    not_exported: エクスポートされません
-    restricted: 制限されていますか？
-    parent: 親コンテナ
-    managed_container_2_type: 子コンテナタイプ
-    managed_container_2_type_tooltip: "<p>記載された材料が格納されている第2レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
-      </p>"
-    managed_container_2_indicator: 子コンテナインジケータ
-    managed_container_2_indicator_tooltip: "<p>第2レベルコンテナのIDを示すための英数字式。コンテナのシーケンス内の第2レベルコンテナの位置を示すこともあります。第2レベルコンテナのバルク範囲も許容されます（たとえば、フォルダ1〜16）。
-      </p>"
-    managed_container_3_type: お孫さんコンテナタイプ
-    managed_container_3_type_tooltip: "<p>記載された材料が格納されている第3レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
-      </p>"
-    managed_container_3_indicator: 孫のコンテナインジケータ
-    managed_container_3_indicator_tooltip: "<p>第3レベルのコンテナのIDを示すための英数字式。このコンテナのシーケンス内の第2レベルのコンテナの位置も示すことができます。第3レベルコンテナのバルク範囲も許容されます（例：フォルダ1〜16）。
-      </p>"
-    barcode_length_for_this_repository: このリポジトリのバーコード長：
-    characters: 文字
-    batch_delete:
-      success: 上位コンテナが正常に削除されました
-      error: トップコンテナを削除する際に問題が発生しました
-    _singular: トップコンテナ
-    _plural: トップコンテナ
     _frontend:
       section:
         active_restrictions: アクティブな制限
@@ -1262,8 +1206,6 @@ ja:
         update_locations_new_location: 新しい場所
 
   container_profile:
-    _singular: コンテナプロファイル
-    _plural: コンテナプロファイル
     _frontend:
       action:
         save: コンテナプロファイルを保存する
@@ -1284,31 +1226,6 @@ ja:
         confirm_merge_question: 以下にリストされているように、コンテナープロファイルをマージしてもよろしいですか？ このアクションは元に戻せません。
         confirm_merge_victims: "次のコンテナプロファイルをマージします:" 
         confirm_merge_target: "このコンテナプロファイルに:"
-    name: 名
-    name_tooltip: "<p>必要なフィールド。コンテナプロファイルの名前。ジェネリックまたは特定のものがあります。 </p><p>例： </p><ul><li>ドキュメントボックス</li><li>ページ15
-      </li><li>小さなカードのファイルボックス</li></ul>"
-    url: URL
-    url_tooltip: "<p>コンテナの外部説明のハイパーリンク。 </p>"
-    dimension_units: 寸法単位
-    dimension_units_tooltip: "<p>寸法の測定単位。 </p><p>この管理された値リストの値は変更することができます。 </p>"
-    extent_dimension: エクステントディメンション
-    extent_dimension_tooltip: "<p>コンテナ内のマテリアルのエクステント次元を計算および記述するために使用されるディメンション。これは、エクステント計算機によって測定される次元を決定するのに役立ちます。
-      </p>"
-    extent_dimension_depth: 深さ
-    extent_dimension_depth_tooltip: "<p>コンテナの深さ（前後の寸法）の数値。 </p>"
-    extent_dimension_height: 高さ
-    extent_dimension_height_tooltip: "<p>コンテナの高さ（上端から下端までの寸法）の数値。 </p>"
-    extent_dimension_width: 幅
-    extent_dimension_width_tooltip: "<p>コンテナの幅（左右の寸法）の数値。 </p>"
-    depth: 深さ
-    depth_tooltip: "<p>コンテナの深さ（前後の寸法）の数値。 </p>"
-    height: 高さ
-    height_tooltip: "<p>コンテナの高さ（上端から下端までの寸法）の数値。 </p>"
-    width: 幅
-    width_tooltip: "<p>コンテナの幅（左右の寸法）の数値。 </p>"
-    stacking_limit: スタッキング限界
-    stacking_limit_tooltip: "<p>互いに積み重ねられるこれらの容器の数。制限がない場合は空白のままにします。正の整数でなければなりません。
-      </p>"
 
   rights_restriction:
     begin: 制限開始

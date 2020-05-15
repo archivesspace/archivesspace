@@ -49,8 +49,8 @@ class BackendEnumSource
   end
 
 
-  @@enum_value_cache = Rufus::Lru::SynchronizedHash.new(1024)
-  @@max_cache_ms = 5000
+  @@enum_value_cache = Rufus::Lru::SynchronizedHash.new(16384)
+  @@max_cache_ms = 300000
 
 
   def self.cache_entry_for(enum_name, force_refresh = false)
@@ -67,6 +67,7 @@ class BackendEnumSource
           editable = true 
           db[:enumeration].join(:enumeration_value, :enumeration_id => :id).
                            filter(:name => enum_name).
+                           order(:position).
                            select(:value, Sequel.qualify(:enumeration_value, :id), :editable).
                            all.each do |row|
             value_to_id_map[row[:value]] = row[:id]
@@ -121,16 +122,27 @@ class BackendEnumSource
   end
 
 
-  def self.value_for_id(enum_name, id)
+  # Return the string value for a given enumeration value ID.
+  #
+  # `enum_names` is a list of the enumeration names that the ID might belong to.
+  # For legacy reasons it can be a string (a single enumeration name), but can
+  # also take an array of strings (meaning "the value belongs to one of these
+  # enumerations, but I'm not sure which one).
+  def self.value_for_id(enum_names, id)
     return nil if id.nil?
 
-    result = self.cache_entry_for(enum_name)[:id_to_value_map][id]
+    enum_names = Array(enum_names)
 
-    if !result
-      self.cache_entry_for(enum_name, true)[:id_to_value_map][id]
+    # If multiple possible enum names are given, try hitting the cached values
+    # for all of them before giving up and hitting the DB.
+    [false, true].each do |force_refresh|
+      enum_names.each do |enum_name|
+        result = self.cache_entry_for(enum_name, force_refresh)[:id_to_value_map][id]
+        return result if result
+      end
     end
 
-    result
+    nil
   end
 
 end

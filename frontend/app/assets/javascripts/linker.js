@@ -93,6 +93,9 @@ $(function() {
 
 
       var showLinkerCreateModal = function() {
+        // Ensure all typeahead dropdowns are hidden (sometimes blur leaves them visible)
+        $('.token-input-dropdown').hide();
+
         AS.openCustomModal(config.modal_id, "Create "+ config.label, AS.renderTemplate("linker_createmodal_template", config), 'large', {}, this);
         if ($(this).hasClass("linker-create-btn")) {
           renderCreateFormForObject($(this).data("target"));
@@ -170,10 +173,10 @@ $(function() {
               };
 
               $linkerBrowseContainer.html(html);
-              $($linkerBrowseContainer).on("click", "a", function(event) {
+              $($linkerBrowseContainer).on("click", "a:not(.dropdown-toggle):not(.record-toolbar .btn)", function(event) {
                 event.preventDefault();
 
-                $linkerBrowseContainer.load(event.target.href, initBrowseFormInputs);
+                $linkerBrowseContainer.load(event.currentTarget.href, initBrowseFormInputs);
               });
 
               $($linkerBrowseContainer).on("submit", "form", function(event) {
@@ -214,8 +217,11 @@ $(function() {
             });
           });
           $("#"+config.modal_id).modal('hide');
-          $this.triggerHandler("change");
+          $this.trigger("change");
         };
+
+        // Ensure all typeahead dropdowns are hidden (sometimes blur leaves them visible)
+        $('.token-input-dropdown').hide();
 
         AS.openCustomModal(config.modal_id, "Browse "+ config.label_plural, AS.renderTemplate("linker_browsemodal_template",config), 'large', {}, this);
         renderItemsInModal();

@@ -22,6 +22,11 @@ class LocationProfilesController < ApplicationController
   end
 
 
+  def current_record
+    @location_profile
+  end
+
+
   def show
     @location_profile = JSONModel(:location_profile).find(params[:id])
   end

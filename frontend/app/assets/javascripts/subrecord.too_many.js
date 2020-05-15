@@ -1,7 +1,7 @@
 AS.initTooManySubRecords = function($containerForm, numberOfSubRecords, callback ) {
 
   if ( numberOfSubRecords > 4 ) {
-    var $tooManyMsgEl = $(AS.renderTemplate("too_many_subrecords_template"));
+    var $tooManyMsgEl = $(AS.renderTemplate("too_many_subrecords_template", {count: numberOfSubRecords}));
     $tooManyMsgEl.hide();
     $containerForm.append($tooManyMsgEl);
     $tooManyMsgEl.fadeIn();

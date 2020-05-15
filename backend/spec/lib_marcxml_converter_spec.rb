@@ -678,7 +678,7 @@ MARC
         end
 
 
-        def self.instance_for(type, input_file)
+        def self.instance_for(type, input_file, opts = {})
           if type == 'cramxml'
             self.new(input_file)
           end
@@ -758,7 +758,7 @@ MARC
         end
 
 
-        def self.instance_for(type, input_file)
+        def self.instance_for(type, input_file, opts = {})
           if type == 'marc2accession'
             self.new(input_file)
           end

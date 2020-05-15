@@ -16,6 +16,10 @@
         <section id="basic_information">
           <h3><%= I18n.t("agent._frontend.section.basic_information") %></h3>
 
+          <%= render_plugin_partials("top_of_basic_information_#{@agent.agent_type}",
+                                     :form => readonly,
+                                     :record => @agent) %>
+
           <div class="form-group">
             <label class="col-sm-2 control-label"><%= I18n.t("agent.type") %></label>
             <div class="col-sm-9 label-only"><%= I18n.t("agent.agent_type.#{@agent.agent_type}") %></div>
@@ -24,6 +28,11 @@
           <%= render_aspace_partial :partial => "shared/public_url", :locals => {:form_object => readonly} if AppConfig[:use_human_readable_urls] %>
 
           <%= readonly.label_and_boolean "publish" %>
+
+          <%= render_plugin_partials("basic_information_#{@agent.agent_type}",
+                                     :form => readonly,
+                                     :record => @agent) %>
+
           <%= display_audit_info(@agent) %>
         </section>
 
@@ -105,22 +114,23 @@
           <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @agent.external_documents, :section_id => "#{@agent.agent_type}_external_documents" } %>
         <% end %>
 
-        <%= show_plugins_for(@agent, readonly) %>
+        <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"agent_uris" => @agent.uri}.to_json, :section_id => "linked_agents", :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
 
-
-        <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"agent_uris" => @agent.uri}.to_json, :heading_text => I18n.t("agent._frontend.section.search_embedded")} %>
-
-        <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"rights_statement_agent_uris" => @agent.uri}.to_json, :heading_text => I18n.t("agent._frontend.section.linked_via_rights_statement")} %>
+        <%= render_aspace_partial :partial => "search/embedded", :locals => {:filter_term => {"rights_statement_agent_uris" => @agent.uri}.to_json, :section_id => "linked_via_rights_statements", :heading_text => I18n.t("agent._frontend.section.linked_via_rights_statement")} %>
 
         <%= render_aspace_partial :partial => "search/embedded", :locals => { 
               :extra_columns => [ { "title" => "event.event_type", "field" => "title", "formatter" => "stringify", "sort_options" => { "sortable" => true, "sort_by" => "title" } }], 
-              :record => @agent, 
-              :filter_term => {"linked_record_uris" => @agent.uri}.to_json, :heading_text => I18n.t("event._plural")} %>
+              :record => @agent,
+              :section_id => "events",
+              :filter_term => {"linked_record_uris" => @agent.uri}.to_json, :heading_text => I18n.t("event._plural")}
+        %>
 
-        <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_surveyor_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_surveyed_by"), :section_id => 'linked_assessments_surveyed_by'} %>
+        <% if @agent.agent_type == 'agent_person' %>
+          <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_surveyor_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_surveyed_by"), :section_id => 'linked_assessments_surveyed_by'} %>
+          <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_reviewer_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_reviewer"), :section_id => 'linked_assessments_reviewer'} %>
+        <% end %>
 
-        <%= render_aspace_partial :partial => "assessments/embedded", :locals => { :record => @agent, :filter_term => {"assessment_reviewer_uris" => @agent.uri}.to_json, :heading_text => I18n.t("assessment._frontend.linked_records.linked_via_assessment_reviewer"), :section_id => 'linked_assessments_reviewer'} %>
-
+        <%= show_plugins_for(@agent, readonly) %>
       <% end %>
     </div>
   </div>

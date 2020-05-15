@@ -85,6 +85,7 @@ class Search
     end
 
     criteria['filter'] = new_filter['query'] ? new_filter.to_json : nil
+    criteria
   end
 
 end

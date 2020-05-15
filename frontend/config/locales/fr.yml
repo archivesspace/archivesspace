@@ -1114,83 +1114,12 @@ fr:
       open_browse: "Ouvrir menu parcourir"
       open_create: "Ouvrir menu créer"
 
-  instance_container:
-    container: Conditionnement
-
   sub_container:
-    top_container: Conditionnement principal
-    top_container_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le conditionnement de plus haut niveau renfermant le matériel décrit.</p>
-        <p>Peut être sélectionné dans une liste de conditionnements principaux, en utilisant le type ci-devant, ou des fonctions parcourir, ou créé en recourant à la fonction créer.</p>
-    type_2: Type fils
-    type_2_tooltip: |
-        <p>Le type de conditionnement de second niveau renfermant les documents décrits.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    indicator_2: Indicateur fils
-    indicator_2_tooltip: |
-        <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de second niveau, pouvant aussi indiquer sa position dans une séquence de conditionnements de même type. Des plages de conditionnements de second niveau sont aussi permises, par ex. chemises 1-16.</p>
-    type_3: Type petit-fils
-    type_3_tooltip: |
-        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    indicator_3: Indicateur petit-fils
-    indicator_3_tooltip: |
-        <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de niveau 3, pouvant aussi indiquer sa position dans une séquence de condionnements de même type. Des plages de condionnements de niveau 3 sont aussi permises, par ex. chemises 1-16.</p>
-    _singular: Sous-conditionnement
-    _plural: Sous-conditionnement
     _frontend:
       action:
         add: Ajouter instance de conditionnement
 
   top_container:
-    container_profile: Profil conditionnement
-    container_profile_tooltip: |
-        <p>Une description des caractéristiques d'un certain type de conditionnement, y compris ses dimensions.</p>
-    indicator: Indicateur
-    indicator_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Une expression alphanumérique indiquant la place du conditionnement de plus haut niveau, pouvant être aussi sa position dans une séquence de conditionnements.</p>
-    barcode: Code-barres
-    barcode_tooltip: |
-      <p>Sert à enregistrer le code-barres identifiant de manière unique le conditionnement de plus haut niveau.</p>
-    type: Type de conditionnement
-    type_tooltip: |
-        <p>Le type de conditionnement de plus haut niveau.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    ils_holding_id: ILS Holding ID
-    ils_holding_id_tooltip: |
-        <p>Identifier of associated holding record in the library ILS</p>
-    ils_item_id: ILS Item ID
-    ils_item_id_tooltip: |
-        <p>Identifier, supplied by the API, for an associated item record in the library ILS (system field; cannot be edited manually)</p>
-    exported_to_ils: Exporté vers ILS
-    not_exported: Non exporté
-    restricted: Soumis à des restrictions?
-    parent: conditionnement parent
-
-    managed_container_2_type: Type de conditionnement fils
-    managed_container_2_type_tooltip: |
-        <p>Le type de conditionnement de niveau 2 renfermant les documents décrits.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    managed_container_2_indicator: Indicateur de conditionnement fils
-    managed_container_2_indicator_tooltip: |
-        <p>Une expression alpha numérique indiquant l'identifiant du conditionnement de niveau 2, pouvant aussi indiquer sa position dans une séquence de conditionnements identiques. Des plages de conditionnements sont aussi permises, par ex. chemises 1-16.</p>
-    managed_container_3_type: Tye de conditionnement petit-fils
-    managed_container_3_type_tooltip: |
-        <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    managed_container_3_indicator: Indicateur de conditionnement petit-fils
-    managed_container_3_indicator_tooltip: |
-      <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de niveau 3, pouvant aussi indiquer sa position dans une séquence de conditionnements identiques. Des plages de conditionnements sont aussi permises, par ex. chemises 1-16.</p>
-    barcode_length_for_this_repository: "Longueur de code-barres pour ce service d'archives:"
-    characters: caractères
-
-    batch_delete:
-      success: Suppression des top conditionnements réussie
-      error: Problème rencontré lors de la suppression des top conditionnements
-
-    _singular: Top conditionnement
-    _plural: Top conditionnements
-
     _frontend:
       section:
         active_restrictions: Restrictions en vigueur
@@ -1264,8 +1193,6 @@ fr:
         update_locations_new_location: Nouvelle localisation
 
   container_profile:
-    _singular: Profil de conditionnement
-    _plural: Profils de conditionnements
     _frontend:
       action:
         save: Sauvegarder profil de conditionnement
@@ -1286,46 +1213,6 @@ fr:
         confirm_merge_question: Voulez-vous vraiment fusionner les profils de conteneur comme indiqué ci-dessous? Cette action est irréversible.
         confirm_merge_victims: "Fusionner les profils de conteneur suivants:" 
         confirm_merge_target: "Dans ce profil de conteneur:"
-    name: Nom
-    name_tooltip: |
-        <p>CHAMP OBLIGATOIRE. Le nom d'un profil de conditionnements. Peut être générique ou spécifique.</p>
-        <p>Exemples:</p>
-        <ul>
-        <li>Boîte d'archivage</li>
-        <li>Page 15</li>
-        <li>Petite boîte à fiches</li>
-        </ul>
-    url: URL
-    url_tooltip: |
-        <p>Un lien hypertexte vers une description externe du conditionnement.</p>
-    dimension_units: Unité de mesure
-    dimension_units_tooltip: |
-        <p>Unité de mesure pour l'importance matérielle.</p>
-        <p>Les valeurs de cette liste contrôlée peuvent être modifiées.</p>
-    extent_dimension: Dimensions physiques
-    extent_dimension_tooltip: |
-        <p>La dimension utilisée pour calculer et formuler l'importance matérielle des documents dans le conditionnement. Aide à déterminer quelle dimension sera mesurée par le calculateur d'importance matérielle.</p>
-    extent_dimension_depth: Profondeur
-    extent_dimension_depth_tooltip: |
-        <p>Une valeur numérique pour la profondeur de l'unité de conditionnement.</p>
-    extent_dimension_height: Hauteur
-    extent_dimension_height_tooltip: |
-        <p>Une valeur numérique pour la hauteur de l'unité de conditionnement.</p>
-    extent_dimension_width: Largeur
-    extent_dimension_width_tooltip: |
-        <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
-    depth: Profondeur
-    depth_tooltip: |
-        <p>Une valeur numérique pour la profondeur de l'unité de conditionnement.</p>
-    height: Hauteur
-    height_tooltip: |
-        <p>Une valeur numérique pour la hauteur de l'unité de conditionnement.</p>
-    width: Largeur
-    width_tooltip: |
-        <p>Une valeur numérique pour la largeur de l'unité de conditionnement.</p>
-    stacking_limit: Limite d'empilement
-    stacking_limit_tooltip: |
-        <p>Le nombre de ces conditionnements pouvant être empilés les uns sur les autres. Laisser blanc s'il n'y a pas de limite. Doit être un entier positif.</p>
 
   rights_restriction:
     begin: Début de la restriction

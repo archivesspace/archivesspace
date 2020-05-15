@@ -25,6 +25,11 @@ class DigitalObjectsController < ApplicationController
   end
 
 
+  def current_record
+    @digital_object
+  end
+
+
   def show
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
 

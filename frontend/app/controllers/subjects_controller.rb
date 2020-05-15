@@ -16,10 +16,15 @@ class SubjectsController < ApplicationController
       }
       format.csv {
         search_params = params_for_backend_search.merge({ "sort" => "title_sort asc",  "facet[]" => SearchResultData.SUBJECT_FACETS})
-        uri = "/search/subjects"
+        search_params['type[]'] = 'subject'
+        uri = "/repositories/#{session[:repo_id]}/search"
         csv_response( uri, search_params )
       }
     end
+  end
+
+  def current_record
+    @subject
   end
 
   def show

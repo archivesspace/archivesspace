@@ -57,6 +57,22 @@ module JSONSchemaUtils
      },
 
      {
+       :failed_attribute => ['ArchivesSpaceType'],
+       :pattern => /The property '#(.*?)' was not a non-negative integer/,
+       :do => ->(msgs, message, path, property) {
+         msgs[:errors][fragment_join(path)] = ["Must be a non-negative integer"]
+       }
+     },
+
+     {
+       :failed_attribute => ['ArchivesSpaceType'],
+       :pattern => /The property '#(.*?)' was not an integer/,
+       :do => ->(msgs, message, path, property) {
+         msgs[:errors][fragment_join(path)] = ["Must be an integer"]
+       }
+     },
+
+     {
        :failed_attribute => ['Pattern'],
        :pattern => /The property '#\/.*?' did not match the regex '(.*?)' in schema/,
        :do => ->(msgs, message, path, regexp) {
@@ -316,17 +332,42 @@ module JSONSchemaUtils
     obj.nil? || obj == '' || obj == {}
   end
 
+  # Recursively walk a map and remove any empty strings, empty maps and nils.
+  # Recursively collapses elements so that if, for example, an map becomes
+  # empty after having its own empty elements removed, it gets removed as well.
   def self.drop_empty_elements(obj)
-    if obj.is_a?(Hash)
-      Hash[obj.map do |k, v|
-             v = drop_empty_elements(v)
-             [k, v] unless blank?(v)
-           end.compact]
-    elsif obj.is_a?(Array)
-      obj.map { |elt| drop_empty_elements(elt) }.reject { |elt| blank?(elt) }
-    else
-      obj
+    queue = [obj]
+    to_visit = []
+
+    while !queue.empty?
+      obj = queue.shift
+
+      if obj.is_a?(Hash) || obj.is_a?(Array)
+        (obj.is_a?(Hash) ? obj.values : obj).each do |v|
+          if v.is_a?(Hash) || v.is_a?(Array)
+            queue.push(v)
+          end
+        end
+      end
+
+      to_visit.unshift(obj)
     end
+
+    while !to_visit.empty?
+      obj = to_visit.shift
+
+      if obj.is_a?(Array)
+        obj.reject! {|elt| blank?(elt)}
+      elsif obj.is_a?(Hash)
+        obj.keys.each do |k|
+          if blank?(obj[k])
+            obj.delete(k)
+          end
+        end
+      end
+    end
+
+    obj
   end
 
   # Drop any keys from 'hash' that aren't defined in the JSON schema.

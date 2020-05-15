@@ -58,6 +58,19 @@
 
     <property name="jruby_classpath" value="${jruby_file}:../lib/*:../common:../common/lib/*" />
     <property name="COVERAGE_REPORTS" value="false" />
+
+    <!-- If we're on Unix, use trickery to pull our heap size from config.rb if
+         it's there. -->
+    <exec executable="sh"
+          osfamily="unix"
+          spawn="false"
+          outputproperty="heap_size_from_config"
+          failonerror="false"
+          logError="true"
+          >
+      <arg value="-c" />
+      <arg value="(grep '^\s*AppConfig\[:java_heap_size\]' ../config/config.rb ../common/config/config.rb 2>/dev/null || true) | cut -d'=' -f2 | tr -c -d '[a-z0-9]' | head -1 | sed 's/^/-Xmx/'" />
+    </exec>
   </target>
 
 
@@ -95,7 +108,7 @@
     <echo message="Fetching gems for ${gemfile}" />
 
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS} ${heap_size_from_config}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -105,6 +118,7 @@
   </target>
 
   <target name="bootstrap" depends="bootstrap-downloads" description="Download JRuby and install all required gems">
+    <delete dir="gems/bundler" />
     <delete dir="gems/gems" />
     <delete dir="gems/bin" />
     <delete dir="gems/specifications" />
@@ -250,7 +264,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../backend">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}  ${heap_size_from_config}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -296,7 +310,7 @@
       <record name="backend_test_log.out" action="start" />
       <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
             dir="../backend">
-        <jvmarg line="-Daspace.service=backend -Daspace.config.backend_url=http://localhost:${aspace.backend.port} -Daspace.config.ignore_schema_info_check=true ${default_java_options} ${env.JAVA_OPTS} ${solr.properties}"/>
+        <jvmarg line="-Daspace.service=backend -Daspace.config.backend_url=http://localhost:${aspace.backend.port} -Daspace.config.ignore_schema_info_check=true ${default_java_options} ${env.JAVA_OPTS} ${heap_size_from_config} ${solr.properties}"/>
         <env key="GEM_HOME" value="${gem_home}" />
         <env key="GEM_PATH" value="" />
         <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -328,7 +342,7 @@
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true"
           failonerror="true"
           dir="../indexer">
-      <jvmarg line="-Daspace.service=indexer -Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="-Daspace.service=indexer -Daspace.config.backend_url=http://localhost:${aspace.backend.port}/ ${default_java_options} ${env.JAVA_OPTS}  ${heap_size_from_config}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="BUNDLE_PATH" value="${gem_home}" />
@@ -471,7 +485,7 @@
     <record name="frontend_test_log.out" action="start" />
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true"
           dir="../frontend">
-      <jvmarg line="-Daspace.service=frontend -Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS}"/>
+      <jvmarg line="-Daspace.service=frontend -Daspace.config.backend_url=http://localhost:${aspace.backend.port} ${default_java_options} ${env.JAVA_OPTS}  ${heap_size_from_config}"/>
       <env key="GEM_HOME" value="${gem_home}" />
       <env key="GEM_PATH" value="" />
       <env key="RAILS_ENV" value="${rails.env}" />
@@ -793,6 +807,7 @@
       <zipfileset dir="../launcher/scripts" includes="setup-database.bat" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/scripts" includes="checkindex.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/scripts" includes="checkindex.bat" prefix="archivesspace/scripts" filemode="755" />
+      <zipfileset dir="../launcher/scripts" includes="log-rotater.pl" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/plugin_gems" includes="initialize-plugin.sh" prefix="archivesspace/scripts" filemode="755" />
       <zipfileset dir="../launcher/plugin_gems" includes="initialize-plugin.bat" prefix="archivesspace/scripts" filemode="644" />
       <zipfileset dir="../launcher/password_reset" includes="password-reset.sh" prefix="archivesspace/scripts" filemode="755" />

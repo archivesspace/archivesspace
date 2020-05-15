@@ -21,6 +21,10 @@ class ClassificationsController < ApplicationController
     end
   end
 
+  def current_record
+    @classification
+  end
+
   def show
     flash.keep
 

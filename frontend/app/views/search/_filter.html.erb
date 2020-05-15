@@ -1,3 +1,4 @@
+<div class="search-listing-filter">
 <% if @search_data.filtered_terms? or @search_data.query? %>
   <div class="well">
     <h3>
@@ -6,14 +7,14 @@
     </h3>
     <ul>
       <% if @search_data.query? %>
-        <li>
+        <li class="facet-selected">
           <%= link_to @search_data.facet_label_for_query, build_search_params({"q" => ""}) %>
           <%= link_to '<span class="glyphicon glyphicon-remove"></span>'.html_safe, build_search_params({"q" => ""}) %>
         </li>
       <% end %>
       <% if @search_data.filtered_terms? %>
         <% @search_data[:criteria]["filter_term[]"].each do | filter_term | %>
-          <li>
+          <li class="facet-selected">
             <%= link_to "#{h(@search_data.facet_label_for_filter(filter_term))} <span class='glyphicon glyphicon-remove'></span>".html_safe, build_search_params({"remove_filter_term" => filter_term}) %>
           </li>
         <% end %>
@@ -47,9 +48,10 @@
   <h3><%= I18n.t("search_results.filter.#{facet_group}", :default => facet_group) %></h3>
   <ul>
     <% facets.each do |facet, facet_map| %>
-      <li>
+      <li class="facet">
         <%= link_to facet_map[:label], build_search_params({"add_filter_term" => facet_map[:filter_term]}) %> <span class="badge"><%= facet_map[:count] %></span>
       </li>
     <% end %>
   </ul>
 <% end %>
+</div>

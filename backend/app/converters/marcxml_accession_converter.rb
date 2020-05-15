@@ -10,7 +10,7 @@ class MarcXMLAccessionConverter < MarcXMLConverter
     ]
   end
 
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     if type == "marcxml_accession"
       self.new(input_file)
     else

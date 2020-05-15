@@ -20,7 +20,6 @@ module AspaceFormHelper
       @forms = FormHelpers.new
       @parent = parent
       @context = [[name, values]]
-      @path_to_i18n_map = {}
     end
 
 
@@ -39,11 +38,6 @@ module AspaceFormHelper
 
     def readonly?
       false
-    end
-
-
-    def path_to_i18n_map
-      @path_to_i18n_map
     end
 
 
@@ -191,10 +185,6 @@ module AspaceFormHelper
         end
       }.join("")
 
-      if name
-        @path_to_i18n_map[name_to_json_path(path)] = i18n_for(name)
-      end
-
       "#{names.first}#{path}"
     end
 
@@ -236,11 +226,6 @@ module AspaceFormHelper
 
     def i18n_for(name)
       "#{@active_template or form_top}.#{name.to_s.gsub(/\[\]$/, "")}"
-    end
-
-
-    def path_to_i18n_key(path)
-      path_to_i18n_map[path]
     end
 
 
@@ -513,18 +498,32 @@ module AspaceFormHelper
 
       options = {:class => classes.join(' '), :for => id_for(name)}
 
-      tooltip = I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
-      if not tooltip.empty?
-        options[:title] = tooltip
-        options["data-placement"] = "bottom"
-        options["data-html"] = true
-        options["data-delay"] = 500
-        options["data-trigger"] = "manual"
-        options["data-template"] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-        options[:class] += " has-tooltip"
+      unless (tooltip = tooltip(name, prefix)).empty?
+        add_tooltip_options(tooltip, options)
       end
 
-      @forms.content_tag(:label, I18n.t(prefix + i18n_for(name)), options.merge(opts || {}))
+      attr_string = options.merge(opts || {})
+                      .map {|k, v| '%s="%s"' % [CGI::escapeHTML(k.to_s),
+                                                CGI::escapeHTML(v.to_s)]}
+                      .join(' ')
+      content = CGI::escapeHTML(I18n.t(prefix + i18n_for(name)))
+      "<label #{attr_string}>#{content}</label>".html_safe
+    end
+
+    def add_tooltip_options(tooltip, options)
+      options[:title] = tooltip
+      options['data-placement'] = 'bottom'
+      options['data-html'] = true
+      options['data-delay'] = 500
+      options['data-trigger'] = 'manual'
+      options['data-template'] = '<div class="tooltip archivesspace-help"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+      options[:class] ||= ''
+      options[:class] += ' has-tooltip'
+      options
+    end
+
+    def tooltip(name, prefix = '')
+      I18n.t_raw("#{prefix}#{i18n_for(name)}_tooltip", :default => '')
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
@@ -841,13 +840,6 @@ module AspaceFormHelper
     env = self.request.env
     env['form_context_depth'] ||= 0
 
-    # Not feeling great about this, but we render the form twice: the first pass
-    # sets up the mapping from form input names to i18n keys, while the second
-    # actually uses that map to set the labels correctly.
-    env['form_context_depth'] += 1
-    capture(context, &body)
-    env['form_context_depth'] -= 1
-
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
     s << context.hidden_input("lock_version", values_from["lock_version"])
 
@@ -862,6 +854,11 @@ module AspaceFormHelper
     s << "</div>".html_safe
 
     s
+  rescue
+    Rails.logger.error("Failure generating templates for JS: #{$!}")
+    Rails.logger.error("Stacktrace:\n%s" % [$@.join("\n")])
+
+    raise $!
   end
 
 

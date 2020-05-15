@@ -11,6 +11,10 @@ class CustomReportTemplatesController < ApplicationController
     @custom_report_template = JSONModel(:custom_report_template).find(params[:id])
   end
 
+  def current_record
+    @custom_report_template
+  end
+
   def show
     @custom_report_template = JSONModel(:custom_report_template).find(params[:id])
     render :edit

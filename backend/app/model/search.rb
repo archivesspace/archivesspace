@@ -2,12 +2,32 @@ require_relative 'search_resolver'
 
 class Search
 
+  @@search_hooks ||= []
+
+  def self.add_search_hook(&block)
+    @@search_hooks << block
+  end
+
+  def self.search_hooks
+    @@search_hooks
+  end
+
+  def self.apply_search_hooks(params)
+    search_hooks.each do |hook|
+      params = hook.call(params)
+    end
+
+    params
+  end
+
   def self.search(params, repo_id)
 
     show_suppressed = !RequestContext.get(:enforce_suppression)
     show_published_only = RequestContext.get(:current_username) === User.PUBLIC_USERNAME
 
     Log.debug(params.inspect)
+
+    params = apply_search_hooks(params)
 
     query = if params[:q]
               Solr::Query.create_keyword_search(params[:q])
@@ -27,6 +47,7 @@ class Search
       set_facets(params[:facet], (params[:facet_mincount] || 0)).
       set_sort(params[:sort]).
       set_root_record(params[:root_record]).
+      set_field_list(params[:fields]).
       highlighting(params[:hl]).
       set_writer_type( params[:dt] || "json" )
 

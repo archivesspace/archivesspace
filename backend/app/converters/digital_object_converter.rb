@@ -16,7 +16,7 @@ class DigitalObjectConverter < Converter
   end
 
 
-  def self.instance_for(type, input_file)
+  def self.instance_for(type, input_file, opts = {})
     if type == "digital_object_csv"
       self.new(input_file)
     else

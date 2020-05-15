@@ -211,7 +211,7 @@ class ApplicationController < ActionController::Base
                       "linked_events", "linked_events::linked_records",
                       "linked_events::linked_agents",
                       "top_container", "container_profile", "location_profile",
-                      "owner_repo"]
+                      "owner_repo"] + Plugins.fields_to_resolve
     }
   end
 
@@ -551,6 +551,29 @@ class ApplicationController < ActionController::Base
               hash[property] = i
             end
           end
+
+        # Unfortunately ArchivesSpace's "integer" type is a somewhat Roman
+        # definition of "integer" in that it only supports >= 1.  Provide
+        # versions for other useful types of integers.
+        elsif definition['type'] == 'non_negative_integer'
+          # >= 0
+          if hash.has_key?(property) && hash[property].is_a?(String)
+            begin
+              value = Integer(hash[property])
+              if value >= 0
+                hash[property] = value
+              end
+            rescue ArgumentError
+            end
+          end
+        elsif definition['type'] == 'any_integer'
+          # < 0, = 0, > 0
+          if hash.has_key?(property) && hash[property].is_a?(String)
+            begin
+              hash[property] = Integer(hash[property])
+            rescue ArgumentError
+            end
+          end
         end
       end
 
@@ -722,6 +745,12 @@ class ApplicationController < ActionController::Base
         query["empty"] = query["value"].blank?
       end
 
+      if query["type"] == "range"
+        query["from"] = params["vf#{i}"]
+        query["to"] = params["vt#{i}"]
+        query.delete('value')
+      end
+
       query
     }
   end
@@ -733,5 +762,16 @@ class ApplicationController < ActionController::Base
       I18n.locale = I18n.default_locale
     end
   end
+
+  def current_record
+    raise "method 'current_record' not implemented for controller: #{self}"
+  end
+
+  def controller_supports_current_record?
+    self.method(:current_record).owner != ApplicationController
+  end
+
+  helper_method :current_record
+  helper_method :'controller_supports_current_record?'
 
 end

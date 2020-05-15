@@ -49,6 +49,11 @@
     </h3>
     <fieldset>
       <legend class='sr-only'><%= I18n.t "assessment._frontend.section.basic_information" %></legend>
+
+      <%= render_plugin_partials("top_of_basic_information_assessments",
+                                 :form => form,
+                                 :record => @assessment) %>
+
       <% if form.readonly? %>
         <div class="form-group">
           <div class="control-label col-sm-2"><%= I18n.t("assessment.records") %></div>
@@ -215,6 +220,11 @@
 
       <%= form.label_and_boolean 'inactive' %>
     </fieldset>
+
+    <%= render_plugin_partials("basic_information_assessments",
+                               :form => form,
+                               :record => @assessment) %>
+
   </section>
 
   <section id="rating_attributes" class="subrecord-form-dummy">
@@ -675,4 +685,8 @@
 
 <% form.emit_template("assessment") %>
 
-<%= form_plugins_for("assessment", form) %>
+<% if form.readonly? %>
+  <%= show_plugins_for(@assessment, readonly) %>
+<% else %>
+  <%= form_plugins_for("assessment", form) %>
+<% end %>

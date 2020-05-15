@@ -67,6 +67,31 @@ class ArchivesSpaceTypeAttribute < JSON::Schema::TypeAttribute
     end
 
 
+    if types == 'non_negative_integer'
+      # >= 0
+      begin
+        return if Integer(data) >= 0
+      rescue ArgumentError
+      end
+
+      validation_error("The property '#{build_fragment(fragments)}' was not " +
+                       "a non-negative integer (value: #{data})",
+                       fragments, current_schema, self, options[:record_errors])
+    end
+
+    if types == 'any_integer'
+      # < 0, = 0, > 0
+      begin
+        return if Integer(data)
+      rescue ArgumentError
+      end
+
+      validation_error("The property '#{build_fragment(fragments)}' was not " +
+                       "an integer (value: #{data})",
+                       fragments, current_schema, self, options[:record_errors])
+    end
+
+
     if types == 'object' && data.is_a?(Hash) && data.has_key?('ref') && current_schema.schema['subtype'] != 'ref'
       # Provide a helpful warning about potentially missing subtype definitions
       $stderr.puts("WARNING: Schema #{current_schema.inspect} appears to be missing a subtype definition of 'ref'")

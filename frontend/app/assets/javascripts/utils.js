@@ -97,11 +97,11 @@ $(function() {
   };
 
    var initSidebar = function() {
-    $("#archivesSpaceSidebar .as-nav-list:not(.initialised)").each(function() {
+    $("#archivesSpaceSidebar:not(.initialised)").each(function() {
       $(this).affix({
         offset: {
           top: function() {
-            return $("#archivesSpaceSidebar").offset().top;
+            return $("#archivesSpaceSidebar").parent().offset().top;
           },
           bottom: 100
         }

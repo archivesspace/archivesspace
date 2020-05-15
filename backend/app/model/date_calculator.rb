@@ -2,11 +2,15 @@ class DateCalculator
 
   attr_reader :min_begin, :max_end, :min_begin_date, :max_end_date
 
-  def initialize(obj, label = nil, calculate = true)
+  def initialize(obj, label = nil, calculate = true, opts = {})
     @root_object = obj
 
     @resource = obj.respond_to?(:root_record_id) ? obj.class.root_model[obj.root_record_id] : @root_object
     @label = label
+
+    @opts = opts
+    # Supported opts:
+    #   :allow_open_end - if set to true then accept nil end dates, otherwise default to begin
 
     @min_begin = nil
     @min_begin_date = nil
@@ -64,7 +68,8 @@ class DateCalculator
 
       date_query.map {|row|
         begin_raw = row[:begin]
-        end_raw = row[:end] || begin_raw
+        end_raw = row[:end]
+        end_raw ||= begin_raw unless @opts[:allow_open_end]
 
         begin_date = coerce_begin_date(begin_raw)
         end_date = coerce_end_date(end_raw)
@@ -100,9 +105,9 @@ class DateCalculator
   def coerce_begin_date(raw_date)
     return if raw_date.nil?
 
-    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/
+    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/
       Date.strptime(raw_date, '%Y-%m-%d')
-    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/
+    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/
       Date.strptime("#{raw_date}-01", '%Y-%m-%d')
     elsif raw_date =~ /^[0-9][0-9][0-9][0-9]$/
       Date.strptime("#{raw_date}-01-01", '%Y-%m-%d')
@@ -114,10 +119,10 @@ class DateCalculator
   def coerce_end_date(raw_date)
     return if raw_date.nil?
 
-    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/
+    if raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?-[0-9][0-9]?$/
       Date.strptime(raw_date, '%Y-%m-%d')
-    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]$/
-      year, month = raw_date.match(/([0-9][0-9][0-9][0-9])-([0-9][0-9])/).captures
+    elsif raw_date =~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]?$/
+      year, month = raw_date.match(/([0-9][0-9][0-9][0-9])-([0-9][0-9]?)/).captures
       Date.civil(year.to_i, month.to_i, -1)
     elsif raw_date =~ /^[0-9][0-9][0-9][0-9]$/
       Date.civil(raw_date.to_i, -1, -1)

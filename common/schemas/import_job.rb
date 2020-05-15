@@ -18,7 +18,9 @@
       "import_type" => {
         "type" => "string",
         "ifmissing" => "error"
-      }
+      },
+
+      "opts" => { "type" => "object" }
 
     }
   }

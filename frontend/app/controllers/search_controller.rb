@@ -11,14 +11,34 @@ class SearchController < ApplicationController
   include ExportHelper
 
   def advanced_search
+    @display_context = true
+
     criteria = params_for_backend_search
 
-    queries = advanced_search_queries.reject{|field|
-      (field["value"].nil? || field["value"] == "") && !field["empty"]
+    queries = advanced_search_queries
+
+    queries = queries.reject{|field|
+      if field['type'] === 'range'
+        field['from'].nil? && field['to'].nil?
+      else
+        (field["value"].nil? || field["value"] == "") && !field["empty"]
+      end
     }
 
     if not queries.empty?
-      criteria["aq"] = AdvancedQueryBuilder.build_query_from_form(queries).to_json
+      if criteria['aq']
+        existing_filter = ASUtils.json_parse(criteria['aq'])
+        criteria['aq'] =  JSONModel::JSONModel(:advanced_query).from_hash({
+                              query: JSONModel(:boolean_query)
+                                       .from_hash({
+                                                    :jsonmodel_type => 'boolean_query',
+                                                    :op => 'AND',
+                                                    :subqueries => [existing_filter['query'], AdvancedQueryBuilder.build_query_from_form(queries)['query']]
+                                                  })
+                            }).to_json
+      else
+        criteria["aq"] = AdvancedQueryBuilder.build_query_from_form(queries).to_json
+      end
       criteria['facet[]'] = SearchResultData.BASE_FACETS
     end
 
@@ -43,7 +63,7 @@ class SearchController < ApplicationController
       }
       format.csv {
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, criteria )
+        csv_response( uri, Search.build_filters(criteria), 'search_results.' )
       }
     end
   end
@@ -88,6 +108,24 @@ class SearchController < ApplicationController
       @display_context = params.fetch(:show_context_column, false) == 'true'
     end
 
+    if params[:q] && params[:q].end_with?("*")
+      # Typeahead search from a linker using wildcards.  These interact badly
+      # with stemming because the wildcard causes query analysis to be skipped,
+      # so stemming isn't applied to the query.
+      #
+      # This manifests in real data when you typeahead for "agency*" and get no
+      # matches.  That term is stemmed to "agenc".
+      #
+      # Try to minimise the weird effects of this by searching for the
+      # non-wildcard version as well.  The real solution here is to stop using
+      # wildcards and use an ngram field instead.
+      q = params[:q]
+
+      params[:q] = "(#{q}) OR (#{q.gsub('*', '')})"
+    end
+
+    @display_context = true
+
     respond_to do |format|
       format.json {
         render :json => @search_data
@@ -102,11 +140,11 @@ class SearchController < ApplicationController
       format.html {
         # default render
       }
-      format.csv {
+      format.csv { 
         criteria = params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS})
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, criteria )
-      }
+        csv_response( uri, Search.build_filters(criteria), 'search_results.' )
+      }  
     end
   end
 

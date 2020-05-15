@@ -64,7 +64,7 @@ module SearchHelper
     if params["advanced"]
       search_params["advanced"] = params["advanced"]
       params.keys.each do |param_key|
-        ["op", "f", "v", "dop", "t", "top"].each do |adv_search_prefix|
+        ["op", "f", "v", "dop", "t", "top", "r", "vf", "vt"].each do |adv_search_prefix|
           if param_key =~ /^#{adv_search_prefix}\d+/
             search_params[param_key] = params[param_key]
           end
@@ -114,6 +114,20 @@ module SearchHelper
   end
 
 
+  def show_audit_column?
+    !@no_audit
+  end
+
+
+  def show_action_column?
+    !@no_actions
+  end
+
+  def show_search_result_identifier_column?
+    (@show_search_result_identifier_column.nil? || @show_search_result_identifier_column) && request.path =~ /\/(advanced_)*search/
+  end
+
+
   def title_column_header(title_header)
     @title_column_header = title_header
   end
@@ -147,6 +161,10 @@ module SearchHelper
 
 
   def can_edit_search_result?(record)
+    Plugins.edit_roles.each do |edit_role|
+      return user_can?(edit_role.role, record['id']) if record['primary_type'] === edit_role.jsonmodel_type
+    end
+
     return user_can?('update_container_record', record['id']) if record['primary_type'] === "top_container"
     return user_can?('update_container_profile_record') if record['primary_type'] === "container_profile"
     return user_can?('manage_repository', record['id']) if record['primary_type'] === "repository"
@@ -247,12 +265,18 @@ module SearchHelper
     IDENTIFIER_FOR_SEARCH_RESULT_LOOKUP.key? type
   end
 
+  def clear_extra_columns
+    @extra_columns = []
+  end
+
+
   class ExtraColumn
 
     def initialize(label, value_block, opts, search_data)
       @label = label
       @value_block = value_block
       @classes = "col " << (opts[:class] || "")
+      @cell_classes = opts[:cell_class] || ""
       @sortable = opts[:sortable] || false
       @sort_by = opts[:sort_by] || ""
       @search_data = search_data
@@ -285,6 +309,10 @@ module SearchHelper
       @classes
     end
 
+
+    def cell_class
+      @cell_classes
+    end
   end
 
   module Formatter

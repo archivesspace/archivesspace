@@ -27,7 +27,7 @@
         </th>
       <% end %>
 
-      <% if (request.path =~ /\/(advanced_)?search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first))) %>
+      <% if show_identifier_column? && (request.path =~ /\/(advanced_)?search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first))) %>
         <th class="col identifier sortable <% if @search_data.sorted_by === "identifier"%>sort-<%= @search_data.current_sort_direction %><% end %>">
           <%= link_to I18n.t("search_results.result_identifier"), build_search_params("sort" => @search_data.sort_filter_for("identifier")) %>
         </th>
@@ -85,7 +85,7 @@
             <% if result['primary_type'] === "repository" and session[:repo] === result['id'] %><span class="label label-success"><%= I18n.t("repository._frontend.messages.selected_short") %></span><% end %>
             <% if result["suppressed"] %><span class="label label-info"><%= I18n.t("states.suppressed") %></span><% end %>
             <% if deleted %><span class="label label-important"><%= I18n.t("states.deleted") %></span><% end %>
-          <%=  clean_mixed_content(result["title"]).html_safe || clean_mixed_content(result['display_string']).html_safe %>
+          <%=  clean_mixed_content(result["title"] || result['display_string']).html_safe %>
           </td>
         <% end %>
         <% if show_context_column? %>
@@ -93,14 +93,14 @@
             <%= render_aspace_partial :partial => "search/context", :locals => {:result => result} %>
           </td>
         <% end %>
-        <% if request.path =~ /\/(advanced_)*search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first)) %>
+        <% if show_search_result_identifier_column? && (request.path =~ /\/(advanced_)*search/ && !(@search_data.single_type? && !has_identifier?(@search_data[:criteria]['type[]'].first)) )%>
           <td>
             <%= identifier_for_search_result(result) %>
           </td>
         <% end %>
         <% if extra_columns? %>
           <% extra_columns.each do |col| %>
-            <td class="<%= col.class %>"><%= col.value_for(result) %></td>
+            <td class="<%= col.class %> <%= col.cell_class %>"><%= col.value_for(result) %></td>
           <% end %>
         <% end %>
         <% unless hide_audit_info? %>

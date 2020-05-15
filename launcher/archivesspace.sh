@@ -88,7 +88,10 @@ if [ "$ARCHIVESSPACE_USER" = "" ]; then
     ARCHIVESSPACE_USER=
 fi
 
+USE_LOGROTATE=0
+
 if [ "$ARCHIVESSPACE_LOGS" = "" ]; then
+    USE_LOGROTATE=1
     ARCHIVESSPACE_LOGS="logs/archivesspace.out"
 fi
 
@@ -98,7 +101,21 @@ export JAVA_OPTS="-Darchivesspace-daemon=yes $JAVA_OPTS -Djava.security.egd=file
 export JAVA_OPTS="`echo $JAVA_OPTS | sed 's/\([#&;\`|*?~<>^(){}$\,]\)/\\\\\1/g'`"
 
 if [ "$ASPACE_JAVA_XMX" = "" ]; then
-    ASPACE_JAVA_XMX="-Xmx1024m"
+    # Try our config.rb file.  Example:
+    #
+    #  AppConfig[:java_heap_size] = "5g"
+    #
+    if [ -e "${ASPACE_LAUNCHER_BASE}/config/config.rb" ]; then
+        heap_size="$(grep '^\s*AppConfig\[:java_heap_size\]' "${ASPACE_LAUNCHER_BASE}/config/config.rb" | cut -d'=' -f2 | tr -c -d '[a-z0-9]' | head -1)"
+
+        if [ "$heap_size" != "" ]; then
+            ASPACE_JAVA_XMX="-Xmx${heap_size}"
+        fi
+    fi
+
+    if [ "$ASPACE_JAVA_XMX" = "" ]; then
+        ASPACE_JAVA_XMX="-Xmx1024m"
+    fi
 fi
 
 if [ "$ASPACE_JAVA_XSS" = "" ]; then
@@ -141,13 +158,24 @@ case "$1" in
             shellcmd="su $ARCHIVESSPACE_USER"
         fi
 
-        $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
+        if [ "$USE_LOGROTATE" = "0" ]; then
+            # Old behavior: log to file
+            $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
           (
              exec 0<&-; exec 1>&-; exec 2>&-;
              $startup_cmd &> \"$ARCHIVESSPACE_LOGS\" &
              echo \$! > \"$ASPACE_PIDFILE\"
           ) &
           disown $!"
+        else
+            # Use log rotation
+            $shellcmd -c "cd '$ASPACE_LAUNCHER_BASE';
+          (
+             exec 0<&-; exec 1>&-; exec 2>&-;
+             ($startup_cmd & echo \$! >\"$ASPACE_PIDFILE\") 2>&1 | scripts/log-rotater.pl \"logs/%a.log\" \"$ARCHIVESSPACE_LOGS\" &
+          ) &
+          disown $!"
+        fi
 
         echo "ArchivesSpace started!  See $ARCHIVESSPACE_LOGS for details."
         ;;

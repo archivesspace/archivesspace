@@ -19,6 +19,10 @@
     </h3>
 
     <fieldset>
+      <%= render_plugin_partials("top_of_basic_information_resource",
+                                 :form => form,
+                                 :record => @resource) %>
+
       <%= form.label_and_textarea "title" %>
       <%= form.label_and_fourpartid %>
 
@@ -31,6 +35,10 @@
       <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
       <%= form.label_and_textarea "repository_processing_note" %>
+
+      <%= render_plugin_partials("basic_information_resource",
+                                 :form => form,
+                                 :record => @resource) %>
     </fieldset>
   </section>
 
@@ -78,7 +86,7 @@
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "resource_linked_agent"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 <%# render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "notes", :template => "note_form_selector", :section_id => "notes"} %>
-<%= render_aspace_partial :partial => "notes/form", :locals => {:form => form} %>
+<%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :section_id => 'resource_notes_'} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>

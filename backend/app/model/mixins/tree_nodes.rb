@@ -410,6 +410,8 @@ module TreeNodes
     def sequel_to_jsonmodel(objs, opts = {})
       jsons = super
 
+      positions = calculate_logical_ao_positions(objs)
+
       jsons.zip(objs).each do |json, obj|
         if obj.root_record_id
           json[root_record_type] = {'ref' => uri_for(root_record_type, obj.root_record_id)}
@@ -425,7 +427,7 @@ module TreeNodes
             # which speaks in logical numbering (i.e. the first position is 0,
             # the second position is 1, etc.)
 
-            json.position = obj.logical_position
+            json.position = positions.fetch(obj)
           end
 
         end
@@ -436,6 +438,54 @@ module TreeNodes
       end
 
       jsons
+    end
+
+
+    def calculate_logical_ao_positions(objs)
+      # For each AO in our set, we want to know how many have the same parent
+      # but a smaller position.  Which is another way of saying "how many
+      # records are before me in the list?"
+      #
+      # Previously we would do each as a query:
+      #
+      #   self.class.dataset.filter(:parent_name => self.parent_name).where { position < relative_position }.count
+      #
+      # but when you're dealing with trees containing hundreds of thousands of
+      # records under a single node, this calculation gets slower (100+ ms) as
+      # you get further down the list.
+      #
+      # We can speed things up for batches of records by ordering our records by
+      # their DB position (say that gives us [A, B, C]), and then using the
+      # following method:
+      #
+      #   * A's logical position is count(< A.position) -- as before
+      #   * B's position is A.logical_position + count(< B.position && >= A.position)
+      #   * C's position is B.logical_position + count(< C.position && >= B.position)
+      #
+      # Calculating the position for A incurs the same cost as before, but B
+      # only needs to count the records between itself and A, and C only needs
+      # to count the records between itself and B.  These ranges will be much
+      # smaller in many cases.
+
+      result = {}
+
+      objs.group_by(&:parent_name).each do |parent_name, obj_group|
+        next if parent_name.nil?
+
+        sorted = obj_group.sort_by(&:position)
+
+        last_physical_position = 0
+        last_logical_position = 0
+
+        sorted.each do |ao|
+          c = self.dataset.filter(:parent_name => ao.parent_name).where { (position < ao.position) & (position >= last_physical_position) }.count
+
+          last_logical_position = result[ao] = last_logical_position + c
+          last_physical_position = ao.position
+        end
+      end
+
+      result
     end
 
 

@@ -246,13 +246,23 @@ AbstractRelationship = Class.new(Sequel::Model) do
   def self.set_wants_array(val); @wants_array = val; end
   def self.wants_array?; @wants_array; end
 
+  def self.set_supported_jsonmodel_types(supported_jsonmodel_types); @supported_jsonmodel_types = supported_jsonmodel_types; end
+  def self.supported_jsonmodel_types; @supported_jsonmodel_types; end
+
+  def self.set_relationship_name(name); @relationship_name = name; end
+  def self.relationship_name; @relationship_name; end
+
 
   # Return a list of the relationship instances that refer to 'obj'.
   def self.find_by_participant(obj)
     # Find all columns in our relationship's table that are named after obj's table
     # These will contain references to instances of obj's class
     reference_columns = self.reference_columns_for(obj.class)
-    matching_relationships = reference_columns.map {|col| self.filter(col => obj.id).all}.flatten(1)
+    filters = reference_columns.map {|col| { col => obj.id }}
+
+    return [] if filters.empty?
+
+    matching_relationships = self.filter(Sequel.|(*filters)).all
     our_columns = participating_models.map {|m| reference_columns_for(m)}.flatten(1)
 
     # Reject any relationship that links to obj.id but not another model we're interested in.
@@ -274,10 +284,12 @@ AbstractRelationship = Class.new(Sequel::Model) do
     return result if participant_ids.empty?
     reference_columns = self.reference_columns_for(participant_model)
 
-    reference_columns.each do |col|
-      self.filter(col => participant_ids).each do |relationship|
-        result << relationship
-      end
+    filters = reference_columns.map {|col| { col => participant_ids }}
+
+    return [] if filters.empty?
+
+    self.filter(Sequel.|(*filters)).each do |relationship|
+      result << relationship
     end
 
     result
@@ -334,10 +346,25 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
   # A list of all DB columns that might contain a foreign key reference to a
   # record of type 'model'.
+  MODEL_COLUMNS_CACHE = java.util.concurrent.ConcurrentHashMap.new(128)
+
   def self.reference_columns_for(model)
-    self.db_schema.keys.select { |column_name|
-      column_name.to_s.downcase =~ /\A#{model.table_name.downcase}_id(_[0-9]+)?\z/
-    }
+    key = [self, model]
+
+    if columns = MODEL_COLUMNS_CACHE.get(key)
+      columns
+    else
+      MODEL_COLUMNS_CACHE.put(key,
+                              self.db_schema.keys.select { |column_name|
+                                [
+                                  model.table_name.downcase.to_s + "_id",
+                                  model.table_name.downcase.to_s + "_id_0",
+                                  model.table_name.downcase.to_s + "_id_1",
+                                ].include?(column_name.to_s.downcase)
+                              })
+
+      MODEL_COLUMNS_CACHE.get(key)
+    end
   end
 
 
@@ -391,6 +418,8 @@ AbstractRelationship = Class.new(Sequel::Model) do
         end
       }
     }
+
+    raise "Failed to find a URI for other referent in #{self}: #{obj.id}"
   end
 
 
@@ -410,6 +439,33 @@ module Relationships
     end
 
     base.extend(ClassMethods)
+  end
+
+
+  REQUIRED_COLUMNS = [:aspace_relationship_position, :suppressed, :created_by, :last_modified_by, :system_mtime, :user_mtime]
+
+  def self.verify!
+    # Make sure our DB tables and columns are in order.
+    errors = []
+
+    ASModel.all_models.each do |model|
+      next unless model.ancestors.include?(Relationships)
+
+      model.relationships.each do |relationship|
+        missing_columns = REQUIRED_COLUMNS - relationship.columns
+
+        unless missing_columns.empty?
+          errors << "  * Relationship #{model}.#{relationship} table #{relationship.table_name} is missing the following mandatory columns: #{missing_columns.join(', ')}"
+        end
+      end
+    end
+
+    unless errors.empty?
+      Log.error("Can't start up due to errors in the following relationship tables:\n\n" +
+                errors.join("\n"))
+
+      raise "Errors found in relationship tables"
+    end
   end
 
 
@@ -631,7 +687,8 @@ module Relationships
         related_models = opts[:contains_references_to_types].call
 
         clz = Class.new(AbstractRelationship) do
-          table = "#{opts[:name]}_rlshp".intern
+          set_relationship_name(opts[:name])
+          table = opts[:table] || "#{opts[:name]}_rlshp".intern
           set_dataset(table)
           set_primary_key(:id)
 
@@ -642,6 +699,7 @@ module Relationships
           set_participating_models([base, *related_models].uniq)
           set_json_property(opts[:json_property])
           set_wants_array(opts[:is_array].nil? || opts[:is_array])
+          set_supported_jsonmodel_types(opts[:supported_jsonmodel_types])
         end
 
         opts[:class_callback].call(clz) if opts[:class_callback]
@@ -774,12 +832,15 @@ module Relationships
     def sequel_to_jsonmodel(objs, opts = {})
       jsons = super
 
-      return jsons if opts[:skip_relationships]
+      return jsons if opts[:skip_relationships] == true
+
+      skipped_relationships = Array(opts[:skip_relationships])
 
       eager_load_relationships(objs, relationships.select {|relationship_defn| relationship_defn.json_property})
 
       jsons.zip(objs).each do |json, obj|
         relationships.each do |relationship_defn|
+          next if skipped_relationships.include?(relationship_defn.relationship_name)
           property_name = relationship_defn.json_property
 
           # If we don't need this property in our return JSON, skip it.
@@ -795,6 +856,9 @@ module Relationships
 
           json[property_name] = relationships.map {|relationship|
             next if RequestContext.get(:enforce_suppression) && relationship.suppressed == 1
+            if relationship_defn.supported_jsonmodel_types && relationship.respond_to?(:jsonmodel_type)
+              next unless relationship_defn.supported_jsonmodel_types.include?(relationship.jsonmodel_type)
+            end
 
             # Return the relationship properties, plus the URI reference of the
             # related object
@@ -802,7 +866,7 @@ module Relationships
             values['ref'] = relationship.uri_for_other_referent_than(obj)
 
             values
-          }
+          }.compact
 
           if !relationship_defn.wants_array?
             json[property_name] = json[property_name].first

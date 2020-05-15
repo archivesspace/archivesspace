@@ -263,6 +263,8 @@
    <dynamicField name="*_u_sbool"  type="boolean"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_u_sort"  type="sort_string"  indexed="true"  stored="false" multiValued="false"/>
    <dynamicField name="*_u_ssort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_u_sortdate"  type="date"  indexed="true"  stored="false" multiValued="false"/>
+   <dynamicField name="*_u_ssortdate"  type="date"  indexed="true"  stored="true" multiValued="false"/>
 
    <!-- ASpace Custom Dynamics -->
    <dynamicField name="*_relator_sort"  type="sort_string"  indexed="true"  stored="true" multiValued="false"/>

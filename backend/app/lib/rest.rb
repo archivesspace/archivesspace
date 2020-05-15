@@ -126,6 +126,13 @@ module RESTHelpers
     end
 
 
+    def self.permissions_for(method, uri)
+      uri_re = Regexp.new(uri.gsub(/\d+/, ':[a-z_]+'))
+      endpoint = @@endpoints.select{|ep| ep[:uri] =~ uri_re && ep[:methods].include?(method)}.first
+      endpoint[:permissions] if endpoint
+    end
+
+
     def uri(uri); @uri = uri; self; end
     def description(description); @description = description; self; end
     def preconditions(*preconditions); @preconditions += preconditions; self; end
@@ -194,6 +201,8 @@ module RESTHelpers
 
     def permissions(permissions)
       @has_permissions = true
+
+      @permissions = permissions
 
       permissions.each do |permission|
         @preconditions << proc { |request| current_user.can?(permission) }
@@ -298,7 +307,9 @@ module RESTHelpers
               ensure_params(rp, paginated)
             end
 
-            Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
+            unless env[:skip_logging]
+              Log.debug("Post-processed params: #{Log.filter_passwords(params).inspect}")
+            end
 
             RequestContext.put(:repo_id, params[:repo_id])
             RequestContext.put(:is_high_priority, high_priority_request?)
