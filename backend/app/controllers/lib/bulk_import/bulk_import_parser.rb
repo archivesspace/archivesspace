@@ -5,7 +5,6 @@ require "pp"
 require "rubyXL"
 require "csv"
 require "asutils"
-include URIResolver
 
 # Base class for bulk import via spreadsheet; handles both CSV's and excel spreadsheets
 # This class is designed for spreadsheets with the following features:
@@ -21,6 +20,8 @@ include URIResolver
 #  5. The method that must be implemented in the sub class is *process_row*
 #
 class BulkImportParser
+  include URIResolver
+  include BulkImportMixins
   MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
   MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
   MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
