@@ -926,10 +926,14 @@ class IndexerCommon
         subrec = json
 
         v[:location].each do |l|
-          subrec = subrec[l]
+          unless subrec.nil?
+            subrec = subrec[l]
+          end
         end
 
-        subrec[v[:to_clean]] = []
+        unless subrec.nil?
+          subrec[v[:to_clean]] = []
+        end
       end
     end
 
