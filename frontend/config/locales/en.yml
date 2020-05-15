@@ -91,6 +91,7 @@ en:
     export_marc: Download MARCXML
     export_dc: Download DC
     export_csv: Download CSV
+    container_template: Download Container Template
     loading: Loading...
     revert: Revert Changes
     finish_editing: Close Record
@@ -208,6 +209,7 @@ en:
       assessment_survey_year: Survey Year
       assessment_record_types: Record Type
       assessment_completed: Completed
+      none: None
       status: Status
       job_type: Job Type
       report_type: Report Type
@@ -564,6 +566,7 @@ en:
         add_child: Add Child
         add_sibling: Add Sibling
         save: Save Archival Object
+        bulk_import: Load via Spreadsheet
       tree:
         new_record_title: New Archival Object
 
@@ -911,6 +914,7 @@ en:
       action:
         add_child: Add Child
         create: Create Resource
+        load_bulk: Load via Spreadsheet
         save: Save Resource
         delete_multiple: Delete Resources
     external_ark_url: External ARK URL
@@ -1568,3 +1572,21 @@ en:
         _plural: Sponsor Sets
       repo_settings:
         _plural: Per Repository OAI-PMH Settings
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Select File
+        add_archival_objects: Import Archival Objects
+        add_digital_objects: Add Digital Objects to Archival Objects
+        import: Import from SpreadSheet
+        drag_drop: Drag and drop file here
+        clip_btn: Copy to Clipboard
+        link_top_containers: Link Top Containers via Spreadsheet
+      messages:
+        missing_file: You have not added a file
+        not_excel: The file you have chosen is not an Excel Spreadsheet
+        processed: The file has been processed
+        error: "ERROR: Error(s) detected: "
+        copied: Copied!
+        uncopied: Unable to copy
+

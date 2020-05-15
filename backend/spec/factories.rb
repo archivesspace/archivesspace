@@ -339,6 +339,7 @@ FactoryBot.define do
     top_container { {:ref => create(:json_top_container).uri} }
     type_2 { sample(JSONModel(:sub_container).schema['properties']['type_2']) }
     indicator_2 { generate(:alphanumstr) }
+    barcode_2 { generate(:alphanumstr) }
     type_3 { sample(JSONModel(:sub_container).schema['properties']['type_3']) }
     indicator_3 { generate(:alphanumstr) }
   end
@@ -790,6 +791,11 @@ FactoryBot.define do
 
   factory :json_print_to_pdf_job, class: JSONModel(:print_to_pdf_job) do
     source  { create(:json_resource).uri }
+  end
+  
+  factory :json_top_container_linker_job, class: JSONModel(:top_container_linker_job) do
+    filename  { generate(:alphanumstr) }
+    content_type { "text/csv" }
   end
 
   factory :json_generate_slugs_job, class: JSONModel(:generate_slugs_job) do

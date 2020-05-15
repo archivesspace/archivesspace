@@ -516,6 +516,7 @@ class IndexerCommon
       if doc['primary_type'] == 'job'
         report_type = record['record']['job']['report_type']
         doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) :
+
           t("job.types.#{record['record']['job_type']}"))
         doc['types'] << record['record']['job_type']
         doc['types'] << report_type
@@ -637,6 +638,7 @@ class IndexerCommon
           end
         else
           doc['has_location_u_sbool'] = false
+
         end
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?
@@ -647,7 +649,6 @@ class IndexerCommon
         doc['barcode_u_ssort'] = record['record']['barcode']
 
         doc['type_u_ssort'] = record['record']['type']
-
         doc['subcontainer_barcodes_u_sstr'] = record["record"]["subcontainer_barcodes"]
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
       end

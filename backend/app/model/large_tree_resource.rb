@@ -38,7 +38,7 @@ class LargeTreeResource
 
         response['containers'] << container_data
     end
-    
+
     response
   end
 

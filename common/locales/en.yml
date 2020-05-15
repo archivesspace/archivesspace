@@ -2336,3 +2336,123 @@ en:
     sponsor_set_name_tooltip: Sponsor set name tooltip
     sponsor_set_names_tooltip: Sponsor set names tooltip
     sponsor_set_description_tooltip: Sponsor set description tooltip
+
+  bulk_import:
+    row: "Row %{row}"
+    processing_row: "Processing row %{row}"
+    dig_assoc: Digital Object added to  Archival Object
+    row_error: "Row %{row} will not be processed due to errors: %{errs}"
+    no_ao: No Archival Object created
+    ao: Archival Object
+    created: "%{what} created: %{id}"
+    would_be: "%{what} would be created"
+    updated: "%{what}: %{id}"
+    clip_btn: Copy to Clipboard
+    clip_created:  "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
+    clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
+    clip_info: "\t\t\t\t\t%{what}\n"
+    clip_err: "\t\t\t\t\tERROR: %{err}\n"
+    clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo"
+    ao: Archival Object
+    tc: Top Container
+    subj: Subject
+    agent: Agent
+    dig: Digital Object
+    unfound_id: "%{type} ID %{id} NOT FOUND. This is a PLACEHOLDER"
+    ref_id_notfound: "Ref Id %{refid} not found"
+    processed: The file has been processed
+    file_info: "%{size}K with %{rows} rows"
+    max_file_info: "%{size}K and %{rows} rows"
+    warn:
+      dup: "Managed Controlled Value List %{which} has multiple instances for the Translation '%{trans}'. '%{used}' will be used as the value."
+      disam: "Multiple match(es) found for '%{what}'. Creating '%{name}' for disabiguation."
+      disamuse: "Multiple match(es) found for '%{what}'. Using already-created '%{name}' for disabiguation."
+      single_date_end: "Single date %{date_str} has end date that will be ignored."
+    error:
+      date_type: "Date type [%{what}] invalid for %{date_str}. Defaulting to 'inclusive'"
+      date_label: "Date label [%{what}] invalid for %{date_str}. The date will not be processed."
+      certainty: "Invalid 'date certainty' ignored for %{date_str}: (%{what})"
+      below_bad_ao: Cannot process because it's a child of the bad archival object
+      enum: "NOT FOUND: '%{label}' not found in list %{which}"
+      error: "ERROR: Error(s) detected: %{term}"
+      invalid_date: "Invalid date definition (%{what}) for %{date_str}. The date will not be processed."
+      invalid_date_label: "Invalid date label definition in first date (%{what})"
+      too_many: More than one match found in the database
+      type_undef: Unable to determine type
+      file_name: File name cannot be determined
+      system: "Some system error has occurred  [%{msg}]."
+      initialize: "Processing is terminated [%{msg}]"
+      stopped: "Processing stopped at row %{row} [%{msg}]"
+      duplicates: "This spreadsheet has duplicate Archive Space Field codes: %{codes}"
+      res_ead: This form's Resource is missing an EAD ID
+      row_ead: This row is missing an EAD ID
+      row_missing_ead_uri: This row is missing BOTH an EAD ID and URI
+      ead_mismatch:  "Form's EAD ID [%{res_ead}] does not match row's EAD ID [%{row_ead}]"
+      uri_mismatch: "Input resource's URI [%{res_uri}] does not match row's URI [%{row_uri}]"
+      title: Missing title
+      title_and_date: Missing Title AND Valid Date definition
+      hier_miss: Missing hierachy -- must be a number greater than 0
+      hier_zero: Hierarchy must be greater than 0
+      hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row
+      hier_wrong_resource:  did you mean to start processing with an archival object selected?
+      hier_below_error_level: The parent archival object was not created
+      level: Missing valid Description level
+      date: "Date must have at least one of: Date begin; Date end; or Date expression"
+      number: Missing Extent number
+      extent_type:  Missing Extent type
+      extent_validation: "Unable to validate extent (%{ext}): %{msg}"
+      no_header: No header (field codes) row found; are you using the correct template?
+      no_data: No processible data rows found!
+      excel: "Error(s) parsing Excel File: %{errs}"
+      no_agent: "Unable to create Agent %{num}: [%{why}]"
+      find_tc: "Unable to find the Top Container with params: %{where}."
+      no_tc: "Unable to create Top Container %{number}: [%{why}]"
+      missing_instance_type: Missing container instance type
+      no_ao: No Archival Object created
+      no_container_instance: "Unable to create Container Instance: [%{why}]"
+      no_create: "Unable to create: [%{why}]"
+      no_move: "Unable to move the archival objects from the end of the list (response code %{code})"
+      bad_note: "%{type} note is not wellformed: %{msg}"
+      bad_note_type: "Note type '%{type}' is not supported"
+      bad_relator: "Unable to create agent link: '%{label}' is not a valid relator"
+      relator_invalid: "Unable to create agent link due to problem with relator '%{label}': %{why}"
+      bad_role: "Unable to create agent link: '%{label}' is not a valid role"
+      role_invalid: "Unable to create agent link due to problem with role '%{label}': %{why}"
+      has_dig_obj: "Archival object already has an associated digital object"
+      dig_unassoc: "Unable to save archival object with associated digital object: %{msg}"
+      ref_id_miss: No Ref Id specified
+      dig_info_miss: Neither the Digital Object URN or the Thumbnail URN is specified
+      dig_validation: "Cannot create the Digital Object %{err}"
+      initial_save_error: "Problem with initial save of %{title} -- %{msg}"
+      second_save_error: "Error on attempt to re-save archival object with 'instances' %{title} position: %{pos}.This means that the archival object has been created, but possibly not linked to its associated instances (digital object, top container, subject, etc.) [%{what}]"
+      ao_validation: "Validation error when attempting to save Archival Object: %{err}"
+      validation_error: "Cannot validate %{what}: %{err}"
+      validated: "%{what} validated"
+      lang_code: "Cannot validate language (%{lang})"
+      script_code: "Cannot validate a language script (%{script})"
+      process_error: "Error processing %{type} %{num}: %{why}"
+      bad_ao_uri: " with uri %{uri}"
+      bad_ao_ref_id: " with REF ID  %{ref_id}"
+      bad_ao: "Cannot find archival object %{errs}"
+      no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
+      file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
+  top_container_linker:
+    error:
+      ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."
+      ao_not_in_db: "Can not find Archival Object %{ref_id} in the database in row %{row_num}."
+      instance_type_miss: "Instance Type missing from spreadsheet for row %{row_num} Archival Object %{ref_id}. "
+      tc_indicator_and_record_no_miss: "Either a Top Container Indicator or TC Record Number must be present for %{ref_id} in row %{row_num}."
+      tc_indicator_and_record_no_exist: "Only a Top Container Indicator OR TC Record Number can be present for %{ref_id} in row %{row_num}."
+      tc_barcode_exists: "The Top Container Barcode, %{barcode} already exists in the database (see  %{ref_id} in row %{row_num})."
+      tc_ind_ct_exists: "The Top Container Indicator and Container Type combo %{indicator} %{tc_type} already exists in the database (see  %{ref_id} in row %{row_num})."
+      sc_barcode_exists: "The Child Barcode, %{barcode} already exists in the database (see %{ref_id} in row %{row_num})."
+      loc_not_in_db: "The given Location ID, %{loc_id} cannot be found in the database (see %{ref_id} in row %{row_num})."
+      cp_not_in_db: "The given Container Profile ID, %{cp_id} cannot be found in the database (see %{ref_id} in row %{row_num})."
+      no_tc: "Unable to create Top Container (see %{ref_id} in row %{row_num}): [%{why}]"
+      problem_adding_current_location: "Problem adding the current location (see %{ref_id} in row %{row_num}): [%{why}]"
+      problem_setting_container_profile: "Problem setting the container profile (see %{ref_id} in row %{row_num}): [%{why}]"
+      error_linking_tc_to_ao: "There was a problem linking the Archival Object with the Top Container: %{why}"
+      ead_id_miss: "This row is missing an EAD ID: (see %{ref_id} in row %{row_num})"
+      tc_record_no_missing: "The Top Container ID cannot be found: %{tc_id} (see %{ref_id} in row %{row_num})"
+      resource_not_in_db: "Can not find Resource %{ead_id} in the database in row %{row_num}"
+      resources_do_not_match: "The resource in the spreadsheet %{spreadsheet_resource} (EAD ID: %{ead_id}) does not match the current resource %{current_resource} in row %{row_num}"

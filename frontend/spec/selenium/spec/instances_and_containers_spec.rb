@@ -9,6 +9,7 @@ describe 'Resource instances and containers' do
 
     @resource = create(:resource)
     @accession = create(:accession)
+    @accession_no_container = create(:accession)
 
     @location_a = create(:location)
     @location_b = create(:location,
@@ -84,7 +85,6 @@ describe 'Resource instances and containers' do
     expect(@driver.find_element(css: '.form-group:nth-child(3) div.label-only').text).to eq('xyzpdq')
   end
 
-
   it 'searches containers and performs bulk container merge' do
     @driver.navigate.to("#{$frontend}/top_containers")
 
@@ -135,7 +135,6 @@ describe 'Resource instances and containers' do
     # The target should remain
     expect(@driver.find_element(xpath: '//*[@id="bulk_operation_results"]/table/tbody/tr[1]/td[12]/div/a[1]').attribute('href')).to eq(target_uri)
   end
-
 
   it 'remembers the search after leaving the page' do
     @driver.navigate.to("#{$frontend}/top_containers")
@@ -293,6 +292,27 @@ describe 'Resource instances and containers' do
     expect do
       @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Accession .+ updated/)
     end.not_to raise_error
+  end
+
+  it 'can find the top container that was created using the typeahead feature for this record' do
+    run_all_indexers
+    @driver.navigate.to("#{$frontend}#{@accession.uri.sub(%r{/repositories/\d+}, '')}/edit")
+    @driver.find_element(css: '#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
+
+    token_input = @driver.find_element(:id, 'token-input-accession_instances__1__sub_container__top_container__ref_')
+    expect do
+      @driver.typeahead_and_select(token_input, 'oof')
+    end.not_to raise_error
+  end
+
+  it 'does not find the top container that was created using the typeahead feature in another record' do
+    @driver.navigate.to("#{$frontend}#{@accession_no_container.uri.sub(%r{/repositories/\d+}, '')}/edit")
+    @driver.find_element(css: '#accession_instances_ .subrecord-form-heading .btn[data-instance-type="sub-container"]').click
+
+    token_input = @driver.find_element(:id, 'token-input-accession_instances__0__sub_container__top_container__ref_')
+    expect do
+      @driver.typeahead_and_select(token_input, 'oof', 8) # start from 8th try (we expect this to fail so don't wait so long for it)
+    end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
 
   it 'can add a location with a previous status to a top container' do

@@ -320,6 +320,26 @@ var TreeToolbarConfiguration = {
             onToolbarRendered: function(btn, toolbarRenderer) {
                 $(btn).addClass('disabled');
             },
+        },
+        {
+            label: '<%= I18n.t("resource._frontend.action.load_bulk") %>',
+            cssClasses: 'btn-default',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                file_modal_html = '';
+			    bulkFileSelection();
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
         }
     ]),
 
@@ -362,7 +382,28 @@ var TreeToolbarConfiguration = {
                 onToolbarRendered: function(btn, toolbarRenderer) {
                     $(btn).addClass('disabled');
                 },
-            }
+            },
+
+        {
+            label: '<%= I18n.t("resource._frontend.action.load_bulk") %>',
+            cssClasses: 'btn-default',
+            onClick: function(event, btn, node, tree, toolbarRenderer) {
+                file_modal_html = '';
+			    bulkFileSelection();
+            },
+            isEnabled: function(node, tree, toolbarRenderer) {
+                return true;
+            },
+            isVisible: function(node, tree, toolbarRenderer) {
+                return !tree.large_tree.read_only;
+            },
+            onFormLoaded: function(btn, form, tree, toolbarRenderer) {
+                $(btn).removeClass('disabled');
+            },
+            onToolbarRendered: function(btn, toolbarRenderer) {
+                $(btn).addClass('disabled');
+            },
+        }
         ],
         {
             label: '<%= I18n.t("actions.transfer") %>',

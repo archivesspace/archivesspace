@@ -17,6 +17,11 @@
        1.5: omitNorms defaults to true for primitive field types
             (int, float, boolean, string...)
      -->
+  <!-- Harvard modifications 
+       2020.1: Add icu_sort field type (now used by title_sort, identifier_sort, identifier instead of string_sort), 
+               which uses ICUCollationKeyFilterFactory with numeric sort; 
+               requires icu4j, solr-analysis-extras and lucene-analyzers-icu jars
+               (last 2 match solr version, e.g. lucene-analyzers-icu-4.10.4.jar); note, in 6x and later versions, filter declaration uses different syntax, see below -->
 
  <fields>
    <!-- Valid attributes for fields:
@@ -385,11 +390,10 @@
           numeric="true"/>
       </analyzer>
     </fieldType>
-
+    
     <!-- below doesn't work with solr 4x - used old syntax above, switch to below for newer versions -->
     <!-- <fieldType name="sort_icu" class="solr.ICUCollationField" locale="" strength="primary"
       numeric="true"/>-->
-
     <fieldType name="sort_string" class="solr.TextField" positionIncrementGap="100" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
