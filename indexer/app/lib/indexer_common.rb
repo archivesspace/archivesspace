@@ -18,48 +18,6 @@ require_relative 'fake_solr_timeout_response'
 
 class IndexerCommon
 
-  # ANW-1065
-  # #sanitize_json uses this hash to clean up sensitive data, preventing it from being indexed in the json field in the indexer doc.
-  # the first 3 entries will set json["agent_contacts"] to [] for agent_person, corp, etc records
-  # the last entry will set json["agent_representation"]["_resolved"]["agent_contacts"] for repository records
-  DO_NOT_INDEX = {"agent_person"           => {:location => [], 
-                                               :to_clean => "agent_contacts"}, 
-                  "agent_family"           => {:location => [],
-                                               :to_clean => "agent_contacts"},
-                  "agent_corporate_entity" => {:location => [],
-                                               :to_clean => "agent_contacts"},
-                  "agent_software"         => {:location => [],
-                                               :to_clean => "agent_contacts"},
-                  "repository"             => {:location => ["agent_representation", 
-                                                             "_resolved"],
-                                               :to_clean => "agent_contacts"},
-                  "resource"               => {:location => ["repository",
-                                                             "_resolved",
-                                                             "agent_representation", 
-                                                             "_resolved"],
-                                               :to_clean => "agent_contacts"},
-                  "archival_object"        => {:location => ["repository",
-                                                             "_resolved",
-                                                             "agent_representation", 
-                                                             "_resolved"],
-                                               :to_clean => "agent_contacts"},
-                  "digital_object"         => {:location => ["repository",
-                                                             "_resolved",
-                                                             "agent_representation", 
-                                                             "_resolved"],
-                                               :to_clean => "agent_contacts"},
-                  "digital_object_component" => {:location => ["repository",
-                                                             "_resolved",
-                                                             "agent_representation", 
-                                                             "_resolved"],
-                                               :to_clean => "agent_contacts"},
-                  "accession"              => {:location => ["repository",
-                                                             "_resolved",
-                                                             "agent_representation", 
-                                                             "_resolved"],
-                                               :to_clean => "agent_contacts"},
-                 }
-
   include JSONModel
 
   @@record_types = IndexerCommonConfig.record_types
@@ -960,9 +918,9 @@ class IndexerCommon
   end
 
   # ANW-1065
-  # iterate through the DO_NOT_INDEX list and scrub out that part of the JSON tree 
+  # iterate through the do_not_index list and scrub out that part of the JSON tree 
   def sanitize_json(json)
-    DO_NOT_INDEX.each do |k, v|
+    IndexerCommonConfig::do_not_index.each do |k, v|
       if json["jsonmodel_type"] == k
         # subrec is a reference used to navigate inside of the JSON as specified by the v[:location] to find the part of the tree to sanitize
         subrec = json
