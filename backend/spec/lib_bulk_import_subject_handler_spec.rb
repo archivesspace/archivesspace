@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/subject_handler"
+require_relative "../app/lib/bulk_import/subject_handler"
 
 describe "Subject Handler" do
   before(:each) do
@@ -27,7 +27,7 @@ describe "Subject Handler" do
     }.to raise_error("NOT FOUND: 'ingested' not found in list subject_source")
   end
 
-=begin 
+=begin
   it "should retrieve a subject entry by a key" do
     build_return_key(nil, "nicely done", nil, "local")
     subject = @sh.stored(@sh.instance_variable_get(:subjects), nil, "nicely done local: topical")

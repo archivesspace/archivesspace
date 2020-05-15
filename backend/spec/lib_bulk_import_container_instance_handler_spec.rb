@@ -1,6 +1,6 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/container_instance_handler"
-require_relative "../app/controllers/lib/bulk_import/handler"
+require_relative "../app/lib/bulk_import/container_instance_handler"
+require_relative "../app/lib/bulk_import/handler"
 
 describe "Container Instance Handler" do
   before(:each) do

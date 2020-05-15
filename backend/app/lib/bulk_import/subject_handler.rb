@@ -1,5 +1,5 @@
 require_relative "handler"
-require_relative "../../../model/subject"
+require_relative "../../model/subject"
 require_relative "bulk_import_mixins"
 
 class SubjectHandler < Handler

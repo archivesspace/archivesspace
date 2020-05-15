@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/cv_list"
+require_relative "../app/lib/bulk_import/cv_list"
 
 describe "Controlled Value List" do
   it "should instantiate as a Control Value list" do

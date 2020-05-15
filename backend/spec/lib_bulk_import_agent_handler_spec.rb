@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/agent_handler"
+require_relative "../app/lib/bulk_import/agent_handler"
 require_relative "../app/model/mixins/dynamic_enums"
 require_relative "../app/model/enumeration"
 
