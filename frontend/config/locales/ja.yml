@@ -1245,13 +1245,6 @@ ja:
         batch_merge_confirm_question: 以下にリストされているように、最上位のコンテナーをマージしてもよろしいですか？ このアクションは元に戻せません。
         batch_merge_confirm_victims: "次の上位コンテナをマージします:"
         batch_merge_confirm_target: "この一番上のコンテナに:"
-        rapid_barcode_entry_help: 選択した各コンテナのバーコードを入力します。 [新しいバーコード]フィールドを空白のままにして、現在のバーコードを新しい値に置き換えずに削除します。
-        batch_merge: 上位コンテナのマージ
-        batch_merge_instructions: リストされている他のすべてのトップコンテナがマージされるトップコンテナを選択します。リンクされたレコードはすべてこのコンテナに再リンクされ、他のトップコンテナのすべての情報が削除されます。
-        batch_merge_confirm: 上位コンテナのマージの確認
-        batch_merge_confirm_question: 以下にリストされているように、最上位のコンテナーをマージしてもよろしいですか？ このアクションは元に戻せません。
-        batch_merge_confirm_victims: "次の上位コンテナをマージします:"
-        batch_merge_confirm_target: "この一番上のコンテナに:"
         batch_delete: トップコンテナの削除
         batch_delete_help: 選択したすべてのコンテナを削除します。
         update_n_records: "%{n}レコードを更新する"
