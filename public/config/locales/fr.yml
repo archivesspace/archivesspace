@@ -140,8 +140,6 @@ fr:
     created: Créé
     text_placeholder: Filtrer par texte
     clear_all: Tout effacer
-    created: Créé
-    modified: Modifié
     component_switch: Inclure composants
     more_facets: plus
     fewer_facets: moins
