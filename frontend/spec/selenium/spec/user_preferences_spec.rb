@@ -24,7 +24,8 @@ describe 'User Preferences' do
     @driver.wait_for_dropdown
     @driver.find_element(:link, 'Repository Preferences').click
 
-    @driver.find_element(id: 'preference_defaults__accession_browse_column_1_').select_option_with_text('Acquisition Type')
+    @driver.find_element(id: 'preference_defaults__accession_browse_column_1_').select_option_with_text('Title')
+    @driver.find_element(id: 'preference_defaults__accession_browse_column_2_').select_option_with_text('Acquisition Type')
     @driver.click_and_wait_until_gone(css: 'button[type="submit"]')
     @driver.find_element(css: '.alert-success')
 
