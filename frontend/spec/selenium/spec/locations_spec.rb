@@ -304,7 +304,7 @@ describe 'Locations' do
       @driver.wait_for_dropdown
       @driver.click_and_wait_until_gone(:link, 'Locations')
 
-      @driver.find_elements(:css, 'th')[1].click
+      # should be sorted by column 1 (location) by default
 
       table_rows = @driver.find_elements(:css, "tr")
       table_rows.shift
