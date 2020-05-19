@@ -7,12 +7,11 @@
     </div>
   </div>
   <div class="col-md-9">
-    <% if user_can?('update_assessment_record') %>
+    <% if user_can?('create_job') %>
       <div class="record-toolbar">
  
         <div class="pull-right">
           <div class="btn-group">
-            <% if user_can?('create_job') %>
             <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
               <%= I18n.t("job._frontend.actions.create") %>
               <span class="caret"></span>
@@ -28,7 +27,6 @@
                 <% end %>
               <% end %>
             </ul>
-            <% end %>
           </div>
         </div>
         <div class="clearfix"></div>
