@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/notes_handler"
+require_relative "../app/lib/bulk_import/notes_handler"
 
 describe "Notes Handler" do
   before(:each) do

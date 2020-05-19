@@ -1,8 +1,8 @@
 require_relative "handler"
 
-require_relative "../../../model/agent_person"
-require_relative "../../../model/agent_family"
-require_relative "../../../model/agent_corporate_entity"
+require_relative "../../model/agent_person"
+require_relative "../../model/agent_family"
+require_relative "../../model/agent_corporate_entity"
 require_relative "bulk_import_mixins"
 
 class AgentHandler < Handler

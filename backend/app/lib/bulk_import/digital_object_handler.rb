@@ -1,5 +1,5 @@
 require_relative "handler"
-require_relative "../../../model/digital_object"
+require_relative "../../model/digital_object"
 
 class DigitalObjectHandler < Handler
   def initialize(current_user)

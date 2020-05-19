@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/lang_handler"
+require_relative "../app/lib/bulk_import/lang_handler"
 
 describe "Language Handler" do
   before(:each) do
