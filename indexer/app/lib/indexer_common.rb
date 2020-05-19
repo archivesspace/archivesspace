@@ -623,7 +623,8 @@ class IndexerCommon
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
-        doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
+        doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
+        doc['top_container_u_icusort'] = record['record']['display_string']
         doc['barcode_u_sstr'] = record['record']['barcode']
 
         doc['subcontainer_barcodes_u_sstr'] = record["record"]["subcontainer_barcodes"]
