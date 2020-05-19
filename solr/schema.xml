@@ -77,8 +77,6 @@
    <field name="year_sort" type="sort_string" indexed="true" stored="false" multiValued="false"/>
    <field name="dates" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="extents" type="text_general" indexed="true" stored="true" multiValued="true"/>
-   <field name="context" type="text_general" indexed="true" stored="true" multiValued="true"/>
-   <field name="context_uri" type="string" indexed="true" stored="true" multiValued="true"/>
 
    <field name="subjects_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="creators_text" type="text_general" indexed="true" stored="true" multiValued="true"/>
