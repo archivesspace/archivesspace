@@ -1,6 +1,11 @@
-<% (record['context'] || []).each_with_index do |title, i| %>
-  <%= resolve_readonly_link_to((clean_mixed_content(title).html_safe), record['context_uri'][i]) %>
-  <% if i < record['context'].length - 1 %>
-    <%= context_separator(record) %>
+<% ancestors = context_ancestor(record) %>
+<% if ancestors != nil && ancestors != [''] %>
+  <% ancestors.reverse.each_with_index do |ancestor, i| %>
+    <% unless get_ancestor_title(ancestor) == nil %>
+      <%= resolve_readonly_link_to((get_ancestor_title(ancestor).html_safe), ancestor) %>
+      <% if i < ancestors.length - 1 %>
+        <%= context_separator(record) %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

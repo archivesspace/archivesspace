@@ -292,17 +292,6 @@ class IndexerCommon
     end
   end
 
-  def get_ancestor_title(field)
-    field_json = JSONModel::HTTP.get_json(field)
-    unless field_json.nil?
-      if field.include?('resources') || field.include?('digital_objects')
-        field_json['title']
-      else
-        field_json['display_string']
-      end
-    end
-  end
-
   # TODO: We should fix this to read from the JSON schemas
   HARDCODED_ENUM_FIELDS = ["relator", "type", "role", "source", "rules", "acquisition_type", "resource_type", "processing_priority", "processing_status", "era", "calendar", "digital_object_type", "level", "processing_total_extent_type", "extent_type", "language", "script", "event_type", "type_1", "type_2", "type_3", "salutation", "outcome", "finding_aid_description_rules", "finding_aid_status", "instance_type", "use_statement", "checksum_method", "date_type", "label", "certainty", "scope", "portion", "xlink_actuate_attribute", "xlink_show_attribute", "file_format_name", "temporary", "name_order", "country", "jurisdiction", "rights_type", "ip_status", "term_type", "enum_1", "enum_2", "enum_3", "enum_4", "relator_type", "job_type"]
 
@@ -840,32 +829,6 @@ class IndexerCommon
           end
         }
         doc['langcode'].uniq!
-      end
-    }
-
-    add_document_prepare_hook {|doc, record|
-      case
-      when doc['ancestors'] && !doc['ancestors'].empty?
-        ancestors = doc['ancestors']
-      when doc['linked_instance_uris'] && !doc['linked_instance_uris'].empty?
-        ancestors = doc['linked_instance_uris']
-      when doc['linked_record_uris'] && !doc['linked_record_uris'].empty?
-        ancestors = doc['linked_record_uris']
-      when doc['primary_type'] == 'top_container'
-        ancestors = Array(doc['collection_uri_u_sstr'])
-      when doc['primary_type'] == 'digital_object_component'
-        ancestors = doc['digital_object'].split
-      else
-        ancestors = []
-      end
-      doc['context'] = []
-      doc['context_uri'] = []
-      ancestors.reverse.each do |uri|
-        title = get_ancestor_title(uri)
-        if title
-          doc['context'] << title
-          doc['context_uri'] << uri
-        end
       end
     }
 
