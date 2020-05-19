@@ -244,7 +244,7 @@ describe 'Locations' do
       @driver.click_and_wait_until_gone(:css, '.sidebar input.text-filter-field + div button')
 
       (0..7).each do |i|
-        @driver.execute_script("$($('.multiselect-column input').get(#{i})).click()")
+        @driver.execute_script("$($('td.multiselect-column input').get(#{i})).click()")
       end
 
       @driver.find_element(:css, '.record-toolbar .btn.multiselect-enabled.edit-batch').click
