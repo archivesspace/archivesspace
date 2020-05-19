@@ -215,7 +215,7 @@ fr:
       title: Intitulé
       publish: Publié
       context: Trouvé dans
-      component_id: Identifiant
+      identifier: Identifiant
       ref_id: Ref ID
       level: Niveau
       audit_info: Audit Information

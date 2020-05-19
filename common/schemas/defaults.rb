@@ -24,7 +24,7 @@ browse_column_enums = {
     'title', 'primary_type', 'publish', 'authority_id', 'source', 'rules', 'is_user'
   ],
   'archival_object' => [
-    'title', 'publish', 'context', 'component_id', 'ref_id', 'level', 'dates',
+    'title', 'publish', 'context', 'identifier', 'ref_id', 'level', 'dates',
     'extents'
   ],
   'assessment' => [

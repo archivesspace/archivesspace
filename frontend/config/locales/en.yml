@@ -215,7 +215,7 @@ en:
       title: Title
       publish: Published
       context: Parent Resource
-      component_id: Component ID
+      identifier: Component ID
       ref_id: Ref ID
       level: Level
       audit_info: Audit Information

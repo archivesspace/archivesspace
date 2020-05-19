@@ -223,7 +223,7 @@ ja:
       title: タイトル
       publish: 発行済み
       context: 見つかった
-      component_id: 識別
+      identifier: 識別
       ref_id: Ref ID
       level: レベル
       audit_info: 監査データ

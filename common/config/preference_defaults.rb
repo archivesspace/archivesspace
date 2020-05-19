@@ -39,7 +39,7 @@
   'agent_browse_column_5' => 'rules',
   'archival_object_browse_column_1' => 'title',
   'archival_object_browse_column_2' => 'context',
-  'archival_object_browse_column_3' => 'component_id',
+  'archival_object_browse_column_3' => 'identifier',
   'archival_object_browse_column_4' => 'dates',
   'archival_object_browse_column_5' => 'extents',
   'assessment_browse_column_1' => 'assessment_id',

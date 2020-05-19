@@ -217,7 +217,7 @@ es:
       title: Título
       publish: Publicado
       context: Encontrado en
-      component_id: Identificador de componente
+      identifier: Identificador de componente
       ref_id: Ref ID
       level: Nivel de Descripción
       audit_info: Datos de auditoría
