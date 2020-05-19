@@ -71,4 +71,10 @@
       <% form.emit_template("agent_contact", item) %>
     <% end %>
   <% end %>
+
+  <% if form.readonly? %>
+    <%= show_plugins_for("repository", form) %>
+  <% else %>
+    <%= form_plugins_for("repository", form) %>
+  <% end %>
 </fieldset>
