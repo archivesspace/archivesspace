@@ -14,7 +14,7 @@ module Check
     attr_reader :directories, :issues, :locales
     def initialize(directories)
       @directories = directories
-      @issues = []
+      @issues = {}
       @locales = {}
       arrange_locales
     end
@@ -26,7 +26,7 @@ module Check
           missing = compare_locales(locale_en, load_keys(other))
           next unless missing.any?
 
-          issues.append "Keys missing (#{other}): #{missing.join(',')}"
+          issues[other] = missing
         end
       end
       issues
