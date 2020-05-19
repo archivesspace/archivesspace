@@ -51,4 +51,10 @@
   <% form.push("agent_representation", form['agent_representation'] || {}) do |form| %>
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "agent_contact", :template_erb => "agents/contact_details", :template => "agent_contact", :cardinality => :zero_to_one, :list_limited_to_one => true, :remove_disabled => true} %>
   <% end %>
+
+  <% if form.readonly? %>
+    <%= show_plugins_for("repository", form) %>
+  <% else %>
+    <%= form_plugins_for("repository", form) %>
+  <% end %>
 </fieldset>
