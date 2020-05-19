@@ -509,7 +509,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'job'
         report_type = record['record']['job']['report_type']
-        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) : 
+        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) :
           t("job.types.#{record['record']['job_type']}"))
         doc['types'] << record['record']['job_type']
         doc['types'] << report_type
@@ -612,6 +612,7 @@ class IndexerCommon
         end
 
         if record['record']['container_locations'].length > 0
+          doc['has_location_u_sbool'] = true
           record['record']['container_locations'].each do |container_location|
             if container_location['status'] == 'current'
               doc['location_uri_u_sstr'] = container_location['ref']
@@ -619,6 +620,8 @@ class IndexerCommon
               doc['location_display_string_u_sstr'] = container_location['_resolved']['title']
             end
           end
+        else
+          doc['has_location_u_sbool'] = false
         end
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?

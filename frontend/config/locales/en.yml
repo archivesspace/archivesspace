@@ -1165,6 +1165,7 @@ en:
     not_exported: Not exported
     restricted: Restricted?
     parent: Parent Container
+    has_location: Has Location
 
     managed_container_2_type: Child Container Type
     managed_container_2_type_tooltip: |
@@ -1255,6 +1256,8 @@ en:
         delete_n_records: "Delete %{n} records"
         update_locations_current_location: Current Location
         update_locations_new_location: New Location
+        has_location_true: "Yes"
+        has_location_false: "No"
 
   container_profile:
     _singular: Container Profile

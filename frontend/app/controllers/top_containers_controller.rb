@@ -287,6 +287,10 @@ class TopContainersController < ApplicationController
       builder.and('empty_u_sbool', (params['empty'] == "yes" ? true : false), 'boolean')
     end
 
+    unless params['has_location'].blank?
+      builder.and('has_location_u_sbool', (params['has_location'] == "yes" ? true : false), 'boolean')
+    end
+
     unless params['barcodes'].blank?
       barcode_query = AdvancedQueryBuilder.new
 
