@@ -965,6 +965,29 @@ class IndexerCommon
     out.strip
   end
 
+  # ANW-1065
+  # iterate through the do_not_index list and scrub out that part of the JSON tree 
+  def sanitize_json(json)
+    IndexerCommonConfig::do_not_index.each do |k, v|
+      if json["jsonmodel_type"] == k
+        # subrec is a reference used to navigate inside of the JSON as specified by the v[:location] to find the part of the tree to sanitize
+        subrec = json
+
+        v[:location].each do |l|
+          unless subrec.nil?
+            subrec = subrec[l]
+          end
+        end
+
+        unless subrec.nil?
+          subrec[v[:to_clean]] = []
+        end
+      end
+    end
+
+    return json
+  end
+
   def index_records(records, timing = IndexerTiming.new)
     batch = IndexBatch.new
 
@@ -995,7 +1018,7 @@ class IndexerCommon
 
         doc['primary_type'] = record_type
         doc['types'] = [record_type]
-        doc['json'] = ASUtils.to_json(values)
+        doc['json'] = ASUtils.to_json(sanitize_json(values))
         doc['suppressed'] = values.has_key?('suppressed') && values['suppressed']
         if doc['suppressed']
           doc['publish'] = false
