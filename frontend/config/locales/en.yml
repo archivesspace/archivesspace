@@ -5,6 +5,7 @@ en:
     automate: Automatically generate
     batch: Batch
     browse: Browse
+    bulk_import_job: Load via Spreadsheet
     cancel: Cancel
     close: Close
     continue: Continue

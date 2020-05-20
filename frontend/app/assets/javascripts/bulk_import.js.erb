@@ -45,13 +45,15 @@
 					}
 					else {
 						missingFile = "<%= I18n.t('bulk_import._frontend.messages.not_excel_csv') %>";
-						$('file_type').val("");
+						$('#file_type').val("");
+						$('#job_filename').val("");
 						alert(missingFile);
 					}
 				}
 			}  
 			var filename = $input.val().split("\\").reverse()[0];
             $("#excel_filename").html(filename);
+			$("#job_filename").val(filename);
 		};
 	    $("#excel_file").on("change", handleExcelFileChange);
 	};

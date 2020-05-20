@@ -101,6 +101,21 @@
     </div>
 
 <% end %>
+<% define_template "bulk_import_job", jsonmodel_definition(:bulk_import_job) do |form, job| %>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label"><%= I18n.t("actions.bulk_import")  %></label>
+      <div class="col-sm-9 controls label-only"><%= job['filename'] %></div>
+    </div>
+
+    <div class="form-group">
+    <!--
+      <label class="col-sm-3 control-label"><%= I18n.t("print_to_pdf_job.include_unpublished")  %></label>
+      <div class="col-sm-9 controls label-only"><%= I18n.t("boolean.#{job['include_unpublished']}") %></div>
+      -->
+    </div>
+
+<% end %>
 
 <% define_template "report_job", jsonmodel_definition(:report_job) do |form, job| %>
 
