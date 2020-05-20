@@ -461,18 +461,6 @@ describe "indexer common" do
 
       expect(agent["agent_contacts"].empty?).to be_truthy
     end
-
-    it "removes agent_contact data from associated agent when indexing repository" do
-      repo = build(:json_repository)
-      repo["agent_representation"] = {}
-      repo["agent_representation"]["_resolved"] = build(:json_agent_corporate_entity)
-
-
-      expect(repo["agent_representation"]["_resolved"]["agent_contacts"].length).to_not eq(0)
-      sanitized_repo = @ic.sanitize_json(repo)
-
-      expect(sanitized_repo["agent_representation"]["_resolved"]["agent_contacts"].empty?).to be_truthy
-    end
   end
 
 end
