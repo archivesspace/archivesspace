@@ -106,7 +106,7 @@ class ArchivesSpaceIndexer < Sinatra::Base
     end
 
     set :logging, false 
-    Log.noisiness "Logger::#{AppConfig[:backend_log_level].upcase}".constantize
+    Log.noisiness "Logger::#{AppConfig[:indexer_log_level].upcase}".constantize
 
     main
   end
