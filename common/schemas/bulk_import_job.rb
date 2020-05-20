@@ -7,7 +7,7 @@
     "properties" => {
 
       "resource_id" => {
-        "type" => "number",
+        "type" => "string",
         "ifmissing" => "error",
       },
       "filename" => {

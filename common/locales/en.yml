@@ -2051,6 +2051,7 @@ en:
       find_and_replace_job: Batch Find and Replace (Beta)
       trim_whitespace_job: Trim Whitespace
       unknown_job_type: Unknown job type
+      bulk_import_job: Load via Spreadsheet
     status: Status
     status_completed: Completed
     status_queued: Queued
@@ -2096,6 +2097,16 @@ en:
   print_to_pdf_job:
     include_unpublished: Include Unpublished
     source: Source
+
+  bulk_import_job:
+    file_type: Spreadsheet type
+    resource_uri: Resource URI
+    load_type: Load Type
+    type:
+      csv: CSV
+      xlsx: Excel Spreadsheet
+      ao: Archival Object Load
+      digital: Digital Object Load
 
   trim_whitespace_job:
     description: Removes leading and trailing whitespace from titles for resources, accessions, digital objects, archival objects, and digital object components.
