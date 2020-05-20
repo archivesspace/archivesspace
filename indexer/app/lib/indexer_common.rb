@@ -509,7 +509,7 @@ class IndexerCommon
     add_document_prepare_hook {|doc, record|
       if doc['primary_type'] == 'job'
         report_type = record['record']['job']['report_type']
-        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) : 
+        doc['title'] = (report_type ? t("reports.#{report_type}.title", :default => report_type) :
           t("job.types.#{record['record']['job_type']}"))
         doc['types'] << record['record']['job_type']
         doc['types'] << report_type
@@ -580,10 +580,6 @@ class IndexerCommon
         doc['title'] = record['record']['long_display_string']
         doc['display_string'] = record['record']['display_string']
 
-        if record['record']['indicator']
-          doc['indicator_stored_u_ssort'] = record['record']['indicator']
-        end
-
         if record['record']['series']
           doc['series_uri_u_sstr'] = record['record']['series'].map {|series| series['ref']}
           doc['series_title_u_sstr'] = record['record']['series'].map {|series| series['display_string']}
@@ -604,12 +600,7 @@ class IndexerCommon
         if record['record']['collection']
           doc['collection_uri_u_sstr'] = record['record']['collection'].map {|collection| collection['ref']}
           doc['collection_display_string_u_sstr'] = record['record']['collection'].map {|collection| collection['display_string']}
-          doc['collection_display_string_stored_u_ssort'] = record['record']['collection'].map {|collection| collection['display_string']}.join(',')
           doc['collection_identifier_stored_u_sstr'] = record['record']['collection'].map {|collection| collection['identifier']}
-          doc['collection_combined_id_u_ssort'] = doc['collection_identifier_stored_u_sstr']
-                                                    .zip(doc['collection_display_string_u_sstr'])
-                                                    .map {|identifier, display| "#{identifier} #{display}"}
-                                                    .join(",")
           doc['collection_identifier_u_stext'] = record['record']['collection'].map {|collection|
             IndexerCommon.generate_permutations_for_identifier(collection['identifier'])
           }.flatten
@@ -621,6 +612,7 @@ class IndexerCommon
         end
 
         if record['record']['container_locations'].length > 0
+          doc['has_location_u_sbool'] = true
           record['record']['container_locations'].each do |container_location|
             if container_location['status'] == 'current'
               doc['location_uri_u_sstr'] = container_location['ref']
@@ -628,15 +620,15 @@ class IndexerCommon
               doc['location_display_string_u_sstr'] = container_location['_resolved']['title']
             end
           end
+        else
+          doc['has_location_u_sbool'] = false
         end
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
-        doc['typeahead_sort_key_u_sort'] = record['record']['indicator'].to_s.rjust(255, '#')
+        doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
+        doc['top_container_u_icusort'] = record['record']['display_string']
         doc['barcode_u_sstr'] = record['record']['barcode']
-        doc['barcode_u_ssort'] = record['record']['barcode']
-
-        doc['type_u_ssort'] = record['record']['type']
 
         doc['subcontainer_barcodes_u_sstr'] = record["record"]["subcontainer_barcodes"]
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
@@ -977,6 +969,29 @@ class IndexerCommon
     out.strip
   end
 
+  # ANW-1065
+  # iterate through the do_not_index list and scrub out that part of the JSON tree 
+  def sanitize_json(json)
+    IndexerCommonConfig::do_not_index.each do |k, v|
+      if json["jsonmodel_type"] == k
+        # subrec is a reference used to navigate inside of the JSON as specified by the v[:location] to find the part of the tree to sanitize
+        subrec = json
+
+        v[:location].each do |l|
+          unless subrec.nil?
+            subrec = subrec[l]
+          end
+        end
+
+        unless subrec.nil?
+          subrec[v[:to_clean]] = []
+        end
+      end
+    end
+
+    return json
+  end
+
   def index_records(records, timing = IndexerTiming.new)
     batch = IndexBatch.new
 
@@ -1007,7 +1022,7 @@ class IndexerCommon
 
         doc['primary_type'] = record_type
         doc['types'] = [record_type]
-        doc['json'] = ASUtils.to_json(values)
+        doc['json'] = ASUtils.to_json(sanitize_json(values))
         doc['suppressed'] = values.has_key?('suppressed') && values['suppressed']
         if doc['suppressed']
           doc['publish'] = false

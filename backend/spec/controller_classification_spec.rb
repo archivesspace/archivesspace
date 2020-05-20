@@ -66,4 +66,26 @@ describe 'Classification controllers' do
     expect { JSONModel(:classification_term).find(term2.id) }.to raise_error(RecordNotFound)
   end
 
+
+  it "lets you reorder classification terms" do
+    classification = create(:json_classification)
+
+    term_1 = create(:json_classification_term, :classification => {:ref => classification.uri}, :title=> "TERM1", :position => 0)
+    create(:json_classification_term, :classification => {:ref => classification.uri}, :title=> "TERM2", :position => 1)
+
+    tree = JSONModel(:classification_tree).find(nil, :classification_id => classification.id)
+
+    expect(tree.children[0]["title"]).to eq("TERM1")
+    expect(tree.children[1]["title"]).to eq("TERM2")
+
+    term_1 = JSONModel(:classification_term).find(term_1.id)
+    term_1.position = 1
+    term_1.save
+
+    tree = JSONModel(:classification_tree).find(nil, :classification_id => classification.id)
+
+    expect(tree.children[0]["title"]).to eq("TERM2")
+    expect(tree.children[1]["title"]).to eq("TERM1")
+  end
+
 end

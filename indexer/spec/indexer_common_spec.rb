@@ -425,4 +425,54 @@ describe "indexer common" do
       # def apply_pui_fields(doc, record)
     end
   end
+  describe "sanitize_json method" do
+    it "removes agent_contact data when indexing agent_person" do
+      agent = build(:json_agent_person)
+
+      expect(agent["agent_contacts"].length).to_not eq(0)
+      sanitized_agent = @ic.sanitize_json(agent)
+
+      expect(agent["agent_contacts"].empty?).to be_truthy
+    end
+
+    it "removes agent_contact data when indexing agent_family" do
+      agent = build(:json_agent_family)
+
+      expect(agent["agent_contacts"].length).to_not eq(0)
+      sanitized_agent = @ic.sanitize_json(agent)
+
+      expect(agent["agent_contacts"].empty?).to be_truthy
+    end
+
+    it "removes agent_contact data when indexing agent_corporate_entity" do
+      agent = build(:json_agent_corporate_entity)
+
+      expect(agent["agent_contacts"].length).to_not eq(0)
+      sanitized_agent = @ic.sanitize_json(agent)
+
+      expect(agent["agent_contacts"].empty?).to be_truthy
+    end
+
+    it "removes agent_contact data when indexing agent_software" do
+      agent = build(:json_agent_software)
+
+      expect(agent["agent_contacts"].length).to_not eq(0)
+      sanitized_agent = @ic.sanitize_json(agent)
+
+      expect(agent["agent_contacts"].empty?).to be_truthy
+    end
+
+    it "removes agent_contact data from associated agent when indexing repository" do
+      repo = build(:json_repository)
+      repo["agent_representation"] = {}
+      repo["agent_representation"]["_resolved"] = build(:json_agent_corporate_entity)
+
+
+      expect(repo["agent_representation"]["_resolved"]["agent_contacts"].length).to_not eq(0)
+      sanitized_repo = @ic.sanitize_json(repo)
+
+      expect(sanitized_repo["agent_representation"]["_resolved"]["agent_contacts"].empty?).to be_truthy
+    end
+  end
+
 end

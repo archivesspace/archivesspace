@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/bulk_import_mixins.rb"
+require_relative "../app/lib/bulk_import/bulk_import_mixins.rb"
 include BulkImportMixins
 
 describe "Bulk Import Mixins" do

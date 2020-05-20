@@ -1,6 +1,6 @@
 # test ingest
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/bulk_importer.rb"
+require_relative "../app/lib/bulk_import/bulk_importer.rb"
 
 describe "Bulk Importer" do
   BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
