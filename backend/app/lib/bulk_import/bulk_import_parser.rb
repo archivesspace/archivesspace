@@ -1,5 +1,5 @@
 require_relative "bulk_import_mixins"
-require_relative "../../../lib/uri_resolver"
+require_relative "../uri_resolver"
 require "nokogiri"
 require "pp"
 require "rubyXL"
@@ -59,7 +59,7 @@ class BulkImportParser
       end
     rescue Exception => e
       if e.is_a?(BulkImportException) || e.is_a?(StopBulkImportException)
-        @report.add_terminal_error(I18n.t("bulk_import.error.excel", :errs => e.message), @counter)
+        @report.add_terminal_error(I18n.t("bulk_import.error.spreadsheet", :errs => e.message), @counter)
       elsif e.is_a?(StopIteration) && @headers.nil?
         @report.add_terminal_error(I18n.t("bulk_import.error.no_header"), @counter)
       else # something else went wrong
@@ -80,8 +80,9 @@ class BulkImportParser
     @report = BulkImportReport.new
     @start_position
     @need_to_move = false
-    @is_xslx = file_is_xslx?
-    @is_csv = file_is_csv?
+    Log.error("filetype: #{@file_content_type}")
+    @is_xslx = @file_content_type == "xlsx"
+    @is_csv = @file_content_type == "csv"
   end
 
   def initialize_handler_enums
@@ -96,13 +97,16 @@ class BulkImportParser
     @headers
     @report.set_file_name(@orig_filename)
     initialize_handler_enums
-    @resource = resolve_references(Resource.to_jsonmodel(@opts[:rid]), ["repository"])
+    Log.error("opts #{@opts[:rid]}")
+    jsonresource = Resource.to_jsonmodel(Integer(@opts[:rid]))
+    Log.error("jsonresource \n\t#{jsonresource.inspect}")
+    @resource = resolve_references(jsonresource, ["repository"])
     @repository = @resource["repository"]["ref"]
     @hier = 1
     @counter = 0
     @rows_processed = 0
     @error_rows = 0
-    raise StopBulkImportException.new(I18n.t(bulk_import.error.wrong_file_type)) if !@is_csv && !@is_xslx
+    raise StopBulkImportException.new(I18n.t("bulk_import.error.wrong_file_type")) if !@is_csv && !@is_xslx
     #XSLX
     if @is_xslx
       workbook = RubyXL::Parser.parse(@input_file)
@@ -124,14 +128,6 @@ class BulkImportParser
   end
 
   private
-
-  def file_is_xslx?
-    return @file_content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || @extension == ".xslx"
-  end
-
-  def file_is_csv?
-    return @file_content_type == "text/csv" || @extension == ".csv"
-  end
 
   def find_headers
     while @headers.nil? && (row = @rows.next)

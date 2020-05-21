@@ -1,14 +1,9 @@
 # runs the bulk_importer
 
 require_relative "../streaming_import"
-Log.error("runner")
-=begin
-Log.error(Dir["./*"])
-Dir["app/controllers/lib/bulk_import/*.rb"].each do |file|
-  Log.error(" to load? #{file}")
-  require_relative "../../../#{file}"
-end
-=end
+require_relative "../bulk_import/import_archival_objects"
+require_relative "../bulk_import/import_digital_objects"
+
 class Ticker
   def initialize(job)
     @job = job
@@ -49,7 +44,6 @@ class BulkImportRunner < JobRunner
       DB.open(DB.supports_mvcc?,
               :retry_on_optimistic_locking_fail => true) do
         begin
-          Log.error("are we in db open?")
           @input_file = @job.job_files[0].full_file_path
           @current_user = User.find(:username => @job.owner.username)
           # I don't know whay this parsing is so hard!!
@@ -73,6 +67,10 @@ class BulkImportRunner < JobRunner
                 msg = I18n.t("bulk_import.processed")
               end
               ticker.log(msg)
+              ticker.log(("=" * 50) + "\n")
+              ticker.log(process_report(report))
+
+              ticker.log("\n" + ("=" * 50) + "\n")
             end
           end
         rescue JSONModel::ValidationException, BulkImportException, Sequel::ValidationFailed, ReferenceError => e
@@ -128,14 +126,46 @@ class BulkImportRunner < JobRunner
   def get_importer(params)
     # TODO: replace digital_load key with
     # TODO: replace file_type with content_type
-    dig_o = params.fetch(:digital_load) == "true"
+    @dig_o = params.fetch(:digital_load) == "true"
     importer = nil
-    if dig_o
+    if @dig_o
       importer = ImportDigitalObjects.new(@input_file, params.fetch(:file_type), @current_user, params)
     else
-      ImportArchivalObjects.new(@input_file, params.fetch(:file_type), @current_user, params)
+      importer = ImportArchivalObjects.new(@input_file, params.fetch(:file_type), @current_user, params)
     end
     importer
+  end
+
+  def process_report(report)
+    output = ""
+    report.rows.each do |row|
+      output += row.row
+      if row.archival_object_id.nil?
+        output += " " + I18n.t("bulk_import.no_ao") if !@dig_o
+      else
+        if @dig_o
+          output += I18n.t("bulk_import.clip_what", :what => I18n.t("bulk_import.ao"), :id => row.archival_object_id,
+                                                    :nm => "'#{row.archival_object_display}'",
+                                                    :ref_id => "#{row.ref_id}")
+        else
+          output += I18n.t("bulk_import.clip_created", :what => I18n.t("bulk_import.ao"), :id => row.archival_object_id,
+                                                       :nm => "'#{row.archival_object_display}'",
+                                                       :ref_id => "#{row.ref_id}")
+        end
+      end
+      output += "\n"
+      unless row.info.empty?
+        row.info.each do |info|
+          output += I18n.t("bulk_import.clip_info", :what => info) + "\n"
+        end
+      end
+      unless row.errors.empty?
+        row.errors.each do |err|
+          output += I18n.t("bulk_import.clip_err", :err => err) + "\n"
+        end
+      end
+    end
+    output
   end
 
   def symbol_keys(hash)

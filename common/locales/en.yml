@@ -2414,7 +2414,7 @@ en:
       extent_validation: "Unable to validate extent (%{ext}): %{msg}"
       no_header: No header (field codes) row found; are you using the correct template?
       no_data: No processible data rows found!
-      excel: "Error(s) parsing Excel File: %{errs}"
+      spreadsheet: "Error(s) parsing spreadsheet: %{errs}"
       no_agent: "Unable to create Agent %{num}: [%{why}]"
       no_tc: "Unable to create Top Container %{number}: [%{why}]"
       missing_instance_type: Missing container instance type
@@ -2446,3 +2446,4 @@ en:
       bad_ao: "Cannot find archival object %{errs}"
       no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
       file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
+      wrong_file_type: "The file is neither an Excel Spreadsheet nor a CSV file"
