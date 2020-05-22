@@ -781,6 +781,9 @@
     <!-- Copy preference defaults file over to config directory for browse and search preferences -->
     <copy file="../common/config/preference_defaults.rb" todir="target/archivesspace/config" />
 
+    <!-- Copy search browse columns config file to config directory -->
+    <copy file="../common/config/search_browse_column_config.rb" todir="target/archivesspace/config" />
+
     <zip zipfile="../archivesspace-${version}.zip" level="9">
       <zipfileset dir="target" excludes="**/mysql-connector-java*.jar" />
       <zipfileset dir=".." includes="README.md" prefix="archivesspace" filemode="644" />

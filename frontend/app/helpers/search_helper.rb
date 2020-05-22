@@ -179,15 +179,16 @@ module SearchHelper
       end
     end
 
-    opts[:sort_by] ||= (opts[:field] == 'title') ? 'title_sort' : opts[:field]
-
     @columns ||= []
 
-    if opts[:sortable] && opts[:sort_by]
+    if opts[:sort_by].is_a? Array
+      opts[:sort_by].each do |field|
+        model = opts[:model] || 'multi'
+        @search_data.add_sort_field(field, I18n.t("search.#{model}.#{field}"))
+      end
+    elsif opts[:sortable]
+      opts[:sort_by] ||= opts[:field]
       @search_data.add_sort_field(opts[:sort_by], label)
-    elsif opts[:template] == 'jobs/audit_info_cell'
-      @search_data.add_sort_field('time_started', I18n.t('search.job.time_started'))
-      @search_data.add_sort_field('time_finished', I18n.t('search.job.time_finished'))
     end
 
     col = SearchColumn.new(label, block, opts, @search_data)
@@ -234,17 +235,18 @@ module SearchHelper
         next if added.include?(prop) || !prop || prop == 'no_value'
 
         added << prop
-        opts = {:field => prop}
-        field = solr_fields[prop]
-        opts[:locale_key] = locales(model)[prop] || "#{model}_#{prop}"
-        opts[:sortable] = field && !field['multiValued']
-        opts[:type] = (field || {})['type'] || 'string'
-        if lookup_context.template_exists?("#{prop}_cell", "#{model}s", true)
-          opts[:template] = "#{model}s/#{prop}_cell"
-        elsif lookup_context.template_exists?("#{prop}_cell", model, true)
-          opts[:template] = "#{model}/#{prop}_cell"
-        elsif lookup_context.template_exists?("#{prop}_cell", 'search', true)
-          opts[:template] = "search/#{prop}_cell"
+        opts = column_opts[model][prop]
+        opts[:locale_key] ||= locales(model)[prop] || "#{model}_#{prop}"
+        opts[:model] = model
+        # opts[:type] ||= 'string'
+        unless opts[:template]
+          if lookup_context.template_exists?("#{prop}_cell", "#{model}s", true)
+            opts[:template] = "#{model}s/#{prop}_cell"
+          elsif lookup_context.template_exists?("#{prop}_cell", model, true)
+            opts[:template] = "#{model}/#{prop}_cell"
+          elsif lookup_context.template_exists?("#{prop}_cell", 'search', true)
+            opts[:template] = "search/#{prop}_cell"
+          end
         end
         add_column(I18n.t("search.#{model}.#{prop}"), opts)
       end
@@ -253,14 +255,13 @@ module SearchHelper
       prop = browse_columns["#{model}_sort_column"]
       next if added.include?(prop) || !prop || prop == 'no_value'
       added << prop
-      @search_data.add_sort_field((prop == 'title') ? 'title_sort' : prop, I18n.t("search.#{model}.#{prop}"))
+      opts = column_opts[model][prop]
+      @search_data.add_sort_field(opts[:sort_by] ? opts[:sort_by]: prop, I18n.t("search.#{model}.#{prop}"))
     end
   end
 
   def multi_columns
-    @multi_columns ||= ((1..AppConfig[:max_search_columns]).collect do |n|
-      browse_columns["multi_browse_column_#{n}"]
-    end) + ['create_time', 'user_mtime', 'title_sort']
+    column_opts['multi'].collect { |col, opts| opts[:sort_by] } + ['create_time', 'user_mtime']
   end
 
   def add_actions_column
@@ -346,10 +347,20 @@ module SearchHelper
     end 
   end
 
-  def solr_fields
-    @solr_fields ||= ASUtils.json_parse(
-      ASHTTP.get(URI.join(AppConfig[:solr_url], 'schema'))
-      )['schema']['fields'].map { |field| [field['name'], field] }.to_h
+  def column_opts
+    return @column_opts if @column_opts
+    column_opts_file = File.join(ASUtils.find_base_directory("common"), "config", "search_browse_column_config.rb")
+    @column_opts = eval(File.read(column_opts_file))
+
+    ASUtils.find_local_directories("search_browse_column_plugin_config.rb").each do |file|
+      if File.exist?(file)
+        plugin_column_opts = eval(File.read(File.absolute_path(file))) 
+        plugin_column_opts.each do |type, cols|
+          @column_opts[type] = @column_opts[type].merge(cols)
+        end
+      end
+    end
+    @column_opts
   end
 
   def fields
