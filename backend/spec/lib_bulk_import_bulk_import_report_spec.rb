@@ -1,5 +1,5 @@
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/bulk_import_report.rb"
+require_relative "../app/lib/bulk_import/bulk_import_report.rb"
 
 describe BulkImportReport do
   def row_match(row, number)

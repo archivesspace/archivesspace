@@ -21,5 +21,8 @@ jobs:
       run: |
         ./build/run bootstrap
 
+    # also run pui tests because it's particularly dependent on the index
     - name: Run Indexer tests
-      run: ./build/run indexer:test
+      run: |
+        ./build/run indexer:test
+        ./build/run public:test

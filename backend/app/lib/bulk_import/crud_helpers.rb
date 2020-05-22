@@ -1,5 +1,5 @@
 # extension to app/lib/crud_helpers.rb to deal with not having the env hash
-require_relative "../../../lib/crud_helpers"
+require_relative "../../lib/crud_helpers"
 module CrudHelpers
   def handle_raw_listing(model, where = {}, current_user)
     dataset = CrudHelpers.scoped_dataset(model, where)

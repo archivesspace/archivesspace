@@ -89,12 +89,6 @@ class ClassificationTerm < Sequel::Model(:classification_term)
   end
 
 
-  def update_position_only(parent_id, position)
-    super
-    self.reindex_children
-  end
-
-
   def validate
     validates_unique([:parent_name, :title_sha1],
                      :message => "must be unique to its level in the tree")

@@ -1327,6 +1327,7 @@ en:
     not_exported: Not exported
     restricted: Restricted?
     parent: Parent Container
+    has_location: Has Location
 
     managed_container_2_type: Child Container Type
     managed_container_2_type_tooltip: |
@@ -1402,12 +1403,6 @@ en:
         rapid_barcode_entry: Rapid Barcode Entry
         rapid_barcode_entry_existing_barcode: Existing Barcode
         rapid_barcode_entry_new_barcode: New Barcode
-        batch_merge: Merge Top Containers
-        batch_merge_instructions: Select the top container into which all of the other listed top container(s) will merge. Any linked records will be re-linked to this container and all information for the other top container(s) will be deleted.
-        batch_merge_confirm: Confirm Merge Top Containers
-        batch_merge_confirm_question: Are you sure you want to merge the top containers as listed below? This action is irreversible.
-        batch_merge_confirm_victims: "Merge the following top container(s):"
-        batch_merge_confirm_target: "Into this top container:"
         rapid_barcode_entry_help: Enter a barcode for each selected container.  Leave the New Barcode field blank to remove the current barcode without replacing it with a new value.
         batch_merge: Merge Top Containers
         batch_merge_instructions: Select the top container into which all of the other listed top container(s) will merge. Any linked records will be re-linked to this container and all information for the other top container(s) will be deleted.
@@ -1423,6 +1418,8 @@ en:
         delete_n_records: "Delete %{n} records"
         update_locations_current_location: Current Location
         update_locations_new_location: New Location
+        has_location_true: "Yes"
+        has_location_false: "No"
 
   container_profile:
     _singular: Container Profile

@@ -19,7 +19,7 @@ class ArchivesSpaceService < Sinatra::Base
     .description("Get a stream of deleted records")
     .permissions([:index_system])
     .params()
-    .paginated(true)
+    .paged(true)
     .returns([200, "a list of URIs that were deleted"]) \
   do
     modified_since_time = Time.at(params[:modified_since])

@@ -14,6 +14,7 @@ FactoryBot.define do
   sequence(:container_type) {|n| 'box'}
   sequence(:yyyy_mm_dd) { Time.at(rand * Time.now.to_i).to_s.sub(/\s.*/, '') }
   sequence(:level) { %w(series subseries item)[rand(3)] }
+  sequence(:phone_number) { (3..5).to_a[rand(3)].times.map { (3..5).to_a[rand(3)].times.map { rand(9) }.join }.join(' ') }
 
   factory :json_archival_object, class: JSONModel(:archival_object) do
     ref_id { generate(:alphanumstr) }
@@ -107,8 +108,114 @@ FactoryBot.define do
     revision_statements {  [build(:json_revision_statement)]  }
   end
 
+  factory :json_repository, class: JSONModel(:repository) do
+    repo_code { generate(:alphanumstr) }
+    name { generate(:alphanumstr) }
+  end
+
   factory :json_revision_statement, class: JSONModel(:revision_statement) do
     date { generate(:alphanumstr) }
     description { generate(:alphanumstr) }
+  end
+
+  factory :json_agent_contact, class: JSONModel(:agent_contact) do
+    name { generate(:generic_name) }
+    telephones { [build(:json_telephone)] }
+    address_1 { [nil, generate(:alphanumstr)].sample }
+    address_2 { [nil, generate(:alphanumstr)].sample }
+    address_3 { [nil, generate(:alphanumstr)].sample }
+    city { [nil, generate(:alphanumstr)].sample }
+    region { [nil, generate(:alphanumstr)].sample }
+    country { [nil, generate(:alphanumstr)].sample }
+    post_code { [nil, generate(:alphanumstr)].sample }
+    fax { [nil, generate(:alphanumstr)].sample }
+    email { [nil, generate(:alphanumstr)].sample }
+    email_signature { [nil, generate(:alphanumstr)].sample }
+    note { [nil, generate(:alphanumstr)].sample }
+  end
+
+  factory :json_telephone, class: JSONModel(:telephone) do
+    number_type { [nil, 'business', 'home', 'cell', 'fax'].sample }
+    number {  generate(:phone_number) }
+    ext { [nil, generate(:alphanumstr)].sample }
+  end
+
+  factory :json_name_corporate_entity, class: JSONModel(:name_corporate_entity) do
+    rules { generate(:name_rule) }
+    primary_name { generate(:generic_name) }
+    subordinate_name_1 { generate(:alphanumstr) }
+    subordinate_name_2 { generate(:alphanumstr) }
+    number { generate(:alphanumstr) }
+    sort_name { generate(:sort_name) }
+    sort_name_auto_generate { true }
+    dates { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
+    authority_id { generate(:url) }
+    source { generate(:name_source) }
+  end
+
+  factory :json_name_family, class: JSONModel(:name_family) do
+    rules { generate(:name_rule) }
+    family_name { generate(:generic_name) }
+    sort_name { generate(:sort_name) }
+    sort_name_auto_generate { true }
+    dates { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
+    prefix { generate(:alphanumstr) }
+    authority_id { generate(:url) }
+    source { generate(:name_source) }
+  end
+
+  factory :json_name_person, class: JSONModel(:name_person) do
+    rules { generate(:name_rule) }
+    source { generate(:name_source) }
+    primary_name { generate(:generic_name) }
+    sort_name { generate(:sort_name) }
+    name_order { %w(direct inverted).sample }
+    number { generate(:alphanumstr) }
+    sort_name_auto_generate { true }
+    dates { generate(:alphanumstr) }
+    qualifier { generate(:alphanumstr) }
+    fuller_form { generate(:alphanumstr) }
+    prefix { [nil, generate(:alphanumstr)].sample }
+    title { [nil, generate(:alphanumstr)].sample }
+    suffix { [nil, generate(:alphanumstr)].sample }
+    rest_of_name { [nil, generate(:alphanumstr)].sample }
+    authority_id { generate(:url) }
+  end
+
+  factory :json_name_software, class: JSONModel(:name_software) do
+    rules { generate(:name_rule) }
+    software_name { generate(:generic_name) }
+    sort_name { generate(:sort_name) }
+    sort_name_auto_generate { true }
+  end
+
+  factory :json_agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
+    agent_type { 'agent_corporate_entity' }
+    names { [build(:json_name_corporate_entity)] }
+    agent_contacts { [build(:json_agent_contact)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
+  end
+
+  factory :json_agent_family, class: JSONModel(:agent_family) do
+    agent_type { 'agent_family' }
+    names { [build(:json_name_family)] }
+    agent_contacts { [build(:json_agent_contact)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
+  end
+
+  factory :json_agent_person, class: JSONModel(:agent_person) do
+    agent_type { 'agent_person' }
+    names { [build(:json_name_person)] }
+    agent_contacts { [build(:json_agent_contact)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
+  end
+
+  factory :json_agent_software, class: JSONModel(:agent_software) do
+    agent_type { 'agent_software' }
+    names { [build(:json_name_software)] }
+    agent_contacts { [build(:json_agent_contact)] }
+    dates_of_existence { [build(:json_date, :label => 'existence')] }
   end
 end

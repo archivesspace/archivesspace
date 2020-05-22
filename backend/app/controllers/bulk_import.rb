@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ArchivesSpaceService < Sinatra::Base
-  require_relative "lib/bulk_import/bulk_importer"
   # Supports bulk import of spreadsheets
   Endpoint.post("/bulkimport/ssload")
           .description("Bulk Import an Excel Spreadsheet")

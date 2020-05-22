@@ -1322,6 +1322,7 @@ fr:
     not_exported: Non exporté
     restricted: Soumis à des restrictions?
     parent: conditionnement parent
+    has_location: A un emplacement
 
     managed_container_2_type: Type de conditionnement fils
     managed_container_2_type_tooltip: |
@@ -1397,12 +1398,6 @@ fr:
         rapid_barcode_entry: Saisie rapide de code-barres
         rapid_barcode_entry_existing_barcode: Code-barres existant
         rapid_barcode_entry_new_barcode: Nouveau code-barres
-        batch_merge: Fusionner les conteneurs
-        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Tous les enregistrements liés seront liés à ce conteneur et toutes les informations relatives au (x) autre (s) conteneur (s) supérieur (s) seront supprimées.
-        batch_merge_confirm: Confirmer la fusion des conteneurs supérieurs
-        batch_merge_confirm_question: Voulez-vous vraiment fusionner les conteneurs supérieurs comme indiqué ci-dessous? Cette action est irréversible.
-        batch_merge_confirm_victims: "Fusionner les conteneurs supérieurs suivants:"
-        batch_merge_confirm_target: "Dans ce conteneur supérieur:"
         rapid_barcode_entry_help: Entrez un code-barres pour chaque conteneur sélectionné. Laissez le champ Nouveau code-barres vide pour supprimer le code-barres actuel sans le remplacer par une nouvelle valeur.
         batch_merge: Fusionner les conteneurs
         batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Tous les enregistrements liés seront liés à ce conteneur et toutes les informations relatives au (x) autre (s) conteneur (s) supérieur (s) seront supprimées.
@@ -1418,6 +1413,8 @@ fr:
         delete_n_records: "Supprimer %{n} notices"
         update_locations_current_location: Localisation actuelle
         update_locations_new_location: Nouvelle localisation
+        has_location_true: "Oui"
+        has_location_false: "Non"
 
   container_profile:
     _singular: Profil de conditionnement
@@ -1440,7 +1437,7 @@ fr:
         merge_select_target: Sélectionner la cible de fusion
         confirm_merge: Confirmer les profils de conteneur de fusion
         confirm_merge_question: Voulez-vous vraiment fusionner les profils de conteneur comme indiqué ci-dessous? Cette action est irréversible.
-        confirm_merge_victims: "Fusionner les profils de conteneur suivants:" 
+        confirm_merge_victims: "Fusionner les profils de conteneur suivants:"
         confirm_merge_target: "Dans ce profil de conteneur:"
     name: Nom
     name_tooltip: |
