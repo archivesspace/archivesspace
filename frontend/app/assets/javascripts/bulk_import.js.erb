@@ -4,6 +4,7 @@
 
 	var file_modal_html = '';
 	var $file_form_modal;
+	
 /* returns a hash with information about the selected archival object or resource */
 	var get_object_info = function() {
 	    var ret_obj = new Object;
@@ -90,75 +91,29 @@
 		    event.stopImmediatePropagation();
 		});
 	    /* submit via ajax */
-	    $form = $("#bulk_import_form");
-	    rid = $form.find("#rid").val();
-	    $form.ajaxSubmit({
-	       type: "POST",
-		   dataType: "html",
-	       beforeSubmit:  function(arr, $form, options) {
-			var names = "";
-			var hasFile = false;
-			var missingFile = '<%= I18n.t('bulk_import._frontend.messages.missing_file') %>';
-			for (var i=0; i < arr.length; i++) {
-			    if (arr[i].type === "file") {
-                    fileObj = arr[i].value;
-                    if  (typeof(fileObj) === "object") {
-                        if (typeof(fileObj.type) !== "undefined" && (fileObj.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileObj.name.endsWith(".xlsx"))) {
-                        	hasFile = true;
-                        }
-						else if (typeof(fileObj.type) !== "undefined" && fileObj.type === 'text/csv') {
-							hasFile = true;
-						}
-                        else {
-                        	missingFile = "<%= I18n.t('bulk_import._frontend.messages.not_excel_csv') %>";
-                        }
-                    }
-			    }
-			}
-			if (!hasFile) {
-			    alert(missingFile);
-				modalError($file_form_modal);
-				 $(".bulkbtn.btn-cancel").text("<%= I18n.t('actions.cancel') %>").removeClass("disabled").removeClass("close")
-			    return false;
-			}
-			$(".bulkbtn").addClass('disabled');
-			return true;
-		    },
-		success: function(data, status, xhr) {
-			$("#bulk_messages").html(data);
-			modalSuccess($file_form_modal);
-		    },
-		error: function(xhr, status, err) {
-			alert("<%= I18n.t('bulk_import._frontend.messages.error') %>" + status );
-			$("#bulk_messages").html(xhr.responseText);
-			modalError($file_form_modal);
-		    }
-		});
+	    $form = $("#bulk_import_form");		
+		$(".bulkbtn").addClass('disabled');
+		$form.submit();
+		$("#bulk_messages").html("<%= I18n.t('bulk_import._frontend.messages.submitted') %>");
+		modalSuccess($file_form_modal);
 	    $modal.on("hidden.bs.modal", function (event){
-		    $modal.hide();
-		    $("body").css("overflow", "auto");
-		});
-    }
+	    		$modal.hide();
+	   			$("body").css("overflow", "auto");
+			});
+	};
+    
 	var openFileModal = function() {
 	    $file_form_modal = AS.openCustomModal("bulkIngestFileModal", "Load Spreadsheet",  file_modal_html, 'large', null, $("#bulkFileButton").get(0));
 	    initExcelFileUploadSection();
-/*	    $("#bulkFileButton").on("click",  function(event) {
+    	$("#bulkFileButton").on("click",  function(event) {
 		    event.stopPropagation();
 		    event.preventDefault();
 			alert("bulk File upload");
 		    handleBulkFileUpload($file_form_modal);
-		}); */
-	    var clipboard = new Clipboard('.clip-btn');
-
-	    clipboard.on('success', function(e) {
-		    alert("<%= I18n.t('bulk_import._frontend.messages.copied') %>");
-		});
-	    clipboard.on('error', function(e) {
-		    alert("<%= I18n.t('bulk_import._frontend.messages.uncopied') %>");
-		});
+		}); 
 
 	    $file_form_modal.show();
-	}
+	};
 	var modalError = function($modal) {
 	    $(".bulkbtn").removeClass("disabled");
         $(".bulkbtn.btn-cancel").text("<%= I18n.t('actions.close') %>").removeClass("disabled").addClass("close")
@@ -169,11 +124,10 @@
 		    $modal.hide();
 		    $("body").css("overflow", "auto");
 		});
-	}
+	};
 
 	var modalSuccess = function($modal) {
 	    $(".bulkbtn.btn-cancel").text("Close").removeClass("disabled").addClass("close")
-	    $(".clip-btn").removeClass("disabled");
 	    $modal.find(".close").click(function(event) {
 		    window.location.reload(true);
 		});

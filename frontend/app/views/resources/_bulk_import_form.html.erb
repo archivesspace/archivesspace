@@ -16,7 +16,7 @@
   
 	<input type='hidden' name='job[resource_id]'  value='<%= rid %>' />
 	<input type='hidden' name='job[job_params][aoid]' id='aoid' value='<%= aoid %>' />
-  
+  <input name="job[format]" value="csv" type="hidden"/>
 
       <section id="bulk_import_filename_">
 	<span class="btn btn-success btn-sm fileinput-button bulkbtn">
@@ -25,8 +25,6 @@
 	  <input name="files[]" type="file" id="excel_file"/>
     <input name="job[content_type]" id="file_type" type="hidden"/>
     <input name="job[filename]" id="job_filename" type="hidden"/>
-    
-    <input name="job[format]" value="csv" type="hidden"/>
 	</span>
 	<span id="excel_filename"></span>
       </section>
@@ -46,7 +44,7 @@
 
     <div class="modal-footer">
       <button id="bulkFileButton" class="btn btn-primary bulkbtn"><%= I18n.t('bulk_import._frontend.actions.import') %></button>
-      <button class="btn btn-primary action-button clip-btn disabled" type="button" data-clipboard-target="#excel_clip"><%= I18n.t('bulk_import._frontend.actions.clip_btn') %></button>
+     
       <button class="btn btn-cancel btn-default bulkbtn" data-dismiss="modal"><%= I18n.t "actions.cancel" %></button>
     </div>
    <% end %>

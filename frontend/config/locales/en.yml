@@ -1570,4 +1570,5 @@ en:
         error: "ERROR: Error(s) detected: "
         copied: Copied!
         uncopied: Unable to copy
+        submitted: "<p>Job had been submitted to Background Jobs. <br/> Click 'Close' to refresh this screen.</p>"
 
