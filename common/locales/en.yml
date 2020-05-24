@@ -2099,8 +2099,8 @@ en:
     source: Source
 
   bulk_import_job:
-    file_type: Spreadsheet type
     resource_uri: Resource URI
+    content_type: Spreadsheet type
     load_type: Load Type
     type:
       csv: CSV

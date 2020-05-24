@@ -23,18 +23,20 @@
 	  <span class="glyphicon glyphicon-plus icon-white"></span>
 	  <span><%= I18n.t("bulk_import._frontend.actions.add_file")%></span>
 	  <input name="files[]" type="file" id="excel_file"/>
-    <input name="job[job_params][file_type]" id="file_type" type="hidden"/>
+    <input name="job[content_type]" id="file_type" type="hidden"/>
     <input name="job[filename]" id="job_filename" type="hidden"/>
+    
+    <input name="job[format]" value="csv" type="hidden"/>
 	</span>
 	<span id="excel_filename"></span>
       </section>
       <div class="form-group">
 	<% if AppConfig[:hide_do_load] || type != 'resource' %>
-	  <input type='hidden' name='job[job_params][digital_load]' value='false'/>
+	  <input type='hidden' value="ao" name="job[load_type]" />
 	<% else %>
 	   <div class="btn-group" data-toggle="buttons">
-           <label class="btn btn-primary active" style="border-radius:4px;"><input type="radio" value="false" name="job[job_params][digital_load]" checked="true"/><%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %></label>
-	   <label class="btn btn-primary" style="border-radius:4px; margin-left:.5em"><input type="radio" value="true" name="job[job_params][digital_load]"/><%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %></label>
+           <label class="btn btn-primary active" style="border-radius:4px;"><input type="radio" value="ao" name="job[load_type]" checked="true"/><%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %></label>
+	   <label class="btn btn-primary" style="border-radius:4px; margin-left:.5em"><input type="radio" value="digital" name="job[load_type]"/><%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %></label>
 	   </div>
         <% end %>
        </div>

@@ -58,7 +58,7 @@ class BulkImportRunner < JobRunner
                                 :repo_id => @job.repo_id) do
               #               converter.run(@job[:job_blob])
               success = true
-              importer = get_importer(params)
+              importer = get_importer(@json.job["load_type"], @json.job["content_type"], params)
 
               report = importer.run
               if !report.terminal_error.nil?
@@ -123,15 +123,12 @@ class BulkImportRunner < JobRunner
 
   private
 
-  def get_importer(params)
-    # TODO: replace digital_load key with
-    # TODO: replace file_type with content_type
-    @dig_o = params.fetch(:digital_load) == "true"
+  def get_importer(load_type, content_type, params)
     importer = nil
-    if @dig_o
-      importer = ImportDigitalObjects.new(@input_file, params.fetch(:file_type), @current_user, params)
-    else
-      importer = ImportArchivalObjects.new(@input_file, params.fetch(:file_type), @current_user, params)
+    if load_type == "digital"
+      importer = ImportDigitalObjects.new(@input_file, content_type, @current_user, params)
+    elsif load_type == "ao"
+      importer = ImportArchivalObjects.new(@input_file, content_type, @current_user, params)
     end
     importer
   end

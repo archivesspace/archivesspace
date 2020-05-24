@@ -14,7 +14,18 @@
         "type" => "string",
         "ifmissing" => "error",
       },
-
+      "load_type" => {
+        "type" => "string",
+        "ifmissing" => "error",
+      },
+      "content_type" => {
+        "type" => "string",
+        "ifmissing" => "error",
+      },
+      "format" => {
+        "type" => "string",
+        "ifmissing" => "error",
+      },
     },
   },
 }

@@ -1,0 +1,64 @@
+<% unless report.terminal_error.blank? %>
+<div class="bg-danger"><blockquote><%= report.terminal_error %></blockquote></div>
+<% end %>
+<% if report.row_count > 0 %>
+<ul style="list-style: none; ">
+<% report.rows.each do |row| %>
+<li><%= row.row %>
+
+   <% unless row.errors.blank? %>
+   <ul style="list-style: none; ">
+     <% row.errors.each do |err| %>
+	<li class="bg-danger"><%= err %></li>
+     <% end %><%# of error each %>
+   </ul>
+   <% end %> <%# of unless no errors %>
+
+   <% unless row.info.blank? %>
+   <ul style="list-style: none; ">
+     <% row.info.each do |info| %>
+        <li class="bg-info"><%= info %></li>
+     <% end %><%# of info each %>
+   </ul>
+   <% end %> <%# unless no info %>
+
+   <% if row.archival_object_id.blank? %>
+     <%= t('plugins.aspace-import-excel.no_ao') if do_load.blank? %>
+   <% else %>
+     <% key = do_load.blank? ? 'plugins.aspace-import-excel.created' : 'plugins.aspace-import-excel.updated' %>
+     <%= t(key, :what =>t('plugins.aspace-import-excel.ao'), :id => "'#{row.archival_object_display}' (#{row.archival_object_id}) [#{row.ref_id}]" ) %>
+   <% end %> <%# of ao_id %>
+</li>
+<% end %><%# of row each %>
+</ul>
+<% end %> <%# of rows %>
+
+<textarea id="excel_clip" readonly style="width:1px; height:1px;">
+  <%= t('plugins.aspace-import-excel.clip_header') %>
+  <% report.rows.each do |row| %>
+  <%= row.row %>  <% if row.archival_object_id.blank? %>
+     <%= t('plugins.aspace-import-excel.no_ao') if do_load.blank?%>
+   <% else %>
+    <% if do_load %>
+     <%= t('plugins.aspace-import-excel.clip_what', :what =>t('plugins.aspace-import-excel.ao'), :id => row.archival_object_id ,
+         :nm => "'#{row.archival_object_display}'",
+         :ref_id =>  "#{row.ref_id}") %>
+    <% else %>
+     <%= t('plugins.aspace-import-excel.clip_created', :what =>t('plugins.aspace-import-excel.ao'), :id => row.archival_object_id ,
+         :nm => "'#{row.archival_object_display}'",
+         :ref_id =>  "#{row.ref_id}") %>
+    <% end %>
+   <% end %>
+   <% unless row.info.blank? %>
+     <% row.info.each do |info| %> 
+      <%= t('plugins.aspace-import-excel.clip_info', :what => info) %>
+     <% end %>
+   <% end %>
+   <%  unless row.errors.blank? %>
+     <% row.errors.each do |err| %>
+      <%= t('plugins.aspace-import-excel.clip_err', :err => err) %>
+     <% end %>
+   <% end %>
+ <% end %>
+</textarea>
+
