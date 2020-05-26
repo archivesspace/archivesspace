@@ -72,6 +72,7 @@ class BulkImportParser
 
   def initialize(input_file, content_type, current_user, opts)
     @input_file = input_file
+    @extension = File.extname(@input_file).strip.downcase
     @file_content_type = content_type
     @opts = opts
     @current_user = current_user
