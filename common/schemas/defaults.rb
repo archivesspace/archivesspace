@@ -1,11 +1,10 @@
 locale_enum = I18n.supported_locales.keys
-
-column_opts_file = File.join(ASUtils.find_base_directory("common"), "config", "search_browse_column_config.rb")
-column_opts = eval(File.read(column_opts_file))
+column_opts = SearchAndBrowseColumnConfig.defaults
 
 ASUtils.find_local_directories("search_browse_column_plugin_config.rb").each do |file|
   if File.exist?(file)
-    plugin_column_opts = eval(File.read(File.absolute_path(file))) 
+    require_relative file
+    plugin_column_opts = SearchAndBrowseColumnPlugin.config
     plugin_column_opts.each do |type, cols|
       column_opts[type] = column_opts[type].merge(cols)
     end
