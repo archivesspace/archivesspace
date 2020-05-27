@@ -102,7 +102,7 @@ class BulkImportParser
     @counter = 0
     @rows_processed = 0
     @error_rows = 0
-    raise StopBulkImportException.new(I18n.t(bulk_import.error.wrong_file_type)) if !@is_csv && !@is_xslx
+    raise StopBulkImportException.new(I18n.t("bulk_import.error.wrong_file_type", :content_type => @file_content_type, :extension => @extension)) if !@is_csv && !@is_xslx
     #XSLX
     if @is_xslx
       workbook = RubyXL::Parser.parse(@input_file)
@@ -129,8 +129,17 @@ class BulkImportParser
     return @file_content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || @extension == ".xslx"
   end
 
+  #MS Excel in Windows assigns a CSV file a mime type of application/vnd.ms-excel
+  #The other suggestions are also some variations of other csv mime types found.  This is a catch-all
   def file_is_csv?
-    return @file_content_type == "text/csv" || @extension == ".csv"
+    return @file_content_type == "text/csv" || @file_content_type == "text/plain" \
+    || @file_content_type == "text/x-csv" \
+    || @file_content_type == "application/vnd.ms-excel" \
+    || @file_content_type == "application/csv" \
+    || @file_content_type == "application/x-csv" \
+    || @file_content_type == "text/comma-separated-values" \
+    || @file_content_type == "text/x-comma-separated-values" \
+    || @extension == ".csv"
   end
 
   def find_headers
