@@ -141,7 +141,7 @@
                         if (typeof(fileObj.type) !== "undefined" && (fileObj.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileObj.name.endsWith(".xlsx"))) {
                         	hasFile = true;
                         }
-                        else if (typeof(fileObj.type) !== "undefined" && (fileObj.type === 'text/csv' fileObj.type === 'text/plain' || fileObj.name.endsWith(".csv"))) {
+                        else if (typeof(fileObj.type) !== "undefined" && (fileObj.type === 'text/csv' || fileObj.name.endsWith(".csv"))) {
                     		hasFile = true;
                     	}
                     	else {
