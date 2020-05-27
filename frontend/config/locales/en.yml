@@ -7,7 +7,7 @@ en:
     browse: Browse
     bulk_import: Load via Spreadsheet
     bulk_import_job: Load via Spreadsheet
-    download_bulk_import_report: Report of Spreadsheet Load
+    download_bulk_import_report: Download report
     cancel: Cancel
     close: Close
     continue: Continue
@@ -1571,4 +1571,11 @@ en:
         copied: Copied!
         uncopied: Unable to copy
         submitted: "<p>Job had been submitted to Background Jobs. <br/> Click 'Close' to refresh this screen.</p>"
+  bulk_import_job:
+      resource_id: Resource ID
+      format: Download File Format
+      filename: Speadsheet file name
+
+
+
 

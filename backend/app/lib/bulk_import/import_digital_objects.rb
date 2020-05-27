@@ -3,8 +3,8 @@ require_relative "bulk_import_parser"
 class ImportDigitalObjects < BulkImportParser
   START_MARKER = /ArchivesSpace digital object import field codes/.freeze
 
-  def initialize(input_file, content_type, current_user, opts)
-    super(input_file, content_type, current_user, opts)
+  def initialize(input_file, content_type, current_user, opts, log_method = nil)
+    super(input_file, content_type, current_user, opts, log_method)
     @find_uri = "/repositories/#{@opts[:repo_id]}/find_by_id/archival_objects"
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:id]}"
     @repo_id = @opts[:repo_id]
@@ -45,6 +45,23 @@ class ImportDigitalObjects < BulkImportParser
         rescue BulkImportException => ee
           @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => ee.message))
         end
+      end
+    end
+  end
+
+  def log_row(row)
+    unless row.archival_object_id.nil?
+      log_obj = I18n.t("bulk_import.log_obj", :what => I18n.t("bulk_import.ao"), :nm => row.archival_object_display, :id => row.archival_object_id, :ref_id => row.ref_id)
+      @log_method.call(I18n.t("bulk_import.log_info", :row => row.row, :what => log_obj))
+    end
+    unless row.info.empty?
+      row.info.each do |info|
+        @log_method.call(I18n.t("bulk_import.log_info", :row => row.row, :what => info))
+      end
+    end
+    unless row.errors.empty?
+      row.errors.each do |err|
+        @log_method.call(I18n.t("bulk_import.log_error", :row => row.row, :what => err))
       end
     end
   end

@@ -3,11 +3,11 @@
 require_relative "../streaming_import"
 require_relative "../bulk_import/import_archival_objects"
 require_relative "../bulk_import/import_digital_objects"
+require "csv"
 
 class Ticker
   def initialize(job)
     @job = job
-    Log.error("TICKER #{@job.inspect}")
   end
 
   def tick
@@ -32,12 +32,10 @@ class BulkImportRunner < JobRunner
   def run
     ticker = Ticker.new(@job)
     ticker.log("Start new bulk_import ")
-    ticker.log(@json.job.inspect)
     last_error = nil
     batch = nil
     success = false
     jobfiles = @job.job_files || []
-    Log.error("job files? #{jobfiles.inspect}")
     filenames = [@json.job["file_name"]]
     # Wrap the import in a transaction if the DB supports MVCC
     begin
@@ -46,11 +44,11 @@ class BulkImportRunner < JobRunner
         begin
           @input_file = @job.job_files[0].full_file_path
           @current_user = User.find(:username => @job.owner.username)
+          @load_type = @json.job["load_type"]
           # I don't know whay this parsing is so hard!!
           param_string = @json.job_params[1..-2].delete('\\\\')
           params = ASUtils.json_parse(param_string)
           params = symbol_keys(params)
-          ticker.log(params.inspect)
           ticker.log(("=" * 50) + "\n#{@json.job["filename"]}\n" + ("=" * 50))
           begin
             RequestContext.open(:create_enums => true,
@@ -58,7 +56,7 @@ class BulkImportRunner < JobRunner
                                 :repo_id => @job.repo_id) do
               #               converter.run(@job[:job_blob])
               success = true
-              importer = get_importer(@json.job["load_type"], @json.job["content_type"], params)
+              importer = get_importer(@json.job["content_type"], params, ticker.method(:log))
 
               report = importer.run
               if !report.terminal_error.nil?
@@ -68,15 +66,17 @@ class BulkImportRunner < JobRunner
               end
               ticker.log(msg)
               ticker.log(("=" * 50) + "\n")
-              ticker.log(process_report(report))
-
+              ticker.log(I18n.t("bulk_import.log_complete", :file => @json.job["filename"]))
               ticker.log("\n" + ("=" * 50) + "\n")
+              file = ASUtils.tempfile("load_spreadsheet_job_")
+              generate_csv(file, report)
+              file.rewind
+              @job.write_output(I18n.t("bulk_import.log_results"))
+              Log.error(@job.inspect)
+              @job.add_file(file)
             end
           end
-        rescue JSONModel::ValidationException, BulkImportException, Sequel::ValidationFailed, ReferenceError => e
-          # Note: we deliberately don't catch Sequel::DatabaseError here.  The
-          # outer call to DB.open will catch that exception and retry the
-          # import for us.
+        rescue JSONModel::ValidationException, BulkImportException => e
           last_error = e
         end
       end
@@ -97,24 +97,8 @@ class BulkImportRunner < JobRunner
         ticker.log("The following errors were found:\n")
 
         last_error.errors.each_pair { |k, v| ticker.log("\t#{k.to_s} : #{v.join(" -- ")}") }
-
-        if last_error.is_a?(Sequel::ValidationFailed)
-          ticker.log("\n")
-          ticker.log("%" * 50)
-          ticker.log("\n Full Error Message:\n #{last_error.to_s}\n\n")
-        end
-
-        if (last_error.respond_to?(:invalid_object) && last_error.invalid_object)
-          ticker.log("\n\n For #{last_error.invalid_object.class}: \n #{last_error.invalid_object.inspect}")
-        end
-
-        if (last_error.respond_to?(:import_context) && last_error.import_context)
-          ticker.log("\n\nIn : \n #{CGI.escapeHTML(last_error.import_context)} ")
-          ticker.log("\n\n")
-        end
       else
         ticker.log("Error: #{CGI.escapeHTML(last_error.inspect)}")
-        Log.exception(last_error)
       end
       ticker.log("!" * 50)
       raise last_error
@@ -123,12 +107,59 @@ class BulkImportRunner < JobRunner
 
   private
 
-  def get_importer(load_type, content_type, params)
+  def generate_csv(file, report)
+    headrow = I18n.t("bulk_import.clip_header").split('\t')
+    CSV.open(file.path, "wb") do |csv|
+      csv << headrow
+      csv << []
+      report.rows.each do |row|
+        csvrow = [row.row]
+        if row.archival_object_id.nil?
+          if @load_type == "digital"
+            csvrow = []
+          else
+            csvrow << I18n.t("bulk_import.no_ao")
+          end
+        else
+          if @load_type == "digital"
+            csvrow << I18n.t("bulk_import.ao")
+            csvrow << row.archival_object_id
+            csvrow << "'#{row.archival_object_display}'"
+            csvrow << "#{row.ref_id}"
+          elsif @load_type == "ao"
+            csvrow << I18n.t("bulk_import.object_created", :what => I18n.t("bulk_import.ao"))
+            csvrow << row.archival_object_id
+            csvrow << "'#{row.archival_object_display}'"
+            csvrow << "#{row.ref_id}"
+          end
+        end
+        csv << csvrow if !csvrow.empty?
+        unless row.info.empty?
+          row.info.each do |info|
+            csvrow = Array.new(5, "")
+            csvrow[0] = row.row
+            csvrow << info
+            csv << csvrow
+          end
+        end
+        unless row.errors.empty?
+          row.errors.each do |err|
+            csvrow = Array.new(5, "")
+            csvrow[0] = row.row
+            csvrow << err
+            csv << csvrow
+          end
+        end
+      end
+    end
+  end
+
+  def get_importer(content_type, params, log_method)
     importer = nil
-    if load_type == "digital"
-      importer = ImportDigitalObjects.new(@input_file, content_type, @current_user, params)
-    elsif load_type == "ao"
-      importer = ImportArchivalObjects.new(@input_file, content_type, @current_user, params)
+    if @load_type == "digital"
+      importer = ImportDigitalObjects.new(@input_file, content_type, @current_user, params, log_method)
+    elsif @load_type == "ao"
+      importer = ImportArchivalObjects.new(@input_file, content_type, @current_user, params, log_method)
     end
     importer
   end

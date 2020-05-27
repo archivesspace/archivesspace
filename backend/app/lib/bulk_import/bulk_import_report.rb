@@ -31,8 +31,8 @@ class BulkImportReport
     end_row
   end
 
-  def row_count
-    @rows.length
+  def current_row
+    @current_row
   end
 
   def end_row
@@ -45,6 +45,10 @@ class BulkImportReport
   def new_row(row_number)
     @rows.push @current_row if @current_row
     @current_row = Row.new(row_number)
+  end
+
+  def row_count
+    @rows.length
   end
 
   def set_file_name(file_name)

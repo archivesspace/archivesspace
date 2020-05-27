@@ -14,7 +14,7 @@
   <input type='hidden' name='job[jsonmodel_type]' value='bulk_import_job'/>
 	<input type='hidden' name='job[job_params][rid]' id='rid' value='<%= rid %>' />
   
-	<input type='hidden' name='job[resource_id]'  value='<%= rid %>' />
+	<input type='hidden' name='job[resource_id]'  value='/repositories/<%=repo_id%>/resources/<%= rid %>' />
 	<input type='hidden' name='job[job_params][aoid]' id='aoid' value='<%= aoid %>' />
   <input name="job[format]" value="csv" type="hidden"/>
 

@@ -71,7 +71,7 @@ class Handler
         if match_ct > 1
           if disam_obj
             obj = disam_obj
-            report.add_info(I18n.t("bulk_import.warn.disamuse", :what => matches[1], :name => disam)) if !report.nil?
+            report.add_info(I18n.t("bulk_import.warn.disamuse", :which => matches[1], :name => disam)) if !report.nil?
           else
             raise BulkImportDisambigException.new(I18n.t("bulk_import.error.too_many"))
           end

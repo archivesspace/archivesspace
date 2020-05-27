@@ -2363,7 +2363,13 @@ en:
     clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
     clip_info: "\t\t\t\t\t%{what}\n"
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
-    clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo"
+    clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo or Error"    
+    log_complete: "Completed import of %{file}"
+    log_created: "%{row}: Created %{what}"
+    log_info: "%{row}:\t%{what}"
+    log_error: "%{row}:\tERROR %{what}"
+    log_obj: "%{what} '%{nm}' %{id} %{ref_id}"
+    log_results: Compiling results CSV file
     ao: Archival Object
     tc: Top Container
     subj: Subject
@@ -2374,10 +2380,11 @@ en:
     processed: The file has been processed
     file_info: "%{size}K with %{rows} rows"
     max_file_info: "%{size}K and %{rows} rows"
+    object_created: "%{what} created"
     warn:
       dup: "Managed Controlled Value List %{which} has multiple instances for the Translation '%{trans}'. '%{used}' will be used as the value."
-      disam: "Multiple match(es) found for '%{what}'. Creating '%{name}' for disabiguation."
-      disamuse: "Multiple match(es) found for '%{what}'. Using already-created '%{name}' for disabiguation."
+      disam: "Multiple match(es) found for '%{which}'. Creating '%{name}' for disabiguation."
+      disamuse: "Multiple match(es) found for '%{which}'. Using already-created '%{name}' for disabiguation."
       single_date_end: "Single date %{date_str} has end date that will be ignored."
     error:
       date_type: "Date type [%{what}] invalid for %{date_str}. Defaulting to 'inclusive'"

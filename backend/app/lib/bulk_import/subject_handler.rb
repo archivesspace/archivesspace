@@ -61,7 +61,7 @@ class SubjectHandler < Handler
           rescue Exception => e
             if e.is_a?(BulkImportDisambigException)
               disam = subject[:term] + DISAMB_STR
-              report.add_info(I18n.t("bulk_import.warn.disam", :what => subject[:term], :name => disam))
+              report.add_info(I18n.t("bulk_import.warn.disam", :which => subject[:term], :name => disam))
               subject[:term] = disam
             else
               raise e

@@ -17,14 +17,31 @@ require "asutils"
 #     empty 0th column.  This means that there can be an arbitrary (including 0)
 #     number of header rows *after* the internal labels row; the code can handle it!
 #  4. The various handler classes are now required in the *bulk_import_mixins.rb* file.
-#  5. The method that must be implemented in the sub class is *process_row*
+#  5. The methods that must be implemented in the sub class are *process_row*
+#      and *log_row*
 #
 class BulkImportParser
   include URIResolver
   include BulkImportMixins
+=begin
   MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
   MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
   MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
+=end
+
+  def initialize(input_file, content_type, current_user, opts, log_method)
+    @input_file = input_file
+    @file_content_type = content_type
+    @opts = opts
+    @current_user = current_user
+    @report_out = []
+    @report = BulkImportReport.new
+    @start_position
+    @need_to_move = false
+    @log_method = log_method
+    @is_xslx = @file_content_type == "xlsx"
+    @is_csv = @file_content_type == "csv"
+  end
 
   def run
     begin
@@ -49,6 +66,8 @@ class BulkImportParser
             @report.add_errors(e.message)
             @error_level = @hier
           end
+          current = @report.current_row
+          log_row(current) unless @log_method.nil?
           @report.end_row
         end
       rescue StopIteration
@@ -71,20 +90,6 @@ class BulkImportParser
     return @report
   end
 
-  def initialize(input_file, content_type, current_user, opts)
-    @input_file = input_file
-    @file_content_type = content_type
-    @opts = opts
-    @current_user = current_user
-    @report_out = []
-    @report = BulkImportReport.new
-    @start_position
-    @need_to_move = false
-    Log.error("filetype: #{@file_content_type}")
-    @is_xslx = @file_content_type == "xlsx"
-    @is_csv = @file_content_type == "csv"
-  end
-
   def initialize_handler_enums
     #initialize handlers, if needed
   end
@@ -97,9 +102,7 @@ class BulkImportParser
     @headers
     @report.set_file_name(@orig_filename)
     initialize_handler_enums
-    Log.error("opts #{@opts[:rid]}")
     jsonresource = Resource.to_jsonmodel(Integer(@opts[:rid]))
-    Log.error("jsonresource \n\t#{jsonresource.inspect}")
     @resource = resolve_references(jsonresource, ["repository"])
     @repository = @resource["repository"]["ref"]
     @hier = 1
@@ -112,13 +115,13 @@ class BulkImportParser
       workbook = RubyXL::Parser.parse(@input_file)
       sheet = workbook[0]
       @rows = sheet.enum_for(:each)
+=begin
       number_rows = sheet.sheet_data.rows.size
       size = (File.size?(@input_file).to_f / 1000).round
       file_info = I18n.t("bulk_import.file_info", :rows => number_rows, :size => size)
       if size > MAX_FILE_SIZE || number_rows > MAX_FILE_ROWS
         raise BulkImportException.new(I18n.t("bulk_import.error.file_too_big", :limits => MAX_FILE_INFO, :file_info => file_info))
-      end
-      @rows = sheet.enum_for(:each)
+=end
       #CSV
     elsif @is_csv
       table = CSV.read(@input_file)
@@ -179,5 +182,11 @@ class BulkImportParser
   # IMPLEMENT THIS IN YOUR bulk_import_parser sub-class
   def process_row
     # overwrite this class
+  end
+
+  # IMPLEMENT THIS IN YOUR bulk_import_parser sub-class if you want logging
+  #  Presumes that a logging method was passed in as a parameter
+  def log_row(row)
+    #overwrite this class
   end
 end
