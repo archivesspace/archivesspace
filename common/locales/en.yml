@@ -2442,6 +2442,7 @@ en:
       bad_ao: "Cannot find archival object %{errs}"
       no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
       file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
+      wrong_file_type: "Supplied files must be either CSV or XSLX. Content type given %{content_type}, file extension %{extension}."
   top_container_linker:
     error:
       ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."
