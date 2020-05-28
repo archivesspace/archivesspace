@@ -123,13 +123,13 @@ class BulkImportRunner < JobRunner
         else
           if @load_type == "digital"
             csvrow << I18n.t("bulk_import.ao")
+            csvrow << "#{row.archival_object_display}"
             csvrow << row.archival_object_id
-            csvrow << "'#{row.archival_object_display}'"
             csvrow << "#{row.ref_id}"
           elsif @load_type == "ao"
             csvrow << I18n.t("bulk_import.object_created", :what => I18n.t("bulk_import.ao"))
+            csvrow << "#{row.archival_object_display}"
             csvrow << row.archival_object_id
-            csvrow << "'#{row.archival_object_display}'"
             csvrow << "#{row.ref_id}"
           end
         end
