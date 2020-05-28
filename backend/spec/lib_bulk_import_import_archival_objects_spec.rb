@@ -1,14 +1,10 @@
 # test ingest
 require "spec_helper"
-require_relative "../app/controllers/lib/bulk_import/import_archival_objects.rb"
-
-#fixtures/bulk_import_VFIRST01_test01.[csv|xslx]
-#
+require_relative "../app/lib/bulk_import/import_archival_objects.rb"
 
 describe "Import Archival Objects" do
-  FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
+  BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
   before(:each) do
-    create(:repo)
     @current_user = User.find(:username => "admin")
     # create the resource
     resource = JSONModel(:resource).from_hash("title" => "a resource",
@@ -42,18 +38,17 @@ describe "Import Archival Objects" do
              :rid => @resource[:id],
              :type => "resource",
              :filename => "bulk_import_VFIRST01_test01.xlsx",
-             :filepath => FIXTURES_DIR + "/bulk_import_VFIRST01_test01.xlsx",
-             :filetype => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-             :digital_load => "false",
+             :filepath => BULK_FIXTURES_DIR + "/bulk_import_VFIRST01_test01.xlsx",
+             :load_type => "archival_object",
              :ref_id => "",
              :aoid => "",
              :position => "" }
-    importer = ImportArchivalObjects.new(opts[:filepath], opts[:filetype], @current_user, opts)
+    importer = ImportArchivalObjects.new(opts[:filepath], "xlsx", @current_user, opts)
     report = importer.run
     expect(report.terminal_error).to eq(nil)
     expect(report.row_count).to eq(2)
     expect(report.rows[0].errors).to eq([])
-    expect(report.rows[0].archival_object_display).to eq("The first series, 2010 - 2020")
+    expect(report.rows[0].archival_object_display).to eq("The first series, bulk: 2010 - 2020, 2020")
     expect(report.rows[1].archival_object_display).to eq("A subseries, 2010 - 2011")
     tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id).to_hash
     children = tree["children"]
@@ -64,23 +59,22 @@ describe "Import Archival Objects" do
       #      aos << ao
     end
   end
-  it "reads in csv at the resource level" do
+  it "reads in CSV spreadsheet at the resource level" do
     opts = { :repo_id => @resource[:repo_id],
              :rid => @resource[:id],
              :type => "resource",
              :filename => "bulk_import_VFIRST01_test01.csv",
-             :filepath => FIXTURES_DIR + "/bulk_import_VFIRST01_test01.csv",
-             :filetype => "text/csv",
-             :digital_load => "false",
+             :filepath => BULK_FIXTURES_DIR + "/bulk_import_VFIRST01_test01.csv",
+             :load_type => "archival_object",
              :ref_id => "",
              :aoid => "",
              :position => "" }
-    importer = ImportArchivalObjects.new(opts[:filepath], opts[:filetype], @current_user, opts)
+    importer = ImportArchivalObjects.new(opts[:filepath], "csv", @current_user, opts)
     report = importer.run
     expect(report.terminal_error).to eq(nil)
     expect(report.row_count).to eq(2)
     expect(report.rows[0].errors).to eq([])
-    expect(report.rows[0].archival_object_display).to eq("The first series, 2010 - 2020")
+    expect(report.rows[0].archival_object_display).to eq("The first series, bulk: 2010 - 2020, 2020")
     expect(report.rows[1].archival_object_display).to eq("A subseries, 2010 - 2011")
     tree = JSONModel(:resource_tree).find(nil, :resource_id => @resource.id).to_hash
     children = tree["children"]

@@ -129,7 +129,7 @@ class ImportArchivalObjects < BulkImportParser
     Log.error(row.inspect)
     Log.error("Row: #{row.row}")
     if row.archival_object_id.nil?
-      @log_method.call(I18t.n("bulk_import.log_error", :row => row.row, :what => I18n.t("bulk_import.no_ao")))
+      @log_method.call(I18n.t("bulk_import.log_error", :row => row.row, :what => I18n.t("bulk_import.no_ao")))
     else
       log_obj = I18n.t("bulk_import.log_obj", :what => I18n.t("bulk_import.ao"), :nm => row.archival_object_display, :id => row.archival_object_id, :ref_id => row.ref_id)
 
