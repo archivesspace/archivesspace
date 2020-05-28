@@ -353,10 +353,11 @@ module SearchHelper
 
     ASUtils.find_local_directories("search_browse_column_plugin_config.rb").each do |file|
       if File.exist?(file)
-        require_relative file
+        require File.expand_path(file)
         plugin_column_opts = SearchAndBrowseColumnPlugin.config
-        plugin_column_opts.each do |type, cols|
-          @column_opts[type] = @column_opts[type].merge(cols)
+        plugin_column_opts.each do |type, opts|
+          column_opts[type] = column_opts[type].merge(opts[:add] || {})
+          (opts[:remove] || []).each { |col| column_opts[type].delete(col) }
         end
       end
     end
