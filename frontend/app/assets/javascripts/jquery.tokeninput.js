@@ -424,9 +424,20 @@ $.TokenList = function (input, url_or_data, settings) {
         .append(input_box);
 
     // The list to store the dropdown items in
+    /**
+     * ANW-897: The plugin appends dropdown to <body>, preventing
+     * scrolling when at the bottom of the viewport.
+     * Let's override this unmaintained plugin by 
+     * appending the dropdown to a relative parent. 
+     * Let's also adjust dropdown styles (see show_dropdown() below).
+     */
+    var dropdown_parent = $("<section>")
+        .insertAfter(token_list)
+        .css({position: 'relative'});
+
     var dropdown = $("<div>")
         .addClass($(input).data("settings").classes.dropdown)
-        .appendTo("body")
+        .appendTo(dropdown_parent)
         .hide();
 
     // Magic element to help us resize the text input
@@ -767,11 +778,19 @@ $.TokenList = function (input, url_or_data, settings) {
     }
 
     function show_dropdown() {
+      /**
+       * ANW-897: The plugin appends dropdown to <body>, preventing
+       * scrolling when at the bottom of the viewport.
+       * Let's override this unmaintained plugin by 
+       * appending the dropdown to a relative parent
+       * (see dropdown_parent above). Let's also adjust dropdown 
+       * styles.
+       */
         dropdown
             .css({
                 position: "absolute",
-                top: $(token_list).offset().top + $(token_list).outerHeight(),
-                left: $(token_list).offset().left,
+                top: $(token_list).outerHeight(),
+                left: 0,
                 width: $(token_list).outerWidth(),
                 'z-index': $(input).data("settings").zindex
             })
