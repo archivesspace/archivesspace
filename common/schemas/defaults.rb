@@ -1,15 +1,5 @@
 locale_enum = I18n.supported_locales.keys
-column_opts = SearchAndBrowseColumnConfig.defaults
-
-ASUtils.find_local_directories("search_browse_column_plugin_config.rb").each do |file|
-  if File.exist?(file)
-    require_relative file
-    plugin_column_opts = SearchAndBrowseColumnPlugin.config
-    plugin_column_opts.each do |type, cols|
-      column_opts[type] = column_opts[type].merge(cols)
-    end
-  end
-end
+column_opts = SearchAndBrowseColumnConfig.columns
 
 browse_columns = {}
 column_opts.keys.each do |type|
