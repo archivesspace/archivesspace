@@ -28,6 +28,10 @@
             </h3>
             <div class="subrecord-form-container">
               <ul>
+              <% if @job["job_type"] == "bulk_import_job"
+                   @files.shift if @files.length == 2
+                end
+              %>
                  <% @files.each do |file| %>
                    <li><%= link_to file_label(@job["job_type"]), :controller =>  :jobs, :action => :download_file, :id => file, :job_id => @job.id %></li>
                 <% end %>
