@@ -205,10 +205,6 @@ class SearchResultData
     @search_data[:criteria]["type[]"]
   end
 
-  def sort_fields
-    @sort_fields || []
-  end
-
   def sorted?
     @search_data[:criteria]["sort"]
   end
