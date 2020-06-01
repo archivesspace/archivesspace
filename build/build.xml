@@ -547,6 +547,7 @@
       <env key="COVERAGE_REPORTS" value="${COVERAGE_REPORTS}" />
       <arg line="../../../build/gems/bin/rspec -b -f d -P '*_spec.rb' --order default ${example-arg} spec/${spec} ${plugin-selenium-dirs}" />
     </java>
+    <delete dir="integration.tmp"/>
   </target>
 
 
