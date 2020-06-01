@@ -5,7 +5,6 @@ class ImportArchivalObjects < BulkImportParser
 
   def initialize(input_file, content_type, current_user, opts, log_method = nil)
     super(input_file, content_type, current_user, opts, log_method)
-    Log.error("Logmethod: #{@log_method.inspect}")
     @created_ao_refs = []
     @first_level_aos = []
     @archival_levels = CvList.new("archival_record_level", @current_user)
@@ -126,24 +125,19 @@ class ImportArchivalObjects < BulkImportParser
   end
 
   def log_row(row)
-    Log.error(row.inspect)
-    Log.error("Row: #{row.row}")
     if row.archival_object_id.nil?
       @log_method.call(I18n.t("bulk_import.log_error", :row => row.row, :what => I18n.t("bulk_import.no_ao")))
     else
       log_obj = I18n.t("bulk_import.log_obj", :what => I18n.t("bulk_import.ao"), :nm => row.archival_object_display, :id => row.archival_object_id, :ref_id => row.ref_id)
 
       @log_method.call(I18n.t("bulk_import.log_created", :row => row.row, :what => log_obj))
-      Log.error(I18n.t("bulk_import.log_created", :row => row.row, :what => log_obj))
       unless row.info.empty?
         row.info.each do |info|
-          Log.error("info: #{info}")
           @log_method.call(I18n.t("bulk_import.log_info", :row => row.row, :what => info))
         end
       end
       unless row.errors.empty?
         row.errors.each do |err|
-          Log.error("error: #{err}")
           @log_method.call(I18n.t("bulk_import.log_error", :row => row.row, :what => err))
         end
       end
