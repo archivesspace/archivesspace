@@ -7,54 +7,38 @@
       <%= form.label_and_boolean "default_values", {}, form.default_for("default_values") %>
       <%= form.label_and_select "locale", supported_locales_options, supported_locales_default %>
 
-      <h3><%= I18n.t "defaults.accession_browse_section" %></h3>
-      <%=
-        out = ''
-        (1..5).to_a.each do |n|
-          out += form.label_and_select("accession_browse_column_#{n}",
-                                       form.possible_options_for("accession_browse_column_#{n}", true,
-                                                                 {:i18n_prefix => "accession",
-                                                                  :empty_label => "#{def_msg} " +
-                                                                    (@inherited_defaults["accession_browse_column_#{n}"] ?
-                                                                       I18n.t("accession." +
-                                                                         @inherited_defaults["accession_browse_column_#{n}"]) :
-                                                                       I18n.t("defaults.no_value")),
-                                                                   :i18n_path_for => {'no_value' => 'defaults.no_value'}}))
-        end
-        out.html_safe
-      %>
-
-      <h3><%= I18n.t "defaults.resource_browse_section" %></h3>
-      <%=
-        out = ''
-        (1..5).to_a.each do |n|
-          out += form.label_and_select("resource_browse_column_#{n}",
-                                       form.possible_options_for("resource_browse_column_#{n}", true,
-                                                                 {:i18n_prefix => "resource",
-                                                                  :empty_label => "#{def_msg} " +
-                                                                    (@inherited_defaults["resource_browse_column_#{n}"] ?
-                                                                       I18n.t("resource." +
-                                                                         @inherited_defaults["resource_browse_column_#{n}"]) :
-                                                                       I18n.t("defaults.no_value"))}))
-        end
-        out.html_safe
-      %>
-
-      <h3><%= I18n.t "defaults.digital_object_browse_section" %></h3>
-      <%=
-        out = ''
-        (1..5).to_a.each do |n|
-          out += form.label_and_select("digital_object_browse_column_#{n}",
-                                       form.possible_options_for("digital_object_browse_column_#{n}", true,
-                                                                 {:i18n_prefix => "digital_object",
-                                                                  :empty_label => "#{def_msg} " +
-                                                                    (@inherited_defaults["digital_object_browse_column_#{n}"] ?
-                                                                       I18n.t("digital_object." +
-                                                                         @inherited_defaults["digital_object_browse_column_#{n}"]) :
-                                                                       I18n.t("defaults.no_value"))}))
-        end
-        out.html_safe
-      %>
+      <% ['accession', 'resource', 'digital_object', 'multi'].each do |type| %>
+        <h3><%= I18n.t "defaults.#{type}_browse_section" %></h3>
+        <% (1..AppConfig[:max_search_columns]).to_a.each do |n| %>
+          <div class="form-group">
+            <label for="<%= form.id_for("#{type}_browse_column_#{n}") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= I18n.t("defaults.browse_column_tooltip", :num => n) %>">
+              <%= I18n.t("defaults.browse_column", :num => n) %>
+            </label>
+            <div class="col-sm-9">
+              <% default = @inherited_defaults["#{type}_browse_column_#{n}"] %>
+              <%= form.select("#{type}_browse_column_#{n}", form.possible_options_for("#{type}_browse_column_#{n}", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? I18n.t("search.#{type}.#{default}") : I18n.t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
+            </div>
+          </div>
+        <% end %>
+        <div class="form-group">
+          <label for="<%= form.id_for("#{type}_sort_column") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= I18n.t("defaults.sort_column_tooltip") %>">
+            <%= I18n.t("defaults.sort_column") %>
+          </label>
+          <div class="col-sm-9">
+            <% default = @inherited_defaults["#{type}_sort_column"] %>
+            <%= form.select("#{type}_sort_column", form.possible_options_for("#{type}_sort_column", true, {:i18n_prefix => "search.#{type}", :empty_label => "#{def_msg} " + (default ? I18n.t("search.#{type}.#{default}") : I18n.t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="<%= form.id_for("#{type}_sort_direction") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= I18n.t("defaults.sort_direction_tooltip") %>">
+            <%= I18n.t("defaults.sort_direction") %>
+          </label>
+          <div class="col-sm-9">
+            <% default = @inherited_defaults["#{type}_sort_direction"] %>
+            <%= form.select("#{type}_sort_direction", form.possible_options_for("#{type}_sort_direction", true, {:i18n_prefix => "search_sorting", :empty_label => "#{def_msg} " + (default ? I18n.t("search.#{type}.#{default}") : I18n.t("defaults.no_value")), :i18n_path_for => {'no_value' => 'defaults.no_value'}})) %>
+          </div>
+        </div>
+      <% end %>
 
       <h3><%= I18n.t "defaults.note_order_section" %></h3>
 

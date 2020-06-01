@@ -1914,40 +1914,30 @@ fr:
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs par défaut.
+    browse_column: Colonne %{num}
+    browse_column_tooltip: Le champ à montrer dans la colonne %{num}.
+    sort_column: Colonne de tri par défaut
+    sort_column_tooltip: Champ par défaut pour le tri des résultats.
+    sort_direction: Direction de tri par défaut
+    sort_direction_tooltip: Direction par défaut pour trier les résultats.
     locale: Language Selection
     accession_browse_section: Colonnes d'exploration des entrées
-    accession_browse_column_1: Colonne 1
-    accession_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    accession_browse_column_2: Colonne 2
-    accession_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    accession_browse_column_3: Colonne 3
-    accession_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    accession_browse_column_4: Colonne 4
-    accession_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    accession_browse_column_5: Colonne 5
-    accession_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
     resource_browse_section: Colonnes d'exploration ressource
-    resource_browse_column_1: Colonne 1
-    resource_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    resource_browse_column_2: Colonne 2
-    resource_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    resource_browse_column_3: Colonne 3
-    resource_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    resource_browse_column_4: Colonne 4
-    resource_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    resource_browse_column_5: Colonne 5
-    resource_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
+    archival_object_browse_section: Colonnes de recherche d'objets d'archives
     digital_object_browse_section: Colonnes d'exploration object numérique
-    digital_object_browse_column_1: Colonne 1
-    digital_object_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    digital_object_browse_column_2: Colonne 2
-    digital_object_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    digital_object_browse_column_3: Colonne 3
-    digital_object_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    digital_object_browse_column_4: Colonne 4
-    digital_object_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    digital_object_browse_column_5: Colonne 5
-    digital_object_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
+    digital_object_component_browse_section: Colonnes de navigation des composants d'objet numérique
+    subject_browse_section: Colonnes d'exploration mot-matière
+    agent_browse_section: Colonnes de navigation de l'agent
+    location_browse_section: Colonnes de navigation
+    event_browse_section: Colonnes de navigation d'événements
+    collection_management_browse_section: Gestion des collections Parcourir les colonnes
+    top_container_browse_section: Colonnes de navigation des conteneurs supérieurs
+    classification_browse_section: Colonnes Parcourir la classification
+    assessment_browse_section: Colonnes Parcourir l'évaluation
+    repositories_browse_section: Colonnes de navigation dans le référentiel
+    location_profile_browse_section: Profil d'emplacement Parcourir les colonnes
+    container_profile_browse_section: Colonnes de navigation du profil de conteneur
+    multi_browse_section: Colonnes de recherche
     note_order_section: Ordres des notes
     accept_default_message: '> Accepter défaut:'
     no_value: '[pas de valeur]'
@@ -2061,7 +2051,6 @@ fr:
     time_finished: Heure d'achèvement
     owner: Owner
     show_description: Montrer description
-    job_data: Information de tâche
     input_file: Fichier d'entrée
     output_file: Fichier de sortie
 
@@ -2078,7 +2067,7 @@ fr:
     import_type_accession_csv: Entrée CSV
     import_type_digital_object_csv: Objet numérique CSV
     import_type_eac_xml: EAC
-    import_type_location_csv: Location CSV
+    import_type_location_csv: Emplacement CSV
     import_type_marcxml: MarcXML (Ressource)
     import_type_marcxml_accession: MarcXML (Entrée)
     import_type_marcxml_subjects_and_agents: MarcXML (sujets et agents uniquement)

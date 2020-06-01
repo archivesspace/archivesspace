@@ -44,11 +44,13 @@
 <% end %>
 
 <% @search_data.facets_for_filter.each do |facet_group, facets| %>
-  <h3><%= I18n.t("search_results.filter.#{facet_group}", :default => facet_group) %></h3>
+  <h3><%= I18n.t("search.#{@search_data.get_type}.#{facet_group}", :default => I18n.t("search.multi.#{facet_group}", :default => facet_group)) %></h3>
   <ul>
     <% facets.each do |facet, facet_map| %>
       <li>
-        <%= link_to facet_map[:label], build_search_params({"add_filter_term" => facet_map[:filter_term]}) %> <span class="badge"><%= facet_map[:count] %></span>
+        <% opts = {"add_filter_term" => facet_map[:filter_term]} %>
+        <% opts['facets'] = SearchResultData.facets_for(facet) if facet_group == 'primary_type' %>
+        <%= link_to facet_map[:label], build_search_params(opts) %> <span class="badge"><%= facet_map[:count] %></span>
       </li>
     <% end %>
   </ul>
