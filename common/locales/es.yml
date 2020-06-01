@@ -1894,40 +1894,30 @@ es:
     publish_tooltip: Si desea publicar nuevos registros por defecto.
     default_values: ¿Pre-popular registros?
     default_values_tooltip: Si quiere pre-popular un nuevo Fondo o Acta de ingreso
+    browse_column: Columna %{num}
+    browse_column_tooltip: El campo para mostrar en la columna %{num}.
+    sort_column: Columna de clasificación predeterminada
+    sort_column_tooltip: El campo predeterminado para ordenar los resultados.
+    sort_direction: Dirección de clasificación predeterminada
+    sort_direction_tooltip: Dirección predeterminada para ordenar los resultados.
     locale: Language Selection
     accession_browse_section: Navegar columnas de entrada
-    accession_browse_column_1: Columna 1
-    accession_browse_column_1_tooltip: El campo para mostrar en la columna 1.
-    accession_browse_column_2: Columna 2
-    accession_browse_column_2_tooltip: El campo para mostrar en la columna 2.
-    accession_browse_column_3: Columna 3
-    accession_browse_column_3_tooltip: El campo para mostrar en la columna 3.
-    accession_browse_column_4: Columna 4
-    accession_browse_column_4_tooltip: El campo para mostrar en la columna 4.
-    accession_browse_column_5: Columna 5
-    accession_browse_column_5_tooltip: El campo para mostrar en la columna 5.
     resource_browse_section: Fondos ver columnas
-    resource_browse_column_1: Columna 1
-    resource_browse_column_1_tooltip: El campo para mostrar en la columna 1.
-    resource_browse_column_2: Columna 2
-    resource_browse_column_2_tooltip: El campo para mostrar en la columna 2.
-    resource_browse_column_3: Columna 3
-    resource_browse_column_3_tooltip: El campo para mostrar en la columna 3.
-    resource_browse_column_4: Columna 4
-    resource_browse_column_4_tooltip: El campo para mostrar en la columna 4.
-    resource_browse_column_5: Columna 5
-    resource_browse_column_5_tooltip: El campo para mostrar en la columna 5.
+    archival_object_browse_section: Objeto de archivo Examinar columnas
     digital_object_browse_section: Objeto digital ver columnas
-    digital_object_browse_column_1: Columna 1
-    digital_object_browse_column_1_tooltip: El campo para mostrar en la columna 1.
-    digital_object_browse_column_2: Columna 2
-    digital_object_browse_column_2_tooltip: El campo para mostrar en la columna 2.
-    digital_object_browse_column_3: Columna 3
-    digital_object_browse_column_3_tooltip: El campo para mostrar en la columna 3.
-    digital_object_browse_column_4: Columna 4
-    digital_object_browse_column_4_tooltip: El campo para mostrar en la columna 4.
-    digital_object_browse_column_5: Columna 5
-    digital_object_browse_column_5_tooltip: El campo para mostrar en la columna 5.
+    digital_object_component_browse_section: Componente de objetos digitales Examinar columnas
+    subject_browse_section: Materias ver columnas
+    agent_browse_section: Agente Examinar columnas
+    location_browse_section: Ubicación Examinar columnas
+    event_browse_section: Columnas de exploración de eventos
+    collection_management_browse_section: Gestión de colecciones Examinar columnas
+    top_container_browse_section: Contenedor superior Examinar columnas
+    classification_browse_section: Clasificación Examinar columnas
+    assessment_browse_section: Evaluación Examinar columnas
+    repositories_browse_section: Repositorio Examinar columnas
+    location_profile_browse_section: Perfil de ubicación Examinar columnas
+    container_profile_browse_section: Perfil de contenedor Examinar columnas
+    multi_browse_section: Buscar columnas
     note_order_section: Orden de las notas
     accept_default_message: ' > Acepte por defecto:'
     no_value: '[ningún valor]'
@@ -2041,7 +2031,6 @@ es:
     time_finished: Tiempo terminado
     owner: Propietario
     show_description: Muestra descripción
-    job_data: Informacion del trabajo
     input_file: Archivo de entrada
     output_file: Archivo de salida
 
@@ -2058,7 +2047,7 @@ es:
     import_type_accession_csv: Adquisición CSV
     import_type_digital_object_csv: Objeto digital CSV
     import_type_eac_xml: EAC
-    import_type_location_csv: Location CSV
+    import_type_location_csv: Lugar CSV
     import_type_marcxml: MarcXML (recursos)
     import_type_marcxml_accession: MarcXML (adquisición)
     import_type_marcxml_subjects_and_agents: MarcXML (sujetos y autoridads solamente)

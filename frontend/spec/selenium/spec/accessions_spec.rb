@@ -505,7 +505,7 @@ describe 'Accessions' do
     @driver.find_element(:link, 'Browse').click
     @driver.click_and_wait_until_gone(:link, 'Accessions')
 
-    @driver.blocking_find_elements(:css, '.multiselect-column input').each do |checkbox|
+    @driver.blocking_find_elements(:css, 'td.multiselect-column input').each do |checkbox|
       checkbox.click
     end
 

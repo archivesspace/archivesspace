@@ -1,12 +1,5 @@
 <%= setup_context(:title => I18n.t("accession._plural")) %>
 
-<%
-   @show_multiselect_column = user_can?("delete_archival_record")
-
-   add_browse_columns("accession")
-
-%>
-
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">
@@ -21,8 +14,7 @@
               <%= link_to I18n.t("actions.edit_default_values"), {:controller => :accessions, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
           <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv,
-            :fields => ['title'] + (1..5).collect {|i|
-              user_prefs["accession_browse_column_#{i}"]}.reject {|v| v.blank? || v == 'no_value'}}
+            :fields => fields}
             ), id: "searchExport",  class:  "btn btn-sm btn-info" %>
           <%= link_to I18n.t("accession._frontend.action.create"), {:controller => :accessions, :action => :new}, :class => "btn btn-sm btn-default" %>
           <% if user_can?("delete_archival_record") %>

@@ -241,6 +241,19 @@ class IndexerCommon
         doc['years'] = doc['years'].sort.uniq
         doc['year_sort'] = doc['years'].first.rjust(4, '0') + doc['years'].last.rjust(4, '0')
       end
+      dates = record['record']['dates']
+      display_dates = dates.select {|date| date['date_type'] == 'inclusive'}
+      display_dates = dates if display_dates.empty?
+      doc['dates'] = []
+      display_dates.each do |date|
+        if date['expression']
+          doc['dates'] << date['expression']
+        elsif date['date_type'] === "single"
+          doc['dates'] << date['begin']
+        elsif date['date_type']
+          doc['dates'] << "#{date['begin']} - #{date['end']}"
+        end
+      end
     end
   end
 
@@ -263,6 +276,18 @@ class IndexerCommon
         if scopecontent && scopecontent.has_key?('subnotes')
           doc['summary'] = scopecontent['subnotes'].map {|sn| sn['content']}.join("\n")
         end
+      end
+    end
+  end
+
+  def add_extents(doc, record)
+    if record['record']['extents']
+      extents = record['record']['extents']
+      display_extents = extents.select {|extent| extent['portion'] == 'whole'}
+      display_extents = extents if display_extents.empty?
+      doc['extents'] = []
+      display_extents.each do |extent|
+        doc['extents'] << "#{extent['number']} --- #{extent['extent_type']}"
       end
     end
   end
@@ -318,6 +343,7 @@ class IndexerCommon
       add_years(doc, record)
       add_level(doc, record)
       add_summary(doc, record)
+      add_extents(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
@@ -345,6 +371,10 @@ class IndexerCommon
                                           compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        if cm = record['record']['collection_management']
+          doc['processing_priority'] = cm['processing_priority']
+          doc['processors'] = cm['processors']
+        end
       end
     }
 
@@ -412,6 +442,10 @@ class IndexerCommon
                                            compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        if cm = record['record']['collection_management']
+          doc['processing_priority'] = cm['processing_priority']
+          doc['processors'] = cm['processors']
+        end
       end
 
       if doc['primary_type'] == 'digital_object'

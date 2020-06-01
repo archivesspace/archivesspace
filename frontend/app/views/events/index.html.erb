@@ -1,26 +1,5 @@
 <%= setup_context(:title => I18n.t("event._plural")) %>
 
-<%
-   add_column(I18n.t("event.event_type"), proc {|record| I18n.t("enumerations.event_event_type.#{record['event_type']}", :default => record['event_type'])}, :sortable => true, :sort_by => "event_type")
-   add_column(I18n.t("event.outcome"), proc {|record| record['outcome'] ? I18n.t("enumerations.event_outcome.#{record['outcome']}", :default => record['outcome']) : ''}, :sortable => true, :sort_by => "outcome")
-   add_column(I18n.t("linked_agent._plural"),
-              proc {|record|
-                event = ASUtils.json_parse(record['json'])
-                event['linked_agents'].map{|link|
-                  content_tag("div", "#{I18n.t("enumerations.linked_agent_event_roles.#{link['role']}", :default => link['role'])}: #{link['_resolved']['title']}")
-                }.join.html_safe
-              },
-              :sortable => false)
-   add_column(I18n.t("linked_record._plural"),
-              proc {|record|
-                event = ASUtils.json_parse(record['json'])
-                event['linked_records'].map{|link|
-                  content_tag("div", "#{I18n.t("enumerations.linked_event_archival_record_roles.#{link['role']}", :default => link['role'])}: #{link['_resolved']['title']}")
-                }.join.html_safe
-              },
-              :sortable => false)
-%>
-
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">
@@ -35,7 +14,7 @@
               <%= link_to I18n.t("actions.edit_default_values"), {:controller => :events, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
           <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-            ['event_type', 'outcome']
+            fields
             }), id: "searchExport",  class:  "btn btn-sm btn-info" %>
           <%= link_to I18n.t("event._frontend.action.create"), {:controller => :events, :action => :new}, :class => "btn btn-sm btn-default" %>
         </div>

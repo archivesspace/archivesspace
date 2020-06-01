@@ -24,7 +24,8 @@ describe 'User Preferences' do
     @driver.wait_for_dropdown
     @driver.find_element(:link, 'Repository Preferences').click
 
-    @driver.find_element(id: 'preference_defaults__accession_browse_column_1_').select_option_with_text('Acquisition Type')
+    @driver.find_element(id: 'preference_defaults__accession_browse_column_1_').select_option_with_text('Title')
+    @driver.find_element(id: 'preference_defaults__accession_browse_column_2_').select_option_with_text('Acquisition Type')
     @driver.click_and_wait_until_gone(css: 'button[type="submit"]')
     @driver.find_element(css: '.alert-success')
 
@@ -35,5 +36,32 @@ describe 'User Preferences' do
     cells = @driver.find_elements(:css, 'table th')
     expect(cells[1].text).to eq('Title')
     expect(cells[2].text).to eq('Acquisition Type')
+  end
+
+  it 'allows you to set default sort column and direction' do
+    @driver.find_element(:css, '.user-container .btn.dropdown-toggle.last').click
+    @driver.wait_for_dropdown
+    @driver.find_element(:link, 'Repository Preferences').click
+    @driver.find_element(id: 'preference_defaults__accession_sort_column_').select_option_with_text('Accession Date')
+    @driver.find_element(id: 'preference_defaults__accession_sort_direction_').select_option_with_text('Descending')
+    @driver.click_and_wait_until_gone(css: 'button[type="submit"]')
+    @driver.find_element(css: '.alert-success')
+
+    @driver.find_element(link: 'Browse').click
+    @driver.click_and_wait_until_gone(link: 'Accessions')
+
+    expect do
+      @driver.find_element_with_text('//span', /Accession Date Descending/)
+    end.not_to raise_error
+  end
+
+  it 'has date and extent columns by default' do
+    @driver.find_element(link: 'Browse').click
+    @driver.click_and_wait_until_gone(link: 'Accessions')
+
+    expect do
+      @driver.find_element_with_text('//th', /Dates/)
+      @driver.find_element_with_text('//th', /Extent/)
+    end.not_to raise_error
   end
 end
