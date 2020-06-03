@@ -45,16 +45,13 @@ class SearchController < ApplicationController
   end
 
   def do_search
+    @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
 
     respond_to do |format|
       format.json {
-        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
-        @display_identifier = params[:display_identifier] ? params[:display_identifier] : false
         render :json => @search_data
       }
       format.js {
-        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
-        @display_identifier = params[:display_identifier] ? params[:display_identifier] : false
         if params[:listing_only]
           render_aspace_partial :partial => "search/listing"
         else
@@ -62,8 +59,7 @@ class SearchController < ApplicationController
         end
       }
       format.html {
-        @search_data = Search.all(session[:repo_id], params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS.concat(params[:facets]||[]).uniq}))
-        @display_identifier = params[:display_identifier] ? params[:display_identifier] : false
+        # default render
       }
       format.csv { 
         criteria = params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS})
