@@ -45,10 +45,6 @@ module SearchHelper
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
     search_params["filter_term"] = search_params["filter_term"].select{|f| SearchResultData.BASE_FACETS.include?(ASUtils.json_parse(f).keys.first)} if removing_record_type_filter
 
-    if params["multiplicity"]
-      search_params["multiplicity"] = params["multiplicity"]
-    end
-
     sort = (opts["sort"] || params["sort"])
 
     if sort
@@ -65,6 +61,7 @@ module SearchHelper
       search_params["format"] =  opts["format"] || params["format"]
     end
 
+    search_params["multiplicity"] = params["multiplicity"] if params["multiplicity"]
     search_params["linker"] = opts["linker"] || params["linker"] || false
     search_params["type"] = opts["type"] || params["type"]
     search_params["facets"] = opts["facets"] || params["facets"] unless removing_record_type_filter

@@ -613,6 +613,7 @@ class IndexerCommon
       if record['record']['jsonmodel_type'] == 'top_container'
         doc['title'] = record['record']['long_display_string']
         doc['display_string'] = record['record']['display_string']
+        doc['type_u_ssort'] = record['record']['type']
 
         if record['record']['series']
           doc['series_uri_u_sstr'] = record['record']['series'].map {|series| series['ref']}
@@ -660,9 +661,14 @@ class IndexerCommon
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
+        if record['record']['indicator']
+          doc['indicator_u_icusort'] = record['record']['indicator']
+        end
+
         doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
         doc['top_container_u_icusort'] = record['record']['display_string']
         doc['barcode_u_sstr'] = record['record']['barcode']
+        doc['barcode_u_icusort'] = record['record']['barcode']
 
         doc['subcontainer_barcodes_u_sstr'] = record["record"]["subcontainer_barcodes"]
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']

@@ -166,9 +166,9 @@ module SearchAndBrowseColumnConfig
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
       "container_profile_display_string_u_sstr" => {:field => "container_profile_display_string_u_sstr"},
       "location_display_string_u_sstr" => {:field => "location_display_string_u_sstr"},
-      "type" => {:field => "type"},
-      "indicator" => {:field => "indicator"},
-      "barcode" => {:field => "barcode"},
+      "type" => {:field => "type", :sortable => true, :sort_by => "type_u_ssort"},
+      "indicator" => {:field => "indicator", :sortable => true, :sort_by => "indicator_u_icusort"},
+      "barcode" => {:field => "barcode", :sortable => true, :sort_by => "barcode_u_icusort"},
       "context" => {:field => "context"},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
