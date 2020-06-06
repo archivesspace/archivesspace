@@ -1,7 +1,7 @@
 get_selection = function() {
   var results = [];
 
-  $(document).find(".multiselect-column :input:checked").each(function(i, checkbox) {
+  $(document).find("td.multiselect-column :input:checked").each(function(i, checkbox) {
     results.push({
       uri: checkbox.value,
       display_string: $(checkbox).data("display-string"),
