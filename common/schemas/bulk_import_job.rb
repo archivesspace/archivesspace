@@ -26,6 +26,9 @@
         "type" => "string",
         "ifmissing" => "error",
       },
+      "only_validate" => {
+        "type" => "string",
+      },
     },
   },
 }

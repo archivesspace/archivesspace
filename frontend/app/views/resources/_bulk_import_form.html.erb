@@ -36,7 +36,12 @@
            <label class="btn btn-primary active" style="border-radius:4px;"><input type="radio" value="ao" name="job[load_type]" checked="true"/><%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %></label>
 	   <label class="btn btn-primary" style="border-radius:4px; margin-left:.5em"><input type="radio" value="digital" name="job[load_type]"/><%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %></label>
 	   </div>
-        <% end %>
+    <% end %>
+    <div ><label><input class="checkbox-inline" type="checkbox" 
+         name="job[only_validate]" id="only_validate" value="true"/>
+    <%= I18n.t('bulk_import._frontend.actions.only_validate') %>
+    </label>
+    </div>
        </div>
       <div id="bulk_messages">
       </div>

@@ -1562,6 +1562,7 @@ en:
         import: Import from SpreadSheet
         drag_drop: Drag and drop file here
         clip_btn: Copy to Clipboard
+        only_validate: Only validate
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet

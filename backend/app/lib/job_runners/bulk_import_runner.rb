@@ -45,10 +45,12 @@ class BulkImportRunner < JobRunner
           @input_file = @job.job_files[0].full_file_path
           @current_user = User.find(:username => @job.owner.username)
           @load_type = @json.job["load_type"]
-          # I don't know whay this parsing is so hard!!
+          validate = @json.job["only_validate"] == "true"
+          # I don't know why parsing the parameter string is so hard!!
           param_string = @json.job_params[1..-2].delete('\\\\')
           params = ASUtils.json_parse(param_string)
           params = symbol_keys(params)
+          params[:validate] = validate
           ticker.log(("=" * 50) + "\n#{@json.job["filename"]}\n" + ("=" * 50))
           begin
             RequestContext.open(:create_enums => true,

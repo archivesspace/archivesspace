@@ -2102,6 +2102,7 @@ en:
     resource_uri: Resource URI
     content_type: Spreadsheet type
     load_type: Load Type
+    validate_only: Validate Only
     type:
       csv: CSV
       xlsx: Excel Spreadsheet
@@ -2356,7 +2357,7 @@ en:
     no_ao: No Archival Object created
     ao: Archival Object
     created: "%{what} created: %{id}"
-    would_be: "%{what} would be created"
+    could_be: "%{what} could be created"
     updated: "%{what}: %{id}"
     clip_btn: Copy to Clipboard
     clip_created:  "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
