@@ -1576,6 +1576,7 @@ en:
       resource_id: Resource ID
       format: Download File Format
       filename: Speadsheet file name
+      not_direct: At this time, this job can only be created from the Resource record
 
 
 
