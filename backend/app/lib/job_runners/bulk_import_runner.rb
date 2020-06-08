@@ -27,7 +27,7 @@ end
 
 class BulkImportRunner < JobRunner
   register_for_job_type("bulk_import_job", :create_permissions => :import_records,
-                                           :cancel_permissions => :cancel_importer_job, :hidden => true)
+                                           :cancel_permissions => :cancel_importer_job)
 
   def run
     ticker = Ticker.new(@job)
