@@ -167,8 +167,8 @@ module PreferenceConfig
       'job_browse_column_5' => '',
       'job_browse_column_6' => '',
       'job_browse_column_7' => '',
-      'job_sort_column' => 'status',
-      'job_sort_direction' => 'asc',
+      'job_sort_column' => 'time_submitted',
+      'job_sort_direction' => 'desc',
       'locale' => AppConfig[:locale].to_s,
       'note_order' => [],
     }

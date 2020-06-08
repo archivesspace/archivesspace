@@ -2029,10 +2029,15 @@ es:
     time_submitted: Tiempo sometida
     time_started: Tiempo comenzado
     time_finished: Tiempo terminado
+    time_submitted: Hora enviada
     owner: Propietario
     show_description: Muestra descripción
     input_file: Archivo de entrada
     output_file: Archivo de salida
+
+  container_labels_job:
+    source: Fuente
+    format: Formato
 
   report_job:
     report_type: Tipo de informe

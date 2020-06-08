@@ -406,6 +406,7 @@ ja:
       job_report_type: ジョブの種類
       time_started: 時間の開始
       time_finished: 完了した時間
+      time_submitted: 提出された時間
       job_data: ジョブ情報
       audit_info: 監査データ
       user_mtime: 更新しました

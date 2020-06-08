@@ -398,6 +398,7 @@ en:
       job_report_type: Job Type
       time_started: Time Started
       time_finished: Time Completed
+      time_submitted: Time Submitted
       job_data: Job Information
       audit_info: Audit Information
       user_mtime: Modified
