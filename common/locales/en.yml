@@ -2354,8 +2354,6 @@ en:
     processing_row: "Processing row %{row}"
     dig_assoc: Digital Object added to  Archival Object
     row_error: "Row %{row} will not be processed due to errors: %{errs}"
-    no_ao: No Archival Object created
-    ao: Archival Object
     created: "%{what} created: %{id}"
     could_be: "%{what} could be created"
     updated: "%{what}: %{id}"
@@ -2415,7 +2413,7 @@ en:
       hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row
       hier_wrong_resource:  did you mean to start processing with an archival object selected?
       hier_below_error_level: The parent archival object was not created
-      level: Missing valid Description level
+      level: Missing valid Description Level
       date: "Date must have at least one of: Date begin; Date end; or Date expression"
       number: Missing Extent number
       extent_type:  Missing Extent type
@@ -2427,6 +2425,7 @@ en:
       no_tc: "Unable to create Top Container %{number}: [%{why}]"
       missing_instance_type: Missing container instance type
       no_ao: No Archival Object created
+      no_ao_be: Archival Object would not be created
       no_container_instance: "Unable to create Container Instance: [%{why}]"
       no_create: "Unable to create: [%{why}]"
       no_move: "Unable to move the archival objects from the end of the list (response code %{code})"
