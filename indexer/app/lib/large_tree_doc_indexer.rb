@@ -20,9 +20,11 @@ class LargeTreeDocIndexer
 
       batch << {
         'id' => "#{node_uri}/tree/root",
+        'uri' => "#{node_uri}/tree/root",
         'pui_parent_id' => node_uri,
         'publish' => "true",
         'primary_type' => "tree_root",
+        'types' => ['pui'],
         'json' => ASUtils.to_json(json)
       }
 
@@ -42,9 +44,11 @@ class LargeTreeDocIndexer
 
       batch << {
         'id' => "#{root_record_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
+        'uri' => "#{root_record_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}",
         'pui_parent_id' => (parent_uri || root_record_uri),
         'publish' => "true",
         'primary_type' => "tree_waypoint",
+        'types' => ['pui'],
         'json' => ASUtils.to_json(json)
       }
 
@@ -70,9 +74,11 @@ class LargeTreeDocIndexer
 
       batch << {
         'id' => "#{root_record_uri}/tree/node_#{json.fetch('uri')}",
+        'uri' => "#{root_record_uri}/tree/node_#{json.fetch('uri')}",
         'pui_parent_id' => json.fetch('uri'),
         'publish' => "true",
         'primary_type' => "tree_node",
+        'types' => ['pui'],
         'json' => ASUtils.to_json(json)
       }
 
@@ -97,9 +103,11 @@ class LargeTreeDocIndexer
       node_paths.each do |node_id, path|
         batch << {
           'id' => "#{root_uri}/tree/node_from_root_#{node_id}",
+          'uri' => "#{root_uri}/tree/node_from_root_#{node_id}",
           'pui_parent_id' => node_id_to_uri.fetch(Integer(node_id)),
           'publish' => "true",
           'primary_type' => "tree_node_from_root",
+          'types' => ['pui'],
           'json' => ASUtils.to_json({node_id => path})
         }
       end

@@ -176,7 +176,6 @@
    <field name="outcome" type="string" indexed="true" stored="true" multiValued="false" />
 
    <!-- Collection Management fields -->
-   <field name="cm_uri" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="parent_title" type="text_general" indexed="true" stored="true" multiValued="false" />
    <field name="parent_type" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="processing_priority" type="string" indexed="true" stored="true" multiValued="false" />

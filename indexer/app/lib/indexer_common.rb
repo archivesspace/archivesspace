@@ -766,6 +766,7 @@ class IndexerCommon
         parent_type = JSONModel.parse_reference(record['uri'])[:type]
         docs << {
           'id' => cm['uri'],
+          'uri' => cm['uri'],
           'parent_id' => record['uri'],
           'parent_title' => record['record']['title'] || record['record']['display_string'],
           'parent_type' => parent_type,
@@ -773,7 +774,6 @@ class IndexerCommon
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
           'json' => cm.to_json(:max_nesting => false),
-          'cm_uri' => cm['uri'],
           'processing_priority' => cm['processing_priority'],
           'processing_status' => cm['processing_status'],
           'processing_hours_total' => cm['processing_hours_total'],
