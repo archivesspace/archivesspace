@@ -110,9 +110,10 @@ class BulkImportRunner < JobRunner
   private
 
   def generate_csv(file, report)
-    headrow = I18n.t("bulk_import.clip_header").split('\t')
+    headrow = I18n.t("bulk_import.clip_header").split("\t")
+    Log.error("headrow: #{headrow.inspect}")
     CSV.open(file.path, "wb") do |csv|
-      csv << headrow
+      csv << Array.new(headrow)
       csv << []
       report.rows.each do |row|
         csvrow = [row.row]
@@ -120,7 +121,7 @@ class BulkImportRunner < JobRunner
           if @load_type == "digital"
             csvrow = []
           else
-            csvrow << I18n.t("bulk_import.no_ao")
+            csvrow << I18n.t(@validate_only ? "bulk_import.error.no_ao_be" : "bulk_import.error.no_ao")
           end
         else
           if @load_type == "digital"

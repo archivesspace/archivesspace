@@ -2,8 +2,9 @@ require_relative "handler"
 require_relative "../../model/digital_object"
 
 class DigitalObjectHandler < Handler
-  def initialize(current_user)
-    @digital_object_types ||= CvList.new("digital_object_digital_object_type", current_user)
+  def initialize(current_user, validate_only = false)
+    super
+    @digital_object_types ||= CvList.new("digital_object_digital_object_type", @current_user)
   end
 
   def create(title, thumb, link, id, publish, archival_object, report)
@@ -36,16 +37,16 @@ class DigitalObjectHandler < Handler
       dig_o.publish = publish
       begin
         dig_o = save(dig_o, DigitalObject)
-      rescue ValidationException => ve
+      rescue JSONModel::ValidationException => ve
         report.add_errors(I18n.t("bulk_import.error.dig_validation", :err => ve.errors))
         return nil
       rescue Exception => e
         raise e
       end
-      report.add_info(I18n.t("bulk_import.created", :what => I18n.t("bulk_import.dig"), :id => "'#{dig_o.title}' #{dig_o.uri} [#{dig_o.digital_object_id}]"))
+      report.add_info(I18n.t(@create_key, :what => I18n.t("bulk_import.dig"), :id => "'#{dig_o.title}' #{dig_o.uri} [#{dig_o.digital_object_id}]"))
       dig_instance = JSONModel(:instance).new._always_valid!
       dig_instance.instance_type = "digital_object"
-      dig_instance.digital_object = { "ref" => dig_o.uri }
+      dig_instance.digital_object = { "ref" => @validate_only ? "http://x" : dig_o.uri }
     end
     dig_instance
   end

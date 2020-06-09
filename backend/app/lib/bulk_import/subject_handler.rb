@@ -3,7 +3,7 @@ require_relative "../../model/subject"
 require_relative "bulk_import_mixins"
 
 class SubjectHandler < Handler
-  def initialize(current_user)
+  def initialize(current_user, validate_only = false)
     super
     @subject_term_types = CvList.new("subject_term_type", @current_user)
     @subject_sources = CvList.new("subject_source", @current_user)
@@ -70,7 +70,7 @@ class SubjectHandler < Handler
         end
         if !subj
           subj = create_subj(subject)
-          report.add_info(I18n.t("bulk_import.created", :what => "#{I18n.t("bulk_import.subj")} [#{subject[:term]}]", :id => subj.uri))
+          report.add_info(I18n.t(@create_key, :what => "#{I18n.t("bulk_import.subj")} [#{subject[:term]}]", :id => subj.uri))
         end
       rescue Exception => e
         raise BulkImportException.new(I18n.t("bulk_import.error.no_create", :why => e.message))

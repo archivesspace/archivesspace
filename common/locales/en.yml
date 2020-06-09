@@ -2365,15 +2365,18 @@ en:
     clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo or Error"    
     log_complete: "Completed import of %{file}"
     log_created: "%{row}: Created %{what}"
+    log_created_be: "%{row}: %{what} could be created"
     log_info: "%{row}:\t%{what}"
     log_error: "%{row}:\tERROR %{what}"
-    log_obj: "%{what} '%{nm}' %{id} %{ref_id}"
+    log_obj: "%{what} '%{nm}' %{id} %{ref_id}"    
+    log_obj_be: "%{what} '%{nm}' " 
     log_results: Compiling results CSV file
     ao: Archival Object
     tc: Top Container
     subj: Subject
     agent: Agent
     dig: Digital Object
+    cont_inst: Container Instance
     unfound_id: "%{type} ID %{id} NOT FOUND. This is a PLACEHOLDER"
     ref_id_notfound: "Ref Id %{refid} not found"
     processed: The file has been processed
@@ -2426,7 +2429,7 @@ en:
       missing_instance_type: Missing container instance type
       no_ao: No Archival Object created
       no_ao_be: Archival Object would not be created
-      no_container_instance: "Unable to create Container Instance: [%{why}]"
+      no_container_instance: "Unable to create Container Instance %{number}: [%{why}]"
       no_create: "Unable to create: [%{why}]"
       no_move: "Unable to move the archival objects from the end of the list (response code %{code})"
       bad_note: "%{type} note is not wellformed: %{msg}"

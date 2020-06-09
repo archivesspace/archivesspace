@@ -8,10 +8,11 @@ require_relative "bulk_import_mixins"
 class AgentHandler < Handler
   AGENT_TYPES = { "families" => "family", "family" => "family", "corporate_entities" => "corporate_entity", "corporate_entity" => "corporate_entity", "people" => "person", "person" => "person" }
 
-  def initialize(current_user)
+  def initialize(current_user, validate_only = false)
+    super
     @agents = {}
-    @agent_role ||= CvList.new("linked_agent_role", current_user)
-    @agent_relators ||= CvList.new("linked_agent_archival_record_relators", current_user)
+    @agent_role ||= CvList.new("linked_agent_role", @current_user)
+    @agent_relators ||= CvList.new("linked_agent_archival_record_relators", @current_user)
   end
 
   def renew
@@ -84,7 +85,7 @@ class AgentHandler < Handler
         end
         if !agent_obj
           agent_obj = create_agent(agent)
-          report.add_info(I18n.t("bulk_import.created", :what => "#{I18n.t("bulk_import.agent")}[#{agent[:name]}]", :id => agent_obj.uri))
+          report.add_info(I18n.t(@create_key, :what => "#{I18n.t("bulk_import.agent")}[#{agent[:name]}]", :id => agent_obj.uri))
         end
       rescue Exception => e
         raise BulkImportException.new(I18n.t("bulk_import.error.no_create", :why => e.message))

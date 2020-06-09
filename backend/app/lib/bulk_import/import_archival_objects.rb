@@ -20,11 +20,11 @@ class ImportArchivalObjects < BulkImportParser
   end
 
   def initialize_handler_enums
-    @cih = ContainerInstanceHandler.new(@current_user)
-    @doh = DigitalObjectHandler.new(@current_user)
-    @sh = SubjectHandler.new(@current_user)
-    @ah = AgentHandler.new(@current_user)
-    @lh = LangHandler.new(@current_user)
+    @cih = ContainerInstanceHandler.new(@current_user, @validate_only)
+    @doh = DigitalObjectHandler.new(@current_user, @validate_only)
+    @sh = SubjectHandler.new(@current_user, @validate_only)
+    @ah = AgentHandler.new(@current_user, @validate_only)
+    @lh = LangHandler.new(@current_user) # doesn't need validation
   end
 
   # look for all the required fields to make sure they are legit
@@ -64,17 +64,14 @@ class ImportArchivalObjects < BulkImportParser
       end
       err_arr.push I18n.t("bulk_import.error.title_and_date") if (missing_title && missing_date)
       # tree hierachy
-      begin
-        level = @archival_levels.value(@row_hash["level"])
-      rescue Exception => e
-        err_arr.push I18n.t("bulk_import.error.level")
-      end
+      level = value_check(@archival_levels, @row_hash["level"], err_arr)
+      err_arr.push I18n.t("bulk_import.error.level") if level.nil?
     rescue StopBulkImportException => se
-      raise
+      raise se
     rescue Exception => e
       Log.error(["UNEXPLAINED EXCEPTION on check row", e.message, e.backtrace, @row_hash].pretty_inspect)
     end
-    if err_arr.empty?
+    if err_arr.empty? || @validate_only
       @row_hash.each do |k, v|
         @row_hash[k] = v.strip if !v.nil?
         if k == "publish" || k == "restrictions_flag"
@@ -97,9 +94,16 @@ class ImportArchivalObjects < BulkImportParser
     if ret_str.empty?
       ret_str = check_row
     end
-    raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => ret_str)) if !ret_str.empty?
+    if !ret_str.empty?
+      if @validate_only
+        @report.add_errors(ret_str)
+      else
+        raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => ret_str))
+      end
+    end
     parent_uri = @parents.parent_for(@row_hash["hierarchy"].to_i)
     begin
+      Log.error("About to create object")
       ao = create_archival_object(parent_uri)
       ao = ao_save(ao)
     rescue JSONModel::ValidationException => ve
@@ -125,12 +129,14 @@ class ImportArchivalObjects < BulkImportParser
   end
 
   def log_row(row)
+    create_key = @validate_only ? "bulk_import.log_created_be" : "bulk_import.log_created"
+    obj_key = @validate_only ? "bulk_import.log_obj_be" : "bulk_import.log_obj"
     if row.archival_object_id.nil?
-      @log_method.call(I18n.t("bulk_import.log_error", :row => row.row, :what => I18n.t("bulk_import.no_ao")))
+      @log_method.call(I18n.t("bulk_import.log_error", :row => row.row, :what => I18n.t(@validate_only ? "bulk_import.error.no_ao_be" : "bulk_import.error.no_ao")))
     else
-      log_obj = I18n.t("bulk_import.log_obj", :what => I18n.t("bulk_import.ao"), :nm => row.archival_object_display, :id => row.archival_object_id, :ref_id => row.ref_id)
-
-      @log_method.call(I18n.t("bulk_import.log_created", :row => row.row, :what => log_obj))
+      log_obj = I18n.t(obj_key, :what => I18n.t("bulk_import.ao"), :nm => row.archival_object_display, :id => row.archival_object_id, :ref_id => row.ref_id)
+      Log.error("log_obj: #{log_obj} #{row.archival_object_display}")
+      @log_method.call(I18n.t(create_key, :row => row.row, :what => log_obj))
       unless row.info.empty?
         row.info.each do |info|
           @log_method.call(I18n.t("bulk_import.log_info", :row => row.row, :what => info))
@@ -148,17 +154,31 @@ class ImportArchivalObjects < BulkImportParser
 
   # create an archival_object
   def create_archival_object(parent_uri)
+    errs = []
     ao = JSONModel(:archival_object).new._always_valid!
     ao.title = @row_hash["title"] if @row_hash["title"]
     ao.dates = create_dates
     #because the date may have been invalid, we should check if there's a title, otherwise bail
     if ao.title.nil? && ao.dates.empty?
-      raise BulkImportException.new(I18n.t("bulk_import.error.title_and_date"))
+      error_msg = I18n.t("bulk_import.error.title_and_date")
+      if @validate_only
+        @report.add_errors(error_msg)
+      else
+        raise BulkImportException.new(error_msg)
+      end
+    end
+    ao.level = value_check(@archival_levels, @row_hash["level"], errs)
+    if !errs.empty?
+      if @validate_only
+        @report.add_errors(errs[0])
+      else
+        raise errs[0]
+      end
     end
     ao.resource = { "ref" => @resource["uri"] }
     ao.component_id = @row_hash["unit_id"] if @row_hash["unit_id"]
     ao.repository_processing_note = @row_hash["processing_note"] if @row_hash["processing_note"]
-    ao.level = @archival_levels.value(@row_hash["level"])
+
     ao.other_level = @row_hash["other_level"] || "unspecified" if ao.level == "otherlevel"
     ao.publish = @row_hash["publish"]
     ao.restrictions_apply = @row_hash["restrictions_flag"]
@@ -207,18 +227,26 @@ class ImportArchivalObjects < BulkImportParser
 
   def create_extent(substr)
     ext_str = "Extent: #{@row_hash["portion#{substr}"] || "whole"} #{@row_hash["number#{substr}"]} #{@row_hash["extent_type#{substr}"]} #{@row_hash["container_summary#{substr}"]} #{@row_hash["physical_details#{substr}"]} #{@row_hash["dimensions#{substr}"]}"
-    begin
-      extent = { "portion" => @extent_portions.value(@row_hash["portion#{substr}"] || "whole"),
-                 "extent_type" => @extent_types.value((@row_hash["extent_type#{substr}"])) }
-      %w(number container_summary physical_details dimensions).each do |w|
-        extent[w] = @row_hash["#{w}#{substr}"] || nil
-      end
-      ex = JSONModel(:extent).new(extent)
-      return ex if test_exceptions(ex, "Extent")
-    rescue Exception => e
-      @report.add_errors(I18n.t("plugins.aspace-import-excel.error.extent_validation", :msg => e.message, :ext => ext_str))
-      return nil
+    errs = []
+    portion = value_check(@extent_portions, (@row_hash["portion#{substr}"] || "whole"), errs)
+    type = value_check(@extent_types, @row_hash["extent_type#{substr}"], errs)
+
+    extent = { "portion" => portion,
+               "extent_type" => type }
+    %w(number container_summary physical_details dimensions).each do |w|
+      extent[w] = @row_hash["#{w}#{substr}"] || nil
     end
+    if errs.empty?
+      begin
+        ex = JSONModel(:extent).new(extent)
+        return ex if test_exceptions(ex, "Extent")
+      rescue Exception => e
+        @report.add_errors(I18n.t("bulk_import.error.extent_validation", :msg => e.message, :ext => ext_str))
+      end
+    else
+      @report.add_errors(I18n.t("bulk_import.error.extent_validation", :msg => errs.join(" ,"), :ext => ext_str))
+    end
+    return nil
   end
 
   def process_agents
@@ -276,7 +304,7 @@ class ImportArchivalObjects < BulkImportParser
         instance = @cih.create_container_instance(@row_hash["cont_instance_type#{substr}"],
                                                   @row_hash["type_1#{substr}"], @row_hash["indicator_1#{substr}"], @row_hash["barcode#{substr}"], @resource["uri"], @report, subcont)
       rescue Exception => e
-        @report.add_errors(I18n.t("bulk_import.error.no_tc", number: cntr.to_s, why: e.message))
+        @report.add_errors(I18n.t("bulk_import.error.no_container_instance", number: cntr.to_s, why: e.message))
         instance = nil
       end
       cntr += 1
