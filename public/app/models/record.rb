@@ -83,15 +83,15 @@ class Record
     build_request_item
   end
 
-  private
-
-  def parse_full_title
+  def parse_full_title(infinite_item = false)
     ft =  process_mixed_content(json['display_string'] || json['title'], :preserve_newlines => true)
-    unless json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
+    unless infinite_item || json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
       ft = I18n.t('inherited', :title => process_mixed_content(json['title'], :preserve_newlines => true), :display => ft)
     end
     ft
   end
+
+  private
 
   def parse_identifier
     json.dig('_composite_identifier') || json.dig('component_id') ||
