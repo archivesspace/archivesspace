@@ -40,6 +40,10 @@ class BulkImportReport
     @current_row = nil
   end
 
+  def in_errors(what)
+    @current_row.errors.include?(what)
+  end
+
   attr_reader :file_name
 
   def new_row(row_number)
@@ -86,6 +90,7 @@ class BulkImportReport
       self.archival_object_id = ao.uri
       self.archival_object_display = ao.display_string || ao.title
       self.ref_id = ao.ref_id
+      Log.error("report: #{self.inspect}")
     end
   end
 end

@@ -26,14 +26,11 @@ class AgentHandler < Handler
     key
   end
 
-  def build(type, id, header, relator, role)
-    role = "creator" if role.nil?
+  def build(type, id, header)
     {
       :type => AGENT_TYPES[type],
       :id => id,
       :name => header || (id ? I18n.t("bulk_import.unfound_id", :id => id, :type => "Agent") : nil),
-      :role => role,
-      :relator => relator,
       :id_but_no_name => id && !header,
     }
   end
@@ -63,8 +60,12 @@ class AgentHandler < Handler
   end
 
   def get_or_create(type, id, header, relator, role, report)
-    agent = build(type, id, header, relator, role)
+    errs = []
+    role = role || "creator"
+    agent = build(type, id, header)
     agent_key = key_for(agent)
+    agent_link = validate_link(relator, role, errs)
+    report.add_errors(errs) if !errs.empty?
     if !(agent_obj = stored(@agents, "#{agent[:type]}_#{agent[:id]}", agent_key))
       unless agent[:id].nil?
         agent_obj = get_by_id(type, agent[:id])
@@ -91,7 +92,6 @@ class AgentHandler < Handler
         raise BulkImportException.new(I18n.t("bulk_import.error.no_create", :why => e.message))
       end
     end
-    agent_link = nil
     if agent_obj
       if agent[:id_but_no_name]
         agent_key = "#{agent[:type]}_#{get_agent_header(type, agent_obj)}"
@@ -100,25 +100,7 @@ class AgentHandler < Handler
       id = "#{agent[:type]}_#{agent[:id]}"
       @agents[id] = agent_obj
       @agents[agent_key] = agent_obj
-      agent_link = { "ref" => agent_obj.uri }
-      begin
-        agent_link["role"] = @agent_role.value(agent[:role])
-      rescue Exception => e
-        if e.message.start_with?("NOT FOUND")
-          raise BulkImportException.new(I18n.t("bulk_import.error.bad_role", :label => agent[:role]))
-        else
-          raise BulkImportException.new(I18n.t("bulk_import.error.role_invalid", :label => agent[:role], :why => e.message))
-        end
-      end
-      begin
-        agent_link["relator"] = @agent_relators.value(agent[:relator]) if !agent[:relator].nil?
-      rescue Exception => e
-        if e.message.start_with?("NOT FOUND")
-          raise BulkImportException.new(I18n.t("bulk_import.error.bad_relator", :label => agent[:relator]))
-        else
-          raise BulkImportException.new(I18n.t("bulk_import.error.relator_invalid", :label => agent[:relator], :why => e.message))
-        end
-      end
+      agent_link["ref"] = agent_obj.uri if agent_link
     end
     agent_link
   end
@@ -173,5 +155,17 @@ class AgentHandler < Handler
       obj.name_order = "direct" if agent[:type] == "person"
     end
     obj
+  end
+
+  def validate_link(relator, role, errs)
+    link = {}
+    link["role"] = value_check(@agent_role, role, errs)
+    errs << I18n.t("bulk_import.error.bad_role", :label => role) if !link["role"]
+    link["relator"] = value_check(@agent_relators, relator, errs)
+    errs << I18n.t("bulk_import.error.bad_relator", :label => relator) if !link["relator"]
+    if errs.empty?
+      link = nil
+    end
+    link
   end
 end # agent

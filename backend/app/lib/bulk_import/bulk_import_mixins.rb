@@ -22,7 +22,7 @@ module BulkImportMixins
     revived = nil
     if @validate_only
       valid(ao, I18n.t("ao"))
-      ao.uri = ao.uri || "/repositories/2/archival_objects/10000"
+      ao.uri = ao.uri || "valid"
       revived = ao
     else
       begin

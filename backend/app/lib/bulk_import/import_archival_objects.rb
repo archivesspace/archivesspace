@@ -103,7 +103,6 @@ class ImportArchivalObjects < BulkImportParser
     end
     parent_uri = @parents.parent_for(@row_hash["hierarchy"].to_i)
     begin
-      Log.error("About to create object")
       ao = create_archival_object(parent_uri)
       ao = ao_save(ao)
     rescue JSONModel::ValidationException => ve
@@ -116,7 +115,12 @@ class ImportArchivalObjects < BulkImportParser
       Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect)
       raise BulkImportException.new(e.message)
     end
-    @report.add_archival_object(ao) if !ao.nil?
+    if !ao.nil?
+      fail_test = (ao.title.nil? && ao.dates.empty?) || ao.level.nil?
+      ao.uri = nil if fail_test
+      @report.add_archival_object(ao) if !ao.nil?
+    end
+
     @parents.set_uri(@hier, ao.uri)
     @created_ao_refs.push ao.uri
     if @hier == 1
@@ -130,12 +134,12 @@ class ImportArchivalObjects < BulkImportParser
 
   def log_row(row)
     create_key = @validate_only ? "bulk_import.log_created_be" : "bulk_import.log_created"
+    not_create_key = @validate_only ? "bulk_import.error.no_ao_be" : "bulk_import.error.no_ao"
     obj_key = @validate_only ? "bulk_import.log_obj_be" : "bulk_import.log_obj"
     if row.archival_object_id.nil?
-      @log_method.call(I18n.t("bulk_import.log_error", :row => row.row, :what => I18n.t(@validate_only ? "bulk_import.error.no_ao_be" : "bulk_import.error.no_ao")))
+      @log_method.call(I18n.t("bulk_import.log_error", :row => row.row, :what => I18n.t(not_create_key)))
     else
       log_obj = I18n.t(obj_key, :what => I18n.t("bulk_import.ao"), :nm => row.archival_object_display, :id => row.archival_object_id, :ref_id => row.ref_id)
-      Log.error("log_obj: #{log_obj} #{row.archival_object_display}")
       @log_method.call(I18n.t(create_key, :row => row.row, :what => log_obj))
       unless row.info.empty?
         row.info.each do |info|
@@ -162,12 +166,12 @@ class ImportArchivalObjects < BulkImportParser
     if ao.title.nil? && ao.dates.empty?
       error_msg = I18n.t("bulk_import.error.title_and_date")
       if @validate_only
-        @report.add_errors(error_msg)
+        @report.add_errors(error_msg) if !@report.in_errors(error_msg)
       else
         raise BulkImportException.new(error_msg)
       end
     end
-    ao.level = value_check(@archival_levels, @row_hash["level"], errs)
+    ao.level = value_check(@archival_levels, @row_hash["level"], errs) if @row_hash["level"]
     if !errs.empty?
       if @validate_only
         @report.add_errors(errs[0])
@@ -250,6 +254,7 @@ class ImportArchivalObjects < BulkImportParser
   end
 
   def process_agents
+    Log.error("all elements: #{@row_hash.inspect}")
     agent_links = []
     %w(people corporate_entities families).each do |type|
       num = 1
@@ -260,8 +265,8 @@ class ImportArchivalObjects < BulkImportParser
         link = nil
         begin
           link = @ah.get_or_create(type, @row_hash[id_key], @row_hash[header_key],
-                                   @row_hash["#{type}_relator_#{num}"], @row_hash["#{type}_role_#{num}"], @report)
-          agent_links.push link if link
+                                   @row_hash["#{type}_agent_relator_#{num}"], @row_hash["#{type}_agent_role_#{num}"], @report)
+          agent_links.push link if link && !@validate_only
         rescue BulkImportException => e
           @report.add_errors(I18n.t("bulk_import.error.process_error", :type => "#{type} Agent", :num => num, :why => e.message))
         end
