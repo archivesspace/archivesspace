@@ -112,7 +112,7 @@ module ResultInfo
     dig_obj = process_file_versions(json)
     unless dig_obj.blank?
       dig_obj['material'] = json['digital_object_type'].blank? ? '' : '(' << json['digital_object_type'] << ')'
-      dig_obj['caption'] = CGI::escapeHTML(strip_mixed_content(json['title'])) if dig_obj['caption'].blank? && !dig_obj['thumb'].blank?
+      dig_obj['caption'] = CGI::escapeHTML(strip_mixed_content(json.fetch('display_string', 'Untitled'))) if dig_obj['caption'].blank? && !dig_obj['thumb'].blank?
     end
     dig_obj.blank? ? [] : [dig_obj]
   end
