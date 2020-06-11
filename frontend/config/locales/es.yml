@@ -228,7 +228,7 @@ es:
       create_time: Creado
       asc: Ascendente
       desc: Descendente
-    subjects:
+    subject:
       source: Fuente
       first_term_type: Tipo del término (primero)
       title: Descriptores

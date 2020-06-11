@@ -111,7 +111,7 @@ module SearchHelper
       user_can? 'delete_archival_record'
     when 'assessment'
       user_can? 'delete_assessment_record'
-    when 'subjects'
+    when 'subject'
       user_can? 'delete_subject_record'
     when 'agent'
       user_can? 'delete_agent_record'
@@ -135,7 +135,7 @@ module SearchHelper
       {'processing_priority' => 'collection_management_processing_priority'}
     when 'digital_object', 'digital_object_component'
       {'language' => 'language_iso639_2'}
-    when 'subjects'
+    when 'subject'
       {'source' => 'subject_source', 'first_term_type' => 'subject_term_type'}
     when 'agent'
       {'source' => 'name_source', 'rules' => 'name_rule', 'primary_type' => 'agent.agent_type'}

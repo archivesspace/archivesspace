@@ -195,7 +195,6 @@ class SearchResultData
       types = terms.collect { |term| ASUtils.json_parse(term)['primary_type'] }.compact
       type = types[0] if types.length == 1
     end
-    type = 'subjects' if type == 'subject'
     type = 'agent' if type.include? 'agent'
     type = 'repositories' if type == 'repository'
     type
@@ -340,8 +339,6 @@ class SearchResultData
   def self.facets_for(record_type)
     if record_type.include? 'agent'
       record_type = 'agent'
-    elsif record_type == 'subjects'
-      record_type = 'subject'
     elsif record_type == 'archival_object'
       record_type = 'resource'
     elsif record_type == 'digital_object_component'

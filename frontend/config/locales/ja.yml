@@ -234,7 +234,7 @@ ja:
       create_time: 作成した
       asc: 上昇
       desc: 降順
-    subjects:
+    subject:
       source: ソース
       first_term_type: 期間型（First)
       title: 用語と細分
