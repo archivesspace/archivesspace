@@ -2384,6 +2384,7 @@ en:
     max_file_info: "%{size}K and %{rows} rows"
     object_created: "%{what} created"
     object_created_be: "%{what} would be created"
+    object_not_created_be: "%{what} would not be created"
     warn:
       dup: "Managed Controlled Value List %{which} has multiple instances for the Translation '%{trans}'. '%{used}' will be used as the value."
       disam: "Multiple match(es) found for '%{which}'. Creating '%{name}' for disabiguation."
