@@ -4,6 +4,7 @@ require_relative "../../model/digital_object"
 class DigitalObjectHandler < Handler
   def initialize(current_user, validate_only = false)
     super
+    # we don't currently use this, but it will come in handy with enhancements
     @digital_object_types ||= CvList.new("digital_object_digital_object_type", @current_user)
   end
 
@@ -28,6 +29,11 @@ class DigitalObjectHandler < Handler
         fv.xlink_show_attribute = "embed"
         fv.is_representative = true
         files.push fv
+      end
+      if @validate_only
+        # we do this to pass the validity tests in save
+        id = id || rand(1..500000).to_s + "d"
+        title = archival_object.title || "random title"
       end
       osn = id.nil? ? (archival_object.ref_id + "d") : id
       dig_o = JSONModel(:digital_object).new._always_valid!
