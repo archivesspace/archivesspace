@@ -11,41 +11,45 @@ class ImportDigitalObjects < BulkImportParser
     @start_marker = START_MARKER  # replace down stream
   end
 
+  def create_instance(ao)
+    dig_instance = @doh.create(@row_hash["digital_object_title"],
+                               @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report)
+    if dig_instance && !@validate_only # only try to save if not validate only
+      ao.instances ||= []
+      ao.instances << dig_instance
+      begin
+        ao = ao_save(ao)
+        @report.add_info(I18n.t("bulk_import.dig_assoc"))
+      rescue BulkImportException => ee
+        @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => ee.message))
+      end
+    end
+  end
+
   def process_row
     ret_str = ""
+    errs = []
     begin
       resource_match(@resource, @row_hash["ead"], @row_hash["res_uri"])
     rescue Exception => e
-      ret_str = e.message
+      errs << e.message
     end
-    if ret_str.empty?
-      ret_str = check_row
+    ret_str = check_row
+    errs << ret_str if !ret_str.empty?
+    if !@validate_only && !ret_str.empty?
+      err = errs.join("; ")
+      raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => err))
     end
-    raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => ret_str)) if !ret_str.empty?
-    begin
-      result = archival_object_from_ref_or_uri(@row_hash["ao_ref_id"], @row_hash["ao_uri"])
-      ao = result[:ao]
-      raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao", errs => result[:errs])) if ao.nil?
-      @report.add_archival_object(ao)
-      if ao.instances
-        digs = []
-        ao.instances.each { |instance| digs.append(1) if instance["instance_type"] == "digital_object" }
-        unless digs.empty?
-          raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => I18n.t("bulk_import.error.has_dig_obj")))
-        end
-      end
-      #digital_object_id	digital_object_title	publish	digital_object_link	thumbnail
-
-      if (dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report))
-        ao.instances ||= []
-        ao.instances << dig_instance
-        begin
-          ao = ao_save(ao)
-          @report.add_info(I18n.t("bulk_import.dig_assoc"))
-        rescue BulkImportException => ee
-          @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => ee.message))
-        end
-      end
+    ao = verify_ao(@row_hash["ao_ref_id"], @row_hash["ao_uri"], errs)
+    if !errs.empty? && !@validate_only
+      err = errs.join("; ")
+      raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao", errs => err))
+    end
+    if !ao.nil?
+      digital_instance = create_instance(ao)
+    elsif !errs.empty?
+      err = errs.join("; ")
+      @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => errs))
     end
   end
 
@@ -66,15 +70,12 @@ class ImportDigitalObjects < BulkImportParser
     end
   end
 
-  # required fields for a digital object row: ead match, ao_ref_id and at least one of digital_object_link, thumbnail
+  # required fields for a digital object row: ead match, (ao_ref_id  or ao_uri) and at least one of digital_object_link, thumbnail
   def check_row
     err_arr = []
     begin
       if @row_hash["ao_ref_id"].nil? && @row_hash["ao_uri"].nil?
         err_arr.push I18n.t("bulk_import.error.no_uri_or_ref")
-      else
-        result = archival_object_from_ref_or_uri(@row_hash["ao_ref_id"], @row_hash["ao_uri"])
-        err_arr.push I18n.t("bulk_import.error.bad_ao", :errs => result[:errs]) if result[:ao].nil?
       end
       obj_link = @row_hash["digital_object_link"]
       thumb = @row_hash["thumbnail"] || @row_hash["Thumbnail"]
@@ -84,12 +85,27 @@ class ImportDigitalObjects < BulkImportParser
     @row_hash["publish"] = (v == "1")
     err_arr.join("; ")
   end
-=begin
-  def initialize_info
-    super
-  end
-=end
+
   def initialize_handler_enums
-    @doh = DigitalObjectHandler.new(@current_user)
+    @doh = DigitalObjectHandler.new(@current_user, @validate_only)
+  end
+
+  # any problem here would result in the digital object not being created
+  def verify_ao(ref_id, uri, errs)
+    result = archival_object_from_ref_or_uri(ref_id, uri)
+    ao = result[:ao]
+    if ao.nil?
+      errs << I18n.t("bulk_import.error.bad_ao", errs => result[:errs])
+    else
+      @report.add_archival_object(ao)
+      if ao.instances
+        digs = []
+        ao.instances.each { |instance| digs.append(1) if instance["instance_type"] == "digital_object" }
+        unless digs.empty?
+          errs << I18n.t("bulk_import.row_error", :row => @counter, :errs => I18n.t("bulk_import.error.has_dig_obj"))
+        end
+      end
+    end
+    ao
   end
 end
