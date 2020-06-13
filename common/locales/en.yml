@@ -2050,10 +2050,15 @@ en:
     time_submitted: Time Submitted
     time_started: Time Started
     time_finished: Time Completed
+    time_submitted: Time Submitted
     owner: Owner
     show_description: Show Description
     input_file: Input File
     output_file: Output File
+
+  container_labels_job:
+    source: Source
+    format: Format
 
   report_job:
     report_type: Report Type

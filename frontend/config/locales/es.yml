@@ -400,6 +400,7 @@ es:
       job_report_type: Tipo de tarea
       time_started: Tiempo comenzado
       time_finished: Tiempo terminado
+      time_submitted: Hora enviada
       job_data: Informacion del trabajo
       audit_info: Datos de auditoría
       user_mtime: Modificado

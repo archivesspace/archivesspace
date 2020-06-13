@@ -1573,10 +1573,15 @@ ja:
     time_submitted: 提出された時間
     time_started: 時間の開始
     time_finished: 完了した時間
+    time_submitted: 提出された時間
     owner: オーナー
     show_description: 説明を表示する
     input_file: 入力ファイル
     output_file: 出力ファイル
+
+  container_labels_job:
+    source: ソース
+    format: フォーマット
 
   report_job:
     report_type: レポートタイプ

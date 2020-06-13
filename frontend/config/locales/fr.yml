@@ -398,6 +398,7 @@ fr:
       job_report_type: Type de tâche
       time_started: Heure de commencement
       time_finished: Heure d'achèvement
+      time_submitted: Heure de soumission
       job_data: Information de tâche
       audit_info: Audit Information
       user_mtime: Modifié

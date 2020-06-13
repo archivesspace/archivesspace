@@ -2049,10 +2049,15 @@ fr:
     time_submitted: Heure de soumission
     time_started: Heure de commencement
     time_finished: Heure d'achèvement
+    time_submitted: Heure de soumission
     owner: Owner
     show_description: Montrer description
     input_file: Fichier d'entrée
     output_file: Fichier de sortie
+
+  container_labels_job:
+    source: Source
+    format: Format
 
   report_job:
     report_type: Type de rapport

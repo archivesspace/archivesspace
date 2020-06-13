@@ -178,6 +178,7 @@ module SearchAndBrowseColumnConfig
       "job_data" => {:field => "job_data"},
       "time_started" => {:field => "time_started", :sortable => true},
       "time_finished" => {:field => "time_finished", :sortable => true},
+      "time_submitted" => {:field => "time_submitted", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["time_started", "time_finished"]}
     }
   }
