@@ -14,14 +14,14 @@
         </div>
       </a>
       <ul class="dropdown-menu pull-right sort-opts">
-        <% if @search_data.weightable? %>
-          <li><%= link_to I18n.t("search.multi.relevance"), build_search_params("sort" => "") %></li>
-        <% end %>
         <% @search_data.sort_fields.each do |field, label| %>
+          <% next if field == 'score' && @search_data.sorted_by?(field) %>
           <li class="dropdown-submenu">
             <%= link_to label, build_search_params("sort" => @search_data.sort_filter_for(field, "desc")) %>
             <ul class="dropdown-menu">
-              <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort" => "#{field} asc") %></li>
+              <% unless field == 'score' %>
+                <li><%= link_to I18n.t("search_sorting.asc"), build_search_params("sort" => "#{field} asc") %></li>
+              <% end %>
               <li><%= link_to I18n.t("search_sorting.desc"), build_search_params("sort" => "#{field} desc") %></li>
             </ul>
           </li>
@@ -30,8 +30,7 @@
     </span>
   </div>
 
-  <% if @search_data.sorted? %>
-
+  <% if @search_data.sorted? && !@search_data.sorted_by?('score') %>
     <div class="pull-left" style="position: relative">
       <span class="btn-group">
         <label style="float: left;">&#160;<%= I18n.t("search_sorting.and") %>&#160;</label>
@@ -42,11 +41,8 @@
           </div>
         </a>
         <ul class="dropdown-menu pull-right">
-          <% if @search_data.weightable? %>
-           <li><%= link_to I18n.t("search.multi.relevance"), build_search_params("sort2" => "") %></li>
-          <% end %>
           <% @search_data.sort_fields.each do |field, label| %>
-            <% if !@search_data.sorted_by?(field) %>
+            <% if !@search_data.sorted_by?(field) && field != 'score' %>
               <li class="dropdown-submenu">
                 <%= link_to label, build_search_params("sort2" => @search_data.sort_filter_for(field, "desc")) %>
                 <ul class="dropdown-menu">

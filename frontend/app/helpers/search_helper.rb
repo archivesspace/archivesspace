@@ -229,7 +229,8 @@ module SearchHelper
     for n in 1..AppConfig[:max_search_columns]
       models.each do |model|
         prop = browse_columns["#{model}_browse_column_#{n}"]
-        next if added.include?(prop) || !prop || prop == 'no_value'
+        # we do not want to display a column for no value or the relevancy score
+        next if added.include?(prop) || !prop || prop == 'no_value' || prop == 'score'
 
         added << prop
         opts = column_opts[model][prop]
@@ -250,9 +251,9 @@ module SearchHelper
     end
     models.each do |model|
       prop = browse_columns["#{model}_sort_column"]
-      next if added.include?(prop) || !prop || prop == 'no_value'
+      next if added.include?(prop) || !prop
       added << prop
-      opts = column_opts[model][prop]
+      opts = prop == 'score' ? { sort_by: 'score' } : column_opts[model][prop]
       @search_data.add_sort_field(opts[:sort_by] ? opts[:sort_by]: prop, I18n.t("search.#{model}.#{prop}"))
     end
   end
