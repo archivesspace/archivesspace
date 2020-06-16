@@ -8,6 +8,12 @@ class DigitalObjectHandler < Handler
     @digital_object_types ||= CvList.new("digital_object_digital_object_type", @current_user)
   end
 
+  def check_digital_id(dig_id)
+    params = { :q => "digital_object_id:\"#{dig_id}\"" }
+    ret = search(nil, params, :digital_object, "digital_object", "", @report)
+    ret = ret.nil?
+  end
+
   def create(title, thumb, link, id, publish, archival_object, report)
     dig_o = nil
     dig_instance = nil
@@ -31,11 +37,15 @@ class DigitalObjectHandler < Handler
         files.push fv
       end
       if @validate_only
-        # we do this to pass the validity tests in save
-        id = id || rand(1..500000).to_s + "d"
         title = archival_object.title || "random title"
       end
-      osn = id.nil? ? (archival_object.ref_id + "d") : id
+      osn = id
+      if id.nil?
+        osn = "#{archival_object.ref_id.to_str}d"
+      end
+      if !check_digital_id(osn)
+        raise BulkImportException.new(I18n.t("bulk_import.error.dig_obj_unique", :id => osn))
+      end
       dig_o = JSONModel(:digital_object).new._always_valid!
       dig_o.title = title.nil? ? archival_object.display_string : title
       dig_o.digital_object_id = osn

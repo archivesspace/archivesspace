@@ -25,7 +25,6 @@ class Handler
   end
 
   def save(obj, model)
-    Log.error("saving? #{model.class.name}, #{@validate_only}")
     test_exceptions(obj)
     if !@validate_only
       saved = model.create_from_json(obj)

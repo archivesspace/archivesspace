@@ -90,7 +90,6 @@ class BulkImportReport
       self.archival_object_id = ao.uri
       self.archival_object_display = ao.display_string || ao.title
       self.ref_id = ao.ref_id
-      Log.error("report: #{self.inspect}")
     end
   end
 end

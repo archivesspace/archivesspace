@@ -12,8 +12,13 @@ class ImportDigitalObjects < BulkImportParser
   end
 
   def create_instance(ao)
-    dig_instance = @doh.create(@row_hash["digital_object_title"],
-                               @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report)
+    dig_instance = nil
+    begin
+      dig_instance = @doh.create(@row_hash["digital_object_title"],
+                                 @row_hash["thumbnail"], @row_hash["digital_object_link"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report)
+    rescue Exception => e
+      @report.add_errors(e.message)
+    end
     if dig_instance && !@validate_only # only try to save if not validate only
       ao.instances ||= []
       ao.instances << dig_instance
@@ -24,6 +29,7 @@ class ImportDigitalObjects < BulkImportParser
         @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => ee.message))
       end
     end
+    dig_instance
   end
 
   def process_row
@@ -47,9 +53,13 @@ class ImportDigitalObjects < BulkImportParser
     end
     if !ao.nil?
       digital_instance = create_instance(ao)
-    elsif !errs.empty?
-      err = errs.join("; ")
-      @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => errs))
+      if !digital_instance & @validate_only
+        @report.add_errors(errs.join("; ")) if !errs.empty?
+        @report.add_errors(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
+      elsif !errs.empty?
+        err = errs.join("; ")
+        @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => err))
+      end
     end
   end
 
@@ -101,8 +111,13 @@ class ImportDigitalObjects < BulkImportParser
       if ao.instances
         digs = []
         ao.instances.each { |instance| digs.append(1) if instance["instance_type"] == "digital_object" }
-        unless digs.empty?
-          errs << I18n.t("bulk_import.row_error", :row => @counter, :errs => I18n.t("bulk_import.error.has_dig_obj"))
+        if !digs.empty?
+          err = I18n.t("bulk_import.error.has_dig_obj")
+          if @validate_only
+            errs << err
+          else
+            errs << I18n.t("bulk_import.row_error", :row => @counter, :errs => err)
+          end
         end
       end
     end

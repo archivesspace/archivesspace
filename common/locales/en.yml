@@ -2364,6 +2364,7 @@ en:
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
     clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo or Error"    
     log_complete: "Completed import of %{file}"
+    log_validation: "Completed validate of %{file}"
     log_created: "%{row}: Created %{what}"
     log_created_be: "%{row}: %{what} could be created"
     log_info: "%{row}:\t%{what}"
@@ -2417,6 +2418,7 @@ en:
       hier_zero: Hierarchy must be greater than 0
       hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row
       hier_wrong_resource:  did you mean to start processing with an archival object selected?
+      hier_wrong_resource_validation:  "WARNING: nothing below this row would have been processed" 
       hier_below_error_level: The parent archival object was not created
       level: Missing valid Description Level
       date: "Date must have at least one of: Date begin; Date end; or Date expression"
@@ -2459,3 +2461,4 @@ en:
       no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
       file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
       wrong_file_type: "The file is neither an Excel Spreadsheet nor a CSV file"
+      dig_obj_unique: "Digital Object ID '%{id}' already exists."

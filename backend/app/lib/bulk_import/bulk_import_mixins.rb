@@ -26,7 +26,6 @@ module BulkImportMixins
       revived = ao
     else
       begin
-        Log.error("validate? #{@validate_only}")
         archObj = nil
         if ao.id.nil?
           archObj = ArchivalObject.create_from_json(ao)
@@ -97,7 +96,6 @@ module BulkImportMixins
   end
 
   def created(obj, type, message, report)
-    Log.error("@validate_only? #{@validate_only}")
     if @validate_only
       report.add_info(I18n.t("bulk_import.could_be", :what => message))
     else

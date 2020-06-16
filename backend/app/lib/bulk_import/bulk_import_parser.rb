@@ -42,7 +42,6 @@ class BulkImportParser
     @is_xslx = @file_content_type == "xlsx"
     @is_csv = @file_content_type == "csv"
     @validate_only = opts[:validate]
-    Log.error("@validate_only in parser: #{@validate_only}")
   end
 
   def run

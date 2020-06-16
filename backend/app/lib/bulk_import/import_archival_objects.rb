@@ -45,8 +45,13 @@ class ImportArchivalObjects < BulkImportParser
         if (hier - 1) > @hier
           err_arr.push I18n.t("bulk_import.error.hier_wrong")
           if @hier == 0
-            err_arr.push I18n.t("bulk_import.error.hier_wrong_resource")
-            raise StopBulkImportException.new(err_arr.join(";"))
+            if @validate_only
+              err_arr.push I18n.t("bulk_import.error.hier_wrong_resource_validation")
+              @hier = 1
+            else
+              err_arr.push I18n.t("bulk_import.error.hier_wrong_resource")
+              raise StopBulkImportException.new(err_arr.join(";"))
+            end
           end
         end
         @hier = hier
@@ -254,7 +259,6 @@ class ImportArchivalObjects < BulkImportParser
   end
 
   def process_agents
-    Log.error("all elements: #{@row_hash.inspect}")
     agent_links = []
     %w(people corporate_entities families).each do |type|
       num = 1

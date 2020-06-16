@@ -68,13 +68,12 @@ class BulkImportRunner < JobRunner
               end
               ticker.log(msg)
               ticker.log(("=" * 50) + "\n")
-              ticker.log(I18n.t("bulk_import.log_complete", :file => @json.job["filename"]))
+              ticker.log(I18n.t(@validate_only ? "bulk_import.log_validation" : "bulk_import.log_complete", :file => @json.job["filename"]))
               ticker.log("\n" + ("=" * 50) + "\n")
               file = ASUtils.tempfile("load_spreadsheet_job_")
               generate_csv(file, report)
               file.rewind
               @job.write_output(I18n.t("bulk_import.log_results"))
-              Log.error(@job.inspect)
               @job.add_file(file)
             end
           end
