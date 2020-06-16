@@ -1,10 +1,5 @@
 <%= setup_context(:title => I18n.t("subject._plural")) %>
 
-<%
-   @show_multiselect_column = user_can?("delete_subject_record")
-   title_column_header(I18n.t("subject.terms"))
-%>
-
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">
@@ -19,7 +14,7 @@
               <%= link_to I18n.t("actions.edit_default_values"), {:controller => :subjects, :action => :defaults}, :class => "btn btn-sm btn-default" %>
           <% end %>
           <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv,
-            :fields => ['title']}), id: "searchExport", class: "btn btn-sm btn-info" %>
+            :fields => fields}), id: "searchExport", class: "btn btn-sm btn-info" %>
           <%= link_to I18n.t("subject._frontend.action.create"), {:controller => :subjects, :action => :new}, :class => "btn btn-sm btn-default" %>
           <% if user_can?('delete_subject_record') %>
             <%= button_delete_multiple_action(:subjects) %>

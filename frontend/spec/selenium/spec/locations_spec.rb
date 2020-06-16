@@ -244,7 +244,7 @@ describe 'Locations' do
       @driver.click_and_wait_until_gone(:css, '.sidebar input.text-filter-field + div button')
 
       (0..7).each do |i|
-        @driver.execute_script("$($('.multiselect-column input').get(#{i})).click()")
+        @driver.execute_script("$($('td.multiselect-column input').get(#{i})).click()")
       end
 
       @driver.find_element(:css, '.record-toolbar .btn.multiselect-enabled.edit-batch').click
@@ -304,7 +304,7 @@ describe 'Locations' do
       @driver.wait_for_dropdown
       @driver.click_and_wait_until_gone(:link, 'Locations')
 
-      @driver.find_elements(:css, 'th')[1].click
+      # should be sorted by column 1 (location) by default
 
       table_rows = @driver.find_elements(:css, "tr")
       table_rows.shift

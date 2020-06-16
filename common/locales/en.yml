@@ -1914,40 +1914,30 @@ en:
     publish_tooltip: Whether to publish new records by default.
     default_values: Pre-populate Records?
     default_values_tooltip: Whether to pre-populate new Accession and Resource records with default values.
+    browse_column: Column %{num}
+    browse_column_tooltip: The field to show in column %{num}.
+    sort_column: Default Sort Column
+    sort_column_tooltip: The default field for sorting results.
+    sort_direction: Default Sort Direction
+    sort_direction_tooltip: Default direction to sort results.
     locale: Language Selection
     accession_browse_section: Accession Browse Columns
-    accession_browse_column_1: Column 1
-    accession_browse_column_1_tooltip: The field to show in column 1.
-    accession_browse_column_2: Column 2
-    accession_browse_column_2_tooltip: The field to show in column 2.
-    accession_browse_column_3: Column 3
-    accession_browse_column_3_tooltip: The field to show in column 3.
-    accession_browse_column_4: Column 4
-    accession_browse_column_4_tooltip: The field to show in column 4.
-    accession_browse_column_5: Column 5
-    accession_browse_column_5_tooltip: The field to show in column 5.
     resource_browse_section: Resource Browse Columns
-    resource_browse_column_1: Column 1
-    resource_browse_column_1_tooltip: The field to show in column 1.
-    resource_browse_column_2: Column 2
-    resource_browse_column_2_tooltip: The field to show in column 2.
-    resource_browse_column_3: Column 3
-    resource_browse_column_3_tooltip: The field to show in column 3.
-    resource_browse_column_4: Column 4
-    resource_browse_column_4_tooltip: The field to show in column 4.
-    resource_browse_column_5: Column 5
-    resource_browse_column_5_tooltip: The field to show in column 5.
-    digital_object_browse_section: Digital_Object Browse Columns
-    digital_object_browse_column_1: Column 1
-    digital_object_browse_column_1_tooltip: The field to show in column 1.
-    digital_object_browse_column_2: Column 2
-    digital_object_browse_column_2_tooltip: The field to show in column 2.
-    digital_object_browse_column_3: Column 3
-    digital_object_browse_column_3_tooltip: The field to show in column 3.
-    digital_object_browse_column_4: Column 4
-    digital_object_browse_column_4_tooltip: The field to show in column 4.
-    digital_object_browse_column_5: Column 5
-    digital_object_browse_column_5_tooltip: The field to show in column 5.
+    archival_object_browse_section: Archival Object Browse Columns
+    digital_object_browse_section: Digital Object Browse Columns
+    digital_object_component_browse_section: Digital Object Component Browse Columns
+    subject_browse_section: Subject Browse Columns
+    agent_browse_section: Agent Browse Columns
+    location_browse_section: Location Browse Columns
+    event_browse_section: Event Browse Columns
+    collection_management_browse_section: Collection Management Browse Columns
+    top_container_browse_section: Top Container Browse Columns
+    classification_browse_section: Classification Browse Columns
+    assessment_browse_section: Assessment Browse Columns
+    repositories_browse_section: Repository Browse Columns
+    location_profile_browse_section: Location Profile Browse Columns
+    container_profile_browse_section: Container Profile Browse Columns
+    multi_browse_section: Search Columns
     note_order_section: Note Order
     accept_default_message: '> Accept Default:'
     no_value: '[no value]'
@@ -2061,11 +2051,15 @@ en:
     time_submitted: Time Submitted
     time_started: Time Started
     time_finished: Time Completed
+    time_submitted: Time Submitted
     owner: Owner
     show_description: Show Description
-    job_data: Job Information
     input_file: Input File
     output_file: Output File
+
+  container_labels_job:
+    source: Source
+    format: Format
 
   report_job:
     report_type: Report Type

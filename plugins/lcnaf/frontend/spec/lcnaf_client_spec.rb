@@ -23,16 +23,20 @@ describe "id.loc.gov clientware" do
       expect(results.items_per_page).to eq(20)
 
       expect(results.entries[0]['title']).to eq('Franklin')
-      expect(results.entries[0]['uri']).to match(/http:\/\/id\.loc\.gov\/authorities\/names\/n\d+/)
+      expect(results.entries[0]['uri']).to match(/http:\/\/id\.loc\.gov\/authorities\/names\/n\S+/)
     end
 
 
     it "can get the second page" do
       results = loc_searcher.search('franklin', 2, 20)
+
+      expect(results.class.name).to eq('OpenSearchResultSet')
+
+      expect(results.total_results.to_s).to match (/^\d+$/)
       expect(results.start_index).to eq(21)
-      # TO-DO: This is hardcoded but these responses are liable to change over
-      # time. This test should be refactored.
-      expect(results.entries[0]['title']).to eq('Franklin Falls (Franklin, N.H.)')
+      expect(results.items_per_page).to eq(20)
+
+      expect(results.entries[0]['uri']).to match(/http:\/\/id\.loc\.gov\/authorities\/names\/n\S+/)
     end
 
 

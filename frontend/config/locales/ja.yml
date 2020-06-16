@@ -165,62 +165,6 @@ ja:
     text_placeholder: テキストで絞り込む
     clear_all: すべてクリア
     component_switch: コンポーネントを表示する
-    filter:
-      query: テキスト
-      subjects: 件名
-      primary_type: レコードタイプ
-      digital_object_type: タイプ
-      level: レベル
-      classification_path: 分類
-      accession_date_year: 受付日
-      creators: クリエイター
-      source: ソース
-      rules: ルール
-      parent_type: レコードタイプ
-      processing_priority: 処理優先度
-      processing_status: 状態
-      publish: 発行済み
-      temporary: 一時的
-      outcome: 結果
-      event_type: タイプ
-      first_term_type: 期間型（First）
-      classification_uri: 分類
-      location_uris: ロケーション
-      agents: エージェント
-      fullrecord: キーワード
-      subjects_text: 件名
-      title: タイトル
-      creators_text: クリエイター
-      notes: ノート
-      container_profile_width_u_sstr: 幅
-      container_profile_height_u_sstr: 高さ
-      container_profile_depth_u_sstr: 深さ
-      container_profile_dimension_units_u_sstr: 寸法単位
-      building: 建物
-      floor: 床
-      room: ルーム
-      area: エリア
-      location_profile_display_string_u_ssort: ロケーションプロファイル
-      location_profile_width_u_sstr: 幅
-      location_profile_height_u_sstr: 高さ
-      location_profile_depth_u_sstr: 深さ
-      location_profile_dimension_units_u_sstr: 寸法単位
-      rights_statement_agent_uris: 権利ステートメントエージェント
-      assessment_surveyors: 調査者
-      assessment_review_required: レビューが必要です
-      assessment_sensitive_material: センシティブマテリアル
-      assessment_reviewer_uris: レビューア
-      assessment_surveyed_by_uris: 調査者
-      assessment_reviewers: レビューア
-      assessment_inactive: 非アクティブ
-      assessment_survey_year: 調査年
-      assessment_record_types: レコードタイプ
-      assessment_completed: 完了しました
-      status: 状態
-      job_type: ジョブの種類
-      report_type: レポートタイプ
-      owner: オーナー
-      langcode: Language of Materials
     help:
       row_selection: 一括操作のために行をクリックして選択します。 Altキーを押しながらチェックボックスをクリックすると、複数の前の行を選択または選択解除できます。
 
@@ -229,50 +173,262 @@ ja:
     and: そして：
     asc: 上昇
     desc: 降順
-    relevance: 関連性
-    title_sort: タイトル
-    user_mtime: 変更された
-    primary_type: レコードタイプ
-    processing_priority: 処理優先度
-    processing_status: 処理ステータス
-    processing_hours_total: 合計時間
-    parent_id: レコードタイプ
-    create_time: 作成した
-    authority_id: オーソリティID
-    source: ソース
-    rules: ルール
-    outcome: 結果
-    event_type: タイプ
-    identifier: 識別
-    select: 選択
-    building: 建物
-    floor: 床
-    room: ルーム
-    area: エリア
-    resource_type: リソースタイプ
-    acquisition_type: 獲得タイプ
-    accession_date: 受付日
-    restrictions_apply: 制限が適用されます
-    access_restrictions: アクセス制限
-    use_restrictions: 使用制限
-    level: 説明のレベル
-    language: 言語
-    restrictions: 制限事項
-    ead_id: EAD ID
-    finding_aid_status: 援助の状況を見つける
-    digital_object_id: デジタルオブジェクトID
-    digital_object_type: デジタルオブジェクトタイプ
-    publish: 公開する
-    location_profile_display_string_u_ssort: ロケーションプロファイル
-    assessment_survey_begin: 調査開始日
-    assessment_survey_end: 調査完了日
-    assessment_id: ID
-    status: 状態
-    job_type: ジョブの種類
-    report_type: レポートタイプ
-    job_report_type: ジョブの種類
-    time_started: 時間の開始
-    time_finished: 完了した時間
+    select: Seleccione
+
+  search:
+    accession:
+      title: タイトル
+      publish: 発行済み
+      subjects: 件名
+      identifier: 識別
+      acquisition_type: 獲得タイプ
+      accession_date: 受付日
+      resource_type: リソースタイプ
+      restrictions_apply: 制限が適用されます
+      access_restrictions: アクセス制限
+      use_restrictions: 使用制限
+      audit_info: 監査データ
+      creators: クリエイター
+      accession_date_year: 受付日
+      dates: 日付
+      extents: エクステント
+      processing_priority: 処理優先度
+      processors: プロセッサー
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    resource:
+      title: タイトル
+      publish: 発行済み
+      level: レベル
+      identifier: 識別
+      resource_type: リソースタイプ
+      language: 言語
+      restrictions: 制限事項
+      ead_id: EAD ID
+      finding_aid_status: 援助の状況を見つける
+      audit_info: 監査データ
+      classification_path: 分類
+      subjects: 件名
+      dates: 日付
+      extents: エクステント
+      processing_priority: 処理優先度
+      processors: プロセッサー
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    archival_object:
+      title: タイトル
+      publish: 発行済み
+      context: 見つかった
+      identifier: 識別
+      ref_id: Ref ID
+      level: レベル
+      audit_info: 監査データ
+      language: 言語
+      dates: 日付
+      extents: エクステント
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    subjects:
+      source: ソース
+      first_term_type: 期間型（First)
+      title: 用語と細分
+      publish: 発行済み
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    digital_object:
+      title: タイトル
+      publish: 発行済み
+      subjects: 件名
+      level: レベル
+      digital_object_type: デジタルオブジェクトタイプ
+      digital_object_id: デジタルオブジェクトID
+      restrictions: 制限事項
+      audit_info: 監査データ
+      language: 言語
+      dates: 日付
+      extents: エクステント
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    digital_object_component:
+      title: タイトル
+      publish: 発行済み
+      context: 見つかった
+      audit_info: 監査データ
+      language: 言語
+      dates: 日付
+      extents: エクステント
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    agent:
+      title: 名前フォーム
+      primary_type: エージェントの種類
+      publish: 発行済み
+      authority_id: オーソリティID
+      source: ソース
+      rules: ルール
+      is_user: Is User?
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    location:
+      title: ロケーション
+      publish: 発行済み
+      building: 建物
+      floor: 床
+      room: ルーム
+      area: エリア
+      location_holdings: ホールディングス
+      location_profile_display_string_u_ssort: ロケーションプロファイル
+      audit_info: 監査データ
+      temporary: 一時的
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    event:
+      agents: エージェント
+      event_type: タイプ
+      outcome: 結果
+      linked_records: リンクされたレコード
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    collection_management:
+      parent_title: タイトル
+      parent_type: レコードタイプ
+      processing_priority: 処理優先度
+      processing_status: 状態
+      processing_hours_total: 合計時間
+      processing_funding_source: 資金源
+      processors: プロセッサー
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    classification:
+      title: タイトル
+      publish: 発行済み
+      has_classification_terms: Has classification terms?
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    assessment:
+      assessment_id: ID
+      assessment_records: 記録
+      assessment_record_types: レコードタイプ
+      assessment_surveyors: 調査者
+      assessment_survey_begin: 調査開始日
+      assessment_review_required: レビューが必要です
+      assessment_sensitive_material: センシティブマテリアル
+      assessment_inactive: 非アクティブ
+      assessment_survey_year: 調査年
+      assessment_collections: リソース/アクセス権
+      assessment_completed: 完了しました
+      assessment_formats: 材料の種類/フォーマット
+      assessment_ratings: 評価
+      assessment_conservation_issues: 保存問題
+      audit_info: 監査データ
+      assessment_reviewers: レビューア
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    repositories:
+      title: タイトル
+      publish: 発行済み
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    top_container:
+      title: タイトル
+      publish: 発行済み
+      container_profile_display_string_u_sstr: コンテナプロファイル
+      location_display_string_u_sstr: ロケーション
+      type: コンテナタイプ
+      indicator: インジケータ
+      barcode: バーコード
+      context: リソース/アクセス権
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    container_profile:
+      title: タイトル
+      publish: 発行済み
+      container_profile_width_u_sstr: 幅
+      container_profile_height_u_sstr: 高さ
+      container_profile_depth_u_sstr: 深さ
+      container_profile_dimension_units_u_sstr: 寸法単位
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    location_profile:
+      title: タイトル
+      publish: 発行済み
+      location_profile_width_u_sstr: 幅
+      location_profile_height_u_sstr: 高さ
+      location_profile_depth_u_sstr: 深さ
+      location_profile_dimension_units_u_sstr: 寸法単位
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    job:
+      status: 状態
+      job_type: ジョブの種類
+      report_type: レポートタイプ
+      job_report_type: ジョブの種類
+      time_started: 時間の開始
+      time_finished: 完了した時間
+      time_submitted: 提出された時間
+      job_data: ジョブ情報
+      audit_info: 監査データ
+      user_mtime: 更新しました
+      create_time: 作成した
+      asc: 上昇
+      desc: 降順
+    multi:
+      primary_type: レコードタイプ
+      creators: クリエイター
+      subjects: 件名
+      title: タイトル
+      context: 見つかった
+      identifier: 識別
+      audit_info: 監査データ
+      query: テキスト
+      relevance: 関連性
+      user_mtime: 更新しました
+      create_time: 作成した
+      dates: 日付
+      extents: エクステント
+      asc: 上昇
+      desc: 降順
 
   advanced_search:
     operator:

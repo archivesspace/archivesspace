@@ -156,62 +156,6 @@ fr:
     text_placeholder: Filtrer par texte
     clear_all: Tout effacer
     component_switch: Montrer composants
-    filter:
-      query: Texte
-      subjects: Mot-matière
-      primary_type: Type de notice
-      digital_object_type: Type
-      level: Niveau
-      classification_path: Classement
-      accession_date_year: Date d'entrée
-      source: Source
-      rules: Règles
-      parent_type: Type de notice
-      processing_priority: Priorité de traitement
-      processing_status: Statut
-      publish: Publié
-      temporary: Temporaire
-      outcome: Résultat
-      event_type: Type
-      first_term_type: Type de terme (premier)
-      classification_uri: Classement
-      location_uris: Localisation
-      agents: Agent
-      creators: Producteur
-      fullrecord: Mot-clé
-      subjects_text: Mot-matière
-      title: Intitulé
-      creators_text: Producteur
-      notes: Notes
-      container_profile_width_u_sstr: Largeur
-      container_profile_height_u_sstr: Hauteur
-      container_profile_depth_u_sstr: Profondeur
-      container_profile_dimension_units_u_sstr: Unités de mesure
-      building: Bâtiment
-      floor: Niveau
-      room: Pièce
-      area: Aire
-      location_profile_display_string_u_ssort: Profil de localisation
-      location_profile_width_u_sstr: Largeur
-      location_profile_height_u_sstr: Hauteur
-      location_profile_depth_u_sstr: Profondeur
-      location_profile_dimension_units_u_sstr: Unités de mesure
-      rights_statement_agent_uris: Agent de mention de droits
-      assessment_surveyors: Passé en revue par
-      assessment_review_required: Passage en revue requis
-      assessment_sensitive_material: Documents confidentiels
-      assessment_reviewer_uris: Agent
-      assessment_surveyed_by_uris: Passé en revue par
-      assessment_reviewers: Agent
-      assessment_inactive: Inactif
-      assessment_survey_year: Année du passage en revue
-      assessment_record_types: Type de notices
-      assessment_completed: Effectué
-      status: Statut
-      job_type: Type de tâche
-      report_type: Type de rapport
-      owner: Owner
-      langcode: Language of Materials
     help:
       row_selection: Cliquez sur une rangée pour la sélectionner en vue d'opérations en masse. Maintenir la touche alt pressée tout en cliquant une case à cocher pour sélectionner ou déselectionner plusieurs rangées précédentes.
 
@@ -221,50 +165,263 @@ fr:
     and: "et"
     asc: Ascendant
     desc: Descendant
-    relevance: Pertinence
-    title_sort: Titre
-    user_mtime: Modifié
-    primary_type: Type de notice
-    processing_priority: Priorité de traitement
-    processing_status: Statut de traitement
-    processing_hours_total: Durée totale de traitement
-    parent_id: Type de notice
-    create_time: Créé
-    authority_id: Identifiant d'autorité
-    source: Source
-    rules: Règles
-    outcome: Résultat
-    event_type: Type
-    identifier: Identifiant
-    select: Sélectionner
-    building: Bâtiment
-    floor: Niveau
-    room: Salle
-    area: Aire
-    resource_type: Type de Ressource
-    acquisition_type: Type d'acquisition
-    accession_date: Date d'entrée
-    restrictions_apply: Des restrictions s'appliquent
-    access_restrictions: Restrictions d'accès
-    use_restrictions: Restrictions d'utilisation
-    level: Niveau de description
-    language: Langue
-    restrictions: Restrictions
-    ead_id: Identifiant EAD
-    finding_aid_status: Statut de l'instrument de recherche
-    digital_object_id: Identifiant d'objet numérique
-    digital_object_type: Type d'objet numérique
-    publish: Publier
-    location_profile_display_string_u_ssort: Profil de localisation
-    assessment_survey_begin: Passage en revue Début
-    assessment_survey_end: Passage en revue Fin
-    assessment_id: ID
-    status: Statut
-    job_type: Type de tâche
-    report_type: Type de rapport
-    job_report_type: Type de tâche
-    time_started: Heure de commencement
-    time_finished: Heure d'achèvement
+    select: Seleccione
+
+  search:
+    accession:
+      title: Intitulé
+      publish: Publié
+      subjects: Mot-matière
+      identifier: Identifiant
+      acquisition_type: Type d'acquisition
+      accession_date: Date d'entrée
+      resource_type: Type de Ressource
+      restrictions_apply: Des restrictions s'appliquent
+      access_restrictions: Restrictions d'accès
+      use_restrictions: Restrictions d'utilisation
+      audit_info: Audit Information
+      creators: Producteur
+      accession_date_year: Date d'entrée
+      dates: Dates
+      extents: Importance matérielle
+      processing_priority: Processing Priority
+      processors: Processeurs
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    resource:
+      title: Intitulé
+      publish: Publié
+      level: Niveau
+      identifier: Identifiant
+      resource_type: Type de Ressource
+      language: Langue
+      restrictions: Restrictions
+      ead_id: Identifiant EAD
+      finding_aid_status: Statut de l'instrument de recherche
+      audit_info: Audit Information
+      classification_path: Classement
+      subjects: Mot-matière
+      dates: Dates
+      extents: Importance matérielle
+      processing_priority: Priorité de traitement
+      processors: Processeurs
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    archival_object:
+      title: Intitulé
+      publish: Publié
+      context: Trouvé dans
+      identifier: Identifiant
+      ref_id: Ref ID
+      level: Niveau
+      audit_info: Audit Information
+      language: Langue
+      dates: Dates
+      extents: Importance matérielle
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    subjects:
+      source: Source
+      first_term_type: Type de terme (premier)
+      title: Termes
+      publish: Publié
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    digital_object:
+      title: Intitulé
+      publish: Publié
+      subjects: Mot-matière
+      level: Niveau
+      digital_object_type: Type d'objet numérique
+      digital_object_id: Identifiant d'objet numérique
+      restrictions: Restrictions
+      audit_info: Audit Information
+      language: Langue
+      dates: Dates
+      extents: Importance matérielle
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    digital_object_component:
+      title: Intitulé
+      publish: Publié
+      context: Trouvé dans
+      audit_info: Audit Information
+      language: Langue
+      dates: Dates
+      extents: Importance matérielle
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    agent:
+      title: Nom
+      primary_type: Type d'agent
+      publish: Publié
+      authority_id: Identifiant d'autorité
+      source: Source
+      rules: Règles
+      is_user: Is User?
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    location:
+      title: Localisation
+      publish: Publié
+      building: Bâtiment
+      floor: Niveau
+      room: Pièce
+      area: Aire
+      location_holdings: Exemplaires
+      location_profile_display_string_u_ssort: Profil de localisation
+      audit_info: Audit Information
+      temporary: Temporary
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    event:
+      agents: Agent
+      event_type: Type
+      outcome: Résultat
+      linked_records: Notices liées
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    collection_management:
+      parent_title: Intitulé
+      parent_type: Types de notices
+      processing_priority: Priorité de traitement
+      processing_status: Statut
+      processing_hours_total: Durée totale de traitement
+      processing_funding_source: Source de financement
+      processors: Processeurs
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    classification:
+      title: Intitulé
+      publish: Publié
+      has_classification_terms: Has classification terms?
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    assessment:
+      assessment_id: ID
+      assessment_records: Notices
+      assessment_record_types: Type de notices
+      assessment_surveyors: Passé en revue par
+      assessment_survey_begin: Passage en revue Début
+      assessment_review_required: Passage en revue requis
+      assessment_sensitive_material: Documents confidentiels
+      assessment_inactive: Inactif
+      assessment_survey_year: Année du passage en revue
+      assessment_collections: Collection
+      assessment_completed: Effectué
+      assessment_formats: Types/formats de documents
+      assessment_ratings: Notes
+      assessment_conservation_issues: Problèmes de conservation
+      audit_info: Audit Information
+      assessment_reviewers: Agent
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    repositories:
+      title: Intitulé
+      publish: Publié
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    top_container:
+      title: Intitulé
+      publish: Publié
+      container_profile_display_string_u_sstr: Profils de conditionnements
+      location_display_string_u_sstr: Localisation
+      type: Type
+      indicator: Indicateur
+      barcode: Code-barres
+      context: Ressource/Entrée
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    container_profile:
+      title: Intitulé
+      publish: Publié
+      container_profile_width_u_sstr: Largeur
+      container_profile_height_u_sstr: Hauteur
+      container_profile_depth_u_sstr: Profondeur
+      container_profile_dimension_units_u_sstr: Unités de mesure
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    location_profile:
+      title: Intitulé
+      publish: Publié
+      location_profile_width_u_sstr: Largeur
+      location_profile_height_u_sstr: Hauteur
+      location_profile_depth_u_sstr: Profondeur
+      location_profile_dimension_units_u_sstr: Unités de mesure
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    job:
+      status: Statut
+      job_type: Type de tâche
+      report_type: Type de rapport
+      job_report_type: Type de tâche
+      time_started: Heure de commencement
+      time_finished: Heure d'achèvement
+      time_submitted: Heure de soumission
+      job_data: Information de tâche
+      audit_info: Audit Information
+      user_mtime: Modifié
+      create_time: Créé
+      asc: Ascendant
+      desc: Descendant
+    multi:
+      primary_type: Type de notice
+      creators: Producteur
+      subjects: Mot-matière
+      title: Intitulé
+      context: Trouvé dans
+      identifier: Identifiant
+      audit_info: Audit Information
+      query: Texte
+      relevance: Pertinence
+      user_mtime: Modifié
+      create_time: Créé
+      dates: Dates
+      extents: Importance matérielle
+      asc: Ascendant
+      desc: Descendant
+
 
   advanced_search:
     operator:

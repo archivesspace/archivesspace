@@ -1,16 +1,5 @@
 <%= setup_context :title => I18n.t("digital_object._plural") %>
 
-<%
-  @show_multiselect_column = user_can?("delete_archival_record")
-
-  add_browse_columns("digital_object")
-
-  if params[:include_components] === "true"
-    @display_context = true
-  end
-
-%>
-
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">
@@ -35,8 +24,7 @@
             </div>
           <% end %>
           <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv, :fields =>
-            (params[:include_components] ? ['primary_type'] : []) + ['title'] + (1..5).collect {|i|
-              user_prefs["digital_object_browse_column_#{i}"]}.reject {|v| v.blank? || v == 'no_value'}}
+            fields}
               ), id: "searchExport",  class:  "btn btn-sm btn-info" %>
           <%= link_to I18n.t("digital_object._frontend.action.create"), {:controller => :digital_objects, :action => :new}, :class => "btn btn-sm btn-default" %>
           <% if user_can?("delete_archival_record") %>

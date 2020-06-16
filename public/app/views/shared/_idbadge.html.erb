@@ -10,7 +10,6 @@ if result.level
 else
     badge_label = t("#{result.primary_type}._singular")
 end
-
 %>
 
 <%# build URL with slugs depending on the primary type %>
@@ -41,7 +40,9 @@ end
 
 <%= (props.fetch(:full,false)? '<h1>' : '<h3>').html_safe %>
   <% if !props.fetch(:full,false) %>
-    <a class="record-title" href="<%= app_prefix(url) %>">  <%== result.display_string %></a>
+    <a class="record-title" href="<%= app_prefix(url) %>">
+      <%== props.fetch(:infinite_item, false) ? result.parse_full_title(true) : result.display_string %>
+    </a>
   <% else %>
     <%== result.display_string %>
   <% end %>
@@ -52,7 +53,7 @@ end
   <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">
     <i class="<%= icon_for_type(result.primary_type) %>"></i>&#160;<%= badge_label %> <% if result.container_summary_for_badge %> &mdash; <%= result.container_summary_for_badge %><% end %>
   </div>
-    <% comp_id = result.identifier %>
+  <% comp_id = display_component_id(result, props.fetch(:infinite_item, false)) %>
   <% unless comp_id.blank? %>
     <div class="identifier">
       <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= comp_id %></span>

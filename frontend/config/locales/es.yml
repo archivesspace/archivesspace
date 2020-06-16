@@ -158,62 +158,6 @@ es:
     text_placeholder: Filtrar por texto
     clear_all: Borrar todo
     component_switch: Mostrar componentes
-    filter:
-      query: Búsqueda
-      subjects: Materia
-      primary_type: Tipo de registro
-      digital_object_type: Tipo de objeto digital
-      level: Nivel
-      classification_path: Clasificación
-      accession_date_year: Fecha de entrada
-      source: Fuente
-      rules: Reglas
-      parent_type: Tipo de registro
-      processing_priority: Prioridad de procesado
-      processing_status: Estado de procesamiento
-      publish: Publicado
-      temporary: Temporal
-      outcome: Resultado
-      event_type: Tipo de evento
-      first_term_type: Tipo del término (primero)
-      classification_uri: Clasificación
-      location_uris: Ubicación
-      agents: Autoridades
-      creators: Creadores
-      fullrecord: Palabra clave
-      subjects_text: Materia
-      title: Título
-      creators_text: Creador
-      notes: Notas
-      container_profile_width_u_sstr: Ancho
-      container_profile_height_u_sstr: Alto
-      container_profile_depth_u_sstr: Alto
-      container_profile_dimension_units_u_sstr: Unidades de dimensión
-      building: Edificio
-      floor: Planta
-      room: Habitación
-      area: Area
-      location_profile_display_string_u_ssort: Location Profile
-      location_profile_width_u_sstr: Ancho
-      location_profile_height_u_sstr: Alto
-      location_profile_depth_u_sstr: Alto
-      location_profile_dimension_units_u_sstr: Unidades de dimensión
-      rights_statement_agent_uris: Agente de declaración de derechos
-      assessment_surveyors: Encuestados por
-      assessment_review_required: Revisión requerida
-      assessment_sensitive_material: Material sensible
-      assessment_reviewer_uris: los reseñante
-      assessment_surveyed_by_uris: Encuestados por
-      assessment_reviewers: los reseñante
-      assessment_inactive: inactivo
-      assessment_survey_year: Año de encuesta
-      assessment_record_types: Tipo de registro
-      assessment_completed: Terminado
-      status: Estado de trabajo
-      job_type: Tipo de tarea
-      report_type: Tipo de informe
-      owner: Propietario
-      langcode: Language of Materials
     help:
       row_selection: Haga clic en una fila para seleccionarla para operaciones masivas. Mantenga la tecla ALT mientras hace clic en una casilla de verificación para seleccionar o anular la selección, múltiples filas anteriores.
 
@@ -223,50 +167,263 @@ es:
     and: "y"
     asc: Ascendente
     desc: Descendente
-    relevance: Relevancia
-    title_sort: Título
-    user_mtime: Modificado
-    primary_type: Tipo de registro
-    processing_priority: Prioridad de procesado
-    processing_status: Estado de procesamiento
-    processing_hours_total: Procesamiento total horas
-    parent_id: Tipo de registro
-    create_time: Creado
-    authority_id: Identificador de autoridad
-    source: Fuente
-    rules: Reglas
-    outcome: Resultado
-    event_type: Tipo
-    identifier: Identificador
     select: Seleccione
-    building: Edificio
-    floor: Piso
-    room: Habitación
-    area: Área
-    resource_type: Tipo de fondo
-    acquisition_type: Tipo de entrada
-    accession_date: Fecha de entrada
-    restrictions_apply: Se aplican restricciones
-    access_restrictions: Restricciones de acceso
-    use_restrictions: Restricciones de uso
-    level: Nivel de Descripción
-    language: Idioma
-    restrictions: Restricciones
-    ead_id: Identificador EAD
-    finding_aid_status: Estado del instrumento de descripción
-    digital_object_id: ID de objeto digital
-    digital_object_type: Tipo de objeto digital
-    publish: Publicar
-    location_profile_display_string_u_ssort: Perfil de ubicación
-    assessment_survey_begin: Fecha de inicio de la encuesta
-    assessment_survey_end: Encuesta completada
-    assessment_id: ID
-    status: Estado
-    job_type: Tipo de tarea
-    report_type: Tipo de informe
-    job_report_type: Tipo de tarea
-    time_started: Tiempo comenzado
-    time_finished: Tiempo terminado
+
+  search:
+    accession:
+      title: Título
+      publish: Publicado
+      subjects: Materia
+      identifier: Identificador
+      acquisition_type: Tipo de entrada
+      accession_date: Fecha de entrada
+      resource_type: Tipo de fondo
+      restrictions_apply: Se aplican restricciones
+      access_restrictions: Restricciones de acceso
+      use_restrictions: Restricciones de uso
+      audit_info: Datos de auditoría
+      creators: Creadores
+      accession_date_year: Fecha de entrada
+      dates: Fechas
+      extents: Extensión
+      processing_priority: Prioridad de procesado
+      processors: Procesadores
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    resource:
+      title: Título
+      publish: Publicado
+      level: Nivel de Descripción
+      identifier: Identificador
+      resource_type: Tipo de fondo
+      language: Idioma
+      restrictions: Restricciones
+      ead_id: Identificador EAD
+      finding_aid_status: Estado del instrumento de descripción
+      audit_info: Datos de auditoría
+      classification_path: Clasificación
+      subjects: Materia
+      dates: Fechas
+      extents: Extensión
+      processing_priority: Prioridad de procesado
+      processors: Procesadores
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    archival_object:
+      title: Título
+      publish: Publicado
+      context: Encontrado en
+      identifier: Identificador de componente
+      ref_id: Ref ID
+      level: Nivel de Descripción
+      audit_info: Datos de auditoría
+      language: Idioma
+      dates: Fechas
+      extents: Extensión
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    subjects:
+      source: Fuente
+      first_term_type: Tipo del término (primero)
+      title: Descriptores
+      publish: Publicado
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    digital_object:
+      title: Título
+      publish: Publicado
+      subjects: Materia
+      level: Nivel de Descripción
+      digital_object_type: Tipo de objeto digital
+      digital_object_id: ID de objeto digital
+      restrictions: Restricciones
+      audit_info: Datos de auditoría
+      language: Idioma
+      dates: Fechas
+      extents: Extensión
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    digital_object_component:
+      title: Título
+      publish: Publicado
+      context: Encontrado en
+      audit_info: Datos de auditoría
+      language: Idioma
+      dates: Fechas
+      extents: Extensión
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    agent:
+      title: Nombre
+      primary_type: Tipo de autoridad
+      publish: Publicado
+      authority_id: Identificador de autoridad
+      source: Fuente
+      rules: Reglas
+      is_user: Es usuario?
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    location:
+      title: Ubicación
+      publish: Publicado
+      building: Edificio
+      floor: Planta
+      room: Habitación
+      area: Area
+      location_holdings: Ejemplares
+      location_profile_display_string_u_ssort: Location Profile
+      audit_info: Datos de auditoría
+      temporary: Temporal
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    event:
+      agents: Autoridades
+      event_type: Tipo
+      outcome: Resultado
+      linked_records: Registros enlazados
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    collection_management:
+      parent_title: Título
+      parent_type: Tipo de registro
+      processing_priority: Prioridad de procesado
+      processing_status: Estado de procesamiento
+      processing_hours_total: Procesamiento total horas
+      processing_funding_source: Fuente de financiamiento
+      processors: Procesadores
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    classification:
+      title: Título
+      publish: Publicado
+      has_classification_terms: Tiene términos de clasificación?
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    assessment:
+      assessment_id: ID
+      assessment_records: Archivos
+      assessment_record_types: Tipos de materiales / Formatos
+      assessment_surveyors: Encuestados por
+      assessment_survey_begin: Fecha de inicio de la encuesta
+      assessment_review_required: Revisión requerida
+      assessment_sensitive_material: Material sensible
+      assessment_inactive: inactivo
+      assessment_survey_year: Año de encuesta
+      assessment_collections: Collection
+      assessment_completed: Terminado
+      assessment_formats: Tipos de materiales / Formatos
+      assessment_ratings: Calificaciones
+      assessment_conservation_issues: Problemas de conservación
+      audit_info: Datos de auditoría
+      assessment_reviewers: Reviewer
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    repositories:
+      title: Título
+      publish: Publicado
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    top_container:
+      title: Título
+      publish: Publicado
+      container_profile_display_string_u_sstr: Perfil de contenedor
+      location_display_string_u_sstr: Ubicación
+      type: Tipo
+      indicator: Indicador
+      barcode: Código de barras
+      context: Fondo/Entrada
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    container_profile:
+      title: Título
+      publish: Publicado
+      container_profile_width_u_sstr: Ancho
+      container_profile_height_u_sstr: Alto
+      container_profile_depth_u_sstr: Alto
+      container_profile_dimension_units_u_sstr: Unidades de dimensión
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    location_profile:
+      title: Título
+      publish: Publicado
+      location_profile_width_u_sstr: Ancho
+      location_profile_height_u_sstr: Alto
+      location_profile_depth_u_sstr: Alto
+      location_profile_dimension_units_u_sstr: Unidades de dimensión
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    job:
+      status: Estado
+      job_type: Tipo de tarea
+      report_type: Tipo de informe
+      job_report_type: Tipo de tarea
+      time_started: Tiempo comenzado
+      time_finished: Tiempo terminado
+      time_submitted: Hora enviada
+      job_data: Informacion del trabajo
+      audit_info: Datos de auditoría
+      user_mtime: Modificado
+      create_time: Creado
+      asc: Ascendente
+      desc: Descendente
+    multi:
+      primary_type: Tipo de registro
+      creators: Creadores
+      subjects: Materia
+      title: Título
+      context: Encontrado en
+      identifier: Identificador
+      audit_info: Datos de auditoría
+      query: Búsqueda
+      relevance: Relevancia
+      user_mtime: Modificado
+      create_time: Creado
+      dates: Fechas
+      extents: Extensión
+      asc: Ascendente
+      desc: Descendente
+
 
   advanced_search:
     operator:

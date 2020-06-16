@@ -20,7 +20,7 @@
            data-path="<%= form.path %>"
            data-name="ref"
            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
-           data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ASSESSMENT_FACETS, :display_identifier => true %>"
+           data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.ASSESSMENT_FACETS %>"
            data-selected="<%= selected_json %>"
            data-format_property="display_string"
            data-multiplicity="many"

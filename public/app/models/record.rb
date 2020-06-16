@@ -83,15 +83,15 @@ class Record
     build_request_item
   end
 
-  private
-
-  def parse_full_title
+  def parse_full_title(infinite_item = false)
     ft =  process_mixed_content(json['display_string'] || json['title'], :preserve_newlines => true)
-    unless json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
+    unless infinite_item || json['title_inherited'].blank? || (json['display_string'] || '') == json['title']
       ft = I18n.t('inherited', :title => process_mixed_content(json['title'], :preserve_newlines => true), :display => ft)
     end
     ft
   end
+
+  private
 
   def parse_identifier
     json.dig('_composite_identifier') || json.dig('component_id') ||
@@ -169,7 +169,7 @@ class Record
           s['is_inherited'] = json['lang_materials'][0].dig('_inherited')
         end
       end
-      
+
       notes_html = notes_html.merge(lang_notes)
     elsif json.has_key?('notes')
       notes_html =  process_json_notes(json['notes'], (!full ? ABSTRACT : nil))
@@ -319,7 +319,6 @@ class Record
 
     unless  json['extents'].blank?
       json['extents'].each do |ext|
-        display = ''
         type = I18n.t("enumerations.extent_extent_type.#{ext['extent_type']}", default: ext['extent_type'])
         display = I18n.t('extent_number_type', :number => ext['number'], :type => type)
         summ = ext['container_summary'] || ''
@@ -328,7 +327,8 @@ class Record
         display << I18n.t('extent_phys_details',:deets => ext['physical_details']) unless  ext['physical_details'].blank?
         display << I18n.t('extent_dims', :dimensions => ext['dimensions']) unless  ext['dimensions'].blank?
 
-        results.push({'display' => display, '_inherited' => ext.dig('_inherited')})
+        inherited = ext.respond_to?(:dig) ? ext.dig('_inherited') : {}
+        results.push({'display' => display, '_inherited' => inherited})
       end
     end
 

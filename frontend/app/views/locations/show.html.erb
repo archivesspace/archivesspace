@@ -51,7 +51,7 @@
         <%= render_aspace_partial :partial => "location_functions/show", :locals => { :functions => @location.functions, :section_id => "location_functions_" } %>
       <% end %>
 
-      <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @location, :filter_term => {"location_uris" => @location.uri}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
+      <%= render_aspace_partial :partial => "search/embedded", :locals => {:record => @location, :filter_term => {"location_uris" => @location.uri, 'primary_type' => 'top_container'}.to_json, :heading_text => I18n.t("location._frontend.section.search_embedded")} %>
 
       <%= readonly_context :location, @location do |readonly| %>
         <%= show_plugins_for(@location, readonly) %>

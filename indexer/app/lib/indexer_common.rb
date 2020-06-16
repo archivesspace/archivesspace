@@ -241,6 +241,19 @@ class IndexerCommon
         doc['years'] = doc['years'].sort.uniq
         doc['year_sort'] = doc['years'].first.rjust(4, '0') + doc['years'].last.rjust(4, '0')
       end
+      dates = record['record']['dates']
+      display_dates = dates.select {|date| date['date_type'] == 'inclusive'}
+      display_dates = dates if display_dates.empty?
+      doc['dates'] = []
+      display_dates.each do |date|
+        if date['expression']
+          doc['dates'] << date['expression']
+        elsif date['date_type'] === "single"
+          doc['dates'] << date['begin']
+        elsif date['date_type']
+          doc['dates'] << "#{date['begin']} - #{date['end']}"
+        end
+      end
     end
   end
 
@@ -263,6 +276,18 @@ class IndexerCommon
         if scopecontent && scopecontent.has_key?('subnotes')
           doc['summary'] = scopecontent['subnotes'].map {|sn| sn['content']}.join("\n")
         end
+      end
+    end
+  end
+
+  def add_extents(doc, record)
+    if record['record']['extents']
+      extents = record['record']['extents']
+      display_extents = extents.select {|extent| extent['portion'] == 'whole'}
+      display_extents = extents if display_extents.empty?
+      doc['extents'] = []
+      display_extents.each do |extent|
+        doc['extents'] << "#{extent['number']} --- #{extent['extent_type']}"
       end
     end
   end
@@ -318,6 +343,7 @@ class IndexerCommon
       add_years(doc, record)
       add_level(doc, record)
       add_summary(doc, record)
+      add_extents(doc, record)
     }
 
     add_document_prepare_hook {|doc, record|
@@ -345,6 +371,10 @@ class IndexerCommon
                                           compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        if cm = record['record']['collection_management']
+          doc['processing_priority'] = cm['processing_priority']
+          doc['processors'] = cm['processors']
+        end
       end
     }
 
@@ -412,6 +442,10 @@ class IndexerCommon
                                            compact.uniq
         doc['slug'] = record['record']['slug']
         doc['is_slug_auto'] = record['record']['is_slug_auto']
+        if cm = record['record']['collection_management']
+          doc['processing_priority'] = cm['processing_priority']
+          doc['processors'] = cm['processors']
+        end
       end
 
       if doc['primary_type'] == 'digital_object'
@@ -579,6 +613,7 @@ class IndexerCommon
       if record['record']['jsonmodel_type'] == 'top_container'
         doc['title'] = record['record']['long_display_string']
         doc['display_string'] = record['record']['display_string']
+        doc['type_u_ssort'] = record['record']['type']
 
         if record['record']['series']
           doc['series_uri_u_sstr'] = record['record']['series'].map {|series| series['ref']}
@@ -626,9 +661,14 @@ class IndexerCommon
         doc['exported_u_sbool'] = record['record'].has_key?('exported_to_ils')
         doc['empty_u_sbool'] = record['record']['collection'].empty?
 
+        if record['record']['indicator']
+          doc['indicator_u_icusort'] = record['record']['indicator']
+        end
+
         doc['top_container_u_typeahead_utext'] = record['record']['display_string'].gsub(/[^0-9A-Za-z]/, '').downcase
         doc['top_container_u_icusort'] = record['record']['display_string']
         doc['barcode_u_sstr'] = record['record']['barcode']
+        doc['barcode_u_icusort'] = record['record']['barcode']
 
         doc['subcontainer_barcodes_u_sstr'] = record["record"]["subcontainer_barcodes"]
         doc['created_for_collection_u_sstr'] = record['record']['created_for_collection']
@@ -726,6 +766,7 @@ class IndexerCommon
         parent_type = JSONModel.parse_reference(record['uri'])[:type]
         docs << {
           'id' => cm['uri'],
+          'uri' => cm['uri'],
           'parent_id' => record['uri'],
           'parent_title' => record['record']['title'] || record['record']['display_string'],
           'parent_type' => parent_type,
@@ -733,7 +774,6 @@ class IndexerCommon
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
           'json' => cm.to_json(:max_nesting => false),
-          'cm_uri' => cm['uri'],
           'processing_priority' => cm['processing_priority'],
           'processing_status' => cm['processing_status'],
           'processing_hours_total' => cm['processing_hours_total'],

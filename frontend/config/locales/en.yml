@@ -159,62 +159,6 @@ en:
     text_placeholder: Filter by text
     clear_all: Clear All
     component_switch: Show Components
-    filter:
-      query: Text
-      subjects: Subject
-      primary_type: Record Type
-      digital_object_type: Type
-      level: Level
-      classification_path: Classification
-      accession_date_year: Accession Date
-      source: Source
-      rules: Rules
-      parent_type: Record Type
-      processing_priority: Processing Priority
-      processing_status: Status
-      publish: Published
-      temporary: Temporary
-      outcome: Outcome
-      event_type: Type
-      first_term_type: Term Type (First)
-      classification_uri: Classification
-      location_uris: Location
-      agents: Agent
-      creators: Creator
-      fullrecord: Keyword
-      subjects_text: Subject
-      title: Title
-      creators_text: Creator
-      notes: Notes
-      container_profile_width_u_sstr: Width
-      container_profile_height_u_sstr: Height
-      container_profile_depth_u_sstr: Depth
-      container_profile_dimension_units_u_sstr: Dimension Units
-      building: Building
-      floor: Floor
-      room: Room
-      area: Area
-      location_profile_display_string_u_ssort: Location Profile
-      location_profile_width_u_sstr: Width
-      location_profile_height_u_sstr: Height
-      location_profile_depth_u_sstr: Depth
-      location_profile_dimension_units_u_sstr: Dimension Units
-      rights_statement_agent_uris: Rights Statement Agent
-      assessment_surveyors: Surveyed By
-      assessment_review_required: Review Required
-      assessment_sensitive_material: Sensitive Material
-      assessment_reviewer_uris: Reviewer
-      assessment_surveyed_by_uris: Surveyed By
-      assessment_reviewers: Reviewer
-      assessment_inactive: Inactive
-      assessment_survey_year: Survey Year
-      assessment_record_types: Record Type
-      assessment_completed: Completed
-      status: Status
-      job_type: Job Type
-      report_type: Report Type
-      owner: Owner
-      langcode: Language of Materials
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multiple previous rows.
 
@@ -224,44 +168,263 @@ en:
     and: "and:"
     asc: Ascending
     desc: Descending
-    relevance: Relevance
-    title_sort: Title
-    user_mtime: Modified
-    primary_type: Record Type
-    processing_priority: Processing Priority
-    processing_status: Processing Status
-    processing_hours_total: Total Hours
-    parent_id: Record Type
-    create_time: Created
-    authority_id: Authority ID
-    source: Source
-    rules: Rules
-    outcome: Outcome
-    event_type: Type
-    identifier: Identifier
     select: Select
-    building: Building
-    floor: Floor
-    room: Room
-    area: Area
-    resource_type: Resource Type
-    acquisition_type: Acquisition Type
-    accession_date: Accession Date
-    restrictions_apply: Restrictions Apply
-    access_restrictions: Access Restrictions
-    use_restrictions: Use Restrictions
-    level: Level of Description
-    language: Language
-    restrictions: Restrictions
-    ead_id: EAD ID
-    finding_aid_status: Finding Aid Status
-    digital_object_id: Digital Object ID
-    digital_object_type: Digital Object Type
-    publish: Publish
-    location_profile_display_string_u_ssort: Location Profile
-    assessment_survey_begin: Survey Begin Date
-    assessment_survey_end: Survey Completed Date
-    assessment_id: ID
+
+  search:
+    accession:
+      title: Title
+      publish: Published
+      subjects: Subject
+      identifier: Identifier
+      acquisition_type: Acquisition Type
+      accession_date: Accession Date
+      resource_type: Resource Type
+      restrictions_apply: Restrictions Apply
+      access_restrictions: Access Restrictions
+      use_restrictions: Use Restrictions
+      audit_info: Audit Information
+      creators: Creator
+      accession_date_year: Accession Date
+      dates: Dates
+      extents: Extent
+      processing_priority: Processing Priority
+      processors: Processors
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    resource:
+      title: Title
+      publish: Published
+      level: Level
+      identifier: Identifier
+      resource_type: Resource Type
+      language: Language
+      restrictions: Restrictions
+      ead_id: EAD ID
+      finding_aid_status: Finding Aid Status
+      audit_info: Audit Information
+      classification_path: Classification Path
+      subjects: Subject
+      dates: Dates
+      extents: Extent
+      processing_priority: Processing Priority
+      processors: Processors
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    archival_object:
+      title: Title
+      publish: Published
+      context: Parent Resource
+      identifier: Component ID
+      ref_id: Ref ID
+      level: Level
+      audit_info: Audit Information
+      language: Language
+      dates: Dates
+      extents: Extent
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    subjects:
+      source: Source
+      first_term_type: Term Type (First)
+      title: Terms
+      publish: Published
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    digital_object:
+      title: Title
+      publish: Published
+      subjects: Subject
+      level: Level
+      digital_object_type: Digital Object Type
+      digital_object_id: Digital Object ID
+      restrictions: Restrictions
+      audit_info: Audit Information
+      language: Language
+      dates: Dates
+      extents: Extent
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    digital_object_component:
+      title: Title
+      publish: Published
+      context: Found in
+      audit_info: Audit Information
+      language: Language
+      dates: Dates
+      extents: Extent
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    agent:
+      title: Name
+      primary_type: Agent Type
+      publish: Published
+      authority_id: Authority ID
+      source: Source
+      rules: Rules
+      is_user: Is User?
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    location:
+      title: Location
+      publish: Published
+      building: Building
+      floor: Floor
+      room: Room
+      area: Area
+      location_holdings: Holdings for Current Repository
+      location_profile_display_string_u_ssort: Location Profile
+      audit_info: Audit Information
+      temporary: Temporary
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    event:
+      agents: Agent
+      event_type: Type
+      outcome: Outcome
+      linked_records: Record Links
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    collection_management:
+      parent_title: Title
+      parent_type: Record Type
+      processing_priority: Processing Priority
+      processing_status: Processing Status
+      processing_hours_total: Total Hours
+      processing_funding_source: Processing Funding Source
+      processors: Processors
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    classification:
+      title: Title
+      publish: Published
+      has_classification_terms: Has classification terms?
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    assessment:
+      assessment_id: Assessment ID
+      assessment_records: Record
+      assessment_record_types: Record Type
+      assessment_surveyors: Surveyor
+      assessment_survey_begin: Survey Begin
+      assessment_review_required: Review Required
+      assessment_sensitive_material: Sensitive Material
+      assessment_inactive: Inactive
+      assessment_survey_year: Survey Year
+      assessment_collections: Collection
+      assessment_completed: Assessment Completed
+      assessment_formats: Formats
+      assessment_ratings: Ratings
+      assessment_conservation_issues: Conservation Issues
+      audit_info: Audit Information
+      assessment_reviewers: Reviewer
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    repositories:
+      title: Title
+      publish: Published
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    top_container:
+      title: Title
+      publish: Published
+      container_profile_display_string_u_sstr: Container Profile
+      location_display_string_u_sstr: Location
+      type: Type
+      indicator: Indicator
+      barcode: Barcode
+      context: Resource/Accession
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    container_profile:
+      title: Title
+      publish: Published
+      container_profile_width_u_sstr: Width
+      container_profile_height_u_sstr: Height
+      container_profile_depth_u_sstr: Depth
+      container_profile_dimension_units_u_sstr: Dimension Units
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    location_profile:
+      title: Title
+      publish: Published
+      location_profile_width_u_sstr: Width
+      location_profile_height_u_sstr: Height
+      location_profile_depth_u_sstr: Depth
+      location_profile_dimension_units_u_sstr: Dimension Units
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    job:
+      status: Status
+      job_type: Job Type
+      report_type: Report Type
+      job_report_type: Job Type
+      time_started: Time Started
+      time_finished: Time Completed
+      time_submitted: Time Submitted
+      job_data: Job Information
+      audit_info: Audit Information
+      user_mtime: Modified
+      create_time: Created
+      asc: Ascending
+      desc: Descending
+    multi:
+      primary_type: Record Type
+      creators: Creator
+      subjects: Subject
+      title: Title
+      context: Found in
+      identifier: Identifier
+      audit_info: Audit Information
+      query: Text
+      relevance: Relevance
+      user_mtime: Modified
+      create_time: Created
+      dates: Dates
+      extents: Extent
+      asc: Ascending
+      desc: Descending
+
 
   advanced_search:
     operator:

@@ -505,9 +505,7 @@ describe 'Accessions' do
     @driver.find_element(:link, 'Browse').click
     @driver.click_and_wait_until_gone(:link, 'Accessions')
 
-    @driver.blocking_find_elements(:css, '.multiselect-column input').each do |checkbox|
-      checkbox.click
-    end
+    @driver.blocking_find_elements(:css, 'th.multiselect-column input')[0].click
 
     @driver.find_element(:css, '.record-toolbar .btn.multiselect-enabled').click
     @driver.find_element(:css, '#confirmChangesModal #confirmButton').click

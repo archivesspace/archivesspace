@@ -1,4 +1,18 @@
 module ViewHelper
+  def inherited?(item)
+    (item.key?('_inherited') && item['_inherited']) || (item.key?('is_inherited') && item['is_inherited'])
+  end
+
+  def all_inherited?(items)
+    items.all? { |item| inherited?(item) }
+  end
+
+  def display_component_id(record, infinite_item)
+    return nil if record.identifier.blank? || (infinite_item && record.json.key?('component_id_inherited'))
+
+    record.identifier
+  end
+
   #TODO: figure out a clever way to DRY these helpers up.
 
   # returns repo URL via slug if defined, via ID it not.

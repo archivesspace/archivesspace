@@ -321,6 +321,14 @@ class ApplicationController < ActionController::Base
     session[:preferences] || self.class.user_preferences(session)
   end
 
+  helper_method :browse_columns
+  def browse_columns
+    @browse_columns ||= if session[:repo_id]
+      JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+    else
+      JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+    end
+  end
   def user_repository_cookie
     cookies[user_repository_cookie_key]
   end
@@ -355,11 +363,13 @@ class ApplicationController < ActionController::Base
 
   def self.user_preferences(session)
     session[:last_preference_refresh] = Time.now.to_i
-    if session[:repo_id]
-      session[:preferences] = JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
+    prefs = if session[:repo_id]
+      JSONModel::HTTP::get_json("/repositories/#{session[:repo_id]}/current_preferences")['defaults']
     else
-      session[:preferences] = JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
+      JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
     end
+    session[:preferences] = prefs.reject { |k, _v| 
+      k.include? 'browse_column' or k.include? 'sort_column' or k.include? 'sort_direction'} if prefs
   end
 
 
