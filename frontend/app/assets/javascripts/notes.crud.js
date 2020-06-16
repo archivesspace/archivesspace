@@ -34,15 +34,19 @@ $(function() {
 
           var context = $(this).parent().hasClass("controls") ? $(this).parent() : $(this).closest(".subrecord-form");
           var $target_subrecord_list = $(".subrecord-form-list:first", context);
+          var data_indexes = $target_subrecord_list.children().map(function(){
+            return parseInt($(this).attr('data-index'));
+          }).get();
+          var add_data_index = data_indexes.length > 0 ? Math.max.apply(Math, data_indexes) + 1 : 0;
 
           var $subsubform = $(AS.renderTemplate(template, {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
+            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: add_data_index}),
+            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: add_data_index}),
             index: "${index}"
           }));
 
           $subsubform = $("<li>").data("type", $subsubform.data("type")).append($subsubform);
-          $subsubform.attr("data-index", index);
+          $subsubform.attr("data-index", add_data_index);
           $target_subrecord_list.append($subsubform);
 
           AS.initSubRecordSorting($target_subrecord_list);
@@ -60,8 +64,6 @@ $(function() {
           $this.parents("form:first").triggerHandler("formchanged.aspace");
 
           $(":input:visible:first", $subsubform).focus();
-
-          index++;
         });
       };
 
