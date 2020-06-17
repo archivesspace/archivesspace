@@ -114,6 +114,69 @@ describe 'Notes' do
     @driver.find_element_with_text('//div', /pogo/)
   end
 
+  it 'can create an ordered list subnote and list items maintain proper order' do
+    @driver.attempt(10) do |driver|
+      driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
+      driver.find_element(:id, 'resource_title_')
+    end
+
+    # Add a multipart note
+    @driver.find_element(css: '#notes > .subrecord-form-heading .btn.add-note').click
+    @driver.find_last_element(css: 'select.top-level-note-type').select_option('note_multipart')
+    @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').setValue('Note Content')")
+    @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').save()")
+    @driver.execute_script("$('#resource_notes__0__subnotes__0__content_').data('CodeMirror').toTextArea()")
+    note = @driver.blocking_find_elements(css: '#notes .subrecord-form-fields')[0]
+
+    # Add a subnote with 4 ordered list items
+    assert(5) { note.find_element(css: '.subrecord-form-heading .btn:not(.show-all)').click }
+    @driver.scroll_into_view(note.find_last_element(css: 'select.multipart-note-type')).select_option('note_orderedlist')
+
+    4.times do
+      @driver.find_element(id: 'resource_notes__0__subnotes__1__title_')
+             .containing_subform
+             .find_element(css: '.add-item-btn')
+             .click
+    end
+
+    [0, 1, 2, 3]. each do |i|
+      @driver.clear_and_send_keys([:id, "resource_notes__0__subnotes__1__items__#{i}_"],
+                                  "Item #{i+1}")
+    end
+
+    # Save the resource and confirm items are in proper position
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+    @driver.find_element(css: '#notes .collapse-subrecord-toggle').click
+    @driver.wait_for_ajax
+
+    [0, 1, 2, 3]. each do |i|
+      expect(@driver.find_element(xpath: "//input[@id='resource_notes__0__subnotes__1__items__#{i}_']").attribute('value')).to eq("Item #{i+1}")
+    end
+
+    # Add 2 more ordered list items
+    2.times do
+      @driver.find_element(id: 'resource_notes__0__subnotes__1__title_')
+             .containing_subform
+             .find_element(css: '.add-item-btn')
+             .click
+    end
+
+    [4, 5]. each do |i|
+      @driver.clear_and_send_keys([:id, "resource_notes__0__subnotes__1__items__#{i}_"],
+                                  "Item #{i+1}")
+    end
+
+    # Save the resource and confirm all items are in proper position
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+    @driver.find_element(css: '#notes .collapse-subrecord-toggle').click
+    @driver.wait_for_ajax
+
+    [0, 1, 2, 3, 4, 5]. each do |i|
+      expect(@driver.find_element(xpath: "//input[@id='resource_notes__0__subnotes__1__items__#{i}_']").attribute('value')).to eq("Item #{i+1}")
+    end
+
+  end
+
   it 'can add a top-level bibliography too' do
     @driver.get_edit_page(@resource)
 
