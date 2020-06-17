@@ -38,6 +38,9 @@ class DigitalObjectHandler < Handler
       end
       if @validate_only
         title = archival_object.title || "random title"
+        if archival_object.ref_id.nil? && id.nil?
+          id = "#{rand(1000000)}d"
+        end
       end
       osn = id
       if id.nil?
