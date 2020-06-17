@@ -5,15 +5,23 @@ describe "Subject Handler" do
   before(:each) do
     current_user = User.find(:username => "admin")
     @sh = SubjectHandler.new(current_user)
+    @shv = SubjectHandler.new(current_user, true)
     @report = BulkImportReport.new
     @report.new_row(1)
     @id = nil
   end
 
   def build_return_key(id, term, type, source)
-    subject = @sh.build(id, term, type, source)
+    errs = []
+    subject = @sh.validate_subject(id, term, type, source, errs)
     key = @sh.key_for(subject)
     key
+  end
+
+  it "should validate and find errors in a subject" do
+    errs = []
+    subj = @shv.validate_subject(nil, "My Subject", "topical", "ingested", errs)
+    expect(errs[0]).to start_with("NOT FOUND: 'ingested' not found ")
   end
 
   it "should build an entry in the subjects list with nil type and return a key" do
@@ -22,9 +30,9 @@ describe "Subject Handler" do
   end
 
   it "should reject an entry with an invalid source (ingested)" do
-    expect {
-      key = build_return_key(nil, "My Subject", "topical", "ingested")
-    }.to raise_error("NOT FOUND: 'ingested' not found in list subject_source")
+    errs = []
+    subject = @sh.validate_subject(nil, "My Subject", "topical", "ingested", errs)
+    expect(errs[0]).to start_with("NOT FOUND: 'ingested' not found ")
   end
 
 =begin
@@ -36,9 +44,11 @@ describe "Subject Handler" do
 =end
 
   it "should create a subject" do
-    subject = @sh.build(nil, "New School", "topical", "local")
+    errs = []
+    subject = @sh.validate_subject(nil, "New School", "topical", "local", errs)
     subj = @sh.create_subj(subject)
     expect(subj[:id]).to_not be_nil
+    expect(errs.empty?).to be(true)
     id = subj[:id]
     s = nil
     expect {
@@ -48,9 +58,11 @@ describe "Subject Handler" do
     subj.delete
   end
   it "should create a subject with the default values" do
-    subject = @sh.build(nil, "New School ingested", nil, nil)
+    errs = []
+    subject = @sh.validate_subject(nil, "New School ingested", nil, nil, errs)
+    expect(errs.empty?).to be(true)
     subj = @sh.create_subj(subject)
-    expect(subj[:id]).to_not be_nil
+    expect(subj[:id].nil?).to be(false)
     id = subj[:id]
     s = nil
     expect {
@@ -61,7 +73,9 @@ describe "Subject Handler" do
   end
 
   it "should find a subject from its ID" do
-    subject = @sh.build(nil, "New School", "topical", "local")
+    errs = []
+    subject = @sh.validate_subject(nil, "New School", "topical", "local", errs)
+    expect(errs.empty?).to be(true)
     subj = @sh.create_subj(subject)
     id = subj[:id]
     subject = @sh.get_or_create(id, nil, nil, nil, $repo_id, @report)
