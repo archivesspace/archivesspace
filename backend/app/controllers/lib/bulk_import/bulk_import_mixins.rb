@@ -96,6 +96,29 @@ module BulkImportMixins
     end
     tc
   end 
+  
+ def find_top_container_for_resource(ead_id, indicator, type_id)
+      
+   TopContainer
+       .join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :top_container__id)
+       .join(:sub_container, :sub_container__id => :top_container_link_rlshp__sub_container_id)
+       .join(:instance, :instance__id => :sub_container__instance_id)
+       .join(:archival_object, :archival_object__id => :instance__archival_object_id)
+       .join(:resource, :resource__id => :archival_object__root_record_id)
+       .filter(:resource__ead_id => ead_id, :indicator => indicator, :type_id => type_id)
+       .select_all(:top_container).distinct.first
+ end
+  
+ def indicator_and_type_exist_for_resource?(ead_id, indicator, type_id)
+   
+    return TopContainer
+      .join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :top_container__id)
+      .join(:sub_container, :sub_container__id => :top_container_link_rlshp__sub_container_id)
+      .join(:instance, :instance__id => :sub_container__instance_id)
+      .join(:archival_object, :archival_object__id => :instance__archival_object_id)
+      .join(:resource, :resource__id => :archival_object__root_record_id)
+      .filter(:resource__ead_id => ead_id, :indicator => indicator, :type_id => type_id).count > 0
+  end
 
   def sub_container_from_barcode(barcode)
     dataset = CrudHelpers.scoped_dataset(SubContainer, {:barcode_2 => barcode})

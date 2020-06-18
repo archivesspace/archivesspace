@@ -84,9 +84,9 @@ class TopContainerLinkerValidator < BulkImportParser
       tc_type = @row_hash[TOP_CONTAINER_TYPE]
       if (!tc_indicator.nil? && !tc_type.nil?)
         type_id = BackendEnumSource.id_for_value("container_type",tc_type.strip)
-        tc_obj = find_top_container({:indicator => tc_indicator, :type_id => type_id})
-        if (!tc_obj.nil?)
-          err_arr.push I18n.t("top_container_linker.error.tc_ind_ct_exists", :indicator=> tc_indicator, :tc_type=> tc_type, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+        tc_exists = indicator_and_type_exist_for_resource?(ead_id, tc_indicator, type_id)
+        if (tc_exists)
+          err_arr.push I18n.t("top_container_linker.error.tc_ind_ct_exists", :indicator=> tc_indicator, :tc_type=> tc_type, :ead_id => ead_id, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         end
       end
           

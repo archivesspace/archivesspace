@@ -58,6 +58,13 @@ describe "Bulk Import Mixins" do
     @resource_no_ead = Resource.get_or_die(id)
     @tc = create_top_container()
     @sc = create_sub_container()
+    
+    opts = {:title => 'A new archival object', :resource => {:ref => @resource.uri}, :instances => [build(:json_instance,
+      :sub_container => build(:json_sub_container, :top_container => {:ref => @tc.uri}))]}
+    @ao = ArchivalObject.create_from_json(
+            build(:json_archival_object,
+                opts),
+                :repo_id => $repo_id)
   end
 
   it "handles missing EAD ID and URI" do
@@ -130,6 +137,17 @@ describe "Bulk Import Mixins" do
     sc_obj = sub_container_from_barcode(@sc.barcode_2)
     expect(sc_obj["barcode_2"]).to eq(@sc.barcode_2)
   end
+  
+  it "That the count of the indicator and container type is > 0" do
+    ind_type_exist = indicator_and_type_exist_for_resource?(@resource.ead_id, @tc.indicator, @tc.type_id)
+    expect(ind_type_exist).to be true
+  end
+  
+  it "Tests that it receives the existing top container for an archival object in the resource" do
+    tc = find_top_container_for_resource(@resource.ead_id, @tc.indicator, @tc.type_id)
+    expect(tc.id).to eq(@tc.id)
+  end
+  
   
   after(:each) do
     @no_ead_json.delete

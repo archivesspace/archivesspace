@@ -7,13 +7,16 @@ describe "Top Container Linker Validator" do
     @current_user = User.find(:username => "admin")
     @resource = create_resource({ :title => generate(:generic_title), :ead_id => 'hua15019' })
     @tcl = TopContainerLinkerValidator.new("somefile.csv", "text/csv", @current_user, {:rid => @resource[:id], :repo_id => @resource[:repo_id]})
+    @tc = create_top_container()
     #Need this to make sure the checks are valid
+    opts = {:title => 'A new archival object', :ref_id => 'hua15019c00007', :resource => {:ref => @resource.uri}, :instances => [build(:json_instance,
+          :sub_container => build(:json_sub_container, :top_container => {:ref => @tc.uri}))]}
+        
     @ao = ArchivalObject.create_from_json(
           build(:json_archival_object,
-              :title => 'A new archival object',
-              :ref_id => 'hua15019c00007'),
+          opts),
               :repo_id => $repo_id)
-    @tc = create_top_container()
+    
   end
 
   def hash_it(obj)
@@ -21,13 +24,12 @@ describe "Top Container Linker Validator" do
   end
   
   def valid_tc_linking_data
-    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1"}
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1", "top_container_type"=>"abc"}
   end
   
   def invalid_tc_linking_data_ead_id_missing
     {"ref_id"=>"hua15019c00007", "instance_type"=>"unspecified", "top_container_indicator"=>"Box 1"}
   end
-
     
   def invalid_tc_linking_data_ref_id_missing
     {"ead_id" => "hua15019", "instance_type"=>"unspecified", "top_container_indicator"=>"Box 1"}
@@ -47,6 +49,10 @@ describe "Top Container Linker Validator" do
   
   def invalid_tc_linking_data_barcode_exists
     {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1", "top_container_barcode" => @tc.barcode}
+  end
+  
+  def invalid_tc_linking_data_type_indicator_exists
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>@tc.indicator, "top_container_type" => @tc.type}
   end
 
   it "Checks the validation method with valid input" do
@@ -75,6 +81,10 @@ describe "Top Container Linker Validator" do
 
   it "Checks the validation method for a barcode that already exists in the database" do
     expect{@tcl.process_row(invalid_tc_linking_data_barcode_exists)}.to raise_error(BulkImportException)
+  end
+ 
+  it "Checks the validation method for a type-indicator combo that already exists in the database for the resource" do
+    expect{@tcl.process_row(invalid_tc_linking_data_type_indicator_exists)}.to raise_error(BulkImportException)
   end
  
    

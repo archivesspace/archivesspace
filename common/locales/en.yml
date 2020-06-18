@@ -2451,7 +2451,7 @@ en:
       tc_indicator_and_record_no_miss: "Either a Top Container Indicator or TC Record Number must be present for %{ref_id} in row %{row_num}."
       tc_indicator_and_record_no_exist: "Only a Top Container Indicator OR TC Record Number can be present for %{ref_id} in row %{row_num}."
       tc_barcode_exists: "The Top Container Barcode, %{barcode} already exists in the database (see  %{ref_id} in row %{row_num})."
-      tc_ind_ct_exists: "The Top Container Indicator and Container Type combo %{indicator} %{tc_type} already exists in the database (see  %{ref_id} in row %{row_num})."
+      tc_ind_ct_exists: "The Top Container Indicator and Container Type combo %{tc_type} %{indicator} already exists in the database for an AO in resource %{ead_id} (see  %{ref_id} in row %{row_num})."
       sc_barcode_exists: "The Child Barcode, %{barcode} already exists in the database (see %{ref_id} in row %{row_num})."
       loc_not_in_db: "The given Location ID, %{loc_id} cannot be found in the database (see %{ref_id} in row %{row_num})."
       cp_not_in_db: "The given Container Profile ID, %{cp_id} cannot be found in the database (see %{ref_id} in row %{row_num})."

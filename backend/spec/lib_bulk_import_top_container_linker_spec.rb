@@ -6,39 +6,22 @@ describe "Top Container Linker" do
   BULK_FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures", "bulk_import")
   before(:each) do
     @current_user = User.find(:username => "admin")
-    create_archival_object({:title => generate(:generic_title), :ref_id => 'hua15019c00007'})
-    create_archival_object({:title => generate(:generic_title), :ref_id => 'hua15019c00008'})
-    create_archival_object({:title => generate(:generic_title), :ref_id => 'hua15019c00009'})
-    create_archival_object({:title => generate(:generic_title), :ref_id => 'hua15019c00010'})
-    create_archival_object({:title => generate(:generic_title), :ref_id => 'hua15019c00011'})
-      
-    # create the resource
-      resource = JSONModel(:resource).from_hash(
-        "title" => generate(:generic_title), 
-        "ead_id" => "hua15019",
-        "dates" => [{
-          "date_type" => "single",
-          "label" => "creation",
-          "expression" => "1901",
-        }],
-        "id_0" => "abc123",
-        "level" => "collection",
-        "lang_materials" => [{
-          "language_and_script" => {
-            "language" => "eng",
-            "script" => "Latn",
-          },
-        }],
-        "finding_aid_language" => "eng",
-        "finding_aid_script" => "Latn",
-        "extents" => [{
-          "portion" => "whole",
-          "number" => "5 or so",
-          "extent_type" => "reels"
-        }])
-  
-      id = resource.save
-      @resource = Resource.get_or_die(id)
+    
+    @resource = create_resource({ :title => generate(:generic_title), :ead_id => 'hua15019' })
+    @tc = create_top_container({:indicator => "Test Box 11", :type => "box"})
+        
+    create_archival_object({:title => generate(:generic_title), :resource => {:ref => @resource.uri}, :ref_id => 'hua15019c00007', 
+      :instances => [build(:json_instance,
+              :sub_container => build(:json_sub_container, :top_container => {:ref => @tc.uri}))]})
+    create_archival_object({:title => generate(:generic_title), :resource => {:ref => @resource.uri}, :ref_id => 'hua15019c00008', :instances => [build(:json_instance,
+      :sub_container => build(:json_sub_container, :top_container => {:ref => @tc.uri}))]})
+    create_archival_object({:title => generate(:generic_title), :resource => {:ref => @resource.uri}, :ref_id => 'hua15019c00009', :instances => [build(:json_instance,
+      :sub_container => build(:json_sub_container, :top_container => {:ref => @tc.uri}))]})
+    create_archival_object({:title => generate(:generic_title), :resource => {:ref => @resource.uri}, :ref_id => 'hua15019c00010', :instances => [build(:json_instance,
+      :sub_container => build(:json_sub_container, :top_container => {:ref => @tc.uri}))]})
+    create_archival_object({:title => generate(:generic_title), :resource => {:ref => @resource.uri}, :ref_id => 'hua15019c00011', :instances => [build(:json_instance,
+      :sub_container => build(:json_sub_container, :top_container => {:ref => @tc.uri}))]})
+        
     end
     
     it "reads in csv spreadsheet and runs with no errors" do
@@ -59,6 +42,8 @@ describe "Top Container Linker" do
       expect(report.rows[3].errors).to eq([])
       expect(report.rows[4].errors).to eq([])
   end
+  
+  
 
   it "reads in excel spreadsheet and runs with no errors" do
       opts = { :repo_id => @resource[:repo_id],

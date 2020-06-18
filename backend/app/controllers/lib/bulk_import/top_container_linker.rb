@@ -69,6 +69,19 @@ class TopContainerLinker < BulkImportParser
         raise BulkImportException.new("No AO found;" + err_arr)
       end
       
+      ead_id = @row_hash[EAD_ID]
+      if ead_id.nil?
+        err_arr.push I18n.t("top_container_linker.error.ead_id_miss", :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+      else 
+        #Check that the AO can be found in the db
+        resource = resource_from_ref(ead_id.strip)
+        if (resource.nil?)
+          err_arr.push I18n.t("top_container_linker.error.resource_not_in_db", :ead_id => ead_id.to_s, :row_num => @counter.to_s)
+        elsif (resource.uri != @resource_ref)
+          err_arr.push I18n.t("top_container_linker.error.resources_do_not_match", :spreadsheet_resource => resource.uri, :ead_id => ead_id.to_s, :current_resource => @resource_ref, :row_num => @counter.to_s)
+        end
+      end
+      
       #Check that the instance type exists
       instance_type = @row_hash[INSTANCE_TYPE]
       if instance_type.nil?
@@ -92,7 +105,7 @@ class TopContainerLinker < BulkImportParser
       tc_instance = nil
       if (!tc_indicator.nil? && !tc_type.nil?)
         type_id = BackendEnumSource.id_for_value("container_type",tc_type.strip)
-        tc_jsonmodel_obj = find_top_container({:indicator => tc_indicator, :type_id => type_id})
+        tc_jsonmodel_obj = find_top_container_for_resource(ead_id, tc_indicator, type_id)
         display_indicator = tc_indicator;
         if (tc_jsonmodel_obj.nil?)
           #Create new TC 
