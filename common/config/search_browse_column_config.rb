@@ -156,7 +156,7 @@ module SearchAndBrowseColumnConfig
       "publish" => {:field => "publish", :sortable => true, :type => "boolean"},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
-    "subjects" => {
+    "subject" => {
       "title" => {:field => "title", :sortable => true, :sort_by => "title_sort"},
       "source" => {:field => "source", :sortable => true},
       "first_term_type" => {:field => "first_term_type", :sortable => true},
