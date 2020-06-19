@@ -2349,7 +2349,7 @@ en:
     dig_assoc: Digital Object added to  Archival Object
     row_error: "Row %{row} will not be processed due to errors: %{errs}"
     created: "%{what} created: %{id}"
-    could_be: "%{what} could be created"
+    could_be: "%{what} would be created"
     updated: "%{what}: %{id}"
     clip_btn: Copy to Clipboard
     clip_created:  "\t%{what} created: \t%{nm}\t%{id}\t%{ref_id}"
@@ -2360,7 +2360,7 @@ en:
     log_complete: "Completed import of %{file}"
     log_validation: "Completed validate of %{file}"
     log_created: "%{row}: Created %{what}"
-    log_created_be: "%{row}: %{what} could be created"
+    log_created_be: "%{row}: %{what} would be created"
     log_info: "%{row}:\t%{what}"
     log_error: "%{row}:\tERROR %{what}"
     log_obj: "%{what} '%{nm}' %{id} %{ref_id}"    
@@ -2456,3 +2456,4 @@ en:
       file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
       wrong_file_type: "The file is neither an Excel Spreadsheet nor a CSV file"
       dig_obj_unique: "Digital Object ID '%{id}' already exists."
+      cannot: Cannot continue due to previous errors

@@ -40,27 +40,25 @@ class ImportDigitalObjects < BulkImportParser
     rescue Exception => e
       errs << e.message
     end
-    ret_str = check_row
-    errs << ret_str if !ret_str.empty?
-    if !@validate_only && !ret_str.empty?
+    errs << check_row
+    if !@validate_only && !errs.empty?
       err = errs.join("; ")
       raise BulkImportException.new(I18n.t("bulk_import.row_error", :row => @counter, :errs => err))
     end
     ao = verify_ao(@row_hash["ao_ref_id"], @row_hash["ao_uri"], errs)
-    if !errs.empty? && !@validate_only
+    if ao.nil? && !@validate_only
       err = errs.join("; ")
-      raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao", errs => err))
+      raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao", :errs => err))
     end
-    if !ao.nil?
-      digital_instance = create_instance(ao)
-      if !digital_instance & @validate_only
-        @report.add_errors(errs.join("; ")) if !errs.empty?
-        @report.add_errors(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
-      elsif !errs.empty?
-        err = errs.join("; ")
-        @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => err))
-      end
+    digital_instance = create_instance(ao)
+    if !digital_instance & @validate_only
+      @report.add_errors(errs.join("; ")) if !errs.empty?
+      @report.add_errors(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
+    elsif !errs.empty?
+      err = errs.join("; ")
+      @report.add_errors(I18n.t("bulk_import.error.dig_unassoc", :msg => err))
     end
+    digital_instance
   end
 
   def log_row(row)
@@ -105,7 +103,7 @@ class ImportDigitalObjects < BulkImportParser
     result = archival_object_from_ref_or_uri(ref_id, uri)
     ao = result[:ao]
     if ao.nil?
-      errs << I18n.t("bulk_import.error.bad_ao", errs => result[:errs])
+      errs << I18n.t("bulk_import.error.bad_ao", :errs => result[:errs])
     else
       @report.add_archival_object(ao)
       if ao.instances

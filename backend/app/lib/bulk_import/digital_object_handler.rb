@@ -17,6 +17,25 @@ class DigitalObjectHandler < Handler
   def create(title, thumb, link, id, publish, archival_object, report)
     dig_o = nil
     dig_instance = nil
+    # might as well check the dig_id first
+    if @validate_only
+      if archival_object.nil?
+        archival_object = JSONModel(:archival_object).new._always_valid!
+        archival_object.title = "random title"
+        archival_object.ref_id = "VAL#{rand(1000000)}"
+      end
+    end
+    osn = id || "#{archival_object.ref_id.to_s}d"
+    if !check_digital_id(osn)
+=begin
+      if @validate_only
+        I18n.t("bulk_import.error.dig_obj_unique", :id => osn)
+        report.add_errors(I18n.t("bulk_import.error.dig_obj_unique", :id => osn))
+      else
+=end
+      raise BulkImportException.new(I18n.t("bulk_import.error.dig_obj_unique", :id => osn))
+      #      end
+    end
     unless !thumb && !link
       files = []
       if !link.nil? && link.start_with?("http")
@@ -35,19 +54,6 @@ class DigitalObjectHandler < Handler
         fv.xlink_show_attribute = "embed"
         fv.is_representative = true
         files.push fv
-      end
-      if @validate_only
-        title = archival_object.title || "random title"
-        if archival_object.ref_id.nil? && id.nil?
-          id = "#{rand(1000000)}d"
-        end
-      end
-      osn = id
-      if id.nil?
-        osn = "#{archival_object.ref_id.to_str}d"
-      end
-      if !check_digital_id(osn)
-        raise BulkImportException.new(I18n.t("bulk_import.error.dig_obj_unique", :id => osn))
       end
       dig_o = JSONModel(:digital_object).new._always_valid!
       dig_o.title = title.nil? ? archival_object.display_string : title

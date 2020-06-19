@@ -211,18 +211,20 @@ class ImportArchivalObjects < BulkImportParser
     end
     ao.instances = create_top_container_instances
     dig_instance = nil
-    begin
-      dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["digital_object_link"], @row_hash["thumbnail"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report)
-    rescue Exception => e
-      @report.add_errors(e.message)
-    end
-    if dig_instance
-      ao.instances ||= []
-      ao.instances << dig_instance
-    elsif @validate_only
-      @report.add_errors(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
-    else
-      @report.add_errors(I18n.t("bulk_import.error.dig_validation", :err => ""))
+    unless [@row_hash["digital_object_title"], @row_hash["digital_object_link"], @row_hash["thumbnail"], @row_hash["digital_object_id"]].reject(&:nil?).empty?
+      begin
+        dig_instance = @doh.create(@row_hash["digital_object_title"], @row_hash["digital_object_link"], @row_hash["thumbnail"], @row_hash["digital_object_id"], @row_hash["publish"], ao, @report)
+      rescue Exception => e
+        @report.add_errors(e.message)
+      end
+      if dig_instance
+        ao.instances ||= []
+        ao.instances << dig_instance
+      elsif @validate_only
+        @report.add_errors(I18n.t("bulk_import.object_not_created_be", :what => I18n.t("bulk_import.dig")))
+      else
+        @report.add_errors(I18n.t("bulk_import.error.dig_validation", :err => ""))
+      end
     end
     subjs = process_subjects
     subjs.each { |subj| ao.subjects.push({ "ref" => subj.uri }) } unless subjs.empty?
