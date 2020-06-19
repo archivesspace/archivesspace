@@ -937,6 +937,8 @@ class IndexerCommon
     repo_id = get_record_scope(uri)
 
     return false if (repo_id == "global")
+    return true unless values['repository'].has_key?('_resolved')
+    return true unless values['repository']['_resolved'].has_key?('publish')
 
     values['repository']['_resolved']['publish'] == false
   end
