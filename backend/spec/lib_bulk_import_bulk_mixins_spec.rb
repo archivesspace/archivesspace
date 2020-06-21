@@ -61,7 +61,7 @@ describe "Bulk Mixins" do
   it "handles missing EAD ID and URI" do
     match = expect {
       resource_match(@resource_json, nil, nil)
-    }.to raise_error(/This row is missing BOTH and EAD ID and URI/)
+    }.to raise_error(/This row is missing BOTH an EAD ID and URI/)
   end
 
   it "matches resource by uri" do
