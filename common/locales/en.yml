@@ -2096,7 +2096,7 @@ en:
     resource_uri: Resource URI
     content_type: Spreadsheet type
     load_type: Load Type
-    validate_only: Validate Only
+    only_validate: Validate Only
     type:
       csv: CSV
       xlsx: Excel Spreadsheet
