@@ -229,7 +229,7 @@ en:
       create_time: Created
       asc: Ascending
       desc: Descending
-    subjects:
+    subject:
       source: Source
       first_term_type: Term Type (First)
       title: Terms
