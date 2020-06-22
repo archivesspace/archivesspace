@@ -45,7 +45,7 @@ module SearchHelper
     search_params["filter_term"] = search_params["filter_term"].reject{|f| Array(opts["remove_filter_term"]).include?(f)} if opts["remove_filter_term"]
     search_params["filter_term"] = search_params["filter_term"].select{|f| SearchResultData.BASE_FACETS.include?(ASUtils.json_parse(f).keys.first)} if removing_record_type_filter
 
-    sort = (opts["sort"] || params["sort"])
+    sort = (opts["sort"] || params["sort"] || (@search_data ? @search_data.sorted? : nil))
 
     if sort
       sort = sort.split(', ')
@@ -309,15 +309,15 @@ module SearchHelper
     params.has_key?("deleted_uri") and Array(params["deleted_uri"]).include?(record["id"])
   end
 
-  def get_ancestor_title(field) 
-    field_json = JSONModel::HTTP.get_json(field)  
-    unless field_json.nil?  
-      if field.include?('resources') || field.include?('digital_objects') 
-        clean_mixed_content(field_json['title'])  
-      else  
-        clean_mixed_content(field_json['display_string']) 
-      end 
-    end 
+  def get_ancestor_title(field)
+    field_json = JSONModel::HTTP.get_json(field)
+    unless field_json.nil?
+      if field.include?('resources') || field.include?('digital_objects')
+        clean_mixed_content(field_json['title'])
+      else
+        clean_mixed_content(field_json['display_string'])
+      end
+    end
   end
 
   def context_separator(result)
@@ -328,21 +328,21 @@ module SearchHelper
     end
   end
 
-  def context_ancestor(result)  
-    case  
-    when result['ancestors']  
-      ancestors = result['ancestors'] 
-    when result['linked_instance_uris'] 
-      ancestors = result['linked_instance_uris']  
-    when result['linked_record_uris'] 
-      ancestors = result['linked_record_uris']  
-    when result['primary_type'] == 'top_container'  
-      ancestors = Array(result['collection_uri_u_sstr'])  
-    when result['primary_type'] == 'digital_object_component' 
-      ancestors = result['digital_object'].split  
-    else  
-      ancestors = ['']  
-    end 
+  def context_ancestor(result)
+    case
+    when result['ancestors']
+      ancestors = result['ancestors']
+    when result['linked_instance_uris']
+      ancestors = result['linked_instance_uris']
+    when result['linked_record_uris']
+      ancestors = result['linked_record_uris']
+    when result['primary_type'] == 'top_container'
+      ancestors = Array(result['collection_uri_u_sstr'])
+    when result['primary_type'] == 'digital_object_component'
+      ancestors = result['digital_object'].split
+    else
+      ancestors = ['']
+    end
   end
 
   def column_opts
