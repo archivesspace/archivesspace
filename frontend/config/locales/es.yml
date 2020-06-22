@@ -171,6 +171,7 @@ es:
 
   search:
     accession:
+      score: Relevancia
       title: Título
       publish: Publicado
       subjects: Materia
@@ -193,6 +194,7 @@ es:
       asc: Ascendente
       desc: Descendente
     resource:
+      score: Relevancia
       title: Título
       publish: Publicado
       level: Nivel de Descripción
@@ -214,6 +216,7 @@ es:
       asc: Ascendente
       desc: Descendente
     archival_object:
+      score: Relevancia
       title: Título
       publish: Publicado
       context: Encontrado en
@@ -229,6 +232,7 @@ es:
       asc: Ascendente
       desc: Descendente
     subject:
+      score: Relevancia
       source: Fuente
       first_term_type: Tipo del término (primero)
       title: Descriptores
@@ -239,6 +243,7 @@ es:
       asc: Ascendente
       desc: Descendente
     digital_object:
+      score: Relevancia
       title: Título
       publish: Publicado
       subjects: Materia
@@ -255,6 +260,7 @@ es:
       asc: Ascendente
       desc: Descendente
     digital_object_component:
+      score: Relevancia
       title: Título
       publish: Publicado
       context: Encontrado en
@@ -267,6 +273,7 @@ es:
       asc: Ascendente
       desc: Descendente
     agent:
+      score: Relevancia
       title: Nombre
       primary_type: Tipo de autoridad
       publish: Publicado
@@ -280,6 +287,7 @@ es:
       asc: Ascendente
       desc: Descendente
     location:
+      score: Relevancia
       title: Ubicación
       publish: Publicado
       building: Edificio
@@ -295,6 +303,7 @@ es:
       asc: Ascendente
       desc: Descendente
     event:
+      score: Relevancia
       agents: Autoridades
       event_type: Tipo
       outcome: Resultado
@@ -305,6 +314,7 @@ es:
       asc: Ascendente
       desc: Descendente
     collection_management:
+      score: Relevancia
       parent_title: Título
       parent_type: Tipo de registro
       processing_priority: Prioridad de procesado
@@ -318,6 +328,7 @@ es:
       asc: Ascendente
       desc: Descendente
     classification:
+      score: Relevancia
       title: Título
       publish: Publicado
       has_classification_terms: Tiene términos de clasificación?
@@ -327,6 +338,7 @@ es:
       asc: Ascendente
       desc: Descendente
     assessment:
+      score: Relevancia
       assessment_id: ID
       assessment_records: Archivos
       assessment_record_types: Tipos de materiales / Formatos
@@ -348,6 +360,7 @@ es:
       asc: Ascendente
       desc: Descendente
     repositories:
+      score: Relevancia
       title: Título
       publish: Publicado
       audit_info: Datos de auditoría
@@ -356,6 +369,7 @@ es:
       asc: Ascendente
       desc: Descendente
     top_container:
+      score: Relevancia
       title: Título
       publish: Publicado
       container_profile_display_string_u_sstr: Perfil de contenedor
@@ -370,6 +384,7 @@ es:
       asc: Ascendente
       desc: Descendente
     container_profile:
+      score: Relevancia
       title: Título
       publish: Publicado
       container_profile_width_u_sstr: Ancho
@@ -382,6 +397,7 @@ es:
       asc: Ascendente
       desc: Descendente
     location_profile:
+      score: Relevancia
       title: Título
       publish: Publicado
       location_profile_width_u_sstr: Ancho
@@ -394,6 +410,7 @@ es:
       asc: Ascendente
       desc: Descendente
     job:
+      score: Relevancia
       status: Estado
       job_type: Tipo de tarea
       report_type: Tipo de informe
@@ -408,6 +425,7 @@ es:
       asc: Ascendente
       desc: Descendente
     multi:
+      score: Relevancia
       primary_type: Tipo de registro
       creators: Creadores
       subjects: Materia

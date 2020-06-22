@@ -123,7 +123,7 @@ describe 'Search Listing' do
     it 'shows all sortable columns in sort dropdown' do
       @driver.find_element(:id, 'global-search-button').click
       sortable_columns = @driver.find_elements(:css, "th.sortable")
-      @driver.find_element_with_text('//span', /Record Type Ascending/).click
+      @driver.find_element_with_text('//span', /Relevance/).click
       @driver.wait_for_dropdown
       sort_opts = @driver.find_element(:css, "ul.sort-opts")
       expect do

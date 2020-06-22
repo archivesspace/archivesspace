@@ -57,10 +57,10 @@ class Search
       JSONModel::HTTP::get_json("/current_global_preferences")['defaults']
     end
 
-    sort_col = prefs["#{type}_sort_column"] || prefs["#{type}_browse_column_1"]
+    sort_col = prefs["#{type}_sort_column"] || 'score'
     if sort_col
       sort_col = 'title_sort' if sort_col == 'title'
-      "#{sort_col} #{(prefs["#{type}_sort_direction"] || "asc")}"
+      "#{sort_col} #{(prefs["#{type}_sort_direction"] || "desc")}"
     else
       nil
     end
