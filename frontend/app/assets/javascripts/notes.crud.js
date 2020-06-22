@@ -5,6 +5,13 @@
 
 $(function() {
 
+  function nextDataIndex($list) {
+    var data_indexes = $list.children().map(function(){
+      return parseInt($(this).attr('data-index'));
+    }).get();
+    return data_indexes.length > 0 ? Math.max.apply(Math, data_indexes) + 1 : 0;
+  }
+
   $.fn.init_notes_form = function() {
 
     $(this).each(function() {
@@ -14,9 +21,6 @@ $(function() {
       if ($this.hasClass("initialised") || $this.hasClass("too-many") ) {
         return;
       }
-
-
-      var index = $(".subrecord-form-fields", $this).length;
 
       var initialisers = {}
 
@@ -34,15 +38,16 @@ $(function() {
 
           var context = $(this).parent().hasClass("controls") ? $(this).parent() : $(this).closest(".subrecord-form");
           var $target_subrecord_list = $(".subrecord-form-list:first", context);
+          var add_data_index = nextDataIndex($target_subrecord_list);
 
           var $subsubform = $(AS.renderTemplate(template, {
-            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: index}),
-            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: index}),
+            path: AS.quickTemplate($target_subrecord_list.data("name-path"), {index: add_data_index}),
+            id_path: AS.quickTemplate($target_subrecord_list.data("id-path"), {index: add_data_index}),
             index: "${index}"
           }));
 
           $subsubform = $("<li>").data("type", $subsubform.data("type")).append($subsubform);
-          $subsubform.attr("data-index", index);
+          $subsubform.attr("data-index", add_data_index);
           $target_subrecord_list.append($subsubform);
 
           AS.initSubRecordSorting($target_subrecord_list);
@@ -60,8 +65,6 @@ $(function() {
           $this.parents("form:first").triggerHandler("formchanged.aspace");
 
           $(":input:visible:first", $subsubform).focus();
-
-          index++;
         });
       };
 
@@ -324,6 +327,7 @@ $(function() {
         event.stopPropagation();
 
         var $target_subrecord_list = $(".subrecord-form-list:first", $this);
+        var add_data_index = nextDataIndex($target_subrecord_list);
 
         var selector_template = "template_note_type_selector";
         var is_inline = $this.hasClass('note-inline');
@@ -340,7 +344,7 @@ $(function() {
         var $subform = $(AS.renderTemplate(selector_template));
 
         $subform = $("<li>").data("type", $subform.data("type")).append($subform);
-        $subform.attr("data-index", index);
+        $subform.attr("data-index", add_data_index);
 
         $target_subrecord_list.append($subform);
 
@@ -362,8 +366,6 @@ $(function() {
         var $topLevelNoteTypeSelector = $("select.top-level-note-type", $subform);
         $topLevelNoteTypeSelector.change(changeNoteTemplate);
         $topLevelNoteTypeSelector.triggerHandler('change');
-
-        index++;
       };
 
       $(".subrecord-form-heading:first .btn.add-note", $this).click(createTopLevelNote);
