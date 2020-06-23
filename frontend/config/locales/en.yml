@@ -172,6 +172,7 @@ en:
 
   search:
     accession:
+      score: Relevance
       title: Title
       publish: Published
       subjects: Subject
@@ -194,6 +195,7 @@ en:
       asc: Ascending
       desc: Descending
     resource:
+      score: Relevance
       title: Title
       publish: Published
       level: Level
@@ -215,6 +217,7 @@ en:
       asc: Ascending
       desc: Descending
     archival_object:
+      score: Relevance
       title: Title
       publish: Published
       context: Parent Resource
@@ -230,6 +233,7 @@ en:
       asc: Ascending
       desc: Descending
     subject:
+      score: Relevance
       source: Source
       first_term_type: Term Type (First)
       title: Terms
@@ -240,6 +244,7 @@ en:
       asc: Ascending
       desc: Descending
     digital_object:
+      score: Relevance
       title: Title
       publish: Published
       subjects: Subject
@@ -256,6 +261,7 @@ en:
       asc: Ascending
       desc: Descending
     digital_object_component:
+      score: Relevance
       title: Title
       publish: Published
       context: Found in
@@ -268,6 +274,7 @@ en:
       asc: Ascending
       desc: Descending
     agent:
+      score: Relevance
       title: Name
       primary_type: Agent Type
       publish: Published
@@ -281,6 +288,7 @@ en:
       asc: Ascending
       desc: Descending
     location:
+      score: Relevance
       title: Location
       publish: Published
       building: Building
@@ -296,6 +304,7 @@ en:
       asc: Ascending
       desc: Descending
     event:
+      score: Relevance
       agents: Agent
       event_type: Type
       outcome: Outcome
@@ -306,6 +315,7 @@ en:
       asc: Ascending
       desc: Descending
     collection_management:
+      score: Relevance
       parent_title: Title
       parent_type: Record Type
       processing_priority: Processing Priority
@@ -319,6 +329,7 @@ en:
       asc: Ascending
       desc: Descending
     classification:
+      score: Relevance
       title: Title
       publish: Published
       has_classification_terms: Has classification terms?
@@ -328,6 +339,7 @@ en:
       asc: Ascending
       desc: Descending
     assessment:
+      score: Relevance
       assessment_id: Assessment ID
       assessment_records: Record
       assessment_record_types: Record Type
@@ -349,6 +361,7 @@ en:
       asc: Ascending
       desc: Descending
     repositories:
+      score: Relevance
       title: Title
       publish: Published
       audit_info: Audit Information
@@ -357,6 +370,7 @@ en:
       asc: Ascending
       desc: Descending
     top_container:
+      score: Relevance
       title: Title
       publish: Published
       container_profile_display_string_u_sstr: Container Profile
@@ -371,6 +385,7 @@ en:
       asc: Ascending
       desc: Descending
     container_profile:
+      score: Relevance
       title: Title
       publish: Published
       container_profile_width_u_sstr: Width
@@ -383,6 +398,7 @@ en:
       asc: Ascending
       desc: Descending
     location_profile:
+      score: Relevance
       title: Title
       publish: Published
       location_profile_width_u_sstr: Width
@@ -395,6 +411,7 @@ en:
       asc: Ascending
       desc: Descending
     job:
+      score: Relevance
       status: Status
       job_type: Job Type
       report_type: Report Type
@@ -409,6 +426,7 @@ en:
       asc: Ascending
       desc: Descending
     multi:
+      score: Relevance
       primary_type: Record Type
       creators: Creator
       subjects: Subject

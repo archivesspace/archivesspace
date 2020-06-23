@@ -234,14 +234,14 @@ describe 'Agents' do
     notes[0].find_element(css: '.subrecord-form-fields.initialised')
 
     # ensure sub note form displayed
-    @driver.find_element(:id, 'agent_notes__0__subnotes__2__publish_')
+    @driver.find_element(:id, 'agent_notes__0__subnotes__1__publish_')
 
     notes[0].find_element(css: '.add-level-btn').click
     notes[0].find_element(css: '.add-sub-item-btn').click
     notes[0].find_element(css: '.add-sub-item-btn').click
 
-    @driver.clear_and_send_keys([:id, 'agent_notes__0__subnotes__2__levels__3__items__4_'], 'Woodstock')
-    @driver.clear_and_send_keys([:id, 'agent_notes__0__subnotes__2__levels__3__items__5_'], 'Discography')
+    @driver.clear_and_send_keys([:id, 'agent_notes__0__subnotes__1__levels__0__items__0_'], 'Woodstock')
+    @driver.clear_and_send_keys([:id, 'agent_notes__0__subnotes__1__levels__0__items__1_'], 'Discography')
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
     # check the readonly view

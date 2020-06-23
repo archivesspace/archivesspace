@@ -169,6 +169,7 @@ fr:
 
   search:
     accession:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       subjects: Mot-matière
@@ -191,6 +192,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     resource:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       level: Niveau
@@ -212,6 +214,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     archival_object:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       context: Trouvé dans
@@ -227,6 +230,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     subject:
+      score: Pertinence
       source: Source
       first_term_type: Type de terme (premier)
       title: Termes
@@ -237,6 +241,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     digital_object:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       subjects: Mot-matière
@@ -253,6 +258,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     digital_object_component:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       context: Trouvé dans
@@ -265,6 +271,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     agent:
+      score: Pertinence
       title: Nom
       primary_type: Type d'agent
       publish: Publié
@@ -278,6 +285,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     location:
+      score: Pertinence
       title: Localisation
       publish: Publié
       building: Bâtiment
@@ -293,6 +301,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     event:
+      score: Pertinence
       agents: Agent
       event_type: Type
       outcome: Résultat
@@ -303,6 +312,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     collection_management:
+      score: Pertinence
       parent_title: Intitulé
       parent_type: Types de notices
       processing_priority: Priorité de traitement
@@ -316,6 +326,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     classification:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       has_classification_terms: Has classification terms?
@@ -325,6 +336,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     assessment:
+      score: Pertinence
       assessment_id: ID
       assessment_records: Notices
       assessment_record_types: Type de notices
@@ -346,6 +358,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     repositories:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       audit_info: Audit Information
@@ -354,6 +367,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     top_container:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       container_profile_display_string_u_sstr: Profils de conditionnements
@@ -368,6 +382,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     container_profile:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       container_profile_width_u_sstr: Largeur
@@ -380,6 +395,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     location_profile:
+      score: Pertinence
       title: Intitulé
       publish: Publié
       location_profile_width_u_sstr: Largeur
@@ -392,6 +408,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     job:
+      score: Pertinence
       status: Statut
       job_type: Type de tâche
       report_type: Type de rapport
@@ -406,6 +423,7 @@ fr:
       asc: Ascendant
       desc: Descendant
     multi:
+      score: Pertinence
       primary_type: Type de notice
       creators: Producteur
       subjects: Mot-matière

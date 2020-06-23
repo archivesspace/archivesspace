@@ -208,10 +208,6 @@ class SearchResultData
     @search_data[:criteria]["sort"]
   end
 
-  def weightable?
-    @search_data[:criteria].has_key?("q")
-  end
-
   def sorted_by(index = 0)
     if sorted? && @sort_data[index]
       @sort_data[index][:field]
@@ -248,15 +244,13 @@ class SearchResultData
   def sorted_by_label(index = 0)
     _sorted_by = sorted_by(index)
 
-    if _sorted_by.nil?
-      return weightable? ? I18n.t("search.multi.relevance") : I18n.t("search_sorting.select")
-    end
+    return I18n.t("search_sorting.select") if _sorted_by.nil?
 
     _sorted_by = 'title_sort' if sorted_by == 'title'
 
     label = sort_fields[_sorted_by] || I18n.t("search.multi.#{_sorted_by}")
-    direction = I18n.t("search_sorting.#{current_sort_direction(index)}")
-    "#{label} #{direction}"
+    direction = sorted_by == 'score' ? '' : I18n.t("search_sorting.#{current_sort_direction(index)}")
+    "#{label} #{direction}".strip
   end
 
   def sort_fields

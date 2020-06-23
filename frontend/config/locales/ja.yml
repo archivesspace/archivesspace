@@ -177,6 +177,7 @@ ja:
 
   search:
     accession:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       subjects: 件名
@@ -199,6 +200,7 @@ ja:
       asc: 上昇
       desc: 降順
     resource:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       level: レベル
@@ -220,6 +222,7 @@ ja:
       asc: 上昇
       desc: 降順
     archival_object:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       context: 見つかった
@@ -235,6 +238,7 @@ ja:
       asc: 上昇
       desc: 降順
     subject:
+      score: 関連性
       source: ソース
       first_term_type: 期間型（First)
       title: 用語と細分
@@ -245,6 +249,7 @@ ja:
       asc: 上昇
       desc: 降順
     digital_object:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       subjects: 件名
@@ -261,6 +266,7 @@ ja:
       asc: 上昇
       desc: 降順
     digital_object_component:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       context: 見つかった
@@ -273,6 +279,7 @@ ja:
       asc: 上昇
       desc: 降順
     agent:
+      score: 関連性
       title: 名前フォーム
       primary_type: エージェントの種類
       publish: 発行済み
@@ -286,6 +293,7 @@ ja:
       asc: 上昇
       desc: 降順
     location:
+      score: 関連性
       title: ロケーション
       publish: 発行済み
       building: 建物
@@ -301,6 +309,7 @@ ja:
       asc: 上昇
       desc: 降順
     event:
+      score: 関連性
       agents: エージェント
       event_type: タイプ
       outcome: 結果
@@ -311,6 +320,7 @@ ja:
       asc: 上昇
       desc: 降順
     collection_management:
+      score: 関連性
       parent_title: タイトル
       parent_type: レコードタイプ
       processing_priority: 処理優先度
@@ -324,6 +334,7 @@ ja:
       asc: 上昇
       desc: 降順
     classification:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       has_classification_terms: Has classification terms?
@@ -333,6 +344,7 @@ ja:
       asc: 上昇
       desc: 降順
     assessment:
+      score: 関連性
       assessment_id: ID
       assessment_records: 記録
       assessment_record_types: レコードタイプ
@@ -354,6 +366,7 @@ ja:
       asc: 上昇
       desc: 降順
     repositories:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       audit_info: 監査データ
@@ -362,6 +375,7 @@ ja:
       asc: 上昇
       desc: 降順
     top_container:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       container_profile_display_string_u_sstr: コンテナプロファイル
@@ -376,6 +390,7 @@ ja:
       asc: 上昇
       desc: 降順
     container_profile:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       container_profile_width_u_sstr: 幅
@@ -388,6 +403,7 @@ ja:
       asc: 上昇
       desc: 降順
     location_profile:
+      score: 関連性
       title: タイトル
       publish: 発行済み
       location_profile_width_u_sstr: 幅
@@ -400,6 +416,7 @@ ja:
       asc: 上昇
       desc: 降順
     job:
+      score: 関連性
       status: 状態
       job_type: ジョブの種類
       report_type: レポートタイプ
@@ -414,6 +431,7 @@ ja:
       asc: 上昇
       desc: 降順
     multi:
+      score: 関連性
       primary_type: レコードタイプ
       creators: クリエイター
       subjects: 件名

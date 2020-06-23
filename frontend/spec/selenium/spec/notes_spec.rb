@@ -77,6 +77,7 @@ describe 'Notes' do
       driver.find_element(:id, 'resource_title_')
     end
 
+
     notes = @driver.blocking_find_elements(css: '#notes .subrecord-form-fields')
 
     # Add a sub note
@@ -85,24 +86,24 @@ describe 'Notes' do
     @driver.scroll_into_view(notes[0].find_last_element(css: 'select.multipart-note-type'))
     notes[0].find_last_element(css: 'select.multipart-note-type').select_option('note_chronology')
 
-    @driver.find_element(id: 'resource_notes__0__subnotes__2__title_')
-    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__2__title_'], 'Chronology title')
+    @driver.find_element(id: 'resource_notes__0__subnotes__1__title_')
+    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__1__title_'], 'Chronology title')
 
     notes[0].find_element(css: '.subrecord-form-heading .btn:not(.show-all)').click
     notes[0].find_last_element(css: 'select.multipart-note-type').select_option('note_definedlist')
 
-    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__3__title_'], 'Defined list')
+    @driver.clear_and_send_keys([:id, 'resource_notes__0__subnotes__2__title_'], 'Defined list')
 
     2.times do
-      @driver.find_element(id: 'resource_notes__0__subnotes__3__title_')
+      @driver.find_element(id: 'resource_notes__0__subnotes__2__title_')
              .containing_subform
              .find_element(css: '.add-item-btn')
              .click
     end
 
-    [4, 5]. each do |i|
+    [0, 1]. each do |i|
       %w[label value].each do |field|
-        @driver.clear_and_send_keys([:id, "resource_notes__0__subnotes__3__items__#{i}__#{field}_"],
+        @driver.clear_and_send_keys([:id, "resource_notes__0__subnotes__2__items__#{i}__#{field}_"],
                                     'pogo')
       end
     end
@@ -114,6 +115,68 @@ describe 'Notes' do
     @driver.find_element_with_text('//div', /pogo/)
   end
 
+  it 'can create an ordered list subnote and list items maintain proper order' do
+    @driver.attempt(10) do |driver|
+      driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
+      driver.find_element(:id, 'resource_title_')
+    end
+
+    # Add a multipart note
+    @driver.find_element(css: '#notes > .subrecord-form-heading .btn.add-note').click
+    @driver.find_last_element(css: 'select.top-level-note-type').select_option('note_multipart')
+    @driver.execute_script("$('#resource_notes__1__subnotes__0__content_').data('CodeMirror').setValue('Note Content')")
+    @driver.execute_script("$('#resource_notes__1__subnotes__0__content_').data('CodeMirror').save()")
+    @driver.execute_script("$('#resource_notes__1__subnotes__0__content_').data('CodeMirror').toTextArea()")
+    note = @driver.blocking_find_elements(css: '#notes .subrecord-form-fields')[1]
+
+    # Add a subnote with 4 ordered list items
+    assert(5) { note.find_element(css: '.subrecord-form-heading .btn:not(.show-all)').click }
+    @driver.scroll_into_view(note.find_last_element(css: 'select.multipart-note-type')).select_option('note_orderedlist')
+
+    4.times do
+      @driver.find_element(id: 'resource_notes__1__subnotes__1__title_')
+             .containing_subform
+             .find_element(css: '.add-item-btn')
+             .click
+    end
+
+    [0, 1, 2, 3]. each do |i|
+      @driver.clear_and_send_keys([:id, "resource_notes__1__subnotes__1__items__#{i}_"],
+                                  "Item #{i+1}")
+    end
+
+    # Save the resource and confirm items are in proper position
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+    @driver.find_element(css: '#notes #resource_notes__1_ .collapse-subrecord-toggle').click
+    @driver.wait_for_ajax
+
+    [0, 1, 2, 3]. each do |i|
+      expect(@driver.find_element(css: "input#resource_notes__1__subnotes__1__items__#{i}_").attribute('value')).to eq("Item #{i+1}")
+    end
+
+    # Add 2 more ordered list items
+    2.times do
+      @driver.find_element(id: 'resource_notes__1__subnotes__1__title_')
+             .containing_subform
+             .find_element(css: '.add-item-btn')
+             .click
+    end
+
+    [4, 5]. each do |i|
+      @driver.clear_and_send_keys([:id, "resource_notes__1__subnotes__1__items__#{i}_"],
+                                  "Item #{i+1}")
+    end
+
+    # Save the resource and confirm all items are in proper position
+    @driver.find_element(css: "form#resource_form button[type='submit']").click
+    @driver.find_element(css: '#notes #resource_notes__1_ .collapse-subrecord-toggle').click
+    @driver.wait_for_ajax
+
+    [0, 1, 2, 3, 4, 5]. each do |i|
+      expect(@driver.find_element(css: "input#resource_notes__1__subnotes__1__items__#{i}_").attribute('value')).to eq("Item #{i+1}")
+    end
+  end
+
   it 'can add a top-level bibliography too' do
     @driver.get_edit_page(@resource)
 
@@ -122,21 +185,21 @@ describe 'Notes' do
     @driver.find_element(css: '#notes > .subrecord-form-heading .btn.add-note').click
     @driver.find_last_element(css: 'select.top-level-note-type').select_option('note_bibliography')
 
-    @driver.clear_and_send_keys([:id, 'resource_notes__6__label_'], 'Top-level bibliography label')
-    @driver.execute_script("$('#resource_notes__6__content__0_').data('CodeMirror').setValue('#{bibliography_content}')")
-    @driver.execute_script("$('#resource_notes__6__content__0_').data('CodeMirror').save()")
+    @driver.clear_and_send_keys([:id, 'resource_notes__2__label_'], 'Top-level bibliography label')
+    @driver.execute_script("$('#resource_notes__2__content__0_').data('CodeMirror').setValue('#{bibliography_content}')")
+    @driver.execute_script("$('#resource_notes__2__content__0_').data('CodeMirror').save()")
 
-    @driver.execute_script("$('#resource_notes__6__content__0_').data('CodeMirror').toTextArea()")
-    expect(@driver.find_element(id: 'resource_notes__6__content__0_').attribute('value')).to eq(bibliography_content)
+    @driver.execute_script("$('#resource_notes__2__content__0_').data('CodeMirror').toTextArea()")
+    expect(@driver.find_element(id: 'resource_notes__2__content__0_').attribute('value')).to eq(bibliography_content)
 
-    form = @driver.find_element(id: 'resource_notes__6__label_').nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
+    form = @driver.find_element(id: 'resource_notes__2__label_').nearest_ancestor('div[contains(@class, "subrecord-form-container")]')
 
     2.times do
       form.find_element(css: '.add-item-btn').click
     end
 
-    @driver.clear_and_send_keys([:id, 'resource_notes__6__items__7_'], 'Top-level bib item 1')
-    @driver.clear_and_send_keys([:id, 'resource_notes__6__items__8_'], 'Top-level bib item 2')
+    @driver.clear_and_send_keys([:id, 'resource_notes__2__items__0_'], 'Top-level bib item 1')
+    @driver.clear_and_send_keys([:id, 'resource_notes__2__items__1_'], 'Top-level bib item 2')
   end
 
   it 'can wrap note content text with EAD mark up' do
@@ -234,7 +297,7 @@ describe 'Notes' do
       end
     end
     @driver.find_element(:css, '#rights_statement_notes .top-level-note-type').select_option_with_text('Additional Information')
-    expect(@driver.find_element(:id, 'resource_rights_statements__0__notes__2__type_').get_select_value).to eq('additional_information')
+    expect(@driver.find_element(:id, 'resource_rights_statements__0__notes__1__type_').get_select_value).to eq('additional_information')
 
     @driver.find_element(css: '#rights_statement_act_notes.initialised .add-note').click
     @driver.find_elements(css: '#resource_rights_statements__0__acts_ .top-level-note-type option').each_with_index do |option_element, i|
@@ -245,7 +308,7 @@ describe 'Notes' do
       end
     end
     @driver.find_element(:css, '#resource_rights_statements__0__acts_ .top-level-note-type').select_option_with_text('Additional Information')
-    expect(@driver.find_element(:id, 'resource_rights_statements__0__acts__0__notes__2__type_').get_select_value).to eq('additional_information')
+    expect(@driver.find_element(:id, 'resource_rights_statements__0__acts__0__notes__1__type_').get_select_value).to eq('additional_information')
 
     @driver.click_and_wait_until_gone(css: '.btn.btn-cancel.btn-default')
   end
