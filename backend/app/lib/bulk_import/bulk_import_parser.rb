@@ -116,13 +116,6 @@ class BulkImportParser
       workbook = RubyXL::Parser.parse(@input_file)
       sheet = workbook[0]
       @rows = sheet.enum_for(:each)
-=begin
-      number_rows = sheet.sheet_data.rows.size
-      size = (File.size?(@input_file).to_f / 1000).round
-      file_info = I18n.t("bulk_import.file_info", :rows => number_rows, :size => size)
-      if size > MAX_FILE_SIZE || number_rows > MAX_FILE_ROWS
-        raise BulkImportException.new(I18n.t("bulk_import.error.file_too_big", :limits => MAX_FILE_INFO, :file_info => file_info))
-=end
       #CSV
     elsif @is_csv
       table = CSV.read(@input_file)
