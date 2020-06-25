@@ -57,7 +57,7 @@ be used to override or extend the behavior of the core application.
     schemas ............... JSONModel schema definitions
     search_definitions.rb . Advanced search fields
 
-**Note** that, in order to override or extend the behavior of core models and controllers, you cannot simply put your replacement with the same name in the corresponding directory path.  
+**Note** that, in order to override or extend the behavior of core models and controllers, you cannot simply put your replacement with the same name in the corresponding directory path.  Core models and controllers can be overridden by adding an `after_initialize` block to `plugin_init.rb` (e.g. [aspace-hvd-pui](https://github.com/harvard-library/aspace-hvd-pui/blob/master/public/plugin_init.rb#L43)).
 
 ## Overriding behavior
 
@@ -217,6 +217,28 @@ Custom reports may be added to plug-ins by adding a new report model as a subcla
 
 There are several limitations to adding reports to plug-ins, including that reports from plug-ins may only use the generic report template. ArchivesSpace only searches for report templates in the reports subdirectory of the ArchivesSpace base directory, not in plug-in directories. If you would like to implement a custom report with a custom template, consider adding the report to `archivesspace/reports/` instead of `archivesspace/plugins/[plugin-name]/backend/model/`.
 
+
+## Frontend Specific Hooks
+
+To make adding new records fields and sections to record forms a little eaiser via your plugin, the ArchivesSpace frontend provides a series of hooks via the `frontend/config/initializers/plugin.rb` module. These are as follows:
+
+* `Plugins.add_search_base_facets(*facets)` - add to the base facets list to include extra facets for all record searches and listing pages.
+
+* `Plugins.add_search_facets(jsonmodel_type, *facets)` - add facets for a particular JSONModel type to be included in searches and listing pages for that record type.
+
+* `Plugins.add_resolve_field(field_name)` - use this when you have added a new field/relationship and you need it to be resolved when the record is retrieved from the API.
+
+* `Plugins.register_edit_role_for_type(jsonmodel_type, role)` - when you add a new top level JSONModel, register it and its edit role so the listing view can determine if the "Edit" button can be displayed to the user.
+
+* `Plugins.register_note_types_handler(proc)` where proc handles parameters `jsonmodel_type, note_types, context` - allow a plugin to customize the note types shown for particular JSONModel type. For example, you can filter those that do not apply to your institution.
+
+* `Plugins.register_plugin_section(section)` - allows you define a template to be inserted as a section for a given JSONModel record. A section is a type of `Plugins::AbstractPluginSection` which defines the source `plugin`, section `name`, the `jsonmodel_types` for which the section should show and any `opts` required by the templates at the time of render. These new sections (readonly, edit and sidebar additions) are output as part of the `PluginHelper` render methods.
+
+  `Plugins::AbstractPluginSection` can be subclassed to allow flexible inclusion of arbitrary HTML. There are two examples provided with ArchivesSpace:
+
+  * `Plugins::PluginSubRecord` - uses the `shared/subrecord` partial to output a standard styled ArchivesSpace section. `opts` requires the jsonmodel field to be defined.
+
+  * `Plugins::PluginReadonlySearch` - uses the `search/embedded` partial to output a search listing as a section. `opts` requires the custom filter terms for this search to be defined.
 
 ## Further information
 

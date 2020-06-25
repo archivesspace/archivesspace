@@ -911,7 +911,7 @@
       <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_TimeoutError constant id'>TimeoutError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;PDF generation timed out.  Sorry!&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
-    <span class='rubyid_uri_set identifier id'>uri_set</span> <span class='assign token'>=</span> <span class='rubyid_entry_set identifier id'>entry_set</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:uri</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_s identifier id'>s</span><span class='bitor op'>|</span> <span class='rubyid_s identifier id'>s</span> <span class='plus op'>+</span> <span class='string val'>&quot;#pui&quot;</span><span class='rbrace token'>}</span>
+    <span class='rubyid_uri_set identifier id'>uri_set</span> <span class='assign token'>=</span> <span class='rubyid_entry_set identifier id'>entry_set</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:uri</span><span class='rparen token'>)</span>
     <span class='rubyid_record_set identifier id'>record_set</span> <span class='assign token'>=</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_search_records identifier id'>search_records</span><span class='lparen token'>(</span><span class='rubyid_uri_set identifier id'>uri_set</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_records identifier id'>records</span>
 
     <span class='rubyid_record_set identifier id'>record_set</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span><span class='lparen token'>(</span><span class='rubyid_entry_set identifier id'>entry_set</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_record identifier id'>record</span><span class='comma token'>,</span> <span class='rubyid_entry identifier id'>entry</span><span class='bitor op'>|</span>
@@ -921,7 +921,7 @@
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_out_html identifier id'>out_html</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='rubyid_renderer identifier id'>renderer</span><span class='dot token'>.</span><span class='rubyid_render_to_string identifier id'>render_to_string</span> <span class='label val'>partial:</span> <span class='string val'>&#39;footer&#39;</span><span class='comma token'>,</span> <span class='label val'>layout:</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_out_html identifier id'>out_html</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='rubyid_renderer identifier id'>renderer</span><span class='dot token'>.</span><span class='rubyid_render_to_string identifier id'>render_to_string</span> <span class='label val'>partial:</span> <span class='string val'>&#39;footer&#39;</span><span class='comma token'>,</span> <span class='label val'>layout:</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='symbol val'>:locals</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:record</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@resource ivar id'>@resource</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_out_html identifier id'>out_html</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
 
   <span class='rubyid_out_html identifier id'>out_html</span>
@@ -976,7 +976,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:54 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

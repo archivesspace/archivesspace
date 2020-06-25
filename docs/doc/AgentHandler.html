@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: AgentHandler
+  
+    &mdash; Documentation by YARD 0.9.20
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "AgentHandler";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="alpha_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">AgentHandler</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: AgentHandler
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="Handler.html" title="Handler (class)">Handler</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="Handler.html" title="Handler (class)">Handler</a></span></li>
+          
+            <li class="next">AgentHandler</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/lib/bulk_import/agent_handler.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="AGENT_TYPES-constant" class="">AGENT_TYPES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span> <span class='string val'>&quot;families&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;family&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;family&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;family&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;corporate_entities&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;corporate_entity&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;corporate_entity&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;corporate_entity&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;people&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;person&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;person&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;person&quot;</span> <span class='rbrace token'>}</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+  
+  
+  <h3 class="inherited">Constants inherited
+     from <span class='object_link'><a href="Handler.html" title="Handler (class)">Handler</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Handler.html#DISAMB_STR-constant" title="Handler::DISAMB_STR (constant)">Handler::DISAMB_STR</a></span></p>
+
+  
+  
+  <h3 class="inherited">Constants included
+     from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#REFERENCE_KEY_REGEX-constant" title="JSONModel::REFERENCE_KEY_REGEX (constant)">JSONModel::REFERENCE_KEY_REGEX</a></span></p>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build-instance_method" title="#build (instance method)">#<strong>build</strong>(type, id, header, relator, role)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_agent-instance_method" title="#create_agent (instance method)">#<strong>create_agent</strong>(agent)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_agent_header-instance_method" title="#get_agent_header (instance method)">#<strong>get_agent_header</strong>(type, agent_obj)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_by_id-instance_method" title="#get_by_id (instance method)">#<strong>get_by_id</strong>(type, id)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_db_agent-instance_method" title="#get_db_agent (instance method)">#<strong>get_db_agent</strong>(agent, report)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_model-instance_method" title="#get_model (instance method)">#<strong>get_model</strong>(type)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_or_create-instance_method" title="#get_or_create (instance method)">#<strong>get_or_create</strong>(type, id, header, relator, role, report)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(current_user)  &#x21d2; AgentHandler </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of AgentHandler.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#key_for-instance_method" title="#key_for (instance method)">#<strong>key_for</strong>(agent)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#name_obj-instance_method" title="#name_obj (instance method)">#<strong>name_obj</strong>(agent)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#renew-instance_method" title="#renew (instance method)">#<strong>renew</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Handler.html" title="Handler (class)">Handler</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Handler.html#clear-instance_method" title="Handler#clear (method)">#clear</a></span>, <span class='object_link'><a href="Handler.html#save-instance_method" title="Handler#save (method)">#save</a></span>, <span class='object_link'><a href="Handler.html#search-instance_method" title="Handler#search (method)">#search</a></span>, <span class='object_link'><a href="Handler.html#stored-instance_method" title="Handler#stored (method)">#stored</a></span>, <span class='object_link'><a href="Handler.html#valid-instance_method" title="Handler#valid (method)">#valid</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="BulkImportMixins.html" title="BulkImportMixins (module)">BulkImportMixins</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref-instance_method" title="BulkImportMixins#archival_object_from_ref (method)">#archival_object_from_ref</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref_or_uri-instance_method" title="BulkImportMixins#archival_object_from_ref_or_uri (method)">#archival_object_from_ref_or_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_uri-instance_method" title="BulkImportMixins#archival_object_from_uri (method)">#archival_object_from_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#create_date-instance_method" title="BulkImportMixins#create_date (method)">#create_date</a></span>, <span class='object_link'><a href="BulkImportMixins.html#handle_notes-instance_method" title="BulkImportMixins#handle_notes (method)">#handle_notes</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resolves-instance_method" title="BulkImportMixins#resolves (method)">#resolves</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resource_match-instance_method" title="BulkImportMixins#resource_match (method)">#resource_match</a></span>, <span class='object_link'><a href="BulkImportMixins.html#test_exceptions-instance_method" title="BulkImportMixins#test_exceptions (method)">#test_exceptions</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="CrudHelpers.html" title="CrudHelpers (module)">CrudHelpers</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="CrudHelpers.html#handle_create-instance_method" title="CrudHelpers#handle_create (method)">#handle_create</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_delete-instance_method" title="CrudHelpers#handle_delete (method)">#handle_delete</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_listing-instance_method" title="CrudHelpers#handle_listing (method)">#handle_listing</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_raw_listing-instance_method" title="CrudHelpers#handle_raw_listing (method)">#handle_raw_listing</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_unlimited_listing-instance_method" title="CrudHelpers#handle_unlimited_listing (method)">#handle_unlimited_listing</a></span>, <span class='object_link'><a href="CrudHelpers.html#handle_update-instance_method" title="CrudHelpers#handle_update (method)">#handle_update</a></span>, <span class='object_link'><a href="CrudHelpers.html#scoped_dataset-class_method" title="CrudHelpers.scoped_dataset (method)">scoped_dataset</a></span>, <span class='object_link'><a href="CrudHelpers.html#with_record_conflict_reporting-class_method" title="CrudHelpers.with_record_conflict_reporting (method)">with_record_conflict_reporting</a></span>, <span class='object_link'><a href="CrudHelpers.html#with_record_conflict_reporting-instance_method" title="CrudHelpers#with_record_conflict_reporting (method)">#with_record_conflict_reporting</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="JSONModel.html" title="JSONModel (module)">JSONModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="JSONModel.html#JSONModel-class_method" title="JSONModel.JSONModel (method)">JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#JSONModel-instance_method" title="JSONModel#JSONModel (method)">#JSONModel</a></span>, <span class='object_link'><a href="JSONModel.html#add_error_handler-class_method" title="JSONModel.add_error_handler (method)">add_error_handler</a></span>, <span class='object_link'><a href="JSONModel.html#all-class_method" title="JSONModel.all (method)">all</a></span>, <span class='object_link'><a href="JSONModel.html#allow_unmapped_enum_value-class_method" title="JSONModel.allow_unmapped_enum_value (method)">allow_unmapped_enum_value</a></span>, <span class='object_link'><a href="JSONModel.html#backend_url-class_method" title="JSONModel.backend_url (method)">backend_url</a></span>, <span class='object_link'><a href="JSONModel.html#check_valid_refs-class_method" title="JSONModel.check_valid_refs (method)">check_valid_refs</a></span>, <span class='object_link'><a href="JSONModel.html#client_mode%3F-class_method" title="JSONModel.client_mode? (method)">client_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#custom_validations-class_method" title="JSONModel.custom_validations (method)">custom_validations</a></span>, <span class='object_link'><a href="JSONModel.html#destroy_model-class_method" title="JSONModel.destroy_model (method)">destroy_model</a></span>, <span class='object_link'><a href="JSONModel.html#enum_default_value-class_method" title="JSONModel.enum_default_value (method)">enum_default_value</a></span>, <span class='object_link'><a href="JSONModel.html#enum_values-class_method" title="JSONModel.enum_values (method)">enum_values</a></span>, <span class='object_link'><a href="JSONModel.html#handle_error-class_method" title="JSONModel.handle_error (method)">handle_error</a></span>, <span class='object_link'><a href="JSONModel.html#init-class_method" title="JSONModel.init (method)">init</a></span>, <span class='object_link'><a href="JSONModel.html#load_schema-class_method" title="JSONModel.load_schema (method)">load_schema</a></span>, <span class='object_link'><a href="JSONModel.html#models-instance_method" title="JSONModel#models (method)">#models</a></span>, <span class='object_link'><a href="JSONModel.html#models-class_method" title="JSONModel.models (method)">models</a></span>, <span class='object_link'><a href="JSONModel.html#parse_jsonmodel_ref-class_method" title="JSONModel.parse_jsonmodel_ref (method)">parse_jsonmodel_ref</a></span>, <span class='object_link'><a href="JSONModel.html#parse_reference-class_method" title="JSONModel.parse_reference (method)">parse_reference</a></span>, <span class='object_link'><a href="JSONModel.html#repository-class_method" title="JSONModel.repository (method)">repository</a></span>, <span class='object_link'><a href="JSONModel.html#repository_for-class_method" title="JSONModel.repository_for (method)">repository_for</a></span>, <span class='object_link'><a href="JSONModel.html#schema_src-class_method" title="JSONModel.schema_src (method)">schema_src</a></span>, <span class='object_link'><a href="JSONModel.html#set_publish_flags!-class_method" title="JSONModel.set_publish_flags! (method)">set_publish_flags!</a></span>, <span class='object_link'><a href="JSONModel.html#set_repository-class_method" title="JSONModel.set_repository (method)">set_repository</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode-class_method" title="JSONModel.strict_mode (method)">strict_mode</a></span>, <span class='object_link'><a href="JSONModel.html#strict_mode%3F-class_method" title="JSONModel.strict_mode? (method)">strict_mode?</a></span>, <span class='object_link'><a href="JSONModel.html#validate_schema-class_method" title="JSONModel.validate_schema (method)">validate_schema</a></span>, <span class='object_link'><a href="JSONModel.html#with_repository-class_method" title="JSONModel.with_repository (method)">with_repository</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(current_user)  &#x21d2; <tt><span class='object_link'><a href="" title="AgentHandler (class)">AgentHandler</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new instance of AgentHandler</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_current_user identifier id'>current_user</span><span class='rparen token'>)</span>
+  <span class='rubyid_@agents ivar id'>@agents</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rubyid_@agent_role ivar id'>@agent_role</span> <span class='opasgn op'>||=</span> <span class='rubyid_CvList constant id'>CvList</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;linked_agent_role&quot;</span><span class='comma token'>,</span> <span class='rubyid_current_user identifier id'>current_user</span><span class='rparen token'>)</span>
+  <span class='rubyid_@agent_relators ivar id'>@agent_relators</span> <span class='opasgn op'>||=</span> <span class='rubyid_CvList constant id'>CvList</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;linked_agent_archival_record_relators&quot;</span><span class='comma token'>,</span> <span class='rubyid_current_user identifier id'>current_user</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="build-instance_method">
+  
+    #<strong>build</strong>(type, id, header, relator, role)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 28</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_header identifier id'>header</span><span class='comma token'>,</span> <span class='rubyid_relator identifier id'>relator</span><span class='comma token'>,</span> <span class='rubyid_role identifier id'>role</span><span class='rparen token'>)</span>
+  <span class='rubyid_role identifier id'>role</span> <span class='assign token'>=</span> <span class='string val'>&quot;creator&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_role identifier id'>role</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+  <span class='lbrace token'>{</span>
+    <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_AGENT_TYPES constant id'>AGENT_TYPES</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+    <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span>
+    <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_header identifier id'>header</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span> <span class='integer val'>? </span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.unfound_id&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Agent&quot;</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='symbol val'>:role</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_role identifier id'>role</span><span class='comma token'>,</span>
+    <span class='symbol val'>:relator</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_relator identifier id'>relator</span><span class='comma token'>,</span>
+    <span class='symbol val'>:id_but_no_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_id identifier id'>id</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_header identifier id'>header</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_agent-instance_method">
+  
+    #<strong>create_agent</strong>(agent)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 125</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_create_agent identifier id'>create_agent</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_ret_agent identifier id'>ret_agent</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='dstring node'>&quot;agent_#{agent[:type]}&quot;</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+    <span class='rubyid_ret_agent identifier id'>ret_agent</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_name_obj identifier id'>name_obj</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
+    <span class='rubyid_ret_agent identifier id'>ret_agent</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:id_but_no_name</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_end_with? fid id'>end_with?</span><span class='lparen token'>(</span><span class='rubyid_DISAMB_STR constant id'>DISAMB_STR</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_get_model identifier id'>get_model</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_ret_agent identifier id'>ret_agent</span> <span class='assign token'>=</span> <span class='rubyid_save identifier id'>save</span><span class='lparen token'>(</span><span class='rubyid_ret_agent identifier id'>ret_agent</span><span class='comma token'>,</span> <span class='rubyid_model identifier id'>model</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_Exception constant id'>Exception</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.no_create&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:why</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_ret_agent identifier id'>ret_agent</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_agent_header-instance_method">
+  
+    #<strong>get_agent_header</strong>(type, agent_obj)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 40</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_agent_header identifier id'>get_agent_header</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_agent_obj identifier id'>agent_obj</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_type identifier id'>type</span> <span class='eq op'>==</span> <span class='string val'>&quot;family&quot;</span>
+    <span class='rubyid_header identifier id'>header</span> <span class='assign token'>=</span> <span class='rubyid_agent_obj identifier id'>agent_obj</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;family_name&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_header identifier id'>header</span> <span class='assign token'>=</span> <span class='rubyid_agent_obj identifier id'>agent_obj</span><span class='dot token'>.</span><span class='rubyid_names identifier id'>names</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;primary_name&quot;</span><span class='rbrack token'>]</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_header identifier id'>header</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_by_id-instance_method">
+  
+    #<strong>get_by_id</strong>(type, id)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 49</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_by_id identifier id'>get_by_id</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='rubyid_agent_obj identifier id'>agent_obj</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_get_model identifier id'>get_model</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_agent_obj identifier id'>agent_obj</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_get_or_die identifier id'>get_or_die</span><span class='lparen token'>(</span><span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_objs identifier id'>objs</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_agent_obj identifier id'>agent_obj</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_agent_obj identifier id'>agent_obj</span> <span class='assign token'>=</span> <span class='rubyid_objs identifier id'>objs</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='dot token'>.</span><span class='rubyid_end_with? fid id'>end_with?</span><span class='lparen token'>(</span><span class='string val'>&quot; not found&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.no_create&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:why</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_agent_obj identifier id'>agent_obj</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_db_agent-instance_method">
+  
+    #<strong>get_db_agent</strong>(agent, report)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 138</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_db_agent identifier id'>get_db_agent</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='comma token'>,</span> <span class='rubyid_report identifier id'>report</span><span class='rparen token'>)</span>
+  <span class='rubyid_ret_ag identifier id'>ret_ag</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+    <span class='rubyid_ret_ag identifier id'>ret_ag</span> <span class='assign token'>=</span> <span class='rubyid_get_by_id identifier id'>get_by_id</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_ret_ag identifier id'>ret_ag</span>
+    <span class='rubyid_a_params identifier id'>a_params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:q</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;title:\&quot;#{agent[:name]}\&quot; AND primary_type:agent_#{agent[:type]}&quot;</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_ret_ag identifier id'>ret_ag</span> <span class='assign token'>=</span> <span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_a_params identifier id'>a_params</span><span class='comma token'>,</span> <span class='dstring node'>&quot;agent_#{agent[:type]}&quot;</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;title:#{agent[:name]}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_ret_ag identifier id'>ret_ag</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_model-instance_method">
+  
+    #<strong>get_model</strong>(type)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 150</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_model identifier id'>get_model</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
+  <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_case case kw'>case</span> <span class='rubyid_AGENT_TYPES constant id'>AGENT_TYPES</span><span class='lbrack token'>[</span><span class='rubyid_type identifier id'>type</span><span class='rbrack token'>]</span>
+  <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;person&quot;</span>
+    <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_AgentPerson constant id'>AgentPerson</span>
+  <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;family&quot;</span>
+    <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_AgentFamily constant id'>AgentFamily</span>
+  <span class='rubyid_when when kw'>when</span> <span class='string val'>&quot;corporate_entity&quot;</span>
+    <span class='rubyid_model identifier id'>model</span> <span class='assign token'>=</span> <span class='rubyid_AgentCorporateEntity constant id'>AgentCorporateEntity</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_model identifier id'>model</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_or_create-instance_method">
+  
+    #<strong>get_or_create</strong>(type, id, header, relator, role, report)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 64</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_get_or_create identifier id'>get_or_create</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_header identifier id'>header</span><span class='comma token'>,</span> <span class='rubyid_relator identifier id'>relator</span><span class='comma token'>,</span> <span class='rubyid_role identifier id'>role</span><span class='comma token'>,</span> <span class='rubyid_report identifier id'>report</span><span class='rparen token'>)</span>
+  <span class='rubyid_agent identifier id'>agent</span> <span class='assign token'>=</span> <span class='rubyid_build identifier id'>build</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_header identifier id'>header</span><span class='comma token'>,</span> <span class='rubyid_relator identifier id'>relator</span><span class='comma token'>,</span> <span class='rubyid_role identifier id'>role</span><span class='rparen token'>)</span>
+  <span class='rubyid_agent_key identifier id'>agent_key</span> <span class='assign token'>=</span> <span class='rubyid_key_for identifier id'>key_for</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='lparen token'>(</span><span class='rubyid_agent_obj identifier id'>agent_obj</span> <span class='assign token'>=</span> <span class='rubyid_stored identifier id'>stored</span><span class='lparen token'>(</span><span class='rubyid_@agents ivar id'>@agents</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{agent[:type]}_#{agent[:id]}&quot;</span><span class='comma token'>,</span> <span class='rubyid_agent_key identifier id'>agent_key</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+      <span class='rubyid_agent_obj identifier id'>agent_obj</span> <span class='assign token'>=</span> <span class='rubyid_get_by_id identifier id'>get_by_id</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_agent_obj identifier id'>agent_obj</span>
+        <span class='rubyid_begin begin kw'>begin</span>
+          <span class='rubyid_agent_obj identifier id'>agent_obj</span> <span class='assign token'>=</span> <span class='rubyid_get_db_agent identifier id'>get_db_agent</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='comma token'>,</span> <span class='rubyid_report identifier id'>report</span><span class='rparen token'>)</span>
+        <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+          <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span> <span class='eq op'>==</span> <span class='string val'>&quot;More than one match found in the database&quot;</span>
+            <span class='rubyid_disam identifier id'>disam</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='rubyid_DISAMB_STR constant id'>DISAMB_STR</span>
+            <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_info identifier id'>add_info</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.warn.disam&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:which</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_disam identifier id'>disam</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+            <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_disam identifier id'>disam</span>
+          <span class='rubyid_else else kw'>else</span>
+            <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
+          <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_agent_obj identifier id'>agent_obj</span>
+        <span class='rubyid_agent_obj identifier id'>agent_obj</span> <span class='assign token'>=</span> <span class='rubyid_create_agent identifier id'>create_agent</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span>
+        <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_info identifier id'>add_info</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:what</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{I18n.t(&quot;bulk_import.agent&quot;)}[#{agent[:name]}]&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent_obj identifier id'>agent_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.no_create&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:why</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_agent_link identifier id'>agent_link</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_agent_obj identifier id'>agent_obj</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:id_but_no_name</span><span class='rbrack token'>]</span>
+      <span class='rubyid_agent_key identifier id'>agent_key</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{agent[:type]}_#{get_agent_header(type, agent_obj)}&quot;</span>
+      <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:id_but_no_name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_id identifier id'>id</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{agent[:type]}_#{agent[:id]}&quot;</span>
+    <span class='rubyid_@agents ivar id'>@agents</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_agent_obj identifier id'>agent_obj</span>
+    <span class='rubyid_@agents ivar id'>@agents</span><span class='lbrack token'>[</span><span class='rubyid_agent_key identifier id'>agent_key</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_agent_obj identifier id'>agent_obj</span>
+    <span class='rubyid_agent_link identifier id'>agent_link</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent_obj identifier id'>agent_obj</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_agent_link identifier id'>agent_link</span><span class='lbrack token'>[</span><span class='string val'>&quot;role&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@agent_role ivar id'>@agent_role</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:role</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;NOT FOUND&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.bad_role&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:role</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.role_invalid&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:role</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:why</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_begin begin kw'>begin</span>
+      <span class='rubyid_agent_link identifier id'>agent_link</span><span class='lbrack token'>[</span><span class='string val'>&quot;relator&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@agent_relators ivar id'>@agent_relators</span><span class='dot token'>.</span><span class='rubyid_value identifier id'>value</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:relator</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:relator</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;NOT FOUND&quot;</span><span class='rparen token'>)</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.bad_relator&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:relator</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.relator_invalid&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:label</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:relator</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:why</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_agent_link identifier id'>agent_link</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="key_for-instance_method">
+  
+    #<strong>key_for</strong>(agent)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+23
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 23</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_key_for identifier id'>key_for</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span>
+  <span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{agent[:type]}_#{agent[:name]}&quot;</span>
+  <span class='rubyid_key identifier id'>key</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="name_obj-instance_method">
+  
+    #<strong>name_obj</strong>(agent)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 163</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_name_obj identifier id'>name_obj</span><span class='lparen token'>(</span><span class='rubyid_agent identifier id'>agent</span><span class='rparen token'>)</span>
+  <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='dstring node'>&quot;name_#{agent[:type]}&quot;</span><span class='dot token'>.</span><span class='rubyid_to_sym identifier id'>to_sym</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_source identifier id'>source</span> <span class='assign token'>=</span> <span class='string val'>&quot;ingest&quot;</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_authorized identifier id'>authorized</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_is_display_name identifier id'>is_display_name</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;family&quot;</span>
+    <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_family_name identifier id'>family_name</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+  <span class='rubyid_else else kw'>else</span>
+    <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_primary_name identifier id'>primary_name</span> <span class='assign token'>=</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+    <span class='rubyid_obj identifier id'>obj</span><span class='dot token'>.</span><span class='rubyid_name_order identifier id'>name_order</span> <span class='assign token'>=</span> <span class='string val'>&quot;direct&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_agent identifier id'>agent</span><span class='lbrack token'>[</span><span class='symbol val'>:type</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>&quot;person&quot;</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_obj identifier id'>obj</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="renew-instance_method">
+  
+    #<strong>renew</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/agent_handler.rb', line 17</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_renew identifier id'>renew</span>
+  <span class='rubyid_clear identifier id'>clear</span><span class='lparen token'>(</span><span class='rubyid_@agent_relators ivar id'>@agent_relators</span><span class='rparen token'>)</span>
+  <span class='rubyid_clear identifier id'>clear</span><span class='lparen token'>(</span><span class='rubyid_@agent_role ivar id'>@agent_role</span><span class='rparen token'>)</span>
+  <span class='rubyid_@agents ivar id'>@agents</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:18 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.20.
+</div>
+
+    </div>
+  </body>
+</html>

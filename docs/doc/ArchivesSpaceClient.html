@@ -688,7 +688,6 @@ thread safe!</p>
       <pre class="lines">
 
 
-79
 80
 81
 82
@@ -696,10 +695,11 @@ thread safe!</p>
 84
 85
 86
-87</pre>
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_raw_record identifier id'>get_raw_record</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_DEFAULT_SEARCH_OPTS constant id'>DEFAULT_SEARCH_OPTS</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
@@ -754,16 +754,16 @@ thread safe!</p>
       <pre class="lines">
 
 
-89
 90
 91
 92
 93
 94
-95</pre>
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 90</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_record identifier id'>get_record</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_search_records identifier id'>search_records</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_wrap identifier id'>wrap</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='comma token'>,</span> <span class='rubyid_full_notes identifier id'>full_notes</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
@@ -793,17 +793,17 @@ thread safe!</p>
       <pre class="lines">
 
 
-125
 126
 127
 128
 129
 130
 131
-132</pre>
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 126</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_repos_sublist identifier id'>get_repos_sublist</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_DEFAULT_SEARCH_OPTS constant id'>DEFAULT_SEARCH_OPTS</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
@@ -844,7 +844,6 @@ thread safe!</p>
       <pre class="lines">
 
 
-106
 107
 108
 109
@@ -854,10 +853,11 @@ thread safe!</p>
 113
 114
 115
-116</pre>
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_tree identifier id'>get_tree</span><span class='lparen token'>(</span><span class='rubyid_node_uri identifier id'>node_uri</span><span class='rparen token'>)</span>
   <span class='rubyid_tree identifier id'>tree</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -891,15 +891,15 @@ thread safe!</p>
       <pre class="lines">
 
 
-118
 119
 120
 121
 122
-123</pre>
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_types_counts identifier id'>get_types_counts</span><span class='lparen token'>(</span><span class='rubyid_record_type_list identifier id'>record_type_list</span><span class='comma token'>,</span> <span class='rubyid_repo_uri identifier id'>repo_uri</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&quot;record_types[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_record_type_list identifier id'>record_type_list</span><span class='rbrace token'>}</span>
@@ -1022,7 +1022,6 @@ thread safe!</p>
       <pre class="lines">
 
 
-67
 68
 69
 70
@@ -1032,10 +1031,11 @@ thread safe!</p>
 74
 75
 76
-77</pre>
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_search_records identifier id'>search_records</span><span class='lparen token'>(</span><span class='rubyid_record_list identifier id'>record_list</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_full_notes identifier id'>full_notes</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_DEFAULT_SEARCH_OPTS constant id'>DEFAULT_SEARCH_OPTS</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
@@ -1044,7 +1044,7 @@ thread safe!</p>
   <span class='rubyid_results identifier id'>results</span> <span class='assign token'>=</span> <span class='rubyid_do_search identifier id'>do_search</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
 
   <span class='comment val'># Ensure that the order of our results matches the order of `record_list`</span>
-  <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_result identifier id'>result</span><span class='bitor op'>|</span> <span class='rubyid_record_list identifier id'>record_list</span><span class='dot token'>.</span><span class='rubyid_index identifier id'>index</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;id&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+  <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_results identifier id'>results</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_result identifier id'>result</span><span class='bitor op'>|</span> <span class='rubyid_record_list identifier id'>record_list</span><span class='dot token'>.</span><span class='rubyid_index identifier id'>index</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;uri&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
 
   <span class='rubyid_SolrResults constant id'>SolrResults</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_results identifier id'>results</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span><span class='comma token'>,</span> <span class='rubyid_full_notes identifier id'>full_notes</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1069,17 +1069,17 @@ thread safe!</p>
       <pre class="lines">
 
 
-97
 98
 99
 100
 101
 102
 103
-104</pre>
+104
+105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'public/app/services/archives_space_client.rb', line 98</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_search_repository identifier id'>search_repository</span><span class='lparen token'>(</span> <span class='rubyid_base identifier id'>base</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span> <span class='rubyid_page identifier id'>page</span> <span class='assign token'>=</span> <span class='integer val'>1</span><span class='comma token'>,</span> <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_search_opts identifier id'>search_opts</span> <span class='assign token'>=</span> <span class='rubyid_DEFAULT_SEARCH_OPTS constant id'>DEFAULT_SEARCH_OPTS</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_search_opts identifier id'>search_opts</span><span class='rparen token'>)</span>
@@ -1100,7 +1100,7 @@ thread safe!</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:55 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

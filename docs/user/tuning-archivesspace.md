@@ -22,6 +22,23 @@ To modify these settings, Linux users can either export an environment variable 
 
 Windows users must edit the archivesspace.bat file.
 
+
+If you're having trouble with errors like `java.lang.OutOfMemoryError` try doubling the `ASPACE_JAVA_XMX`. On Linux you can do this either by setting an environment variable like `$ export ASPACE_JAVA_XMX="Xmx2048m"` or by editing archivsspace.sh:
+
+```
+if [ "$ASPACE_JAVA_XMX" = "" ]; then
+    ASPACE_JAVA_XMX="-Xmx2048m"
+fi
+```
+For Windows, you'll change archivesspace.bat:
+
+```
+java -Darchivesspace-daemon=yes %JAVA_OPTS% -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1 -Xss2m -X
+mx2048m -Dfile.encoding=UTF-8 -cp "%GEM_HOME%\gems\jruby-rack-1.1.12\lib\*;lib\*;launcher\lib\*!JRUBY!" org.jruby.Main "la
+uncher/launcher.rb" > "logs/archivesspace.out" 2>&1
+```
+
+
 **NOTE: THE APPLICATION WILL NOT USE THE AVAILABLE MEMORY UNLESS YOU SET THE MAXIMUM HEAP SIZE TO ALLOCATE IT** For example, if your server has 4 gigs of RAM, but you haven’t adjusted the ArchivesSpace settings, you’ll only be using 1 gig.
 
 ## MySQL

@@ -186,15 +186,6 @@
       <pre class="lines">
 
 
-425
-426
-427
-428
-429
-430
-431
-432
-433
 434
 435
 436
@@ -364,10 +355,32 @@
 600
 601
 602
-603</pre>
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 425</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/rest.rb', line 434</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
 
@@ -412,7 +425,7 @@
     <span class='rubyid_end end kw'>end</span>
 
 
-    <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_pagination_params identifier id'>process_pagination_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='comma token'>,</span> <span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span>
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_pagination_params identifier id'>process_pagination_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='comma token'>,</span> <span class='rubyid_errors identifier id'>errors</span><span class='comma token'>,</span> <span class='rubyid_paged identifier id'>paged</span><span class='rparen token'>)</span>
       <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;resolve&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;modified_since&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
 
       <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;modified_since&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_coerce_type identifier id'>coerce_type</span><span class='lparen token'>(</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:modified_since</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;0&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -431,12 +444,25 @@
         <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;all_ids&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='string val'>&#39;all_ids&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
 
       <span class='rubyid_else else kw'>else</span>
-        <span class='comment val'># Must provide either page, id_set or all_ids</span>
-        <span class='lbrack token'>[</span><span class='string val'>&#39;page&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;id_set&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;all_ids&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
+        <span class='comment val'># paged and paginated routes both support accessing results a page at a time,</span>
+        <span class='comment val'>#   via the page and page_size arguments</span>
+        <span class='comment val'># paginated routes additionally support:</span>
+        <span class='comment val'>#   - fetching all database ids as an array via all_ids</span>
+        <span class='comment val'>#   - fetching a set of specific known ids via id_set</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_paged identifier id'>paged</span>
+          <span class='comment val'># Must provide page</span>
           <span class='rubyid_errors identifier id'>errors</span><span class='lbrack token'>[</span><span class='symbol val'>:missing</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
-            <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span>
-            <span class='symbol val'>:doc</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Must provide either &#39;page&#39; (a number), &#39;id_set&#39; (an array of record IDs), or &#39;all_ids&#39; (a boolean)&quot;</span>
+            <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;page&#39;</span><span class='comma token'>,</span>
+            <span class='symbol val'>:doc</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Must provide &#39;page&#39; (a number)&quot;</span>
           <span class='rbrace token'>}</span>
+        <span class='rubyid_else else kw'>else</span>
+          <span class='comment val'># Must provide either page, id_set or all_ids</span>
+          <span class='lbrack token'>[</span><span class='string val'>&#39;page&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;id_set&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;all_ids&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
+            <span class='rubyid_errors identifier id'>errors</span><span class='lbrack token'>[</span><span class='symbol val'>:missing</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
+              <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span>
+              <span class='symbol val'>:doc</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Must provide either &#39;page&#39; (a number), &#39;id_set&#39; (an array of record IDs), or &#39;all_ids&#39; (a boolean)&quot;</span>
+            <span class='rbrace token'>}</span>
+          <span class='rubyid_end end kw'>end</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
@@ -495,7 +521,7 @@
     <span class='rubyid_end end kw'>end</span>
 
 
-    <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_params identifier id'>ensure_params</span><span class='lparen token'>(</span><span class='rubyid_declared_params identifier id'>declared_params</span><span class='comma token'>,</span> <span class='rubyid_paginated identifier id'>paginated</span><span class='rparen token'>)</span>
+    <span class='rubyid_def def kw'>def</span> <span class='rubyid_ensure_params identifier id'>ensure_params</span><span class='lparen token'>(</span><span class='rubyid_declared_params identifier id'>declared_params</span><span class='comma token'>,</span> <span class='rubyid_paginated identifier id'>paginated</span><span class='comma token'>,</span> <span class='rubyid_paged identifier id'>paged</span><span class='rparen token'>)</span>
 
       <span class='rubyid_errors identifier id'>errors</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
         <span class='symbol val'>:missing</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -506,7 +532,7 @@
       <span class='rubyid_known_params identifier id'>known_params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
 
       <span class='rubyid_process_declared_params identifier id'>process_declared_params</span><span class='lparen token'>(</span><span class='rubyid_declared_params identifier id'>declared_params</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='comma token'>,</span> <span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span>
-      <span class='rubyid_process_pagination_params identifier id'>process_pagination_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='comma token'>,</span> <span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_paginated identifier id'>paginated</span>
+      <span class='rubyid_process_pagination_params identifier id'>process_pagination_params</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='comma token'>,</span> <span class='rubyid_errors identifier id'>errors</span><span class='comma token'>,</span> <span class='rubyid_paged identifier id'>paged</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_paginated identifier id'>paginated</span> <span class='orop op'>||</span> <span class='rubyid_paged identifier id'>paged</span>
 
       <span class='comment val'># Any params that were passed in that aren&#39;t declared by our endpoint get dropped here.</span>
       <span class='rubyid_unknown_params identifier id'>unknown_params</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_p identifier id'>p</span><span class='bitor op'>|</span> <span class='rubyid_known_params identifier id'>known_params</span><span class='lbrack token'>[</span><span class='rubyid_p identifier id'>p</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
@@ -559,7 +585,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:53 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:06 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

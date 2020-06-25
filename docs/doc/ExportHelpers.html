@@ -267,7 +267,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#generate_pdf_from_ead-instance_method" title="#generate_pdf_from_ead (instance method)">#<strong>generate_pdf_from_ead</strong>(ead)  &#x21d2; Object </a>
+      <a href="#generate_pdf_from_ead-instance_method" title="#generate_pdf_from_ead (instance method)">#<strong>generate_pdf_from_ead</strong>(ead, image_for_pdf)  &#x21d2; Object </a>
     
 
     
@@ -777,7 +777,7 @@
       <div class="method_details ">
   <h3 class="signature " id="generate_pdf_from_ead-instance_method">
   
-    #<strong>generate_pdf_from_ead</strong>(ead)  &#x21d2; <tt>Object</tt> 
+    #<strong>generate_pdf_from_ead</strong>(ead, image_for_pdf)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -798,10 +798,10 @@
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/export.rb', line 13</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_pdf_from_ead identifier id'>generate_pdf_from_ead</span><span class='lparen token'>(</span> <span class='rubyid_ead identifier id'>ead</span> <span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_generate_pdf_from_ead identifier id'>generate_pdf_from_ead</span><span class='lparen token'>(</span><span class='rubyid_ead identifier id'>ead</span><span class='comma token'>,</span> <span class='rubyid_image_for_pdf identifier id'>image_for_pdf</span><span class='rparen token'>)</span>
   <span class='rubyid_xml identifier id'>xml</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
   <span class='rubyid_ead identifier id'>ead</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span> <span class='rubyid_xml identifier id'>xml</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_e identifier id'>e</span>  <span class='rbrace token'>}</span>
-  <span class='rubyid_ASFop constant id'>ASFop</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_pdf identifier id'>to_pdf</span>
+  <span class='rubyid_ASFop constant id'>ASFop</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_xml identifier id'>xml</span><span class='comma token'>,</span> <span class='rubyid_image_for_pdf identifier id'>image_for_pdf</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_pdf identifier id'>to_pdf</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -982,7 +982,7 @@ usefuly for filenaming on exports.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:54 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:07 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

@@ -384,7 +384,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Searchable.html" title="Searchable (module)">Searchable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Searchable.html#default_search_opts-instance_method" title="Searchable#default_search_opts (method)">#default_search_opts</a></span>, <span class='object_link'><a href="Searchable.html#get_years-instance_method" title="Searchable#get_years (method)">#get_years</a></span>, <span class='object_link'><a href="Searchable.html#handle_results-instance_method" title="Searchable#handle_results (method)">#handle_results</a></span>, <span class='object_link'><a href="Searchable.html#html_notes-instance_method" title="Searchable#html_notes (method)">#html_notes</a></span>, <span class='object_link'><a href="Searchable.html#process_results-instance_method" title="Searchable#process_results (method)">#process_results</a></span>, <span class='object_link'><a href="Searchable.html#process_search_results-instance_method" title="Searchable#process_search_results (method)">#process_search_results</a></span>, <span class='object_link'><a href="Searchable.html#repo_context-instance_method" title="Searchable#repo_context (method)">#repo_context</a></span>, <span class='object_link'><a href="Searchable.html#search_terms-instance_method" title="Searchable#search_terms (method)">#search_terms</a></span>, <span class='object_link'><a href="Searchable.html#set_up_advanced_search-instance_method" title="Searchable#set_up_advanced_search (method)">#set_up_advanced_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_and_run_search-instance_method" title="Searchable#set_up_and_run_search (method)">#set_up_and_run_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_search-instance_method" title="Searchable#set_up_search (method)">#set_up_search</a></span>, <span class='object_link'><a href="Searchable.html#strip_facet_fields-instance_method" title="Searchable#strip_facet_fields (method)">#strip_facet_fields</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Searchable.html#default_search_opts-instance_method" title="Searchable#default_search_opts (method)">#default_search_opts</a></span>, <span class='object_link'><a href="Searchable.html#get_filter_years-instance_method" title="Searchable#get_filter_years (method)">#get_filter_years</a></span>, <span class='object_link'><a href="Searchable.html#handle_results-instance_method" title="Searchable#handle_results (method)">#handle_results</a></span>, <span class='object_link'><a href="Searchable.html#html_notes-instance_method" title="Searchable#html_notes (method)">#html_notes</a></span>, <span class='object_link'><a href="Searchable.html#process_results-instance_method" title="Searchable#process_results (method)">#process_results</a></span>, <span class='object_link'><a href="Searchable.html#process_search_results-instance_method" title="Searchable#process_search_results (method)">#process_search_results</a></span>, <span class='object_link'><a href="Searchable.html#repo_context-instance_method" title="Searchable#repo_context (method)">#repo_context</a></span>, <span class='object_link'><a href="Searchable.html#search_terms-instance_method" title="Searchable#search_terms (method)">#search_terms</a></span>, <span class='object_link'><a href="Searchable.html#set_up_advanced_search-instance_method" title="Searchable#set_up_advanced_search (method)">#set_up_advanced_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_and_run_search-instance_method" title="Searchable#set_up_and_run_search (method)">#set_up_and_run_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_search-instance_method" title="Searchable#set_up_search (method)">#set_up_search</a></span>, <span class='object_link'><a href="Searchable.html#strip_facet_fields-instance_method" title="Searchable#strip_facet_fields (method)">#strip_facet_fields</a></span></p>
 
   
   
@@ -432,14 +432,14 @@
       <pre class="lines">
 
 
-85
-86
-87
-88
-89</pre>
+75
+76
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 75</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cancel identifier id'>cancel</span>
   <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_cancel identifier id'>cancel</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -467,6 +467,16 @@
       <pre class="lines">
 
 
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
 32
 33
 34
@@ -501,20 +511,10 @@
 63
 64
 65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76</pre>
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 32</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
 
@@ -582,6 +582,16 @@
       <pre class="lines">
 
 
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
 117
 118
 119
@@ -591,20 +601,10 @@
 123
 124
 125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136</pre>
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 117</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 107</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_file identifier id'>download_file</span>
   <span class='rubyid_@job ivar id'>@job</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:job_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
@@ -649,33 +649,13 @@
 
 9
 10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21</pre>
+11</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
-  <span class='rubyid_@active_jobs ivar id'>@active_jobs</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_active identifier id'>active</span>
-  <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_archived identifier id'>archived</span><span class='lparen token'>(</span><span class='rubyid_selected_page identifier id'>selected_page</span><span class='rparen token'>)</span>
-  <span class='rubyid_@files ivar id'>@files</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-  <span class='lparen token'>(</span><span class='rubyid_@active_jobs ivar id'>@active_jobs</span> <span class='plus op'>+</span> <span class='rubyid_@search_data ivar id'>@search_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;results&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_job identifier id'>job</span><span class='bitor op'>|</span>
-    <span class='rubyid_@files ivar id'>@files</span><span class='lbrack token'>[</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-    <span class='rubyid_files identifier id'>files</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{job[&#39;uri&#39;]}/output_files&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_files identifier id'>files</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_file identifier id'>file</span><span class='bitor op'>|</span>
-      <span class='rubyid_job_id identifier id'>job_id</span> <span class='assign token'>=</span> <span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&#39;/&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_last identifier id'>last</span>
-      <span class='rubyid_@files ivar id'>@files</span><span class='lbrack token'>[</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/jobs/#{job_id}/file/#{file}&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_for_type identifier id'>for_type</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;job&quot;</span><span class='comma token'>,</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;facet[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_JOB_FACETS constant id'>JOB_FACETS</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -698,16 +678,16 @@
       <pre class="lines">
 
 
-92
-93
-94
-95
-96
-97
-98</pre>
+82
+83
+84
+85
+86
+87
+88</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 82</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_log identifier id'>log</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
@@ -737,17 +717,17 @@
       <pre class="lines">
 
 
-23
-24
-25
-26
-27
-28
-29
-30</pre>
+13
+14
+15
+16
+17
+18
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 13</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@job ivar id'>@job</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
@@ -778,13 +758,13 @@
       <pre class="lines">
 
 
-139
-140
-141
-142</pre>
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 129</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_records identifier id'>records</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_records identifier id'>records</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
@@ -811,13 +791,13 @@
       <pre class="lines">
 
 
-79
-80
-81
-82</pre>
+69
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@job ivar id'>@job</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
@@ -844,23 +824,23 @@
       <pre class="lines">
 
 
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
 101
 102
 103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114</pre>
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 101</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 91</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_status identifier id'>status</span>
   <span class='rubyid_job identifier id'>job</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -887,7 +867,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:40 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:20 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

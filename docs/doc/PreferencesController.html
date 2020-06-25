@@ -207,7 +207,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="Searchable.html" title="Searchable (module)">Searchable</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Searchable.html#default_search_opts-instance_method" title="Searchable#default_search_opts (method)">#default_search_opts</a></span>, <span class='object_link'><a href="Searchable.html#get_years-instance_method" title="Searchable#get_years (method)">#get_years</a></span>, <span class='object_link'><a href="Searchable.html#handle_results-instance_method" title="Searchable#handle_results (method)">#handle_results</a></span>, <span class='object_link'><a href="Searchable.html#html_notes-instance_method" title="Searchable#html_notes (method)">#html_notes</a></span>, <span class='object_link'><a href="Searchable.html#process_results-instance_method" title="Searchable#process_results (method)">#process_results</a></span>, <span class='object_link'><a href="Searchable.html#process_search_results-instance_method" title="Searchable#process_search_results (method)">#process_search_results</a></span>, <span class='object_link'><a href="Searchable.html#repo_context-instance_method" title="Searchable#repo_context (method)">#repo_context</a></span>, <span class='object_link'><a href="Searchable.html#search_terms-instance_method" title="Searchable#search_terms (method)">#search_terms</a></span>, <span class='object_link'><a href="Searchable.html#set_up_advanced_search-instance_method" title="Searchable#set_up_advanced_search (method)">#set_up_advanced_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_and_run_search-instance_method" title="Searchable#set_up_and_run_search (method)">#set_up_and_run_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_search-instance_method" title="Searchable#set_up_search (method)">#set_up_search</a></span>, <span class='object_link'><a href="Searchable.html#strip_facet_fields-instance_method" title="Searchable#strip_facet_fields (method)">#strip_facet_fields</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Searchable.html#default_search_opts-instance_method" title="Searchable#default_search_opts (method)">#default_search_opts</a></span>, <span class='object_link'><a href="Searchable.html#get_filter_years-instance_method" title="Searchable#get_filter_years (method)">#get_filter_years</a></span>, <span class='object_link'><a href="Searchable.html#handle_results-instance_method" title="Searchable#handle_results (method)">#handle_results</a></span>, <span class='object_link'><a href="Searchable.html#html_notes-instance_method" title="Searchable#html_notes (method)">#html_notes</a></span>, <span class='object_link'><a href="Searchable.html#process_results-instance_method" title="Searchable#process_results (method)">#process_results</a></span>, <span class='object_link'><a href="Searchable.html#process_search_results-instance_method" title="Searchable#process_search_results (method)">#process_search_results</a></span>, <span class='object_link'><a href="Searchable.html#repo_context-instance_method" title="Searchable#repo_context (method)">#repo_context</a></span>, <span class='object_link'><a href="Searchable.html#search_terms-instance_method" title="Searchable#search_terms (method)">#search_terms</a></span>, <span class='object_link'><a href="Searchable.html#set_up_advanced_search-instance_method" title="Searchable#set_up_advanced_search (method)">#set_up_advanced_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_and_run_search-instance_method" title="Searchable#set_up_and_run_search (method)">#set_up_and_run_search</a></span>, <span class='object_link'><a href="Searchable.html#set_up_search-instance_method" title="Searchable#set_up_search (method)">#set_up_search</a></span>, <span class='object_link'><a href="Searchable.html#strip_facet_fields-instance_method" title="Searchable#strip_facet_fields (method)">#strip_facet_fields</a></span></p>
 
   
   
@@ -277,42 +277,16 @@
 24
 25
 26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40</pre>
+27</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/preferences_controller.rb', line 5</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
-  <span class='rubyid_scope identifier id'>scope</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;global&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;global&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;repo&#39;</span>
-  <span class='rubyid_user_prefix identifier id'>user_prefix</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;repo&#39;</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='string val'>&#39;&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;user_&#39;</span>
-  <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='comma token'>,</span> <span class='rubyid_global_repo_id identifier id'>global_repo_id</span> <span class='assign token'>=</span> <span class='rubyid_current_preferences identifier id'>current_preferences</span>
-  <span class='rubyid_@defaults ivar id'>@defaults</span> <span class='assign token'>=</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='string val'>&#39;defaults&#39;</span><span class='rbrack token'>]</span>
-  <span class='rubyid_level identifier id'>level</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{user_prefix}#{scope}&quot;</span>
-  <span class='rubyid_@inherited_defaults ivar id'>@inherited_defaults</span> <span class='assign token'>=</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='string val'>&quot;defaults_global&quot;</span><span class='rbrack token'>]</span>
-  <span class='lbrack token'>[</span><span class='string val'>&#39;user_global&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;repo&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;user_repo&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_lev identifier id'>lev</span><span class='bitor op'>|</span>
-    <span class='rubyid_break break kw'>break</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_lev identifier id'>lev</span> <span class='eq op'>==</span> <span class='rubyid_level identifier id'>level</span>
-    <span class='rubyid_@inherited_defaults ivar id'>@inherited_defaults</span> <span class='assign token'>=</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;defaults_#{lev}&quot;</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;defaults_#{lev}&quot;</span><span class='rbrack token'>]</span>
-  <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;global&#39;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_global_repo_id identifier id'>global_repo_id</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_opts identifier id'>opts</span><span class='comma token'>,</span> <span class='rubyid_user_scope identifier id'>user_scope</span> <span class='assign token'>=</span> <span class='rubyid_setup_defaults identifier id'>setup_defaults</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{user_prefix}#{scope}&quot;</span><span class='rbrack token'>]</span>
-    <span class='rubyid_pref identifier id'>pref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='dstring node'>&quot;#{user_prefix}#{scope}&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='rubyid_user_scope identifier id'>user_scope</span><span class='rbrack token'>]</span>
+    <span class='rubyid_pref identifier id'>pref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='rubyid_@current_prefs ivar id'>@current_prefs</span><span class='lbrack token'>[</span><span class='rubyid_user_scope identifier id'>user_scope</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_else else kw'>else</span>
     <span class='rubyid_pref identifier id'>pref</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrace token'>{</span>
                                         <span class='symbol val'>:defaults</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -352,6 +326,19 @@
       <pre class="lines">
 
 
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
 43
 44
 45
@@ -362,22 +349,10 @@
 50
 51
 52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65</pre>
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/preferences_controller.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/preferences_controller.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_prefs identifier id'>prefs</span><span class='comma token'>,</span> <span class='rubyid_global_repo_id identifier id'>global_repo_id</span> <span class='assign token'>=</span> <span class='rubyid_current_preferences identifier id'>current_preferences</span>
@@ -390,6 +365,7 @@
               <span class='symbol val'>:save_opts</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_opts identifier id'>opts</span><span class='comma token'>,</span>
               <span class='symbol val'>:replace</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_invalid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
+                <span class='rubyid_setup_defaults identifier id'>setup_defaults</span>
                 <span class='rubyid_return return kw'>return</span> <span class='rubyid_render identifier id'>render</span> <span class='label val'>action:</span> <span class='string val'>&quot;edit&quot;</span>
               <span class='rbrace token'>}</span><span class='comma token'>,</span>
               <span class='symbol val'>:on_valid</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='minus op'>-</span><span class='gt op'>&gt;</span><span class='lparen token'>(</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='lbrace token'>{</span>
@@ -413,7 +389,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:43 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:21 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

@@ -59,23 +59,19 @@
 
       <div id="content"><div id='filecontents'><h1 id="running-archivesspace-as-a-windows-service">Running ArchivesSpace as a Windows service</h1>
 
-<p>Running ArchivesSpace as a Windows service requires some additional
-configuration.</p>
+<p>Running ArchivesSpace as a Windows service requires some additional configuration.</p>
 
-<p>You can also use Apache <a href="http://commons.apache.org/proper/commons-daemon/procrun.html">procrun</a> to configure ArchivesSpace. We have
-provided a service.bat script that will attempt to configure
-procrun for you (under <code>launcher\service.bat</code>).</p>
+<p>You can use Apache <a href="http://commons.apache.org/proper/commons-daemon/procrun.html">procrun</a> to configure ArchivesSpace to run as a Windows service. We have provided a service.bat script that will attempt to configure procrun for you (under <code>launcher\service.bat</code>).</p>
 
 <p>To run this script, first you need to <a href="http://www.apache.org/dist/commons/daemon/binaries/windows/">download procrun</a>.
-Extract the files and copy the prunsrv.exe and prunmgr.exe to your
-ArchivesSpace directory.</p>
+Extract the files and copy the prunsrv.exe and prunmgr.exe to your ArchivesSpace directory.</p>
 
-<p>You also need to be sure that Java in your system path and also to set <code>JAVA_HOME</code> as a global environment variable.
-To add Java to your path, edit you %PATH% environment variable to include the directory of
-your java executable ( it will be something like <code>C:\Program Files
-(x86)\Java\bin</code> ). To add <code>JAVA_HOME</code>, add a new system variable and put the
-directory where java was installed ( something like <code>C:\Program Files
-(x86)\Java</code> ).</p>
+<p>To find the path to Java, “Start” &gt; “Control Panel” &gt; “Java”, Select “Java” tab. You’ll see the path there. It will look something like <code>C:\Program Files (x86)\Java</code></p>
+
+<p>You also need to be sure that Java is in your system path and also to create <code>JAVA_HOME</code> as a global environment variable.
+To add Java to your path, edit you %PATH% environment variable to include the directory of your java executable ( it will be something like <code>C:\Program Files (x86)\Java</code> ). To add <code>JAVA_HOME</code>, add a new system variable and put the directory where java was installed ( something like <code>C:\Program Files (x86)\Java</code> ).</p>
+
+<p>Environement varialbe be found by  “Start” &gt; “Control Panel” , search for environment. Click “edit the system environment variables”. In the section System Variables, find the <code>PATH</code> environment variable and select it. Click Edit. If the <code>PATH</code> environment variable does not exist, click New. In the Edit System Variable (or New System Variable) window, specify the value of the <code>PATH</code> environment variable. Click OK. Close all remaining windows by clicking OK. Do the same for <code>JAVA_HOME</code></p>
 
 <p>Before setting up the ArchivesSpace service, you should also <a href="http://archivesspace.github.io/archivesspace/user/running-archivesspace-against-mysql/">configure
 ArchivesSpace to run against MySQL</a>.
@@ -119,7 +115,7 @@ for more information.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:52 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:06 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

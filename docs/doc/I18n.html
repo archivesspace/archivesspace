@@ -100,6 +100,28 @@ here.</p>
   
 
 </div>
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="LOCALES-constant" class="">LOCALES =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span>
+  <span class='string val'>&#39;en&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;eng&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;es&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;spa&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;fr&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;fre&#39;</span><span class='comma token'>,</span>
+  <span class='string val'>&#39;ja&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;jpn&#39;</span><span class='comma token'>,</span>
+<span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_sort_by identifier id'>sort_by</span> <span class='lbrace token'>{</span>
+</pre></dd>
+      
+    </dl>
+  
+
 
 
 
@@ -113,6 +135,29 @@ here.</p>
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#supported_locales-class_method" title="supported_locales (class method)">.<strong>supported_locales</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -170,7 +215,38 @@ here.</p>
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="t-class_method">
+  <h3 class="signature first" id="supported_locales-class_method">
+  
+    .<strong>supported_locales</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'common/aspace_i18n.rb', line 28</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_supported_locales identifier id'>supported_locales</span>
+  <span class='rubyid_LOCALES constant id'>LOCALES</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="t-class_method">
   
     .<strong>t</strong>(*args)  &#x21d2; <tt>Object</tt> 
   
@@ -184,12 +260,12 @@ here.</p>
       <pre class="lines">
 
 
-21
-22
-23</pre>
+32
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/aspace_i18n.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'common/aspace_i18n.rb', line 32</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_t_raw identifier id'>t_raw</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
@@ -286,7 +362,7 @@ here.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:06 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:10 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

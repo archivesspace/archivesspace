@@ -308,7 +308,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>returns a hash of a hash of the filters, with filter field as key, pt as the printable field label pv as the printable value, v as the value of the filter.</p>
+    <span class="summary_desc"><div class='inline'><p>returns a hash of arrays of hashes representing the selected filters and values, with filter field as the key in the top-level hash, the values being arrays of selections within that filter, each of which is then a hash where pt as the printable field label, pv as the printable value, v as the value of the filter.</p>
 </div></span>
   
 </li>
@@ -457,7 +457,7 @@
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_default_types identifier id'>default_types</span> <span class='assign token'>=</span> <span class='rubyid_default_types identifier id'>default_types</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_fields identifier id'>fields</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_fields identifier id'>fields</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_values identifier id'>values</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_values identifier id'>values</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_facet_types identifier id'>facet_types</span> <span class='assign token'>=</span> <span class='rubyid_default_types identifier id'>default_types</span> <span class='minus op'>-</span> <span class='rubyid_fields identifier id'>fields</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_facet_types identifier id'>facet_types</span> <span class='assign token'>=</span> <span class='rubyid_default_types identifier id'>default_types</span>
   <span class='rubyid_Rails constant id'>Rails</span><span class='dot token'>.</span><span class='rubyid_logger identifier id'>logger</span><span class='dot token'>.</span><span class='rubyid_debug identifier id'>debug</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Default: #{default_types} fields: #{fields} facet_types: #{self.facet_types}&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_facet_set_arr identifier id'>facet_set_arr</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
@@ -831,8 +831,9 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>returns a hash of a hash of the filters, with filter field as key, pt as the printable field label
-pv as the printable value, v as the value of the filter</p>
+    <p>returns a hash of arrays of hashes representing the selected filters and values, with filter field as the key
+in the top-level hash, the values being arrays of selections within that filter, each of which is then a hash where
+pt as the printable field label, pv as the printable value, v as the value of the filter</p>
 
 
   </div>
@@ -846,7 +847,6 @@ pv as the printable value, v as the value of the filter</p>
       <pre class="lines">
 
 
-35
 36
 37
 38
@@ -855,10 +855,12 @@ pv as the printable value, v as the value of the filter</p>
 41
 42
 43
-44</pre>
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/facet_filter.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/facet_filter.rb', line 36</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_filter_hash identifier id'>get_filter_hash</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_fh identifier id'>fh</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -866,7 +868,8 @@ pv as the printable value, v as the value of the filter</p>
     <span class='rubyid_pt identifier id'>pt</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;search_results.filter.#{k}&quot;</span><span class='rparen token'>)</span>
     <span class='rubyid_pv identifier id'>pv</span> <span class='assign token'>=</span> <span class='rubyid_get_pretty_facet_value identifier id'>get_pretty_facet_value</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='regexp val'>/&quot;(.*)&quot;/</span><span class='comma token'>,</span><span class='string val'>&#39;\1&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
     <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span><span class='question op'>?</span> <span class='rubyid_url identifier id'>url</span><span class='dot token'>.</span><span class='rubyid_sub identifier id'>sub</span><span class='lparen token'>(</span><span class='dstring node'>&quot;&amp;filter_fields[]=#{k}&amp;filter_values[]=#{CGI.escape(v)}&quot;</span><span class='comma token'>,</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='string val'>&#39;&#39;</span>
-    <span class='rubyid_fh identifier id'>fh</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='string val'>&#39;v&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_v identifier id'>v</span><span class='comma token'>,</span> <span class='string val'>&#39;pv&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_pv identifier id'>pv</span><span class='comma token'>,</span> <span class='string val'>&#39;pt&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_pt identifier id'>pt</span><span class='comma token'>,</span> <span class='string val'>&#39;uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span> <span class='rbrace token'>}</span>
+    <span class='rubyid_fh identifier id'>fh</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='rubyid_fh identifier id'>fh</span><span class='lbrack token'>[</span><span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&#39;v&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_v identifier id'>v</span><span class='comma token'>,</span> <span class='string val'>&#39;pv&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_pv identifier id'>pv</span><span class='comma token'>,</span> <span class='string val'>&#39;pt&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_pt identifier id'>pt</span><span class='comma token'>,</span> <span class='string val'>&#39;uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_fh identifier id'>fh</span>
 <span class='rubyid_end end kw'>end</span>
@@ -961,7 +964,7 @@ pv as the printable value, v as the value of the filter</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:54 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

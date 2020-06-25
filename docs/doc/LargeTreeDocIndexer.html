@@ -483,7 +483,9 @@
 30
 31
 32
-33</pre>
+33
+34
+35</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'indexer/app/lib/large_tree_doc_indexer.rb', line 14</span>
@@ -497,9 +499,11 @@
 
     <span class='rubyid_batch identifier id'>batch</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
       <span class='string val'>&#39;id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{node_uri}/tree/root&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{node_uri}/tree/root&quot;</span><span class='comma token'>,</span>
       <span class='string val'>&#39;pui_parent_id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_uri identifier id'>node_uri</span><span class='comma token'>,</span>
       <span class='string val'>&#39;publish&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span><span class='comma token'>,</span>
       <span class='string val'>&#39;primary_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;tree_root&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;types&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;pui&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
       <span class='string val'>&#39;json&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
     <span class='rbrace token'>}</span>
 
@@ -529,10 +533,6 @@
       <pre class="lines">
 
 
-57
-58
-59
-60
 61
 62
 63
@@ -559,10 +559,16 @@
 84
 85
 86
-87</pre>
+87
+88
+89
+90
+91
+92
+93</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/large_tree_doc_indexer.rb', line 57</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/large_tree_doc_indexer.rb', line 61</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_nodes identifier id'>add_nodes</span><span class='lparen token'>(</span><span class='rubyid_root_record_uri identifier id'>root_record_uri</span><span class='comma token'>,</span> <span class='rubyid_waypoint_record identifier id'>waypoint_record</span><span class='rparen token'>)</span>
   <span class='rubyid_record_uri identifier id'>record_uri</span> <span class='assign token'>=</span> <span class='rubyid_waypoint_record identifier id'>waypoint_record</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;uri&#39;</span><span class='rparen token'>)</span>
@@ -580,9 +586,11 @@
 
     <span class='rubyid_batch identifier id'>batch</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
       <span class='string val'>&#39;id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{root_record_uri}/tree/node_#{json.fetch(&#39;uri&#39;)}&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{root_record_uri}/tree/node_#{json.fetch(&#39;uri&#39;)}&quot;</span><span class='comma token'>,</span>
       <span class='string val'>&#39;pui_parent_id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;uri&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span>
       <span class='string val'>&#39;publish&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span><span class='comma token'>,</span>
       <span class='string val'>&#39;primary_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;tree_node&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;types&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;pui&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
       <span class='string val'>&#39;json&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
     <span class='rbrace token'>}</span>
 
@@ -616,8 +624,6 @@
       <pre class="lines">
 
 
-35
-36
 37
 38
 39
@@ -636,10 +642,14 @@
 52
 53
 54
-55</pre>
+55
+56
+57
+58
+59</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/large_tree_doc_indexer.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/large_tree_doc_indexer.rb', line 37</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_waypoints identifier id'>add_waypoints</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_root_record_uri identifier id'>root_record_uri</span><span class='comma token'>,</span> <span class='rubyid_parent_uri identifier id'>parent_uri</span><span class='rparen token'>)</span>
   <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;waypoints&#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_waypoint_number identifier id'>waypoint_number</span><span class='bitor op'>|</span>
@@ -648,12 +658,14 @@
                                     <span class='symbol val'>:parent_node</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_parent_uri identifier id'>parent_uri</span><span class='comma token'>,</span>
                                     <span class='symbol val'>:published_only</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
 
-    
+
     <span class='rubyid_batch identifier id'>batch</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
       <span class='string val'>&#39;id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{root_record_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{root_record_uri}/tree/waypoint_#{parent_uri}_#{waypoint_number}&quot;</span><span class='comma token'>,</span>
       <span class='string val'>&#39;pui_parent_id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='rubyid_parent_uri identifier id'>parent_uri</span> <span class='orop op'>||</span> <span class='rubyid_root_record_uri identifier id'>root_record_uri</span><span class='rparen token'>)</span><span class='comma token'>,</span>
       <span class='string val'>&#39;publish&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span><span class='comma token'>,</span>
       <span class='string val'>&#39;primary_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;tree_waypoint&quot;</span><span class='comma token'>,</span>
+      <span class='string val'>&#39;types&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;pui&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
       <span class='string val'>&#39;json&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
     <span class='rbrace token'>}</span>
 
@@ -683,12 +695,6 @@
       <pre class="lines">
 
 
-89
-90
-91
-92
-93
-94
 95
 96
 97
@@ -701,10 +707,18 @@
 104
 105
 106
-107</pre>
+107
+108
+109
+110
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/large_tree_doc_indexer.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/large_tree_doc_indexer.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index_paths_to_root identifier id'>index_paths_to_root</span><span class='lparen token'>(</span><span class='rubyid_root_uri identifier id'>root_uri</span><span class='comma token'>,</span> <span class='rubyid_node_uris identifier id'>node_uris</span><span class='rparen token'>)</span>
   <span class='rubyid_node_uris identifier id'>node_uris</span><span class='dot token'>.</span><span class='rubyid_each_slice identifier id'>each_slice</span><span class='lparen token'>(</span><span class='integer val'>128</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node_uris identifier id'>node_uris</span><span class='bitor op'>|</span>
@@ -717,9 +731,11 @@
     <span class='rubyid_node_paths identifier id'>node_paths</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_node_id identifier id'>node_id</span><span class='comma token'>,</span> <span class='rubyid_path identifier id'>path</span><span class='bitor op'>|</span>
       <span class='rubyid_batch identifier id'>batch</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
         <span class='string val'>&#39;id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{root_uri}/tree/node_from_root_#{node_id}&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;uri&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{root_uri}/tree/node_from_root_#{node_id}&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&#39;pui_parent_id&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_node_id_to_uri identifier id'>node_id_to_uri</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_Integer constant id'>Integer</span><span class='lparen token'>(</span><span class='rubyid_node_id identifier id'>node_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='comma token'>,</span>
         <span class='string val'>&#39;publish&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;true&quot;</span><span class='comma token'>,</span>
         <span class='string val'>&#39;primary_type&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;tree_node_from_root&quot;</span><span class='comma token'>,</span>
+        <span class='string val'>&#39;types&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;pui&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
         <span class='string val'>&#39;json&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_to_json identifier id'>to_json</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rubyid_node_id identifier id'>node_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_path identifier id'>path</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
       <span class='rbrace token'>}</span>
     <span class='rubyid_end end kw'>end</span>
@@ -736,7 +752,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:52 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:23 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

@@ -22,6 +22,10 @@ Your `AppConfig[:pui_branding_img]` setting should look something like this:
 
 `AppConfig[:pui_branding_img] = '/assets/images/logo.png'`
 
+If you want your image on the PUI to link out to another location, you will need to make a change to the file `public/app/views/shared/_header.html.erb`. The line that creates the logo just needs a `a href` added. That will end up looking something like this:
+
+`<div class="col-sm-3 hidden-xs"><a href="https://example.com"><img class="logo" src="<%= asset_path(AppConfig[:pui_branding_img]) %>" alt="Back to Example College Home" /></a></div>`
+
 The Staff Side logo will need a small plugin file and cannot be set in your `config.rb` file. This needs to be changed in the `plugins/local/frontend/views/site/_branding.html.erb` file. You'll most likely need to create one or more of the directories. Then create that `_branding.html.erb` file and paste in the following code:
 
 ```

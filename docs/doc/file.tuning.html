@@ -80,6 +80,21 @@ Keep in mind that ArchivesSpace can be hosted on multiple server, either in a <a
 
 <p>Windows users must edit the archivesspace.bat file.</p>
 
+<p>If you’re having trouble with errors like <code>java.lang.OutOfMemoryError</code> try doubling the <code>ASPACE_JAVA_XMX</code>. On Linux you can do this either by setting an environment variable like <code>$ export ASPACE_JAVA_XMX="Xmx2048m"</code> or by editing archivsspace.sh:</p>
+
+<p><code>
+if [ "$ASPACE_JAVA_XMX" = "" ]; then
+    ASPACE_JAVA_XMX="-Xmx2048m"
+fi
+</code>
+For Windows, you’ll change archivesspace.bat:</p>
+
+<p><code>
+java -Darchivesspace-daemon=yes %JAVA_OPTS% -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1 -Xss2m -X
+mx2048m -Dfile.encoding=UTF-8 -cp "%GEM_HOME%\gems\jruby-rack-1.1.12\lib\*;lib\*;launcher\lib\*!JRUBY!" org.jruby.Main "la
+uncher/launcher.rb" &gt; "logs/archivesspace.out" 2&gt;&amp;1
+</code></p>
+
 <p><strong>NOTE: THE APPLICATION WILL NOT USE THE AVAILABLE MEMORY UNLESS YOU SET THE MAXIMUM HEAP SIZE TO ALLOCATE IT</strong> For example, if your server has 4 gigs of RAM, but you haven’t adjusted the ArchivesSpace settings, you’ll only be using 1 gig.</p>
 
 <h2 id="mysql">MySQL</h2>
@@ -94,7 +109,7 @@ Keep in mind that ArchivesSpace can be hosted on multiple server, either in a <a
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:51 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:05 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

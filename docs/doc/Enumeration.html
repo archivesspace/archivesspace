@@ -628,15 +628,6 @@
       <pre class="lines">
 
 
-59
-60
-61
-62
-63
-64
-65
-66
-67
 68
 69
 70
@@ -697,10 +688,19 @@
 125
 126
 127
-128</pre>
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_apply_values identifier id'>apply_values</span><span class='lparen token'>(</span><span class='rubyid_obj identifier id'>obj</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='comment val'># don&#39;t allow update of an non-editable enumeration</span>
@@ -793,12 +793,12 @@
       <pre class="lines">
 
 
-171
-172
-173</pre>
+180
+181
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 171</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 180</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_broadcast_changes identifier id'>broadcast_changes</span>
   <span class='rubyid_Notifications constant id'>Notifications</span><span class='dot token'>.</span><span class='rubyid_notify identifier id'>notify</span><span class='lparen token'>(</span><span class='string val'>&quot;ENUMERATION_CHANGED&quot;</span><span class='rparen token'>)</span>
@@ -824,15 +824,15 @@
       <pre class="lines">
 
 
-131
-132
-133
-134
-135
-136</pre>
+140
+141
+142
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 140</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_default_value identifier id'>default_value</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;default_value&#39;</span><span class='rbrack token'>]</span>
@@ -939,15 +939,6 @@
       <pre class="lines">
 
 
-147
-148
-149
-150
-151
-152
-153
-154
-155
 156
 157
 158
@@ -959,10 +950,19 @@
 164
 165
 166
-167</pre>
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 156</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1078,16 +1078,34 @@
 52
 53
 54
-55</pre>
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 31</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_migrate identifier id'>migrate</span><span class='lparen token'>(</span><span class='rubyid_old_value identifier id'>old_value</span><span class='comma token'>,</span> <span class='rubyid_new_value identifier id'>new_value</span><span class='rparen token'>)</span>
+  <span class='rubyid_is_editable identifier id'>is_editable</span> <span class='assign token'>=</span> <span class='lparen token'>(</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_editable identifier id'>editable</span> <span class='eqq op'>===</span> <span class='integer val'>1</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_editable identifier id'>editable</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span> <span class='rparen token'>)</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_is_editable identifier id'>is_editable</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_EnumerationMigrationFailed constant id'>EnumerationMigrationFailed</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Can&#39;t migrate values for non-editable enumeration #{self.id}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_old_enum_value identifier id'>old_enum_value</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enumeration_value identifier id'>enumeration_value</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span> <span class='rubyid_val identifier id'>val</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_old_value identifier id'>old_value</span><span class='rbrace token'>}</span>
 
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_old_enum_value identifier id'>old_enum_value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_NotFoundException constant id'>NotFoundException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Can&#39;t find a value &#39;#{old_value}&#39; in enumeration #{self.id}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_old_enum_value identifier id'>old_enum_value</span><span class='dot token'>.</span><span class='rubyid_readonly identifier id'>readonly</span> <span class='neq op'>!=</span> <span class='integer val'>0</span>
-    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_AccessDeniedException constant id'>AccessDeniedException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Can&#39;t transfer from a read-only enumeration value&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_EnumerationMigrationFailed constant id'>EnumerationMigrationFailed</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Can&#39;t transfer from a read-only enumeration value&quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_new_enum_value identifier id'>new_enum_value</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enumeration_value identifier id'>enumeration_value</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span> <span class='rubyid_val identifier id'>val</span><span class='lbrack token'>[</span><span class='symbol val'>:value</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_new_value identifier id'>new_value</span><span class='rbrace token'>}</span>
@@ -1129,15 +1147,15 @@
       <pre class="lines">
 
 
-139
-140
-141
-142
-143
-144</pre>
+148
+149
+150
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/enumeration.rb', line 148</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_default_value identifier id'>default_value</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;default_value&#39;</span><span class='rbrack token'>]</span>
@@ -1156,7 +1174,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:19 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:14 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>
