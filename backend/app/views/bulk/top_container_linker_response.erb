@@ -20,3 +20,21 @@
 <% end %><%# of row each %>
 </ul>
 <% end %> 
+
+<% output = ''
+    report.rows.each do |row| 
+      if !row.errors.empty? 
+        output += row.row
+      end 
+      output += "\n"
+      unless row.errors.empty? 
+        row.errors.each do |err| 
+          output += I18n.t('bulk_import.clip_err', :err => err) + "\n"
+        end 
+      end 
+    end
+  %>
+  <textarea id="excel_clip" readonly style="width:1px; height:1px;">
+  <%= I18n.t('bulk_import.clip_header') %>
+  <%= output%>
+</textarea>

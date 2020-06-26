@@ -143,11 +143,6 @@ describe "Bulk Import Mixins" do
     expect(ind_type_exist).to be true
   end
   
-  it "Tests that it receives the existing top container for an archival object in the resource" do
-    tc = find_top_container_for_resource(@resource.ead_id, @tc.indicator, @tc.type_id)
-    expect(tc.id).to eq(@tc.id)
-  end
-  
   
   after(:each) do
     @no_ead_json.delete

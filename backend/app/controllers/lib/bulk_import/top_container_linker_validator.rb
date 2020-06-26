@@ -11,6 +11,7 @@ class TopContainerLinkerValidator < BulkImportParser
     super(input_file, content_type, current_user, opts)
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
     @start_marker = START_MARKER
+    @barcode_tc_existing_in_spreadsheet = {}
   end
 
   # look for all the required fields to make sure they are legit
@@ -89,23 +90,35 @@ class TopContainerLinkerValidator < BulkImportParser
           err_arr.push I18n.t("top_container_linker.error.tc_ind_ct_exists", :indicator=> tc_indicator, :tc_type=> tc_type, :ead_id => ead_id, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         end
       end
-          
+      
       #Check if the barcode already exists in the db (fail if so)
       barcode = @row_hash[TOP_CONTAINER_BARCODE]
       if (!barcode.nil?)
         tc_obj = find_top_container({:barcode => barcode.strip})
         if (!tc_obj.nil?)
           err_arr.push I18n.t("top_container_linker.error.tc_barcode_exists", :barcode=> barcode, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+        elsif barcode_differs_from_prev_tc?(tc_indicator, tc_type, barcode)
+          err_arr.push I18n.t("top_container_linker.error.tc_barcode_differs", :barcode=> barcode, :type=>tc_type, :indicator=> tc_indicator, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+        else
+          add_tc_bc(tc_indicator, tc_type, barcode)
         end
       end
+      
       
       #Check if the barcode_2 already exists in the db (fail if so).  
       #This will be put in place when Harvard's code is merged
       barcode_2 = @row_hash[CHILD_CONTAINER_BARCODE]
+      child_type = @row_hash[CHILD_TYPE]
+      child_indicator = @row_hash[CHILD_INDICATOR]
       if (!barcode_2.nil?)
         sc_obj = sub_container_from_barcode(barcode_2.strip)
         if (!sc_obj.nil?)
           err_arr.push I18n.t("top_container_linker.error.sc_barcode_exists", :barcode=> barcode_2, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+        elsif (!child_type.nil? && !child_indicator.nil?)
+          if barcode_differs_from_prev_tc?(child_indicator, child_type, barcode_2, true)
+            err_arr.push I18n.t("top_container_linker.error.sc_barcode_differs", :barcode=> barcode_2, :type=>child_type, :indicator=>child_indicator, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
+          end
+          add_tc_bc(child_indicator, child_type, barcode_2, true)
         end
       end
       
@@ -141,6 +154,26 @@ class TopContainerLinkerValidator < BulkImportParser
     if !err_arr.empty?
       raise BulkImportException.new(err_arr.join("; "))
     end
+  end
+  
+  def get_hash_table()
+    @barcode_tc_existing_in_spreadsheet
+  end
+  
+  private
+  
+  def add_tc_bc(indicator, type, barcode, is_child=false)
+    key = "#{type} #{indicator}"
+    key += " child" if is_child
+    @barcode_tc_existing_in_spreadsheet[key] = barcode
+  end
+  
+  #Checks to see if the barcode for subsequent indicator-type combos
+  #are the same
+  def barcode_differs_from_prev_tc?(indicator, type, barcode, is_child=false)
+    key = "#{type} #{indicator}"
+    key += " child" if is_child
+    @barcode_tc_existing_in_spreadsheet[key] && @barcode_tc_existing_in_spreadsheet[key] != barcode    
   end
 
 end

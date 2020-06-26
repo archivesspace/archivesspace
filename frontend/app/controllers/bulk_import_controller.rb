@@ -41,16 +41,15 @@ class BulkImportController < ApplicationController
       #If it did not fail, then create a job
       begin
         JSON.parse(response.body)
-      rescue JSON::ParserError
         #If it isn't a hash then it was successful so create a job
         files = {file.original_filename => file}
         job_data = {:jsonmodel_type => 'top_container_linker_job', :filename => params[:filename], :content_type => params[:filetype], :resource_id => rid.to_i, :repo_id => repo_id.to_i, :user => current_user}
         job = Job.new('top_container_linker_job', job_data, files, nil)
         uploaded = job.upload
         joburiarray = uploaded["uri"].split("/")
-        response.body = response.body + " Top Container Linker Job with number " + helpers.link_to(joburiarray[4], "/" + joburiarray[3] + "/" + joburiarray[4]) + " created."
+        response.body = "Top Container Linker Job with number " + helpers.link_to(joburiarray[4], "/" + joburiarray[3] + "/" + joburiarray[4]) + " created."    
+      rescue JSON::ParserError
       end
-      # change this when we get to diffing between errors and success?
       return render_aspace_partial :partial => "resources/bulk_import_response", :locals => {:data => response.body }
     end
 end

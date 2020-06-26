@@ -24,7 +24,7 @@ describe "Top Container Linker Validator" do
   end
   
   def valid_tc_linking_data
-    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1", "top_container_type"=>"abc"}
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1", "top_container_type"=>"abc", "top_container_barcode" => "barcode_1234"}
   end
   
   def invalid_tc_linking_data_ead_id_missing
@@ -53,6 +53,10 @@ describe "Top Container Linker Validator" do
   
   def invalid_tc_linking_data_type_indicator_exists
     {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>@tc.indicator, "top_container_type" => @tc.type}
+  end
+  
+  def invalid_tc_linking_data_type_indicator_barcode_differ
+    {"ead_id" => "hua15019", "ref_id"=>"hua15019c00007","instance_type"=>"unspecified", "top_container_indicator"=>"Box 1", "top_container_type"=>"abc", "top_container_barcode" => "barcode_5678"}
   end
 
   it "Checks the validation method with valid input" do
@@ -86,6 +90,12 @@ describe "Top Container Linker Validator" do
   it "Checks the validation method for a type-indicator combo that already exists in the database for the resource" do
     expect{@tcl.process_row(invalid_tc_linking_data_type_indicator_exists)}.to raise_error(BulkImportException)
   end
- 
+
+  it "Checks the validation method for a type-indicator-barcode combo that already exists in the spreadsheet but has a different barcode" do
+    #This won't raise an error but it should add the type-indicator-barcode to the hash
+    expect{@tcl.process_row(valid_tc_linking_data)}.to_not raise_error
+    #This should raise an error because the type-indicator are the same but the barcode differs
+    expect{@tcl.process_row(invalid_tc_linking_data_type_indicator_barcode_differ)}.to raise_error(BulkImportException)
+  end
    
 end

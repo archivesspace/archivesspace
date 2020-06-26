@@ -82,6 +82,8 @@ class BulkImportParser
     @need_to_move = false
     @is_xslx = file_is_xslx?
     @is_csv = file_is_csv?
+    initialize_handler_enums
+    @counter = 0
   end
 
   def initialize_handler_enums

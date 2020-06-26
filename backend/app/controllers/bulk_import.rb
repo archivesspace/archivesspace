@@ -55,9 +55,12 @@ class ArchivesSpaceService < Sinatra::Base
         errors << error_row.errors.join(", ")
       end
     end
+    #If it fails, return the template
     if (!errors.empty?)
-      raise BulkImportException.new(errors.join(', '))
+      erb :'bulk/top_container_linker_response', locals: {report: report}
+    else
+      #Otherwise send an error so it triggers a job creation
+      raise BulkImportException.new()
     end
-    erb :'bulk/top_container_linker_response', locals: {report: report}
   end
 end
