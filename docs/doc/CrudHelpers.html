@@ -76,14 +76,16 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="ArchivesSpaceService.html" title="ArchivesSpaceService (class)">ArchivesSpaceService</a></span></dd>
+    <dd><span class='object_link'><a href="ArchivesSpaceService.html" title="ArchivesSpaceService (class)">ArchivesSpaceService</a></span>, <span class='object_link'><a href="BulkImportMixins.html" title="BulkImportMixins (module)">BulkImportMixins</a></span>, <span class='object_link'><a href="CvList.html" title="CvList (class)">CvList</a></span></dd>
   </dl>
   
 
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>backend/app/lib/crud_helpers.rb</dd>
+    <dd>backend/app/lib/crud_helpers.rb<span class="defines">,<br />
+  backend/app/lib/bulk_import/crud_helpers.rb</span>
+</dd>
   </dl>
   
 </div>
@@ -208,6 +210,29 @@
   <span class="summary_signature">
     
       <a href="#handle_listing-instance_method" title="#handle_listing (instance method)">#<strong>handle_listing</strong>(model, pagination_data, where = {}, order = nil)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_raw_listing-instance_method" title="#handle_raw_listing (instance method)">#<strong>handle_raw_listing</strong>(model, where = {}, current_user)  &#x21d2; Object </a>
     
 
     
@@ -397,7 +422,7 @@
     <span class='rubyid_yield yield kw'>yield</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationFailed constant id'>ValidationFailed</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_errors identifier id'>errors</span><span class='bitor op'>|</span> <span class='rubyid_errors identifier id'>errors</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_end_with? fid id'>end_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;must be unique&quot;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
-      <span class='rubyid_existing_record identifier id'>existing_record</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_find_matching identifier id'>find_matching</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
+      <span class='rubyid_existing_record identifier id'>existing_record</span> <span class='assign token'>=</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_errors identifier id'>errors</span><span class='bitor op'>|</span> <span class='rubyid_errors identifier id'>errors</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='string val'>&quot;Authority ID&quot;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span> <span class='question op'>?</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_find_matching_id identifier id'>find_matching_id</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_find_matching identifier id'>find_matching</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_existing_record identifier id'>existing_record</span>
         <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='lbrack token'>[</span><span class='symbol val'>:conflicting_record</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_existing_record identifier id'>existing_record</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='rbrack token'>]</span>
@@ -563,6 +588,61 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="handle_raw_listing-instance_method">
+  
+    #<strong>handle_raw_listing</strong>(model, where = {}, current_user)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/crud_helpers.rb', line 4</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_handle_raw_listing identifier id'>handle_raw_listing</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_where identifier id'>where</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_current_user identifier id'>current_user</span><span class='rparen token'>)</span>
+  <span class='rubyid_dataset identifier id'>dataset</span> <span class='assign token'>=</span> <span class='rubyid_CrudHelpers constant id'>CrudHelpers</span><span class='dot token'>.</span><span class='rubyid_scoped_dataset identifier id'>scoped_dataset</span><span class='lparen token'>(</span><span class='rubyid_model identifier id'>model</span><span class='comma token'>,</span> <span class='rubyid_where identifier id'>where</span><span class='rparen token'>)</span>
+  <span class='rubyid_objs identifier id'>objs</span> <span class='assign token'>=</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:all</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_dataset identifier id'>dataset</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span> <span class='colon op'>:</span> <span class='rubyid_dataset identifier id'>dataset</span>
+  <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:calculate_linked_repositories</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_current_user identifier id'>current_user</span><span class='dot token'>.</span><span class='rubyid_can? fid id'>can?</span><span class='lparen token'>(</span><span class='symbol val'>:index_system</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+
+  <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_json identifier id'>json</span><span class='bitor op'>|</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_JSONModelType constant id'>JSONModelType</span><span class='rparen token'>)</span>
+      <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span><span class='lparen token'>(</span><span class='symbol val'>:trusted</span><span class='rparen token'>)</span>
+    <span class='rubyid_else else kw'>else</span>
+      <span class='rubyid_json identifier id'>json</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rbrace token'>}</span>
+  <span class='comment val'>#   results = resolve_references(jsons, true)</span>
+  <span class='rubyid_jsons identifier id'>jsons</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="handle_unlimited_listing-instance_method">
   
     #<strong>handle_unlimited_listing</strong>(model, where = {})  &#x21d2; <tt>Object</tt> 
@@ -672,7 +752,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:54 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:07 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

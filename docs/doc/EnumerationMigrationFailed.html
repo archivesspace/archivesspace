@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  File: supervisord
+  Exception: EnumerationMigrationFailed
   
     &mdash; Documentation by YARD 0.9.20
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "supervisord";
+  pathId = "EnumerationMigrationFailed";
   relpath = '';
 </script>
 
@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="nav_wrap">
-      <iframe id="nav" src="file_list.html?1"></iframe>
+      <iframe id="nav" src="class_list.html?1"></iframe>
       <div id="resizer"></div>
     </div>
 
@@ -36,8 +36,10 @@
       <div id="header">
         <div id="menu">
   
-    <a href="alpha_index.html">Index</a> &raquo; 
-    <span class="title">File: supervisord</span>
+    <a href="alpha_index.html">Index (E)</a> &raquo;
+    
+    
+    <span class="title">EnumerationMigrationFailed</span>
   
 </div>
 
@@ -57,36 +59,64 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><h1 id="using-supervisord-for-development">Using Supervisord for development</h1>
+      <div id="content"><h1>Exception: EnumerationMigrationFailed
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">StandardError</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">StandardError</li>
+          
+            <li class="next">EnumerationMigrationFailed</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
 
-<p><a href="http://supervisord.org/">Supervisord</a> can simultaneously launch the ArchivesSpace development servers.
-This is entirely optional and just for developer convenience.</p>
+  
+  
+  
+  
+  
 
-<h2 id="setup">Setup</h2>
+  
 
-<p>From within the ArchivesSpace source directory:</p>
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>backend/app/lib/exceptions.rb</dd>
+  </dl>
+  
+</div>
 
-<p>```
-./build/run bootstrap # if needed, as usual</p>
 
-<p>[sudo] pip install supervisor supervisor-stdout</p>
 
-<h1 id="run-all-of-the-services">run all of the services</h1>
-<p>supervisord -c supervisord/archivesspace.conf</p>
 
-<h1 id="run-in-api-mode-backend--indexer--solr-only">run in api mode (backend + indexer / solr only)</h1>
-<p>supervisord -c supervisord/api.conf</p>
 
-<h1 id="run-just-the-backend-useful-for-trying-out-endpoints-that-dont-require-solr">run just the backend (useful for trying out endpoints that don’t require Solr)</h1>
-<p>supervisord -c supervisord/backend.conf</p>
 
-<p>To stop supervisord: <code>Ctrl-c</code>.</p>
 
-<p>```</p>
-</div></div>
+
+
+
+
+  
+
+</div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:51 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:12 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

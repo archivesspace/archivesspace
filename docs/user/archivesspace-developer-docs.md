@@ -1,7 +1,7 @@
 ---
-title: ArchivesSpace build system
+title: ArchivesSpace developer docs
 layout: en
-permalink: /user/archivesspace-build-system/
+permalink: /user/archivesspace-developer-docs/
 ---
 ## Running the build system
 
@@ -9,7 +9,6 @@ To run the build system, use the `build/run` script from your
 ArchivesSpace project directory.  This will display a list of all
 available build tasks.  This document describes a few of the important
 ones.
-
 
 ## Bootstrapping
 
@@ -19,6 +18,10 @@ The bootstrap task:
 
 Will bootstrap your development environment by downloading all
 dependencies--JRuby, Gems, Solr, etc..
+
+This is the starting point for all ArchivesSpace development. You may need
+to re-run this command after fetching updates, or when making changes to
+Gemfiles or other dependencies such as those in the `./build/build.xml` file.
 
 ## Running components individually
 
@@ -42,7 +45,7 @@ development servers. This is entirely optional and just for developer convenienc
 
 From within the ArchivesSpace source directory:
 
-```
+```bash
 ./build/run bootstrap # if needed, as usual
 
 [sudo] pip install supervisor supervisor-stdout
@@ -57,7 +60,6 @@ supervisord -c supervisord/api.conf
 supervisord -c supervisord/backend.conf
 
 To stop supervisord: `Ctrl-c`.
-
 ```
 
 ArchivesSpace is started with the staff interface running on http://localhost:3000/ and the PUI on http://localhost:3001/
@@ -93,7 +95,6 @@ tests:
 
      build/run travis:test
 
-
 It's also useful to be able to run the backend unit tests separately.
 To do this, run:
 
@@ -107,6 +108,7 @@ or a single example with:
 
      build/run backend:test -Dexample="does something important"
 
+There are specific instructions and requirements for the [UI tests](ui_test.md) to work.
 
 ## Coverage reports
 
@@ -117,7 +119,6 @@ You can run the coverage reports using:
 This runs all of the above tests in coverage mode and, when the run
 finishes, produces a set of HTML reports within the `coverage`
 directory in your ArchivesSpace project directory.
-
 
 ## Building a distribution
 

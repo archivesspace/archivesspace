@@ -80,6 +80,8 @@
 			
 				<h3 class="signature"> - (string) <strong>long_display_string</strong></h3>
 			
+				<h3 class="signature"> - (string) <strong>subcontainer_barcodes</strong></h3>
+			
 				<h3 class="signature"> - (string (max length: 255)) <strong>ils_holding_id</strong></h3>
 			
 				<h3 class="signature"> - (string (max length: 255)) <strong>ils_item_id</strong></h3>
@@ -214,7 +216,8 @@
 102
 103
 104
-105</pre>
+105
+106</pre>
           </td>
           <td>
             <pre class="code"><span class="info file"># File 'common/schemas/top_container.rb', line 1</span>
@@ -237,6 +240,7 @@
       <span class='string val'>&quot;display_string&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;long_display_string&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;readonly&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
+      <span class='string val'>&quot;subcontainer_barcodes&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
 
       <span class='string val'>&quot;ils_holding_id&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;maxLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>255</span><span class='comma token'>,</span> <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
       <span class='string val'>&quot;ils_item_id&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='string val'>&quot;type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;string&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;maxLength&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>255</span><span class='comma token'>,</span> <span class='string val'>&quot;required&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_false false kw'>false</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
@@ -337,7 +341,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:57 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

@@ -289,7 +289,6 @@ information from the tree anyway.</p>
       <pre class="lines">
 
 
-58
 59
 60
 61
@@ -297,10 +296,11 @@ information from the tree anyway.</p>
 63
 64
 65
-66</pre>
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 59</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_load_node_properties identifier id'>load_node_properties</span><span class='lparen token'>(</span><span class='rubyid_node identifier id'>node</span><span class='comma token'>,</span> <span class='rubyid_properties identifier id'>properties</span><span class='comma token'>,</span> <span class='rubyid_ids_of_interest identifier id'>ids_of_interest</span> <span class='assign token'>=</span> <span class='symbol val'>:all</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -332,15 +332,15 @@ information from the tree anyway.</p>
       <pre class="lines">
 
 
-69
 70
 71
 72
 73
-74</pre>
+74
+75</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_load_root_properties identifier id'>load_root_properties</span><span class='lparen token'>(</span><span class='rubyid_properties identifier id'>properties</span><span class='comma token'>,</span> <span class='rubyid_ids_of_interest identifier id'>ids_of_interest</span> <span class='assign token'>=</span> <span class='symbol val'>:all</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span>
@@ -400,7 +400,8 @@ information from the tree anyway.</p>
 46
 47
 48
-49</pre>
+49
+50</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/resource_trees.rb', line 18</span>
@@ -429,6 +430,7 @@ information from the tree anyway.</p>
       <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_2&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='string val'>&quot;container_type&quot;</span><span class='comma token'>,</span>
                                                             <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_type_2_id identifier id'>type_2_id</span><span class='rparen token'>)</span>
       <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_2&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_indicator_2 identifier id'>indicator_2</span>
+      <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;barcode_2&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_barcode_2 identifier id'>barcode_2</span>
       <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;type_3&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='string val'>&quot;container_type&quot;</span><span class='comma token'>,</span>
                                                             <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_type_3_id identifier id'>type_3_id</span><span class='rparen token'>)</span>
       <span class='rubyid_properties identifier id'>properties</span><span class='lbrack token'>[</span><span class='string val'>&quot;indicator_3&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_sub_container identifier id'>sub_container</span><span class='dot token'>.</span><span class='rubyid_indicator_3 identifier id'>indicator_3</span>
@@ -487,7 +489,7 @@ information from the tree anyway.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:01 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:09 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

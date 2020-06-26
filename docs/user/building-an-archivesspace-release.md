@@ -73,11 +73,7 @@ To build the documentation:
   $ build/run bootstrap
 ```
 
-4. Run the backend unit tests
-```
-  $ build/run backend:test
-```
-Alternatively, if only updating the API docs
+4. The documentation spec file must be run to generate examples for the API docs
 ```
   $ build/run backend:test -Dspec='documentation_spec.rb'
 ```
@@ -126,6 +122,12 @@ Alternatively, if only updating the API docs
 10. Now merge in the docs directory back into master by committing the new-document
 branch, creating a PR, and merging the PR
 
+11. Check out the master branch, pull and prune
+````shell
+git checkout master
+git pull --prune
+````
+
 ## Build the release
 
 Building the actual release is very simple. Back on the master branch ( with
@@ -154,35 +156,11 @@ $ git push --tags
 ## Build the release announcement
 
 The release announcement needs to have all the tickets that make up the
-changelog for the release. In the past, this list has been written into
+changes for the release. In the past, this list has been written into
 markdown to add in the Github release page.
 
-An easy way to do this is to export all the relevant tickets in JIRA ( that is,
-all tickets accepted since the last release  ). Then use the following script
-to make a markdown file:
+There is a release notes script that should be run to generate a release note
+markdown file.
 
-```
-require 'csv'
-
-def csv2md(csv_file)
-
-output = "release_#{Time.now.to_i}.md"
-file = File.open(output, "w")
-
-CSV.foreach(csv_file, :headers => true ) do |row|
-  file << "* #{ row["Issue Type"].upcase } [##{ row["Key"] }] ( https://archivesspace.atlassian.net/browse/#{ row["Key"] } ): #{ row["Summary"] }\n"
-end
-
-puts "Putting file to #{output}\n"
-
-end
-
-if __FILE__ == $0
-  csv2md(ARGV[0])
-end
-
-```
-
-Then make a release page in Github, upload the zip package and paste in the changelog text.
-
-:package: :shipit: & :pray:  
+Then make a release page in Github, upload the zip package and paste in the
+release note markdown file.

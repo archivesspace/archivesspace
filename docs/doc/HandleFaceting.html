@@ -284,7 +284,10 @@
 43
 44
 45
-46</pre>
+46
+47
+48
+49</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/handle_faceting.rb', line 33</span>
@@ -293,6 +296,9 @@
   <span class='rubyid_pv identifier id'>pv</span> <span class='assign token'>=</span> <span class='rubyid_strip_mixed_content identifier id'>strip_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_k identifier id'>k</span> <span class='eq op'>==</span> <span class='string val'>&#39;primary_type&#39;</span>
     <span class='rubyid_pv identifier id'>pv</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{v}._singular&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_k identifier id'>k</span> <span class='eq op'>==</span> <span class='string val'>&#39;langcode&#39;</span>
+    <span class='comment val'># Lookup three-letter language codes</span>
+    <span class='rubyid_pv identifier id'>pv</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.language_iso639_2.#{v}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:default</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
   <span class='rubyid_elsif elsif kw'>elsif</span> <span class='dstring node'>%w(repository used_within_published_repository)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span>
     <span class='rubyid_repos identifier id'>repos</span> <span class='assign token'>=</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_get_repos identifier id'>get_repos</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_repos identifier id'>repos</span><span class='lbrack token'>[</span><span class='rubyid_v identifier id'>v</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -370,7 +376,7 @@ returns a hash with the text of the facet as the key, count as the value</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:08 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:11 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

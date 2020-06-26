@@ -740,6 +740,52 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#supported_locales_default-instance_method" title="#supported_locales_default (instance method)">#<strong>supported_locales_default</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#supported_locales_options-instance_method" title="#supported_locales_options (instance method)">#<strong>supported_locales_options</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#wrap_with_tooltip-instance_method" title="#wrap_with_tooltip (instance method)">#<strong>wrap_with_tooltip</strong>(text, i18n_path, classes)  &#x21d2; Object </a>
     
 
@@ -1301,12 +1347,12 @@
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;strong&gt;#{I18n.t(&quot;search_results.modified&quot;)} #{hash[&#39;last_modified_by&#39;]}&lt;/strong&gt;&quot;</span>
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot; #{Time.parse(hash[&#39;user_mtime&#39;]).getlocal}&quot;</span>
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&#39; | &#39;</span>
-      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;strong&gt;URI:&lt;/strong&gt; &quot;</span>
-      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;input type=\&quot;text\&quot; readonly=\&quot;1\&quot; value=\&quot;#{hash[&#39;uri&#39;]}\&quot; size=\&quot;#{hash[&#39;uri&#39;].length}\&quot; style=\&quot;background: #f1f1f1 !important; border: none !important; font-family: monospace;\&quot;/&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;label for=\&quot;uri\&quot;&gt;&lt;strong&gt;URI:&lt;/strong&gt; &lt;/label&gt;&quot;</span>
+      <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;input type=\&quot;text\&quot; id=\&quot;uri\&quot; readonly=\&quot;1\&quot; value=\&quot;#{hash[&#39;uri&#39;]}\&quot; size=\&quot;#{hash[&#39;uri&#39;].length}\&quot; style=\&quot;background: #f1f1f1 !important; border: none !important; font-family: monospace;\&quot;/&gt;&quot;</span>
       <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_ark_url identifier id'>ark_url</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
         <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&#39; | &#39;</span>
-        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;strong&gt;ARK:&lt;/strong&gt; &quot;</span>
-        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;input type=\&quot;text\&quot; readonly=\&quot;1\&quot; value=\&quot;#{ark_url}\&quot; size=\&quot;#{ark_url.length}\&quot; style=\&quot;background: #f1f1f1 !important; border: none !important; font-family: monospace;\&quot;/&gt;&quot;</span>
+        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;label for=\&quot;ark\&quot;&gt;&lt;strong&gt;ARK:&lt;/strong&gt; &lt;/label&gt;&quot;</span>
+        <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;&lt;input type=\&quot;text\&quot; id=\&quot;ark\&quot; readonly=\&quot;1\&quot; value=\&quot;#{ark_url}\&quot; size=\&quot;#{ark_url.length}\&quot; style=\&quot;background: #f1f1f1 !important; border: none !important; font-family: monospace;\&quot;/&gt;&quot;</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_html identifier id'>html</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;&lt;dl&gt;&quot;</span>
@@ -2309,6 +2355,72 @@ controller, etc.)</p>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="supported_locales_default-instance_method">
+  
+    #<strong>supported_locales_default</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+406
+407
+408
+409
+410</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 406</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_supported_locales_default identifier id'>supported_locales_default</span>
+  <span class='lbrace token'>{</span>
+    <span class='label val'>default:</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span><span class='lparen token'>(</span><span class='string val'>&#39;locale&#39;</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='rubyid_user_prefs identifier id'>user_prefs</span><span class='lbrack token'>[</span><span class='string val'>&#39;locale&#39;</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_default_locale identifier id'>default_locale</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+  <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="supported_locales_options-instance_method">
+  
+    #<strong>supported_locales_options</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+412
+413
+414</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'frontend/app/helpers/application_helper.rb', line 412</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_supported_locales_options identifier id'>supported_locales_options</span>
+  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_supported_locales identifier id'>supported_locales</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.language_iso639_2.#{v}&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_k identifier id'>k</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="wrap_with_tooltip-instance_method">
   
     #<strong>wrap_with_tooltip</strong>(text, i18n_path, classes)  &#x21d2; <tt>Object</tt> 
@@ -2372,7 +2484,7 @@ controller, etc.)</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:05 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:10 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

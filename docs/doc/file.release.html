@@ -137,11 +137,7 @@ sidebar</a>.</p>
 </code></p>
   </li>
   <li>
-    <p>Run the backend unit tests
-<code>
-  $ build/run backend:test
-</code>
-Alternatively, if only updating the API docs
+    <p>The documentation spec file must be run to generate examples for the API docs
 <code>
   $ build/run backend:test -Dspec='documentation_spec.rb'
 </code></p>
@@ -196,6 +192,13 @@ Alternatively, if only updating the API docs
     <p>Now merge in the docs directory back into master by committing the new-document
 branch, creating a PR, and merging the PR</p>
   </li>
+  <li>
+    <p>Check out the master branch, pull and prune
+<code>shell
+git checkout master
+git pull --prune
+</code></p>
+  </li>
 </ol>
 
 <h2 id="build-the-release">Build the release</h2>
@@ -226,42 +229,18 @@ $ git push --tags
 <h2 id="build-the-release-announcement">Build the release announcement</h2>
 
 <p>The release announcement needs to have all the tickets that make up the
-changelog for the release. In the past, this list has been written into
+changes for the release. In the past, this list has been written into
 markdown to add in the Github release page.</p>
 
-<p>An easy way to do this is to export all the relevant tickets in JIRA ( that is,
-all tickets accepted since the last release  ). Then use the following script
-to make a markdown file:</p>
+<p>There is a release notes script that should be run to generate a release note
+markdown file.</p>
 
-<p>```
-require ‘csv’</p>
-
-<p>def csv2md(csv_file)</p>
-
-<p>output = “release_#Time.now.to_i.md”
-file = File.open(output, “w”)</p>
-
-<p>CSV.foreach(csv_file, :headers =&gt; true ) do |row|
-  file « ”* #{ row[“Issue Type”].upcase } [##{ row[“Key”] }] ( https://archivesspace.atlassian.net/browse/#{ row[“Key”] } ): #{ row[“Summary”] }\n”
-end</p>
-
-<p>puts “Putting file to #output\n”</p>
-
-<p>end</p>
-
-<p>if <strong>FILE</strong> == $0
-  csv2md(ARGV[0])
-end</p>
-
-<p>```</p>
-
-<p>Then make a release page in Github, upload the zip package and paste in the changelog text.</p>
-
-<p>:package: :shipit: &amp; :pray:</p>
+<p>Then make a release page in Github, upload the zip package and paste in the
+release note markdown file.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:51 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:06 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

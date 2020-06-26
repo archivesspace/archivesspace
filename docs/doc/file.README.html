@@ -57,22 +57,97 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><h1 id="basic-archivesspace-administration">Basic ArchivesSpace administration</h1>
+      <div id="content"><div id='filecontents'><h1 id="working-with-the-archivesspace-api">Working with the ArchivesSpace API</h1>
+
+<h2 id="authentication">Authentication</h2>
+
+<p>Most actions against the backend require you to be logged in as a user
+with the appropriate permissions. By sending a request like:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_POST constant id'>POST</span> <span class='regexp val'>/users/</span><span class='rubyid_admin identifier id'>admin</span><span class='div op'>/</span><span class='rubyid_login? fid id'>login?</span><span class='rubyid_password identifier id'>password</span><span class='assign token'>=</span><span class='rubyid_login identifier id'>login</span>
+</code></pre>
+
+<p>your authentication request will be validated, and a session token
+will be returned in the JSON response for your request.  To remain
+authenticated, provide this token with subsequent requests in the
+<code>X-ArchivesSpace-Session</code> header.  For example:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='rubyid_X constant id'>X</span><span class='minus op'>-</span><span class='rubyid_ArchivesSpace constant id'>ArchivesSpace</span><span class='minus op'>-</span><span class='rubyid_Session constant id'>Session</span><span class='colon op'>:</span> <span class='float val'>8e921</span><span class='rubyid_ac9bbe9a4a947eee8a7c5fa8b4c81c51729935860c1adfed60a5e4202cb identifier id'>ac9bbe9a4a947eee8a7c5fa8b4c81c51729935860c1adfed60a5e4202cb</span>
+</code></pre>
+
+<h3 id="example-requests-using-curl">Example requests using CURL</h3>
+
+<p>Send request to authenticate:</p>
+
+<p><code>
+curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+</code></p>
+
+<p>This will return a JSON response that includes something like the following:</p>
+
+<p><code>
+{
+   "session":"9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e",
+   ....
+}
+</code></p>
+
+<p>It’s a good idea to save the session key as an environment variable to use for later requests:</p>
+
+<p>```
+# Mac/Unix terminal
+export SESSION=”9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e”</p>
+
+<h1 id="windows-command-prompt">Windows Command Prompt</h1>
+<p>set SESSION=”9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e”</p>
+
+<h1 id="windows-powershell">Windows PowerShell</h1>
+<p>$env:SESSION=”9528190655b979f00817a5d38f9daf07d1686fed99a1d53dd2c9ff2d852a0c6e”
+```</p>
+
+<p>Now you can make requests like this:</p>
+
+<p><code>
+curl -H "X-ArchivesSpace-Session: $SESSION" "http://localhost:8089/repositories/2/resources/1
+</code></p>
+
+<h2 id="crud">CRUD</h2>
+
+<p>The ArchivesSpace API provides CRUD-style interactions for a number of
+different “top-level” record types.  Working with records follows a
+fairly standard pattern:</p>
+
+<pre class="code ruby"><code class="ruby"> <span class='comment val'># Get a paginated list of accessions from repository &#39;123&#39;</span>
+ <span class='rubyid_GET constant id'>GET</span> <span class='regexp val'>/repositories/</span><span class='integer val'>123</span><span class='div op'>/</span><span class='rubyid_accessions? fid id'>accessions?</span><span class='rubyid_page identifier id'>page</span><span class='assign token'>=</span><span class='integer val'>1</span>
+
+ <span class='comment val'># Create a new accession, returning the ID of the new record</span>
+ <span class='rubyid_POST constant id'>POST</span> <span class='regexp val'>/repositories/</span><span class='integer val'>123</span><span class='div op'>/</span><span class='rubyid_accessions identifier id'>accessions</span>
+ <span class='lbrace token'>{</span><span class='dot3 op'>...</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_JSON constant id'>JSON</span> <span class='rubyid_document identifier id'>document</span> <span class='rubyid_satisfying identifier id'>satisfying</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span> <span class='rubyid_here identifier id'>here</span> <span class='dot3 op'>...</span><span class='rbrace token'>}</span>
+
+ <span class='comment val'># Get a single accession (returned as a JSONModel(:accession) instance) using the ID returned by the previous request</span>
+ <span class='rubyid_GET constant id'>GET</span> <span class='regexp val'>/repositories/</span><span class='integer val'>123</span><span class='div op'>/</span><span class='rubyid_accessions identifier id'>accessions</span><span class='div op'>/</span><span class='integer val'>456</span>
+
+ <span class='comment val'># Update an existing accession</span>
+ <span class='rubyid_POST constant id'>POST</span> <span class='regexp val'>/repositories/</span><span class='integer val'>123</span><span class='div op'>/</span><span class='rubyid_accessions identifier id'>accessions</span><span class='div op'>/</span><span class='integer val'>456</span>
+ <span class='lbrace token'>{</span><span class='dot3 op'>...</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_JSON constant id'>JSON</span> <span class='rubyid_document identifier id'>document</span> <span class='rubyid_satisfying identifier id'>satisfying</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:accession</span><span class='rparen token'>)</span> <span class='rubyid_here identifier id'>here</span> <span class='dot3 op'>...</span><span class='rbrace token'>}</span>
+</code></pre>
+
+<h2 id="detailed-documentation">Detailed documentation</h2>
+
+<blockquote>
+  <p>Additional documentation is needed for these sections - please consider contributing documentation via a pull request to this repo</p>
+</blockquote>
 
 <ul>
-  <li><a href="./getting_started.md">Getting started</a></li>
-  <li><a href="./unix_daemon.md">Running ArchivesSpace as a Unix daemon</a></li>
-  <li><a href="./windows.md">Running ArchivesSpace as a Windows service</a></li>
-  <li><a href="./backup.md">Backup and recovery</a></li>
-  <li><a href="./indexes.md">Re-creating indexes</a></li>
-  <li><a href="./passwords.md">Resetting passwords</a></li>
-  <li><a href="./upgrading.md">Upgrading</a></li>
-  <li><a href="./logrotate.md">Log rotation</a></li>
+  <li><a href="./get_requests.md">GET requests (retrieving records)</a></li>
+  <li><a href="./post_requests.md">POST requests (creating and updating records)</a></li>
+  <li><a href="./delete_requests.md">DELETE requests</a></li>
+  <li><a href="http://archivesspace.github.io/archivesspace/api/">API reference</a> - Includes a complete list of available endpoints and guidance for their use</li>
 </ul>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:52 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:06 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

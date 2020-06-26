@@ -2146,7 +2146,8 @@
 19
 20
 21
-22</pre>
+22
+23</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/search.rb', line 13</span>
@@ -2155,6 +2156,7 @@
   <span class='rubyid_build_filters identifier id'>build_filters</span><span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span>
 
   <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;page&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='integer val'>1</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;page&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;sort&quot;</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_sort identifier id'>sort</span><span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;type[]&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;filter_term[]&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='rparen token'>)</span>
 
   <span class='rubyid_search_data identifier id'>search_data</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/repositories/#{repo_id}/search&quot;</span><span class='comma token'>,</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span>
   <span class='rubyid_search_data identifier id'>search_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_criteria identifier id'>criteria</span>
@@ -2307,7 +2309,6 @@
       <pre class="lines">
 
 
-25
 26
 27
 28
@@ -2316,10 +2317,11 @@
 31
 32
 33
-34</pre>
+34
+35</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search.rb', line 25</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search.rb', line 26</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_global identifier id'>global</span><span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_build_filters identifier id'>build_filters</span><span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span>
@@ -2352,7 +2354,6 @@
       <pre class="lines">
 
 
-107
 108
 109
 110
@@ -2413,10 +2414,11 @@
 165
 166
 167
-168</pre>
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 108</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_record_type_counts identifier id'>record_type_counts</span><span class='lparen token'>(</span><span class='rubyid_record_types identifier id'>record_types</span><span class='comma token'>,</span> <span class='rubyid_for_repo_uri identifier id'>for_repo_uri</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_show_suppressed identifier id'>show_suppressed</span> <span class='assign token'>=</span> <span class='notop op'>!</span><span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:enforce_suppression</span><span class='rparen token'>)</span>
@@ -2530,7 +2532,8 @@
 102
 103
 104
-105</pre>
+105
+106</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 76</span>
@@ -2542,8 +2545,9 @@
   <span class='rubyid_boolean_query identifier id'>boolean_query</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:boolean_query</span><span class='rparen token'>)</span>
                   <span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='string val'>&#39;op&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;OR&#39;</span><span class='comma token'>,</span>
                              <span class='string val'>&#39;subqueries&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uris identifier id'>uris</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_uri identifier id'>uri</span><span class='bitor op'>|</span>
+                               <span class='rubyid_field identifier id'>field</span> <span class='assign token'>=</span> <span class='rubyid_uri identifier id'>uri</span><span class='dot token'>.</span><span class='rubyid_end_with? fid id'>end_with?</span><span class='lparen token'>(</span><span class='string val'>&#39;#pui&#39;</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='string val'>&#39;id&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;uri&#39;</span>
                                <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:field_query</span><span class='rparen token'>)</span>
-                                 <span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='string val'>&#39;field&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;id&#39;</span><span class='comma token'>,</span>
+                                 <span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='string val'>&#39;field&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span>
                                             <span class='string val'>&#39;value&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span>
                                             <span class='string val'>&#39;literal&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
                                  <span class='dot token'>.</span><span class='rubyid_to_hash identifier id'>to_hash</span>
@@ -2751,7 +2755,6 @@
       <pre class="lines">
 
 
-170
 171
 172
 173
@@ -2769,10 +2772,11 @@
 185
 186
 187
-188</pre>
+188
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/search.rb', line 171</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_search_csv identifier id'>search_csv</span><span class='lparen token'>(</span> <span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='rparen token'>)</span>
   <span class='comment val'># first let&#39;s get a json response with the number of pages</span>
@@ -2915,7 +2919,7 @@
       <pre class="code"><span class="info file"># File 'public/app/models/search.rb', line 56</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_filters_blank? fid id'>filters_blank?</span>
-  <span class='rubyid_filter_from_year identifier id'>filter_from_year</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_filter_to_year identifier id'>filter_to_year</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_filter_q identifier id'>filter_q</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+  <span class='rubyid_filter_from_year identifier id'>filter_from_year</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_filter_to_year identifier id'>filter_to_year</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_filter_q identifier id'>filter_q</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:blank?</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -3184,7 +3188,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:12 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:12 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

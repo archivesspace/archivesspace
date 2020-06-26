@@ -484,12 +484,12 @@
       <pre class="lines">
 
 
-152
-153
-154</pre>
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 144</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_from_json identifier id'>create_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>&#39;defaults&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSON constant id'>JSON</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_defaults identifier id'>defaults</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -515,6 +515,14 @@
       <pre class="lines">
 
 
+87
+88
+89
+90
+91
+92
+93
+94
 95
 96
 97
@@ -550,18 +558,10 @@
 127
 128
 129
-130
-131
-132
-133
-134
-135
-136
-137
-138</pre>
+130</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 87</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_current_preferences identifier id'>current_preferences</span><span class='lparen token'>(</span><span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span>
@@ -628,17 +628,17 @@
       <pre class="lines">
 
 
-85
-86
-87
-88
-89
-90
-91
-92</pre>
+77
+78
+79
+80
+81
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 85</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 77</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_defaults identifier id'>defaults</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:current_username</span><span class='rparen token'>)</span>
@@ -669,14 +669,14 @@
       <pre class="lines">
 
 
-61
-62
-63
-64
-65</pre>
+53
+54
+55
+56
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 61</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 53</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_global_defaults identifier id'>global_defaults</span>
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_global_repo_id identifier id'>global_repo_id</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
@@ -723,27 +723,13 @@
 23
 24
 25
-26
-27
-28
-29
-30
-31
-32
-33
-34</pre>
+26</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 7</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span>
-  <span class='rubyid_defs_file identifier id'>defs_file</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_base_directory identifier id'>find_base_directory</span><span class='lparen token'>(</span><span class='string val'>&quot;common&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&quot;config&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;preference_defaults.rb&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_exist? fid id'>exist?</span><span class='lparen token'>(</span><span class='rubyid_defs_file identifier id'>defs_file</span><span class='rparen token'>)</span>
-    <span class='rubyid_found_defs_file identifier id'>found_defs_file</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-    <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='dstring node'>&quot;Loading preference defaults file at #{defs_file}&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_eval identifier id'>eval</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_read identifier id'>read</span><span class='lparen token'>(</span><span class='rubyid_defs_file identifier id'>defs_file</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_defaults identifier id'>defaults</span> <span class='assign token'>=</span> <span class='rubyid_PreferenceConfig constant id'>PreferenceConfig</span><span class='dot token'>.</span><span class='rubyid_defaults identifier id'>defaults</span>
 
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_in_global_repo identifier id'>in_global_repo</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_filter identifier id'>filter</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_global_repo_id identifier id'>global_repo_id</span><span class='comma token'>,</span> <span class='symbol val'>:user_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rbrace token'>}</span>
@@ -755,14 +741,12 @@
                                                                    <span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='comma token'>,</span>
                                   <span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_global_repo_id identifier id'>global_repo_id</span><span class='rparen token'>)</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_found_defs_file identifier id'>found_defs_file</span>
-        <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='string val'>&quot;Updating system preferences&quot;</span><span class='rparen token'>)</span>
-        <span class='rubyid_pref identifier id'>pref</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_filter identifier id'>filter</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
-        <span class='rubyid_pref identifier id'>pref</span><span class='dot token'>.</span><span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:defaults</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_defaults identifier id'>defaults</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='comma token'>,</span>
-                              <span class='symbol val'>:lock_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_pref identifier id'>pref</span><span class='dot token'>.</span><span class='rubyid_lock_version identifier id'>lock_version</span><span class='rparen token'>)</span>
-      <span class='rubyid_end end kw'>end</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_info identifier id'>info</span><span class='lparen token'>(</span><span class='string val'>&quot;Updating system preferences&quot;</span><span class='rparen token'>)</span>
+      <span class='rubyid_pref identifier id'>pref</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_filter identifier id'>filter</span><span class='lparen token'>(</span><span class='rubyid_filter identifier id'>filter</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
+      <span class='rubyid_pref identifier id'>pref</span><span class='dot token'>.</span><span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:preference</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_from_hash identifier id'>from_hash</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:defaults</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_defaults identifier id'>defaults</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+                            <span class='symbol val'>:lock_version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_pref identifier id'>pref</span><span class='dot token'>.</span><span class='rubyid_lock_version identifier id'>lock_version</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>    
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -785,13 +769,13 @@
       <pre class="lines">
 
 
-55
-56
-57
-58</pre>
+47
+48
+49
+50</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 55</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parsed_defaults_for identifier id'>parsed_defaults_for</span><span class='lparen token'>(</span><span class='rubyid_filter identifier id'>filter</span><span class='rparen token'>)</span>
   <span class='rubyid_pref identifier id'>pref</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='rubyid_filter identifier id'>filter</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rbrack token'>]</span>
@@ -818,12 +802,12 @@
       <pre class="lines">
 
 
-80
-81
-82</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 72</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_repo_defaults identifier id'>repo_defaults</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_user_global_defaults identifier id'>user_global_defaults</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parsed_defaults_for identifier id'>parsed_defaults_for</span><span class='lparen token'>(</span><span class='symbol val'>:user_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -849,18 +833,18 @@
       <pre class="lines">
 
 
-141
-142
-143
-144
-145
-146
-147
-148
-149</pre>
+133
+134
+135
+136
+137
+138
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 133</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_sequel_to_jsonmodel identifier id'>sequel_to_jsonmodel</span><span class='lparen token'>(</span><span class='rubyid_objs identifier id'>objs</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_jsons identifier id'>jsons</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -892,19 +876,19 @@
       <pre class="lines">
 
 
+60
+61
+62
+63
+64
+65
+66
+67
 68
-69
-70
-71
-72
-73
-74
-75
-76
-77</pre>
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_user_global_defaults identifier id'>user_global_defaults</span>
   <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_open identifier id'>open</span><span class='lparen token'>(</span><span class='symbol val'>:repo_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Repository constant id'>Repository</span><span class='dot token'>.</span><span class='rubyid_global_repo_id identifier id'>global_repo_id</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
@@ -943,14 +927,14 @@
       <pre class="lines">
 
 
-43
-44
-45
-46
-47</pre>
+35
+36
+37
+38
+39</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 35</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_after_save identifier id'>after_save</span>
   <span class='rubyid_Notifications constant id'>Notifications</span><span class='dot token'>.</span><span class='rubyid_notify identifier id'>notify</span><span class='lparen token'>(</span><span class='string val'>&quot;REFRESH_PREFERENCES&quot;</span><span class='rparen token'>)</span>
@@ -978,13 +962,13 @@
       <pre class="lines">
 
 
-37
-38
-39
-40</pre>
+29
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_before_save identifier id'>before_save</span>
   <span class='rubyid_super super kw'>super</span>
@@ -1011,12 +995,12 @@
       <pre class="lines">
 
 
-50
-51
-52</pre>
+42
+43
+44</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 42</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_parsed_defaults identifier id'>parsed_defaults</span>
   <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_defaults identifier id'>defaults</span><span class='rparen token'>)</span>
@@ -1042,13 +1026,13 @@
       <pre class="lines">
 
 
-157
-158
-159
-160</pre>
+149
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 157</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/preference.rb', line 149</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='string val'>&#39;defaults&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_JSON constant id'>JSON</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_defaults identifier id'>defaults</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='comma token'>,</span>
@@ -1065,7 +1049,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:17 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:14 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>
-  File: build
+  File: dev
   
     &mdash; Documentation by YARD 0.9.20
   
@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
-  pathId = "build";
+  pathId = "dev";
   relpath = '';
 </script>
 
@@ -37,7 +37,7 @@
         <div id="menu">
   
     <a href="alpha_index.html">Index</a> &raquo; 
-    <span class="title">File: build</span>
+    <span class="title">File: dev</span>
   
 </div>
 
@@ -57,7 +57,7 @@
         <div class="clear"></div>
       </div>
 
-      <div id="content"><div id='filecontents'><h1 id="archivesspace-build-system">ArchivesSpace build system</h1>
+      <div id="content"><div id='filecontents'><h1 id="archivesspace-developer-docs">ArchivesSpace developer docs</h1>
 
 <h2 id="running-the-build-system">Running the build system</h2>
 
@@ -75,6 +75,10 @@ ones.</p>
 
 <p>Will bootstrap your development environment by downloading all
 dependencies–JRuby, Gems, Solr, etc..</p>
+
+<p>This is the starting point for all ArchivesSpace development. You may need
+to re-run this command after fetching updates, or when making changes to
+Gemfiles or other dependencies such as those in the <code>./build/build.xml</code> file.</p>
 
 <h2 id="running-components-individually">Running components individually</h2>
 
@@ -99,7 +103,7 @@ development servers. This is entirely optional and just for developer convenienc
 
 <p>From within the ArchivesSpace source directory:</p>
 
-<p>```
+<p>```bash
 ./build/run bootstrap # if needed, as usual</p>
 
 <p>[sudo] pip install supervisor supervisor-stdout</p>
@@ -113,9 +117,8 @@ development servers. This is entirely optional and just for developer convenienc
 <h1 id="run-just-the-backend-useful-for-trying-out-endpoints-that-dont-require-solr">run just the backend (useful for trying out endpoints that don’t require Solr)</h1>
 <p>supervisord -c supervisord/backend.conf</p>
 
-<p>To stop supervisord: <code>Ctrl-c</code>.</p>
-
-<p>```</p>
+<p>To stop supervisord: <code>Ctrl-c</code>.
+```</p>
 
 <p>ArchivesSpace is started with the staff interface running on http://localhost:3000/ and the PUI on http://localhost:3001/</p>
 
@@ -169,6 +172,8 @@ To do this, run:</p>
 <pre class="code ruby"><code class="ruby"> <span class='rubyid_build identifier id'>build</span><span class='div op'>/</span><span class='rubyid_run identifier id'>run</span> <span class='label val'>backend:</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_Dexample constant id'>Dexample</span><span class='assign token'>=</span><span class='string val'>&quot;does something important&quot;</span>
 </code></pre>
 
+<p>There are specific instructions and requirements for the <a href="ui_test.md">UI tests</a> to work.</p>
+
 <h2 id="coverage-reports">Coverage reports</h2>
 
 <p>You can run the coverage reports using:</p>
@@ -190,7 +195,7 @@ directory in your ArchivesSpace project directory.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:51 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:06 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

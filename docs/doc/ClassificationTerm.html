@@ -311,29 +311,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#update_position_only-instance_method" title="#update_position_only (instance method)">#<strong>update_position_only</strong>(parent_id, position)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#validate-instance_method" title="#validate (instance method)">#<strong>validate</strong>  &#x21d2; Object </a>
     
 
@@ -455,7 +432,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Record.html" title="Record (class)">Record</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Record.html#[]-instance_method" title="Record#[] (method)">#[]</a></span>, <span class='object_link'><a href="Record.html#dig-instance_method" title="Record#dig (method)">#dig</a></span>, <span class='object_link'><a href="Record.html#initialize-instance_method" title="Record#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Record.html#note-instance_method" title="Record#note (method)">#note</a></span>, <span class='object_link'><a href="Record.html#request_item-instance_method" title="Record#request_item (method)">#request_item</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Record.html#[]-instance_method" title="Record#[] (method)">#[]</a></span>, <span class='object_link'><a href="Record.html#dig-instance_method" title="Record#dig (method)">#dig</a></span>, <span class='object_link'><a href="Record.html#initialize-instance_method" title="Record#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="Record.html#note-instance_method" title="Record#note (method)">#note</a></span>, <span class='object_link'><a href="Record.html#parse_full_title-instance_method" title="Record#parse_full_title (method)">#parse_full_title</a></span>, <span class='object_link'><a href="Record.html#request_item-instance_method" title="Record#request_item (method)">#request_item</a></span></p>
 
   
   
@@ -770,39 +747,6 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="update_position_only-instance_method">
-  
-    #<strong>update_position_only</strong>(parent_id, position)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-92
-93
-94
-95</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 92</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_update_position_only identifier id'>update_position_only</span><span class='lparen token'>(</span><span class='rubyid_parent_id identifier id'>parent_id</span><span class='comma token'>,</span> <span class='rubyid_position identifier id'>position</span><span class='rparen token'>)</span>
-  <span class='rubyid_super super kw'>super</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reindex_children identifier id'>reindex_children</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="validate-instance_method">
   
     #<strong>validate</strong>  &#x21d2; <tt>Object</tt> 
@@ -817,21 +761,21 @@
       <pre class="lines">
 
 
+92
+93
+94
+95
+96
+97
 98
 99
 100
 101
 102
-103
-104
-105
-106
-107
-108
-109</pre>
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 98</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/classification_term.rb', line 92</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_validate identifier id'>validate</span>
   <span class='rubyid_validates_unique identifier id'>validates_unique</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='symbol val'>:parent_name</span><span class='comma token'>,</span> <span class='symbol val'>:title_sha1</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
@@ -856,7 +800,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:32 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:17 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

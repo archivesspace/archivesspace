@@ -320,7 +320,7 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#wait_for_url-class_method" title="wait_for_url (class method)">.<strong>wait_for_url</strong>(url)  &#x21d2; Object </a>
+      <a href="#wait_for_url-class_method" title="wait_for_url (class method)">.<strong>wait_for_url</strong>(url, out = nil)  &#x21d2; Object </a>
     
 
     
@@ -364,17 +364,17 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
-74
-75
-76
-77
 78
 79
 80
-81</pre>
+81
+82
+83
+84
+85</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 78</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_add_solr identifier id'>add_solr</span><span class='lparen token'>(</span><span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_config identifier id'>config</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_port</span><span class='rbrack token'>]</span>
@@ -415,10 +415,6 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
-43
-44
-45
-46
 47
 48
 49
@@ -429,10 +425,14 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
 54
 55
 56
-57</pre>
+57
+58
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 47</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_config_string identifier id'>build_config_string</span><span class='lparen token'>(</span><span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='rubyid_ENV constant id'>ENV</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;JAVA_OPTS&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
@@ -470,18 +470,18 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
-64
-65
-66
-67
 68
 69
 70
 71
-72</pre>
+72
+73
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 68</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_find_ant identifier id'>find_ant</span>
   <span class='rubyid_fullpath identifier id'>fullpath</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span>
@@ -513,17 +513,17 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
-131
-132
-133
-134
-135
-136
-137
-138</pre>
+145
+146
+147
+148
+149
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 145</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_free_port_from identifier id'>free_port_from</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='rparen token'>)</span>
   <span class='rubyid_server identifier id'>server</span> <span class='assign token'>=</span> <span class='rubyid_TCPServer constant id'>TCPServer</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&#39;127.0.0.1&#39;</span><span class='comma token'>,</span> <span class='rubyid_port identifier id'>port</span><span class='rparen token'>)</span>
@@ -554,13 +554,13 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
-59
-60
-61
-62</pre>
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 63</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_java_build_args identifier id'>java_build_args</span><span class='lparen token'>(</span><span class='rubyid_build_args identifier id'>build_args</span><span class='rparen token'>)</span>
   <span class='rubyid_build_args identifier id'>build_args</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;-Dgem_home=#{ENV[&#39;GEM_HOME&#39;]}&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_ENV constant id'>ENV</span><span class='lbrack token'>[</span><span class='string val'>&#39;GEM_HOME&#39;</span><span class='rbrack token'>]</span>
@@ -636,10 +636,6 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
-83
-84
-85
-86
 87
 88
 89
@@ -650,23 +646,41 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
 94
 95
 96
-97</pre>
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 87</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_backend identifier id'>start_backend</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_config_file identifier id'>config_file</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='rubyid_db_url identifier id'>db_url</span> <span class='assign token'>=</span> <span class='rubyid_config identifier id'>config</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='symbol val'>:db_url</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='rubyid_build_config_string identifier id'>build_config_string</span><span class='lparen token'>(</span><span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='dstring node'>&quot; -Daspace.config=#{config_file}&quot;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_config_file identifier id'>config_file</span>
 
   <span class='rubyid_build_args identifier id'>build_args</span> <span class='assign token'>=</span> <span class='rubyid_java_build_args identifier id'>java_build_args</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;backend:devserver:integration&#39;</span><span class='comma token'>,</span>
                                 <span class='dstring node'>&quot;-Daspace.backend.port=#{port}&quot;</span><span class='comma token'>,</span>
-                                <span class='string val'>&#39;-Daspace_integration_test=1&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                                <span class='string val'>&#39;-Daspace_integration_test=1&#39;</span><span class='comma token'>,</span>
+                                <span class='dstring node'>&quot;-Daspace.config.db_url=#{db_url}&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
   <span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span> <span class='assign token'>=</span> <span class='rubyid_add_solr identifier id'>add_solr</span><span class='lparen token'>(</span><span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
-  <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='string val'>&#39; -Xmx600m&#39;</span>
+  <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='string val'>&#39; -Xmx1024m&#39;</span>
+
+  <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Spawning backend with opts: #{java_opts}&quot;</span>
   <span class='rubyid_pid identifier id'>pid</span> <span class='assign token'>=</span> <span class='rubyid_Process constant id'>Process</span><span class='dot token'>.</span><span class='rubyid_spawn identifier id'>spawn</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='string val'>&#39;JAVA_OPTS&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_find_ant identifier id'>find_ant</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_build_args identifier id'>build_args</span><span class='rparen token'>)</span>
-  <span class='rubyid_TestUtils constant id'>TestUtils</span><span class='dot token'>.</span><span class='rubyid_wait_for_url identifier id'>wait_for_url</span><span class='lparen token'>(</span><span class='dstring node'>&quot;http://localhost:#{port}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_out identifier id'>out</span> <span class='assign token'>=</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_find_ant identifier id'>find_ant</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/run/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='string val'>&#39;backend_test_log.out&#39;</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_TestUtils constant id'>TestUtils</span><span class='dot token'>.</span><span class='rubyid_wait_for_url identifier id'>wait_for_url</span><span class='lparen token'>(</span><span class='dstring node'>&quot;http://localhost:#{port}&quot;</span><span class='comma token'>,</span> <span class='rubyid_out identifier id'>out</span><span class='rparen token'>)</span>
+  <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Backend started with pid: #{pid}&quot;</span>
 
   <span class='rubyid_pid identifier id'>pid</span>
 <span class='rubyid_end end kw'>end</span>
@@ -691,25 +705,27 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
 110
 111
 112
 113
-114</pre>
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 99</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 110</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_frontend identifier id'>start_frontend</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_backend_url identifier id'>backend_url</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;-Daspace.config.backend_url=#{backend_url}&quot;</span>
@@ -718,12 +734,14 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
   <span class='rubyid_build_args identifier id'>build_args</span> <span class='assign token'>=</span> <span class='rubyid_java_build_args identifier id'>java_build_args</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&#39;frontend:devserver:integration&#39;</span><span class='comma token'>,</span>
                                 <span class='dstring node'>&quot;-Daspace.frontend.port=#{port}&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 
+  <span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span> <span class='assign token'>=</span> <span class='rubyid_add_solr identifier id'>add_solr</span><span class='lparen token'>(</span><span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='rubyid_build_args identifier id'>build_args</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='opasgn op'>+=</span> <span class='string val'>&#39; -Xmx1512m&#39;</span>
 
   <span class='rubyid_pid identifier id'>pid</span> <span class='assign token'>=</span> <span class='rubyid_Process constant id'>Process</span><span class='dot token'>.</span><span class='rubyid_spawn identifier id'>spawn</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='string val'>&#39;JAVA_OPTS&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_java_opts identifier id'>java_opts</span><span class='comma token'>,</span> <span class='string val'>&#39;TEST_MODE&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;true&#39;</span> <span class='rbrace token'>}</span><span class='comma token'>,</span>
                       <span class='rubyid_find_ant identifier id'>find_ant</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_build_args identifier id'>build_args</span><span class='rparen token'>)</span>
 
   <span class='rubyid_TestUtils constant id'>TestUtils</span><span class='dot token'>.</span><span class='rubyid_wait_for_url identifier id'>wait_for_url</span><span class='lparen token'>(</span><span class='dstring node'>&quot;http://localhost:#{port}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Frontend started with pid: #{pid}&quot;</span>
 
   <span class='rubyid_pid identifier id'>pid</span>
 <span class='rubyid_end end kw'>end</span>
@@ -748,23 +766,24 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <pre class="lines">
 
 
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129</pre>
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 129</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_start_public identifier id'>start_public</span><span class='lparen token'>(</span><span class='rubyid_port identifier id'>port</span><span class='comma token'>,</span> <span class='rubyid_backend_url identifier id'>backend_url</span><span class='comma token'>,</span> <span class='rubyid_config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_java_opts identifier id'>java_opts</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;-Daspace.config.backend_url=#{backend_url}&quot;</span>
@@ -777,6 +796,7 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
                       <span class='dstring node'>&quot;-Daspace.public.port=#{port}&quot;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_TestUtils constant id'>TestUtils</span><span class='dot token'>.</span><span class='rubyid_wait_for_url identifier id'>wait_for_url</span><span class='lparen token'>(</span><span class='dstring node'>&quot;http://localhost:#{port}&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Public started with pid: #{pid}&quot;</span>
 
   <span class='rubyid_pid identifier id'>pid</span>
 <span class='rubyid_end end kw'>end</span>
@@ -789,7 +809,7 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
       <div class="method_details ">
   <h3 class="signature " id="wait_for_url-class_method">
   
-    .<strong>wait_for_url</strong>(url)  &#x21d2; <tt>Object</tt> 
+    .<strong>wait_for_url</strong>(url, out = nil)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -826,13 +846,17 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
 37
 38
 39
-40</pre>
+40
+41
+42
+43
+44</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'common/test_utils.rb', line 25</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_wait_for_url identifier id'>wait_for_url</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
-  <span class='float val'>100</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='rubyid_do do kw'>do</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_wait_for_url identifier id'>wait_for_url</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='rubyid_out identifier id'>out</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='float val'>100</span><span class='dot token'>.</span><span class='rubyid_times identifier id'>times</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_idx identifier id'>idx</span><span class='bitor op'>|</span>
     <span class='rubyid_begin begin kw'>begin</span>
       <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='rubyid_URI constant id'>URI</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='rparen token'>)</span>
       <span class='rubyid_req identifier id'>req</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Get constant id'>Get</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='dot token'>.</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='rparen token'>)</span>
@@ -843,6 +867,10 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
     <span class='rubyid_rescue rescue kw'>rescue</span>
       <span class='comment val'># Keep trying</span>
       <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Waiting for #{url} (#{$ERROR_INFO.inspect})&quot;</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_idx identifier id'>idx</span> <span class='eq op'>==</span> <span class='integer val'>10</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_out identifier id'>out</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_file? fid id'>file?</span><span class='lparen token'>(</span><span class='rubyid_out identifier id'>out</span><span class='rparen token'>)</span>
+        <span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;Server is taking a long time to startup, dumping last 50 lines of log:&quot;</span>
+        <span class='rubyid_puts identifier id'>puts</span> <span class='rubyid_IO constant id'>IO</span><span class='dot token'>.</span><span class='rubyid_readlines identifier id'>readlines</span><span class='lparen token'>(</span><span class='rubyid_out identifier id'>out</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='float val'>-50</span><span class='dot2 op'>..</span><span class='integer val'>-1</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_sleep identifier id'>sleep</span><span class='lparen token'>(</span><span class='integer val'>5</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
@@ -858,7 +886,7 @@ rubocop:disable Lint/HandleExceptions, Lint/RescueWithoutErrorClass</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:06 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:10 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

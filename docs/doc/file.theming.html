@@ -78,6 +78,10 @@ interface. That can be easily changed in your <code>config.rb</code> file:</p>
 
 <p><code>AppConfig[:pui_branding_img] = '/assets/images/logo.png'</code></p>
 
+<p>If you want your image on the PUI to link out to another location, you will need to make a change to the file <code>public/app/views/shared/_header.html.erb</code>. The line that creates the logo just needs a <code>a href</code> added. That will end up looking something like this:</p>
+
+<p><code>&lt;div class="col-sm-3 hidden-xs"&gt;&lt;a href="https://example.com"&gt;&lt;img class="logo" src="&lt;%= asset_path(AppConfig[:pui_branding_img]) %&gt;" alt="Back to Example College Home" /&gt;&lt;/a&gt;&lt;/div&gt;</code></p>
+
 <p>The Staff Side logo will need a small plugin file and cannot be set in your <code>config.rb</code> file. This needs to be changed in the <code>plugins/local/frontend/views/site/_branding.html.erb</code> file. You’ll most likely need to create one or more of the directories. Then create that <code>_branding.html.erb</code> file and paste in the following code:</p>
 
 <p>```</p>
@@ -177,7 +181,7 @@ either the public or frontend interfaces to work. )</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:49 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:06 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

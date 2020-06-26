@@ -147,6 +147,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#all_inherited%3F-instance_method" title="#all_inherited? (instance method)">#<strong>all_inherited?</strong>(items)  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#archival_object_base_url-instance_method" title="#archival_object_base_url (instance method)">#<strong>archival_object_base_url</strong>(result)  &#x21d2; Object </a>
     
 
@@ -194,6 +217,52 @@
   <span class="summary_signature">
     
       <a href="#digital_object_base_url-instance_method" title="#digital_object_base_url (instance method)">#<strong>digital_object_base_url</strong>(result)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_component_id-instance_method" title="#display_component_id (instance method)">#<strong>display_component_id</strong>(record, infinite_item)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#inherited%3F-instance_method" title="#inherited? (instance method)">#<strong>inherited?</strong>(item)  &#x21d2; Boolean </a>
     
 
     
@@ -306,28 +375,28 @@
       <pre class="lines">
 
 
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
 74
 75
 76
 77
-78</pre>
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 74</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_accession_base_url identifier id'>accession_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
@@ -369,18 +438,18 @@
       <pre class="lines">
 
 
-110
-111
-112
-113
-114
-115
-116
-117
-118</pre>
+124
+125
+126
+127
+128
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 124</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_agent_base_url identifier id'>agent_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
@@ -390,6 +459,60 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_url identifier id'>url</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="all_inherited?-instance_method">
+  
+    #<strong>all_inherited?</strong>(items)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 6</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_all_inherited? fid id'>all_inherited?</span><span class='lparen token'>(</span><span class='rubyid_items identifier id'>items</span><span class='rparen token'>)</span>
+  <span class='rubyid_items identifier id'>items</span><span class='dot token'>.</span><span class='rubyid_all? fid id'>all?</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_item identifier id'>item</span><span class='bitor op'>|</span> <span class='rubyid_inherited? fid id'>inherited?</span><span class='lparen token'>(</span><span class='rubyid_item identifier id'>item</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -412,28 +535,28 @@
       <pre class="lines">
 
 
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
 134
 135
 136
 137
-138</pre>
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 134</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_archival_object_base_url identifier id'>archival_object_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
@@ -475,28 +598,28 @@
       <pre class="lines">
 
 
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
 104
 105
 106
 107
-108</pre>
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 104</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_classification_base_url identifier id'>classification_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
@@ -538,28 +661,28 @@
       <pre class="lines">
 
 
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
 54
 55
 56
 57
-58</pre>
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 54</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_digital_object_base_url identifier id'>digital_object_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
@@ -579,6 +702,95 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_url identifier id'>url</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="display_component_id-instance_method">
+  
+    #<strong>display_component_id</strong>(record, infinite_item)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 10</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_display_component_id identifier id'>display_component_id</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='comma token'>,</span> <span class='rubyid_infinite_item identifier id'>infinite_item</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_infinite_item identifier id'>infinite_item</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span><span class='lparen token'>(</span><span class='string val'>&#39;component_id_inherited&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_identifier identifier id'>identifier</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="inherited?-instance_method">
+  
+    #<strong>inherited?</strong>(item)  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+2
+3
+4</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 2</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_inherited? fid id'>inherited?</span><span class='lparen token'>(</span><span class='rubyid_item identifier id'>item</span><span class='rparen token'>)</span>
+  <span class='lparen token'>(</span><span class='rubyid_item identifier id'>item</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span><span class='lparen token'>(</span><span class='string val'>&#39;_inherited&#39;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&#39;_inherited&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_item identifier id'>item</span><span class='dot token'>.</span><span class='rubyid_key? fid id'>key?</span><span class='lparen token'>(</span><span class='string val'>&#39;is_inherited&#39;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>&#39;is_inherited&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -611,18 +823,18 @@
       <pre class="lines">
 
 
-5
-6
-7
-8
-9
-10
-11
-12
-13</pre>
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 5</span>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 19</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_repository_base_url identifier id'>repository_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
@@ -654,20 +866,6 @@
       <pre class="lines">
 
 
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
 29
 30
 31
@@ -677,10 +875,24 @@
 35
 36
 37
-38</pre>
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 29</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_resource_base_url identifier id'>resource_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
@@ -727,18 +939,18 @@
       <pre class="lines">
 
 
-80
-81
-82
-83
-84
-85
-86
-87
-88</pre>
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'public/app/helpers/view_helper.rb', line 94</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_subject_base_url identifier id'>subject_base_url</span><span class='lparen token'>(</span><span class='rubyid_result identifier id'>result</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_result identifier id'>result</span><span class='dot token'>.</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;slug&#39;</span><span class='rbrack token'>]</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:use_human_readable_urls</span><span class='rbrack token'>]</span>
@@ -760,7 +972,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:07 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:11 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

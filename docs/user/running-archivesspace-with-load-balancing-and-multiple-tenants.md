@@ -20,8 +20,6 @@ your machines, and all commands are to be run as root (or with sudo).
 
 ## Architecture overview
 
-![Overview](/archivesspace/assets/images/overview.png)
-
 This document assumes an architecture with the following components:
 
   * A load balancer machine running the Nginx web server

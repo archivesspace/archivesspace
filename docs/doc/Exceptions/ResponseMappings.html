@@ -150,8 +150,6 @@
       <pre class="lines">
 
 
-114
-115
 116
 117
 118
@@ -260,10 +258,17 @@
 221
 222
 223
-224</pre>
+224
+225
+226
+227
+228
+229
+230
+231</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/exceptions.rb', line 116</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
@@ -336,6 +341,11 @@
       <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&#39;sinatra.error&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>400</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
 
+    <span class='rubyid_error identifier id'>error</span> <span class='rubyid_EnumerationMigrationFailed constant id'>EnumerationMigrationFailed</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_exception identifier id'>exception</span><span class='lparen token'>(</span><span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&#39;sinatra.error&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+      <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&#39;sinatra.error&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>400</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+
     <span class='rubyid_error identifier id'>error</span> <span class='rubyid_Sequel constant id'>Sequel</span><span class='colon2 op'>::</span><span class='rubyid_DatabaseError constant id'>DatabaseError</span> <span class='rubyid_do do kw'>do</span>
       <span class='rubyid_Log constant id'>Log</span><span class='dot token'>.</span><span class='rubyid_exception identifier id'>exception</span><span class='lparen token'>(</span><span class='rubyid_request identifier id'>request</span><span class='dot token'>.</span><span class='rubyid_env identifier id'>env</span><span class='lbrack token'>[</span><span class='string val'>&#39;sinatra.error&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
       <span class='rubyid_json_response identifier id'>json_response</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span><span class='symbol val'>:db_error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='dstring node'>&quot;Database integrity constraint conflict: #{request.env[&#39;sinatra.error&#39;]}&quot;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='integer val'>400</span><span class='rparen token'>)</span>
@@ -387,7 +397,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:30:54 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:07 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

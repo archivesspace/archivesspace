@@ -970,6 +970,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#parse_full_title-instance_method" title="#parse_full_title (instance method)">#<strong>parse_full_title</strong>(infinite_item = false)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#request_item-instance_method" title="#request_item (instance method)">#<strong>request_item</strong>  &#x21d2; Object </a>
     
 
@@ -2396,6 +2419,45 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="parse_full_title-instance_method">
+  
+    #<strong>parse_full_title</strong>(infinite_item = false)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/record.rb', line 86</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_parse_full_title identifier id'>parse_full_title</span><span class='lparen token'>(</span><span class='rubyid_infinite_item identifier id'>infinite_item</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_ft identifier id'>ft</span> <span class='assign token'>=</span>  <span class='rubyid_process_mixed_content identifier id'>process_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_string&#39;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:preserve_newlines</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
+  <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_infinite_item identifier id'>infinite_item</span> <span class='orop op'>||</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title_inherited&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_string&#39;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span>
+    <span class='rubyid_ft identifier id'>ft</span> <span class='assign token'>=</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&#39;inherited&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:title</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_process_mixed_content identifier id'>process_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:preserve_newlines</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:display</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ft identifier id'>ft</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_ft identifier id'>ft</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="request_item-instance_method">
   
     #<strong>request_item</strong>  &#x21d2; <tt>Object</tt> 
@@ -2435,7 +2497,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:53 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:24 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

@@ -227,7 +227,30 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#to_fo-instance_method" title="#to_fo (instance method)">#<strong>to_fo</strong>  &#x21d2; Object </a>
+      <a href="#saxon_processor-instance_method" title="#saxon_processor (instance method)">#<strong>saxon_processor</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_fo-instance_method" title="#to_fo (instance method)">#<strong>to_fo</strong>(tempfile)  &#x21d2; Object </a>
     
 
     
@@ -479,9 +502,9 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="to_fo-instance_method">
+  <h3 class="signature first" id="saxon_processor-instance_method">
   
-    #<strong>to_fo</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>saxon_processor</strong>  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -495,15 +518,46 @@
 
 28
 29
-30
-31</pre>
+30</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop_external.rb', line 28</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_fo identifier id'>to_fo</span>
-  <span class='rubyid_transformer identifier id'>transformer</span> <span class='assign token'>=</span> <span class='rubyid_Saxon constant id'>Saxon</span><span class='dot token'>.</span><span class='rubyid_XSLT constant id'>XSLT</span><span class='lparen token'>(</span><span class='rubyid_@xslt ivar id'>@xslt</span><span class='comma token'>,</span> <span class='label val'>system_id:</span> <span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_base_directory identifier id'>find_base_directory</span><span class='comma token'>,</span> <span class='string val'>&#39;stylesheets&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;as-ead-pdf.xsl&#39;</span><span class='rparen token'>)</span> <span class='rparen token'>)</span>
-  <span class='rubyid_transformer identifier id'>transformer</span><span class='dot token'>.</span><span class='rubyid_transform identifier id'>transform</span><span class='lparen token'>(</span><span class='rubyid_Saxon constant id'>Saxon</span><span class='dot token'>.</span><span class='rubyid_XML constant id'>XML</span><span class='lparen token'>(</span><span class='rubyid_@source ivar id'>@source</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>&quot;pdf_image&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;\&#39;#{@pdf_image}\&#39;&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_saxon_processor identifier id'>saxon_processor</span>
+  <span class='rubyid_@saxon_processor ivar id'>@saxon_processor</span> <span class='opasgn op'>||=</span> <span class='rubyid_Saxon constant id'>Saxon</span><span class='colon2 op'>::</span><span class='rubyid_Processor constant id'>Processor</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="to_fo-instance_method">
+  
+    #<strong>to_fo</strong>(tempfile)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop_external.rb', line 32</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_to_fo identifier id'>to_fo</span><span class='lparen token'>(</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='rparen token'>)</span>
+  <span class='rubyid_transformer identifier id'>transformer</span> <span class='assign token'>=</span> <span class='rubyid_saxon_processor identifier id'>saxon_processor</span><span class='dot token'>.</span><span class='rubyid_xslt_compiler identifier id'>xslt_compiler</span><span class='dot token'>.</span><span class='rubyid_compile identifier id'>compile</span><span class='lparen token'>(</span><span class='rubyid_Saxon constant id'>Saxon</span><span class='colon2 op'>::</span><span class='rubyid_Source constant id'>Source</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_File constant id'>File</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_find_base_directory identifier id'>find_base_directory</span><span class='comma token'>,</span> <span class='string val'>&#39;stylesheets&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;as-ead-pdf.xsl&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_transformer identifier id'>transformer</span><span class='dot token'>.</span><span class='rubyid_apply_templates identifier id'>apply_templates</span><span class='lparen token'>(</span><span class='rubyid_Saxon constant id'>Saxon</span><span class='colon2 op'>::</span><span class='rubyid_Source constant id'>Source</span><span class='dot token'>.</span><span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_@source ivar id'>@source</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>&quot;pdf_image&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@pdf_image ivar id'>@pdf_image</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_serialize identifier id'>serialize</span><span class='lparen token'>(</span><span class='rubyid_tempfile identifier id'>tempfile</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -526,10 +580,6 @@
       <pre class="lines">
 
 
-33
-34
-35
-36
 37
 38
 39
@@ -552,14 +602,18 @@
 56
 57
 58
-59</pre>
+59
+60
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop_external.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/AS_fop_external.rb', line 37</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_to_pdf identifier id'>to_pdf</span>
   <span class='comment val'># write fo to a tempfile</span>
-  <span class='rubyid_@fo ivar id'>@fo</span><span class='dot token'>.</span><span class='rubyid_write identifier id'>write</span><span class='lparen token'>(</span><span class='rubyid_to_fo identifier id'>to_fo</span><span class='rparen token'>)</span>
+  <span class='rubyid_to_fo identifier id'>to_fo</span><span class='lparen token'>(</span><span class='rubyid_@fo ivar id'>@fo</span><span class='rparen token'>)</span>
   <span class='rubyid_@fo ivar id'>@fo</span><span class='dot token'>.</span><span class='rubyid_close identifier id'>close</span>
 
   <span class='comment val'># execute command to convert PDF to tempfile specified</span>
@@ -595,7 +649,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:21 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:14 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

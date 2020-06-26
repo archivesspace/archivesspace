@@ -209,12 +209,12 @@
       <pre class="lines">
 
 
-43
-44
-45</pre>
+45
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree_resource.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree_resource.rb', line 45</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_node identifier id'>node</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='comma token'>,</span> <span class='rubyid_node_record identifier id'>node_record</span><span class='rparen token'>)</span>
   <span class='rubyid_response identifier id'>response</span>
@@ -278,7 +278,9 @@
 38
 39
 40
-41</pre>
+41
+42
+43</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/large_tree_resource.rb', line 3</span>
@@ -302,6 +304,7 @@
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__barcode</span><span class='comma token'>,</span> <span class='symbol val'>:top_container_barcode</span><span class='rparen token'>)</span><span class='comma token'>,</span>
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:type_2__value</span><span class='comma token'>,</span> <span class='symbol val'>:type_2</span><span class='rparen token'>)</span><span class='comma token'>,</span>
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:sub_container__indicator_2</span><span class='comma token'>,</span> <span class='symbol val'>:indicator_2</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+            <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:sub_container__barcode_2</span><span class='comma token'>,</span> <span class='symbol val'>:barcode_2</span><span class='rparen token'>)</span><span class='comma token'>,</span>
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:type_3__value</span><span class='comma token'>,</span> <span class='symbol val'>:type_3</span><span class='rparen token'>)</span><span class='comma token'>,</span>
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:sub_container__indicator_3</span><span class='comma token'>,</span> <span class='symbol val'>:indicator_3</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
   <span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
@@ -314,6 +317,7 @@
       <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;top_container_barcode&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_barcode</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_barcode</span><span class='rbrack token'>]</span>
       <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;type_2&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:type_2</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:type_2</span><span class='rbrack token'>]</span>
       <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;indicator_2&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:indicator_2</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:indicator_2</span><span class='rbrack token'>]</span>
+      <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;barcode_2&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode_2</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode_2</span><span class='rbrack token'>]</span>
       <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;type_3&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:type_3</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:type_3</span><span class='rbrack token'>]</span>
       <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;indicator_3&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:indicator_3</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:indicator_3</span><span class='rbrack token'>]</span>
 
@@ -343,8 +347,6 @@
       <pre class="lines">
 
 
-47
-48
 49
 50
 51
@@ -424,10 +426,14 @@
 125
 126
 127
-128</pre>
+128
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree_resource.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/large_tree_resource.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_waypoint identifier id'>waypoint</span><span class='lparen token'>(</span><span class='rubyid_response identifier id'>response</span><span class='comma token'>,</span> <span class='rubyid_record_ids identifier id'>record_ids</span><span class='rparen token'>)</span>
   <span class='comment val'># Load the instance type and record level</span>
@@ -488,6 +494,7 @@
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:top_container__barcode</span><span class='comma token'>,</span> <span class='symbol val'>:top_container_barcode</span><span class='rparen token'>)</span><span class='comma token'>,</span>
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:type_2__value</span><span class='comma token'>,</span> <span class='symbol val'>:type_2</span><span class='rparen token'>)</span><span class='comma token'>,</span>
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:sub_container__indicator_2</span><span class='comma token'>,</span> <span class='symbol val'>:indicator_2</span><span class='rparen token'>)</span><span class='comma token'>,</span>
+            <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:sub_container__barcode_2</span><span class='comma token'>,</span> <span class='symbol val'>:barcode_2</span><span class='rparen token'>)</span><span class='comma token'>,</span>
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:type_3__value</span><span class='comma token'>,</span> <span class='symbol val'>:type_3</span><span class='rparen token'>)</span><span class='comma token'>,</span>
             <span class='rubyid_Sequel constant id'>Sequel</span><span class='dot token'>.</span><span class='rubyid_as identifier id'>as</span><span class='lparen token'>(</span><span class='symbol val'>:sub_container__indicator_3</span><span class='comma token'>,</span> <span class='symbol val'>:indicator_3</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
     <span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_row identifier id'>row</span><span class='bitor op'>|</span>
@@ -503,6 +510,7 @@
     <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;top_container_barcode&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_barcode</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_barcode</span><span class='rbrack token'>]</span>
     <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;type_2&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:type_2</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:type_2</span><span class='rbrack token'>]</span>
     <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;indicator_2&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:indicator_2</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:indicator_2</span><span class='rbrack token'>]</span>
+    <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;barcode_2&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode_2</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:barcode_2</span><span class='rbrack token'>]</span>
     <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;type_3&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:type_3</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:type_3</span><span class='rbrack token'>]</span>
     <span class='rubyid_container_data identifier id'>container_data</span><span class='lbrack token'>[</span><span class='string val'>&#39;indicator_3&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:indicator_3</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_row identifier id'>row</span><span class='lbrack token'>[</span><span class='symbol val'>:indicator_3</span><span class='rbrack token'>]</span>
 
@@ -522,7 +530,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.7.1.a Documentation Generated on Fri Feb 14 11:31:32 2020 by
+  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:17 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>
