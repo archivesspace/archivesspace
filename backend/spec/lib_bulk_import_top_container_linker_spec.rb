@@ -9,7 +9,9 @@ describe "Top Container Linker" do
     
     @resource = create_resource({ :title => generate(:generic_title), :ead_id => 'hua15019' })
     @tc = create_top_container({:indicator => "Box 1", :type => "box", :barcode => "121212"})
-        
+    @loc = create_location()
+    @cp = create_container_profile()
+            
     create_archival_object({:title => generate(:generic_title), :resource => {:ref => @resource.uri}, :ref_id => 'hua15019c00007', 
       :instances => [build(:json_instance,
               :sub_container => build(:json_sub_container, :top_container => {:ref => @tc.uri}))]})
@@ -71,7 +73,29 @@ describe "Top Container Linker" do
       "location_id" => nil,
       "container_profile_id" => nil}
    end
+   def complete_data_with_type_ind
+    {"ead_id" => "hua6789", 
+      "ref_id"=>"hua6789c00008",
+      "instance_type"=>"books", 
+      "top_container_indicator"=>"Box 2", 
+      "top_container_type"=>"Box", 
+      "top_container_barcode" => "bc1",
+      "child_type" => "folder",
+      "child_indicator" => "Child2",
+      "child_barcode" => "child_bc",
+      "location_id" => @loc.id.to_s,
+      "container_profile_id" => @cp.id.to_s}
+   end
 
+   def complete_data_with_container_id
+    {"ead_id" => "hua6789", 
+      "ref_id"=>"hua6789c00008",
+      "instance_type"=>"books", 
+      "top_container_id"=>@tc.id.to_s, 
+      "child_type" => "folder",
+      "child_indicator" => "Child2",
+      "child_barcode" => "child_bc"}
+   end
    
     it "reads in csv spreadsheet and runs with no errors" do
       opts = { :repo_id => @resource[:repo_id],
@@ -118,14 +142,9 @@ describe "Top Container Linker" do
                    :rid => @resource2[:id],
                    :filename => "testTopLinkerUpload.csv",
                    :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv"}
-#    opts2 = { :repo_id => @resource3[:repo_id],
-#                    :rid => @resource3[:id],
-#                    :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv",
-#                    :filename => "testTopLinkerUpload.csv"}
+
     tcl1 = TopContainerLinker.new(opts1[:filepath], "text/csv", @current_user, opts1)
-    #tcl2 = TopContainerLinker.new(opts2[:filepath], "text/csv", @current_user, opts2)
     ao =tcl1.process_row(row_1_data)
-    #ao2 =tcl2.process_row(row_2_data)
     
     expect(ao["instances"][0]["sub_container"]["top_container"]["ref"]).not_to eq(@tc.uri)   
   end
@@ -140,6 +159,38 @@ describe "Top Container Linker" do
     ao2 =tcl1.process_row(row_3_data)
     
     expect(ao["instances"][0]["sub_container"]["top_container"]["ref"]).to eq(ao2["instances"][0]["sub_container"]["top_container"]["ref"])   
+  end
+  
+  it "validates that adding all possible data with a type/indicator creates an links the TC" do
+    opts1 = { :repo_id => @resource3[:repo_id],
+                   :rid => @resource3[:id],
+                   :filename => "testTopLinkerUpload.csv",
+                   :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv"}
+    tcl1 = TopContainerLinker.new(opts1[:filepath], "text/csv", @current_user, opts1)
+    ao =tcl1.process_row(complete_data_with_type_ind)
+    expect(ao["instances"][0]["sub_container"]["top_container"]["ref"]).not_to be_nil   
+    expect(ao["instances"][0]["instance_type"]).to eq("books")   
+    expect(ao["instances"][0]["sub_container"]["type_2"]).to eq("folder")   
+    expect(ao["instances"][0]["sub_container"]["indicator_2"]).to eq("Child2")  
+    expect(ao["instances"][0]["sub_container"]["barcode_2"]).to eq("child_bc")    
+    tc_obj = TopContainer.to_jsonmodel(ao["instances"][0]["sub_container"]["top_container"]["ref"].split("/")[4].to_i)
+    expect(tc_obj["container_locations"][0]["location_id"]).to eq(@loc.id)
+    expect(tc_obj["container_profile"]["container_profile_id"]).to eq(@cp.id)
+  end
+  
+  it "validates that adding all possible data with a container_id creates an links the TC" do
+      opts1 = { :repo_id => @resource3[:repo_id],
+                     :rid => @resource3[:id],
+                     :filename => "testTopLinkerUpload.csv",
+                     :filepath => BULK_FIXTURES_DIR + "/testTopLinkerUpload.csv"}
+      tcl1 = TopContainerLinker.new(opts1[:filepath], "text/csv", @current_user, opts1)
+      ao =tcl1.process_row(complete_data_with_container_id)
+      expect(ao["instances"][0]["sub_container"]["top_container"]["ref"]).to eq(@tc.uri)   
+      expect(ao["instances"][0]["instance_type"]).to eq("books")   
+      expect(ao["instances"][0]["sub_container"]["type_2"]).to eq("folder")   
+      expect(ao["instances"][0]["sub_container"]["indicator_2"]).to eq("Child2")  
+      expect(ao["instances"][0]["sub_container"]["barcode_2"]).to eq("child_bc") 
+      
   end
   
 end

@@ -122,13 +122,14 @@ class TopContainerLinker < BulkImportParser
           display_indicator = tc_jsonmodel_obj.indicator
         end
       elsif (!tc_record_no.nil?)
-        tc_jsonmodel_obj = TopContainer.get_or_die(tc_record_no.strip)
+        tc_jsonmodel_obj = TopContainer.get_or_die(tc_record_no.strip.to_i)
         if tc_jsonmodel_obj.nil?
           #Cannot find TC record with ID
           err_arr.push I18n.t("top_container_linker.error.tc_record_no_missing", :tc_id=> tc_record_no, :ref_id => ref_id.to_s, :row_num => @counter.to_s)
         else
           child_type = @row_hash[CHILD_TYPE]
           child_indicator = @row_hash[CHILD_INDICATOR]
+          barcode_2 = @row_hash[CHILD_CONTAINER_BARCODE]
           subcontainer = {}
           if (!child_type.nil? && !child_indicator.nil?)
             subcontainer = { "type_2" => child_type.strip,
@@ -204,7 +205,7 @@ class TopContainerLinker < BulkImportParser
       #Check if the location ID can be found in the db
       loc_id = @row_hash[LOCATION_ID]
       if (!loc_id.nil?)
-        loc = Location.get_or_die(loc_id.strip)
+        loc = Location.get_or_die(loc_id.strip.to_i)
         if (loc.nil?)
           err_arr.push I18n.t("top_container_linker.error.loc_not_in_db", :loc_id=> loc_id.to_s, :ref_id => ref_id.to_s, :row_num => row_num)
         else
@@ -227,7 +228,7 @@ class TopContainerLinker < BulkImportParser
       #Check if Container Profile Record No. can be found in the db 
       cp_id = @row_hash[CONTAINER_PROFILE_ID]
       if (!cp_id.nil?)
-        cp = ContainerProfile.get_or_die(cp_id.strip)
+        cp = ContainerProfile.get_or_die(cp_id.strip.to_i)
         if (cp.nil?)
           err_arr.push I18n.t("top_container_linker.error.cp_not_in_db", :cp_id=> cp_id.to_s, :ref_id => ref_id.to_s, :row_num => row_num)
         else
@@ -238,7 +239,6 @@ class TopContainerLinker < BulkImportParser
               :system_mtime => now,
               :user_mtime => now
             })
-
           rescue Exception => e
             @report.add_errors(I18n.t("top_container_linker.error.problem_setting_container_profile", :ref_id => ref_id.to_s, :row_num => row_num, :why => e.message))
             instance = nil

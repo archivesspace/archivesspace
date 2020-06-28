@@ -54,7 +54,18 @@ module SpecHelperMethods
         :repo_id => $repo_id
       )
     end
+    
+  def create_location(opts = {})
+      Location.create_from_json(
+        build(:json_location, opts)
+      )
+  end
 
+  def create_container_profile(opts = {})
+      ContainerProfile.create_from_json(
+        build(:json_container_profile, opts)
+      )
+  end
 
   def create_event(opts = {})
     Event.create_from_json(build(:json_event, opts),

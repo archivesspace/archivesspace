@@ -126,7 +126,7 @@ class TopContainerLinkerValidator < BulkImportParser
       loc_id = @row_hash[LOCATION_ID]
       if (!loc_id.nil?)
         begin
-          loc = Location.get_or_die(loc_id.strip)
+          loc = Location.get_or_die(loc_id.strip.to_i)
         rescue NotFoundException
           loc = nil
         end
@@ -139,7 +139,7 @@ class TopContainerLinkerValidator < BulkImportParser
       cp_id = @row_hash[CONTAINER_PROFILE_ID]
       if (!cp_id.nil?)
         begin
-          cp = ContainerProfile.get_or_die(cp_id.strip)
+          cp = ContainerProfile.get_or_die(cp_id.strip.to_i)
         rescue NotFoundException
           cp = nil
         end
