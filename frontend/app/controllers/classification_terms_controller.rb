@@ -1,7 +1,7 @@
 class ClassificationTermsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_classification_record" => [:new, :edit, :create, :update, :accept_children, :transfer],
+                      "update_classification_record" => [:new, :edit, :create, :update, :accept_children],
                       "delete_classification_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults]
 
