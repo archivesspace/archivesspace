@@ -9,11 +9,6 @@ $(function() {
 
     $this.data("initialised", true);
    
-    var resultsFormatter = function(json) {
-     console.log(json); 
-      return ;
-    }
-   
     $.getJSON($this.data('url'), function(json) {
       var output; 
       itemCount = json["search_data"]["total_hits"];
