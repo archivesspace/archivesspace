@@ -31,6 +31,36 @@
     </tbody>
   </table>
 
+  <script>
+  var init_locationHoldingsSearch = function() {
+    var $this = $(this);
+    
+    if ($(this).data("initialised")) return;
+    
+    $this.data("initialised", true);
+    
+    $.getJSON($this.data('url'), function(json) {
+      var output; 
+      itemCount = json["search_data"]["total_hits"];
+      
+      if ( itemCount == 1 ) { 
+        output = "1 top container."; 
+      } else if (itemCount > 0 ) {
+        output = itemCount + " top containers.";  
+      } else {
+        output = "No holdings for this repository.";  
+      }
+
+      $this.html("<span>" + output + "</span>"); 
+    });   
+  };
+
+  $(".location-holdings").each(init_locationHoldingsSearch);
+  $(document).bind("loadedrecordform.aspace", function(event, $container) {
+    $(".location-holdings", $container).each(init_locationHoldingsSearch);
+  });
+  </script>
+
   <%= render_aspace_partial :partial => "shared/pagination" %>
 <% else %>
   <p class="alert alert-info">
