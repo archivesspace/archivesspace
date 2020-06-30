@@ -157,6 +157,14 @@ AbstractRelationship = Class.new(Sequel::Model) do
         end
       end
     end
+
+    # Finally, reindex the target record for good measure (and, in the case of
+    # top containers, to update the associated collections)
+    target[:system_mtime] = Time.now
+    target[:user_mtime] = Time.now
+
+    target.save
+
   end
 
 
