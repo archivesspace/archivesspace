@@ -2347,7 +2347,6 @@ en:
     clip_info: "\t\t\t\t\t%{what}\n"
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
     clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo"
-    ao: Archival Object
     tc: Top Container
     subj: Subject
     agent: Agent

@@ -187,6 +187,7 @@ fr:
       type_enum_s: Type
       published_series_title_u_sstr: Série
       instance_type_enum_s: Type d'instance
+      langcode: Langue
 
   search_sorting:
     sort_by: "Trier par:"

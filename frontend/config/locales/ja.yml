@@ -739,6 +739,7 @@ ja:
         add_child: 子を追加
         add_sibling: 兄弟を追加
         save: アーカイブオブジェクトを保存する
+        bulk_import: スプレッドシートを介して負荷
       tree:
         new_record_title: 新しいアーカイブオブジェクト
 
@@ -1089,6 +1090,7 @@ ja:
       action:
         add_child: 子を追加
         create: リソースの作成
+        load_bulk: スプレッドシートを介して負荷
         save: リソースを保存
         delete_multiple: リソースを削除する
     external_ark_url: External ARK URL
@@ -1314,6 +1316,9 @@ ja:
     indicator_2: 子指標
     indicator_2_tooltip: "<p>第2レベルコンテナのIDを示すための英数字式。コンテナのシーケンス内の第2レベルコンテナの位置を示すこともあります。第2レベルコンテナのバルク範囲も許容されます（たとえば、フォルダ1〜16）。
       </p>"
+    barcode_2: 子供コンテナバーコード
+    barcode_2_tooltip: |
+      "<p>説明材料が収容された第二のレベルのコンテナを識別するためのバーコード</p>"
     type_3: 孫型
     type_3_tooltip: "<p>記載された材料が格納されている第3レベルコンテナのタイプ。 </p><p>この管理された値リストの値は変更することができます。
       </p>"
@@ -1707,3 +1712,19 @@ ja:
         _plural: スポンサーセット
       repo_settings:
         _plural: リポジトリごとのOAI-PMH設定
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: ファイルを選択
+        add_archival_objects: インポートアーカイブオブジェクト
+        add_digital_objects: アーカイブオブジェクトにデジタルオブジェクトを追加します。
+        import: スプレッドシートからのインポート
+        drag_drop: ここにドラッグ＆ドロップファイル
+        clip_btn: クリップボードにコピー
+      messages:
+        missing_file: あなたは、ファイルを追加していません
+        not_excel: 選択したファイルは、Excelスプレッドシートではありません
+        processed: ファイルが処理されています
+        error: "ERROR：エラー（複数可）が検出されました："
+        copied: コピーされました！
+        uncopied: コピーできません
