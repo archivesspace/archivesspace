@@ -731,6 +731,7 @@ fr:
         add_child: Ajouter fils
         add_sibling: Ajouter frère
         save: Sauvegarder document d'archives
+        bulk_import: Charge par feuille de calcul
       tree:
         new_record_title: Nouvel objet archivistique
 
@@ -1078,6 +1079,7 @@ fr:
       action:
         add_child: Ajouter fils
         create: Créer ressource
+        load_bulk: Charge par feuille de calcul
         save: Sauvegarder ressource
         delete_multiple: Supprimer ressources
     external_ark_url: External ARK URL
@@ -1304,6 +1306,9 @@ fr:
     indicator_2: Indicateur fils
     indicator_2_tooltip: |
         <p>Une expression alphanumérique indiquant l'identifiant du conditionnement de second niveau, pouvant aussi indiquer sa position dans une séquence de conditionnements de même type. Des plages de conditionnements de second niveau sont aussi permises, par ex. chemises 1-16.</p>
+    barcode_2: Barcode Container enfant
+    barcode_2_tooltip: |
+        <p>Un code à barres pour identifier le récipient de deuxième niveau, dans lequel le matériau décrit est logé.</p>"
     type_3: Type petit-fils
     type_3_tooltip: |
         <p>Le type de conditionnement de niveau 3 renfermant les documents décrits.</p>
@@ -1726,3 +1731,19 @@ fr:
         _plural: Sets de sponsors
       repo_settings:
         _plural: Paramètres OAI-PMH par référentiel
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Choisir le dossier
+        add_archival_objects: Importer des objets d'archive
+        add_digital_objects: Ajouter des objets numériques à des objets d'archives
+        import: Importation de SpreadSheet
+        drag_drop: Faites glisser et déposer le fichier ici
+        clip_btn: Copier dans le presse-papier
+      messages:
+        missing_file: Vous n'avez pas ajouté un fichier
+        not_excel: Le fichier que vous avez choisi n'est pas une feuille de calcul Excel
+        processed: Le fichier a été traité
+        error: "ERREUR: erreur (s) détecté:"
+        copied: Copié!
+        uncopied: Impossible de copier

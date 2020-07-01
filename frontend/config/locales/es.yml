@@ -733,6 +733,7 @@ es:
         add_child: Agregar hijo
         add_sibling: Añadir hermano
         save: Guardar objeto de archivo
+        bulk_import: Carga a través de la hoja de cálculo
       tree:
         new_record_title: Nuevo objeto de archivo
 
@@ -1080,6 +1081,7 @@ es:
       action:
         add_child: Agregar hijo
         create: Crear fondo
+        load_bulk: Carga a través de la hoja de cálculo
         save: Guardar fondos
         delete_multiple: Eliminar fondos
     external_ark_url: External ARK URL
@@ -1306,6 +1308,9 @@ es:
     indicator_2: Indicador de hijo
     indicator_2_tooltip: |
         <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+    barcode_2: Niño de contenedores de código de barras
+    barcode_2_tooltip: |
+        <p>Un código de barras para identificar el recipiente de segundo nivel en el que se aloja el material descrito.</p>"
     type_3: Tipo nieto
     type_3_tooltip: |
         <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
@@ -1726,3 +1731,19 @@ es:
         _plural: Conjuntos de patrocinadores
       repo_settings:
         _plural: Configuraciones por repositorio OAI-PMH
+  bulk_import:
+    _frontend:
+      actions:
+        add_file: Seleccione Archivo
+        add_archival_objects: Importar Archivo Objetos
+        add_digital_objects: Añadir objetos digitales a Objetos De Archivo
+        import: Importar de Hoja de Cálculo
+        drag_drop: Arrastrar y archivo de la gota aquí
+        clip_btn: Copiar al portapapeles
+      messages:
+        missing_file: No ha añadido un archivo
+        not_excel: El archivo que ha elegido no es una hoja de cálculo de Excel
+        processed: El archivo ha sido procesado
+        error: "ERROR: Error (s) detectada:"
+        copied: Copiado!
+        uncopied: No se puede copiar
