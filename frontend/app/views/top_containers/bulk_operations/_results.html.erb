@@ -73,7 +73,15 @@
         <td class="top-container-type"><%= container_json['type'] %></td>
         <td class="top-container-indicator"><%= container_json['indicator'] %></td>
         <td class="top-container-barcode"><%= container_json['barcode'] %></td>
-        <td class="top-container-current-location"><%= Array(doc['location_display_string_u_sstr']).first %></td>
+        <td class="top-container-current-location">
+          <% if doc['location_display_string_u_sstr'] %>
+            <ul class="linked-records-listing count-<%= Array(doc['location_uri_u_sstr']).length %>">
+              <% Array(doc['location_display_string_u_sstr']).each do |location| %>
+                <li><span class="collection-location"><%= location %></span></li>
+              <% end %>
+            </ul>
+          <% end %>
+        </td>
         <td><%= container_json['ils_holding_id'] %></td>
         <td><%= I18n.t("boolean.#{container_json['restricted']}") %></td>
         <% if container_json['exported_to_ils'].blank? %>

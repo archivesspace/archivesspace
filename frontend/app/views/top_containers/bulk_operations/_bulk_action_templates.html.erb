@@ -126,7 +126,7 @@
             <td>${container.row.find(".top-container-profile").html()}</td>
             <td>${container.row.find(".top-container-indicator").html()}</td>
             <td>${container.row.find(".top-container-barcode").text().trim()}</td>
-            <td>${container.row.find(".top-container-current-location").text().trim()}</td>
+            <td>${container.row.find(".top-container-current-location").html()}</td>
             <td>
               <%= render_aspace_partial :partial => "top_containers/bulk_operations/location_linker", :locals => { :path => "${container.uri}", :show_create_link => true } %>
               <input type="hidden" name="update_uris[]" value="${container.uri}"/>

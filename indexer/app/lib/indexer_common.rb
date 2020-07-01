@@ -648,11 +648,14 @@ class IndexerCommon
 
         if record['record']['container_locations'].length > 0
           doc['has_location_u_sbool'] = true
+          doc['location_uri_u_sstr'] = []
+          doc['location_uris'] = []
+          doc['location_display_string_u_sstr'] = []
           record['record']['container_locations'].each do |container_location|
             if container_location['status'] == 'current'
-              doc['location_uri_u_sstr'] = container_location['ref']
-              doc['location_uris'] = container_location['ref']
-              doc['location_display_string_u_sstr'] = container_location['_resolved']['title']
+              doc['location_uri_u_sstr'] << container_location['ref']
+              doc['location_uris'] << container_location['ref']
+              doc['location_display_string_u_sstr'] << container_location['_resolved']['title']
             end
           end
         else
