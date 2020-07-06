@@ -314,6 +314,39 @@ describe 'Merge request controller' do
     }.to raise_error(RecordNotFound)
   end
 
+  it "can merge two top containers and retain all linked locations" do
+    target_location = create(:json_location)
+    victim_location = create(:json_location)
+
+    target = create(:json_top_container,
+                    :container_locations => [{'ref' => target_location.uri,
+                                              'status' => 'current',
+                                              'start_date' => generate(:yyyy_mm_dd),
+                                              'end_date' => generate(:yyyy_mm_dd)}])
+    victim = create(:json_top_container,
+                    :container_locations => [{'ref' => victim_location.uri,
+                                              'status' => 'current',
+                                              'start_date' => generate(:yyyy_mm_dd),
+                                              'end_date' => generate(:yyyy_mm_dd)}])
+
+    # There is only one location and it is the target location
+    container_locations = JSONModel(:top_container).find(target.id).container_locations
+    expect(container_locations.count).to eq(1)
+    expect(container_locations).to include(include("ref" => target_location.uri))
+
+    request = JSONModel(:merge_request).new
+    request.target = { 'ref' => target.uri }
+    request.victims = [{ 'ref' => victim.uri }]
+
+    request.save(:record_type => 'top_container')
+
+    # There are now two locations
+    container_locations = JSONModel(:top_container).find(target.id).container_locations
+    expect(container_locations.count).to eq(2)
+    expect(container_locations).to include(include("ref" => target_location.uri))
+    expect(container_locations).to include(include("ref" => victim_location.uri))
+  end
+
 
   ['accession', 'resource'].each do |type|
     it "can merge two top containers, but delete duplicate instances, subcontainers, and relationships" do
