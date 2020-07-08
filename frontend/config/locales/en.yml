@@ -99,6 +99,7 @@ en:
     export_marc: Download MARCXML
     export_dc: Download DC
     export_csv: Download CSV
+    container_template: Download Container Template
     loading: Loading...
     revert: Revert Changes
     finish_editing: Close Record
@@ -453,7 +454,6 @@ en:
       desc: Descending
     blank_facet_query_fields:
       owner_repo_display_string_u_ssort: Repository
-
 
   advanced_search:
     operator:
@@ -2249,6 +2249,7 @@ en:
         drag_drop: Drag and drop file here
         clip_btn: Copy to Clipboard
         only_validate: Only validate
+        link_top_containers: Link Top Containers
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet

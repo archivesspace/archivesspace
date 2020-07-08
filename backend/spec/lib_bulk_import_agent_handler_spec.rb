@@ -99,7 +99,6 @@ describe "Agent Handler" do
     expect(@report.current_row.errors[0]).to start_with("NOT FOUND")
     expect(@report.current_row.errors[1]).to start_with("Unable to create agent link")
   end
-
   it "should validate that an agent link can't be created with bad role or relator data" do
     agent_1 = AgentFamily.create_from_json(family_agent)
     expect {

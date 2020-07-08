@@ -93,6 +93,16 @@ describe 'Locations' do
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Created/)
   end
 
+  it 'allows the browse locations list to be filtered by repository' do
+    sidebar = @driver.find_element(css: ".sidebar").find_element_with_text('//h3', /Repository/)
+    new_location_link_text = @driver.find_element_with_text('//li', /LOCATIONS_TEST/).text
+    new_location_link_text = new_location_link_text[0...-2]
+
+    @driver.click_and_wait_until_gone(:link, new_location_link_text)
+
+    expect(@driver.find_elements(css: 'tr').length).to eq(2)
+  end
+
   it 'allows the new location to be viewed in non-edit mode' do
     @driver.get($frontend)
 

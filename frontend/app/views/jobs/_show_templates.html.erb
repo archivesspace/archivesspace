@@ -132,6 +132,15 @@
 
 <% end %>
 
+<%# This job type is hidden and will not appear in the job_types list so a template must be created individually %>
+<% define_template "top_container_linker_job", jsonmodel_definition(:top_container_linker_job) do |form, job| %>
+
+    <% begin %>
+      <%= render_aspace_partial :partial => "top_container_linker_job/show", :locals => {:job => job, :form => form} %>
+      <% rescue ActionView::MissingTemplate %>
+    <% end %>
+
+<% end %>
 
 <%# Now create a template for all job types not handled above - eg from plugins %>
 <% job_types.keys.each do |type| %>

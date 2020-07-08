@@ -86,7 +86,7 @@ class ImportArchivalObjects < BulkImportParser
     err_arr.join("; ")
   end
 
-  def process_row
+  def process_row(row_hash = nil)
     ao = nil
     ret_str = ""
     begin
@@ -209,6 +209,7 @@ class ImportArchivalObjects < BulkImportParser
       msg = I18n.t("bulk_import.error.initial_save_error", :title => ao.title, :msg => e.message)
       raise BulkImportException.new(msg)
     end
+      
     ao.instances = create_top_container_instances
     dig_instance = nil
     unless [@row_hash["digital_object_title"], @row_hash["digital_object_link"], @row_hash["thumbnail"], @row_hash["digital_object_id"]].reject(&:nil?).empty?

@@ -117,7 +117,22 @@
 		    handleBulkFileUpload($file_form_modal);
 		});
 
-	    $file_form_modal.show();
+    // Toggle buttons event handler to set the job_type based on the load_type
+    $("#jobLoadTypeToggleButtons :input").change(function(event) {
+      var loadType = $(this).attr('value')
+      // Set the job_type based on the load_type
+      if (loadType == 'top_container_linker_job') {
+        // If load_type is 'top_container_linker_job' set the job_type to 'top_container_linker_job'
+        $("#jsonmodel_type").val('top_container_linker_job');
+        $("#job_type").val('top_container_linker_job');
+      } else {
+        // Else set the job_type back to the default value 'bulk_import_job'
+        $("#jsonmodel_type").val('bulk_import_job');
+        $("#job_type").val('bulk_import_job');
+      }
+    });
+
+	  $file_form_modal.show();
 	};
 
 	var modalError = function($modal) {
