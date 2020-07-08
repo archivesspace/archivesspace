@@ -666,6 +666,9 @@ AppConfig[:ark_url_prefix] = proc { AppConfig[:public_proxy_url] }
 # Specifies if the fields that show up in csv should be limited to those in search results
 AppConfig[:limit_csv_fields] = true
 
+# Turns fields for subcontainer barcodes on/off on the front end
+AppConfig[:show_subcontainer_barcode_fields] = false
+  
 # Use to specify the maximum number of columns to display when searching or browsing
 AppConfig[:max_search_columns] = 7
 

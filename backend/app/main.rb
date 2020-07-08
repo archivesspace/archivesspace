@@ -21,11 +21,12 @@ require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
 require_relative 'lib/notifications'
-require_relative 'lib/background_job_queue'
+#require_relative 'lib/background_job_queue'
 require_relative 'lib/export'
 require_relative 'lib/request_context'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
+require_relative 'lib/csv_template_generator'
 require 'solr_snapshotter'
 
 require 'barcode_check'
@@ -103,7 +104,8 @@ class ArchivesSpaceService < Sinatra::Base
       end
 
       require_relative "model/ASModel"
-
+      
+            
       # Set up our JSON schemas now that we know the JSONModels have been loaded
       RecordInheritance.prepare_schemas
 
@@ -208,7 +210,7 @@ class ArchivesSpaceService < Sinatra::Base
             load init_file
           end
         end
-
+        require_relative 'lib/background_job_queue'
         BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
 
         Notifications.notify("BACKEND_STARTED")
@@ -327,6 +329,7 @@ class ArchivesSpaceService < Sinatra::Base
     erb :endpoint_doc
   end
 
+      
 end
 
 

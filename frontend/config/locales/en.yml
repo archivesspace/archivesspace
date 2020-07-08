@@ -91,6 +91,7 @@ en:
     export_marc: Download MARCXML
     export_dc: Download DC
     export_csv: Download CSV
+    container_template: Download Container Template
     loading: Loading...
     revert: Revert Changes
     finish_editing: Close Record
@@ -156,6 +157,65 @@ en:
     text_placeholder: Filter by text
     clear_all: Clear All
     component_switch: Show Components
+    filter:
+      query: Text
+      subjects: Subject
+      primary_type: Record Type
+      digital_object_type: Type
+      level: Level
+      classification_path: Classification
+      accession_date_year: Accession Date
+      source: Source
+      rules: Rules
+      parent_type: Record Type
+      processing_priority: Processing Priority
+      processing_status: Status
+      publish: Published
+      temporary: Temporary
+      outcome: Outcome
+      event_type: Type
+      first_term_type: Term Type (First)
+      classification_uri: Classification
+      location_uris: Location
+      agents: Agent
+      creators: Creator
+      fullrecord: Keyword
+      subjects_text: Subject
+      title: Title
+      creators_text: Creator
+      notes: Notes
+      container_profile_width_u_sstr: Width
+      container_profile_height_u_sstr: Height
+      container_profile_depth_u_sstr: Depth
+      container_profile_dimension_units_u_sstr: Dimension Units
+      building: Building
+      floor: Floor
+      room: Room
+      area: Area
+      owner_repo_display_string_u_ssort: Repository
+      location_profile_display_string_u_ssort: Location Profile
+      location_profile_width_u_sstr: Width
+      location_profile_height_u_sstr: Height
+      location_profile_depth_u_sstr: Depth
+      location_profile_dimension_units_u_sstr: Dimension Units
+      rights_statement_agent_uris: Rights Statement Agent
+      assessment_surveyors: Surveyed By
+      assessment_review_required: Review Required
+      assessment_sensitive_material: Sensitive Material
+      assessment_reviewer_uris: Reviewer
+      assessment_surveyed_by_uris: Surveyed By
+      assessment_reviewers: Reviewer
+      assessment_inactive: Inactive
+      assessment_survey_year: Survey Year
+      assessment_record_types: Record Type
+      assessment_completed: Completed
+      none: None
+      status: Status
+      job_type: Job Type
+      report_type: Report Type
+      owner: Owner
+      langcode: Language of Materials
+      none: None
     help:
       row_selection: Click a row to select it for bulk operations. Hold alt while clicking a checkbox to select, or unselect, multiple previous rows.
 
@@ -439,7 +499,6 @@ en:
       extents: Extent
       asc: Ascending
       desc: Descending
-
 
   advanced_search:
     operator:
@@ -1740,6 +1799,8 @@ en:
         import: Import from SpreadSheet
         drag_drop: Drag and drop file here
         clip_btn: Copy to Clipboard
+        link_top_containers: Link Top Containers via Spreadsheet
+
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet
@@ -1747,4 +1808,3 @@ en:
         error: "ERROR: Error(s) detected: "
         copied: Copied!
         uncopied: Unable to copy
-

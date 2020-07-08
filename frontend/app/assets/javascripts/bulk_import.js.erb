@@ -116,6 +116,64 @@
 		    $("body").css("overflow", "auto");
 		});
     }
+
+    var handleTopContainerLinking = function($modal) {
+	    /* don't let the modal disappear on submission */
+	    $modal.on("hide.bs.modal", function (event){
+		    event.preventDefault();
+		    event.stopImmediatePropagation();
+		});
+	    /* submit via ajax */
+	    $form = $("#bulk_import_form");
+	    rid = $form.find("#rid").val();
+	    $form.attr('action', 'link_top_containers');
+	    $form.ajaxSubmit({
+	       type: "POST",
+		   dataType: "html",
+	       beforeSubmit:  function(arr, $form, options) {
+	       
+			var names = "";
+			var hasFile = false;
+			var missingFile = '<%= I18n.t('bulk_import._frontend.messages.missing_file') %>';
+			for (var i=0; i < arr.length; i++) {
+			    if (arr[i].type === "file") {
+                    fileObj = arr[i].value;
+                    if  (typeof(fileObj) === "object") {
+                        if (typeof(fileObj.type) !== "undefined" && (fileObj.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileObj.name.endsWith(".xlsx"))) {
+                        	hasFile = true;
+                        }
+                        else if (typeof(fileObj.type) !== "undefined" && (fileObj.type === 'text/csv' || fileObj.name.endsWith(".csv"))) {
+                    		hasFile = true;
+                    	}
+                    	else {
+                        	missingFile = "<%= I18n.t('bulk_import._frontend.messages.not_excel') %>";
+                        }
+                    }
+			    }
+			}
+			if (!hasFile) {
+			    alert(missingFile);
+			    $(".bulkbtn").removeClass("disabled");
+			    return false;
+			}
+			$(".bulkbtn").addClass('disabled');
+				return true;
+		    },
+		success: function(data, status, xhr) {
+			$("#bulk_messages").html(data);
+			modalSuccess($file_form_modal);
+		    },
+		error: function(xhr, status, err) {
+			alert("<%= I18n.t('bulk_import._frontend.messages.error') %>" + status );
+			$("#bulk_messages").html(xhr.responseText);
+			modalError($file_form_modal);
+		    }
+		});
+	    $modal.on("hidden.bs.modal", function (event){
+		    $modal.hide();
+		    $("body").css("overflow", "auto");
+		});
+    }
 	var openFileModal = function() {
 	    $file_form_modal = AS.openCustomModal("bulkIngestFileModal", "Load Spreadsheet",  file_modal_html, 'large', null, $("#bulkFileButton").get(0));
 	    initExcelFileUploadSection();
@@ -124,6 +182,13 @@
 		    event.preventDefault();
 		    handleBulkFileUpload($file_form_modal);
 		});
+		
+		$("#linkTopContainersButton").on("click",  function(event) {
+		    event.stopPropagation();
+		    event.preventDefault();
+		    handleTopContainerLinking($file_form_modal);
+		});
+
 	    var clipboard = new Clipboard('.clip-btn');
 
 	    clipboard.on('success', function(e) {

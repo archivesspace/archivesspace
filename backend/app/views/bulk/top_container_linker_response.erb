@@ -1,0 +1,40 @@
+<% if !report.terminal_error.nil?
+  popup_msg = I18n.t('bulk_import.error.error', :term => report.terminal_error ) %>
+  <script>alert('<%= popup_msg %>');</script>
+ <% end %>
+ 
+<% unless report.terminal_error.nil? %>
+<div class="bg-danger"><blockquote><%= report.terminal_error %></blockquote></div>
+
+<% end %>
+<% if report.row_count > 0 %>
+<ul style="list-style: none; ">
+<% report.rows.each do |row| %>
+<% unless row.errors.empty? %>
+<li><%= row.row %>  
+   <ul style="list-style: none; "><% row.errors.each do |err| %>
+	<li class="bg-danger"><%= err %></li>
+     <% end %><%# of error each %> </ul>  
+</li>
+<% end %> <%# of unless no errors %>
+<% end %><%# of row each %>
+</ul>
+<% end %> 
+
+<% output = ''
+    report.rows.each do |row| 
+      if !row.errors.empty? 
+        output += row.row
+      end 
+      output += "\n"
+      unless row.errors.empty? 
+        row.errors.each do |err| 
+          output += I18n.t('bulk_import.clip_err', :err => err) + "\n"
+        end 
+      end 
+    end
+  %>
+  <textarea id="excel_clip" readonly style="width:1px; height:1px;">
+  <%= I18n.t('bulk_import.clip_header') %>
+  <%= output%>
+</textarea>

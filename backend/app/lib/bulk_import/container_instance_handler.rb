@@ -3,7 +3,7 @@ class ContainerInstanceHandler < Handler
   def initialize(current_user)
     @top_containers = {}
     @container_types ||= CvList.new('container_type', current_user)
-    @instance_types ||= CvList.new('instance_instance_type', current_user) # for when we move instances over here
+    @instance_types ||= CvList.new('instance_instance_type', current_user) # for when we move instances over here          
   end
 
   def renew
@@ -23,6 +23,13 @@ class ContainerInstanceHandler < Handler
       :indicator => indicator || 'Unknown',
       :barcode => barcode
     }
+  end
+  
+  def get_top_container_json_from_hash(type, indicator, barcode, resource)
+    top_container_json = build(type, indicator, barcode)
+    tc_key = key_for(top_container_json, resource)
+    tc = @top_containers.fetch(tc_key, nil)
+    tc
   end
     
   # returns a top container JSONModel
@@ -53,7 +60,6 @@ class ContainerInstanceHandler < Handler
     repo_id = resource_uri.split('/')[2]
     if !(ret_tc = get_db_tc_by_barcode(top_container[:barcode], repo_id))
       tc_str = "#{top_container[:type]} #{top_container[:indicator]}"
-      # tc_str += ": [#{top_container[:barcode]}]" if top_container[:barcode]
       tc_params = {}
       tc_params[:q] = "display_string:\"#{tc_str}\" AND collection_uri_u_sstr:\"#{resource_uri}\""
       ret_tc = search(nil,tc_params, :top_container,'top_container', "display_string:#{tc_str}")
@@ -80,11 +86,13 @@ class ContainerInstanceHandler < Handler
     raise  BulkImportException.new(I18n.t('bulk_import.error.missing_instance_type')) if instance_type.nil?
     begin
       tc = get_or_create(type, indicator, barcode, resource_uri, report)
+            
       sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodeltype' => 'sub_container'}
       %w(2 3).each do |num|
         if subcont["type_#{num}"]
           sc["type_#{num}"] = @container_types.value(subcont["type_#{num}"])
           sc["indicator_#{num}"] = subcont["indicator_#{num}"] || 'Unknown'
+          sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
         end
       end
       instance = JSONModel(:instance).new._always_valid!
@@ -96,6 +104,23 @@ class ContainerInstanceHandler < Handler
       msg = e.message #+ "\n" + e.backtrace()[0]
       raise BulkImportException.new(msg)
     end
+    instance
+  end
+  
+  #Formats the container instance without a db retrieval or creation
+  def format_container_instance(instance_type, tc, subcont = {})
+    instance = nil
+    sc = {'top_container' => {'ref' => tc.uri}, 'jsonmodel_type' => 'sub_container'}
+    %w(2 3).each do |num|
+      if subcont["type_#{num}"]
+        sc["type_#{num}"] = @container_types.value(subcont["type_#{num}"])
+        sc["indicator_#{num}"] = subcont["indicator_#{num}"] || 'Unknown'
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
+      end
+    end
+    instance = JSONModel(:instance).new._always_valid!
+    instance.instance_type = @instance_types.value(instance_type)
+    instance.sub_container = JSONModel(:sub_container).from_hash(sc)
     instance
   end
 

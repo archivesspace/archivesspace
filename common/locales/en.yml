@@ -2041,6 +2041,7 @@ en:
       find_and_replace_job: Batch Find and Replace (Beta)
       trim_whitespace_job: Trim Whitespace
       unknown_job_type: Unknown job type
+      top_container_linker_job: Top Container Linker
     status: Status
     status_completed: Completed
     status_queued: Queued
@@ -2090,6 +2091,12 @@ en:
   print_to_pdf_job:
     include_unpublished: Include Unpublished
     source: Source
+  
+  top_container_linker_job:
+    _singular: Top Container Linker Job
+    filename: File
+    content_type: File Type
+    resource_id: Resource ID
 
   trim_whitespace_job:
     description: Removes leading and trailing whitespace from titles for resources, accessions, digital objects, archival objects, and digital object components.
@@ -2347,6 +2354,7 @@ en:
     clip_info: "\t\t\t\t\t%{what}\n"
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
     clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo"
+    ao: Archival Object
     tc: Top Container
     subj: Subject
     agent: Agent
@@ -2398,6 +2406,7 @@ en:
       no_data: No processible data rows found!
       excel: "Error(s) parsing Excel File: %{errs}"
       no_agent: "Unable to create Agent %{num}: [%{why}]"
+      find_tc: "Unable to find the Top Container with params: %{where}."
       no_tc: "Unable to create Top Container %{number}: [%{why}]"
       missing_instance_type: Missing container instance type
       no_ao: No Archival Object created
@@ -2428,3 +2437,26 @@ en:
       bad_ao: "Cannot find archival object %{errs}"
       no_uri_or_ref: Neither an archival object URI nor a REF ID was provided
       file_too_big: "This file, at %{file_info}, exceeds the size and/or row number limits of %{limits}"
+      wrong_file_type: "Supplied files must be either CSV or XSLX. Content type given %{content_type}, file extension %{extension}."
+  top_container_linker:
+    error:
+      ref_id_miss: "Ref ID missing from spreadsheet in row %{row_num} ."
+      ao_not_in_db: "Can not find Archival Object %{ref_id} in the database in row %{row_num}."
+      instance_type_miss: "Instance Type missing from spreadsheet for row %{row_num} Archival Object %{ref_id}. "
+      tc_indicator_and_record_no_miss: "Either a Top Container Indicator or TC Record Number must be present for %{ref_id} in row %{row_num}."
+      tc_indicator_and_record_no_exist: "Only a Top Container Indicator OR TC Record Number can be present for %{ref_id} in row %{row_num}."
+      tc_barcode_exists: "The Top Container Barcode, %{barcode} already exists in the database (see  %{ref_id} in row %{row_num})."
+      tc_barcode_differs: "The Top Container Barcode, %{barcode} is different than another entry in your spreadsheet for %{type} %{indicator} (see  %{ref_id} in row %{row_num})."
+      tc_ind_ct_exists: "The Top Container Indicator and Container Type combo %{tc_type} %{indicator} already exists in the database for an AO in resource %{ead_id} (see  %{ref_id} in row %{row_num})."
+      sc_barcode_exists: "The Child Barcode, %{barcode} already exists in the database (see %{ref_id} in row %{row_num})."
+      sc_barcode_differs: "The Child Barcode, %{barcode} is different than another entry in your spreadsheet for %{type} %{indicator} (see  %{ref_id} in row %{row_num})."
+      loc_not_in_db: "The given Location ID, %{loc_id} cannot be found in the database (see %{ref_id} in row %{row_num})."
+      cp_not_in_db: "The given Container Profile ID, %{cp_id} cannot be found in the database (see %{ref_id} in row %{row_num})."
+      no_tc: "Unable to create Top Container (see %{ref_id} in row %{row_num}): [%{why}]"
+      problem_adding_current_location: "Problem adding the current location (see %{ref_id} in row %{row_num}): [%{why}]"
+      problem_setting_container_profile: "Problem setting the container profile (see %{ref_id} in row %{row_num}): [%{why}]"
+      error_linking_tc_to_ao: "There was a problem linking the Archival Object with the Top Container: %{why}"
+      ead_id_miss: "This row is missing an EAD ID: (see %{ref_id} in row %{row_num})"
+      tc_record_no_missing: "The Top Container ID cannot be found: %{tc_id} (see %{ref_id} in row %{row_num})"
+      resource_not_in_db: "Can not find Resource %{ead_id} in the database in row %{row_num}"
+      resources_do_not_match: "The resource in the spreadsheet %{spreadsheet_resource} (EAD ID: %{ead_id}) does not match the current resource %{current_resource} in row %{row_num}"

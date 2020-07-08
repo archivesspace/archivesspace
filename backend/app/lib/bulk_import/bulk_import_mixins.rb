@@ -16,7 +16,22 @@ module BulkImportMixins
      "owner_repo"]
   end
 
-  def archival_object_from_ref(ref_id)
+  def resource_from_ref(ead_id)
+    dataset = CrudHelpers.scoped_dataset(Resource, {:ead_id => ead_id})
+    resource = nil
+    if !dataset.empty?
+      objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      jsonms = Resource.sequel_to_jsonmodel(objs)
+      if jsonms.length == 1
+        resource = jsonms[0]
+      else
+        raise BulkImportException.new(I18n.t('bulk_import.error.resource_ref_id', :ref_id => ead_id))
+      end
+    end
+    resource 
+  end
+
+def archival_object_from_ref(ref_id)
     dataset = CrudHelpers.scoped_dataset(ArchivalObject, { :ref_id => ref_id })
     ao = nil
     if !dataset.empty?
@@ -63,6 +78,50 @@ module BulkImportMixins
       raise BulkImportException.new(I18n.t("bulk_import.error.bad_ao_uri", :uri => uri))
     end
     ao
+    ao
+  end
+  
+
+  #Finds the top container using the hash values (AND clause only)
+  def find_top_container(where_params)
+    dataset = CrudHelpers.scoped_dataset(TopContainer, where_params)
+    tc = nil
+    if !dataset.empty?
+      objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      jsonms = TopContainer.sequel_to_jsonmodel(objs)
+      if jsonms.length > 0
+       tc = jsonms[0]
+      else
+        raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
+      end
+    end
+    tc
+  end 
+  
+ def indicator_and_type_exist_for_resource?(ead_id, indicator, type_id)
+   
+    return TopContainer
+      .join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :top_container__id)
+      .join(:sub_container, :sub_container__id => :top_container_link_rlshp__sub_container_id)
+      .join(:instance, :instance__id => :sub_container__instance_id)
+      .join(:archival_object, :archival_object__id => :instance__archival_object_id)
+      .join(:resource, :resource__id => :archival_object__root_record_id)
+      .filter(:resource__ead_id => ead_id, :indicator => indicator, :type_id => type_id).count > 0
+  end
+
+  def sub_container_from_barcode(barcode)
+    dataset = CrudHelpers.scoped_dataset(SubContainer, {:barcode_2 => barcode})
+    sc = nil
+    if !dataset.empty?
+      objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      jsonms = SubContainer.sequel_to_jsonmodel(objs)
+      if jsonms.length > 0
+       sc = jsonms[0]
+      else
+        raise BulkImportException.new(I18n.t('bulk_import.error.sc_barcode', :barcode => barcode))
+      end
+    end
+    sc
   end
 
   def resource_match(resource, ead_id, uri)

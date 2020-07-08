@@ -15,6 +15,7 @@
 
       "display_string" => {"type" => "string", "readonly" => true},
       "long_display_string" => {"type" => "string", "readonly" => true},
+      "subcontainer_barcodes" => {"type" => "string", "required" => false},
 
       "subcontainer_barcodes" => {"type" => "string", "required" => false},
 
