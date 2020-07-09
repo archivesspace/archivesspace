@@ -21,12 +21,12 @@ require_relative 'lib/uri_resolver'
 require_relative 'lib/rest'
 require_relative 'lib/crud_helpers'
 require_relative 'lib/notifications'
-#require_relative 'lib/background_job_queue'
 require_relative 'lib/export'
 require_relative 'lib/request_context'
 require_relative 'lib/component_transfer'
 require_relative 'lib/progress_ticker'
 require_relative 'lib/csv_template_generator'
+require_relative 'converters/marcxml_converter.rb'
 require 'solr_snapshotter'
 
 require 'barcode_check'
@@ -210,6 +210,8 @@ class ArchivesSpaceService < Sinatra::Base
             load init_file
           end
         end
+        #This require has been moved here so that it is after the DB is loaded 
+        #since some jobs require the db
         require_relative 'lib/background_job_queue'
         BackgroundJobQueue.init if ASpaceEnvironment.environment != :unit_test
 
