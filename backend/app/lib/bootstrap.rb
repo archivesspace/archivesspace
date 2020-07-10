@@ -1,9 +1,12 @@
 require 'rubygems'
 require 'java'
 require 'sequel'
+require 'sequel/plugins/def_dataset_method'
 require 'sequel/plugins/optimistic_locking'
 Sequel.extension :pagination
 Sequel.extension :core_extensions
+Sequel::Model.require_valid_table = false
+Sequel::Model.plugin :def_dataset_method
 
 
 # Turn off the 'after_commit' and 'after_rollback' hooks on Sequel::Model.

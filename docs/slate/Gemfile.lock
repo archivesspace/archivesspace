@@ -46,7 +46,7 @@ GEM
     hooks (0.4.1)
       uber (~> 0.0.14)
     i18n (0.7.0)
-    json (1.8.6)
+    json (2.2.0)
     kramdown (1.17.0)
     libv8 (3.16.14.19)
     listen (2.10.1)

@@ -59,7 +59,6 @@ class DB
         end
 
         DBMigrator.setup_database(@pool)
-
         self
       else
         # For the sake of our tests, have all pools share the same Derby.
@@ -85,6 +84,8 @@ ASpaceEnvironment.init(:unit_test)
 AppConfig[:search_user_secret] = "abc123"
 
 DB.connect
+puts "Running backend tests using database type: #{DB.open { |db| db.database_type }}"
+
 require_relative "../app/model/backend_enum_source"
 JSONModel::init(:client_mode => true, :strict_mode => true,
                 :url => 'http://example.com', :allow_other_unmapped => true,

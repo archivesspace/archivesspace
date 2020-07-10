@@ -24,11 +24,11 @@ gem 'less-rails-bootstrap'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'json', '1.8.6'
+gem 'json', '2.2.0'
 gem 'json-schema', '1.0.10'
 
 gem 'atomic', '= 1.0.1'
-gem 'jruby-jars', '= 9.1.17.0'
+gem 'jruby-jars', '= 9.2.12.0'
 
 group :test do
   gem 'rspec', '~> 3.6.0'
