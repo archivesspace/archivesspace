@@ -175,7 +175,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
         }
       } else if ($node.hasClass("top-container-indicator")) {
         var value = $node.text().trim();
-        
+
         // turn the indicator into a string of alternating non-number/padded-number values separated by commas for sorting
         // eg "box,#############11,folder,#############4"
         return parseIndicator(value);
@@ -195,6 +195,7 @@ BulkContainerSearch.prototype.get_selection = function() {
     results.push({
       uri: checkbox.value,
       display_string: $(checkbox).data("display-string"),
+      container_profile_uri: $(checkbox).data("container-profile-uri"),
       row: $(checkbox).closest("tr")
     });
   });
@@ -593,15 +594,31 @@ function BulkActionMerge(bulkContainerSearch) {
                           .map(function(container) {
                             return {
                               uri: container.uri,
-                              display_string: container.display_string
-                            }
+                              display_string: container.display_string,
+                              container_profile_uri: container.container_profile_uri
+                            };
                           });
 
       const targetEl = document.querySelector('input[name="target[]"]:checked');
 
       const target = {
         display_string: targetEl.getAttribute('aria-label'),
-        uri: targetEl.getAttribute('value')
+        uri: targetEl.getAttribute('value'),
+        container_profile_uri: targetEl.getAttribute('container_profile_uri')
+      };
+
+      var victimsWithCPs = victims.filter(victim => victim.container_profile_uri && (victim.container_profile_uri != target.container_profile_uri));
+      var victimContainerProfiles = victimsWithCPs.map(function (cp) {
+        return cp.container_profile_uri;
+        }).filter((v, i, a) => a.indexOf(v) === i);
+      var mergeWarn = (victimContainerProfiles.length === 0 || (victimContainerProfiles.length === 1 && !target.container_profile_uri)) ? false : true;
+      var warning_type = (mergeWarn == true ? (victimContainerProfiles.length > 1 ? 'too_many' : 'mismatch' ) : null);
+
+      const mergeWarning = {
+        tooManyVisibility: (warning_type == 'too_many' ? 'display:block' : 'display:none'),
+        tooManyHidden: (warning_type == 'too_many' ? 'false' : 'true'),
+        mismatchVisibility: (warning_type == 'mismatch' ? 'display:block' : 'display:none'),
+        mismatchHidden: (warning_type == 'mismatch' ? 'false' : 'true')
       };
 
       // compute victims list for template rendering
@@ -610,12 +627,13 @@ function BulkActionMerge(bulkContainerSearch) {
           acc.push(victim.display_string);
         }
         return acc;
-      }, [])
+      }, []);
 
       // Init modal2
       AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
         victims,
         victimsNoTarget,
+        mergeWarning,
         target
       }), false);
     })

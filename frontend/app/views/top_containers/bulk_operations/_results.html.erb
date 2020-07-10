@@ -45,7 +45,7 @@
           <% if multiselect %>
           <label>
             <span class="sr-only"><%= I18n.t("search_results.selected") %></span>
-            <%= check_box_tag "uri", container_json['uri'], false, "data-display-string" => doc['title'] %>
+            <%= check_box_tag "uri", container_json['uri'], false, :"data-display-string" => doc['title'], :"data-container-profile-uri" => doc['container_profile_uri_u_sstr'] %>
           </label>
           <% else %>
             <%= radio_button_tag "linker-item", container_json["uri"], false, :"data-object" => container_json.to_json %>

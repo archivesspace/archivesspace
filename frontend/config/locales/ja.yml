@@ -1425,6 +1425,8 @@ ja:
         batch_merge_instructions: リストされている他のすべてのトップコンテナがマージされるトップコンテナを選択します。リンクされたレコードはすべてこのコンテナに再リンクされ、他のトップコンテナのすべての情報が削除されます。
         batch_merge_confirm: 上位コンテナのマージの確認
         batch_merge_confirm_question: 以下にリストされているように、最上位のコンテナーをマージしてもよろしいですか？ このアクションは元に戻せません。
+        batch_merge_container_profile_too_many_warning: これらのトップコンテナが別のコンテナプロファイルを有します。これらのコンテナプロファイルはいずれも、ターゲットコンテナにマージしません。
+        batch_merge_container_profile_mismatch_warning: これらのトップコンテナは、ターゲットトップ容器とは異なるコンテナプロファイルを持っています。コンテナプロファイルは、ターゲットコンテナにマージしません。
         batch_merge_confirm_victims: "次の上位コンテナをマージします:"
         batch_merge_confirm_target: "この一番上のコンテナに:"
         batch_delete: トップコンテナの削除
