@@ -97,7 +97,6 @@ class BulkImportParser
     @report = BulkImportReport.new
     @headers
     @report.set_file_name(@orig_filename)
-    initialize_handler_enums
     @resource = resolve_references(Resource.to_jsonmodel(@opts[:rid]), ["repository"])
     @repository = @resource["repository"]["ref"]
     @hier = 1
