@@ -1,0 +1,6 @@
+es:
+  reports:
+    assessment_rating_report:
+      title: Informe de calificación de evaluación
+      description: Muestra información para evaluaciones con una calificación específica en un rango específico. Debe seleccionar al menos un valor; para mostrar todos los registros, seleccione todos los valores.
+      identifier_prefix: Evaluación
