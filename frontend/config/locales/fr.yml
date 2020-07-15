@@ -1424,7 +1424,7 @@ fr:
         rapid_barcode_entry_new_barcode: Nouveau code-barres
         rapid_barcode_entry_help: Entrez un code-barres pour chaque conteneur sélectionné. Laissez le champ Nouveau code-barres vide pour supprimer le code-barres actuel sans le remplacer par une nouvelle valeur.
         batch_merge: Fusionner les conteneurs
-        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Tous les enregistrements liés seront liés à ce conteneur et toutes les informations relatives au (x) autre (s) conteneur (s) supérieur (s) seront supprimées.
+        batch_merge_instructions: Sélectionnez le conteneur supérieur dans lequel tous les autres conteneurs répertoriés vont fusionner. Les accessions, ressources, composants de ressource et événements liés seront à nouveau liés à ce conteneur. Les profils de conteneur seront déplacés vers ce conteneur uniquement lorsqu'il n'en a pas déjà un. Les emplacements et toutes les autres informations des autres conteneurs supérieurs seront supprimés.
         batch_merge_confirm: Confirmer la fusion des conteneurs supérieurs
         batch_merge_confirm_question: Voulez-vous vraiment fusionner les conteneurs supérieurs comme indiqué ci-dessous? Cette action est irréversible.
         batch_merge_container_profile_too_many_warning: Ces conteneurs haut ont des profils de conteneurs. Aucun de ces profils de conteneurs se fondre dans le conteneur cible.
