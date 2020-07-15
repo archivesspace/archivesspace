@@ -314,6 +314,148 @@ describe 'Merge request controller' do
     }.to raise_error(RecordNotFound)
   end
 
+  it "can merge two top containers and only ever retain one container profile" do
+    target_cp = create(:json_container_profile)
+    victim_cp = create(:json_container_profile)
+
+    target = create(:json_top_container,
+                    :container_profile => {'ref' => target_cp.uri})
+    victim = create(:json_top_container,
+                    :container_profile => {'ref' => victim_cp.uri})
+
+    # There is only one container profile and it is the target container profile
+    cp = JSONModel(:top_container).find(target.id).container_profile
+    expect(cp.count).to eq(1)
+    expect(cp).to include("ref" => target_cp.uri)
+
+    # Merge the containers
+    request = JSONModel(:merge_request).new
+    request.target = { 'ref' => target.uri }
+    request.victims = [{ 'ref' => victim.uri }]
+
+    request.save(:record_type => 'top_container')
+
+    # There should still only be one container profile
+    container_profile = JSONModel(:top_container).find(target.id).container_profile
+    expect(container_profile.count).to eq(1)
+    expect(container_profile).to include("ref" => target_cp.uri)
+    expect(container_profile).not_to include("ref" => victim_cp.uri)
+  end
+
+
+  it "can merge two top containers and move the lone victim container profile" do
+    victim_cp = create(:json_container_profile)
+
+    target = create(:json_top_container)
+    victim = create(:json_top_container,
+                    :container_profile => {'ref' => victim_cp.uri})
+
+    # No container profile here
+    expect(JSONModel(:top_container).find(target.id).container_profile).to be_nil
+
+    # Merge the containers
+    request = JSONModel(:merge_request).new
+    request.target = { 'ref' => target.uri }
+    request.victims = [{ 'ref' => victim.uri }]
+
+    request.save(:record_type => 'top_container')
+
+    # There should be one container profile
+    container_profile = JSONModel(:top_container).find(target.id).container_profile
+    expect(container_profile.count).to eq(1)
+    expect(container_profile).to include("ref" => victim_cp.uri)
+  end
+
+
+  it "can merge two top containers and move one duplicate victim container profile" do
+    cp = create(:json_container_profile)
+
+    target = create(:json_top_container)
+    victim1 = create(:json_top_container,
+                    :container_profile => {'ref' => cp.uri})
+    victim2 = create(:json_top_container,
+                    :container_profile => {'ref' => cp.uri})
+
+    # No container profile here
+    expect(JSONModel(:top_container).find(target.id).container_profile).to be_nil
+
+    # Merge the containers
+    request = JSONModel(:merge_request).new
+    request.target = { 'ref' => target.uri }
+    request.victims = [{ 'ref' => victim1.uri },{ 'ref' => victim2.uri }]
+
+    request.save(:record_type => 'top_container')
+
+    # There should be one container profile
+    container_profile = JSONModel(:top_container).find(target.id).container_profile
+    expect(container_profile.count).to eq(1)
+    expect(container_profile).to include("ref" => cp.uri)
+  end
+
+
+  it "can merge two loaded up top containers and appropriately retain/delete relationships" do
+    target_cp = create(:json_container_profile)
+    victim_cp = create(:json_container_profile)
+
+    target_location = create(:json_location)
+    victim_location = create(:json_location)
+
+    target = create(:json_top_container,
+                    :container_profile => {'ref' => target_cp.uri},
+                    :container_locations => [{'ref' => target_location.uri,
+                                              'status' => 'current',
+                                              'start_date' => generate(:yyyy_mm_dd),
+                                              'end_date' => generate(:yyyy_mm_dd)}]
+                    )
+    victim = create(:json_top_container,
+                    :container_profile => {'ref' => victim_cp.uri},
+                    :container_locations => [{'ref' => victim_location.uri,
+                                              'status' => 'current',
+                                              'start_date' => generate(:yyyy_mm_dd),
+                                              'end_date' => generate(:yyyy_mm_dd)}]
+                    )
+
+    target_event = create(:json_event,
+                           'linked_agents' => [
+                             {'ref' => '/agents/people/1', 'role' => 'authorizer'}
+                           ],
+                           'linked_records' => [
+                             {'ref' => target.uri, 'role' => 'source'}
+                           ]
+                         )
+     victim_event = create(:json_event,
+                            'linked_agents' => [
+                              {'ref' => '/agents/people/1', 'role' => 'authorizer'}
+                            ],
+                            'linked_records' => [
+                              {'ref' => victim.uri, 'role' => 'source'}
+                            ]
+                          )
+
+    # Merge the containers
+    request = JSONModel(:merge_request).new
+    request.target = { 'ref' => target.uri }
+    request.victims = [{ 'ref' => victim.uri }]
+
+    request.save(:record_type => 'top_container')
+
+    # There should still only be one container profile
+    merged_container = JSONModel(:top_container).find(target.id)
+    expect(merged_container.container_profile.count).to eq(1)
+
+    # Victim container locations are not retained
+    expect(merged_container.container_locations.count).to eq(1)
+    expect(merged_container.container_locations).to include(include("ref" => target_location.uri))
+    expect(merged_container.container_locations).not_to include(include("ref" => victim_location.uri))
+
+    # And event records should be updated
+    event1 = JSONModel(:event).find(target_event.id)
+    expect(event1.linked_records).to include(include("ref" => target.uri))
+    event2 = JSONModel(:event).find(victim_event.id)
+    expect(event2.linked_records).to include(include("ref" => target.uri))
+    expect(event2.linked_records).not_to include(include("ref" => victim.uri))
+  end
+
 
   ['accession', 'resource'].each do |type|
     it "can merge two top containers, but delete duplicate instances, subcontainers, and relationships" do
