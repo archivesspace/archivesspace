@@ -99,6 +99,8 @@ module RESTHelpers
             :uri => @uri,
             :description => @description,
             :documentation => @documentation,
+            :deprecated => @deprecated,
+            :deprecated_description => @deprecated_description,
             :prepend_docs => @prepend_to_autodoc,
             :examples => @examples,
             :method => @methods,
