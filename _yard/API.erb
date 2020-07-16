@@ -423,7 +423,15 @@ __Description__
 <% if !e[:documentation] || e[:prepend_docs] %>
 
 __Parameters__
+<% if e[:deprecated] %>
+<aside class="warning">
+  This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
+  <% if e[:deprecated_description] %>
+    <p><%= e[:deprecated_description] %></p>
+  <% end %>
+</aside>
 
+<% end %>
 <% if e[:paginated] %>
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
