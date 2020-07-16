@@ -417,12 +417,12 @@ looking up the DB for each one.</p>
       <pre class="lines">
 
 
-431
-432
-433</pre>
+504
+505
+506</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 431</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 504</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cached_relationships identifier id'>cached_relationships</span>
   <span class='rubyid_@cached_relationships ivar id'>@cached_relationships</span>
@@ -455,17 +455,17 @@ looking up the DB for each one.</p>
       <pre class="lines">
 
 
-406
-407
-408
-409
-410
-411
-412
-413</pre>
+479
+480
+481
+482
+483
+484
+485
+486</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 406</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 479</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_included identifier id'>included</span><span class='lparen token'>(</span><span class='rubyid_base identifier id'>base</span><span class='rparen token'>)</span>
   <span class='rubyid_base identifier id'>base</span><span class='dot token'>.</span><span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='rubyid_do do kw'>do</span>
@@ -513,26 +513,26 @@ to refer to us instead.</p>
       <pre class="lines">
 
 
-469
-470
-471
-472
-473
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485</pre>
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 469</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 542</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_assimilate identifier id'>assimilate</span><span class='lparen token'>(</span><span class='rubyid_victims identifier id'>victims</span><span class='rparen token'>)</span>
   <span class='rubyid_victims identifier id'>victims</span> <span class='assign token'>=</span> <span class='rubyid_victims identifier id'>victims</span><span class='dot token'>.</span><span class='rubyid_reject identifier id'>reject</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span> <span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span> <span class='eq op'>==</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span> <span class='eq op'>==</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
@@ -572,13 +572,13 @@ to refer to us instead.</p>
       <pre class="lines">
 
 
-432
-433
-434
-435</pre>
+505
+506
+507
+508</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 432</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 505</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cache_relationships identifier id'>cache_relationships</span><span class='lparen token'>(</span><span class='rubyid_relationship_defn identifier id'>relationship_defn</span><span class='comma token'>,</span> <span class='rubyid_relationship_objects identifier id'>relationship_objects</span><span class='rparen token'>)</span>
   <span class='rubyid_@cached_relationships ivar id'>@cached_relationships</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -605,30 +605,30 @@ to refer to us instead.</p>
       <pre class="lines">
 
 
-541
-542
-543
-544
-545
-546
-547
-548
-549
-550
-551
-552
-553
-554
-555
-556
-557
-558
-559
-560
-561</pre>
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 541</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 614</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_do_has_link_error identifier id'>do_has_link_error</span><span class='lparen token'>(</span><span class='rubyid_instances identifier id'>instances</span><span class='rparen token'>)</span>
   <span class='comment val'># Abort the transfer and provide the list of top-level records that are preventing it from completing.</span>
@@ -695,24 +695,24 @@ to refer to us instead.</p>
       <pre class="lines">
 
 
-524
-525
-526
-527
-528
-529
-530
-531
-532
-533
-534
-535
-536
-537
-538</pre>
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 524</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 597</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_do_transferable? fid id'>do_transferable?</span><span class='lparen token'>(</span><span class='rubyid_do_id identifier id'>do_id</span><span class='rparen token'>)</span>
   <span class='comment val'># ANW-151: Digital objects should not be transferable if they have instance links to other repository-scoped record types. If not transferrable, we throw an error and abort the transfer.</span>
@@ -761,12 +761,12 @@ instances involving this object</p>
       <pre class="lines">
 
 
-452
-453
-454</pre>
+525
+526
+527</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 452</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 525</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_my_relationships identifier id'>my_relationships</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_find_relationship identifier id'>find_relationship</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find_by_participant identifier id'>find_by_participant</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
@@ -803,15 +803,15 @@ relationship named by ‘name’.</p>
       <pre class="lines">
 
 
-459
-460
-461
-462
-463
-464</pre>
+532
+533
+534
+535
+536
+537</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 532</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_related_records identifier id'>related_records</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_relationship identifier id'>relationship</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_find_relationship identifier id'>find_relationship</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -840,43 +840,43 @@ relationship named by ‘name’.</p>
       <pre class="lines">
 
 
-488
-489
-490
-491
-492
-493
-494
-495
-496
-497
-498
-499
-500
-501
-502
-503
-504
-505
-506
-507
-508
-509
-510
-511
-512
-513
-514
-515
-516
-517
-518
-519
-520
-521</pre>
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 488</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 561</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_transfer_to_repository identifier id'>transfer_to_repository</span><span class='lparen token'>(</span><span class='rubyid_repository identifier id'>repository</span><span class='comma token'>,</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_transfer_group identifier id'>transfer_group</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
@@ -933,19 +933,19 @@ relationship named by ‘name’.</p>
       <pre class="lines">
 
 
-438
-439
-440
-441
-442
-443
-444
-445
-446
-447</pre>
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 438</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 511</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_trigger_reindex_of_dependants identifier id'>trigger_reindex_of_dependants</span>
   <span class='comment val'># Update the mtime of any record with a relationship to this one.  This</span>
@@ -978,20 +978,20 @@ relationship named by ‘name’.</p>
       <pre class="lines">
 
 
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426</pre>
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 416</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/mixins/relationships.rb', line 489</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_from_json identifier id'>update_from_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_apply_nested_records identifier id'>apply_nested_records</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
   <span class='rubyid_obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='rubyid_super super kw'>super</span>
@@ -1015,7 +1015,7 @@ relationship named by ‘name’.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:09 2020 by
+  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:54 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

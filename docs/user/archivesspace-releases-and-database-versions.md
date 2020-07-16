@@ -36,3 +36,5 @@ permalink: /user/archivesspace-releases-and-database-versions/
 |  2.5.2  |     108    |
 |  2.6.0  |     120    |
 |  2.7.0  |     126    |
+|  2.7.1  |     129    |
+|  2.8.0  |     135    |
