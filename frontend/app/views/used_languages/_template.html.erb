@@ -29,3 +29,25 @@
   <%= form.label_and_disabled_checkbox "Notes" %>
 <% end %>
 
+<% define_template "used_language_merge_target", jsonmodel_definition(:used_language) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "used_language", false) %>
+
+  <% field_names = ["language", "script"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+<% end %>
+
+<% define_template "used_language_merge_victim", jsonmodel_definition(:used_language) do |form| %>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "used_language", true, !disable_replace) %>
+  <%= form.hidden_input "id", form.obj["id"] %>
+ 
+  <% field_names = ["language", "script"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+<% end %>

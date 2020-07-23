@@ -1,6 +1,9 @@
 <div class="name-authority-fields">
-  <%= form.label_and_merge_select "authority_id" %>
-  <%= form.label_and_merge_select "source" %>
-  <%= form.label_and_merge_select "rules" %>
+
+  <% disable_replace = true %>
+
+  <%= form.label_and_merge_select("authority_id", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("source", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("rules", "", {:disable_replace => disable_replace}) %>
   <hr/>
 </div>

@@ -53,3 +53,33 @@
     <% end %>
   <% end %>
 <% end %>
+
+<% define_template "agent_conventions_declaration_merge_target", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_conventions_declaration", false) %>
+
+  <% field_names = ["name_rule", "citation", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_conventions_declaration_merge_victim", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
+ 
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_conventions_declaration", true, !disable_replace) %>
+
+  <%= form.label_and_merge_select("name_rule", "", {:disable_replace => disable_replace})%>
+  <%= form.label_and_merge_select("citation", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("descriptive_note", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("file_uri", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("file_version_xlink_actuate_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("file_version_xlink_show_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("xlink_title_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("xlink_role_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("xlink_arcrole_attribute", "", {:disable_replace => disable_replace}) %>
+  <%= form.label_and_merge_select("last_verified_date", "", {:disable_replace => disable_replace}) %>
+
+  <%= form.hidden_input "id", form.obj["id"] %>
+<% end %>

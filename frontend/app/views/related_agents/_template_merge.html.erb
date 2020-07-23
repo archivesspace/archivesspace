@@ -31,7 +31,11 @@
 <% jsonmodel_definition(@agent.agent_type).allowable_types_for("related_agents").each do |relationship_type| %>
   <% define_template "#{relationship_type}", jsonmodel_definition(relationship_type.intern) do |form, opts = {}| %>
     <div class="subrecord-form-fields">
-      <h4 class="subrecord-form-heading"><%= I18n.t("#{relationship_type}._singular") %><%= form.merge_checkbox('append') %></h4>
+
+      <% disable_replace = true %>
+
+      <%= form.record_level_merge_controls(form, "related_agents", true, !disable_replace) %>
+      
       <div class="subrecord-form-container">
         <%= form.hidden_input(:jsonmodel_type, "#{relationship_type}") %>
         <%= form.label_and_readonly("relator") %>

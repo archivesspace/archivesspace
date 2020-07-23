@@ -22,3 +22,24 @@
   <% end %>
 <% end %>
 
+<% define_template "agent_other_agency_code_merge_target", jsonmodel_definition(:agent_other_agency_codes) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_other_agency_code", false) %>
+
+  <% field_names = ["maintenance_agency", "agency_code_type_enum"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_other_agency_code_merge_victim", jsonmodel_definition(:agent_other_agency_codes) do |form| %>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_other_agency_code", true, !disable_replace) %>
+
+  <%= form.label_and_readonly "maintenance_agency" %>
+  <%= form.label_and_readonly "agency_code_type_enum" %>
+
+  <%= form.hidden_input "id", form.obj["id"] %>
+<% end %>

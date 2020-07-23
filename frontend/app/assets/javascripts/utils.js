@@ -315,7 +315,7 @@ $(function() {
 
 
 
-
+// templates as defined in app/views/_model_/_template.html.erb are added to the DOM as HTML comments wrapped in a div. This method queries for the template we are looking for, uncomments it, and returns it for insertion back into the DOM.
 AS.templateCache = [];
 AS.renderTemplate = function(templateId, data, cb) {
 
@@ -688,6 +688,11 @@ AS.initSubRecordSorting = function($list) {
 
     $list.off("sortupdate").on("sortupdate", function() {
       $("form.aspace-record-form").triggerHandler("formchanged.aspace");
+    });
+
+    // ANW-429: trigger special event for agents merge form
+    $list.off("sortupdate").on("sortupdate", function() {
+      $($list).triggerHandler("mergesubformchanged.aspace");
     });
   }
 }
