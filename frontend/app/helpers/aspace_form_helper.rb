@@ -155,7 +155,7 @@ module AspaceFormHelper
 
       # ANW-429: Add class to top level div so element can be switched out by JS based on user form input
       # TODO: refactor
-      extra_classes += "sdl-subrecord-form" if context_name == "structured_date_range" || "structured_date_single"
+      extra_classes += "sdl-subrecord-form" if context_name == "structured_date_range" || context_name == "structured_date_single"
 
 
       ("<div data-name-path=\"#{set_index(self.path(context_name), '${index}')}\" " +
@@ -296,6 +296,20 @@ module AspaceFormHelper
       label_with_field(name, date_input, opts)
     end
 
+    def label_and_disabled_checkbox(name)
+      html = ""
+
+      html << "<div class='form-group'>"
+
+      html << "<label class='col-sm-2 control-label'>#{name}</label>"
+      html << "<div class='col-sm-1'>"
+      html << "<input type='checkbox' name='disabled' disabled>"
+      html << "</div>"
+      html << "</div>"
+
+      return html.html_safe
+    end
+
     def label_and_textarea(name, opts = {})
       label_with_field(name, textarea(name, obj[name] || opts[:default], opts[:field_opts] || {}), opts)
     end
@@ -375,16 +389,23 @@ module AspaceFormHelper
       if value.blank?
         label_with_field(name, value.blank? ? default : value , opts)
       else
-        label_with_field(name, merge_select(name, value, opts[:field_opts] || {}), opts)
+        label_with_field(name, merge_select(name, value, opts), opts)
       end
     end
-    def merge_select(name, value, opts = {})
-      value += "<label>".html_safe
-      value += merge_checkbox("#{name}", {
-        :class => "merge-toggle"}, false, false)
-      value += "&#160;<small>".html_safe
-      value += I18n.t("actions.merge_replace")
-      value += "</small></label>".html_safe
+
+    # ANW-429: Modified this method so that a disable_replace can be passed in, which will skip the creation of the "replace" checkboxes.
+    # This can be used to not render them in case a replace in inappropriate, e.g., the target record has nothing to replace with.
+    def merge_select(name, value, opts)
+      unless opts[:disable_replace] == true
+        value += "<label class='subreplace-control'>".html_safe
+        value += merge_checkbox("#{name}", {
+          :class => "merge-toggle"}, false, false)
+        value += "&#160;<small>".html_safe
+        value += I18n.t("actions.merge_replace")
+        value += "</small></label>".html_safe
+      else
+        value += ""
+      end
     end
 
     def combobox(name, options, opts = {})
@@ -746,6 +767,83 @@ module AspaceFormHelper
       control_group.html_safe
     end
 
+    # ANW-429
+    # Generates HTML for a very stripped down summary of a note for use in the agents merge preview.
+    # TODO: Eventually we'll want to use the notes partials in place of this code. This code was created because the current notes show takes up a lot of space, and work needs to be done to figure out the exact setup/context needed to get those views to render properly.
+    # T
+    def notes_preview(notes_index = "notes", content_index = "content")
+      content_label = I18n.t("note._frontend.preview.content")
+      html = ""
+
+      if obj[notes_index] && obj[notes_index].length > 0 
+
+        html << "<div class='subrecord-form-container'>"
+        html << "<h4 class='subrecord-form-heading'>#{I18n.t("subsections.notes")}</h4>"
+
+        obj[notes_index].each_with_index do |o, i|
+          notes_heading = I18n.t("note.#{o['jsonmodel_type'].to_s}")
+
+          if o[content_index].is_a?(Array)
+            notes_content = o[content_index].join(" : ")
+          else
+            notes_content = o[content_index]
+          end
+
+          html << "<section>"
+            html << "<h5>#{notes_heading}</h5>"
+            html << "<div class='panel panel-default'>"
+              html << "<div class=\"form-group\">"
+                html << "<label class='control-label col-sm-2'>#{content_label}</label>"
+                html << "<div class='col-sm-9 label-only'>"
+                  html << "#{notes_content}"
+                html << "</div>"
+              html << "</div>"
+            html << "</div>"
+          html << "</section>"
+        end
+
+        html << "</div>"
+
+      html.html_safe
+
+      end
+    end
+
+    # ANW-429
+    # outputs HTML for checkboxes for record-level add and replace for agents merge
+    def record_level_merge_controls(form, name = "undefined", controls = true, replace = true, append = true)
+      html = ""
+
+      html << '<h4 class="subrecord-form-heading">'
+        html << I18n.t("#{name}._singular").to_s
+
+        if controls
+          if replace
+            html << '<label class="replace-control">'
+              html << form.merge_checkbox('replace') 
+              html << '<small>'
+                html << I18n.t("actions.merge_replace").to_s
+              html << '</small>'
+            html << '</label>'
+          end
+
+          if append
+            html << '<label class="append-control">'
+              html << form.merge_checkbox('append')
+              html << '<small>'
+                html << I18n.t("actions.merge_add").to_s
+              html << '</small>'
+            html << '</label>'
+          end
+        end
+
+      html << '</h4>'
+
+      return html.html_safe
+    end
+
+  end #of FormContext
+
   def merge_victim_view(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
     schema = JSONModel(jsonmodel_type).schema
@@ -966,6 +1064,7 @@ module AspaceFormHelper
       #options.sort {|a,b| a[0] <=> b[0]}
     end
 
+
     private
 
     def jsonmodel_enum_for(property)
@@ -1024,7 +1123,6 @@ module AspaceFormHelper
     @delivering_js_templates = true
 
     result = ""
-
     return result if @templates.blank?
 
     obj = {}
