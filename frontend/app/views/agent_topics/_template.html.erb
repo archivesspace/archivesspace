@@ -19,3 +19,32 @@
     <%= form.label_and_disabled_checkbox "Dates" %>
 <% end %>
 
+<% define_template "agent_topic_merge_target", jsonmodel_definition(:agent_topic) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_topic", false) %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['subjects'], :section_id => "target_topic_subjects_", :section_title => I18n.t("agent_topic.subjects"), :heading_size => "h4"} %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:places => form.obj['places'], :section_id => "victim_topic_places_", :section_title => I18n.t("agent_topic.places"), :heading_size => "h4"} %>
+  
+  <%= form.notes_preview %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_topic.dates"), :section_id => "target_topic_dates", :heading_size => "h4"} %>
+<% end %>
+
+<% define_template "agent_topic_merge_victim", jsonmodel_definition(:agent_topic) do |form| %>
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_topic", true, !disable_replace) %>
+
+  <%= form.hidden_input "id", form.obj["id"] %>
+ 
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['subjects'], :section_id => "victim_topic_subjects_", :section_title => I18n.t("agent_topic.subjects"), :heading_size => "h4"} %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_topic_places_", :section_title => I18n.t("agent_topic.places"), :heading_size => "h4"} %>
+
+  <%= form.notes_preview %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_topic.dates"), :section_id => "victim_topic_dates", :heading_size => "h4"} %>
+
+<% end %>

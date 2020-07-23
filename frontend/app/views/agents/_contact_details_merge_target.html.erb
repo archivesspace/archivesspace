@@ -3,6 +3,9 @@
 
 <% define_template "agent_contact", jsonmodel_definition(:agent_contact) do |form| %>
   <div class="subrecord-form-fields">
+
+    <%= form.record_level_merge_controls(form, "agent_contact", false) %>
+
     <%= form.label_and_readonly "name" %>
     <%= form.label_and_readonly "salutation" %>
     <%= form.label_and_readonly "address_1" %>
@@ -15,5 +18,7 @@
     <%= form.label_and_readonly "email" %>
     <%= form.label_and_readonly "note" %>
     <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => { :form => form,  :name => "telephones", :template => "telephone_merge_target", :heading_size => "h5" } %>
+
+    <%= form.notes_preview("notes", "contact_notes") %>
   </div>
 <% end %>

@@ -62,3 +62,34 @@
     <%= form.label_and_disabled_checkbox "Dates" %>
 <% end %>
 
+<% define_template "agent_resource_merge_target", jsonmodel_definition(:agent_resource) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_resource", false) %>
+
+  <% field_names = ["linked_agent_role", "linked_resource", "linked_resource_description","file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute",  "last_verified_date"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => I18n.t("agent_occupation.places"), :heading_size => "h4"} %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_occupation.dates"), :section_id => "victim_occupation_dates", :heading_size => "h4"} %>
+<% end %>
+
+<% define_template "agent_resource_merge_victim", jsonmodel_definition(:agent_resource) do |form| %>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_resource", true, !disable_replace) %>
+  
+  <%= form.hidden_input "id", form.obj["id"] %>
+ 
+  <% field_names = ["linked_agent_role", "linked_resource", "linked_resource_description","file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute",  "last_verified_date"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => I18n.t("agent_occupation.places"), :heading_size => "h4"} %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_occupation.dates"), :section_id => "victim_occupation_dates", :heading_size => "h4"} %>
+<% end %>

@@ -225,11 +225,17 @@ class AgentsController < ApplicationController
       end
     end
   end
+
   def merge_detail
     request = JSONModel(:merge_request_detail).new
     request.target = {'ref' => JSONModel(@agent_type).uri_for(params[:id])}
     request.victims = Array.wrap({ 'ref' => params['victim_uri'] })
-    request.selections = cleanup_params_for_schema(params['agent'], JSONModel(@agent_type).schema)
+
+    # the backend is expecting to know how the user may have re-ordered subrecords in the merge interface. This information is encoded in the params, but will be stripped out when we clean them up unless we add them as a pseudo schema attribute.
+    # add_position_to_agents_merge does exactly this.
+    agent_params_with_position = add_position_to_agents_merge_params(params['agent'])
+    request.selections = cleanup_params_for_schema(agent_params_with_position, JSONModel(@agent_type).schema)
+
     uri = "#{JSONModel::HTTP.backend_url}/merge_requests/agent_detail"
     if params["dry_run"]
       uri += "?dry_run=true"
@@ -240,11 +246,10 @@ class AgentsController < ApplicationController
     else
       begin
         response = JSONModel::HTTP.post_json(URI(uri), request.to_json)
-        if response.message === "OK"
-          flash[:success] = I18n.t("agent._frontend.messages.merged")
-          resolver = Resolver.new(request.target["ref"])
-          redirect_to(resolver.view_uri)
-        end
+
+        flash[:success] = I18n.t("agent._frontend.messages.merged")
+        resolver = Resolver.new(request.target["ref"])
+        redirect_to(resolver.view_uri)
       rescue ValidationException => e
         flash[:error] = e.errors.to_s
         redirect_to({:action => :show, :id => params[:id]}.merge(extra_params))
@@ -348,6 +353,58 @@ class AgentsController < ApplicationController
     def set_sort_name_default
       @agent.names.each do |name|
         name["sort_name_auto_generate"] = true
+      end
+    end
+
+    # agent_merge_params looks like this:
+    #< ActionController::Parameters {
+    #"lock_version" => "3", "agent_record_identifiers" => {
+    #  "0" => {
+    #    "lock_version" => "0"
+    #  }, "1" => {
+    #    "lock_version" => "0"
+    #  }
+    #}, "agent_record_controls" => {
+    #  "0" => {
+    #    "lock_version" => "0"
+    #  }
+    #}, "names" => {
+    #  "1" => {
+    #    "lock_version" => "0", "replace" => "REPLACE"
+    #  }, "0" => {
+    #    "lock_version" => "0"
+    #  }, "2" => {
+    #    "lock_version" => "0"
+    #  }
+    #}
+    # This method takes the integer hash keys that represent the original position of the subrecord doing the replacing and adds it as an attribute called "position" under the record type. The result looks like this:
+    # "names" => [{
+    #   "lock_version" => "0",
+    #   "replace" => "REPLACE",
+    #   "authorized" => false,
+    #   "position" => 1,
+    #   "is_display_name" => false,
+    #   "sort_name_auto_generate" => false
+    # }, {
+    #   "lock_version" => "0",
+    #   "authorized" => false,
+    #   "position" => 0,
+    #   "is_display_name" => false,
+    #   "sort_name_auto_generate" => false
+    # }, {
+    #   "lock_version" => "0",
+    #   "authorized" => false,
+    #   "position" => 2,
+    #   "is_display_name" => false,
+    #   "sort_name_auto_generate" => false
+    # }]
+    def add_position_to_agents_merge_params(agent_merge_params)
+      agent_merge_params.each do |param_key, param_value|
+        if param_value.respond_to?(:each)
+          param_value.each do |key, value|
+            value["position"] = key if value
+          end
+        end
       end
     end
 

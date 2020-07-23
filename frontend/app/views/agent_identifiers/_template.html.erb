@@ -24,3 +24,23 @@
   <% end %>
 <% end %>
 
+<% define_template "agent_identifier_merge_target", jsonmodel_definition(:agent_identifier) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_identifier", false) %>
+
+  <% field_names = ["entity_identifier", "identifier_type_enum"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+<% end %>
+
+<% define_template "agent_identifier_merge_victim", jsonmodel_definition(:agent_identifier) do |form| %>
+
+  <% disable_replace = true %>
+
+  <%= form.record_level_merge_controls(form, "agent_identifier", true, !disable_replace) %>
+  
+  <%= form.label_and_readonly "entity_identifier" %>
+  <%= form.label_and_readonly "identifier_type_enum" %>
+  
+<% end %>

@@ -3,17 +3,27 @@
 
 <% define_template "agent_contact", jsonmodel_definition(:agent_contact) do |form| %>
   <div class="subrecord-form-fields">
-    <%= form.label_and_merge_select "name" %>
-    <%= form.label_and_merge_select "salutation" %>
-    <%= form.label_and_merge_select "address_1" %>
-    <%= form.label_and_merge_select "address_2" %>
-    <%= form.label_and_merge_select "address_3" %>
-    <%= form.label_and_merge_select "city" %>
-    <%= form.label_and_merge_select "region" %>
-    <%= form.label_and_merge_select "country" %>
-    <%= form.label_and_merge_select "post_code" %>
-    <%= form.label_and_merge_select "email" %>
-    <%= form.label_and_merge_select "note" %>
+
+    <% disable_replace = false %>
+
+    <%= form.record_level_merge_controls(form, "agent_contact", true, !disable_replace) %>
+
+    <%= form.hidden_input "id", form.obj["id"] %>
+
+    <%= form.label_and_merge_select("name", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("salutation", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("address_1", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("address_2", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("address_3", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("city", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("region", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("country", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("post_code", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("email", "", {:disable_replace => disable_replace}) %>
+    <%= form.label_and_merge_select("note", "", {:disable_replace => disable_replace}) %>
+    
     <%= render_aspace_partial :partial => "shared/subrecord_form_merge", :locals => { :form => form,  :name => "telephones", :template => "telephone_merge", :heading_size => "h5" } %>
+
+    <%= form.notes_preview("notes", "contact_notes") %>
   </div>
 <% end %>

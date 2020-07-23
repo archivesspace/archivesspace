@@ -19,3 +19,32 @@
     <%= form.label_and_disabled_checkbox "Dates" %>
 <% end %>
 
+<% define_template "agent_occupation_merge_target", jsonmodel_definition(:agent_occupation) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_occupation", false) %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['subjects'], :section_id => "target_occupation_subjects_", :section_title => I18n.t("agent_occupation.subjects"), :heading_size => "h4"} %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:places => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => I18n.t("agent_occupation.places"), :heading_size => "h4"} %>
+  
+  <%= form.notes_preview %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_occupation.dates"), :section_id => "target_occupation_dates", :heading_size => "h4"} %>
+<% end %>
+
+<% define_template "agent_occupation_merge_victim", jsonmodel_definition(:agent_occupation) do |form| %>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_occupation", true, !disable_replace) %>
+  <%= form.hidden_input "id", form.obj["id"] %>
+ 
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['subjects'], :section_id => "victim_occupation_subjects_", :section_title => I18n.t("agent_occupation.subjects"), :heading_size => "h4"} %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['places'], :section_id => "victim_occupation_places_", :section_title => I18n.t("agent_occupation.places"), :heading_size => "h4"} %>
+
+  <%= form.notes_preview %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_occupation.dates"), :section_id => "victim_occupation_dates", :heading_size => "h4"} %>
+
+<% end %>

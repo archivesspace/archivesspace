@@ -32,3 +32,38 @@
   <% end %>
 <% end %>
 
+<% define_template "agent_place_merge_target", jsonmodel_definition(:agent_place) do |form| %>
+
+  <%= form.record_level_merge_controls(form, "agent_places", false) %>
+
+  <% field_names = ["place_role_enum"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['subjects'], :section_id => "target_place_subjects_", :section_title => I18n.t("agent_place.subjects"), :heading_size => "h4"} %>
+  
+  <%= form.notes_preview %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_place.dates"), :section_id => "target_place_dates", :heading_size => "h4"} %>
+<% end %>
+
+<% define_template "agent_place_merge_victim", jsonmodel_definition(:agent_place) do |form| %>
+
+  <% disable_replace = false %>
+
+  <%= form.record_level_merge_controls(form, "agent_places", true, !disable_replace) %>
+  
+  <% field_names = ["place_role_enum"] %>
+  <% field_names.each do |field_name| %>
+    <%= form.label_and_readonly field_name %>
+  <% end %>
+  <%= form.hidden_input "id", form.obj["id"] %>
+
+  <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['subjects'], :section_id => "victim_place_subjects_", :section_title => I18n.t("agent_place.subjects"), :heading_size => "h4"} %>
+
+  <%= form.notes_preview %>
+
+  <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_place.dates"), :section_id => "victim_place_dates", :heading_size => "h4"} %>
+
+<% end %>
