@@ -62,8 +62,7 @@ class Repository < Sequel::Model(:repository)
                                                  "manage_rde_templates", "manage_container_record", "manage_container_profile_record",
                                                  "manage_location_profile_record", "import_records", "cancel_job",
                                                  "update_assessment_record", "delete_assessment_record", "manage_assessment_attributes",
-                                                 "update_enumeration_record", "manage_enumeration_record",
-                                                 "show_full_agents"]
+                                                 "update_enumeration_record", "manage_enumeration_record"]
                        },
                        {
                          :group_code => "repository-archivists",
@@ -75,8 +74,7 @@ class Repository < Sequel::Model(:repository)
                                                  "manage_agent_record", "view_agent_contact_record", "manage_vocabulary_record", "manage_container_record",
                                                  "manage_container_profile_record", "manage_location_profile_record", "import_records",
                                                  "update_assessment_record", "delete_assessment_record", "create_job", "cancel_job",
-                                                 "update_enumeration_record", "manage_enumeration_record",
-                                                 "show_full_agents"]
+                                                 "update_enumeration_record", "manage_enumeration_record"]
                        },
                        {
                          :group_code => "repository-project-managers",

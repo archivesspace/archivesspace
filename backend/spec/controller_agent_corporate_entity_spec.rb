@@ -47,6 +47,7 @@ describe 'Corporate entity agent controller' do
 
 
   it "can give a list of corporate entity agents" do
+    AppConfig[:default_page_size] = 30 
     count = JSONModel(:agent_corporate_entity).all(:page => 1)['results'].count
 
     create_corporate_entity
