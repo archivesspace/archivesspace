@@ -5,7 +5,7 @@
 
         <%= form.label_and_textfield "term", :field_opts => {:autocomplete => "off"}, :col_size => 6 %>
 
-      <%= form.label_and_select "term_type", form.possible_options_for("term_type") %>
+      <%= form.label_and_select "term_type", form.possible_options_for("term_type", true) %>
     </div>
   </div>
 <% end %>
