@@ -20,8 +20,8 @@
   <property name="solr_url" value="https://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
 
-  <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.2.22.v20170606/jetty-runner-9.2.22.v20170606.jar" />
-  <property name="jettyrunner_file" value="jetty-runner-9.2.22.v20170606.jar" />
+  <property name="jettyrunner_url" value="https://repo1.maven.org/maven2/org/eclipse/jetty/jetty-runner/9.2.30.v20200428/jetty-runner-9.2.30.v20200428.jar" />
+  <property name="jettyrunner_file" value="jetty-runner-9.2.30.v20200428.jar" />
 
   <property name="icu4j_url" value="https://repo1.maven.org/maven2/com/ibm/icu/icu4j/65.1/icu4j-65.1.jar" />
   <property name="icu4j_file" value="icu4j-65.1.jar" />
@@ -48,7 +48,7 @@
   <condition property="aspace.solr.url" value="${env.ASPACE_SOLR_URL}" else="http://localhost:${aspace.solr.port}">
     <isset property="env.ASPACE_SOLR_URL" />
   </condition>
-  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=${aspace.solr.url}" />
+  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Djavax.accessibility.assistive_technologies='' -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=${aspace.solr.url}" />
 
   <!-- TASKS -->
   <!-- Build tasks invoked using `./build/run [$task]` from the aspace directory -->
