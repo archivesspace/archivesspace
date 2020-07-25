@@ -44,7 +44,7 @@ class DateCalculatorController < ApplicationController
       record.dates << date
       record.save
 
-      render :text => 'success'
+      render :plain => 'success'
     rescue ValidationException => e
       render :json => e.errors, :status => 400
     end

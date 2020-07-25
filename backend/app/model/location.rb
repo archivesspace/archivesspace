@@ -157,7 +157,7 @@ class Location < Sequel::Model(:location)
 
   def self.building_data
     buildings = {}
-    all = self.where('building IS NOT NULL').order_by(:building, :floor, :room, :area)
+    all = self.exclude(building: nil).order_by(:building, :floor, :room, :area)
     all.each do |location|
 
       if !buildings.has_key?(location.building)

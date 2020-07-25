@@ -15,7 +15,7 @@ Sequel::Model.plugin :def_dataset_method
 # capture the record being saved and stop it being GC'd until the
 # transaction finally commits).  When we're doing large batch imports (and
 # committing at the end) that's a lot of memory!
-Sequel::Model.use_after_commit_rollback = false
+# Sequel::Model.use_after_commit_rollback = false # DEPRECATED: Sequel 5.1.0
 
 
 require "db/db_migrator"

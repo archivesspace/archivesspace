@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '5.0.7.2'
+gem 'rails', '5.2.4.3'
 
 # For handling HTML enities when processing exports as XML
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
@@ -27,7 +27,7 @@ gem 'uglifier', '3.0.4'
 gem 'font-awesome-sass', '4.7.0'
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '4.2.1'
+gem 'coffee-rails', '4.2.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyrhino'
 # Use jquery as the JavaScript library

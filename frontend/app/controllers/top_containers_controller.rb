@@ -188,7 +188,7 @@ class TopContainersController < ApplicationController
     begin
       results = perform_search
     rescue MissingFilterException
-      return render :text => I18n.t("top_container._frontend.messages.filter_required"), :status => 500
+      return render :plain => I18n.t("top_container._frontend.messages.filter_required"), :status => 500
     end
 
     render_aspace_partial :partial => "top_containers/bulk_operations/results", :locals => {:results => results}
@@ -222,7 +222,7 @@ class TopContainersController < ApplicationController
       post_params['location_uri'] = params['location'] ? params['location']['ref'] : ""
       post_uri += 'location'
     else
-      render :text => "You must provide a field to update.", :status => 500
+      render :plain => "You must provide a field to update.", :status => 500
     end
 
     response = JSONModel::HTTP::post_form(post_uri, post_params)
@@ -231,7 +231,7 @@ class TopContainersController < ApplicationController
     if result.has_key?('records_updated')
       render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_success", :locals => {:result => result}
     else
-      render :text => "There seems to have been a problem with the update: #{result['error']}", :status => 500
+      render :plain => "There seems to have been a problem with the update: #{result['error']}", :status => 500
     end
   end
 

@@ -293,7 +293,7 @@ module RESTHelpers
       end
 
       methods.each do |method|
-        ArchivesSpaceService.send(method, @uri, {}) do
+        ArchivesSpaceService.send(method, uri, {}) do
           if deprecated
             Log.warn("\n" +
                      ("*" * 80) +
@@ -338,7 +338,6 @@ module RESTHelpers
 
             DB.open(use_transaction, db_opts) do
               RequestContext.put(:current_username, current_user.username)
-
               # If the current user is a manager, show them suppressed records
               # too.
               if RequestContext.get(:repo_id)
@@ -415,9 +414,9 @@ module RESTHelpers
     def self.value(s)
       if s.nil?
         nil
-      elsif s.downcase == 'true'
+      elsif s.to_s.downcase == 'true'
         true
-      elsif s.downcase == 'false'
+      elsif s.to_s.downcase == 'false'
         false
       else
         raise ArgumentError.new("Invalid boolean value: #{s}")
@@ -453,7 +452,7 @@ module RESTHelpers
           if request.content_charset
             value = value.force_encoding(request.content_charset).encode("UTF-8")
           end
-
+          value = value.to_json unless value.is_a? String
           type.from_json(value)
         elsif type.is_a? Array
           if value.is_a? Array
@@ -528,7 +527,6 @@ module RESTHelpers
 
       def process_declared_params(declared_params, params, known_params, errors)
         declared_params.each do |definition|
-
           (name, type, doc, opts) = definition
           opts ||= {}
 
@@ -550,15 +548,12 @@ module RESTHelpers
 
             if type and params[name]
               begin
-                params[name.intern] = coerce_type(params[name], type)
-                params.delete(name)
-
+                params[name] = coerce_type(params[name], type)
               rescue ArgumentError
                 errors[:bad_type] << {:name => name, :doc => doc, :type => type}
               end
             elsif type and opts[:default]
-              params[name.intern] = opts[:default]
-              params.delete(name)
+              params[name] = opts[:default]
             end
 
             if opts[:validation]
@@ -573,7 +568,7 @@ module RESTHelpers
 
 
       def ensure_params(declared_params, paginated, paged)
-
+        params.delete('captures') # Sinatra 2.x
         errors = {
           :missing => [],
           :bad_type => [],

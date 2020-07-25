@@ -11,6 +11,11 @@
   <property name="jruby_build_version" value="2.5.0" />
   <!-- Path to jruby bin directory relative to aspace ./build -->
   <property name="jruby_build_bin_path" value="./gems/jruby/${jruby_build_version}/bin" />
+  <!-- Properties for ArchivesSpace build of the JRuby Rack jar -->
+  <!-- The version needs to match the standard jruby-rack jar at: build/gems/jruby/$version  -->
+  <property name="jruby_rack_version" value="1.1.21" />
+  <property name="jruby_rack_file" value="jruby-rack-${jruby_rack_version}.jar" />
+  <property name="jruby_rack_url" value="https://as-public-shared-files.s3-us-west-2.amazonaws.com/${jruby_rack_file}" />
 
   <property name="solr_url" value="https://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
@@ -43,7 +48,7 @@
   <condition property="aspace.solr.url" value="${env.ASPACE_SOLR_URL}" else="http://localhost:${aspace.solr.port}">
     <isset property="env.ASPACE_SOLR_URL" />
   </condition>
-  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx1024m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=${aspace.solr.url}" />
+  <property name="default_java_options" value="-Djava.security.egd=file:/dev/./urandom -Xmx2048m -Xss2m -Daspace.config.data_directory=${aspace.data_directory} -Dfile.encoding=UTF-8 -Daspace.config.search_user_secret=devserver -Daspace.config.public_user_secret=devserver -Daspace.config.staff_user_secret=devserver -Daspace.devserver=true -Daspace.config.frontend_cookie_secret=devserver -Daspace.config.public_cookie_secret=devserver -Daspace.config.solr_url=${aspace.solr.url}" />
 
   <!-- TASKS -->
   <!-- Build tasks invoked using `./build/run [$task]` from the aspace directory -->
@@ -222,6 +227,7 @@
     <get src="${jruby_url}" dest="${jruby_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${solr_url}" dest="${solr_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${jettyrunner_url}" dest="${jettyrunner_file}" skipexisting="true" verbose="true" usetimestamp="true" />
+    <get src="${jruby_rack_url}" dest="${jruby_rack_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${icu4j_url}" dest="../solr/lib/${icu4j_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${luceneicu_url}" dest="../solr/lib/${luceneicu_file}" skipexisting="true" verbose="true" usetimestamp="true" />
     <get src="${solrextras_url}" dest="../solr/lib/${solrextras_file}" skipexisting="true" verbose="true" usetimestamp="true" />
@@ -322,6 +328,12 @@
     <copy todir="target/archivesspace/gems">
       <fileset dir="gems/jruby/${jruby_build_version}" excludes="cache/*,doc/*,gems/jruby-jars-*/lib/*.dev.jar,gems/**/spec/,gems/warbler-*" />
     </copy>
+    <!-- jruby rack -->
+    <!-- The ArchivesSpace build of the JRuby Rack jar replaces the rubygems bundled version -->
+    <copy file="${jruby_rack_file}"
+      todir="target/archivesspace/gems/gems/jruby-rack-${jruby_rack_version}/lib/"
+      overwrite="true"
+    />
     <copy todir="target/archivesspace/launcher">
       <fileset dir="../launcher" excludes="backup/*" />
     </copy>
@@ -821,6 +833,7 @@
     <delete dir="integration.tmp" />
     <delete dir="shared" />
     <delete dir="solr_index" />
+    <delete dir="target" />
     <delete>
       <fileset dir=".">
         <include name="*log*"/>
