@@ -331,6 +331,13 @@ section h3 {
   .subrecord-form-inline {
     margin-bottom: 8px;
   }
+
+  .chronology_item_list {
+    input {
+      width: 80%;
+      margin: 10px;
+    }
+  }
 }
 
 form .subrecord-form .subrecord-form-container .subrecord-form-fields {
@@ -750,6 +757,7 @@ label {
 // Name form styles
 .is-authoritive-label,
 .is-display-name-label,
+.is-primary-label,
 .is-representative-label {
   display: none;
 }
@@ -766,6 +774,14 @@ label {
     display: inline;
   }
   .btn-display-name-toggle {
+    display: none;
+  }
+}
+.primary-id {
+  .is-primary-label {
+    display: inline;
+  }
+  .btn-primary-id-toggle {
     display: none;
   }
 }

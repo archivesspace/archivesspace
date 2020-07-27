@@ -352,6 +352,7 @@ END
 
   describe "Importing Name Authority Files" do
     it "can import a name authority record" do
+      pending "superceded"
       john_davis = File.expand_path("../app/exporters/examples/marc/authority_john_davis.xml",
                                     File.dirname(__FILE__))
 

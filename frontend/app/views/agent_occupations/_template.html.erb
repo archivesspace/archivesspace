@@ -1,0 +1,21 @@
+<% define_template "agent_occupation", jsonmodel_definition(:agent_occupation) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+			<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template_erb => "subjects/template", :template => "subrecord_subject_agent_occupation", :heading_text => "Occupation Subject", :heading_size => "h4"} %>
+
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "places", :template_erb => "subjects/template", :template => "subrecord_subject_agent_occupation_place", :heading_text => "Place Subject", :heading_size => "h4"} %>
+			
+	    <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_occupation"), :section_id => "agent_occupation_notes", :nested_note_jsonmodel => "agent_occupation", :header_size => "h4", :show_apply_note_order_action => false} %>
+
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label", :heading_text => I18n.t("name._frontend.section.dates"), :heading_size => "h4"} %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_occupation_required", jsonmodel_definition(:agent_occupation) do |form| %>
+    <%= form.label_and_disabled_checkbox "Occupation" %>
+    <%= form.label_and_disabled_checkbox "occupation" %>
+    <%= form.label_and_disabled_checkbox "Notes" %>
+    <%= form.label_and_disabled_checkbox "Dates" %>
+<% end %>
+

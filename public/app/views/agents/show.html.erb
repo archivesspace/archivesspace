@@ -1,3 +1,5 @@
+<% json = @result.json %>
+
 <div id="main-content" class="agents">
 
   <div class="row" id="info_row">
@@ -9,26 +11,112 @@
     </div>
   </div>
 
+
 <div class="row">
   <div class="col-sm-9">
-    <% if !@result.dates.blank? %>
-      <h2><%= t('agent._public.section.dates_of_existence') %></h2>
-      <%= render partial: 'shared/dates', locals: {:dates => @result.dates} %>
+
+    <%# DATES %>
+    <% if json['dates_of_existence'] %>
+      <h3>Dates</h3>
+      <ul>
+        <% json['dates_of_existence'].each do |d| %>
+          <li>
+            <b>Existence:</b>
+            <%= render partial: 'structured_date', locals: {:date => d} %>
+          </li>
+
+        <% end %>
+      </ul>
     <% end %>
 
-    <%= render partial: 'shared/display_notes' %>
+    <%# BIOGRAPHY %>
+    <% bio_notes = json['notes'].select{ |n| n['jsonmodel_type'] == "note_bioghist" && n['publish'] == true} %>
 
- <% if !@results.blank? && @results['total_hits'] > 0 %>
+    <% if bio_notes.any? %>
+      <h3>Biography</h3>
+      <% bio_notes.each do |n| %>
+        <% sn = n['subnotes'] %>
+
+        <% if sn.first['publish'] == true %>
+          <p><%= sn.first['content'] %></p>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%# GENERAL CONTEXT %>
+    <% gn_notes = json['notes'].select{ |n| n['jsonmodel_type'] == "note_general_context" && n['publish'] == true} %>
+
+    <% if gn_notes.any? %>
+      <h3>General Context</h3>
+      <% gn_notes.each do |n| %>
+        <% sn = n['subnotes'] %>
+
+        <% if sn.first['publish'] == true %>
+          <p><%= sn.first['content'] %></p>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%# PARALLEL NAMES %>
+    <% names_with_primarys = json['names'].select{ |n| n['parallel_names'].any? } %>
+
+    <% if names_with_primarys.any? %>
+      <h3>Parallel Names</h3>
+      <ul>
+      <% names_with_primarys.each do |n| %>
+        <% p_names = n['parallel_names'] %>
+        <% p_names.each do |pn| %>
+          <li><%= pn['primary_name'] %></li>
+        <% end %>
+      <% end %>
+      </ul>
+    <% end %>
+
+    <%# PLACES %>
+    <% if json['agent_places'].any? %>
+      <h3>Places</h3>
+      <ul>
+      <% json['agent_places'].each do |n| %>
+        <% subjects = n['subjects'] %>
+
+        <% subjects.each do |s| %>
+          <li><%= s['_resolved']['title'] %></li>
+        <% end %>
+      <% end %>
+      </ul>
+    <% end %>
+
+    <%# OCCUPATIONS %>
+    <% if json['agent_occupations'].any? %>
+      <h3>Occupations</h3>
+      <ul>
+      <% json['agent_occupations'].each do |n| %>
+        <% subjects = n['subjects'] %>
+
+        <% subjects.each do |s| %>
+          <li><%= s['_resolved']['title'] %></li>
+        <% end %>
+      <% end %>
+      </ul>
+    <% end %>
+    
+    <br />
+    <br />
+
+    <% if !@results.blank? && @results['total_hits'] > 0 %>
      <h2><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h2>
          <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
          <% @results.records.each do |result| %>
            <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
          <% end %>
          <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+    <% end %>
 
-   <% end %>
+
+
 
   </div>
+
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
     <% if @result.json['names'].length > 1 ||
           (@result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty?) ||
@@ -37,20 +125,30 @@
     <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
     <div class="acc_holder clear" >
       <div class="panel-group" id="agent_accordion">
-        <% if @result.json['names'].length > 1 %>
-          <% other_names = @result.json['names'].reject{|name| name['is_display_name']}.collect{|name| name['sort_name']} %>
-          <% x = "<p>#{t('agent._public.section.other_names_preamble')}</p>" %>
-          <% x += render partial: 'shared/present_list', locals: {:list =>  other_names, :list_clss => 'other_names'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.other_names'), :p_id => 'other_names_list', :p_body => x.html_safe} %>
-        <% end %>
+
+        <% n = render partial: 'name', locals: {:result => @result} %>
+
+        <%= render partial: 'shared/accordion_panel', locals: 
+          {:p_title =>  I18n.t('name_person._plural'),
+            :p_id => "names_panel",
+            :p_body => n } %>
+ 
         <% if @result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty? %>
-          <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.related_agents, :list_clss => 'related_agents'} %>
+          <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.json['related_agents'], :list_clss => 'related_agents'} %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.related_agents'), :p_id => 'related_agents_list', :p_body => x} %>
         <% end %>
+
+        <% unless json['agent_resources'].blank? %>
+          <% x = render partial: 'shared/present_list_agent_resources', locals: {:list =>  json['agent_resources'], :list_clss => 'external_docs'} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent_resources'), :p_id => 'agent_resource_list', :p_body => x} %>
+        <% end %>
+ 
+
         <% unless @result.external_documents.blank? %>
           <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
         <% end %>
+        
       </div>
     </div>
     <script type="text/javascript" >
@@ -60,8 +158,7 @@
   <% end %>
 
   <% if !@facets.blank? || !@filters.blank? %>
-  <%= render partial: 'shared/facets' %>
+    <%= render partial: 'shared/facets' %>
   <% end %>
   </div>
-</div>
 </div>

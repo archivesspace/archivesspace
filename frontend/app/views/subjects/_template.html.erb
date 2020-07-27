@@ -3,3 +3,57 @@
     <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form }%>
   </div>
 <% end %>
+
+<% define_template "subrecord_subject_agent_place", jsonmodel_definition(:agent_place) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form, :linker_label => "Place", :term_type_filter => "geographic", :name => "subjects" }%>
+  </div>
+<% end %>
+
+<% define_template "subrecord_subject_agent_occupation", jsonmodel_definition(:agent_occupation) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form, :linker_label => "Occupation", :term_type_filter => "occupation", :name => "subjects" }%>
+  </div>
+<% end %>
+
+<% define_template "subrecord_subject_agent_occupation_place", jsonmodel_definition(:agent_occupation) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form, :linker_label => "Place", :multiplicity => "one", :term_type_filter => "geographic", :name => "places" }%>
+  </div>
+<% end %>
+
+<% define_template "subrecord_subject_agent_function", jsonmodel_definition(:agent_function) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form, :linker_label => "Function", :term_type_filter => "function", :name => "subjects" }%>
+  </div>
+<% end %>
+
+<% define_template "subrecord_subject_agent_function_place", jsonmodel_definition(:agent_function) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form, :linker_label => "Place", :multiplicity => "one", :term_type_filter => "geographic", :name => "places" }%>
+  </div>
+<% end %>
+
+<% define_template "subrecord_subject_agent_topic", jsonmodel_definition(:agent_topic) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form, :linker_label => "Topic", :term_type_filter => "topical", :name => "subjects" }%>
+  </div>
+<% end %>
+
+<% define_template "subrecord_subject_agent_resource_place", jsonmodel_definition(:agent_resource) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form, :linker_label => "Place", :multiplicity => "one", :term_type_filter => "geographic", :name => "places" }%>
+  </div>
+<% end %>
+
+<% define_template "subrecord_subject_agent_topic_place", jsonmodel_definition(:agent_topic) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form, :linker_label => "Place", :multiplicity => "one", :term_type_filter => "geographic", :name => "places" }%>
+  </div>
+<% end %>
+
+<% define_template "related_agents_place", jsonmodel_definition(:abstract_agent_relationship) do |form| %>
+  <div class="subrecord-form-fields">
+    <%= render_aspace_partial :partial => "subjects/linker", :locals => { :form => form, :linker_label => "Place", :multiplicity => "one", :term_type_filter => "geographic", :name => "place" }%>
+  </div>
+<% end %>

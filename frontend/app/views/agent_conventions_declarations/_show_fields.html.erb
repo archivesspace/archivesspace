@@ -1,0 +1,109 @@
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_conventions_declaration.name_rule") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<%= I18n.t("enumerations.name_rule." + agent_conventions_declaration["name_rule"]) %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_conventions_declaration.citation") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_conventions_declaration["citation"] %>
+ 		 	<%= agent_conventions_declaration["citation"] %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_conventions_declaration.descriptive_note") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_conventions_declaration["descriptive_note"] %>
+      <%= agent_conventions_declaration["descriptive_note"] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_conventions_declaration.file_uri") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_conventions_declaration["file_uri"] %>
+      <%= agent_conventions_declaration["file_uri"] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_conventions_declaration.file_version_xlink_actuate_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <%= I18n.t("enumerations.file_version_xlink_actuate_attribute." + agent_conventions_declaration["file_version_xlink_actuate_attribute"]) if agent_conventions_declaration["file_version_xlink_actuate_attribute"] %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_conventions_declaration.file_version_xlink_show_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <%= I18n.t("enumerations.file_version_xlink_show_attribute." + agent_conventions_declaration["file_version_xlink_show_attribute"]) if agent_conventions_declaration["file_version_xlink_show_attribute"] %>
+  </div>
+</div>
+
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_conventions_declaration.xlink_title_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_conventions_declaration["xlink_title_attribute"] %>
+      <%= agent_conventions_declaration["xlink_title_attribute"] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_conventions_declaration.xlink_role_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_conventions_declaration["xlink_role_attribute"] %>
+      <%= agent_conventions_declaration["xlink_role_attribute"] %>
+      <% end %>
+  </div>
+</div>
+
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_conventions_declaration.xlink_arcrole_attribute") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_conventions_declaration["xlink_arcrole_attribute"] %>
+      <%= agent_conventions_declaration["xlink_arcrole_attribute"] %>
+      <% end %>
+  </div>
+</div>
+
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_conventions_declaration.last_verified_date") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_conventions_declaration["last_verified_date"] %>
+      <%= agent_conventions_declaration["last_verified_date"] %>
+      <% end %>
+  </div>
+</div>
+
+
+

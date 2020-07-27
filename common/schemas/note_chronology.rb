@@ -16,6 +16,7 @@
           "type" => "object",
           "properties" => {
             "event_date" => {"type" => "string", "maxLength" => 255},
+            "place" => {"type" => "string", "maxLength" => 255},
             "events" => {
               "type" => "array",
               "items" => {"type" => "string", "maxLength" => 65000}

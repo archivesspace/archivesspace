@@ -27,6 +27,64 @@ module JSONModel::Validations
     end
   end
 
+  [:agent_function, :agent_place, :agent_occupation, :agent_topic].each do |type|
+    if JSONModel(type)
+      JSONModel(type).add_validation("check_#{type}_subject_subrecord") do |hash|
+        check_agent_subject_subrecord(hash)
+      end
+    end
+  end
+
+
+  [:structured_date_label].each do |type|
+    if JSONModel(type)
+      JSONModel(type).add_validation("check_structured_date_label") do |hash|
+        check_structured_date_label(hash)
+      end
+    end
+  end
+
+  [:structured_date_single].each do |type|
+    if JSONModel(type)
+      JSONModel(type).add_validation("check_structured_date_single") do |hash|
+        check_structured_date_single(hash)
+      end
+    end
+  end
+
+  [:structured_date_range].each do |type|
+    if JSONModel(type)
+      JSONModel(type).add_validation("check_structured_date_range") do |hash|
+        check_structured_date_range(hash)
+      end
+    end
+  end
+
+  [:used_language].each do |type|
+    if JSONModel(type)
+      JSONModel(type).add_validation("check_used_language") do |hash|
+        check_used_language(hash)
+      end
+    end
+  end
+
+
+  [:agent_sources].each do |type|
+    if JSONModel(type)
+      JSONModel(type).add_validation("check_agent_sources") do |hash|
+        check_agent_sources(hash)
+      end
+    end
+  end
+
+  [:agent_alternate_set].each do |type|
+    if JSONModel(type)
+      JSONModel(type).add_validation("check_agent_alternate_set") do |hash|
+        check_agent_alternate_set(hash)
+      end
+    end
+  end
+
   # Specification:
   # https://www.pivotaltracker.com/story/show/41430143
   # See also: https://www.pivotaltracker.com/story/show/51373893
@@ -64,9 +122,12 @@ module JSONModel::Validations
 
   [:name_person, :name_family, :name_corporate_entity, :name_software].each do |type|
     if JSONModel(type)
-      JSONModel(type).add_validation("#{type}_check_source") do |hash|
-        check_source(hash)
-      end
+      # ANW-429: make source and rules completely optional. Is this (check_source) the right validation to change? See:
+      # https://docs.google.com/spreadsheets/d/1fL44mUxo8D9o45NHsjKd21ljbvWJzNBQCIm4_Q_tcTU/edit#gid=0 
+      # ^^ Cell 85
+      #JSONModel(type).add_validation("#{type}_check_source") do |hash|
+        #check_source(hash)
+      #end
       JSONModel(type).add_validation("#{type}_check_name") do |hash|
         check_name(hash)
       end
@@ -141,6 +202,134 @@ module JSONModel::Validations
     end
 
     errors
+  end
+
+  def self.check_structured_date_label(hash)
+    errors = []
+
+    if hash["structured_date_range"] && hash["structured_date_single"]
+      errors << ["structured_date_single", "cannot specify both a single and ranged date"]
+    end
+
+    if !hash["structured_date_range"] && !hash["structured_date_single"]
+      errors << ["structured_date_single", "must specifiy either a single or ranged date"]
+    end
+
+    if hash["structured_date_range"] && hash["date_type_enum"] == "single"
+      errors << ["structured_date_range", "Must specify single date for date type of single"]
+    end
+
+    if hash["structured_date_single"] && hash["date_type_enum"] == "range"
+      errors << ["structured_date_range", "Must specify range date for date type of range"]
+    end
+
+    return errors
+  end
+
+  def self.check_structured_date_single(hash)
+    errors = []
+
+    if hash["date_role_enum"].nil?
+      errors << ["date_role_enum", "is required"]
+    end
+
+    has_expr_date = !hash["date_expression"].nil? && 
+                    !hash["date_expression"].empty?
+
+    has_std_date = !hash["date_standardized"].nil? 
+
+    errors << ["date_standardized", "or date expression is required"] unless has_expr_date || has_std_date
+
+    if has_std_date
+      errors = check_standard_date(hash["date_standardized"], errors)
+    end
+
+    return errors
+  end
+
+  def self.check_structured_date_range(hash)
+    errors = []
+
+    has_begin_expr_date = !hash["begin_date_expression"].nil? && 
+                          !hash["begin_date_expression"].empty?
+
+    has_end_expr_date = !hash["end_date_expression"].nil? && 
+                        !hash["end_date_expression"].empty?
+
+    has_begin_std_date = !hash["begin_date_standardized"].nil? &&
+                         !hash["begin_date_standardized"].empty?
+
+    has_end_std_date =   !hash["end_date_standardized"].nil? &&
+                         !hash["end_date_standardized"].empty?
+
+    errors << ["begin_date_expression", "is required"] if !has_begin_expr_date && (!has_begin_std_date && !has_end_std_date)
+
+    errors << ["end_date_expression", "requires begin date expression to be defined"] if !has_begin_expr_date && has_end_expr_date
+
+    errors << ["end_date_standardized", "requires begin_date_standardized to be defined"] if (!has_begin_std_date && has_end_std_date)
+
+    if has_begin_std_date
+      errors = check_standard_date(hash["begin_date_standardized"], errors, "begin_date_standardized")
+    end
+
+    if has_end_std_date
+      errors = check_standard_date(hash["end_date_standardized"], errors, "end_date_standardized")
+    end
+
+    if errors.length == 0 && hash["begin_date_standardized"] && hash["end_date_standardized"]
+      bt = Time.parse(hash["begin_date_standardized"])
+      et = Time.parse(hash["end_date_standardized"])
+
+      errors << ["begin_date_standardized", "requires that end dates are after begin dates"] if bt > et
+    end
+
+    return errors
+  end
+
+  def self.check_agent_sources(hash)
+    errors = []
+
+    if (hash["source_entry"].nil?     || hash["source_entry"].empty?) && 
+       (hash["descriptive_note"].nil? || hash["descriptive_note"].empty?) && 
+       (hash["file_uri"].nil?         || hash["file_uri"].empty?)
+
+      errors << ["agent_sources", "Must specify one of Source Entry, Descriptive Note or File URI"]
+    end
+
+    return errors
+  end
+
+  def self.check_agent_alternate_set(hash)
+    errors = []
+
+    if (hash["set_component"].nil?    || hash["set_component"].empty?) && 
+       (hash["descriptive_note"].nil? || hash["descriptive_note"].empty?) && 
+       (hash["file_uri"].nil?         || hash["file_uri"].empty?)
+
+      errors << ["agent_sources", "Must specify one of Set Component, Descriptive Note or File URI"]
+    end
+
+    return errors
+  end
+
+  def self.check_agent_subject_subrecord(hash)
+    errors = []
+
+    if hash["subjects"].empty?
+      errors << ["subjects", "Must specify a primary subject"]
+    end
+
+    return errors
+  end
+
+  def self.check_used_language(hash)
+    errors = []
+
+    if hash["language"].nil? && hash["notes"].empty?
+      errors << ["language", "Must specify either language or a note."]
+    end
+
+    return errors
   end
 
 
@@ -461,7 +650,7 @@ module JSONModel::Validations
     JSONModel(agent_type).add_validation("check_#{agent_type.to_s}") do |hash|
       errors = []
 
-      if hash.has_key?("dates_of_existence") && hash["dates_of_existence"].find {|d| d['label'] != 'existence' }
+      if hash.has_key?("dates_of_existence") && hash["dates_of_existence"].find {|d| d['date_label'] != 'existence' }
         errors << ["dates_of_existence", "Label must be 'existence' in this context"]
       end
 
@@ -606,6 +795,24 @@ module JSONModel::Validations
     end
 
     errors
+  end
+
+  def self.check_standard_date(date_standardized, errors, field_name = "date_standardized")
+    matches_y          = (date_standardized =~ /^[\d]{1}$/) == 0
+    matches_y_mm       = (date_standardized =~ /^[\d]{1}-[\d]{2}$/) == 0
+    matches_yy         = (date_standardized =~ /^[\d]{2}$/) == 0
+    matches_yy_mm      = (date_standardized =~ /^[\d]{2}-[\d]{2}$/) == 0
+    matches_yyy        = (date_standardized =~ /^[\d]{3}$/) == 0
+    matches_yyy_mm     = (date_standardized =~ /^[\d]{3}-[\d]{2}$/) == 0
+    matches_yyyy       = (date_standardized =~ /^[\d]{4}$/) == 0
+    matches_yyyy_mm    = (date_standardized =~ /^[\d]{4}-[\d]{2}$/) == 0
+    matches_yyyy_mm_dd = (date_standardized =~ /^[\d]{4}-[\d]{2}-[\d]{2}$/) == 0
+    matches_mm_yyyy    = (date_standardized =~ /^[\d]{2}-[\d]{4}$/) == 0
+    matches_mm_dd_yyyy = (date_standardized =~ /^[\d]{4}-[\d]{2}-[\d]{2}$/) == 0
+
+    errors << [field_name, "must be in YYYY[YYY][YY][Y], YYYY[YYY][YY][Y]-MM, or YYYY-MM-DD format"] unless matches_yyyy || matches_yyyy_mm || matches_yyyy_mm_dd || matches_yyy || matches_yy || matches_y || matches_yyy_mm || matches_yy_mm || matches_y_mm || matches_mm_yyyy || matches_mm_dd_yyyy
+
+    return errors  
   end
 
 

@@ -1,0 +1,177 @@
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.maintenance_status_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<%= I18n.t("enumerations.maintenance_status_enum." + agent_record_control["maintenance_status_enum"]) %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.publication_status_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["publication_status_enum"] %>
+ 		 	<%= I18n.t("enumerations.publication_status_enum." + agent_record_control["publication_status_enum"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.maintenance_agency") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["maintenance_agency"] %>
+	  	<%= agent_record_control["maintenance_agency"] %>
+ 	  <% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.agency_name") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["maintenance_agency"] %>
+	  	<%= agent_record_control["agency_name"] %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.maintenance_agency_note") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["maintenance_agency"] %>
+	  	<%= agent_record_control["maintenance_agency_note"] %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.language") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["language"] %>
+	  	<%= I18n.t("enumerations.language_iso639_2." + agent_record_control["language"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.script") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["script"] %>
+	  	<%= I18n.t("enumerations.script_iso15924." + agent_record_control["script"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.language_note") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["language_note"] %>
+	  	<%= agent_record_control["language_note"] %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.romanization_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["romanization_enum"] %>
+	  	<%= I18n.t("enumerations.romanization_enum." + agent_record_control["romanization_enum"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.government_agency_type_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["government_agency_type_enum"] %>
+	  	<%= I18n.t("enumerations.government_agency_type_enum." + agent_record_control["government_agency_type_enum"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.reference_evaluation_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["reference_evaluation_enum"] %>
+	  	<%= I18n.t("enumerations.reference_evaluation_enum." + agent_record_control["reference_evaluation_enum"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.name_type_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["name_type_enum"] %>
+	  	<%= I18n.t("enumerations.name_type_enum." + agent_record_control["name_type_enum"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.level_of_detail_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["level_of_detail_enum"] %>
+	  	<%= I18n.t("enumerations.level_of_detail_enum." + agent_record_control["level_of_detail_enum"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.modified_record_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["modified_record_enum"] %>
+	  	<%= I18n.t("enumerations.modified_record_enum." + agent_record_control["modified_record_enum"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+  	<%= I18n.t("agent_record_control.cataloging_source_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+  	<% if agent_record_control["cataloging_source_enum"] %>
+	  	<%= I18n.t("enumerations.cataloging_source_enum." + agent_record_control["cataloging_source_enum"]) %>
+  		<% end %>
+ 	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

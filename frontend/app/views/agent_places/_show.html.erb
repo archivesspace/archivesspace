@@ -1,0 +1,40 @@
+<%
+   section_id = "agent_place" if section_id.blank?
+   section_title = "Places" if section_title.blank?
+   heading_size = "h3" if heading_size.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3><%= section_title %></h3>
+  <div class="panel-group details" id="<%= section_id %>_accordion">
+    <% agent_places.each_with_index do | agent_place, index | %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_agent_place_<%= index %>">
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
+            </div>
+            <div class="col-md-6">
+              <%= render_aspace_partial :partial => "subjects/show_inline_abbr", :locals => {:subjects => agent_place['subjects']} %>
+            </div>
+          </div>
+        </div>
+        <div id="<%= section_id %>_agent_place_<%= index %>" class="panel-collapse collapse">
+          <% if agent_place["subjects"].length > 0 %>
+            <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => agent_place['subjects'], :section_id => "agent_place_subjects_", :section_title => I18n.t("agent_place.subjects"), :heading_size => "h4"} %>
+          <% end %>
+
+          <% if agent_place["dates"].length > 0 %>
+            <%= render_aspace_partial :partial => "structured_dates/show", :locals => { :dates => agent_place['dates'], :section_id => "agent_place_dates", :section_title => I18n.t("agent_place.dates"), :heading_size => "h4"} %>
+          <% end %>
+
+          <% if agent_place["notes"].length > 0 %>
+          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => @agent.notes, :section_id => "agent_place_notes", :context => context, :heading_size => "h4" } %>
+
+          <%= read_only_view(agent_place) %>
+        <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

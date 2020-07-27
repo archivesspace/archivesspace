@@ -1,0 +1,34 @@
+<%
+   section_id = "used_languages" if section_id.blank?
+   section_title = "Languages" if section_title.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3><%= section_title %></h3>
+  <div class="panel-group details" id="<%= section_id %>_accordion">
+    <% used_languages.each_with_index do | used_language, index | %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_used_language_<%= index %>">
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
+            </div>
+            <div class="col-md-6">
+              <% if !used_language["language"].blank? %>
+                <%= I18n.t("enumerations.language_iso639_2." + used_language["language"]) %>
+              <% else %>
+                <%= I18n.t("used_language._singular") %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div id="<%= section_id %>_used_language_<%= index %>" class="panel-collapse collapse">
+          <%= read_only_view(used_language) %>
+          <% if used_language["notes"].length > 0 %>
+            <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => used_language["notes"], :section_id => "used_language_notes", :context => context, :heading_size => "h4" } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

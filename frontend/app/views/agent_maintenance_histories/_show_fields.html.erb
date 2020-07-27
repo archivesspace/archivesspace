@@ -1,0 +1,50 @@
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_maintenance_history.maintenance_event_type_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <%= I18n.t("enumerations.maintenance_event_type_enum." + agent_maintenance_history["maintenance_event_type_enum"]) %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_maintenance_history.event_date") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_maintenance_history["event_date"] %>
+      <%= agent_maintenance_history["event_date"] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_maintenance_history.agent") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_maintenance_history["agent"] %>
+      <%= agent_maintenance_history["agent"] %>
+      <% end %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_maintenance_history.maintenance_agent_type_enum") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <%= I18n.t("enumerations.maintenance_agent_type_enum." + agent_maintenance_history["maintenance_agent_type_enum"]) %>
+  </div>
+</div>
+
+<div class='form-group'>
+  <div class='control-label col-sm-2'>
+    <%= I18n.t("agent_maintenance_history.descriptive_note") %>
+  </div>
+  <div class='label-only col-sm-8'>
+    <% if agent_maintenance_history["descriptive_note"] %>
+      <%= agent_maintenance_history["descriptive_note"] %>
+      <% end %>
+  </div>
+</div>

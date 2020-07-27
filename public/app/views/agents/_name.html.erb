@@ -1,0 +1,9 @@
+<% if result.json['names'].any? %>
+  <ul>
+  <% result.json['names'].each do |r| %>
+    <li><%= r['sort_name'] %></li>
+  <% end %>
+  </ul>
+<% end %>
+
+

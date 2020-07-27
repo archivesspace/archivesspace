@@ -132,6 +132,12 @@ module SequelColumnTypes
     Integer :sort_name_auto_generate
   end
 
+  def apply_parallel_name_columns
+    String :dates, :null => true
+    TextField :qualifier, :null => true
+    DynamicEnum :source_id, :null => true
+    DynamicEnum :rules_id, :null => true
+  end
 
   def apply_mtime_columns(create_time = true)
     String :created_by

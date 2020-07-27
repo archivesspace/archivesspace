@@ -33,9 +33,7 @@ describe 'Agent model' do
     expect(AgentSoftware[agent[:id]].agent_contact[0][:name]).to eq(opts[:name])
   end
 
-
   it "requires a source to be set if an authority id is provided" do
-
     test_opts = {:names => [
                    {
                      "authority_id" => "itsame",
@@ -93,7 +91,7 @@ describe 'Agent model' do
 
           expected_slug = clean_slug(get_generated_name_for_agent(agent_software))
 
-          expect(agent_software[:slug]).to eq(expected_slug)
+          expect(agent_software[:slug]).to match(expected_slug)
         end
 
         it "autogenerates a slug via identifier when configured to generate by id" do
@@ -130,7 +128,7 @@ describe 'Agent model' do
           )
 
           expected_slug = clean_slug(get_generated_name_for_agent(agent_software))
-          expect(agent_software[:slug]).to eq(expected_slug)
+          expect(agent_software[:slug]).to match(expected_slug)
         end
 
         it "dedupes slug when autogenerating by name" do
@@ -149,8 +147,8 @@ describe 'Agent model' do
                 :names => [agent_name_software2])
           )
 
-          expect(agent_software1[:slug]).to eq("foo")
-          expect(agent_software2[:slug]).to eq("foo_1")
+          expect(agent_software1[:slug]).to eq("foo_1")
+          expect(agent_software2[:slug]).to eq("foo_2")
         end
 
 

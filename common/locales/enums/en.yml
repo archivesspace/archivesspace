@@ -1,5 +1,116 @@
 en:
   enumerations:
+    gender_enum:
+      male: Male
+      female: Female
+      not_known: Not Known
+    place_role_enum:
+      assoc_country: Associated Country
+      residence: Residence
+      other_assoc: Other
+      place_of_birth: Place of Birth
+      place_of_death: Place of Death
+    date_type_enum:
+      single: Single
+      range: Range
+    date_role_enum:
+      begin: Begin
+      end: End
+    date_standardized_type_enum:
+      standard: Standard
+      not_before: Not Before
+      not_after: Not After
+    begin_date_standardized_type_enum:
+      standard: Standard
+      not_before: Not Before
+      not_after: Not After      
+    end_date_standardized_type_enum:
+      standard: Standard
+      not_before: Not Before
+      not_after: Not After      
+    maintenance_status_enum:
+      new: New
+      upgraded: Upgraded
+      revised_corrected: Revised/Corrected
+      derived: Derived
+      deleted: Deleted
+      cancelled_obsolete: Cancelled/Obsolete
+      deleted_split: Deleted-Split
+      deleted_replaced: Deleted-Replaced
+    publication_status_enum:
+      in_process: In-process
+      approved: Approved
+    romanization_enum:
+      int_std: International standard 
+      nat_std: National standard
+      nl_assoc_std: National library association standard
+      nl_bib_agency_std: National library or bibliographic agency standard
+      local_standard: Local standard
+      unknown_standard: Standard of unknown origin
+      conv_rom_cat_agency: Conventional romanization or conventional form of name in language of cataloging agency
+      not_applicable: Not applicable
+    government_agency_type_enum: 
+      ngo: Non-governmental organization
+      sac: Autonomous or semi-autonomous component
+      multilocal: Multilocal
+      fed: Federal/national
+      int_gov: International intergovernmental
+      local: Local
+      multistate: Multistate
+      undetermined: Government agency-type undetermined
+      provincial: State, provincial, territorial, dependent, etc.
+      unknown: Unknown if heading is government agency
+      other: Other
+      natc: No attempt to code
+    reference_evaluation_enum: 
+      tr_consistent: Tracings consistent with headings
+      tr_inconsistent: Tracings inconsistent with headings
+      not_applicable: Not applicable
+      natc: No attempt to code
+    name_type_enum: 
+      differentiated: Differentiated
+      undifferentiated: Undifferentiated
+      not_applicable: Not applicable
+      natc: No attempt to code
+    level_of_detail_enum: 
+      fully_established: Fully established
+      memorandum: Memorandum
+      provisional: Provisional
+      preliminary: Preliminary
+      not_applicable: Not applicable
+      natc: No attempt to code
+    modified_record_enum: 
+      not_modified: Not modified
+      shortened: Shortened
+      missing_characters: Missing characters
+      natc: No attempt to code
+    cataloging_source_enum:
+      nat_bib_agency: National bibliographic agency 
+      ccp: Cooperative cataloging program
+      other: Other
+      unknown: Unknown
+      natc: No attempt to code
+    source_enum: 
+      naf: NAF
+      snac: SNAC
+      local: Local
+    identifier_type_enum: 
+      loc: Library of Congress
+      lac: Library and Archives Canada
+      local: Local
+    agency_code_type_enum: 
+      oclc: OCLC
+      local: Local
+    maintenance_event_type_enum: 
+      created: Created
+      cancelled: Cancelled
+      deleted: Deleted
+      derived: Derived 
+      revised: Revised
+      updated: Updated
+    maintenance_agent_type_enum: 
+      human: Human
+      machine: Machine
     linked_event_archival_record_roles:
       source: Source
       outcome: Outcome
@@ -303,6 +414,9 @@ en:
       aacr: Anglo-American Cataloging Rules
       dacs: "Describing Archives: A Content Standard"
       rda: Resource Description and Access
+      ccr: Cataloging Cultural Resources 
+      rad: Rules for Archival Description
+      isaar: International Standard Archival Authority Record for Corporate Bodies, Persons, and Families
     extent_extent_type:
       cassettes: Cassettes
       cubic_feet: Cubic Feet
@@ -1576,6 +1690,11 @@ en:
       materialspec: Materials Specific Details
       physfacet: Physical Facet
       rights_statement: Rights
+      general_context: General Context
+      mandate: Mandate
+      contact_note: Contact Note
+      legal_status: Legal Status
+      structure_or_genealogy: Structure Or Genealogy
     note_digital_object_type:
       <<: *note_type_definitions
     note_langmaterial_type:
@@ -1606,6 +1725,14 @@ en:
     agent_relationship_parentchild_relator:
       is_child_of: Child of Related
       is_parent_of: Parent of Related
+    agent_relationship_identity_relator:
+      is_identified_with: Identified with Related
+    agent_relationship_hierarchical_relator:
+      is_hierarchical_with: Hierarchical with Related
+    agent_relationship_temporal_relator:
+      is_temporal_with: Temporal with Related
+    agent_relationship_family_relator:
+      is_related_with: Family Related with Related
     accession_sibling_relator:
       sibling_of: Is Sibling of
     accession_parts_relator:
@@ -1774,6 +1901,10 @@ en:
     agent_relationship_associative_relator: Agent Relationship Associative Relator
     agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
     agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
+    agent_relationship_identity_relator: Agent Relationship Identity Relator
+    agent_relationship_hierarchical_relator: Agent Relationship Hierarchical Relator
+    agent_relationship_temporal_relator: Agent Relationship Temporal Relator
+    agent_relationship_family_relator: Agent Relationship Family Relator
     agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
     archival_record_level: Archival Record Level
     collection_management_processing_priority: Collection Management Processing Priority
@@ -1839,3 +1970,17 @@ en:
     rights_statement_act_restriction: Rights Statement Act Restriction
     rights_statement_act_type: Rights Statement Act Type
     rights_statement_other_rights_basis: Rights Statement Other Rights Basis
+    maintenance_status_enum: Maintenence Status
+    publication_status_enum: Publication Status
+    romanization_enum: Romanization
+    government_agency_type_enum: Government Agency Type
+    reference_evaluation_enum:  Reference Evaluation
+    name_type_enum: Name Type
+    level_of_detail_enum: Level of Detail
+    modified_record_enum:  Modified Record
+    cataloging_source_enum: Cataloging Source
+    source_enum: Source
+    identifier_type_enum:  Identifier Type
+    agency_code_type_enum: Agency Code
+    maintenance_event_type_enum: Maintenence Event Type
+    maintenance_agent_type_enum: Maintenence Agent Type

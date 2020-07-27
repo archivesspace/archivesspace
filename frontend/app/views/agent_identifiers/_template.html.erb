@@ -1,0 +1,26 @@
+<% r = @required.values %>
+
+<% define_template "agent_identifiers", jsonmodel_definition(:agent_identifier) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+
+      <%= form.label_and_textfield "entity_identifier",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+
+      <%= form.label_and_select "identifier_type_enum", 
+        [""] + form.possible_options_for("identifier_type_enum", false),
+        :required => is_required_by_admin?(r, "agent_identifiers", "identifier_type_enum") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_identifier_required", jsonmodel_definition(:agent_identifier) do |form| %>
+  <% field_names = ["entity_identifier", "identifier_type_enum"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+  <% end %>
+<% end %>
+

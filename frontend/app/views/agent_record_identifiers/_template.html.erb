@@ -1,0 +1,33 @@
+<% r = @required.values %>
+
+<% define_template "agent_record_identifiers", jsonmodel_definition(:agent_record_identifier) do |form| %>
+  <div class="subrecord-form-fields agent_record_identifier_form">
+    <h3 class="subrecord-form-heading">
+      <span class="badge badge-info is-primary-label"><%= I18n.t("agent_record_identifiers.is_primary") %></span>
+
+      <button class="btn btn-small btn-primary-id-toggle"><%= I18n.t("name._frontend.action.make_primary") %></button>
+
+      <%= form.hidden_input "primary_identifier", form["primary_identifier"] ? 1 : 0 %>
+    </h3>
+ 
+    <div class="agent-record-control-container">
+      <%= form.label_and_textfield "record_identifier",  {:field_opts => {:size => 30, :class => "form-control"} }%>
+      <%= form.label_and_select "source_enum", [""] + form.possible_options_for("source_enum", false) %>
+      <%= form.label_and_select "identifier_type_enum", 
+          [""] + form.possible_options_for("identifier_type_enum", false),
+          :required => is_required_by_admin?(r, "agent_record_identifiers", "identifier_type_enum") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_record_identifier_required", jsonmodel_definition(:agent_record_identifier) do |form| %>
+  <% field_names = ["record_identifier", "source_enum", "identifier_type_enum"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+  <% end %>
+<% end %>
+

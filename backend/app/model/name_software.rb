@@ -4,6 +4,12 @@ class NameSoftware < Sequel::Model(:name_software)
 
   include AgentNames
   include AutoGenerator
+  
+  self.one_to_many :parallel_name_software, :class => "ParallelNameSoftware"
+
+  self.def_nested_record(:the_property => :parallel_names,
+                         :contains_records_of_type => :parallel_name_software,
+                         :corresponding_to_association => :parallel_name_software)
 
   def validate
     if authorized
@@ -38,6 +44,9 @@ class NameSoftware < Sequel::Model(:name_software)
                   result << "#{json["software_name"]}" if json["software_name"]
                   result << " #{json["version"]}" if json["version"]
                   result << " (#{json["qualifier"]})" if json["qualifier"]
+
+                  result << " (#{json["sort_name_date_string"]})" if json["sort_name_date_string"]
+
 
                   result.length > 255 ? result[0..254] : result
                 },
