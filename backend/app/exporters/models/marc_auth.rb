@@ -1,12 +1,12 @@
-class EACModel < ASpaceExport::ExportModel
-  model_for :eac
+class MARCAuthModel < ASpaceExport::ExportModel
+  model_for :marc_auth
 
   attr_reader :related_records, :json
 
   RESOLVE = ['subjects', 'places']
 
   
-  @eac_event = Class.new do
+  @marc_auth_event = Class.new do
     
     def initialize(event)
       @event = event
@@ -64,7 +64,7 @@ class EACModel < ASpaceExport::ExportModel
   def initialize(obj, events, related_records, repo)
     @type = obj.jsonmodel_type
     @json = URIResolver.resolve_references(obj, RESOLVE)
-    @events = events.map {|e| self.class.instance_variable_get(:@eac_event).new(e) }
+    @events = events.map {|e| self.class.instance_variable_get(:@marc_auth_event).new(e) }
     @related_records = related_records
     @repo = repo
   end

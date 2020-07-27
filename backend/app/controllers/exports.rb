@@ -327,4 +327,82 @@ class ArchivesSpaceService < Sinatra::Base
                    "mimetype" => "application/xml"})
   end
 
+  Endpoint.get('/repositories/:repo_id/marc_auth/people/:id.xml')
+    .description("Get an MARC Auth representation of an Person")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([])
+    .returns([200, "(:agent)"]) \
+  do
+    ma = generate_marc_auth(params[:id], 'agent_person')
+
+    xml_response(ma)
+  end
+
+  Endpoint.get('/repositories/:repo_id/marc_auth/corporate_entities/:id.xml')
+    .description("Get a MARC Auth representation of a Corporate Entity")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([])
+    .returns([200, "(:agent)"]) \
+  do
+    ma = generate_marc_auth(params[:id], 'agent_corporate_entity')
+
+    xml_response(ma)
+  end
+
+  Endpoint.get('/repositories/:repo_id/marc_auth/families/:id.xml')
+    .description("Get an MARC Auth representation of a Family")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([])
+    .returns([200, "(:agent)"]) \
+  do
+    ma = generate_marc_auth(params[:id], 'agent_family')
+
+    xml_response(ma)
+  end
+  
+  Endpoint.get('/repositories/:repo_id/marc_auth/people/:id.:fmt/metadata')
+    .description("Get metadata for an MARC Auth export of a person")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([])
+    .returns([200, "The export metadata"]) \
+  do
+    agent = AgentPerson.to_jsonmodel(params[:id])
+    aname = agent['display_name']
+    fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
+    json_response({"filename" => safe_filename(fn, "_marc.xml"),
+                   "mimetype" => "application/xml"})
+  end
+
+  Endpoint.get('/repositories/:repo_id/marc_auth/corporate_entities/:id.:fmt/metadata')
+    .description("Get metadata for an MARC Auth export of a corporate entity")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([])
+    .returns([200, "The export metadata"]) \
+  do
+    agent = AgentCorporateEntity.to_jsonmodel(params[:id])
+    aname = agent['display_name']
+    fn = [aname['authority_id'], aname['primary_name']].compact.join("_")
+    json_response({"filename" => safe_filename(fn, "_marc.xml"),
+                   "mimetype" => "application/xml"})
+  end
+
+  Endpoint.get('/repositories/:repo_id/marc_auth/families/:id.:fmt/metadata')
+    .description("Get metadata for an MARC Auth export of a family")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([])
+    .returns([200, "The export metadata"]) \
+  do
+    agent = AgentFamily.to_jsonmodel(params[:id])
+    aname = agent['display_name']
+    fn = [aname['authority_id'], aname['family_name']].compact.join("_")
+    json_response({"filename" => safe_filename(fn, "_marc.xml"),
+                   "mimetype" => "application/xml"})
+  end
+
 end

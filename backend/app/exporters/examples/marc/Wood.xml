@@ -1,0 +1,125 @@
+<marcxml:record xmlns:marcxml="http://www.loc.gov/MARC21/slim" xmlns:idx="info:lc/xq-modules/lcindex" xmlns:madsrdf="http://www.loc.gov/mads/rdf/v1#" xmlns:bf="http://id.loc.gov/ontologies/bibframe/" xmlns:ri="http://id.loc.gov/ontologies/RecordInfo#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bflc="http://id.loc.gov/ontologies/bflc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:mets="http://www.loc.gov/METS/" xmlns:semtriples="http://marklogic.com/semantic" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:streams="info:lc/streams#">
+            <marcxml:leader>02128cz  a2200397n  4500</marcxml:leader>
+            <marcxml:controlfield tag="001">n83152931</marcxml:controlfield>
+            <marcxml:controlfield tag="003">DLC</marcxml:controlfield>
+            <marcxml:controlfield tag="005">20190809073134.0</marcxml:controlfield>
+            <marcxml:controlfield tag="008">831202n| azannaabn          |a aaa      </marcxml:controlfield>
+            <marcxml:datafield tag="010" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">n  83152931 </marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="035" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">(OCoLC)oca00979392</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="040" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">DLC</marcxml:subfield>
+              <marcxml:subfield code="b">eng</marcxml:subfield>
+              <marcxml:subfield code="e">rda</marcxml:subfield>
+              <marcxml:subfield code="c">DLC</marcxml:subfield>
+              <marcxml:subfield code="d">PPi-MA</marcxml:subfield>
+              <marcxml:subfield code="d">DLC</marcxml:subfield>
+              <marcxml:subfield code="d">UPB</marcxml:subfield>
+              <marcxml:subfield code="d">WaU</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="046" ind1=" " ind2=" ">
+              <marcxml:subfield code="s">1938-07-20</marcxml:subfield>
+              <marcxml:subfield code="t">1981-11-29</marcxml:subfield>
+              <marcxml:subfield code="2">edtf</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="100" ind1="3" ind2=" ">
+              <marcxml:subfield code="a">Wood, Natalie</marcxml:subfield>
+              <marcxml:subfield code="b">IV</marcxml:subfield>
+              <marcxml:subfield code="c">Dr.</marcxml:subfield>
+              <marcxml:subfield code="g">qualifier</marcxml:subfield>
+              <marcxml:subfield code="q">fuller_form</marcxml:subfield>
+              <marcxml:subfield code="d">1873-1955</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="368" ind1=" " ind2=" ">
+              <marcxml:subfield code="c">Americans</marcxml:subfield>
+              <marcxml:subfield code="2">lcdgt</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="370" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">San Francisco (Calif.)</marcxml:subfield>
+              <marcxml:subfield code="2">naf</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="370" ind1=" " ind2=" ">
+              <marcxml:subfield code="b">Santa Catalina Island (Calif.)</marcxml:subfield>
+              <marcxml:subfield code="2">lcsh</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="370" ind1=" " ind2=" ">
+              <marcxml:subfield code="b">California--Santa Catalina Island</marcxml:subfield>
+              <marcxml:subfield code="2">fast</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="374" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Actors</marcxml:subfield>
+              <marcxml:subfield code="2">itoamc</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="375" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Females</marcxml:subfield>
+              <marcxml:subfield code="2">lcdgt</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="377" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">eng</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="372" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Art</marcxml:subfield>
+              <marcxml:subfield code="s">18990101</marcxml:subfield>
+              <marcxml:subfield code="t">19611201</marcxml:subfield>
+              <marcxml:subfield code="2">DLC</marcxml:subfield>
+              <marcxml:subfield code="u">http://dlc.source</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="400" ind1="3" ind2=" ">
+              <marcxml:subfield code="a">Gurdin, Natasha,</marcxml:subfield>
+              <marcxml:subfield code="d">1938-1981</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="400" ind1="3" ind2=" ">
+              <marcxml:subfield code="a">Zacharenko, Natasha Nikolaevna,</marcxml:subfield>
+              <marcxml:subfield code="d">1938-1981</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="400" ind1="3" ind2=" ">
+              <marcxml:subfield code="a">Zakharenko, Natasha,</marcxml:subfield>
+              <marcxml:subfield code="d">1938-1981</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="400" ind1="3" ind2=" ">
+              <marcxml:subfield code="a">Zakharenko, Natalia Nikolaevna,</marcxml:subfield>
+              <marcxml:subfield code="d">1938-1981</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="400" ind1="3" ind2=" ">
+              <marcxml:subfield code="a">Zakharenko, Natalie Nikolaevna,</marcxml:subfield>
+              <marcxml:subfield code="d">1938-1981</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="400" ind1="3" ind2=" ">
+              <marcxml:subfield code="a">Gurdin, Natalie,</marcxml:subfield>
+              <marcxml:subfield code="d">1938-1981</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="400" ind1="3" ind2=" ">
+              <marcxml:subfield code="a">Wagner, Natalie,</marcxml:subfield>
+              <marcxml:subfield code="d">1938-1981</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="400" ind1="3" ind2=" ">
+              <marcxml:subfield code="a">Wagner, Natasha,</marcxml:subfield>
+              <marcxml:subfield code="d">1938-1981</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Wood, L. Natalie, c1984:</marcxml:subfield>
+              <marcxml:subfield code="b">p. 12 (Natalie Wood; Natasha Gurdin)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">LC data base, 11/29/83</marcxml:subfield>
+              <marcxml:subfield code="b">(hdg.: Wood, Natalie)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Variety obituaries, 1980-83:</marcxml:subfield>
+              <marcxml:subfield code="b">Dec. 2, 1981 (Natalie Wood, actress, found dead, Nov. 29, 1981, off Santa Catalina Island, Calif.; b. Natasha Gurdin, July 20, 1938, San Francisco)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Harris, W.G. Natalie &amp; R.J., 1988:</marcxml:subfield>
+              <marcxml:subfield code="b">p. 20 (Natalie Wood; b. July 20, 1938, San Francisco, Calif.; real name, Natasha Nikolaevna Zacharenko, changed to Natasha Gurdin after her Russian father, Nikolai Zacharenko, became U.S. citizen as Nicholas Gurdin)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="670" ind1=" " ind2=" ">
+              <marcxml:subfield code="a">Finstad, S. Natasha, 2001:</marcxml:subfield>
+              <marcxml:subfield code="b">CIP t.p. (Natasha; Natalie Wood) galley (before becoming Natalie Wood was Natasha Zakharenko; real name: Natalia Nikolaevna Zakharenko; "Natalia" was Americanized to "Natalie" on birth certificate; called "Natasha"; when Natasha was one, family name was changed from "Zakharenko" to "Gurdin"; b. July 20, 1938; married Robert Wagner twice; drowned Nov. 1981 at age forty-three)</marcxml:subfield>
+            </marcxml:datafield>
+            <marcxml:datafield tag="678" ind1="0" ind2=" ">
+              <marcxml:subfield code="a">Natalie Wood (1938-1981) was an American actress.</marcxml:subfield>
+            </marcxml:datafield>
+          </marcxml:record>

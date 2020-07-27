@@ -15,6 +15,13 @@ class EACConverter < Converter
     end
   end
 
+  def set_import_events
+    config.init_map(EACConverter.EAC_BASE_MAP(true))
+  end
+
+  def unset_import_events
+    config.init_map(EACConverter.EAC_BASE_MAP(false))
+  end
 
   def self.import_types(show_hidden = false)
     [

@@ -181,6 +181,7 @@ ArchivesSpace::Application.routes.draw do
     match 'agents/:agent_type/:id/edit' => 'agents#edit', :via => [:get]
     match 'agents/:agent_type/:id/update' => 'agents#update', :via => [:post]
     match 'agents/:agent_type/:id/download_eac' => 'exports#download_eac', :via => [:get]
+    match 'agents/:agent_type/:id/download_marc_auth' => 'exports#download_marc_auth', :via => [:get]
     match 'agents/:agent_type/:id' => 'agents#show', :via => [:get]
     match 'agents' => 'agents#index', :via => [:get]
     match 'agents/:agent_type/:id/delete' => 'agents#delete', :via => [:post]

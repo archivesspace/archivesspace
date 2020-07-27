@@ -87,6 +87,18 @@ def get_marc(rec, include_unpublished = true)
   marc
 end
 
+def get_marc_auth(rec, repo_id = $repo_id)
+  repo_record = JSONModel(:repository).find($repo_id)
+
+  case rec.jsonmodel_type
+  when 'agent_person'
+    get_xml("/repositories/#{repo_id}/marc_auth/people/#{rec.id}.xml")
+  when 'agent_corporate_entity'
+    get_xml("/repositories/#{repo_id}/marc_auth/corporate_entities/#{rec.id}.xml")
+  when 'agent_family'
+    get_xml("/repositories/#{repo_id}/marc_auth/families/#{rec.id}.xml")
+  end
+end
 
 def get_mods(rec)
   get_xml("/repositories/#{$repo_id}/digital_objects/mods/#{rec.id}.xml")

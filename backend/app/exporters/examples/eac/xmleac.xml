@@ -1,0 +1,348 @@
+<eac-cpf xmlns="urn:isbn:1-931666-33-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd">
+   <control>
+      <recordId>11850391X</recordId>
+      <otherRecordId localType="PPN">11850391X</otherRecordId>
+      <otherRecordId localType="uriKPE">http://kalliope-verbund.info/gnd/11850391X</otherRecordId>
+      <otherRecordId localType="GND">11850391X</otherRecordId>
+      <otherRecordId localType="DE-101">(DE-101)11850391X</otherRecordId>
+      <otherRecordId localType="DE-588">(DE-588)11850391X</otherRecordId>
+      <otherRecordId localType="PNDInvalidId">(DE-588a)11850391X</otherRecordId>
+      <otherRecordId localType="SWDInvalidId">(DE-588c)4002884-7</otherRecordId>
+      <maintenanceStatus>new</maintenanceStatus>
+      <publicationStatus>approved</publicationStatus>
+      <maintenanceAgency>
+         <agencyCode>DE-101</agencyCode>
+         <agencyName>Deutsche Nationalbibliothek</agencyName>
+         <descriptiveNote>Agency Note</descriptiveNote>
+      </maintenanceAgency>
+      <languageDeclaration>
+         <language languageCode="ger" scriptCode="Latn">deutsch</language>
+         <descriptiveNote>Language Note</descriptiveNote>
+         
+      </languageDeclaration>
+      <conventionDeclaration>
+         <abbreviation>RDA</abbreviation>
+         <citation xlink:href="http://www.google.com" xlink:actuate="onRequest" xlink:show="new" xlink:title="xlink title" xlink:role="xlink role" xlink:arcrole="xlink arcrole" lastDateTimeVerified="2000-07-01">The Citation</citation>
+         <descriptiveNote>Convention Note</descriptiveNote>
+      </conventionDeclaration>
+      <maintenanceHistory>
+         <maintenanceEvent>
+            <eventType>created</eventType>
+            <eventDateTime standardDateTime="1988-07-01"/>
+            <agentType>human</agentType>
+            <agent>W4</agent>
+            <eventDescription>Event note 1</eventDescription>
+         </maintenanceEvent>
+         <maintenanceEvent>
+            <eventType>revised</eventType>
+            <eventDateTime standardDateTime="2020-03-18"/>
+            <agentType>human</agentType>
+            <agent>W4</agent>
+            <eventDescription>Event note 2</eventDescription>
+         </maintenanceEvent>
+      </maintenanceHistory>
+      <sources>
+         <source xlink:href="http://www.googlew.com" xlink:actuate="onRequest" xlink:show="new" xlink:arcrole="xlink arcrole" xlink:title="xlink title" xlink:role="xlink role" lastDateTimeVerified="2001-07-01">
+           <sourceEntry>Pressearchiv des Herder-Instituts Marburg</sourceEntry>
+           <descriptiveNote>Source Note</descriptiveNote>
+         </source>
+         <source>
+            <sourceEntry>M; B 1986; LCAuth; Biogr. H Emigr.; Brockhaus digital</sourceEntry>
+         </source>
+         <source>
+            <sourceEntry>Wikipedia</sourceEntry>
+         </source>
+         <source>
+            <sourceEntry>Archiv der American Guild for German Cultural Freedom, New York im Deutschen Exilarchiv 1933-945</sourceEntry>
+         </source>
+         <source>
+            <sourceEntry>LCAuth</sourceEntry>
+         </source>
+         <source>
+            <sourceEntry>Provenienzmerkmal</sourceEntry>
+         </source>
+      </sources>
+   </control>
+   <cpfDescription>
+      <alternativeSet>
+         <setComponent xlink:href='href' xlink:arcrole='arcrole' xlink:title='title' xlink:actuate='none' xlink:role='role' xlink:arcrole="arcrole" xlink:show='new' lastDateTimeVerified='2008-10-01'>
+            <descriptiveNote>
+               Note of description
+            </descriptiveNote>
+            <componentEntry>
+               set component
+            </componentEntry>
+         </setComponent>
+      </alternativeSet>
+      <identity>
+        <entityId localType="PPX">auto gen number</entityId>
+         <entityType>person</entityType>
+         <nameEntry xml:lang="eng" scriptCode="Latn" transliteration="int_std">
+            <part localType="prefix">Mrs.</part>
+            <part localType="title">Dr.</part>
+            <part localType="surname">Arendt</part>
+            <part localType="forename">Hannah</part>
+            <part localType="suffix">IV</part>
+            <part localType="numeration">4</part>
+            <part localType="fuller_form">Fuller Form</part>
+            <part localType="dates">1906-1975</part>
+            <part localType="qualifier">qualifier</part>
+            <authorizedForm>OAC</authorizedForm> 
+            <alternativeForm>VIAF</alternativeForm>
+            <useDates>
+               <date standardDate="1802-12-27">1802 December 27</date>
+               <dateSet>
+                 <dateRange localType="123">
+                   <fromDate standardDate="1742-11-12">1745 November 12</fromDate>
+                   <toDate standardDate="1802-12-27">1802 December 27</toDate>
+                 </dateRange>
+               </dateSet>
+            </useDates>
+         </nameEntry>
+
+         <nameEntry>
+            <part>short</part>
+            <alternativeForm>VIAF</alternativeForm>
+            <useDates>
+               <dateRange localType="123">
+                 <fromDate standardDate="1742-11-12">1746 November 12</fromDate>
+                 <toDate standardDate="1802-12-27">1802 December 27</toDate>
+             </dateRange>
+            </useDates>
+         </nameEntry>
+
+
+         <nameEntry>
+            <part>Arendt, Hannah (1906-1975)</part>
+         </nameEntry>
+         <nameEntryParallel>
+            <nameEntry>
+               <part>Arendt, Hanna (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arendt, Johanna (1906-1975) [Frueherer Name]</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arendt, Channa (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arend, Chana (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arent, Chana (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arent, Channa (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Ārint, Hānā (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arent, Hana (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Ārento, Hanna (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arento, Hanna (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Ārento (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arendṭ, Ḥanah (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Blücher, Hannah Arendt (1906-1975) [2. Ehename]</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Blücher, Hannah (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Blücher, Johanna (1906-1975) [Frueherer Name]</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Schlemihl, Peter (1906-1975) [Pseudonym]</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arendt, H. (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arendt, ..., Herr (1906-1975) [falsche Namensform]</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arendt, Heinrich (1906-1975) [falsche Namensform]</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Arendt-Blücher, Hannah (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part>Blücher, Hannah Arendt- (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part xml:lang="aar">ארנדט, חנה (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part xml:lang="jpn">アーレント, ハナ (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part xml:lang="jpn">アーレント, ハンナ (1906-1975)</part>
+            </nameEntry>
+            <nameEntry>
+               <part xml:lang="chi">阿伦特, 汉娜 (1906-1975)</part>
+            </nameEntry>
+         </nameEntryParallel>
+      </identity>
+      <description>
+        <languagesUsed>
+          <languageUsed>
+             <language languageCode="eng">English</language>
+             <script scriptCode="Latn">Latin</script>
+             <descriptiveNote>
+               Published works in English and Spanish.
+             </descriptiveNote>
+          </languageUsed>
+          <languageUsed>
+            <language languageCode="spa">Spanish</language>
+            <script scriptCode="Latn">Latin</script>
+        </languageUsed>
+    
+        </languagesUsed>
+         <localDescriptions localType="GND">
+            <localDescription localType="gender">
+               <term>Woman</term>
+               <descriptiveNote>d-note</descriptiveNote>
+               <date standardDate="1802-12-27" localType="DE-588-4099668-2">1802 December 27</date>
+               <dateSet>
+                 <dateRange localType="123">
+                   <fromDate standardDate="1742-11-12">1742 November 12</fromDate>
+                   <toDate standardDate="1802-12-27">1802 December 27</toDate>
+                 </dateRange>
+               </dateSet> 
+            </localDescription>
+            <localDescription localType="associatedSubject">
+               <term>2</term>
+               <descriptiveNote>
+                  <p>weiblich</p>
+               </descriptiveNote>
+            </localDescription>
+         </localDescriptions>
+         <existDates>
+             <dateSet>
+               <dateRange localType="123">
+                   <fromDate standardDate="1742-11-12">1742 November 12</fromDate>
+                   <toDate standardDate="1802-12-27">1802 December 27</toDate>
+               </dateRange>
+               <date standardDate="1802-12-27" localType="456">1802 December 27</date>
+             </dateSet>
+         </existDates>
+         <places>
+            <place>
+               <placeRole>place_of_birth</placeRole>
+               <placeEntry vocabularySource="GND" localType="DE-588-4099668-2">Lindentown</placeEntry>
+               <date standardDate="1802-12-27" localType="DE-588-4099668-2">1802 December 27</date>
+               <descriptiveNote>text note</descriptiveNote>
+            </place>
+            <place>
+               <placeRole>place_of_birth</placeRole>
+               <placeEntry vocabularySource="GND" localType="DE-588-4031541-1">Königsbergs</placeEntry>
+               <dateRange localType="DE-588-4031541-1">
+                 <fromDate standardDate="1742-11-12">1743 November 12</fromDate>
+                 <toDate standardDate="1802-12-27">1802 December 27</toDate>
+             </dateRange>
+             <citation>citation</citation>
+            </place>
+            <place>
+               <placeRole>place_of_birth</placeRole>
+               <placeEntry vocabularySource="GND" localType="DE-588-4042011-5">New York City, NY</placeEntry>
+            </place>
+         </places>
+         <occupations>
+            <occupation>
+               <term xml:id="DE-588-4393865-6">Soziologin</term>
+            </occupation>
+            <occupation>
+               <term xml:id="DE-588-4629643-8">Politologin</term>
+            </occupation>
+            <occupation>
+               <term xml:id="DE-588-4174285-0">Philosophin</term>
+            </occupation>
+            <occupation>
+               <term xml:id="DE-588-4333423-4">Historikerin</term>
+            </occupation>
+            <occupation>
+               <term xml:id="DE-588-4053311-6">Schriftstellerin</term>
+            </occupation>
+            <occupation>
+               <term>Prof. Dr.</term>
+            </occupation>
+         </occupations>
+         <functions>
+            <function>
+               <term xml:id="DE-588-4393865-A">Function A</term>
+            </function>
+            <function>
+               <term xml:id="DE-588-4629643-B">Function B</term>
+            </function>
+            <function>
+               <term xml:id="DE-588-4174285-C">Function C</term>
+            </function>
+         </functions>
+         <biogHist>
+            <list>
+               <item>Deutsch-amerikanische Soziologin, Politologin, Historikerin</item>
+               <item>Emigration 1933 nach Frankreich, 1941 in die USA</item>
+               <item>Kind einer deutsch-jüdischen Bürgerfamilie; Studium der Altphilosophie, Theologie und Griechisch in Marburg, Heidelberg und Freiburg im Breisgau; Schülerin Martin Heideggers in Marburg; Promotion 1928 bei Karl Jaspers in Heidelberg</item>
+            </list>
+         </biogHist>
+         <generalContext>
+            <list>
+               <item>one</item>
+               <item>two</item>
+               <item>three</item>
+            </list>
+         </generalContext>
+      </description>
+      <relations>
+         <resourceRelation xlink:href="http://www.google.com" xlink:actuate="onRequest" xlink:show="new" xlink:title="xlink title" xlink:role="xlink role" xlink:arcrole="xlink arcrole" lastDateTimeVerified="2000-07-01"resourceRelationType="creatorOf" id="UA013">
+            <relationEntry>Department of Romance Languages records</relationEntry>
+            <descriptiveNote>note!</descriptiveNote>
+            <dateSet>
+                 <dateRange localType="123">
+                   <fromDate standardDate="1742-11-12">1744 November 12</fromDate>
+                   <toDate standardDate="1802-12-27">1802 December 27</toDate>
+                 </dateRange>
+               </dateSet>
+         </resourceRelation>
+         <cpfRelation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kalliope-verbund.info/gnd/4430639-8">
+            <relationEntry localType="Relation allgemein" xml:id="DE-588-4430639-8">Arendt, Hannah (1906-1975)</relationEntry>
+         </cpfRelation>
+         <cpfRelation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kalliope-verbund.info/gnd/119067159X">
+            <relationEntry localType="Beziehung familiaer" xml:id="DE-588-119067159X">Arendt, Max (1843-1913) [Großvater]</relationEntry>
+         </cpfRelation>
+         <cpfRelation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kalliope-verbund.info/gnd/1190672170">
+            <relationEntry localType="Beziehung familiaer" xml:id="DE-588-1190672170">Arendt-Beerwald, Martha (1874-1948) [Mutter]</relationEntry>
+         </cpfRelation>
+         <cpfRelation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kalliope-verbund.info/gnd/1190671301">
+            <relationEntry localType="Beziehung familiaer" xml:id="DE-588-1190671301">Arendt, Paul (1873-1913) [Vater]</relationEntry>
+         </cpfRelation>
+         <cpfRelation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kalliope-verbund.info/gnd/1190671980">
+            <relationEntry localType="Beziehung familiaer" xml:id="DE-588-1190671980">Beerwald, Martin (1869-1941) [Stiefvater]</relationEntry>
+         </cpfRelation>
+         <cpfRelation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kalliope-verbund.info/gnd/118502751">
+            <relationEntry localType="Beziehung familiaer" xml:id="DE-588-118502751">Anders, Günther (1902-1992) [1. Ehemann]</relationEntry>
+         </cpfRelation>
+         <cpfRelation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kalliope-verbund.info/gnd/119378418">
+            <relationEntry localType="Beziehung familiaer" xml:id="DE-588-119378418">Blücher, Heinrich (1899-1970) [2. Ehemann]</relationEntry>
+         </cpfRelation>
+         <cpfRelation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kalliope-verbund.info/gnd/1071467174">
+            <relationEntry localType="Bekanntschaft" xml:id="DE-588-1071467174">Fränkel, Hilde (1897-1950)</relationEntry>
+         </cpfRelation>
+      </relations>
+      <relations>
+         <cpfRelation xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://kalliope-verbund.info/gnd/1038776023">
+            <relationEntry localType="Affiliation" xml:id="DE-588-1038776023">Jewish Cultural Reconstruction Inc. [Geschäftsführerin]</relationEntry>
+         </cpfRelation>
+      </relations>
+   </cpfDescription>
+</eac-cpf>

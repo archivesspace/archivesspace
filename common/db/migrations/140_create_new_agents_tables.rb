@@ -40,7 +40,7 @@ Sequel.migration do
       Integer :file_version_xlink_show_attribute_id, :null => true
 
       String :set_component, :null => true
-      String :descriptive_note, :null => true
+      TextField :descriptive_note, :null => true
       String :file_uri, :null => true
       String :xlink_title_attribute, :null => true
       String :xlink_role_attribute, :null => true
@@ -64,7 +64,7 @@ Sequel.migration do
       Integer :file_version_xlink_show_attribute_id, :null => true
 
       String :citation, :null => false
-      String :descriptive_note, :null => false
+      TextField :descriptive_note, :null => false
       String :file_uri, :null => true
       String :xlink_title_attribute, :null => true
       String :xlink_role_attribute, :null => true
@@ -104,7 +104,7 @@ Sequel.migration do
 
       DateTime :event_date, :null => false
       String :agent, :null => false
-      String :descriptive_note, :null => false
+      TextField :descriptive_note, :null => false
 
       Integer :agent_person_id, :null => true
       Integer :agent_family_id, :null => true
@@ -138,7 +138,7 @@ Sequel.migration do
       primary_key :id
       
       String :source_entry, :null => true
-      String :descriptive_note, :null => true
+      TextField :descriptive_note, :null => true
       String :file_uri, :null => true
       Integer :file_version_xlink_actuate_attribute_id, :null => true
       Integer :file_version_xlink_show_attribute_id, :null => true

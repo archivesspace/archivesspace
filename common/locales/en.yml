@@ -2410,6 +2410,7 @@ en:
 
   import_job:
     _singular: Import Job
+    import_events: Import Maintenance Events?
     filenames: Files
     import_type: Import Type
     import_type_ead_xml: EAD
@@ -2418,9 +2419,11 @@ en:
     import_type_digital_object_csv: Digital Object CSV
     import_type_eac_xml: EAC
     import_type_location_csv: Location CSV
-    import_type_marcxml: MarcXML (Resource)
-    import_type_marcxml_accession: MarcXML (Accession)
-    import_type_marcxml_subjects_and_agents: MarcXML (Subjects and Agents Only)
+    import_type_marcxml: MarcXML Bibliographic (Resource)
+    import_type_marcxml_accession: MarcXML Bibliographic (Accession)
+    import_type_marcxml_subjects_and_agents: MarcXML Bibliographic (Subjects and Agents Only)
+    import_type_marcxml_auth_agent: MarcXML Authority (Agents)
+    import_type_marcxml_auth_subject: MarcXML Authority (Subjects)
 
   find_and_replace_job:
     _singular: Find and Replace Job
