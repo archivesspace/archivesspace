@@ -57,7 +57,7 @@
             <div class="dropdown-menu">
               <fieldset>
                 <label class="checkbox" for="include-unpublished-pdf">
-                  <input type="checkbox" id="include-unpublished-pdf" checked="true" onchange="$('#print-to-pdf-link').attr('href', '<%= url_for :controller => :exports,  :action => :print_to_pdf, :id => @resource.id %>?include_unpublished=' + $(this).prop('checked'))" />
+                  <input type="checkbox" id="include-unpublished-pdf" onchange="$('#print-to-pdf-link').attr('href', '<%= url_for :controller => :exports,  :action => :print_to_pdf, :id => @resource.id %>?include_unpublished=' + $(this).prop('checked'))" />
                   <%= I18n.t("export_options.include_unpublished") %>&#160;
                 </label>
               </fieldset>
