@@ -104,6 +104,9 @@ class RepositoriesController < ApplicationController
   end
 
   def select
+    # Clear top container previous search when switching repositories
+    session[:top_container_previous_search] = {}
+
     selected = @repositories.find {|r| r.id.to_s == params[:id]}
     self.class.session_repo(session, selected.uri, selected.slug)
     set_user_repository_cookie selected.uri
