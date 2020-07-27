@@ -37,3 +37,33 @@ Note: all example code assumes you are running from your ArchivesSpace project d
 ## Running the tests:
 
 ```bash
+#Frontend tests
+./build/run frontend:selenium # Firefox, headless
+FIREFOX_OPTS= ./build/run frontend:selenium # Firefox, no-opts = heady
+
+SELENIUM_CHROME=true ./build/run frontend:selenium # Chrome, headless
+SELENIUM_CHROME=true CHROME_OPTS= ./build/run frontend:selenium # Chrome, no-opts = heady
+
+#Public tests
+./build/run public:test # Firefox, headless
+FIREFOX_OPTS= ./build/run public:test # Firefox, no-opts = heady
+
+SELENIUM_CHROME=true ./build/run public:test # Chrome, headless
+SELENIUM_CHROME=true CHROME_OPTS= ./build/run public:test # Chrome, no-opts = heady
+```
+
+Tests can be scoped to specific files or groups:
+
+```bash
+./build/run .. -Dspec='path/to/spec/from/spec/directory' # single file
+./build/run .. -Dexample='[description from it block]' # specific block
+
+#EXAMPLES
+./build/run frontend:selenium -Dexample='Repository model'
+FIREFOX_OPTS= ./build/run frontend:selenium -Dexample='Repository model'# Firefox, heady
+
+./build/run public:test -Dspec='features/accessibility_spec.rb'
+SELENIUM_CHROME=true CHROME_OPTS= ./build/run public:test -Dspec='features/accessibility_spec.rb' # Chrome, heady
+```
+
+Note, however, that some tests are dependent on a sequence of ordered steps and may not always run cleanly in isolation.  In this case, more than the example provided may be run, and/or unexpected fails may result.

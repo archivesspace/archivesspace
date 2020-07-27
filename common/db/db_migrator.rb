@@ -258,7 +258,7 @@ latest ArchivesSpace version as normal.
 For more information on upgrading to ArchivesSpace 2.0.1, please see the upgrade
 guide:
 
-  https://archivesspace.github.io/archivesspace/user/upgrading-to-a-new-release-of-archivesspace/
+  https://archivesspace.github.io/tech-docs/administration/upgrading.html
 
 The upgrade guide for version 1.5.0 also contains specific instructions for
 the container upgrade that you will be performing, and the steps in this guide
