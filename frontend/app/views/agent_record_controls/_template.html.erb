@@ -1,0 +1,78 @@
+<% r = @required.values %>
+
+<% define_template "agent_record_control", jsonmodel_definition(:agent_record_control) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+      <%= form.label_and_select "maintenance_status_enum",
+        form.possible_options_for("maintenance_status_enum", false) %>
+
+      <%= form.label_and_select "publication_status_enum",
+        [""] + form.possible_options_for("publication_status_enum", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "publication_status_enum")%>
+
+      <%= form.label_and_textfield "maintenance_agency",
+        {:field_opts => {:size => 30, :class => "form-control"}, 
+        :required => is_required_by_admin?(r, "agent_record_controls", "maintenance_agency") } %>
+
+      <%= form.label_and_textfield "agency_name",
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_record_controls", "agency_name") }%>
+
+      <%= form.label_and_textarea "maintenance_agency_note",
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_record_controls", "maintenance_agency_note") }%>
+
+      <%= form.label_and_select "language",
+        [""] + form.possible_options_for("language", false), 
+        :required => is_required_by_admin?(r, "agent_record_controls", "language") %>
+
+      <%= form.label_and_select "script", 
+        [""] + form.possible_options_for("script", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "script") %>
+
+      <%= form.label_and_textarea "language_note",  
+        {:field_opts => {:size => 30, :class => "form-control"}, 
+        :required => is_required_by_admin?(r, "agent_record_controls", "language_note") }%>
+
+      <%= form.label_and_select "romanization_enum", 
+        [""] + form.possible_options_for("romanization_enum", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "romanization_enum") %>
+
+      <%= form.label_and_select "government_agency_type_enum", 
+        [""] + form.possible_options_for("government_agency_type_enum", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "government_agency_type_enum") %>
+
+      <%= form.label_and_select "reference_evaluation_enum", 
+        [""] + form.possible_options_for("reference_evaluation_enum", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "reference_evaluation_enum") %>
+
+      <%= form.label_and_select "name_type_enum", 
+        [""] + form.possible_options_for("name_type_enum", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "name_type_enum") %>
+
+      <%= form.label_and_select "level_of_detail_enum", 
+        [""] + form.possible_options_for("level_of_detail_enum", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "level_of_detail_enum") %>
+
+      <%= form.label_and_select "modified_record_enum", 
+        [""] + form.possible_options_for("modified_record_enum", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "modified_record_enum") %>
+
+      <%= form.label_and_select "cataloging_source_enum", 
+        [""] + form.possible_options_for("cataloging_source_enum", false),
+        :required => is_required_by_admin?(r, "agent_record_controls", "cataloging_source_enum") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_record_control_required", jsonmodel_definition(:agent_record_control) do |form| %>
+  <% field_names = ["maintenance_status_enum", "publication_status_enum", "maintenance_agency", "agency_name", "maintenance_agency_note", "language", "script", "language_note", "romanization_enum", "government_agency_type_enum", "reference_evaluation_enum", "name_type_enum", "level_of_detail_enum", "modified_record_enum", "cataloging_source_enum"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+  <% end %>
+<% end %>
+

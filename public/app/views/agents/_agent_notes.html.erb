@@ -1,0 +1,19 @@
+<% if result.json['notes'].any? %>
+  <% result.json['notes'].each do |r| %>
+    <dl class="dl-horizontal">
+      <% sn = r['subnotes'].first %>
+      <%# next unless sn["publish"] == true %>
+
+      <dt><%= I18n.t('agent_notes.persistent_id') %></dt>
+      <dd><%= r['persistent_id'] %></dd>
+
+      <dt><%= I18n.t('agent_notes.type') %></dt>
+      <dd><%= I18n.t('enumerations._note_types.' + r['jsonmodel_type'].gsub("note_", "")) %></dd>
+
+      <dt><%= I18n.t('agent_notes.content') %></dt>
+      <dd><%= sn['content'] %></dd>
+
+  
+     </dl>
+  <% end %>
+<% end %>

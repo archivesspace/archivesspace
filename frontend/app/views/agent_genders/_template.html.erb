@@ -1,0 +1,29 @@
+<% define_template "agent_gender", jsonmodel_definition(:agent_gender) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+      <%= form.label_and_select "gender_enum", [""] + form.possible_options_for("gender_enum", false) %>
+
+      <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label", :heading_text => I18n.t("name._frontend.section.dates"), :heading_size => "h4"} %>
+
+      <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_gender"), :section_id => "agent_contact_notes", :nested_note_jsonmodel => "agent_gender", :header_size => "h4", :show_apply_note_order_action => false} %>
+
+
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_gender_required", jsonmodel_definition(:agent_gender) do |form| %>
+  <% field_names = ["gender_enum"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+
+    <%= form.label_and_disabled_checkbox "Dates" %>
+    <%= form.label_and_disabled_checkbox "Notes" %>
+
+  <% end %>
+<% end %>
+

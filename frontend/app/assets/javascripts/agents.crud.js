@@ -10,6 +10,35 @@
 
 $(function() {
 
+  var init_id_form = function(subform) {
+    // setup agent_record_identifier form
+    var $subform = $(subform);
+    var $isPrimary = $(":input[name$=\"[primary_identifier]\"]", $subform);
+   // var $primarySection = $isPrimary.closest(".subrecord-form-wrapper")
+    var $primarySection = $isPrimary.closest("section.subrecord-form")
+
+    var handleIsPrimaryChange = function(val) {
+      if (val) {
+        $subform.addClass("primary-id");
+      } else {
+        $subform.removeClass("primary-id");
+      }
+      $isPrimary.val(val ? 1 : 0);
+    }
+
+    $(".btn-primary-id-toggle", $subform).click(function(event) {
+      event.preventDefault();
+
+      $primarySection.triggerHandler("isprimarytoggle.aspace", [$subform])
+    });
+
+    $primarySection.on("isprimarytoggle.aspace", function(event, primary_id_form) {
+      handleIsPrimaryChange(primary_id_form == $subform);
+    });
+
+    handleIsPrimaryChange($isPrimary.val() == "1");
+  };
+
   var init_name_form = function(subform) {
     var $subform = $(subform);
     var $checkbox = $(":checkbox[name$=\"[sort_name_auto_generate]\"]", $subform);
@@ -84,6 +113,7 @@ $(function() {
 
     handleAuthorizedChange($authorized.val() == "1");
     handleDisplayNameChange($displayName.val() == "1");
+    selectStructuredDateSubform();
   };
 
 
@@ -122,12 +152,24 @@ $(function() {
     if ($("#form_agent").length) {
       $(document).triggerHandler("loadedrecordform.aspace", [$("#form_agent")] ); 
       $(document).triggerHandler("loadedrecordsubforms.aspace", [$("#form_agent")] ); 
+      $("#agent_person_dates_of_existence > h3 > button").click(function() {
+        selectStructuredDateSubform();
+      });
     }
   });
   
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     if (object_name === "name") {
       init_name_form($(subform));
+    }
+
+    if(object_name === "agent_record_identifier") {
+      init_id_form($(subform));
+
+      // ANW-429: if this is the first agent identifier subrecord, then make sure it's set as primary
+      if($("#agent_person_agent_record_identifier ul").children().length == 1) {
+        $(".btn-primary-id-toggle").click();
+      }
     }
 
     if (object_name === "linked_agent") {
@@ -138,3 +180,42 @@ $(function() {
   });
 
 });
+
+// Based on the value of the date_type select box, render the right subform template in place. If value is not set to single or range, then add a placeholder div for when a valid type value is selected.
+var selectStructuredDateSubform = function() {
+  $(".js-structured_date_select").change(function() {
+    var date_type = $(this).find("select").val();
+
+    var $this = $(this);
+    var $subform = $(this).parents("[data-index]:first");
+    var $target_subrecord_list = $($this).parent().find(".sdl-subrecord-form");;
+    var $parent_subrecord_list = $subform.parents(".subrecord-form-list:first");
+    var index = $(".subrecord-form-fields", $this).length + 1;
+
+    if(date_type == "range") {
+      var $date_subform = AS.renderTemplate("template_structured_date_range_fields", {
+          path: AS.quickTemplate($parent_subrecord_list.data("name-path"), {index: $subform.data("index")}) + "[structured_date_range]",
+          id_path: AS.quickTemplate($parent_subrecord_list.data("id-path"), {index: $subform.data("index")})  + "[structured_date_range]",
+          index: "${index}"
+        });
+    }
+
+    else if(date_type == "single") {
+      var $date_subform = AS.renderTemplate("template_structured_date_single_fields", {
+          path: AS.quickTemplate($parent_subrecord_list.data("name-path"), {index: $subform.data("index")}) + "[structured_date_single]",
+          id_path: AS.quickTemplate($parent_subrecord_list.data("id-path"), {index: $subform.data("index")})  + "[structured_date_single]",
+          index: "${index}"
+        });
+    }
+
+    else {
+      var $date_subform = "<div class='sdl-subrecord-form'></div>"
+    }
+
+    $target_subrecord_list.replaceWith($date_subform);
+    var $updated_subrecord_list = $($this).parent().find(".sdl-subrecord-form");;
+
+    $(document).triggerHandler("subrecordcreated.aspace", ["date", $updated_subrecord_list]);
+    index++;
+  });
+};

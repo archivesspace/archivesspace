@@ -1,0 +1,31 @@
+<%
+   section_id = "agent_alternate_set" if section_id.blank?
+   section_title = "Alternate Sets" if section_title.blank?
+%>
+
+<section id="<%= section_id %>">
+  <h3><%= section_title %></h3>
+  <div class="panel-group details" id="<%= section_id %>_accordion">
+    <% agent_alternate_sets.each_with_index do | agent_alternate_set, index | %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_agent_alternate_set_<%= index %>">
+            <div class="col-md-1">
+              <span class="glyphicon"></span>
+            </div>
+            <div class="col-md-6">
+              <% if !agent_alternate_set["set_component"].blank? %>
+                <%= agent_alternate_set["set_component"] %>
+              <% else %>
+                <%= I18n.t("agent_alternate_set._singular") %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div id="<%= section_id %>_agent_alternate_set_<%= index %>" class="panel-collapse collapse">
+          <%= render_aspace_partial :partial => "agent_alternate_sets/show_fields", :locals => { :agent_alternate_set => agent_alternate_set } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>

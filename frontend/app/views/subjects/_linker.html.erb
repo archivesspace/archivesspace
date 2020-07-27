@@ -1,4 +1,10 @@
 <%
+  plugin = false if plugin.blank?
+  name = "" if name.nil?
+  singular = name.singularize if singular.blank?
+  i18n_prefix = plugin ? 'plugins.' : ''
+  heading_text = I18n.t("#{i18n_prefix}#{singular}._plural") if heading_text.blank?
+
   # Allow multiple subjects to be linked if it's an empty linker
   multiplicity = "many" if multiplicity.blank?
 
@@ -18,10 +24,25 @@
   if !defined?(linker_label)
     linker_label = (multiplicity === "many") ? I18n.t("subject._plural") : I18n.t("subject._singular")
   end
+
+  # ANW-429: For certain forms, we want to restrict the list of subjects to certain term types. This URL-encoded URL snippet gets appended to the generated URL so that the query used to generate terms to browse is limited to that scope.
+  if defined?(term_type_filter)
+    term_type_filter = "%26filter_term%5B%5D%3D%7B%22first_term_type%22%3A%22#{term_type_filter}%22%7D"
+  else
+    term_type_filter = ""
+  end
+
+  browse_url = url_for(:controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.SUBJECT_FACETS, :sort => "title_sort asc", :exclude => exclude_ids).to_s + term_type_filter
+
+  data_url = url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.SUBJECT_FACETS).to_s + term_type_filter
 %>
 
 <div class="form-group required">
-   <label class="control-label col-sm-2"><%= linker_label %></label>
+   <% if !name.blank? %>
+     <%= wrap_with_tooltip(linker_label, "#{form.i18n_for(name)}_tooltip", "subrecord-form-heading-label control-label col-sm-2") %>
+   <% else %>
+     <label class="control-label col-sm-2"><%= linker_label %></label>
+   <% end %>
    <div class="controls col-sm-8">
        <div class="input-group linker-wrapper">
           <input type="text" class="linker"
@@ -30,8 +51,8 @@
             data-label_plural="<%= I18n.t("subject._plural") %>"
             data-path="<%= data_path %>"
             data-name="<%= data_name %>"
-            data-url="<%= url_for :controller => :search, :action => :do_search, :format => :json %>"
-            data-browse-url="<%= url_for :controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.SUBJECT_FACETS, :sort => "title_sort asc", :exclude => exclude_ids %>"
+            data-url="<%= data_url %>"
+            data-browse-url="<%= browse_url %>"
             data-selected="<%= selected_json %>"
             data-format_template="title"
             data-multiplicity="<%= multiplicity %>"

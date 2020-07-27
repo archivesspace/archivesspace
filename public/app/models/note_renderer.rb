@@ -83,7 +83,7 @@ end
 
 class ERBNoteRenderer < NoteRenderer
   handles_notes ['note_chronology', 'note_definedlist', 'note_orderedlist',
-                 'note_bibliography', 'note_index', 'note_outline', 'note_citation']
+                 'note_bibliography', 'note_index', 'note_outline', 'note_citation', 'note_general_context']
 
   def render(type, note, result)
     result['label'] = build_label(type, note)

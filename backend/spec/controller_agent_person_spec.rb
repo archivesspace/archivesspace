@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'agent_spec_helper'
 
 describe 'Person agent controller' do
 
@@ -72,9 +73,21 @@ describe 'Person agent controller' do
   end
 
 
-  it "allows agents to have a bioghist notes" do
+  it "allows people to have a bioghist notes" do
 
     n1 = build(:json_note_bioghist)
+
+    id = create_person({:notes => [n1]}).id
+
+    agent = JSONModel(:agent_person).find(id)
+
+    expect(agent.notes.length).to eq(1)
+    expect(agent.notes[0]["label"]).to eq(n1.label)
+  end
+
+  it "allows people to have a general_context notes" do
+
+    n1 = build(:json_note_general_context)
 
     id = create_person({:notes => [n1]}).id
 
@@ -102,23 +115,21 @@ describe 'Person agent controller' do
     expect(agent.title).to match(/Jimi Hendrix,.* Mr/)
   end
 
-
   it "allows agents to have dates of existence" do
 
-    date = build(:json_date, :label => "existence")
+    date = build(:json_structured_date_label, :date_label => "existence")
 
     id = create_person({:dates_of_existence => [date]}).id
 
     agent = JSONModel(:agent_person).find(id)
 
     expect(agent.dates_of_existence.length).to eq(1)
-    expect(agent.dates_of_existence[0]["expression"]).to eq(date.expression)
+    expect(agent.dates_of_existence[0]["structured_date_single"]["date_expression"]).to eq(date["structured_date_single"]["date_expression"])
   end
-
 
   it "allows names to have use dates" do
 
-    date = build(:json_date)
+    date = build(:json_structured_date_label, {:date_label => "usage"})
 
     name = build(:json_name_person, {:use_dates => [date]})
 
@@ -127,5 +138,83 @@ describe 'Person agent controller' do
     agent = JSONModel(:agent_person).find(id)
 
     expect(agent.names[0]['use_dates'].length).to eq(1)
+  end
+
+  describe "subrecord CRUD" do
+    before :each do
+      add_gender_values
+    end
+
+    it "creates agent subrecords on POST if appropriate" do
+      agent_id = create_agent_via_api(:person, {:create_subrecords => true})
+      expect(agent_id).to_not eq(-1)
+
+      expect(AgentRecordControl.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentAlternateSet.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentConventionsDeclaration.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentSources.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentOtherAgencyCodes.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentMaintenanceHistory.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentRecordIdentifier.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(StructuredDateLabel.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentPlace.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentOccupation.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentFunction.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentTopic.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentIdentifier.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(UsedLanguage.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(UsedLanguage.where(:agent_person_id => agent_id).count).to eq(1)
+      expect(AgentResource.where(:agent_person_id => agent_id).count).to eq(1)
+    end
+
+    it "deletes agent subrecords when parent agent is deleted" do
+      agent_id = create_agent_via_api(:person, {:create_subrecords => true})
+      expect(agent_id).to_not eq(-1)
+
+
+      url = URI("#{JSONModel::HTTP.backend_url}/agents/people/#{agent_id}")
+      response = JSONModel::HTTP.delete_request(url)
+
+      expect(AgentRecordControl.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentAlternateSet.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentConventionsDeclaration.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentSources.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentOtherAgencyCodes.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentMaintenanceHistory.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentRecordIdentifier.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(StructuredDateLabel.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentPlace.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentOccupation.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentFunction.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentTopic.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentIdentifier.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(UsedLanguage.where(:agent_person_id => agent_id).count).to eq(0)
+      expect(AgentResource.where(:agent_person_id => agent_id).count).to eq(0)
+    end
+
+    it "gets subrecords along with agent" do
+      agent_id = create_agent_via_api(:person, {:create_subrecords => true})
+      expect(agent_id).to_not eq(-1)
+
+      url = URI("#{JSONModel::HTTP.backend_url}/agents/people/#{agent_id}")
+      response = JSONModel::HTTP.get_response(url)
+      json_response = ASUtils.json_parse(response.body)
+
+      expect(json_response["agent_record_controls"].length).to eq(1)
+      expect(json_response["agent_alternate_sets"].length).to eq(1)
+      expect(json_response["agent_conventions_declarations"].length).to eq(1)
+      expect(json_response["agent_other_agency_codes"].length).to eq(1)
+      expect(json_response["agent_maintenance_histories"].length).to eq(1)
+      expect(json_response["agent_record_identifiers"].length).to eq(1)
+      expect(json_response["agent_sources"].length).to eq(1)
+      expect(json_response["dates_of_existence"].length).to eq(1)
+      expect(json_response["agent_places"].length).to eq(1)
+      expect(json_response["agent_occupations"].length).to eq(1)
+      expect(json_response["agent_functions"].length).to eq(1)
+      expect(json_response["agent_topics"].length).to eq(1)
+      expect(json_response["agent_identifiers"].length).to eq(1)
+      expect(json_response["used_languages"].length).to eq(1)
+      expect(json_response["agent_resources"].length).to eq(1)
+    end
   end
 end

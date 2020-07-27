@@ -1,0 +1,55 @@
+<% r = @required.values %>
+
+<% define_template "agent_conventions_declaration", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
+  <div class="subrecord-form-fields">
+    <div class="agent-record-control-container">
+      <%= form.label_and_select "name_rule", [""] + form.possible_options_for("name_rule", false) %>
+
+      <%= form.label_and_textfield "citation",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_conventions_declarations", "citation") }%>
+
+      <%= form.label_and_textfield "descriptive_note",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_conventions_declarations", "descriptive_note") }%>
+
+      <%= form.label_and_textfield "file_uri",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_conventions_declarations", "file_uri") }%>
+
+      <%= form.label_and_select "file_version_xlink_actuate_attribute", 
+        [""] + form.possible_options_for("file_version_xlink_actuate_attribute", false),
+        :required => is_required_by_admin?(r, "agent_conventions_declarations", "file_version_xlink_actuate_attribute") %>
+
+      <%= form.label_and_select "file_version_xlink_show_attribute", 
+        [""] + form.possible_options_for("file_version_xlink_show_attribute", false),
+        :required => is_required_by_admin?(r, "agent_conventions_declarations", "file_version_xlink_show_attribute") %>
+
+      <%= form.label_and_textfield "xlink_title_attribute",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_conventions_declarations", "xlink_title_attribute") }%>
+
+      <%= form.label_and_textfield "xlink_role_attribute",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_conventions_declarations", "xlink_role_attribute") }%>
+
+      <%= form.label_and_textfield "xlink_arcrole_attribute",  
+        {:field_opts => {:size => 30, :class => "form-control"},
+        :required => is_required_by_admin?(r, "agent_conventions_declarations", "xlink_arcrole_attribute") }%>
+
+      <%= form.label_and_date "last_verified_date",
+        :required => is_required_by_admin?(r, "agent_conventions_declarations", "last_verified_date") %>
+    </div>
+  </div>
+<% end %>
+
+<% define_template "agent_conventions_declaration_required", jsonmodel_definition(:agent_conventions_declaration) do |form| %>
+  <% field_names = ["name_rule", "citation", "descriptive_note", "file_uri", "file_version_xlink_actuate_attribute", "file_version_xlink_show_attribute", "xlink_title_attribute", "xlink_role_attribute", "xlink_arcrole_attribute", "last_verified_date"] %>
+  <% field_names.each do |field_name| %>
+    <% if form.required?(field_name) %>
+      <%= form.label_and_readonly field_name %>
+    <% else %>
+      <%= form.label_and_req_boolean field_name %>
+    <% end %>
+  <% end %>
+<% end %>

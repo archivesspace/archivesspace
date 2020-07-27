@@ -1,0 +1,12 @@
+<ul>
+  <% list.each do |r| %>
+    <li>
+      <% if r['file_uri'] %>
+        <a href="<%= r['file_uri'] %>"><%= r['linked_resource'] %></a>
+      <% else %>
+        <%= r['linked_resource'] %>
+      <% end %>
+        
+    </li>
+  <% end %>
+</ul>

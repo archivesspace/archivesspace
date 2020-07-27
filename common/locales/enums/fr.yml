@@ -1,5 +1,102 @@
 ﻿fr:
   enumerations:
+    date_type_enum:
+      single: Unique
+      range: Intervalle
+    date_role_enum:
+      begin: Commencer
+      end: Fin
+    begin_date_standardized_type_enum:
+      standard: la norme
+      not_before: Pas avant
+      not_after: Pas après
+    end_date_standardized_type_enum:
+      standard: la norme
+      not_before: Pas avant 
+      not_after: Pas après
+    maintenance_status_enum:
+      new: Nouveau
+      upgraded: Mis à niveau
+      revised_corrected: Révisé / corrigé
+      derived: Dérivé
+      deleted: Supprimé
+      cancelled_obsolete: Annulé / Obsolète
+      deleted_split: Supprimé-Split
+      deleted_replaced: Supprimé-Remplacé
+    publication_status_enum:
+      in_process: En cours
+      approved: Approuvé
+    romanization_enum:
+      int_std: Standard international
+      nat_std: Norme nationale
+      nl_assoc_std: Norme de l'association des bibliothèques nationales
+      nl_bib_agency_std: Norme de bibliothèque nationale ou d'agence bibliographique
+      local_standard: Norme locale
+      unknown_standard: Standard d'origine inconnue
+      conv_rom_cat_agency: Romanisation conventionnelle ou forme conventionnelle du nom dans la langue de l'agence de catalogage
+      not_applicable: N'est pas applicable
+    government_agency_type_enum: 
+      ngo: Organisation non gouvernementale
+      sac: Composant autonome ou semi-autonome
+      multilocal: Multilocal
+      fed: Fédéral / National
+      int_gov: Intergouvernemental international
+      local: Local
+      multistate: Multistate
+      undetermined: Type d'organisme gouvernemental indéterminé
+      provincial: Etat, provincial, territorial, dépendant, etc.
+      unknown: Inconnu si l'en-tête est un organisme gouvernemental
+      other: Autre
+      natc: Aucune tentative de codage
+    reference_evaluation_enum: 
+      tr_consistent: Tracés compatibles avec les titres
+      tr_inconsistent: Tracés incohérents avec les titres
+      not_applicable: N'est pas applicable
+      natc: Aucune tentative de codage
+    name_type_enum: 
+      differentiated: Différencié
+      undifferentiated: Indifférencié
+      not_applicable: N'est pas applicable
+      natc: Aucune tentative de codage
+    level_of_detail_enum: 
+      fully_established: Entièrement établi
+      memorandum: Mémorandum
+      provisional: Provisoire
+      preliminary: Préliminaire
+      not_applicable: N'est pas applicable
+      natc: Aucune tentative de codage
+    modified_record_enum: 
+      not_modified: Non modifié
+      shortened: Raccourcie
+      missing_characters: Caractères manquants
+      natc: Aucune tentative de codage
+    cataloging_source_enum:
+      nat_bib_agency: Agence bibliographique nationale
+      ccp: Programme de catalogage coopératif
+      other: Autre
+      unknown: Inconnu
+      natc: Aucune tentative de codage
+    source_enum: 
+      naf: NAF
+      snac: SNAC
+      local: Local
+    identifier_type_enum: 
+      loc: Bibliothèque du Congrès
+      lac: Bibliothèque et Archives Canada
+      local: Local
+    agency_code_type_enum: 
+      oclc: OCLC
+      local: Local
+    maintenance_event_type_enum: 
+      created: Créé
+      cancelled: Annulé
+      deleted: Supprimé
+      derived: Dérivé
+      revised: modifié
+      updated: Mis à jour
+    maintenance_agent_type_enum: 
+      human: Humain
+      machine: Machine
     linked_event_archival_record_roles:
       source: Source
       outcome: Résultat
@@ -1839,3 +1936,17 @@
     rights_statement_act_restriction: Déclaration de droits Convention de restrictions
     rights_statement_act_type: Déclaration de droits Type de convention
     rights_statement_other_rights_basis: Déclaration de droits Autres fondements
+    maintenance_status_enum: Statut de maintenance
+    publication_status_enum: Statut de publication
+    romanization_enum: Romanisation
+    government_agency_type_enum: Type d'organisme gouvernemental
+    reference_evaluation_enum: Évaluation de référence
+    name_type_enum: Type de nom
+    level_of_detail_enum: Niveau de détail
+    modified_record_enum: Enregistrement modifié 
+    cataloging_source_enum: Catalogage Source
+    source_enum: La source
+    identifier_type_enum: Type d'identifiant 
+    agency_code_type_enum: Code d'agence
+    maintenance_event_type_enum: Type d'événement de maintenance
+    maintenance_agent_type_enum: Type d'agent de maintenance

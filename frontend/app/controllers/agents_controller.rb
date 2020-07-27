@@ -7,6 +7,8 @@ class AgentsController < ApplicationController
 
 
   before_action :assign_types
+  before_action :set_structured_date_type, only: [:create, :update]
+  before_action :get_required
 
   include ExportHelper
 
@@ -35,9 +37,8 @@ class AgentsController < ApplicationController
       @agent.update(defaults.values) if defaults
     end
 
-    required = RequiredFields.get @agent_type.to_s
     begin
-      @agent.update_concat(required.values) if required
+      @agent.update_concat(@required.values) if @required.class == RequiredFields
     rescue Exception => e
       flash[:error] = e.message
       redirect_to :controller => :agents, :action => :required
@@ -59,9 +60,10 @@ class AgentsController < ApplicationController
   end
 
   def create
-    required = RequiredFields.get @agent_type.to_s
-    if required
-      required_values = required.values
+    @full_mode = user_can?("show_full_agents") || user_can?("administer_system")
+    
+    if @required.class == RequiredFields
+      required_values = @required.values
     else
       required_values = nil
     end
@@ -70,8 +72,9 @@ class AgentsController < ApplicationController
                 :required => required_values,
                 :find_opts => find_opts,
                 :on_invalid => ->(){
-                  required = RequiredFields.get @agent_type.to_s
-                  @agent.update_concat(required.values) if required
+                  @required = RequiredFields.get @agent_type.to_s
+                  @required = {} if @required.nil?
+                  @agent.update_concat(@required.values) if @required.class == RequiredFields
                   ensure_auth_and_display()
                   return render_aspace_partial :partial => "agents/new" if inline?
                   return render :action => :new
@@ -163,11 +166,9 @@ class AgentsController < ApplicationController
   end
 
   def required
-    required = RequiredFields.get params['agent_type']
-
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
 
-    @agent.update(required.form_values) if required
+    @agent.update(@required.form_values) if @required.class == RequiredFields
 
     render 'required'
 
@@ -266,11 +267,60 @@ class AgentsController < ApplicationController
       JSONModel(agent_type).type_of("names/items")
     end
 
+    def get_required
+      @required = RequiredFields.get @agent_type.to_s
+      @required = {} if @required.nil?
+    end
+
     def assign_types
       return if not params.has_key? 'agent_type'
 
       @agent_type = :"#{params[:agent_type]}"
       @name_type = name_type_for_agent_type(@agent_type)
+    end
+
+    def set_structured_date_type
+      if params["agent"]["dates_of_existence"]
+        params['agent']['dates_of_existence'].each do |key, label|
+          if label["structured_date_single"]
+            label["date_type_enum"] = "single"
+          elsif label["structured_date_range"]
+            label["date_type_enum"] = "range"
+          else
+            label["date_type_enum"] = "Add or update either a single or ranged date subrecord to set"
+          end
+        end
+      end
+
+      if params["agent"]["names"]
+        params['agent']['names'].each do |key, name|
+          if name['use_dates']
+            name['use_dates'].each do |key, label|
+              if label["structured_date_single"]
+                label["date_type_enum"] = "single"
+              elsif label["structured_date_range"]
+                label["date_type_enum"] = "range"
+              else
+                label["date_type_enum"] = "Add or update either a single or ranged date subrecord to set"
+              end
+            end
+          end
+        end
+      end
+
+      if params["agent"]["related_agents"]
+        params['agent']['related_agents'].each do |key, rel|
+          if rel["dates"]
+            if rel["dates"]["structured_date_single"]
+              rel["dates"]["date_type_enum"] = "single"
+            elsif rel["dates"]["structured_date_range"]
+              rel["dates"]["date_type_enum"] = "range"
+            else
+              rel["dates"]["date_type_enum"] = "Add or update either a single or ranged date subrecord to set"
+            end
+          end
+        end
+      end
     end
 
     def ensure_auth_and_display

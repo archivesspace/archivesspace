@@ -103,8 +103,8 @@ describe 'Agent model' do
   it "allows dates_of_existence for an agent, and filters out other labels" do
     n = build(:json_name_person)
 
-    d1 = build(:json_date, :label => 'existence')
-    d2 = build(:json_date, :label => 'creation')
+    d1 = build(:json_structured_date_label, :date_label => 'existence')
+    d2 = build(:json_structured_date_label, :date_label => 'creation')
 
     agent = AgentPerson.create_from_json(build(:json_agent_person, {:names => [n], :dates_of_existence => [d1]}))
 
@@ -475,7 +475,7 @@ describe 'Agent model' do
 
           expected_slug = clean_slug(get_generated_name_for_agent(agent_person))
 
-          expect(agent_person[:slug]).to eq(expected_slug)
+          expect(agent_person[:slug]).to match(expected_slug)
         end
 
         it "autogenerates a slug via identifier when configured to generate by id" do
@@ -490,7 +490,7 @@ describe 'Agent model' do
 
           expected_slug = clean_slug(agent_name_person[:authority_id])
 
-          expect(agent_person[:slug]).to eq(expected_slug)
+          expect(agent_person[:slug]).to match(expected_slug)
         end
 
         it "turns off autogen if slug is blank" do
@@ -503,6 +503,7 @@ describe 'Agent model' do
                   :names => [agent_name_person])
           )
           expect(agent_person[:is_slug_auto]).to eq(1)
+
           agent_person.update(:slug => "")
           expect(agent_person[:is_slug_auto]).to eq(0)
         end
@@ -519,7 +520,7 @@ describe 'Agent model' do
 
           expected_slug = clean_slug(get_generated_name_for_agent(agent_person))
 
-          expect(agent_person[:slug]).to eq(expected_slug)
+          expect(agent_person[:slug]).to match(expected_slug)
         end
 
         it "dedupes slug when autogenerating by name" do
@@ -539,8 +540,8 @@ describe 'Agent model' do
                 :names => [agent_name_person2])
           )
 
-          expect(agent_person1[:slug]).to eq("foo")
-          expect(agent_person2[:slug]).to eq("foo_1")
+          expect(agent_person1[:slug]).to match("foo_1")
+          expect(agent_person2[:slug]).to match("foo_2")
         end
 
 

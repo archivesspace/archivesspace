@@ -8,6 +8,8 @@
   section_id = "notes" if section_id.blank?
   header_size = "h3" if header_size.blank?
   all_note_types ||= nil
+
+  add_button_text ||= "note._frontend.action.add"
 %>
 <%= render_aspace_partial :partial => "notes/template", :locals =>  { :all_note_types => all_note_types, :form_note_type => section_id, :nested_in_jsonmodel => nested_in_jsonmodel } %>
 
@@ -21,7 +23,7 @@
     <% if show_apply_note_order_action %>
       <button class="btn btn-sm btn-default pull-right apply-note-order" disabled="disabled"><%= I18n.t("note._frontend.action.apply_note_order") %></button>
     <% end %>
-    <button class="btn btn-sm btn-default pull-right add-note"><%= I18n.t("note._frontend.action.add") %></button>
+    <button class="btn btn-sm btn-default pull-right add-note"><%= I18n.t(add_button_text) %></button>
 
   </<%= header_size%>>
   <div class="subrecord-form-container mixed-content-anchor">

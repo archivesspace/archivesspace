@@ -278,8 +278,8 @@ module AgentManager
         fields = []
 
         json.dates_of_existence.each do |date|
-          fields << hash_chunk(JSONModel(:date).from_hash(date),
-                               %w(date_type label certainty expression begin end era calendar))
+          fields << hash_chunk(JSONModel(:structured_date_label).from_hash(date),
+                               %w(date_type_enum date_label))
         end
 
         json.agent_contacts.each do |contact|
@@ -325,29 +325,107 @@ module AgentManager
       def register_agent_type(opts)
         AgentManager.register_agent_type(self, opts)
 
-
-
         self.one_to_many my_agent_type[:name_type]
 
         self.def_nested_record(:the_property => :names,
                                :contains_records_of_type => my_agent_type[:name_type],
                                :corresponding_to_association => my_agent_type[:name_type])
 
-
         self.one_to_many :agent_contact
-
 
         self.def_nested_record(:the_property => :agent_contacts,
                                :contains_records_of_type => :agent_contact,
                                :corresponding_to_association => :agent_contact)
 
+        self.one_to_many :agent_record_control, :class => "AgentRecordControl"
 
-        self.one_to_many :date, :class => "ASDate"
+        self.def_nested_record(:the_property => :agent_record_controls,
+                               :contains_records_of_type => :agent_record_control,
+                               :corresponding_to_association => :agent_record_control)
 
+        self.one_to_many :agent_alternate_set, :class => "AgentAlternateSet"
+
+        self.def_nested_record(:the_property => :agent_alternate_sets,
+                               :contains_records_of_type => :agent_alternate_set,
+                               :corresponding_to_association => :agent_alternate_set)
+
+        self.one_to_many :agent_conventions_declaration, :class => "AgentConventionsDeclaration"
+
+        self.def_nested_record(:the_property => :agent_conventions_declarations,
+                               :contains_records_of_type => :agent_conventions_declaration,
+                               :corresponding_to_association => :agent_conventions_declaration)
+
+        self.one_to_many :agent_other_agency_codes, :class => "AgentOtherAgencyCodes"
+
+        self.def_nested_record(:the_property => :agent_other_agency_codes,
+                               :contains_records_of_type => :agent_other_agency_codes,
+                               :corresponding_to_association => :agent_other_agency_codes)
+
+        self.one_to_many :agent_maintenance_history, :class => "AgentMaintenanceHistory"
+
+        self.def_nested_record(:the_property => :agent_maintenance_histories,
+                               :contains_records_of_type => :agent_maintenance_history,
+                               :corresponding_to_association => :agent_maintenance_history)
+
+        self.one_to_many :agent_record_identifier, :class => "AgentRecordIdentifier"
+
+        self.def_nested_record(:the_property => :agent_record_identifiers,
+                               :contains_records_of_type => :agent_record_identifier,
+                               :corresponding_to_association => :agent_record_identifier)
+
+        self.one_to_many :agent_sources, :class => "AgentSources"
+
+        self.def_nested_record(:the_property => :agent_sources,
+                               :contains_records_of_type => :agent_sources,
+                               :corresponding_to_association => :agent_sources)     
+
+        self.one_to_many :structured_date_label, :class => "StructuredDateLabel"
 
         self.def_nested_record(:the_property => :dates_of_existence,
-                               :contains_records_of_type => :date,
-                               :corresponding_to_association => :date)
+                               :contains_records_of_type => :structured_date_label,
+                               :corresponding_to_association => :structured_date_label)
+
+        self.one_to_many :agent_place, :class => "AgentPlace"
+
+        self.def_nested_record(:the_property => :agent_places,
+                               :contains_records_of_type => :agent_place,
+                               :corresponding_to_association => :agent_place)
+
+        self.one_to_many :agent_occupation, :class => "AgentOccupation"
+
+        self.def_nested_record(:the_property => :agent_occupations,
+                               :contains_records_of_type => :agent_occupation,
+                               :corresponding_to_association => :agent_occupation)
+
+        self.one_to_many :agent_function, :class => "AgentFunction"
+
+        self.def_nested_record(:the_property => :agent_functions,
+                               :contains_records_of_type => :agent_function,
+                               :corresponding_to_association => :agent_function)
+        
+        self.one_to_many :agent_topic, :class => "AgentTopic"
+
+        self.def_nested_record(:the_property => :agent_topics,
+                               :contains_records_of_type => :agent_topic,
+                               :corresponding_to_association => :agent_topic)
+
+        self.one_to_many :agent_identifier, :class => "AgentIdentifier"
+
+        self.def_nested_record(:the_property => :agent_identifiers,
+                               :contains_records_of_type => :agent_identifier,
+                               :corresponding_to_association => :agent_identifier)
+
+        self.one_to_many :used_language, :class => "UsedLanguage"
+
+        self.def_nested_record(:the_property => :used_languages,
+                               :contains_records_of_type => :used_language,
+                               :corresponding_to_association => :used_language)
+
+        self.one_to_many :agent_resource, :class => "AgentResource"
+
+        self.def_nested_record(:the_property => :agent_resources,
+                               :contains_records_of_type => :agent_resource,
+                               :corresponding_to_association => :agent_resource)
 
       end
 

@@ -38,7 +38,7 @@ module DynamicEnums
                 break
               end
 
-              raise "Invalid value: #{value}" if !self[property_id]
+              raise "Invalid value for #{property_id}: #{value}" if !self[property_id]
             else
               self[property_id] = nil
             end

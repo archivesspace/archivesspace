@@ -1,0 +1,79 @@
+<%
+   section_id = "dates" if section_id.blank?
+   section_title = "Dates" if section_title.blank?
+   heading_size = "h3" if heading_size.blank?
+   dates ||=  []
+%>
+
+<section id="<%= section_id %>">
+  <<%= heading_size %>><%= section_title %></<%= heading_size %>>
+  <div class="panel-group details" id="<%= section_id %>_accordion">
+    <% dates.each_with_index do | date, index | %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-1">
+              &nbsp;
+            </div>
+            <div class="col-md-6">
+              <%# Display date preview string %>
+              <% if date['date_type_enum'] == "single" && date["structured_date_single"] %>
+                <% if date["structured_date_single"]["date_expression"] %>
+                  <%= date["structured_date_single"]["date_expression"] %>
+                  <br>
+                <% end %>
+
+                <% if date["structured_date_single"]["date_standardized"] %>
+                  <%= date["structured_date_single"]["date_standardized"] %>
+
+                  <% if date["structured_date_single"]["date_standardized_type_enum"] %>
+                    <%= "(" + date["structured_date_single"]["date_standardized_type_enum"] + ")" %>
+                   <br>
+                  <% end %>
+                <% end %>
+
+              <% elsif date['date_type_enum'] == "range" && date["structured_date_range"] %>
+                <% if date["structured_date_range"]["begin_date_expression"] %>
+                  <%= date["structured_date_range"]["begin_date_expression"] %>
+                <% end %>
+
+                <% if date["structured_date_range"]["end_date_expression"] %>
+                  -&nbsp;
+                  <%= date["structured_date_range"]["end_date_expression"] %>
+
+                <% end %>
+
+                <% if date["structured_date_range"]["begin_date_expression"] || date["structured_date_range"]["end_date_expression"]%>
+                  <br>
+                <% end %>
+                  
+
+                <% if date["structured_date_range"]["begin_date_standardized"] %>
+                  <%= date["structured_date_range"]["begin_date_standardized"] %>
+
+                  <% if date["structured_date_range"]["begin_date_standardized_type_enum"] %>
+                    <%= "(" + date["structured_date_range"]["begin_date_standardized_type_enum"] + ")" %>
+                  <% end %>
+                <% end %>
+
+                <% if date["structured_date_range"]["end_date_standardized"] %>
+                  -&nbsp;
+                  <%= date["structured_date_range"]["end_date_standardized"] %>
+
+                  <% if date["structured_date_range"]["end_date_standardized_type_enum"] %>
+                    <%= "(" + date["structured_date_range"]["end_date_standardized_type_enum"] + ")" %>
+                  <% end %>
+                <% end %>
+
+                <% if date["structured_date_range"]["begin_date_standardized"] || date["structured_date_range"]["end_date_standardized"]%>
+                  <br>
+                <% end %>
+              <% end %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</section>
