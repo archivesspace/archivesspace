@@ -60,8 +60,6 @@ class AgentsController < ApplicationController
   end
 
   def create
-    @full_mode = user_can?("show_full_agents") || user_can?("administer_system")
-    
     if @required.class == RequiredFields
       required_values = @required.values
     else

@@ -91,6 +91,7 @@ en:
     edit_multiple_confirm_title: Edit Records?
     edit_multiple_confirm_message: "<p>This will bulk update multiple records.</p>"
     export_eac: Download EAC-CPF
+    export_marc_auth: Download MARCXML Authority
     export_ead: Download EAD
     export_mods: Download MODS
     export_mets: Download METS

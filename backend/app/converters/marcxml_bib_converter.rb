@@ -1,8 +1,8 @@
 require_relative 'converter'
-require_relative 'lib/marcxml_base_map'
+require_relative 'lib/marcxml_bib_base_map'
 
-class MarcXMLConverter < Converter
-  extend MarcXMLBaseMap
+class MarcXMLBibConverter < Converter
+  extend MarcXMLBibBaseMap
 
   require 'securerandom'
   require_relative 'lib/xml_dom'
@@ -56,4 +56,4 @@ class MarcXMLConverter < Converter
     
 end
 
-MarcXMLConverter.configure
+MarcXMLBibConverter.configure

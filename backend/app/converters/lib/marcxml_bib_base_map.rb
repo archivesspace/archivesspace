@@ -1,5 +1,5 @@
 
-module MarcXMLBaseMap
+module MarcXMLBibBaseMap
 
   AUTH_SUBJECT_SOURCE = {
     'a'=>"lcsh",

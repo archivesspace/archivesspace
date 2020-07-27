@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eac-cpf xmlns="urn:isbn:1-931666-33-4" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:isbn:1-931666-33-4 http://eac.staatsbibliothek-berlin.de/schema/cpf.xsd">
+    <control>
+        <recordId>beinecke.7h44jbj</recordId>
+        <otherRecordId localType="url">http://hdl.handle.net/10079/7h44jbj</otherRecordId>
+        <maintenanceStatus>new</maintenanceStatus>
+        <maintenanceAgency>
+            <agencyCode>US-CtY-BR</agencyCode>
+            <agencyName>Beinecke Rare Book and Manuscript Library, Yale University</agencyName>
+        </maintenanceAgency>
+        <languageDeclaration>
+            <language languageCode="eng">English</language>
+            <script scriptCode="Latn">Latin</script>
+        </languageDeclaration>
+        <conventionDeclaration>
+            <abbreviation>dacs</abbreviation>
+            <citation>Describing Archives: A Content Standard</citation>
+            <descriptiveNote>
+                <p>Record created following DACS conventions.</p>
+            </descriptiveNote>
+        </conventionDeclaration>
+        <conventionDeclaration>
+            <abbreviation>lcnaf</abbreviation>
+            <citation>Library of Congress Name Authority File</citation>
+        </conventionDeclaration>
+        <conventionDeclaration>
+            <abbreviation>lcsh</abbreviation>
+            <citation>Library of Congress Subject Headings</citation>
+        </conventionDeclaration>
+        <maintenanceHistory>
+            <maintenanceEvent>
+                <eventType>created</eventType>
+                <eventDateTime standardDateTime="2012-06-28">2012 June 28</eventDateTime>
+                <agentType>human</agentType>
+                <agent>M.K.K. Yearl</agent>
+            </maintenanceEvent>
+        </maintenanceHistory>
+        <sources>
+            <source xlink:actuate="onRequest" xlink:show="new" xlink:type="simple"
+                xlink:href="http://lccn.loc.gov/sh85015956">
+                <sourceEntry>Library of Congress Control Number: sh 85015956</sourceEntry>
+            </source>
+            <source xlink:actuate="onRequest" xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.boswell">
+                <sourceEntry>Ducharme, Diane J. Guide to the Boswell Collection, GEN MSS 89. Yale
+                    University Library, Beinecke Rare Book and Manuscript Library. New Haven,
+                    CT.</sourceEntry>
+            </source>
+            <source xlink:actuate="onRequest" xlink:show="new" xlink:type="simple"
+                xlink:href="http://www.jamesboswell.info/">
+                <sourceEntry>Frandzen, Thomas. "James Boswell .info."</sourceEntry>
+            </source>
+            <source xlink:actuate="onRequest" xlink:show="new" xlink:type="simple"
+                xlink:href="http://www.oxforddnb.com/view/article/2950">
+                <sourceEntry>Oxford Dictionary of National Biography</sourceEntry>
+            </source>
+            <source xlink:actuate="onRequest" xlink:show="new" xlink:type="simple"
+                xlink:href="http://en.wikipedia.org/wiki/Auchinleck_House">
+                <sourceEntry>Wikipedia contributors. "Auchinleck House." Wikipedia, The Free
+                    Encyclopedia.</sourceEntry>
+            </source>
+        </sources>
+    </control>
+    <cpfDescription>
+        <identity>
+            <entityType>family</entityType>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part>Boswell family</part>
+                <authorizedForm>lcnaf</authorizedForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Bosswell family </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Bosweel family </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Boswel family </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Boswells family </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Boswill family </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Bozwell family </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Buswell family </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+            <nameEntry scriptCode="Latn" xml:lang="eng">
+                <part localType="400a">Buzwell family </part>
+                <alternativeForm>lcnaf</alternativeForm>
+            </nameEntry>
+        </identity>
+        <description>
+            <place>
+                <placeRole>family seat</placeRole>
+                <placeEntry vocabularySource="lcsh" latitude="55.4667" longitude="-4.3000"
+                    >Auchinleck (Scotland)</placeEntry>
+                <dateRange>
+                    <fromDate standardDate="1504">1504</fromDate>
+                    <toDate standardDate="1986">1986</toDate>
+                </dateRange>
+            </place>
+            <languageUsed>
+                <language languageCode="eng">English</language>
+                <script scriptCode="Latn">Latin</script>
+            </languageUsed>
+            <structureOrGenealogy>
+                <outline>
+                    <level>
+                        <item>Sir John Boswell of Balgregy (d. 1429) m. Margaret Jardyn</item>
+                        <level>
+                            <item> David Boswell of Balmuto m. Elizabeth Malvil of Raith</item>
+                            <level>
+                                <item> 2m. Isobel Wemyss</item>
+                                <level>
+                                    <item>David Boswell of Glasmount m. 1464 Grizel Wemyss</item>
+                                    <level>
+                                        <item>Sir Alexander Boswell of Balmuto (d. 1513) m.
+                                            Elizabeth Ramsay</item>
+                                    </level>
+                                    <level>
+                                        <item>2m. Alison Sandilands</item>
+                                        <level>
+                                            <item>children</item>
+                                        </level>
+                                    </level>
+                                    <level>
+                                        <item>Euphemia Boswell m. 1485 Alexander Meldrum</item>
+                                    </level>
+                                    <level>
+                                        <item>[Isobel Boswell m. 1489? Thomas Lundy]</item>
+                                    </level>
+                                    <level>
+                                        <item>Gelys Boswell m. 1493 William Balram</item>
+                                    </level>
+                                </level>
+                                <level>
+                                    <item>2m. 1480 Margaret Sinclair</item>
+                                    <level>
+                                        <item>William Boswell of Lochgellie</item>
+                                    </level>
+                                    <level>
+                                        <item>Thomas Boswell (d. 1513) m. Annabella Campbell</item>
+                                        <level>
+                                            <item>David Boswell (d. 1562?) m. 1531? Lady Janet
+                                                Hamilton (d. after 1573)</item>
+                                            <level>
+                                                <item>John Boswell (1532?-ca. 1609) m. ca. 1562
+                                                  Christian Dalzell</item>
+                                                <level>
+                                                  <item>James Boswell (1567?-1618) m. 1590? Marion
+                                                  Crauford</item>
+                                                  <level>
+                                                  <item>David Boswell (d. 1661) m. 1613? Isobell
+                                                  Wallace</item>
+                                                  <level>
+                                                  <item>Marion Boswell m. Alan, Lord Cathcart</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Isobell Boswell (d. before 1662) m. ca. 1635
+                                                  Quintagern Reid of Drumfork</item>
+                                                  <level>
+                                                  <item>2m. 1657 John Schaw of Sornbegg</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>Jean Boswell m. Gordon of Carlstoun</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Margaret Boswell m. David Blair of
+                                                  Adamstown</item>
+                                                  <level>
+                                                  <item>2m. Lady Margaret Stewart</item>
+                                                  <level>
+                                                  <item>2m. Sir James Hamilton</item>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>James Boswell of the Hill m. 1638? Agnes
+                                                  Cuningham of Caprington</item>
+                                                  <level>
+                                                  <item>David Boswell (1640-1712) m. 1667? Anna
+                                                  Hamilton (d. 1711)</item>
+                                                  <level>
+                                                  <item>James Boswell (1672-1749) m. 1704 Lady
+                                                  Elizabeth Bruce (1673-1734)</item>
+                                                  <level>
+                                                  <item>Veronica Boswell (1704-ca. 1742) m. 1729
+                                                  David Montgomerie of Lainshaw</item>
+                                                  <level>
+                                                  <item> Margaret Montgomerie (ca. 1738-1789) m.
+                                                  1769 James Boswell</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>James Montgomerie (d. 1766) m. Jean
+                                                  Maxwell</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Elizabeth Montgomerie (d. 1776) m. Capt.
+                                                  Alexander Montgomerie-Cuminghame</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>2m. John Beaumont</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>David Boswell (1706-1709)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Alexander Boswell, Lord Auchinleck
+                                                  (1707-1782) m. 1738 Euphemia Erskine
+                                                  (1718-1766)</item>
+                                                  <level>
+                                                  <item>Euphemia Boswell (1739-1741)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item> James Boswell (1740-1795) m. 1769 Margaret
+                                                  Montgomerie (1738-1789)</item>
+                                                  <level>
+                                                  <item>Veronica Boswell (1773-1795)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Euphemia Boswell (1774-1837)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Sir Alexander Boswell (1775-1822) m. 1799
+                                                  Grizel (Grace) Cuming (d. 1864)</item>
+                                                  <level>
+                                                  <item> Sir James Boswell (1807-1857) m. 1830
+                                                  Jessie Jane Montgomerie Cuninghame (d.
+                                                  1884)</item>
+                                                  <level>
+                                                  <item>Julia Grace Jessie Jane Boswell (d. 1905) m.
+                                                  1867 George Mounsey</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Louisa Boswell (d. young)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Emily Harriet Boswell (d. 1898) m. 1873
+                                                  Richard Wogan Talbot, 5th B. Talbot de Malahide
+                                                  (1846-1921)</item>
+                                                  <level>
+                                                  <item>James Boswell Talbot, 6th B. Talbot de
+                                                  Malahide (1874-1948) m. 1924 Joyce Gunning Kerr
+                                                  (ca. 1900-1980)</item>
+                                                  <level>
+                                                  <item>Richard Wogan Talbot, 5th B. Talbot de
+                                                  Malahide (1846-1921) 2m. Isobel Charlotte Gurney
+                                                  (d. 1932)</item>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>Janet Teresa Boswell (d. 1836) m. 1826 Sir
+                                                  William Francis Elliott</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Grace Jane Boswell (d. 1890) m. 1843 Gen.
+                                                  Rawdon Vassall of Balhary (d. 1884)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Margaret Emily Boswell (1814-1817)</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>David Boswell (1776-1777)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>James Boswell (1778-1822)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Elizabeth Boswell (1780-1814) m. 1799
+                                                  William Boswell</item>
+                                                  <level>
+                                                  <item>James Paoli Boswell (1802-1821)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Bruce Boswell (1805-1855) m. Anne
+                                                  Tronson</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Sibella Boswell (1806-1807)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Robert Cramond Boswell (1807?-1823)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>William Boswell (1809-1809)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Alexander Boswell (1809-1809)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Elizabeth Frances Boswell (1810-1812)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Annie Boswell (1812-1813)</item>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>John Boswell (1743-ca. 1798)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>(Thomas) David Boswell (1748-1826) m. 1783
+                                                  Anne Catherine Green</item>
+                                                  <level>
+                                                  <item>2m. 1769 Elizabeth Boswell (d. 1799)</item>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>John Boswell (1710-1780) m. Anne
+                                                  Cramond</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>James Boswell (b. 1710) m. [unknown] </item>
+                                                  </level>
+                                                  <level>
+                                                  <item>David Boswell (1711-1712)</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>John Boswell of Balmuto (d. 1749) m. 1726
+                                                  Margaret Henderson (d. 1790)</item>
+                                                  <level>
+                                                  <item>Marie? (d. young)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Margaret Boswell (d. young)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item> Elizabeth Boswell (d. 1799) m. 1769
+                                                  Alexander Boswell, Lord Auchinleck
+                                                  (1707-1782)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Claud Boswell, Lord Balmuto (1742-1824) m.
+                                                  1783 Anne Irvine</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>Jean Boswell (d. 1698?) m. 1697? Lieut. John
+                                                  Campbell</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Margaret Boswell m. 1702 Hugh Campbell of
+                                                  Barquharrie</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Ann Boswell m. 1708 George Campbell of
+                                                  Treesbank</item>
+                                                  <level>
+                                                  <item>Campbell of Treesbank?</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>James Campbell of Treesbank (d. 1776) m.
+                                                  1763 Helen Macredie Jean Campbell (d. 1789)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>2m. 1768 *Mary Montgomerie (d. 1777)</item>
+                                                  <level>
+                                                  <item>George James Campbell (b. 1768)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>David Campbell (b. 1771)</item>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>John Boswell (d. 1643?)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>(Family genealogy mentions "other three sons
+                                                  with three of their sisters went to Germany" and a
+                                                  "Davys" who "dyed in Scotland")</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>John Boswell of Duncanziemore m. Jean
+                                                  Campbell of Horsecleuch</item>
+                                                  <level>
+                                                  <item>Quintagern (Mungo) Boswell of Craikston (d.
+                                                  ca. 1669) m. Margaret Reid</item>
+                                                  <level>
+                                                  <item>John Boswell of Craikston (d. 1692?)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>David Boswell of Craikston (1660-1728) m.
+                                                  1680 Jean Hunter</item>
+                                                  <level>
+                                                  <item>James Boswell "went to Maryland"</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Margaret Ferguson m. John Boswell of
+                                                  Duncanziemore/Craikston</item>
+                                                  <level>
+                                                  <item>Elizabeth Boswell of Knockroon m. David
+                                                  Boswell of Leith</item>
+                                                  <level>
+                                                  <item>James Boswell</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>John Boswell</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Montgomery Boswell</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Agnes Boswell</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>other children?</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>John Boswell of Knockroon (1741-1805) m.
+                                                  1766 Christian Hamilton</item>
+                                                  <level>
+                                                  <item>Hamilton (Douglas) Boswell (d. 1824) m. 1806
+                                                  Jane Douglas (1779-1862)</item>
+                                                  <level>
+                                                  <item>John Douglas Boswell (1811-1863) m.
+                                                  Christian Hamilton of Dowan (1811-1901)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Patrick Douglas Charles Boswell (1815-1892)
+                                                  m. 1856 Annabella A. C. Innes</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>six daughters?</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>Margaret Boswell m. Charles Dalrymple</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Christian Boswell m. Alexander Walker</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Jacobina Boswell m. William Hamilton of
+                                                  Dowan</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Charlotte Boswell</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>Jean Boswell</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Margaret Boswell</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>"other children"</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>Charles Boswell m. [1770's] "went to
+                                                  Jamaica"</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Elizabeth Boswell m. John Mitchell of
+                                                  Hallglenmuir (d. ca. 1758)</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Susanna Boswell m. John Rankine</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Margaret Boswell (d.1740) m. John
+                                                  Black</item>
+                                                  </level>
+                                                  <level>
+                                                  <item>Jean Boswell (1708-1753)m. John
+                                                  Weight</item>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>Robert Boswell</item>
+                                                  <level>
+                                                  <item>2m. Katharine Stewart</item>
+                                                  </level>
+                                                  </level>
+                                                  <level>
+                                                  <item>William Boswell of Knockroon m. Margaret
+                                                  Inglis</item>
+                                                  </level>
+                                                </level>
+                                                <level>
+                                                  <item>Alexander Boswell of Kilvermouth (d. 1586)
+                                                  m. Janet Boswell of Balmuto</item>
+                                                  <level>
+                                                  <item>2m. 1525 John Cuningham of Caprington</item>
+                                                  </level>
+                                                </level>
+                                            </level>
+                                            <level>
+                                                <item>-Robert Boswell, pastor of
+                                                  Auchterderran</item>
+                                            </level>
+                                            <level>
+                                                <item>John Boswell, pastor of Kinnoul</item>
+                                            </level>
+                                        </level>
+                                        <level>
+                                            <item>Robert Boswell, parson of Auchterderran</item>
+                                        </level>
+                                        <level>
+                                            <item>Elizabeth Boswell m. 1455? Robert Douglas of
+                                                Lochleven</item>
+                                        </level>
+                                        <level>
+                                            <item>Janet Boswell m. 1462? John de Ramsay</item>
+                                        </level>
+                                        <level>
+                                            <item>[Katharine Boswell m. 1481? Thomas Molray of
+                                                Seafeild]</item>
+                                        </level>
+                                    </level>
+                                </level>
+                                <level>
+                                    <item>daughters (one m. Sir John Auchinleck of
+                                        Auchinleck)</item>
+                                </level>
+                            </level>
+                        </level>
+                    </level>
+                </outline>
+            </structureOrGenealogy>
+            <biogHist>
+                <abstract>The Boswell family was associated with Auchinleck for nearly five hundred
+                    years. In 1504, Thomas Boswell was granted the estate and title Laird Auchinleck
+                    when he married the daughter of Sir John Auchinleck, who had no male heir. The
+                    family reached the height of its prominence under Alexander Boswell (1707-1782).
+                    James Boswell (1740-1795) left the estate in debt and it declined further in the
+                    nineteenth century. Auchinleck House was in disrepair when James Boswell deeded
+                    it to the Scottish Historic Buildings Trust in 1986.</abstract>
+                <p>The Boswell family began their association with Auchinleck in 1504, when the
+                    Auchinleck family ceased to have a male heir. King James IV granted the estate
+                    and title to Thomas Boswell when he married the daughter of Sir John Auchinleck;
+                    Thomas Boswell then became the first Laird Auchinleck. The fortunes of the
+                    barony rose and fell. When the 6th Laird Auchinleck, David Boswell (1640-1712),
+                    assumed the estate from his uncle, David Boswell, there were many financial and
+                    legal burdens. He sold some of its land and carefully managed what remained. By
+                    the time he disponed the barony to his eldest son, James Boswell (ca.
+                    1675-1749), circa 1702, he had reduced its debts considerably. Under the
+                    stewardship of James Boswell and his wife, Lady Elizabeth Bruce, they cleared
+                    the estate’s debts and began increasing land holdings. The standing of the
+                    barony reached its pinnacle under Alexander Boswell (1707-1782), the 8th Laird
+                    Auchinleck. He, too, increased land holdings and succeeded in buying back most
+                    of the lands that had been sold by his grandfather, David Boswell. With James
+                    Boswell (1740-1795) as 9th Laird Auchinleck, the estate again fell into
+                    disorder. His son, Sir Alexander Boswell (1775-1822), 1st Baronet Auchinleck,
+                    increased the estate’s size by purchasing the neighboring barony of Ochiltree.
+                    However, his finances had declined by the time he died from an injury sustained
+                    in a duel. The barony never regained the prominence it held under the 8th Laird
+                    Auchinleck, Alexander Boswell. By the time James Boswell gave Auchinleck House
+                    to the Scottish Historic Buildings Trust in 1986, it was in disrepair.</p>
+            </biogHist>
+        </description>
+        <relations>
+            <cpfRelation cpfRelationType="family" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://hdl.handle.net/10079/rjdfndm">
+                <relationEntry>Boswell, James, 1740-1795</relationEntry>
+                <descriptiveNote>
+                    <p>9th Laird of Auchinleck.</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <cpfRelation cpfRelationType="associative" xlink:actuate="onRequest" xlink:show="new"
+                xlink:type="simple" xlink:href="http://nrs.harvard.edu/urn-3:FHCL.HOUGH:8822136">
+                <relationEntry>Johnson, Samuel, 1709-1784 </relationEntry>
+                <descriptiveNote>
+                    <p>Visited Auchinleck with James Boswell in 1773.</p>
+                </descriptiveNote>
+            </cpfRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.boswell">
+                <relationEntry>Boswell Collection</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.boswell2">
+                <relationEntry>Boswell collection : addition</relationEntry>
+            </resourceRelation>
+            <resourceRelation resourceRelationType="creatorOf" xlink:actuate="onRequest"
+                xlink:show="new" xlink:type="simple"
+                xlink:href="http://hdl.handle.net/10079/fa/beinecke.boswart">
+                <relationEntry>Boswell collection supplement</relationEntry>
+            </resourceRelation>
+        </relations>
+    </cpfDescription>
+</eac-cpf>

@@ -1,4 +1,4 @@
-class LCNAFConverter < MarcXMLConverter
+class LCNAFConverter < MarcXMLBibConverter
 
   def self.import_types(show_hidden = false)
     if show_hidden

@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'converter_spec_helper'
 
-require_relative '../app/converters/marcxml_converter'
+require_relative '../app/converters/marcxml_bib_converter'
 
-describe 'MARCXML converter' do
+describe 'MARCXML Bib converter' do
 
   def my_converter
-    MarcXMLConverter
+    MarcXMLBibConverter
   end
 
   describe "Basic MARCXML to ASPACE mappings" do
@@ -351,11 +351,11 @@ END
 
   describe "Importing Name Authority Files" do
     it "can import a name authority record" do
-      pending "superceded"
+      pending "updates to MARC imports for new agents module"
       john_davis = File.expand_path("../app/exporters/examples/marc/authority_john_davis.xml",
                                     File.dirname(__FILE__))
 
-      converter = MarcXMLConverter.for_subjects_and_agents_only(john_davis)
+      converter = MarcXMLBibConverter.for_subjects_and_agents_only(john_davis)
       converter.run
       json = JSON(IO.read(converter.get_output_path))
       # we should only get one agent record
@@ -402,7 +402,7 @@ END
       cyberpunk_file = File.expand_path("../app/exporters/examples/marc/authority_cyberpunk.xml",
                                     File.dirname(__FILE__))
 
-      converter = MarcXMLConverter.for_subjects_and_agents_only(cyberpunk_file)
+      converter = MarcXMLBibConverter.for_subjects_and_agents_only(cyberpunk_file)
       converter.run
       json = JSON(IO.read(converter.get_output_path))
       # we should only get one subject record
@@ -421,7 +421,7 @@ END
       lcgft_file = File.expand_path("../app/exporters/examples/marc/gf2014026450.xml",
                                     File.dirname(__FILE__))
 
-      converter = MarcXMLConverter.for_subjects_and_agents_only(lcgft_file)
+      converter = MarcXMLBibConverter.for_subjects_and_agents_only(lcgft_file)
       converter.run
       json = JSON(IO.read(converter.get_output_path))
       # we should only get one subject record
@@ -531,7 +531,7 @@ ROTFL
     end
 
     before(:all) do
-      converter = MarcXMLConverter.for_subjects_and_agents_only(name_order_test_doc)
+      converter = MarcXMLBibConverter.for_subjects_and_agents_only(name_order_test_doc)
       converter.run
       json = JSON(IO.read(converter.get_output_path))
       @people = json.select{|r| r['jsonmodel_type'] == 'agent_person'}
@@ -673,7 +673,7 @@ MARC
     end
 
     let (:subclass) {
-      class CramXMLConverter < MarcXMLConverter
+      class CramXMLConverter < MarcXMLBibConverter
         def self.import_types(*args)
           {:name => 'cramxml', :description => "cram records in"}
         end
@@ -720,7 +720,7 @@ MARC
     it "lets itself be subclassed and reconfigured" do
 
       # regular converter should produce an invalid record
-      converter = MarcXMLConverter.new(test_doc)
+      converter = MarcXMLBibConverter.new(test_doc)
       expect { converter.run }.to raise_error(JSONModel::ValidationException)
 
       # our cram converter should produce a valid record
@@ -728,7 +728,7 @@ MARC
       expect { subconverter.run }.not_to raise_error
 
       # regular converter should still produce an invalid record
-      converter = MarcXMLConverter.new(test_doc)
+      converter = MarcXMLBibConverter.new(test_doc)
       expect { converter.run }.to raise_error(JSONModel::ValidationException)
     end
   end
@@ -753,7 +753,7 @@ MARC
     end
 
     let (:subconverter) {
-      class BadMarcXMLAccessionConverter < MarcXMLConverter
+      class BadMarcXMLBibAccessionConverter < MarcXMLBibConverter
         def self.import_types(*args)
           {:name => 'marc2accession', :description => "make accessions from marc"}
         end
@@ -766,7 +766,7 @@ MARC
         end
       end
 
-      BadMarcXMLAccessionConverter.configure do |config|
+      BadMarcXMLBibAccessionConverter.configure do |config|
         config['/record'] = {
           :obj => :accession,
           :map => {
@@ -799,7 +799,7 @@ MARC
 
       end
 
-      BadMarcXMLAccessionConverter
+      BadMarcXMLBibAccessionConverter
     }
 
     it "raises a ConverterMappingError" do

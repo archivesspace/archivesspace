@@ -1,6 +1,6 @@
-require_relative 'marcxml_converter'
+require_relative 'marcxml_bib_converter'
 
-class MarcXMLAccessionConverter < MarcXMLConverter
+class MarcXMLBibAccessionConverter < MarcXMLBibConverter
   def self.import_types(show_hidden = false)
     [
      {
@@ -20,7 +20,7 @@ class MarcXMLAccessionConverter < MarcXMLConverter
 
 end
 
-MarcXMLAccessionConverter.configure do |config|
+MarcXMLBibAccessionConverter.configure do |config|
   config["/record"][:obj] = :accession
   config["/record"][:map].delete("//controlfield[@tag='008']")
 
