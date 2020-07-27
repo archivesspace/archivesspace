@@ -2,8 +2,28 @@
 
 <%= render_aspace_partial :partial => "agents/contact_details", :locals => {:form => form} %>
 
-<%# This line is here temporarily so we can tease out the hide feature from the rest of the huge ANW-429 branch without breaking the view code below %>
-<% invisible = false %>
+<% if AppConfig[:agents_display_full] == false || !@full_mode %>
+  <% invisible = true %>
+<% else %>
+  <% invisible = false %>
+<% end %>
+
+<% if invisible && 
+      (@agent.agent_record_controls.length > 0 ||
+      @agent.agent_other_agency_codes.length > 0 ||
+      @agent.agent_conventions_declarations.length > 0 ||
+      @agent.agent_maintenance_histories.length > 0 ||
+      @agent.agent_sources.length > 0 ||
+      @agent.agent_alternate_sets.length > 0 ||
+      @agent.agent_genders.length > 0 ||
+      @agent.agent_places.length > 0 ||
+      @agent.agent_occupations.length > 0 ||
+      @agent.agent_functions.length > 0 ||
+      @agent.agent_topics.length > 0 ||
+      @agent.used_languages.length > 0 ||
+      @agent.agent_resources.length > 0) %>
+  <div class="alert alert-warning">This agent has data that is only editable in Full mode. To enable it, ask your administrator to enable Full Mode on this instance and grant you Full Mode permission.</div>
+<% end %>
 
 <fieldset>
   <section id="basic_information">
