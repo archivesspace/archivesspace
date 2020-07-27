@@ -309,6 +309,7 @@ ArchivesSpace::Application.routes.draw do
 
     match "system_info" => "system_info#show", :via => [ :get ]
     match "system_info/log" => "system_info#stream_log", :via => [:get]
+    match "system_info/config" => "system_info#reload_config", :via => [:post]
 
     root :to => 'welcome#index'
 

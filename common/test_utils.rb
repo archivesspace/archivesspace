@@ -107,9 +107,10 @@ module TestUtils
     pid
   end
 
-  def self.start_frontend(port, backend_url, config = {})
+  def self.start_frontend(port, backend_url, config = {}, config_file = nil)
     java_opts = "-Daspace.config.backend_url=#{backend_url}"
     java_opts += build_config_string(config)
+    java_opts += " -Daspace.config=#{config_file}" if config_file
 
     build_args = java_build_args(['frontend:devserver:integration',
                                   "-Daspace.frontend.port=#{port}"])
@@ -117,6 +118,7 @@ module TestUtils
     java_opts, build_args = add_solr(java_opts, build_args, config)
     java_opts += ' -Xmx1512m'
 
+    puts "Spawning frontend with opts: #{java_opts}"
     pid = Process.spawn({ 'JAVA_OPTS' => java_opts, 'TEST_MODE' => 'true' },
                         find_ant, *build_args)
 
