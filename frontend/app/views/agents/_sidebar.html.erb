@@ -13,6 +13,8 @@
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_record_identifier', :property => 'agent_record_identifiers', :anchor => "#{@agent.agent_type}_agent_record_identifier") %>
 
+
+   <% if (AppConfig[:agents_display_full] && AppConfig[:agents_display_full] == true && @full_mode) || action_name == "show" %>
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_record_control', :property => 'agent_record_controls', :anchor => "#{@agent.agent_type}_agent_record_control") %>
 
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_other_agency_code', :property => 'agent_other_agency_codes', :anchor => "#{@agent.agent_type}_agent_other_agency_codes") %>
@@ -24,6 +26,8 @@
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_source', :property => 'agent_sources', :anchor => "#{@agent.agent_type}_agent_sources") %>
 
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_alternate_set', :property => 'agent_alternate_sets', :anchor => "#{@agent.agent_type}_agent_alternate_set") %>
+   <% end %>
+
     <% if action_name != "show" %>
         <%= render_aspace_partial :partial => "shared/sidebar_entry", :locals => {:anchor => "identity_information", :title => "Identity Information"} %>
     <% end %>
@@ -39,6 +43,9 @@
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'dates_of_existence', :property => 'dates_of_existence',
                                          :anchor => "#{@agent.agent_type}_dates_of_existence") %>
+
+
+   <% if (AppConfig[:agents_display_full] && AppConfig[:agents_display_full] == true && @full_mode) || action_name == "show" %>
 
     <% if @agent.agent_type == "agent_person" %>
         <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_gender', :property => 'agent_genders', :anchor => "agent_person_agent_gender") %>
@@ -59,6 +66,10 @@
 
       <%= sidebar.render_for_view_and_edit(:subrecord_type => 'used_language', :property => 'used_languages',
                                          :anchor => "#{@agent.agent_type}_used_language") %>
+
+    <% end %>
+ 
+ 
     <% if user_can?('view_agent_contact_record') %>
       <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_contact', :property => 'agent_contacts', :anchor => "#{@agent.agent_type}_contact_details") %>
     <% end %>
@@ -71,8 +82,12 @@
     <% if action_name != "show" %>
         <%= render_aspace_partial :partial => "shared/sidebar_entry", :locals => {:anchor => "relation_information", :title => "Relation Information"} %>
     <% end %>
+    
+   <% if (AppConfig[:agents_display_full] && AppConfig[:agents_display_full] == true && @full_mode) || action_name == "show" %>
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_resource', :property => 'agent_resources',
                                          :anchor => "#{@agent.agent_type}_agent_resource") %>
+
+   <% end %>
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'related_agent', :property => 'related_agents', :anchor => "related_agents") %>
 

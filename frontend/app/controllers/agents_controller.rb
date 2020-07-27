@@ -31,6 +31,7 @@ class AgentsController < ApplicationController
   end
 
   def new
+    @full_mode = user_can?("show_full_agents") || user_can?("administer_system")
     @agent = JSONModel(@agent_type).new({:agent_type => @agent_type})._always_valid!
     if user_prefs['default_values']
       defaults = DefaultValues.get @agent_type.to_s
@@ -57,6 +58,7 @@ class AgentsController < ApplicationController
 
   def edit
     @agent = JSONModel(@agent_type).find(params[:id], find_opts)
+    @full_mode = user_can?("show_full_agents") || user_can?("administer_system")
   end
 
   def create
@@ -94,6 +96,8 @@ class AgentsController < ApplicationController
   end
 
   def update
+    @full_mode = user_can?("show_full_agents") || user_can?("administer_system")
+
     handle_crud(:instance => :agent,
                 :model => JSONModel(@agent_type),
                 :obj => JSONModel(@agent_type).find(params[:id], find_opts),

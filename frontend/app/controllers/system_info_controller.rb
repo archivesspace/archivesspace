@@ -1,6 +1,6 @@
 class SystemInfoController < ApplicationController
   
-  set_access_control  "administer_system" => [ :show, :stream_log]
+  set_access_control  "administer_system" => [ :show, :stream_log, :reload_config]
   before_action :user_needs_to_be_global_admin
 
   def show 
@@ -29,7 +29,10 @@ class SystemInfoController < ApplicationController
     end
 
     render :plain => @log
+  end
 
+  def reload_config
+    AppConfig.reload
   end
 
 end

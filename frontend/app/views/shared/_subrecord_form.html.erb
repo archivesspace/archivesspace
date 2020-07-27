@@ -19,6 +19,12 @@
   end
   section_classes << (hidden ? "subrecord-form-hidden" : "subrecord-form")
 
+  # invisible will still render the data to the DOM so existing data gets passed down and kept
+
+  invisible = false if invisible.blank? 
+  invisible_class = invisible ? "subrecord-form-invisible" : ""
+  section_classes << invisible_class
+
   required = form.required?(name) if required.blank?
 
   cardinality = :zero_to_many if cardinality.blank?
@@ -27,7 +33,6 @@
 %>
 
 <%= render_aspace_partial :partial => template_erb, :locals => {:form => form} %>
-
 
 <section id="<%= section_id %>" class="<%= section_classes.reject(&:blank?).join(' ') %><% if required == :conditionally %> conditionally-required<% elsif required %> required<% end %>" data-subrecord-form="true" data-object-name="<%= singular %>" data-template="<%= js_template_name %>" <% if custom_action_template %>data-custom-action="true"<% end %> data-cardinality="<%= cardinality %>">
   <% unless hidden %>
