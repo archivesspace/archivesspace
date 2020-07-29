@@ -32,7 +32,7 @@ class LocationsController < ApplicationController
   end
 
   def new
-    location_params = params.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c }
+    location_params = params.permit(LOCATION_STICKY_PARAMS.map(&:to_sym)).to_h.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c }
     @location = JSONModel(:location).new(location_params)._always_valid!
 
     if user_prefs['default_values']
@@ -122,7 +122,7 @@ class LocationsController < ApplicationController
       @action = "update" # we use this for some label in the view..
       @location_batch = JSONModel(:location_batch_update).new(params)._always_valid!
     else # we're just creatinga new batch from scratch
-      location_params = params.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c }
+      location_params = params.permit(LOCATION_STICKY_PARAMS.map(&:to_sym)).to_h.inject({}) { |c, (k,v)| c[k] = v if LOCATION_STICKY_PARAMS.include?(k); c }
       @location_batch = JSONModel(:location_batch).new(location_params)
     end
   end

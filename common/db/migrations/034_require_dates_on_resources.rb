@@ -9,7 +9,7 @@ Sequel.migration do
    enum = self[:enumeration].filter(:name => 'date_label').select(:id)
    label = self[:enumeration_value].filter(:value => 'other', :enumeration_id => enum ).select(:id) 
    
-   date_resource_id = self[:date].where('resource_id IS NOT NULL').select(:resource_id)
+   date_resource_id = self[:date].where(Sequel.lit('resource_id IS NOT NULL')).select(:resource_id)
    
    no_dates = self[:resource].exclude(:id => date_resource_id).select(:id, :repo_id )
   

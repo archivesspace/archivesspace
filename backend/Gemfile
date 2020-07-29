@@ -8,8 +8,8 @@ gem 'childprocess', '~> 3.0', '< 4.0'
 gem 'i18n', '0.9.1'
 gem 'jdbc-derby', '10.12.1.1'
 gem 'jdbc-mysql', '5.1.13', group: :development
-gem 'jruby-jars', '= 9.1.17.0'
-gem 'json', '1.8.6'
+gem 'jruby-jars', '= 9.2.12.0'
+gem 'json', '2.2.0'
 gem 'json-schema', '1.0.10'
 gem 'mizuno', '0.6.11'
 gem 'net-ldap', '~> 0.16.0'
@@ -20,14 +20,14 @@ gem 'rufus-scheduler', '~> 2.0.24'
 gem 'rubyXL', '~> 3.4', '>= 3.4.9'
 gem 'saxerator', '= 0.9.2'
 gem 'saxon-rb', '~> 0.6'
-gem 'sequel', '~> 4.20.0'
-gem 'sinatra', '1.4.7', require: false
-gem 'sinatra-contrib', '1.4.7', require: false
+gem 'sequel', '~> 5.9.0'
+gem 'sinatra', '2.0.5', require: false
+gem 'sinatra-contrib', '2.0.5', require: false
 gem 'tzinfo'
 
-gem 'warbler', '2.0.4', group: :build
+gem 'warbler', '2.0.5', group: :build
 
-gem 'activesupport', '5.0.7.2'
+gem 'activesupport', '5.2.4.3'
 gem 'oai', '0.4.0'
 
 gem 'rrtf'
@@ -35,7 +35,7 @@ gem 'rrtf'
 group :test do
   gem 'factory_bot', '~> 4.11', '>= 4.11.1'
   gem 'ladle', '0.2.0'
-  gem 'rack-test', '~> 0.6.3'
+  gem 'rack-test', '~> 1.1.0'
   gem 'rspec', '~> 3.6.0'
   gem 'rspec-core'
   gem 'simplecov', '0.7.1'
@@ -48,7 +48,7 @@ group :development, :test do
   gem 'rubocop', '~> 0.72.0', require: false
 end
 
-gem 'multi_json', '~> 1.14.1'
+gem 'multi_json', '~> 1.15.0'
 gem 'multipart-post', '1.2.0'
 gem 'net-http-persistent', '2.8'
 gem 'rjack-jackson', '1.8.11.0'

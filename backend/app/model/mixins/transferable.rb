@@ -125,7 +125,7 @@ module Transferable
 
         if number_of_tc_links < 1
           # this tc is only linked in this graph..so we transfer
-          top_container = TopContainer.this_repo.filter[tc_rel[:top_container_id]]
+          top_container = TopContainer.this_repo.filter(id: tc_rel[:top_container_id]).first
 
           if top_container
             if top_container.barcode && TopContainer.any_repo[:barcode => top_container.barcode, :repo_id => repository.id]

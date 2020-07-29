@@ -78,7 +78,7 @@ class EnumerationsController < ApplicationController
       @enumeration.save
 
       flash[:success] = I18n.t("enumeration._frontend.messages.deleted")
-      render :text => "Success"
+      render :plain => "Success"
     rescue ConflictException
       flash.now[:error] = I18n.t("enumeration._frontend.messages.delete_conflict")
       flash.now[:info] = I18n.t("enumeration._frontend.messages.merge_tip")
@@ -111,7 +111,7 @@ class EnumerationsController < ApplicationController
       request.save
 
       flash[:success] = I18n.t("enumeration._frontend.messages.merged")
-      render :text => "Success"
+      render :plain => "Success"
     rescue
       flash.now[:error] = I18n.t("enumeration._frontend.messages.merge_error")
       render_aspace_partial :partial => "merge"
@@ -131,7 +131,7 @@ class EnumerationsController < ApplicationController
       @enumeration.save
 
       flash[:success] = I18n.t("enumeration._frontend.messages.created")
-      render :text => "Success"
+      render :plain => "Success"
     rescue
       flash.now[:error] = I18n.t("enumeration._frontend.messages.create_error")
       render_aspace_partial :partial => "new"

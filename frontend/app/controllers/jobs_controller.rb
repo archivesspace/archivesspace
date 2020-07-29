@@ -44,7 +44,7 @@ class JobsController < ApplicationController
 
       if (params['ajax'])
         if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
-          render :text => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
+          render :plain => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
         else
           render :json => uploaded
         end

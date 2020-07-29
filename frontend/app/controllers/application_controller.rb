@@ -100,7 +100,7 @@ class ApplicationController < ActionController::Base
       if opts[:required]
         required = opts[:required]
         missing, min_items = compare(required, obj)
-        #render :text => missing
+        #render :plain => missing
         if !missing.nil?
           missing.each do |field_name|
             obj.add_error(field_name, "Property is required but was missing")
