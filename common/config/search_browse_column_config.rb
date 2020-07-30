@@ -62,6 +62,7 @@ module SearchAndBrowseColumnConfig
       "area" => {:field => "area", :sortable => true},
       "location_holdings" => {:field => "location_holdings"},
       "location_profile_display_string_u_ssort" => {:field => "location_profile_display_string_u_ssort"},
+      "owner_repo_display_string_u_ssort" => {:field => "owner_repo_display_string_u_ssort"},
       "temporary" => {:field => "temporary", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
