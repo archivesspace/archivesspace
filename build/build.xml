@@ -12,10 +12,11 @@
   <!-- Path to jruby bin directory relative to aspace ./build -->
   <property name="jruby_build_bin_path" value="./gems/jruby/${jruby_build_version}/bin" />
   <!-- Properties for ArchivesSpace build of the JRuby Rack jar -->
-  <!-- The version needs to match the standard jruby-rack jar at: build/gems/jruby/$version  -->
+  <!-- The versions need to match the gem versions in: build/gems/jruby/$version  -->
   <property name="jruby_rack_version" value="1.1.21" />
+  <property name="rack_version" value="2.2.3" />
   <property name="jruby_rack_file" value="jruby-rack-${jruby_rack_version}.jar" />
-  <property name="jruby_rack_url" value="https://as-public-shared-files.s3-us-west-2.amazonaws.com/${jruby_rack_file}" />
+  <property name="jruby_rack_url" value="https://as-public-shared-files.s3-us-west-2.amazonaws.com/jruby-rack-${jruby_rack_version}_rack-${rack_version}.jar" />
 
   <property name="solr_url" value="https://repo1.maven.org/maven2/org/apache/solr/solr/4.10.4/solr-4.10.4.war" />
   <property name="solr_file" value="solr-4.10.4.war" />
