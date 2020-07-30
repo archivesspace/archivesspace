@@ -1,0 +1,12 @@
+<% names_with_primarys = result.json['names'].select{ |n| n['parallel_names'].any? } %>
+
+<% if names_with_primarys.any? %>
+  <ul>
+  <% names_with_primarys.each do |n| %>
+    <% p_names = n['parallel_names'] %>
+    <% p_names.each do |pn| %>
+      <li><%= pn['primary_name'] %></li>
+    <% end %>
+  <% end %>
+  </ul>
+<% end %>
