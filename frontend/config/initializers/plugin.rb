@@ -255,6 +255,8 @@ module Plugins
   class PluginReadonlySearch < AbstractPluginSection
 
     def render_readonly(view_context, record, form_context)
+      return '' if @only_show_if_results && !has_results?(record)
+
       view_context.render_aspace_partial(
         :partial => @erb_template,
         :locals => {
@@ -275,6 +277,25 @@ module Plugins
       @filter_term_proc = opts.fetch(:filter_term_proc)
       @heading_text = opts.fetch(:heading_text)
       @erb_template = opts.fetch(:erb_template, "search/embedded")
+      @only_show_if_results = opts.fetch(:only_show_if_results, false)
+    end
+
+    def has_results?(record)
+      filter = JSON.parse(@filter_term_proc.call(record))
+
+      query = AdvancedQueryBuilder.new
+      filter.each do |field, value|
+        query.and(field, value)
+      end
+
+      parsed = JSONModel.parse_reference(record.uri)
+      results = JSONModel::HTTP::get_json("#{parsed.fetch(:repository)}/search", {
+        'filter' => query.build.to_json,
+        'page' => 1,
+        'page_size' => 1,
+      })
+
+      results && results['total_hits'] && results['total_hits'] > 0
     end
 
   end
