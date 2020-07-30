@@ -57,49 +57,6 @@
       <% end %>
     <% end %>
 
-    <%# PARALLEL NAMES %>
-    <% names_with_primarys = json['names'].select{ |n| n['parallel_names'].any? } %>
-
-    <% if names_with_primarys.any? %>
-      <h3>Parallel Names</h3>
-      <ul>
-      <% names_with_primarys.each do |n| %>
-        <% p_names = n['parallel_names'] %>
-        <% p_names.each do |pn| %>
-          <li><%= pn['primary_name'] %></li>
-        <% end %>
-      <% end %>
-      </ul>
-    <% end %>
-
-    <%# PLACES %>
-    <% if json['agent_places'].any? %>
-      <h3>Places</h3>
-      <ul>
-      <% json['agent_places'].each do |n| %>
-        <% subjects = n['subjects'] %>
-
-        <% subjects.each do |s| %>
-          <li><%= s['_resolved']['title'] %></li>
-        <% end %>
-      <% end %>
-      </ul>
-    <% end %>
-
-    <%# OCCUPATIONS %>
-    <% if json['agent_occupations'].any? %>
-      <h3>Occupations</h3>
-      <ul>
-      <% json['agent_occupations'].each do |n| %>
-        <% subjects = n['subjects'] %>
-
-        <% subjects.each do |s| %>
-          <li><%= s['_resolved']['title'] %></li>
-        <% end %>
-      <% end %>
-      </ul>
-    <% end %>
-    
     <br />
     <br />
 
@@ -111,10 +68,6 @@
          <% end %>
          <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
     <% end %>
-
-
-
-
   </div>
 
   <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
@@ -127,11 +80,28 @@
       <div class="panel-group" id="agent_accordion">
 
         <% n = render partial: 'name', locals: {:result => @result} %>
-
         <%= render partial: 'shared/accordion_panel', locals: 
           {:p_title =>  I18n.t('name_person._plural'),
             :p_id => "names_panel",
             :p_body => n } %>
+
+        <% pn = render partial: 'parallel_names', locals: {:result => @result} %>
+        <%= render partial: 'shared/accordion_panel', locals: 
+          {:p_title =>  I18n.t('parallel_name_person._plural'),
+            :p_id => "parallel_names_panel",
+            :p_body => pn } %>
+
+        <% pl = render partial: 'places', locals: {:result => @result} %>
+        <%= render partial: 'shared/accordion_panel', locals: 
+          {:p_title =>  I18n.t('agent_place._plural'),
+            :p_id => "agent_places_panel",
+            :p_body => pl } %>
+
+        <% o = render partial: 'occupations', locals: {:result => @result} %>
+        <%= render partial: 'shared/accordion_panel', locals: 
+          {:p_title =>  I18n.t('agent_occupation._plural'),
+            :p_id => "agent_occupations_panel",
+            :p_body => o } %>
  
         <% if @result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty? %>
           <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.json['related_agents'], :list_clss => 'related_agents'} %>

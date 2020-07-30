@@ -494,6 +494,14 @@ en:
   agent_software:
     _singular: Software
 
+  agent_place:
+    _singular: Place
+    _plural: Places
+
+  agent_occupation:
+    _singular: Occupation
+    _plural: Occupations
+
   components:
     expand: Expand
     collapse: Collapse
