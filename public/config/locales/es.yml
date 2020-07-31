@@ -20,11 +20,14 @@ es:
     new_search: Nueva búsqueda
     refine_search: Refinar busqueda
     browse: Vistazo
+    close: Cerca
     show_advanced_search: Mostrar búsqueda avanzada
     hide_advanced_search: Ocultar búsqueda avanzada
     backup: Regresar a la página anterior
     backup_abbr: Regresa
     cite: Mención
+    cite_item: Cite artículo
+    cite_item_description: Cite Descripción del artículo
     request: Solicitud
     print: Imprimir
     print-generating: Generando
@@ -367,7 +370,7 @@ es:
         description_rules: Reglas de Descripción
         identifier: Identificador
         language: Lengua del instrumento de descripción
-        script: Escritura de la descripción 
+        script: Escritura de la descripción
         language_note: Idioma de la descripción nota
         sponsor: Patrocinador
         edition_statement: Mención de edición
