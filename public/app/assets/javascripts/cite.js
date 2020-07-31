@@ -1,5 +1,5 @@
 function setupCite(modalId, text){
-    setupClip(modalId, text, 'citeThis', 'cite');
+    setupClip(modalId, text, '[data-js="citation"].active', 'cite');
     $('#cite_sub').submit(function(e) {
 	    cite();
 	    return false;
@@ -12,14 +12,13 @@ function setupClip(modalId, btnText,target, type ) {
     var x = $modal.find('.action-btn');
     var btn;
     if (x.length == 1) {
-	btn = x[0];
-    }
-    else {
-	btn = x;
+      btn = x[0];
+    } else {
+      btn = x;
     }
     $(btn).attr('id', type+ "_btn");
     $(btn).addClass('clip-btn');
-    $(btn).attr('data-clipboard-target', '#'+target);
+    $(btn).attr('data-clipboard-target', target);
     $(btn).html(btnText);
     new Clipboard('.clip-btn');
 }

@@ -2,7 +2,7 @@ class Resource < Record
   include ResourceRequestItems
 
   attr_reader :digital_instances, :finding_aid, :related_accessions,
-              :related_deaccessions, :cite
+              :related_deaccessions, :cite, :cite_item, :cite_item_description
 
   def initialize(*args)
     super
@@ -10,7 +10,10 @@ class Resource < Record
     @digital_instances = parse_digital_instance
     @finding_aid = parse_finding_aid
     @related_accessions = parse_related_accessions
-    @cite = parse_cite_string
+    # ANW-921: Refactored citation modal, keep cite in case used by others
+    @cite = parse_cite_string("")
+    @cite_item = parse_cite_string("item")
+    @cite_item_description = parse_cite_string("description")
   end
 
   def breadcrumb
@@ -253,7 +256,7 @@ class Resource < Record
     }
   end
 
-  def parse_cite_string
+  def parse_cite_string(cite_type)
     cite = note('prefercite')
     unless cite.blank?
       cite = strip_mixed_content(cite['note_text'])
@@ -270,7 +273,11 @@ class Resource < Record
         cite += " #{ repository_information['top']['name']}."
       end
     end
-    HTMLEntities.new.decode("#{cite}   #{cite_url_and_timestamp}.")
+    if cite_type == "description"
+      HTMLEntities.new.decode("#{cite} #{cite_url_and_timestamp}.")
+    else
+      HTMLEntities.new.decode("#{cite}")
+    end
   end
 
   def parse_notes
