@@ -10,6 +10,6 @@ class TestsController < ApplicationController
       exit!(0)
     end
 
-    render :text => "No way"
+    render :plain => "No way"
   end
 end

@@ -11,12 +11,12 @@ class SubjectsController < ApplicationController
   def index
     respond_to do |format|
       format.html {
-        @search_data = Search.global({"sort" => "title_sort asc"}.merge(params_for_backend_search.merge({"facet[]" => SearchResultData.SUBJECT_FACETS})),
-                                 "subjects")
+        @search_data = Search.for_type(session[:repo_id], "subject", params_for_backend_search.merge({"facet[]" => SearchResultData.SUBJECT_FACETS}))
       }
       format.csv {
-        search_params = params_for_backend_search.merge({ "sort" => "title_sort asc",  "facet[]" => SearchResultData.SUBJECT_FACETS})
-        uri = "/search/subjects"
+        search_params = params_for_backend_search.merge({ "facet[]" => SearchResultData.SUBJECT_FACETS})
+        search_params["type[]"] = "subject"
+        uri = "/repositories/#{session[:repo_id]}/search"
         csv_response( uri, search_params )
       }
     end

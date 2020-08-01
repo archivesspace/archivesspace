@@ -160,6 +160,8 @@ ja:
       type_enum_s: タイプ
       published_series_title_u_sstr: シリーズ
       instance_type_enum_s: インスタンスの種類
+      langcode: 言語
+
   search_sorting:
     sort_by: 並び替え：
     sort: ソート

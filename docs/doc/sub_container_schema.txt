@@ -8,6 +8,8 @@ string	type_2
 
 string (max length: 255)	indicator_2
 
+string (max length: 255)	barcode_2
+
 string	type_3
 
 string (max length: 255)	indicator_3

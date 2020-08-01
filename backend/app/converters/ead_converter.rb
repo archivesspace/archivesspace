@@ -774,7 +774,7 @@ class EADConverter < Converter
 
       instance_type = att('label') || 'mixed_materials'
 
-      if instance_type =~ /(.*)\s+?[\(\[] *(.*) *[\)\]]$/
+      if instance_type =~ /(.*)\s+?[\(\[]\s*(.*?)\s*[\)\]]$/
         instance_type = $1
         barcode = $2
       end

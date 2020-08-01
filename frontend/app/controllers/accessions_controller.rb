@@ -27,6 +27,7 @@ class AccessionsController < ApplicationController
 
   def show
     @accession = fetch_resolved(params[:id])
+
     @accession['accession_date'] = I18n.t('accession.accession_date_unknown') if @accession['accession_date'] == "9999-12-31"
 
     flash[:info] = I18n.t("accession._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:accession => @accession)) if @accession.suppressed
@@ -182,7 +183,11 @@ class AccessionsController < ApplicationController
 
   # refactoring note: suspiciously similar to resources_controller.rb
   def fetch_resolved(id)
-    accession = Accession.find(id, find_opts)
+    # We add this so that we can get a top container location to display with the instance view
+    new_find_opts = find_opts
+    new_find_opts["resolve[]"].push("top_container::container_locations")
+
+    accession = Accession.find(id, new_find_opts)
 
     if accession['classifications']
       accession['classifications'].each do |classification|

@@ -189,7 +189,7 @@
         <%= form.select "instance_type", jsonmodel_definition(:instance).options_for(form, 'instance_type', true).reject{|option_arr| option_arr[1] === 'digital_object'} %>
       <% end %>
     </td>
-    <td data-col="colCTop" class="form-group">
+    <td data-col="colCTop" class="form-group overflow-visible">
       <% form.push(form.set_index("instances[]", 0), begin archival_object["instances"][0] || {} rescue {} end) do %>
         <% form.push(form.set_index("sub_container", 0), form["sub_container"] || {}) do %>
           <% form.push("top_container", form.obj["top_container"] || {}) do %>

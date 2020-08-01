@@ -1894,40 +1894,30 @@ es:
     publish_tooltip: Si desea publicar nuevos registros por defecto.
     default_values: ¿Pre-popular registros?
     default_values_tooltip: Si quiere pre-popular un nuevo Fondo o Acta de ingreso
+    browse_column: Columna %{num}
+    browse_column_tooltip: El campo para mostrar en la columna %{num}.
+    sort_column: Columna de clasificación predeterminada
+    sort_column_tooltip: El campo predeterminado para ordenar los resultados.
+    sort_direction: Dirección de clasificación predeterminada
+    sort_direction_tooltip: Dirección predeterminada para ordenar los resultados.
     locale: Language Selection
     accession_browse_section: Navegar columnas de entrada
-    accession_browse_column_1: Columna 1
-    accession_browse_column_1_tooltip: El campo para mostrar en la columna 1.
-    accession_browse_column_2: Columna 2
-    accession_browse_column_2_tooltip: El campo para mostrar en la columna 2.
-    accession_browse_column_3: Columna 3
-    accession_browse_column_3_tooltip: El campo para mostrar en la columna 3.
-    accession_browse_column_4: Columna 4
-    accession_browse_column_4_tooltip: El campo para mostrar en la columna 4.
-    accession_browse_column_5: Columna 5
-    accession_browse_column_5_tooltip: El campo para mostrar en la columna 5.
     resource_browse_section: Fondos ver columnas
-    resource_browse_column_1: Columna 1
-    resource_browse_column_1_tooltip: El campo para mostrar en la columna 1.
-    resource_browse_column_2: Columna 2
-    resource_browse_column_2_tooltip: El campo para mostrar en la columna 2.
-    resource_browse_column_3: Columna 3
-    resource_browse_column_3_tooltip: El campo para mostrar en la columna 3.
-    resource_browse_column_4: Columna 4
-    resource_browse_column_4_tooltip: El campo para mostrar en la columna 4.
-    resource_browse_column_5: Columna 5
-    resource_browse_column_5_tooltip: El campo para mostrar en la columna 5.
+    archival_object_browse_section: Objeto de archivo Examinar columnas
     digital_object_browse_section: Objeto digital ver columnas
-    digital_object_browse_column_1: Columna 1
-    digital_object_browse_column_1_tooltip: El campo para mostrar en la columna 1.
-    digital_object_browse_column_2: Columna 2
-    digital_object_browse_column_2_tooltip: El campo para mostrar en la columna 2.
-    digital_object_browse_column_3: Columna 3
-    digital_object_browse_column_3_tooltip: El campo para mostrar en la columna 3.
-    digital_object_browse_column_4: Columna 4
-    digital_object_browse_column_4_tooltip: El campo para mostrar en la columna 4.
-    digital_object_browse_column_5: Columna 5
-    digital_object_browse_column_5_tooltip: El campo para mostrar en la columna 5.
+    digital_object_component_browse_section: Componente de objetos digitales Examinar columnas
+    subject_browse_section: Materias ver columnas
+    agent_browse_section: Agente Examinar columnas
+    location_browse_section: Ubicación Examinar columnas
+    event_browse_section: Columnas de exploración de eventos
+    collection_management_browse_section: Gestión de colecciones Examinar columnas
+    top_container_browse_section: Contenedor superior Examinar columnas
+    classification_browse_section: Clasificación Examinar columnas
+    assessment_browse_section: Evaluación Examinar columnas
+    repositories_browse_section: Repositorio Examinar columnas
+    location_profile_browse_section: Perfil de ubicación Examinar columnas
+    container_profile_browse_section: Perfil de contenedor Examinar columnas
+    multi_browse_section: Buscar columnas
     note_order_section: Orden de las notas
     accept_default_message: ' > Acepte por defecto:'
     no_value: '[ningún valor]'
@@ -2039,11 +2029,15 @@ es:
     time_submitted: Tiempo sometida
     time_started: Tiempo comenzado
     time_finished: Tiempo terminado
+    time_submitted: Hora enviada
     owner: Propietario
     show_description: Muestra descripción
-    job_data: Informacion del trabajo
     input_file: Archivo de entrada
     output_file: Archivo de salida
+
+  container_labels_job:
+    source: Fuente
+    format: Formato
 
   report_job:
     report_type: Tipo de informe
@@ -2058,7 +2052,7 @@ es:
     import_type_accession_csv: Adquisición CSV
     import_type_digital_object_csv: Objeto digital CSV
     import_type_eac_xml: EAC
-    import_type_location_csv: Location CSV
+    import_type_location_csv: Lugar CSV
     import_type_marcxml: MarcXML (recursos)
     import_type_marcxml_accession: MarcXML (adquisición)
     import_type_marcxml_subjects_and_agents: MarcXML (sujetos y autoridads solamente)
@@ -2311,3 +2305,101 @@ es:
     sponsor_set_name_tooltip: Nombre del patrocinador
     sponsor_set_names_tooltip: Nombre del patrocinador
     sponsor_set_description_tooltip: Descripción del set del patrocinador
+
+  bulk_import:
+    row: "Fila %{row}"
+    processing_row: "El procesamiento de fila %{row}"
+    dig_assoc: Objeto digital añade a objetos Archivo
+    row_error: "Fila %{row} no serán objeto de tratamiento debido a errores: %{errs}"
+    no_ao: Sin Archivo objeto creado
+    ao: objeto Archivo
+    created: "%{what} creado: %{id}"
+    would_be: "%{what} se crearía"
+    updated: "%{what}: %{id}"
+    clip_btn: Copiar al portapapeles
+    clip_created: "\t%{what} creado:\t%{nm}\t%{id}\t%{ref_id}"
+    clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
+    clip_info: "\t\t\t\t\t%{what}\n"
+    clip_err: "\t\t\t\t\tERROR: %{err}\n"
+    clip_header: "Fila\tStatus\tTITLE\tURI\tRef ID\tINFO"
+    tc: Top Container
+    subj: Tema
+    agent: Agente
+    dig: objetos digitales
+    unfound_id: "%{type} %{id} ID NO ENCONTRADO. Este es un marcador de posición"
+    ref_id_notfound: "Ref Id %{refid} no encontrado"
+    processed: El archivo ha sido procesado
+    file_info: "%{size}K con filas %{rows}"
+    max_file_info: "%{size}K %{rows} y filas"
+    warn:
+      dup: "Logró controlada Lista de valores %{which} tiene varias copias de la traducción '%{trans}'. '%{used}' se utilizará como el valor."
+      disam: "Coincidencia múltiple (es) encontrados '%{what}'. La creación de '%{name}' para disabiguation."
+      disamuse: "Coincidencia múltiple (es) encontrados '%{what}'. Usando ya creado, '%{name}' para disabiguation."
+      single_date_end: "Fecha única %{date_str} tiene fecha de finalización que será ignorada."
+    error:
+      date_type: "Tipo de fecha [%{what}] %{date_str} válido para. Defaulting a 'incluido'"
+      date_label: "Fecha etiqueta [%{what}] válido para %{date_str}. La fecha no será procesada."
+      certainty: "No válido 'fecha de certeza' ignorado por %{date_str}: (%{what})"
+      below_bad_ao: No se puede procesar porque es un hijo de la mala objeto de archivo
+      enum: "No encontrado: '%{label}' no se encuentra en la lista %{which}"
+      error: "ERROR: Error (s) detectada: %{term}"
+      invalid_date: "Definición no válida la fecha (%{what}) para %{date_str}. La fecha no será procesada."
+      invalid_date_label: "Definición de etiqueta fecha no válida en primera fecha (%{what})"
+      too_many: Más de una coincidencia encontrada en la base de datos
+      type_undef: No se puede determinar el tipo
+      file_name: Nombre de archivo no se puede determinar
+      system: "Se ha producido algún error del sistema [%{msg}]."
+      initialize: "Procesamiento se termina [%{msg}]"
+      stopped: "Procesamiento detuvo en fila %{row} [%{msg}]"
+      duplicates: "Esta hoja de cálculo tiene códigos duplicados Archivo campo espacial: %{codes}"
+      res_ead: Recursos de esta forma es que falta un EAD ID
+      row_ead: Esta fila no aparece un EAD ID
+      row_missing_ead_uri: Esta fila le falta la EAD y un ID URI
+      ead_mismatch: "Forma de EAD ID [%{res_ead}] no coincide con el ID de fila EAD [%{row_ead}]"
+      uri_mismatch: "De recursos de entrada URI [%{res_uri}] no coincide con la fila de URIs [%{row_uri}]"
+      title: Falta el título
+      title_and_date: Falta el título y la fecha definición válida
+      hier_miss: Missing jerarquía - debe ser un número mayor que 0
+      hier_zero: Jerarquía debe ser mayor que 0
+      hier_wrong: Jerarquía no no puede haber más de un nivel más profundo que la fila anterior
+      hier_wrong_resource: quiso decir para iniciar el procesamiento con un objeto de archivo seleccionado?
+      hier_below_error_level: El objeto de archivo de los padres no fue creado
+      level: Missing válida nivel Descripción
+      date: "La fecha debe tener al menos uno de: fecha de inicio, Fecha de finalización, o la expresión de la fecha"
+      number: Extensión número que falta
+      extent_type: del tipo de extensión que falta
+      extent_validation: "No se puede validar medida (%{ext}): %{msg}"
+      no_header: Sin cabecera (códigos de campo) encontró fila; está usando la plantilla correcta?
+      no_data: No hay filas de datos procesables encontrado!
+      excel: "Error (s) analizar el archivo de Excel: %{errs}"
+      no_agent: "No se puede crear el Agente %{num}: [%{why}]"
+      no_tc: "No se puede crear parte superior del recipiente %{number}: [%{why}]"
+      missing_instance_type: Falta el tipo de instancia envase
+      no_ao: Sin Archivo objeto creado
+      no_container_instance: "No se puede crear de contenedores Instancia: [%{why}]"
+      no_create: "Incapaz de crear: [%{why}]"
+      no_move: "No se puede mover los objetos de archivo desde el final de la lista (código de respuesta %{code})"
+      bad_note: "Nota %{type} no está bien formada: %{msg}"
+      bad_note_type: "Tipo de nota '%{type}' no es compatible"
+      bad_relator: "No se puede crear enlace agente: '%{label}' no es un relator válida"
+      relator_invalid: "No se puede crear enlace agente debido a un problema con el relator '%{label}': %{why}"
+      bad_role: "No se puede crear enlace agente: '%{label}' no es una función válida"
+      role_invalid: "No se puede crear enlace agente debido a un problema con la función '%{label}': %{why}"
+      has_dig_obj: "Objeto Archivo ya tiene un objeto digital asociada"
+      dig_unassoc: "No se puede guardar objeto de archivo con el objeto digital asociada: %{msg}"
+      ref_id_miss: No Ref ID especificado
+      dig_info_miss: Ni el objeto URN Digital o la miniatura URN se especifica
+      dig_validation: "No se puede crear el objeto digital %{err}"
+      initial_save_error: "Problema con el primer salvamento de %{title} - %{msg}"
+      second_save_error: "Error en intento de volver a guardar objeto de archivo con 'casos' %{title}. Posición: %{pos} Esto significa que el objeto de archivo ha sido creado, pero posiblemente no vinculados a sus instancias asociadas (objeto digital, recipiente superior, asunto, etc. ) [%{what}]"
+      ao_validation: "Error de validación al intentar guardar objetos Archivo: %{err}"
+      validation_error: "No se puede validar %{what}: %{err}"
+      validated: "%{what} validado"
+      lang_code: "No se puede validar el lenguaje (%{lang})"
+      script_code: "No se puede validar un script language (%{script})"
+      process_error: "Procesamiento de Error %{type} %{num}: %{why}"
+      bad_ao_uri: "Con uri %{uri}"
+      bad_ao_ref_id: "Con REF ID %{ref_id}"
+      bad_ao: "No se puede encontrar el objeto de archivos %{errs}"
+      no_uri_or_ref: Tampoco se presentó una URI objeto archival ni un ID REF
+      file_too_big: "Este archivo, en %{file_info}, supera el tamaño y / o fila límites de número de %{limits}"

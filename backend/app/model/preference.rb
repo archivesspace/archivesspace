@@ -5,13 +5,7 @@ class Preference < Sequel::Model(:preference)
   set_model_scope :repository
 
   def self.init
-    defs_file = File.join(ASUtils.find_base_directory("common"), "config", "preference_defaults.rb")
-    defaults = {}
-    if File.exist?(defs_file)
-      found_defs_file = true
-      Log.info("Loading preference defaults file at #{defs_file}")
-      defaults = eval(File.read(defs_file))
-    end
+    defaults = PreferenceConfig.defaults
 
     RequestContext.in_global_repo do
       filter = {:repo_id => Repository.global_repo_id, :user_id => nil}
@@ -23,14 +17,12 @@ class Preference < Sequel::Model(:preference)
                                                                      }),
                                     :repo_id => Repository.global_repo_id)
       else
-        if found_defs_file
-          Log.info("Updating system preferences")
-          pref = self.filter(filter).first
-          pref.update_from_json(JSONModel(:preference).from_hash({:defaults => defaults}),
-                                :lock_version => pref.lock_version)
-        end
+        Log.info("Updating system preferences")
+        pref = self.filter(filter).first
+        pref.update_from_json(JSONModel(:preference).from_hash({:defaults => defaults}),
+                              :lock_version => pref.lock_version)
       end
-    end    
+    end
   end
 
 

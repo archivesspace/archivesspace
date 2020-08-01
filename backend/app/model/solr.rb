@@ -239,6 +239,7 @@ class Solr
       if @show_published_only
         # public ui
         add_solr_param(:fq, "publish:true")
+        add_solr_param(:fq, "types:pui")
       else
         # staff ui
         add_solr_param(:fq, "-types:pui_only")

@@ -28,7 +28,10 @@ class ArchivalObjectsController < ApplicationController
   end
 
   def edit
-    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
+    new_find_opts = find_opts
+    new_find_opts["resolve[]"].push("top_container::container_locations")
+
+    @archival_object = JSONModel(:archival_object).find(params[:id], new_find_opts)
 
     if @archival_object.suppressed
       return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
@@ -100,7 +103,11 @@ class ArchivalObjectsController < ApplicationController
 
   def show
     @resource_id = params['resource_id']
-    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
+
+    new_find_opts = find_opts
+    new_find_opts["resolve[]"].push("top_container::container_locations")
+
+    @archival_object = JSONModel(:archival_object).find(params[:id], new_find_opts)
 
     flash.now[:info] = I18n.t("archival_object._frontend.messages.suppressed_info", JSONModelI18nWrapper.new(:archival_object => @archival_object).enable_parse_mixed_content!(url_for(:root))) if @archival_object.suppressed
 
@@ -238,7 +245,7 @@ class ArchivalObjectsController < ApplicationController
           @children.save(:archival_object_id => @parent.id)
         end
 
-        return render :text => I18n.t("rde.messages.success")
+        return render :plain => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
         @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
         

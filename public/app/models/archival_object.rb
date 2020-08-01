@@ -55,6 +55,46 @@ class ArchivalObject < Record
     "#{cite}   #{cite_url_and_timestamp}."
   end
 
+  def cite_item
+    cite = note('prefercite')
+    unless cite.blank?
+      cite = strip_mixed_content(cite['note_text'])
+    else
+      cite = strip_mixed_content(display_string)
+      cite += identifier.blank? ? '' : ", #{identifier}"
+      cite += if container_display.blank? || container_display.length > 5
+        '.'
+      else
+        @citation_container_display ||= parse_container_display(:citation => true).join('; ')
+        ", #{@citation_container_display}."
+      end
+      unless repository_information['top']['name'].blank?
+        cite += " #{ repository_information['top']['name']}."
+      end
+    end
+    HTMLEntities.new.decode("#{cite}")
+  end
+
+  def cite_item_description
+    cite = note('prefercite')
+    unless cite.blank?
+      cite = strip_mixed_content(cite['note_text'])
+    else
+      cite = strip_mixed_content(display_string)
+      cite += identifier.blank? ? '' : ", #{identifier}"
+      cite += if container_display.blank? || container_display.length > 5
+        '.'
+      else
+        @citation_container_display ||= parse_container_display(:citation => true).join('; ')
+        ", #{@citation_container_display}."
+      end
+      unless repository_information['top']['name'].blank?
+        cite += " #{ repository_information['top']['name']}."
+      end
+    end
+    HTMLEntities.new.decode("#{cite}   #{cite_url_and_timestamp}.")
+  end
+
   def resource_identifier
     @resource_identifier ||= resolved_resource ? (
       (0..3).collect {|i| resolved_resource.dig("id_#{i}")}.compact.join('-')) : nil

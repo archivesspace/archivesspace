@@ -14,6 +14,8 @@ string	display_string
 
 string	long_display_string
 
+string	subcontainer_barcodes
+
 string (max length: 255)	ils_holding_id
 
 string (max length: 255)	ils_item_id

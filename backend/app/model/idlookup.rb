@@ -1,9 +1,10 @@
 class IDLookup
 
   def find_by_ids(model, params)
-    filters = {:repo_id => params[:repo_id]}
+    filters = {}
 
     params.each do |key, values|
+      key = key.intern
       unless key == :repo_id || key == :resolve
         # The identifier for a resource needs to be massaged to match the db
         if !Array(values).empty? && key == :identifier
@@ -24,7 +25,7 @@ class IDLookup
 
     return [] if filters.empty?
 
-    model.filter(filters).select(:id).map {|record|
+    model.this_repo.where(filters).select(:id).map {|record|
       {'ref' => record.uri}
     }
   end

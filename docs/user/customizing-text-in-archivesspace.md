@@ -34,6 +34,8 @@ If the value you want to change is in either the public or staff specific en.yml
 
 If you restart ArchivesSpace, these values will take effect.
 
+If you are adding a new value you will also need to add the value into the Staff Frontend Application by clicking on the System dropdown menu and choosing Manage Controlled Value Lists. Select the list and add the value. If you restart ArchivesSpace the translation value that you set in the yml file should appear. 
+
 If you're using a different language, simply swap out the en.yml for something else ( like fr.yml ) and update locale setting in the config.rb file ( i.e.,  AppConfig[:locale] = :fr )
 
 ## Tooltips

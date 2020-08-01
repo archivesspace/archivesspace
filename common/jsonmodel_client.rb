@@ -145,7 +145,13 @@ module JSONModel
     end
 
 
+    def self.process_params(params)
+      params.respond_to?(:to_unsafe_hash) ? params.to_unsafe_hash : params
+    end
+
+
     def self.stream(uri, params = {}, &block)
+      params = process_params(params)
       uri = URI("#{backend_url}#{uri}")
       uri.query = URI.encode_www_form(params)
 
@@ -171,9 +177,7 @@ module JSONModel
 
 
     def self.get_json(uri, params = {})
-      if params.respond_to?(:to_unsafe_hash)
-        params = params.to_unsafe_hash
-      end
+      params = process_params(params)
 
       uri = URI("#{backend_url}#{uri}")
       uri.query = URI.encode_www_form(params)

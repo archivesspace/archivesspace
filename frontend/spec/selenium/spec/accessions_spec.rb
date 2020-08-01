@@ -494,6 +494,18 @@ describe 'Accessions' do
     end.not_to raise_error
   end
 
+  it 'can define a second level sort for a browse list of Accessions' do
+    @driver.go_home
+    @driver.find_element(:link, 'Browse').click
+    @driver.click_and_wait_until_gone(:link, 'Accessions')
+
+    @driver.find_element(:xpath, "//div/span[contains(text(),'Select')]").click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Identifier')
+
+    assert(5) { expect(@driver.find_element(:xpath, "(//div/span[@class='btn btn-xs btn-default'])[last()]").text).to eq('Identifier Descending') }
+  end
+
   it 'can delete multiple Accessions from the listing' do
     # first login as someone with access to delete
     @driver.login_to_repo(@manager_user, @repo)
@@ -505,9 +517,7 @@ describe 'Accessions' do
     @driver.find_element(:link, 'Browse').click
     @driver.click_and_wait_until_gone(:link, 'Accessions')
 
-    @driver.blocking_find_elements(:css, '.multiselect-column input').each do |checkbox|
-      checkbox.click
-    end
+    @driver.blocking_find_elements(:css, 'th.multiselect-column input')[0].click
 
     @driver.find_element(:css, '.record-toolbar .btn.multiselect-enabled').click
     @driver.find_element(:css, '#confirmChangesModal #confirmButton').click

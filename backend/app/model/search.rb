@@ -80,8 +80,9 @@ class Search
     boolean_query = JSONModel.JSONModel(:boolean_query)
                     .from_hash('op' => 'OR',
                                'subqueries' => uris.map {|uri|
+                                 field = uri.end_with?('#pui') ? 'id' : 'uri'
                                  JSONModel.JSONModel(:field_query)
-                                   .from_hash('field' => 'id',
+                                   .from_hash('field' => field,
                                               'value' => uri,
                                               'literal' => true)
                                    .to_hash

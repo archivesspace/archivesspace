@@ -92,6 +92,13 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     victims_by_model = victims.reject {|v| (v.class == target.class) && (v.id == target.id)}.group_by(&:class)
 
+    # We're going to have to handle container profiles separately since victim
+    # cp relationships have to be compared against one another prior to merging.
+    # We'll just use this method to store container profile relationships then
+    # actually handle container profile relationships in the separate
+    # `cleanup_container_profile_relationships` method below
+    victim_container_profiles = []
+
     victims_by_model.each do |victim_model, vics|
 
       confirm_accepts_target(victim_model, vics)
@@ -133,14 +140,16 @@ AbstractRelationship = Class.new(Sequel::Model) do
                 elsif relationship.is_a?(Relationships::SubContainerTopContainerLink)
                   identify_duplicate_containers(target, relationship, target_col, dups)
 
+                elsif relationship.is_a?(Relationships::ContainerProfileTopContainerProfile)
+                  victim_container_profiles << relationship
+
                 else
                   target_pre.each do |pre|
                     if pre[parent_col] == relationship[parent_col]
                       dups << relationship
                     end
                   end
-                  # Found a free column.  Store our updated reference here.
-                  relationship[target_col] = target.id
+                  transfer_relationship_to_target(relationship, target_col, target, true)
                   break
                 end
 
@@ -157,6 +166,16 @@ AbstractRelationship = Class.new(Sequel::Model) do
         end
       end
     end
+
+    cleanup_container_profile_relationships(victim_container_profiles, target)
+
+    # Finally, reindex the target record for good measure (and, in the case of
+    # top containers, to update the associated collections)
+    target[:system_mtime] = Time.now
+    target[:user_mtime] = Time.now
+
+    target.save
+
   end
 
 
@@ -170,6 +189,17 @@ AbstractRelationship = Class.new(Sequel::Model) do
       unless found.empty?
         raise ReferenceError.new("#{victim_model} to be merged has data for relationship #{self}, but target record doesn't support it.")
       end
+    end
+  end
+
+
+  def self.transfer_relationship_to_target(relationship, target_col, target, skip_refresh=false)
+    relationship[target_col] = target.id
+    unless skip_refresh
+      relationship[:system_mtime] = Time.now
+      relationship[:user_mtime] = Time.now
+
+      relationship.save
     end
   end
 
@@ -202,19 +232,62 @@ AbstractRelationship = Class.new(Sequel::Model) do
             dups << instance
             break
           else
-            # Found a free column.  Store our updated reference here.
-            relationship[target_col] = target.id
+            transfer_relationship_to_target(relationship, target_col, target, true)
             break
           end
         end
       else
-        # Found a free column.  Store our updated reference here.
-        relationship[target_col] = target.id
+        transfer_relationship_to_target(relationship, target_col, target, true)
         break
       end
     end
   end
 
+
+  # When merging top containers there is the possibility that multiple container
+  # profiles might be relinked to the surviving top container, despite the fact
+  # that top containers should only ever have on linked container profile.
+  # While future work should actually make db-level/schema-level changes to
+  # prohibit linking multiple container profiles to a single top container, in the
+  # interim, this method ensures that container profile relationships are handled
+  # separately from other linked record transfers and ensures only one container
+  # profile (or, conditionally, no container profiles) survives the merge process.
+  def self.cleanup_container_profile_relationships(victim_container_profiles, target)
+    target_relationship = nil
+    find_by_participant(target).each do |target_rlshp|
+      if !target_rlshp.nil? && target_rlshp.is_a?(Relationships::ContainerProfileTopContainerProfile)
+        target_relationship = target_rlshp
+      end
+    end
+    victim_container_profiles_unique = victim_container_profiles.map {|v| v[:container_profile_id]}
+    # If the target has a linked container profile already, delete all victim
+    # container profile relationships
+    if !target_relationship.nil?
+      cleanup_duplicates(victim_container_profiles)
+    else
+      # If the array of victims only has one container profile relationship
+      # transfer that relationship over to the merge target
+      if victim_container_profiles.count == 1
+        victim_container_profile = victim_container_profiles.first
+        transfer_relationship_to_target(victim_container_profile, :top_container_id, target)
+      elsif victim_container_profiles.count > 1
+        # If the array of victims has multiple container profile relationships
+        # but they all link to the same container profile, transfer the first
+        # relationship to the merge target and delete the rest
+        if victim_container_profiles_unique.uniq.count == 1
+          victim_container_profile = victim_container_profiles.first
+          transfer_relationship_to_target(victim_container_profile, :top_container_id, target)
+          victim_container_profiles.shift
+          cleanup_duplicates(victim_container_profiles)
+        # If the array of victims has multiple container profile relationships
+        # and they link to different container profiles, delete all victim
+        # container profile relationships
+        else
+          cleanup_duplicates(victim_container_profiles)
+        end
+      end
+    end
+  end
 
   # Return the value of 'property' for any relationship involving 'obj'.
   def self.values_for_property(obj, property)
@@ -890,7 +963,7 @@ module Relationships
             #
             # For example: join ArchivalObject to subject_rlshp
             #              join Instance to instance_do_link_rlshp
-            base_ds = self.join(relationship_defn,
+            base_ds = self.join(relationship_defn.table_name,
                                 Sequel.qualify(relationship_defn.table_name, my_col) =>
                                        Sequel.qualify(self.table_name, :id))
 
@@ -939,7 +1012,7 @@ module Relationships
           parent_model = association[:model]
 
           # Link the parent into the current dataset
-          parent_ds = dataset.join(parent_model,
+          parent_ds = dataset.join(parent_model.table_name,
                                    Sequel.qualify(self.table_name, association[:key]) =>
                                           Sequel.qualify(parent_model.table_name, :id))
 

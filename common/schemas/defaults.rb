@@ -1,17 +1,28 @@
-accession_browse_column_enum = [
-                      "identifier", "accession_date", "acquisition_type", "resource_type",
-                      "restrictions_apply", "access_restrictions", "use_restrictions",
-                      "publish", 'no_value'
-                     ]
-resource_browse_column_enum = [
-                      "identifier", "resource_type", "level", "restrictions",
-                      "ead_id", "finding_aid_status", "publish", 'no_value'
-                     ]
-digital_object_browse_column_enum = [
-                      "digital_object_id", "digital_object_type", "level", "restrictions",
-                      "publish", 'no_value'
-                     ]
 locale_enum = I18n.supported_locales.keys
+column_opts = SearchAndBrowseColumnConfig.columns
+
+browse_columns = {}
+column_opts.keys.each do |type|
+  Array(1..AppConfig[:max_search_columns]).each do |i|
+    browse_columns["#{type}_browse_column_#{i}"] = {
+      "type" => "string",
+      "enum" => column_opts[type].collect { |col, _opts| col } + ['no_value'],
+      "required" => false
+    }
+  end
+  browse_columns["#{type}_sort_column"] = {
+    "type" => "string",
+    "enum" => (column_opts[type].collect { |col, opts| 
+      opts[:sortable] ? (!opts[:sort].is_a?(Array) ? col: opts[:sort]) : nil }.flatten.compact.unshift('score')),
+    "required" => false
+  }
+  browse_columns["#{type}_sort_direction"] = {
+    "type" => "string",
+    "enum" => ['asc', 'desc'],
+    "required" => false
+  }
+end
+
 {
   :schema => {
     "$schema" => "http://www.archivesspace.org/archivesspace.json",
@@ -19,90 +30,21 @@ locale_enum = I18n.supported_locales.keys
     "type" => "object",
     "properties" => {
 
-      "show_suppressed" =>  {"type" => "boolean", "required" => false},
-      "publish" =>  {"type" => "boolean", "required" => false},
+      "show_suppressed" =>  {
+        "type" => "boolean",
+        "required" => false,
+        "default" => false
+      },
+
+      "publish" => {
+        "type" => "boolean",
+        "required" => false,
+        "default" => false
+      },
 
       "locale" => {
         "type" => "string",
         "enum" => locale_enum,
-        "required" => false
-      },
-
-      "accession_browse_column_1" => {
-        "type" => "string",
-        "enum" => accession_browse_column_enum,
-        "required" => false
-      },
-      "accession_browse_column_2" => {
-        "type" => "string",
-        "enum" => accession_browse_column_enum,
-        "required" => false
-      },
-      "accession_browse_column_3" => {
-        "type" => "string",
-        "enum" => accession_browse_column_enum,
-        "required" => false
-      },
-      "accession_browse_column_4" => {
-        "type" => "string",
-        "enum" => accession_browse_column_enum,
-        "required" => false
-      },
-      "accession_browse_column_5" => {
-        "type" => "string",
-        "enum" => accession_browse_column_enum,
-        "required" => false
-      },
-
-      "resource_browse_column_1" => {
-        "type" => "string",
-        "enum" => resource_browse_column_enum,
-        "required" => false
-      },
-      "resource_browse_column_2" => {
-        "type" => "string",
-        "enum" => resource_browse_column_enum,
-        "required" => false
-      },
-      "resource_browse_column_3" => {
-        "type" => "string",
-        "enum" => resource_browse_column_enum,
-        "required" => false
-      },
-      "resource_browse_column_4" => {
-        "type" => "string",
-        "enum" => resource_browse_column_enum,
-        "required" => false
-      },
-      "resource_browse_column_5" => {
-        "type" => "string",
-        "enum" => resource_browse_column_enum,
-        "required" => false
-      },
-
-      "digital_object_browse_column_1" => {
-        "type" => "string",
-        "enum" => digital_object_browse_column_enum,
-        "required" => false
-      },
-      "digital_object_browse_column_2" => {
-        "type" => "string",
-        "enum" => digital_object_browse_column_enum,
-        "required" => false
-      },
-      "digital_object_browse_column_3" => {
-        "type" => "string",
-        "enum" => digital_object_browse_column_enum,
-        "required" => false
-      },
-      "digital_object_browse_column_4" => {
-        "type" => "string",
-        "enum" => digital_object_browse_column_enum,
-        "required" => false
-      },
-      "digital_object_browse_column_5" => {
-        "type" => "string",
-        "enum" => digital_object_browse_column_enum,
         "required" => false
       },
 
@@ -117,6 +59,6 @@ locale_enum = I18n.supported_locales.keys
         "items" => {"type" => "string"}
       }
 
-    },
+    }.merge(browse_columns),
   },
 }

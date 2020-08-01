@@ -180,6 +180,8 @@ class AppConfig
     @@changed_from_default = {}
 
     require_relative 'config-aliases'
+    require_relative 'preference_defaults'
+    require_relative 'search_browse_column_config'
 
     AppConfig.load_defaults
 

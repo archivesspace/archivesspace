@@ -12,7 +12,9 @@ describe 'Resources and archival objects' do
 
     @resource = create(:resource)
 
-    @archival_object = create(:archival_object, resource: { 'ref' => @resource.uri })
+    @archival_object = create(:archival_object,
+                              component_id: 'component-id',
+                              resource: { 'ref' => @resource.uri })
 
     @user = create_user(@repo => ['repository-managers'])
     @driver = Driver.get.login_to_repo(@user, @repo)
@@ -500,6 +502,32 @@ describe 'Resources and archival objects' do
     expect do
       @driver.find_element_with_text(:link, /Print Resource to PDF/)
     end
+  end
+
+  it 'shows component id in browse view for archival objects' do
+    @driver.find_element(:link, 'Browse').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Resources')
+    @driver.find_element(:link, 'Show Components').click
+    expect do
+      @driver.find_element_with_text('//td', /#{@archival_object.component_id}/)
+      @driver.find_element_with_text('//th', /Identifier/)
+    end.not_to raise_error
+    expect do
+      @driver.find_element_with_text('//th', /Componend ID/, false, true)
+    end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
+  end
+
+  it 'shows component id for search and filter to archival objects' do
+    @driver.find_element(:id, 'global-search-button').click
+    @driver.find_element(:link, 'Archival Object').click
+    expect do
+      @driver.find_element_with_text('//td', /#{@archival_object.component_id}/)
+      @driver.find_element_with_text('//th', /Component ID/)
+    end.not_to raise_error
+    expect do
+      @driver.find_element_with_text('//th', /Identifier/, false, true)
+    end.to raise_error(Selenium::WebDriver::Error::NoSuchElementError)
   end
 
 end

@@ -1440,40 +1440,30 @@ ja:
     publish_tooltip: 既定で新しいレコードを発行するかどうか。
     default_values: レコードの事前入力？
     default_values_tooltip: 新しいAccessionレコードとResourceレコードに既定値をあらかじめ設定するかどうか。
+    browse_column: 列%{num}
+    browse_column_tooltip: 列%{num}に表示するフィールド。
+    sort_column: デフォルトのソート列
+    sort_column_tooltip: 結果をソートするためのデフォルトのフィールド。
+    sort_direction: デフォルトのソート方向
+    sort_direction_tooltip: 結果をソートするデフォルトの方向。
     locale: Language Selection
     accession_browse_section: アクセス列を参照
-    accession_browse_column_1: 列1
-    accession_browse_column_1_tooltip: 列1に表示するフィールド。
-    accession_browse_column_2: 列2
-    accession_browse_column_2_tooltip: 列2に表示するフィールド。
-    accession_browse_column_3: 列3
-    accession_browse_column_3_tooltip: 列3に表示されるフィールド。
-    accession_browse_column_4: 列4
-    accession_browse_column_4_tooltip: 列4に表示するフィールド。
-    accession_browse_column_5: 列5
-    accession_browse_column_5_tooltip: 列5に表示するフィールド。
     resource_browse_section: リソース参照列
-    resource_browse_column_1: 列1
-    resource_browse_column_1_tooltip: 列1に表示するフィールド。
-    resource_browse_column_2: 列2
-    resource_browse_column_2_tooltip: 列2に表示するフィールド。
-    resource_browse_column_3: 列3
-    resource_browse_column_3_tooltip: 列3に表示されるフィールド。
-    resource_browse_column_4: 列4
-    resource_browse_column_4_tooltip: 列4に表示するフィールド。
-    resource_browse_column_5: 列5
-    resource_browse_column_5_tooltip: 列5に表示するフィールド。
+    archival_object_browse_section: アーカイブオブジェクトの参照列
     digital_object_browse_section: Digital_Object列を参照
-    digital_object_browse_column_1: 列1
-    digital_object_browse_column_1_tooltip: 列1に表示するフィールド。
-    digital_object_browse_column_2: 列2
-    digital_object_browse_column_2_tooltip: 列2に表示するフィールド。
-    digital_object_browse_column_3: 列3
-    digital_object_browse_column_3_tooltip: 列3に表示されるフィールド。
-    digital_object_browse_column_4: 列4
-    digital_object_browse_column_4_tooltip: 列4に表示するフィールド。
-    digital_object_browse_column_5: 列5
-    digital_object_browse_column_5_tooltip: 列5に表示するフィールド。
+    digital_object_component_browse_section: デジタルオブジェクトコンポーネントの参照列
+    subject_browse_section: 件名ブラウズコラム
+    agent_browse_section: エージェント参照列
+    location_browse_section: 場所の参照列
+    event_browse_section: イベント参照列
+    collection_management_browse_section: コレクション管理の参照列
+    top_container_browse_section: 上位コンテナ参照列
+    classification_browse_section: 分類参照列
+    assessment_browse_section: 評価の参照列
+    repositories_browse_section: リポジトリ参照列
+    location_profile_browse_section: ロケーションプロファイルの参照列
+    container_profile_browse_section: コンテナプロファイルの参照列
+    multi_browse_section: 検索列
     note_order_section: 注文書
     accept_default_message: "&gt;デフォルトを受け入れる："
     no_value: "[値なし]"
@@ -1583,11 +1573,15 @@ ja:
     time_submitted: 提出された時間
     time_started: 時間の開始
     time_finished: 完了した時間
+    time_submitted: 提出された時間
     owner: オーナー
     show_description: 説明を表示する
-    job_data: ジョブ情報
     input_file: 入力ファイル
     output_file: 出力ファイル
+
+  container_labels_job:
+    source: ソース
+    format: フォーマット
 
   report_job:
     report_type: レポートタイプ
@@ -1602,7 +1596,7 @@ ja:
     import_type_accession_csv: 加盟CSV
     import_type_digital_object_csv: デジタルオブジェクトCSV
     import_type_eac_xml: EAC
-    import_type_location_csv: Location CSV
+    import_type_location_csv: ロケーションCSV
     import_type_marcxml: MarcXML（リソース）
     import_type_marcxml_accession: MarcXML（アクセッション）
     import_type_marcxml_subjects_and_agents: MarcXML（主題と代理人のみ）
@@ -1883,3 +1877,101 @@ ja:
     sponsor_set_name_tooltip: スポンサーセット名ツールチップ
     sponsor_set_names_tooltip: スポンサーセット名のツールチップ
     sponsor_set_description_tooltip: スポンサーセットの説明のツールチップ
+
+  bulk_import:
+    row: "行%{row}"
+    processing_row: "%{row}行の処理"
+    dig_assoc: デジタルオブジェクトはアーカイブオブジェクトに追加します
+    row_error: "行%{row}エラーのため処理されません。%{errs}"
+    no_ao: ノーアーカイブオブジェクトが作成され
+    ao: アーカイブオブジェクト
+    created: "%{what} 作成した： %{id}"
+    would_be: "%{what}作成されるだろう"
+    updated: "%{what}：%{id}"
+    clip_btn: クリップボードにコピー
+    clip_created: "\t%{what}作成：\t%{nm}\t%{id}\t%{ref_id}"
+    clip_what: "\t%{what} ：\t%{nm}\t%{id}\t%{ref_id}"
+    clip_info: "\t\t\t\t\t%{what} \n"
+    clip_err: "\t\t\t\t\tERROR：%{err} \n"
+    clip_header: "行\tStatus\tTitle\tゥリ\tRef IDtInfo"
+    tc: トップコンテナ
+    subj: 主題
+    agent: エージェント
+    dig: デジタルオブジェクト
+    unfound_id: "%{type} IDが%{id}見つかりません。これはプレースホルダです"
+    ref_id_notfound: 「行%{row}"
+    processed: ファイルが処理されています
+    file_info: "%{size}K 行の%{rows}"
+    max_file_info: "%{size}K と%{rows}行"
+    warn:
+      dup: "制御値リストは、 『%{which}』翻訳のための複数のインスタンスを持っている%{trans}マネージド 『%{used}』値として使用されます。"
+      disam: "複数の一致（ES）は、 '%{what}' 件見つかりました。disabiguationは '%{name}' を作成します。"
+      disamuse: "複数の一致（ES）は、 『%{what}』件見つかりました。disabiguationは 『%{name}』は既に作成されたを使用しました。"
+      single_date_end: "シングル日付%{date_str}は無視されます終了日を持っています。"
+    error:
+      date_type: "日付型[%{what}]のための無効を%{date_str}。 『包括的』にデフォルト設定"
+      date_label: "日付ラベル[%{what}]は%{date_str}には無効。日付が処理されません。"
+      certainty: "%{date_str}については無視無効な 『日付確信』：（%{what}）"
+      below_bad_ao: それが悪いアーカイブオブジェクトの子なので処理できません
+      enum: "が見つかりません。 『%{label}』 %{which}リストにありません"
+      error: "ERROR：エラー（複数可）検出：%{term}"
+      invalid_date: "%{what}のための無効な日付の定義（%{date_str}）。日付は処理されません。"
+      invalid_date_label: "最初の日に無効な日付ラベルの定義（%{what}）"
+      too_many: 複数の一致がデータベースで見つかりました
+      type_undef: タイプを決定することができません。
+      file_name: ファイル名を決定することができません
+      system: "いくつかのシステムエラーは、[%{msg}]が発生しました。"
+      initialize: "処理が終了し、[%{msg}]は"
+      stopped: "処理は、[%{row}] %{msg}行で停止しました"
+      duplicates: "：%{codes}このスプレッドシートは、アーカイブ領域フィールドコードを重複しています"
+      res_ead: この形式のリソースは、EAD IDが欠落しています
+      row_ead: この行は、EAD IDが欠落しています
+      row_missing_ead_uri: この行は、EAD IDとURIの両方が欠落しています
+      ead_mismatch: "フォームのEAD ID [%{res_ead}]は[%{row_ead}]行のEAD IDと一致していません"
+      uri_mismatch: "入力リソースのURI [%{res_uri}]は、行のURI [%{row_uri}]を一致しません"
+      title: 行方不明のタイトル
+      title_and_date: 欠落しているタイトルと有効な日付の定義
+      hier_miss: hierachyがありませんすることは -  0よりも数も大きくなければなりません
+      hier_zero: 階層は0より大きくなければなりません
+      hier_wrong: 階層が深く前の行より複数のレベルではないことはできません
+      hier_wrong_resource: 選択したアーカイブオブジェクトに処理を開始することを意味したのですか？
+      hier_below_error_level: 親アーカイブオブジェクトが作成されませんでした
+      level: 有効な記述レベルがありません
+      date: "：日付始まり、日付の終わり、または日付式日付の少なくとも一方で持っている必要があります"
+      number: 不足しているエクステント数
+      extent_type: 不足しているエクステントタイプ
+      extent_validation: "検証の範囲（%{ext}）にできません：%{msg}"
+      no_header: いいえヘッダ（フィールドコード）列が見つかりませんでした。あなたは正しいテンプレートを使用していますか？
+      no_data: いいえ加工データ行が見つかりませんでした！
+      excel: "Excelファイルを解析エラー（秒）：%{errs}"
+      no_agent: "%{num}エージェントを作成できません：[%{why}]"
+      no_tc: "%{number}トップコンテナを作成できません：[%{why}]"
+      missing_instance_type: 不足しているコンテナインスタンスタイプ
+      no_ao: ノーアーカイブオブジェクトが作成され
+      no_container_instance: "コンテナインスタンスを作成できません：[%{why}]"
+      no_create: "作成できません：[%{why}]"
+      no_move: "（%{code}応答コード）リストの末尾からアーカイブオブジェクトを移動することができません"
+      bad_note: "%{type}ノートはWELLFORMEDされていません。%{msg}"
+      bad_note_type: "ノートタイプ 『%{type}』をサポートしていません"
+      bad_relator: "エージェントのリンクを作成することができません。 『%{label}』は有効な関係付けではありません"
+      relator_invalid: "『%{label}』による関係付けに問題があるため、エージェントのリンクを作成できません：%{why}"
+      bad_role: "エージェントのリンクを作成することができません。 『%{label}』は有効な役割ではありません"
+      role_invalid: "『%{label}』による役割に問題があるため、エージェントのリンクを作成できません：%{why}"
+      has_dig_obj: "アーカイブ・オブジェクトが既に関連するデジタルオブジェクトを持ちます"
+      dig_unassoc: "関連するデジタルオブジェクトとアーカイブオブジェクトを保存することができません：%{msg}"
+      ref_id_miss: ノー参考id指定します
+      dig_info_miss: どちらもデジタルオブジェクトURNまたはサムネイルURNが指定されていません
+      dig_validation: "%{err}デジタルオブジェクトを作成できません"
+      initial_save_error: "の保存最初の通報%{title}  -  %{msg}"
+      second_save_error: "エラーが 『インスタンス』と再保存アーカイブオブジェクトへの試みで%{title}位置：。%{pos}この手段アーカイブオブジェクトが作成されていることが、可能性など、その関連インスタンス（デジタルオブジェクト、トップコンテナ、対象にリンクされていません）[%{what}]"
+      ao_validation: "アーカイブオブジェクトを保存しようとする検証エラー：%{err}"
+      validation_error: "：%{what}検証できません"
+      validated: "%{what}検証"
+      lang_code: "言語（%{lang}）を検証できません"
+      script_code: "（%{script}）言語のスクリプトを検証できません"
+      process_error: "エラー処理%{type} %{num}：%{why}"
+      bad_ao_uri: "URIを持つ%{uri}"
+      bad_ao_ref_id: "REF IDを持つ%{ref_id}"
+      bad_ao: "%{errs}アーカイブオブジェクトを見つけることができません"
+      no_uri_or_ref: アーカイブオブジェクトURIもREF IDのいずれもが提供されていました
+      file_too_big: "このファイルは、%{file_info}で、%{limits}の大きさ及び/又は行数の制限を超えました"

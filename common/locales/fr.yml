@@ -1914,40 +1914,30 @@ fr:
     publish_tooltip: Publier ou non par défaut les nouvelles notices.
     default_values: Pré-remplir notices?
     default_values_tooltip: Pré-remplir ou non une nouvelle notice entrée ou ressource avec des valeurs par défaut.
+    browse_column: Colonne %{num}
+    browse_column_tooltip: Le champ à montrer dans la colonne %{num}.
+    sort_column: Colonne de tri par défaut
+    sort_column_tooltip: Champ par défaut pour le tri des résultats.
+    sort_direction: Direction de tri par défaut
+    sort_direction_tooltip: Direction par défaut pour trier les résultats.
     locale: Language Selection
     accession_browse_section: Colonnes d'exploration des entrées
-    accession_browse_column_1: Colonne 1
-    accession_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    accession_browse_column_2: Colonne 2
-    accession_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    accession_browse_column_3: Colonne 3
-    accession_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    accession_browse_column_4: Colonne 4
-    accession_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    accession_browse_column_5: Colonne 5
-    accession_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
     resource_browse_section: Colonnes d'exploration ressource
-    resource_browse_column_1: Colonne 1
-    resource_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    resource_browse_column_2: Colonne 2
-    resource_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    resource_browse_column_3: Colonne 3
-    resource_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    resource_browse_column_4: Colonne 4
-    resource_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    resource_browse_column_5: Colonne 5
-    resource_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
+    archival_object_browse_section: Colonnes de recherche d'objets d'archives
     digital_object_browse_section: Colonnes d'exploration object numérique
-    digital_object_browse_column_1: Colonne 1
-    digital_object_browse_column_1_tooltip: Le champ à montrer dans la colonne 1.
-    digital_object_browse_column_2: Colonne 2
-    digital_object_browse_column_2_tooltip: Le champ à montrer dans la colonne 2.
-    digital_object_browse_column_3: Colonne 3
-    digital_object_browse_column_3_tooltip: Le champ à montrer dans la colonne 3.
-    digital_object_browse_column_4: Colonne 4
-    digital_object_browse_column_4_tooltip: Le champ à montrer dans la colonne 4.
-    digital_object_browse_column_5: Colonne 5
-    digital_object_browse_column_5_tooltip: Le champ à montrer dans la colonne 5.
+    digital_object_component_browse_section: Colonnes de navigation des composants d'objet numérique
+    subject_browse_section: Colonnes d'exploration mot-matière
+    agent_browse_section: Colonnes de navigation de l'agent
+    location_browse_section: Colonnes de navigation
+    event_browse_section: Colonnes de navigation d'événements
+    collection_management_browse_section: Gestion des collections Parcourir les colonnes
+    top_container_browse_section: Colonnes de navigation des conteneurs supérieurs
+    classification_browse_section: Colonnes Parcourir la classification
+    assessment_browse_section: Colonnes Parcourir l'évaluation
+    repositories_browse_section: Colonnes de navigation dans le référentiel
+    location_profile_browse_section: Profil d'emplacement Parcourir les colonnes
+    container_profile_browse_section: Colonnes de navigation du profil de conteneur
+    multi_browse_section: Colonnes de recherche
     note_order_section: Ordres des notes
     accept_default_message: '> Accepter défaut:'
     no_value: '[pas de valeur]'
@@ -2059,11 +2049,15 @@ fr:
     time_submitted: Heure de soumission
     time_started: Heure de commencement
     time_finished: Heure d'achèvement
+    time_submitted: Heure de soumission
     owner: Owner
     show_description: Montrer description
-    job_data: Information de tâche
     input_file: Fichier d'entrée
     output_file: Fichier de sortie
+
+  container_labels_job:
+    source: Source
+    format: Format
 
   report_job:
     report_type: Type de rapport
@@ -2078,7 +2072,7 @@ fr:
     import_type_accession_csv: Entrée CSV
     import_type_digital_object_csv: Objet numérique CSV
     import_type_eac_xml: EAC
-    import_type_location_csv: Location CSV
+    import_type_location_csv: Emplacement CSV
     import_type_marcxml: MarcXML (Ressource)
     import_type_marcxml_accession: MarcXML (Entrée)
     import_type_marcxml_subjects_and_agents: MarcXML (sujets et agents uniquement)
@@ -2335,3 +2329,101 @@ fr:
     sponsor_set_name_tooltip: Info-bulle du nom du sponsor
     sponsor_set_names_tooltip: Info-bulle sur les noms des ensembles de sponsors
     sponsor_set_description_tooltip: Info-bulle de description du jeu de sponsors
+
+  bulk_import:
+    row: "Rangée %{row}"
+    processing_row: "Traitement ligne %{row}"
+    dig_assoc: Objet numérique ajouté à archives Objet
+    row_error: "Row %{row} ne seront pas traitées en raison d'erreurs: %{errs}"
+    no_ao: Aucune archive objet créé
+    ao: objet d'archives
+    created: "%{what} établi: %{id}"
+    would_be: "%{what} serait créé"
+    updated: "%{what}: %{id}"
+    clip_btn: Copier dans le presse-papier
+    clip_created: "\t%{what} créé:\t%{nm}\t%{id}\t%{ref_id}"
+    clip_what: "\t%{what} : \t%{nm}\t%{id}\t%{ref_id}"
+    clip_info: "\t\t\t\t\t%{what}\n"
+    clip_err: "\t\t\t\t\tERREUR: %{err}\n"
+    clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo"
+    tc: supérieure.Récipient
+    subj: Matière
+    agent: Agent
+    dig: objet numérique
+    unfound_id: "ID %{type} %{id} INTROUVABLE. Ceci est un paramètre fictif"
+    ref_id_notfound: "Ref Id %{refid} non trouvé"
+    processed: Le fichier a été traité
+    file_info: "%{size}K avec des lignes %{rows}"
+    max_file_info: "%{size}K %{rows} et lignes"
+    warn:
+      dup: "Gérée Liste des valeurs contrôlée %{which} a plusieurs instances pour la traduction '%{trans}'. '%{used}' sera utilisé comme valeur."
+      disam: "Correspondance multiple (s) trouvé pour '%{what}'. Création '%{name}' pour disabiguation."
+      disamuse: "Correspondance multiple (s) trouvé pour '%{what}'. En utilisant déjà créé '%{name}' pour disabiguation."
+      single_date_end: "Date unique %{date_str} a la date de fin qui sera ignoré."
+    error:
+      date_type: "Type Date [%{what}] non valide pour %{date_str}. Défaillant à 'inclusive'"
+      date_label: "Label Date [%{what}] non valide pour %{date_str}. La date ne sera pas traitée."
+      certainty: "Certitude de la 'date invalide' ignorée pour %{date_str}: (%{what})"
+      below_bad_ao: Ne peut pas traiter parce qu'il est un enfant du mauvais objet d'archives
+      enum: "Introuvable: '%{label}' ne figure pas dans la liste %{which}"
+      error: "ERREUR: erreur (s) détectée: %{term}"
+      invalid_date: "Définition de date non valide (%{what}) pour %{date_str}. La date ne sera pas traitée."
+      invalid_date_label: "Définition de l'étiquette de date non valide dans la première date (%{what})"
+      too_many: Plus d'une correspondance trouvée dans la base de données
+      type_undef: Impossible de déterminer le type
+      file_name: Nom du fichier ne peut pas être déterminé
+      system: "Une erreur système est survenue [%{msg}]."
+      initialize: "Le traitement est mis fin à [%{msg}]"
+      stopped: "Traitement arrêté à la ligne %{row} [%{msg}]"
+      duplicates: "Cette feuille de calcul en double codes Espace d'archives sur le terrain: %{codes}"
+      res_ead: Ressources de cette forme il manque un numéro EAD
+      row_ead: Cette ligne manque un ID EAD
+      row_missing_ead_uri: Cette ligne est à la fois un manque EAD ID et URI
+      ead_mismatch: "EAD ID Form [%{res_ead}] ne correspond pas à EAD ID de ligne [%{row_ead}]"
+      uri_mismatch: "URI de ressource d'entrée [%{res_uri}] ne correspond pas à l'URI de la ligne [%{row_uri}]"
+      title: titre manquant
+      title_and_date: Titre manquant et la définition de date valide
+      hier_miss: Manquant hierachy - doit être un nombre supérieur à 0
+      hier_zero: Hiérarchie doit être supérieure à 0
+      hier_wrong: Hiérarchie ne peut pas être plus d'un niveau plus profond que la ligne précédente
+      hier_wrong_resource: avez-vous l'intention de commencer à traiter avec un objet d'archivage sélectionné?
+      hier_below_error_level: L'objet d'archivage mère n'a pas été créé
+      level: Manquant valide niveau Description
+      date: "La date doit avoir au moins: date de début, Date de fin, ou l'expression Date"
+      number: nombre manquant étendue
+      extent_type: Type manquant étendue
+      extent_validation: "Impossible de valider l'étendue (%{ext}): %{msg}"
+      no_header: Aucune ligne en-tête (codes de champ) trouvé; Utilisez-vous le bon modèle?
+      no_data: Aucune ligne de données traitables trouvé!
+      excel: "Erreur (s) d'analyse syntaxique fichier Excel: %{errs}"
+      no_agent: "Impossible de créer Agent %{num}: [%{why}]"
+      no_tc: "Impossible de créer supérieure.Récipient %{number}: [%{why}]"
+      missing_instance_type: conteneur manquant type d'instance
+      no_ao: Aucune archive objet créé
+      no_container_instance: "Impossible de créer une instance de conteneurs: [%{why}]"
+      no_create: "Incapable de créer: [%{why}]"
+      no_move: "Impossible de déplacer les objets d'archives de la fin de la liste (code de réponse %{code})"
+      bad_note: "Note %{type} n'est pas wellformed: %{msg}"
+      bad_note_type: "Type de note '%{type}' est pas pris en charge"
+      bad_relator: "Impossible de créer un lien d'agent: '%{label}' est pas un Relator valide"
+      relator_invalid: "Impossible de créer un lien d'agent en raison de problème avec Relator '%{label}': %{why}"
+      bad_role: "Impossible de créer un lien d'agent: '%{label}' est pas un rôle valide"
+      role_invalid: "Impossible de créer un lien d'agent en raison de problème avec le rôle '%{label}': %{why}"
+      has_dig_obj: "Objet d'archive a déjà un objet numérique associé"
+      dig_unassoc: "Impossible d'enregistrer l'objet d'archivage avec un objet numérique associé: %{msg}"
+      ref_id_miss: Non Ref Id spécifié
+      dig_info_miss: Ni le URN Object numérique ou sur la vignette URN est spécifié
+      dig_validation: "Impossible de créer l'objet numérique %{err}"
+      initial_save_error: "Problème initial de sauvegarde %{title} - %{msg}"
+      second_save_error: "Erreur lors de la tentative de re-sauvegarde l'objet d'archivage avec la position 'instances' %{title}: %{pos}. Cela signifie que l'objet d'archivage a été créé, mais peut-être pas liés à ses instances associées (objet numérique, supérieure.Récipient, sujet, etc. ) [%{what}]"
+      ao_validation: "Erreur de validation lors de la tentative d'enregistrement objet d'archivage: %{err}"
+      validation_error: "Impossible de valider %{what}: %{err}"
+      validated: "%{what} validé"
+      lang_code: "Impossible de valider la langue (%{lang})"
+      script_code: "Impossible de valider un script de langue (%{script})"
+      process_error: "Traitement d'erreur %{type} %{num}: %{why}"
+      bad_ao_uri: "Avec uri %{uri}"
+      bad_ao_ref_id: "Avec REF ID %{ref_id}"
+      bad_ao: "Impossible de trouver l'objet d'archives %{errs}"
+      no_uri_or_ref: Ni un URI objet d'archives ni REF ID n'a été fournie
+      file_too_big: "Ce fichier, à %{file_info}, dépasse la taille et / ou limites de nombre de lignes %{limits}"
