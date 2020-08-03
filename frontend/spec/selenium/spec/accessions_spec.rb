@@ -347,6 +347,7 @@ describe 'Accessions' do
   end
 
   it 'can create a subject and link to an Accession' do
+    #@driver.find_element(:css, 'a.linker-create-btn').click
     @driver.click_and_wait_until_gone(:link, 'Edit')
 
     @driver.find_element(css: '#accession_subjects_ .subrecord-form-heading .btn:not(.show-all)').click
@@ -434,6 +435,7 @@ describe 'Accessions' do
     end.not_to raise_error
 
     @driver.click_and_wait_until_gone(:link, 'View')
+
     @driver.click_and_wait_until_gone(:link, 'Edit')
 
     # now delete it
@@ -451,7 +453,7 @@ describe 'Accessions' do
 
         run_index_round # keep indexing and refreshing till it disappears
         @driver.navigate.refresh
-        sleep(1)
+        sleep(4)
       end
     end.to raise_error Selenium::WebDriver::Error::NoSuchElementError
   end
