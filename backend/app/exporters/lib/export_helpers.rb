@@ -143,6 +143,7 @@ module ASpaceExport
           atts[:normal] = normal unless normal.empty?
           atts[:era] = date['era'] if date['era']
           atts[:calendar] = date['calendar'] if date['calendar']
+          atts[:datechar] = date['label'] if date['label']
 
           results << {:content => content, :atts => atts}
         end
