@@ -309,25 +309,25 @@ module AspaceFactories
       factory :agent_person, class: JSONModel(:agent_person) do
         agent_type { 'agent_person' }
         names { [build(:name_person)] }
-        dates_of_existence { [build(:date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :agent_family, class: JSONModel(:agent_family) do
         agent_type { 'agent_family' }
         names { [build(:name_family)] }
-        dates_of_existence { [build(:json_date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :agent_software, class: JSONModel(:agent_software) do
         agent_type { 'agent_software' }
         names { [build(:name_software)] }
-        dates_of_existence { [build(:json_date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :agent_corporate_entity, class: JSONModel(:agent_corporate_entity) do
         agent_type { 'agent_corporate_entity' }
         names { [build(:name_corporate_entity)] }
-        dates_of_existence { [build(:json_date, :label => 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
       end
 
       factory :name_corporate_entity, class: JSONModel(:name_corporate_entity) do
@@ -361,6 +361,22 @@ module AspaceFactories
         software_name { generate(:generic_name) }
         sort_name { generate(:sort_name) }
         sort_name_auto_generate { true }
+      end
+
+      factory :json_structured_date_label, class: JSONModel(:structured_date_label) do
+        date_type_enum { "single" }
+        date_label { 'existence' }
+        structured_date_single { build(:json_structured_date_single) }
+        date_certainty { "approximate" }
+        date_era { "ce" }
+        date_calendar { "gregorian" }
+      end
+
+      factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
+        date_role_enum  { "begin" }
+        date_expression { "Yesterday" }
+        date_standardized { "2019-06-01" }
+        date_standardized_type_enum { "standard" }
       end
 
       factory :subject, class: JSONModel(:subject) do
