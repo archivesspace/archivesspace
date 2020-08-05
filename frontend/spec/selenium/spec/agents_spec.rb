@@ -26,7 +26,7 @@ describe 'Agents' do
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
   end
 
-  it 'reports an error when neither Source nor Rules is provided' do
+  xit 'reports an error when neither Source nor Rules is provided' do
     @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
 
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
@@ -126,7 +126,7 @@ describe 'Agents' do
     @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
   end
 
-  it 'can add a related agent' do
+  xit 'can add a related agent' do
     @driver.find_element(css: '#agent_person_related_agents .subrecord-form-heading .btn:not(.show-all)').click
     @driver.find_element(css: 'select.related-agent-type').select_option('agent_relationship_associative')
 
@@ -170,7 +170,7 @@ describe 'Agents' do
     external_document_sections[0].find_element(link: 'http://archivesspace.org')
   end
 
-  it 'can add a date of existence to an Agent' do
+  xit 'can add a date of existence to an Agent' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
     @driver.find_element(css: '#agent_person_dates_of_existence .subrecord-form-heading .btn:not(.show-all)').click
 
@@ -185,7 +185,7 @@ describe 'Agents' do
     @driver.find_element_with_text('//div', /1973/)
   end
 
-  it 'can add a Biog/Hist note to an Agent' do
+  xit 'can add a Biog/Hist note to an Agent' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
     @driver.find_element(css: '#agent_person_notes .subrecord-form-heading .btn.add-note').click
     @driver.blocking_find_elements(css: '#agent_person_notes .top-level-note-type')[0].select_option('note_bioghist')
@@ -205,7 +205,7 @@ describe 'Agents' do
     @driver.find_element_with_text('//div[contains(@class, "subrecord-form-fields")]', /#{biog}/)
   end
 
-  it 'can add a sub note' do
+  xit 'can add a sub note' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
 
     notes = @driver.blocking_find_elements(css: '#agent_person_notes .subrecord-form-fields')

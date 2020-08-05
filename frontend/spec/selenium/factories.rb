@@ -203,7 +203,23 @@ module SeleniumFactories
       factory :agent_person, class: JSONModel(:agent_person) do
         agent_type { 'agent_person' }
         names { [build(:name_person)] }
-        dates_of_existence { [build(:date, label: 'existence')] }
+        dates_of_existence { [build(:json_structured_date_label)] }
+      end
+      
+      factory :json_structured_date_label, class: JSONModel(:structured_date_label) do
+        date_type_enum { "single" }
+        date_label { 'existence' }
+        structured_date_single { build(:json_structured_date_single) }
+        date_certainty { "approximate" }
+        date_era { "ce" }
+        date_calendar { "gregorian" }
+      end
+
+      factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
+        date_role_enum  { "begin" }
+        date_expression { "Yesterday" }
+        date_standardized { "2019-06-01" }
+        date_standardized_type_enum { "standard" }
       end
 
       factory :subject, class: JSONModel(:subject) do

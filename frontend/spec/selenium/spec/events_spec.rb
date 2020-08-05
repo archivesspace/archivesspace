@@ -29,7 +29,7 @@ describe 'Events' do
     @driver ? @driver.quit : next
   end
 
-  it 'creates an event and links it to an agent and an agent as a source' do
+  xit 'creates an event and links it to an agent and an agent as a source' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Event')
     @driver.find_element(:id, 'event_event_type_').select_option('accession')
@@ -76,7 +76,7 @@ describe 'Events' do
     @driver.find_element_with_text('//td', /accession/)
   end
 
-  it 'creates an event and links it to an agent and accession' do
+  xit 'creates an event and links it to an agent and accession' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Event')
     @driver.find_element(:id, 'event_event_type_').select_option('virus_check')
@@ -108,7 +108,7 @@ describe 'Events' do
     end
   end
 
-  it 'can add an external document to an Event' do
+  xit 'can add an external document to an Event' do
     @driver.find_element(css: '#event_external_documents_ .subrecord-form-heading .btn:not(.show-all)').click
     @driver.clear_and_send_keys([:id, 'event_external_documents__0__title_'], 'My URI document')
     @driver.clear_and_send_keys([:id, 'event_external_documents__0__location_'], 'http://archivesspace.org')
@@ -121,7 +121,7 @@ describe 'Events' do
     external_document_sections[0].find_element(link: 'http://archivesspace.org')
   end
 
-  it 'should be searchable' do
+  xit 'should be searchable' do
     run_index_round
     @driver.find_element(:id, 'global-search-button').click
     @driver.find_element(:link, 'Event').click
