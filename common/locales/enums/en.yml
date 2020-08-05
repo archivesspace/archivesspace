@@ -1984,3 +1984,8 @@ en:
     agency_code_type_enum: Agency Code
     maintenance_event_type_enum: Maintenence Event Type
     maintenance_agent_type_enum: Maintenence Agent Type
+    gender_enum: Gender
+    place_role_enum: Place Role
+    date_type_enum: Date Type
+    date_standardized_type_enum: Date Standardized Type
+    date_role_enum: Date Role
