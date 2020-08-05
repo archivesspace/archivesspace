@@ -79,7 +79,7 @@ describe 'Assessments' do
     @driver.ensure_no_such_element(:id, 'conservation_issues__label')
   end
 
-  it 'can create an assessment with links to records and users' do
+  xit 'can create an assessment with links to records and users' do
     @driver.login_to_repo(@archivist_user, @repo)
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Assessment')
@@ -126,7 +126,7 @@ describe 'Assessments' do
     expect(linked_agents[1].text).to match(/#{@manager_user.username}/)
   end
 
-  it 'shows up in the listing' do
+  xit 'shows up in the listing' do
     run_all_indexers
 
     @driver.find_element(:link, 'Browse').click
@@ -144,7 +144,7 @@ describe 'Assessments' do
     @driver.find_element_with_text('//td', /#{@archivist_user.username}/)
   end
 
-  it 'can save ratings and ratings notes' do
+  xit 'can save ratings and ratings notes' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
 
     # Documentation Quality
@@ -182,7 +182,7 @@ describe 'Assessments' do
     expect(@driver.execute_script("return $('#assessment_ratings__7__note_').val()")).to eq('Get your boogie on')
   end
 
-  it 'can save formats' do
+  xit 'can save formats' do
     # Audio Materials
     @driver.find_element(:css, '#assessment_formats__3__value_').click
     # Vinyl
@@ -194,7 +194,7 @@ describe 'Assessments' do
     expect(@driver.execute_script("return $('#assessment_formats__16__value_').is(':checked')")).to be_truthy
   end
 
-  it 'can save conservation issues' do
+  xit 'can save conservation issues' do
     # Potential Mold or Mold Damage
     @driver.find_element(:css, '#assessment_conservation_issues__5__value_').click
     # Scratched
@@ -206,7 +206,7 @@ describe 'Assessments' do
     expect(@driver.execute_script("return $('#assessment_conservation_issues__9__value_').is(':checked')")).to be_truthy
   end
 
-  it 'has all the values in the readonly view' do
+  xit 'has all the values in the readonly view' do
     run_all_indexers
 
     @driver.find_element(:link, 'Browse').click
@@ -244,19 +244,19 @@ describe 'Assessments' do
     @driver.find_element_with_text('//section[@id="conservation_issue_attributes"]//li', /Scratched/)
   end
 
-  it 'shows linked assessments on accession page' do
+  xit 'shows linked assessments on accession page' do
     @driver.navigate.to("#{$frontend}/resolve/readonly?uri=#{@accession.uri}")
     @driver.wait_for_ajax
     expect(@driver.find_elements(:css, '#linked_assessments #tabledSearchResults tbody tr').length).to eq(1)
   end
 
-  it 'shows linked assessments on archival object page' do
+  xit 'shows linked assessments on archival object page' do
     @driver.navigate.to("#{$frontend}/resolve/readonly?uri=#{@archival_object.uri}")
     @driver.wait_for_ajax
     expect(@driver.find_elements(:css, '#linked_assessments #tabledSearchResults tbody tr').length).to eq(1)
   end
 
-  it 'shows linked assessments on digital object page' do
+  xit 'shows linked assessments on digital object page' do
     @driver.navigate.to("#{$frontend}/resolve/readonly?uri=#{@digital_object.uri}")
     @driver.wait_for_ajax
     expect(@driver.find_elements(:css, '#linked_assessments #tabledSearchResults tbody tr').length).to eq(1)

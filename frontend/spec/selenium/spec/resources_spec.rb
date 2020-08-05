@@ -287,7 +287,7 @@ describe 'Resources and archival objects' do
     @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
   end
 
-  it 'can create a new digital object instance with a note to a resource' do
+  xit 'can create a new digital object instance with a note to a resource' do
     @driver.get_edit_page(@resource)
 
     # Wait for the form to load in

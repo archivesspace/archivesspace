@@ -23,7 +23,7 @@ describe 'Classifications' do
   test_classification = "Classification #{Time.now.to_i}_#{$$}"
   test_classification_term = "Classification Term #{Time.now.to_i}_#{$$}"
 
-  it 'allows you to create a classification tree' do
+  xit 'allows you to create a classification tree' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Classification')
 
@@ -40,7 +40,7 @@ describe 'Classifications' do
     expect(@driver.find_element(:css, 'div.agent_person').text).to eq(@agent_sort_name)
   end
 
-  it 'allows you to create a classification term' do
+  xit 'allows you to create a classification term' do
     @driver.find_element(:link, 'Add Child').click
 
     @driver.clear_and_send_keys([:id, 'classification_term_identifier_'], '11')
@@ -56,7 +56,7 @@ describe 'Classifications' do
     expect(@driver.find_element(:css, 'div.agent_person').text).to eq(@agent_sort_name)
   end
 
-  it 'allows you to link a resource to a classification' do
+  xit 'allows you to link a resource to a classification' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Resource')
 
@@ -115,7 +115,7 @@ describe 'Classifications' do
     expect(@driver.find_element(css: 'div.token.classification_term').text).to match(/#{test_classification_term}/)
   end
 
-  it 'allows you to link an accession to a classification' do
+  xit 'allows you to link an accession to a classification' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')
 
@@ -143,7 +143,7 @@ describe 'Classifications' do
     expect(@driver.find_element(css: 'div.token.classification').text).to match(/#{test_classification}/)
   end
 
-  it 'has the linked records on the classifications view page' do
+  xit 'has the linked records on the classifications view page' do
     a_resource = create(:resource)
 
     a_classification = create(:classification, linked_records: [{ ref: a_resource.uri }])
