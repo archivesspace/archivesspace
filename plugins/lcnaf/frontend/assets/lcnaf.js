@@ -104,7 +104,7 @@ $(function() {
     error: function(err) {
       $(".btn", $searchForm).removeAttr("disabled").removeClass("disabled").removeClass("busy");
       var errBody = err.hasOwnProperty("responseText") ? err.responseText.replace(/\n/g, "") : "<pre>" + JSON.stringify(err) + "</pre>";
-      AS.openQuickModal(AS.renderTemplate("template_lcnaf_search_error_title"), JSON.stringify(errBody));
+      AS.openQuickModal(AS.renderTemplate("template_lcnaf_search_error_title"), AS.renderTemplate("template_lcnaf_search_error_message"));
     }
   });
 
