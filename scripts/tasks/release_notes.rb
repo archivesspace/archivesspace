@@ -79,6 +79,15 @@ module ReleaseNotes
     def make_doc
       doc << "# Release notes for #{version}\n"
       doc << "__TODO: add release summary__\n"
+      doc << "## Configurations and Migrations\n"
+      doc << "__TODO: add config changes and migrations as denoted by PR labels__\n"
+      doc << "## API Deprecations\n"
+      doc << "The following API endpoints have been newly deprecated as part of
+this release. For the time being, they will work and you may continue to
+use them, however they will be removed from the core code of ArchivesSpace
+on or after **#{DateTime.now.next_year(1).to_date}**.  For more information see
+the [ArchivesSpace API documentation](https://archivesspace.github.io/archivesspace/api/).\n"
+      doc << find_deprecations
       doc << "## Community Contributions\n"
       doc << "Our thanks go out to these members of the community for their code contributions: \n"
       doc.concat contributors.sort_by { |k, _| k }.map { |c| "- #{c[0]}: #{c[1]}" }
@@ -93,5 +102,20 @@ module ReleaseNotes
 
       "[#{pr_number}](#{PR_URL}/#{pr_number})"
     end
+
+    def find_deprecations
+      deprecated_endpoints = []
+      Dir.glob('backend/app/controllers/*').each do |controller_file|
+        File.foreach(controller_file, "Endpoint") do |ep|
+          if ep.include?(".deprecated")
+            d_ep = ep.lines.first
+            deprecated_endpoints << "Endpoint#{d_ep}"
+          end
+        end
+      end
+
+      deprecated_endpoints
+    end
+
   end
 end
