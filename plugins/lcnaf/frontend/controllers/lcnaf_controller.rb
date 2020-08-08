@@ -48,9 +48,9 @@ class LcnafController < ApplicationController
   def searcher
     case params[:lcnaf_service]
     when  'lcnaf'
-      OpenSearcher.new('http://id.loc.gov/search/', 'http://id.loc.gov/authorities/names')
+      OpenSearcher.new('https://id.loc.gov/search/', 'http://id.loc.gov/authorities/names')
     when 'lcsh'
-      OpenSearcher.new('http://id.loc.gov/search/', 'http://id.loc.gov/authorities/subjects')
+      OpenSearcher.new('https://id.loc.gov/search/', 'http://id.loc.gov/authorities/subjects')
     end
   end
 end
