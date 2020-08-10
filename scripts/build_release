@@ -19,15 +19,14 @@ case $version in
 "-g")
   git_version=`git rev-parse --abbrev-ref HEAD 2>/dev/null`
   echo Building release with version: $git_version
-  ../build/run dist -Dversion="$git_version"
+  ../build/run build-dist -Dversion="$git_version"
   ;;
 "-t")
   echo Building release with a timestamp version
-  ../build/run dist
+  ../build/run build-dist
   ;;
 *)
   echo Building release with version: $version
-  ../build/run dist -Dversion="$version"
+  ../build/run build-dist -Dversion="$version"
   ;;
 esac
-

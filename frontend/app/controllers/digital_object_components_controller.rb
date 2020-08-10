@@ -205,7 +205,7 @@ class DigitalObjectComponentsController < ApplicationController
           @children.save(:digital_object_component_id => @parent.id)
         end
 
-        return render :text => I18n.t("rde.messages.success")
+        return render :plain => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
         @exceptions = @children.children.collect{|c| JSONModel(:digital_object_component).from_hash(c, false)._exceptions}
         

@@ -5,8 +5,8 @@ require 'set'
 
 module AgentManager
 
-  AGENT_MUST_BE_UNIQUE = "Agent must be unique"
-  AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT = /Duplicate entry .* for key 'sha1_agent_person'/
+  AGENT_MUST_BE_UNIQUE = "Agent must be unique".freeze
+  AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT = /Duplicate entry .* for key 'sha1_agent_person'/.freeze
 
   @@registered_agents ||= {}
 
@@ -204,7 +204,7 @@ module AgentManager
             agent = join(name_type.intern, "#{agent_type}_id".intern => "#{agent_type}__id".intern)
                       .join(:name_authority_id, "#{name_type}_id".intern => "#{name_type}__id".intern )
                       .where( Sequel.qualify(:name_authority_id, :authority_id) => authorized_name["authority_id"] )
-                      .and( Sequel.qualify( name_type.intern, :authorized)  => 1 ).select_all(agent_type.intern).first
+                      .where( Sequel.qualify( name_type.intern, :authorized)  => 1 ).select_all(agent_type.intern).first
                       
 
           elsif exception.message.end_with?(AGENT_MUST_BE_UNIQUE) || exception.message =~ AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT

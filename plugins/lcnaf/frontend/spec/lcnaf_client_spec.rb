@@ -7,7 +7,7 @@ require_relative '../models/http_request.rb'
 describe "id.loc.gov clientware" do
 
   let(:loc_searcher) {
-    OpenSearcher.new('http://id.loc.gov/search/', 'http://id.loc.gov/authorities/names')
+    OpenSearcher.new('https://id.loc.gov/search/', 'http://id.loc.gov/authorities/names')
   }
 
 

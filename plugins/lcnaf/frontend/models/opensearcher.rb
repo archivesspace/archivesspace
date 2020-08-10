@@ -3,8 +3,8 @@ require 'nokogiri'
 require 'asutils'
 require_relative 'opensearchresultset'
 
-LCNAF='http://id.loc.gov/authorities/names'
-LCSH='http://id.loc.gov/authorities/subjects'
+LCNAF='https://id.loc.gov/authorities/names'
+LCSH='https://id.loc.gov/authorities/subjects'
 
 class OpenSearcher
   attr_accessor :scheme
@@ -39,9 +39,7 @@ class OpenSearcher
       uri = URI("#{@scheme}/#{lccn}.marcxml.xml")
 
       HTTPRequest.new.get(uri) do |response|
-        if response.code != '200'
-          raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
-        end
+        response = status_check(response)
 
         doc = Nokogiri::XML.parse(response.body) do |config|
           config.default_xml.noblanks
@@ -72,9 +70,7 @@ class OpenSearcher
 
     uri.query = URI.encode_www_form(params)
     results = HTTPRequest.new.get(uri) do |response|
-      if response.code != '200'
-        raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
-      end
+      response = status_check(response)
 
       OpenSearchResultSet.new(response.body, query)
     end
@@ -83,15 +79,24 @@ class OpenSearcher
       marc_uri = URI("#{entry['uri']}.marcxml.xml")
 
       HTTPRequest.new.get(marc_uri) do |response|
-        if response.code != '200'
-          raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
-        end
+        response = status_check(response)
 
         entry['xml'] = response.body.force_encoding("iso-8859-1").encode('utf-8')
       end
     end
 
     results
+  end
+
+  def status_check(response)
+    if response.is_a?(Net::HTTPMovedPermanently)
+      uri = URI(response['location'])
+      response = Net::HTTP.get_response(uri)
+    elsif !(response.is_a?(Net::HTTPOK))
+      raise OpenSearchException.new("Error during OpenSearch search: #{response.body}")
+    else
+      response
+    end
   end
 
 end

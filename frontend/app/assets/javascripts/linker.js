@@ -64,7 +64,7 @@ $(function() {
 
                 $this.tokenInput("add", {
                   id: response.uri,
-                  name: response.display_string || response.title,
+                  name: tokenName(response),
                   json: response
                 });
                 $this.triggerHandler("change");
@@ -209,7 +209,7 @@ $(function() {
           $.each(currentlySelected, function(uri, object) {
             $this.tokenInput("add", {
               id: uri,
-              name: object.display_string || object.title,
+              name: tokenName(object),
               json: object
             });
           });
@@ -234,10 +234,9 @@ $(function() {
 
         $.each(searchData.search_data.results, function(index, obj) {
           // only allow selection of unselected items
-
           if ($.inArray(obj.uri, currentlySelectedIds) === -1) {
             formattedResults.push({
-              name: obj.display_string || obj.title,
+              name: tokenName(obj),
               id: obj.id,
               json: obj
             });
@@ -289,7 +288,7 @@ $(function() {
           }
           return [{
               id: $this.data("selected").uri,
-              name: $this.data("selected").display_string || $this.data("selected").title,
+              name: tokenName($this.data("selected")),
               json: $this.data("selected")
           }];
         } else {
@@ -303,7 +302,7 @@ $(function() {
             }
             return {
               id: item.uri,
-              name: item.display_string || item.title,
+              name: tokenName(item),
               json: item
             };
           });
@@ -342,6 +341,33 @@ $(function() {
           return "";
         }
       };
+
+      // ANW-631, ANW-700: Add four_part_id to token name via data source
+      function tokenName(object) {
+        var title = object.display_string || object.title;
+
+        function output(id) {
+          return id + ': ' + title;
+        }
+
+        if (object.four_part_id !== undefined) {
+          // Data comes from Solr index
+          return output(object.four_part_id.split(' ').join('-'));
+        } else {
+          // Data comes from JSON property on data from Solr index
+          var idProperties = ['id_0', 'id_1', 'id_2', 'id_3'];
+          var fourPartIdArr = idProperties.reduce(function (acc, id) {
+            if (object[id] !== undefined) {
+              acc.push(object[id]);
+            }
+            return acc;
+          }, []);
+
+          return fourPartIdArr.length > 0
+            ? output(fourPartIdArr.join('-'))
+            : title;
+        }
+      }
 
       var init = function() {
         var tokenInputConfig = $.extend({}, AS.linker_locales, {

@@ -963,7 +963,7 @@ module Relationships
             #
             # For example: join ArchivalObject to subject_rlshp
             #              join Instance to instance_do_link_rlshp
-            base_ds = self.join(relationship_defn,
+            base_ds = self.join(relationship_defn.table_name,
                                 Sequel.qualify(relationship_defn.table_name, my_col) =>
                                        Sequel.qualify(self.table_name, :id))
 
@@ -1012,7 +1012,7 @@ module Relationships
           parent_model = association[:model]
 
           # Link the parent into the current dataset
-          parent_ds = dataset.join(parent_model,
+          parent_ds = dataset.join(parent_model.table_name,
                                    Sequel.qualify(self.table_name, association[:key]) =>
                                           Sequel.qualify(parent_model.table_name, :id))
 

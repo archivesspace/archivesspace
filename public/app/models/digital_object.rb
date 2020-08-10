@@ -1,11 +1,14 @@
 class DigitalObject < Record
 
-  attr_reader :cite, :linked_instances
+  attr_reader :cite, :cite_item, :cite_item_description, :linked_instances
   def initialize(*args)
     super
 
     @linked_instances = parse_linked_instances
-    @cite = parse_cite_string
+    # ANW-921: Refactored citation modal, keep cite in case used by others
+    @cite = parse_cite_string("")
+    @cite_item = parse_cite_string("item")
+    @cite_item_description = parse_cite_string("description")
   end
 
   def finding_aid
@@ -50,20 +53,28 @@ class DigitalObject < Record
     results
   end
 
-  def parse_cite_string
+  def parse_cite_string(cite_type)
     cite = note('prefercite')
     unless cite.blank?
       cite = strip_mixed_content(cite['note_text'])
     else
-      cite = strip_mixed_content(display_string) + "."
-      if resolved_resource
-        ttl = resolved_resource.dig('title')
-        cite += " #{strip_mixed_content(ttl)}." unless !ttl
+      cite = strip_mixed_content(display_string)
+      cite += identifier.blank? ? '' : ", #{identifier}"
+      cite += if container_display.blank? || container_display.length > 5
+        '.'
+      else
+        @citation_container_display ||= parse_container_display(:citation => true).join('; ')
+        ", #{@citation_container_display}."
       end
-      cite += " #{ repository_information['top']['name']}." unless !repository_information.dig('top','name')
+      unless repository_information['top']['name'].blank?
+        cite += " #{ repository_information['top']['name']}."
+      end
     end
-
-    HTMLEntities.new.decode("#{cite}   #{cite_url_and_timestamp}.")
+    if cite_type == "description"
+      HTMLEntities.new.decode("#{cite} #{cite_url_and_timestamp}.")
+    else
+      HTMLEntities.new.decode("#{cite}")
+    end
   end
 
   def linked_instance_for_uri(uri)

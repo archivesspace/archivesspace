@@ -3,15 +3,12 @@ require 'sequel/adapters/shared/mysql'
 require 'config/config-distribution'
 require 'asutils'
 
-Sequel::MySQL.default_engine = 'InnoDB'
-Sequel::MySQL.default_charset = 'utf8'
-
 Sequel.database_timezone = :utc
 Sequel.typecast_timezone = :utc
 
 Sequel.extension :migration
 Sequel.extension :core_extensions
-
+Sequel.split_symbols = true
 
 module ColumnDefs
 
@@ -182,6 +179,10 @@ class DBMigrator
   def self.setup_database(db)
     begin
       $db_type = db.database_type
+      unless $db_type == :derby
+        db.default_engine = 'InnoDB'
+        db.default_charset = 'utf8'
+      end
 
       fail_if_managed_container_migration_needed!(db)
 

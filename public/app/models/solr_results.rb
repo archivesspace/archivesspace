@@ -17,6 +17,12 @@ class SolrResults
     @records.first
   end
 
+  # while this is available it cannot be private Ruby 2.5+
+  def [](k)
+    # $stderr.puts "FIXME stop direct access to the results json blob ([]): #{caller.first}"
+    raw[k]
+  end
+
   private
 
   def parse_records(full)
@@ -28,10 +34,5 @@ class SolrResults
     record.criteria = @search_opts
 
     record
-  end
-
-  def [](k)
-    # $stderr.puts "FIXME stop direct access to the results json blob ([]): #{caller.first}"
-    raw[k]
   end
 end
