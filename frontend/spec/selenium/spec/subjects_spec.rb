@@ -57,8 +57,13 @@ describe 'Subjects' do
     @driver.find_element(id: 'subject_source_').select_option('local')
 
     @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], "just a term really #{now}")
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('cultural_context')
     @driver.clear_and_send_keys([:id, 'subject_terms__1__term_'], 'really')
+    @driver.find_element(id: 'subject_terms__1__term_type_').select_option('cultural_context')
+
+    #sleep(10)
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    #sleep(10)
     assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("just a term really #{now} -- really Subject") }
   end
 
@@ -77,6 +82,8 @@ describe 'Subjects' do
     @driver.find_element(id: 'subject_source_').select_option('local')
     @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], first)
     @driver.clear_and_send_keys([:id, 'subject_terms__1__term_'], second)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('cultural_context')
+    @driver.find_element(id: 'subject_terms__1__term_type_').select_option('cultural_context')
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
     assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq("#{first} -- #{second} Subject") }
 
@@ -123,6 +130,7 @@ describe 'Subjects' do
     @driver.click_and_wait_until_gone(link: 'Subject')
 
     @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], "My First New Term #{now}")
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('cultural_context')
     @driver.find_element(id: 'subject_source_').select_option('local')
     @driver.find_element(css: 'form #createPlusOne').click
 
