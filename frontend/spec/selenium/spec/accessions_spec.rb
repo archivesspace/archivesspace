@@ -204,7 +204,9 @@ describe 'Accessions' do
     @driver.find_element(:css, '#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([id: 'accession_linked_agents__0__terms__0__term_'], "#{@me}LinkedAgentTerm1")
+    #@driver.find_element(id: 'subject_terms__0__term_type_').select_option('cultural_context')
     @driver.clear_and_send_keys([id: 'accession_linked_agents__0__terms__1__term_'], "#{@me}LinkedAgentTerm2")
+    #@driver.find_element(id: 'subject_terms__1__term_type_').select_option('cultural_context')
 
     @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
 
