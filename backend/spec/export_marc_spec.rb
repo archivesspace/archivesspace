@@ -407,10 +407,6 @@ end
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xx" do
       expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}xx/)
     end
-
-    it "datafield[@tag='044'] not present if repo has no country code" do
-      expect(@marc1).not_to have_tag("datafield[@tag='044']")
-    end
   end
 
   describe "record leader mappings - US is country defined" do
@@ -439,10 +435,6 @@ end
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
       expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}xxu/)
     end
-
-    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
-      expect(@marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text("xxu")
-    end
   end
 
   describe "record leader mappings - country defined - NOT US" do
@@ -470,10 +462,6 @@ end
 
     it "sets record/controlfield[@tag='008']/text()[15..16] (country code) with xxu for US special case" do
       expect(@marc1.at("record/controlfield")).to have_inner_text(/^.{15}th/)
-    end
-
-    it "maps country code to datafield[@tag='044' and @ind1=' ' and @ind2=' '] subfield a for US special case" do
-      expect(@marc1.at("datafield[@tag='044'][@ind1=' '][@ind2=' ']/subfield[@code='a']")).to have_inner_text("th")
     end
   end
 
