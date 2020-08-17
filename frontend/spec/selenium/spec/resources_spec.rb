@@ -454,7 +454,9 @@ describe 'Resources and archival objects' do
     @driver.find_element(:css, '.modal #subject_terms_ .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([id: 'subject_terms__0__term_'], "#{$$}TestTerm123")
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('cultural_context')
     @driver.clear_and_send_keys([id: 'subject_terms__1__term_'], "#{$$}FooTerm456")
+    @driver.find_element(id: 'subject_terms__1__term_type_').select_option('cultural_context')
     @driver.find_element(id: 'subject_source_').select_option('local')
 
     @driver.find_element(:id, 'createAndLinkButton').click
