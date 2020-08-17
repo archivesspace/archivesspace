@@ -204,9 +204,9 @@ describe 'Accessions' do
     @driver.find_element(:css, '#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([id: 'accession_linked_agents__0__terms__0__term_'], "#{@me}LinkedAgentTerm1")
-    #@driver.find_element(id: 'subject_terms__0__term_type_').select_option('cultural_context')
+    @driver.find_element(id: 'accession_linked_agents__0__terms__0__term_type_').select_option('function')
     @driver.clear_and_send_keys([id: 'accession_linked_agents__0__terms__1__term_'], "#{@me}LinkedAgentTerm2")
-    #@driver.find_element(id: 'subject_terms__1__term_type_').select_option('cultural_context')
+    @driver.find_element(id: 'accession_linked_agents__0__terms__1__term_type_').select_option('function')
 
     @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
 
@@ -349,7 +349,6 @@ describe 'Accessions' do
   end
 
   it 'can create a subject and link to an Accession' do
-    #@driver.find_element(:css, 'a.linker-create-btn').click
     @driver.click_and_wait_until_gone(:link, 'Edit')
 
     @driver.find_element(css: '#accession_subjects_ .subrecord-form-heading .btn:not(.show-all)').click
@@ -361,7 +360,9 @@ describe 'Accessions' do
     @driver.find_element(:css, '.modal #subject_terms_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([id: 'subject_terms__0__term_'], "#{@me}AccessionTermABC")
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('function')
     @driver.clear_and_send_keys([id: 'subject_terms__1__term_'], "#{@me}AccessionTermDEF")
+    @driver.find_element(id: 'subject_terms__1__term_type_').select_option('function')
     @driver.find_element(id: 'subject_source_').select_option('local')
 
     @driver.find_element(:id, 'createAndLinkButton').click
@@ -437,7 +438,6 @@ describe 'Accessions' do
     end.not_to raise_error
 
     @driver.click_and_wait_until_gone(:link, 'View')
-
     @driver.click_and_wait_until_gone(:link, 'Edit')
 
     # now delete it
@@ -455,7 +455,7 @@ describe 'Accessions' do
 
         run_index_round # keep indexing and refreshing till it disappears
         @driver.navigate.refresh
-        sleep(4)
+        sleep(1)
       end
     end.to raise_error Selenium::WebDriver::Error::NoSuchElementError
   end
