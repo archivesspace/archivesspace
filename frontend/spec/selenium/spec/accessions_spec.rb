@@ -204,7 +204,9 @@ describe 'Accessions' do
     @driver.find_element(:css, '#accession_linked_agents__0__terms_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([id: 'accession_linked_agents__0__terms__0__term_'], "#{@me}LinkedAgentTerm1")
+    @driver.find_element(id: 'accession_linked_agents__0__terms__0__term_type_').select_option('function')
     @driver.clear_and_send_keys([id: 'accession_linked_agents__0__terms__1__term_'], "#{@me}LinkedAgentTerm2")
+    @driver.find_element(id: 'accession_linked_agents__0__terms__1__term_type_').select_option('function')
 
     @driver.click_and_wait_until_gone(css: "form#accession_form button[type='submit']")
 
@@ -358,7 +360,9 @@ describe 'Accessions' do
     @driver.find_element(:css, '.modal #subject_terms_ .subrecord-form-heading .btn:not(.show-all)').click
 
     @driver.clear_and_send_keys([id: 'subject_terms__0__term_'], "#{@me}AccessionTermABC")
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('function')
     @driver.clear_and_send_keys([id: 'subject_terms__1__term_'], "#{@me}AccessionTermDEF")
+    @driver.find_element(id: 'subject_terms__1__term_type_').select_option('function')
     @driver.find_element(id: 'subject_source_').select_option('local')
 
     @driver.find_element(:id, 'createAndLinkButton').click
