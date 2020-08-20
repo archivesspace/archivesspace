@@ -878,7 +878,8 @@ class EAD3Serializer < EADSerializer
         certainty: date['certainty'] ? date['certainty'] : nil,
         era: date['era'] ? date['era'] : nil,
         calendar: date['calendar'] ? date['calendar'] : nil,
-        audience: date['publish'] === false ? 'internal' : nil
+        audience: date['publish'] === false ? 'internal' : nil,
+        datechar: date['label'] ? date['label'] : nil
       }
 
       unless date['date_type'].nil?
