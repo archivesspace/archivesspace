@@ -429,8 +429,6 @@ $(function() {
                                    .prop('selected', true)
                                    .trigger('change');
         } 
-
-        index++;
       };
 
       $(".subrecord-form-heading:first .btn.add-note", $this).click(createTopLevelNote);

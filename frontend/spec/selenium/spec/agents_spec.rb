@@ -26,15 +26,6 @@ describe 'Agents' do
     @driver.find_element_with_text('//div[contains(@class, "error")]', /Primary Part of Name - Property is required but was missing/)
   end
 
-  xit 'reports an error when neither Source nor Rules is provided' do
-    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
-
-    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
-
-    @driver.find_element_with_text('//div[contains(@class, "error")]', /Source - is required/)
-    @driver.find_element_with_text('//div[contains(@class, "error")]', /Rules - is required/)
-  end
-
   it 'reports a warning when Authority ID is provided without a Source' do
     @driver.clear_and_send_keys([:id, 'agent_names__0__authority_id_'], SecureRandom.hex)
     @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
@@ -126,8 +117,8 @@ describe 'Agents' do
     @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
   end
 
-  xit 'can add a related agent' do
-    @driver.find_element(css: '#agent_person_related_agents .subrecord-form-heading .btn:not(.show-all)').click
+  it 'can add a related agent' do
+    @driver.find_element(css: 'button.add-related-agent-for-type-btn').click
     @driver.find_element(css: 'select.related-agent-type').select_option('agent_relationship_associative')
 
     token_input = @driver.find_element(:id, 'token-input-agent_related_agents__1__ref_')
@@ -135,10 +126,10 @@ describe 'Agents' do
 
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
-    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Agent Saved/)
-    linked = @driver.find_element(:id, "_agents_people_#{@other_agent.id}").text.sub(/\n.*/, '')
+    @driver.find_element(css: 'div.alert-success').click
 
-    expect(linked).to eq(@other_agent.names[0]['sort_name'])
+    # will fail here if related agent not added correctly.
+    @driver.find_element(css: '#agent_related_agents__0_')
   end
 
   it 'can remove contact details' do
@@ -170,84 +161,832 @@ describe 'Agents' do
     external_document_sections[0].find_element(link: 'http://archivesspace.org')
   end
 
-  xit 'can add a date of existence to an Agent' do
+  it 'can add a date of existence to an Agent' do
     @driver.click_and_wait_until_gone(:link, 'Edit')
     @driver.find_element(css: '#agent_person_dates_of_existence .subrecord-form-heading .btn:not(.show-all)').click
 
-    @driver.find_element(id: 'agent_dates_of_existence__0__date_type_').select_option('single')
-    @driver.clear_and_send_keys([:id, 'agent_dates_of_existence__0__expression_'], '1973')
+    @driver.find_element(id: 'agent_dates_of_existence__0__date_type_enum_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'agent_dates_of_existence__0_[structured_date_single]_date_expression_'], '1973')
+  
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if date of existence not added correctly.
+    @driver.find_element(id: 'agent_dates_of_existence__0_')
+  end
+
+  it 'can add a record identifier to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_record_identifier .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'agent_agent_record_identifiers__0__record_identifier_'], rand(10000))
+
+    @driver.find_element(id: 'agent_agent_record_identifiers__0__source_enum_').select_option('local')
+  
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_record_identifiers__0_')
+  end
+
+  it 'can add a record identifier to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_record_identifier .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'agent_agent_record_identifiers__0__record_identifier_'], rand(10000))
+
+    @driver.find_element(id: 'agent_agent_record_identifiers__0__source_enum_').select_option('local')
+  
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_record_identifiers__0_')
+  end
+
+    it 'can add a record control subrecord to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_record_control .btn:not(.show-all)').click
 
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
-    @driver.click_and_wait_until_gone(link: 'My Custom Sort Name')
-
-    # check for date expression
-    @driver.find_element_with_text('//div', /1973/)
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_record_controls__0_')
   end
 
-  xit 'can add a Biog/Hist note to an Agent' do
-    @driver.click_and_wait_until_gone(:link, 'Edit')
+  it 'can add an agency code to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_other_agency_codes .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'agent_agent_other_agency_codes__0__maintenance_agency_'], rand(10000))
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_other_agency_codes__0_')
+  end  
+
+  it 'can add a conventions declaration to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_conventions_declaration .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_conventions_declarations__0__name_rule_').select_option('local')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_conventions_declarations__0_')
+  end  
+
+  it 'can add maintenance history to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_maintenance_history .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_maintenance_histories__0__maintenance_event_type_enum_').select_option('created')
+
+    @driver.clear_and_send_keys([:id, 'agent_agent_maintenance_histories__0__event_date_'], '1980-02-12')
+
+    @driver.clear_and_send_keys([:id, 'agent_agent_maintenance_histories__0__agent_'], 'HAL 9000')
+
+    @driver.find_element(id: 'agent_agent_maintenance_histories__0__maintenance_agent_type_enum_').select_option('machine')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_maintenance_histories__0_')
+  end  
+
+  it 'can add source entry to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_sources .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'agent_agent_sources__0__source_entry_'], rand(10000))
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_sources__0_')
+  end  
+
+  it 'can add alternate set to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_alternate_set .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'agent_agent_alternate_sets__0__set_component_'], rand(10000))
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_alternate_sets__0_')
+  end  
+
+  it 'can add entity ids to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_identifier .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'agent_agent_identifiers__0__entity_identifier_'], rand(10000))
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_identifiers__0_')
+  end  
+
+  it 'can add a name use date to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_names__0__use_dates_ .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_names__0__use_dates__0__date_type_enum_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'agent_names__0__use_dates__0_[structured_date_single]_date_expression_'], '1973')
+ 
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_names__0__use_dates__0_')
+  end  
+
+  it 'can add a parallel name to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_names__0__parallel_names_ .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__parallel_names__0__primary_name_'], rand(10000))
+ 
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_names__0__parallel_names__0_')
+  end  
+
+  it 'can add a name use date to a parallel name' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_names__0__parallel_names_ .btn:not(.show-all)').click
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__parallel_names__0__primary_name_'], rand(10000))
+
+    @driver.find_element(css: '#agent_names__0__parallel_names__0__use_dates_ .btn:not(.show-all)').click
+
+     @driver.find_element(id: 'agent_names__0__parallel_names__0__use_dates__0__date_type_enum_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'agent_names__0__parallel_names__0__use_dates__0_[structured_date_single]_date_expression_'], '1973')
+ 
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_names__0__parallel_names__0__use_dates__0_')
+  end  
+
+  it 'can add gender to an Agent' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_gender .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_genders__0__gender_enum_').select_option('not_specified')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_genders__0_')
+  end  
+
+  it 'can add date to a gender' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_gender .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_genders__0__gender_enum_').select_option('not_specified')
+
+
+    @driver.find_element(css: '#agent_agent_genders__0__dates_ .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_genders__0__dates__0__date_type_enum_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'agent_agent_genders__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_genders__0__dates__0_')
+  end  
+
+  it 'can add a note to a gender' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_gender .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_genders__0__gender_enum_').select_option('not_specified')
+
+    @driver.find_element(css: '#agent_gender .subrecord-form-heading .btn.add-note').click
+    @driver.find_element(css: '.top-level-note-type').select_option('note_text')
+
+    @driver.execute_script("$('#agent_agent_genders__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
+    @driver.execute_script("$('#agent_agent_genders__0__notes__0__content_').data('CodeMirror').save()")
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_genders__0__notes__0_')
+  end  
+
+  it 'can create an agent_place' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('geographic')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_place .btn:not(.show-all)').click
+
+    # role
+    @driver.find_element(id: 'agent_agent_places__0__place_role_enum_').select_option('place_of_birth')
+
+    # subject
+    @driver.find_element(css: '#agent_agent_places__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_places__0__subjects__0__ref_')
+
+    @driver.typeahead_and_select(token_input, term)
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_places__0_')
+  end
+
+  it 'can add a date to an agent_place' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('geographic')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_place .btn:not(.show-all)').click
+
+    # role
+    @driver.find_element(id: 'agent_agent_places__0__place_role_enum_').select_option('place_of_birth')
+
+    # subject
+    @driver.find_element(css: '#agent_agent_places__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_places__0__subjects__0__ref_')
+    
+    @driver.typeahead_and_select(token_input, term)
+
+
+    # date
+    @driver.find_element(css: '#agent_agent_places__0__dates_ .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_places__0__dates__0__date_type_enum_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'agent_agent_places__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_places__0__dates__0_')
+  end
+
+  it 'can add a note to an agent_place' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('geographic')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_place .btn:not(.show-all)').click
+
+    # role
+    @driver.find_element(id: 'agent_agent_places__0__place_role_enum_').select_option('place_of_birth')
+
+    # subject
+    @driver.find_element(css: '#agent_agent_places__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_places__0__subjects__0__ref_')
+    
+    @driver.typeahead_and_select(token_input, term)
+
+    # note
+    @driver.find_element(css: '#agent_person_agent_place .subrecord-form-heading .btn.add-note').click
+    @driver.find_element(css: '.top-level-note-type').select_option('note_text')
+
+    @driver.execute_script("$('#agent_agent_places__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
+    @driver.execute_script("$('#agent_agent_places__0__notes__0__content_').data('CodeMirror').save()") 
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_places__0__notes__0_')
+  end
+
+  it 'can create an agent_occupation' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('occupation')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_occupation .btn:not(.show-all)').click
+
+    # subject
+    @driver.find_element(css: '#agent_agent_occupations__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_occupations__0__subjects__0__ref_')
+
+    @driver.typeahead_and_select(token_input, term)
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_occupations__0_')
+  end
+
+  it 'can add a date to an agent_occupation' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('occupation')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_occupation .btn:not(.show-all)').click
+
+    # subject
+    @driver.find_element(css: '#agent_agent_occupations__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_occupations__0__subjects__0__ref_')
+    
+    @driver.typeahead_and_select(token_input, term)
+
+
+    # date
+    @driver.find_element(css: '#agent_agent_occupations__0__dates_ .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_occupations__0__dates__0__date_type_enum_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'agent_agent_occupations__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_occupations__0__dates__0_')
+  end
+
+  it 'can add a note to an agent_occupation' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('occupation')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_occupation .btn:not(.show-all)').click
+
+    # subject
+    @driver.find_element(css: '#agent_agent_occupations__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_occupations__0__subjects__0__ref_')
+    
+    @driver.typeahead_and_select(token_input, term)
+
+    # note
+    @driver.find_element(css: '#agent_person_agent_occupation .subrecord-form-heading .btn.add-note').click
+    @driver.find_element(css: '.top-level-note-type').select_option('note_text')
+
+    @driver.execute_script("$('#agent_agent_occupations__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
+    @driver.execute_script("$('#agent_agent_occupations__0__notes__0__content_').data('CodeMirror').save()") 
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_occupations__0__notes__0_')
+  end
+
+  it 'can create an agent_function' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('function')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_function .btn:not(.show-all)').click
+
+    # subject
+    @driver.find_element(css: '#agent_agent_functions__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_functions__0__subjects__0__ref_')
+
+    @driver.typeahead_and_select(token_input, term)
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_functions__0_')
+  end
+
+  it 'can add a date to an agent_function' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('function')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_function .btn:not(.show-all)').click
+
+    # subject
+    @driver.find_element(css: '#agent_agent_functions__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_functions__0__subjects__0__ref_')
+    
+    @driver.typeahead_and_select(token_input, term)
+
+    # date
+    @driver.find_element(css: '#agent_agent_functions__0__dates_ .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_functions__0__dates__0__date_type_enum_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'agent_agent_functions__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_functions__0__dates__0_')
+  end
+
+  it 'can add a note to an agent_function' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('function')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_function .btn:not(.show-all)').click
+
+    # subject
+    @driver.find_element(css: '#agent_agent_functions__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_functions__0__subjects__0__ref_')
+    
+    @driver.typeahead_and_select(token_input, term)
+
+    # note
+    @driver.find_element(css: '#agent_person_agent_function .subrecord-form-heading .btn.add-note').click
+    @driver.find_element(css: '.top-level-note-type').select_option('note_text')
+
+    @driver.execute_script("$('#agent_agent_functions__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
+    @driver.execute_script("$('#agent_agent_functions__0__notes__0__content_').data('CodeMirror').save()") 
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_functions__0__notes__0_')
+  end
+
+  it 'can create an agent_topic' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('topical')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_topic .btn:not(.show-all)').click
+
+    # subject
+    @driver.find_element(css: '#agent_agent_topics__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_topics__0__subjects__0__ref_')
+
+    @driver.typeahead_and_select(token_input, term)
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_topics__0_')
+  end
+
+  it 'can add a date to an agent_topic' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('topical')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_topic .btn:not(.show-all)').click
+
+    # subject
+    @driver.find_element(css: '#agent_agent_topics__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_topics__0__subjects__0__ref_')
+    
+    @driver.typeahead_and_select(token_input, term)
+
+    # date
+    @driver.find_element(css: '#agent_agent_topics__0__dates_ .btn:not(.show-all)').click
+
+    @driver.find_element(id: 'agent_agent_topics__0__dates__0__date_type_enum_').select_option('single')
+    @driver.clear_and_send_keys([:id, 'agent_agent_topics__0__dates__0_[structured_date_single]_date_expression_'], '1973')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_topics__0__dates__0_')
+  end
+
+  it 'can add a note to an agent_topic' do
+    # create subject
+    @driver.find_element(:link, 'Create').click
+    @driver.click_and_wait_until_gone(:link, 'Subject')
+    term = rand(10000).to_s
+
+    @driver.find_element(id: 'subject_source_').select_option('local')
+
+    @driver.clear_and_send_keys([:id, 'subject_terms__0__term_'], term)
+    @driver.find_element(id: 'subject_terms__0__term_type_').select_option('topical')
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+    run_index_round
+
+    # create agent and add subrecord
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Agent').click
+    @driver.click_and_wait_until_gone(:link, 'Person')
+
+    @driver.clear_and_send_keys([:id, 'agent_names__0__primary_name_'], @hendrix)
+
+    @driver.find_element(css: '#agent_person_agent_topic .btn:not(.show-all)').click
+
+    # subject
+    @driver.find_element(css: '#agent_agent_topics__0__subjects_ .btn:not(.show-all)').click
+
+    token_input = @driver.find_element(:id, 'token-input-agent_agent_topics__0__subjects__0__ref_')
+    
+    @driver.typeahead_and_select(token_input, term)
+
+    # note
+    @driver.find_element(css: '#agent_person_agent_topic .subrecord-form-heading .btn.add-note').click
+    @driver.find_element(css: '.top-level-note-type').select_option('note_text')
+
+    @driver.execute_script("$('#agent_agent_topics__0__notes__0__content_').data('CodeMirror').setValue('this is a note')")
+    @driver.execute_script("$('#agent_agent_topics__0__notes__0__content_').data('CodeMirror').save()") 
+
+    @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
+
+    # will fail here if subrecord not added correctly.
+    @driver.find_element(id: 'agent_agent_topics__0__notes__0_')
+  end
+
+  it 'can add a Biog/Hist note to an Agent' do
     @driver.find_element(css: '#agent_person_notes .subrecord-form-heading .btn.add-note').click
-    @driver.blocking_find_elements(css: '#agent_person_notes .top-level-note-type')[0].select_option('note_bioghist')
+    @driver.find_element(css: '.top-level-note-type').select_option('note_bioghist')
 
     # ensure note form displayed
     @driver.find_element(:id, 'agent_notes__0__label_')
 
     biog = 'Jimi was an American musician and songwriter; and one of the most influential electric guitarists in the history of popular music.'
+
     @driver.execute_script("$('#agent_notes__0__subnotes__0__content_').data('CodeMirror').setValue('#{biog}')")
     @driver.execute_script("$('#agent_notes__0__subnotes__0__content_').data('CodeMirror').save()")
 
+
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
-    @driver.click_and_wait_until_gone(link: 'My Custom Sort Name')
-
-    # check the readonly view
-    @driver.find_element_with_text('//div[contains(@class, "subrecord-form-fields")]', /#{biog}/)
+    # will fail here if date of existence not added correctly.
+    @driver.find_element(id: 'agent_notes__0_')
   end
 
-  xit 'can add a sub note' do
-    @driver.click_and_wait_until_gone(:link, 'Edit')
+  it 'can add a General Context note to an Agent' do
+    #@driver.click_and_wait_until_gone(:link, 'Edit')
+    @driver.find_element(css: '#agent_person_notes .subrecord-form-heading .btn.add-note').click
+    @driver.find_element(css: '.top-level-note-type').select_option('note_general_context')
 
-    notes = @driver.blocking_find_elements(css: '#agent_person_notes .subrecord-form-fields')
+    # ensure note form displayed
+    @driver.find_element(:id, 'agent_notes__1__label_')
 
-    # Expand the collapsed note
-    notes[0].find_element(css: '.collapse-subrecord-toggle').click
+    biog = 'general context'
 
-    # Add a sub note
-    @driver.scroll_into_view(notes[0])
-    sleep 1
-    i = 0
-    begin
-      notes[0].find_element(css: '.subrecord-form-heading .btn.add-sub-note-btn:not(.show-all)').click
-      el = notes[0].find_element_orig(css: 'select.bioghist-note-type')
-      el.select_option('note_outline')
-    rescue Selenium::WebDriver::Error::NoSuchElementError => e
-      if i < 5
-        i += 1
-        redo
-      else
-        raise e
-      end
-    end
+    @driver.execute_script("$('#agent_notes__1__subnotes__0__content_').data('CodeMirror').setValue('#{biog}')")
+    @driver.execute_script("$('#agent_notes__1__subnotes__0__content_').data('CodeMirror').save()")
 
-    # Woah! Slow down, cowboy. Ensure the sub form is initialised.
-    notes[0].find_element(css: '.subrecord-form-fields.initialised')
 
-    # ensure sub note form displayed
-    @driver.find_element(:id, 'agent_notes__0__subnotes__1__publish_')
-
-    notes[0].find_element(css: '.add-level-btn').click
-    notes[0].find_element(css: '.add-sub-item-btn').click
-    notes[0].find_element(css: '.add-sub-item-btn').click
-
-    @driver.clear_and_send_keys([:id, 'agent_notes__0__subnotes__1__levels__0__items__0_'], 'Woodstock')
-    @driver.clear_and_send_keys([:id, 'agent_notes__0__subnotes__1__levels__0__items__1_'], 'Discography')
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
-    # check the readonly view
-    @driver.click_and_wait_until_gone(link: 'My Custom Sort Name')
-    @driver.find_element_with_text('//div[contains(@class, "subrecord-form-inline")]', /Woodstock/)
-    @driver.find_element_with_text('//div[contains(@class, "subrecord-form-inline")]', /Discography/)
+    # will fail here if date of existence not added correctly.
+    @driver.find_element(id: 'agent_notes__1_')
   end
 
   it "displays the agent in the agent's index page" do

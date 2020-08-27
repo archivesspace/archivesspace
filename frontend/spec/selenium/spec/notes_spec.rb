@@ -21,7 +21,7 @@ describe 'Notes' do
     @driver ? @driver.quit : next
   end
 
-  xit 'can attach notes to resources' do
+  it 'can attach notes to resources' do
     add_note = proc do |type|
       @driver.find_element(css: '#notes .subrecord-form-heading .btn.add-note').click
       @driver.find_last_element(css: '#notes select.top-level-note-type:last-of-type').select_option(type)
@@ -34,7 +34,7 @@ describe 'Notes' do
     expect(@driver.blocking_find_elements(css: '#notes > .subrecord-form-container > .subrecord-form-list > li').length).to eq(3)
   end
 
-  xit 'confirms before removing a note entry' do
+  it 'confirms before removing a note entry' do
     notes = @driver.blocking_find_elements(css: '#notes > .subrecord-form-container > .subrecord-form-list > li')
 
     notes[0].find_element(css: '.subrecord-form-remove').click
@@ -71,7 +71,7 @@ describe 'Notes' do
     @driver.find_element(:link, 'Close Record').click
   end
 
-  xit 'can edit an existing resource note to add subparts after saving' do
+  it 'can edit an existing resource note to add subparts after saving' do
     @driver.attempt(10) do |driver|
       driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
       driver.find_element(:id, 'resource_title_')
@@ -115,7 +115,7 @@ describe 'Notes' do
     @driver.find_element_with_text('//div', /pogo/)
   end
 
-  xit 'can create an ordered list subnote and list items maintain proper order' do
+  it 'can create an ordered list subnote and list items maintain proper order' do
     @driver.attempt(10) do |driver|
       driver.get("#{$frontend}#{@resource.uri.sub(%r{/repositories/\d+}, '')}/edit")
       driver.find_element(:id, 'resource_title_')
@@ -177,7 +177,7 @@ describe 'Notes' do
     end
   end
 
-  xit 'can add a top-level bibliography too' do
+  it 'can add a top-level bibliography too' do
     @driver.get_edit_page(@resource)
 
     bibliography_content = 'Top-level bibliography content'
@@ -202,7 +202,7 @@ describe 'Notes' do
     @driver.clear_and_send_keys([:id, 'resource_notes__2__items__1_'], 'Top-level bib item 2')
   end
 
-  xit 'can wrap note content text with EAD mark up' do
+  it 'can wrap note content text with EAD mark up' do
     # expand the first note
     @driver.find_element(css: '#notes .collapse-subrecord-toggle').click
     @driver.wait_for_ajax
@@ -241,7 +241,7 @@ describe 'Notes' do
     expect(@driver.blocking_find_elements(css: '#resource_deaccessions_').length).to eq(1)
   end
 
-  xit 'types for rights statements are correct' do
+  it 'types for rights statements are correct' do
     @driver.get_edit_page(@resource)
 
     # add rights statement
@@ -313,7 +313,7 @@ describe 'Notes' do
     @driver.click_and_wait_until_gone(css: '.btn.btn-cancel.btn-default')
   end
 
-  xit 'can attach notes to archival objects' do
+  it 'can attach notes to archival objects' do
     @driver.navigate.to($frontend.to_s)
     # Create a resource
     @driver.find_element(:link, 'Create').click
@@ -371,7 +371,7 @@ describe 'Notes' do
     @driver.click_and_wait_until_gone(css: '.btn.btn-cancel.btn-default')
   end
 
-  xit 'can attach special notes to digital objects' do
+  it 'can attach special notes to digital objects' do
     @driver.navigate.to($frontend.to_s)
 
     @driver.find_element(:link, 'Create').click
