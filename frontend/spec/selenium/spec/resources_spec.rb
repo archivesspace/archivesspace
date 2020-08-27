@@ -287,7 +287,7 @@ describe 'Resources and archival objects' do
     @driver.click_and_wait_until_gone(:id, 'dismissChangesButton')
   end
 
-  xit 'can create a new digital object instance with a note to a resource' do
+  it 'can create a new digital object instance with a note to a resource' do
     @driver.get_edit_page(@resource)
 
     # Wait for the form to load in
@@ -330,7 +330,7 @@ describe 'Resources and archival objects' do
 
 
   # This guy is causing subsequent tests to fail with a missing locales file error.  Pending it until I have more time to investigate.
-  xit 'can have a lot of associated records that do not show in the field but are not lost' do
+  it 'can have a lot of associated records that do not show in the field but are not lost' do
     subjects = []
     accessions = []
     classifications = []
@@ -565,7 +565,7 @@ describe 'Resources and archival objects' do
     assert(5) { expect(@driver.find_element(:css, '.record-pane h2').text).to eq("#{@archival_object.title} Archival Object") }
   end
 
-  xit 'exports and downloads the resource to xml' do
+  it 'exports and downloads the resource to xml' do
     @driver.get_view_page(@resource)
 
     @driver.find_element(:link, 'Export').click

@@ -23,7 +23,7 @@ describe 'Classifications' do
   test_classification = "Classification #{Time.now.to_i}_#{$$}"
   test_classification_term = "Classification Term #{Time.now.to_i}_#{$$}"
 
-  xit 'allows you to create a classification tree' do
+  it 'allows you to create a classification tree' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Classification')
 
@@ -31,7 +31,9 @@ describe 'Classifications' do
     @driver.clear_and_send_keys([:id, 'classification_title_'], test_classification)
 
     token_input = @driver.find_element(:id, 'token-input-classification_creator__ref_')
-    @driver.typeahead_and_select(token_input, @agent_sort_name)
+
+    # generated name starts with "Name". For some reason, selenium is picking a different object when using the variable "@agent_sort_name"
+    @driver.typeahead_and_select(token_input, "Name")
 
     @driver.click_and_wait_until_gone(css: "form#classification_form button[type='submit']")
 
@@ -40,14 +42,14 @@ describe 'Classifications' do
     expect(@driver.find_element(:css, 'div.agent_person').text).to eq(@agent_sort_name)
   end
 
-  xit 'allows you to create a classification term' do
+  it 'allows you to create a classification term' do
     @driver.find_element(:link, 'Add Child').click
 
     @driver.clear_and_send_keys([:id, 'classification_term_identifier_'], '11')
     @driver.clear_and_send_keys([:id, 'classification_term_title_'], test_classification_term)
 
     token_input = @driver.find_element(:id, 'token-input-classification_term_creator__ref_')
-    @driver.typeahead_and_select(token_input, @agent_sort_name)
+    @driver.typeahead_and_select(token_input, "Name")
 
     @driver.click_and_wait_until_gone(css: "form#classification_term_form button[type='submit']")
 
@@ -56,7 +58,7 @@ describe 'Classifications' do
     expect(@driver.find_element(:css, 'div.agent_person').text).to eq(@agent_sort_name)
   end
 
-  xit 'allows you to link a resource to a classification' do
+  it 'allows you to link a resource to a classification' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Resource')
 
@@ -75,6 +77,8 @@ describe 'Classifications' do
 
     @driver.find_element(id: 'resource_dates__0__date_type_').select_option('single')
     @driver.clear_and_send_keys([:id, 'resource_dates__0__begin_'], '1978')
+
+    sleep 2
 
     combo = @driver.find_element(xpath: '//*[@id="finding_aid"]/div/div/fieldset/div[@class="form-group required"]/div[@class="col-sm-9"]/div[@class="combobox-container"][following-sibling::select/@id="resource_finding_aid_language_"]//input[@type="text"]')
     combo.clear
@@ -115,7 +119,7 @@ describe 'Classifications' do
     expect(@driver.find_element(css: 'div.token.classification_term').text).to match(/#{test_classification_term}/)
   end
 
-  xit 'allows you to link an accession to a classification' do
+  it 'allows you to link an accession to a classification' do
     @driver.find_element(:link, 'Create').click
     @driver.click_and_wait_until_gone(:link, 'Accession')
 
@@ -143,7 +147,7 @@ describe 'Classifications' do
     expect(@driver.find_element(css: 'div.token.classification').text).to match(/#{test_classification}/)
   end
 
-  xit 'has the linked records on the classifications view page' do
+  it 'has the linked records on the classifications view page' do
     a_resource = create(:resource)
 
     a_classification = create(:classification, linked_records: [{ ref: a_resource.uri }])
@@ -155,6 +159,7 @@ describe 'Classifications' do
 
     @driver.get_view_page(a_classification)
     expect(@driver.find_element(:css, '#search_embedded').text).to match(/#{a_resource.title}/)
+    sleep 30
     tree_click(tree_node(a_term))
     @driver.wait_for_ajax
     expect(@driver.find_element(:css, '#search_embedded').text).to match(/#{an_accession.title}/)

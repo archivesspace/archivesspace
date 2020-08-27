@@ -80,7 +80,7 @@ describe 'Space Calculator' do
     @driver.find_element(:id, 'spaceCalculatorModal')
   end
 
-  xit 'can run the calculator for a specific location' do
+  it 'can run the calculator for a specific location' do
     @driver.find_element(link: 'By Location(s)').click
     @driver.clear_and_send_keys([:id, 'token-input-location'], @location.title)
     input_token = @driver.find_element(:id, 'token-input-location')
@@ -95,7 +95,7 @@ describe 'Space Calculator' do
     expect(row.find_element(css: '.count').text).to eq('20')
   end
 
-  xit "can select a location from the calculator results to populate the Container's Location field" do
+  it "can select a location from the calculator results to populate the Container's Location field" do
     # a row with space exists
     row = @driver.find_element(css: '#tabledSearchResults tr.has-space')
 
