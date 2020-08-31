@@ -4,6 +4,8 @@ class AssessmentsController < ApplicationController
                       "update_assessment_record" => [:new, :edit, :create, :update],
                       "delete_assessment_record" => [:delete]
 
+  include ExportHelper
+
   def index
     respond_to do |format| 
       format.html {   
@@ -13,9 +15,9 @@ class AssessmentsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.ASSESSMENT_FACETS})
         search_params["type[]"] = "assessment" 
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
-      }  
-    end 
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('assessment._plural').downcase}." )
+      }
+    end
   end
 
 
