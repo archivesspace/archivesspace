@@ -5,8 +5,6 @@
     "type" => "object",
 
     "properties" => {
-      "id" => {"type" => "integer", "required" => false},
-
       "linked_agent_role" => {"type" => "string", "dynamic_enum" => "linked_agent_role", "ifmissing" => "error", "required" => true},
 
       "linked_resource" => {"type" => "string", "maxLength" => 65000, "ifmissing" => "error", "required" => true},

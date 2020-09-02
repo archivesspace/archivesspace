@@ -190,8 +190,8 @@ module SeleniumFactories
       factory :name_person, class: JSONModel(:name_person) do
         rules { generate(:name_rule) }
         source { generate(:name_source) }
-        primary_name { generate(:generic_name) }
-        rest_of_name { generate(:generic_name) }
+        primary_name { generate(:alphanumstr) }
+        rest_of_name { generate(:alphanumstr) }
         sort_name { generate(:sort_name) }
         name_order { %w[direct inverted].sample }
         number { generate(:alphanumstr) }

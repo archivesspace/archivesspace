@@ -122,10 +122,7 @@ describe 'Assessments' do
     expect(@driver.find_element(:css, '.token-input-token .archival_object').text).to match(/Archival Object to assess/)
 
     linked_agents = @driver.find_elements(:css, '.token-input-token .agent_person')
-   # sleep 30
-
-   # puts "manager: " + @manager_user.username
-   # puts "archivist: " + @archivist_user.username
+    sleep 4
 
     expect(linked_agents[0].text).to match(/#{@archivist_user.username}/)
     expect(linked_agents[1].text).to match(/#{@archivist_user.username}/)

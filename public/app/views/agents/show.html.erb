@@ -15,6 +15,26 @@
 <div class="row">
   <div class="col-sm-9">
 
+    <%# IDENTIFIERS %>
+    <%# Only display if identifier is a URL  %>
+    <%# URL Regex from: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url %>
+
+    <% if json['agent_record_identifiers'] %>
+      <% url_ids = json['agent_record_identifiers'].select do |ari| %>
+        <% ari['record_identifier'] =~ /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/ && ari['source_enum'] == "snac" %>
+      <% end %>
+      <% if url_ids.length > 0 %>
+        <h3>Identifiers</h3>
+        <ul>
+          <% url_ids.each do |id| %>
+            <li>
+              <a href="<%= id['record_identifier'] %>"><%= id['record_identifier'] %></a>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+
     <%# DATES %>
     <% if json['dates_of_existence'] %>
       <h3>Dates</h3>

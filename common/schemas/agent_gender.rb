@@ -11,7 +11,6 @@
         "type" => "array",
         "items" => {"type" => "JSONModel(:structured_date_label) object"}
       },
-      "id"                        => {"type" => "integer", "required" => false},
       "notes" => {
         "type" => "array",
         "items" => {"type" => [{"type" => "JSONModel(:note_text) object"},

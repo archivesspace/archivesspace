@@ -131,6 +131,17 @@ describe 'Structured Date model' do
     expect(errs.length > 0).to eq(true)
   end
 
+  it "range dates are invalid end date is after begin for 4 digit dates" do
+    sdr = build(:json_structured_date_range, 
+        :begin_date_expression => nil, 
+        :begin_date_standardized => "2002", 
+        :end_date_expression => nil, 
+        :end_date_standardized => "2001")
+  
+    errs = JSONModel::Validations.check_structured_date_range(sdr)
+    expect(errs.length > 0).to eq(true)
+  end
+
   describe "agent sort name updating from dates_of_existence" do
     it "adds a substring of the date to people agents sort name if a date of existence on date create" do
       agent = build(:json_agent_person_full_subrec) 

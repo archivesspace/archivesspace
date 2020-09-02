@@ -15,7 +15,6 @@
         "dynamic_enum" => "script_iso15924",
         "required" => false
       },
-      "id"                        => {"type" => "integer", "required" => false},
       "notes" => {
         "type" => "array",
         "items" => {"type" => [{"type" => "JSONModel(:note_text) object"},

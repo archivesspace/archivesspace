@@ -27,7 +27,7 @@ describe 'Accession converter' do
   end
 
   it "created a  Agent record if one is in the row" do
-    expect(@agents.count).to eq(5)
+    expect(@agents.count).to eq(6)
   end
 
   it "created a Subject record if one is in the row" do
