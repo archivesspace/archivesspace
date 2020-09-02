@@ -53,7 +53,7 @@
         <% if job_types['print_to_pdf_job']['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
 
           <li class="dropdown-submenu">
-            <%= link_to I18n.t("actions.print_to_pdf"), {:controller => :exports,  :action => :print_to_pdf, :id => @resource.id, :include_unpublished => true}, :id => 'print-to-pdf-link', :target => "_blank" %>
+            <%= link_to I18n.t("actions.print_to_pdf"), {:controller => :exports,  :action => :print_to_pdf, :id => @resource.id, :include_unpublished => false }, :id => 'print-to-pdf-link', :target => "_blank" %>
             <div class="dropdown-menu">
               <fieldset>
                 <label class="checkbox" for="include-unpublished-pdf">
