@@ -70,10 +70,10 @@ describe 'Agents' do
   end
 
   it 'allows setting of a custom sort name' do
-    @driver.clear_and_send_keys([:id, 'agent_names__0__sort_name_'], 'My Custom Sort Name')
+    @driver.clear_and_send_keys([:id, 'agent_names__0__sort_name_'], 'General Patton')
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
-    @driver.find_element_with_text('//h2', /My Custom Sort Name/)
+    @driver.find_element_with_text('//h2', /General Patton/)
   end
 
   it 'can add a secondary name and validations match index of name form' do
@@ -94,7 +94,7 @@ describe 'Agents' do
 
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
-    assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq('My Custom Sort Name Agent') }
+    assert(5) { expect(@driver.find_element(css: '.record-pane h2').text).to eq('General Patton Agent') }
   end
 
   it 'can add multiple telephone numbers' do
@@ -153,7 +153,7 @@ describe 'Agents' do
 
     @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
-    @driver.click_and_wait_until_gone(link: 'My Custom Sort Name')
+    @driver.click_and_wait_until_gone(link: 'General Patton')
 
     # check external documents
     external_document_sections = @driver.blocking_find_elements(css: '#agent_person_external_documents .external-document')
@@ -996,7 +996,7 @@ describe 'Agents' do
     @driver.get(URI.join($frontend, path))
 
     expect do
-      @driver.find_paginated_element(xpath: "//td[contains(text(), 'My Custom Sort Name')]")
+      @driver.find_paginated_element(xpath: "//td[contains(text(), 'General Patton')]")
     end.not_to raise_error
   end
 
@@ -1004,7 +1004,7 @@ describe 'Agents' do
     @driver.clear_and_send_keys([:id, 'global-search-box'], @hendrix)
     @driver.click_and_wait_until_gone(id: 'global-search-button')
 
-    @driver.find_element_with_text('//td', /My Custom Sort Name/)
+    @driver.find_element_with_text('//td', /General Patton/)
     @driver.find_element_with_text('//td', /Person/)
   end
 end

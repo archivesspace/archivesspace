@@ -33,7 +33,7 @@ describe 'Classifications' do
     token_input = @driver.find_element(:id, 'token-input-classification_creator__ref_')
 
     # generated name starts with "Name". For some reason, selenium is picking a different object when using the variable "@agent_sort_name"
-    @driver.typeahead_and_select(token_input, "Name")
+    @driver.typeahead_and_select(token_input, @agent_sort_name)
 
     @driver.click_and_wait_until_gone(css: "form#classification_form button[type='submit']")
 
@@ -49,7 +49,7 @@ describe 'Classifications' do
     @driver.clear_and_send_keys([:id, 'classification_term_title_'], test_classification_term)
 
     token_input = @driver.find_element(:id, 'token-input-classification_term_creator__ref_')
-    @driver.typeahead_and_select(token_input, "Name")
+    @driver.typeahead_and_select(token_input, @agent_sort_name)
 
     @driver.click_and_wait_until_gone(css: "form#classification_term_form button[type='submit']")
 

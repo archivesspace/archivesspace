@@ -13,11 +13,12 @@ class AgentOccupation < Sequel::Model(:agent_occupation)
                          :contains_records_of_type => :structured_date_label,
                          :corresponding_to_association => :structured_date_label)
 
-  self.define_relationship(:name => :subject_agent_occupation,
+  self.define_relationship(:name => :subject_agent_subrecord,
                            :json_property => 'subjects',
                            :contains_references_to_types => proc {[Subject]})
 
-  self.define_relationship(:name => :subject_agent_occupation_place,
+  self.define_relationship(:name => :subject_agent_subrecord_place,
                            :json_property => 'places',
                            :contains_references_to_types => proc {[Subject]})
+  
 end

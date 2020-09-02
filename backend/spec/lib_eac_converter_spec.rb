@@ -19,6 +19,7 @@ describe 'EAC converter' do
     record = convert(test_file).first
 
     expect(record).not_to be_nil
-    expect(record['names'][0]['primary_name']).to eq("Feynman, Richard Phillips, 1918-1988.")
+
+    expect(record['primary_name']).to eq("Feynman, R. P.(Richard Phillips),1918-1988")
   end
 end
