@@ -21,7 +21,7 @@ class ContainerProfilesController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.CONTAINER_PROFILE_FACETS})
         search_params["type[]"] = "container_profile"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('container_profile._plural').downcase}." )
       }
     end
   end

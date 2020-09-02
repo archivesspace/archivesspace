@@ -20,9 +20,9 @@ class ResourcesController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.RESOURCE_FACETS})
         search_params["type[]"] = params[:include_components] === "true" ? ["resource", "archival_object"] : [ "resource" ]
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
-      }
-    end
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('resource._plural').downcase}.")
+      }  
+    end 
   end
 
   def show

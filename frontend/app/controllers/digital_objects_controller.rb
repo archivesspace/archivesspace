@@ -19,7 +19,7 @@ class DigitalObjectsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS})
         search_params["type[]"] = params[:include_components] === "true" ? ["digital_object", "digital_object_component"] : [ "digital_object" ]
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('digital_object._plural').downcase}." )
       }
     end
   end

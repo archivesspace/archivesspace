@@ -16,7 +16,7 @@ class ClassificationsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.CLASSIFICATION_FACETS})
         search_params["type[]"] = "classification"
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('classification._plural').downcase}." )
       }
     end
   end
