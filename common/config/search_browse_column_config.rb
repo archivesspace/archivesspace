@@ -16,6 +16,8 @@ module SearchAndBrowseColumnConfig
       "extents" => {:field => "extents"},
       "processing_priority" => {:field => "processing_priority", :sortable => true},
       "processors" => {:field => "processors", :sortable => true},
+      "create_time" => {:field => "create_time", :sortable => true},
+      "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
     "resource" => {
@@ -31,6 +33,8 @@ module SearchAndBrowseColumnConfig
       "finding_aid_status" => {:field => "finding_aid_status", :sortable => true},
       "processing_priority" => {:field => "processing_priority", :sortable => true},
       "processors" => {:field => "processors", :sortable => true},
+      "create_time" => {:field => "create_time", :sortable => true},
+      "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
     "digital_object" => {
@@ -42,6 +46,8 @@ module SearchAndBrowseColumnConfig
       "restrictions" => {:field => "restrictions", :sortable => true},
       "dates" => {:field => "dates"},
       "extents" => {:field => "extents"},
+      "create_time" => {:field => "create_time", :sortable => true},
+      "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
     "multi" => {
@@ -51,6 +57,8 @@ module SearchAndBrowseColumnConfig
       "identifier" => {:field => "identifier", :sortable => true},
       "dates" => {:field => "dates"},
       "extents" => {:field => "extents"},
+      "create_time" => {:field => "create_time", :sortable => true},
+      "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
     "location" => {
