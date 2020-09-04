@@ -73,14 +73,26 @@ class LocationsController < ApplicationController
   end
 
   def update
+    obj = JSONModel(:location).find(params[:id])
+    check_for_temporary_location(obj)
     handle_crud(:instance => :location,
                 :model => JSONModel(:location),
-                :obj => JSONModel(:location).find(params[:id]),
+                :obj => obj,
                 :on_invalid => ->(){ return render :action => :edit },
                 :on_valid => ->(id){
                   flash[:success] = I18n.t("location._frontend.messages.updated")
                   redirect_to :controller => :locations, :action => :edit, :id => id
                 })
+  end
+
+  # temporary_location is unusual in that when set it's a disabled field so does not get submitted
+  # in params, so add it back if available otherwise it gets nilled
+  def check_for_temporary_location(obj)
+    if params[:location][:temporary_question]
+      # don't use .blank? here -- "" is a valid selection (and will unset correctly)
+      temporary = !params[:location][:temporary].nil? ? params[:location][:temporary] : obj["temporary"]
+      params[:location][:temporary] = temporary
+    end
   end
 
   def defaults
