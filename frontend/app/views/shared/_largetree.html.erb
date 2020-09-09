@@ -13,7 +13,7 @@
 <div id="object_container"></div>
 
 <div id="tree_toolbar_transfer_action"><!--
-  <a class="btn btn-xs btn-default dropdown-toggle transfer-node" data-toggle="dropdown" href="#" title="<%= I18n.t "actions.transfer" %>">
+  <a class="btn btn-xs btn-default transfer-node" onclick="$('.tree-transfer-form').toggle()" href="#" title="<%= I18n.t "actions.transfer" %>">
     <%= I18n.t "actions.transfer" %> <span class="caret"></span>
   </a>
   <ul class="dropdown-menu tree-transfer-form">
@@ -27,7 +27,7 @@
           </fieldset>
           <div class="form-actions">
             <button class="btn btn-default btn-primary pull-left transfer-button"><%= I18n.t("actions.transfer") %></button>
-            <a class="btn btn-default btn-cancel pull-right" href="#"><%= I18n.t("actions.cancel") %></a>
+            <a class="btn btn-default btn-cancel pull-right" onclick="$('.tree-transfer-form').toggle()" href="#"><%= I18n.t("actions.cancel") %></a>
           </div>
         <% end %>
       <% end %>

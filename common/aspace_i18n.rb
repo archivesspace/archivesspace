@@ -15,6 +15,8 @@ end
 # Add report i18n locales
 I18n.load_path += Dir[File.join(ASUtils.find_base_directory, 'reports', '**', '*.yml')]
 
+I18n.default_locale = AppConfig[:locale]
+
 
 module I18n
 
