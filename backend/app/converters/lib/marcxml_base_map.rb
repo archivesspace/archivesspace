@@ -1055,7 +1055,7 @@ module MarcXMLBaseMap
                                             {Type of unit--$o. }{Owner--$f. }{Purchase price--$h}.|),
 
         "datafield[@tag='544']" => multipart_note('relatedmaterial', 'Related Archival Materials', %q|
-                                            {@ind1--}{$3: }{Title--$t. }{Custodian--$a: }
+                                            {$3: }{Title--$d. }{Custodian--$a: }
                                             {Address--$b, }{Country--$c. }{Provenance--$e. }{Note--$n}.|,
                                                   {'ind1'=>{'1'=>'Associated Materials', '2'=>'Related Materials'}}),
 
