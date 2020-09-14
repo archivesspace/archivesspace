@@ -318,7 +318,7 @@ END
         expect(@notes).to include('Source of acquisition--Resource-ImmediateSourceAcquisition.')
       end
 
-      it "maps datafield[@tag='544'] to resource.notes[] using template 'Indicator 1 [ Associated Materials | Related Materials]--$3: Title--$t. Custodian--$a: Address--$b, Country--$c. Provenance--$e. Note--$n.'" do
+      it "maps datafield[@tag='544'] to resource.notes[] using template '[ Associated Materials | Related Materials]--$3: Title--$d. Custodian--$a: Address--$b, Country--$c. Provenance--$e. Note--$n.'" do
         expect(@notes).to include('Custodian--Resource-RelatedArchivalMaterials-AT.')
       end
 
