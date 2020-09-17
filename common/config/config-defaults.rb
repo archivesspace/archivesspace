@@ -675,6 +675,3 @@ AppConfig[:hide_do_load] = false
 AppConfig[:bulk_import_rows] = 1000
 # maximum size (in KiloBytes) for an excel spreadsheet
 AppConfig[:bulk_import_size] = 256
-
-# Enable/disable the View Published links in the frontend record toolbars
-AppConfig[:show_view_published] = true

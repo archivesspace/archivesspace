@@ -33,7 +33,7 @@
                           :"data-confirm-btn-class" => "btn-primary",
                         }) %>
           </div>
-          <% if AppConfig[:show_view_published] && record.publish %>
+          <% if AppConfig[:enable_public] %>
             <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
           <% end %>
           <div class="btn-group">
