@@ -144,7 +144,7 @@ class EnumerationsController < ApplicationController
     @enumerations = JSONModel(:enumeration).all
 
     self.response.headers['Content-Type'] = 'text/csv'
-    self.response.headers['Content-Disposition'] = "attachment; filename=enumerations_#{Time.now.strftime('%Y-%m-%d_%T')}.csv"
+    self.response.headers['Content-Disposition'] = "attachment; filename=enumerations_#{Time.now.strftime('%Y%m%dT%H%M%S')}.csv"
     self.response.headers['Last-Modified'] = Time.now.ctime
 
     self.response_body = Enumerator.new do |stream|

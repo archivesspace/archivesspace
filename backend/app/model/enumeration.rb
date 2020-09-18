@@ -11,6 +11,8 @@ class Enumeration < Sequel::Model(:enumeration)
 
   @enumeration_dependants = {}
 
+  CSV_HEADERS = ["Enumeration code", "Enumeration", "Value code", "Value", "Position", "Read-only"]
+
   # Record the fact that 'model' uses 'enum_name'.
   def self.register_enumeration_dependant(definition, model)
     Array(definition[:uses_enum]).each do |enum_name|
@@ -185,24 +187,16 @@ class Enumeration < Sequel::Model(:enumeration)
 
 
   def self.csv
-    out = [
-           'Enumeration code',
-           'Enumeration',
-           'Value code',
-           'Value',
-          ].to_csv
-    Enumeration.sequel_to_jsonmodel(Enumeration.all).each do |enum|
-      out << [
-              enum.name,
-              I18n.t("enumeration_names.#{enum.name}", :default => enum.name),
-             ].to_csv
-
-      enum.values.each do |val|
+    out = CSV_HEADERS.to_csv
+    Enumeration.sequel_to_jsonmodel(Enumeration.all).sort_by { |e| e.name }.each do |enum|
+      enum.enumeration_values.reject{ |v| v.suppressed == 1 }.sort_by{ |v| v.position }.each do |val|
         out << [
                 enum.name,
                 I18n.t("enumeration_names.#{enum.name}", :default => enum.name),
-                val,
-                I18n.t("enumerations.#{enum.name}.#{val}", :default => val),
+                val.value,
+                I18n.t("enumerations.#{enum.name}.#{val.value}", :default => val.value),
+                val.position,
+                val.readonly,
                ].to_csv
       end
     end
