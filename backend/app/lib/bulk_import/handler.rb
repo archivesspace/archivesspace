@@ -18,16 +18,21 @@ class Handler
 
   DISAMB_STR = " DISAMBIGUATE ME!"
 
-  def initialize(current_user, validate_only = false)
+  def initialize(current_user, validate_only)
     @current_user = current_user
     @validate_only = validate_only
+    @create_key = @validate_only ? "bulk_import.could_be" : "bulk_import.created"
   end
 
   def save(obj, model)
     test_exceptions(obj)
-    saved = model.create_from_json(obj)
-    objs = model.sequel_to_jsonmodel([saved])
-    revived = objs.empty? ? nil : objs[0] if !objs.empty?
+    if !@validate_only
+      saved = model.create_from_json(obj)
+      objs = model.sequel_to_jsonmodel([saved])
+      revived = objs.empty? ? nil : objs[0] if !objs.empty?
+    else
+      obj
+    end
   end
 
   # if repo_id is nil, do a global search (subject and agent)
@@ -71,7 +76,7 @@ class Handler
         if match_ct > 1
           if disam_obj
             obj = disam_obj
-            report.add_info(I18n.t("bulk_import.warn.disamuse", :what => matches[1], :name => disam)) if !report.nil?
+            report.add_info(I18n.t("bulk_import.warn.disamuse", :which => matches[1], :name => disam)) if !report.nil?
           else
             raise BulkImportDisambigException.new(I18n.t("bulk_import.error.too_many"))
           end
@@ -86,18 +91,7 @@ class Handler
 
   # centralize the checking for an already-found object
   def stored(hash, id, key)
-    ret_obj = hash.fetch(id, nil) || hash.fetch(key, nil)
-  end
-
-  def valid(obj, what, report)
-    ret_val = false
-    begin
-      test_exceptions(obj)
-      ret_val = true
-    rescue Exception => ex
-      raise BulkImportException.new(I18n.t("validation_error", :what => what, :err => ex.message))
-    end
-    ret_val
+    ret_obj = (id != "" && hash.fetch(id, nil)) || hash.fetch(key, nil)
   end
 
   def clear(enum_list)

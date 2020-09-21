@@ -16,7 +16,7 @@ class ParentTracker
     # Level 1 parent may  be a resource record and therefore nil,
     if hier > 0
       parent_level = hier - 1
-      @current_hierarchy.fetch(parent_level)
+      @current_hierarchy.fetch(parent_level, nil)
     else
       nil
     end

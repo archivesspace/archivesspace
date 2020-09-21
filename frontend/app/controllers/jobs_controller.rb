@@ -107,7 +107,9 @@ class JobsController < ApplicationController
   def download_file
     @job = JSONModel(:job).find(params[:job_id], "resolve[]" => "repository")
     
-    if @job.job.has_key?("format") && !@job.job["format"].blank? 
+    if params[:ext]
+        format = params[:ext].delete_prefix('.')
+    elsif @job.job.has_key?("format") && !@job.job["format"].blank?
         format = @job.job["format"]
     else
         format = "pdf"
@@ -122,7 +124,7 @@ class JobsController < ApplicationController
     end
 
     url = "/repositories/#{JSONModel::repository}/jobs/#{params[:job_id]}/output_files/#{params[:id]}"
-    stream_file(url, {:format => format, :filename => "job_#{params[:job_id].to_s}_#{filename_end}" } ) 
+    stream_file(url, {:format => format, :filename => "job_#{params[:job_id].to_s}_#{filename_end}" } )
   end
   
   

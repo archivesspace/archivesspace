@@ -556,7 +556,7 @@ class IndexerCommon
         doc['time_started'] = Time.parse(record['record']['time_started']).getlocal if record['record']['time_started']
         doc['time_finished'] = Time.parse(record['record']['time_finished']).getlocal if record['record']['time_finished']
 
-        filenames = record['record']['job']['filenames'] || []
+        filenames = record['record']['job']['filenames'] || [record['record']['job']['filename']].compact
         doc['files'] = []
         doc['job_data'] = []
         files = JSONModel::HTTP::get_json("#{record['record']['uri']}/output_files")

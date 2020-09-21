@@ -153,6 +153,17 @@ class ResourcesController < ApplicationController
   def edit
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
 
+    # check for active batch import job and redirect if there is one
+    active_job = find_active_bulk_import_job
+    if active_job
+      flash[:active_bulk_import_job] = I18n.t(
+        'bulk_import_job.active',
+        url: "#{AppConfig[:frontend_proxy_url]}/resolve/readonly?uri=#{active_job['uri']}",
+        uri: active_job['uri']
+      )
+      return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
+    end
+
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
       @resource = fetch_resolved(params[:id])
@@ -376,6 +387,16 @@ class ResourcesController < ApplicationController
     end
 
     resource
+  end
+
+
+  def find_active_bulk_import_job
+    Job.active.find do |j|
+      if j['job']['jsonmodel_type'] == 'bulk_import_job'
+        rid = j['job'].fetch('resource_id', '').split('/').last
+        rid == params[:id]
+      end
+    end
   end
 
 
