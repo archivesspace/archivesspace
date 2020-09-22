@@ -7,7 +7,6 @@ describe "Container Instance Handler" do
     @report = BulkImportReport.new
     @report.new_row(1)
     current_user = User.find(:username => "admin")
-    @handlr = Handler.new(current_user)
     @cih = ContainerInstanceHandler.new(current_user)
     @resource = create_resource({ :title => generate(:generic_title) })
     @res_uri = "/repositories/#{@resource[:repo_id]}/resources/#{@resource[:id]}"

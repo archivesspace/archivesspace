@@ -3,7 +3,7 @@ require_relative "../../model/subject"
 require_relative "bulk_import_mixins"
 
 class SubjectHandler < Handler
-  def initialize(current_user)
+  def initialize(current_user, validate_only = false)
     super
     @subject_term_types = CvList.new("subject_term_type", @current_user)
     @subject_sources = CvList.new("subject_source", @current_user)
@@ -29,8 +29,6 @@ class SubjectHandler < Handler
   end
 
   def build(id, term, type, source)
-    type = type.nil? ? "topical" : @subject_term_types.value(type)
-    source = source.nil? ? "ingest" : @subject_sources.value(source)
     {
       :id => id,
       :term => term || (id ? I18n.t("bulk_import.unfound_id", :id => id, :type => "subject [#{type}] [#{source}]") : nil),
@@ -42,7 +40,9 @@ class SubjectHandler < Handler
 
   def get_or_create(id, term, type, source, repo_id, report)
     has_source = !source.nil?
-    subject = build(id, term, type, source)
+    errs = []
+    subject = validate_subject(id, term, type, source, errs)
+
     subject_key = key_for(subject)
     if !(subj = stored(@subjects, subject[:id], subject_key))
       unless subject[:id].nil?
@@ -54,14 +54,17 @@ class SubjectHandler < Handler
           end
         end
       end
+
       begin
         if !subj
+          # we do this here in case there's a valid ID, even with bad source & type
+          raise Exception.new(errs.join("; ")) if !errs.empty?
           begin
             subj = get_db_subj(subject, has_source, report)
           rescue Exception => e
             if e.is_a?(BulkImportDisambigException)
               disam = subject[:term] + DISAMB_STR
-              report.add_info(I18n.t("bulk_import.warn.disam", :what => subject[:term], :name => disam))
+              report.add_info(I18n.t("bulk_import.warn.disam", :which => subject[:term], :name => disam))
               subject[:term] = disam
             else
               raise e
@@ -70,7 +73,7 @@ class SubjectHandler < Handler
         end
         if !subj
           subj = create_subj(subject)
-          report.add_info(I18n.t("bulk_import.created", :what => "#{I18n.t("bulk_import.subj")} [#{subject[:term]}]", :id => subj.uri))
+          report.add_info(I18n.t(@create_key, :what => "#{I18n.t("bulk_import.subj")} [#{subject[:term]}]", :id => subj.uri))
         end
       rescue Exception => e
         raise BulkImportException.new(I18n.t("bulk_import.error.no_create", :why => e.message))
@@ -109,5 +112,11 @@ class SubjectHandler < Handler
     s_params[:q] = "title:\"#{subject[:term]}\" AND term_type_enum_s:\"#{subject[:type]}\""
     s_params[:q] = "#{s_params[:q]} AND source_enum_s:\"#{subject[:source]}\"" if has_source
     ret_subj = search(nil, s_params, :subject, "subject", "title:#{subject[:term]}", report)
+  end
+
+  def validate_subject(id, term, type, source, errs)
+    type = type.nil? ? "topical" : value_check(@subject_term_types, type, errs)
+    source = source.nil? ? "ingest" : value_check(@subject_sources, source, errs)
+    build(id, term, type, source)
   end
 end

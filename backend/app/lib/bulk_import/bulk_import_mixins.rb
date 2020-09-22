@@ -16,6 +16,36 @@ module BulkImportMixins
      "owner_repo"]
   end
 
+  # save (create/update) the archival object, then revive it
+
+  def ao_save(ao)
+    revived = nil
+    if @validate_only
+      valid(ao, I18n.t("ao"))
+      ao.uri = ao.uri || "valid"
+      revived = ao
+    else
+      begin
+        archObj = nil
+        if ao.id.nil?
+          archObj = ArchivalObject.create_from_json(ao)
+        else
+          obj = ArchivalObject.get_or_die(ao.id)
+          archObj = obj.update_from_json(ao)
+        end
+        objs = ArchivalObject.sequel_to_jsonmodel([archObj])
+        revived = objs[0] if !objs.empty?
+      rescue JSONModel::ValidationException => ve
+        raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
+      rescue Exception => e
+        Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
+        Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
+        raise e
+      end
+    end
+    revived
+  end
+
   def archival_object_from_ref(ref_id)
     dataset = CrudHelpers.scoped_dataset(ArchivalObject, { :ref_id => ref_id })
     ao = nil
@@ -65,6 +95,14 @@ module BulkImportMixins
     ao
   end
 
+  def created(obj, type, message, report)
+    if @validate_only
+      report.add_info(I18n.t("bulk_import.could_be", :what => message))
+    else
+      report.add_info(I18n.t("bulk_import.created", :what => message, :id => obj.uri))
+    end
+  end
+
   def resource_match(resource, ead_id, uri)
     if uri.nil? && ead_id.nil?
       raise BulkImportException.new(I18n.t("bulk_import.error.row_missing_ead_uri"))
@@ -86,6 +124,27 @@ module BulkImportMixins
       end
     end
     match
+  end
+
+  def valid(obj, what)
+    ret_val = false
+    begin
+      test_exceptions(obj)
+      ret_val = true
+    rescue Exception => ex
+      raise BulkImportException.new(I18n.t("bulk_import.error.validation_error", :what => what, :err => ex.message))
+    end
+    ret_val
+  end
+
+  def value_check(cvlist, value, errs)
+    ret_val = nil
+    begin
+      ret_val = cvlist.value(value)
+    rescue Exception => ex
+      errs << ex.message
+    end
+    ret_val
   end
 
   # The following methods assume @report is defined, and is a BulkImportReport object

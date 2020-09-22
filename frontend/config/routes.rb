@@ -114,11 +114,6 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/transfer' => 'resources#transfer', :via => [:post]
     match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:post]
     match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:get]
-    match 'resources/:id/uploadbulkfile' => 'bulk_import#submit_file', :via => [:post]
-    
-
-    
-
 
     match 'resources/:id/tree/root' => 'resources#tree_root', :via => [:get]
     match 'resources/:id/tree/node' => 'resources#tree_node', :via => [:get]
