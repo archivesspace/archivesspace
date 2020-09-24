@@ -2,7 +2,7 @@
 
 module ReleaseNotes
   module GitLogParser
-    ANW_MATCH = /(ANW-\d+)(\s|\.|:)/.freeze
+    ANW_MATCH = /([Aa][Nn][Ww][- ]\d+)(\s|\.|:)/.freeze
     PR_MATCH  = /#(\d+)\s/.freeze
 
     def self.run(path:, since:, target:)
@@ -10,15 +10,14 @@ module ReleaseNotes
       log = []
 
       g.log(1_000_000).between(since, target).each do |commit|
-        next unless commit.message =~ /^Merge pull request/
 
         title, desc = commit.message.split("\n").delete_if(&:empty?).compact
         data = {}
-        data[:pr_number] = title.match(PR_MATCH)[1]
+        data[:pr_number] = title.match(PR_MATCH)[1] if commit.message =~ /^Merge pull request/
         data[:anw_number] = desc.match(ANW_MATCH)[1] if desc =~ ANW_MATCH
         data[:author] = commit.parents.last.author.name
         data[:date] = Date.parse(commit.date.to_s).to_s
-        data[:desc] = desc
+        data[:desc] = desc || title
         log << data
       end
       log.sort_by { |l| l[:pr_number].to_i }
@@ -53,7 +52,9 @@ module ReleaseNotes
           contributors[data[:author]] = [] unless contributors.key? data[:author]
           contributors[data[:author]] << data[:desc]
         end
-        messages << format_log_entry(data)
+        if data[:pr_number]
+          messages << format_log_entry(data)
+        end
       end
       @contributions = contributors.map{ |_, v| v.count }.reduce(:+)
       make_doc
@@ -68,8 +69,9 @@ module ReleaseNotes
 
     def anw_link(anw_number)
       return nil unless anw_number
-
-      "[#{anw_number}](#{ANW_URL}/#{anw_number})"
+      
+      anw_capitalized = anw_number.upcase.gsub(' ','-')
+      "[#{anw_number}](#{ANW_URL}/#{anw_capitalized})"
     end
 
     def format_log_entry(data)
