@@ -14,7 +14,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     Subject.get_or_die(target[:id]).assimilate(victims.map {|v| Subject.get_or_die(v[:id])})
 
-    json_response(:status => "OK")
+    merged_response( target, victims )
   end
 
   Endpoint.post('/merge_requests/container_profile')
@@ -59,7 +59,7 @@ class ArchivesSpaceService < Sinatra::Base
 
     ContainerProfile.get_or_die(target[:id]).assimilate(victims.map {|v| ContainerProfile.get_or_die(v[:id])})
 
-    json_response(:status => "OK")
+    merged_response( target, victims )
   end
 
   Endpoint.post('/merge_requests/top_container')
@@ -106,7 +106,7 @@ curl -H 'Content-Type: application/json' \\
 
     TopContainer.get_or_die(target[:id]).assimilate(victims.map {|v| TopContainer.get_or_die(v[:id])})
 
-    json_response(:status => "OK")
+    merged_response( target, victims )
 
   end
 
@@ -130,7 +130,7 @@ curl -H 'Content-Type: application/json' \\
                                                      AgentManager.model_for(v[:type]).get_or_die(v[:id])
                                                    })
 
-    json_response(:status => "OK")
+    merged_response( target, victims )
   end
 
   Endpoint.post('/merge_requests/agent_detail')
@@ -148,26 +148,23 @@ curl -H 'Content-Type: application/json' \\
       raise BadParamsException.new(:merge_request_detail => ["Agent merge request can only merge agent records"])
     end
     agent_model = AgentManager.model_for(target[:type])
-    target = agent_model.get_or_die(target[:id])
-    victim = agent_model.get_or_die(victims[0][:id])
+    target_obj = agent_model.get_or_die(target[:id])
+    victim_obj = agent_model.get_or_die(victims[0][:id])
+    target_json = agent_model.to_jsonmodel(target_obj)
+    victim_json = agent_model.to_jsonmodel(victim_obj)
     if params[:dry_run]
-      target = agent_model.to_jsonmodel(target)
-      victim = agent_model.to_jsonmodel(victim)
-      new_target = merge_details(target, victim, selections, true)
+      new_target = merge_details(target_json, victim_json, selections, true)
       result = new_target
     else
-      target_json = agent_model.to_jsonmodel(target)
-      victim_json = agent_model.to_jsonmodel(victim)
       new_target = merge_details(target_json, victim_json, selections, false)
-      target.assimilate((victims.map {|v|
+      target_obj.assimilate((victims.map {|v|
                                        AgentManager.model_for(v[:type]).get_or_die(v[:id])
                                      }))
       if selections != {}
-        target.update_from_json(new_target)
+        target_obj.update_from_json(new_target)
       end
-      json_response(:status => "OK")
     end
-    json_response(resolve_references(result, ['related_agents']))
+    merged_response( target, victims, selections )
   end
 
   Endpoint.post('/merge_requests/resource')
@@ -186,7 +183,7 @@ curl -H 'Content-Type: application/json' \\
 
     Resource.get_or_die(target[:id]).assimilate(victims.map {|v| Resource.get_or_die(v[:id])})
 
-    json_response(:status => "OK")
+    merged_response( target, victims )
   end
 
 
@@ -206,7 +203,7 @@ curl -H 'Content-Type: application/json' \\
 
     DigitalObject.get_or_die(target[:id]).assimilate(victims.map {|v| DigitalObject.get_or_die(v[:id])})
 
-    json_response(:status => "OK")
+    merged_response( target, victims )
   end
 
 
