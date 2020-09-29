@@ -1,6 +1,6 @@
 class EnumerationsController < ApplicationController
 
-  set_access_control  "update_enumeration_record" => [:new, :create, :index, :delete, :destroy, :merge, :set_default, :update_value]
+  set_access_control  "update_enumeration_record" => [:new, :create, :index, :delete, :destroy, :merge, :set_default, :update_value, :csv]
 
 
   def new
@@ -140,4 +140,19 @@ class EnumerationsController < ApplicationController
   end
 
 
+  def csv
+    @enumerations = JSONModel(:enumeration).all
+
+    self.response.headers['Content-Type'] = 'text/csv'
+    self.response.headers['Content-Disposition'] = "attachment; filename=enumerations_#{Time.now.strftime('%Y%m%dT%H%M%S')}.csv"
+    self.response.headers['Last-Modified'] = Time.now.ctime
+
+    self.response_body = Enumerator.new do |stream|
+      JSONModel::HTTP.stream("/config/enumerations/csv") do |response|
+        response.read_body do |chunk|
+          stream << chunk
+        end
+      end
+    end
+  end
 end

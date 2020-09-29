@@ -31,7 +31,7 @@
           <% end %>
 
           <% if ['archival_object', 'digital_object_component'].include?(record.jsonmodel_type) %>
-            <% unless record.has_unpublished_ancestor %>
+            <% if AppConfig[:enable_public] && !record.has_unpublished_ancestor %>
               <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => record} %>
             <% end %>
           <% end %>

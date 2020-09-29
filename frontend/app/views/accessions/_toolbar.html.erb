@@ -22,9 +22,9 @@
         <% end %>
         <div class="btn-toolbar pull-right">
           <div class="btn-group">
-
-            <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @accession} %>
-
+            <% if AppConfig[:enable_public] %>
+              <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @accession} %>
+            <% end %>
             <% if user_can?('update_event_record') && !@accession.suppressed %>
               <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @accession } %>
             <% end %>

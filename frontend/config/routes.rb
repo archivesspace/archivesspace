@@ -200,6 +200,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resolve/readonly' => 'resolver#resolve_readonly', :via => [:get]
 
     match 'enumerations/list' => 'enumerations#list', :via => [:get]
+    match 'enumerations/csv' => 'enumerations#csv', :via => [:get]
     match 'enumerations/delete' => 'enumerations#delete', :via => [:get]
     match 'enumerations/set_default/:id' => 'enumerations#set_default', :via => [:post]
     match 'enumerations/destroy/:id' => 'enumerations#destroy', :via => [:post]

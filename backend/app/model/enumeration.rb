@@ -1,3 +1,5 @@
+require 'csv'
+
 class Enumeration < Sequel::Model(:enumeration)
 
   include ASModel
@@ -8,6 +10,8 @@ class Enumeration < Sequel::Model(:enumeration)
   one_to_many :enumeration_value, :order => [ :position, :value ]
 
   @enumeration_dependants = {}
+
+  CSV_HEADERS = ["Enumeration code", "Enumeration", "Value code", "Value", "Position", "Read-only"]
 
   # Record the fact that 'model' uses 'enum_name'.
   def self.register_enumeration_dependant(definition, model)
@@ -182,4 +186,21 @@ class Enumeration < Sequel::Model(:enumeration)
   end
 
 
+  def self.csv
+    out = CSV_HEADERS.to_csv
+    Enumeration.sequel_to_jsonmodel(Enumeration.all).sort_by { |e| e.name }.each do |enum|
+      enum.enumeration_values.reject{ |v| v.suppressed == 1 }.sort_by{ |v| v.position }.each do |val|
+        out << [
+                enum.name,
+                I18n.t("enumeration_names.#{enum.name}", :default => enum.name),
+                val.value,
+                I18n.t("enumerations.#{enum.name}.#{val.value}", :default => val.value),
+                val.position,
+                val.readonly,
+               ].to_csv
+      end
+    end
+
+    out
+  end
 end
