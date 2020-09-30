@@ -40,7 +40,7 @@ class XMLCleaner
         infile.each_with_index do |line, index|
           line = HTMLEntities.new.decode(line)
           # decode turns &amp; into & so need to undo that here for PDF to work
-          if line.match(/&\s+/) || line.match(/&[a-z]+[^;]/)
+          if line.match(/&\s+/) || line.match(/&[A-Za-z]+[^;]/)
             line.gsub!('&', '&amp;')
           end
           outfile.puts(line)
