@@ -17,6 +17,7 @@ class AccessionReport < AbstractReport
       id as accession_id,
       identifier as accession_number,
       title as record_title,
+      provenance as Provenance,
       accession_date as accession_date,
       extent_number,
       extent_type,
