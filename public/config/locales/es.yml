@@ -4,7 +4,7 @@ es:
   brand:
     title: Interfaz pública de ArchivesSpace
     title_link_text: Vuelve a la página inicial de ArchivesSpace
-    home: Home
+    home: Página principal
     welcome_head: Bienvenido a ArchivesSpace
     welcome_message: |
       <p>Busque en nuestras colecciones, materiales digitales y más.</p>
@@ -17,8 +17,8 @@ es:
     search_header: Buscar en los archivos
     search_within: Busca dentro de los resultados
     search_in: "Buscar %{type}"
-    new_search: nueva búsqueda
-    refine_search: refinar busqueda
+    new_search: Nueva búsqueda
+    refine_search: Refinar busqueda
     browse: Vistazo
     show_advanced_search: Mostrar búsqueda avanzada
     hide_advanced_search: Ocultar búsqueda avanzada
@@ -181,14 +181,14 @@ es:
     user_mtime: Modificado
     primary_type: Tipo de registro
     processing_priority: Prioridad
-    processing_status: Status
+    processing_status: Estado
     parent_id: Tipo de registro
     create_time: Creado
     authority_id: Identificador de autoridad
-    source: Source
+    source: Fuente
     rules: Reglas
     outcome: Resultado
-    event_type: Type
+    event_type: Tipo
     identifier: Identificador
     select: Seleccione
     year_sort: Año
@@ -212,11 +212,9 @@ es:
     sub-series: Subserie
   errors:
     error_404: "% {type} registro no encontrado"
-    error_404_message: "El registro% {type} al que ha intentado acceder no existe\
-      \ o puede que se haya eliminado."
+    error_404_message: "El registro% {type} al que ha intentado acceder no existe o puede que se haya eliminado."
     backend_down: No se puede conectar a la base de datos
-    backend_down_message: ArchivesSpace está experimentando dificultades técnicas.
-      Pedimos disculpas por las molestias. Por favor, inténtelo de nuevo más tarde.
+    backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas por las molestias. Por favor, inténtelo de nuevo más tarde.
     unexpected_error: Su solicitud no se pudo completar debido a un error inesperado
 
   boolean:
@@ -273,7 +271,7 @@ es:
   external_docs: Documentos externos
   more_about: Más sobre
   listing: Listado
-  list: "%{type} List"
+  list: "%{type} Lista"
   cont_arr: Organización de la colección
   dig_cont_arr: Organización de objeto digital
   subgroups: Subgrupos
@@ -296,7 +294,7 @@ es:
         access_restrictions_apply: Se aplican restricciones de acceso
         use_restrictions: Restricciones de uso
         use_restrictions_apply: Se aplican restricciones de uso
-        content_description: Content Description
+        content_description: Descripción del contenido
         inventory: Inventario
       related_accessions:
         accessions: Material sin procesar relacionado
@@ -307,14 +305,14 @@ es:
     _plural: Registros de archivo
     _public:
       section:
-        components: Components
+        components: Componentes
         summary: Nota de resumen
       messages:
         no_components: El registro de archivo no tiene componentes
       header:
         dates: Fechas
         lang: Idioma
-        script: Script
+        script: Escritura
         physdesc: Nota de descripción física
         storage: Información de contenedor
         access: Nota de condiciones de acceso
@@ -330,8 +328,8 @@ es:
     _singular: Repositorio
     _plural: Repositorios
     what: ¿Qué hay en este repositorio?
-    details: Repository Details
-    part: Part of the
+    details: Detalles del repositorio
+    part: Parte de
 
   context: Se encuentra en
   context_delimiter: "/"
@@ -347,7 +345,7 @@ es:
       extent: Extensión
       dates: Fechas
       lang: Nota de idioma de materiales
-      script: Script
+      script: Escritura
       digital_object: Objeto digital
       physdesc: Nota de descripción física
       storage: Información de contenedor
@@ -355,7 +353,7 @@ es:
       use: Nota de restricciones de uso
       additional: Descripción adicional
       section:
-        components: Components
+        components: Componentes
         summary: Nota de resumen
       messages:
         no_components: El fondo no tiene componentes
@@ -369,11 +367,11 @@ es:
         description_rules: Reglas de Descripción
         identifier: Identificador
         language: Lengua del instrumento de descripción
-        script: Script de la descripción 
+        script: Escritura de la descripción 
         language_note: Idioma de la descripción nota
-        sponsor: Sponsor
+        sponsor: Patrocinador
         edition_statement: Mención de edición
-        series_statement: Series statement
+        series_statement: Declaración de la serie
         note: Nota
         revision: Nota de revisión
       related_accessions:
@@ -396,7 +394,7 @@ es:
       link: Enlace al objeto digital
       badge_label: Digital %{level}
       section:
-        components: Components
+        components: Componentes
         summary: Nota de resumen
       messages:
         no_components: El objeto digital no tiene componentes
@@ -404,7 +402,7 @@ es:
   digital_object_component:
     _public:
       section:
-        components: Components
+        components: Componentes
         summary: Nota de resumen
       messages:
         no_components: El componente de objeto digital no tiene componentes
@@ -415,8 +413,8 @@ es:
     used_within: Utilizado dentro de
 
   component:
-    _singular: Component
-    _plural: Components
+    _singular: Componente
+    _plural: Componentes
 
   unprocessed: Materiales sin procesar
 
@@ -461,7 +459,7 @@ es:
         other_names_preamble: "También conocido por los siguientes nombres:"
         related_agents: Nombres relacionados
         dates_of_existence: Fechas
-        related_agent_description: Description
+        related_agent_description: Descripción
         related_agent_dates: Fechas
 
   agent_person:
@@ -1086,8 +1084,7 @@ es:
       cho: Choctaw
       chp: Chipewyan; Dene Suline
       chr: Cherokee
-      chu: Iglesia eslava; Antiguo eslavo; Eslavo eclesiástico; Antiguo búlgaro; Antiguo
-        eslavo eclesiástico
+      chu: Iglesia eslava; Antiguo eslavo; Eslavo eclesiástico; Antiguo búlgaro; Antiguo eslavo eclesiástico
       chv: Chuvasio
       chy: Cheyenne
       cmc: Chamic languages
@@ -1976,13 +1973,10 @@ es:
     agent_relationship_associative_relator: Agent Relationship Associative Relator
     agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
     agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
-    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior
-      Relator
+    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
     archival_record_level: Nivel de registro de archivo
-    collection_management_processing_priority: Prioridad de la tramitación de la gestión
-      de la colección
-    collection_management_processing_status: Estado de tramitación de la gestión de
-      la colección
+    collection_management_processing_priority: Prioridad de la tramitación de la gestión de la colección
+    collection_management_processing_status: Estado de tramitación de la gestión de la colección
     container_location_status: Estado de ubicación de contenedores
     container_type: Tipo de contenedor
     country_iso_3166: País ISO 3166
@@ -2040,16 +2034,14 @@ es:
     dimension_units: Unidades de dimensión
     restriction_type: Tipos de restricciones de acceso loceles
     location_function_type: Tipos de funciones de localización
-    rights_statement_external_document_identifier_type: Declaración de derechos Tipo
-      de identificador de documento externo
+    rights_statement_external_document_identifier_type: Declaración de derechos Tipo de identificador de documento externo
     rights_statement_act_restriction: Ley de declaración de derechos de restricción
     rights_statement_act_type: Declaración de Derechos Tipo de Ley
-    rights_statement_other_rights_basis: Declaración de derechos Otros derechos de
-      base
+    rights_statement_other_rights_basis: Declaración de derechos Otros derechos de base
     # added to support things like provenance
     inventory: Inventario
     disposition: Disposición
-    content_description: Content Description
+    content_description: Descripción del contenido
     provenance: Procedencia
     access_date: Fecha de acceso
     access_restrictions_note: Nota de condiciones de acceso
