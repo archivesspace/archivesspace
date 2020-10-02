@@ -889,22 +889,6 @@ es:
       validation: Validación
       virus_check: Comprobación de virus
     resource_resource_type:
-      collection: Collection
-      publications: Publications
-      papers: Papers
-      records: Records
-    resource_finding_aid_description_rules:
-      aacr: Anglo-American Cataloguing Rules
-      cco: Cataloging Cultural Objects
-      dacs: "Describing Archives: A Content Standard"
-      rad: Rules for Archival Description
-      isadg: International Standard for Archival Description - General
-    resource_finding_aid_status:
-      completed: Completed
-      in_progress: In Progress
-      under_revision: Under Revision
-      unprocessed: Unprocessed
-    resource_resource_type:
       collection: Colección
       publications: Publicaciones
       papers: Papeles
