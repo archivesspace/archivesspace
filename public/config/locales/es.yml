@@ -780,7 +780,7 @@ es:
       win: Escritor de introducción
       wpr: Escritor de prefacio
       wst: Escritor de contexto suplementario
-   linked_agent_event_roles:
+    linked_agent_event_roles:
       authorizer: Autorizador
       executing_program: Programa en ejecución
       implementer: Implementador
