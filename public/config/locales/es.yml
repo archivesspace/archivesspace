@@ -1,8 +1,8 @@
 # NOTE: Many of the translations in this file have been generated using
-# Google translate
+# Google translate and suggestion tools in Weblate
 es:
   brand:
-    title: interfaz pública de ArchivesSpace
+    title: Interfaz pública de ArchivesSpace
     title_link_text: Vuelve a la página inicial de ArchivesSpace
     home: Home
     welcome_head: Bienvenido a ArchivesSpace
@@ -172,28 +172,28 @@ es:
 
   search_sorting:
     sort_by: "Ordenar por:"
-    sort: Sort
+    sort: Ordenar
     and: "y:"
-    asc: (ascending)
-    desc: (descending)
-    relevance: Relevance
-    title_sort: Title
-    user_mtime: Modified
-    primary_type: Record Type
-    processing_priority: Priority
+    asc: (ascendente)
+    desc: (descendente)
+    relevance: Relevancia
+    title_sort: Título
+    user_mtime: Modificado
+    primary_type: Tipo de registro
+    processing_priority: Prioridad
     processing_status: Status
-    parent_id: Record Type
-    create_time: Created
-    authority_id: Authority ID
+    parent_id: Tipo de registro
+    create_time: Creado
+    authority_id: Identificador de autoridad
     source: Source
-    rules: Rules
-    outcome: Outcome
+    rules: Reglas
+    outcome: Resultado
     event_type: Type
-    identifier: Identifier
-    select: Select
-    year_sort: Year
+    identifier: Identificador
+    select: Seleccione
+    year_sort: Año
     sorting: "%{type} %{direction}"
-    classification_identifier: Identifier
+    classification_identifier: Identificador
 
   inherit:
     inherited: "Del los %{level}:"
@@ -209,36 +209,39 @@ es:
     subgrp: Subgrupo
     subseries: Subserie
 
+    sub-series: Subserie
   errors:
-    error_404: "%{type} Record Not Found"
-    error_404_message: "The %{type} record you've tried to access does not exist or may have been removed."
-    backend_down: Unable to Connect to Database
-    backend_down_message: ArchivesSpace is currently experiencing technical difficulties. We apologise for the inconvenience. Please try again later.
-    unexpected_error: Your request could not be completed due to an unexpected error
+    error_404: "% {type} registro no encontrado"
+    error_404_message: "El registro% {type} al que ha intentado acceder no existe\
+      \ o puede que se haya eliminado."
+    backend_down: No se puede conectar a la base de datos
+    backend_down_message: ArchivesSpace está experimentando dificultades técnicas.
+      Pedimos disculpas por las molestias. Por favor, inténtelo de nuevo más tarde.
+    unexpected_error: Su solicitud no se pudo completar debido a un error inesperado
 
   boolean:
     "true": "Si"
     "false": "No"
 
   navbar:
-    search_placeholder: Enter your search terms
-    search_all: All Records
-    error_no_term: No search term(s) entered.
-    search_terms_results: "Your search for {{search_terms}} yielded {{number}} results"
-    toggle_navigation: Toggle Navigation
+    search_placeholder: Introduzca sus términos de búsqueda
+    search_all: Todos los registros
+    error_no_term: No se han introducido términos de búsqueda.
+    search_terms_results: "Su búsqueda de {{search_terms}} arrojó {{number}} resultados"
+    toggle_navigation: Alternar navegación
 
   internal_links:
-    main: Main Content
-    filter: Filter Results
-    collection: Collection Organization
-    search_collection: Search within collection
+    main: Principales elementos
+    filter: Filtra resultados
+    collection: Organización de la colección
+    search_collection: Buscar dentro de la colección
 
   accordion:
-    expand: Expand All
-    collapse: Collapse All
+    expand: Expandir todo
+    collapse: Contraer todo
 
   advanced_search:
-    operator_label: Search operator
+    operator_label: Operador de búsqueda
     operator:
       AND: Y
       OR: O
@@ -252,252 +255,252 @@ es:
       show: Mostrar búsqueda avanzada
       hide: Ocultar búsqueda avanzada
 
-  contains: "Contains %{count} %{type}"
-  found: "Found in %{count} %{type}"
+  contains: "Contiene %{count} %{type}"
+  found: "Encontrado en %{count} %{type}"
   coll_obj:
-    _singular: Collection or Record
-    _plural: Collections and/or Records
+    _singular: Colección o registro
+    _plural: Colecciones y / o registros
 
   # I don't have a place for these, so I'm putting them here
-  scope_note : Scope Note
-  multiple_containers: Multiple Containers
+  scope_note: Nota alcance
+  multiple_containers: Múltiples contenedores
   # adding the inherited title to the display string
   inherited: "%{title}, %{display}"
   extent_number_type: "%{number} %{type}"
   extent_phys_details: " : %{deets}"
   extent_dims: " ; %{dimensions}"
 
-  external_docs: External Documents
-  more_about: More about
-  listing: Listing
+  external_docs: Documentos externos
+  more_about: Más sobre
+  listing: Listado
   list: "%{type} List"
-  cont_arr: Collection organization
-  dig_cont_arr: Digital object organization
-  subgroups: Subgroups
-  accessed: Accessed
-  containers: Physical Storage Information
-  related_accessions: Related Unprocessed Material
-  related_resources: Related Collections
-  linked_instances: Linked Records
-  linked_digital_objects: Digital Material
+  cont_arr: Organización de la colección
+  dig_cont_arr: Organización de objeto digital
+  subgroups: Subgrupos
+  accessed: Acceso
+  containers: Información de almacenamiento físico
+  related_accessions: Material sin procesar relacionado
+  related_resources: Colecciones relacionadas
+  linked_instances: Registros enlazados
+  linked_digital_objects: Materiales digitales
 
   accession:
-   _singular: Unprocessed
-   _plural: Unprocessed Materials
-   _public:
+    _singular: Sin procesar
+    _plural: Materiales sin procesar
+    _public:
       section:
-        summary: Summary
-        acquisition_type: Acquisition Type
-        provenance: Provenance
-        access_restrictions: Access Restrictions
-        access_restrictions_apply: Access Restrictions Apply
-        use_restrictions: Use Restrictions
-        use_restrictions_apply: Use Restrictions Apply
+        summary: Nota de resumen
+        acquisition_type: Tipo de entrada
+        provenance: Procedencia
+        access_restrictions: Restricciones de acceso
+        access_restrictions_apply: Se aplican restricciones de acceso
+        use_restrictions: Restricciones de uso
+        use_restrictions_apply: Se aplican restricciones de uso
         content_description: Content Description
-        inventory: Inventory
+        inventory: Inventario
       related_accessions:
-       accessions: Related Unprocessed Material
-       deaccessions: Deaccessioned Material
+        accessions: Material sin procesar relacionado
+        deaccessions: Material retirado
 
   archival_object:
-    _singular: Archival Record
-    _plural: Archival Records
+    _singular: Registro de archivo
+    _plural: Registros de archivo
     _public:
       section:
         components: Components
-        summary: Summary
+        summary: Nota de resumen
       messages:
-        no_components: Archival Record has no components
+        no_components: El registro de archivo no tiene componentes
       header:
-       dates: Dates
-       lang: Language
-       script: Script
-       physdesc: Physical Description
-       storage: Container Information
-       access: Conditions Governing Access
-       use: Conditions Governing Use
-       component: Component
-       ref_id: Reference Identifier
+        dates: Fechas
+        lang: Idioma
+        script: Script
+        physdesc: Nota de descripción física
+        storage: Información de contenedor
+        access: Nota de condiciones de acceso
+        use: Nota de restricciones de uso
+        component: Component
+        ref_id: Identificador de referencia
 
   archive:
-    _singular: The Archive
-    _plural: The Archives
+    _singular: El archivo
+    _plural: Los archivos
 
   repository:
-    _singular: Repository
-    _plural: Repositories
-    what: What's in this Repository?
+    _singular: Repositorio
+    _plural: Repositorios
+    what: ¿Qué hay en este repositorio?
     details: Repository Details
     part: Part of the
 
-  context: Found in
+  context: Se encuentra en
   context_delimiter: "/"
   bulk:
-     _singular: "Majority of material found in %{dates}"
-     _plural: "Majority of material found within %{dates}"
+    _singular: "La mayoría de los materiales que se encuentran en %{dates}"
+    _plural: "La mayoría de los materiales que se encuentran en %{dates}"
 
   resource:
-    _singular: Collection
-    _plural: Collections
+    _singular: Colección
+    _plural: Colecciones
     _public:
-      identifier: Identifier
-      extent: Extent
-      dates: Dates
-      lang: Language of Materials
+      identifier: Identificador
+      extent: Extensión
+      dates: Fechas
+      lang: Nota de idioma de materiales
       script: Script
-      digital_object: Digital Object
-      physdesc: Physical Description
-      storage: Container Information
-      access: Conditions Governing Access
-      use: Conditions Governing Use
-      additional: Additional Description
+      digital_object: Objeto digital
+      physdesc: Nota de descripción física
+      storage: Información de contenedor
+      access: Nota de condiciones de acceso
+      use: Nota de restricciones de uso
+      additional: Descripción adicional
       section:
         components: Components
-        summary: Summary
+        summary: Nota de resumen
       messages:
-        no_components: Resource has no components
+        no_components: El fondo no tiene componentes
       finding_aid:
-        head: Finding Aid & Administrative Information
-        title: Title
-        subtitle: Subtitle
-        status: Status
-        author: Author
-        date:  Date
-        description_rules: Description rules
-        identifier: Identifier
-        language: Language of description
-        script: Script of description
-        language_note: Language of description note
+        head: Búsqueda de ayudas e información administrativa
+        title: Título
+        subtitle: Subtítulo
+        status: Estado
+        author: Autor
+        date: Fecha
+        description_rules: Reglas de Descripción
+        identifier: Identificador
+        language: Lengua del instrumento de descripción
+        script: Script de la descripción 
+        language_note: Idioma de la descripción nota
         sponsor: Sponsor
-        edition_statement: Edition statement
+        edition_statement: Mención de edición
         series_statement: Series statement
-        note: Note
-        revision: Revision Statements
+        note: Nota
+        revision: Nota de revisión
       related_accessions:
-        accessions: Accession Records
-        deaccessions: Deaccession Records
+        accessions: Registros de adhesión
+        deaccessions: Registros de desa adhereción
 
   top_container:
-    _singular: Container
-    _plural: Containers
+    _singular: contenedor
+    _plural: contenedores
 
   related_resource:
-    _singular: Related Collection
-    _plural: Related Collections
+    _singular: Colección relacionada
+    _plural: Colecciones relacionadas
 
-  digital_object: &digital_object_attributes
-    _singular: Digital Record
-    _plural: Digital Materials
+  digital_object:
+    _singular: Registro digital
+    _plural: materiales digitales
     _public:
-      thumbnail: thumbnail
-      link: Link to digital object
+      thumbnail: Miniatura
+      link: Enlace al objeto digital
       badge_label: Digital %{level}
       section:
         components: Components
-        summary: Summary
+        summary: Nota de resumen
       messages:
-        no_components: Digital Object has no components
+        no_components: El objeto digital no tiene componentes
 
   digital_object_component:
     _public:
       section:
         components: Components
-        summary: Summary
+        summary: Nota de resumen
       messages:
-        no_components: Digital Object Component has no components
+        no_components: El componente de objeto digital no tiene componentes
 
   subject:
-    _singular: Subject
-    _plural: Subjects
-    used_within: Used within
+    _singular: Materia
+    _plural: Materias
+    used_within: Utilizado dentro de
 
   component:
     _singular: Component
     _plural: Components
 
-  unprocessed: Unprocessed Material
+  unprocessed: Materiales sin procesar
 
   classification:
-    _singular: Record Group
-    _plural: Record Groups
-    creator: Creator
+    _singular: Grupo de registro
+    _plural: Grupo de registro
+    creator: Autor
     identifier_separator: "."
     _public:
       actions:
-        show_subgroups: Show Subgroups
+        show_subgroups: Mostrar subgrupos
 
   classification_term:
-    _singular: Record Group Term
-    _plural: Record Group Terms
+    _singular: Término del grupo de registros
+    _plural: Términos del grupo de registros
     identifier_separator: "/"
 
-  all_agents: Names
+  all_agents: Nombres
 
-  an_agent: Name
+  an_agent: Nombre
 
   pui_agent:
-    _singular: Name
-    _plural:  Names
-    related: Related Names
-    creator: Creator
+    _singular: Nombre
+    _plural: Nombres
+    related: Nombres relacionados
+    creator: Autor
   record:
-    _singular: Record
-    _plural: Records
+    _singular: Registro
+    _plural: Registros
 
   record_group:
-    _singular: Record Group
-    _plural: Record Groups
+    _singular: Grupo de registro
+    _plural: Grupo de registro
 
   agent:
-    _singular: Name
-    _plural: Names
+    _singular: Nombre
+    _plural: Nombres
     _public:
       section:
-        summary: Summary
-        other_names: Names Forms
-        other_names_preamble: "Also known by the following names:"
-        related_agents: Related Names
-        dates_of_existence: Dates
+        summary: Nota de resumen
+        other_names: Formas conocidas
+        other_names_preamble: "También conocido por los siguientes nombres:"
+        related_agents: Nombres relacionados
+        dates_of_existence: Fechas
         related_agent_description: Description
-        related_agent_dates: Dates
+        related_agent_dates: Fechas
 
   agent_person:
-    _singular: Person
+    _singular: Persona
 
   agent_family:
-    _singular: Family
+    _singular: Familia
 
   agent_corporate_entity:
-    _singular: Organization
+    _singular: Entidad corporativa
 
   agent_software:
     _singular: Software
 
   components:
-    expand: Expand
-    collapse: Collapse
+    expand: Ampliar
+    collapse: Colapsar
 
   instance:
     _public:
-      link_to_digital_object: Link to Record
+      link_to_digital_object: Enlace al registro
 
   record_tree:
-    record_tree_tab: Record Tree
-    search_tab: Search Components
+    record_tree_tab: Tipo de registro
+    search_tab: Buscar componentes
 
-  location: Location
+  location: Ubicación
 
-  description: About
+  description: Acerca de
 
-  contact: Contact
+  contact: Contacto
 
-  hours: Hours
+  hours: Horas
 
-  number_of: "Number of %{type}:"
+  number_of: "Número de %{type}:"
 
-  parent_inst: Parent Institution
+  parent_inst: Institución matriz
 
-  email: Send email
+  email: Enviar correo electrónico
 
   fax: Fax
 
@@ -505,9 +508,9 @@ es:
 
   enumerations:
     linked_event_archival_record_roles:
-      source: Source
-      outcome: Outcome
-      transfer: Transfer
+      source: Fuente
+      outcome: Resultado
+      transfer: Transferir
     linked_agent_archival_record_relators:
       abr: Agregador
       act: Actor
@@ -966,6 +969,7 @@ es:
       page: Página
       reel: Carrete
       volume: Volumen
+      container: Contenedor
     file_version_use_statement:
       audio-clip: Clip de audio
       audio-master: Audio-Master
@@ -1082,7 +1086,8 @@ es:
       cho: Choctaw
       chp: Chipewyan; Dene Suline
       chr: Cherokee
-      chu: Iglesia eslava; Antiguo eslavo; Eslavo eclesiástico; Antiguo búlgaro; Antiguo eslavo eclesiástico
+      chu: Iglesia eslava; Antiguo eslavo; Eslavo eclesiástico; Antiguo búlgaro; Antiguo
+        eslavo eclesiástico
       chv: Chuvasio
       chy: Cheyenne
       cmc: Chamic languages
@@ -1823,6 +1828,8 @@ es:
       license: Licencia
       statute: Estatuto
       other: Otro
+      institutional_policy: Política institucional
+      intellectual_property: Propiedad intelectual
     rights_statement_ip_status:
       copyrighted: Derechos de autor
       public_domain: Dominio público
@@ -1969,10 +1976,13 @@ es:
     agent_relationship_associative_relator: Agent Relationship Associative Relator
     agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
     agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
-    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
+    agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior
+      Relator
     archival_record_level: Nivel de registro de archivo
-    collection_management_processing_priority: Prioridad de la tramitación de la gestión de la colección
-    collection_management_processing_status: Estado de tramitación de la gestión de la colección
+    collection_management_processing_priority: Prioridad de la tramitación de la gestión
+      de la colección
+    collection_management_processing_status: Estado de tramitación de la gestión de
+      la colección
     container_location_status: Estado de ubicación de contenedores
     container_type: Tipo de contenedor
     country_iso_3166: País ISO 3166
@@ -2030,44 +2040,49 @@ es:
     dimension_units: Unidades de dimensión
     restriction_type: Tipos de restricciones de acceso loceles
     location_function_type: Tipos de funciones de localización
-    rights_statement_external_document_identifier_type: Declaración de derechos Tipo de identificador de documento externo
+    rights_statement_external_document_identifier_type: Declaración de derechos Tipo
+      de identificador de documento externo
     rights_statement_act_restriction: Ley de declaración de derechos de restricción
     rights_statement_act_type: Declaración de Derechos Tipo de Ley
-    rights_statement_other_rights_basis: Declaración de derechos Otros derechos de base
+    rights_statement_other_rights_basis: Declaración de derechos Otros derechos de
+      base
     # added to support things like provenance
-    inventory: Inventory
-    disposition: Disposition
+    inventory: Inventario
+    disposition: Disposición
     content_description: Content Description
-    provenance: Provenance
-    access_date: Access Date
-    access_restrictions_note: Conditions Governing Access
-    use_restrictions_note: Conditions Governing Use
+    provenance: Procedencia
+    access_date: Fecha de acceso
+    access_restrictions_note: Nota de condiciones de acceso
+    use_restrictions_note: Nota de restricciones de uso
 
   pdf_reports:
-    administrative_information: Administrative Information
-    collection_inventory: Collection Inventory
-    summary_information: Summary Information
-    table_of_contents: Table Of Contents
-    publication_statement: Publication Statement
-    controlled_access_headings: Controlled Access Headings
-    finding_aid_date_prefix: This finding aid was produced using ArchivesSpace on
-    finding_aid_written_in: Finding aid written in
+    administrative_information: Información administrativa
+    collection_inventory: Inventario de la colección
+    summary_information: Información de resumen
+    table_of_contents: Tabla de contenidos
+    publication_statement: Declaración de publicación
+    controlled_access_headings: Encabezados de acceso controlado
+    finding_aid_date_prefix: Esta ayuda de búsqueda se elaboró utilizando ArchivesSpace
+      en
+    #didn't translate because these are unused due to change in PDF generation function
+    finding_aid_written_in: Encontrar la ayuda escrita en
     your_finding_aid_pdf: Your finding aid PDF for "%{title}"
     your_finding_aid_is_attached: The finding aid you requested is attached.
     submit: Send me a PDF
-    description: To receive a PDF version of this collection, please enter your email address below.
+    description: To receive a PDF version of this collection, please enter your email
+      address below.
     coming_soon: Your PDF is being generated and will be emailed to you when ready.
-    required: Required
-    user_email: Your email address
+    required: necesario
+    user_email: Tu correo electrónico
 
   readmore:
     see_more: Ver más
     see_less: Ver menos
-    
+
   skipnav:
-    main_content: Skip to main content
-    sidebar: Skip to sidebar
-    search: Skip to search
-    search_results: Skip to search results
+    main_content: Saltar al contenido principal
+    sidebar: Saltar a la barra lateral
+    search: Saltar para buscar
+    search_results: Saltar a los resultados de la búsqueda
 
   search_tab: Buscar %{target}
