@@ -20,9 +20,9 @@ class ResourcesController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.RESOURCE_FACETS})
         search_params["type[]"] = params[:include_components] === "true" ? ["resource", "archival_object"] : [ "resource" ]
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
-      }
-    end
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('resource._plural').downcase}.")
+      }  
+    end 
   end
 
   def show
@@ -153,6 +153,17 @@ class ResourcesController < ApplicationController
   def edit
     flash.keep if not flash.empty? # keep the notices so they display on the subsequent ajax call
 
+    # check for active batch import job and redirect if there is one
+    active_job = find_active_bulk_import_job
+    if active_job
+      flash[:active_bulk_import_job] = I18n.t(
+        'bulk_import_job.active',
+        url: "#{AppConfig[:frontend_proxy_url]}/resolve/readonly?uri=#{active_job['uri']}",
+        uri: active_job['uri']
+      )
+      return redirect_to(:action => :show, :id => params[:id], :inline => params[:inline])
+    end
+
     if params[:inline]
       # only fetch the fully resolved record when rendering the full form
       @resource = fetch_resolved(params[:id])
@@ -274,7 +285,7 @@ class ResourcesController < ApplicationController
           @children.save(:resource_id => @parent.id)
         end
 
-        return render :text => I18n.t("rde.messages.success")
+        return render :plain => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
         @exceptions = @children.children.collect{|c| JSONModel(:archival_object).from_hash(c, false)._exceptions}
 
@@ -361,7 +372,11 @@ class ResourcesController < ApplicationController
 
 # refactoring note: suspiciously similar to accessions_controller.rb
   def fetch_resolved(id)
-    resource = JSONModel(:resource).find(id, find_opts)
+    # We add this so that we can get a top container location to display with the instance view
+    new_find_opts = find_opts
+    new_find_opts["resolve[]"].push("top_container::container_locations")
+    
+    resource = JSONModel(:resource).find(id, new_find_opts)
 
     if resource['classifications']
       resource['classifications'].each do |classification|
@@ -372,6 +387,16 @@ class ResourcesController < ApplicationController
     end
 
     resource
+  end
+
+
+  def find_active_bulk_import_job
+    Job.active.find do |j|
+      if j['job']['jsonmodel_type'] == 'bulk_import_job'
+        rid = j['job'].fetch('resource_id', '').split('/').last
+        rid == params[:id]
+      end
+    end
   end
 
 

@@ -15,6 +15,34 @@ module BulkImportMixins
      "top_container", "container_profile", "location_profile",
      "owner_repo"]
   end
+  
+  def ao_save(ao)
+      revived = nil
+      if @validate_only
+        valid(ao, I18n.t("ao"))
+        ao.uri = ao.uri || "valid"
+        revived = ao
+      else
+        begin
+          archObj = nil
+          if ao.id.nil?
+            archObj = ArchivalObject.create_from_json(ao)
+          else
+            obj = ArchivalObject.get_or_die(ao.id)
+            archObj = obj.update_from_json(ao)
+          end
+          objs = ArchivalObject.sequel_to_jsonmodel([archObj])
+          revived = objs[0] if !objs.empty?
+        rescue JSONModel::ValidationException => ve
+          raise BulkImportException.new(I18n.t("bulk_import.error.ao_validation", :err => ve.errors))
+        rescue Exception => e
+          Log.error("UNEXPECTED ao save error: #{e.message}\n#{e.backtrace}")
+          Log.error(ASUtils.jsonmodels_to_hashes(ao).pretty_inspect) if ao
+          raise e
+        end
+      end
+      revived
+    end
 
   def resource_from_ref(ead_id)
     dataset = CrudHelpers.scoped_dataset(Resource, {:ead_id => ead_id})
@@ -123,6 +151,57 @@ def archival_object_from_ref(ref_id)
     end
     sc
   end
+  
+
+  #Finds the top container using the hash values (AND clause only)
+  def find_top_container(where_params)
+    dataset = CrudHelpers.scoped_dataset(TopContainer, where_params)
+    tc = nil
+    if !dataset.empty?
+      objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      jsonms = TopContainer.sequel_to_jsonmodel(objs)
+      if jsonms.length > 0
+       tc = jsonms[0]
+      else
+        raise BulkImportException.new(I18n.t('bulk_import.error.find_tc', :where => where_params.pretty_inspect))
+      end
+    end
+    tc
+  end 
+  
+ def indicator_and_type_exist_for_resource?(ead_id, indicator, type_id)
+   
+    return TopContainer
+      .join(:top_container_link_rlshp, :top_container_link_rlshp__top_container_id => :top_container__id)
+      .join(:sub_container, :sub_container__id => :top_container_link_rlshp__sub_container_id)
+      .join(:instance, :instance__id => :sub_container__instance_id)
+      .join(:archival_object, :archival_object__id => :instance__archival_object_id)
+      .join(:resource, :resource__id => :archival_object__root_record_id)
+      .filter(:resource__ead_id => ead_id, :indicator => indicator, :type_id => type_id).count > 0
+  end
+
+  def sub_container_from_barcode(barcode)
+    dataset = CrudHelpers.scoped_dataset(SubContainer, {:barcode_2 => barcode})
+    sc = nil
+    if !dataset.empty?
+      objs = dataset.respond_to?(:all) ? dataset.all : dataset
+      jsonms = SubContainer.sequel_to_jsonmodel(objs)
+      if jsonms.length > 0
+       sc = jsonms[0]
+      else
+        raise BulkImportException.new(I18n.t('bulk_import.error.sc_barcode', :barcode => barcode))
+      end
+    end
+    sc
+  end
+
+  def created(obj, type, message, report)
+    if @validate_only
+      report.add_info(I18n.t("bulk_import.could_be", :what => message))
+    else
+      report.add_info(I18n.t("bulk_import.created", :what => message, :id => obj.uri))
+    end
+  end
 
   def resource_match(resource, ead_id, uri)
     if uri.nil? && ead_id.nil?
@@ -145,6 +224,27 @@ def archival_object_from_ref(ref_id)
       end
     end
     match
+  end
+
+  def valid(obj, what)
+    ret_val = false
+    begin
+      test_exceptions(obj)
+      ret_val = true
+    rescue Exception => ex
+      raise BulkImportException.new(I18n.t("bulk_import.error.validation_error", :what => what, :err => ex.message))
+    end
+    ret_val
+  end
+
+  def value_check(cvlist, value, errs)
+    ret_val = nil
+    begin
+      ret_val = cvlist.value(value)
+    rescue Exception => ex
+      errs << ex.message
+    end
+    ret_val
   end
 
   # The following methods assume @report is defined, and is a BulkImportReport object

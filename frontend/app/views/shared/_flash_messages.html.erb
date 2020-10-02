@@ -18,3 +18,8 @@
     <%= flash[:info].force_encoding("UTF-8") %>
   </div>
 <% end %>
+<% if controller_name == "resources" && action_name == "show" && flash[:active_bulk_import_job] %>
+  <div class="alert alert-warning">
+    <%= flash[:active_bulk_import_job].force_encoding("UTF-8") %>
+  </div>
+<% end %>

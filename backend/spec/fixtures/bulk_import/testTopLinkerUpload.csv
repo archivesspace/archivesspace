@@ -3,8 +3,8 @@ Mapping - ArchivesSpace Resource record SECTION,,,,,,,,,,,,,,,,,,
 Mapping - ArchivesSpace Resource record FIELD with comments,,,,,,,,,,,,,,,,,,
 ArchivesSpace field code,archival_object_id,root_id,ref_id,component ID,title,resource_title,ead_id,resource_id,top_container_id,top_container_type,top_container_indicator,top_container_barcode,location_id,container_profile_id,instance_type,child_type,child_indicator,child_barcode
 Field name ,ID,Root ID,Ref ID,Component ID,Title,Resource Title,EADID,Resource ID,Top Container Record No.,Top Container Type,Top Container Indicator,Top Container Barcode,Location Record No,Container Profile Record No.,Instance Type,Child Type,Child Indicator,Child Barcode
-,994143,3957,hua15019c00007,,"Correspondence, 1958-1985","Papers of Jeffries Wyman,",hua15019,HUM 361,,box,Test Box 11,54555,43587,53,books,folder,2,1234
-,994147,3957,hua15019c00008,HUGFP 134.6,"[Baranowski, Tadeuz]","Papers of Jeffries Wyman,",hua15019,HUM 361,,box,Test Box 11,54555,43587,53,books,folder,2,1234
-,994148,3957,hua15019c00009,HUGFP 134.6,"Bardsley, [William G.]","Papers of Jeffries Wyman,",hua15019,HUM 361,,box,Test Box 11,54555,43587,53,books,folder,2,1234
+,994143,3957,hua15019c00007,,"Correspondence, 1958-1985","Papers of Jeffries Wyman,",hua15019,HUM 361,,box,Oct12020,oct1bc,43587,53,books,folder,2,oct12020child
+,994147,3957,hua15019c00008,HUGFP 134.6,"[Baranowski, Tadeuz]","Papers of Jeffries Wyman,",hua15019,HUM 361,,box,Oct12020,oct1bc,43587,53,books,folder,2,oct12020child
+,994148,3957,hua15019c00009,HUGFP 134.6,"Bardsley, [William G.]","Papers of Jeffries Wyman,",hua15019,HUM 361,,box,Oct12020,oct1bc,43587,53,books,folder,2,oct12020child
 ,,,hua15019c00010,,,"Papers of Jeffries Wyman,",hua15019,HUM 361,2,,,,,,books,,,
 ,,,hua15019c00011,,,"Papers of Jeffries Wyman,",hua15019,HUM 361,2,,,,,,books,,,

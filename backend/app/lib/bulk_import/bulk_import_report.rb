@@ -31,8 +31,8 @@ class BulkImportReport
     end_row
   end
 
-  def row_count
-    @rows.length
+  def current_row
+    @current_row
   end
 
   def end_row
@@ -40,11 +40,19 @@ class BulkImportReport
     @current_row = nil
   end
 
+  def in_errors(what)
+    @current_row.errors.include?(what)
+  end
+
   attr_reader :file_name
 
   def new_row(row_number)
     @rows.push @current_row if @current_row
     @current_row = Row.new(row_number)
+  end
+
+  def row_count
+    @rows.length
   end
 
   def set_file_name(file_name)
@@ -80,7 +88,7 @@ class BulkImportReport
 
     def archival_object(ao)
       self.archival_object_id = ao.uri
-      self.archival_object_display = ao.display_string
+      self.archival_object_display = ao.display_string || ao.title
       self.ref_id = ao.ref_id
     end
   end

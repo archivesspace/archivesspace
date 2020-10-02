@@ -24,7 +24,11 @@ class JobsController < ApplicationController
     @job_type = params['job']['job_type']
 
     job_data = params['job']
-
+    
+    if (job_data['resource_id'])
+      job_data['resource_id'] = job_data['resource_id'].to_i
+    end
+        
     # Knock out the _resolved parameter because it's often very large
     # and clean up the job data to match the schema types.
     job_data = ASUtils.recursive_reject_key(job_data) { |k| k === '_resolved' }
@@ -41,10 +45,10 @@ class JobsController < ApplicationController
                                   job_params
                    )
       uploaded = job.upload
-
+      
       if (params['ajax'])
         if params[:iframePOST] # IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.
-          render :text => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
+          render :plain => "<textarea data-type='json'>#{uploaded.to_json}</textarea>"
         else
           render :json => uploaded
         end
@@ -107,7 +111,9 @@ class JobsController < ApplicationController
   def download_file
     @job = JSONModel(:job).find(params[:job_id], "resolve[]" => "repository")
     
-    if @job.job.has_key?("format") && !@job.job["format"].blank? 
+    if params[:ext]
+        format = params[:ext].delete_prefix('.')
+    elsif @job.job.has_key?("format") && !@job.job["format"].blank?
         format = @job.job["format"]
     else
         format = "pdf"
@@ -122,7 +128,7 @@ class JobsController < ApplicationController
     end
 
     url = "/repositories/#{JSONModel::repository}/jobs/#{params[:job_id]}/output_files/#{params[:id]}"
-    stream_file(url, {:format => format, :filename => "job_#{params[:job_id].to_s}_#{filename_end}" } ) 
+    stream_file(url, {:format => format, :filename => "job_#{params[:job_id].to_s}_#{filename_end}" } )
   end
   
   

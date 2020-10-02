@@ -115,12 +115,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resources/:id/transfer' => 'resources#transfer', :via => [:post]
     match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:post]
     match 'resources/:rid/getbulkfile' => 'bulk_import#get_file', :via => [:get]
-    match 'resources/:id/uploadbulkfile' => 'bulk_import#submit_file', :via => [:post]
     match 'resources/:id/link_top_containers' => 'bulk_import#link_top_containers_to_archival_objects', :via => [:post]
-
-
-    
-
 
     match 'resources/:id/tree/root' => 'resources#tree_root', :via => [:get]
     match 'resources/:id/tree/node' => 'resources#tree_node', :via => [:get]
@@ -207,6 +202,7 @@ ArchivesSpace::Application.routes.draw do
     match 'resolve/readonly' => 'resolver#resolve_readonly', :via => [:get]
 
     match 'enumerations/list' => 'enumerations#list', :via => [:get]
+    match 'enumerations/csv' => 'enumerations#csv', :via => [:get]
     match 'enumerations/delete' => 'enumerations#delete', :via => [:get]
     match 'enumerations/set_default/:id' => 'enumerations#set_default', :via => [:post]
     match 'enumerations/destroy/:id' => 'enumerations#destroy', :via => [:post]

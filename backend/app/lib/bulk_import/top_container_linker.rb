@@ -11,7 +11,7 @@ class TopContainerLinker < BulkImportParser
   attr_reader :report
   
   def initialize(input_file, content_type, current_user, opts)
-    super(input_file, content_type, current_user, opts)
+    super(input_file, content_type, current_user, opts, nil)
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
     @start_marker = START_MARKER
   end
@@ -47,6 +47,7 @@ class TopContainerLinker < BulkImportParser
 
   # look for all the required fields to make sure they are legit
   def process_row(row_hash = nil)
+    Log.info("PROCESS ROW")
     #This allows the processing of a single row
     if (!row_hash.nil?)
       @row_hash = row_hash
@@ -121,6 +122,8 @@ class TopContainerLinker < BulkImportParser
           tc_instance = create_top_container_instance(instance_type, tc_jsonmodel_obj.indicator, tc_jsonmodel_obj.type, err_arr, ref_id, @counter.to_s)
           display_indicator = tc_jsonmodel_obj.indicator
         end
+Log.info( "TC INSTANCE")
+Log.info(  tc_instance)
       elsif (!tc_record_no.nil?)
         tc_jsonmodel_obj = TopContainer.get_or_die(tc_record_no.strip.to_i)
         if tc_jsonmodel_obj.nil?

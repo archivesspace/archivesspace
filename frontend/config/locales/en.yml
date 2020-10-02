@@ -5,6 +5,9 @@ en:
     automate: Automatically generate
     batch: Batch
     browse: Browse
+    bulk_import: Load via Spreadsheet
+    bulk_import_job: Load via Spreadsheet
+    download_bulk_import_report: Download report
     cancel: Cancel
     close: Close
     continue: Continue
@@ -845,6 +848,7 @@ en:
 
   date:
     _frontend:
+      expression_placeholder: Describe the date or date range
       action:
         add: Add Date
 
@@ -924,6 +928,7 @@ en:
         create_value: Create Value
         delete_value: Delete Value
         merge_value: Merge Value
+        download_csv: Download CSV
 
   event:
     _frontend:
@@ -1483,9 +1488,11 @@ en:
         rapid_barcode_entry_new_barcode: New Barcode
         rapid_barcode_entry_help: Enter a barcode for each selected container.  Leave the New Barcode field blank to remove the current barcode without replacing it with a new value.
         batch_merge: Merge Top Containers
-        batch_merge_instructions: Select the top container into which all of the other listed top container(s) will merge. Any linked records will be re-linked to this container and all information for the other top container(s) will be deleted.
+        batch_merge_instructions: Select the top container into which all of the other listed top container(s) will merge. Linked accessions, resources, resource components, and events will be re-linked to this container. Container profiles will be moved to this container only when it does not already have one. Locations and all other information for the other top container(s) will be deleted.
         batch_merge_confirm: Confirm Merge Top Containers
         batch_merge_confirm_question: Are you sure you want to merge the top containers as listed below? This action is irreversible.
+        batch_merge_container_profile_too_many_warning: These top containers have different container profiles. None of these container profiles will merge into the target container.
+        batch_merge_container_profile_mismatch_warning: These top containers have a different container profile than the target top container. The container profile will not merge into the target container.
         batch_merge_confirm_victims: "Merge the following top container(s):"
         batch_merge_confirm_target: "Into this top container:"
         batch_delete: Delete Top Containers
@@ -1799,12 +1806,20 @@ en:
         import: Import from SpreadSheet
         drag_drop: Drag and drop file here
         clip_btn: Copy to Clipboard
+        only_validate: Only validate
         link_top_containers: Link Top Containers via Spreadsheet
-
       messages:
         missing_file: You have not added a file
         not_excel: The file you have chosen is not an Excel Spreadsheet
+        not_excel_csv: The file you have chosen is neither an Excel Spreadsheet nor a CSV file
         processed: The file has been processed
         error: "ERROR: Error(s) detected: "
         copied: Copied!
         uncopied: Unable to copy
+        submitted: "<p>Job had been submitted to Background Jobs. <br/> Click 'Close' to refresh this screen.</p>"
+  bulk_import_job:
+    active: "There is a bulk import job active for this record, try editing later: <a href ='%{url}'>%{uri}</a>"
+    resource_id: Resource ID
+    format: Download File Format
+    filename: Speadsheet file name
+    not_direct: At this time, this job can only be created from the Resource record

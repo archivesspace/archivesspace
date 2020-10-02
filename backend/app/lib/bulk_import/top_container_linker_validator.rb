@@ -8,7 +8,7 @@ class TopContainerLinkerValidator < BulkImportParser
   START_MARKER = /ArchivesSpace field code/.freeze
   
   def initialize(input_file, content_type, current_user, opts)
-    super(input_file, content_type, current_user, opts)
+    super(input_file, content_type, current_user, opts, nil)
     @resource_ref = "/repositories/#{@opts[:repo_id]}/resources/#{@opts[:rid]}"
     @start_marker = START_MARKER
     @barcode_tc_existing_in_spreadsheet = {}

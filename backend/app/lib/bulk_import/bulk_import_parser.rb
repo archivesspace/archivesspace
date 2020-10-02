@@ -5,26 +5,53 @@ require "pp"
 require "rubyXL"
 require "csv"
 require "asutils"
-include URIResolver
-
-MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
-MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
-MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
 
 # Base class for bulk import via spreadsheet; handles both CSV's and excel spreadsheets
 # This class is designed for spreadsheets with the following features:
 #  1. There may be multiple rows of headers, each of which have *something* in the
 #     0th column
 #  2. The header row containing the internal (machine-readble) labels will have in
-#     its 0th
-#     some defined string; this string shall be used in the sub-class's START_MARKER constant
+#     its 0th column some defined string;
+#     this string shall be used in the sub-class's START_MARKER constant
 #  3. Only header rows contain strings in their 0th column; data rows will have an
 #     empty 0th column.  This means that there can be an arbitrary (including 0)
 #     number of header rows *after* the internal labels row; the code can handle it!
 #  4. The various handler classes are now required in the *bulk_import_mixins.rb* file.
-#  5. The method that must be implemented in the sub class is *process_row*
+#  5. The methods that must be implemented in the sub class are *process_row*
+#      and *log_row*
 #
 class BulkImportParser
+  include URIResolver
+  include BulkImportMixins
+=begin
+  MAX_FILE_SIZE = Integer(AppConfig[:bulk_import_size])
+  MAX_FILE_ROWS = Integer(AppConfig[:bulk_import_rows])
+  MAX_FILE_INFO = I18n.t("bulk_import.max_file_info", :rows => MAX_FILE_ROWS, :size => MAX_FILE_SIZE)
+=end
+
+  def initialize(input_file, content_type, current_user, opts, log_method)
+    @created_refs = []
+    @input_file = input_file
+    @extension = File.extname(@input_file).strip.downcase
+    @file_content_type = content_type
+    @opts = opts
+    @current_user = current_user
+    @report_out = []
+    @report = BulkImportReport.new
+    @start_position
+    @need_to_move = false
+    @log_method = log_method
+    @is_xslx = file_is_xslx?
+   	@is_csv = file_is_csv?  
+    @validate_only = opts[:validate]
+    initialize_handler_enums
+    @counter = 0
+  end
+
+  def record_uris
+    @created_refs
+  end
+
   def run
     begin
       initialize_info
@@ -48,17 +75,20 @@ class BulkImportParser
             @report.add_errors(e.message)
             @error_level = @hier
           end
+          current = @report.current_row
+          log_row(current) unless @log_method.nil?
           @report.end_row
         end
       rescue StopIteration
         # we just want to catch this without processing further
       end
       if @rows_processed == 0
-        raise BulkImportException.new(I18n.t("bulk_import.error.no_data"))
+        # put the actual error message into the exception so it more closely matches the csv report
+        raise BulkImportException.new(@report.current_row.errors.first.match(/\[(.*)\]/)[1])
       end
     rescue Exception => e
       if e.is_a?(BulkImportException) || e.is_a?(StopBulkImportException)
-        @report.add_terminal_error(I18n.t("bulk_import.error.excel", :errs => e.message), @counter)
+        @report.add_terminal_error(I18n.t("bulk_import.error.spreadsheet", :errs => e.message), @counter)
       elsif e.is_a?(StopIteration) && @headers.nil?
         @report.add_terminal_error(I18n.t("bulk_import.error.no_header"), @counter)
       else # something else went wrong
@@ -68,22 +98,6 @@ class BulkImportParser
       end
     end
     return @report
-  end
-
-  def initialize(input_file, content_type, current_user, opts)
-    @input_file = input_file
-    @extension = File.extname(@input_file).strip.downcase
-    @file_content_type = content_type
-    @opts = opts
-    @current_user = current_user
-    @report_out = []
-    @report = BulkImportReport.new
-    @start_position
-    @need_to_move = false
-    @is_xslx = file_is_xslx?
-    @is_csv = file_is_csv?
-    initialize_handler_enums
-    @counter = 0
   end
 
   def initialize_handler_enums
@@ -97,24 +111,19 @@ class BulkImportParser
     @report = BulkImportReport.new
     @headers
     @report.set_file_name(@orig_filename)
+    initialize_handler_enums
+    jsonresource = Resource.to_jsonmodel(Integer(@opts[:rid]))
     @resource = resolve_references(Resource.to_jsonmodel(@opts[:rid]), ["repository"])
     @repository = @resource["repository"]["ref"]
     @hier = 1
     @counter = 0
     @rows_processed = 0
     @error_rows = 0
-    raise StopBulkImportException.new(I18n.t("bulk_import.error.wrong_file_type", :content_type => @file_content_type, :extension => @extension)) if !@is_csv && !@is_xslx
+    raise StopBulkImportException.new(I18n.t("bulk_import.error.wrong_file_type")) if !@is_csv && !@is_xslx
     #XSLX
     if @is_xslx
       workbook = RubyXL::Parser.parse(@input_file)
       sheet = workbook[0]
-      @rows = sheet.enum_for(:each)
-      number_rows = sheet.sheet_data.rows.size
-      size = (File.size?(@input_file).to_f / 1000).round
-      file_info = I18n.t("bulk_import.file_info", :rows => number_rows, :size => size)
-      if size > MAX_FILE_SIZE || number_rows > MAX_FILE_ROWS
-        raise BulkImportException.new(I18n.t("bulk_import.error.file_too_big", :limits => MAX_FILE_INFO, :file_info => file_info))
-      end
       @rows = sheet.enum_for(:each)
       #CSV
     elsif @is_csv
@@ -125,15 +134,19 @@ class BulkImportParser
   end
 
   private
-
-  def file_is_xslx?
-    return @file_content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || @extension == ".xslx"
+  
+	def file_is_xslx?
+    return @file_content_type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" \
+    || @file_content_type == "xlsx" \
+    || @extension == ".xlsx"
   end
 
   #MS Excel in Windows assigns a CSV file a mime type of application/vnd.ms-excel
   #The other suggestions are also some variations of other csv mime types found.  This is a catch-all
   def file_is_csv?
-    return @file_content_type == "text/csv" || @file_content_type == "text/plain" \
+    return @file_content_type == "text/csv" \
+    || @file_content_type == "csv" \
+    || @file_content_type == "text/plain" \
     || @file_content_type == "text/x-csv" \
     || @file_content_type == "application/vnd.ms-excel" \
     || @file_content_type == "application/csv" \
@@ -146,12 +159,9 @@ class BulkImportParser
   def find_headers
     while @headers.nil? && (row = @rows.next)
       @counter += 1
-      value = row[0]
-      if @is_xslx
-        value = row[0] ? row[0].value.to_s : nil
-      end
-      if (value =~ self.class::START_MARKER)
-        @headers = row_values(row)
+      values = row_values(row)
+      if (values[0] =~ self.class::START_MARKER)
+        @headers = values
       end
     end
     begin
@@ -180,10 +190,12 @@ class BulkImportParser
     test = {}
     dups = ""
     @headers.each do |head|
-      if test[head]
-        dups = "#{dups} #{head},"
-      else
-        test[head] = true
+      if head
+        if test[head]
+          dups = "#{dups} #{head},"
+        else
+          test[head] = true
+        end
       end
     end
     if !dups.empty?
@@ -191,8 +203,14 @@ class BulkImportParser
     end
   end
 
-  # IMPLEMENT THIS IN YOUR bulk_import_parser CLASS
-  def process_row
+  # IMPLEMENT THIS IN YOUR bulk_import_parser sub-class
+  def process_row(row_hash = nil)
     # overwrite this class
+  end
+
+  # IMPLEMENT THIS IN YOUR bulk_import_parser sub-class if you want logging
+  #  Presumes that a logging method was passed in as a parameter
+  def log_row(row)
+    #overwrite this class
   end
 end
