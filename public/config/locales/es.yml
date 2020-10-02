@@ -38,7 +38,7 @@ es:
     search_remove_row: Eliminar la fila de abajo
     staff_link: Sólo Personal
 
-  page_actions: Page Actions
+  page_actions: Acciones de página
 
   request:
     email_header: gracias por tu solicitud
@@ -97,13 +97,13 @@ es:
     head_suffix: Resultados
     searching: Buscando
     search_for: "Buscar  %{type} donde %{conditions}"
-    keyword_contain: "<strong>keyword(s)</strong>: <span class='searchterm'>%{kw}</span>"
-    title_contain: "the <strong>title</strong> contains  <span class='searchterm'>%{kw}</span>"
-    notes_contain: "the <strong>note</strong> contains  <span class='searchterm'>%{kw}</span>"
-    creators_text_contain: "the <strong>creator</strong> contains <span class='searchterm'>%{kw}</span>"
-    subjects_text_contain: "the <strong>subject</strong> contains <span class='searchterm'>%{kw}</span>"
-    identifier_contain: "the <strong>identifier</strong> contains <span class='searchterm'>%{kw}</span>"
-    four_part_id_contain: "the <strong>identifier</strong> contains <span class='searchterm'>%{kw}</span>"
+    keyword_contain: "<strong>palabra(s)</strong>: <span class='searchterm'>%{kw}</span>"
+    title_contain: "the <strong>título</strong> contiene  <span class='searchterm'>%{kw}</span>"
+    notes_contain: "the <strong>nota</strong> contiene  <span class='searchterm'>%{kw}</span>"
+    creators_text_contain: "the <strong>autor</strong> contiene <span class='searchterm'>%{kw}</span>"
+    subjects_text_contain: "the <strong>sujeto</strong> contiene <span class='searchterm'>%{kw}</span>"
+    identifier_contain: "the <strong>identificador</strong> contiene <span class='searchterm'>%{kw}</span>"
+    four_part_id_contain: "the <strong>identificador</strong> contiene <span class='searchterm'>%{kw}</span>"
     in_repository: " in <strong>%{name}</strong>"
     year_range: " del <strong>%{from_year}</strong> al <strong>%{to_year}</strong>"
     anything: "*"
@@ -129,45 +129,45 @@ es:
       OR: or
       NOT: y no
     op_first_row:
-      NOT: not
+      NOT: /NO
     filter:
       head: Filtra resultados
       add: Filtros adicionales
       form: Busca dentro de los resultados
       show_fewer: Mostrar menos
       show_more: Mostrar más
-      query: Text
+      query: Texto
       subjects: Materia
-      primary_type: Type
-      repository: Repository
-      used_within_published_repository: Repository
+      primary_type: Tipo
+      repository: Repositorio
+      used_within_published_repository: Repositorio
       creators: Autor
       fullrecord: Palabra clave
       subjects_text: Materia
       title: Título
       creators_text: Autor
       scope: Scope
-      notes: Notes
+      notes: Notas
       identifier: Identificador
-      source: Source
-      published_agents: Names
-      agents_text: Names
-      classification_uri: Classification
+      source: Fuente
+      published_agents: Nombres
+      agents_text: Nombres
+      classification_uri: Clasificación
       linked_agent_roles: Role
-      from_year: From year
-      to_year: To year
-      years: Years
-      from: From
-      to: To
-      years_include: Years to include
-      year_now: now
-      year_begin: the beginning
-      from_to: "Years: %{begin} to %{end}"
-      child_container_u_sstr: Child container
-      grand_child_container_u_sstr: Grandchild container
-      type_enum_s: Type
+      from_year: del año
+      to_year: al año
+      years: años
+      from: Del
+      to: Al
+      years_include: años para incluir
+      year_now: ahora
+      year_begin: el principio
+      from_to: "Años: %{begin} al %{end}"
+      child_container_u_sstr: Tipo de contenedor hijo
+      grand_child_container_u_sstr: Contenedor de tipo nieto
+      type_enum_s: Tipo
       published_series_title_u_sstr: Series
-      instance_type_enum_s: Instance type
+      instance_type_enum_s: Tipo de representación
       langcode: Idioma
 
   search_sorting:
@@ -196,18 +196,18 @@ es:
     classification_identifier: Identifier
 
   inherit:
-    inherited: "From the %{level}:"
-    collection: Collection
-    series: Series
-    sub-series: Sub-Series
-    class: Class
-    file: File
-    fonds: Fonds
-    item: Item
-    otherlevel: Other Level
-    recordgrp: Record Group
-    subfonds: Sub-Fonds
-    subgrp: Sub-Group
+    inherited: "Del los %{level}:"
+    class: Clase
+    collection: Colección
+    file: Documento de archivo
+    fonds: Fondos
+    item: Ítem
+    otherlevel: Otro nivel
+    recordgrp: Grupo de registro
+    series: Serie
+    subfonds: Subfondos
+    subgrp: Subgrupo
+    subseries: Subserie
 
   errors:
     error_404: "%{type} Record Not Found"
@@ -217,7 +217,7 @@ es:
     unexpected_error: Your request could not be completed due to an unexpected error
 
   boolean:
-    "true": "Yes"
+    "true": "Si"
     "false": "No"
 
   navbar:
