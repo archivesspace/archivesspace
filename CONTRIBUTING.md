@@ -1,4 +1,4 @@
-## Contributing
+# Contributing
 
 Thank you for considering contributing to ArchivesSpace. It's people
 like you that make ArchivesSpace such a wonderful application.
@@ -18,7 +18,8 @@ case** demonstrating the expected behavior that is not occurring.
 ## Fork & create a branch
 
 When you are ready to start working on an issue, please assign it to yourself
-as an indication that you are working on it. Then [fork ArchivesSpace][] and
+as an indication that you are working on it. 
+Then [fork ArchivesSpace][] and
 create a branch with a descriptive name.
 
 A good branch name would include the ticket number in it. For example, if you
