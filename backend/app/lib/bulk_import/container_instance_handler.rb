@@ -98,7 +98,6 @@ class ContainerInstanceHandler < Handler
       if subcont["type_#{num}"]
         sc["type_#{num}"] = value_check(@container_types, subcont["type_#{num}"], errs)
         sc["indicator_#{num}"] = subcont["indicator_#{num}"] || "Unknown"
-        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
       end
     end
     sc
@@ -122,7 +121,14 @@ class ContainerInstanceHandler < Handler
     if !errs.empty?
       raise BulkImportException.new(errs.join("; "))
     end
-    instance
+    %w(2 3).each do |num|
+      if subcont["type_#{num}"]
+        sc["type_#{num}"] = value_check(@container_types, subcont["type_#{num}"], errs)
+        sc["indicator_#{num}"] = subcont["indicator_#{num}"] || "Unknown"
+        sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
+      end
+    end
+    sc
   end
  
   #Formats the container instance without a db retrieval or creation
@@ -141,5 +147,4 @@ class ContainerInstanceHandler < Handler
     instance.sub_container = JSONModel(:sub_container).from_hash(sc)
     instance
   end
-
 end  # of container handler

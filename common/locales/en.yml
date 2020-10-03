@@ -2110,6 +2110,17 @@ en:
       ao: Archival Object Load
       digital: Digital Object Load
 
+  bulk_import_job:
+    resource_uri: Resource URI
+    content_type: Spreadsheet type
+    load_type: Load Type
+    only_validate: Validate Only
+    type:
+      csv: CSV
+      xlsx: Excel Spreadsheet
+      ao: Archival Object Load
+      digital: Digital Object Load
+
   trim_whitespace_job:
     description: Removes leading and trailing whitespace from titles for resources, accessions, digital objects, archival objects, and digital object components.
 
@@ -2355,8 +2366,6 @@ en:
     processing_row: "Processing row %{row}"
     dig_assoc: Digital Object added to  Archival Object
     row_error: "Row %{row} will not be processed due to errors: %{errs}"
-    no_ao: No Archival Object created
-    ao: Archival Object
     created: "%{what} created: %{id}"
     could_be: "%{what} would be created"
     updated: "%{what}: %{id}"

@@ -521,7 +521,6 @@ AppConfig[:pui_readmore_max_characters] = 450
 
 # Enable / disable PUI resource/archival object page actions
 AppConfig[:pui_page_actions_cite] = true
-AppConfig[:pui_page_actions_bookmark] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
 
