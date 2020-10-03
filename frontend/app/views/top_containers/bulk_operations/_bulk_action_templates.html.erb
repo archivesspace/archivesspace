@@ -213,7 +213,7 @@
           {for container in selection}
             <% container_uri = "${container.uri}" %>
             <div id="chkPref" role="radio" tabindex="0">
-              <%= radio_button_tag "target[]", "${container.uri}", false, :"data-object" => container_uri, :"aria-label" => "${container.display_string}", :"id" => "${container.uri}",  :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
+              <%= radio_button_tag "target[]", "${container.uri}", false, :"data-object" => container_uri, :"aria-label" => "${container.display_string}", :"id" => "${container.uri}",  :"container_profile_uri" => "${container.container_profile_uri}", :onclick => "activateBtn()", :onKeyPress => "activateBtn()" %>
               <span>${container.display_string}</span>
             </div>
           {/for}
@@ -248,6 +248,12 @@
           <li>${victim}</li>
         {/for}
       </ul>
+      <p class='alert alert-warning' style='<%= "${mergeWarning.tooManyVisibility}" %>; margin-left:40px' id="alertBucket" role="alert" aria-hidden='<%= "${mergeWarning.tooManyHidden}" %>'>
+        <%= I18n.t("top_container._frontend.bulk_operations.batch_merge_container_profile_too_many_warning") %>
+      </p>
+      <p class='alert alert-warning' style='<%= "${mergeWarning.mismatchVisibility}" %>; margin-left:40px' id="alertBucket" role="alert" aria-hidden='<%= "${mergeWarning.mismatchHidden}" %>'>
+        <%= I18n.t("top_container._frontend.bulk_operations.batch_merge_container_profile_mismatch_warning") %>
+      </p>
       <h4><%= I18n.t("top_container._frontend.bulk_operations.batch_merge_confirm_target") %></h4>
       <ul>
         <li>${target.display_string}</li>

@@ -307,7 +307,7 @@ The :resolve parameter is a way to tell ArchivesSpace to attach the full object 
 
 
 # ArchivesSpace REST API
-As of 2020-06-25 15:13:46 -0700 the following REST endpoints exist in the master branch of the development repository:
+As of 2020-07-16 10:06:08 -0400 the following REST endpoints exist in the master branch of the development repository:
 
 
 ## Create a corporate entity agent
@@ -328,15 +328,15 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_corporate_entity",
 "agent_contacts":[{ "jsonmodel_type":"agent_contact",
 "telephones":[{ "jsonmodel_type":"telephone",
-"number_type":"business",
-"number":"4612 576 3375 86257 5420"}],
+"number":"3265 518 344 500 125"}],
 "name":"Name Number 5",
-"address_2":"706M618A119",
-"address_3":"108890UI938",
-"city":"A44MAF",
-"fax":"QK183MA",
-"email":"RT707NK",
-"email_signature":"FE546CY"}],
+"address_2":"UU856KR",
+"address_3":"J77782377729",
+"region":"TELH81",
+"country":"WTR266F",
+"post_code":"Q644CGY",
+"email":"OR397H860",
+"email_signature":"NPD161Q"}],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
@@ -345,12 +345,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "dates_of_existence":[{ "jsonmodel_type":"date",
 "date_type":"bulk",
 "label":"existence",
-"begin":"1998-12-11",
-"end":"1998-12-11",
+"begin":"1993-07-22",
+"end":"1993-07-22",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"931FCGF"}],
+"expression":"W76KM326"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_corporate_entity",
 "use_dates":[],
@@ -359,14 +359,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "sort_name_auto_generate":true,
 "rules":"dacs",
 "primary_name":"Name Number 4",
-"subordinate_name_1":"237205KCV",
-"subordinate_name_2":"Y0AQ10",
-"number":"XVKQU",
+"subordinate_name_1":"777OV957994",
+"subordinate_name_2":"747173BO778",
+"number":"M64WU297",
 "sort_name":"SORT e - 2",
-"dates":"UEM518B",
-"qualifier":"NW506R426",
+"dates":"BWMGV",
+"qualifier":"315ICKS",
 "authority_id":"http://www.example-2.com",
-"source":"local"}],
+"source":"naf"}],
 "related_agents":[],
 "agent_type":"agent_corporate_entity"}' \
   "http://localhost:8089/agents/corporate_entities"
@@ -384,7 +384,6 @@ Create a corporate entity agent
 
 
 __Parameters__
-
 
   
     
@@ -436,7 +435,6 @@ List all corporate entity agents
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -479,15 +477,15 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"agent_corporate_entity",
 "agent_contacts":[{ "jsonmodel_type":"agent_contact",
 "telephones":[{ "jsonmodel_type":"telephone",
-"number_type":"business",
-"number":"4612 576 3375 86257 5420"}],
+"number":"3265 518 344 500 125"}],
 "name":"Name Number 5",
-"address_2":"706M618A119",
-"address_3":"108890UI938",
-"city":"A44MAF",
-"fax":"QK183MA",
-"email":"RT707NK",
-"email_signature":"FE546CY"}],
+"address_2":"UU856KR",
+"address_3":"J77782377729",
+"region":"TELH81",
+"country":"WTR266F",
+"post_code":"Q644CGY",
+"email":"OR397H860",
+"email_signature":"NPD161Q"}],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
@@ -496,12 +494,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "dates_of_existence":[{ "jsonmodel_type":"date",
 "date_type":"bulk",
 "label":"existence",
-"begin":"1998-12-11",
-"end":"1998-12-11",
+"begin":"1993-07-22",
+"end":"1993-07-22",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"931FCGF"}],
+"expression":"W76KM326"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_corporate_entity",
 "use_dates":[],
@@ -510,14 +508,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "sort_name_auto_generate":true,
 "rules":"dacs",
 "primary_name":"Name Number 4",
-"subordinate_name_1":"237205KCV",
-"subordinate_name_2":"Y0AQ10",
-"number":"XVKQU",
+"subordinate_name_1":"777OV957994",
+"subordinate_name_2":"747173BO778",
+"number":"M64WU297",
 "sort_name":"SORT e - 2",
-"dates":"UEM518B",
-"qualifier":"NW506R426",
+"dates":"BWMGV",
+"qualifier":"315ICKS",
 "authority_id":"http://www.example-2.com",
-"source":"local"}],
+"source":"naf"}],
 "related_agents":[],
 "agent_type":"agent_corporate_entity"}' \
   "http://localhost:8089/agents/corporate_entities/1"
@@ -535,7 +533,6 @@ Update a corporate entity agent
 
 
 __Parameters__
-
 
   
     
@@ -607,7 +604,6 @@ Get a corporate entity by ID
 
 __Parameters__
 
-
   
     
   
@@ -666,7 +662,6 @@ Delete a corporate entity agent
 
 __Parameters__
 
-
   
     
   
@@ -705,26 +700,26 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "used_within_repositories":[],
 "used_within_published_repositories":[],
 "dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"single",
+"date_type":"range",
 "label":"existence",
-"begin":"1990-10-25",
-"end":"1990-10-25",
+"begin":"1971-12-18",
+"end":"1971-12-18",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"T798BSH"}],
+"expression":"Y52T925533"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_family",
 "use_dates":[],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"local",
+"rules":"dacs",
 "family_name":"Name Number 6",
-"sort_name":"SORT i - 3",
-"dates":"U370H278914",
-"qualifier":"FS941EM",
-"prefix":"X559ES63",
+"sort_name":"SORT e - 3",
+"dates":"O43CGU",
+"qualifier":"MUSC120",
+"prefix":"776CHVG",
 "authority_id":"http://www.example-3.com",
 "source":"local"}],
 "related_agents":[],
@@ -744,7 +739,6 @@ Create a family agent
 
 
 __Parameters__
-
 
   
     
@@ -796,7 +790,6 @@ List all family agents
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -844,26 +837,26 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "used_within_repositories":[],
 "used_within_published_repositories":[],
 "dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"single",
+"date_type":"range",
 "label":"existence",
-"begin":"1990-10-25",
-"end":"1990-10-25",
+"begin":"1971-12-18",
+"end":"1971-12-18",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"T798BSH"}],
+"expression":"Y52T925533"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_family",
 "use_dates":[],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"local",
+"rules":"dacs",
 "family_name":"Name Number 6",
-"sort_name":"SORT i - 3",
-"dates":"U370H278914",
-"qualifier":"FS941EM",
-"prefix":"X559ES63",
+"sort_name":"SORT e - 3",
+"dates":"O43CGU",
+"qualifier":"MUSC120",
+"prefix":"776CHVG",
 "authority_id":"http://www.example-3.com",
 "source":"local"}],
 "related_agents":[],
@@ -883,7 +876,6 @@ Update a family agent
 
 
 __Parameters__
-
 
   
     
@@ -955,7 +947,6 @@ Get a family by ID
 
 __Parameters__
 
-
   
     
   
@@ -1014,7 +1005,6 @@ Delete an agent family
 
 __Parameters__
 
-
   
     
   
@@ -1053,30 +1043,29 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "used_within_repositories":[],
 "used_within_published_repositories":[],
 "dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"range",
+"date_type":"inclusive",
 "label":"existence",
-"begin":"1980-12-25",
-"end":"1980-12-25",
+"begin":"1994-12-04",
+"end":"1994-12-04",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"802W210C935"}],
+"expression":"LT96698U"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_person",
 "use_dates":[],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"aacr",
-"source":"ulan",
+"rules":"dacs",
+"source":"nad",
 "primary_name":"Name Number 7",
-"sort_name":"SORT f - 4",
-"name_order":"inverted",
-"number":"IMX78Q",
-"dates":"REEYX",
-"qualifier":"BVGKP",
-"fuller_form":"FJB977U",
-"rest_of_name":"962Y226291O",
+"sort_name":"SORT a - 4",
+"name_order":"direct",
+"number":"Q321SAA",
+"dates":"AJ234102C",
+"qualifier":"103WX899K",
+"fuller_form":"FN726142N",
 "authority_id":"http://www.example-4.com"}],
 "related_agents":[],
 "agent_type":"agent_person"}' \
@@ -1095,7 +1084,6 @@ Create a person agent
 
 
 __Parameters__
-
 
   
     
@@ -1147,7 +1135,6 @@ List all person agents
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -1195,30 +1182,29 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "used_within_repositories":[],
 "used_within_published_repositories":[],
 "dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"range",
+"date_type":"inclusive",
 "label":"existence",
-"begin":"1980-12-25",
-"end":"1980-12-25",
+"begin":"1994-12-04",
+"end":"1994-12-04",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"802W210C935"}],
+"expression":"LT96698U"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_person",
 "use_dates":[],
 "authorized":false,
 "is_display_name":false,
 "sort_name_auto_generate":true,
-"rules":"aacr",
-"source":"ulan",
+"rules":"dacs",
+"source":"nad",
 "primary_name":"Name Number 7",
-"sort_name":"SORT f - 4",
-"name_order":"inverted",
-"number":"IMX78Q",
-"dates":"REEYX",
-"qualifier":"BVGKP",
-"fuller_form":"FJB977U",
-"rest_of_name":"962Y226291O",
+"sort_name":"SORT a - 4",
+"name_order":"direct",
+"number":"Q321SAA",
+"dates":"AJ234102C",
+"qualifier":"103WX899K",
+"fuller_form":"FN726142N",
 "authority_id":"http://www.example-4.com"}],
 "related_agents":[],
 "agent_type":"agent_person"}' \
@@ -1237,7 +1223,6 @@ Update a person agent
 
 
 __Parameters__
-
 
   
     
@@ -1309,7 +1294,6 @@ Get a person by ID
 
 __Parameters__
 
-
   
     
   
@@ -1368,7 +1352,6 @@ Delete an agent person
 
 __Parameters__
 
-
   
     
   
@@ -1407,14 +1390,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "used_within_repositories":[],
 "used_within_published_repositories":[],
 "dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"inclusive",
+"date_type":"single",
 "label":"existence",
-"begin":"2003-06-17",
-"end":"2003-06-17",
+"begin":"1972-02-29",
+"end":"1972-02-29",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"OWO321392"}],
+"expression":"326958969T338"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_software",
 "use_dates":[],
@@ -1422,11 +1405,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "is_display_name":false,
 "sort_name_auto_generate":true,
 "rules":"dacs",
-"source":"local",
+"source":"nad",
 "software_name":"Name Number 8",
-"sort_name":"SORT w - 5",
-"dates":"572CN274Y",
-"qualifier":"XXA578Q",
+"sort_name":"SORT a - 5",
+"dates":"AEYKI",
+"qualifier":"53JWC11",
 "authority_id":"http://www.example-5.com"}],
 "agent_type":"agent_software"}' \
   "http://localhost:8089/agents/software"
@@ -1444,7 +1427,6 @@ Create a software agent
 
 
 __Parameters__
-
 
   
     
@@ -1496,7 +1478,6 @@ List all software agents
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -1544,14 +1525,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "used_within_repositories":[],
 "used_within_published_repositories":[],
 "dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"inclusive",
+"date_type":"single",
 "label":"existence",
-"begin":"2003-06-17",
-"end":"2003-06-17",
+"begin":"1972-02-29",
+"end":"1972-02-29",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"OWO321392"}],
+"expression":"326958969T338"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_software",
 "use_dates":[],
@@ -1559,11 +1540,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "is_display_name":false,
 "sort_name_auto_generate":true,
 "rules":"dacs",
-"source":"local",
+"source":"nad",
 "software_name":"Name Number 8",
-"sort_name":"SORT w - 5",
-"dates":"572CN274Y",
-"qualifier":"XXA578Q",
+"sort_name":"SORT a - 5",
+"dates":"AEYKI",
+"qualifier":"53JWC11",
 "authority_id":"http://www.example-5.com"}],
 "agent_type":"agent_software"}' \
   "http://localhost:8089/agents/software/1"
@@ -1581,7 +1562,6 @@ Update a software agent
 
 
 __Parameters__
-
 
   
     
@@ -1653,7 +1633,6 @@ Get a software agent by ID
 
 __Parameters__
 
-
   
     
   
@@ -1712,7 +1691,6 @@ Delete a software agent
 
 __Parameters__
 
-
   
     
   
@@ -1758,7 +1736,6 @@ Redirect to resource identified by ARK Name
 
 __Parameters__
 
-
   
     
   
@@ -1800,7 +1777,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/batch_delete?record_uris=P828613V584"
+  "http://localhost:8089/batch_delete?record_uris=CT842690U"
 
 ```
 
@@ -1815,7 +1792,6 @@ Carry out delete requests against a list of records
 
 
 __Parameters__
-
 
   
     
@@ -1946,7 +1922,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/bulkimport/ssload?rid=1&ref_id=417837FNW&position=199SS556503&type=RQM361358&aoid=335OVIB&filename=53JYTQ&filepath=EHM602G&digital_load=849597H121G"
+  "http://localhost:8089/bulkimport/ssload?rid=1&ref_id=S624NAP&position=UU61DN&type=834XA387G&aoid=XC186L342&filename=EVS80S&filepath=239KXR238&digital_load=IIGKH"
 
 ```
 
@@ -1961,7 +1937,6 @@ Bulk Import an Excel Spreadsheet
 
 
 __Parameters__
-
 
   
     
@@ -2074,7 +2049,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/by-external-id?eid=L445631TR&type=763868RPT"
+  "http://localhost:8089/by-external-id?eid=689718662VD&type=7957834NL"
 
 ```
 
@@ -2089,7 +2064,6 @@ List records by their external ID(s)
 
 
 __Parameters__
-
 
   
     
@@ -2150,7 +2124,6 @@ Get an Enumeration Value
 
 __Parameters__
 
-
   
     
   
@@ -2203,7 +2176,6 @@ Update an enumeration value
 
 
 __Parameters__
-
 
   
     
@@ -2278,7 +2250,6 @@ Update the position of an ennumeration value
 
 __Parameters__
 
-
   
     
   
@@ -2349,7 +2320,6 @@ Suppress this value
 
 __Parameters__
 
-
   
     
   
@@ -2399,7 +2369,6 @@ List all defined enumerations
 __Parameters__
 
 
-
 __Returns__
 
   	200 -- [(:enumeration)]
@@ -2438,7 +2407,6 @@ Create an enumeration
 
 
 __Parameters__
-
 
   
     
@@ -2498,7 +2466,6 @@ Update an enumeration
 
 __Parameters__
 
-
   
     
   
@@ -2555,7 +2522,6 @@ Get an Enumeration
 
 
 __Parameters__
-
 
   
     
@@ -2621,7 +2587,6 @@ Migrate all records from one value to another
 
 __Parameters__
 
-
   
     
   
@@ -2674,7 +2639,6 @@ Get an Enumeration by Name
 
 __Parameters__
 
-
   
     
   
@@ -2706,13 +2670,13 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"container_profile",
-"name":"EYJ890186",
-"url":"889I477U594",
-"dimension_units":"yards",
-"extent_dimension":"width",
-"depth":"95",
-"height":"60",
-"width":"83"}' \
+"name":"DC542XN",
+"url":"MF139MK",
+"dimension_units":"meters",
+"extent_dimension":"depth",
+"depth":"76",
+"height":"20",
+"width":"87"}' \
   "http://localhost:8089/container_profiles"
 
 ```
@@ -2728,7 +2692,6 @@ Create a Container_Profile
 
 
 __Parameters__
-
 
   
     
@@ -2778,7 +2741,6 @@ Get a list of Container Profiles
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -2819,13 +2781,13 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"container_profile",
-"name":"EYJ890186",
-"url":"889I477U594",
-"dimension_units":"yards",
-"extent_dimension":"width",
-"depth":"95",
-"height":"60",
-"width":"83"}' \
+"name":"DC542XN",
+"url":"MF139MK",
+"dimension_units":"meters",
+"extent_dimension":"depth",
+"depth":"76",
+"height":"20",
+"width":"87"}' \
   "http://localhost:8089/container_profiles/1"
 
 ```
@@ -2841,7 +2803,6 @@ Update a Container Profile
 
 
 __Parameters__
-
 
   
     
@@ -2911,7 +2872,6 @@ Get a Container Profile by ID
 
 __Parameters__
 
-
   
     
   
@@ -2968,7 +2928,6 @@ Delete an Container Profile
 
 __Parameters__
 
-
   
     
   
@@ -3007,7 +2966,6 @@ Get the global Preferences records for the current user.
 
 
 __Parameters__
-
 
 
 __Returns__
@@ -3052,7 +3010,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/date_calculator?record_uri=854NHCX&label=911JFAO"
+  "http://localhost:8089/date_calculator?record_uri=HL479HO&label=39665QGE"
 
 ```
 
@@ -3067,7 +3025,6 @@ Calculate the dates of an archival object tree
 
 
 __Parameters__
-
 
   
     
@@ -3118,7 +3075,6 @@ Get a stream of deleted records
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page is required
 <ul>
@@ -3170,7 +3126,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/extent_calculator?record_uri=808300432149H&unit=AKKNX"
+  "http://localhost:8089/extent_calculator?record_uri=FWII790&unit=NYV1M"
 
 ```
 
@@ -3185,7 +3141,6 @@ Calculate the extent of an archival object tree
 
 
 __Parameters__
-
 
   
     
@@ -3237,7 +3192,6 @@ List all supported job types
 __Parameters__
 
 
-
 __Returns__
 
   	200 -- A list of supported job types
@@ -3261,11 +3215,11 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"location_profile",
-"name":"QWFGQ",
-"dimension_units":"millimeters",
-"depth":"58",
-"height":"31",
-"width":"19"}' \
+"name":"U652676DS",
+"dimension_units":"meters",
+"depth":"92",
+"height":"6",
+"width":"55"}' \
   "http://localhost:8089/location_profiles"
 
 ```
@@ -3281,7 +3235,6 @@ Create a Location_Profile
 
 
 __Parameters__
-
 
   
     
@@ -3331,7 +3284,6 @@ Get a list of Location Profiles
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -3372,11 +3324,11 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"location_profile",
-"name":"QWFGQ",
-"dimension_units":"millimeters",
-"depth":"58",
-"height":"31",
-"width":"19"}' \
+"name":"U652676DS",
+"dimension_units":"meters",
+"depth":"92",
+"height":"6",
+"width":"55"}' \
   "http://localhost:8089/location_profiles/1"
 
 ```
@@ -3392,7 +3344,6 @@ Update a Location Profile
 
 
 __Parameters__
-
 
   
     
@@ -3462,7 +3413,6 @@ Get a Location Profile by ID
 
 __Parameters__
 
-
   
     
   
@@ -3519,7 +3469,6 @@ Delete an Location Profile
 
 __Parameters__
 
-
   
     
   
@@ -3553,12 +3502,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"location",
 "external_ids":[],
 "functions":[],
-"building":"79 W 9th Street",
-"floor":"7",
-"room":"11",
-"area":"Back",
-"barcode":"11101101001001011010",
-"temporary":"exhibit"}' \
+"building":"129 E 9th Street",
+"floor":"8",
+"room":"19",
+"area":"Front",
+"barcode":"10011111101111110111",
+"temporary":"loan"}' \
   "http://localhost:8089/locations"
 
 ```
@@ -3574,7 +3523,6 @@ Create a Location
 
 
 __Parameters__
-
 
   
     
@@ -3624,7 +3572,6 @@ Get a list of locations
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -3667,12 +3614,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"location",
 "external_ids":[],
 "functions":[],
-"building":"79 W 9th Street",
-"floor":"7",
-"room":"11",
-"area":"Back",
-"barcode":"11101101001001011010",
-"temporary":"exhibit"}' \
+"building":"129 E 9th Street",
+"floor":"8",
+"room":"19",
+"area":"Front",
+"barcode":"10011111101111110111",
+"temporary":"loan"}' \
   "http://localhost:8089/locations/1"
 
 ```
@@ -3688,7 +3635,6 @@ Update a Location
 
 
 __Parameters__
-
 
   
     
@@ -3758,7 +3704,6 @@ Get a Location by ID
 
 __Parameters__
 
-
   
     
   
@@ -3814,7 +3759,6 @@ Delete a Location
 
 
 __Parameters__
-
 
   
     
@@ -3878,7 +3822,6 @@ Create a Batch of Locations
 
 __Parameters__
 
-
   
     
   
@@ -3939,7 +3882,6 @@ Update a Location
 
 __Parameters__
 
-
   
     
   
@@ -3984,7 +3926,6 @@ Log out the current session
 __Parameters__
 
 
-
 __Returns__
 
   	200 -- Session logged out
@@ -4023,7 +3964,6 @@ Carry out a merge request against Agent records
 
 
 __Parameters__
-
 
   
     
@@ -4089,7 +4029,6 @@ Carry out a detailed merge request against Agent records
 
 
 __Parameters__
-
 
   
     
@@ -4172,7 +4111,6 @@ Carry out a merge request against Container Profile records
 
 __Parameters__
 
-
   
     
   
@@ -4228,7 +4166,6 @@ Carry out a merge request against Digital_Object records
 
 
 __Parameters__
-
 
   
     
@@ -4296,7 +4233,6 @@ Carry out a merge request against Resource records
 
 __Parameters__
 
-
   
     
   
@@ -4356,7 +4292,6 @@ Carry out a merge request against Subject records
 
 
 __Parameters__
-
 
   
     
@@ -4435,7 +4370,6 @@ Carry out a merge request against Top Container records
 
 __Parameters__
 
-
   
     
   
@@ -4503,7 +4437,6 @@ Get a stream of notifications
 
 __Parameters__
 
-
   
     
   
@@ -4545,7 +4478,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/permissions?level=37821814E197"
+  "http://localhost:8089/permissions?level=IDQT548"
 
 ```
 
@@ -4560,7 +4493,6 @@ Get a list of Permissions
 
 
 __Parameters__
-
 
   
     
@@ -4605,7 +4537,6 @@ List all reports
 __Parameters__
 
 
-
 __Returns__
 
   	200 -- report list in json
@@ -4636,7 +4567,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/reports/static/*?splat=849Q733QL"
+  "http://localhost:8089/reports/static/*?splat=UCMG695"
 
 ```
 
@@ -4651,7 +4582,6 @@ Get a static asset for a report
 
 
 __Parameters__
-
 
   
     
@@ -4686,8 +4616,8 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"repository",
 "name":"Description: 11",
 "is_slug_auto":true,
-"repo_code":"ASPACE REPO 2 -- 7499",
-"org_code":"J239FRL",
+"repo_code":"ASPACE REPO 2 -- 347241",
+"org_code":"FEQ118F",
 "image_url":"http://www.example-12.com",
 "url":"http://www.example-13.com",
 "country":"US"}' \
@@ -4706,7 +4636,6 @@ Create a Repository
 
 
 __Parameters__
-
 
   
     
@@ -4767,7 +4696,6 @@ Get a list of Repositories
 
 __Parameters__
 
-
   
     
   
@@ -4810,8 +4738,8 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"repository",
 "name":"Description: 11",
 "is_slug_auto":true,
-"repo_code":"ASPACE REPO 2 -- 7499",
-"org_code":"J239FRL",
+"repo_code":"ASPACE REPO 2 -- 347241",
+"org_code":"FEQ118F",
 "image_url":"http://www.example-12.com",
 "url":"http://www.example-13.com",
 "country":"US"}' \
@@ -4830,7 +4758,6 @@ Update a repository
 
 
 __Parameters__
-
 
   
     
@@ -4900,7 +4827,6 @@ Get a Repository by ID
 
 __Parameters__
 
-
   
     
   
@@ -4959,7 +4885,6 @@ Delete a Repository
 
 __Parameters__
 
-
   
     
   
@@ -5003,7 +4928,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "external_ids":[],
 "is_slug_auto":true,
 "related_accessions":[],
-"accession_date":"1987-04-03",
+"accession_date":"1994-09-08",
 "classifications":[],
 "subjects":[],
 "linked_events":[],
@@ -5018,10 +4943,10 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "use_restrictions":false,
 "linked_agents":[],
 "instances":[],
-"id_0":"UPW431541",
-"id_1":"KKY154P",
-"id_2":"AS63861V",
-"id_3":"317QLUQ",
+"id_0":"971XT768S",
+"id_1":"UWGA171",
+"id_2":"UA210962X",
+"id_3":"E114QQ500",
 "title":"Accession Title: 1",
 "content_description":"Description: 2",
 "condition_description":"Description: 3"}' \
@@ -5040,7 +4965,6 @@ Create an Accession
 
 
 __Parameters__
-
 
   
     
@@ -5106,7 +5030,6 @@ Get a list of Accessions for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -5166,7 +5089,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "external_ids":[],
 "is_slug_auto":true,
 "related_accessions":[],
-"accession_date":"1987-04-03",
+"accession_date":"1994-09-08",
 "classifications":[],
 "subjects":[],
 "linked_events":[],
@@ -5181,10 +5104,10 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "use_restrictions":false,
 "linked_agents":[],
 "instances":[],
-"id_0":"UPW431541",
-"id_1":"KKY154P",
-"id_2":"AS63861V",
-"id_3":"317QLUQ",
+"id_0":"971XT768S",
+"id_1":"UWGA171",
+"id_2":"UA210962X",
+"id_3":"E114QQ500",
 "title":"Accession Title: 1",
 "content_description":"Description: 2",
 "condition_description":"Description: 3"}' \
@@ -5203,7 +5126,6 @@ Update an Accession
 
 
 __Parameters__
-
 
   
     
@@ -5289,7 +5211,6 @@ Get an Accession by ID
 
 __Parameters__
 
-
   
     
   
@@ -5361,7 +5282,6 @@ Delete an Accession
 
 
 __Parameters__
-
 
   
     
@@ -5439,7 +5359,6 @@ Suppress this record
 
 
 __Parameters__
-
 
   
     
@@ -5522,7 +5441,6 @@ Get Top Containers linked to an Accession
 
 __Parameters__
 
-
   
     
   
@@ -5596,7 +5514,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/accessions/1/transfer?target_repo=IPDBX"
+  "http://localhost:8089/repositories/2/accessions/1/transfer?target_repo=131WRSI"
 
 ```
 
@@ -5611,7 +5529,6 @@ Transfer this record to a different repository
 
 
 __Parameters__
-
 
   
     
@@ -5681,7 +5598,6 @@ Get metadata for an EAC-CPF export of a corporate entity
 
 __Parameters__
 
-
   
     
   
@@ -5742,7 +5658,6 @@ Get an EAC-CPF representation of a Corporate Entity
 
 
 __Parameters__
-
 
   
     
@@ -5805,7 +5720,6 @@ Get metadata for an EAC-CPF export of a family
 
 __Parameters__
 
-
   
     
   
@@ -5866,7 +5780,6 @@ Get an EAC-CPF representation of a Family
 
 
 __Parameters__
-
 
   
     
@@ -5929,7 +5842,6 @@ Get metadata for an EAC-CPF export of a person
 
 __Parameters__
 
-
   
     
   
@@ -5990,7 +5902,6 @@ Get an EAC-CPF representation of an Agent
 
 
 __Parameters__
-
 
   
     
@@ -6053,7 +5964,6 @@ Get metadata for an EAC-CPF export of a software
 
 __Parameters__
 
-
   
     
   
@@ -6114,7 +6024,6 @@ Get an EAC-CPF representation of a Software agent
 
 
 __Parameters__
-
 
   
     
@@ -6177,8 +6086,8 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "ancestors":[],
 "instances":[],
 "notes":[],
-"ref_id":"419735RN312",
-"level":"series",
+"ref_id":"H33180478L",
+"level":"subseries",
 "title":"Archival Object Title: 2",
 "resource":{ "ref":"/repositories/2/resources/1"}}' \
   "http://localhost:8089/repositories/2/archival_objects"
@@ -6196,7 +6105,6 @@ Create an Archival Object
 
 
 __Parameters__
-
 
   
     
@@ -6264,7 +6172,6 @@ Get a list of Archival Objects for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -6335,8 +6242,8 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "ancestors":[],
 "instances":[],
 "notes":[],
-"ref_id":"419735RN312",
-"level":"series",
+"ref_id":"H33180478L",
+"level":"subseries",
 "title":"Archival Object Title: 2",
 "resource":{ "ref":"/repositories/2/resources/1"}}' \
   "http://localhost:8089/repositories/2/archival_objects/1"
@@ -6354,7 +6261,6 @@ Update an Archival Object
 
 
 __Parameters__
-
 
   
     
@@ -6442,7 +6348,6 @@ Get an Archival Object by ID
 
 __Parameters__
 
-
   
     
   
@@ -6517,7 +6422,6 @@ Delete an Archival Object
 
 __Parameters__
 
-
   
     
   
@@ -6591,7 +6495,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/archival_objects/1/accept_children?children=RYRHE&position=1"
+  "http://localhost:8089/repositories/2/archival_objects/1/accept_children?children=475924IOS&position=1"
 
 ```
 
@@ -6606,7 +6510,6 @@ Move existing Archival Objects to become children of an Archival Object
 
 
 __Parameters__
-
 
   
     
@@ -6690,7 +6593,6 @@ Get the children of an Archival Object
 
 __Parameters__
 
-
   
     
   
@@ -6761,7 +6663,6 @@ Batch create several Archival Objects as children of an existing Archival Object
 
 
 __Parameters__
-
 
   
     
@@ -6866,7 +6767,6 @@ Set the parent/position of an Archival Object in a tree
 
 __Parameters__
 
-
   
     
   
@@ -6950,7 +6850,6 @@ Get the previous record in the tree for an Archival Object
 
 __Parameters__
 
-
   
     
   
@@ -7030,7 +6929,6 @@ Suppress this record
 
 __Parameters__
 
-
   
     
   
@@ -7101,7 +6999,6 @@ Update this repository's assessment attribute definitions
 
 __Parameters__
 
-
   
     
   
@@ -7160,7 +7057,6 @@ Get this repository's assessment attribute definitions
 
 __Parameters__
 
-
   
     
   
@@ -7216,7 +7112,6 @@ Create an Assessment
 
 
 __Parameters__
-
 
   
     
@@ -7282,7 +7177,6 @@ Get a list of Assessments for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -7354,7 +7248,6 @@ Update an Assessment
 
 
 __Parameters__
-
 
   
     
@@ -7440,7 +7333,6 @@ Get an Assessment by ID
 
 __Parameters__
 
-
   
     
   
@@ -7512,7 +7404,6 @@ Delete an Assessment
 
 
 __Parameters__
-
 
   
     
@@ -7588,7 +7479,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"body_stream"' \
-  "http://localhost:8089/repositories/2/batch_imports?migration=JQR459P&skip_results=true"
+  "http://localhost:8089/repositories/2/batch_imports?migration=YO285MW&skip_results=true"
 
 ```
 
@@ -7603,7 +7494,6 @@ Import a batch of records
 
 
 __Parameters__
-
 
   
     
@@ -7680,7 +7570,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "path_from_root":[],
 "linked_records":[],
 "is_slug_auto":true,
-"identifier":"EYFR464",
+"identifier":"IHT789Q",
 "title":"Classification Title: 4",
 "description":"Description: 5",
 "classification":{ "ref":"/repositories/2/classifications/1"}}' \
@@ -7699,7 +7589,6 @@ Create a Classification Term
 
 
 __Parameters__
-
 
   
     
@@ -7767,7 +7656,6 @@ Get a list of Classification Terms for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -7828,7 +7716,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "path_from_root":[],
 "linked_records":[],
 "is_slug_auto":true,
-"identifier":"EYFR464",
+"identifier":"IHT789Q",
 "title":"Classification Title: 4",
 "description":"Description: 5",
 "classification":{ "ref":"/repositories/2/classifications/1"}}' \
@@ -7847,7 +7735,6 @@ Update a Classification Term
 
 
 __Parameters__
-
 
   
     
@@ -7935,7 +7822,6 @@ Get a Classification Term by ID
 
 __Parameters__
 
-
   
     
   
@@ -8010,7 +7896,6 @@ Delete a Classification Term
 
 __Parameters__
 
-
   
     
   
@@ -8084,7 +7969,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/classification_terms/1/accept_children?children=615J456M360&position=1"
+  "http://localhost:8089/repositories/2/classification_terms/1/accept_children?children=KIPYM&position=1"
 
 ```
 
@@ -8099,7 +7984,6 @@ Move existing Classification Terms to become children of another Classification 
 
 
 __Parameters__
-
 
   
     
@@ -8182,7 +8066,6 @@ Get the children of a Classification Term
 
 
 __Parameters__
-
 
   
     
@@ -8275,7 +8158,6 @@ Set the parent/position of a Classification Term in a tree
 
 __Parameters__
 
-
   
     
   
@@ -8349,7 +8231,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "path_from_root":[],
 "linked_records":[],
 "is_slug_auto":true,
-"identifier":"T393BGI",
+"identifier":"YYW56679",
 "title":"Classification Title: 3",
 "description":"Description: 4"}' \
   "http://localhost:8089/repositories/2/classifications"
@@ -8367,7 +8249,6 @@ Create a Classification
 
 
 __Parameters__
-
 
   
     
@@ -8435,7 +8316,6 @@ Get a list of Classifications for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -8513,7 +8393,6 @@ Get a Classification
 
 __Parameters__
 
-
   
     
   
@@ -8581,7 +8460,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "path_from_root":[],
 "linked_records":[],
 "is_slug_auto":true,
-"identifier":"T393BGI",
+"identifier":"YYW56679",
 "title":"Classification Title: 3",
 "description":"Description: 4"}' \
   "http://localhost:8089/repositories/2/classifications/1"
@@ -8599,7 +8478,6 @@ Update a Classification
 
 
 __Parameters__
-
 
   
     
@@ -8675,7 +8553,6 @@ Delete a Classification
 
 __Parameters__
 
-
   
     
   
@@ -8749,7 +8626,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/classifications/1/accept_children?children=UOVBN&position=1"
+  "http://localhost:8089/repositories/2/classifications/1/accept_children?children=796TK708U&position=1"
 
 ```
 
@@ -8764,7 +8641,6 @@ Move existing Classification Terms to become children of a Classification
 
 
 __Parameters__
-
 
   
     
@@ -8847,6 +8723,12 @@ Get a Classification tree
 
 
 __Parameters__
+<aside class="warning">
+  This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
+  
+    <p>Call the */tree/{root,waypoint,node} endpoints to traverse record trees.  See backend/app/model/large_tree.rb for further information.</p>
+  
+</aside>
 
 
   
@@ -8921,7 +8803,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/classifications/1/tree/node?node_uri=J427CX383&published_only=true"
+  "http://localhost:8089/repositories/2/classifications/1/tree/node?node_uri=810EPWS&published_only=true"
 
 ```
 
@@ -8936,7 +8818,6 @@ Fetch tree information for an Classification Term record within a tree
 
 
 __Parameters__
-
 
   
     
@@ -9060,7 +8941,6 @@ Fetch tree path from the root record to Classification Terms
 
 __Parameters__
 
-
   
     
   
@@ -9158,7 +9038,6 @@ Fetch tree information for the top-level classification record
 
 
 __Parameters__
-
 
   
     
@@ -9264,7 +9143,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/classifications/1/tree/waypoint?offset=1&parent_node=446323D170881&published_only=true"
+  "http://localhost:8089/repositories/2/classifications/1/tree/waypoint?offset=1&parent_node=JHK839L&published_only=true"
 
 ```
 
@@ -9279,7 +9158,6 @@ Fetch the record slice for a given tree waypoint
 
 
 __Parameters__
-
 
   
     
@@ -9390,7 +9268,6 @@ Get a Collection Management Record by ID
 
 __Parameters__
 
-
   
     
   
@@ -9468,7 +9345,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/component_transfers?target_resource=805XSJ156&component=510YAVJ"
+  "http://localhost:8089/repositories/2/component_transfers?target_resource=648415E195K&component=PLNPR"
 
 ```
 
@@ -9483,7 +9360,6 @@ Transfer components from one resource to another
 
 
 __Parameters__
-
 
   
     
@@ -9551,7 +9427,6 @@ Get the Preferences records for the current repository and user.
 
 __Parameters__
 
-
   
     
   
@@ -9613,7 +9488,6 @@ Save defaults for a record type
 
 
 __Parameters__
-
 
   
     
@@ -9688,7 +9562,6 @@ Get default values for a record type
 
 __Parameters__
 
-
   
     
   
@@ -9750,11 +9623,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "file_versions":[],
 "is_slug_auto":true,
 "notes":[],
-"component_id":"837R964305D",
+"component_id":"TA364L252",
 "title":"Digital Object Component Title: 7",
 "digital_object":{ "ref":"/repositories/2/digital_objects/1"},
-"position":8,
-"has_unpublished_ancestor":true}' \
+"position":0,
+"has_unpublished_ancestor":false}' \
   "http://localhost:8089/repositories/2/digital_object_components"
 
 ```
@@ -9770,7 +9643,6 @@ Create an Digital Object Component
 
 
 __Parameters__
-
 
   
     
@@ -9838,7 +9710,6 @@ Get a list of Digital Object Components for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -9907,11 +9778,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "file_versions":[],
 "is_slug_auto":true,
 "notes":[],
-"component_id":"837R964305D",
+"component_id":"TA364L252",
 "title":"Digital Object Component Title: 7",
 "digital_object":{ "ref":"/repositories/2/digital_objects/1"},
-"position":8,
-"has_unpublished_ancestor":true}' \
+"position":0,
+"has_unpublished_ancestor":false}' \
   "http://localhost:8089/repositories/2/digital_object_components/1"
 
 ```
@@ -9927,7 +9798,6 @@ Update an Digital Object Component
 
 
 __Parameters__
-
 
   
     
@@ -10015,7 +9885,6 @@ Get an Digital Object Component by ID
 
 __Parameters__
 
-
   
     
   
@@ -10090,7 +9959,6 @@ Delete a Digital Object Component
 
 __Parameters__
 
-
   
     
   
@@ -10164,7 +10032,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/digital_object_components/1/accept_children?children=GMQW21&position=1"
+  "http://localhost:8089/repositories/2/digital_object_components/1/accept_children?children=MNQ308A&position=1"
 
 ```
 
@@ -10179,7 +10047,6 @@ Move existing Digital Object Components to become children of a Digital Object C
 
 
 __Parameters__
-
 
   
     
@@ -10271,7 +10138,6 @@ Batch create several Digital Object Components as children of an existing Digita
 
 __Parameters__
 
-
   
     
   
@@ -10346,7 +10212,6 @@ Get the children of an Digital Object Component
 
 
 __Parameters__
-
 
   
     
@@ -10438,7 +10303,6 @@ Set the parent/position of an Digital Object Component in a tree
 
 
 __Parameters__
-
 
   
     
@@ -10539,7 +10403,6 @@ Suppress this record
 
 __Parameters__
 
-
   
     
   
@@ -10599,75 +10462,34 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "linked_events":[],
 "extents":[{ "jsonmodel_type":"extent",
 "portion":"whole",
-"number":"41",
-"extent_type":"sheets",
-"dimensions":"LWCTG",
-"physical_details":"200U678VY"}],
+"number":"11",
+"extent_type":"leaves",
+"dimensions":"362O397QH",
+"physical_details":"K907TDK"}],
 "lang_materials":[{ "jsonmodel_type":"lang_material",
 "notes":[],
 "language_and_script":{ "jsonmodel_type":"language_and_script",
-"language":"abk",
-"script":"Beng"}}],
+"language":"zgh",
+"script":"Orya"}}],
 "dates":[{ "jsonmodel_type":"date",
 "date_type":"range",
 "label":"creation",
-"begin":"1972-07-15",
-"end":"1972-07-15",
+"begin":"1990-06-10",
+"end":"1990-06-10",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"EF391PA"},
-{ "jsonmodel_type":"date",
-"date_type":"single",
-"label":"creation",
-"begin":"1993-03-07",
-"end":"1993-03-07",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"E502W869P"},
-{ "jsonmodel_type":"date",
-"date_type":"inclusive",
-"label":"creation",
-"begin":"2018-11-30",
-"end":"2018-11-30",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"WKV646645"}],
+"expression":"807BWBR"}],
 "external_documents":[],
 "rights_statements":[],
 "linked_agents":[],
 "is_slug_auto":true,
-"file_versions":[{ "jsonmodel_type":"file_version",
-"is_representative":false,
-"file_uri":"O76569241T",
-"use_statement":"text-tei-translated",
-"xlink_actuate_attribute":"other",
-"xlink_show_attribute":"embed",
-"file_format_name":"pdf",
-"file_format_version":"D96L145820",
-"file_size_bytes":88,
-"checksum":"291F230915930",
-"checksum_method":"sha-384",
-"publish":true},
-{ "jsonmodel_type":"file_version",
-"is_representative":false,
-"file_uri":"500762SW680",
-"use_statement":"application",
-"xlink_actuate_attribute":"none",
-"xlink_show_attribute":"none",
-"file_format_name":"txt",
-"file_format_version":"GR545145725",
-"file_size_bytes":65,
-"checksum":"FI218863J",
-"checksum_method":"sha-384",
-"publish":true}],
+"file_versions":[],
 "restrictions":false,
 "notes":[],
 "linked_instances":[],
 "title":"Digital Object Title: 6",
-"digital_object_id":"672Q274VT"}' \
+"digital_object_id":"708SPIS"}' \
   "http://localhost:8089/repositories/2/digital_objects"
 
 ```
@@ -10683,7 +10505,6 @@ Create a Digital Object
 
 
 __Parameters__
-
 
   
     
@@ -10751,7 +10572,6 @@ Get a list of Digital Objects for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -10829,7 +10649,6 @@ Get a Digital Object
 
 __Parameters__
 
-
   
     
   
@@ -10898,75 +10717,34 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "linked_events":[],
 "extents":[{ "jsonmodel_type":"extent",
 "portion":"whole",
-"number":"41",
-"extent_type":"sheets",
-"dimensions":"LWCTG",
-"physical_details":"200U678VY"}],
+"number":"11",
+"extent_type":"leaves",
+"dimensions":"362O397QH",
+"physical_details":"K907TDK"}],
 "lang_materials":[{ "jsonmodel_type":"lang_material",
 "notes":[],
 "language_and_script":{ "jsonmodel_type":"language_and_script",
-"language":"abk",
-"script":"Beng"}}],
+"language":"zgh",
+"script":"Orya"}}],
 "dates":[{ "jsonmodel_type":"date",
 "date_type":"range",
 "label":"creation",
-"begin":"1972-07-15",
-"end":"1972-07-15",
+"begin":"1990-06-10",
+"end":"1990-06-10",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"EF391PA"},
-{ "jsonmodel_type":"date",
-"date_type":"single",
-"label":"creation",
-"begin":"1993-03-07",
-"end":"1993-03-07",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"E502W869P"},
-{ "jsonmodel_type":"date",
-"date_type":"inclusive",
-"label":"creation",
-"begin":"2018-11-30",
-"end":"2018-11-30",
-"certainty":"inferred",
-"era":"ce",
-"calendar":"gregorian",
-"expression":"WKV646645"}],
+"expression":"807BWBR"}],
 "external_documents":[],
 "rights_statements":[],
 "linked_agents":[],
 "is_slug_auto":true,
-"file_versions":[{ "jsonmodel_type":"file_version",
-"is_representative":false,
-"file_uri":"O76569241T",
-"use_statement":"text-tei-translated",
-"xlink_actuate_attribute":"other",
-"xlink_show_attribute":"embed",
-"file_format_name":"pdf",
-"file_format_version":"D96L145820",
-"file_size_bytes":88,
-"checksum":"291F230915930",
-"checksum_method":"sha-384",
-"publish":true},
-{ "jsonmodel_type":"file_version",
-"is_representative":false,
-"file_uri":"500762SW680",
-"use_statement":"application",
-"xlink_actuate_attribute":"none",
-"xlink_show_attribute":"none",
-"file_format_name":"txt",
-"file_format_version":"GR545145725",
-"file_size_bytes":65,
-"checksum":"FI218863J",
-"checksum_method":"sha-384",
-"publish":true}],
+"file_versions":[],
 "restrictions":false,
 "notes":[],
 "linked_instances":[],
 "title":"Digital Object Title: 6",
-"digital_object_id":"672Q274VT"}' \
+"digital_object_id":"708SPIS"}' \
   "http://localhost:8089/repositories/2/digital_objects/1"
 
 ```
@@ -10982,7 +10760,6 @@ Update a Digital Object
 
 
 __Parameters__
-
 
   
     
@@ -11058,7 +10835,6 @@ Delete a Digital Object
 
 __Parameters__
 
-
   
     
   
@@ -11132,7 +10908,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/digital_objects/1/accept_children?children=TNBNT&position=1"
+  "http://localhost:8089/repositories/2/digital_objects/1/accept_children?children=JTBRT&position=1"
 
 ```
 
@@ -11147,7 +10923,6 @@ Move existing Digital Object components to become children of a Digital Object
 
 
 __Parameters__
-
 
   
     
@@ -11239,7 +11014,6 @@ Batch create several Digital Object Components as children of an existing Digita
 
 __Parameters__
 
-
   
     
   
@@ -11315,7 +11089,6 @@ Publish a digital object and all its sub-records and components
 
 
 __Parameters__
-
 
   
     
@@ -11396,7 +11169,6 @@ Suppress this record
 
 __Parameters__
 
-
   
     
   
@@ -11465,7 +11237,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/digital_objects/1/transfer?target_repo=E999336MU"
+  "http://localhost:8089/repositories/2/digital_objects/1/transfer?target_repo=FO628KE"
 
 ```
 
@@ -11480,7 +11252,6 @@ Transfer this record to a different repository
 
 
 __Parameters__
-
 
   
     
@@ -11549,6 +11320,12 @@ Get a Digital Object tree
 
 
 __Parameters__
+<aside class="warning">
+  This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
+  
+    <p>Call the */tree/{root,waypoint,node} endpoints to traverse record trees.  See backend/app/model/large_tree.rb for further information.</p>
+  
+</aside>
 
 
   
@@ -11623,7 +11400,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/1/tree/node?node_uri=701NSL886&published_only=true"
+  "http://localhost:8089/repositories/2/digital_objects/1/tree/node?node_uri=QPW319Y&published_only=true"
 
 ```
 
@@ -11638,7 +11415,6 @@ Fetch tree information for an Digital Object Component record within a tree
 
 
 __Parameters__
-
 
   
     
@@ -11762,7 +11538,6 @@ Fetch tree paths from the root record to Digital Object Components
 
 __Parameters__
 
-
   
     
   
@@ -11860,7 +11635,6 @@ Fetch tree information for the top-level digital object record
 
 
 __Parameters__
-
 
   
     
@@ -11966,7 +11740,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/1/tree/waypoint?offset=1&parent_node=O3BKK&published_only=true"
+  "http://localhost:8089/repositories/2/digital_objects/1/tree/waypoint?offset=1&parent_node=515GOIB&published_only=true"
 
 ```
 
@@ -11981,7 +11755,6 @@ Fetch the record slice for a given tree waypoint
 
 
 __Parameters__
-
 
   
     
@@ -12079,7 +11852,6 @@ Get metadata for a Dublin Core export
 
 __Parameters__
 
-
   
     
   
@@ -12140,7 +11912,6 @@ Get a Dublin Core representation of a Digital Object
 
 
 __Parameters__
-
 
   
     
@@ -12203,7 +11974,6 @@ Get metadata for a METS export
 
 __Parameters__
 
-
   
     
   
@@ -12264,7 +12034,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/digital_objects/mets/1.xml?dmd=712P89326Q"
+  "http://localhost:8089/repositories/2/digital_objects/mets/1.xml?dmd=JIHO148"
 
 ```
 
@@ -12279,7 +12049,6 @@ Get a METS representation of a Digital Object
 
 
 __Parameters__
-
 
   
     
@@ -12352,7 +12121,6 @@ Get metadata for a MODS export
 
 __Parameters__
 
-
   
     
   
@@ -12414,7 +12182,6 @@ Get a MODS representation of a Digital Object
 
 __Parameters__
 
-
   
     
   
@@ -12465,19 +12232,19 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "external_ids":[],
 "external_documents":[],
 "linked_agents":[{ "ref":"/agents/people/2",
-"role":"validator"}],
+"role":"transmitter"}],
 "linked_records":[{ "ref":"/repositories/2/accessions/1",
 "role":"outcome"}],
 "date":{ "jsonmodel_type":"date",
-"date_type":"bulk",
+"date_type":"inclusive",
 "label":"creation",
-"begin":"2013-12-16",
-"end":"2013-12-16",
+"begin":"2010-01-16",
+"end":"2010-01-16",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"Y376B115U"},
-"event_type":"assessment"}' \
+"expression":"379ITRA"},
+"event_type":"normalization"}' \
   "http://localhost:8089/repositories/2/events"
 
 ```
@@ -12493,7 +12260,6 @@ Create an Event
 
 
 __Parameters__
-
 
   
     
@@ -12561,7 +12327,6 @@ Get a list of Events for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -12621,19 +12386,19 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "external_ids":[],
 "external_documents":[],
 "linked_agents":[{ "ref":"/agents/people/2",
-"role":"validator"}],
+"role":"transmitter"}],
 "linked_records":[{ "ref":"/repositories/2/accessions/1",
 "role":"outcome"}],
 "date":{ "jsonmodel_type":"date",
-"date_type":"bulk",
+"date_type":"inclusive",
 "label":"creation",
-"begin":"2013-12-16",
-"end":"2013-12-16",
+"begin":"2010-01-16",
+"end":"2010-01-16",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"Y376B115U"},
-"event_type":"assessment"}' \
+"expression":"379ITRA"},
+"event_type":"normalization"}' \
   "http://localhost:8089/repositories/2/events/1"
 
 ```
@@ -12649,7 +12414,6 @@ Update an Event
 
 
 __Parameters__
-
 
   
     
@@ -12735,7 +12499,6 @@ Get an Event by ID
 
 __Parameters__
 
-
   
     
   
@@ -12809,7 +12572,6 @@ Delete an event record
 
 
 __Parameters__
-
 
   
     
@@ -12887,7 +12649,6 @@ Suppress this record from non-managers
 
 
 __Parameters__
-
 
   
     
@@ -12972,7 +12733,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/find_by_id/archival_objects?ref_id=46899IIA&component_id=PHNR997&resolve[]=[record_types, to_resolve]"
+  "http://localhost:8089/repositories/2/find_by_id/archival_objects?ref_id=280D10150933&component_id=JNV767454&resolve[]=[record_types, to_resolve]"
 
 ```
 
@@ -12987,7 +12748,6 @@ Find Archival Objects by ref_id or component_id
 
 
 __Parameters__
-
 
   
     
@@ -13076,7 +12836,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/find_by_id/digital_object_components?component_id=SD347HO&resolve[]=[record_types, to_resolve]"
+  "http://localhost:8089/repositories/2/find_by_id/digital_object_components?component_id=QKK833Y&resolve[]=[record_types, to_resolve]"
 
 ```
 
@@ -13091,7 +12851,6 @@ Find Digital Object Components by component_id
 
 
 __Parameters__
-
 
   
     
@@ -13170,7 +12929,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/find_by_id/digital_objects?digital_object_id=418ETJ582&resolve[]=[record_types, to_resolve]"
+  "http://localhost:8089/repositories/2/find_by_id/digital_objects?digital_object_id=607G749HV&resolve[]=[record_types, to_resolve]"
 
 ```
 
@@ -13185,7 +12944,6 @@ Find Digital Objects by digital_object_id
 
 
 __Parameters__
-
 
   
     
@@ -13264,7 +13022,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/find_by_id/resources?identifier=699X347BH&resolve[]=[record_types, to_resolve]"
+  "http://localhost:8089/repositories/2/find_by_id/resources?identifier=P921114B233&resolve[]=[record_types, to_resolve]"
 
 ```
 
@@ -13279,7 +13037,6 @@ Find Resources by their identifiers
 
 
 __Parameters__
-
 
   
     
@@ -13344,7 +13101,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "description":"Description: 10",
 "member_usernames":[],
 "grants_permissions":[],
-"group_code":"707JPA342"}' \
+"group_code":"KSF223O"}' \
   "http://localhost:8089/repositories/2/groups"
 
 ```
@@ -13360,7 +13117,6 @@ Create a group within a repository
 
 
 __Parameters__
-
 
   
     
@@ -13423,7 +13179,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/groups?group_code=KCD167E"
+  "http://localhost:8089/repositories/2/groups?group_code=JEBPB"
 
 ```
 
@@ -13438,7 +13194,6 @@ Get a list of groups for a repository
 
 
 __Parameters__
-
 
   
     
@@ -13514,7 +13269,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "description":"Description: 10",
 "member_usernames":[],
 "grants_permissions":[],
-"group_code":"707JPA342"}' \
+"group_code":"KSF223O"}' \
   "http://localhost:8089/repositories/2/groups/1?with_members=true"
 
 ```
@@ -13530,7 +13285,6 @@ Update a group
 
 
 __Parameters__
-
 
   
     
@@ -13632,7 +13386,6 @@ Get a group by ID
 
 __Parameters__
 
-
   
     
   
@@ -13707,7 +13460,6 @@ Delete a group by ID
 
 __Parameters__
 
-
   
     
   
@@ -13759,11 +13511,11 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"job",
 "status":"queued",
 "job":{ "jsonmodel_type":"import_job",
-"filenames":["O658R639Q",
-"FBYVE",
-"XT781NI",
-"32969W824K"],
-"import_type":"marcxml"}}' \
+"filenames":["QJEOU",
+"PUDYO",
+"GD44820703",
+"UK255111B"],
+"import_type":"eac_xml"}}' \
   "http://localhost:8089/repositories/2/jobs"
 
 ```
@@ -13779,7 +13531,6 @@ Create a new job
 
 
 __Parameters__
-
 
   
     
@@ -13845,7 +13596,6 @@ Get a list of Jobs for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -13910,7 +13660,6 @@ Delete a Job
 
 
 __Parameters__
-
 
   
     
@@ -13986,7 +13735,6 @@ Get a Job by ID
 
 __Parameters__
 
-
   
     
   
@@ -14058,7 +13806,6 @@ Cancel a Job
 
 
 __Parameters__
-
 
   
     
@@ -14136,7 +13883,6 @@ Get a Job's log by ID
 
 __Parameters__
 
-
   
     
   
@@ -14208,7 +13954,6 @@ Get a list of Job's output files by ID
 
 __Parameters__
 
-
   
     
   
@@ -14275,7 +14020,6 @@ Get a Job's output file by ID
 
 
 __Parameters__
-
 
   
     
@@ -14351,7 +14095,6 @@ Get a Job's list of created URIs
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -14430,7 +14173,6 @@ Get a list of all active Jobs for a Repository
 
 __Parameters__
 
-
   
     
   
@@ -14501,7 +14243,6 @@ Get a list of all archived Jobs for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -14570,7 +14311,6 @@ List all supported import job types
 
 __Parameters__
 
-
   
     
   
@@ -14631,7 +14371,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/jobs_with_files?job={"jsonmodel_type"=>"job", "status"=>"queued", "job"=>{"jsonmodel_type"=>"import_job", "filenames"=>["O658R639Q", "FBYVE", "XT781NI", "32969W824K"], "import_type"=>"marcxml"}}&files=UploadFile"
+  "http://localhost:8089/repositories/2/jobs_with_files?job={"jsonmodel_type"=>"job", "status"=>"queued", "job"=>{"jsonmodel_type"=>"import_job", "filenames"=>["QJEOU", "PUDYO", "GD44820703", "UK255111B"], "import_type"=>"eac_xml"}}&files=UploadFile"
 
 ```
 
@@ -14646,7 +14386,6 @@ Create a new job and post input files
 
 
 __Parameters__
-
 
   
     
@@ -14723,7 +14462,6 @@ Create a Preferences record
 
 __Parameters__
 
-
   
     
   
@@ -14799,7 +14537,6 @@ Get a list of Preferences for a Repository and optionally a user
 
 __Parameters__
 
-
   
     
   
@@ -14863,7 +14600,6 @@ Get a Preferences record
 
 
 __Parameters__
-
 
   
     
@@ -14939,7 +14675,6 @@ Update a Preferences record
 
 __Parameters__
 
-
   
     
   
@@ -15014,7 +14749,6 @@ Delete a Preferences record
 
 __Parameters__
 
-
   
     
   
@@ -15069,7 +14803,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/preferences/defaults?username=532NPHL"
+  "http://localhost:8089/repositories/2/preferences/defaults?username=UJ201XL"
 
 ```
 
@@ -15084,7 +14818,6 @@ Get the default set of Preferences for a Repository and optionally a user
 
 
 __Parameters__
-
 
   
     
@@ -15152,7 +14885,6 @@ Create an RDE template
 
 __Parameters__
 
-
   
     
   
@@ -15213,7 +14945,6 @@ Get a list of RDE Templates
 
 __Parameters__
 
-
   
     
   
@@ -15267,7 +14998,6 @@ Get an RDE template record
 
 
 __Parameters__
-
 
   
     
@@ -15330,7 +15060,6 @@ Delete an RDE Template
 
 
 __Parameters__
-
 
   
     
@@ -15400,7 +15129,6 @@ Require fields for a record type
 
 
 __Parameters__
-
 
   
     
@@ -15475,7 +15203,6 @@ Get required fields for a record type
 
 __Parameters__
 
-
   
     
   
@@ -15538,7 +15265,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resource_descriptions/1.:fmt/metadata?fmt=GJUCL"
+  "http://localhost:8089/repositories/2/resource_descriptions/1.:fmt/metadata?fmt=M814NCL"
 
 ```
 
@@ -15553,7 +15280,6 @@ Get export metadata for a Resource Description
 
 
 __Parameters__
-
 
   
     
@@ -15688,7 +15414,6 @@ Get an EAD representation of a Resource
 
 
 __Parameters__
-
 
   
     
@@ -15864,7 +15589,6 @@ Get an EAD representation of a Resource
 
 __Parameters__
 
-
   
     
   
@@ -15976,7 +15700,6 @@ Get export metadata for Resource labels
 
 __Parameters__
 
-
   
     
   
@@ -16038,7 +15761,6 @@ Get a tsv list of printable labels for a Resource
 
 __Parameters__
 
-
   
     
   
@@ -16091,63 +15813,63 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "linked_events":[],
 "extents":[{ "jsonmodel_type":"extent",
 "portion":"whole",
-"number":"72",
-"extent_type":"cubic_feet",
-"dimensions":"D11722670830",
-"physical_details":"X551582X164"}],
+"number":"66",
+"extent_type":"megabytes",
+"dimensions":"THTW614",
+"physical_details":"B248G760664"}],
 "lang_materials":[{ "jsonmodel_type":"lang_material",
 "notes":[],
 "language_and_script":{ "jsonmodel_type":"language_and_script",
-"language":"enm",
-"script":"Goth"}}],
+"language":"afh",
+"script":"Mroo"}}],
 "dates":[{ "jsonmodel_type":"date",
-"date_type":"inclusive",
+"date_type":"range",
 "label":"creation",
-"begin":"1980-11-06",
-"end":"1980-11-06",
+"begin":"1994-06-12",
+"end":"1994-06-12",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"GVVY71"},
+"expression":"271486WYN"},
 { "jsonmodel_type":"date",
 "date_type":"single",
 "label":"creation",
-"begin":"1983-12-11",
+"begin":"1972-08-19",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"V688V469O"}],
+"expression":"543V555P672"}],
 "external_documents":[],
 "rights_statements":[],
 "linked_agents":[],
 "is_slug_auto":true,
 "restrictions":false,
 "revision_statements":[{ "jsonmodel_type":"revision_statement",
-"date":"611E20877915",
-"description":"AN233Q298"}],
+"date":"803Q181WX",
+"description":"EWLAO"}],
 "instances":[{ "jsonmodel_type":"instance",
 "is_representative":false,
-"instance_type":"mixed_materials",
+"instance_type":"microform",
 "sub_container":{ "jsonmodel_type":"sub_container",
 "top_container":{ "ref":"/repositories/2/top_containers/5"},
-"type_2":"case",
-"indicator_2":"BL54757804",
-"type_3":"case",
-"indicator_3":"495XWAF"}}],
+"type_2":"reel",
+"indicator_2":"HHR867E",
+"type_3":"box",
+"indicator_3":"AIX337U"}}],
 "deaccessions":[],
 "related_accessions":[],
 "classifications":[],
 "notes":[],
 "title":"Resource Title: <emph render='italic'>4</emph>",
-"id_0":"691D304VP",
+"id_0":"PW378SG",
 "level":"collection",
-"ead_id":"901661300785R",
-"finding_aid_date":"N682MT536",
-"finding_aid_series_statement":"U136B739U",
-"finding_aid_language":"asm",
-"finding_aid_script":"Egyh",
-"finding_aid_note":"H140347SA",
-"ead_location":"Q41786246M"}' \
+"finding_aid_date":"HCJ986688",
+"finding_aid_series_statement":"U956118499L",
+"finding_aid_language":"dzo",
+"finding_aid_script":"Lisu",
+"finding_aid_language_note":"966P291704H",
+"finding_aid_note":"975457MSK",
+"ead_location":"WUDHC"}' \
   "http://localhost:8089/repositories/2/resources"
 
 ```
@@ -16163,7 +15885,6 @@ Create a Resource
 
 
 __Parameters__
-
 
   
     
@@ -16231,7 +15952,6 @@ Get a list of Resources for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -16309,7 +16029,6 @@ Get a Resource
 
 __Parameters__
 
-
   
     
   
@@ -16378,63 +16097,63 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "linked_events":[],
 "extents":[{ "jsonmodel_type":"extent",
 "portion":"whole",
-"number":"72",
-"extent_type":"cubic_feet",
-"dimensions":"D11722670830",
-"physical_details":"X551582X164"}],
+"number":"66",
+"extent_type":"megabytes",
+"dimensions":"THTW614",
+"physical_details":"B248G760664"}],
 "lang_materials":[{ "jsonmodel_type":"lang_material",
 "notes":[],
 "language_and_script":{ "jsonmodel_type":"language_and_script",
-"language":"enm",
-"script":"Goth"}}],
+"language":"afh",
+"script":"Mroo"}}],
 "dates":[{ "jsonmodel_type":"date",
-"date_type":"inclusive",
+"date_type":"range",
 "label":"creation",
-"begin":"1980-11-06",
-"end":"1980-11-06",
+"begin":"1994-06-12",
+"end":"1994-06-12",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"GVVY71"},
+"expression":"271486WYN"},
 { "jsonmodel_type":"date",
 "date_type":"single",
 "label":"creation",
-"begin":"1983-12-11",
+"begin":"1972-08-19",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"V688V469O"}],
+"expression":"543V555P672"}],
 "external_documents":[],
 "rights_statements":[],
 "linked_agents":[],
 "is_slug_auto":true,
 "restrictions":false,
 "revision_statements":[{ "jsonmodel_type":"revision_statement",
-"date":"611E20877915",
-"description":"AN233Q298"}],
+"date":"803Q181WX",
+"description":"EWLAO"}],
 "instances":[{ "jsonmodel_type":"instance",
 "is_representative":false,
-"instance_type":"mixed_materials",
+"instance_type":"microform",
 "sub_container":{ "jsonmodel_type":"sub_container",
 "top_container":{ "ref":"/repositories/2/top_containers/5"},
-"type_2":"case",
-"indicator_2":"BL54757804",
-"type_3":"case",
-"indicator_3":"495XWAF"}}],
+"type_2":"reel",
+"indicator_2":"HHR867E",
+"type_3":"box",
+"indicator_3":"AIX337U"}}],
 "deaccessions":[],
 "related_accessions":[],
 "classifications":[],
 "notes":[],
 "title":"Resource Title: <emph render='italic'>4</emph>",
-"id_0":"691D304VP",
+"id_0":"PW378SG",
 "level":"collection",
-"ead_id":"901661300785R",
-"finding_aid_date":"N682MT536",
-"finding_aid_series_statement":"U136B739U",
-"finding_aid_language":"asm",
-"finding_aid_script":"Egyh",
-"finding_aid_note":"H140347SA",
-"ead_location":"Q41786246M"}' \
+"finding_aid_date":"HCJ986688",
+"finding_aid_series_statement":"U956118499L",
+"finding_aid_language":"dzo",
+"finding_aid_script":"Lisu",
+"finding_aid_language_note":"966P291704H",
+"finding_aid_note":"975457MSK",
+"ead_location":"WUDHC"}' \
   "http://localhost:8089/repositories/2/resources/1"
 
 ```
@@ -16450,7 +16169,6 @@ Update a Resource
 
 
 __Parameters__
-
 
   
     
@@ -16526,7 +16244,6 @@ Delete a Resource
 
 __Parameters__
 
-
   
     
   
@@ -16600,7 +16317,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/resources/1/accept_children?children=665PWXV&position=1"
+  "http://localhost:8089/repositories/2/resources/1/accept_children?children=V39ILE&position=1"
 
 ```
 
@@ -16615,7 +16332,6 @@ Move existing Archival Objects to become children of a Resource
 
 
 __Parameters__
-
 
   
     
@@ -16707,7 +16423,6 @@ Batch create several Archival Objects as children of an existing Resource
 
 __Parameters__
 
-
   
     
   
@@ -16783,7 +16498,6 @@ Get a list of record types in the graph of a resource
 
 __Parameters__
 
-
   
     
   
@@ -16844,7 +16558,6 @@ Get the list of URIs of this published resource and all published archival objec
 
 
 __Parameters__
-
 
   
     
@@ -16907,7 +16620,6 @@ Publish a resource and all its sub-records and components
 
 
 __Parameters__
-
 
   
     
@@ -16987,7 +16699,6 @@ Suppress this record
 
 
 __Parameters__
-
 
   
     
@@ -17070,7 +16781,6 @@ Get Top Containers linked to a published resource and published archival ojbects
 
 __Parameters__
 
-
   
     
   
@@ -17144,7 +16854,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/resources/1/transfer?target_repo=Q539841IT"
+  "http://localhost:8089/repositories/2/resources/1/transfer?target_repo=D613I877X"
 
 ```
 
@@ -17159,7 +16869,6 @@ Transfer this record to a different repository
 
 
 __Parameters__
-
 
   
     
@@ -17228,7 +16937,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/1/tree?limit_to=540UX509D"
+  "http://localhost:8089/repositories/2/resources/1/tree?limit_to=YILMV"
 
 ```
 
@@ -17243,6 +16952,12 @@ Get a Resource tree
 
 
 __Parameters__
+<aside class="warning">
+  This endpoint is deprecated, and may be removed from a future release of ArchivesSpace.
+  
+    <p>Call the */tree/{root,waypoint,node} endpoints to traverse record trees.  See backend/app/model/large_tree.rb for further information.</p>
+  
+</aside>
 
 
   
@@ -17327,7 +17042,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/1/tree/node?node_uri=MENF526&published_only=true"
+  "http://localhost:8089/repositories/2/resources/1/tree/node?node_uri=CL388FV&published_only=true"
 
 ```
 
@@ -17342,7 +17057,6 @@ Fetch tree information for an Archival Object record within a tree
 
 
 __Parameters__
-
 
   
     
@@ -17466,7 +17180,6 @@ Fetch tree paths from the root record to Archival Objects
 
 __Parameters__
 
-
   
     
   
@@ -17564,7 +17277,6 @@ Fetch tree information for the top-level resource record
 
 
 __Parameters__
-
 
   
     
@@ -17670,7 +17382,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/resources/1/tree/waypoint?offset=1&parent_node=H819140OH&published_only=true"
+  "http://localhost:8089/repositories/2/resources/1/tree/waypoint?offset=1&parent_node=EIFR285&published_only=true"
 
 ```
 
@@ -17685,7 +17397,6 @@ Fetch the record slice for a given tree waypoint
 
 
 __Parameters__
-
 
   
     
@@ -17798,7 +17509,6 @@ Get metadata for a MARC21 export
 
 __Parameters__
 
-
   
     
   
@@ -17884,7 +17594,6 @@ Get a MARC 21 representation of a Resource
 
 
 __Parameters__
-
 
   
     
@@ -18083,52 +17792,52 @@ __Returns__
 ```shell
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"793858FW814"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  -d '"N143UPG"' \
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"H678927R950"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  -d '"Y560514QD"' \
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"K527W340B"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  -d '"E614JMF"' \
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"UADB780"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  -d '"WYWDE"' \
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"1"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"FIFC179"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  -d '"PJQJO"' \
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"BooleanParam"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"L589CY490"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  -d '"426851VEM"' \
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"BAS957700"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  -d '"F965279N267"' \
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"76519Q85N"' \
-  "http://localhost:8089/repositories/2/search?q=793858FW814&aq=["Example Missing"]&type=H678927R950&sort=K527W340B&facet=UADB780&facet_mincount=1&filter=["Example Missing"]&exclude=FIFC179&hl=true&root_record=L589CY490&dt=BAS957700&fields=76519Q85N"
+  -d '"455GP621J"' \
+  "http://localhost:8089/repositories/2/search?q=N143UPG&aq=["Example Missing"]&type=Y560514QD&sort=E614JMF&facet=WYWDE&facet_mincount=1&filter=["Example Missing"]&exclude=PJQJO&hl=true&root_record=426851VEM&dt=F965279N267&fields=455GP621J"
   
 
 ```
@@ -18144,7 +17853,6 @@ Search this repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page is required
 <ul>
@@ -18317,12 +18025,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "container_locations":[],
 "series":[],
 "collection":[],
-"indicator":"JD574GW",
+"indicator":"SXYM707",
 "type":"box",
-"barcode":"7a440b4847e520a17376e860310acb1f",
-"ils_holding_id":"ETXG260",
-"ils_item_id":"BBVXW",
-"exported_to_ils":"2020-06-25T15:10:57-07:00"}' \
+"barcode":"3bf63bd31d98e358945988f051d06665",
+"ils_holding_id":"JG851140Q",
+"ils_item_id":"SSV653G",
+"exported_to_ils":"2020-07-16T09:59:26-04:00"}' \
   "http://localhost:8089/repositories/2/top_containers"
 
 ```
@@ -18338,7 +18046,6 @@ Create a top container
 
 
 __Parameters__
-
 
   
     
@@ -18404,7 +18111,6 @@ Get a list of TopContainers for a Repository
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -18465,12 +18171,12 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "container_locations":[],
 "series":[],
 "collection":[],
-"indicator":"JD574GW",
+"indicator":"SXYM707",
 "type":"box",
-"barcode":"7a440b4847e520a17376e860310acb1f",
-"ils_holding_id":"ETXG260",
-"ils_item_id":"BBVXW",
-"exported_to_ils":"2020-06-25T15:10:57-07:00"}' \
+"barcode":"3bf63bd31d98e358945988f051d06665",
+"ils_holding_id":"JG851140Q",
+"ils_item_id":"SSV653G",
+"exported_to_ils":"2020-07-16T09:59:26-04:00"}' \
   "http://localhost:8089/repositories/2/top_containers/1"
 
 ```
@@ -18486,7 +18192,6 @@ Update a top container
 
 
 __Parameters__
-
 
   
     
@@ -18572,7 +18277,6 @@ Get a top container by ID
 
 __Parameters__
 
-
   
     
   
@@ -18645,7 +18349,6 @@ Delete a top container
 
 __Parameters__
 
-
   
     
   
@@ -18713,7 +18416,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/top_containers/batch/container_profile?ids=1&container_profile_uri=482934J748F"
+  "http://localhost:8089/repositories/2/top_containers/batch/container_profile?ids=1&container_profile_uri=C838390QC"
 
 ```
 
@@ -18728,7 +18431,6 @@ Update container profile for a batch of top containers
 
 
 __Parameters__
-
 
   
     
@@ -18804,7 +18506,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/top_containers/batch/ils_holding_id?ids=1&ils_holding_id=381BRE268"
+  "http://localhost:8089/repositories/2/top_containers/batch/ils_holding_id?ids=1&ils_holding_id=709DJ50X"
 
 ```
 
@@ -18819,7 +18521,6 @@ Update ils_holding_id for a batch of top containers
 
 
 __Parameters__
-
 
   
     
@@ -18922,7 +18623,6 @@ with the location referenced by `location_uri`.
 
 __Parameters__
 
-
   
     
   
@@ -18976,7 +18676,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"174TF924O"' \
+  -d '"KX402L155"' \
   "http://localhost:8089/repositories/2/top_containers/bulk/barcodes"
 
 ```
@@ -18992,7 +18692,6 @@ Bulk update barcodes
 
 
 __Parameters__
-
 
   
     
@@ -19043,7 +18742,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"WU808327T"' \
+  -d '"814PPGR"' \
   "http://localhost:8089/repositories/2/top_containers/bulk/locations"
 
 ```
@@ -19059,7 +18758,6 @@ Bulk update locations
 
 
 __Parameters__
-
 
   
     
@@ -19250,7 +18948,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/repositories/2/top_containers/search?q=AYD273K&aq=["Example Missing"]&type=NBY633561&sort=368XYPV&facet=TJPTY&facet_mincount=1&filter=["Example Missing"]&exclude=552508HC695&hl=true&root_record=BUYFS&dt=PIJBM&fields=Q843282897F"
+  "http://localhost:8089/repositories/2/top_containers/search?q=12446931CK&aq=["Example Missing"]&type=824935544669V&sort=FJG604G&facet=UDI287V&facet_mincount=1&filter=["Example Missing"]&exclude=JWBAS&hl=true&root_record=24676UH873&dt=SDHW210&fields=MO264988O"
 
 ```
 
@@ -19265,7 +18963,6 @@ Search for top containers
 
 
 __Parameters__
-
 
   
     
@@ -19435,7 +19132,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/repositories/2/transfer?target_repo=26GE291W"
+  "http://localhost:8089/repositories/2/transfer?target_repo=AFAW366"
 
 ```
 
@@ -19450,7 +19147,6 @@ Transfer this record to a different repository
 
 
 __Parameters__
-
 
   
     
@@ -19513,7 +19209,6 @@ Get a user's details including their groups for the current repository
 
 __Parameters__
 
-
   
     
   
@@ -19558,38 +19253,36 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "repository":{ "jsonmodel_type":"repository",
 "name":"Description: 12",
 "is_slug_auto":true,
-"repo_code":"ASPACE REPO 3 -- 493480",
-"org_code":"PB481NO",
+"repo_code":"ASPACE REPO 3 -- 310374",
+"org_code":"PQM262875",
 "image_url":"http://www.example-14.com",
 "url":"http://www.example-15.com",
 "country":"US"},
 "agent_representation":{ "jsonmodel_type":"agent_corporate_entity",
 "agent_contacts":[{ "jsonmodel_type":"agent_contact",
 "telephones":[{ "jsonmodel_type":"telephone",
-"number_type":"home",
-"number":"36502 511 850 876 13237",
-"ext":"XC783D491"}],
+"number_type":"cell",
+"number":"4064 731 03541 26023 3288"}],
 "name":"Name Number 15",
-"city":"RJ912NG",
-"region":"OTOUP",
-"post_code":"N48470KL",
-"fax":"X460G525G",
-"email":"RUN56370",
-"email_signature":"FOE34D"}],
+"address_1":"75112267TY",
+"address_3":"94862364C11",
+"region":"R785O612341",
+"fax":"S935AWW",
+"email":"691971Y141137"}],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
 "dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"bulk",
+"date_type":"single",
 "label":"existence",
-"begin":"2008-09-15",
-"end":"2008-09-15",
+"begin":"1980-11-27",
+"end":"1980-11-27",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"438386XJ478"}],
+"expression":"HJMQ443"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_corporate_entity",
 "use_dates":[],
@@ -19598,14 +19291,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "sort_name_auto_generate":true,
 "rules":"aacr",
 "primary_name":"Name Number 14",
-"subordinate_name_1":"MWG25244",
-"subordinate_name_2":"YAHVP",
-"number":"HJKM126",
-"sort_name":"SORT c - 11",
-"dates":"916ESMH",
-"qualifier":"440L438353890",
+"subordinate_name_1":"636890K750O",
+"subordinate_name_2":"38863J870492",
+"number":"SD50NA",
+"sort_name":"SORT v - 11",
+"dates":"JXJFT",
+"qualifier":"BLA323P",
 "authority_id":"http://www.example-16.com",
-"source":"naf"}],
+"source":"local"}],
 "related_agents":[],
 "agent_type":"agent_corporate_entity"}}' \
   "http://localhost:8089/repositories/with_agent"
@@ -19623,7 +19316,6 @@ Create a Repository with an agent representation
 
 
 __Parameters__
-
 
   
     
@@ -19677,7 +19369,6 @@ Get a Repository by ID, including its agent representation
 
 __Parameters__
 
-
   
     
   
@@ -19720,38 +19411,36 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "repository":{ "jsonmodel_type":"repository",
 "name":"Description: 12",
 "is_slug_auto":true,
-"repo_code":"ASPACE REPO 3 -- 493480",
-"org_code":"PB481NO",
+"repo_code":"ASPACE REPO 3 -- 310374",
+"org_code":"PQM262875",
 "image_url":"http://www.example-14.com",
 "url":"http://www.example-15.com",
 "country":"US"},
 "agent_representation":{ "jsonmodel_type":"agent_corporate_entity",
 "agent_contacts":[{ "jsonmodel_type":"agent_contact",
 "telephones":[{ "jsonmodel_type":"telephone",
-"number_type":"home",
-"number":"36502 511 850 876 13237",
-"ext":"XC783D491"}],
+"number_type":"cell",
+"number":"4064 731 03541 26023 3288"}],
 "name":"Name Number 15",
-"city":"RJ912NG",
-"region":"OTOUP",
-"post_code":"N48470KL",
-"fax":"X460G525G",
-"email":"RUN56370",
-"email_signature":"FOE34D"}],
+"address_1":"75112267TY",
+"address_3":"94862364C11",
+"region":"R785O612341",
+"fax":"S935AWW",
+"email":"691971Y141137"}],
 "linked_agent_roles":[],
 "external_documents":[],
 "notes":[],
 "used_within_repositories":[],
 "used_within_published_repositories":[],
 "dates_of_existence":[{ "jsonmodel_type":"date",
-"date_type":"bulk",
+"date_type":"single",
 "label":"existence",
-"begin":"2008-09-15",
-"end":"2008-09-15",
+"begin":"1980-11-27",
+"end":"1980-11-27",
 "certainty":"inferred",
 "era":"ce",
 "calendar":"gregorian",
-"expression":"438386XJ478"}],
+"expression":"HJMQ443"}],
 "is_slug_auto":true,
 "names":[{ "jsonmodel_type":"name_corporate_entity",
 "use_dates":[],
@@ -19760,14 +19449,14 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "sort_name_auto_generate":true,
 "rules":"aacr",
 "primary_name":"Name Number 14",
-"subordinate_name_1":"MWG25244",
-"subordinate_name_2":"YAHVP",
-"number":"HJKM126",
-"sort_name":"SORT c - 11",
-"dates":"916ESMH",
-"qualifier":"440L438353890",
+"subordinate_name_1":"636890K750O",
+"subordinate_name_2":"38863J870492",
+"number":"SD50NA",
+"sort_name":"SORT v - 11",
+"dates":"JXJFT",
+"qualifier":"BLA323P",
 "authority_id":"http://www.example-16.com",
-"source":"naf"}],
+"source":"local"}],
 "related_agents":[],
 "agent_type":"agent_corporate_entity"}}' \
   "http://localhost:8089/repositories/with_agent/1"
@@ -19785,7 +19474,6 @@ Update a repository with an agent representation
 
 
 __Parameters__
-
 
   
     
@@ -19837,7 +19525,6 @@ Get all ArchivesSpace schemas
 __Parameters__
 
 
-
 __Returns__
 
   	200 -- ArchivesSpace (schemas)
@@ -19874,7 +19561,6 @@ Get an ArchivesSpace schema
 
 
 __Parameters__
-
 
   
     
@@ -20049,52 +19735,52 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"CS707938U"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  -d '"BMLDE"' \
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"SLO22O"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  -d '"EWH353C"' \
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"541IF768190"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  -d '"519SY429548"' \
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"671SHEG"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  -d '"NI260MI"' \
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"1"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"SVLHB"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  -d '"291UK919T"' \
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"BooleanParam"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"LTIB6"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  -d '"558138581241S"' \
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"BK418U736"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  -d '"195DT408J"' \
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"684142I539L"' \
-  "http://localhost:8089/search?q=CS707938U&aq=["Example Missing"]&type=SLO22O&sort=541IF768190&facet=671SHEG&facet_mincount=1&filter=["Example Missing"]&exclude=SVLHB&hl=true&root_record=LTIB6&dt=BK418U736&fields=684142I539L"
+  -d '"GYAC71"' \
+  "http://localhost:8089/search?q=BMLDE&aq=["Example Missing"]&type=EWH353C&sort=519SY429548&facet=NI260MI&facet_mincount=1&filter=["Example Missing"]&exclude=291UK919T&hl=true&root_record=558138581241S&dt=195DT408J&fields=GYAC71"
   
 
 ```
@@ -20110,7 +19796,6 @@ Search this archive
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page is required
 <ul>
@@ -20403,7 +20088,7 @@ __Returns__
 ```shell
 # return first 10 records
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/search/location_profile?q=VIBRP&aq=["Example Missing"]&type=DIKPI&sort=362736NWE&facet=432CNGF&facet_mincount=1&filter=["Example Missing"]&exclude=569552369KO&hl=true&root_record=OH502MI&dt=K88U717P&fields=PMS147Y?page=1&page_size=10"
+  "http://localhost:8089/search/location_profile?q=IFFQG&aq=["Example Missing"]&type=802WJGB&sort=328KH526467&facet=33649M296N&facet_mincount=1&filter=["Example Missing"]&exclude=EO477D732&hl=true&root_record=586KGU651&dt=NWMX826&fields=GR45814172?page=1&page_size=10"
 
 ```
 
@@ -20418,7 +20103,6 @@ Search across Location Profiles
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page is required
 <ul>
@@ -20578,7 +20262,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/search/published_tree?node_uri=986J35419199"
+  "http://localhost:8089/search/published_tree?node_uri=87QCCK"
 
 ```
 
@@ -20593,7 +20277,6 @@ Find the tree view for a particular archival record
 
 
 __Parameters__
-
 
   
     
@@ -20648,12 +20331,12 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"JPN65Y"' \
-  "http://localhost:8089/search/record_types_by_repository?record_types=JPN65Y&repo_uri=PGCOV"
+  -d '"864GRVO"' \
+  "http://localhost:8089/search/record_types_by_repository?record_types=864GRVO&repo_uri=LDU633P"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"PGCOV"' \
-  "http://localhost:8089/search/record_types_by_repository?record_types=JPN65Y&repo_uri=PGCOV"
+  -d '"LDU633P"' \
+  "http://localhost:8089/search/record_types_by_repository?record_types=864GRVO&repo_uri=LDU633P"
   
 
 ```
@@ -20669,7 +20352,6 @@ Return the counts of record types of interest by repository
 
 
 __Parameters__
-
 
   
     
@@ -20730,12 +20412,12 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"819IMXK"' \
-  "http://localhost:8089/search/records?uri=819IMXK&resolve[]=[record_types, to_resolve]"
+  -d '"DRWV149"' \
+  "http://localhost:8089/search/records?uri=DRWV149&resolve[]=[record_types, to_resolve]"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"AC875YI"' \
-  "http://localhost:8089/search/records?uri=819IMXK&resolve[]=[record_types, to_resolve]"
+  -d '"UA600EB"' \
+  "http://localhost:8089/search/records?uri=DRWV149&resolve[]=[record_types, to_resolve]"
   
 
 ```
@@ -20751,7 +20433,6 @@ Return a set of records by URI
 
 
 __Parameters__
-
 
   
     
@@ -20934,52 +20615,52 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"281880RI794"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  -d '"X549395NH"' \
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"707653C298P"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  -d '"K895B282Y"' \
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"OOIXG"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  -d '"119955787405I"' \
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"O651I798403"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  -d '"TKNQB"' \
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"1"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"I102Y511331"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  -d '"PQOEG"' \
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"BooleanParam"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"237VOYJ"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  -d '"592XI105H"' \
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"K401Q666O"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  -d '"NKEAW"' \
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"YI848IF"' \
-  "http://localhost:8089/search/repositories?q=281880RI794&aq=["Example Missing"]&type=707653C298P&sort=OOIXG&facet=O651I798403&facet_mincount=1&filter=["Example Missing"]&exclude=I102Y511331&hl=true&root_record=237VOYJ&dt=K401Q666O&fields=YI848IF"
+  -d '"524N362JY"' \
+  "http://localhost:8089/search/repositories?q=X549395NH&aq=["Example Missing"]&type=K895B282Y&sort=119955787405I&facet=TKNQB&facet_mincount=1&filter=["Example Missing"]&exclude=PQOEG&hl=true&root_record=592XI105H&dt=NKEAW&fields=524N362JY"
   
 
 ```
@@ -20995,7 +20676,6 @@ Search across repositories
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page is required
 <ul>
@@ -21288,52 +20968,52 @@ __Returns__
 ```shell
   
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"CUC125K"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  -d '"RR220Y180"' \
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"B237X919832"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  -d '"G816X750859"' \
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"SB733D633"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  -d '"YVMFN"' \
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"PMWYU"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  -d '"SXB232952"' \
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"1"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '["Example Missing"]' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"FXIPJ"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  -d '"450UQ655473"' \
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '"BooleanParam"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"NW294MH"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  -d '"RCMG574"' \
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"Y567481F598"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  -d '"131D230V586"' \
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
     
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  -d '"G438BE789"' \
-  "http://localhost:8089/search/subjects?q=CUC125K&aq=["Example Missing"]&type=B237X919832&sort=SB733D633&facet=PMWYU&facet_mincount=1&filter=["Example Missing"]&exclude=FXIPJ&hl=true&root_record=NW294MH&dt=Y567481F598&fields=G438BE789"
+  -d '"QNBGC"' \
+  "http://localhost:8089/search/subjects?q=RR220Y180&aq=["Example Missing"]&type=G816X750859&sort=YVMFN&facet=SXB232952&facet_mincount=1&filter=["Example Missing"]&exclude=450UQ655473&hl=true&root_record=RCMG574&dt=131D230V586&fields=QNBGC"
   
 
 ```
@@ -21349,7 +21029,6 @@ Search across subjects
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page is required
 <ul>
@@ -21550,7 +21229,6 @@ Find the record given the slug, return id, repo_id, and table name
 
 __Parameters__
 
-
   
     
   
@@ -21603,7 +21281,6 @@ Get a Location by ID
 
 
 __Parameters__
-
 
 
 __Returns__
@@ -21684,7 +21361,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/space_calculator/by_building?container_profile_uri=KX983QH&building=132J5973893&floor=LXUO779&room=X234583HP&area=ID546828303"
+  "http://localhost:8089/space_calculator/by_building?container_profile_uri=J715OML&building=397OFDQ&floor=F656640318V&room=978478130F484&area=CL237D991"
 
 ```
 
@@ -21699,7 +21376,6 @@ Calculate how many containers will fit in locations for a given building
 
 
 __Parameters__
-
 
   
     
@@ -21788,7 +21464,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/space_calculator/by_location?container_profile_uri=835SOCW&location_uris=612F621L752"
+  "http://localhost:8089/space_calculator/by_location?container_profile_uri=O260L482150&location_uris=U190YE881"
 
 ```
 
@@ -21803,7 +21479,6 @@ Calculate how many containers will fit in a list of locations
 
 
 __Parameters__
-
 
   
     
@@ -21850,13 +21525,13 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "used_within_published_repositories":[],
 "terms":[{ "jsonmodel_type":"term",
 "term":"Term 1",
-"term_type":"genre_form",
+"term_type":"topical",
 "vocabulary":"/vocabularies/2"}],
 "external_documents":[],
 "vocabulary":"/vocabularies/3",
 "authority_id":"http://www.example-18.com",
-"scope_note":"671BEQS",
-"source":"gmgpc"}' \
+"scope_note":"R704U731606",
+"source":"aat"}' \
   "http://localhost:8089/subjects"
 
 ```
@@ -21872,7 +21547,6 @@ Create a Subject
 
 
 __Parameters__
-
 
   
     
@@ -21922,7 +21596,6 @@ Get a list of Subjects
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -21970,13 +21643,13 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "used_within_published_repositories":[],
 "terms":[{ "jsonmodel_type":"term",
 "term":"Term 1",
-"term_type":"genre_form",
+"term_type":"topical",
 "vocabulary":"/vocabularies/2"}],
 "external_documents":[],
 "vocabulary":"/vocabularies/3",
 "authority_id":"http://www.example-18.com",
-"scope_note":"671BEQS",
-"source":"gmgpc"}' \
+"scope_note":"R704U731606",
+"source":"aat"}' \
   "http://localhost:8089/subjects/1"
 
 ```
@@ -21992,7 +21665,6 @@ Update a Subject
 
 
 __Parameters__
-
 
   
     
@@ -22049,7 +21721,6 @@ Get a Subject by ID
 
 __Parameters__
 
-
   
     
   
@@ -22096,7 +21767,6 @@ Delete a Subject
 
 __Parameters__
 
-
   
     
   
@@ -22135,7 +21805,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/terms?q=762570U323831"
+  "http://localhost:8089/terms?q=QYITH"
 
 ```
 
@@ -22150,7 +21820,6 @@ Get a list of Terms matching a prefix
 
 
 __Parameters__
-
 
   
     
@@ -22216,7 +21885,6 @@ Get a stream of updated records
 
 __Parameters__
 
-
   
     
   
@@ -22276,7 +21944,6 @@ Refresh the list of currently known edits
 
 
 __Parameters__
-
 
   
     
@@ -22343,7 +22010,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "is_admin":false,
 "username":"username_1",
 "name":"Name Number 16"}' \
-  "http://localhost:8089/users?password=D595P810501&groups=166505185J664"
+  "http://localhost:8089/users?password=597ORH849&groups=IFJ121C"
 
 ```
 
@@ -22358,7 +22025,6 @@ Create a local user
 
 
 __Parameters__
-
 
   
     
@@ -22427,7 +22093,6 @@ Get a list of users
 
 
 __Parameters__
-
 <aside class="notice">
 This endpoint is paginated. :page, :id_set, or :all_ids is required
 <ul>
@@ -22475,7 +22140,6 @@ Get a user's details (including their current permissions)
 
 
 __Parameters__
-
 
   
     
@@ -22533,7 +22197,7 @@ curl -H "X-ArchivesSpace-Session: $SESSION" \
 "is_admin":false,
 "username":"username_1",
 "name":"Name Number 16"}' \
-  "http://localhost:8089/users/1?password=A812TBW"
+  "http://localhost:8089/users/1?password=189885YDP"
 
 ```
 
@@ -22548,7 +22212,6 @@ Update a user's account
 
 
 __Parameters__
-
 
   
     
@@ -22618,7 +22281,6 @@ Delete a user
 
 __Parameters__
 
-
   
     
   
@@ -22682,7 +22344,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/users/1/groups?groups=ITQ177E&remove_groups=true"
+  "http://localhost:8089/users/1/groups?groups=529C409O275&remove_groups=true"
 
 ```
 
@@ -22697,7 +22359,6 @@ Update a user's groups
 
 
 __Parameters__
-
 
   
     
@@ -22771,7 +22432,6 @@ Become a different user
 
 __Parameters__
 
-
   
     
   
@@ -22831,7 +22491,7 @@ __Returns__
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d 'Example Missing' \
-  "http://localhost:8089/users/1/login?password=QI43711U&expiring=true"
+  "http://localhost:8089/users/1/login?password=EN903UB&expiring=true"
 
 ```
 
@@ -22846,7 +22506,6 @@ Log in
 
 
 __Parameters__
-
 
   
     
@@ -22907,7 +22566,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/users/complete?query=VIBSV"
+  "http://localhost:8089/users/complete?query=I260397WE"
 
 ```
 
@@ -22922,7 +22581,6 @@ Get a list of system users
 
 
 __Parameters__
-
 
   
     
@@ -22964,7 +22622,6 @@ Get the currently logged in user
 __Parameters__
 
 
-
 __Returns__
 
   	200 -- (:user)
@@ -22999,7 +22656,6 @@ Get the ArchivesSpace application version
 __Parameters__
 
 
-
 __Returns__
 
   	200 -- ArchivesSpace (version)
@@ -23024,8 +22680,8 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"vocabulary",
 "terms":[],
-"name":"Vocabulary 4 - 2020-06-25 15:10:57 -0700",
-"ref_id":"vocab_ref_4 - 2020-06-25 15:10:57 -0700"}' \
+"name":"Vocabulary 4 - 2020-07-16 09:59:26 -0400",
+"ref_id":"vocab_ref_4 - 2020-07-16 09:59:26 -0400"}' \
   "http://localhost:8089/vocabularies"
 
 ```
@@ -23041,7 +22697,6 @@ Create a Vocabulary
 
 
 __Parameters__
-
 
   
     
@@ -23084,7 +22739,7 @@ __Returns__
   
 ```shell
 curl -H "X-ArchivesSpace-Session: $SESSION" \
-  "http://localhost:8089/vocabularies?ref_id=RJUYG"
+  "http://localhost:8089/vocabularies?ref_id=QSOYO"
 
 ```
 
@@ -23099,7 +22754,6 @@ Get a list of Vocabularies
 
 
 __Parameters__
-
 
   
     
@@ -23142,8 +22796,8 @@ __Returns__
 curl -H "X-ArchivesSpace-Session: $SESSION" \
   -d '{ "jsonmodel_type":"vocabulary",
 "terms":[],
-"name":"Vocabulary 4 - 2020-06-25 15:10:57 -0700",
-"ref_id":"vocab_ref_4 - 2020-06-25 15:10:57 -0700"}' \
+"name":"Vocabulary 4 - 2020-07-16 09:59:26 -0400",
+"ref_id":"vocab_ref_4 - 2020-07-16 09:59:26 -0400"}' \
   "http://localhost:8089/vocabularies/1"
 
 ```
@@ -23159,7 +22813,6 @@ Update a Vocabulary
 
 
 __Parameters__
-
 
   
     
@@ -23216,7 +22869,6 @@ Get a Vocabulary by ID
 
 __Parameters__
 
-
   
     
   
@@ -23261,7 +22913,6 @@ Get a list of Terms for a Vocabulary
 
 
 __Parameters__
-
 
   
     

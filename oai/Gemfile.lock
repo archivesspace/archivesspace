@@ -1,20 +1,24 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    rack (1.6.12)
-    rack-protection (1.5.5)
+    mustermann (1.1.1)
+      ruby2_keywords (~> 0.0.1)
+    rack (2.2.3)
+    rack-protection (2.0.5)
       rack
-    sinatra (1.4.7)
-      rack (~> 1.5)
-      rack-protection (~> 1.4)
-      tilt (>= 1.3, < 3)
+    ruby2_keywords (0.0.2)
+    sinatra (2.0.5)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.5)
+      tilt (~> 2.0)
     tilt (2.0.10)
 
 PLATFORMS
   java
 
 DEPENDENCIES
-  sinatra (= 1.4.7)
+  sinatra (= 2.0.5)
 
 BUNDLED WITH
-   1.17.3
+   2.1.4

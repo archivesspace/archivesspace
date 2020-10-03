@@ -11,6 +11,21 @@ function BulkContainerSearch($search_form, $results_container, $toolbar) {
 
   this.setup_form();
   this.setup_results_list();
+  // If there is any stored search parameters and we're still looking at the same repository, reload them
+  // when navigating or refreshing. Else wipe the stored search params.
+  if ($(".repo-container > div > a").attr("href") === sessionStorage.getItem("currentRepository")) {
+    var data = sessionStorage.getItem("top_container_search_data");
+    if (data != null && data != undefined) {
+      var parsed_data = JSON.parse(data);
+      $.each( parsed_data, function( key, value ) {
+        $("#"+key).val(value);
+      });
+      this.perform_search(parsed_data);
+    }
+  } else {
+    sessionStorage.setItem("top_container_search_data", null)
+    sessionStorage.setItem("currentRepository", null)
+  }
 }
 
 BulkContainerSearch.prototype.setup_form = function() {
@@ -20,6 +35,16 @@ BulkContainerSearch.prototype.setup_form = function() {
 
   this.$search_form.on("submit", function(event) {
     event.preventDefault();
+    //Store the search parameters so they can be reloaded when
+    //navigating or refreshing
+    var values = {};
+    $.each(self.$search_form.serializeArray(), function(i, field) {
+    	if (field.name != 'authenticity_token' && field.name != 'utf8' && field.value != ''){
+    		values[field.name] = field.value;
+        }
+    });
+    sessionStorage.setItem("top_container_search_data", JSON.stringify(values));
+    sessionStorage.setItem("currentRepository", $(".repo-container > div > a").attr("href"))
     self.perform_search(self.$search_form.serializeArray());
   });
 };
@@ -149,6 +174,20 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
     return valueArray.toString()
   };
 
+  let currentSort = []
+  // only load a sort if we've hit some results
+  if ($(".table-search-results tr").length > 1) {
+    // Get the most recent sort, if it exists
+    currentSort = sessionStorage.getItem("top_container_sort");
+    if (currentSort == null || currentSort == undefined) {
+      // default sort: Collection, Series, Indicator
+      currentSort = [[1,0],[2,0],[4,0]];
+    }
+    else {
+      currentSort = JSON.parse(currentSort);
+    }
+  }
+
   var tablesorter_opts = {
     // only sort on the second row of header columns
     selectorHeaders: "thead tr.sortable-columns th",
@@ -156,8 +195,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
     headers: {
         0: { sorter: false}
     },
-    // default sort: Collection, Series, Indicator
-    sortList: [[1,0],[2,0],[4,0]],
+    sortList: currentSort,
     // customise text extraction to pull only the first collection/series
     textExtraction: function(node) {
       var $node = $(node);
@@ -175,7 +213,7 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
         }
       } else if ($node.hasClass("top-container-indicator")) {
         var value = $node.text().trim();
-        
+
         // turn the indicator into a string of alternating non-number/padded-number values separated by commas for sorting
         // eg "box,#############11,folder,#############4"
         return parseIndicator(value);
@@ -184,7 +222,13 @@ BulkContainerSearch.prototype.setup_table_sorter = function() {
       return $node.text().trim();
     }
   };
-  this.$results_container.find("table").tablesorter(tablesorter_opts);
+  this.$results_container.find("table").tablesorter(tablesorter_opts)
+  	.bind("sortEnd", function(e) {
+  	  //Store the sort in the session storage so it resorts the same way
+  		//when navigating and refreshing.
+  	  currentSort = e.target.config.sortList;
+  	  sessionStorage.setItem("top_container_sort", JSON.stringify(currentSort));
+  	});
 };
 
 BulkContainerSearch.prototype.get_selection = function() {
@@ -195,6 +239,7 @@ BulkContainerSearch.prototype.get_selection = function() {
     results.push({
       uri: checkbox.value,
       display_string: $(checkbox).data("display-string"),
+      container_profile_uri: $(checkbox).data("container-profile-uri"),
       row: $(checkbox).closest("tr")
     });
   });
@@ -593,15 +638,31 @@ function BulkActionMerge(bulkContainerSearch) {
                           .map(function(container) {
                             return {
                               uri: container.uri,
-                              display_string: container.display_string
-                            }
+                              display_string: container.display_string,
+                              container_profile_uri: container.container_profile_uri
+                            };
                           });
 
       const targetEl = document.querySelector('input[name="target[]"]:checked');
 
       const target = {
         display_string: targetEl.getAttribute('aria-label'),
-        uri: targetEl.getAttribute('value')
+        uri: targetEl.getAttribute('value'),
+        container_profile_uri: targetEl.getAttribute('container_profile_uri')
+      };
+
+      var victimsWithCPs = victims.filter(victim => victim.container_profile_uri && (victim.container_profile_uri != target.container_profile_uri));
+      var victimContainerProfiles = victimsWithCPs.map(function (cp) {
+        return cp.container_profile_uri;
+        }).filter((v, i, a) => a.indexOf(v) === i);
+      var mergeWarn = (victimContainerProfiles.length === 0 || (victimContainerProfiles.length === 1 && !target.container_profile_uri)) ? false : true;
+      var warning_type = (mergeWarn == true ? (victimContainerProfiles.length > 1 ? 'too_many' : 'mismatch' ) : null);
+
+      const mergeWarning = {
+        tooManyVisibility: (warning_type == 'too_many' ? 'display:block' : 'display:none'),
+        tooManyHidden: (warning_type == 'too_many' ? 'false' : 'true'),
+        mismatchVisibility: (warning_type == 'mismatch' ? 'display:block' : 'display:none'),
+        mismatchHidden: (warning_type == 'mismatch' ? 'false' : 'true')
       };
 
       // compute victims list for template rendering
@@ -610,12 +671,13 @@ function BulkActionMerge(bulkContainerSearch) {
           acc.push(victim.display_string);
         }
         return acc;
-      }, [])
+      }, []);
 
       // Init modal2
       AS.openCustomModal("bulkMergeConfirmModal", "Confirm Merge Top Containers", AS.renderTemplate("bulk_action_merge_confirm", {
         victims,
         victimsNoTarget,
+        mergeWarning,
         target
       }), false);
     })

@@ -5,7 +5,6 @@ require 'solr_snapshotter'
 require 'config/config-distribution'
 require_relative '../../launcher_init'
 require_relative 'trollop'
-require 'zip/zip'
 require 'tempfile'
 require 'uri'
 require 'ashttp'
@@ -15,17 +14,41 @@ class ArchivesSpaceBackup
 
   def to_archive_path(path, basedir)
     base_path = Pathname.new(basedir)
-    File.join(File.basename(basedir),
-              Pathname.new(path).relative_path_from(base_path).to_path)
+    result = File.join(File.basename(basedir),
+                       Pathname.new(path).relative_path_from(base_path).to_path)
+
+    # Directory names end in a slash
+    if File.directory?(path) && !result.end_with?('/')
+      result += '/'
+    end
+
+    result
   end
 
 
-  def add_whole_directory(dir, zipfile)
-    Dir.glob(File.join(dir, "**", "*")).each do |path|
-      zipfile.add(to_archive_path(path, dir), path)
+  def add_single_entry(dir, path, zipfile, entry_name = nil)
+    entry_name ||= to_archive_path(path, dir)
+    entry = zipfile.put_next_entry(java.util.zip.ZipEntry.new(entry_name))
+
+    unless File.directory?(path)
+      fh = java.io.FileInputStream.new(path)
+
+      begin
+        buf = Java::byte[4096].new
+        while (len = fh.read(buf)) >= 0
+          zipfile.write(buf, 0, len)
+        end
+      ensure
+        fh.close
+      end
     end
   end
 
+  def add_whole_directory(dir, zipfile)
+    Dir.glob(File.join(dir, "**", "*")).each do |path|
+      add_single_entry(dir, path, zipfile)
+    end
+  end
 
   def create_mysql_dump(outfile)
     if AppConfig[:db_url] =~ /jdbc:mysql/
@@ -63,7 +86,7 @@ class ArchivesSpaceBackup
         outfile.close
 
         if $? == 0
-          return outfile
+          return outfile.path
         end
       rescue
         $stderr.puts "mysqldump not run: #{$!}"
@@ -112,11 +135,14 @@ class ArchivesSpaceBackup
       mysql_dump = create_mysql_dump(mysql_tempfile) if do_mysqldump
       create_demodb_snapshot
 
-      Zip::ZipFile.open(output_file, Zip::ZipFile::CREATE) do |zipfile|
+      zipfile = java.util.zip.ZipOutputStream.new(java.io.FileOutputStream.new(output_file))
+      begin
         add_whole_directory(solr_snapshot, zipfile) if AppConfig[:enable_solr]
         add_whole_directory(demo_db_backups, zipfile) if Dir.exist?(demo_db_backups)
         add_whole_directory(config_dir, zipfile) if config_dir
-        zipfile.add("mysqldump.sql", mysql_dump) if mysql_dump
+        add_single_entry(File.dirname(mysql_dump), mysql_dump, zipfile, "mysqldump.sql") if mysql_dump
+      ensure
+        zipfile.close
       end
     ensure
       mysql_tempfile.close

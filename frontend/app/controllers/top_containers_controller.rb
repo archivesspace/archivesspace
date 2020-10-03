@@ -10,6 +10,31 @@ class TopContainersController < ApplicationController
 
 
   def index
+    # If there was a previous top_container search, we prepopulate the form with the filled-in linkers and a search is executed in top_containers.bulk.js
+    @top_container_previous_search = {}
+
+    if session[:top_container_previous_search] && session[:top_container_previous_search] != {}
+      if session[:top_container_previous_search]["resource"]
+        @top_container_previous_search["resource"] = session[:top_container_previous_search]["resource"]
+        @top_container_previous_search["resource"]["id"] = @top_container_previous_search["resource"]["uri"]
+      end
+
+      if session[:top_container_previous_search]["accession"]
+        @top_container_previous_search["accession"] = session[:top_container_previous_search]["accession"]
+        @top_container_previous_search["accession"]["id"] = @top_container_previous_search["accession"]["uri"]
+      end
+
+      if session[:top_container_previous_search]["container_profile"]
+        @top_container_previous_search["container_profile"] = session[:top_container_previous_search]["container_profile"]
+        @top_container_previous_search["container_profile"]["id"] = @top_container_previous_search["container_profile"]["uri"]
+      end
+
+      if session[:top_container_previous_search]["location"]
+        @top_container_previous_search["location"] = session[:top_container_previous_search]["location"]
+        @top_container_previous_search["location"]["id"] = @top_container_previous_search["location"]["uri"]
+      end
+    end
+
   end
 
 
@@ -120,10 +145,50 @@ class TopContainersController < ApplicationController
 
 
   def bulk_operation_search
+    session[:top_container_previous_search] = {}
+    
+    # Store ONLY needed information from linkers in rails session so it can be repopulated for another search later
+    # (The whole record is not saved because they are too big for the rails session and only a few pieces of info are used)
+    if params['collection_resource']
+      previous_resource = JSON.parse(params["collection_resource"]["_resolved"])
+      session[:top_container_previous_search]["resource"] = {
+          "uri" => previous_resource["uri"],
+          "title" => previous_resource["title"],
+          "jsonmodel_type" => previous_resource["jsonmodel_type"]
+        }
+    end
+
+    if params["collection_accession"]
+      previous_accession  = JSON.parse(params['collection_accession']['_resolved'])
+      session[:top_container_previous_search]["accession"] = {
+        "uri" => previous_accession["uri"],
+        "title" => previous_accession["title"],
+        "jsonmodel_type" => previous_accession["jsonmodel_type"]
+      }
+    end
+
+    if params["container_profile"]
+      previous_container_profile = JSON.parse(params['container_profile']['_resolved'])
+      session[:top_container_previous_search]["container_profile"] = {
+        "uri" => previous_container_profile["uri"],
+        "title" => previous_container_profile["title"],
+        "jsonmodel_type" => previous_container_profile["jsonmodel_type"]
+      }
+    end
+
+    if params["location"]
+      previous_location = JSON.parse(params['location']['_resolved'])
+      session[:top_container_previous_search]['location'] = {
+        "uri" => previous_location["uri"],
+        "title" => previous_location["title"],
+        "jsonmodel_type" => previous_location["jsonmodel_type"]
+      }
+    end
+
     begin
       results = perform_search
     rescue MissingFilterException
-      return render :text => I18n.t("top_container._frontend.messages.filter_required"), :status => 500
+      return render :plain => I18n.t("top_container._frontend.messages.filter_required"), :status => 500
     end
 
     render_aspace_partial :partial => "top_containers/bulk_operations/results", :locals => {:results => results}
@@ -131,6 +196,8 @@ class TopContainersController < ApplicationController
 
 
   def bulk_operations_browse
+    @top_container_previous_search = {}
+    
     begin
       results = perform_search if params.has_key?("q")
     rescue MissingFilterException
@@ -155,7 +222,7 @@ class TopContainersController < ApplicationController
       post_params['location_uri'] = params['location'] ? params['location']['ref'] : ""
       post_uri += 'location'
     else
-      render :text => "You must provide a field to update.", :status => 500
+      render :plain => "You must provide a field to update.", :status => 500
     end
 
     response = JSONModel::HTTP::post_form(post_uri, post_params)
@@ -164,7 +231,7 @@ class TopContainersController < ApplicationController
     if result.has_key?('records_updated')
       render_aspace_partial :partial => "top_containers/bulk_operations/bulk_action_success", :locals => {:result => result}
     else
-      render :text => "There seems to have been a problem with the update: #{result['error']}", :status => 500
+      render :plain => "There seems to have been a problem with the update: #{result['error']}", :status => 500
     end
   end
 

@@ -19,7 +19,7 @@ class DigitalObjectsController < ApplicationController
         search_params = params_for_backend_search.merge({"facet[]" => SearchResultData.DIGITAL_OBJECT_FACETS})
         search_params["type[]"] = params[:include_components] === "true" ? ["digital_object", "digital_object_component"] : [ "digital_object" ]
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, search_params )
+        csv_response( uri, Search.build_filters(search_params), "#{I18n.t('digital_object._plural').downcase}." )
       }
     end
   end
@@ -262,7 +262,7 @@ class DigitalObjectsController < ApplicationController
           @children.save(:digital_object_id => @parent.id)
         end
 
-        return render :text => I18n.t("rde.messages.success")
+        return render :plain => I18n.t("rde.messages.success")
       rescue JSONModel::ValidationException => e
         @exceptions = @children
                       .children

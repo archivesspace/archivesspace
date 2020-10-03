@@ -3,8 +3,8 @@
 The `hello_world` exemplar plug-in may be referenced as a model plug-in for implementing an ArchivesSpace customization that overrides or extends the application without changing the core codebase. `hello_world` modifies the 
 ArchivesSpace backend, frontend, and indexer applications, in addition to modifying the ArchivesSpace database and JSONModel schema.
 
-This README provides an explanation for each file that makes up the `hello_world` plug-in, arranged in alphabetical order by directory. For a more general explanation of how plug-ins can be configured in ArchivesSpace, refer to 
-the [ArchivesSpace Plug-ins README](http://archivesspace.github.io/archivesspace/user/archivesspace-plug-ins-readme/)
+This README provides an explanation for each file that makes up the `hello_world` plug-in, arranged in alphabetical order by directory. For a more general explanation of how plug-ins can be configured in ArchivesSpace, refer to
+the [ArchivesSpace Plug-ins README](https://archivesspace.github.io/tech-docs/customization/plugins.html)
 
 ## backend
 

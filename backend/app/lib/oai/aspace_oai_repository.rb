@@ -188,7 +188,7 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
       end
     end
 
-    dataset.filter(query_strings.join(" OR ")).filter(:publish => 1, :suppressed => 0)
+    dataset.filter(Sequel.lit(query_strings.join(" OR "))).filter(:publish => 1, :suppressed => 0)
   end
 
   # Don't show deletes for repositories that aren't published.
@@ -345,11 +345,11 @@ class ArchivesSpaceOAIRepository < OAI::Provider::Model
     until_time = parse_time(until_timestamp)
 
     if from_time
-      dataset = dataset.filter("#{time_column} >= ?", from_time)
+      dataset = dataset.filter(Sequel.lit("#{time_column} >= ?", from_time))
     end
 
     if until_time
-      dataset = dataset.filter("#{time_column} <= ?", until_time)
+      dataset = dataset.filter(Sequel.lit("#{time_column} <= ?", until_time))
     end
 
     dataset

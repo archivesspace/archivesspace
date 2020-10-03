@@ -35,6 +35,7 @@
   }
 
 %>
+
 <div class="form-group <% if required %>required<% end %>">
   <label class="control-label col-sm-2"><%= I18n.t("top_container._singular") %></label>
   <div class="controls col-sm-8">
@@ -82,3 +83,13 @@
     </div>
   </div>
 </div>
+
+<div class="top_container_location">
+  <% selected_json_parsed = JSON.parse(selected_json) %>
+
+  <% container_locations = selected_json_parsed.dig("container_locations") %>
+  <% if container_locations && container_locations.length > 0 %>
+    <%= render_aspace_partial :partial => "container_locations/show_only_token", :locals => { :container_locations => container_locations } %>
+  <% end %>
+</div>
+  

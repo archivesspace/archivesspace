@@ -1,11 +1,13 @@
 <%
-   if params['location'].blank?
-     selected_json = "{}"
-   else
-     selected_json = params['location']['_resolved']
-   end
+  if params['location'].blank? && !@top_container_previous_search["location"]
+    selected_json = "{}"
+  elsif @top_container_previous_search["location"]
+    selected_json = @top_container_previous_search["location"].to_json
+  else
+    selected_json = params['location']['_resolved']
+  end
 
-   linkable_types = ["location"]
+  linkable_types = ["location"]
 
   path = "location" if path.blank?
   show_create_link = false if show_create_link.blank?

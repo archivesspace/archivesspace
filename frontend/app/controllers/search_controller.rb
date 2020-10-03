@@ -3,7 +3,7 @@ require 'advanced_query_builder'
 class SearchController < ApplicationController
 
   set_access_control  "view_repository" => [:do_search, :advanced_search]
-  
+
   include ExportHelper
 
   def advanced_search
@@ -37,10 +37,10 @@ class SearchController < ApplicationController
         @search_data = Search.all(session[:repo_id], criteria)
         render "search/do_search"
       }
-      format.csv { 
+      format.csv {
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, criteria )
-      }  
+        csv_response( uri, Search.build_filters(criteria), "#{I18n.t('search_results.title').downcase}." )
+      }
     end
   end
 
@@ -61,11 +61,11 @@ class SearchController < ApplicationController
       format.html {
         # default render
       }
-      format.csv { 
+      format.csv {
         criteria = params_for_backend_search.merge({"facet[]" => SearchResultData.BASE_FACETS})
         uri = "/repositories/#{session[:repo_id]}/search"
-        csv_response( uri, criteria )
-      }  
+        csv_response( uri, Search.build_filters(criteria), "#{I18n.t('search_results.title').downcase}." )
+      }
     end
   end
 

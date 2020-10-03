@@ -261,4 +261,21 @@ describe 'Assessments' do
     @driver.wait_for_ajax
     expect(@driver.find_elements(:css, '#linked_assessments #tabledSearchResults tbody tr').length).to eq(1)
   end
+
+  it 'shows linked assessments on agent_person page' do
+    @driver.clear_and_send_keys([id: 'global-search-box'], "#{@archivist_user.username}")
+    @driver.find_element(:id, 'global-search-button').click
+    @driver.click_and_wait_until_gone(:link, 'View')
+    @driver.wait_for_ajax
+    expect(@driver.find_elements(:css, '#linked_assessments_surveyed_by #tabledSearchResults tbody tr').length).to eq(1)
+  end
+
+  it 'does not show linked assessments on agent_corporate_entity page' do
+    @driver.navigate.to("#{$frontend}/agents")
+    @driver.wait_for_ajax
+    @driver.find_element(:link, 'Corporate Entity').click
+    @driver.wait_for_ajax
+    @driver.click_and_wait_until_element_gone(@driver.find_element_with_text('//tr', /assessments_test_/).find_element(:link, 'View'))
+    expect(@driver.find_elements(:css, '#linked_assessments_surveyed_by').length).to eq(0)
+  end
 end

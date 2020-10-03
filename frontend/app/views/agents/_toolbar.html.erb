@@ -26,9 +26,9 @@
         <div class="btn btn-inline-form">
           <%= link_to I18n.t("actions.export_eac"), {:controller => :exports, :action => :download_eac, :id => @agent.id, :type => @agent.agent_type}, :class => "btn btn-sm btn-default" %>
         </div>
-
-        <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
-
+        <% if AppConfig[:enable_public] %>
+          <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
+        <% end %>
         <% if user_can?('merge_agent_record') %>
           <%=
           render_aspace_partial :partial => "agents/merge_dropdown",

@@ -65,21 +65,17 @@
 hanging. Check JIRA for any “rejected” or started-but-not-accepted tickets,
 since you don’t want to ship with code that hasn’t passed QA.</p>
 
-<p>Also, take a look at all the Gemfile.lock files ( in backend, frontend, public,
-etc ) and review the gem versions. Pay close attention to the Rails &amp; Friends
-( ActiveSupport, ActionPack, etc ), Rack, and Sinatra versions and make sure
-there have not been any security patch versions. There usually are, especially
-since Rails sends fix updates rather frequently.</p>
-
-<p>To update the gems, update the version in Gemfile, delete the Gemfile.lock, and
-run ./build/run bootstrap to download everything. Then make sure your test
-suite passes.</p>
-
-<p>Once everything passes, commit your Gemfiles and Gemfile.lock files.</p>
-
 <p>Review the various README docs and update them as necessary. In particular the
 <code>UPGRADING.md</code> instructions should be updated to reference the current and new
 release version numbers.</p>
+
+<p>Run the ArchivesSpace rake tasks to check for issues:</p>
+
+<p><code>
+bundle # from the aspace directory, requires Ruby + Bundler
+bundle exec rake check:locales
+bundle exec rake check:multiple_gem_versions
+</code></p>
 
 <h2 id="clone-the-git-repository">Clone the git repository</h2>
 
@@ -95,7 +91,7 @@ need to additionally check out the tag, like this:</p>
 <pre class="code ruby"><code class="ruby"><span class='rubyid_git identifier id'>git</span> <span class='rubyid_checkout identifier id'>checkout</span> <span class='lbrack token'>[</span><span class='rubyid_tag identifier id'>tag</span><span class='minus op'>-</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span>
 </code></pre>
 
-<h2 id="build-the-archivesspace-technical-documentation">Build the ArchivesSpace technical documentation</h2>
+<h2 id="build-the-archivesspace-technical-documentation-and-release">Build the ArchivesSpace technical documentation and release</h2>
 
 <p>ArchivesSpace ships with the current documentation, located in “docs”
 directory. By default, this is served out at
@@ -114,16 +110,14 @@ script that rips apart the READMEs. Also, links in the site’s side bar need to
 added to <a href="https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html">Jekyll’s
 sidebar</a>.</p>
 
-<p>Before the <code>build/run doc:build</code> step, be sure you run the <code>build/run backend:test</code> step. This will run all your tests, including the documentation_spec.rb spec, which runs through all the endpoints, generates factory bot fixture json, and spits it into a json file (endpoint_examples.json).</p>
-
-<p>To build the documentation:</p>
+<p>Steps:</p>
 
 <ol>
   <li>Check out a new branch from master:</li>
 </ol>
 
 <p><code>
-  $ git checkout -b new-document
+git checkout -b $version # $version = release tag to build (i.e. v2.8.0-rc1)
 </code></p>
 
 <ol>
@@ -131,116 +125,271 @@ sidebar</a>.</p>
     <p>Make sure that <a href="https://github.com/archivesspace/archivesspace/blob/master/scripts/build_docs.rb#L7-L8">script/build_docs.rb</a> is up-to-date and update <a href="https://github.com/archivesspace/archivesspace/blob/master/docs/_includes/sidebar.html">Jekyll’s sidebar</a> if necessary.</p>
   </li>
   <li>
-    <p>Bootstrap your development environment by downloading all dependencies–JRuby, Gems, Solr, etc.
-<code>
-  $ build/run bootstrap
-</code></p>
-  </li>
-  <li>
-    <p>The documentation spec file must be run to generate examples for the API docs
-<code>
-  $ build/run backend:test -Dspec='documentation_spec.rb'
-</code></p>
-  </li>
-  <li>
-    <p>Update the fallback_version value in common/asconstants.rb with the new version number so that the documentation will have the correct version number in the footer
-<code>
-  fallback_version = "vX.X.X.a"
-</code></p>
-  </li>
-  <li>
-    <p>Rip apart the READMEs for content by running the doc:build ANT task
-<code>
-  $ build/run doc:build
-</code></p>
-  </li>
-  <li>
-    <p>Build Slate/API docs (using a standard Ruby)
-  <em>Note</em>: At present, middleman requires a bundler version &lt; 2.0 so the docs have been updated to reflect this.
-<code>
-  $ cd docs/slate
-  $ gem install bundler --version '&lt; 2.0'
-  $ bundle install --binstubs
-  $ ./bin/middleman build
-  $ ./bin/middleman server # optional if you want to have a look at the site.
-  $ rm -r ../api
-  $ mv build ../api
-</code></p>
-  </li>
-  <li>
-    <p>Compile Jekyll
-<code>
-  $ cd docs
-  $ gem install bundler
-  $ bundle install --binstubs
-  $ ./bin/jekyll build
-  $ ./bin/jekyll serve # optional if you want to have a look at the site.
-</code></p>
-  </li>
-  <li>
-    <p>Commit the docs directory to git then push it to the gh-pages branch
-<code>
-  $ cd ../ # go to top of the working tree
-  $ git add # all files related to the docs that just got created/updated (eg. docs/*, index.html files, etc) (do NOT add common/asconstants.rb)
-  $ git commit # with appropriate commit message
-  $  git subtree push --prefix docs origin gh-pages
-  ( or, if you get a FF error )
-  $ git push origin `git subtree split --prefix docs master`:gh-pages --force
-</code></p>
-  </li>
-  <li>
-    <p>Now merge in the docs directory back into master by committing the new-document
-branch, creating a PR, and merging the PR</p>
-  </li>
-  <li>
-    <p>Check out the master branch, pull and prune
-<code>shell
-git checkout master
-git pull --prune
-</code></p>
+    <p>Bootstrap your development environment by downloading all dependencies–JRuby, Gems, Solr, etc.</p>
   </li>
 </ol>
 
-<h2 id="build-the-release">Build the release</h2>
+<p><code>
+build/run bootstrap
+</code></p>
 
-<p>Building the actual release is very simple. Back on the master branch ( with
-your docs updated ), run the following:</p>
+<ol>
+  <li>The documentation spec file must be run to generate examples for the API docs</li>
+</ol>
 
 <p><code>
-$ ./scripts/build_release vX.X.X
+build/run backend:test -Dspec='documentation_spec.rb'
+</code></p>
+
+<p>This runs through all the endpoints, generates factory bot fixture json, and spits it into a json file (endpoint_examples.json).</p>
+
+<ol>
+  <li>Update the fallback_version value in common/asconstants.rb with the new version number so that the documentation will have the correct version number in the footer</li>
+</ol>
+
+<p><code>
+fallback_version = "$version.a" # version should match branch name '.a' i.e. v2.8.0-rc1.a
+</code></p>
+
+<ol>
+  <li>Rip apart the READMEs for content by running the doc:build ANT task</li>
+</ol>
+
+<p><code>
+build/run doc:build
+</code></p>
+
+<ol>
+  <li>Build Slate/API docs (using a standard Ruby)
+  <em>Note</em>: At present, middleman requires a bundler version &lt; 2.0 so the docs have been updated to reflect this.</li>
+</ol>
+
+<p><code>
+cd docs/slate
+gem install bundler --version '&lt; 2.0'
+bundle install --binstubs
+./bin/middleman build
+./bin/middleman server # optional if you want to have a look at the API docs only
+rm -r ../api
+mv build ../api
+</code></p>
+
+<ol>
+  <li>Compile Jekyll</li>
+</ol>
+
+<p><code>
+cd docs
+gem install bundler
+bundle install --binstubs
+./bin/jekyll build
+</code></p>
+
+<ol>
+  <li>Preview the docs (optional)</li>
+</ol>
+
+<p><code>
+cd docs
+./bin/jekyll serve # to update bind-address add: -H 0.0.0.0
+</code></p>
+
+<ul>
+  <li>http://localhost:4000/archivesspace/ # tech docs</li>
+  <li>http://localhost:4000/archivesspace/api/ # api docs</li>
+  <li>http://localhost:4000/archivesspace/doc/ # yard docs</li>
+</ul>
+
+<ol>
+  <li>Commit the updates to git:</li>
+</ol>
+
+<p><code>
+cd ../ # go to top of the working tree
+git add # all files related to the docs that just got created/updated (eg. docs/*, index.html files, etc)
+git commit -m "Updating to vX.X.X"
+</code></p>
+
+<ol>
+  <li>Push docs to the gh-pages branch (do not do this with release candidates)</li>
+</ol>
+
+<p><code>
+#SKIP THIS PUSH STEP FOR RELEASE CANDIDATES
+git subtree push --prefix docs origin gh-pages
+#or, if you get a FF error
+git push origin `git subtree split --prefix docs master`:gh-pages --force
+</code></p>
+
+<h2 id="building-a-release">Building a release</h2>
+
+<ol>
+  <li>Building the actual release is very simple, run the following:</li>
+</ol>
+
+<p><code>
+./scripts/build_release vX.X.X
 </code></p>
 
 <p>Replace X.X.X with the version number. This will build and package a release in
 a zip file.</p>
 
-<h2 id="commit-and-tag-the-release">Commit and Tag the release</h2>
+<ol>
+  <li>
+    <p>Now merge the updates back into master by creating and merging a PR. This does
+not require a PR review (only in this case).</p>
+  </li>
+  <li>
+    <p>Check out the master branch, pull, prune and tag it</p>
+  </li>
+</ol>
 
-<p>The release process adds the version number to
-<code>common/asconstants.rb</code>.  After you’ve run the <code>build_release</code>
-script, you’ll need to commit that file then tag the release in git.</p>
-
-<p><code>
-$ git add common/asconstants.rb
-$ git commit -m "Updating to vX.X.X"
-$ git tag vX.X.X
-$ git push --tags
+<p><code>shell
+git checkout master
+git pull --prune
+git tag vX.X.X
+git push --tags
 </code></p>
 
-<h2 id="build-the-release-announcement">Build the release announcement</h2>
+<ol>
+  <li>Delete the clone of ArchivesSpace used to build the release. This
+is optional but recommended.</li>
+</ol>
+
+<h2 id="upload-the-release-and-prepare-draft">Upload the release and prepare draft</h2>
 
 <p>The release announcement needs to have all the tickets that make up the
-changes for the release. In the past, this list has been written into
-markdown to add in the Github release page.</p>
+changes for the release.</p>
 
-<p>There is a release notes script that should be run to generate a release note
-markdown file.</p>
+<p><code>
+bundle exec rake release_notes:generate[$previous_release_tag,$new_release_tag]
+#example:
+bundle exec rake release_notes:generate[v2.7.1,v2.8.0-rc1]
+</code></p>
 
-<p>Then make a release page in Github, upload the zip package and paste in the
-release note markdown file.</p>
+<p>Then make a release page in Github:</p>
+
+<p>https://github.com/archivesspace/archivesspace/releases/new</p>
+
+<p>Use the new tag for the release version. Upload the zip package and paste in
+the release note markdown file content.</p>
+
+<p>There are some placeholder sections that need to be updated:</p>
+
+<h3 id="config">Config</h3>
+
+<p>Significant changes to be the config file should be called out. To get the changes:</p>
+
+<p><code>
+git diff $previous_version..$new_version -- common/config/config-defaults.rb
+#example
+git diff v2.7.1..v2.8.0-rc1 -- common/config/config-defaults.rb
+</code></p>
+
+<p>Example content:</p>
+
+<p>```md
+Config values added:</p>
+
+<p>AppConfig[:pui_search_collection_from_archival_objects]
+AppConfig[:pui_search_collection_from_collection_organization]
+AppConfig[:max_search_columns]
+AppConfig[:hide_do_load]
+AppConfig[:bulk_import_rows]
+AppConfig[:bulk_import_size]</p>
+
+<p>Config values removed:</p>
+
+<p>None</p>
+
+<hr />
+
+<p>See the config.rb file for more details.
+```</p>
+
+<h3 id="database-migrations">Database migrations</h3>
+
+<p>Get the latest schema version:</p>
+
+<p><code>
+git diff --name-only $previous_version..$new_version | grep "common/db/migrations"
+#example
+git diff --name-only v2.7.1..v2.8.0-rc1 | grep "common/db/migrations"
+</code></p>
+
+<p>Update the <a href="release_schema_versions.md">Schema version number</a> file and PR
+to techdocs. Only do the latter for a release, not release candidates.</p>
+
+<p>Update the release notes under ‘Database migrations’ add:</p>
+
+<p><code>
+#$n = no. of lines from git diff above, $x = the no. on the last line
+This release includes $n new database migrations. The schema number for this release is $x.
+</code></p>
+
+<p>Or remove this section if no new migrations were added.</p>
+
+<h3 id="other">Other</h3>
+
+<p>If there are any special considerations add them here. Special considerations might
+include changes that will require 3rd party plugins to be updated or a that a full
+reindex is required.</p>
+
+<p>Example content:</p>
+
+<p><code>md
+This release requires a **full reindex** of ArchivesSpace for all functionality to work
+correctly. Please follow the [instructions for reindexing](https://archivesspace.github.io/tech-docs/administration/indexes.html)
+before starting ArchivesSpace with the new version.
+</code></p>
+
+<hr />
+
+<p>When the placeholder sections have been updated or removed save the draft and share with the team.</p>
+
+<h2 id="post-release-updates">Post release updates</h2>
+
+<p>After a release has been put out it’s time for some maintenance before the next
+cycle of development clicks into full gear:</p>
+
+<h3 id="branches">Branches</h3>
+
+<p>Delete merged and stale branches in Github as appropriate.</p>
+
+<h3 id="test-servers">Test Servers</h3>
+
+<p>Review existing test servers, and request the removal of any that are no longer
+needed (e.g. feature branches that have been merged for the release).</p>
+
+<h3 id="accessibility-scan">Accessibility Scan</h3>
+
+<p>Run accessibility scans for both the public and staff sites and file a ticket
+for any new and ongoing accessibility errors.</p>
+
+<h3 id="pr-assignments">PR Assignments</h3>
+
+<p>Begin assigning queued PRs to members of the Core Committers group, making
+sure to include the appropriate milestone for the anticipated next release.</p>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<h4 id="gems">Gems</h4>
+
+<p>Take a look at all the Gemfile.lock files ( in backend, frontend, public,
+etc ) and review the gem versions. Pay close attention to the Rails &amp; Friends
+( ActiveSupport, ActionPack, etc ), Rack, and Sinatra versions and make sure
+there have not been any security patch versions. There usually are, especially
+since Rails sends fix updates rather frequently.</p>
+
+<p>To update the gems, update the version in Gemfile, delete the Gemfile.lock, and
+run ./build/run bootstrap to download everything. Then make sure your test
+suite passes.</p>
+
+<p>Once everything passes, commit your Gemfiles and Gemfile.lock files.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0-rc1.a Documentation Generated on Thu Jun 25 15:14:06 2020 by
+  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:47 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.20.
 </div>

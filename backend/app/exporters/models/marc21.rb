@@ -284,17 +284,6 @@ class MARCModel < ASpaceExport::ExportModel
     df('852', ' ', ' ').with_sfs(*subfields_852)
     df('040', ' ', ' ').with_sfs(['a', repo['org_code']], ['b', finding_aid_language[0]],['c', repo['org_code']])
     df('049', ' ', ' ').with_sfs(['a', repo['org_code']])
-
-    if repo.has_key?('country') && !repo['country'].empty?
-
-      # US is a special case, because ASpace has no knowledge of states, the
-      # correct value is 'xxu'
-      if repo['country'] == "US"
-        df('044', ' ', ' ').with_sfs(['a', "xxu"])
-      else
-        df('044', ' ', ' ').with_sfs(['a', repo['country'].downcase])
-      end
-    end
   end
 
   def source_to_code(source)

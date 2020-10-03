@@ -1,8 +1,8 @@
 module ExportHelper
   
-  def csv_response(request_uri, params = {} )
+  def csv_response(request_uri, params = {}, filename_prefix = '')
         self.response.headers["Content-Type"] = "text/csv" 
-        self.response.headers["Content-Disposition"] = "attachment; filename=#{Time.now.to_i}.csv"
+        self.response.headers["Content-Disposition"] = "attachment; filename=#{filename_prefix}#{Time.now.to_i}.csv"
         self.response.headers['Last-Modified'] = Time.now.ctime.to_s 
         params["dt"] = "csv" 
         self.response_body = Enumerator.new do |y|
@@ -13,7 +13,6 @@ module ExportHelper
   end
   
   def xml_response(request_uri, params = {})
-
     JSONModel::HTTP::stream(request_uri, params) do |res|
       size, total = 0, res.header['Content-Length'].to_i
       res.read_body do |chunk|

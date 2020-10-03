@@ -17,7 +17,7 @@ describe 'Enumerations model' do
 
 
   before(:each) do
-    $testdb.create_table :model_with_enums do
+    $testdb.create_table! :model_with_enums do
       primary_key :id
       Integer :role_id
       Integer :lock_version, :default => 0

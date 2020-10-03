@@ -1,10 +1,11 @@
 <%
-   if params['collection_resource'].blank?
+   if params['collection_resource'].blank? && !@top_container_previous_search["resource"]
      selected_json = "{}"
+   elsif @top_container_previous_search["resource"]
+     selected_json = @top_container_previous_search["resource"].to_json
    else
      selected_json = params['collection_resource']['_resolved']
    end
-
 %>
 
 <div class="input-group linker-wrapper">

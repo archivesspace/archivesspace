@@ -1,5 +1,5 @@
 class ArchivesSpaceService < Sinatra::Base
-  Endpoint.get("/ark:/:naan/:id")
+  Endpoint.get("/ark*/:naan/:id")
     .description("Redirect to resource identified by ARK Name")
     .params(["id", :id])
     .permissions([])

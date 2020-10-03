@@ -10,7 +10,7 @@ require_relative 'scripts/tasks/release_notes'
 task default: ['check:multiple_gem_versions']
 
 namespace :check do
-  GEMS_PATH = File.join(__dir__, 'build', 'gems', 'gems', '*')
+  GEMS_PATH = File.join(__dir__, 'build', 'gems', 'jruby', '2.5.0', 'gems', '*')
   LOCALES_DIRS = [
     File.join(__dir__, 'common', 'locales'),
     File.join(__dir__, 'common', 'locales', 'enums'),
@@ -40,13 +40,14 @@ namespace :release_notes do
   # bundle exec rake release_notes:generate[$current_version,master]
   # bundle exec rake release_notes:generate[v2.7.1,master]
   desc 'Generate a release notes formatted document between commits'
-  task :generate, [:since, :target] do |_t, args|
+  task :generate, [:since, :target, :style] do |_t, args|
     target = args.fetch(:target, 'master')
+    style  = args.fetch(:style, 'brief')
     log = ReleaseNotes::GitLogParser.run(
       path: __dir__,
       since: args.fetch(:since, 'master'),
       target: target
     )
-    puts ReleaseNotes::Generator.new(version: target, log: log).process
+    puts ReleaseNotes::Generator.new(version: target, log: log, style: style).process
   end
 end
