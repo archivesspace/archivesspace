@@ -2121,17 +2121,6 @@ en:
       ao: Archival Object Load
       digital: Digital Object Load
 
-  bulk_import_job:
-    resource_uri: Resource URI
-    content_type: Spreadsheet type
-    load_type: Load Type
-    only_validate: Validate Only
-    type:
-      csv: CSV
-      xlsx: Excel Spreadsheet
-      ao: Archival Object Load
-      digital: Digital Object Load
-
   trim_whitespace_job:
     description: Removes leading and trailing whitespace from titles for resources, accessions, digital objects, archival objects, and digital object components.
 
@@ -2509,3 +2498,4 @@ en:
       tc_record_no_missing: "The Top Container ID cannot be found: %{tc_id} (see %{ref_id} in row %{row_num})"
       resource_not_in_db: "Can not find Resource %{ead_id} in the database in row %{row_num}"
       resources_do_not_match: "The resource in the spreadsheet %{spreadsheet_resource} (EAD ID: %{ead_id}) does not match the current resource %{current_resource} in row %{row_num}"
+
