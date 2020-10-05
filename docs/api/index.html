@@ -47,6 +47,8 @@
 
 <p>This is the documentation for the ArchivesSpace RESTful API. This documents the endpoints that are used by the backend server to edit records in the application.</p>
 
+<p>Since not all backend/API end points require authentication, it is best to restrict access to port 8089 to only IP addresses you trust. Your firewall should be used to specify a range of IP addresses that are allowed to call your ArchivesSpace API endpoint. This is commonly called whitelisting or allowlisting.</p>
+
 <p>This example API documentation page was created with <a href="http://github.com/tripit/slate">Slate</a>.</p>
 
 <h1 id="authentication">Authentication</h1>
@@ -207,7 +209,7 @@ curl -s -F <span class="nv">password</span><span class="o">=</span><span class="
 <span class="c"># https://github.com/archivesspace-labs/ArchivesSnake/#low-level-api</span>
 </code></pre>
 
-<p>Most requests to the ArchivesSpace backend require a user to be authenticated.  This can be done with a POST request to the /users/:user_name/login endpoint, with :user_name and :password parameters being supplied.</p>
+<p>Most requests to the ArchivesSpace backend require a user to be authenticated. Since not all requests to the backend require authentication it is important to restrict access to only trusted IP addresses.  Authentication can be done with a POST request to the /users/:user_name/login endpoint, with :user_name and :password parameters being supplied.</p>
 
 <p>The JSON that is returned will have a session key, which can be stored and used for other requests. Sessions will expire after an hour, although you can change this in your config.rb file.</p>
 
