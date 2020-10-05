@@ -221,6 +221,7 @@ module SearchHelper
   def add_pref_columns(models)
     models = [models] unless models.is_a? Array
     added = []
+    skipped = []
     if models.length > 1
       add_column(I18n.t("search.multi.primary_type"), {:field => 'primary_type', :locale_key => '_singular',
         :sortable => true, :type => 'string'})
@@ -232,11 +233,19 @@ module SearchHelper
         # we do not want to display a column for no value or the relevancy score
         next if added.include?(prop) || !prop || prop == 'no_value' || prop == 'score'
 
-        added << prop
         opts = column_opts[model][prop]
         opts[:locale_key] ||= locales(model)[prop] || "#{model}_#{prop}"
         opts[:model] = model
         # opts[:type] ||= 'string'
+
+        if opts.fetch(:condition, false)
+          unless opts[:condition].call(self)
+            skipped << prop
+            next
+          end
+        end
+
+        added << prop
         unless opts[:template]
           if lookup_context.template_exists?("#{prop}_cell", "#{model}s", true)
             opts[:template] = "#{model}s/#{prop}_cell"
@@ -251,7 +260,7 @@ module SearchHelper
     end
     models.each do |model|
       prop = browse_columns["#{model}_sort_column"]
-      next if added.include?(prop) || !prop
+      next if added.include?(prop) || skipped.include?(prop) || !prop
       added << prop
       opts = prop == 'score' ? { sort_by: 'score' } : column_opts[model][prop]
       @search_data.add_sort_field(opts[:sort_by] ? opts[:sort_by]: prop, I18n.t("search.#{model}.#{prop}"))
