@@ -87,7 +87,7 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     jruby-jars (9.2.12.0)
-    json (2.2.0-java)
+    json (2.3.0-java)
     json-schema (1.0.10)
     less (2.6.0)
       commonjs (~> 0.2.7)
@@ -281,7 +281,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   jruby-jars (= 9.2.12.0)
-  json (= 2.2.0)
+  json (= 2.3.0)
   json-schema (= 1.0.10)
   less-rails-bootstrap
   loofah (>= 2.2.3)

@@ -24,7 +24,7 @@ gem 'less-rails-bootstrap'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'json', '2.2.0'
+gem 'json', '2.3.0'
 gem 'json-schema', '1.0.10'
 
 gem 'atomic', '= 1.0.1'
