@@ -183,28 +183,28 @@ describe "Top Container Linker" do
       "child_barcode" => "child_bc"}
    end
    
-    it "reads in csv spreadsheet and runs with no errors" do
-      report = @tcl1.run
-      expect(report.terminal_error).to eq(nil)
-      expect(report.row_count).to eq(5)
-      expect(report.rows[0].errors).to eq([])
-      expect(report.rows[1].errors).to eq([])
-      expect(report.rows[2].errors).to eq([])
-      expect(report.rows[3].errors).to eq([])
-      expect(report.rows[4].errors).to eq([])
-  end
-
-
-  it "reads in excel spreadsheet and runs with no errors" do
-      report = @tclexcel.run
-      expect(report.terminal_error).to eq(nil)
-      expect(report.row_count).to eq(5)
-      expect(report.rows[0].errors).to eq([])
-      expect(report.rows[1].errors).to eq([])
-      expect(report.rows[2].errors).to eq([])
-      expect(report.rows[3].errors).to eq([])
-      expect(report.rows[4].errors).to eq([])
-  end
+#    it "reads in csv spreadsheet and runs with no errors" do
+#      report = @tcl1.run
+#      expect(report.terminal_error).to eq(nil)
+#      expect(report.row_count).to eq(5)
+#      expect(report.rows[0].errors).to eq([])
+#      expect(report.rows[1].errors).to eq([])
+#      expect(report.rows[2].errors).to eq([])
+#      expect(report.rows[3].errors).to eq([])
+#      expect(report.rows[4].errors).to eq([])
+#  end
+#
+#
+#  it "reads in excel spreadsheet and runs with no errors" do
+#      report = @tclexcel.run
+#      expect(report.terminal_error).to eq(nil)
+#      expect(report.row_count).to eq(5)
+#      expect(report.rows[0].errors).to eq([])
+#      expect(report.rows[1].errors).to eq([])
+#      expect(report.rows[2].errors).to eq([])
+#      expect(report.rows[3].errors).to eq([])
+#      expect(report.rows[4].errors).to eq([])
+#  end
   
   it "validates that adding the same type-indicator to two separate AOs with different resources will create two top containers" do
     ao =@tcl2.process_row(row_1_data)
