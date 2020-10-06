@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '5.2.4.3'
+gem 'rails', '5.2.4.4'
 
 gem 'i18n', '0.9.1'
 gem 'loofah', '>= 2.2.3'
@@ -45,11 +45,11 @@ group :test do
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
 
   # need access to ActiveSupport for helpers
-  gem 'activesupport', '5.2.4.3'
+  gem 'activesupport', '5.2.4.4'
 end
 
 group :development, :test do
-  gem 'pry-debugger-jruby'
+  gem 'pry-debugger-jruby', '>= 1.2.2'
   gem 'pry-nav'
   gem 'pry-rails'
   gem 'rubocop', '~> 0.72.0', require: false

@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '5.2.4.3'
+gem 'rails', '5.2.4.4'
 
 # For handling HTML enities when processing exports as XML
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
@@ -33,7 +33,7 @@ gem 'therubyrhino'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
-gem 'excon', '>= 0.71.0'
+gem 'excon', '>= 0.76.0'
 gem 'json', '2.3.0'
 gem 'json-schema', '1.0.10'
 gem 'multipart-post', '1.2.0'
@@ -52,7 +52,7 @@ gem 'listen', group: :development
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :development, :test do
-  gem 'pry', '~> 0.11.3'
+  gem 'pry', '~> 0.12.2'
   gem 'pry-nav'
   gem 'pry-rails'
   gem 'rubocop', '~> 0.72.0', require: false

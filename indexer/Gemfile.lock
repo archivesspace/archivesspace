@@ -1,16 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (5.2.4.3)
+    activesupport (5.2.4.4)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     atomic (1.0.1-java)
-    backports (3.18.1)
+    backports (3.18.2)
     builder (3.2.4)
-    concurrent-ruby (1.1.6)
-    excon (0.75.0)
+    concurrent-ruby (1.1.7)
+    excon (0.76.0)
     fog-aws (2.0.0)
       fog-core (~> 1.38)
       fog-json (~> 1.0)
@@ -34,7 +34,7 @@ GEM
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2020.0512)
-    minitest (5.14.1)
+    minitest (5.14.2)
     multi_json (1.15.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
@@ -66,9 +66,9 @@ PLATFORMS
   java
 
 DEPENDENCIES
-  activesupport (= 5.2.4.3)
+  activesupport (= 5.2.4.4)
   atomic (= 1.0.1)
-  excon (>= 0.71.0)
+  excon (>= 0.76.0)
   fog-aws (= 2.0.0)
   i18n (= 0.9.1)
   json (= 2.3.0)

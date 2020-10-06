@@ -27,7 +27,7 @@ gem 'tzinfo'
 
 gem 'warbler', '2.0.5', group: :build
 
-gem 'activesupport', '5.2.4.3'
+gem 'activesupport', '5.2.4.4'
 gem 'oai', '0.4.0'
 
 gem 'rrtf'
@@ -42,8 +42,8 @@ group :test do
 end
 
 group :development, :test do
-  gem 'pry'
-  gem 'pry-debugger-jruby'
+  gem 'pry', '~> 0.12.2'
+  gem 'pry-debugger-jruby', '>= 1.2.2'
   gem 'pry-nav'
   gem 'rubocop', '~> 0.72.0', require: false
 end
