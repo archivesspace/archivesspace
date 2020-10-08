@@ -42,9 +42,9 @@ es:
     merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad. Al hacer clic en el botón Comparar les autoridades, aparecerá una pantalla que le brinda la opción de elegir qué campos y sub-registros retener de cada registro. "
     merge_agent_from_browse_confirm_message: "El primer autoridad seleccionado tendrá los registros seleccionados posteriormente fusionados en él. Todos los registros seleccionados posteriormente se eliminarán y los registros vinculados se volverán a vincular al primer autoridad seleccionado."
     merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este fondo."
-    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
-    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
-    merge_n_records: "Merge %{n} records"
+    merge_container_profile_confirm_message: "El perfil de contenedor '%{target}' tendrá los registros seleccionados fusionados en él. Todos los registros seleccionados se eliminarán y los registros vinculados se volverán a vincular a este recurso."
+    batch_merge: "Seleccione el registro en el que se fusionarán todos los demás registros enumerados. Todos los registros vinculados se volverán a vincular a este registro y se eliminará toda la información de los otros registros."
+    merge_n_records: "Fusionar %{n} registros"
     move: Mover
     move_up_a_level: Un nivel
     move_up: Arriba
@@ -295,7 +295,7 @@ es:
       room: Habitación
       area: Area
       location_holdings: Ejemplares
-      location_profile_display_string_u_ssort: Location Profile
+      location_profile_display_string_u_ssort: Perfil de location
       audit_info: Datos de auditoría
       temporary: Temporal
       user_mtime: Modificado
@@ -354,7 +354,7 @@ es:
       assessment_ratings: Calificaciones
       assessment_conservation_issues: Problemas de conservación
       audit_info: Datos de auditoría
-      assessment_reviewers: Reviewer
+      assessment_reviewers: Reseñante
       user_mtime: Modificado
       create_time: Creado
       asc: Ascendente
@@ -512,7 +512,7 @@ es:
     system_info: Información del sistema
     unpublished: Inédito
     manage_assessment_attributes: Gestionar atributos de evaluación
-    toggle_navigation: Toggle Navigation
+    toggle_navigation: Navegación de palanca
 
   header:
     staff_interface: ArchivesSpace Staff Interface
@@ -897,7 +897,7 @@ es:
     _frontend:
       action:
         add: Añadir la versión del archivo
-        make_representative: Make Representative
+        make_representative: Hacer representante
 
   group:
     _frontend:
@@ -1073,7 +1073,7 @@ es:
         transfer_target: Seleccione un repositorio para transferir a
         unsuppressed: Fondo <strong>%{resource.title}</strong> suprimidas
         suppressed: Fondo <strong>%{resource.title}</strong> bloqueado
-        suppressed_info: Se suprimieron y no se pueden editar fondos
+        suppressed_info: Se suprimieron y no se pueden editar fondosIdentificador persistente de Archival Resource Key (ARK) generado fuera de ArchivesSpace. Si este campo tiene un valor, tiene prioridad sobre un ARK generado dentro de ArchivesSpace.
         delete_conflict: "El recurso no pudo ser eliminado: <pre>%{error}</pre>"
       section:
         basic_information: Información básica
@@ -1085,8 +1085,7 @@ es:
         save: Guardar fondos
         delete_multiple: Eliminar fondos
     external_ark_url: External ARK URL
-    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
-
+    external_ark_url_tooltip: Identificador persistente de Archival Resource Key (ARK) generado fuera de ArchivesSpace. Si este campo tiene un valor, tiene prioridad sobre un ARK generado dentro de ArchivesSpace.
   preference:
     _frontend:
       messages:
