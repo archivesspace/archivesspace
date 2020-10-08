@@ -1,8 +1,8 @@
 ja:
   reports:
     accession_unprocessed_report:
-      title: Unprocessed Accessions
-      description: Displays only those accession(s) that have not been processed. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected with date processed, and the total extent number for those records without a completed date processed field.
-      total_count: Number of Accessions
-      identifier_prefix: Accession
-      total_extent: Total Extent Unprocessed
+      title: 未処理のアクセッション
+      description: 処理されていないアクセッションのみを表示します。 レポートには、アクセッション番号、リンクされたリソース、タイトル、エクステント、カタログ、処理日、処理日で選択されたレコード数のカウント、および完了日処理フィールドがないレコードのエクステント総数が含まれます。
+      total_count: アクセッション数
+      identifier_prefix: アクセッション
+      total_extent: 未処理の合計範囲

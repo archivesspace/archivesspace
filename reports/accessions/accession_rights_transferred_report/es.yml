@@ -1,6 +1,6 @@
 es:
   reports:
     accession_rights_transferred_report:
-      title: Accessions with rights transferred
-      description: Displays only those accession(s) for which rights have been transferred. Report contains accession number, linked resources, title, extent, cataloged, date processed, access restrictions, use restrictions, rights transferred and a count of the number of records selected with rights transferred.
-      identifier_prefix: Accession
+      title: Accesiones con derechos transferidos
+      description: Muestra solo las accesiones para las que se han transferido derechos. El informe contiene el número de acceso, recursos vinculados, título, extensión, catalogado, fecha de procesamiento, restricciones de acceso, restricciones de uso, derechos transferidos y un recuento del número de registros seleccionados con derechos transferidos.
+      identifier_prefix: Accessione

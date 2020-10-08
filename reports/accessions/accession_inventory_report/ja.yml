@@ -1,7 +1,7 @@
 ja:
   reports:
     accession_inventory_report:
-      title: Accessions with Inventories
-      description: Displays only those accession records with an inventory.  Report contains accession number, linked resources, title, extent, accession date, container summary, and inventory.
-      number_with_inventories: Accessions with Inventories
-      identifier_prefix: Accession
+      title: 在庫のあるアクセッション
+      description: インベントリを持つアクセッションレコードのみを表示します。 レポートには、アクセッション番号、リンクされたリソース、タイトル、エクステント、アクセッション日、コンテナの概要、およびインベントリが含まれます。
+      number_with_inventories: 在庫のあるアクセッション
+      identifier_prefix: アクセッション

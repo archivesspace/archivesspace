@@ -1,6 +1,6 @@
 ja:
   reports:
     created_accessions_report:
-      title: Created Accessions
-      description: Report on accessions created within a date range
-      identifier_prefix: Accession
+      title: 作成されたアクセッション
+      description: 日付範囲内に作成されたアクセッションに関するレポート
+      identifier_prefix: アクセッション

@@ -1,6 +1,6 @@
 es:
   reports:
     accession_subjects_names_classifications_list_report:
-      title: Accessions and Linked Subjects, Names and Classifications
-      description: Displays accessions and their linked names, subjects, and classifications. Report contains accession number, linked resources, accession date, title, extent, linked names, and linked subjects.
-      identifier_prefix: Accession
+      title: Accesiones y materias vinculadas, nombres y clasificaciones
+      description: Muestra las accesiones y sus nombres vinculados, materias y clasificaciones. El informe contiene el número de acceso, los recursos vinculados, la fecha de adhesión, el título, la extensión, los nombres vinculados y los temas vinculados.
+      identifier_prefix: Accessione

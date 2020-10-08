@@ -1,6 +1,6 @@
 es:
   reports:
     accession_receipt_report:
-      title: Accession Receipt Report
-      description: Displays a receipt indicating accessioning of materials. Report contains accession number, title, extent, accession date, and repository.
-      identifier_prefix: Accession
+      title: Informe de recepción de accesióne
+      description: Muestra un recibo que indica la adhesión de materiales. El informe contiene el número de acceso, el título, el alcance, la fecha de acceso y el depósito.
+      identifier_prefix: Accesióne

@@ -1,8 +1,8 @@
 es:
   reports:
     accession_unprocessed_report:
-      title: Unprocessed Accessions
-      description: Displays only those accession(s) that have not been processed. Report contains accession number, linked resources, title, extent, cataloged, date processed, a count of the number of records selected with date processed, and the total extent number for those records without a completed date processed field.
-      total_count: Number of Accessions
-      identifier_prefix: Accession
-      total_extent: Total Extent Unprocessed
+      title: Accesiones sin procesar
+      description: Muestra solo las accesiones que no se han procesado. El informe contiene el número de acceso, los recursos vinculados, el título, la extensión, catalogado, la fecha de procesamiento, un recuento del número de registros seleccionados con la fecha de procesamiento y el número de extensión total de esos registros sin un campo de fecha de procesamiento completo.
+      total_count: Número de accesiones
+      identifier_prefix: Accessione
+      total_extent: Extensión total sin procesar

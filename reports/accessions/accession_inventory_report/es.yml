@@ -1,7 +1,7 @@
 es:
   reports:
     accession_inventory_report:
-      title: Accessions with Inventories
-      description: Displays only those accession records with an inventory.  Report contains accession number, linked resources, title, extent, accession date, container summary, and inventory.
-      number_with_inventories: Accessions with Inventories
-      identifier_prefix: Accession
+      title: Accesiones con inventarios
+      description: Muestra solo los registros de accesiones con inventario. El informe contiene el número de acceso, recursos vinculados, título, extensión, fecha de acceso, resumen del contenedor e inventario.
+      number_with_inventories: Accesiones con inventarios
+      identifier_prefix: Accesione
