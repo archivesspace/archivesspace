@@ -171,10 +171,15 @@ AbstractRelationship = Class.new(Sequel::Model) do
 
     # Finally, reindex the target record for good measure (and, in the case of
     # top containers, to update the associated collections)
-    target[:system_mtime] = Time.now
-    target[:user_mtime] = Time.now
+    # We need to skip agents because the "replace" functionality does, in some
+    # cases actually lead to modifications to the target record that can lead
+    # to "record modified since" errors.
+    unless target.class.name.include?("Agent")
+      target[:system_mtime] = Time.now
+      target[:user_mtime] = Time.now
 
-    target.save
+      target.save
+    end
 
   end
 

@@ -31,6 +31,18 @@ module RESTHelpers
       modified_response('Updated', *opts)
     end
 
+
+    def merged_response(target, victims, selections = [])
+      type = target[:type].to_sym
+      response = {:status => 'Merged', :id => target[:id], :selections => selections }
+
+      response[:target_uri] = JSONModel(type).uri_for(target[:id], :repo_id => params[:repo_id])
+      response[:deleted_uris] = victims.map { |v| JSONModel(type).uri_for(v[:id], :repo_id => params[:repo_id]) }
+
+      json_response(response)
+    end
+
+
     def deleted_response(id)
       json_response({:status => 'Deleted', :id => id})
     end
