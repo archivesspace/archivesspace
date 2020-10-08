@@ -1,5 +1,5 @@
-en:
+es:
   reports:
     subject_list_report:
-      title: Subject Records List
-      description: Displays selected subject record(s). Report lists subject term, subject term type, and subject source.
+      title: Lista de registros de sujetos
+      description: Muestra los registros del sujeto seleccionado. El informe enumera el término del tema, el tipo de término del tema y la fuente del tema.
