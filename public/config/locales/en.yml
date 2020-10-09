@@ -39,11 +39,15 @@ en:
     new_search: New Search
     refine_search: Refine Search
     browse: Browse
+    close: Close
     show_advanced_search: Show Advanced Search
     hide_advanced_search: Hide Advanced Search
     backup:  Return to the previous page
     backup_abbr: Go back
     cite: Citation
+    cite_item: Cite Item
+    cite_item_description: Cite Item Description
+    bookmark: Bookmark
     request: Request
     print: Print
     print-generating: Generating

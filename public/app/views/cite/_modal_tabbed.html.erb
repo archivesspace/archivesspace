@@ -9,22 +9,22 @@
       <div class="modal-body">
         <!-- Nav tabs via https://getbootstrap.com/docs/3.4/javascript/#markup -->
         <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active">
-            <a href="#item" aria-controls="item" role="tab" data-toggle="tab" >Cite Item</a>
+          <li role="presentation" class="<%='active' if AppConfig[:pui_active_citation_tab_item]%>">
+            <a href="#item" aria-controls="item" role="tab" data-toggle="tab" ><%= I18n.t("actions.cite_item") %></a>
           </li>
-          <li role="presentation">
-            <a href="#description" aria-controls="description" role="tab" data-toggle="tab">Cite Item Description</a>
+          <li role="presentation" class="<%='active' if !AppConfig[:pui_active_citation_tab_item]%>">
+            <a href="#description" aria-controls="description" role="tab" data-toggle="tab"><%= I18n.t("actions.cite_item_description") %></a>
           </li>
         </ul>
 
         <!-- Tab panes -->
         <section class="tab-content" style="margin-top: 15px;">
-          <p role="tabpanel" class="tab-pane active" data-js="citation" id="item"><%= item %></p>
-          <p role="tabpanel" class="tab-pane" data-js="citation" id="description"><%= description %></p>
-        </section> 
+          <p role="tabpanel" class="tab-pane <%='active' if AppConfig[:pui_active_citation_tab_item]%>" data-js="citation" id="item"><%= item %></p>
+          <p role="tabpanel" class="tab-pane <%='active' if !AppConfig[:pui_active_citation_tab_item]%>" data-js="citation" id="description"><%= description %></p>
+        </section>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal"><%= I18n.t("actions.close") %></button>
         <button type="button" class="btn btn-primary action-btn"></button>
       </div>
     </div>

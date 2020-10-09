@@ -39,11 +39,15 @@ fr:
     new_search: Nouvelle recherche
     refine_search: Affiner la recherche
     browse: Parcourir
+    close: Fermer
     show_advanced_search: Afficher Recherche avancée
     hide_advanced_search: Masquer Recherche avancée
     backup:  Revenir à la page précédente
     backup_abbr: Retour
     cite: Citation
+    cite_item: Cité article
+    cite_item_description: Cité Élément Description
+    bookmark: Signet
     request: Requête
     print: Impression
     print-generating: Génération

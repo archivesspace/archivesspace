@@ -524,6 +524,11 @@ AppConfig[:pui_page_actions_cite] = true
 AppConfig[:pui_page_actions_request] = true
 AppConfig[:pui_page_actions_print] = true
 
+# Set default/active tab for PUI citation modal. If set to 'true' item citation
+# tab will be active by default; if 'false' item description tab will be active.
+# AppConfig[:pui_page_actions_cite] must be set to true for this to take effect.
+AppConfig[:pui_active_citation_tab_item] = true
+
 # Enable / disable search-in-collection form in sidebar when viewing records
 AppConfig[:pui_search_collection_from_archival_objects] = false
 AppConfig[:pui_search_collection_from_collection_organization] = false
