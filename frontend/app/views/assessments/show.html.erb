@@ -11,7 +11,11 @@
         <h2><%= I18n.t('assessment._frontend.form_header', :display_string => @assessment.display_string) %> <span class="label label-info label-default"><%= I18n.t("assessment._singular") %></span></h2>
 
         <%= render_aspace_partial :partial => "assessments/form", :locals => {:form => readonly} %>
-
+		
+		  <% if @assessment.external_documents.length > 0 %>
+            <%= render_aspace_partial :partial => "external_documents/show", :locals => { :external_documents => @assessment.external_documents, :section_id => "assessment_external_documents_" } %>
+          <% end %>
+		
         <%= show_plugins_for(@assessment, readonly) %>
 
       <% end %>
