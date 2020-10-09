@@ -6,10 +6,12 @@
     </h3>
     <ul>
       <% if @search_data.query? %>
-        <li>
-          <%= link_to @search_data.facet_label_for_query, build_search_params({"q" => ""}) %>
-          <%= link_to '<span class="glyphicon glyphicon-remove"></span>'.html_safe, build_search_params({"q" => ""}) %>
-        </li>
+        <% query_array = @search_data[:criteria]["q"].split(" AND ") %>
+        <% query_array.each do | query | %>
+          <li>
+            <%= link_to "#{h(@search_data.facet_label_for_query(query))} <span class='glyphicon glyphicon-remove'></span>".html_safe, build_search_params({"q" => query_array.reject{ |k| k==query}.join(' AND ')}) %>
+          </li>
+        <% end %>
       <% end %>
       <% if @search_data.filtered_terms? %>
         <% @search_data[:criteria]["filter_term[]"].each do | filter_term | %>
@@ -24,7 +26,8 @@
 
 <% if params["advanced"] != "true" %>
   <%= form_tag({}, :method => :get) do %>
-    <% build_search_params.reject{|k, v| k === "q"}.each do |k, v| %>
+    <% query_array = @search_data.query? ? @search_data[:criteria]["q"] : ''%>
+    <% build_search_params({"q" => query_array}).each do |k, v| %>
       <% if v.kind_of? Array %>
         <% v.each do |val| %>
           <%= hidden_field_tag "#{k}[]", val %>

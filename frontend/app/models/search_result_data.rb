@@ -285,19 +285,13 @@ class SearchResultData
     not @search_data[:criteria]["q"].blank?
   end
 
-  def facet_label_for_query
-    label = @search_data[:criteria]["q"]
-    query_array = @search_data[:criteria]["q"].split(" AND ") 
-    query_array.each do |query|
-      label = ""
-      delimiter = ""
-      if (query.match(/\-.+\:\*/))
-        value = query.tr("-:*", "")
-        label += delimiter + I18n.t("search.blank_facet_query_fields."+value)+":None"
-        delimiter = " AND "
-      end
-    end  
-    "#{I18n.t("search.multi.query")}: #{label}"
+  def facet_label_for_query(query)
+    if (query.match(/\-.+\:\*/))
+      value = query.tr("-:*", "")
+      "#{I18n.t("search.blank_facet_query_fields."+value)+": None"}"
+    else
+      "#{I18n.t("search.multi.query")}: #{query}"
+    end
   end
 
   def self.BASE_SORT_FIELDS

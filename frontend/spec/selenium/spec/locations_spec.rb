@@ -66,6 +66,24 @@ describe 'Locations' do
     @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '329 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
   end
 
+  it 'saves a valid repository-owned location' do
+    @driver.find_element(:link, 'Create').click
+    @driver.find_element(:link, 'Location').click
+    @driver.click_and_wait_until_gone(:link, 'Single Location')
+    expect(@driver.find_element(:css, 'h2').text).to eq('New Location Location')
+
+    @driver.clear_and_send_keys([:id, 'location_building_'], 'Repo Building')
+    @driver.clear_and_send_keys([:id, 'location_coordinate_1_label_'], 'Section')
+    @driver.clear_and_send_keys([:id, 'location_coordinate_1_indicator_'], '0001')
+
+    token_input = @driver.find_element(:id, 'token-input-location_owner_repo__ref_')
+    @driver.typeahead_and_select(token_input, "locations_test_")
+
+    @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
+
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Created/)
+  end
+
   it 'allows the new location to be viewed in non-edit mode' do
     @driver.get($frontend)
 
@@ -156,6 +174,19 @@ describe 'Locations' do
     expect do
       @driver.find_paginated_element(xpath: "//tr[.//*[contains(text(), '329 W. 81st St, 5, 5A [Box XYZ: XYZ0001]')]]")
     end.not_to raise_error
+  end
+
+  it 'lists then filters locations by repository' do
+    run_all_indexers
+
+    @driver.find_element(:link, 'Browse').click
+    @driver.wait_for_dropdown
+    @driver.click_and_wait_until_gone(:link, 'Locations')
+
+    assert(5) { @driver.find_element_with_text('//h3', /Repository/) }
+    assert(5) { @driver.find_element_with_text('//a', /LOCATIONS_TEST_/) }
+    @driver.find_element_with_text('//a', /LOCATIONS_TEST_/).click
+    assert(5) { @driver.find_element_with_text('//div', /Showing .*1.* of.*Results/) }
   end
 
   describe 'Location batch' do
