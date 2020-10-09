@@ -1,6 +1,6 @@
 es:
   reports:
     assessment_list_report:
-      description: All Created Assessment Records
-      title: Assessment Record List
-      identifier_prefix: Assessment
+      description: Todos los registros de evaluación creados
+      title: Lista de registros de evaluación
+      identifier_prefix: Evaluación

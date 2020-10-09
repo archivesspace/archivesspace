@@ -1,5 +1,5 @@
 es:
   reports:
     digital_object_list_table_report:
-      title: Digital Object table
-      description: Displays digital object(s) in table format.  Report contains title, digital object identifier, object type, dates and the title and identifier of linked resources.
+      title: Tabla de objetos digitales
+      description: Muestra objetos digitales en formato de tabla. El informe contiene el título, el identificador de objeto digital, el tipo de objeto, las fechas y el título y el identificador de los recursos vinculados.

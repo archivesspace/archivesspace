@@ -1,5 +1,5 @@
 es:
   reports:
     digital_object_file_versions_report:
-      title: File Version List
-      description: Displays any file versions associated with the selected digital objects.
+      title: Lista de versiones de archivo
+      description: Muestra las versiones de archivo asociadas con los objetos digitales seleccionados.
