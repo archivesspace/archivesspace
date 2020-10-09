@@ -914,7 +914,8 @@ class EADConverter < Converter
       'genreform' => 'genre_form',
       'geogname' => 'geographic',
       'occupation' => 'occupation',
-      'subject' => 'topical'
+      'subject' => 'topical',
+      'title' => 'uniform_title'
       }.each do |tag, type|
         with "controlaccess/#{tag}" do |*|
           make :subject, {
