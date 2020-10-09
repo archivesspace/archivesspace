@@ -1,5 +1,5 @@
 ja:
   reports:
     resources_list_report:
-      title: Resources List Report
-      description: The Resources List Report includes basic information, dates, and extents for resource records.
+      title: リソースリストレポート
+      description: リソースリストレポートには、リソースレコードの基本情報、日付、および範囲が含まれています。
