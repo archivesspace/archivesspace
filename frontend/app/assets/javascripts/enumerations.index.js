@@ -22,10 +22,10 @@ $(function() {
        } else if (itemCount > 0 ) {
         output = itemCount + " related items.";  
       } else {
-        $this.closest('tr').find('.btn-info').attr('disabled', false) 
-        output = "Not used.";  
-      } 
-      $this.html("<a href='" + url + "'>" + output + "</a>"); 
+        $this.closest('tr').find('.btn-warning').attr('disabled', false) 
+        output = "Not used.";
+      }
+      $this.html("<a href='" + url + "'>" + output + "</a>");
     });
               
   };
