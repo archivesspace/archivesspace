@@ -1,6 +1,6 @@
 es:
   reports:
     accession_report:
-      title: Informe de accesióne
-      description: Muestra todas las accesiones de un repositorio determinado. El informe incluye datos ingresados en campos de información básica para cada accesión.
-      identifier_prefix: Accesióne
+      title: Informe de adhesión
+      description: Muestra todas las adhesiónes de un repositorio determinado. El informe incluye datos ingresados en campos de información básica para cada adhesión.
+      identifier_prefix: Adhesión
