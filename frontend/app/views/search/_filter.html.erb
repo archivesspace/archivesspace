@@ -48,7 +48,11 @@
   <ul>
     <% facets.each do |facet, facet_map| %>
       <li>
-        <% opts = {"add_filter_term" => facet_map[:filter_term]} %>
+      	<% if facet_map.has_key?(:q) %>
+        	<% opts = {"q" => facet_map[:q]} %>
+      	<% else %>
+			<% opts = {"add_filter_term" => facet_map[:filter_term]} %>
+      	<% end %>
         <% opts['facets'] = SearchResultData.facets_for(facet) if facet_group == 'primary_type' %>
         <%= link_to facet_map[:label], build_search_params(opts) %> <span class="badge"><%= facet_map[:count] %></span>
       </li>

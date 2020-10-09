@@ -297,6 +297,8 @@ en:
       area: Area
       location_holdings: Holdings for Current Repository
       location_profile_display_string_u_ssort: Location Profile
+      owner_repo_display_string_u_ssort: Repository
+      none: None
       audit_info: Audit Information
       temporary: Temporary
       user_mtime: Modified
@@ -442,6 +444,8 @@ en:
       extents: Extent
       asc: Ascending
       desc: Descending
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: Repository
 
 
   advanced_search:

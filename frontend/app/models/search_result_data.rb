@@ -16,12 +16,26 @@ class SearchResultData
       facets.each_slice(2).each {|facet_and_count|
         next if facet_and_count[1] === 0
 
-        @facet_data[facet_group][facet_and_count[0]] = {
-          :label => facet_label_string(facet_group, facet_and_count[0]),
-          :count => facet_and_count[1],
-          :filter_term => facet_query_string(facet_group, facet_and_count[0]),
-          :display_string => facet_display_string(facet_group, facet_and_count[0])
-        }
+        
+        if (facet_and_count[0] == "none")
+          query = facet_query_string(facet_group, facet_and_count[0])
+          if (@search_data[:criteria].has_key?('q'))
+            query = @search_data[:criteria]['q'] + ' AND ' + query
+          end
+          @facet_data[facet_group][facet_and_count[0]] = {
+              :label => facet_label_string(facet_group, facet_and_count[0]),
+              :count => facet_and_count[1],
+              :q => query,
+              :display_string => facet_display_string(facet_group, facet_and_count[0])
+            }
+        else
+          @facet_data[facet_group][facet_and_count[0]] = {
+              :label => facet_label_string(facet_group, facet_and_count[0]),
+              :count => facet_and_count[1],
+              :filter_term => facet_query_string(facet_group, facet_and_count[0]),
+              :display_string => facet_display_string(facet_group, facet_and_count[0])
+            }
+        end
       }
     }
   end
@@ -38,6 +52,9 @@ class SearchResultData
 
 
   def facet_query_string(facet_group, facet)
+    if (facet == "none")
+      return "-" + facet_group + ":*"
+    end
     {facet_group => facet}.to_json
   end
 
@@ -95,6 +112,8 @@ class SearchResultData
   end
 
   def facet_label_string(facet_group, facet)
+    return I18n.t("search.location.none") if facet == "none"
+    return facet.upcase if facet_group == "owner_repo_display_string_u_ssort"
     return I18n.t("#{facet}._singular", :default => I18n.t("plugins.#{facet}._singular", :default => facet)) if facet_group === "primary_type"
     return I18n.t("enumerations.name_source.#{facet}", :default => I18n.t("enumerations.subject_source.#{facet}", :default => facet)) if facet_group === "source"
     return I18n.t("enumerations.name_rule.#{facet}", :default => facet) if facet_group === "rules"
@@ -267,7 +286,18 @@ class SearchResultData
   end
 
   def facet_label_for_query
-    "#{I18n.t("search.multi.query")}: #{@search_data[:criteria]["q"]}"
+    label = @search_data[:criteria]["q"]
+    query_array = @search_data[:criteria]["q"].split(" AND ") 
+    query_array.each do |query|
+      label = ""
+      delimiter = ""
+      if (query.match(/\-.+\:\*/))
+        value = query.tr("-:*", "")
+        label += delimiter + I18n.t("search.blank_facet_query_fields."+value)+":None"
+        delimiter = " AND "
+      end
+    end  
+    "#{I18n.t("search.multi.query")}: #{label}"
   end
 
   def self.BASE_SORT_FIELDS
@@ -299,7 +329,7 @@ class SearchResultData
   end
 
   def self.LOCATION_FACETS
-    ["temporary", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"]
+    ["temporary", "owner_repo_display_string_u_ssort", "building", "floor", "room", "area", "location_profile_display_string_u_ssort"]
   end
 
   def self.SUBJECT_FACETS
