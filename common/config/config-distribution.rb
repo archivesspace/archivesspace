@@ -75,7 +75,7 @@ class AppConfig
       if envvar =~ /^APPCONFIG_/
         # Convert envvar to property: i.e. turn APPCONFIG_DB_URL into :db_url
         property = envvar.partition('_').last.downcase.to_sym
-        @@parameters[resolve_alias(property)] = parse_environment_value(value)
+        @@parameters[resolve_alias(property)] = parse_value(value)
       end
     end
   end
@@ -201,11 +201,22 @@ class AppConfig
     deprecated_parameters[alias_parameter] = options.fetch(:deprecated, false)
   end
 
-  def self.parse_environment_value(value)
-    value = true  if value.to_s =~ /^(T|true)$/
-    value = false if value.to_s =~ /^(F|false)$/
-    value = value.to_i if value =~ /^\d+$/
-    value
+  def self.parse_value(value)
+    case value
+    when /^true$/i
+      true
+    when /^false$/i
+      false
+    when /^\d+$/
+      value.to_i
+    when /^:/
+      value.gsub(/\W/, '').to_sym
+    when /^[\[\{].*[\}\]]$/
+      require 'json' unless defined?(JSON)
+      JSON.parse(value) # if this doesn't work let it blow
+    else
+      value
+    end
   end
 
 end
