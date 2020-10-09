@@ -6,7 +6,7 @@ es:
     add_event: Agregar evento
     automate: Generar automáticamente
     batch: Lote
-    browse: Navegar
+    browse: Vistazo
     cancel: Cancelar
     close: Cerrar
     continue: Continuar
@@ -38,13 +38,28 @@ es:
     merge_confirm_title: ¿Se combinan en este registro?
     merge_agent_compare_agent_details: Comparar les autoridades
     merge_from_browse_confirm_title: Fusionar registros seleccionados?
-    merge_subject_confirm_message: "La materia '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a esta materia."
-    merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este autoridad. Al hacer clic en el botón Comparar les autoridades, aparecerá una pantalla que le brinda la opción de elegir qué campos y sub-registros retener de cada registro. "
-    merge_agent_from_browse_confirm_message: "El primer autoridad seleccionado tendrá los registros seleccionados posteriormente fusionados en él. Todos los registros seleccionados posteriormente se eliminarán y los registros vinculados se volverán a vincular al primer autoridad seleccionado."
-    merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados fusionados con él. Se eliminarán todos los registros de selectos y cualquier registros vinculados será nuevamente vinculados a este fondo."
-    merge_container_profile_confirm_message: "The container profile '%{target}' will have the selected records merged into it. All selected records will be deleted and any linked records will be re-linked to this resource."
-    batch_merge: "Select the record into which all of the other listed record(s) will merge. Any linked records will be re-linked to this record and all information for the other record(s) will be deleted."
-    merge_n_records: "Merge %{n} records"
+    merge_subject_confirm_message: "La materia '%{source}' tendrá los registros seleccionados\
+      \ fusionados con él. Se eliminarán todos los registros de selectos y cualquier\
+      \ registros vinculados será nuevamente vinculados a esta materia."
+    merge_agent_confirm_message: "La autoridad '%{source}' tendrá los registros seleccionados\
+      \ fusionados con él. Se eliminarán todos los registros de selectos y cualquier\
+      \ registros vinculados será nuevamente vinculados a este autoridad. Al hacer\
+      \ clic en el botón Comparar les autoridades, aparecerá una pantalla que le brinda\
+      \ la opción de elegir qué campos y sub-registros retener de cada registro. "
+    merge_agent_from_browse_confirm_message: "El primer autoridad seleccionado tendrá\
+      \ los registros seleccionados posteriormente fusionados en él. Todos los registros\
+      \ seleccionados posteriormente se eliminarán y los registros vinculados se volverán\
+      \ a vincular al primer autoridad seleccionado."
+    merge_resource_confirm_message: "El fondo '%{source}' tendrá los registros seleccionados\
+      \ fusionados con él. Se eliminarán todos los registros de selectos y cualquier\
+      \ registros vinculados será nuevamente vinculados a este fondo."
+    merge_container_profile_confirm_message: "El perfil de contenedor '%{target}'\
+      \ tendrá los registros seleccionados combinados en él. Todos los registros seleccionados\
+      \ se eliminarán y los registros vinculados se volverán a vincular a este recurso."
+    batch_merge: "Seleccione el registro en el que se fusionarán todos los demás registros\
+      \ enumerados. Los registros vinculados se volverán a vincular a este registro\
+      \ y toda la información de los demás registros se eliminará."
+    merge_n_records: "Combinar %{n} registros"
     move: Mover
     move_up_a_level: Un nivel
     move_up: Arriba
@@ -61,14 +76,23 @@ es:
     set_default: Marcar como predeterminado
     suppress: Bloquear
     suppress_confirm_title: ¿Bloquear este registro?
-    suppress_confirm_message: "Mientras que un registro bloqueado permanecerá en la base de datos, se convertirá en ocultos a la mayoría de los usuarios y a la mayoría de las funciones de carácter."
+    suppress_confirm_message: "Mientras que un registro bloqueado permanecerá en la\
+      \ base de datos, se convertirá en ocultos a la mayoría de los usuarios y a la\
+      \ mayoría de las funciones de carácter."
     transfer: Transferencia
     transfer_confirm_title: ¿La transferencia de este registro?
-    transfer_confirm_message: "El registro '%{target}' se transferirá en el repositorio seleccionado"
-    transfer_successful: Transferencia exitosa.  Los registros pueden tardar un momento en aparecer en el repositorio de destino mientras nueva indexación se lleva a cabo.
+    transfer_confirm_message: "El registro '%{target}' se transferirá en el repositorio\
+      \ seleccionado"
+    transfer_successful: Transferencia exitosa.  Los registros pueden tardar un momento
+      en aparecer en el repositorio de destino mientras nueva indexación se lleva
+      a cabo.
     transfer_failed: Transferencia fallida
-    transfer_failed_records_using_digital_objects: "Los siguientes registros se vinculan a objetos digitales que se transferirían, pero hacerlo rompería sus enlaces de instancia"
-    transfer_failed_digital_objects_linked_to_records: "Este objeto digital se vincula a otros registros contenidos en este repositorio. Para continuar con esta transferencia, elimine los enlaces en los siguientes registros"
+    transfer_failed_records_using_digital_objects: "Los siguientes registros se vinculan\
+      \ a objetos digitales que se transferirían, pero hacerlo rompería sus enlaces\
+      \ de instancia"
+    transfer_failed_digital_objects_linked_to_records: "Este objeto digital se vincula\
+      \ a otros registros contenidos en este repositorio. Para continuar con esta\
+      \ transferencia, elimine los enlaces en los siguientes registros"
     unset_default: Desactivada por defecto
     unsuppress: Desactivar
     unsuppress_confirm_title: ¿Bloquear este registro?
@@ -77,12 +101,19 @@ es:
     move_ordering_problem_message: "Grabar problema de pedido de movimiento"
     delete: Borrar
     delete_confirm_title: ¿Desea eliminar este registro? %{title}
-    delete_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de la base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p>"
+    delete_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede\
+      \ deshacer esta acción</strong>.</p><p>Esta acción eliminará el registro de\
+      \ la base de datos, incluyendo cualquier referencia que se tiene con otros registros.</p>"
     delete_repository_confirm_title: ¿Borrar este repositorio? %{name}
-    delete_repository_confirm_message: "<p><strong>No puedes deshacer este cambio</strong>.</p><p>Esta acción eliminará el <strong>repositorio</strong> y todos los registros asociados incluidas las referencias a otros registros.</p><p>Para seguir adelante por favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
+    delete_repository_confirm_message: "<p><strong>No puedes deshacer este cambio</strong>.</p><p>Esta\
+      \ acción eliminará el <strong>repositorio</strong> y todos los registros asociados\
+      \ incluidas las referencias a otros registros.</p><p>Para seguir adelante por\
+      \ favor indica '%{repository}' abajo:</p><p><input id='deleteRepoConfim' data-confirm-answer='%{repository}'></input></p>"
     delete_multiple: Borrar registros
     delete_multiple_confirm_title: ¿Borrar registros?
-    delete_multiple_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará estos registros de la base de datos, incluyendo referencias tienen a otros registros.</p>"
+    delete_multiple_confirm_message: "<p>Por favor, ser conscientes de que <strong>no\
+      \ puede deshacer esta acción</strong>.</p><p>Esta acción eliminará estos registros\
+      \ de la base de datos, incluyendo referencias tienen a otros registros.</p>"
     edit_multiple: Editar múltiples registros
     edit_multiple_confirm_title: ¿Editar registros?
     edit_multiple_confirm_message: "<p>Esto actualizará múltiples registros.</p>"
@@ -98,10 +129,13 @@ es:
     finish_editing: Finalizar edición
     merge: Fusión
     form_changes_message: "<small><span class='muted'>Hay cambios sin guardar</span></small>"
-    toolbar_disabled_message: "<small><span class='muted'>No se han guardado los cambios - Guarda o vuelve atrás </span></small>"
+    toolbar_disabled_message: "<small><span class='muted'>No se han guardado los cambios\
+      \ - Guarda o vuelve atrás </span></small>"
     publish: Publicar todos
     publish_confirm_title: ¿Publicar?
-    publish_confirm_message: "<p>Realizar esta acción va a publicar este documento, los registros secundarios (documentos externos, notas, etc.) y todos los componentes de la jerarquía.</p>"
+    publish_confirm_message: "<p>Realizar esta acción va a publicar este documento,\
+      \ los registros secundarios (documentos externos, notas, etc.) y todos los componentes\
+      \ de la jerarquía.</p>"
     view_search_results: Ir a los resultados de búsqueda
     view_published: Ver publicados
     print_to_pdf: Generar PDF
@@ -113,8 +147,13 @@ es:
     enable_reorder: Habilitar el modo de reorden
     reorder_active: Deshabilitar el modo de reorden
 
+    download_bulk_import_report: Descargar Informe
+    bulk_import_job: Carga a través de la hoja de cálculo
+    bulk_import: Carga a través de la hoja de cálculo
   database_warning:
-   message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar MySQL para sistemas en producción.</p>"
+    message: "<p><strong>Advertencia de base de datos:</strong> Estas utilizando la\
+      \ base de datos (Apache Derby) habilitada para pruebas. Le recomendamos utilizar\
+      \ MySQL para sistemas en producción.</p>"
 
   states:
     auto_generated: Generado automáticamente
@@ -133,7 +172,7 @@ es:
     last: Último
     previous: "&#171;"
     previous_label: Anterior
-    next: «&#187;»
+    next: '&#187;'
     next_label: Próxima
     summary_prefix: Mostrando
     summary_offset_connector: "-"
@@ -148,7 +187,7 @@ es:
     selected: ¿Seleccionado?
     no_results: Registros no encontrados
     no_results_prefix: No hay resultados de la búsqueda
-    result_type: Tipo de registro
+    result_type: Tipo de recuerdo
     result_title: Título
     result_identifier: Identificador
     filtered_by: Filtrado por
@@ -159,12 +198,14 @@ es:
     clear_all: Borrar todo
     component_switch: Mostrar componentes
     help:
-      row_selection: Haga clic en una fila para seleccionarla para operaciones masivas. Mantenga la tecla ALT mientras hace clic en una casilla de verificación para seleccionar o anular la selección, múltiples filas anteriores.
+      row_selection: Haga clic en una fila para seleccionarla para operaciones masivas.
+        Mantenga la tecla ALT mientras hace clic en una casilla de verificación para
+        seleccionar o anular la selección, múltiples filas anteriores.
 
 
   search_sorting:
-    sort_by: "Ordenar por"
-    and: "y"
+    sort_by: "Ordenar por:"
+    and: "y:"
     asc: Ascendente
     desc: Descendente
     select: Seleccione
@@ -295,7 +336,7 @@ es:
       room: Habitación
       area: Area
       location_holdings: Ejemplares
-      location_profile_display_string_u_ssort: Location Profile
+      location_profile_display_string_u_ssort: Perfil de ubicación
       audit_info: Datos de auditoría
       temporary: Temporal
       user_mtime: Modificado
@@ -354,7 +395,7 @@ es:
       assessment_ratings: Calificaciones
       assessment_conservation_issues: Problemas de conservación
       audit_info: Datos de auditoría
-      assessment_reviewers: Reviewer
+      assessment_reviewers: Revisor
       user_mtime: Modificado
       create_time: Creado
       asc: Ascendente
@@ -456,7 +497,7 @@ es:
     boolean_field:
       true_value: "Verdadero"
       false_value: "Falso"
-    button_text: Búsqueda
+    button_text: Buscar
     reset: Limpiar
     nav_switcher:
       show: Mostrar avanzadas
@@ -512,7 +553,7 @@ es:
     system_info: Información del sistema
     unpublished: Inédito
     manage_assessment_attributes: Gestionar atributos de evaluación
-    toggle_navigation: Toggle Navigation
+    toggle_navigation: Alternar navegación
 
   header:
     staff_interface: ArchivesSpace Staff Interface
@@ -570,15 +611,19 @@ es:
 
   mixed_content:
     wrap_prefix: "Envolver con"
-    help: "De tipo mixto activado contenido--' <' para elementos o texto resaltado envolver"
+    help: "De tipo mixto activado contenido--' <' para elementos o texto resaltado\
+      \ envolver"
 
   import:
     eac_title: Importar un archivo de EAC
     ead_title: Importar un archivo de EAD
     marcxml_title: Importar un archivo MARCXML
-    marcxml_subjects_and_agents_title: Materias y autoridades de importación desde un archivo MARCXML
-    accession_csv_title: Importación de registros de actas de ingresos desde un archivo CSV
-    digital_object_csv_title: Importación de registros de objeto Digital desde un archivo CSV
+    marcxml_subjects_and_agents_title: Materias y autoridades de importación desde
+      un archivo MARCXML
+    accession_csv_title: Importación de registros de actas de ingresos desde un archivo
+      CSV
+    digital_object_csv_title: Importación de registros de objeto Digital desde un
+      archivo CSV
     import_report: Informe de importación
     import_another: Importar archivo de otro
     file_select: Seleccione un archivo para cargarlo
@@ -623,25 +668,31 @@ es:
       before: Añadir artículos antes
       after: Añadir artículos después
       as_child: Añadir artículos como niños
-    unexpected_failure: Ups! Estamos teniendo problemas para ir a buscar este árbol. Por favor, intente actualizar la página.
+    unexpected_failure: Ups! Estamos teniendo problemas para ir a buscar este árbol.
+      Por favor, intente actualizar la página.
 
   errors:
     sidebar_label: Errores y advertencias
     error_403: Incapaz de acceder la página
-    error_403_message: "Has intentado acceder a la página ya no existan o que no tenga permiso para verlo."
+    error_403_message: "Has intentado acceder a la página ya no existan o que no tenga\
+      \ permiso para verlo."
     error_404: Registros no encontrados
-    error_404_message: "El récord que has intentado acceder ya no existan o que no tenga permiso para ver."
+    error_404_message: "El récord que has intentado acceder ya no existan o que no\
+      \ tenga permiso para ver."
     error_tree_pane_ajax: Se ha producido un error al cargar este formulario.
     merge_conflict: "Los agentes fusionados no pudieron completar: %{message}"
     merge_too_many_victims: Solo se puede seleccionar un agente para una fusión detallada.
-    merge_different_types: Los agentes seleccionados para la fusión detallada deben ser del mismo tipo.
-    linked_to_assessment: El registro no se puede eliminar ya que está vinculado a una evaluación
+    merge_different_types: Los agentes seleccionados para la fusión detallada deben
+      ser del mismo tipo.
+    linked_to_assessment: El registro no se puede eliminar ya que está vinculado a
+      una evaluación
 
   accession:
     _frontend:
       messages:
         created: Acta de ingreso <strong>%{accession.display_string}</strong> creada
-        unsuppressed: Acta de ingreso <strong>%{accession.display_string}</strong> desbloqueada
+        unsuppressed: Acta de ingreso <strong>%{accession.display_string}</strong>
+          desbloqueada
         updated: Acta de ingreso <strong>%{accession.display_string}</strong> actualizada
         suppressed: Acta de ingreso <strong>%{accession.display_string}</strong> bloqueada
         suppressed_info: Acta de ingreso se bloquea y no se pueden editar
@@ -656,7 +707,7 @@ es:
         create: Crear acta de ingreso
         save: Guardar el acta de ingreso
 
-  agent: &agent_attributes
+  agent:
     _frontend:
       messages:
         created: Autoridad creada
@@ -672,7 +723,8 @@ es:
         name: Formas conocidas
         contacts: Los datos de contacto
         search_embedded: Registros vinculados
-        linked_via_rights_statement: Registros vinculados mediante declaración de derechos
+        linked_via_rights_statement: Registros vinculados mediante declaración de
+          derechos
         target_record: Este registro será actualizado
         victim_record: Este registro será eliminado
       action:
@@ -710,22 +762,33 @@ es:
         save: Guardar Software
 
   archival_object:
-    external_ark_url: External ARK URL
-    external_ark_url_tooltip: External ARK URL Tooltip
+    external_ark_url: URL de ARK externa
+    external_ark_url_tooltip: Información sobre herramientas de ARK externa URL
     _frontend:
       messages:
-        created: Documento de archivo <strong>%{archival_object.display_string}</strong> del fondo <strong>%{resource.title}</strong> creado
-        created_with_parent: Documento de archivo <strong>%{archival_object.display_string}</strong> creado como niño de <strong>%{parent.display_string}</strong> del fondo <strong>%{resource.title}</strong>
-        updated: Documento de archivo <strong>{archival_object.display_string} %</strong> actualizado
-        updated_with_parent: Documento de archivo <strong>{archival_object.display_string} %</strong> actualizado
+        created: Documento de archivo <strong>%{archival_object.display_string}</strong>
+          del fondo <strong>%{resource.title}</strong> creado
+        created_with_parent: Documento de archivo <strong>%{archival_object.display_string}</strong>
+          creado como niño de <strong>%{parent.display_string}</strong> del fondo
+          <strong>%{resource.title}</strong>
+        updated: Documento de archivo <strong>{archival_object.display_string} %</strong>
+          actualizado
+        updated_with_parent: Documento de archivo <strong>{archival_object.display_string}
+          %</strong> actualizado
         please_select_a_resource_for_transfer: Por favor, elija un fondo
-        transfer_success: Transferido con éxito el objeto de archivo <strong>%{archival_object.display_string}</strong> al fondo <strong>%{resource.title}</strong>
-        transfer_error: "No se puede transferir objeto de archivo debido a un error o conflicto"
-        deleted: "Documento de archivo <strong>{archival_object.display_string} %</strong> eliminado"
-        unsuppressed: Documento de archivo <strong>%{archival_object.title}</strong> desbloqueado
-        suppressed: Documento de archivo <strong>%{archival_object.title}</strong> bloqueado
+        transfer_success: Transferido con éxito el objeto de archivo <strong>%{archival_object.display_string}</strong>
+          al fondo <strong>%{resource.title}</strong>
+        transfer_error: "No se puede transferir objeto de archivo debido a un error\
+          \ o conflicto"
+        deleted: "Documento de archivo <strong>{archival_object.display_string} %</strong>\
+          \ eliminado"
+        unsuppressed: Documento de archivo <strong>%{archival_object.title}</strong>
+          desbloqueado
+        suppressed: Documento de archivo <strong>%{archival_object.title}</strong>
+          bloqueado
         suppressed_info: Documento de archivo se bloquea y no se pueden editar
-        has_unpublished_ancestor: Por favor tenga en cuenta que este registro tiene un padre que es inédito.
+        has_unpublished_ancestor: Por favor tenga en cuenta que este registro tiene
+          un padre que es inédito.
         delete_conflict: "Objeto de archivo no pudo ser eliminado: <pre>%{error}</pre>"
       section:
         basic_information: Información básica
@@ -755,11 +818,16 @@ es:
   classification_term:
     _frontend:
       messages:
-        created: "Término de clasificación <strong>%{classification_term.title}</strong> creado"
-        created_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong> creado"
-        updated: "Término de clasificación <strong>%{classification_term.title}</strong> actualizado"
-        updated_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong> actualizado"
-        deleted: "Término de clasificación <strong>%{classification_term.title}</strong> borrado"
+        created: "Término de clasificación <strong>%{classification_term.title}</strong>\
+          \ creado"
+        created_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong>\
+          \ creado"
+        updated: "Término de clasificación <strong>%{classification_term.title}</strong>\
+          \ actualizado"
+        updated_with_parent: "Término de clasificación <strong>%{classification_term.title}</strong>\
+          \ actualizado"
+        deleted: "Término de clasificación <strong>%{classification_term.title}</strong>\
+          \ borrado"
       section:
         basic_information: Información básica
         search_embedded: Registros vinculados
@@ -770,7 +838,7 @@ es:
       tree:
         new_record_title: Nuevo término de clasificación
 
-  collection_management: &collection_management_attributes
+  collection_management:
     _frontend:
       title_prefix: Procesamiento
       action:
@@ -791,6 +859,7 @@ es:
       action:
         add: Agregar fecha
 
+      expression_placeholder: Describe la fecha o el rango de fechas
   dates_of_existence:
     _frontend:
       action:
@@ -807,7 +876,8 @@ es:
         created: "Objeto digital <strong>%{digital_object.title}</strong> creado"
         updated: "Objeto digital <strong>%{digital_object.title}</strong> actualizado"
         deleted: "Objeto digital <strong>%{digital_object.title}</strong> borrado"
-        published: "El objeto Digital <strong>%{digital_object.title}</strong>subregistros y sus componentes han sido publicados"
+        published: "El objeto Digital <strong>%{digital_object.title}</strong>subregistros\
+          \ y sus componentes han sido publicados"
         merge_description: Seleccionar objetos digitales más abajo para fusionar en
         please_select_a_digital_object_to_merge: Por favor, seleccione un objeto digital
         merged: Objetos digitales unificados
@@ -827,15 +897,23 @@ es:
   digital_object_component:
     _frontend:
       messages:
-        created_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> creado como hijo de <strong>%{parent.display_string}</strong> del objeto Digital <strong>%{digital_object.title}</strong>
-        created: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> creado el objeto Digital <strong>%{digital_object.title}</strong>
-        updated_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> actualizado
-        updated: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> actualizado
-        deleted: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> borrado
+        created_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+          creado como hijo de <strong>%{parent.display_string}</strong> del objeto
+          Digital <strong>%{digital_object.title}</strong>
+        created: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+          creado el objeto Digital <strong>%{digital_object.title}</strong>
+        updated_with_parent: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+          actualizado
+        updated: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+          actualizado
+        deleted: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+          borrado
         unsuppressed: Desbloqueados componentes de objeto digital <strong>%{digital_object_component.display_string}</strong>
-        suppressed: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong> bloqueado
+        suppressed: Componente de objeto digital <strong>%{digital_object_component.display_string}</strong>
+          bloqueado
         suppressed_info: Componente objeto digital se bloquea y no se pueden editar
-        has_unpublished_ancestor: Por favor tenga en cuenta que este registro tiene un padre que es inédito.
+        has_unpublished_ancestor: Por favor tenga en cuenta que este registro tiene
+          un padre que es inédito.
       section:
         basic_information: Información básica
       action:
@@ -851,7 +929,8 @@ es:
         value_updated: Valor actualizado
         deleted: Valor eliminado
         delete_error: No se pudo eliminar el valor
-        delete_conflict: "No se puede eliminar el valor como lo es actualmente que se hace referencia mediante un registro"
+        delete_conflict: "No se puede eliminar el valor como lo es actualmente que\
+          \ se hace referencia mediante un registro"
         default_set: Conjunto de valores predeterminado
         created: Valor creado
         create_error: No se pudo crear valor
@@ -861,13 +940,15 @@ es:
         no_selection: Por favor, seleccione una lista de valores controlados
         name_selector: Nombre de lista
         name_selector_tooltip: |
-            <p>La lista de valores controlada para editar.</p>
-        no_name_provided: Seleccione una lista de valores antes de crear un nuevo valor
+          <p>La lista de valores controlada para editar.</p>
+        no_name_provided: Seleccione una lista de valores antes de crear un nuevo
+          valor
       action:
         create_value: Crear valor
         delete_value: Eliminar valor
         merge_value: Combinar valor
 
+        download_csv: Descargar CSV
   event:
     _frontend:
       messages:
@@ -897,7 +978,7 @@ es:
     _frontend:
       action:
         add: Añadir la versión del archivo
-        make_representative: Make Representative
+        make_representative: Hacer representante
 
   group:
     _frontend:
@@ -946,7 +1027,9 @@ es:
         batch_edit: Editar lote de ubicaciones
         save: Guardar ubicación
         single: Ubicación única
-        delete_confirm_message: "<p>Tenga en cuenta <strong>no se puede deshacer esta acción.</strong>.</p><p>Si esta ubicación está actualmente vinculada a una o más instancias no se puede eliminar.</p>"
+        delete_confirm_message: "<p>Tenga en cuenta <strong>no se puede deshacer esta\
+          \ acción.</strong>.</p><p>Si esta ubicación está actualmente vinculada a\
+          \ una o más instancias no se puede eliminar.</p>"
         show_space_calculator: Encuentra con la calculadora espacial
 
   location_batch:
@@ -957,11 +1040,18 @@ es:
       messages:
         created: "<strong>%{number_created} ubicaciones</strong> creado"
         updated: "<strong>%{number_created} ubicaciones</strong> Actualizado"
-        location_batch_info: "Definir los valores base que serán aplicados a todas las ubicaciones generadas a partir de las <strong>Coordenadas rangos</strong> por debajo."
-        location_batch_update_info: "Por favor introduce los valores que quieres aplicar abajo."
-        ranges_info: "Tenga en cuenta que cualquier coordenados campos entró en la anterior <strong>Base ubicación</strong> serán reemplazados con los valores generados por las gamas más abajo.  Un máximo de ubicaciones %{max_range} será creado."
+        location_batch_info: "Definir los valores base que serán aplicados a todas\
+          \ las ubicaciones generadas a partir de las <strong>Coordenadas rangos</strong>\
+          \ por debajo."
+        location_batch_update_info: "Por favor introduce los valores que quieres aplicar\
+          \ abajo."
+        ranges_info: "Tenga en cuenta que cualquier coordenados campos entró en la\
+          \ anterior <strong>Base ubicación</strong> serán reemplazados con los valores\
+          \ generados por las gamas más abajo.  Un máximo de ubicaciones %{max_range}\
+          \ será creado."
         number_to_create: Número de ubicaciones
-        warning: Dependiendo del tamaño de sus gamas, este proceso puede tardar unos minutos para completar.
+        warning: Dependiendo del tamaño de sus gamas, este proceso puede tardar unos
+          minutos para completar.
       action:
         create: Crear ubicaciones
         update: Actualiza ubicaciones
@@ -1038,10 +1128,13 @@ es:
         selected: Repositorio seleccionado
         selected_short: Seleccionado
         changed: Ahora está activado el repositorio <strong>%{repository.repo_code}</strong>
-        create_first_repository: "Para crear su primer repositorio, haga clic en el menú del <strong>sistema</strong> anterior y luego <strong>Gestionar repositorios</strong>."
-        no_access_to_repositories: "<p>No tiene acceso a los repositorios.</p><p>Póngase en contacto con el administrador del sistema para solicitar el acceso.</p>"
+        create_first_repository: "Para crear su primer repositorio, haga clic en el\
+          \ menú del <strong>sistema</strong> anterior y luego <strong>Gestionar repositorios</strong>."
+        no_access_to_repositories: "<p>No tiene acceso a los repositorios.</p><p>Póngase\
+          \ en contacto con el administrador del sistema para solicitar el acceso.</p>"
         continue_with_transfer: ¿Continuar con la transferencia?
-        transfer_failed: Transferencia no se pudo completar debido a los siguientes errores
+        transfer_failed: Transferencia no se pudo completar debido a los siguientes
+          errores
         transfer_target: Seleccione un repositorio al que transferir
         transfer_warning: <strong>ADVERTENCIA</strong>
         cannot_delete_nonempty: No se puede eliminar - repositorio no vacío
@@ -1065,7 +1158,8 @@ es:
         updated: "fondo <strong>%{resource.title}</strong> actualizado"
         spawned: "Ha sido generado un nuevo fondo de acta de ingreso <strong>%{accession.display_string}</strong>"
         deleted: "Fondo <strong>%{resource.title}</strong> borrado"
-        published: "El fondo <strong>%{resource.title}</strong>subregistros y sus componentes han sido publicados"
+        published: "El fondo <strong>%{resource.title}</strong>subregistros y sus\
+          \ componentes han sido publicados"
         merge_description: Seleccione los fondos abajo para fusionar en
         please_select_a_resource_to_merge: Por favor, seleccione un fondo
         merged: Los fondos se fusionaron
@@ -1084,8 +1178,10 @@ es:
         load_bulk: Carga a través de la hoja de cálculo
         save: Guardar fondos
         delete_multiple: Eliminar fondos
-    external_ark_url: External ARK URL
-    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
+    external_ark_url: URL de ARK externa
+    external_ark_url_tooltip: Identificador persistente de clave de recurso de archivo
+      (ARK) generado fuera de ArchivesSpace. Si este campo tiene un valor, tiene prioridad
+      sobre un ARCA generado en ArchivesSpace.
 
   preference:
     _frontend:
@@ -1128,13 +1224,15 @@ es:
   user:
     _frontend:
       messages:
-        access_denied: Acceso denegado. Inicie sesión como el usuario administrador para realizar esta acción.
+        access_denied: Acceso denegado. Inicie sesión como el usuario administrador
+          para realizar esta acción.
         created: Usuario creado
         updated: Usuario actualizado
         deleted: Usuario borrado
         error_update: Usuario no guardado
         error_create: Usuario no creado
-        group_not_required: El usuario es un administrador o un usuario del sistema, no se requiere la selección de grupos.
+        group_not_required: El usuario es un administrador o un usuario del sistema,
+          no se requiere la selección de grupos.
       section:
         manage_access: Administrar el acceso de usuario
         account: Cuenta
@@ -1192,7 +1290,8 @@ es:
       sequence_count_warning: Hay más filas que elementos en la secuencia.
       preview_sequence: Valores de secuencia de vista previa
       sequence_summary: "%{count} elementos de la secuencia"
-      sequence_summary_with_maxsize: "Para sus filas %{limit}, los valores de secuencia de %{count} son"
+      sequence_summary_with_maxsize: "Para sus filas %{limit}, los valores de secuencia\
+        \ de %{count} son"
       sequence_from_required: Requeridas
       sequence_to_required: Necesarias
     reorder_columns:
@@ -1209,36 +1308,42 @@ es:
       error_prefix: Fila
       success: "<div class='alert alert-success'>Hijos creados. Actualiza la página...</div>"
       no_rows: Por favor, introduzca valores para al menos una fila
-      rows_with_errors: "%{count} filas con un error - haga clic en un campo de fila para ver los errores de esa fila"
+      rows_with_errors: "%{count} filas con un error - haga clic en un campo de fila\
+        \ para ver los errores de esa fila"
       rows_no_errors: "Todas las filas son válidas"
       error_summary_header: "Errores en fila"
       select_prompt: Aplicar una plantilla RDE
     help:
       keyboard_shortcuts: |
-                  <div><strong>Atajos de teclado</strong></div>
-                  <div class="row"><small><span class="span3">Salto de celda a celda: Mayús + teclas de flecha
-                  <div class="row"><small><span class="span3">Crear una nueva linea: Mayús + Retorno
+        <div><strong>Atajos de teclado</strong></div>
+        <div class="row"><small><span class="span3">Salto de celda a celda: Mayús + teclas de flecha
+        <div class="row"><small><span class="span3">Crear una nueva linea: Mayús + Retorno
       sticky_columns: |
-                  <div><strong>Columnas pegajosas </strong></div>
-                  <div><small>Columnas resaltadas son pegajosas y se replicarán cuando se agregan nuevas filas. Alternar 'pegajosa' haciendo clic en el encabezado de la tabla correspondiente.</small></div>
-                  <div><small>Al hacer clic en <strong> Añadir fila </strong> copiará los valores de la última fila; La fila de <strong> + </strong> para copiar los valores de la fila centrado actualmente.</small></div>
+        <div><strong>Columnas pegajosas </strong></div>
+        <div><small>Columnas resaltadas son pegajosas y se replicarán cuando se agregan nuevas filas. Alternar 'pegajosa' haciendo clic en el encabezado de la tabla correspondiente.</small></div>
+        <div><small>Al hacer clic en <strong> Añadir fila </strong> copiará los valores de la última fila; La fila de <strong> + </strong> para copiar los valores de la fila centrado actualmente.</small></div>
       fill_column: |
-                  <div><strong>Llenar la Columna - Básico</strong></div>
-                  <div><small>Para llenar una columna con un valor único, haga clic en <strong> Rellenar Columna </strong> y en el <strong> Basic </strong> seleccionar el objetivo <strong> Columna </strong>, introduzca la deseada <strong> Llene valor </strong> y haga clic en <strong> Aplicar relleno</strong>.</small></div>
-                  <br/>
-                  <div><strong>Rellenar Columna - Secuencia</strong></div>
-                  <div><small>Para solicitar una secuencia de una columna, haga clic en <strong> Rellenar Columna </strong> y bajo la <strong> Secuencia de </strong> seleccionar el objetivo <strong> Columna </strong> y finalice el <strong> Rellenar Valor </strong> campos para generar la secuencia que usted desea. Un mensaje de advertencia aparecerá si la secuencia generada no cumplirá el número de filas de la forma.</small></div>
+        <div><strong>Llenar la Columna - Básico</strong></div>
+        <div><small>Para llenar una columna con un valor único, haga clic en <strong> Rellenar Columna </strong> y en el <strong> Basic </strong> seleccionar el objetivo <strong> Columna </strong>, introduzca la deseada <strong> Llene valor </strong> y haga clic en <strong> Aplicar relleno</strong>.</small></div>
+        <br/>
+        <div><strong>Rellenar Columna - Secuencia</strong></div>
+        <div><small>Para solicitar una secuencia de una columna, haga clic en <strong> Rellenar Columna </strong> y bajo la <strong> Secuencia de </strong> seleccionar el objetivo <strong> Columna </strong> y finalice el <strong> Rellenar Valor </strong> campos para generar la secuencia que usted desea. Un mensaje de advertencia aparecerá si la secuencia generada no cumplirá el número de filas de la forma.</small></div>
       resize_and_reorder_columns: |
-                  <div><strong>Reordenar Columnas</strong></div>
-                  <div><small>Click <strong>Reordenar columnas </strong>, seleccione la fila (s) que desea reordenar y utilizar los / abajo botones de flecha arriba para cambiar su posición en la lista. Cuando feliz con su nuevo pedido, haga clic en <strong> Aplicar orden de las columnas</strong></small></div>
+        <div><strong>Reordenar Columnas</strong></div>
+        <div><small>Click <strong>Reordenar columnas </strong>, seleccione la fila (s) que desea reordenar y utilizar los / abajo botones de flecha arriba para cambiar su posición en la lista. Cuando feliz con su nuevo pedido, haga clic en <strong> Aplicar orden de las columnas</strong></small></div>
       reset: |
-                  <div><strong>Limpiar Formulario</strong></div>
-                  <div><small>Click <strong>Cambiar</strong> para borrar el formulario y revertir la pegajosa, visible y el orden de las columnas a los valores predeterminados.</small></div>
+        <div><strong>Limpiar Formulario</strong></div>
+        <div><small>Click <strong>Cambiar</strong> para borrar el formulario y revertir la pegajosa, visible y el orden de las columnas a los valores predeterminados.</small></div>
   update_monitor:
     save_failed: <strong>Error al guardar los cambios</strong>
-    stale_record: Este documento ha sido actualizado por otro usuario. Por favor, actualice la página para acceder a la versión más reciente.
-    other_editors: "Este documento se está editando actualmente por otro usuario.  Por favor, póngase en contacto con los usuarios siguientes para asegurar que sin conflictos se producen"
-    repository_changed: "Este registro no puede guardarse, porque ha cambiado su repositorio activo. Para guardar este registro, abra otra ventana y restablecer su repositorio activo."
+    stale_record: Este documento ha sido actualizado por otro usuario. Por favor,
+      actualice la página para acceder a la versión más reciente.
+    other_editors: "Este documento se está editando actualmente por otro usuario.\
+      \  Por favor, póngase en contacto con los usuarios siguientes para asegurar\
+      \ que sin conflictos se producen"
+    repository_changed: "Este registro no puede guardarse, porque ha cambiado su repositorio\
+      \ activo. Para guardar este registro, abra otra ventana y restablecer su repositorio\
+      \ activo."
   job:
     _frontend:
       audit_data: Datos de auditoría
@@ -1258,7 +1363,8 @@ es:
         archived_jobs: Trabajos archivados
         files: Files
       messages:
-        status_changed_running: El trabajo de importación ha comenzado. Actualiza la página...
+        status_changed_running: El trabajo de importación ha comenzado. Actualiza
+          la página...
         status_changed_completed: Ha completado el trabajo de importación.
         status_changed_failed: El trabajo de importación ha fallado.
         status_changed_canceled: El trabajo de importación ha sido cancelado.
@@ -1270,17 +1376,39 @@ es:
         queue_position_next: Esta importación es la siguiente.
         queue_position: "Esta importación es la {posición} % en la cola."
         drag_and_drop_hint: Arrastrar y soltar archivos aquí
-        find_and_replace_warning: Find and replace jobs can and will make major changes to your database. You are <strong>strongly</strong> advised to backup your database AND to run your job in a test instance before proceeding. There is no "undo".
-        find_and_replace_instructions: Choose a base record to scope this find and replace operation. Then choose a record type to target and a property of that type. The operation will run in every target record in the tree of the base record, or in the base record itself if the target type is "Resource".
+        find_and_replace_warning: Buscar y reemplazar trabajos puede y hará cambios
+          importantes en su base de datos. Se le recomienda <strong> encarecidamente
+          </strong> que haga una copia de seguridad de su base de datos Y que ejecute
+          su trabajo en una instancia de prueba antes de continuar. No hay "deshacer".
+        find_and_replace_instructions: Elija un registro base para el alcance de esta
+          operación de búsqueda y reemplazo. Luego elija un tipo de registro para
+          apuntar y una propiedad de ese tipo. La operación se ejecutará en cada registro
+          de destino en el árbol del registro base, o en el registro base mismo si
+          el tipo de destino es "Recurso".
         report_instructions: Elige el informe utilizando el botón <b>Seleccionar</b>.
-        slug_lost_warning: <b> ¡ADVERTENCIA! </b> ¡Todas las babosas generadas automáticamente serán regeneradas! Este trabajo se aplica a todos los registros en todos los repositorios.
-        slug_generation: Este trabajo generará slugs y marcará el cuadro de generación automática de slug para todos los <b> Recursos </b>, <b> Objetos de archivo </b>, <b> Objetos digitales </b>, <b> Componentes de objetos digitales </b>, <b> Accesiones </b>, <b> Clasificaciones </b>, <b> Agentes </b>, <b> Temas </b> y <b> Repositorios </b> que no tienen ya una babosa. <br /> <em> Las babosas que se han agregado manualmente no se cambiarán, a menos que indique en esos registros que deben reemplazarse al marcar la casilla de generación automática. </em>
+        slug_lost_warning: <b> ¡ADVERTENCIA! </b> ¡Todas las babosas generadas automáticamente
+          serán regeneradas! Este trabajo se aplica a todos los registros en todos
+          los repositorios.
+        slug_generation: Este trabajo generará slugs y marcará el cuadro de generación
+          automática de slug para todos los <b> Recursos </b>, <b> Objetos de archivo
+          </b>, <b> Objetos digitales </b>, <b> Componentes de objetos digitales </b>,
+          <b> Accesiones </b>, <b> Clasificaciones </b>, <b> Agentes </b>, <b> Temas
+          </b> y <b> Repositorios </b> que no tienen ya una babosa. <br /> <em> Las
+          babosas que se han agregado manualmente no se cambiarán, a menos que indique
+          en esos registros que deben reemplazarse al marcar la casilla de generación
+          automática. </em>
         slug_config_msg: <b> Según sus ajustes de configuración en config.rb</b>
-        slug_config_id: Las babosas se generarán usando el identificador de la entidad cuando sea apropiado.
-        slug_config_title: Las babosas se generarán usando el nombre o título de la entidad.
-        slug_config_eadid: Las babosas para <b> Recursos </b> se generarán utilizando el ID de EAD cuando sea apropiado.
-        slug_config_cuid: Los slugs para <b> Objetos de archivo </b> se generarán usando la ID Única del Componente cuando sea apropiado.
-        ark_generation: Este trabajo generará ARK para todos los <b> Recursos </b> y <b> Objetos de archivo </b> que aún no tienen un ARK. <br/> <br/> <em> ARK externos no se cambiarán. </em>
+        slug_config_id: Las babosas se generarán usando el identificador de la entidad
+          cuando sea apropiado.
+        slug_config_title: Las babosas se generarán usando el nombre o título de la
+          entidad.
+        slug_config_eadid: Las babosas para <b> Recursos </b> se generarán utilizando
+          el ID de EAD cuando sea apropiado.
+        slug_config_cuid: Los slugs para <b> Objetos de archivo </b> se generarán
+          usando la ID Única del Componente cuando sea apropiado.
+        ark_generation: Este trabajo generará ARK para todos los <b> Recursos </b>
+          y <b> Objetos de archivo </b> que aún no tienen un ARK. <br/> <br/> <em>
+          ARK externos no se cambiarán. </em>
 
   shortcuts:
     quick_reference_window: "Referencia: accesos directos del teclado "
@@ -1294,30 +1422,30 @@ es:
       open_create: "Abrir el menú de creación"
 
   instance_container:
-    container: Container
+    container: Contenedor
 
   sub_container:
     top_container: Contenedor Top
     top_container_tooltip: |
-        <p>CAMPO REQUERIDO. El contenedor más alto nivel en el que se aloja el material descrito.</p>
-        <p>Se puede seleccionar de una lista existente de los mejores contenedores mediante el tipo de adelante o Explorar las funciones o creadas mediante la función Crear.</p>
+      <p>CAMPO REQUERIDO. El contenedor más alto nivel en el que se aloja el material descrito.</p>
+      <p>Se puede seleccionar de una lista existente de los mejores contenedores mediante el tipo de adelante o Explorar las funciones o creadas mediante la función Crear.</p>
     type_2: Tipo hijo
     type_2_tooltip: |
-        <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+      <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
+      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
     indicator_2: Indicador de hijo
     indicator_2_tooltip: |
-        <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+      <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
     barcode_2: Niño de contenedores de código de barras
     barcode_2_tooltip: |
-        <p>Un código de barras para identificar el recipiente de segundo nivel en el que se aloja el material descrito.</p>"
+      <p>Un código de barras para identificar el recipiente de segundo nivel en el que se aloja el material descrito.</p>"
     type_3: Tipo nieto
     type_3_tooltip: |
-        <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+      <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
+      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
     indicator_3: Indicador de nieto
     indicator_3_tooltip: |
-        <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+      <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
     _singular: Sub Contenedor
     _plural: Sub Contenedores
     _frontend:
@@ -1327,23 +1455,23 @@ es:
   top_container:
     container_profile: Perfil de contenedor
     container_profile_tooltip: |
-        <p>Una descripción de varias características de un tipo particular de contenedor, incluidas las dimensiones.</p>
+      <p>Una descripción de varias características de un tipo particular de contenedor, incluidas las dimensiones.</p>
     indicator: Indicador
     indicator_tooltip: |
-        <p>CAMPO REQUERIDO. Una expresión alfanumérica para indicar el lugar del recipiente más alto nivel, que puede ser también la posición del recipiente en una secuencia de contenedores.</p>
+      <p>CAMPO REQUERIDO. Una expresión alfanumérica para indicar el lugar del recipiente más alto nivel, que puede ser también la posición del recipiente en una secuencia de contenedores.</p>
     barcode: Código de barras
     barcode_tooltip: |
-        <p>Se utiliza para registrar el código de barras que identifica de manera única el contenedor más alto nivel.</p>
+      <p>Se utiliza para registrar el código de barras que identifica de manera única el contenedor más alto nivel.</p>
     type: Tipo de contenedor
     type_tooltip: |
-        <p>El tipo de contenedor de nivel más alto.</p>
-        <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
+      <p>El tipo de contenedor de nivel más alto.</p>
+      <p>Los valores en esta lista de valores controlados pueden ser modificados.</p>
     ils_holding_id: ILS Holding ID
     ils_holding_id_tooltip: |
-        <p>Identificador de registro de explotación correspondiente en las normas internacionales del trabajo de la biblioteca</p>
+      <p>Identificador de registro de explotación correspondiente en las normas internacionales del trabajo de la biblioteca</p>
     ils_item_id: ILS Item ID
     ils_item_id_tooltip: |
-        <p>Identificador, suministrada por la API, para un registro elemento asociado en la biblioteca ILS (sistema de campo; no se pueden editar manualmente)</p>
+      <p>Identificador, suministrada por la API, para un registro elemento asociado en la biblioteca ILS (sistema de campo; no se pueden editar manualmente)</p>
     exported_to_ils: Exportar a ILS
     not_exported: No exportado
     restricted: Restringido?
@@ -1352,18 +1480,18 @@ es:
 
     managed_container_2_type: Tipo de contenedor hijo
     managed_container_2_type_tooltip: |
-        <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+      <p>El tipo de contenedor de segundo nivel en el que se aloja el material descrito.</p>
+      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
     managed_container_2_indicator: Indicador de contenido hijo
     managed_container_2_indicator_tooltip: |
-        <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+      <p>Una expresión alfanumérica para indicar el ID del contenedor de segundo nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de segundo nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
     managed_container_3_type: Contenedor de tipo nieto
     managed_container_3_type_tooltip: |
-        <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
-    managed_container_3_indicator: Grandchild Container Indicator
+      <p>El tipo de contenedor de tercer nivel en el que se aloja el material descrito.</p>
+      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+    managed_container_3_indicator: Indicador de contenedor de nieto
     managed_container_3_indicator_tooltip: |
-       <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
+      <p>Una expresión alfanumérica para indicar el ID del contenedor de tercer nivel, que también puede indicar la posición del recipiente de segundo nivel dentro de una secuencia de tales contenedores. gamas de contenedores a granel de tercer nivel también son permisibles, por ejemplo, Carpetas 1-16.</p>
     barcode_length_for_this_repository: "Longitud de código de barras para este repositorio:"
     characters: caracteres
 
@@ -1387,13 +1515,18 @@ es:
         created: Contenedor Top creado
         updated: Contenedor Top actualizado
         filter_required: Por favor proporcionar un filtro
-        max_results_limit_reached: No se han incluido todos los resultados. Por favor refine su búsqueda.
-        max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong> %{num_found} </strong> Resultados de la búsqueda"
+        max_results_limit_reached: No se han incluido todos los resultados. Por favor
+          refine su búsqueda.
+        max_results_limit_details: "Mostrando <strong>% {visibles} </strong> de <strong>\
+          \ %{num_found} </strong> Resultados de la búsqueda"
         results_summary: "Los resultados coinciden con: <strong> %{num_found} </strong>"
-        bulk_selection_sort_help: Haga clic en una columna para establecer el orden de clasificación. Deja la tecla shift presionada para ordenar por varias columnas.
+        bulk_selection_sort_help: Haga clic en una columna para establecer el orden
+          de clasificación. Deja la tecla shift presionada para ordenar por varias
+          columnas.
         merged: Contenedor (es) superior (es) fusionados
         bulk_action_success: Contenedores Top actualizado
-        bulk_action_success_info: Tenga en cuenta que antes de que los cambios se reflejen en los resultados de búsqueda puede pasar un rato.
+        bulk_action_success_info: Tenga en cuenta que antes de que los cambios se
+          reflejen en los resultados de búsqueda puede pasar un rato.
         no_active_restrictions: Sin restricciones activas
       bulk_operations:
         title: Operaciones masivas
@@ -1414,23 +1547,42 @@ es:
         empty_false: "No"
         search: Buscar
         update_ils_holding_ids: Actualzar ILS Holding IDs
-        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected containers.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo por otro valor.
+        update_ils_holding_ids_help: Enter a value for ILS Holding ID for all selected
+          containers.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo
+          por otro valor.
         update_container_profiles: Actualizar perfiles de contenedores
-        update_container_profiles_help: Elige un perfil de contenedor para los contenedores seleccionados.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo por otro valor.
+        update_container_profiles_help: Elige un perfil de contenedor para los contenedores
+          seleccionados.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo
+          por otro valor.
         update_locations_singular: "Actualizar ubicaciones: Ubicación simple"
-        update_locations_singular_help: Elige ubicación para los contenedores seleccionados.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo por otro valor.
+        update_locations_singular_help: Elige ubicación para los contenedores seleccionados.  Déjelo
+          en blanco para eliminar el valor actual sin reemplazarlo por otro valor.
         update_locations_multiple: "Actualizar ubicaciones: ubicaciones multiples"
-        update_locations_multiple_help: Elige ubicación para cada uno de los contenedores seleccionados.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo por otro valor.
+        update_locations_multiple_help: Elige ubicación para cada uno de los contenedores
+          seleccionados.  Déjelo en blanco para eliminar el valor actual sin reemplazarlo
+          por otro valor.
         rapid_barcode_entry: Entrada rápida de código de barras rápida
         rapid_barcode_entry_existing_barcode: Código de barras existente
         rapid_barcode_entry_new_barcode: Nuevo código de barras
-        rapid_barcode_entry_help: Ingrese un código de barras para cada contenedor seleccionado. Deje en blanco el campo Nuevo código de barras para eliminar el código de barras actual sin reemplazarlo por un nuevo valor.
+        rapid_barcode_entry_help: Ingrese un código de barras para cada contenedor
+          seleccionado. Deje en blanco el campo Nuevo código de barras para eliminar
+          el código de barras actual sin reemplazarlo por un nuevo valor.
         batch_merge: Fusionar contenedores superiores
-        batch_merge_instructions: Seleccione el contenedor superior en el que se fusionarán todos los demás contenedores superiores enumerados. Las accesiones vinculadas, los recursos, los componentes de recursos y los eventos se volverán a vincular a este contenedor. Los perfiles de contenedor se moverán a este contenedor solo cuando aún no lo tenga. Se eliminarán las ubicaciones y toda otra información para los otros contenedores superiores.
+        batch_merge_instructions: Seleccione el contenedor superior en el que se fusionarán
+          todos los demás contenedores superiores enumerados. Las accesiones vinculadas,
+          los recursos, los componentes de recursos y los eventos se volverán a vincular
+          a este contenedor. Los perfiles de contenedor se moverán a este contenedor
+          solo cuando aún no lo tenga. Se eliminarán las ubicaciones y toda otra información
+          para los otros contenedores superiores.
         batch_merge_confirm: Confirmar combinación de contenedores superiores
-        batch_merge_confirm_question: ¿Está seguro de que desea fusionar los contenedores superiores como se enumeran a continuación? Esta acción es irreversible.
-        batch_merge_container_profile_too_many_warning: Estos contenedores superiores tienen diferentes perfiles de contenedores. Ninguno de estos perfiles de contenedores se fusionará con el contenedor de destino.
-        batch_merge_container_profile_mismatch_warning: Estos contenedores superiores tienen un perfil de recipiente diferente que el recipiente superior objetivo. El perfil contenedor no se fusionará con el contenedor de destino.
+        batch_merge_confirm_question: ¿Está seguro de que desea fusionar los contenedores
+          superiores como se enumeran a continuación? Esta acción es irreversible.
+        batch_merge_container_profile_too_many_warning: Estos contenedores superiores
+          tienen diferentes perfiles de contenedores. Ninguno de estos perfiles de
+          contenedores se fusionará con el contenedor de destino.
+        batch_merge_container_profile_mismatch_warning: Estos contenedores superiores
+          tienen un perfil de recipiente diferente que el recipiente superior objetivo.
+          El perfil contenedor no se fusionará con el contenedor de destino.
         batch_merge_confirm_victims: "Combinar los siguientes contenedores superiores:"
         batch_merge_confirm_target: "En este contenedor superior:"
         batch_delete: Borrar Contenedores Top
@@ -1456,70 +1608,75 @@ es:
       messages:
         created: Perfil de contenedor creado
         updated: Perfil de contenedor actualizado
-        merged: Container Profiles(s) Merged
+        merged: Perfiles de contenedor combinados
       section:
         basic_information: Información básica
       bulk_operations:
         merge: Fusionar perfiles de contenedores
-        merge_instructions: Seleccione el perfil de contenedor en el que se fusionarán todos los demás perfiles de contenedor enumerados. Todos los registros vinculados se volverán a vincular a este perfil y se eliminará toda la información para los otros perfiles de contenedor.
+        merge_instructions: Seleccione el perfil de contenedor en el que se fusionarán
+          todos los demás perfiles de contenedor enumerados. Todos los registros vinculados
+          se volverán a vincular a este perfil y se eliminará toda la información
+          para los otros perfiles de contenedor.
         merge_select_target: Seleccionar objetivo de fusión
         confirm_merge: Confirmar perfiles de contenedor de fusión
-        confirm_merge_question: ¿Está seguro de que desea fusionar los perfiles del contenedor como se enumeran a continuación? Esta acción es irreversible.
+        confirm_merge_question: ¿Está seguro de que desea fusionar los perfiles del
+          contenedor como se enumeran a continuación? Esta acción es irreversible.
         confirm_merge_victims: "Combinar los siguientes perfiles de contenedor:"
         confirm_merge_target: "En este perfil de contenedor:"
     name: Nombre
     name_tooltip: |
-        <p>CAMPO REQUERIDO. El nombre del perfil de contenedores. Pueden ser genéricos o específicos.</p>
-        <p>Ejemplos:</p>
-        <ul>
-        <li>document box</li>
-        <li>Paige 15</li>
-        <li>small card file box</li>
-        </ul>
+      <p>CAMPO REQUERIDO. El nombre del perfil de contenedores. Pueden ser genéricos o específicos.</p>
+      <p>Ejemplos:</p>
+      <ul>
+      <li>document box</li>
+      <li>Paige 15</li>
+      <li>small card file box</li>
+      </ul>
     url: URL
     url_tooltip: |
-        <p>Un hipervínculo para una descripción externa del contenedor.</p>
+      <p>Un hipervínculo para una descripción externa del contenedor.</p>
     dimension_units: Unidades de dimensión
     dimension_units_tooltip: |
-        <p>Unidades de dimensiones</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+      <p>Unidades de dimensiones</p>
+      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
     extent_dimension: Dimensión de extensión
     extent_dimension_tooltip: |
-        <p>La dimensión utiliza para calcular e indicando la dimensión medida de los materiales en el contenedor. Esto ayuda a determinar qué dimensión se mide por la calculadora de medida.</p>
+      <p>La dimensión utiliza para calcular e indicando la dimensión medida de los materiales en el contenedor. Esto ayuda a determinar qué dimensión se mide por la calculadora de medida.</p>
     extent_dimension_depth: Profundidad
     extent_dimension_depth_tooltip: |
-        <p>Valor numérico para la profundidad del contenedor.</p>
+      <p>Valor numérico para la profundidad del contenedor.</p>
     extent_dimension_height: Altura
     extent_dimension_height_tooltip: |
-        <p>Valor numérico para la altura del contenedor.</p>
+      <p>Valor numérico para la altura del contenedor.</p>
     extent_dimension_width: Anchura
     extent_dimension_width_tooltip: |
-       <p>Valor numérico para la anchura del contenedor.</p>
+      <p>Valor numérico para la anchura del contenedor.</p>
     depth: Profundidad
     depth_tooltip: |
-        <p>Valor numérico para la profundidad del contenedor.</p>
+      <p>Valor numérico para la profundidad del contenedor.</p>
     height: Altura
     height_tooltip: |
-        <<p>Valor numérico para la altura del contenedor.</p>
+      <<p>Valor numérico para la altura del contenedor.</p>
     width: Anchura
     width_tooltip: |
-        <p>Valor numérico para la anchura del contenedor.</p>
+      <p>Valor numérico para la anchura del contenedor.</p>
     stacking_limit: Límite de apilamiento
     stacking_limit_tooltip: |
-        <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo.</p>
+      <p>El número de estos contenedores que se pueden apilar una encima de otro. Dejar en blanco si no hay límite. Debe ser un entero positivo.</p>
 
   rights_restriction:
     begin: Comienzo de la restricción
     begin_tooltip: |
-        <p>Fecha de inicio de una restricción de acceso. Serán disociados de los contenedores una vez que caduque</p>
+      <p>Fecha de inicio de una restricción de acceso. Serán disociados de los contenedores una vez que caduque</p>
     end: Finalización de la restricción
     end_tooltip: |
-        <p>Fecha de finalización de una restricción de acceso. Serán disociados de los contenedores una vez que caduque</p>
+      <p>Fecha de finalización de una restricción de acceso. Serán disociados de los contenedores una vez que caduque</p>
     local_access_restriction_type: Restricción de tipo de acceso local
-    local_access_restriction_type_inline_help: "Mantenga pulsados  CTRL (Windows) / Command (Mac) para seleccionar varias opciones o anular la selección"
+    local_access_restriction_type_inline_help: "Mantenga pulsados  CTRL (Windows)\
+      \ / Command (Mac) para seleccionar varias opciones o anular la selección"
     local_access_restriction_type_tooltip: |
-        <p>Para aquellas restricciones sin tiempo indicar la razón de la restricción.</p>
-        <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
+      <p>Para aquellas restricciones sin tiempo indicar la razón de la restricción.</p>
+      <p>Los valores de esta lista de valores controlada pueden ser modificados.</p>
     linked_records: Registro enlazado
     restriction_note_type: Tipo de nota
 
@@ -1535,7 +1692,9 @@ es:
     extent_record_header: Registro de extensión
     create_extent: Crear extensión
     calculate_extent: Calcular extensión
-    create_extent_record_message: Ejecutar la calculadora de Extensión en el modo de edición para tener la opción de crear un registro de medida basado en el informe.
+    create_extent_record_message: Ejecutar la calculadora de Extensión en el modo
+      de edición para tener la opción de crear un registro de medida basado en el
+      informe.
     waiting_for_report_message: Calculando extensión ...
     container_summary_type:
       _singular: contenedor
@@ -1552,7 +1711,10 @@ es:
       messages:
         created: Perfil de ubicación creado
         updated: Perfil de ubicación actualizado
-        fields_required_for_calculator: Tenga en cuenta que las unidades de dimensión, profundidad, altura y anchura son todos los datos necesarios para la calculadora espacio. Las ubicaciones serán omitidas de los resultados si cualquiera de estos valores no están.
+        fields_required_for_calculator: Tenga en cuenta que las unidades de dimensión,
+          profundidad, altura y anchura son todos los datos necesarios para la calculadora
+          espacio. Las ubicaciones serán omitidas de los resultados si cualquiera
+          de estos valores no están.
       section:
         basic_information: Información básica
     name: Nombre
@@ -1564,12 +1726,15 @@ es:
   space_calculator:
     modal_title: Calculadora de espacio
     modal_loading: Cargando...
-    message_container_profile_required: La Calculadora de espacio requiere un perfil de contenedores establecido
+    message_container_profile_required: La Calculadora de espacio requiere un perfil
+      de contenedores establecido
     message_locations_required: La Calculadora de espacio requiere ubicaciones
     message_select_locations: "Calcula el espacio en las siguientes ubicaciones:"
     message_no_locations_with_space: No se han encontrado ubicaciones con espacio
-    message_total_spaces: "Cantidad total de espacios disponibles para este tipo de contenedores: %{total_spaces}"
-    message_total_containers: "Número total de contenedores de este tipo que se encuentran en estas ubicaciones: %{total_containers}"
+    message_total_spaces: "Cantidad total de espacios disponibles para este tipo de\
+      \ contenedores: %{total_spaces}"
+    message_total_containers: "Número total de contenedores de este tipo que se encuentran\
+      \ en estas ubicaciones: %{total_containers}"
     message_loading: Cargando...
     count: Espacio disponible (de tipo de contenedor)
     calculate_space: Calcula el espacio
@@ -1585,10 +1750,13 @@ es:
     reason:
       location_lacks_a_profile: Ubicación sin perfil
       location_lacks_dimension_data: Perfil de ubicación sin datos de dimensiones
-      container_is_bigger: El contenedor es más grande que la ubicación en al menos una dimensión
-      container_at_location_lacks_profile: Al menos uno de los contenedores actualmente en la ubicación carece de un perfil
+      container_is_bigger: El contenedor es más grande que la ubicación en al menos
+        una dimensión
+      container_at_location_lacks_profile: Al menos uno de los contenedores actualmente
+        en la ubicación carece de un perfil
       containers_at_location_dont_fit: Los contenedores en la ubicacion no se ajustan
-      location_cannot_fit_container: La ubicación no se ajusta a ningún contenedor de este tipo
+      location_cannot_fit_container: La ubicación no se ajusta a ningún contenedor
+        de este tipo
 
   date_calculator:
     toolbar_button: Calcular fechas
@@ -1636,8 +1804,10 @@ es:
         created: Evaluación creada
         updated: Evaluación actualizada
         deleted: Evaluación eliminada
-        attributes_hint: Por favor, póngase en contacto con su administrador para agregar más %{attribute_type}
-        manage_attributes_hint: Administrar el adicional %{attribute_type} para este repositorio
+        attributes_hint: Por favor, póngase en contacto con su administrador para
+          agregar más %{attribute_type}
+        manage_attributes_hint: Administrar el adicional %{attribute_type} para este
+          repositorio
       assessment_review_required:
         true_value: "Si"
         false_value: "No"
@@ -1683,8 +1853,10 @@ es:
       messages:
         updated: Atributos de evaluación actualizados
         error: Error al actualizar los atributos de evaluación
-        conflict: "Error al actualizar los atributos de evaluación. Las siguientes etiquetas entran en conflicto con las entradas existentes: %{conflicts}"
-        attribute_in_use: No se puede eliminar un atributo que está actualmente en uso por una evaluación
+        conflict: "Error al actualizar los atributos de evaluación. Las siguientes\
+          \ etiquetas entran en conflicto con las entradas existentes: %{conflicts}"
+        attribute_in_use: No se puede eliminar un atributo que está actualmente en
+          uso por una evaluación
       database_value: Valor de la base de datos
       translation: Traducción
 
@@ -1708,8 +1880,10 @@ es:
     general_section: Configuración general
     repo_set_section: Conjunto de repositorio
     sponsor_set_section: Conjunto Patrocinador
-    repo_set_desc: Además de los conjuntos basados en el nivel de descripción, puede definir un conjunto OAI basado en repositorios.
-    sponsor_set_desc: Además de los conjuntos basados en el nivel de descripción, puede definir un conjunto OAI basado en los nombres de los patrocinadores.
+    repo_set_desc: Además de los conjuntos basados en el nivel de descripción, puede
+      definir un conjunto OAI basado en repositorios.
+    sponsor_set_desc: Además de los conjuntos basados en el nivel de descripción,
+      puede definir un conjunto OAI basado en los nombres de los patrocinadores.
     oai_record_prefix: Prefijo de registro OAI
     oai_admin_email: Correo electrónico del administrador de OAI
     oai_repository_name: Nombre del repositorio OAI
@@ -1719,7 +1893,9 @@ es:
     sponsor_set_name: Nombre del Patrocinador
     sponsor_set_names: Nombres de patrocinadores
     sponsor_set_description: Patrocinador Descripción del conjunto
-    oai_leave_repo_form: Estas opciones afectan a OAI-PMH solo para este repositorio. Haga clic a continuación para ver / editar las opciones globales de OAI. Esto dejará la forma actual sin guardar los cambios.
+    oai_leave_repo_form: Estas opciones afectan a OAI-PMH solo para este repositorio.
+      Haga clic a continuación para ver / editar las opciones globales de OAI. Esto
+      dejará la forma actual sin guardar los cambios.
     _frontend:
       section:
         basic_information: Configuración general
@@ -1742,6 +1918,7 @@ es:
         import: Importar de Hoja de Cálculo
         drag_drop: Arrastrar y archivo de la gota aquí
         clip_btn: Copiar al portapapeles
+        only_validate: Validar solo
       messages:
         missing_file: No ha añadido un archivo
         not_excel: El archivo que ha elegido no es una hoja de cálculo de Excel
@@ -1749,3 +1926,15 @@ es:
         error: "ERROR: Error (s) detectada:"
         copied: Copiado!
         uncopied: No se puede copiar
+        submitted: <p> El trabajo se había enviado a Trabajos en segundo plano. <br/>
+          Haga clic en 'Cerrar' para actualizar esta pantalla. </p>
+        not_excel_csv: El archivo que ha elegido no es ni una hoja de cálculo de Excel
+          ni un archivo CSV
+  bulk_import_job:
+    filename: Nombre del archivo de la hoja de cálculo
+    not_direct: En este momento, este trabajo solo se puede crear a partir del registro
+      de recursos
+    format: Descargar formato de archivo
+    resource_id: Recurso ID
+    active: "Hay un trabajo de importación masiva activo para este registro, intente\
+      \ editar más tarde: <a href ='%{url}'>%{uri}</a>"
