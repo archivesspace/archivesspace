@@ -25,7 +25,7 @@ class Search
       criteria["blank_facet_query_fields"].each {|query_field|
         blank_facet_query = "-" + query_field + ":*"
         sub_criteria = criteria.clone
-        if (sub_criteria.has_key?("q"))
+        if (sub_criteria.has_key?("q") && sub_criteria["q"] != blank_facet_query)
           sub_criteria["q"] = criteria["q"] + " AND " + blank_facet_query
         else
           sub_criteria["q"] = blank_facet_query
