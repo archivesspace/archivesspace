@@ -1,0 +1,8 @@
+es:
+  reports:
+    accession_unprocessed_report:
+      title: Adhesiónes sin procesar
+      description: Muestra solo las adhesiónes que no se han procesado. El informe contiene el número de acceso, los recursos vinculados, el título, la extensión, catalogado, la fecha de procesamiento, un recuento del número de registros seleccionados con la fecha de procesamiento y el número de extensión total de esos registros sin un campo de fecha de procesamiento completo.
+      total_count: Número de adhesiónes
+      identifier_prefix: Adhesión
+      total_extent: Extensión total sin procesar

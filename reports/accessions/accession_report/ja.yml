@@ -1,0 +1,6 @@
+ja:
+  reports:
+    accession_report:
+      title: アクセッションレポート
+      description: 特定のリポジトリのすべてのアクセッションを表示します。 レポートには、各アクセッションの基本情報フィールドに入力されたデータが含まれます。
+      identifier_prefix: アクセッション

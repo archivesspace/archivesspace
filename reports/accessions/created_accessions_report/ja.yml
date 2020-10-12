@@ -1,0 +1,6 @@
+ja:
+  reports:
+    created_accessions_report:
+      title: 作成されたアクセッション
+      description: 日付範囲内に作成されたアクセッションに関するレポート
+      identifier_prefix: アクセッション
