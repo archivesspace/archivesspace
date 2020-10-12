@@ -9,7 +9,18 @@ module SearchAndBrowseColumnPlugin
         },
         # you can remove columns that are options by default by adding their name to this list
         :remove => ['audit_info']
-      }
+      },
+      "multi" => {
+        :add => {
+          # you can update the behavior of predefined fields
+          # include all properties from the original when overriding
+          "context" => {
+            :field => "context",
+            # don't display "Found in" for embedded search tables
+            condition: proc { |context| context.request.path !~ /search.js/ }
+          }
+        }
+      },
     }
   end
 end
