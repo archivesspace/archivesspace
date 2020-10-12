@@ -25,7 +25,8 @@ class Classification < Record
     [
       {
         :uri => '',
-        :crumb => display_string
+        :crumb => display_string,
+        :type => 'classification'
       }
     ]
   end
