@@ -174,7 +174,7 @@ fr:
       source: Source
       published_agents: Noms
       agents_text: Noms
-      classification_uri: Classification
+      classification_uri: Classement
       linked_agent_roles: Rôle
       from_year: De l'année
       to_year: À l'année
@@ -232,7 +232,7 @@ fr:
     subgrp: Sous-groupe
 
   errors:
-    error_404: "%{type} Record Not Found"
+    error_404: "%{type} Enregistrement non trouvé"
     error_404_message: "La notice %{type} à laquelle vous avez tenté d'accéder n'existe plus ou peut avoir été enlevée."
     backend_down: Impossible de se connecter à la base de données
     backend_down_message: ArchivesSpace rencontre actuellement des difficultés techniques. Nous nous excusons pour le dérangement. Veuillez réessayer plus tard.
@@ -247,7 +247,7 @@ fr:
     search_all: Toutes les notices
     error_no_term: Aucun terme saisi.
     search_terms_results: "Votre recherche de {{search_terms}} a donné {{number}} résultats"
-    toggle_navigation: Toggle Navigation
+    toggle_navigation: Basculer la navigation
 
   internal_links:
     main: Contenu principal
@@ -291,7 +291,7 @@ fr:
 
   external_docs: Documents externes
   more_about: Plus sur
-  listing: Listing
+  listing: Référencement
   list: "Liste %{type}"
   cont_arr: Organisation des collections
   dig_cont_arr: Organisation des objets numériques
