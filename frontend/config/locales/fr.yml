@@ -329,7 +329,7 @@ fr:
       score: Pertinence
       title: Intitulé
       publish: Publié
-      has_classification_terms: Has classification terms?
+      has_classification_terms: A des termes des classements?
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
@@ -510,7 +510,7 @@ fr:
     system_info: Infos système
     unpublished: Non publié
     manage_assessment_attributes: Gérer les attributs d'évaluation
-    toggle_navigation: Toggle Navigation
+    toggle_navigation: Basculer la navigation
 
   header:
     staff_interface: ArchivesSpace Staff Interface
@@ -1083,8 +1083,7 @@ fr:
         save: Sauvegarder ressource
         delete_multiple: Supprimer ressources
     external_ark_url: External ARK URL
-    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
-
+    external_ark_url_tooltip: Identificateur persistant ARK (Archival Resource Key) généré en dehors d'ArchivesSpace. Si ce champ a une valeur, il est prioritaire sur une ARK générée dans ArchivesSpace.
   preference:
     _frontend:
       messages:
@@ -1454,7 +1453,7 @@ fr:
       messages:
         created: Profil de conditionnement créé
         updated: Profil de conditionnement actualisé
-        merged: Container Profiles(s) Merged
+        merged: Profil(s) de conditionnement fusionné
       section:
         basic_information: Information de base
       bulk_operations:
@@ -1739,7 +1738,7 @@ fr:
         add_file: Choisir le dossier
         add_archival_objects: Importer des objets d'archive
         add_digital_objects: Ajouter des objets numériques à des objets d'archives
-        import: Importation de SpreadSheet
+        import: Importation de spreadsheet
         drag_drop: Faites glisser et déposer le fichier ici
         clip_btn: Copier dans le presse-papier
       messages:
