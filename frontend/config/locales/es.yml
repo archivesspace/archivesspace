@@ -1073,7 +1073,7 @@ es:
         transfer_target: Seleccione un repositorio para transferir a
         unsuppressed: Fondo <strong>%{resource.title}</strong> suprimidas
         suppressed: Fondo <strong>%{resource.title}</strong> bloqueado
-        suppressed_info: Se suprimieron y no se pueden editar fondosIdentificador persistente de Archival Resource Key (ARK) generado fuera de ArchivesSpace. Si este campo tiene un valor, tiene prioridad sobre un ARK generado dentro de ArchivesSpace.
+        suppressed_info: Se suprimieron y no se pueden editar fondos
         delete_conflict: "El recurso no pudo ser eliminado: <pre>%{error}</pre>"
       section:
         basic_information: Información básica
