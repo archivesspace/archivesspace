@@ -5,6 +5,9 @@ fr:
     automate: Générer automatiquement
     batch: Lot
     browse: Parcourir
+    bulk_import: Charge par feuille de calcul
+    bulk_import_job: Charge par feuille de calcul
+    download_bulk_import_report: Télécharger rapport
     cancel: Annuler
     close: Fermer
     continue: Continuer
@@ -294,6 +297,8 @@ fr:
       area: Aire
       location_holdings: Exemplaires
       location_profile_display_string_u_ssort: Profil de localisation
+      owner_repo_display_string_u_ssort: Service
+      none: Aucun
       audit_info: Audit Information
       temporary: Temporary
       user_mtime: Modifié
@@ -439,6 +444,8 @@ fr:
       extents: Importance matérielle
       asc: Ascendant
       desc: Descendant
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: Service
 
 
   advanced_search:
@@ -786,6 +793,7 @@ fr:
 
   date:
     _frontend:
+      expression_placeholder: Décrivez la date ou la plage de dates
       action:
         add: Ajouter date
 
@@ -865,6 +873,8 @@ fr:
         create_value: Créer valeur
         delete_value: Supprimer valeur
         merge_value: Fusionner valeur
+        download_csv: Télécharger CSV
+
 
   event:
     _frontend:
@@ -1741,10 +1751,19 @@ fr:
         import: Importation de spreadsheet
         drag_drop: Faites glisser et déposer le fichier ici
         clip_btn: Copier dans le presse-papier
+        only_validate: Valider uniquement
       messages:
         missing_file: Vous n'avez pas ajouté un fichier
         not_excel: Le fichier que vous avez choisi n'est pas une feuille de calcul Excel
+        not_excel_csv: Le fichier que vous avez choisi n’est ni une feuille de calcul Excel ni un fichier CSV
         processed: Le fichier a été traité
         error: "ERREUR: erreur (s) détecté:"
         copied: Copié!
         uncopied: Impossible de copier
+        submitted: "<p>La tâche a été soumis aux travaux d'arrière-plan. <br/> Cliquez sur «Fermer» pour actualiser cet écran.</p>"
+  bulk_import_job:
+    active: "Une tâche d'importation groupée est active pour cet enregistrement, essayez de modifier plus tard: <a href ='%{url}'>%{uri}</a>"
+    resource_id: Ressource ID
+    format: Télécharger le format de fichier
+    filename: Nom du fichier de feuille de calcul
+    not_direct: Pour le moment, ce travail ne peut être créé qu'à partir de l'enregistrement Ressource
