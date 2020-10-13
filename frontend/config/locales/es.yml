@@ -795,12 +795,12 @@ es:
 
   date:
     _frontend:
+      expression_placeholder: Describe la fecha o el rango de fechas
       action:
         add: Agregar fecha
 
   dates_of_existence:
     _frontend:
-      expression_placeholder: Describe la fecha o el rango de fechas
       action:
         add: Agregar fecha
 
