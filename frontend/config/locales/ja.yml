@@ -812,7 +812,6 @@ ja:
 
   deaccession:
     _frontend:
-      expression_placeholder: 日付または日付範囲の説明
       action:
         add: デアクセスを追加
 
