@@ -7,6 +7,9 @@ es:
     automate: Generar automáticamente
     batch: Lote
     browse: Navegar
+    bulk_import: Cargar mediante hoja de cálculo
+    bulk_import_job: Cargar mediante hoja de cálculo
+    download_bulk_import_report: Descargar informe
     cancel: Cancelar
     close: Cerrar
     continue: Continuar
@@ -296,6 +299,8 @@ es:
       area: Area
       location_holdings: Ejemplares
       location_profile_display_string_u_ssort: Perfil de location
+      owner_repo_display_string_u_ssort: Repositorio
+      none: Ninguno
       audit_info: Datos de auditoría
       temporary: Temporal
       user_mtime: Modificado
@@ -441,6 +446,8 @@ es:
       extents: Extensión
       asc: Ascendente
       desc: Descendente
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: Repository
 
 
   advanced_search:
@@ -793,6 +800,7 @@ es:
 
   dates_of_existence:
     _frontend:
+      expression_placeholder: Describe la fecha o el rango de fechas
       action:
         add: Agregar fecha
 
@@ -867,6 +875,7 @@ es:
         create_value: Crear valor
         delete_value: Eliminar valor
         merge_value: Combinar valor
+        download_csv: Descargar CSV
 
   event:
     _frontend:
@@ -1741,10 +1750,19 @@ es:
         import: Importar de Hoja de Cálculo
         drag_drop: Arrastrar y archivo de la gota aquí
         clip_btn: Copiar al portapapeles
+        only_validate: Validar solo
       messages:
         missing_file: No ha añadido un archivo
         not_excel: El archivo que ha elegido no es una hoja de cálculo de Excel
+        not_excel_csv: El archivo que ha elegido no es una hoja de cálculo de Excel o CSV
         processed: El archivo ha sido procesado
         error: "ERROR: Error (s) detectada:"
         copied: Copiado!
         uncopied: No se puede copiar
+        submitted: "<p>El trabajo se ha enviado a Trabajos en segundo plano.<br/> Haga clic en 'Cerrar' para actualizar esta pantalla.</p>"
+  bulk_import_job:
+    active: "Hay un trabajo de importación masiva activo para este registro, intente editar más tarde:<a href ='%{url}'>%{uri}</a>"
+    resource_id: Recurso ID
+    format: Descargar formato de archivo
+    filename: Nombre del archivo de la hoja de cálculo
+    not_direct: En este momento, este trabajo solo se puede crear desde el registro de recursos
