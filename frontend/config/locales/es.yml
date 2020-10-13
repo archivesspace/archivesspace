@@ -447,7 +447,7 @@ es:
       asc: Ascendente
       desc: Descendente
     blank_facet_query_fields:
-      owner_repo_display_string_u_ssort: Repository
+      owner_repo_display_string_u_ssort: Repositorio
 
 
   advanced_search:
