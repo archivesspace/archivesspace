@@ -201,7 +201,7 @@ fr:
       level: Niveau
       identifier: Identifiant
       resource_type: Type de Ressource
-      language: Langue
+      langcode: Langue des matériaux
       restrictions: Restrictions
       ead_id: Identifiant EAD
       finding_aid_status: Statut de l'instrument de recherche
@@ -225,7 +225,7 @@ fr:
       ref_id: Ref ID
       level: Niveau
       audit_info: Audit Information
-      language: Langue
+      langcode: Langue des matériauxLangue
       dates: Dates
       extents: Importance matérielle
       user_mtime: Modifié
@@ -253,7 +253,7 @@ fr:
       digital_object_id: Identifiant d'objet numérique
       restrictions: Restrictions
       audit_info: Audit Information
-      language: Langue
+      langcode: Langue des matériaux
       dates: Dates
       extents: Importance matérielle
       user_mtime: Modifié
@@ -266,7 +266,7 @@ fr:
       publish: Publié
       context: Trouvé dans
       audit_info: Audit Information
-      language: Langue
+      langcode: Langue des matériaux
       dates: Dates
       extents: Importance matérielle
       user_mtime: Modifié
