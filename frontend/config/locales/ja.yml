@@ -801,6 +801,7 @@ ja:
 
   date:
     _frontend:
+      expression_placeholder: 日付または日付範囲を説明する
       action:
         add: 日付を追加
 
