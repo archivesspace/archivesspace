@@ -203,7 +203,7 @@ es:
       level: Nivel de Descripción
       identifier: Identificador
       resource_type: Tipo de fondo
-      language: Idioma
+      langcode: Lenguaje de materiales
       restrictions: Restricciones
       ead_id: Identificador EAD
       finding_aid_status: Estado del instrumento de descripción
@@ -227,7 +227,7 @@ es:
       ref_id: Ref ID
       level: Nivel de Descripción
       audit_info: Datos de auditoría
-      language: Idioma
+      langcode: Lenguaje de materiales
       dates: Fechas
       extents: Extensión
       user_mtime: Modificado
@@ -255,7 +255,7 @@ es:
       digital_object_id: ID de objeto digital
       restrictions: Restricciones
       audit_info: Datos de auditoría
-      language: Idioma
+      langcode: Leguaje de materiales
       dates: Fechas
       extents: Extensión
       user_mtime: Modificado
@@ -268,7 +268,7 @@ es:
       publish: Publicado
       context: Encontrado en
       audit_info: Datos de auditoría
-      language: Idioma
+      langcode: Lenguaje de materiales
       dates: Fechas
       extents: Extensión
       user_mtime: Modificado
