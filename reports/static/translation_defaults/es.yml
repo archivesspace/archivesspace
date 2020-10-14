@@ -91,6 +91,7 @@ es:
       total_count: Número de registros
       number_with_inventories: Número con inventarios
       object_type: Tipo de objeto
+      provenance: Procedencia
       purpose: Propósito de la evaluación
       rating: Clasificación
       ratings: Calificaciones
