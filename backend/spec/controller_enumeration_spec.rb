@@ -70,7 +70,7 @@ describe "Enumeration controller" do
   end
 
 
-  it "can't remove values that are being used" do
+  xit "can't remove values that are being used" do
     pending "this test passes when run on it's own, failing when run with other tests"
 
     obj = JSONModel(:enumeration).find(@enum_id)
@@ -89,7 +89,7 @@ describe "Enumeration controller" do
   end
 
 
-  it "can migrate a value to get rid of it" do
+  xit "can migrate a value to get rid of it" do
     pending "this test passes when run on it's own, failing when run with other tests"
 
     obj = JSONModel(:enumeration).find(@enum_id)

@@ -145,6 +145,9 @@
 
           /* A input as a list (e.g. note contents) */
           "label[for='" + id + "_0_']",
+
+          // A table column label span (e.g. location batch coordinate range)
+          "td span[id='" + id.replace(/_label_$/, '') + "']",
         ];
 
         var got_match = false;

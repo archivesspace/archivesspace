@@ -11,7 +11,7 @@ module FactoryBotSyntaxHelpers
                raise "Not sure how to sample this: #{enum.inspect}"
              end
 
-    exclude += ['other_unmapped']
+    exclude += ['other_unmapped', 'cubits'] # cubits are smuggled in, don't allow them in sample
 
     values.reject{|i| exclude.include?(i) }.sample
   end

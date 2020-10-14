@@ -4,7 +4,6 @@ class BackendEnumSource
 
   def self.valid?(enum_name, value)
     if RequestContext.get(:create_enums)
-
       # Some cheeky caching on the RequestContext here.  The batch import
       # process can need to check/create an awful lot of enums, so don't insert
       # into the database unless we really need to.
@@ -43,9 +42,9 @@ class BackendEnumSource
 
       true
     else
-      self.values_for(enum_name).include?(value)
+      # force refresh of enumeration b4 validating
+      self.values_for(enum_name, true).include?(value)
     end
-
   end
 
 
@@ -88,8 +87,8 @@ class BackendEnumSource
   end
 
 
-  def self.values_for(enum_name)
-    self.cache_entry_for(enum_name)[:values]
+  def self.values_for(enum_name, force_refresh = false)
+    self.cache_entry_for(enum_name, force_refresh)[:values]
   end
 
   def self.editable?(enum_name)
