@@ -225,7 +225,7 @@ fr:
       ref_id: Ref ID
       level: Niveau
       audit_info: Audit Information
-      langcode: Langue des matériauxLangue
+      langcode: Langue des matériaux
       dates: Dates
       extents: Importance matérielle
       user_mtime: Modifié
