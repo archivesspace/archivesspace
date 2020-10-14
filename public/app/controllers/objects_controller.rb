@@ -99,7 +99,9 @@ class ObjectsController <  ApplicationController
       begin
         @repo_info =  @result.repository_information
         @page_title = @result.display_string
-        @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}].concat(@result.breadcrumb)
+        @context = [
+          {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'}
+        ].concat(@result.breadcrumb)
         fill_request_info
         if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
           @dig = process_digital(@result['json'])

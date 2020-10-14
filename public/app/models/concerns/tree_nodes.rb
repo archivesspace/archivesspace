@@ -8,7 +8,8 @@ module TreeNodes
       crumbs << {
         :uri => breadcrumb_uri_for_node(node),
         :type => node['jsonmodel_type'],
-        :crumb => breadcrumb_title_for_node(node, level)
+        :crumb => breadcrumb_title_for_node(node, level),
+        :identifier => breadcrumb_identifier(node, node['jsonmodel_type'])
       }
     end
 
@@ -16,10 +17,19 @@ module TreeNodes
     crumbs << {
       :uri => '',
       :type => primary_type,
-      :crumb => display_string
+      :crumb => display_string,
+      :identifier => breadcrumb_identifier(self, primary_type)
     }
 
     crumbs
+  end
+
+
+  def breadcrumb_identifier(record, type)
+    case type
+    when 'resource'
+      resolved_resource['id_0'] if resolved_resource
+    end
   end
 
 
