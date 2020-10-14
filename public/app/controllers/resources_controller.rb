@@ -274,7 +274,7 @@ class ResourcesController < ApplicationController
     qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND (#{CONTAINER_QUERY})"
     @base_search = "#{page_uri}?"
     search_opts =  default_search_opts({
-      'sort' => 'typeahead_sort_key_u_sort asc',
+      'sort' => 'top_container_u_icusort asc',
       'facet.mincount' => 1
     })
     search_opts['fq']=[qry]
