@@ -121,7 +121,7 @@
 
     <!--  Start main page design and layout -->
     <xsl:template match="/">
-        <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" font-size="12pt" font-family="NotoSerif">
+        <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" font-size="12pt" font-family="KurintoText,NotoSerif">
             <!-- Set up page types and page layouts -->
             <fo:layout-master-set>
                 <!-- Page master for Cover Page -->

@@ -4,6 +4,18 @@
 	<renderers>
 		<renderer mime="application/pdf">
 		<fonts>
+			<font embed-url="KurintoText-Rg.ttf">
+				<font-triplet name="KurintoText" style="normal" weight="normal"/>
+			</font>
+			<font embed-url="KurintoText-Bd.ttf">
+				<font-triplet name="KurintoText" style="normal" weight="bold"/>
+			</font>
+			<font embed-url="KurintoText-BdIt.ttf">
+				<font-triplet name="KurintoText" style="italic" weight="bold"/>
+			</font>
+			<font embed-url="KurintoText-It.ttf">
+				<font-triplet name="KurintoText" style="italic" weight="normal"/>
+			</font>
 			<font embed-url="NotoSerif-SemiCondensed.ttf">
 				<font-triplet name="NotoSerif" style="normal" weight="normal"/>
 			</font>
