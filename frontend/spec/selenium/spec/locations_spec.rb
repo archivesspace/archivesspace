@@ -49,9 +49,18 @@ describe 'Locations' do
 
   it 'allows locations to be edited' do
     @driver.clear_and_send_keys([:id, 'location_room_'], '5A')
+    @driver.find_element(id: 'location_temporary_question_').click
+    @driver.find_element(id: 'location_temporary_').select_option('conservation')
     @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
-
     @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Saved/)
+    expect(@driver.find_element(id: "location_temporary_").get_select_value).to eq('conservation')
+  end
+
+  it 'persists the temporary location' do
+    @driver.click_and_wait_until_gone(css: 'a.hide-alert')
+    @driver.click_and_wait_until_gone(css: 'form#new_location .btn-primary')
+    @driver.find_element_with_text('//div[contains(@class, "alert-success")]', /Location Saved/)
+    expect(@driver.find_element(id: "location_temporary_").get_select_value).to eq('conservation')
   end
 
   it 'lists the new location in the browse list' do
