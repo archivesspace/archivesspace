@@ -29,7 +29,7 @@ class ASFop
      @pdf_image = pdf_image
    end
    @xslt = File.read( StaticAssetFinder.new(File.join('stylesheets')).find('as-ead-pdf.xsl'))
-   @config = StaticAssetFinder.new(File.join('stylesheets')).find('fop-config.xml')
+   @config = java.io.File.new(StaticAssetFinder.new(File.join('stylesheets')).find('fop-config.xml'))
   end
 
   def saxon_processor
@@ -45,9 +45,7 @@ class ASFop
   end
 
   def fop_processor
-    fopfac = FopFactory.newInstance
-    fopfac.setBaseURL( File.join(ASUtils.find_base_directory, 'stylesheets') )
-    fopfac.setUserConfig(@config)
+    fopfac = FopFactory.newInstance(@config)
     fopfac.newFop(MimeConstants::MIME_PDF, @output.to_outputstream)
   end
 
