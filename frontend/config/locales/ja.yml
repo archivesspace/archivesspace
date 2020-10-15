@@ -209,7 +209,7 @@ ja:
       level: レベル
       identifier: 識別
       resource_type: リソースタイプ
-      language: 言語
+      langcode: 材料の言語
       restrictions: 制限事項
       ead_id: EAD ID
       finding_aid_status: 援助の状況を見つける
@@ -233,7 +233,7 @@ ja:
       ref_id: Ref ID
       level: レベル
       audit_info: 監査データ
-      language: 言語
+      langcode: 材料の言語
       dates: 日付
       extents: エクステント
       user_mtime: 更新しました
@@ -261,7 +261,7 @@ ja:
       digital_object_id: デジタルオブジェクトID
       restrictions: 制限事項
       audit_info: 監査データ
-      language: 言語
+      langcode: 材料の言語
       dates: 日付
       extents: エクステント
       user_mtime: 更新しました
@@ -274,7 +274,7 @@ ja:
       publish: 発行済み
       context: 見つかった
       audit_info: 監査データ
-      language: 言語
+      langcode: 材料の言語
       dates: 日付
       extents: エクステント
       user_mtime: 更新しました
