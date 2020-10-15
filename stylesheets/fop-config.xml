@@ -16,6 +16,42 @@
 			<font embed-url="KurintoText-It.ttf">
 				<font-triplet name="KurintoText" style="italic" weight="normal"/>
 			</font>
+			<font embed-url="KurintoTextJP-Rg.ttf">
+				<font-triplet name="KurintoTextJP" style="normal" weight="normal"/>
+			</font>
+			<font embed-url="KurintoTextJP-Bd.ttf">
+				<font-triplet name="KurintoTextJP" style="normal" weight="bold"/>
+			</font>
+			<font embed-url="KurintoTextJP-BdIt.ttf">
+				<font-triplet name="KurintoTextJP" style="italic" weight="bold"/>
+			</font>
+			<font embed-url="KurintoTextJP-It.ttf">
+				<font-triplet name="KurintoTextJP" style="italic" weight="normal"/>
+			</font>
+			<font embed-url="KurintoTextKR-Rg.ttf">
+				<font-triplet name="KurintoTextKR" style="normal" weight="normal"/>
+			</font>
+			<font embed-url="KurintoTextKR-Bd.ttf">
+				<font-triplet name="KurintoTextKR" style="normal" weight="bold"/>
+			</font>
+			<font embed-url="KurintoTextKR-BdIt.ttf">
+				<font-triplet name="KurintoTextKR" style="italic" weight="bold"/>
+			</font>
+			<font embed-url="KurintoTextKR-It.ttf">
+				<font-triplet name="KurintoTextKR" style="italic" weight="normal"/>
+			</font>
+			<font embed-url="KurintoTextSC-Rg.ttf">
+				<font-triplet name="KurintoTextSC" style="normal" weight="normal"/>
+			</font>
+			<font embed-url="KurintoTextSC-Bd.ttf">
+				<font-triplet name="KurintoTextSC" style="normal" weight="bold"/>
+			</font>
+			<font embed-url="KurintoTextSC-BdIt.ttf">
+				<font-triplet name="KurintoTextSC" style="italic" weight="bold"/>
+			</font>
+			<font embed-url="KurintoTextSC-It.ttf">
+				<font-triplet name="KurintoTextSC" style="italic" weight="normal"/>
+			</font>
 			<font embed-url="NotoSerif-SemiCondensed.ttf">
 				<font-triplet name="NotoSerif" style="normal" weight="normal"/>
 			</font>
