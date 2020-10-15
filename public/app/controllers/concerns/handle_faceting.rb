@@ -37,6 +37,9 @@ module HandleFaceting
     elsif k == 'langcode'
       # Lookup three-letter language codes
       pv = I18n.t("enumerations.language_iso639_2.#{v}", :default => v)
+    elsif k == 'type_enum_s'
+      # Lookup container type
+      pv = I18n.t("enumerations.container_type.#{v}", :default => v)
     elsif %w(repository used_within_published_repository).include?(k)
       repos = Repository.get_repos
       if repos[v].nil?
