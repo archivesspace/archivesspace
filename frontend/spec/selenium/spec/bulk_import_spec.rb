@@ -55,7 +55,7 @@ describe 'Bulk Import' do
 
     # access the job page and confirm new records were created
     @driver.find_element(:link, 'View').click
-    @driver.click_and_wait_until_gone(css: 'button.btn-refresh')
+    assert(5) { @driver.click_and_wait_until_gone(css: 'button.btn-refresh') }
     expect do
       @driver.find_element_with_text('//a', /A subseries/)
       @driver.find_element_with_text('//a', /The first series/)
