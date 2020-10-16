@@ -39,9 +39,12 @@ class ASFop
   def to_fo(sax_handler)
     transformer = saxon_processor.xslt_compiler.compile(Saxon::Source.create(File.join(ASUtils.find_base_directory, 'stylesheets', 'as-ead-pdf.xsl')))
     sax_destination = Saxon::S9API::SAXDestination.new(sax_handler)
-    input = Saxon::Source.create(@source)
+    input = saxon_processor.document_builder.build(Saxon::Source.create(@source))
     params = {"pdf_image" => @pdf_image}
-    transformer.apply_templates(input, {initial_template_parameters: params}).to_destination(sax_destination)
+    transformer.apply_templates(input, {
+      global_parameters: params,
+      global_context_item: input
+    }).to_destination(sax_destination)
   end
 
   def fop_processor
