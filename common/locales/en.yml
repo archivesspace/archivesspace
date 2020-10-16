@@ -1699,7 +1699,7 @@ en:
     contact_persons: Contact Persons
     image_url: Branding Image URL
     image_url_tooltip: |
-        <p>A remote URL or path to a local file that contains a branding image (like a logo or seal) to be used in the repository's online finding aids. This image appears on the public side PDFs and on the repositories page.</p>
+        <p>A remote URL or path to a local file that contains a branding image (like a logo or seal) to be used in the repository's online finding aids. This image appears on the public side PDFs, staff side PDFs and on the repositories page.</p>
     _singular: Repository
     _plural: Repositories
     publish: Publish?
