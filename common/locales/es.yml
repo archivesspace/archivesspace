@@ -1681,7 +1681,7 @@ es:
     contact_persons: Personas de contacto
     image_url: URL de imagen de marca
     image_url_tooltip: |
-        <p>Una dirección URL u otro identificador de ubicación de archivo hace referencia a un archivo que contiene un dispositivo de creación de marca para ser utilizado en el repositorio en línea encontrar SIDA. Un dispositivo típico de marca es un sello de Universidad o logotipo.</p>
+        <p>Una URL o ruta remota a un archivo local que contiene una imagen de marca (como un logotipo o sello) para usar en las ayudas de búsqueda en línea del repositorio. Esta imagen aparece en los PDF del lado público, los PDF del lado del personal y en la página de repositorios.</p>
     _singular: Repositorio
     _plural: Repositorios
     publish: ¿Publicar?
