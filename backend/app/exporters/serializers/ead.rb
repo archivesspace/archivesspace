@@ -917,6 +917,14 @@ class EADSerializer < ASpaceExport::Serializer
 
         if (val = data.finding_aid_language_note)
           xml.langusage (fragments << val)
+				else
+					xml.langusage() {
+						xml.text("Description is written in: ")
+						xml.language({langcode: "#{data.finding_aid_language}"}) {
+							xml.text(I18n.t("enumerations.language_iso639_2.#{data.finding_aid_language}"))
+						}
+						xml.text(".")
+					}
         end
 
         if (val = data.descrules)
