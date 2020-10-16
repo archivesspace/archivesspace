@@ -1699,7 +1699,7 @@ fr:
     contact_persons: Personnes à contacter
     image_url: URL du logo de marquage
     image_url_tooltip: |
-        <p>Un URL ou un autre identifiant de localisation de fichier pointant vers un fichier contenant un outil de marquage à utiliser dans l'instrument d'aide en ligne du service d'archives. Un logo ou un sceau universitaire constituent des outils typiques de marquage.</p>
+        <p>Une URL distante ou un chemin d'accès à un fichier local contenant une image de marque (comme un logo ou un sceau) à utiliser dans les outils de recherche en ligne du service d'archives. Cette image apparaît sur les PDF côté public, les PDF côté personnel et sur la page du service d'archives.</p>
     _singular: Service d'archives
     _plural: Services d'archives
     publish: Publier?
