@@ -49,7 +49,7 @@ class DigitalObjectComponent < Sequel::Model(:digital_object_component)
 
 
   def self.produce_display_string(json)
-    display_string = json['title'] || json['label'] || nil
+    display_string = json['title'] || json['label'] || ""
 
     date_label = json.has_key?('dates') && json['dates'].length > 0 ?
                   json['dates'].map do |date|
