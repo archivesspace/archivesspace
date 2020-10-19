@@ -4,7 +4,6 @@ class BackendEnumSource
 
   def self.valid?(enum_name, value)
     if RequestContext.get(:create_enums)
-
       # Some cheeky caching on the RequestContext here.  The batch import
       # process can need to check/create an awful lot of enums, so don't insert
       # into the database unless we really need to.
@@ -43,14 +42,14 @@ class BackendEnumSource
 
       true
     else
-      self.values_for(enum_name).include?(value)
+      # force refresh of enumeration b4 validating
+      self.values_for(enum_name, true).include?(value)
     end
-
   end
 
 
-  @@enum_value_cache = Rufus::Lru::SynchronizedHash.new(1024)
-  @@max_cache_ms = 5000
+  @@enum_value_cache = Rufus::Lru::SynchronizedHash.new(16384)
+  @@max_cache_ms = 300000
 
 
   def self.cache_entry_for(enum_name, force_refresh = false)
@@ -88,8 +87,8 @@ class BackendEnumSource
   end
 
 
-  def self.values_for(enum_name)
-    self.cache_entry_for(enum_name)[:values]
+  def self.values_for(enum_name, force_refresh = false)
+    self.cache_entry_for(enum_name, force_refresh)[:values]
   end
 
   def self.editable?(enum_name)
@@ -121,16 +120,27 @@ class BackendEnumSource
   end
 
 
-  def self.value_for_id(enum_name, id)
+  # Return the string value for a given enumeration value ID.
+  #
+  # `enum_names` is a list of the enumeration names that the ID might belong to.
+  # For legacy reasons it can be a string (a single enumeration name), but can
+  # also take an array of strings (meaning "the value belongs to one of these
+  # enumerations, but I'm not sure which one).
+  def self.value_for_id(enum_names, id)
     return nil if id.nil?
 
-    result = self.cache_entry_for(enum_name)[:id_to_value_map][id]
+    enum_names = Array(enum_names)
 
-    if !result
-      self.cache_entry_for(enum_name, true)[:id_to_value_map][id]
+    # If multiple possible enum names are given, try hitting the cached values
+    # for all of them before giving up and hitting the DB.
+    [false, true].each do |force_refresh|
+      enum_names.each do |enum_name|
+        result = self.cache_entry_for(enum_name, force_refresh)[:id_to_value_map][id]
+        return result if result
+      end
     end
 
-    result
+    nil
   end
 
 end
