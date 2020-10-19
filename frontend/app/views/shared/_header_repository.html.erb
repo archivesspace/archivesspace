@@ -101,6 +101,8 @@
                       <% job_types.each do |type, perms| %>
                         <% next if type == 'generate_slugs_job' && !AppConfig[:use_human_readable_urls] %>
                         <% next if type == 'generate_arks_job' && !AppConfig[:arks_enabled] %>
+                        <%# We only want to trigger bulk imports from within a resource record %>
+                        <% next if type == 'bulk_import_job' %>
                         <% if perms['create_permissions'].reject{|perm| user_can?(perm)}.empty? %>
                           <li><%= link_to I18n.t("job.types.#{type}", :default => type), :controller => :jobs, :action => :new, :job_type => type %></li>
                         <% end %>
