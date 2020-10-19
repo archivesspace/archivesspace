@@ -1592,6 +1592,7 @@ en:
     finding_aid_language: Language of Description
     finding_aid_language_tooltip: |
         <p>Indicates all the languages present in the finding aid generated from the resource description.</p>
+    finding_aid_langusage_label: "Description is written in: " 
     finding_aid_script: Script of Description
     finding_aid_script_tooltip: |
         <p>Indicates all the scripts present in the finding aid generated from the resource description.</p>
