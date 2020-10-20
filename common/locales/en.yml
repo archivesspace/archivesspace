@@ -2400,7 +2400,7 @@ en:
       system: "Some system error has occurred  [%{msg}]."
       initialize: "Processing is terminated [%{msg}]"
       stopped: "Processing stopped at row %{row} [%{msg}]"
-      duplicates: "This spreadsheet has duplicate Archive Space Field codes: %{codes}"
+      duplicates: "This spreadsheet has duplicate ArchivesSpace Field codes: %{codes}"
       res_ead: This form's Resource is missing an EAD ID
       row_ead: This row is missing an EAD ID
       row_missing_ead_uri: This row is missing BOTH an EAD ID and URI
@@ -2411,7 +2411,7 @@ en:
       hier_miss: Missing hierachy -- must be a number greater than 0
       hier_zero: Hierarchy must be greater than 0
       hier_wrong: Hierarchy cannot not be more than one level deeper than the previous row
-      hier_wrong_resource:  did you mean to start processing with an archival object selected?
+      hier_wrong_resource:  Did you mean to start processing with an archival object selected?
       hier_wrong_resource_validation:  "WARNING: nothing below this row would have been processed"
       hier_below_error_level: The parent archival object was not created
       level: Missing valid Description Level
@@ -2439,7 +2439,7 @@ en:
       has_dig_obj: "Archival object already has an associated digital object"
       dig_unassoc: "Unable to save archival object with associated digital object: %{msg}"
       ref_id_miss: No Ref Id specified
-      dig_info_miss: Neither the Digital Object URN or the Thumbnail URN is specified
+      dig_info_miss: Neither the Digital Object URI or the Thumbnail URI is specified
       dig_validation: "Cannot create the Digital Object %{err}"
       initial_save_error: "Problem with initial save of %{title} -- %{msg}"
       second_save_error: "Error on attempt to re-save archival object with 'instances' %{title} position: %{pos}.This means that the archival object has been created, but possibly not linked to its associated instances (digital object, top container, subject, etc.) [%{what}]"
