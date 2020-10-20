@@ -261,7 +261,7 @@ en:
       level: Level
       identifier: Identifier
       resource_type: Resource Type
-      language: Language
+      langcode: Language of Materials
       restrictions: Restrictions
       ead_id: EAD ID
       finding_aid_status: Finding Aid Status
@@ -285,7 +285,7 @@ en:
       ref_id: Ref ID
       level: Level
       audit_info: Audit Information
-      language: Language
+      langcode: Language of Materials
       dates: Dates
       extents: Extent
       user_mtime: Modified
@@ -313,7 +313,7 @@ en:
       digital_object_id: Digital Object ID
       restrictions: Restrictions
       audit_info: Audit Information
-      language: Language
+      langcode: Language of Materials
       dates: Dates
       extents: Extent
       user_mtime: Modified
@@ -326,7 +326,7 @@ en:
       publish: Published
       context: Found in
       audit_info: Audit Information
-      language: Language
+      langcode: Language of Materials
       dates: Dates
       extents: Extent
       user_mtime: Modified
