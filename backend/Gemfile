@@ -9,7 +9,7 @@ gem 'i18n', '0.9.1'
 gem 'jdbc-derby', '10.12.1.1'
 gem 'jdbc-mysql', '5.1.13', group: :development
 gem 'jruby-jars', '= 9.2.12.0'
-gem 'json', '2.2.0'
+gem 'json', '2.3.0'
 gem 'json-schema', '1.0.10'
 gem 'mizuno', '0.6.11'
 gem 'net-ldap', '~> 0.16.0'
@@ -19,7 +19,7 @@ gem 'rufus-lru', '1.0.5'
 gem 'rufus-scheduler', '~> 2.0.24'
 gem 'rubyXL', '~> 3.4', '>= 3.4.9'
 gem 'saxerator', '= 0.9.2'
-gem 'saxon-rb', '~> 0.6'
+gem 'saxon-rb', '~> 0.8.3'
 gem 'sequel', '~> 5.9.0'
 gem 'sinatra', '2.0.5', require: false
 gem 'sinatra-contrib', '2.0.5', require: false
@@ -27,7 +27,7 @@ gem 'tzinfo'
 
 gem 'warbler', '2.0.5', group: :build
 
-gem 'activesupport', '5.2.4.3'
+gem 'activesupport', '5.2.4.4'
 gem 'oai', '0.4.0'
 
 gem 'rrtf'
@@ -42,8 +42,8 @@ group :test do
 end
 
 group :development, :test do
-  gem 'pry'
-  gem 'pry-debugger-jruby'
+  gem 'pry', '~> 0.12.2'
+  gem 'pry-debugger-jruby', '>= 1.2.2'
   gem 'pry-nav'
   gem 'rubocop', '~> 0.72.0', require: false
 end

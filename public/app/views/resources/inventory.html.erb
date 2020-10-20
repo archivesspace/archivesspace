@@ -24,11 +24,11 @@
       <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
     <% end %>
   </div>
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-    <% unless @results.blank? || @results['total_hits'] == 0 %>
+  <% unless @results.blank? || @results['total_hits'] == 0 || @facets.blank? %>
+    <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
       <%= render partial: 'shared/facets' %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>
 
 <%= render partial: 'shared/modal_actions' %>

@@ -1,502 +1,507 @@
 # NOTE: Many of the translations in this file have been generated using
-# Google translate
+# Google translate and suggestion tools in Weblate
 es:
   brand:
-    title: ArchivesSpace Public Interface
-    title_link_text: Return to the ArchivesSpace homepage
-    home: Home
-    welcome_head: Welcome to ArchivesSpace
+    title: Interfaz pública de ArchivesSpace
+    title_link_text: Vuelve a la página inicial de ArchivesSpace
+    home: Página principal
+    welcome_head: Bienvenido a ArchivesSpace
     welcome_message: |
-                     <p>Search across our collections, digital materials, and more.</p>
+      <p>Busque en nuestras colecciones, materiales digitales y más.</p>
 
-    welcome_search_label: "Find what you're looking for:"
-    welcome_page_title: ArchivesSpace Public Interface
+    welcome_search_label: "Encuentre lo que busca:"
+    welcome_page_title: interfaz pública de ArchivesSpace
 
   actions:
-    search: Search
-    search_header: Search The Archives
-    search_within: Search within results
-    search_in: "Search %{type}"
-    new_search: New Search
-    refine_search: Refine Search
-    browse: Browse
-    show_advanced_search: Show Advanced Search
-    hide_advanced_search: Hide Advanced Search
-    backup:  Return to the previous page
-    backup_abbr: Go back
-    cite: Citation
-    request: Request
-    print: Print
-    print-generating: Generating
-    collection_overview: Collection Overview
-    hierarch: Collection Organization
-    numeric: Container Inventory
-    detailed: Detailed Contents
-    record_details: Record Details
-    clipboard: Copy to clipboard
-    search_add_row: Add a search row
-    search_remove_row: Remove the row below
-    staff_link: Staff Only
+    search: Buscar
+    search_header: Buscar en los archivos
+    search_within: Busca dentro de los resultados
+    search_in: "Buscar %{type}"
+    new_search: Nueva búsqueda
+    refine_search: Refinar busqueda
+    browse: Vistazo
+    close: Cerca
+    show_advanced_search: Mostrar búsqueda avanzada
+    hide_advanced_search: Ocultar búsqueda avanzada
+    backup: Regresar a la página anterior
+    backup_abbr: Regresa
+    cite: Mención
+    cite_item: Cite artículo
+    cite_item_description: Cite Descripción del artículo
+    request: Solicitud
+    print: Imprimir
+    print-generating: Generando
+    collection_overview: Resumen de la colección
+    hierarch: Organización de la colección
+    numeric: Inventario de contenedores
+    detailed: Contenidos detallados
+    record_details: Detalles del registro
+    clipboard: Copiar al portapapeles
+    search_add_row: Agregar una fila de búsqueda
+    search_remove_row: Eliminar la fila de abajo
+    staff_link: Sólo Personal
 
-  page_actions: Page Actions
+  page_actions: Acciones de página
 
   request:
-    email_header: Thank you for your request
-    required: required
-    user_name: Your name
-    user_email: Your email address
-    date: Anticipated arrival date
-    note: Note to the staff
-    visit: "Submit a request to visit %{repo_name} to view <strong>%{archival_object}</strong>"
-    submit: Submit Request
-    submitted: Thank you, your request has been submitted.  You will soon receive an email with a copy of your request.
+    email_header: gracias por tu solicitud
+    required: necesario
+    user_name: Tu nombre
+    user_email: Tu correo electrónico
+    date: Fecha de llegada prevista
+    note: Nota para el personal
+    visit: "Envíe una solicitud para visitar%{repo_name} para ver <strong>%{archival_object}</strong>"
+    submit: Enviar solicitud
+    submitted: Gracias, su solicitud ha sido enviada.  Pronto recibirá un correo electrónico
+      con una copia de su solicitud.
     errors:
-      name: Please enter your name
-      email: Please enter a valid email address
+      name: por favor, escriba su nombre
+      email: Por favor, introduce una dirección de correo electrónico válida
     email:
-      subject: "Request for %{title}"
+      subject: "Solicitud de% {title}"
 
   search-button:
-    label: Search
-  search-limit: "Limit to %{limit}"
-  search-limiting: "limited to %{limit}"
+    label: Buscar
+  search-limit: "Límite a %{limit}"
+  search-limiting: "limitado a %{limit}"
   search-limits:
-    all: all record types
-    repository: repositories
-    repositories: repositories
-    resource: collections
-    resources: collections
-    digital: digital materials
-    digital_object: digital materials
-    objects: archival or digital records
-    subject: subject
-    agent: content creator
-    agents: content creators
-  search-field: Search field
-  searched-field: "searching %{field}"
+    all: todos los tipos de registro
+    repository: repositorios
+    repositories: repositorios
+    resource: colecciones
+    resources: colecciones
+    digital: materiales digitales
+    digital_object: materiales digitales
+    objects: registros digitales o de archivo
+    subject: sujeto
+    agent: creador de contenidos
+    agents: creadores de contenido
+  search-field: Campo de búsqueda
+  searched-field: "buscando %{field}"
 
   pagination:
-    first: First
-    last: Last
+    first: Primero
+    last: Último
     previous: "&#171;"
     next: "&#187;"
-    summary_prefix: Showing
+    summary_prefix: Mostrando
     summary_offset_connector: "-"
-    summary_total_connector: of
-    summary_suffix: Results
-    page_prefix: Page
-    page_connector: of
+    summary_total_connector: de
+    summary_suffix: Resultados
+    page_prefix: Página
+    page_connector: de
 
   search_results:
-    page_title: "Found %{count} Results"
-    results_head: "Showing %{type}: %{start} - %{end} of %{total}"
-    result: Result
-    results: Results
-    head_prefix: Found
-    head_suffix: Results
-    searching: Searching
-    search_for: "Search  %{type} where %{conditions}"
-    keyword_contain: "<strong>keyword(s)</strong>: <span class='searchterm'>%{kw}</span>"
-    title_contain: "the <strong>title</strong> contains  <span class='searchterm'>%{kw}</span>"
-    notes_contain: "the <strong>note</strong> contains  <span class='searchterm'>%{kw}</span>"
-    creators_text_contain: "the <strong>creator</strong> contains <span class='searchterm'>%{kw}</span>"
-    subjects_text_contain: "the <strong>subject</strong> contains <span class='searchterm'>%{kw}</span>"
-    identifier_contain: "the <strong>identifier</strong> contains <span class='searchterm'>%{kw}</span>"
-    four_part_id_contain: "the <strong>identifier</strong> contains <span class='searchterm'>%{kw}</span>"
+    page_title: "Encontrado %{count} resultados"
+    results_head: "Mostrando %{type}: %{start} - %{end} of %{total}"
+    result: Resultado
+    results: Resultados
+    head_prefix: Encontró
+    head_suffix: Resultados
+    searching: Buscando
+    search_for: "Buscar  %{type} donde %{conditions}"
+    keyword_contain: "<strong>palabra(s)</strong>: <span class='searchterm'>%{kw}</span>"
+    title_contain: "the <strong>título</strong> contiene  <span class='searchterm'>%{kw}</span>"
+    notes_contain: "the <strong>nota</strong> contiene  <span class='searchterm'>%{kw}</span>"
+    creators_text_contain: "the <strong>autor</strong> contiene <span class='searchterm'>%{kw}</span>"
+    subjects_text_contain: "the <strong>sujeto</strong> contiene <span class='searchterm'>%{kw}</span>"
+    identifier_contain: "the <strong>identificador</strong> contiene <span class='searchterm'>%{kw}</span>"
+    four_part_id_contain: "the <strong>identificador</strong> contiene <span class='searchterm'>%{kw}</span>"
     in_repository: " in <strong>%{name}</strong>"
-    year_range: " from <strong>%{from_year}</strong> to <strong>%{to_year}</strong>"
+    year_range: " del <strong>%{from_year}</strong> al <strong>%{to_year}</strong>"
     anything: "*"
-    search_term: Search term
-    title: All Records
-    error: Your search could not be completed due to an unexpected error
-    no_results: No Records Found
-    no_results_prefix: There were no search results for
-    result_type: Record Type
-    result_title: Title
+    search_term: Término de búsqueda
+    title: Todos los registros
+    error: Su búsqueda no se pudo completar debido a un error inesperado
+    no_results: Registros no encontrados
+    no_results_prefix: No hay resultados de la búsqueda
+    result_type: Tipo de recuerdo
+    result_title: Título
     filter_by: Filter By
-    filtered_by: Filtered By
-    remove_filter: Remove this filter
-    modified: Last Modified
-    created: Created
-    text_placeholder: Filter by text
-    clear_all: Clear All
-    component_switch: Include Components
-    more_facets: more
-    fewer_facets: less
+    filtered_by: Filtrado por
+    remove_filter: Quitar este filtro
+    modified: Ultima modificacion
+    created: Creado
+    text_placeholder: Filtrar por texto
+    clear_all: Borrar todo
+    component_switch: Incluir los componentes
+    more_facets: Más
+    fewer_facets: Menos
     op:
-      AND: and
-      OR:  or
-      NOT:  and not
+      AND: y
+      OR: or
+      NOT: y no
     op_first_row:
-      NOT: not
+      NOT: /NO
     filter:
-      head: Filter Results
-      add: Additional filters
-      form: Searching within results
-      show_fewer: Show fewer
-      show_more: Show more
-      query: Text
-      subjects: Subject
-      primary_type: Type
-      repository: Repository
-      used_within_published_repository: Repository
-      creators: Creator
-      fullrecord: Keyword
-      subjects_text: Subject
-      title: Title
-      creators_text: Creator
+      head: Filtra resultados
+      add: Filtros adicionales
+      form: Busca dentro de los resultados
+      show_fewer: Mostrar menos
+      show_more: Mostrar más
+      query: Texto
+      subjects: Materia
+      primary_type: Tipo
+      repository: Repositorio
+      used_within_published_repository: Repositorio
+      creators: Autor
+      fullrecord: Palabra clave
+      subjects_text: Materia
+      title: Título
+      creators_text: Autor
       scope: Scope
-      notes: Notes
-      identifier: Identifier
-      source: Source
-      published_agents: Names
-      agents_text: Names
-      classification_uri: Classification
+      notes: Notas
+      identifier: Identificador
+      source: Fuente
+      published_agents: Nombres
+      agents_text: Nombres
+      classification_uri: Clasificación
       linked_agent_roles: Role
-      from_year: From year
-      to_year: To year
-      years: Years
-      from: From
-      to: To
-      years_include: Years to include
-      year_now: now
-      year_begin: the beginning
-      from_to: "Years: %{begin} to %{end}"
-      child_container_u_sstr: Child container
-      grand_child_container_u_sstr: Grandchild container
-      type_enum_s: Type
+      from_year: del año
+      to_year: al año
+      years: años
+      from: Del
+      to: Al
+      years_include: años para incluir
+      year_now: ahora
+      year_begin: el principio
+      from_to: "Años: %{begin} al %{end}"
+      child_container_u_sstr: Tipo de contenedor hijo
+      grand_child_container_u_sstr: Contenedor de tipo nieto
+      type_enum_s: Tipo
       published_series_title_u_sstr: Series
-      instance_type_enum_s: Instance type
+      instance_type_enum_s: Tipo de representación
       langcode: Idioma
 
   search_sorting:
-    sort_by: "Sort by:"
-    sort: Sort
-    and: "and:"
-    asc: (ascending)
-    desc: (descending)
-    relevance: Relevance
-    title_sort: Title
-    user_mtime: Modified
-    primary_type: Record Type
-    processing_priority: Priority
-    processing_status: Status
-    parent_id: Record Type
-    create_time: Created
-    authority_id: Authority ID
-    source: Source
-    rules: Rules
-    outcome: Outcome
-    event_type: Type
-    identifier: Identifier
-    select: Select
-    year_sort: Year
+    sort_by: "Ordenar por:"
+    sort: Ordenar
+    and: "y:"
+    asc: (ascendente)
+    desc: (descendente)
+    relevance: Relevancia
+    title_sort: Título
+    user_mtime: Modificado
+    primary_type: Tipo de registro
+    processing_priority: Prioridad
+    processing_status: Estado
+    parent_id: Tipo de registro
+    create_time: Creado
+    authority_id: Identificador de autoridad
+    source: Fuente
+    rules: Reglas
+    outcome: Resultado
+    event_type: Tipo
+    identifier: Identificador
+    select: Seleccione
+    year_sort: Año
     sorting: "%{type} %{direction}"
-    classification_identifier: Identifier
+    classification_identifier: Identificador
 
   inherit:
-    inherited: "From the %{level}:"
-    collection: Collection
-    series: Series
-    sub-series: Sub-Series
-    class: Class
-    file: File
-    fonds: Fonds
-    item: Item
-    otherlevel: Other Level
-    recordgrp: Record Group
-    subfonds: Sub-Fonds
-    subgrp: Sub-Group
+    inherited: "Del los %{level}:"
+    class: Clase
+    collection: Colección
+    file: Documento de archivo
+    fonds: Fondos
+    item: Ítem
+    otherlevel: Otro nivel
+    recordgrp: Grupo de registro
+    series: Serie
+    subfonds: Subfondos
+    subgrp: Subgrupo
+    subseries: Subserie
 
+    sub-series: Subserie
   errors:
-    error_404: "%{type} Record Not Found"
-    error_404_message: "The %{type} record you've tried to access does not exist or may have been removed."
-    backend_down: Unable to Connect to Database
-    backend_down_message: ArchivesSpace is currently experiencing technical difficulties. We apologise for the inconvenience. Please try again later.
-    unexpected_error: Your request could not be completed due to an unexpected error
+    error_404: "% {type} registro no encontrado"
+    error_404_message: "El registro% {type} al que ha intentado acceder no existe o puede que se haya eliminado."
+    backend_down: No se puede conectar a la base de datos
+    backend_down_message: ArchivesSpace está experimentando dificultades técnicas. Pedimos disculpas por las molestias. Por favor, inténtelo de nuevo más tarde.
+    unexpected_error: Su solicitud no se pudo completar debido a un error inesperado
 
   boolean:
-    "true": "Yes"
+    "true": "Si"
     "false": "No"
 
   navbar:
-    search_placeholder: Enter your search terms
-    search_all: All Records
-    error_no_term: No search term(s) entered.
-    search_terms_results: "Your search for {{search_terms}} yielded {{number}} results"
-    toggle_navigation: Toggle Navigation
+    search_placeholder: Introduzca sus términos de búsqueda
+    search_all: Todos los registros
+    error_no_term: No se han introducido términos de búsqueda.
+    search_terms_results: "Su búsqueda de {{search_terms}} arrojó {{number}} resultados"
+    toggle_navigation: Alternar navegación
 
   internal_links:
-    main: Main Content
-    filter: Filter Results
-    collection: Collection Organization
-    search_collection: Search within collection
+    main: Principales elementos
+    filter: Filtra resultados
+    collection: Organización de la colección
+    search_collection: Buscar dentro de la colección
 
   accordion:
-    expand: Expand All
-    collapse: Collapse All
+    expand: Expandir todo
+    collapse: Contraer todo
 
   advanced_search:
-    operator_label: Search operator
+    operator_label: Operador de búsqueda
     operator:
-      AND: And
-      OR: Or
-      NOT: Not
-    button_text: Search
-    reset: Clear
+      AND: Y
+      OR: O
+      NOT: No
+    button_text: Buscar
+    reset: Limpiar
     nav_switcher:
-      show: Show Advanced
-      hide: Hide Advanced
+      show: Mostrar avanzadas
+      hide: Ocultar avanzadas
     index_switcher:
-      show: Show Advanced Search
-      hide: Hide Advanced Search
+      show: Mostrar búsqueda avanzada
+      hide: Ocultar búsqueda avanzada
 
-  contains: "Contains %{count} %{type}"
-  found: "Found in %{count} %{type}"
+  contains: "Contiene %{count} %{type}"
+  found: "Encontrado en %{count} %{type}"
   coll_obj:
-    _singular: Collection or Record
-    _plural: Collections and/or Records
+    _singular: Colección o registro
+    _plural: Colecciones y / o registros
 
   # I don't have a place for these, so I'm putting them here
-  scope_note : Scope Note
-  multiple_containers: Multiple Containers
+  scope_note: Nota alcance
+  multiple_containers: Múltiples contenedores
   # adding the inherited title to the display string
   inherited: "%{title}, %{display}"
   extent_number_type: "%{number} %{type}"
   extent_phys_details: " : %{deets}"
   extent_dims: " ; %{dimensions}"
 
-  external_docs: External Documents
-  more_about: More about
-  listing: Listing
-  list: "%{type} List"
-  cont_arr: Collection organization
-  dig_cont_arr: Digital object organization
-  subgroups: Subgroups
-  accessed: Accessed
-  containers: Physical Storage Information
-  related_accessions: Related Unprocessed Material
-  related_resources: Related Collections
-  linked_instances: Linked Records
-  linked_digital_objects: Digital Material
+  external_docs: Documentos externos
+  more_about: Más sobre
+  listing: Listado
+  list: "%{type} Lista"
+  cont_arr: Organización de la colección
+  dig_cont_arr: Organización de objeto digital
+  subgroups: Subgrupos
+  accessed: Acceso
+  containers: Información de almacenamiento físico
+  related_accessions: Material sin procesar relacionado
+  related_resources: Colecciones relacionadas
+  linked_instances: Registros enlazados
+  linked_digital_objects: Materiales digitales
 
   accession:
-   _singular: Unprocessed
-   _plural: Unprocessed Materials
-   _public:
+    _singular: Sin procesar
+    _plural: Materiales sin procesar
+    _public:
       section:
-        summary: Summary
-        acquisition_type: Acquisition Type
-        provenance: Provenance
-        access_restrictions: Access Restrictions
-        access_restrictions_apply: Access Restrictions Apply
-        use_restrictions: Use Restrictions
-        use_restrictions_apply: Use Restrictions Apply
-        content_description: Content Description
-        inventory: Inventory
+        summary: Nota de resumen
+        acquisition_type: Tipo de entrada
+        provenance: Procedencia
+        access_restrictions: Restricciones de acceso
+        access_restrictions_apply: Se aplican restricciones de acceso
+        use_restrictions: Restricciones de uso
+        use_restrictions_apply: Se aplican restricciones de uso
+        content_description: Descripción del contenido
+        inventory: Inventario
       related_accessions:
-       accessions: Related Unprocessed Material
-       deaccessions: Deaccessioned Material
+        accessions: Material sin procesar relacionado
+        deaccessions: Material retirado
 
   archival_object:
-    _singular: Archival Record
-    _plural: Archival Records
+    _singular: Registro de archivo
+    _plural: Registros de archivo
     _public:
       section:
-        components: Components
-        summary: Summary
+        components: Componentes
+        summary: Nota de resumen
       messages:
-        no_components: Archival Record has no components
+        no_components: El registro de archivo no tiene componentes
       header:
-       dates: Dates
-       lang: Language
-       script: Script
-       physdesc: Physical Description
-       storage: Container Information
-       access: Conditions Governing Access
-       use: Conditions Governing Use
-       component: Component
-       ref_id: Reference Identifier
+        dates: Fechas
+        lang: Idioma
+        script: Escritura
+        physdesc: Nota de descripción física
+        storage: Información de contenedor
+        access: Nota de condiciones de acceso
+        use: Nota de restricciones de uso
+        component: Component
+        ref_id: Identificador de referencia
 
   archive:
-    _singular: The Archive
-    _plural: The Archives
+    _singular: El archivo
+    _plural: Los archivos
 
   repository:
-    _singular: Repository
-    _plural: Repositories
-    what: What's in this Repository?
-    details: Repository Details
-    part: Part of the
+    _singular: Repositorio
+    _plural: Repositorios
+    what: ¿Qué hay en este repositorio?
+    details: Detalles del repositorio
+    part: Parte de
 
-  context: Found in
+  context: Se encuentra en
   context_delimiter: "/"
   bulk:
-     _singular: "Majority of material found in %{dates}"
-     _plural: "Majority of material found within %{dates}"
+    _singular: "La mayoría de los materiales que se encuentran en %{dates}"
+    _plural: "La mayoría de los materiales que se encuentran en %{dates}"
 
   resource:
-    _singular: Collection
-    _plural: Collections
+    _singular: Colección
+    _plural: Colecciones
     _public:
-      identifier: Identifier
-      extent: Extent
-      dates: Dates
-      lang: Language of Materials
-      script: Script
-      digital_object: Digital Object
-      physdesc: Physical Description
-      storage: Container Information
-      access: Conditions Governing Access
-      use: Conditions Governing Use
-      additional: Additional Description
+      identifier: Identificador
+      extent: Extensión
+      dates: Fechas
+      lang: Nota de idioma de materiales
+      script: Escritura
+      digital_object: Objeto digital
+      physdesc: Nota de descripción física
+      storage: Información de contenedor
+      access: Nota de condiciones de acceso
+      use: Nota de restricciones de uso
+      additional: Descripción adicional
       section:
-        components: Components
-        summary: Summary
+        components: Componentes
+        summary: Nota de resumen
       messages:
-        no_components: Resource has no components
+        no_components: El fondo no tiene componentes
       finding_aid:
-        head: Finding Aid & Administrative Information
-        title: Title
-        subtitle: Subtitle
-        status: Status
-        author: Author
-        date:  Date
-        description_rules: Description rules
-        identifier: Identifier
-        language: Language of description
-        script: Script of description
-        language_note: Language of description note
-        sponsor: Sponsor
-        edition_statement: Edition statement
-        series_statement: Series statement
-        note: Note
-        revision: Revision Statements
+        head: Búsqueda de ayudas e información administrativa
+        title: Título
+        subtitle: Subtítulo
+        status: Estado
+        author: Autor
+        date: Fecha
+        description_rules: Reglas de Descripción
+        identifier: Identificador
+        language: Lengua del instrumento de descripción
+        script: Escritura de la descripción
+        language_note: Idioma de la descripción nota
+        sponsor: Patrocinador
+        edition_statement: Mención de edición
+        series_statement: Declaración de la serie
+        note: Nota
+        revision: Nota de revisión
       related_accessions:
-        accessions: Accession Records
-        deaccessions: Deaccession Records
+        accessions: Registros de adhesión
+        deaccessions: Registros de desa adhereción
 
   top_container:
-    _singular: Container
-    _plural: Containers
+    _singular: contenedor
+    _plural: contenedores
 
   related_resource:
-    _singular: Related Collection
-    _plural: Related Collections
+    _singular: Colección relacionada
+    _plural: Colecciones relacionadas
 
-  digital_object: &digital_object_attributes
-    _singular: Digital Record
-    _plural: Digital Materials
+  digital_object:
+    _singular: Registro digital
+    _plural: materiales digitales
     _public:
-      thumbnail: thumbnail
-      link: Link to digital object
+      thumbnail: Miniatura
+      link: Enlace al objeto digital
       badge_label: Digital %{level}
       section:
-        components: Components
-        summary: Summary
+        components: Componentes
+        summary: Nota de resumen
       messages:
-        no_components: Digital Object has no components
+        no_components: El objeto digital no tiene componentes
 
   digital_object_component:
     _public:
       section:
-        components: Components
-        summary: Summary
+        components: Componentes
+        summary: Nota de resumen
       messages:
-        no_components: Digital Object Component has no components
+        no_components: El componente de objeto digital no tiene componentes
 
   subject:
-    _singular: Subject
-    _plural: Subjects
-    used_within: Used within
+    _singular: Materia
+    _plural: Materias
+    used_within: Utilizado dentro de
 
   component:
-    _singular: Component
-    _plural: Components
+    _singular: Componente
+    _plural: Componentes
 
-  unprocessed: Unprocessed Material
+  unprocessed: Materiales sin procesar
 
   classification:
-    _singular: Record Group
-    _plural: Record Groups
-    creator: Creator
+    _singular: Grupo de registro
+    _plural: Grupo de registro
+    creator: Autor
     identifier_separator: "."
     _public:
       actions:
-        show_subgroups: Show Subgroups
+        show_subgroups: Mostrar subgrupos
 
   classification_term:
-    _singular: Record Group Term
-    _plural: Record Group Terms
+    _singular: Término del grupo de registros
+    _plural: Términos del grupo de registros
     identifier_separator: "/"
 
-  all_agents: Names
+  all_agents: Nombres
 
-  an_agent: Name
+  an_agent: Nombre
 
   pui_agent:
-    _singular: Name
-    _plural:  Names
-    related: Related Names
-    creator: Creator
+    _singular: Nombre
+    _plural: Nombres
+    related: Nombres relacionados
+    creator: Autor
   record:
-    _singular: Record
-    _plural: Records
+    _singular: Registro
+    _plural: Registros
 
   record_group:
-    _singular: Record Group
-    _plural: Record Groups
+    _singular: Grupo de registro
+    _plural: Grupo de registro
 
   agent:
-    _singular: Name
-    _plural: Names
+    _singular: Nombre
+    _plural: Nombres
     _public:
       section:
-        summary: Summary
-        other_names: Names Forms
-        other_names_preamble: "Also known by the following names:"
-        related_agents: Related Names
-        dates_of_existence: Dates
-        related_agent_description: Description
-        related_agent_dates: Dates
+        summary: Nota de resumen
+        other_names: Formas conocidas
+        other_names_preamble: "También conocido por los siguientes nombres:"
+        related_agents: Nombres relacionados
+        dates_of_existence: Fechas
+        related_agent_description: Descripción
+        related_agent_dates: Fechas
 
   agent_person:
-    _singular: Person
+    _singular: Persona
 
   agent_family:
-    _singular: Family
+    _singular: Familia
 
   agent_corporate_entity:
-    _singular: Organization
+    _singular: Entidad corporativa
 
   agent_software:
     _singular: Software
 
   components:
-    expand: Expand
-    collapse: Collapse
+    expand: Ampliar
+    collapse: Colapsar
 
   instance:
     _public:
-      link_to_digital_object: Link to Record
+      link_to_digital_object: Enlace al registro
 
   record_tree:
-    record_tree_tab: Record Tree
-    search_tab: Search Components
+    record_tree_tab: Tipo de registro
+    search_tab: Buscar componentes
 
-  location: Location
+  location: Ubicación
 
-  description: About
+  description: Acerca de
 
-  contact: Contact
+  contact: Contacto
 
-  hours: Hours
+  hours: Horas
 
-  number_of: "Number of %{type}:"
+  number_of: "Número de %{type}:"
 
-  parent_inst: Parent Institution
+  parent_inst: Institución matriz
 
-  email: Send email
+  email: Enviar correo electrónico
 
   fax: Fax
 
@@ -504,483 +509,492 @@ es:
 
   enumerations:
     linked_event_archival_record_roles:
-      source: Source
-      outcome: Outcome
-      transfer: Transfer
+      source: Fuente
+      outcome: Resultado
+      transfer: Transferir
     linked_agent_archival_record_relators:
-      abr: Abridger
+      abr: Agregador
       act: Actor
-      adi: Art director
-      adp: Adapter
-      anl: Analyst
-      anm: Animator
-      ann: Annotator
+      adi: Director Artístico
+      adp: Adaptador
+      anl: Analista
+      anm: Animador
+      ann: Anotador
       ape: Appellee
       apl: Appellant
-      app: Applicant
-      arc: Architect
-      arr: Arranger
-      acp: Art copyist
-      art: Artist
-      ard: Artistic director
-      asg: Assignee
-      asn: Associated name
-      att: Attributed name
-      auc: Auctioneer
-      aut: Author
-      aqt: Author in quotations or text abstracts
-      aft: Author of afterword, colophon, etc.
-      aud: Author of dialog
-      aui: Author of introduction, etc.
-      aus: Author of screenplay, etc.
+      app: Solicitante
+      arc: Arquitecto
+      arr: Arreglista
+      acp: Copista de arte
+      art: Artista
+      ard: Director artístico
+      asg: Cesionario
+      asn: Nombre asociado
+      att: Nombre atribuido
+      auc: Subastador
+      aut: Autor
+      aqt: Autor en las citas o extractos de texto
+      aft: Autor del epílogo, colofón, etc..
+      aud: Autor del cuadro de diálogo
+      aui: Autor de introducción, etc..
+      aus: Autor del guión, etc..
       ato: Autographer
-      ant: Bibliographic antecedent
-      bnd: Binder
-      bdd: Binding designer
-      blw: Blurb writer
-      bkd: Book designer
-      bkp: Book producer
-      bjd: Bookjacket designer
-      bpd: Bookplate designer
-      bsl: Bookseller
-      brl: Braille embosser
-      brd: Broadcaster
-      cll: Calligrapher
-      ctg: Cartographer
+      ant: Antecedente bibliográfico
+      bnd: Encuadernador
+      bdd: Diseñador de encuadernación
+      blw: Escritor de propaganda
+      bkd: Diseñador de libro
+      bkp: Productor de libro
+      bjd: Diseñador de Bookjacket
+      bpd: Diseñador Bookplate
+      bsl: Librero
+      brl: Impresor de braille
+      brd: Locutor
+      cll: Calígrafo
+      ctg: Cartógrafo
       cas: Caster
       cns: Censor
-      chr: Choreographer
-      cng: Cinematographer
-      cli: Client
-      cor: Collection registrar
-      clb: Collaborator
-      col: Collector
+      chr: Coreógrafo
+      cng: Director de fotografía
+      cli: Cliente
+      cor: Registrador de la Colección
+      clb: Colaborador
+      col: Colector
       clt: Collotyper
-      clr: Colorist
-      cmm: Commentator
-      cwt: Commentator for written text
-      com: Compiler
-      cpl: Complainant
-      cpt: Complainant-appellant
-      cpe: Complainant-appellee
-      cmp: Composer
+      clr: Colorista
+      cmm: Comentarista
+      cwt: Comentarista de texto escrito
+      com: Compilador
+      cpl: Querellante
+      cpt: Parte querellante-recurrente
+      cpe: Querellante-apelado
+      cmp: Compositor
       cmt: Compositor
-      ccp: Conceptor
+      ccp: Norman
       cnd: Conductor
-      con: Conservator
-      csl: Consultant
-      csp: Consultant to a project
-      cos: Contestant
-      cot: Contestant-appellant
-      coe: Contestant-appellee
+      con: Curador (a)
+      csl: Consultor
+      csp: Consultor en un proyecto
+      cos: Concursante
+      cot: Concursante-recurrente
+      coe: Concursante-apelado
       cts: Contestee
-      ctt: Contestee-appellant
-      cte: Contestee-appellee
-      ctr: Contractor
-      ctb: Contributor
-      cpc: Copyright claimant
-      cph: Copyright holder
+      ctt: Contestee-recurrente
+      cte: Contestee-apelado
+      ctr: Contratista
+      ctb: Colaborador
+      cpc: Copyright reclamante
+      cph: Titular del copyright
       crr: Corrector
-      crp: Correspondent
-      cst: Costume designer
-      cou: Court governed
-      crt: Court reporter
-      cov: Cover designer
-      cre: Creator
-      cur: Curator of an exhibition
-      dnc: Dancer
-      dtc: Data contributor
-      dtm: Data manager
-      dte: Dedicatee
-      dto: Dedicator
-      dfd: Defendant
-      dft: Defendant-appellant
-      dfe: Defendant-appellee
-      dgg: Degree grantor
-      dgs: Degree supervisor
-      dln: Delineator
-      dpc: Depicted
-      dpt: Depositor
-      dsr: Designer
+      crp: Corresponsal
+      cst: Diseñadora de vestuario
+      cou: Regidor de las Cortes
+      crt: Reportero de las Cortes
+      cov: Diseñador de la cubierta
+      cre: Creador
+      cur: Curador de la exposición
+      dnc: Bailarina
+      dtc: Contribuidor de datos
+      dtm: Administrador de datos
+      dte: Dedicatario
+      dto: Dedicante
+      dfd: Acusado
+      dft: Acusado-recurrente
+      dfe: Acusado-apelado
+      dgg: Grado otorgante
+      dgs: Supervisor de grado
+      dln: Delineador
+      dpc: Representado
+      dpt: Depositante
+      dsr: Diseñador
       drt: Director
       dis: Dissertant
-      dbp: Distribution place
-      dst: Distributor
-      dnr: Donor
-      drm: Draftsman
-      dub: Dubious author
+      dbp: Lugar de distribución
+      dst: Distribuidor
+      dnr: Donantes
+      drm: Delineante
+      dub: Autor dudoso
       edt: Editor
-      edc: Editor of compilation
-      edm: Editor of moving image work
-      elg: Electrician
+      edc: Editor de compilación
+      edm: Editor de trabajo de imágenes en movimiento
+      elg: Electricista
       elt: Electrotyper
-      enj: Enacting jurisdiction
-      eng: Engineer
-      egr: Engraver
-      etr: Etcher
-      evp: Event place
-      exp: Appraiser
+      enj: Promulgador de la jurisdicción
+      eng: Ingeniero
+      egr: Grabador
+      etr: Desbastador
+      evp: Lugar del acontecimiento
+      exp: Experto
       fac: Facsimilist
-      fld: Field director
-      fmd: Film director
-      fds: Film distributor
-      flm: Film editor
-      fmp: Film producer
-      fmk: Filmmaker
-      fpy: First party
-      frg: Forger
-      fmo: Former owner
+      fld: Director de campo
+      fmd: Director de cine
+      fds: Distribuidor de cine
+      flm: Editor de cine
+      fmp: Productor de cine
+      fmk: Cineasta
+      fpy: Primer partido
+      frg: Falsificador
+      fmo: Antiguo dueño
       fnd: Funder
-      gis: Geographic information specialist
-      grt: Graphic technician
-      hnr: Honoree
-      hst: Host
-      his: Host institution
-      ilu: Illuminator
-      ill: Illustrator
+      gis: Especialista en información geográfica
+      grt: Técnico gráfico
+      hnr: Homenajeado
+      hst: Anfitrión
+      his: Institución anfitriona
+      ilu: Iluminador
+      ill: Ilustrador
       ins: Inscriber
-      itr: Instrumentalist
-      ive: Interviewee
-      ivr: Interviewer
+      itr: Instrumentista
+      ive: Entrevistado
+      ivr: Entrevistador
       inv: Inventor
-      isb: Issuing body
-      jud: Judge
+      isb: Organismo emisor
+      jud: Juez
       jug: Jurisdiction governed
-      lbr: Laboratory
-      ldr: Laboratory director
-      lsa: Landscape architect
-      led: Lead
-      len: Lender
+      lbr: Laboratorio
+      ldr: Director del laboratorio
+      lsa: Arquitecto paisajista
+      led: Plomo
+      len: Prestamista
       lil: Libelant
-      lit: Libelant-appellant
-      lie: Libelant-appellee
+      lit: Libelant-recurrente
+      lie: Libelant-apelado
       lel: Libelee
-      let: Libelee-appellant
-      lee: Libelee-appellee
-      lbt: Librettist
-      lse: Licensee
-      lso: Licensor
-      lgd: Lighting designer
-      ltg: Lithographer
-      lyr: Lyricist
-      mfp: Manufacture place
-      mfr: Manufacturer
+      let: Libelee-recurrente
+      lee: Libelee-apelado
+      lbt: Libretista
+      lse: Titular de la licencia
+      lso: Licenciador
+      lgd: Diseñador de iluminación
+      ltg: Litógrafo
+      lyr: Letrista
+      mfp: Lugar de fabricación
+      mfr: Fabricante
       mrb: Marbler
-      mrk: Markup editor
+      mrk: Editor de marcado
       med: Medium
-      mdc: Metadata contact
-      mte: Metal-engraver
+      mdc: Contacto de metadatos
+      mte: Grabador de metal
       mtk: Minute taker
-      mod: Moderator
+      mod: Moderador
       mon: Monitor
-      mcp: Music copyist
-      msd: Musical director
-      mus: Musician
-      nrt: Narrator
-      osp: Onscreen presenter
-      opn: Opponent
-      orm: Organizer of meeting
-      org: Originator
-      oth: Other
-      own: Owner
-      pan: Panelist
-      ppm: Papermaker
-      pta: Patent applicant
-      pth: Patentee
-      pat: Patron
-      prf: Performer
-      pma: Permitting agency
-      pht: Photographer
-      ptf: Plaintiff
-      ptt: Plaintiff-appellant
-      pte: Plaintiff-appellee
+      mcp: Copista de música
+      msd: Director musical
+      mus: Músico
+      nrt: Narrador
+      osp: Presentador
+      opn: Opositor
+      orm: Organizador de la reunión
+      org: Originador
+      oth: Otros
+      own: Propietario
+      pan: Panelista
+      ppm: Papelero
+      pta: Solicitante de patente
+      pth: Titular de la patente
+      pat: Patrón
+      prf: Artista intérprete o ejecutante
+      pma: Agencia de permisos
+      pht: Fotógrafo
+      ptf: Demandante
+      ptt: Parte demandante-recurrente
+      pte: Demandante-apelado
       plt: Platemaker
-      pra: Praeses
-      pre: Presenter
-      prt: Printer
-      pop: Printer of plates
-      prm: Printmaker
-      prc: Process contact
-      pro: Producer
-      prn: Production company
-      pmn: Production manager
-      prs: Production designer
-      prd: Production personnel
-      prp: Production place
-      prg: Programmer
-      pdr: Project director
-      pfr: Proofreader
-      prv: Provider
-      pup: Publication place
-      pbl: Publisher
-      pbd: Publishing director
-      ppt: Puppeteer
-      rdd: Radio director
-      rpc: Radio producer
-      rcp: Recipient
-      rce: Recording engineer
-      rcd: Recordist
-      red: Redaktor
+      pra: Presidente
+      pre: Presentador
+      prt: Impresora
+      pop: Impresora de placas
+      prm: Grabador
+      prc: Proceso contacto
+      pro: Productor
+      prn: Compañia de producción
+      pmn: Gerente de producción
+      prs: Diseñador de producción
+      prd: Personal de producción
+      prp: Lugar de producción
+      prg: Programador
+      pdr: Director del proyecto
+      pfr: Correctora de textos
+      prv: Proveedor
+      pup: Lugar de publicación
+      pbl: Editor
+      pbd: Director editorial
+      ppt: Titiritero
+      rdd: Director de radio
+      rpc: Productor de radio
+      rcp: Destinatario
+      rce: Ingeniero de grabación
+      rcd: Ingeniero
+      red: Redactor
       ren: Renderer
-      rpt: Reporter
-      rps: Repository
-      rth: Research team head
-      rtm: Research team member
-      res: Researcher
-      rsp: Respondent
-      rst: Respondent-appellant
-      rse: Respondent-appellee
-      rpy: Responsible party
+      rpt: Reportero
+      rps: Repositorio
+      rth: Cabeza del equipo de investigación
+      rtm: Miembro del equipo de investigación
+      res: Investigador
+      rsp: Demandado
+      rst: Demandado-recurrente
+      rse: Demandado-apelado
+      rpy: Responsable
       rsg: Restager
       rsr: Restorationist
-      rev: Reviewer
+      rev: Revisor
       rbr: Rubricator
       sce: Scenarist
-      sad: Scientific advisor
-      scr: Scribe
-      scl: Sculptor
-      spy: Second party
-      sec: Secretary
+      sad: Asesor científico
+      scr: Escribano
+      scl: Escultor
+      spy: Segunda parte
+      sec: Secretaria
       sll: Seller
-      std: Set designer
-      stg: Setting
-      sgn: Signer
-      sng: Singer
-      sds: Sound designer
-      spk: Speaker
-      spn: Sponsor
-      sgd: Stage director
-      stm: Stage manager
-      stn: Standards body
+      std: Escenógrafo
+      stg: Ajuste
+      sgn: Firmante
+      sng: Cantante
+      sds: Diseñador de sonido
+      spk: Altavoz
+      spn: Patrocinador
+      sgd: Director de escena
+      stm: Director de escena
+      stn: Cuerpo de normas
       str: Stereotyper
-      stl: Storyteller
-      sht: Supporting host
-      srv: Surveyor
-      tch: Teacher
-      tcd: Technical director
-      tld: Television director
-      tlp: Television producer
-      ths: Thesis advisor
-      trc: Transcriber
+      stl: Narrador
+      sht: Soporte de host
+      srv: Topógrafo
+      tch: Profesor
+      tcd: Director técnico
+      tld: Director de televisión
+      tlp: Productor de televisión
+      ths: Asesor de tesis
+      trc: Transcriptor
       trl: Translator
-      tyd: Type designer
-      tyg: Typographer
-      uvp: University place
-      vdg: Videographer
-      vac: Voice actor
-      voc: Vocalist
-      wit: Witness
-      wde: Wood engraver
-      wdc: Woodcutter
-      wam: Writer of accompanying material
-      wac: Writer of added commentary
-      wal: Writer of added lyrics
-      wat: Writer of added text
-      win: Writer of introduction
-      wpr: Writer of preface
-      wst: Writer of supplementary textual content
+      tyd: Diseñador tipográfico
+      tyg: Tipógrafo
+      uvp: Lugar de la Universidad
+      vdg: Videógrafo
+      vac: Doblador
+      voc: Vocalista
+      wit: Testigo
+      wde: Grabador de madera
+      wdc: Leñador
+      wam: Escritor de acompañamiento material
+      wac: Escritor de comentario añadido
+      wal: Escritor de letras añadidas
+      wat: Escritor de texto añadido
+      win: Escritor de introducción
+      wpr: Escritor de prefacio
+      wst: Escritor de contexto suplementario
     linked_agent_event_roles:
-      authorizer: Authorizer
-      executing_program: Executing Program
-      implementer: Implementer
-      recipient: Recipient
-      transmitter: Transmitter
-      validator: Validator
+      authorizer: Autorizador
+      executing_program: Programa en ejecución
+      implementer: Implementador
+      recipient: Destinatario
+      requester: Solicitante
+      transmitter: Transmisor
+      validator: Validador
     name_source:
-      cash: Canadian Subject Headings
-      ingest: Unspecified ingested source
-      lcshac: Library of Congress Children's Subject Headings
-      local: Local sources
-      naf: NACO Authority File
+      cash: Encabezamientos de materias canadienses
+      ingest: Sin especificar
+      lcshac: Biblioteca del encabezamientos Congreso infantil
+      local: Fuentes locales
+      lcnaf: Library of Congress Name Authority File
+      naf: Archivo de autoridad de NACO
       nad: NAD / ARK II Name Authority Database
-      nal: National Agricultural Library subject headings
+      nal: Encabezamientos biblioteca agrícola nacionales
       rvm: Répertoire de vedettes-matière
+      ram: Répertoire d'autorités RAMEAU
       ulan: Union List of Artist Names
     name_rule:
-      local: Local rules
-      aacr: Anglo-American Cataloging Rules
+      local: Reglas locales
+      aacr: Reglas de catalogación angloamericanas
       dacs: "Describing Archives: A Content Standard"
       rda: Resource Description and Access
     extent_extent_type:
-      cassettes: Cassettes
-      cubic_feet: Cubic Feet
-      files: Files
+      cassettes: Casetes
+      cubic_feet: Metros cúbicos
+      files: Archivos
       gigabytes: Gigabytes
-      leaves: Leaves
-      linear_feet: Linear Feet
+      leaves: Hojas
+      linear_feet: Metros lineales
       megabytes: Megabytes
-      photographic_prints: Photographic Prints
-      photographic_slides: Photographic Slides
-      reels: Reels
-      sheets: Sheets
+      photographic_prints: Impresiones fotográficas
+      photographic_slides: Diapositivas fotográficas
+      reels: Carretes
+      sheets: Partituras
       terabytes: Terabytes
-      volumes: Volumes
+      volumes: Volúmenes
     collection_management_processing_priority:
-      none: Not specified
-      high: High
-      medium: Medium
-      low: Low
+      none: Sin especificar
+      high: Alta
+      medium: Medio
+      low: Baja
     collection_management_processing_status:
-      none: Not specified
-      new: New
-      in_progress: In Progress
-      completed: Completed
+      none: Sin especificar
+      new: Nuevo
+      in_progress: En progreso
+      completed: Completado
     date_era:
       ce: ce
     date_calendar:
-      gregorian: Gregorian
+      gregorian: Gregoriano
     digital_object_digital_object_type:
-      cartographic: Cartographic
-      mixed_materials: Mixed Materials
-      moving_image: Moving Image
-      notated_music: Notated Music
+      cartographic: Cartográfica
+      mixed_materials: Materiales diversos
+      moving_image: Imagen en movimiento
+      notated_music: Música anotada
       software_multimedia: Software, Multimedia
-      sound_recording: Sound Recording
-      sound_recording_musical: Sound Recording (Musical)
-      sound_recording_nonmusical: Sound Recording (Non-musical)
-      still_image: Still Image
-      text: Text
+      sound_recording: Grabación de sonido
+      sound_recording_musical: Grabación de sonido(Musical)
+      sound_recording_nonmusical: Gabación de sonido(No musicales)
+      still_image: Imagen fija
+      text: Texto
     digital_object_level:
-      collection: Collection
-      work: Work
-      image: Image
+      collection: Colección
+      work: Trabajo
+      image: Imagen
     event_event_type:
-      accession: Accession
-      accumulation: Accumulation
-      acknowledgement: Acknowledgement
-      acknowledgement_sent: Acknowledgement Sent
-      acknowledgement_received: Acknowledgement Received
-      agreement_received: Agreement Received
-      agreement_sent: Agreement Sent
-      agreement_signed: Agreement Signed
-      appraisal: Appraisal
-      assessment: Assessment
-      capture: Capture
-      cataloged: Cataloged
-      collection: Collection
-      compression: Compression
-      contribution: Contribution
-      component_transfer: Component Transfer
-      copyright_transfer: Copyright Transfer
-      custody_transfer: Custody Transfer
-      deaccession: Deaccession
-      decompression: Decompression
-      decryption: Decryption
-      deletion: Deletion
-      digital_signature_validation: Digital Signature Validation
-      fixity_check: Fixity Check
-      ingestion: Ingestion
-      message_digest_calculation: Message Digest Calculation
-      migration: Migration
-      normalization: Normalization
-      processed: Processed
-      processing_new: Processing New
-      processing_started: Processing Started
-      processing_in_progress: Processing in Progress
-      processing_completed: Processing Completed
-      publication: Publication
-      replication: Replication
-      rights_transferred: Rights Transferred
-      validation: Validation
-      virus_check: Virus Check
+      accession: Acta de ingreso
+      accumulation: Acumulación
+      acknowledgement: Reconocimiento
+      acknowledgement_sent: Reconocimiento enviado
+      acknowledgement_received: Reconocimiento recibido
+      agreement_received: Acuerdo recibido
+      agreement_sent: Acuerdo enviado
+      agreement_signed: Acuerdo firmado
+      appraisal: Valoración
+      assessment: Evaluación
+      capture: Captura
+      cataloged: Catalogado
+      collection: Colección
+      compression: Compresión
+      contribution: Contribución
+      component_transfer: Transferencia de componente
+      copyright_transfer: Transferencia de derechos de autor
+      custody_transfer: Transferencia de custodia
+      deaccession: Expurgo
+      decompression: Descompresión
+      decryption: Descifrado
+      deletion: Eliminación
+      digital_signature_validation: Validación de firma digital
+      fixity_check: Check de fjeza
+      ingestion: Ingesta
+      message_digest_calculation: Mensaje Digest cálculo
+      migration: Migración
+      normalization: Normalización
+      processed: Procesado
+      processing_new: Nuevo Procesado
+      processing_started: Procesado Comenzado
+      processing_in_progress: Procesado en progreso
+      processing_completed: Procesado Completado
+      publication: Publicación
+      replication: Replicación
+      request: Solicitud
+      rights_transferred: Derechos transferidos
+      validation: Validación
+      virus_check: Comprobación de virus
     resource_resource_type:
-      collection: Collection
-      publications: Publications
-      papers: Papers
-      records: Records
+      collection: Colección
+      publications: Publicaciones
+      papers: Papeles
+      records: Registros
     resource_finding_aid_description_rules:
-      aacr: Anglo-American Cataloguing Rules
-      cco: Cataloging Cultural Objects
-      dacs: "Describing Archives: A Content Standard"
-      rad: Rules for Archival Description
-      isadg: International Standard for Archival Description - General
+      aacr: Reglas de catalogación angloamericanas (AACR)
+      cco: Catalogación de bienes culturales (CCO)
+      dacs: Descripción de archivos (DACS)
+      rad: Reglas para la descripción archivística (RAD)
+      isadg: Norma internacional de descripción archivística - General (ISADG)
     resource_finding_aid_status:
-      completed: Completed
-      in_progress: In Progress
-      under_revision: Under Revision
-      unprocessed: Unprocessed
+      completed: Completado
+      in_progress: En proceso
+      under_revision: En revisión
+      unprocessed: Sin procesar
     instance_instance_type:
-      accession: Accession
+      accession: Acta de ingreso
       audio: Audio
-      books: Books
-      computer_disks: Computer Disks
-      digital_object: Digital Object
-      digital_object_link: Digital Object Link
-      graphic_materials: Graphic Materials
-      maps: Maps
-      microform: Microform
-      mixed_materials: Mixed Materials
-      moving_images: Moving Images
+      books: Libros
+      computer_disks: Discos de computadora
+      digital_object: Objeto digital
+      digital_object_link: Enlace a objeto digital
+      graphic_materials: Materiales gráficos
+      maps: Mapas
+      microform: Microforma
+      mixed_materials: Materiales diversos
+      moving_images: Imágenes en movimiento
       realia: Realia
-      text: Text
+      text: Texto
     accession_acquisition_type:
-      deposit: Deposit
-      gift: Gift
-      purchase: Purchase
-      transfer: Transfer
+      deposit: Depósito
+      gift: Regalo
+      purchase: Compra
+      transfer: Transferencia
     accession_resource_type:
-      collection: Collection
-      publications: Publications
-      papers: Papers
-      records: Records
+      collection: Colección
+      publications: Publicaciones
+      papers: Papeles
+      records: Registros
     subject_source:
-      aat: "Art & Architecture Thesaurus"
-      cash: Canadian Subject Headings
-      gmgpc: "TGM II, Genre and physical characteristic terms"
-      ingest: Unspecified ingested source
-      lcsh: Library of Congress Subject Headings
-      lcshac: Library of Congress Children's Subject Headings
-      local: Local sources
-      mesh: Medical Subject Headings
-      nal: National Agricultural Library subject headings
-      rbgenr: "Genre Terms: A Thesaurus for Use in Rare Book and Special Collections Cataloguing"
+      aat: "Thesaurus Getty de Arte & Arquitectura"
+      cash: Encabezamientos de materias canadienses
+      gmgpc: "TGM II, género y términos característicos físicos"
+      ingest: Sin especificar
+      lcsh: Encabezamientos de la Biblioteca del Congreso
+      lcshac: Encabezamientos de la Biblioteca Congreso Infantil
+      local: Fuentes locales
+      mesh: Encabezamientos de materia médica
+      nal: Encabezamientos biblioteca agrícola nacionales
+      rbgenr: Términos de género
       rvm: Répertoire de vedettes-matière
-      tgn: Getty Thesaurus of Geographic Names
+      ram: Répertoire d'autorités RAMEAU
+      tgn: Thesaurus Getty de Nombres Geográficos
+      lcgft: Términos de género / formulario de la Biblioteca del Congreso
     event_outcome:
-      pass: Pass
-      partial pass: Partial Pass
-      fail: Fail
+      pass: Pase
+      partial pass: Paso parcial
+      fail: Fallo
+      cancelled: Cancelado
+      fulfilled: Cumplido
+      pending: Pendiente
     agent_contact_salutation:
-      mr: Mr.
-      mrs: Mrs.
-      ms: Ms.
+      mr: Señor
+      mrs: Señora.
+      ms: MS.
       madame: Madame
-      sir: Sir
+      sir: Señor
     container_type:
-      box: Box
-      carton: Carton
-      case: Case
-      folder: Folder
-      frame: Frame
-      object: Object
-      page: Page
-      reel: Reel
-      volume: Volume
-      container: Container
+      box: Caja
+      carton: Cartón
+      case: Cajón
+      folder: Carpeta
+      frame: Marco
+      object: Objeto
+      page: Página
+      reel: Carrete
+      volume: Volumen
+      container: Contenedor
     file_version_use_statement:
-      audio-clip: Audio-Clip
+      audio-clip: Clip de audio
       audio-master: Audio-Master
-      audio-master-edited: Audio-Master-Edited
-      audio-service: Audio-Service
+      audio-master-edited: Audio-Master-Editado
+      audio-service: Audio-Servicio
       audio-streaming: Audio-Streaming
-      image-master: Image-Master
-      image-master-edited: Image-Master-Edited
-      image-service: Image-Service
-      image-service-edited: Image-Service-Edited
-      image-thumbnail: Image-Thumbnail
-      text-codebook: Text-Codebook
-      text-data: Text-Data
-      text-data_definition: Text-Data Definition
-      text-georeference: Text-Georeference
-      text-ocr-edited: Text-Ocr-Edited
-      text-ocr-unedited: Text-Ocr-Unedited
-      text-tei-transcripted: Text-Tei-Transcripted
-      text-tei-translated: Text-Tei-Translated
-      video-clip: Video-Clip
+      image-master: Imagen-Master
+      image-master-edited: Imagen-Master-Editado
+      image-service: Servicio de imagen
+      image-service-edited: Imagen-Servicio-Editado
+      image-thumbnail: Imagen-miniatura
+      text-codebook: Codebook
+      text-data: Datos textuales
+      text-data_definition: Definición de datos de texto
+      text-georeference: Texto-georeferenciado
+      text-ocr-edited: Texto-OCR-editado
+      text-ocr-unedited: Texto-OCR-sin editar
+      text-tei-transcripted: Texto-TEI-transcripción
+      text-tei-translated: Texto-TEI-traducido
+      video-clip: Videoclip
       video-master: Video-Master
-      video-master-edited: Video-Master-Edited
-      video-service: Video-Service
-      video-streaming: Video-Streaming
+      video-master-edited: Video-Master-Editado
+      video-service: Video-Servicio
+      video-streaming: Streaming Video
     file_version_checksum_methods:
       md5: MD5
       sha-1: SHA-1
@@ -989,1039 +1003,1081 @@ es:
       sha-512: SHA-512
     language_iso639_2:
       aar: Afar
-      abk: Abkhazian
+      abk: Abjasia
       ace: Achinese
       ach: Acoli
       ada: Adangme
       ady: Adyghe; Adygei
-      afa: Afro-Asiatic languages
+      afa: Lenguas camitosemíticas
       afh: Afrihili
       afr: Afrikaans
       ain: Ainu
       aka: Akan
-      akk: Akkadian
-      alb: Albanian
-      ale: Aleut
-      alg: Algonquian languages
-      alt: Southern Altai
-      amh: Amharic
-      ang: "English, Old (ca.450-1100)"
+      akk: Acadio
+      alb: Albanés
+      ale: Aleutiano
+      alg: Lenguas algonquinas
+      alt: Altai del sur
+      amh: Amárico
+      ang: "Inglés, antiguo (ca.450-1100)"
       anp: Angika
-      apa: Apache languages
-      ara: Arabic
-      arc: Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)
-      arg: Aragonese
-      arm: Armenian
+      apa: Idiomas de Apache
+      ara: Árabe
+      arc: Official Aramaic (700-300 A.C.); Imperial Aramaic (700-300 A.C.)
+      arg: Aragonés
+      arm: Armenio
       arn: Mapudungun; Mapuche
       arp: Arapaho
-      art: Artificial languages
+      art: Lenguas artificiales
       arw: Arawak
-      asm: Assamese
-      ast: Asturian; Bable; Leonese; Asturleonese
-      ath: Athapascan languages
-      aus: Australian languages
-      ava: Avaric
+      asm: Asamés
+      ast: Asturiana; Bable; Leonés; Asturleonese
+      ath: Idiomas Athapascan
+      aus: Idiomas australianas
+      ava: Avar
       ave: Avestan
       awa: Awadhi
       aym: Aymara
-      aze: Azerbaijani
-      bad: Banda languages
-      bai: Bamileke languages
-      bak: Bashkir
+      aze: Azerbaiyán
+      bad: Idiomas de banda
+      bai: Lenguas Bamileke
+      bak: Baskir
       bal: Baluchi
       bam: Bambara
-      ban: Balinese
-      baq: Basque
+      ban: Balinés
+      baq: Vasco
       bas: Basa
-      bat: Baltic languages
+      bat: Lenguas bálticas
       bej: Beja; Bedawiyet
-      bel: Belarusian
+      bel: Bielorruso
       bem: Bemba
-      ben: Bengali
-      ber: Berber languages
+      ben: Bengalí
+      ber: Lenguas bereberes
       bho: Bhojpuri
-      bih: Bihari languages
+      bih: Lenguas bihari
       bik: Bikol
       bin: Bini; Edo
       bis: Bislama
       bla: Siksika
-      bnt: Bantu (Other)
-      bos: Bosnian
+      bnt: Bantu (otros)
+      bos: Bosnio
       bra: Braj
       bre: Breton
       btk: Batak languages
-      bua: Buriat
-      bug: Buginese
-      bul: Bulgarian
-      bur: Burmese
+      bua: Buriato
+      bug: Buginés
+      bul: Búlgaro
+      bur: Birmano
       byn: Blin; Bilin
       cad: Caddo
-      cai: Central American Indian languages
+      cai: Centrales idiomas indias americanas
       car: Galibi Carib
-      cat: Catalan; Valencian
-      cau: Caucasian languages
+      cat: Catalán; Valenciano
+      cau: Lenguas caucásicas
       ceb: Cebuano
-      cel: Celtic languages
+      cel: Lenguas celtas
       cha: Chamorro
       chb: Chibcha
-      che: Chechen
+      che: Chechenia
       chg: Chagatai
-      chi: Chinese
-      chk: Chuukese
+      chi: Chino
+      chk: Truko
       chm: Mari
-      chn: Chinook jargon
+      chn: Jerga Chinook
       cho: Choctaw
       chp: Chipewyan; Dene Suline
       chr: Cherokee
-      chu: Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic
-      chv: Chuvash
+      chu: Iglesia eslava; Antiguo eslavo; Eslavo eclesiástico; Antiguo búlgaro; Antiguo eslavo eclesiástico
+      chv: Chuvasio
       chy: Cheyenne
       cmc: Chamic languages
-      cnr: Montenegrin
-      cop: Coptic
+      cnr: Montenegrino
+      cop: Copto
       cor: Cornish
-      cos: Corsican
-      cpe: "Creoles and pidgins, English-based"
-      cpf: "Creoles and pidgins, French-based"
-      cpp: "Creoles and pidgins, Portuguese-based"
+      cos: Corso
+      cpe: "Los criollos y pidgins, basado en inglés"
+      cpf: "Los criollos y pidgins, basado en francés"
+      cpp: "Los criollos y pidgins, base portuguesa"
       cre: Cree
-      crh: Crimean Tatar; Crimean Turkish
-      crp: Creoles and pidgins
-      csb: Kashubian
-      cus: Cushitic languages
-      cze: Czech
+      crh: Tártaro de Crimea; Crimea Turco
+      crp: Criollos y pidgins
+      csb: Casubia
+      cus: Lenguas cusitas
+      cze: Checo
       dak: Dakota
-      dan: Danish
+      dan: Danés
       dar: Dargwa
-      day: Land Dayak languages
+      day: Idiomas de tierra Dayak
       del: Delaware
-      den: Slave (Athapascan)
+      den: Esclavo (Athapascan)
       dgr: Dogrib
       din: Dinka
-      div: Divehi; Dhivehi; Maldivian
+      div: Divehi; Dhivehi; Maldiva
       doi: Dogri
-      dra: Dravidian languages
-      dsb: Lower Sorbian
+      dra: Idiomas de Dravidian
+      dsb: Bajo sorbio
       dua: Duala
-      dum: "Dutch, Middle (ca.1050-1350)"
-      dut: Dutch; Flemish
-      dyu: Dyula
+      dum: "Holandesa, media (ca.1050-1350)"
+      dut: Holandés; Flamenco
+      dyu: Diula
       dzo: Dzongkha
       efi: Efik
-      egy: Egyptian (Ancient)
+      egy: Egipcio (antiguo)
       eka: Ekajuk
-      elx: Elamite
-      eng: English
-      enm: "English, Middle (1100-1500)"
+      elx: Elamita
+      eng: Inglés
+      enm: "Inglés, medio (1100-1500)"
       epo: Esperanto
-      est: Estonian
-      ewe: Ewe
+      est: Estonio
+      ewe: Oveja
       ewo: Ewondo
       fan: Fang
-      fao: Faroese
+      fao: Feroés
       fat: Fanti
-      fij: Fijian
+      fij: Fiji
       fil: Filipino; Pilipino
-      fin: Finnish
-      fiu: Finno-Ugrian languages
+      fin: Finlandés
+      fiu: Lenguas ugrofinesas
       fon: Fon
-      fre: French
-      frm: "French, Middle (ca.1400-1600)"
-      fro: "French, Old (842-ca.1400)"
-      frr: Northern Frisian
-      frs: Eastern Frisian
-      fry: Western Frisian
+      fre: Francés
+      frm: "El francés, medio (ca.1400-1600)"
+      fro: "El francés, antiguo (842-ca.1400)"
+      frr: Frisia del norte
+      frs: Frisia oriental
+      fry: Frisón occidental
       ful: Fulah
-      fur: Friulian
-      gaa: Ga
+      fur: Friulano
+      gaa: GA
       gay: Gayo
       gba: Gbaya
-      gem: Germanic languages
-      geo: Georgian
-      ger: German
-      gez: Geez
-      gil: Gilbertese
-      gla: Gaelic; Scottish Gaelic
-      gle: Irish
-      glg: Galician
+      gem: Lenguas germánicas
+      geo: Georgiano
+      ger: Alemán
+      gez: Caray
+      gil: Gilbertés
+      gla: Gaélico; Gaélico escocés
+      gle: Irlandés
+      glg: Gallego
       glv: Manx
-      gmh: "German, Middle High (ca.1050-1500)"
-      goh: "German, Old High (ca.750-1050)"
+      gmh: "Alemán, media alta (ca.1050-1500)"
+      goh: "Alemán, viejo alto (ca.750-1050)"
       gon: Gondi
       gor: Gorontalo
-      got: Gothic
+      got: Gótico
       grb: Grebo
-      grc: "Greek, Ancient (to 1453)"
-      gre: "Greek, Modern (1453-)"
-      grn: Guarani
-      gsw: Swiss German; Alemannic; Alsatian
+      grc: "Griego, antiguo (a 1453)"
+      gre: "Griego, moderna (1453-)"
+      grn: Guaraní
+      gsw: Alemán suizo; Alsaciano; Alsaciano
       guj: Gujarati
-      gwi: Gwich'in
+      gwi: Kutchin
       hai: Haida
-      hat: Haitian; Haitian Creole
+      hat: Haitiano; Criollo Haitiano
       hau: Hausa
-      haw: Hawaiian
-      heb: Hebrew
+      haw: Hawaiano
+      heb: Hebreo
       her: Herero
       hil: Hiligaynon
-      him: Himachali languages; Western Pahari languages
+      him: Himachali idiomas; Idiomas occidentales Pahari
       hin: Hindi
-      hit: Hittite
+      hit: Hitita
       hmn: Hmong; Mong
       hmo: Hiri Motu
-      hrv: Croatian
+      hrv: Croata
       hsb: Upper Sorbian
-      hun: Hungarian
+      hun: Húngaro
       hup: Hupa
       iba: Iban
       ibo: Igbo
-      ice: Icelandic
+      ice: Islandés
       ido: Ido
       iii: Sichuan Yi; Nuosu
-      ijo: Ijo languages
+      ijo: Ijo idiomas
       iku: Inuktitut
       ile: Interlingue; Occidental
-      ilo: Iloko
-      ina: Interlingua (International Auxiliary Language Association)
-      inc: Indic languages
-      ind: Indonesian
-      ine: Indo-European languages
-      inh: Ingush
+      ilo: Ilocano
+      ina: Interlingua (lengua auxiliar internacional Association)
+      inc: Lenguas índicas
+      ind: Indonesio
+      ine: Lenguas indoeuropeas
+      inh: Ingusetio
       ipk: Inupiaq
-      ira: Iranian languages
-      iro: Iroquoian languages
-      ita: Italian
-      jav: Javanese
+      ira: Lenguas iranias
+      iro: Idiomas iroquesa
+      ita: Italiano
+      jav: Javanés
       jbo: Lojban
-      jpn: Japanese
-      jpr: Judeo-Persian
-      jrb: Judeo-Arabic
+      jpn: Japonés
+      jpr: Judeo-persa
+      jrb: Judeo-árabe
       kaa: Kara-Kalpak
-      kab: Kabyle
+      kab: Cabilio
       kac: Kachin; Jingpho
-      kal: Kalaallisut; Greenlandic
+      kal: Kalaallisut; Groenlandés
       kam: Kamba
       kan: Kannada
-      kar: Karen languages
+      kar: Idiomas de Karen
       kas: Kashmiri
       kau: Kanuri
       kaw: Kawi
-      kaz: Kazakh
-      kbd: Kabardian
+      kaz: Kazajo
+      kbd: Cabardiano
       kha: Khasi
-      khi: Khoisan languages
-      khm: Central Khmer
-      kho: Khotanese; Sakan
+      khi: Idiomas de Khoisan
+      khm: Khmer central
+      kho: Kotanés; Sakan
       kik: Kikuyu; Gikuyu
       kin: Kinyarwanda
-      kir: Kirghiz; Kyrgyz
+      kir: Kirguizistán; Kirguizo
       kmb: Kimbundu
-      kok: Konkani
+      kok: Konkaní
       kom: Komi
       kon: Kongo
-      kor: Korean
+      kor: Coreano
       kos: Kosraean
       kpe: Kpelle
-      krc: Karachay-Balkar
-      krl: Karelian
-      kro: Kru languages
+      krc: Karacháevo-Balkar
+      krl: Carelia
+      kro: Lenguas kru
       kru: Kurukh
       kua: Kuanyama; Kwanyama
-      kum: Kumyk
-      kur: Kurdish
+      kum: Cumuco
+      kur: Kurdo
       kut: Kutenai
       lad: Ladino
       lah: Lahnda
       lam: Lamba
       lao: Lao
-      lat: Latin
-      lav: Latvian
+      lat: Latina
+      lav: Letón
       lez: Lezghian
-      lim: Limburgan; Limburger; Limburgish
+      lim: Limburgan; Limburger; Limburgués
       lin: Lingala
-      lit: Lithuanian
+      lit: Lituano
       lol: Mongo
       loz: Lozi
-      ltz: Luxembourgish; Letzeburgesch
+      ltz: Luxemburgués; Luxemburgués
       lua: Luba-Lulua
       lub: Luba-Katanga
       lug: Ganda
       lui: Luiseno
       lun: Lunda
-      luo: Luo (Kenya and Tanzania)
+      luo: Luo (Kenia y Tanzania)
       lus: Lushai
-      mac: Macedonian
-      mad: Madurese
+      mac: Macedonio
+      mad: Madurés
       mag: Magahi
-      mah: Marshallese
+      mah: Marshalés
       mai: Maithili
       mak: Makasar
       mal: Malayalam
       man: Mandingo
-      mao: Maori
-      map: Austronesian languages
+      mao: Maorí
+      map: Lenguas austronesias
       mar: Marathi
       mas: Masai
-      may: Malay
+      may: Malayo
       mdf: Moksha
       mdr: Mandar
       men: Mende
-      mga: "Irish, Middle (900-1200)"
+      mga: "Irlandés, medio (900-1200)"
       mic: Mi'kmaq; Micmac
       min: Minangkabau
-      mis: Uncoded languages
-      mkh: Mon-Khmer languages
-      mlg: Malagasy
-      mlt: Maltese
-      mnc: Manchu
+      mis: Idiomas sin codificar
+      mkh: Lenguas austroasiáticas
+      mlg: Malgache
+      mlt: Maltés
+      mnc: Manchú
       mni: Manipuri
       mno: Manobo languages
       moh: Mohawk
-      mon: Mongolian
+      mon: Mongol
       mos: Mossi
-      mul: Multiple languages
-      mun: Munda languages
+      mul: Múltiples idiomas
+      mun: Lenguas Munda
       mus: Creek
-      mwl: Mirandese
+      mwl: Mirandés
       mwr: Marwari
-      myn: Mayan languages
+      myn: Lenguas mayas
       myv: Erzya
-      nah: Nahuatl languages
-      nai: North American Indian languages
-      nap: Neapolitan
+      nah: Lenguas náhuatl
+      nai: Idiomas indias americanas del norte
+      nap: Napolitano
       nau: Nauru
-      nav: Navajo; Navaho
-      nbl: "Ndebele, South; South Ndebele"
-      nde: "Ndebele, North; North Ndebele"
+      nav: Navajo; Navajo
+      nbl: "Ndebele, al sur; Ndebele del sur"
+      nde: "Ndebele, al norte; Ndebele del Norte"
       ndo: Ndonga
-      nds: "Low German; Low Saxon; German, Low; Saxon, Low"
+      nds: "Bajo alemán; Bajo sajón; Alemán, bajo; Saxon, Low"
       nep: Nepali
       new: Nepal Bhasa; Newari
       nia: Nias
-      nic: Niger-Kordofanian languages
+      nic: Lenguas Niger-Kordofanian
       niu: Niuean
-      nno: "Norwegian Nynorsk; Nynorsk, Norwegian"
-      nob: "Norwegian Bokmål; Bokmål, Norwegian"
+      nno: "Noruego Nynorsk; Nynorsk, noruego"
+      nob: "Noruego Bokmål; Bokmål, noruego"
       nog: Nogai
-      non: "Norse, Old"
-      nor: Norwegian
-      nqo: N'Ko
-      nso: Pedi; Sepedi; Northern Sotho
-      nub: Nubian languages
+      non: "Norse, antiguo"
+      nor: Noruego
+      nqo: N ' Ko
+      nso: Pedi; Sepedi; Sotho del Norte
+      nub: Nubias idiomas
       nwc: Classical Newari; Old Newari; Classical Nepal Bhasa
       nya: Chichewa; Chewa; Nyanja
       nym: Nyamwezi
       nyn: Nyankole
       nyo: Nyoro
       nzi: Nzima
-      oci: Occitan (post 1500); Provençal
+      oci: Occitano (post 1500); Provenzal
       oji: Ojibwa
       ori: Oriya
       orm: Oromo
       osa: Osage
-      oss: Ossetian; Ossetic
-      ota: "Turkish, Ottoman (1500-1928)"
+      oss: Osetia; Ossetic
+      ota: "Turco, otomano (1500-1928)"
       oto: Otomian languages
-      paa: Papuan languages
+      paa: Lenguas papúes
       pag: Pangasinan
       pal: Pahlavi
       pam: Pampanga; Kapampangan
-      pan: Panjabi; Punjabi
+      pan: Panjabi; Punjabí
       pap: Papiamento
-      pau: Palauan
-      peo: "Persian, Old (ca.600-400 B.C.)"
-      per: Persian
-      phi: Philippine languages
-      phn: Phoenician
+      pau: Palao
+      peo: "Persa, antiguo (ca.600-400 A.C.)"
+      per: Persa
+      phi: Idiomas Filipinas
+      phn: Fenicia
       pli: Pali
-      pol: Polish
+      pol: Polaco
       pon: Pohnpeian
-      por: Portuguese
-      pra: Prakrit languages
-      pro: "Provençal, Old (to 1500)"
+      por: Portugués
+      pra: Lenguas Prakrit
+      pro: "Provenzal, antiguo (hasta 1500)"
       pus: Pushto; Pashto
       que: Quechua
       raj: Rajasthani
       rap: Rapanui
-      rar: Rarotongan; Cook Islands Maori
-      roa: Romance languages
-      roh: Romansh
+      rar: Rarotongan; Maorí de las Islas Cook
+      roa: Lenguas romances
+      roh: Romanche
       rom: Romany
-      rum: Romanian; Moldavian; Moldovan
-      run: Rundi
-      rup: Aromanian; Arumanian; Macedo-Romanian
-      rus: Russian
+      rum: Rumano; Moldavia; Moldovan
+      run: Burundi
+      rup: Aromanian; Arumanian; Macedo-Rumano
+      rus: Ruso
       sad: Sandawe
       sag: Sango
       sah: Yakut
-      sai: South American Indian (Other)
-      sal: Salishan languages
-      sam: Samaritan Aramaic
-      san: Sanskrit
+      sai: Indio americano del sur (otros)
+      sal: Lenguas salishanas
+      sam: Arameo samaritano
+      san: Sánscrito
       sas: Sasak
       sat: Santali
-      scn: Sicilian
-      sco: Scots
+      scn: Siciliano
+      sco: Los escoceses
       sel: Selkup
-      sem: Semitic languages
-      sga: "Irish, Old (to 900)"
-      sgn: Sign Languages
+      sem: Lenguas semíticas
+      sga: "Irlandés, viejo (a 900)"
+      sgn: Lenguaje de señas
       shn: Shan
       sid: Sidamo
-      sin: Sinhala; Sinhalese
-      sio: Siouan languages
-      sit: Sino-Tibetan languages
-      sla: Slavic languages
-      slo: Slovak
-      slv: Slovenian
-      sma: Southern Sami
-      sme: Northern Sami
-      smi: Sami languages
-      smj: Lule Sami
-      smn: Inari Sami
-      smo: Samoan
-      sms: Skolt Sami
+      sin: Sinhala; Cingalés
+      sio: Siriaco
+      sit: Lenguas sino-tibetanas
+      sla: Lenguas eslavas
+      slo: Eslovaco
+      slv: Esloveno
+      sma: Sami meridional
+      sme: Sami septentrional
+      smi: Lenguas Sami
+      smj: Sami Lule
+      smn: Sami Inari
+      smo: Samoa
+      sms: Sami Skolt
       sna: Shona
       snd: Sindhi
-      snk: Soninke
-      sog: Sogdian
-      som: Somali
-      son: Songhai languages
-      sot: "Sotho, Southern"
-      spa: Spanish; Castilian
-      srd: Sardinian
+      snk: Soninké
+      sog: Sogdiano
+      som: Somalí
+      son: Idiomas de Songhai
+      sot: "Sotho, sur"
+      spa: Español; Castellano
+      srd: Sardo
       srn: Sranan Tongo
-      srp: Serbian
+      srp: Serbio
       srr: Serer
-      ssa: Nilo-Saharan languages
+      ssa: Lenguas Nilo-saharianas
       ssw: Swati
       suk: Sukuma
-      sun: Sundanese
+      sun: Sundanés
       sus: Susu
-      sux: Sumerian
+      sux: Sumerio
       swa: Swahili
-      swe: Swedish
-      syc: Classical Syriac
+      swe: Sueco
+      syc: Syriac clásico
       syr: Syriac
-      tah: Tahitian
-      tai: Tai languages
+      tah: Tahití
+      tai: Lenguas tai
       tam: Tamil
-      tat: Tatar
+      tat: Tártaro
       tel: Telugu
-      tem: Timne
+      tem: Expedición
       ter: Tereno
       tet: Tetum
       tgk: Tajik
       tgl: Tagalog
-      tha: Thai
-      tib: Tibetan
+      tha: Tailandés
+      tib: Tibetano
       tig: Tigre
       tir: Tigrinya
-      tiv: Tiv
+      tiv: TIV
       tkl: Tokelau
-      tlh: Klingon; tlhIngan-Hol
+      tlh: Klingon; tlhIngan Hol
       tli: Tlingit
       tmh: Tamashek
       tog: Tonga (Nyasa)
-      ton: Tonga (Tonga Islands)
+      ton: Tonga (Islas Tonga)
       tpi: Tok Pisin
       tsi: Tsimshian
-      tsn: Tswana
+      tsn: Setswana
       tso: Tsonga
-      tuk: Turkmen
+      tuk: Turcomano
       tum: Tumbuka
-      tup: Tupi languages
-      tur: Turkish
-      tut: Altaic languages
+      tup: Lenguas tupí
+      tur: Turco
+      tut: Lenguas altaicas
       tvl: Tuvalu
       twi: Twi
-      tyv: Tuvinian
-      udm: Udmurt
+      tyv: Tuva
+      udm: Udmurto
       uga: Ugaritic
-      uig: Uighur; Uyghur
-      ukr: Ukrainian
+      uig: Uigur; Uyghur
+      ukr: Ucraniano
       umb: Umbundu
-      und: Undetermined
+      und: Indeterminado
       urd: Urdu
       uzb: Uzbek
       vai: Vai
       ven: Venda
-      vie: Vietnamese
+      vie: Vietnamita
       vol: Volapük
-      vot: Votic
-      wak: Wakashan languages
+      vot: Votico
+      wak: Lenguas Wakash
       wal: Walamo
       war: Waray
       was: Washo
-      wel: Welsh
-      wen: Sorbian languages
-      wln: Walloon
+      wel: Galés
+      wen: Sorabos idiomas
+      wln: Valona
       wol: Wolof
       xal: Kalmyk; Oirat
-      xho: Xhosa
+      xho: Xosa
       yao: Yao
-      yap: Yapese
+      yap: Pohnpeiano
       yid: Yiddish
       yor: Yoruba
-      ypk: Yupik languages
-      zap: Zapotec
+      ypk: Lenguas Yupik
+      zap: Zapoteca
       zbl: Blissymbols; Blissymbolics; Bliss
       zen: Zenaga
-      zgh: Standard Moroccan Tamazight
+      zgh: Tamazight Marroquí Estándar
       zha: Zhuang; Chuang
       znd: Zande languages
-      zul: Zulu
+      zul: Zulú
       zun: Zuni
-      zxx: No linguistic content; Not applicable
+      zxx: No hay contenido lingüístico; No aplicable
       zza: Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki
     archival_record_level:
-      class: Class
-      collection: Collection
-      file: File
-      fonds: Fonds
-      item: Item
-      otherlevel: Other Level
-      recordgrp: Record Group
-      series: Series
-      subfonds: Sub-Fonds
-      subgrp: Sub-Group
-      subseries: Sub-Series
+      class: Clase
+      collection: Colección
+      file: Documento de archivo
+      fonds: Fondos
+      item: Ítem
+      otherlevel: Otro nivel
+      recordgrp: Grupo de registro
+      series: Serie
+      subfonds: Subfondos
+      subgrp: Subgrupo
+      subseries: Subserie
     container_location_status:
-      current: Current
-      previous: Previous
+      current: Actual
+      previous: Anterior
     date_type:
-      expression: Expression
-      single: Single
-      bulk: Bulk Dates
-      inclusive: Inclusive Dates
-      range: Range
+      expression: Formato
+      single: Individual
+      bulk: Fechas extremas
+      inclusive: Fechas de creación fondo
+      range: Rango
     date_label:
-      record_keeping: Record Keeping
-      broadcast: Broadcast
+      record_keeping: Mantenimiento de Registros
+      broadcast: Difusión
       copyright: Copyright
-      creation: Creation
-      deaccession: Deaccession
-      agent_relation: Agent Relation
-      digitized: Digitized
-      existence: Existence
-      event: Event
-      issued: Issued
-      modified: Modified
-      publication: Publication
-      usage: Usage
-      other: Other
+      creation: Creación
+      deaccession: Expurgo
+      agent_relation: Relación con autoridad
+      digitized: Digitalización
+      existence: Existencia
+      event: Evento
+      issued: Emisión
+      modified: Modificación
+      publication: Publicación
+      usage: Utilización
+      other: Otras
     date_certainty:
-      approximate: Approximate
-      inferred: Inferred
-      questionable: Questionable
+      approximate: Aproximada
+      inferred: Deducida
+      questionable: Cuestionable
     extent_portion:
-      whole: Whole
-      part: Part
+      whole: Total
+      part: Parcial
     deaccession_scope:
-      whole: Whole
-      part: Part
+      whole: Total
+      part: Parcial
     file_version_xlink_actuate_attribute:
-      none: none
-      other: other
+      none: Ninguno
+      other: otros
       onLoad: onLoad
       onRequest: onRequest
     file_version_xlink_show_attribute:
-      new: new
-      replace: replace
-      embed: embed
-      other: other
-      none: none
+      new: Nueva
+      replace: reemplazar
+      embed: Insertar
+      other: otros
+      none: Ninguno
     file_version_file_format_name:
       aiff: Audio Interchange File Format
-      avi: Audio/Video Interleaved Format
-      gif: Graphics Interchange Format
+      avi: Audio/vídeo entrelazado formato
+      gif: Formato de intercambio de gráficos
       jpeg: JPEG File Interchange Format
       mp3: MPEG Audio Layer 3
-      pdf: Portable Document Format
+      pdf: Formato de documento portátil
       tiff: Tagged Image File Format
-      txt: Plain Text File
+      txt: Archivo de texto plano
     location_temporary:
-      conservation: Conservation
-      exhibit: Exhibit
-      loan: Loan
-      reading_room: Reading Room
+      conservation: Conservación
+      exhibit: Exposición
+      loan: Préstamo
+      reading_room: Sala de lectura
     name_person_name_order:
-      direct: Direct
-      inverted: Indirect
+      direct: Directa
+      inverted: Indirecta
     country_iso_3166:
-      AF: Afghanistan
-      AX: Åland Islands
+      AF: Afganistán
+      AX: Islas Åland
       AL: Albania
-      DZ: Algeria
-      AS: American Samoa
+      DZ: Argelia
+      AS: Samoa Americana
       AD: Andorra
       AO: Angola
       AI: Anguilla
-      AQ: Antarctica
-      AG: Antigua and Barbuda
+      AQ: La Antártida
+      AG: Antigua y Barbuda
       AR: Argentina
       AM: Armenia
       AW: Aruba
       AU: Australia
       AT: Austria
-      AZ: Azerbaijan
+      AZ: Azerbaiyán
       BS: Bahamas
-      BH: Bahrain
+      BH: Bahrein
       BD: Bangladesh
       BB: Barbados
-      BY: Belarus
-      BE: Belgium
-      BZ: Belize
+      BY: Bielorrusia
+      BE: Bélgica
+      BZ: Belice
       BJ: Benin
       BM: Bermuda
-      BT: Bhutan
+      BT: Bután
       BO: Bolivia
-      BQ: "Bonaire, Sint Eustatius and Saba"
-      BA: Bosnia and Herzegovina
+      BQ: "Bonaire, Sint Eustatius y Saba"
+      BA: Bosnia-Herzegovina
       BW: Botswana
-      BV: Bouvet Island
-      BR: Brazil
-      IO: British Indian Ocean Territory
+      BV: Isla Bouvet
+      BR: Brasil
+      IO: Territorio británico del océano Índico
       BN: Brunei Darussalam
       BG: Bulgaria
       BF: Burkina Faso
       BI: Burundi
-      KH: Cambodia
-      CM: Cameroon
-      CA: Canada
-      CV: Cape Verde
-      KY: Cayman Islands
-      CF: Central African Republic
+      KH: Camboya
+      CM: Camerún
+      CA: Canadá
+      CV: Cabo Verde
+      KY: Islas Caimán
+      CF: República Centroafricana
       TD: Chad
       CL: Chile
       CN: China
-      CX: Christmas island
-      CC: Cocos (Keeling) Islands
+      CX: Isla de Navidad
+      CC: Islas Cocos (Keeling)
       CO: Colombia
-      KM: Comoros
+      KM: Comoras
       CG: Congo
-      CD: Democratic Republic of the Congo
-      CK: Cook Islands
+      CD: República Democrática del Congo
+      CK: Islas Cook
       CR: Costa Rica
-      CI: Côte d'Ivoire
-      HR: Croatia
+      CI: Côte d ' Ivoire
+      HR: Croacia
       CU: Cuba
       CW: Curaçao
-      CY: Cyprus
-      CZ: Czech Republic
-      DK: Denmark
+      CY: Chipre
+      CZ: República Checa
+      DK: Dinamarca
       DJ: Djibouti
       DM: Dominica
-      DO: Dominican Republic
+      DO: República Dominicana
       EC: Ecuador
-      EG: Egypt
+      EG: Egipto
       SV: El Salvador
-      GQ: Equatorial Guinea
+      GQ: Guinea Ecuatorial
       ER: Eritrea
       EE: Estonia
-      ET: Ethiopia
-      FK: Falkland Islands (Malvinas)
-      FO: Faroe Islands
+      ET: Etiopía
+      FK: Islas Malvinas (Falkland)
+      FO: Islas Faroe
       FJ: Fiji
-      FI: Finland
-      FR: France
-      GF: French Guiana
-      PF: French Polynesia
-      TF: French Southern Territories
-      GA: Gabon
+      FI: Finlandia
+      FR: Francia
+      GF: Guayana francesa
+      PF: Polinesia francesa
+      TF: Territorios franceses del sur
+      GA: Gabón
       GM: Gambia
       GE: Georgia
-      DE: Germany
+      DE: Alemania
       GH: Ghana
       GI: Gibraltar
-      GR: Greece
-      GL: Greenland
-      GD: Grenada
-      GP: Guadeloupe
+      GR: Grecia
+      GL: Groenlandia
+      GD: Granada
+      GP: Guadalupe
       GU: Guam
       GT: Guatemala
       GG: Guernsey
       GN: Guinea
       GW: Guinea-Bissau
       GY: Guyana
-      HT: Haiti
+      HT: Haití
       HM: Heard Island and Mcdonald Islands
-      VA: Holy See (Vatican City State)
+      VA: Santa Sede (ciudad del Vaticano)
       HN: Honduras
       HK: Hong Kong
-      HU: Hungary
-      IS: Iceland
+      HU: Hungría
+      IS: Islandia
       IN: India
       ID: Indonesia
-      IR: "Iran, Islamic Republic of"
-      IQ: Iraq
-      IE: Ireland
-      IM: Isle of Man
+      IR: "La República Islámica de Irán"
+      IQ: Irak
+      IE: Irlanda
+      IM: Isla de Man
       IL: Israel
-      IT: Italy
+      IT: Italia
       JM: Jamaica
-      JP: Japan
+      JP: Japón
       JE: Jersey
-      JO: Jordan
-      KZ: Kazakhstan
-      KE: Kenya
+      JO: Jordania
+      KZ: Kazajstán
+      KE: Kenia
       KI: Kiribati
-      KP: "Korea, Democratic People's Republic of"
-      KR: "Korea, Republic of"
+      KP: "La República Democrática Popular de Corea"
+      KR: "Corea del sur"
       KW: Kuwait
-      KG: Kyrgyzstan
-      LA: "Lao People's Democratic Republic"
-      LV: Latvia
-      LB: Lebanon
+      KG: Kirguizistán
+      LA: "República Democrática Popular Lao"
+      LV: Letonia
+      LB: Líbano
       LS: Lesotho
       LR: Liberia
-      LY: Libya
+      LY: Libia
       LI: Liechtenstein
-      LT: Lithuania
-      LU: Luxembourg
+      LT: Lituania
+      LU: Luxemburgo
       MO: Macao
-      MK: "Macedonia, Former Yugoslav Republic of"
+      MK: "Antigua República Yugoslava de Macedonia"
       MG: Madagascar
       MW: Malawi
-      MY: Malaysia
-      MV: Maldives
-      ML: Mali
+      MY: Malasia
+      MV: Maldivas
+      ML: Malí
       MT: Malta
-      MH: Marshall Islands
-      MQ: Martinique
+      MH: Islas Marshall
+      MQ: Martinica
       MR: Mauritania
-      MU: Mauritius
+      MU: Mauricio
       YT: Mayotte
-      MX: Mexico
-      FM: "Micronesia, Federated States of"
-      MD: "Moldova, Republic of"
-      MC: Monaco
+      MX: México
+      FM: "Micronesia, Estados Federados de"
+      MD: "Moldavia"
+      MC: Mónaco
       MN: Mongolia
       ME: Montenegro
       MS: Montserrat
-      MA: Morocco
+      MA: Marruecos
       MZ: Mozambique
       MM: Myanmar
       NA: Namibia
       NR: Nauru
       NP: Nepal
-      NL: Netherlands
-      NC: New Caledonia
-      NZ: New Zealand
+      NL: Países Bajos
+      NC: Nueva Caledonia
+      NZ: Nueva Zelanda
       NI: Nicaragua
-      NE: Niger
+      NE: Níger
       NG: Nigeria
       NU: Niue
-      NF: Norfolk Island
-      MP: Northern Mariana Islands
-      "NO": Norway
-      OM: Oman
-      PK: Pakistan
+      NF: Isla Norfolk
+      MP: Islas Marianas del norte
+      "NO": Noruega
+      OM: Omán
+      PK: Pakistán
       PW: Palau
-      PS: "Palestinian Territory, Occupied"
-      PA: Panama
-      PG: Papua New Guinea
+      PS: "Territorio palestino, ocupado"
+      PA: Panamá
+      PG: Papua Nueva Guinea
       PY: Paraguay
-      PE: Peru
-      PH: Philippines
+      PE: Perú
+      PH: Filipinas
       PN: Pitcairn
-      PL: Poland
+      PL: Polonia
       PT: Portugal
-      PR: Puerto rico
+      PR: Puerto Rico
       QA: Qatar
       RE: Réunion
-      RO: Romania
-      RU: Russian Federation
-      RW: Rwanda
+      RO: Rumania
+      RU: Federación de Rusia
+      RW: Ruanda
       BL: Saint Barthélemy
-      SH: "Saint Helena, Ascension and Tristan da Cunha"
-      KN: Saint Kitts and Nevis
-      LC: Saint Lucia
-      MF: Saint Martin (French Part)
-      PM: Saint Pierre and Miquelon
-      VC: Saint Vincent and the Grenadines
+      SH: "Santa Elena, ascensión y Tristán da Cunha"
+      KN: Saint Kitts y Nevis
+      LC: Santa Lucía
+      MF: San Martín (parte francesa)
+      PM: Saint Pierre y Miquelon
+      VC: Saint Vincent y las Granadinas
       WS: Samoa
       SM: San Marino
-      ST: Sao Tome and Principe
-      SA: Saudi Arabia
+      ST: Santo Tomé y Príncipe
+      SA: Arabia Saudí
       SN: Senegal
       RS: Serbia
       SC: Seychelles
-      SL: Sierra Leone
-      SG: Singapore
-      SX: Sint Maarten (Dutch Part)
-      SK: Slovakia
-      SI: Slovenia
-      SB: Solomon Islands
+      SL: Sierra Leona
+      SG: Singapur
+      SX: Sint Maarten (parte holandesa)
+      SK: Eslovaquia
+      SI: Eslovenia
+      SB: Islas Salomón
       SO: Somalia
-      ZA: South Africa
-      GS: South Georgia and the South Sandwich Islands
-      SS: South Sudan
-      ES: Spain
+      ZA: Sudáfrica
+      GS: Georgia del sur y las Islas Sandwich del sur
+      SS: Sudán del sur
+      ES: España
       LK: Sri Lanka
-      SD: Sudan
-      SR: Suriname
-      SJ: Svalbard and Jan Mayen
-      SZ: Swaziland
-      SE: Sweden
-      CH: Switzerland
-      SY: Syrian Arab Republic
-      TW: "Taiwan, Province of China"
-      TJ: Tajikistan
-      TZ: "Tanzania, United Republic of"
-      TH: Thailand
+      SD: Sudán
+      SR: Surinam
+      SJ: Svalbard y Jan Mayen
+      SZ: Swazilandia
+      SE: Suecia
+      CH: Suiza
+      SY: República Árabe Siria
+      TW: "Taiwán, provincia de China"
+      TJ: Tayikistán
+      TZ: "Tanzania, República Unida de"
+      TH: Tailandia
       TL: Timor-Leste
       TG: Togo
       TK: Tokelau
       TO: Tonga
-      TT: Trinidad and Tobago
-      TN: Tunisia
-      TR: Turkey
-      TM: Turkmenistan
-      TC: Turks and Caicos Islands
+      TT: Trinidad y Tobago
+      TN: Túnez
+      TR: Turquía
+      TM: Turkmenistán
+      TC: Islas Turcas y Caicos
       TV: Tuvalu
       UG: Uganda
-      UA: Ukraine
-      AE: United Arab Emirates
-      GB: United Kingdom
-      US: United States
-      UM: United States Minor Outlying Islands
+      UA: Ucrania
+      AE: Emiratos Árabes Unidos
+      GB: Reino Unido
+      US: Estados Unidos
+      UM: Islas ultramarinas de Estados Unidos
       UY: Uruguay
-      UZ: Uzbekistan
+      UZ: Uzbekistán
       VU: Vanuatu
       VE: Venezuela
-      VN: Viet Nam
+      VN: Vietnam
       VG: "Virgin Islands, British"
       VI: "Virgin Islands, U.S."
-      WF: Wallis and Futuna
-      EH: Western Sahara
+      WF: Wallis y Futuna
+      EH: Sáhara Occidental
       YE: Yemen
       ZM: Zambia
-      ZW: Zimbabwe
+      ZW: Zimbabue
+    rights_statement_act_type:
+      delete: Borrar
+      disseminate: Diseminar
+      migrate: Emigrar
+      modify: Modificar
+      replicate: Reproducir exactamente
+      use: Utilizar
+    rights_statement_act_restriction:
+      allow: Permitir
+      disallow: Rechazar
+      conditional: Condicional
     rights_statement_rights_type:
-      intellectual_property: Intellectual Property
-      license: License
-      statute: Statute
-      institutional_policy: Institutional Policy
+      copyright: Derechos de autor
+      license: Licencia
+      statute: Estatuto
+      other: Otro
+      institutional_policy: Política institucional
+      intellectual_property: Propiedad intelectual
     rights_statement_ip_status:
-      copyrighted: Copyrighted
-      public_domain: Public Domain
-      unknown: Unknown
+      copyrighted: Derechos de autor
+      public_domain: Dominio público
+      unknown: Desconocido
+    rights_statement_other_rights_basis:
+      donor: Donante
+      policy: Política
     subject_term_type:
-      cultural_context: Cultural context
-      function: Function
-      geographic: Geographic
-      genre_form: "Genre / Form"
-      occupation: Occupation
-      style_period: "Style / Period"
-      technique: Technique
+      cultural_context: Contexto cultural
+      function: Función
+      geographic: Geográfica
+      genre_form: "Género / forma"
+      occupation: Ocupación
+      style_period: "Estilo / período"
+      technique: Técnica
       temporal: Temporal
-      topical: Topical
-      uniform_title: Uniform Title
+      topical: Tópico
+      uniform_title: Título uniforme
     _note_types: &note_type_definitions
-      accessrestrict: Conditions Governing Access
-      accruals: Accruals
-      acqinfo: Immediate Source of Acquisition
-      altformavail: Existence and Location of Copies
-      appraisal: Appraisal
-      arrangement: Arrangement
-      bibliography: Bibliography
-      bioghist: Biographical / Historical
-      custodhist: Custodial History
-      fileplan: File Plan
-      index: Index
-      odd: General
-      otherfindaid: Other Finding Aids
-      originalsloc: Existence and Location of Originals
-      phystech: Physical Characteristics and Technical Requirements
-      prefercite: Preferred Citation
-      processinfo: Processing Information
-      scopecontent: Scope and Contents
-      separatedmaterial: Separated Materials
-      userestrict: Conditions Governing Use
-      dimensions: Dimensions
-      legalstatus: Legal Status
-      summary: Summary
-      edition: Edition
-      extent: Extent
-      note: General Note
-      inscription: Inscription
-      langmaterial: Language of Materials
-      physdesc: Physical Description
-      relatedmaterial: Related Materials
-      abstract: Overview
-      physloc: Physical Location
-      materialspec: Materials Specific Details
-      physfacet: Physical Facet
+      accessrestrict: Nota de condiciones de acceso
+      accruals: Nota de nuevos ingresos
+      acqinfo: Nota de información de adquisiciones
+      altformavail: Nota de formatos alternativos disponibles
+      appraisal: Nota de valoración
+      arrangement: Nota de organización
+      bibliography: Nota de bibliografía
+      note_bibliography: Nota de bibliografía
+      bioghist: Nota biográfica/histórica
+      custodhist: Nota de historia archivística
+      fileplan: Nota de proyecto de expediente
+      index: Índice
+      odd: Nota de otros datos descriptivos
+      otherfindaid: Nota de otros instrumentos de descripción
+      originalsloc: Nota de existencia y la localización de los originales
+      phystech: Nota de características físicas y requisitos técnicos
+      prefercite: Nota de cita preferida
+      processinfo: Nota de información del proceso
+      scopecontent: Nota de alcance y contenido
+      separatedmaterial: Nota de documentos separados
+      userestrict: Nota de restricciones de uso
+      dimensions: Nota de tamaño
+      legalstatus: Nota de situación jurídica
+      summary: Nota de resumen
+      edition: Nota de edición
+      extent: Nota de extensión
+      note: Nota general
+      inscription: Nota de inscripción
+      langmaterial: Nota de idioma de materiales
+      physdesc: Nota de descripción física
+      relatedmaterial: Nota de materiales relacionados
+      abstract: Resumen introductorio
+      physloc: Nota de ubicación física
+      materialspec: Nota de detalles específicos de los materiales
+      physfacet: Nota de apariencia del material
+      rights_statement: Derechos
     note_digital_object_type:
+      <<: *note_type_definitions
+    note_langmaterial_type:
       <<: *note_type_definitions
     note_multipart_type:
       <<: *note_type_definitions
     note_singlepart_type:
       <<: *note_type_definitions
+    note_rights_statement_type:
+      materials: Materiales
+      type_note: Tipo de nota
+      additional_information: Información Adicional
+    note_rights_statement_act_type:
+      expiration: Vencimiento
+      extension: Extensión
+      permissions: Permisos
+      restrictions: Las restricciones
+      additional_information: Información Adicional
     linked_agent_role:
-      creator: Creator
-      source: Source
-      subject: Subject
+      creator: Autor
+      source: Donante
+      subject: Materia
     agent_relationship_associative_relator:
       is_associative_with: Associative with Related
     agent_relationship_earlierlater_relator:
       is_earlier_form_of: Earlier Form of Related
       is_later_form_of: Later Form of Related
     agent_relationship_parentchild_relator:
-      is_child_of: Parent
-      is_parent_of: Child
+      is_child_of: Hijo de relacionados
+      is_parent_of: Padre de relacionados
     accession_sibling_relator:
-      sibling_of: Sibling
+      sibling_of: Es hermano de
     accession_parts_relator:
-      forms_part_of: Forms Part of
-      has_part: Has Part
+      forms_part_of: Forma parte de
+      has_part: Tiene parte
     accession_parts_relator_type:
-      part: "\"Part\" relationship"
+      part: Relación de "\"Parte\""
     accession_sibling_relator_type:
-      bound_with: "\"Bound With\" relationship"
+      bound_with: Relación de "\"Unido a\""
     agent_relationship_subordinatesuperior_relator:
-      is_subordinate_to: Is Subordinate to Related
-      is_superior_of: Is Superior of Related
+      is_subordinate_to: Es subordinado a relacionados
+      is_superior_of: El superior de relacionados
     note_index_item_type:
-      name: Name
-      person: Person
-      family: Family
-      corporate_entity: Corporate Entity
-      subject: Subject
-      function: Function
-      occupation: Occupation
-      title: Title
-      geographic_name: Geographic Name
+      name: Nombre
+      person: Persona
+      family: Familia
+      corporate_entity: Entidad corporativa
+      subject: Materia
+      function: Función
+      occupation: Ocupación
+      title: Título
+      genre_form: "Género/Forma"
+      geographic_name: Nombre geográfico
     user_defined_enum_1:
-      novalue: No value defined
+      novalue: Ningún valor definido
     user_defined_enum_2:
-      novalue: No value defined
+      novalue: Ningún valor definido
     user_defined_enum_3:
-      novalue: No value defined
+      novalue: Ningún valor definido
     user_defined_enum_4:
-      novalue: No value defined
+      novalue: Ningún valor definido
     dimension_units:
-      inches: Inches
-      feet: Feet
-      yards: Yards
-      millimeters: Millimeters
-      centimeters: Centimeters
-      meters: Meters
+      inches: Pulgadas
+      feet: Pies
+      yards: Yardas
+      millimeters: Milimetros
+      centimeters: Centimetros
+      meters: Metros
     restriction_type:
-      RestrictedSpecColl: 1 - Donor/university imposed access restriction
-      RestrictedCurApprSpecColl: 2 - Repository imposed access restriction
-      RestrictedFragileSpecColl: 3 - Restricted fragile
-      InProcessSpecColl: 4 - Restricted in-process
-      ColdStorageBrbl: 5 - Other
+      RestrictedSpecColl: 1 - Donante/universidada imponen restricciones de acceso
+      RestrictedCurApprSpecColl: 2 - Repositorio con restricciones de acceso
+      RestrictedFragileSpecColl: 3 - Restringido fragil
+      InProcessSpecColl: 4 - Restringido en proceso
+      ColdStorageBrbl: 5 - Otros
     location_function_type:
-      av_materials: Audiovisual Materials
-      arrivals: Arrivals
-      shared: Shared
+      av_materials: Materiales Audiovisuales
+      arrivals: Llegadas
+      shared: Compartidos
 
 
   enumeration_names:
-    accession_acquisition_type: Accession Acquisition Type
-    accession_parts_relator: Accession Parts Relator
-    accession_parts_relator_type: Accession Parts Relator Type
-    accession_sibling_relator: "Accession Sibling Relator"
-    accession_sibling_relator_type: Accession Sibling Relator Type
-    accession_resource_type: Accession Resource Type
-    agent_contact_salutation: Agent Contact Salutation
+    accession_acquisition_type: Tipo de acta de ingreso
+    accession_parts_relator: Partes de acta de ingreso relacionadas
+    accession_parts_relator_type: Tipos de partes de acta de ingreso relacionadas
+    accession_sibling_relator: "Tipo de relación de acta de ingreso de hermano"
+    accession_sibling_relator_type: Tipo de relacioón de acta de ingreso de hermano
+    accession_resource_type: Tipo de fondos de acta de ingreso
+    agent_contact_salutation: Saludo autoridad
     agent_relationship_associative_relator: Agent Relationship Associative Relator
     agent_relationship_earlierlater_relator: Agent Relationship Earlierlater Relator
     agent_relationship_parentchild_relator: Agent Relationship Parentchild Relator
     agent_relationship_subordinatesuperior_relator: Agent Relationship Subordinatesuperior Relator
-    archival_record_level: Archival Record Level
-    collection_management_processing_priority: Collection Management Processing Priority
-    collection_management_processing_status: Collection Management Processing Status
-    container_location_status: Container Location Status
-    container_type: Container Type
-    country_iso_3166: Country ISO 3166
-    date_calendar: Date Calendar
-    date_certainty: Date Certainty
-    date_era: Date Era
-    date_label: Date Label
-    date_type: Date Type
-    deaccession_scope: Deaccession Scope
-    digital_object_digital_object_type: Digital Object Digital Object Type
-    digital_object_level: Digital Object Level
-    event_event_type: Event Event Type
-    event_outcome: Event Outcome
-    extent_extent_type: Extent Extent Type
-    extent_portion: Extent Portion
-    file_version_checksum_methods: File Version Checksum Methods
-    file_version_file_format_name: File Version File Format Name
-    file_version_use_statement: File Version Use Statement
-    file_version_xlink_actuate_attribute: File Version Xlink Actuate Attribute
-    file_version_xlink_show_attribute: File Version Xlink Show Attribute
-    instance_instance_type: Instance Instance Type
-    language_iso639_2: Language ISO 639-2
+    archival_record_level: Nivel de registro de archivo
+    collection_management_processing_priority: Prioridad de la tramitación de la gestión de la colección
+    collection_management_processing_status: Estado de tramitación de la gestión de la colección
+    container_location_status: Estado de ubicación de contenedores
+    container_type: Tipo de contenedor
+    country_iso_3166: País ISO 3166
+    date_calendar: Calendario
+    date_certainty: Fecha probable
+    date_era: Fecha Era
+    date_label: Etiqueta de fecha
+    date_type: Tipo de fecha
+    deaccession_scope: Obrar alcance
+    digital_object_digital_object_type: Tipo de objeto digital
+    digital_object_level: Nivel de objeto digital
+    event_event_type: Tipo de evento evento
+    event_outcome: Resultados de evento
+    extent_extent_type: Tipo de medida de grado
+    extent_portion: Parte de grado
+    file_version_checksum_methods: Métodos de suma de comprobación de versión archivo
+    file_version_file_format_name: Nombre de formato de archivo de archivo versión
+    file_version_use_statement: Archivo versión uso declaración
+    file_version_xlink_actuate_attribute: Archivo versión Xlink accionar atributo
+    file_version_xlink_show_attribute: Atributo de archivo versión Xlink Mostrar
+    instance_instance_type: Tipo de representación
+    language_iso639_2: Idioma ISO 639-2
+    script_iso15924: Lenguaje Script ISO 15924
     linked_agent_archival_record_relators: Linked Agent Archival Record Relators
     linked_agent_event_roles: Linked Agent Event Roles
-    linked_agent_role: Linked Agent Role
+    linked_agent_role: Papel de autoridad vinculada
     linked_event_archival_record_roles: Linked Event Archival Record Roles
-    location_temporary: Location Temporary
-    name_person_name_order: Name Person Name Order
-    name_rule: Name Rule
-    name_source: Name Source
-    note_bibliography_type: Note Bibliography Type
-    note_digital_object_type: Note Digital Object Type
-    note_index_item_type: Note Index Item Type
-    note_index_type: Note Index Type
-    note_multipart_type: Note Multipart Type
-    note_orderedlist_enumeration: Note Orderedlist Enumeration
-    note_singlepart_type: Note Singlepart Type
-    telephone_number_type: Telephone Number Type
-    resource_finding_aid_description_rules: Resource Finding Aid Description Rules
-    resource_finding_aid_status: Resource Finding Aid Status
-    resource_resource_type: Resource Resource Type
-    rights_statement_ip_status: Rights Statement IP Status
-    rights_statement_rights_type: Rights Statement Rights Type
-    subject_source: Subject Source
-    subject_term_type: Subject Term Type
-    user_defined_enum_1: User Defined Enum 1
-    user_defined_enum_2: User Defined Enum 2
-    user_defined_enum_3: User Defined Enum 3
-    user_defined_enum_4: User Defined Enum 4
+    location_temporary: Ubicación temporal
+    name_person_name_order: Pedido de nombre de la persona
+    name_rule: Regla de nombre
+    name_source: Origen del nombre
+    note_bibliography_type: Nota bibliografía tipo
+    note_digital_object_type: Tipo de nota objeto digital
+    note_langmaterial_type: Idioma de la nota del tipo de materiales
+    note_index_item_type: Tipo de elemento de índice Nota
+    note_index_type: Tipo de índice Nota
+    note_multipart_type: Nota tipo multiparte
+    note_orderedlist_enumeration: Nota ordenada (enumeración)
+    note_rights_statement_act_type: Nota de Derechos de Declaración Tipo de Ley
+    note_rights_statement_type: Nota tipo de declaración de derechos
+    note_singlepart_type: Nota Singlepart tipo
+    telephone_number_type: Tipo de número de teléfono
+    resource_finding_aid_description_rules: Normas sobre instrumentos de descripción
+    resource_finding_aid_status: Estado del instrumento de descripción del fondo
+    resource_resource_type: Tipo de fondos
+    rights_statement_ip_status: Declaración de derechos IP Status
+    rights_statement_rights_type: Declaración de los derechos derechos tipo
+    subject_source: Materia fuente
+    subject_term_type: Tipo de término de materia
+    user_defined_enum_1: Enum 1 definida por el usuario
+    user_defined_enum_2: Enum 2 definido por el usuario
+    user_defined_enum_3: Enum 3 definido por el usuario
+    user_defined_enum_4: Enum 4 definido por el usuario
     job_type: Job Type
-    dimension_units: Dimension Units
-    restriction_type: Local Access Restriction Type
-    location_function_type: Location Function Type
-# added to support things like provenance
-    inventory: Inventory
-    disposition: Disposition
-    content_description: Content Description
-    provenance: Provenance
-    access_date: Access Date
-    access_restrictions_note: Conditions Governing Access
-    use_restrictions_note: Conditions Governing Use
+    dimension_units: Unidades de dimensión
+    restriction_type: Tipos de restricciones de acceso loceles
+    location_function_type: Tipos de funciones de localización
+    rights_statement_external_document_identifier_type: Declaración de derechos Tipo de identificador de documento externo
+    rights_statement_act_restriction: Ley de declaración de derechos de restricción
+    rights_statement_act_type: Declaración de Derechos Tipo de Ley
+    rights_statement_other_rights_basis: Declaración de derechos Otros derechos de base
+    # added to support things like provenance
+    inventory: Inventario
+    disposition: Disposición
+    content_description: Descripción del contenido
+    provenance: Procedencia
+    access_date: Fecha de acceso
+    access_restrictions_note: Nota de condiciones de acceso
+    use_restrictions_note: Nota de restricciones de uso
 
   pdf_reports:
-    administrative_information: Administrative Information
-    collection_inventory: Collection Inventory
-    summary_information: Summary Information
-    table_of_contents: Table Of Contents
-    publication_statement: Publication Statement
-    controlled_access_headings: Controlled Access Headings
-    finding_aid_date_prefix: This finding aid was produced using ArchivesSpace on
-    finding_aid_written_in: Finding aid written in
+    administrative_information: Información administrativa
+    collection_inventory: Inventario de la colección
+    summary_information: Información de resumen
+    table_of_contents: Tabla de contenidos
+    publication_statement: Declaración de publicación
+    controlled_access_headings: Encabezados de acceso controlado
+    finding_aid_date_prefix: Esta ayuda de búsqueda se elaboró utilizando ArchivesSpace
+      en
+    #didn't translate because these are unused due to change in PDF generation function
+    finding_aid_written_in: Encontrar la ayuda escrita en
     your_finding_aid_pdf: Your finding aid PDF for "%{title}"
     your_finding_aid_is_attached: The finding aid you requested is attached.
     submit: Send me a PDF
-    description: To receive a PDF version of this collection, please enter your email address below.
+    description: To receive a PDF version of this collection, please enter your email
+      address below.
     coming_soon: Your PDF is being generated and will be emailed to you when ready.
-    required: Required
-    user_email: Your email address
+    required: necesario
+    user_email: Tu correo electrónico
 
   readmore:
-    see_more: See more
-    see_less: See less
+    see_more: Ver más
+    see_less: Ver menos
 
   skipnav:
-    main_content: Skip to main content
-    sidebar: Skip to sidebar
-    search: Skip to search
-    search_results: Skip to search results
+    main_content: Saltar al contenido principal
+    sidebar: Saltar a la barra lateral
+    search: Saltar para buscar
+    search_results: Saltar a los resultados de la búsqueda
 
-  search_tab: Search %{target}
+  search_tab: Buscar %{target}

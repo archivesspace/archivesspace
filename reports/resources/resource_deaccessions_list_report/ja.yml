@@ -1,0 +1,7 @@
+ja:
+  reports:
+    resource_deaccessions_list_report:
+      title: リソースとアクセス解除
+      description: リソースとリンクされたアクセス解除レコードを表示します。 レポートには、タイトル、リソースID、レベル、日付範囲、リンクされたアクセス解除、作成者名、および物理エクステントの合計が含まれます.
+      total_extent: リソースの総量
+      identifier_prefix: 資源

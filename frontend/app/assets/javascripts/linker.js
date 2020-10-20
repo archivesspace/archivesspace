@@ -392,6 +392,9 @@ $(function() {
         if (object.four_part_id !== undefined) {
           // Data comes from Solr index
           return output(object.four_part_id.split(' ').join('-'));
+        } else if (object.digital_object_id !== undefined) {
+          // Data comes from Solr index
+          return output(object.digital_object_id);
         } else {
           // Data comes from JSON property on data from Solr index
           var idProperties = ['id_0', 'id_1', 'id_2', 'id_3'];

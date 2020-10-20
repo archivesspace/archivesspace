@@ -20,7 +20,6 @@ module AspaceFormHelper
       @forms = FormHelpers.new
       @parent = parent
       @context = [[name, values]]
-      @path_to_i18n_map = {}
     end
 
 
@@ -39,11 +38,6 @@ module AspaceFormHelper
 
     def readonly?
       false
-    end
-
-
-    def path_to_i18n_map
-      @path_to_i18n_map
     end
 
 
@@ -191,10 +185,6 @@ module AspaceFormHelper
         end
       }.join("")
 
-      if name
-        @path_to_i18n_map[name_to_json_path(path)] = i18n_for(name)
-      end
-
       "#{names.first}#{path}"
     end
 
@@ -236,11 +226,6 @@ module AspaceFormHelper
 
     def i18n_for(name)
       "#{@active_template or form_top}.#{name.to_s.gsub(/\[\]$/, "")}"
-    end
-
-
-    def path_to_i18n_key(path)
-      path_to_i18n_map[path]
     end
 
 
@@ -524,7 +509,12 @@ module AspaceFormHelper
         options[:class] += " has-tooltip"
       end
 
-      @forms.content_tag(:label, I18n.t(prefix + i18n_for(name)), options.merge(opts || {}))
+      attr_string = options.merge(opts || {})
+                      .map {|k, v| '%s="%s"' % [CGI::escapeHTML(k.to_s),
+                                                CGI::escapeHTML(v.to_s)]}
+                      .join(' ')
+      content = CGI::escapeHTML(I18n.t(prefix + i18n_for(name)))
+      "<label #{attr_string}>#{content}</label>".html_safe
     end
 
     def checkbox(name, opts = {}, default = true, force_checked = false)
@@ -840,13 +830,6 @@ module AspaceFormHelper
 
     env = self.request.env
     env['form_context_depth'] ||= 0
-
-    # Not feeling great about this, but we render the form twice: the first pass
-    # sets up the mapping from form input names to i18n keys, while the second
-    # actually uses that map to set the labels correctly.
-    env['form_context_depth'] += 1
-    capture(context, &body)
-    env['form_context_depth'] -= 1
 
     s = "<div class=\"form-context\" id=\"form_#{name}\">".html_safe
     s << context.hidden_input("lock_version", values_from["lock_version"])

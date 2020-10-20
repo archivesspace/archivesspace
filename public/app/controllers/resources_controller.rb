@@ -152,7 +152,10 @@ class ResourcesController < ApplicationController
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
-      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
+      @context = [
+        {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'},
+        {:uri => nil, :crumb => process_mixed_content(@result.display_string), :type => 'resource'}
+      ]
 #      @rep_image = get_rep_image(@result['json']['instances'])
       fill_request_info
     rescue RecordNotFound
@@ -271,7 +274,7 @@ class ResourcesController < ApplicationController
     qry = "collection_uri_u_sstr:\"#{resource_uri}\" AND (#{CONTAINER_QUERY})"
     @base_search = "#{page_uri}?"
     search_opts =  default_search_opts({
-      'sort' => 'typeahead_sort_key_u_sort asc',
+      'sort' => 'top_container_u_icusort asc',
       'facet.mincount' => 1
     })
     search_opts['fq']=[qry]

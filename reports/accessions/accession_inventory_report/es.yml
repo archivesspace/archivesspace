@@ -1,0 +1,7 @@
+es:
+  reports:
+    accession_inventory_report:
+      title: Adhesiónes con inventarios
+      description: Muestra solo los registros de adhesiónes con inventario. El informe contiene el número de acceso, recursos vinculados, título, extensión, fecha de acceso, resumen del contenedor e inventario.
+      number_with_inventories: Adhesiónes con inventarios
+      identifier_prefix: Adhesión

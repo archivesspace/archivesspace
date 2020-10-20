@@ -91,6 +91,7 @@ fr:
       total_count: Nombre de notices passées en revue
       number_with_inventories: Entrées avec inventaires
       object_type: Type d'objet
+      provenance: Provenance
       purpose: But de l'évaluation
       rating: Évaluation
       ratings: Évaluations

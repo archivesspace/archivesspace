@@ -1,0 +1,5 @@
+ja:
+  reports:
+    digital_object_file_versions_report:
+      title: ファイルバージョンリスト
+      description: 選択したデジタルオブジェクトに関連付けられているファイルバージョンを表示します。

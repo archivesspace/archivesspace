@@ -357,6 +357,8 @@ en:
       area: Area
       location_holdings: Holdings for Current Repository
       location_profile_display_string_u_ssort: Location Profile
+      owner_repo_display_string_u_ssort: Repository
+      none: None
       audit_info: Audit Information
       temporary: Temporary
       user_mtime: Modified
@@ -502,6 +504,8 @@ en:
       extents: Extent
       asc: Ascending
       desc: Descending
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: Repository
 
   advanced_search:
     operator:
@@ -1821,5 +1825,5 @@ en:
     active: "There is a bulk import job active for this record, try editing later: <a href ='%{url}'>%{uri}</a>"
     resource_id: Resource ID
     format: Download File Format
-    filename: Speadsheet file name
+    filename: Spreadsheet file name
     not_direct: At this time, this job can only be created from the Resource record

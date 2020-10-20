@@ -121,7 +121,7 @@
 
     <!--  Start main page design and layout -->
     <xsl:template match="/">
-        <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" font-size="12pt" font-family="NotoSerif">
+        <fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" font-size="12pt" font-family="KurintoText,KurintoTextJP,KurintoTextKR,KurintoTextSC,NotoSerif">
             <!-- Set up page types and page layouts -->
             <fo:layout-master-set>
                 <!-- Page master for Cover Page -->
@@ -274,11 +274,15 @@
         i.e. src="myicon.png"
     -->
     <xsl:template name="icon">
-        <fo:block text-align="left" margin-left="-.75in" margin-top="-.5in">
-            <fo:external-graphic content-height="75%" content-width="75%">
+      <fo:block-container max-width="6.5in" max-height="4in">
+        <fo:block text-align="left">
+            <fo:external-graphic content-width="scale-down-to-fit"
+              content-height="scale-down-to-fit" width="100%" height="100%"
+              scaling="uniform">
               <xsl:attribute name="src"><xsl:value-of select="$pdf_image"/></xsl:attribute>
             </fo:external-graphic>
         </fo:block>
+      </fo:block-container>
     </xsl:template>
 
     <!-- Generates PDF Bookmarks -->

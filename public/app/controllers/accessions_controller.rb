@@ -92,8 +92,16 @@ class AccessionsController <  ApplicationController
       @result =  archivesspace.get_record(uri, @criteria)
       @page_title = @result.display_string
       @context = []
-      @context.unshift({:uri => @result.resolved_repository['uri'], :crumb =>  @result.resolved_repository['name']})
-      @context.push({:uri => '', :crumb => @result.display_string })
+      @context.unshift({
+        :uri => @result.resolved_repository['uri'],
+        :crumb => @result.resolved_repository['name'],
+        :type => 'repository'
+      })
+      @context.push({
+        :uri => '',
+        :crumb => @result.display_string,
+        :type => 'accession'
+      })
       fill_request_info
     rescue RecordNotFound
       record_not_found(uri, 'accession')

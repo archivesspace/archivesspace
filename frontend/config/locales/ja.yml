@@ -7,6 +7,9 @@ ja:
     automate: 自動的に生成する
     batch: バッチ
     browse: ブラウズ
+    bulk_import: スプレッドシートで読み込む
+    bulk_import_job: スプレッドシートで読み込む
+    download_bulk_import_report: レポートをダウンロード
     cancel: キャンセル
     close: 閉じる
     continue: 持続する
@@ -206,7 +209,7 @@ ja:
       level: レベル
       identifier: 識別
       resource_type: リソースタイプ
-      language: 言語
+      langcode: 材料の言語
       restrictions: 制限事項
       ead_id: EAD ID
       finding_aid_status: 援助の状況を見つける
@@ -230,7 +233,7 @@ ja:
       ref_id: Ref ID
       level: レベル
       audit_info: 監査データ
-      language: 言語
+      langcode: 材料の言語
       dates: 日付
       extents: エクステント
       user_mtime: 更新しました
@@ -258,7 +261,7 @@ ja:
       digital_object_id: デジタルオブジェクトID
       restrictions: 制限事項
       audit_info: 監査データ
-      language: 言語
+      langcode: 材料の言語
       dates: 日付
       extents: エクステント
       user_mtime: 更新しました
@@ -271,7 +274,7 @@ ja:
       publish: 発行済み
       context: 見つかった
       audit_info: 監査データ
-      language: 言語
+      langcode: 材料の言語
       dates: 日付
       extents: エクステント
       user_mtime: 更新しました
@@ -302,6 +305,8 @@ ja:
       area: エリア
       location_holdings: ホールディングス
       location_profile_display_string_u_ssort: ロケーションプロファイル
+      owner_repo_display_string_u_ssort: リポジトリ
+      none: 無し
       audit_info: 監査データ
       temporary: 一時的
       user_mtime: 更新しました
@@ -447,6 +452,8 @@ ja:
       extents: エクステント
       asc: 上昇
       desc: 降順
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: リポジトリ
 
   advanced_search:
     operator:
@@ -794,6 +801,7 @@ ja:
 
   date:
     _frontend:
+      expression_placeholder: 日付または日付範囲を説明する
       action:
         add: 日付を追加
 
@@ -873,6 +881,7 @@ ja:
         create_value: 値を作成
         delete_value: 値の削除
         merge_value: マージ値
+        download_csv: CSVをダウンロード
 
   event:
     _frontend:
@@ -1723,10 +1732,19 @@ ja:
         import: スプレッドシートからのインポート
         drag_drop: ここにドラッグ＆ドロップファイル
         clip_btn: クリップボードにコピー
+        only_validate: 検証のみ
       messages:
         missing_file: あなたは、ファイルを追加していません
         not_excel: 選択したファイルは、Excelスプレッドシートではありません
+        not_excel_csv: 選択したファイルは、ExcelスプレッドシートでもCSVファイルでもありません
         processed: ファイルが処理されています
         error: "ERROR：エラー（複数可）が検出されました："
         copied: コピーされました！
         uncopied: コピーできません
+        submitted: "<p>ジョブはバックグラウンドジョブに送信されていました。<br/> この画面を更新するには、[閉じる]をクリックします。</p>"
+  bulk_import_job:
+    active: "このレコードに対してアクティブな一括インポートジョブがあります。後で編集してみてください。 <a href ='%{url}'>%{uri}</a>"
+    resource_id: リソースID
+    format: ファイル形式のダウンロード
+    filename: スプレッドシートのファイル名
+    not_direct: 現時点では、このジョブはリソースレコードからのみ作成できます

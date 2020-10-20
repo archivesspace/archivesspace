@@ -1,0 +1,7 @@
+es:
+  reports:
+    resource_locations_list_report:
+      title: Lista de recursos y ubicaciones
+      description: Muestra los recursos y toda la información de ubicación especificada. El informe contiene título, identificador de recurso, nivel, rango de fechas y ubicaciones asignadas.
+      total_extent: Extensión total de recursos
+      identifier_prefix: Recurso

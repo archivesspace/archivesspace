@@ -1,0 +1,8 @@
+es:
+  reports:
+    resource_restrictions_list_report:
+      title: Resources Restrictions List
+      description: Displays resources with restrictions and location information. Report contains title, resource identifier, level, date range, and assigned locations.
+      total_count: Total Resources with Restrictions
+      total_extent: Total Extent of Resources with Restrictions
+      identifier_prefix: Resource

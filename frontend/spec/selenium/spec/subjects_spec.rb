@@ -38,7 +38,7 @@ describe 'Subjects' do
 
     # check messages
     expect do
-      @driver.find_element_with_text('//div[contains(@class, "error")]', /Terms - At least 1 item\(s\) is required/)
+      @driver.find_element_with_text('//div[contains(@class, "error")]', /Terms and Subdivisions - At least 1 item\(s\) is required/)
     end.not_to raise_error
   end
 

@@ -5,6 +5,9 @@ fr:
     automate: Générer automatiquement
     batch: Lot
     browse: Parcourir
+    bulk_import: Charge par feuille de calcul
+    bulk_import_job: Charge par feuille de calcul
+    download_bulk_import_report: Télécharger rapport
     cancel: Annuler
     close: Fermer
     continue: Continuer
@@ -198,7 +201,7 @@ fr:
       level: Niveau
       identifier: Identifiant
       resource_type: Type de Ressource
-      language: Langue
+      langcode: Langue des matériaux
       restrictions: Restrictions
       ead_id: Identifiant EAD
       finding_aid_status: Statut de l'instrument de recherche
@@ -222,7 +225,7 @@ fr:
       ref_id: Ref ID
       level: Niveau
       audit_info: Audit Information
-      language: Langue
+      langcode: Langue des matériaux
       dates: Dates
       extents: Importance matérielle
       user_mtime: Modifié
@@ -250,7 +253,7 @@ fr:
       digital_object_id: Identifiant d'objet numérique
       restrictions: Restrictions
       audit_info: Audit Information
-      language: Langue
+      langcode: Langue des matériaux
       dates: Dates
       extents: Importance matérielle
       user_mtime: Modifié
@@ -263,7 +266,7 @@ fr:
       publish: Publié
       context: Trouvé dans
       audit_info: Audit Information
-      language: Langue
+      langcode: Langue des matériaux
       dates: Dates
       extents: Importance matérielle
       user_mtime: Modifié
@@ -294,6 +297,8 @@ fr:
       area: Aire
       location_holdings: Exemplaires
       location_profile_display_string_u_ssort: Profil de localisation
+      owner_repo_display_string_u_ssort: Service
+      none: Aucun
       audit_info: Audit Information
       temporary: Temporary
       user_mtime: Modifié
@@ -329,7 +334,7 @@ fr:
       score: Pertinence
       title: Intitulé
       publish: Publié
-      has_classification_terms: Has classification terms?
+      has_classification_terms: A des termes des classements?
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
@@ -439,6 +444,8 @@ fr:
       extents: Importance matérielle
       asc: Ascendant
       desc: Descendant
+    blank_facet_query_fields:
+      owner_repo_display_string_u_ssort: Service
 
 
   advanced_search:
@@ -510,7 +517,7 @@ fr:
     system_info: Infos système
     unpublished: Non publié
     manage_assessment_attributes: Gérer les attributs d'évaluation
-    toggle_navigation: Toggle Navigation
+    toggle_navigation: Basculer la navigation
 
   header:
     staff_interface: ArchivesSpace Staff Interface
@@ -786,6 +793,7 @@ fr:
 
   date:
     _frontend:
+      expression_placeholder: Décrivez la date ou la plage de dates
       action:
         add: Ajouter date
 
@@ -865,6 +873,8 @@ fr:
         create_value: Créer valeur
         delete_value: Supprimer valeur
         merge_value: Fusionner valeur
+        download_csv: Télécharger CSV
+
 
   event:
     _frontend:
@@ -1083,8 +1093,7 @@ fr:
         save: Sauvegarder ressource
         delete_multiple: Supprimer ressources
     external_ark_url: External ARK URL
-    external_ark_url_tooltip: Archival Resource Key (ARK) persistent identifier generated outside of ArchivesSpace. If this field has a value it takes precedence over an ARK generated within ArchivesSpace.
-
+    external_ark_url_tooltip: Identificateur persistant ARK (Archival Resource Key) généré en dehors d'ArchivesSpace. Si ce champ a une valeur, il est prioritaire sur une ARK générée dans ArchivesSpace.
   preference:
     _frontend:
       messages:
@@ -1454,7 +1463,7 @@ fr:
       messages:
         created: Profil de conditionnement créé
         updated: Profil de conditionnement actualisé
-        merged: Container Profiles(s) Merged
+        merged: Profil(s) de conditionnement fusionné
       section:
         basic_information: Information de base
       bulk_operations:
@@ -1739,13 +1748,22 @@ fr:
         add_file: Choisir le dossier
         add_archival_objects: Importer des objets d'archive
         add_digital_objects: Ajouter des objets numériques à des objets d'archives
-        import: Importation de SpreadSheet
+        import: Importation de spreadsheet
         drag_drop: Faites glisser et déposer le fichier ici
         clip_btn: Copier dans le presse-papier
+        only_validate: Valider uniquement
       messages:
         missing_file: Vous n'avez pas ajouté un fichier
         not_excel: Le fichier que vous avez choisi n'est pas une feuille de calcul Excel
+        not_excel_csv: Le fichier que vous avez choisi n’est ni une feuille de calcul Excel ni un fichier CSV
         processed: Le fichier a été traité
         error: "ERREUR: erreur (s) détecté:"
         copied: Copié!
         uncopied: Impossible de copier
+        submitted: "<p>La tâche a été soumis aux travaux d'arrière-plan. <br/> Cliquez sur «Fermer» pour actualiser cet écran.</p>"
+  bulk_import_job:
+    active: "Une tâche d'importation groupée est active pour cet enregistrement, essayez de modifier plus tard: <a href ='%{url}'>%{uri}</a>"
+    resource_id: Ressource ID
+    format: Télécharger le format de fichier
+    filename: Nom du fichier de feuille de calcul
+    not_direct: Pour le moment, ce travail ne peut être créé qu'à partir de l'enregistrement Ressource

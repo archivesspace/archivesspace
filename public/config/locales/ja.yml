@@ -17,11 +17,15 @@ ja:
     new_search: 新しい検索
     refine_search: 絞り込み検索
     browse: ブラウズ
+    close: 閉じる
     show_advanced_search: 高度な検索を表示する
     hide_advanced_search: 高度な検索を隠す
     backup: 前のページに戻る
     backup_abbr: 戻る
     cite: 引用
+    cite_item: 項目を引用
+    cite_item_description: アイテムの説明を引用
+    bookmark: ブックマーク
     request: 要求
     print: 印刷
     print-generating: 生成

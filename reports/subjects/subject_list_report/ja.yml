@@ -1,0 +1,5 @@
+ja:
+  reports:
+    subject_list_report:
+      title: 件名レコードリスト
+      description: 選択したサブジェクトレコードを表示します。 レポートには、主題用語、主題用語タイプ、および主題ソースが一覧表示されます.

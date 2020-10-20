@@ -1,0 +1,6 @@
+fr:
+  reports:
+    shelflist_report:
+      title: Shelflist Report
+      description: The Shelflist Report includes a list of all locations and their associated top containers.
+      

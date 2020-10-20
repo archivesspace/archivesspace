@@ -385,6 +385,18 @@ ANEAD
       #   IF @authfilenumber != NULL
     end
 
+    it "maps '<title>' correctly" do
+      #   IF nested in <controlaccess>
+      subject = @subjects.find{|s| s['terms'][0]['term_type'] == 'uniform_title'}
+        [@resource, @archival_objects["06"], @archival_objects["12"]].each do |a|
+        expect(a['subjects'].select{|s| s['ref'] == subject['uri']}.count).to eq(1)
+      end
+      #   @source
+      expect(subject['source']).to eq('local')
+      #   ELSE
+      #   IF @authfilenumber != NULL
+    end
+
       # NOTES
       # if other EAD elements that map to a note object are nested in eachother, then those notes will be treated as separate notes;
       # for example, a <scopecontent> may contain another <scopecontent>, etc.;
