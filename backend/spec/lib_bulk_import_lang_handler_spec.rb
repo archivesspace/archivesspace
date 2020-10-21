@@ -53,7 +53,7 @@ describe "Language Handler" do
   it "handles an ill-formed lang material note" do
     lang = @lh.create_language(nil, nil, "<p>This is a <strong>bad unpublished note!</p>", false, @report)
     expect(lang).to eq([])
-    expect(current_row.errors[0]).to start_with("langmaterial note is not wellformed:")
+    expect(current_row.errors[0]).to start_with("langmaterial note is not well-formed:")
   end
 
   it "creates a language and a lang material note" do

@@ -50,12 +50,12 @@ describe "Notes Handler" do
   it "attempts to create a non-supported type for note " do
     expect {
       note = @nh.create_note("originalslochuh", "hi there!", false, false)
-    }.to raise_error("Note type 'originalslochuh' is not supported")
+    }.to raise_error("Note Type 'originalslochuh' is not supported")
   end
   it "attempts to create a digital_object type for ao note " do
     expect {
       note = @nh.create_note("digital_object", "hi there!", false, false)
-    }.to raise_error("Note type 'digital_object' is not supported")
+    }.to raise_error("Note Type 'digital_object' is not supported")
   end
   it "creates a do note " do
     note = @nh.create_note("altformavail", "Digital hi there!", false, true)
