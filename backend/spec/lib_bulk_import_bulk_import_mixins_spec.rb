@@ -86,7 +86,7 @@ describe "Bulk Import Mixins" do
   it "fails because the resource is missing the ead id" do
     expect {
       resource_match(@no_ead_json, "VFIRST01", nil)
-    }.to raise_error(BulkImportException, "This form's Resource is missing an EAD ID")
+    }.to raise_error(BulkImportException, "This form's resource is missing an EAD ID")
   end
 
   it "retrieves an archival object by REF ID" do
@@ -116,7 +116,7 @@ describe "Bulk Import Mixins" do
   it "fails to retrieve an archival object due to no URI or REF_ID" do
     new_ao = archival_object_from_ref_or_uri(nil, nil)
     expect(new_ao[:ao]).to eq(nil)
-    expect(new_ao[:errs]).to eq("Neither an archival object URI nor a REF ID was provided")
+    expect(new_ao[:errs]).to eq("Neither an archival object URI nor a Ref ID was provided")
   end
   after(:each) do
     @no_ead_json.delete

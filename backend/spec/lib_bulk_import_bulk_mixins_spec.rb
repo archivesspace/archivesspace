@@ -86,7 +86,7 @@ describe "Bulk Mixins" do
   it "fails because the resource is missing the ead id" do
     expect {
       resource_match(@no_ead_json, "VFIRST01", nil)
-    }.to raise_error(BulkImportException, "This form's Resource is missing an EAD ID")
+    }.to raise_error(BulkImportException, "This form's resource is missing an EAD ID")
   end
   after(:each) do
     @no_ead_json.delete
