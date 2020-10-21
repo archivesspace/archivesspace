@@ -129,7 +129,7 @@ class ContainerInstanceHandler < Handler
         sc["barcode_#{num}"] = subcont["barcode_#{num}"] || nil
       end
     end
-    sc
+    instance
   end
  
   #Formats the container instance without a db retrieval or creation
