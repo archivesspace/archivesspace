@@ -82,16 +82,13 @@ class ImportDigitalObjects < BulkImportParser
     end
   end
 
-  # required fields for a digital object row: ead match, (ao_ref_id  or ao_uri) and at least one of digital_object_link, thumbnail
+  # required fields for a digital object row: ead match, (ao_ref_id  or ao_uri)
   def check_row
     err_arr = []
     begin
       if @row_hash["ao_ref_id"].nil? && @row_hash["ao_uri"].nil?
         err_arr.push I18n.t("bulk_import.error.no_uri_or_ref")
       end
-      obj_link = @row_hash["digital_object_link"]
-      thumb = @row_hash["thumbnail"] || @row_hash["Thumbnail"]
-      err_arr.push I18n.t("bulk_import.error.dig_info_miss") if @row_hash["digital_object_link"].nil? && thumb.nil?
     end
     v = @row_hash["publish"]
     @row_hash["publish"] = (v == "1")
