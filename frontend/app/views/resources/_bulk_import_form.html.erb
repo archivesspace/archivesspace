@@ -17,13 +17,13 @@
       <input type='hidden' name='job[job_params][aoid]' id='aoid' value='<%= aoid %>' />
       <input name="job[format]" value="csv" type="hidden"/>
       <section id="bulk_import_filename_">
-        <span class="btn btn-success btn-sm fileinput-button bulkbtn">
+        <label class="btn btn-success btn-sm fileinput-button bulkbtn">
           <span class="glyphicon glyphicon-plus icon-white"></span>
-          <span><%= I18n.t("bulk_import._frontend.actions.add_file")%></span>
+          <%= I18n.t("bulk_import._frontend.actions.add_file")%>
           <input name="files[]" type="file" id="excel_file"/>
           <input name="job[content_type]" id="file_type" type="hidden"/>
           <input name="job[filename]" id="job_filename" type="hidden"/>
-        </span>
+        </label>
 	      <span id="excel_filename"></span>
       </section>
       <div class="form-group">
@@ -31,8 +31,14 @@
           <input type='hidden' value="ao" name="job[load_type]" />
         <% else %>
           <div class="btn-group" data-toggle="buttons">
-          <label class="btn btn-primary active" style="border-radius:4px;"><input type="radio" value="ao" name="job[load_type]" checked="true"/><%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %></label>
-          <label class="btn btn-primary" style="border-radius:4px; margin-left:.5em"><input type="radio" value="digital" name="job[load_type]"/><%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %></label>
+            <label class="btn btn-default bulktypebtn active">
+              <input type="radio" value="ao" name="job[load_type]" checked="true"/>
+              <%= I18n.t('bulk_import._frontend.actions.add_archival_objects') %>
+            </label>
+            <label class="btn btn-default bulktypebtn">
+              <input type="radio" value="digital" name="job[load_type]"/>
+              <%= I18n.t('bulk_import._frontend.actions.add_digital_objects') %>
+            </label>
           </div>
         <% end %>
         <div>
