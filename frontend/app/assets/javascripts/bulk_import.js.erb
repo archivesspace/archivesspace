@@ -122,9 +122,9 @@
 
 	var modalError = function($modal) {
 	    $(".bulkbtn").removeClass("disabled");
-        $(".bulkbtn.btn-cancel").text("<%= I18n.t('actions.close') %>").removeClass("disabled").addClass("close")
+        $(".bulkbtn.btn-cancel").text("<%= I18n.t('actions.close') %>").removeClass("disabled").addClass("btn-close")
 	    $(".clip-btn").removeClass("disabled");
-	    $modal.find(".close").click(function(event) {
+	    $modal.find(".btn-close, .close").click(function(event) {
 		    $("#bulk_messages").html("");
 		    $("#excel_filename").html("");
 		    $modal.hide();
@@ -133,8 +133,8 @@
 	};
 
 	var modalSuccess = function($modal) {
-	    $(".bulkbtn.btn-cancel").text("Close").removeClass("disabled").addClass("close")
-	    $modal.find(".close").click(function(event) {
+	    $(".bulkbtn.btn-cancel").text("<%= I18n.t('actions.close') %>").removeClass("disabled").addClass("btn-close")
+	    $modal.find(".btn-close, .close").click(function(event) {
 		    window.location.reload(true);
 		});
 	}
