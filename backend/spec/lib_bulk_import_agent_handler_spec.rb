@@ -84,14 +84,22 @@ describe "Agent Handler" do
     expect(@report.current_row.errors.empty?).to be(true)
   end
 
-  it "should validate that an agent link can't be created with bad relator data" do
+  it "should validate that an agent link can be created with no relator data" do
     agent_1 = AgentFamily.create_from_json(family_agent)
     expect {
       ag = @ahv.get_or_create("family", agent_1[:id], "Magoo Family", nil, nil, @report)
     }.not_to raise_error
+  end
+
+  it "should validate that an agent link can't be created with bad relator data" do
+    agent_1 = AgentFamily.create_from_json(family_agent)
+    expect {
+      ag = @ahv.get_or_create("family", agent_1[:id], "Magoo Family", nil, "this_is_not_a_real_relator", @report)
+    }.not_to raise_error
     expect(@report.current_row.errors[0]).to start_with("NOT FOUND")
     expect(@report.current_row.errors[1]).to start_with("Unable to create agent link")
   end
+
   it "should validate that an agent link can't be created with bad role or relator data" do
     agent_1 = AgentFamily.create_from_json(family_agent)
     expect {

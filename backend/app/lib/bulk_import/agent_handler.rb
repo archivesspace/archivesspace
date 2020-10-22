@@ -161,8 +161,10 @@ class AgentHandler < Handler
     link = {}
     link["role"] = value_check(@agent_role, role, errs)
     errs << I18n.t("bulk_import.error.bad_role", :label => role) if !link["role"]
-    link["relator"] = value_check(@agent_relators, relator, errs)
-    errs << I18n.t("bulk_import.error.bad_relator", :label => relator) if !link["relator"]
+    if relator && !relator.empty?
+      link["relator"] = value_check(@agent_relators, relator, errs)
+      errs << I18n.t("bulk_import.error.bad_relator", :label => relator) if !link["relator"]
+    end
     if !errs.empty?
       link = nil
     end
