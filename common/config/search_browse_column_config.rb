@@ -72,6 +72,7 @@ module SearchAndBrowseColumnConfig
       "extents" => {:field => "extents"},
       "ead_id" => {:field => "ead_id", :sortable => true},
       "finding_aid_status" => {:field => "finding_aid_status", :sortable => true},
+      "langcode" => {:field => "langcode", :sortable => false},
       "processing_priority" => {:field => "processing_priority", :sortable => true},
       "processors" => {:field => "processors", :sortable => true},
       "create_time" => {:field => "create_time", :sortable => true},
@@ -87,6 +88,7 @@ module SearchAndBrowseColumnConfig
       "restrictions" => {:field => "restrictions", :sortable => true},
       "dates" => {:field => "dates"},
       "extents" => {:field => "extents"},
+      "langcode" => {:field => "langcode", :sortable => false},
       "create_time" => {:field => "create_time", :sortable => true},
       "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
@@ -98,6 +100,7 @@ module SearchAndBrowseColumnConfig
       "identifier" => {:field => "identifier", :sortable => true},
       "dates" => {:field => "dates"},
       "extents" => {:field => "extents"},
+      "langcode" => {:field => "langcode", :sortable => false},
       "create_time" => {:field => "create_time", :sortable => true},
       "user_mtime" => {:field => "user_mtime", :sortable => true},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
@@ -134,6 +137,7 @@ module SearchAndBrowseColumnConfig
       "level" => {:field => "level", :sortable => true},
       "dates" => {:field => "dates"},
       "extents" => {:field => "extents"},
+      "langcode" => {:field => "langcode", :sortable => false},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
     "assessment" => {
@@ -167,7 +171,6 @@ module SearchAndBrowseColumnConfig
       "processing_hours_total" => {:field => "processing_hours_total", :sortable => true},
       "processing_funding_source" => {:field => "processing_funding_source", :sortable => true},
       "processors" => {:field => "processors", :sortable => true},
-      "publish" => {:field => "publish", :sortable => true, :type => "boolean"},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
     "container_profile" => {
@@ -184,6 +187,7 @@ module SearchAndBrowseColumnConfig
       "context" => {:field => "context"},
       "dates" => {:field => "dates"},
       "extents" => {:field => "extents"},
+      "langcode" => {:field => "langcode", :sortable => false},
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
     "event" => {

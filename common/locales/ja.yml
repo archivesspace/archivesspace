@@ -1445,7 +1445,8 @@ ja:
     sort_column_tooltip: 結果をソートするためのデフォルトのフィールド。
     sort_direction: デフォルトのソート方向
     sort_direction_tooltip: 結果をソートするデフォルトの方向。
-    locale: Language Selection
+    locale: 言語選択
+    search_browse_columns: 列設定の検索と参照
     accession_browse_section: アクセス列を参照
     resource_browse_section: リソース参照列
     archival_object_browse_section: アーカイブオブジェクトの参照列
@@ -1463,6 +1464,7 @@ ja:
     location_profile_browse_section: ロケーションプロファイルの参照列
     container_profile_browse_section: コンテナプロファイルの参照列
     multi_browse_section: 検索列
+    job_browse_section: バックグラウンドジョブの列
     note_order_section: 注文書
     accept_default_message: "&gt;デフォルトを受け入れる："
     no_value: "[値なし]"

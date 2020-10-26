@@ -337,6 +337,7 @@ es:
       title: Título
       publish: Publicado
       has_classification_terms: Tiene términos de clasificación?
+      identifier: Identificador
       audit_info: Datos de auditoría
       user_mtime: Modificado
       create_time: Creado
@@ -444,6 +445,7 @@ es:
       create_time: Creado
       dates: Fechas
       extents: Extensión
+      langcode: Lenguaje de materiales
       asc: Ascendente
       desc: Descendente
     blank_facet_query_fields:
@@ -1099,6 +1101,8 @@ es:
     _frontend:
       messages:
         updated: "Preferencias actualizadas"
+      action:
+        save: Guardar preferencias
 
   rights_statement:
     _frontend:

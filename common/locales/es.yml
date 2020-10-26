@@ -1900,7 +1900,8 @@ es:
     sort_column_tooltip: El campo predeterminado para ordenar los resultados.
     sort_direction: Dirección de clasificación predeterminada
     sort_direction_tooltip: Dirección predeterminada para ordenar los resultados.
-    locale: Language Selection
+    locale: Selección de idioma
+    search_browse_columns: Preferencias de columna de búsqueda y exploración
     accession_browse_section: Navegar columnas de entrada
     resource_browse_section: Fondos ver columnas
     archival_object_browse_section: Objeto de archivo Examinar columnas
@@ -1918,6 +1919,7 @@ es:
     location_profile_browse_section: Perfil de ubicación Examinar columnas
     container_profile_browse_section: Perfil de contenedor Examinar columnas
     multi_browse_section: Buscar columnas
+    job_browse_section: Columnas de trabajos en segundo plano
     note_order_section: Orden de las notas
     accept_default_message: ' > Acepte por defecto:'
     no_value: '[ningún valor]'

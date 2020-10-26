@@ -32,9 +32,13 @@
   <% end %>
 
   <%= form_context :preference, @preference do |form| %>
+    <% @types = SearchAndBrowseColumnConfig.columns.keys.sort_by{|k| I18n.t "defaults.#{k}_browse_section"} %>
+    <% @types.delete('repositories') if !user_can?('create_repository') %>
 
     <div class="row">
-      <div class="col-md-3"></div>
+      <div class="col-md-3">
+        <%= render_aspace_partial :partial => "sidebar", :locals => {:form => form, :types => @types} %>
+      </div>
       <div class="col-md-9">
         <%= render_aspace_partial :partial => "toolbar" %>
         <div class="record-pane">
@@ -46,7 +50,7 @@
 
           <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:form => form} %>
 
-          <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :hidden => true} %>
+          <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "defaults", :cardinality => :zero_to_one, :template => "defaults", :types => @types, :hidden => true} %>
 
         </div>
       </div>

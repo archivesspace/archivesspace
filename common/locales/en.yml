@@ -1921,6 +1921,7 @@ en:
     sort_direction: Default Sort Direction
     sort_direction_tooltip: Default direction to sort results.
     locale: Language Selection
+    search_browse_columns: Search and Browse Column Preferences
     accession_browse_section: Accession Browse Columns
     resource_browse_section: Resource Browse Columns
     archival_object_browse_section: Archival Object Browse Columns
@@ -1938,6 +1939,7 @@ en:
     location_profile_browse_section: Location Profile Browse Columns
     container_profile_browse_section: Container Profile Browse Columns
     multi_browse_section: Search Columns
+    job_browse_section: Background Jobs Columns
     note_order_section: Note Order
     accept_default_message: '> Accept Default:'
     no_value: '[no value]'
