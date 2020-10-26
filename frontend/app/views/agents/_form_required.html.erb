@@ -18,7 +18,7 @@
   </section>
 
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates_of_existence", :section_id => "#{@agent.agent_type}_dates_of_existence", :template_erb => "dates/template_required", :template => "existence_date", :heading_text => I18n.t("agent._frontend.section.dates_of_existence"), :help_topic => "#{@agent.agent_type}_dates_of_existence"} %>
-  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :section_class="field_agent_names_", :template_erb => "agents/name_forms/#{@agent.agent_type}_required", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names"} %>
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "names", :section_id => "#{@agent.agent_type}_names", :section_class => "field_agent_names_", :template_erb => "agents/name_forms/#{@agent.agent_type}_required", :template => "name_#{@agent.agent_type.to_s.gsub("agent_","")}", :help_topic => "#{@agent.agent_type}_names"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details_required", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details"} %>
   <%= render_aspace_partial :partial => "notes/form_required", :locals => {:form => form, :all_note_types => note_types_for(form['jsonmodel_type']), :section_id => "#{@agent.agent_type}_notes"} %>
   <%= render_aspace_partial :partial => "related_agents/form_required", :locals => {:form => form} %>
