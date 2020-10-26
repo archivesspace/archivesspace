@@ -154,6 +154,7 @@ module BulkImportMixins
       date_type = @date_types.value(date_type || "inclusive")
     rescue Exception => e
       @report.add_errors(I18n.t("bulk_import.error.date_type", :what => date_type, :date_str => date_str))
+      return nil
     end
     begin
       date = { "date_type" => date_type,
