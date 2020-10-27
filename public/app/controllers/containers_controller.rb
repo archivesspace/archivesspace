@@ -7,7 +7,8 @@ class ContainersController < ApplicationController
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('top_container._singular')}: #{strip_mixed_content(@result.display_string)}"
-      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
+      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], type: 'repository'},
+        {:uri => nil, :crumb => process_mixed_content(@result.display_string), type: @result.primary_type}]
 
       # fetch all the objects in this container
       fetch_objects_in_container(uri, params)

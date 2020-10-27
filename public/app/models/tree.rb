@@ -26,7 +26,8 @@ class Tree
       ASUtils.wrap(json['path_to_root']).each_with_index {|node, i|
         crumbs << {
           :crumb => title_for_node(node),
-          :uri => node['record_uri'] || ''
+          :uri => node['record_uri'] || '',
+          :type => node['jsonmodel_type']
         }
       }
     end
