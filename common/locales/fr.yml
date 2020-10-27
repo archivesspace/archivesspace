@@ -1920,7 +1920,8 @@ fr:
     sort_column_tooltip: Champ par défaut pour le tri des résultats.
     sort_direction: Direction de tri par défaut
     sort_direction_tooltip: Direction par défaut pour trier les résultats.
-    locale: Language Selection
+    locale: Sélection de la langue
+    search_browse_columns: Rechercher et parcourir les préférences de colonne
     accession_browse_section: Colonnes d'exploration des entrées
     resource_browse_section: Colonnes d'exploration ressource
     archival_object_browse_section: Colonnes de recherche d'objets d'archives
@@ -1938,6 +1939,7 @@ fr:
     location_profile_browse_section: Profil d'emplacement Parcourir les colonnes
     container_profile_browse_section: Colonnes de navigation du profil de conteneur
     multi_browse_section: Colonnes de recherche
+    job_browse_section: Colonnes des travaux d'arrière-plan
     note_order_section: Ordres des notes
     accept_default_message: '> Accepter défaut:'
     no_value: '[pas de valeur]'

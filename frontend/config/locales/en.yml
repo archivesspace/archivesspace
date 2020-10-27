@@ -335,6 +335,7 @@ en:
       title: Title
       publish: Published
       has_classification_terms: Has classification terms?
+      identifier: Identifier
       audit_info: Audit Information
       user_mtime: Modified
       create_time: Created
@@ -442,6 +443,7 @@ en:
       create_time: Created
       dates: Dates
       extents: Extent
+      langcode: Language of Materials
       asc: Ascending
       desc: Descending
     blank_facet_query_fields:
@@ -1098,6 +1100,8 @@ en:
     _frontend:
       messages:
         updated: "Preferences updated"
+      action:
+        save: Save Preferences
 
   rights_statement:
     _frontend:

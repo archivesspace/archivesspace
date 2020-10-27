@@ -129,12 +129,10 @@ module SearchHelper
   def locales(model)
     case model
     when 'resource', 'archival_object'
-      {'level' => 'archival_record_level', 'language' => 'language_iso639_2',
+      {'level' => 'archival_record_level',
         'processing_priority' => 'collection_management_processing_priority'}
     when 'accession'
       {'processing_priority' => 'collection_management_processing_priority'}
-    when 'digital_object', 'digital_object_component'
-      {'language' => 'language_iso639_2'}
     when 'subject'
       {'source' => 'subject_source', 'first_term_type' => 'subject_term_type'}
     when 'agent'

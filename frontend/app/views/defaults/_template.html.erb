@@ -1,14 +1,30 @@
 <% def_msg = I18n.t("defaults.accept_default_message") %>
 <% define_template("defaults", jsonmodel_definition(:defaults)) do |form| %>
   <div class="subrecord-form-fields">
-      <h3><%= I18n.t "defaults.general_section" %></h3>
+      <h3 id="general"><%= I18n.t "defaults.general_section" %></h3>
       <%= form.label_and_boolean "show_suppressed", {}, form.default_for("show_suppressed") %>
       <%= form.label_and_boolean "publish", {}, form.default_for("publish") %>
       <%= form.label_and_boolean "default_values", {}, form.default_for("default_values") %>
       <%= form.label_and_select "locale", supported_locales_options, supported_locales_default %>
 
-      <% ['accession', 'resource', 'digital_object', 'multi'].each do |type| %>
-        <h3><%= I18n.t "defaults.#{type}_browse_section" %></h3>
+      <h3 id="noteorder"><%= I18n.t "defaults.note_order_section" %></h3>
+
+      <%=
+        out = "<ul id='note-order-preference-list' class='list-group'>"
+        order = @current_prefs['defaults']['note_order'] ||  []
+
+        order = order.empty? ? note_types_for(:resource).keys : order
+
+        order.each do |type|
+          out  += "<li data-id='#{type}' class='list-group-item'><span class='glyphicon glyphicon-menu-hamburger'></span> #{I18n.t('enumerations._note_types.'+type)}</li>"
+        end
+        out += "</ul>"
+        out.html_safe
+      %>
+
+      <h3 id="search_browse_columns"><%= I18n.t "defaults.search_browse_columns" %></h3>
+      <% @types.each do |type| %>
+        <h3 id="<%= type %>_browse_section"><%= I18n.t "defaults.#{type}_browse_section" %></h3>
         <% (1..AppConfig[:max_search_columns]).to_a.each do |n| %>
           <div class="form-group">
             <label for="<%= form.id_for("#{type}_browse_column_#{n}") %>" class="col-sm-2 control-label has-tooltip" data-placement="bottom" title="<%= I18n.t("defaults.browse_column_tooltip", :num => n) %>">
@@ -39,22 +55,6 @@
           </div>
         </div>
       <% end %>
-
-      <h3><%= I18n.t "defaults.note_order_section" %></h3>
-
-      <%=
-        out = "<ul id='note-order-preference-list' class='list-group'>"
-        order = @current_prefs['defaults']['note_order'] ||  []
-
-        order = order.empty? ? note_types_for(:resource).keys : order
-
-        order.each do |type|
-          out  += "<li data-id='#{type}' class='list-group-item'><span class='glyphicon glyphicon-menu-hamburger'></span> #{I18n.t('enumerations._note_types.'+type)}</li>"
-        end
-        out += "</ul>"
-        out.html_safe
-      %>
-
 
       <%= form.hidden_input "junk", "bin me please" %>
    </div>

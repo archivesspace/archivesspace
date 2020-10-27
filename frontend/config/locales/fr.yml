@@ -335,6 +335,7 @@ fr:
       title: Intitulé
       publish: Publié
       has_classification_terms: A des termes des classements?
+      identifier: Identifiant
       audit_info: Audit Information
       user_mtime: Modifié
       create_time: Créé
@@ -442,6 +443,7 @@ fr:
       create_time: Créé
       dates: Dates
       extents: Importance matérielle
+      langcode: Langue des matériaux
       asc: Ascendant
       desc: Descendant
     blank_facet_query_fields:
@@ -1098,6 +1100,8 @@ fr:
     _frontend:
       messages:
         updated: "Préférences actualisées"
+      action:
+        save: Enregistrer les préférences
 
   rights_statement:
     _frontend:

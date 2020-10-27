@@ -6,6 +6,7 @@
       title = I18n.t("#{record_type}._frontend.section.#{subrecord_type}",
                      :default => I18n.t("#{subrecord_type}._plural"))
    end
+   subentry = nil if !defined?(subentry)
 %>
 
-<li class="sidebar-entry-<%= anchor %>"><a href="#<%= anchor %>"><%= title %> <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+<li class="sidebar-entry-<%= anchor %>"><a href="#<%= anchor %>" style="<%= "padding-left: 25px !important;" if !subentry.nil? %>"><%= title %> <span class="glyphicon glyphicon-chevron-right"></span></a></li>
