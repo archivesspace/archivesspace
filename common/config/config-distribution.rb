@@ -31,16 +31,21 @@ class AppConfig
 
 
   def self.resolve_alias(parameter)
+    check_deprecated(parameter)
     if aliases[parameter]
-
-      if deprecated_parameters[parameter]
-        $stderr.puts("WARNING: The parameter '#{parameter}' is now deprecated.  Please use '#{aliases[parameter]}' instead.")
-      end
-
       aliases[parameter]
     else
       parameter
     end
+  end
+
+  def self.check_deprecated(parameter)
+    return unless deprecated_parameters[parameter]
+
+    message = "WARNING: The parameter '#{parameter}' is now deprecated."
+    message += " Please use '#{aliases[parameter]}' instead." if aliases[parameter]
+    deprecated_parameters.delete(parameter) # we don't need to repeat this message
+    $stderr.puts(message)
   end
 
 
@@ -199,6 +204,10 @@ class AppConfig
 
     aliases[alias_parameter] = target_parameter
     deprecated_parameters[alias_parameter] = options.fetch(:deprecated, false)
+  end
+
+  def self.add_deprecated(parameter)
+    deprecated_parameters[parameter] = true
   end
 
   def self.parse_value(value)
