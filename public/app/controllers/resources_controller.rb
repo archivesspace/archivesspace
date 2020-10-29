@@ -117,9 +117,10 @@ class ResourcesController < ApplicationController
 
       @context = []
       @context.push({:uri => "/repositories/#{repo_id}",
-                      :crumb => get_pretty_facet_value('repository', "/repositories/#{repo_id}")})
+                      :crumb => get_pretty_facet_value('repository', "/repositories/#{repo_id}"),
+                      :type => 'repository'})
       unless title.blank?
-        @context.push({:uri => "#{res_id}", :crumb => title})
+        @context.push({:uri => "#{res_id}", :crumb => title, type: 'resource'})
       end
       if @results['total_hits'] > 1
         @search[:dates_within] = true if params.fetch(:filter_from_year,'').blank? && params.fetch(:filter_to_year,'').blank?
@@ -185,7 +186,8 @@ class ResourcesController < ApplicationController
 
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
-      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
+      @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], type: 'repository'},
+        {:uri => nil, :crumb => process_mixed_content(@result.display_string), type: @result.primary_type}]
       fill_request_info
       @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
     rescue RecordNotFound
@@ -243,7 +245,8 @@ class ResourcesController < ApplicationController
 		@result =  archivesspace.get_record(uri, @criteria)
 		@repo_info = @result.repository_information
 		@page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
-		@context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name']}, {:uri => nil, :crumb => process_mixed_content(@result.display_string)}]
+    @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], type: 'repository'},
+      {:uri => nil, :crumb => process_mixed_content(@result.display_string), type: @result.primary_type}]
 		fill_request_info
 
 		# top container stuff ... sets @records
