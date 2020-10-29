@@ -86,6 +86,9 @@ es:
     delete_multiple: Borrar registros
     delete_multiple_confirm_title: ¿Borrar registros?
     delete_multiple_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará estos registros de la base de datos, incluyendo referencias tienen a otros registros.</p>"
+    reset: Restablecer predeterminados
+    reset_confirm_title: "¿Restablecer %{preftype} a los valores predeterminados de la aplicación?"
+    reset_confirm_message: "<p>Tenga en cuenta que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción restablecerá las preferencias a los valores predeterminados de instalación.</p>"
     edit_multiple: Editar múltiples registros
     edit_multiple_confirm_title: ¿Editar registros?
     edit_multiple_confirm_message: "<p>Esto actualizará múltiples registros.</p>"
@@ -1100,7 +1103,9 @@ es:
   preference:
     _frontend:
       messages:
-        updated: "Preferencias actualizadas"
+        updated: Preferencias actualizadas
+        reset: Preferencias establecidas en los valores predeterminados de la aplicación
+        reset_error: "No se pueden restablecer las preferencias debido a un error: %{exception}"
       action:
         save: Guardar preferencias
 
