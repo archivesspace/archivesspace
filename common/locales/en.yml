@@ -2382,13 +2382,14 @@ en:
     object_created: "%{what} created"
     object_created_be: "%{what} would be created"
     object_not_created_be: "%{what} would not be created"
+    date_type_default: No date type was specified. Defaulting to 'inclusive'.
     warn:
       dup: "Managed Controlled Value List %{which} has multiple instances for the translation '%{trans}'. '%{used}' will be used as the value."
       disam: "Multiple match(es) found for '%{which}'. Creating '%{name}' for disabiguation."
       disamuse: "Multiple match(es) found for '%{which}'. Using already-created '%{name}' for disabiguation."
       single_date_end: "Single date %{date_str} has end date that will be ignored."
     error:
-      date_type: "Date type [%{what}] invalid for %{date_str}. Defaulting to 'inclusive'"
+      date_type: "Date type [%{what}] invalid for %{date_str}. The date will not be processed."
       date_label: "Date label [%{what}] invalid for %{date_str}. The date will not be processed."
       certainty: "Invalid 'date certainty' ignored for %{date_str}: (%{what})"
       below_bad_ao: Cannot process because it is a child of the bad archival object

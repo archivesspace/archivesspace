@@ -151,6 +151,7 @@ module BulkImportMixins
   def create_date(dates_label, date_begin, date_end, date_type, expression, date_certainty)
     date_str = "(Date: type:#{date_type}, label: #{dates_label}, begin: #{date_begin}, end: #{date_end}, expression: #{expression})"
     begin
+      @report.add_info(I18n.t('bulk_import.date_type_default')) unless date_type
       date_type = @date_types.value(date_type || "inclusive")
     rescue Exception => e
       @report.add_errors(I18n.t("bulk_import.error.date_type", :what => date_type, :date_str => date_str))
