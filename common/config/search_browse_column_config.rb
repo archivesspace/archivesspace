@@ -164,7 +164,7 @@ module SearchAndBrowseColumnConfig
       "audit_info" => {:field => "audit_info", :sort_by => ["create_time", "user_mtime"]}
     },
     "collection_management" => {
-      "parent_title" => {:field => "parent_title", :sortable => true},
+      "parent_title" => {:field => "parent_title", :sortable => true, :sort_by => "title_sort"},
       "parent_type" => {:field => "parent_type", :sortable => true},
       "processing_priority" => {:field => "processing_priority", :sortable => true},
       "processing_status" => {:field => "processing_status", :sortable => true},

@@ -772,13 +772,15 @@ class IndexerCommon
       cm = record['record']['collection_management']
       if cm
         parent_type = JSONModel.parse_reference(record['uri'])[:type]
+        title = record['record']['title'] || record['record']['display_string']
         docs << {
           'id' => cm['uri'],
           'uri' => cm['uri'],
           'parent_id' => record['uri'],
-          'parent_title' => record['record']['title'] || record['record']['display_string'],
+          'parent_title' => title,
           'parent_type' => parent_type,
-          'title' => record['record']['title'] || record['record']['display_string'],
+          'title' => title,
+          'title_sort' => clean_for_sort(title),
           'types' => ['collection_management'],
           'primary_type' => 'collection_management',
           'json' => cm.to_json(:max_nesting => false),
