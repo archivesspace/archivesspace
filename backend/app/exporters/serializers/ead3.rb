@@ -874,12 +874,15 @@ class EAD3Serializer < EADSerializer
     obj.dates.each do |date|
       next if date["publish"] === false && !@include_unpublished
 
+      # add the date expression to altrender, rather than a separte date element, since if one date subrecord in ASpace creates two date subrecords in the EAD, all sorts of indeterminacy is loosed upon the world of archival data aggregation.
+      # another benefit is that we can convert @standardate values to display values, if we want, when that is all that is there.  though we'd still need a language map for IS08601 for months, etc.
       date_atts = {
         certainty: date['certainty'] ? date['certainty'] : nil,
         era: date['era'] ? date['era'] : nil,
         calendar: date['calendar'] ? date['calendar'] : nil,
         audience: date['publish'] === false ? 'internal' : nil,
-        datechar: date['label'] ? date['label'] : nil
+        label: date['label'] ? date['label'] : nil,
+        altrender: date['expression'] ? date['expression'] : nil
       }
 
       unless date['date_type'].nil?
@@ -916,14 +919,14 @@ class EAD3Serializer < EADSerializer
           end
         }
 
-        if date['begin'] && date['end'] && date['expression']
-          add_unitdate.call(date['expression'], xml, fragments, date_atts)
-        end
-
       elsif date['expression']
+        # just to keep it clean, we'll delete the date expression from the date_atts when serializing to unitdate (rather than unidatestructured) since there's no need to export that in @altrender and a text node.
+        date_atts.except!(:altrender)
         add_unitdate.call(date['expression'], xml, fragments, date_atts)
       end
+
     end
+
   end
 
 
