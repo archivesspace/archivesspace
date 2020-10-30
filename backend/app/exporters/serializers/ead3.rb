@@ -1029,9 +1029,7 @@ class EAD3Serializer < EADSerializer
       end
     }
   end
-
-end
-
+  
 
   def serialize_note_content(note, xml, fragments)
     return if note["publish"] === false && !@include_unpublished
