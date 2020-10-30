@@ -881,7 +881,7 @@ class EAD3Serializer < EADSerializer
         era: date['era'] ? date['era'] : nil,
         calendar: date['calendar'] ? date['calendar'] : nil,
         audience: date['publish'] === false ? 'internal' : nil,
-        label: date['label'] ? date['label'] : nil,
+        datechar: date['label'] ? date['label'] : nil,
         altrender: date['expression'] ? date['expression'] : nil
       }
 
