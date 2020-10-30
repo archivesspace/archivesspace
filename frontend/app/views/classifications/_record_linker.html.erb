@@ -24,26 +24,27 @@
              aria-label="Link to record"
              />
 
-        <% if form.obj.has_key?('_resolved') %>
+      <% if form.obj.has_key?('_resolved') %>
 
-            <input type="text"
-              class='prelinker'
-              name="<%= form.path %>[_resolved]"
-              value="<%= selected_json %>" />
+        <input type="text"
+               class='prelinker'
+               name="<%= form.path %>[_resolved]"
+               value="<%= selected_json %>" />
 
-            <input type="text"
-              class='prelinker'
-              name="<%= form.path %>[ref]"
-              value="<%= form.obj["ref"] %>" />
+        <input type="text"
+               class='prelinker'
+               name="<%= form.path %>[ref]"
+               value="<%= form.obj["ref"] %>" />
 
       <% end %>
 
-      <div class="btn-group dropdown pull-right">
-        <a class="btn dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to record"><span class="caret"></span></a>
+      <div class="input-group-btn">
+        <a class="btn btn-default dropdown-toggle last" data-toggle="dropdown" href="javascript:void(0);" aria-label="Link to record"><span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
         </ul>
       </div>
+
     </div>
   </div>
 </div>
