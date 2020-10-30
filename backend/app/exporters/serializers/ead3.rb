@@ -874,7 +874,7 @@ class EAD3Serializer < EADSerializer
     obj.dates.each do |date|
       next if date["publish"] === false && !@include_unpublished
 
-      # add the date expression to altrender, rather than a separte date element, since if one date subrecord in ASpace creates two date subrecords in the EAD, all sorts of indeterminacy is loosed upon the world of archival data aggregation.
+      # add the date expression to altrender, rather than a separate date element, since if one date subrecord in ASpace creates two date subrecords in the EAD, all sorts of indeterminacy is loosed upon the world of archival data aggregation.
       # another benefit is that we can convert @standardate values to display values, if we want, when that is all that is there.  though we'd still need a language map for IS08601 for months, etc.
       date_atts = {
         certainty: date['certainty'] ? date['certainty'] : nil,
@@ -1017,17 +1017,20 @@ class EAD3Serializer < EADSerializer
         end
       }
       # Language Text subrecord content should be exported as a <descriptivenote> element
+      # Note:  only one descriptivenote is allowed in EAD3, so, we make a change here.
       language_notes = languages.map {|l| l['notes']}.compact.reject {|e|  e == [] }.flatten
       if !language_notes.empty?
-        language_notes.each do |note|
-          content = ASpaceExport::Utils.extract_note_text(note)
-          xml.descriptivenote {
+        xml.descriptivenote {
+          language_notes.each do |note|
+            content = ASpaceExport::Utils.extract_note_text(note)
             sanitize_mixed_content(content, xml, fragments, true)
-          }
-        end
+          end
+        }
       end
     }
   end
+
+end
 
 
   def serialize_note_content(note, xml, fragments)
