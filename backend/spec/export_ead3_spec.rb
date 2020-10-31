@@ -1199,7 +1199,10 @@ describe "EAD3 export mappings" do
               mt(fv['use_statement'], path, 'role')
             end
 
-            mt(obj.title, path, 'linktitle')
+            if fv['caption']
+              mt(fv['caption'], path, 'linktitle')
+            end
+            
             mt(content, "#{path}/descriptivenote/p")
           end
         end
