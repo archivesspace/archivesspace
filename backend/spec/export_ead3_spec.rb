@@ -471,7 +471,7 @@ describe "EAD3 export mappings" do
       end
 
 
-      it "maps {archival_object}.instance[].instance_type to {desc_path}/did/container@label" do
+      it "maps {archival_object}.instance[].instance_type to {desc_path}/did/container/@label" do
         container_ix = 1
 
         instances.each do |inst|
@@ -492,7 +492,7 @@ describe "EAD3 export mappings" do
       end
 
 
-      it "maps {archival_object}.instance[].sub_container.top_container.barcode to {desc_path}/did/container@containerid" do
+      it "maps {archival_object}.instance[].sub_container.top_container.barcode to {desc_path}/did/container/@containerid" do
         container_ix = 1
 
         instances.each do |inst|
@@ -603,13 +603,13 @@ describe "EAD3 export mappings" do
 
 
 
-    it "maps date expression to {archival_object}.date to {desc_path}/did/unitdate when present along with both start and end dates" do
+    it "maps date expression to {archival_object}.date to {desc_path}/did/unitdatestructured/@altrender when present along with both start and end dates" do
       count = 1
       object.dates.each do |date|
         if date['begin'] && date['end'] && date['expression']
-          path = "#{desc_path}/did/unitdate[#{count}]"
+          path = "#{desc_path}/did/unitdatestructured[#{count}]"
           value = date['expression']
-          mt(value, path)
+          mt(value, path, 'altrender')
           count += 1
         end
       end
@@ -938,7 +938,7 @@ describe "EAD3 export mappings" do
       it "doesn't double-escape '&amp;' in a chronitem event on export" do
         path = "//bioghist[@id = 'aspace_#{@another_note_tracer['persistent_id']}']/chronlist/chronitem/chronitemset/event"
 
-        # we are really testing that the raw XML doesn't container '&amp;amp;'
+        # we are really testing that the raw XML doesn't contain '&amp;amp;'
         mt("LIFE & DEATH", path)
       end
 
@@ -1154,8 +1154,8 @@ describe "EAD3 export mappings" do
         if file_versions.length < 2
           basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
         else
-          # The EAD3 export probably should output a daoset but currently does not
-          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:dao"
+          # The EAD3 export probably should output a daoset (and now it does... )
+          basepath = "/xmlns:ead/xmlns:archdesc/xmlns:did/xmlns:daoset"
         end
 
         # for each file version in the digital object
@@ -1195,7 +1195,7 @@ describe "EAD3 export mappings" do
             end
 
             if fv['use_statement']
-              mt(fv['use_statement'], path, 'localtype')
+              mt(fv['use_statement'], path, 'role')
             end
 
             mt(obj.title, path, 'linktitle')
@@ -1264,7 +1264,7 @@ describe "EAD3 export mappings" do
     let(:note_with_linebreaks) { "Something, something,\n\nsomething." }
     let(:note_with_linebreaks_and_good_mixed_content) { "Something, something,\n\n<blockquote>something.</blockquote>\n\n" }
     let(:note_with_linebreaks_and_evil_mixed_content) { "Something, something,\n\n<bioghist>something.\n\n</bioghist>\n\n" }
-    let(:note_with_linebreaks_but_something_xml_nazis_hate) { "Something, something,\n\n<prefercite>XML & How to Live it!</prefercite>\n\n" }
+    let(:note_with_linebreaks_and_unescaped_ampersand) { "Something, something,\n\n<prefercite>XML & How to Live it!</prefercite>\n\n" }
     let(:note_with_linebreaks_and_xml_namespaces) { "Something, something,\n\n<prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite>\n\n" }
     let(:note_with_smart_quotes) {"This note has “smart quotes” and ‘smart apostrophes’ from MSWord."}
     let(:note_with_extref) {"Blah blah <extref>blah</extref>"}
@@ -1315,7 +1315,7 @@ describe "EAD3 export mappings" do
     end
 
     it "will add <p> tags to content with linebreaks and mixed content even if those evil &'s are present in the text" do
-      expect(serializer.structure_children(note_with_linebreaks_but_something_xml_nazis_hate)).to eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
+      expect(serializer.structure_children(note_with_linebreaks_and_unescaped_ampersand)).to eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
     end
 
     it "will add <p> tags to content with linebreaks and mixed content even there are weird namespace prefixes" do

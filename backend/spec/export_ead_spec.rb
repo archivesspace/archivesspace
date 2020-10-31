@@ -319,7 +319,7 @@ describe "EAD export mappings" do
       end
 
       language_notes.pop
-      
+
     end
 
 
@@ -1251,7 +1251,7 @@ describe "EAD export mappings" do
     let(:note_with_linebreaks) { "Something, something,\n\nsomething." }
     let(:note_with_linebreaks_and_good_mixed_content) { "Something, something,\n\n<bioghist>something.</bioghist>\n\n" }
     let(:note_with_linebreaks_and_evil_mixed_content) { "Something, something,\n\n<bioghist>something.\n\n</bioghist>\n\n" }
-    let(:note_with_linebreaks_but_something_xml_nazis_hate) { "Something, something,\n\n<prefercite>XML & How to Live it!</prefercite>\n\n" }
+    let(:note_with_linebreaks_and_unescaped_ampersand) { "Something, something,\n\n<prefercite>XML & How to Live it!</prefercite>\n\n" }
     let(:note_with_linebreaks_and_xml_namespaces) { "Something, something,\n\n<prefercite xlink:foo='one' ns2:bar='two' >XML, you so crazy!</prefercite>\n\n" }
     let(:note_with_smart_quotes) {"This note has “smart quotes” and ‘smart apostrophes’ from MSWord."}
     let(:note_with_different_amps) {"The materials are arrange in folders. Mumford&Sons. Mumford & Sons. They are cool&hip. &lt;p&gt;foo, 2 & 2.&lt;/p&gt;"}
@@ -1298,7 +1298,7 @@ describe "EAD export mappings" do
     end
 
     it "will add <p> tags to content with linebreaks and mixed content even if those evil &'s are present in the text" do
-      expect(serializer.handle_linebreaks(note_with_linebreaks_but_something_xml_nazis_hate)).to eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
+      expect(serializer.handle_linebreaks(note_with_linebreaks_and_unescaped_ampersand)).to eq("<p>Something, something,</p><p><prefercite>XML &amp; How to Live it!</prefercite></p>")
     end
 
     it "will add <p> tags to content with linebreaks and mixed content even there are weird namespace prefixes" do
