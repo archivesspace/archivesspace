@@ -1,6 +1,6 @@
 class PreferencesController < ApplicationController
 
-  set_access_control  "view_repository" => [:edit, :update]
+  set_access_control  "view_repository" => [:edit, :update, :reset]
 
   def edit
     opts, user_scope = setup_defaults
@@ -50,6 +50,33 @@ class PreferencesController < ApplicationController
                               :global => params['global'],
                               :repo => params['repo'])
                 })
+  end
+
+
+  def reset
+    redirect_params = {
+      :controller => :preferences,
+      :action => :edit,
+      :id => 0,
+      :global => params['global'],
+      :repo => params['repo']
+    }
+
+    begin
+      _, global_repo_id = current_preferences
+      opts = {}
+      opts[:repo_id] = global_repo_id if params['global']
+      preference = JSONModel(:preference).find(params[:id], opts)
+      preference.update({:defaults => {}})
+      preference.save(opts)
+
+      flash[:success] = I18n.t("preference._frontend.messages.reset")
+      redirect_to(redirect_params)
+    rescue Exception => e
+      flash[:error] = I18n.t("preference._frontend.messages.reset_error", :exception => e)
+      redirect_to(redirect_params)
+      return
+    end
   end
 
 

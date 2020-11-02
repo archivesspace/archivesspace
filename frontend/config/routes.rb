@@ -235,6 +235,7 @@ ArchivesSpace::Application.routes.draw do
 
     resources :preferences
     match 'preferences/:id' => 'preferences#update', :via => [:post]
+    match 'preferences/:id/reset' => 'preferences#reset', :via => [:post]
 
     resources :rde_templates
     match 'rde_templates/batch_delete' => 'rde_templates#batch_delete', :via => [:post]
