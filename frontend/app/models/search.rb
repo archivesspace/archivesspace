@@ -83,12 +83,9 @@ class Search
     end
 
     sort_col = prefs["#{type}_sort_column"] || 'score'
-    if sort_col
-      sort_col = 'title_sort' if sort_col == 'title'
-      "#{sort_col} #{(prefs["#{type}_sort_direction"] || "desc")}"
-    else
-      nil
-    end
+    derived_sort_col = SearchAndBrowseColumnConfig.columns.dig(type, sort_col, :sort_by)
+    sort_col = derived_sort_col if derived_sort_col
+    "#{sort_col} #{(prefs["#{type}_sort_direction"] || "desc")}"
   end
 
   def self.build_filters(criteria)
