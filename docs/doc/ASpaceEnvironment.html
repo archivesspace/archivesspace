@@ -6,15 +6,15 @@
 <title>
   Class: ASpaceEnvironment
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ASpaceEnvironment";
   relpath = '';
 </script>
@@ -278,12 +278,12 @@
       <pre class="lines">
 
 
-66
-67
-68</pre>
+69
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_demo_db? fid id'>demo_db?</span>
   <span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:db_url</span><span class='rbrack token'>]</span> <span class='match op'>=~</span> <span class='regexp val'>/aspacedemo=true/</span>
@@ -309,9 +309,6 @@
       <pre class="lines">
 
 
-70
-71
-72
 73
 74
 75
@@ -338,10 +335,13 @@
 96
 97
 98
-99</pre>
+99
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 73</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_download_demo_db identifier id'>download_demo_db</span>
 
@@ -394,12 +394,12 @@
       <pre class="lines">
 
 
-40
-41
-42</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 43</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_environment identifier id'>environment</span>
   <span class='rubyid_@environment ivar id'>@environment</span>
@@ -425,9 +425,6 @@
       <pre class="lines">
 
 
-45
-46
-47
 48
 49
 50
@@ -443,10 +440,13 @@
 60
 61
 62
-63</pre>
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 48</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span><span class='lparen token'>(</span><span class='rubyid_environment identifier id'>environment</span> <span class='assign token'>=</span> <span class='symbol val'>:auto</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@environment ivar id'>@environment</span>      <span class='comment val'># Already initialised</span>
@@ -488,9 +488,6 @@
       <pre class="lines">
 
 
-109
-110
-111
 112
 113
 114
@@ -510,10 +507,13 @@
 128
 129
 130
-131</pre>
+131
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bootstrap.rb', line 112</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_prepare_database identifier id'>prepare_database</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@environment ivar id'>@environment</span> <span class='eq op'>==</span> <span class='symbol val'>:integration</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_demo_db? fid id'>demo_db?</span>
@@ -549,9 +549,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:01 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:39 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

@@ -6,15 +6,15 @@
 <title>
   Class: ClassificationsController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ClassificationsController";
   relpath = '';
 </script>
@@ -1000,15 +1000,15 @@
       <pre class="lines">
 
 
-125
 126
 127
 128
 129
-130</pre>
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 126</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_fetch_and_process identifier id'>fetch_and_process</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_@criteria ivar id'>@criteria</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -1037,7 +1037,6 @@
       <pre class="lines">
 
 
-132
 133
 134
 135
@@ -1055,10 +1054,11 @@
 147
 148
 149
-150</pre>
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 133</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_fetch_linked_records identifier id'>fetch_linked_records</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_qry identifier id'>qry</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;classification_uris:\&quot;#{uri}\&quot;&quot;</span>
@@ -1126,7 +1126,7 @@
       <span class='rubyid_search_params identifier id'>search_params</span> <span class='assign token'>=</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;facet[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_CLASSIFICATION_FACETS constant id'>CLASSIFICATION_FACETS</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
       <span class='rubyid_search_params identifier id'>search_params</span><span class='lbrack token'>[</span><span class='string val'>&quot;type[]&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;classification&quot;</span>
       <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{session[:repo_id]}/search&quot;</span>
-      <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_search_params identifier id'>search_params</span> <span class='rparen token'>)</span>
+      <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_build_filters identifier id'>build_filters</span><span class='lparen token'>(</span><span class='rubyid_search_params identifier id'>search_params</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{I18n.t(&#39;classification._plural&#39;).downcase}.&quot;</span> <span class='rparen token'>)</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1235,7 +1235,6 @@
       <pre class="lines">
 
 
-76
 77
 78
 79
@@ -1252,10 +1251,11 @@
 90
 91
 92
-93</pre>
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 77</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_search identifier id'>search</span>
     <span class='comment val'># need at least q[]=WHATEVER&amp;op[]=OR&amp;field[]=title&amp;from_year[]=&amp;to_year[]=&amp;limit=classification</span>
@@ -1341,7 +1341,6 @@
       <pre class="lines">
 
 
-109
 110
 111
 112
@@ -1354,10 +1353,11 @@
 119
 120
 121
-122</pre>
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 109</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 110</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_term identifier id'>term</span>
   <span class='rubyid_begin begin kw'>begin</span>
@@ -1476,16 +1476,16 @@
       <pre class="lines">
 
 
-175
 176
 177
 178
 179
 180
-181</pre>
+181
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 175</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/classifications_controller.rb', line 176</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_tree_node_from_root identifier id'>tree_node_from_root</span>
   <span class='rubyid_@root_uri ivar id'>@root_uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{params[:rid]}/classifications/#{params[:id]}&quot;</span>
@@ -1713,9 +1713,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:20 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:26:18 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

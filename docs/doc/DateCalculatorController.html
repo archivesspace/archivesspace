@@ -6,15 +6,15 @@
 <title>
   Class: DateCalculatorController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "DateCalculatorController";
   relpath = '';
 </script>
@@ -367,7 +367,7 @@
     <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_dates identifier id'>dates</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_date identifier id'>date</span>
     <span class='rubyid_record identifier id'>record</span><span class='dot token'>.</span><span class='rubyid_save identifier id'>save</span>
 
-    <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;success&#39;</span>
+    <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:plain</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;success&#39;</span>
   <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
     <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='comma token'>,</span> <span class='symbol val'>:status</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='integer val'>400</span>
   <span class='rubyid_end end kw'>end</span>
@@ -383,9 +383,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:20 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:26:18 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

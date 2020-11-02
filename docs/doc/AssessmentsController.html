@@ -6,15 +6,15 @@
 <title>
   Class: AssessmentsController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "AssessmentsController";
   relpath = '';
 </script>
@@ -90,6 +90,11 @@
   
   
   
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd><span class='object_link'><a href="ExportHelper.html" title="ExportHelper (module)">ExportHelper</a></span></dd>
+  </dl>
   
   
 
@@ -322,6 +327,17 @@
   
   
   
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ExportHelper.html" title="ExportHelper (module)">ExportHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ExportHelper.html#csv_response-instance_method" title="ExportHelper#csv_response (method)">#csv_response</a></span>, <span class='object_link'><a href="ExportHelper.html#xml_response-instance_method" title="ExportHelper#xml_response (method)">#xml_response</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ApplicationController.html" title="ApplicationController (class)">ApplicationController</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="ApplicationController.html#archivesspace-instance_method" title="ApplicationController#archivesspace (method)">#archivesspace</a></span>, <span class='object_link'><a href="ApplicationController.html#can_access%3F-class_method" title="ApplicationController.can_access? (method)">can_access?</a></span>, <span class='object_link'><a href="ApplicationController.html#permission_mappings-class_method" title="ApplicationController.permission_mappings (method)">permission_mappings</a></span>, <span class='object_link'><a href="ApplicationController.html#set_access_control-class_method" title="ApplicationController.set_access_control (method)">set_access_control</a></span></p>
 
@@ -393,8 +409,6 @@
       <pre class="lines">
 
 
-53
-54
 55
 56
 57
@@ -405,10 +419,12 @@
 62
 63
 64
-65</pre>
+65
+66
+67</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 55</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:assessment</span><span class='comma token'>,</span>
@@ -444,16 +460,16 @@
       <pre class="lines">
 
 
-84
-85
 86
 87
 88
 89
-90</pre>
+90
+91
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 86</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_assessment identifier id'>assessment</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:assessment</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -483,13 +499,13 @@
       <pre class="lines">
 
 
-47
-48
 49
-50</pre>
+50
+51
+52</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 47</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 49</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_edit identifier id'>edit</span>
   <span class='rubyid_@assessment ivar id'>@assessment</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:assessment</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;resolve[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;surveyed_by&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;records&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;reviewer&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -516,8 +532,6 @@
       <pre class="lines">
 
 
-93
-94
 95
 96
 97
@@ -530,10 +544,12 @@
 104
 105
 106
-107</pre>
+107
+108
+109</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 95</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_embedded_search identifier id'>embedded_search</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_all identifier id'>all</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:repo_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&#39;facet[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_ASSESSMENT_FACETS constant id'>ASSESSMENT_FACETS</span><span class='comma token'>,</span> <span class='string val'>&#39;type[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;assessment&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
@@ -571,8 +587,6 @@
       <pre class="lines">
 
 
-7
-8
 9
 10
 11
@@ -583,10 +597,12 @@
 16
 17
 18
-19</pre>
+19
+20
+21</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 9</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index identifier id'>index</span>
   <span class='rubyid_respond_to identifier id'>respond_to</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_format identifier id'>format</span><span class='bitor op'>|</span> 
@@ -597,9 +613,9 @@
       <span class='rubyid_search_params identifier id'>search_params</span> <span class='assign token'>=</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='string val'>&quot;facet[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_ASSESSMENT_FACETS constant id'>ASSESSMENT_FACETS</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
       <span class='rubyid_search_params identifier id'>search_params</span><span class='lbrack token'>[</span><span class='string val'>&quot;type[]&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;assessment&quot;</span> 
       <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{session[:repo_id]}/search&quot;</span>
-      <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_search_params identifier id'>search_params</span> <span class='rparen token'>)</span>
-    <span class='rbrace token'>}</span>  
-  <span class='rubyid_end end kw'>end</span> 
+      <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_build_filters identifier id'>build_filters</span><span class='lparen token'>(</span><span class='rubyid_search_params identifier id'>search_params</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{I18n.t(&#39;assessment._plural&#39;).downcase}.&quot;</span> <span class='rparen token'>)</span>
+    <span class='rbrace token'>}</span>
+  <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -622,8 +638,6 @@
       <pre class="lines">
 
 
-28
-29
 30
 31
 32
@@ -638,10 +652,12 @@
 41
 42
 43
-44</pre>
+44
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:record_uri</span><span class='rbrack token'>]</span>
@@ -681,13 +697,13 @@
       <pre class="lines">
 
 
-22
-23
 24
-25</pre>
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 24</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_show identifier id'>show</span>
   <span class='rubyid_@assessment ivar id'>@assessment</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:assessment</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&#39;resolve[]&#39;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='string val'>&#39;surveyed_by&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;records&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;reviewer&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -714,8 +730,6 @@
       <pre class="lines">
 
 
-68
-69
 70
 71
 72
@@ -727,10 +741,12 @@
 78
 79
 80
-81</pre>
+81
+82
+83</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/assessments_controller.rb', line 70</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update identifier id'>update</span>
   <span class='rubyid_handle_crud identifier id'>handle_crud</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:assessment</span><span class='comma token'>,</span>
@@ -757,9 +773,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:19 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:26:16 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

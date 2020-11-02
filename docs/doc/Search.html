@@ -6,15 +6,15 @@
 <title>
   Class: Search
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "Search";
   relpath = '';
 </script>
@@ -2147,7 +2147,32 @@
 20
 21
 22
-23</pre>
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/models/search.rb', line 13</span>
@@ -2159,6 +2184,31 @@
   <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;sort&quot;</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_sort identifier id'>sort</span><span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;type[]&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;filter_term[]&quot;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_term identifier id'>term</span><span class='bitor op'>|</span> <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_json_parse identifier id'>json_parse</span><span class='lparen token'>(</span><span class='rubyid_term identifier id'>term</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='rparen token'>)</span>
 
   <span class='rubyid_search_data identifier id'>search_data</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/repositories/#{repo_id}/search&quot;</span><span class='comma token'>,</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span>
+  <span class='comment val'>#If the criteria contains a &#39;blank_facet_query_fields&#39; field,</span>
+  <span class='comment val'>#we want to add a facet to filter on items WITHOUT an entry in the facet</span>
+  <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;blank_facet_query_fields&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_blank_facet_query identifier id'>blank_facet_query</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
+    <span class='rubyid_delimiter identifier id'>delimiter</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
+    <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;blank_facet_query_fields&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_query_field identifier id'>query_field</span><span class='bitor op'>|</span>
+      <span class='rubyid_blank_facet_query identifier id'>blank_facet_query</span> <span class='assign token'>=</span> <span class='string val'>&quot;-&quot;</span> <span class='plus op'>+</span> <span class='rubyid_query_field identifier id'>query_field</span> <span class='plus op'>+</span> <span class='string val'>&quot;:*&quot;</span>
+      <span class='rubyid_sub_criteria identifier id'>sub_criteria</span> <span class='assign token'>=</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='dot token'>.</span><span class='rubyid_clone identifier id'>clone</span>
+      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_sub_criteria identifier id'>sub_criteria</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;q&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_sub_criteria identifier id'>sub_criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;q&quot;</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='rubyid_blank_facet_query identifier id'>blank_facet_query</span><span class='rparen token'>)</span>
+        <span class='rubyid_sub_criteria identifier id'>sub_criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;q&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_criteria identifier id'>criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;q&quot;</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='string val'>&quot; AND &quot;</span> <span class='plus op'>+</span> <span class='rubyid_blank_facet_query identifier id'>blank_facet_query</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_sub_criteria identifier id'>sub_criteria</span><span class='lbrack token'>[</span><span class='string val'>&quot;q&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_blank_facet_query identifier id'>blank_facet_query</span>
+      <span class='rubyid_end end kw'>end</span>
+          
+      <span class='rubyid_search_data_with_blank_facet identifier id'>search_data_with_blank_facet</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_get_json identifier id'>get_json</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/repositories/#{repo_id}/search&quot;</span><span class='comma token'>,</span> <span class='rubyid_sub_criteria identifier id'>sub_criteria</span><span class='rparen token'>)</span>
+      <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='notop op'>!</span><span class='rubyid_search_data identifier id'>search_data</span><span class='lbrack token'>[</span><span class='string val'>&quot;facets&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;facet_fields&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_query_field identifier id'>query_field</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+        <span class='rubyid_search_data identifier id'>search_data</span><span class='lbrack token'>[</span><span class='string val'>&quot;facets&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;facet_fields&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_query_field identifier id'>query_field</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='string val'>&quot;none&quot;</span><span class='comma token'>,</span> <span class='rubyid_search_data_with_blank_facet identifier id'>search_data_with_blank_facet</span><span class='lbrack token'>[</span><span class='string val'>&quot;total_hits&quot;</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_search_data identifier id'>search_data</span><span class='lbrack token'>[</span><span class='string val'>&quot;facets&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;facet_fields&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_query_field identifier id'>query_field</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot;none&quot;</span>
+        <span class='rubyid_search_data identifier id'>search_data</span><span class='lbrack token'>[</span><span class='string val'>&quot;facets&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&quot;facet_fields&quot;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_query_field identifier id'>query_field</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_search_data_with_blank_facet identifier id'>search_data_with_blank_facet</span><span class='lbrack token'>[</span><span class='string val'>&quot;total_hits&quot;</span><span class='rbrack token'>]</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rbrace token'>}</span>
+            
+  <span class='rubyid_end end kw'>end</span>
+      
   <span class='rubyid_search_data identifier id'>search_data</span><span class='lbrack token'>[</span><span class='symbol val'>:criteria</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_criteria identifier id'>criteria</span>
 
   <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_search_data identifier id'>search_data</span><span class='rparen token'>)</span>
@@ -2309,19 +2359,19 @@
       <pre class="lines">
 
 
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35</pre>
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/models/search.rb', line 26</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/models/search.rb', line 51</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_global identifier id'>global</span><span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_build_filters identifier id'>build_filters</span><span class='lparen token'>(</span><span class='rubyid_criteria identifier id'>criteria</span><span class='rparen token'>)</span>
@@ -3188,9 +3238,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:01 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:39 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

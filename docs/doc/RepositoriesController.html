@@ -6,15 +6,15 @@
 <title>
   Class: RepositoriesController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "RepositoriesController";
   relpath = '';
 </script>
@@ -672,9 +672,6 @@
       <pre class="lines">
 
 
-116
-117
-118
 119
 120
 121
@@ -685,10 +682,13 @@
 126
 127
 128
-129</pre>
+129
+130
+131
+132</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 119</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete identifier id'>delete</span>
   <span class='rubyid_repository identifier id'>repository</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1025,9 +1025,6 @@ TODO: get this somehow in line with using the Searchable module</p>
       <pre class="lines">
 
 
-138
-139
-140
 141
 142
 143
@@ -1038,10 +1035,13 @@ TODO: get this somehow in line with using the Searchable module</p>
 148
 149
 150
-151</pre>
+151
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 141</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run_transfer identifier id'>run_transfer</span>
   <span class='rubyid_old_uri identifier id'>old_uri</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:repository</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_uri_for identifier id'>uri_for</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1159,12 +1159,18 @@ TODO: get this somehow in line with using the Searchable module</p>
 111
 112
 113
-114</pre>
+114
+115
+116
+117</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 106</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_select identifier id'>select</span>
+  <span class='comment val'># Clear top container previous search when switching repositories</span>
+  <span class='rubyid_session identifier id'>session</span><span class='lbrack token'>[</span><span class='symbol val'>:top_container_previous_search</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+
   <span class='rubyid_selected identifier id'>selected</span> <span class='assign token'>=</span> <span class='rubyid_@repositories ivar id'>@repositories</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_r identifier id'>r</span><span class='bitor op'>|</span> <span class='rubyid_r identifier id'>r</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='eq op'>==</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_class identifier id'>class</span><span class='dot token'>.</span><span class='rubyid_session_repo identifier id'>session_repo</span><span class='lparen token'>(</span><span class='rubyid_session identifier id'>session</span><span class='comma token'>,</span> <span class='rubyid_selected identifier id'>selected</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_selected identifier id'>selected</span><span class='dot token'>.</span><span class='rubyid_slug identifier id'>slug</span><span class='rparen token'>)</span>
   <span class='rubyid_set_user_repository_cookie identifier id'>set_user_repository_cookie</span> <span class='rubyid_selected identifier id'>selected</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span>
@@ -1229,13 +1235,13 @@ TODO: get this somehow in line with using the Searchable module</p>
       <pre class="lines">
 
 
-132
-133
-134
-135</pre>
+135
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 135</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_transfer identifier id'>transfer</span>
   <span class='rubyid_@repository ivar id'>@repository</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:repository_with_agent</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1262,12 +1268,12 @@ TODO: get this somehow in line with using the Searchable module</p>
       <pre class="lines">
 
 
-154
-155
-156</pre>
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 154</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/repositories_controller.rb', line 157</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_typeahead identifier id'>typeahead</span>
   <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_global identifier id'>global</span><span class='lparen token'>(</span><span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='comma token'>,</span> <span class='string val'>&quot;repositories&quot;</span><span class='rparen token'>)</span>
@@ -1354,9 +1360,9 @@ TODO: get this somehow in line with using the Searchable module</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:20 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:26:17 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

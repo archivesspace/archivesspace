@@ -6,15 +6,15 @@
 <title>
   Module: ResultInfo
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ResultInfo";
   relpath = '';
 </script>
@@ -515,8 +515,6 @@
       <pre class="lines">
 
 
-226
-227
 228
 229
 230
@@ -533,10 +531,12 @@
 241
 242
 243
-244</pre>
+244
+245
+246</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 228</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_rep_image identifier id'>get_rep_image</span><span class='lparen token'>(</span><span class='rubyid_instances identifier id'>instances</span><span class='rparen token'>)</span>
   <span class='rubyid_rep identifier id'>rep</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -794,7 +794,9 @@
 115
 116
 117
-118</pre>
+118
+119
+120</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 107</span>
@@ -807,7 +809,9 @@
   <span class='rubyid_dig_obj identifier id'>dig_obj</span> <span class='assign token'>=</span> <span class='rubyid_process_file_versions identifier id'>process_file_versions</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
     <span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;material&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;digital_object_type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='integer val'>? </span><span class='string val'>&#39;&#39;</span> <span class='colon op'>:</span> <span class='string val'>&#39;(&#39;</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;digital_object_type&#39;</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&#39;)&#39;</span>
-    <span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;caption&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_CGI constant id'>CGI</span><span class='colon2 op'>::</span><span class='rubyid_escapeHTML identifier id'>escapeHTML</span><span class='lparen token'>(</span><span class='rubyid_strip_mixed_content identifier id'>strip_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='string val'>&#39;display_string&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;Untitled&#39;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;caption&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;thumb&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+    <span class='rubyid_caption identifier id'>caption</span> <span class='assign token'>=</span> <span class='rubyid_json identifier id'>json</span><span class='dot token'>.</span><span class='rubyid_fetch identifier id'>fetch</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;display_string&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;title&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='rubyid_caption identifier id'>caption</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_caption identifier id'>caption</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
+    <span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;caption&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_CGI constant id'>CGI</span><span class='colon2 op'>::</span><span class='rubyid_escapeHTML identifier id'>escapeHTML</span><span class='lparen token'>(</span><span class='rubyid_strip_mixed_content identifier id'>strip_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_caption identifier id'>caption</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;caption&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='lbrack token'>[</span><span class='string val'>&#39;thumb&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
   <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> <span class='integer val'>? </span><span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='lbrack token'>[</span><span class='rubyid_dig_obj identifier id'>dig_obj</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
@@ -842,8 +846,6 @@
       <pre class="lines">
 
 
-141
-142
 143
 144
 145
@@ -860,10 +862,12 @@
 156
 157
 158
-159</pre>
+159
+160
+161</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 141</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 143</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_digital_instance identifier id'>process_digital_instance</span><span class='lparen token'>(</span><span class='rubyid_instances identifier id'>instances</span><span class='rparen token'>)</span>
   <span class='rubyid_dig_objs identifier id'>dig_objs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -915,8 +919,6 @@
       <pre class="lines">
 
 
-122
-123
 124
 125
 126
@@ -931,10 +933,12 @@
 135
 136
 137
-138</pre>
+138
+139
+140</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 124</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_extents identifier id'>process_extents</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span>  <span class='rubyid_json identifier id'>json</span><span class='lbrack token'>[</span><span class='string val'>&#39;extents&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
@@ -984,8 +988,6 @@
       <pre class="lines">
 
 
-162
-163
 164
 165
 166
@@ -1034,10 +1036,12 @@
 209
 210
 211
-212</pre>
+212
+213
+214</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 164</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_file_versions identifier id'>process_file_versions</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_dig_f identifier id'>dig_f</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -1202,18 +1206,18 @@
       <pre class="lines">
 
 
-215
-216
 217
 218
 219
 220
 221
 222
-223</pre>
+223
+224
+225</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 215</span>
+      <pre class="code"><span class="info file"># File 'public/app/controllers/concerns/result_info.rb', line 217</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_process_subjects identifier id'>process_subjects</span><span class='lparen token'>(</span><span class='rubyid_subjects_arr identifier id'>subjects_arr</span><span class='rparen token'>)</span>
   <span class='rubyid_return_arr identifier id'>return_arr</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -1235,9 +1239,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:59 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:33 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

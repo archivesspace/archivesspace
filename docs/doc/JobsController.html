@@ -6,15 +6,15 @@
 <title>
   Class: JobsController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "JobsController";
   relpath = '';
 </script>
@@ -541,7 +541,7 @@
 
     <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&#39;ajax&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
       <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:iframePOST</span><span class='rbrack token'>]</span> <span class='comment val'># IE saviour. Render the form in a textarea for the AjaxPost plugin to pick out.</span>
-        <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:text</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;&lt;textarea data-type=&#39;json&#39;&gt;#{uploaded.to_json}&lt;/textarea&gt;&quot;</span>
+        <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:plain</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;&lt;textarea data-type=&#39;json&#39;&gt;#{uploaded.to_json}&lt;/textarea&gt;&quot;</span>
       <span class='rubyid_else else kw'>else</span>
         <span class='rubyid_render identifier id'>render</span> <span class='symbol val'>:json</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_uploaded identifier id'>uploaded</span>
       <span class='rubyid_end end kw'>end</span>
@@ -601,7 +601,9 @@
 123
 124
 125
-126</pre>
+126
+127
+128</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 107</span>
@@ -609,7 +611,9 @@
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_download_file identifier id'>download_file</span>
   <span class='rubyid_@job ivar id'>@job</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:job</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_find identifier id'>find</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:job_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='string val'>&quot;resolve[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;repository&quot;</span><span class='rparen token'>)</span>
   
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;format&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&quot;format&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span> 
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:ext</span><span class='rbrack token'>]</span>
+      <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:ext</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_delete_prefix identifier id'>delete_prefix</span><span class='lparen token'>(</span><span class='string val'>&#39;.&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&quot;format&quot;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&quot;format&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
       <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='rubyid_@job ivar id'>@job</span><span class='dot token'>.</span><span class='rubyid_job identifier id'>job</span><span class='lbrack token'>[</span><span class='string val'>&quot;format&quot;</span><span class='rbrack token'>]</span>
   <span class='rubyid_else else kw'>else</span>
       <span class='rubyid_format identifier id'>format</span> <span class='assign token'>=</span> <span class='string val'>&quot;pdf&quot;</span>
@@ -624,7 +628,7 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_url identifier id'>url</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{JSONModel::repository}/jobs/#{params[:job_id]}/output_files/#{params[:id]}&quot;</span>
-  <span class='rubyid_stream_file identifier id'>stream_file</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:format</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format identifier id'>format</span><span class='comma token'>,</span> <span class='symbol val'>:filename</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;job_#{params[:job_id].to_s}_#{filename_end}&quot;</span> <span class='rbrace token'>}</span> <span class='rparen token'>)</span> 
+  <span class='rubyid_stream_file identifier id'>stream_file</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:format</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_format identifier id'>format</span><span class='comma token'>,</span> <span class='symbol val'>:filename</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;job_#{params[:job_id].to_s}_#{filename_end}&quot;</span> <span class='rbrace token'>}</span> <span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -758,13 +762,13 @@
       <pre class="lines">
 
 
-129
-130
 131
-132</pre>
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'frontend/app/controllers/jobs_controller.rb', line 131</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_records identifier id'>records</span>
   <span class='rubyid_@search_data ivar id'>@search_data</span> <span class='assign token'>=</span> <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_records identifier id'>records</span><span class='lparen token'>(</span><span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:page</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
@@ -867,9 +871,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:17 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:26:12 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

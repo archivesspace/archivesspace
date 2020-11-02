@@ -6,15 +6,15 @@
 <title>
   Class: SubjectsController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "SubjectsController";
   relpath = '';
 </script>
@@ -773,7 +773,7 @@
       <span class='rubyid_search_params identifier id'>search_params</span> <span class='assign token'>=</span> <span class='rubyid_params_for_backend_search identifier id'>params_for_backend_search</span><span class='dot token'>.</span><span class='rubyid_merge identifier id'>merge</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='string val'>&quot;facet[]&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_SearchResultData constant id'>SearchResultData</span><span class='dot token'>.</span><span class='rubyid_SUBJECT_FACETS constant id'>SUBJECT_FACETS</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
       <span class='rubyid_search_params identifier id'>search_params</span><span class='lbrack token'>[</span><span class='string val'>&quot;type[]&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;subject&quot;</span>
       <span class='rubyid_uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;/repositories/#{session[:repo_id]}/search&quot;</span>
-      <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_search_params identifier id'>search_params</span> <span class='rparen token'>)</span>
+      <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span> <span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_Search constant id'>Search</span><span class='dot token'>.</span><span class='rubyid_build_filters identifier id'>build_filters</span><span class='lparen token'>(</span><span class='rubyid_search_params identifier id'>search_params</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='dstring node'>&quot;#{I18n.t(&#39;subject._plural&#39;).downcase}.&quot;</span> <span class='rparen token'>)</span>
     <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
@@ -1157,9 +1157,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:18 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:26:14 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

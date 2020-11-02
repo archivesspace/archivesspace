@@ -6,15 +6,15 @@
 <title>
   Class: DigitalObject
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "DigitalObject";
   relpath = '';
 </script>
@@ -161,6 +161,62 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Returns the value of attribute cite.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cite_item-instance_method" title="#cite_item (instance method)">#<strong>cite_item</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute cite_item.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cite_item_description-instance_method" title="#cite_item_description (instance method)">#<strong>cite_item_description</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute cite_item_description.</p>
 </div></span>
   
 </li>
@@ -666,7 +722,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of DigitalObject</p>
+    <p>Returns a new instance of DigitalObject.</p>
 
 
   </div>
@@ -685,7 +741,10 @@
 6
 7
 8
-9</pre>
+9
+10
+11
+12</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/models/digital_object.rb', line 4</span>
@@ -694,7 +753,10 @@
   <span class='rubyid_super super kw'>super</span>
 
   <span class='rubyid_@linked_instances ivar id'>@linked_instances</span> <span class='assign token'>=</span> <span class='rubyid_parse_linked_instances identifier id'>parse_linked_instances</span>
-  <span class='rubyid_@cite ivar id'>@cite</span> <span class='assign token'>=</span> <span class='rubyid_parse_cite_string identifier id'>parse_cite_string</span>
+  <span class='comment val'># ANW-921: Refactored citation modal, keep cite in case used by others</span>
+  <span class='rubyid_@cite ivar id'>@cite</span> <span class='assign token'>=</span> <span class='rubyid_parse_cite_string identifier id'>parse_cite_string</span><span class='lparen token'>(</span><span class='string val'>&quot;&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_@cite_item ivar id'>@cite_item</span> <span class='assign token'>=</span> <span class='rubyid_parse_cite_string identifier id'>parse_cite_string</span><span class='lparen token'>(</span><span class='string val'>&quot;item&quot;</span><span class='rparen token'>)</span>
+  <span class='rubyid_@cite_item_description ivar id'>@cite_item_description</span> <span class='assign token'>=</span> <span class='rubyid_parse_cite_string identifier id'>parse_cite_string</span><span class='lparen token'>(</span><span class='string val'>&quot;description&quot;</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -743,6 +805,92 @@
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cite identifier id'>cite</span>
   <span class='rubyid_@cite ivar id'>@cite</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="cite_item-instance_method">
+  
+    #<strong>cite_item</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute cite_item</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/digital_object.rb', line 3</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_cite_item identifier id'>cite_item</span>
+  <span class='rubyid_@cite_item ivar id'>@cite_item</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="cite_item_description-instance_method">
+  
+    #<strong>cite_item_description</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute cite_item_description</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+3
+4
+5</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'public/app/models/digital_object.rb', line 3</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_cite_item_description identifier id'>cite_item_description</span>
+  <span class='rubyid_@cite_item_description ivar id'>@cite_item_description</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -914,18 +1062,18 @@
       <pre class="lines">
 
 
-21
-22
-23
 24
 25
 26
 27
 28
-29</pre>
+29
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/digital_object.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/digital_object.rb', line 24</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_breadcrumb identifier id'>breadcrumb</span>
   <span class='lbrack token'>[</span>
@@ -990,14 +1138,14 @@
       <pre class="lines">
 
 
-11
-12
-13
 14
-15</pre>
+15
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/digital_object.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/digital_object.rb', line 14</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_finding_aid identifier id'>finding_aid</span>
   <span class='comment val'># as this shares the same template as resources,</span>
@@ -1025,12 +1173,12 @@
       <pre class="lines">
 
 
-17
-18
-19</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'public/app/models/digital_object.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'public/app/models/digital_object.rb', line 20</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_root_node_uri identifier id'>root_node_uri</span>
   <span class='rubyid_uri identifier id'>uri</span>
@@ -1046,9 +1194,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:07 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:50 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

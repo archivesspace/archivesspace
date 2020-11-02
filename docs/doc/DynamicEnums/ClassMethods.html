@@ -6,15 +6,15 @@
 <title>
   Module: DynamicEnums::ClassMethods
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "DynamicEnums::ClassMethods";
   relpath = '../';
 </script>
@@ -209,10 +209,7 @@
 70
 71
 72
-73
-74
-75
-76</pre>
+73</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/mixins/dynamic_enums.rb', line 9</span>
@@ -258,10 +255,7 @@
 
       <span class='rubyid_define_method identifier id'>define_method</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{property}&quot;</span><span class='dot token'>.</span><span class='rubyid_intern identifier id'>intern</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
         <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='rubyid_property_id identifier id'>property_id</span><span class='rbrack token'>]</span>
-          <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='symbol val'>:uses_enum</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='bitor op'>|</span>
-            <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='rubyid_property_id identifier id'>property_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
-          <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
-
+          <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_BackendEnumSource constant id'>BackendEnumSource</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_definition identifier id'>definition</span><span class='lbrack token'>[</span><span class='symbol val'>:uses_enum</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='lbrack token'>[</span><span class='rubyid_property_id identifier id'>property_id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
           <span class='rubyid_raise identifier id'>raise</span> <span class='dstring node'>&quot;Couldn&#39;t find enum in #{property} for #{self.class} with id #{self[property_id]}&quot;</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_result identifier id'>result</span>
           <span class='rubyid_result identifier id'>result</span>
         <span class='rubyid_else else kw'>else</span>
@@ -296,9 +290,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:54 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:22 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>
