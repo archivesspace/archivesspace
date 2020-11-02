@@ -921,10 +921,10 @@ class EADSerializer < ASpaceExport::Serializer
           xml.langusage() {
             xml.text(I18n.t("resource.finding_aid_langusage_label"))
             xml.language({langcode: "#{data.finding_aid_language}", :scriptcode => "#{data.finding_aid_script}"}) {
-              xml.text(I18n.t("enumerations.language_iso639_2.#{data.finding_aid_language}")) 
+              xml.text(I18n.t("enumerations.language_iso639_2.#{data.finding_aid_language}"))
               xml.text(", ")
               xml.text(I18n.t("enumerations.script_iso15924.#{data.finding_aid_script}"))
-              xml.text(" script")}
+              xml.text(" #{I18n.t("language_and_script.script").downcase}")}
           xml.text(".")
 					}
         end
