@@ -6,15 +6,15 @@
 <title>
   Module: ExportHelper
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ExportHelper";
   relpath = '';
 </script>
@@ -76,7 +76,7 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="AccessionsController.html" title="AccessionsController (class)">AccessionsController</a></span>, <span class='object_link'><a href="AgentsController.html" title="AgentsController (class)">AgentsController</a></span>, <span class='object_link'><a href="ClassificationsController.html" title="ClassificationsController (class)">ClassificationsController</a></span>, <span class='object_link'><a href="ContainerProfilesController.html" title="ContainerProfilesController (class)">ContainerProfilesController</a></span>, <span class='object_link'><a href="DigitalObjectsController.html" title="DigitalObjectsController (class)">DigitalObjectsController</a></span>, <span class='object_link'><a href="EventsController.html" title="EventsController (class)">EventsController</a></span>, <span class='object_link'><a href="ExportsController.html" title="ExportsController (class)">ExportsController</a></span>, <span class='object_link'><a href="JobsController.html" title="JobsController (class)">JobsController</a></span>, <span class='object_link'><a href="LocationsController.html" title="LocationsController (class)">LocationsController</a></span>, <span class='object_link'><a href="ResourcesController.html" title="ResourcesController (class)">ResourcesController</a></span>, <span class='object_link'><a href="SearchController.html" title="SearchController (class)">SearchController</a></span>, <span class='object_link'><a href="SubjectsController.html" title="SubjectsController (class)">SubjectsController</a></span></dd>
+    <dd><span class='object_link'><a href="AccessionsController.html" title="AccessionsController (class)">AccessionsController</a></span>, <span class='object_link'><a href="AgentsController.html" title="AgentsController (class)">AgentsController</a></span>, <span class='object_link'><a href="AssessmentsController.html" title="AssessmentsController (class)">AssessmentsController</a></span>, <span class='object_link'><a href="ClassificationsController.html" title="ClassificationsController (class)">ClassificationsController</a></span>, <span class='object_link'><a href="ContainerProfilesController.html" title="ContainerProfilesController (class)">ContainerProfilesController</a></span>, <span class='object_link'><a href="DigitalObjectsController.html" title="DigitalObjectsController (class)">DigitalObjectsController</a></span>, <span class='object_link'><a href="EventsController.html" title="EventsController (class)">EventsController</a></span>, <span class='object_link'><a href="ExportsController.html" title="ExportsController (class)">ExportsController</a></span>, <span class='object_link'><a href="JobsController.html" title="JobsController (class)">JobsController</a></span>, <span class='object_link'><a href="LocationsController.html" title="LocationsController (class)">LocationsController</a></span>, <span class='object_link'><a href="ResourcesController.html" title="ResourcesController (class)">ResourcesController</a></span>, <span class='object_link'><a href="SearchController.html" title="SearchController (class)">SearchController</a></span>, <span class='object_link'><a href="SubjectsController.html" title="SubjectsController (class)">SubjectsController</a></span></dd>
   </dl>
   
 
@@ -106,7 +106,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#csv_response-instance_method" title="#csv_response (instance method)">#<strong>csv_response</strong>(request_uri, params = {})  &#x21d2; Object </a>
+      <a href="#csv_response-instance_method" title="#csv_response (instance method)">#<strong>csv_response</strong>(request_uri, params = {}, filename_prefix = &#39;&#39;)  &#x21d2; Object </a>
     
 
     
@@ -161,7 +161,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="csv_response-instance_method">
   
-    #<strong>csv_response</strong>(request_uri, params = {})  &#x21d2; <tt>Object</tt> 
+    #<strong>csv_response</strong>(request_uri, params = {}, filename_prefix = &#39;&#39;)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -188,9 +188,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/export_helper.rb', line 3</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_csv_response identifier id'>csv_response</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='rubyid_filename_prefix identifier id'>filename_prefix</span> <span class='assign token'>=</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&quot;Content-Type&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;text/csv&quot;</span> 
-      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&quot;Content-Disposition&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;attachment; filename=#{Time.now.to_i}.csv&quot;</span>
+      <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&quot;Content-Disposition&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;attachment; filename=#{filename_prefix}#{Time.now.to_i}.csv&quot;</span>
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response identifier id'>response</span><span class='dot token'>.</span><span class='rubyid_headers identifier id'>headers</span><span class='lbrack token'>[</span><span class='string val'>&#39;Last-Modified&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span><span class='dot token'>.</span><span class='rubyid_ctime identifier id'>ctime</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> 
       <span class='rubyid_params identifier id'>params</span><span class='lbrack token'>[</span><span class='string val'>&quot;dt&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='string val'>&quot;csv&quot;</span> 
       <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_response_body identifier id'>response_body</span> <span class='assign token'>=</span> <span class='rubyid_Enumerator constant id'>Enumerator</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_y identifier id'>y</span><span class='bitor op'>|</span>
@@ -230,14 +230,12 @@
 22
 23
 24
-25
-26</pre>
+25</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'frontend/app/helpers/export_helper.rb', line 15</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_xml_response identifier id'>xml_response</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_stream identifier id'>stream</span><span class='lparen token'>(</span><span class='rubyid_request_uri identifier id'>request_uri</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_res identifier id'>res</span><span class='bitor op'>|</span>
     <span class='rubyid_size identifier id'>size</span><span class='comma token'>,</span> <span class='rubyid_total identifier id'>total</span> <span class='assign token'>=</span> <span class='integer val'>0</span><span class='comma token'>,</span> <span class='rubyid_res identifier id'>res</span><span class='dot token'>.</span><span class='rubyid_header identifier id'>header</span><span class='lbrack token'>[</span><span class='string val'>&#39;Content-Length&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_i identifier id'>to_i</span>
     <span class='rubyid_res identifier id'>res</span><span class='dot token'>.</span><span class='rubyid_read_body identifier id'>read_body</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_chunk identifier id'>chunk</span><span class='bitor op'>|</span>
@@ -259,9 +257,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:56 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:27 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

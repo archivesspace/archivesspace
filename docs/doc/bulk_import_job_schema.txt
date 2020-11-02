@@ -1,0 +1,20 @@
+JSON Schema: Bulk_import_job
+
+Properties
+
+string	resource_id
+
+string	filename
+
+string	load_type
+
+string	content_type
+
+string	format
+
+string	only_validate
+
+
+
+
+

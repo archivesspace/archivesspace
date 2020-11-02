@@ -6,15 +6,15 @@
 <title>
   Module: Searchable
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "Searchable";
   relpath = '';
 </script>
@@ -867,8 +867,8 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_repo_context identifier id'>repo_context</span><span class='lparen token'>(</span><span class='rubyid_repo_id identifier id'>repo_id</span><span class='comma token'>,</span> <span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_cont identifier id'>cont</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_repo_id identifier id'>repo_id</span>
-    <span class='rubyid_cont identifier id'>cont</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;/repositories/#{repo_id}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_get_pretty_facet_value identifier id'>get_pretty_facet_value</span><span class='lparen token'>(</span><span class='string val'>&#39;repository&#39;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;/repositories/#{repo_id}&quot;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
-    <span class='rubyid_cont identifier id'>cont</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{type}._plural&quot;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_cont identifier id'>cont</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;/repositories/#{repo_id}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_get_pretty_facet_value identifier id'>get_pretty_facet_value</span><span class='lparen token'>(</span><span class='string val'>&#39;repository&#39;</span><span class='comma token'>,</span> <span class='dstring node'>&quot;/repositories/#{repo_id}&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='label val'>type:</span> <span class='string val'>&#39;repository&#39;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_cont identifier id'>cont</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&#39;&#39;</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{type}._plural&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='label val'>type:</span> <span class='rubyid_type identifier id'>type</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -1419,9 +1419,9 @@ if full is false, only process notes for ‘abstract’ and ‘scopecontent’, 
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:06:58 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:33 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

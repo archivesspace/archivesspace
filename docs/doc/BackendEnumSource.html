@@ -6,15 +6,15 @@
 <title>
   Class: BackendEnumSource
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "BackendEnumSource";
   relpath = '';
 </script>
@@ -112,13 +112,13 @@
         <dt id="enum_value_cache-classvariable" class="">@@enum_value_cache =
           
         </dt>
-        <dd><pre class="code"><span class='rubyid_Rufus constant id'>Rufus</span><span class='colon2 op'>::</span><span class='rubyid_Lru constant id'>Lru</span><span class='colon2 op'>::</span><span class='rubyid_SynchronizedHash constant id'>SynchronizedHash</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='integer val'>1024</span><span class='rparen token'>)</span>
+        <dd><pre class="code"><span class='rubyid_Rufus constant id'>Rufus</span><span class='colon2 op'>::</span><span class='rubyid_Lru constant id'>Lru</span><span class='colon2 op'>::</span><span class='rubyid_SynchronizedHash constant id'>SynchronizedHash</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='integer val'>16384</span><span class='rparen token'>)</span>
 </pre></dd>
       
         <dt id="max_cache_ms-classvariable" class="">@@max_cache_ms =
           
         </dt>
-        <dd><pre class="code"><span class='integer val'>5000</span>
+        <dd><pre class="code"><span class='integer val'>300000</span>
 </pre></dd>
       
     </dl>
@@ -234,7 +234,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#value_for_id-class_method" title="value_for_id (class method)">.<strong>value_for_id</strong>(enum_name, id)  &#x21d2; Object </a>
+      <a href="#value_for_id-class_method" title="value_for_id (class method)">.<strong>value_for_id</strong>(enum_names, id)  &#x21d2; Object </a>
     
 
     
@@ -248,7 +248,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'>
+    <span class="summary_desc"><div class='inline'><p>Return the string value for a given enumeration value ID.</p>
 </div></span>
   
 </li>
@@ -257,7 +257,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#values_for-class_method" title="values_for (class method)">.<strong>values_for</strong>(enum_name)  &#x21d2; Object </a>
+      <a href="#values_for-class_method" title="values_for (class method)">.<strong>values_for</strong>(enum_name, force_refresh = false)  &#x21d2; Object </a>
     
 
     
@@ -324,6 +324,7 @@
       <pre class="lines">
 
 
+55
 56
 57
 58
@@ -355,11 +356,10 @@
 84
 85
 86
-87
-88</pre>
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 55</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cache_entry_for identifier id'>cache_entry_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_force_refresh identifier id'>force_refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
   <span class='rubyid_cached identifier id'>cached</span> <span class='assign token'>=</span> <span class='rubyid_@@enum_value_cache ivar id'>@@enum_value_cache</span><span class='lbrack token'>[</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rbrack token'>]</span>
@@ -438,12 +438,12 @@
       <pre class="lines">
 
 
+94
 95
-96
-97</pre>
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 95</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 94</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_editable? fid id'>editable?</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
   <span class='lparen token'>(</span>  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cache_entry_for identifier id'>cache_entry_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:editable</span><span class='rbrack token'>]</span> <span class='eqq op'>===</span> <span class='integer val'>1</span> <span class='rubyid_or or kw'>or</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cache_entry_for identifier id'>cache_entry_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:editable</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='rubyid_true true kw'>true</span> <span class='rparen token'>)</span>
@@ -469,6 +469,7 @@
       <pre class="lines">
 
 
+99
 100
 101
 102
@@ -476,11 +477,10 @@
 104
 105
 106
-107
-108</pre>
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 100</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 99</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id_for_value identifier id'>id_for_value</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cache_entry_for identifier id'>cache_entry_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:value_to_id_map</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_value identifier id'>value</span><span class='rbrack token'>]</span>
@@ -578,15 +578,13 @@
 45
 46
 47
-48
-49</pre>
+48</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 5</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_valid? fid id'>valid?</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_RequestContext constant id'>RequestContext</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='symbol val'>:create_enums</span><span class='rparen token'>)</span>
-
     <span class='comment val'># Some cheeky caching on the RequestContext here.  The batch import</span>
     <span class='comment val'># process can need to check/create an awful lot of enums, so don&#39;t insert</span>
     <span class='comment val'># into the database unless we really need to.</span>
@@ -625,9 +623,9 @@
 
     <span class='rubyid_true true kw'>true</span>
   <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+    <span class='comment val'># force refresh of enumeration b4 validating</span>
+    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
-
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -638,43 +636,68 @@
       <div class="method_details ">
   <h3 class="signature " id="value_for_id-class_method">
   
-    .<strong>value_for_id</strong>(enum_name, id)  &#x21d2; <tt>Object</tt> 
+    .<strong>value_for_id</strong>(enum_names, id)  &#x21d2; <tt>Object</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Return the string value for a given enumeration value ID.</p>
+
+<p><code>enum_names</code> is a list of the enumeration names that the ID might belong to.
+For legacy reasons it can be a string (a single enumeration name), but can
+also take an array of strings (meaning “the value belongs to one of these
+enumerations, but I’m not sure which one).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-124
-125
-126
-127
-128
 129
 130
 131
 132
 133
-134</pre>
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 129</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_value_for_id identifier id'>value_for_id</span><span class='lparen token'>(</span><span class='rubyid_enum_names identifier id'>enum_names</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_id identifier id'>id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
 
-  <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cache_entry_for identifier id'>cache_entry_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id_to_value_map</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
+  <span class='rubyid_enum_names identifier id'>enum_names</span> <span class='assign token'>=</span> <span class='rubyid_Array constant id'>Array</span><span class='lparen token'>(</span><span class='rubyid_enum_names identifier id'>enum_names</span><span class='rparen token'>)</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_result identifier id'>result</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cache_entry_for identifier id'>cache_entry_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id_to_value_map</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
+  <span class='comment val'># If multiple possible enum names are given, try hitting the cached values</span>
+  <span class='comment val'># for all of them before giving up and hitting the DB.</span>
+  <span class='lbrack token'>[</span><span class='rubyid_false false kw'>false</span><span class='comma token'>,</span> <span class='rubyid_true true kw'>true</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_force_refresh identifier id'>force_refresh</span><span class='bitor op'>|</span>
+    <span class='rubyid_enum_names identifier id'>enum_names</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='bitor op'>|</span>
+      <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cache_entry_for identifier id'>cache_entry_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_force_refresh identifier id'>force_refresh</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:id_to_value_map</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span>
+      <span class='rubyid_return return kw'>return</span> <span class='rubyid_result identifier id'>result</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_result identifier id'>result</span>
+    <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_result identifier id'>result</span>
+  <span class='rubyid_nil nil kw'>nil</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -685,7 +708,7 @@
       <div class="method_details ">
   <h3 class="signature " id="values_for-class_method">
   
-    .<strong>values_for</strong>(enum_name)  &#x21d2; <tt>Object</tt> 
+    .<strong>values_for</strong>(enum_name, force_refresh = false)  &#x21d2; <tt>Object</tt> 
   
 
   
@@ -697,15 +720,15 @@
       <pre class="lines">
 
 
+90
 91
-92
-93</pre>
+92</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 91</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 90</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cache_entry_for identifier id'>cache_entry_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:values</span><span class='rbrack token'>]</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_force_refresh identifier id'>force_refresh</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_cache_entry_for identifier id'>cache_entry_for</span><span class='lparen token'>(</span><span class='rubyid_enum_name identifier id'>enum_name</span><span class='comma token'>,</span> <span class='rubyid_force_refresh identifier id'>force_refresh</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:values</span><span class='rbrack token'>]</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -728,6 +751,7 @@
       <pre class="lines">
 
 
+110
 111
 112
 113
@@ -737,11 +761,10 @@
 117
 118
 119
-120
-121</pre>
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/backend_enum_source.rb', line 110</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_values_for_ids identifier id'>values_for_ids</span><span class='lparen token'>(</span><span class='rubyid_ids identifier id'>ids</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
@@ -765,9 +788,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:11 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:59 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

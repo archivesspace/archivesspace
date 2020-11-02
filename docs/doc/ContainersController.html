@@ -6,15 +6,15 @@
 <title>
   Class: ContainersController
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "ContainersController";
   relpath = '';
 </script>
@@ -246,7 +246,8 @@
 14
 15
 16
-17</pre>
+17
+18</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'public/app/controllers/containers_controller.rb', line 3</span>
@@ -258,7 +259,8 @@
     <span class='rubyid_@result ivar id'>@result</span> <span class='assign token'>=</span>  <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='dot token'>.</span><span class='rubyid_get_record identifier id'>get_record</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_@criteria ivar id'>@criteria</span><span class='rparen token'>)</span>
     <span class='rubyid_@repo_info ivar id'>@repo_info</span> <span class='assign token'>=</span> <span class='rubyid_@result ivar id'>@result</span><span class='dot token'>.</span><span class='rubyid_repository_information identifier id'>repository_information</span>
     <span class='rubyid_@page_title ivar id'>@page_title</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{I18n.t(&#39;top_container._singular&#39;)}: #{strip_mixed_content(@result.display_string)}&quot;</span>
-    <span class='rubyid_@context ivar id'>@context</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_info ivar id'>@repo_info</span><span class='lbrack token'>[</span><span class='string val'>&#39;top&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_info ivar id'>@repo_info</span><span class='lbrack token'>[</span><span class='string val'>&#39;top&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;name&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_process_mixed_content identifier id'>process_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_@result ivar id'>@result</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span><span class='rparen token'>)</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
+    <span class='rubyid_@context ivar id'>@context</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_info ivar id'>@repo_info</span><span class='lbrack token'>[</span><span class='string val'>&#39;top&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@repo_info ivar id'>@repo_info</span><span class='lbrack token'>[</span><span class='string val'>&#39;top&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;name&#39;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='label val'>type:</span> <span class='string val'>&#39;repository&#39;</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+      <span class='lbrace token'>{</span><span class='symbol val'>:uri</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='symbol val'>:crumb</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_process_mixed_content identifier id'>process_mixed_content</span><span class='lparen token'>(</span><span class='rubyid_@result ivar id'>@result</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='label val'>type:</span> <span class='rubyid_@result ivar id'>@result</span><span class='dot token'>.</span><span class='rubyid_primary_type identifier id'>primary_type</span><span class='rbrace token'>}</span><span class='rbrack token'>]</span>
 
     <span class='comment val'># fetch all the objects in this container</span>
     <span class='rubyid_fetch_objects_in_container identifier id'>fetch_objects_in_container</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='rparen token'>)</span>
@@ -277,9 +279,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:26 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:26:31 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>

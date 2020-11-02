@@ -6,15 +6,15 @@
 <title>
   Class: DigitalObjectHandler
   
-    &mdash; Documentation by YARD 0.9.20
+    &mdash; Documentation by YARD 0.9.25
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
 
-<script type="text/javascript" charset="utf-8">
+<script type="text/javascript">
   pathId = "DigitalObjectHandler";
   relpath = '';
 </script>
@@ -133,6 +133,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#check_digital_id-instance_method" title="#check_digital_id (instance method)">#<strong>check_digital_id</strong>(dig_id)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#create-instance_method" title="#create (instance method)">#<strong>create</strong>(title, thumb, link, id, publish, archival_object, report)  &#x21d2; Object </a>
     
 
@@ -156,7 +179,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(current_user)  &#x21d2; DigitalObjectHandler </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(current_user, validate_only = false)  &#x21d2; DigitalObjectHandler </a>
     
 
     
@@ -214,7 +237,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Handler.html" title="Handler (class)">Handler</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Handler.html#clear-instance_method" title="Handler#clear (method)">#clear</a></span>, <span class='object_link'><a href="Handler.html#save-instance_method" title="Handler#save (method)">#save</a></span>, <span class='object_link'><a href="Handler.html#search-instance_method" title="Handler#search (method)">#search</a></span>, <span class='object_link'><a href="Handler.html#stored-instance_method" title="Handler#stored (method)">#stored</a></span>, <span class='object_link'><a href="Handler.html#valid-instance_method" title="Handler#valid (method)">#valid</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="Handler.html#clear-instance_method" title="Handler#clear (method)">#clear</a></span>, <span class='object_link'><a href="Handler.html#save-instance_method" title="Handler#save (method)">#save</a></span>, <span class='object_link'><a href="Handler.html#search-instance_method" title="Handler#search (method)">#search</a></span>, <span class='object_link'><a href="Handler.html#stored-instance_method" title="Handler#stored (method)">#stored</a></span></p>
 
   
   
@@ -225,7 +248,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="BulkImportMixins.html" title="BulkImportMixins (module)">BulkImportMixins</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref-instance_method" title="BulkImportMixins#archival_object_from_ref (method)">#archival_object_from_ref</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref_or_uri-instance_method" title="BulkImportMixins#archival_object_from_ref_or_uri (method)">#archival_object_from_ref_or_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_uri-instance_method" title="BulkImportMixins#archival_object_from_uri (method)">#archival_object_from_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#create_date-instance_method" title="BulkImportMixins#create_date (method)">#create_date</a></span>, <span class='object_link'><a href="BulkImportMixins.html#handle_notes-instance_method" title="BulkImportMixins#handle_notes (method)">#handle_notes</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resolves-instance_method" title="BulkImportMixins#resolves (method)">#resolves</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resource_match-instance_method" title="BulkImportMixins#resource_match (method)">#resource_match</a></span>, <span class='object_link'><a href="BulkImportMixins.html#test_exceptions-instance_method" title="BulkImportMixins#test_exceptions (method)">#test_exceptions</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="BulkImportMixins.html#ao_save-instance_method" title="BulkImportMixins#ao_save (method)">#ao_save</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref-instance_method" title="BulkImportMixins#archival_object_from_ref (method)">#archival_object_from_ref</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_ref_or_uri-instance_method" title="BulkImportMixins#archival_object_from_ref_or_uri (method)">#archival_object_from_ref_or_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#archival_object_from_uri-instance_method" title="BulkImportMixins#archival_object_from_uri (method)">#archival_object_from_uri</a></span>, <span class='object_link'><a href="BulkImportMixins.html#create_date-instance_method" title="BulkImportMixins#create_date (method)">#create_date</a></span>, <span class='object_link'><a href="BulkImportMixins.html#created-instance_method" title="BulkImportMixins#created (method)">#created</a></span>, <span class='object_link'><a href="BulkImportMixins.html#handle_notes-instance_method" title="BulkImportMixins#handle_notes (method)">#handle_notes</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resolves-instance_method" title="BulkImportMixins#resolves (method)">#resolves</a></span>, <span class='object_link'><a href="BulkImportMixins.html#resource_match-instance_method" title="BulkImportMixins#resource_match (method)">#resource_match</a></span>, <span class='object_link'><a href="BulkImportMixins.html#test_exceptions-instance_method" title="BulkImportMixins#test_exceptions (method)">#test_exceptions</a></span>, <span class='object_link'><a href="BulkImportMixins.html#valid-instance_method" title="BulkImportMixins#valid (method)">#valid</a></span>, <span class='object_link'><a href="BulkImportMixins.html#value_check-instance_method" title="BulkImportMixins#value_check (method)">#value_check</a></span></p>
 
   
   
@@ -254,7 +277,7 @@
     <div class="method_details first">
   <h3 class="signature first" id="initialize-instance_method">
   
-    #<strong>initialize</strong>(current_user)  &#x21d2; <tt><span class='object_link'><a href="" title="DigitalObjectHandler (class)">DigitalObjectHandler</a></span></tt> 
+    #<strong>initialize</strong>(current_user, validate_only = false)  &#x21d2; <tt><span class='object_link'><a href="" title="DigitalObjectHandler (class)">DigitalObjectHandler</a></span></tt> 
   
 
   
@@ -262,7 +285,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Returns a new instance of DigitalObjectHandler</p>
+    <p>Returns a new instance of DigitalObjectHandler.</p>
 
 
   </div>
@@ -278,13 +301,17 @@
 
 5
 6
-7</pre>
+7
+8
+9</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/digital_object_handler.rb', line 5</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_current_user identifier id'>current_user</span><span class='rparen token'>)</span>
-  <span class='rubyid_@digital_object_types ivar id'>@digital_object_types</span> <span class='opasgn op'>||=</span> <span class='rubyid_CvList constant id'>CvList</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_digital_object_type&quot;</span><span class='comma token'>,</span> <span class='rubyid_current_user identifier id'>current_user</span><span class='rparen token'>)</span>
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_current_user identifier id'>current_user</span><span class='comma token'>,</span> <span class='rubyid_validate_only identifier id'>validate_only</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span>
+  <span class='comment val'># we don&#39;t currently use this, but it will come in handy with enhancements</span>
+  <span class='rubyid_@digital_object_types ivar id'>@digital_object_types</span> <span class='opasgn op'>||=</span> <span class='rubyid_CvList constant id'>CvList</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;digital_object_digital_object_type&quot;</span><span class='comma token'>,</span> <span class='rubyid_@current_user ivar id'>@current_user</span><span class='rparen token'>)</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -300,7 +327,42 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="create-instance_method">
+  <h3 class="signature first" id="check_digital_id-instance_method">
+  
+    #<strong>check_digital_id</strong>(dig_id)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+11
+12
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/digital_object_handler.rb', line 11</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_check_digital_id identifier id'>check_digital_id</span><span class='lparen token'>(</span><span class='rubyid_dig_id identifier id'>dig_id</span><span class='rparen token'>)</span>
+  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:q</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;digital_object_id:\&quot;#{dig_id}\&quot;&quot;</span> <span class='rbrace token'>}</span>
+  <span class='rubyid_ret identifier id'>ret</span> <span class='assign token'>=</span> <span class='rubyid_search identifier id'>search</span><span class='lparen token'>(</span><span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_params identifier id'>params</span><span class='comma token'>,</span> <span class='symbol val'>:digital_object</span><span class='comma token'>,</span> <span class='string val'>&quot;digital_object&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span> <span class='rubyid_@report ivar id'>@report</span><span class='rparen token'>)</span>
+  <span class='rubyid_ret identifier id'>ret</span> <span class='assign token'>=</span> <span class='rubyid_ret identifier id'>ret</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create-instance_method">
   
     #<strong>create</strong>(title, thumb, link, id, publish, archival_object, report)  &#x21d2; <tt>Object</tt> 
   
@@ -314,14 +376,6 @@
       <pre class="lines">
 
 
-9
-10
-11
-12
-13
-14
-15
-16
 17
 18
 19
@@ -356,52 +410,95 @@
 48
 49
 50
-51</pre>
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/digital_object_handler.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/digital_object_handler.rb', line 17</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_create identifier id'>create</span><span class='lparen token'>(</span><span class='rubyid_title identifier id'>title</span><span class='comma token'>,</span> <span class='rubyid_thumb identifier id'>thumb</span><span class='comma token'>,</span> <span class='rubyid_link identifier id'>link</span><span class='comma token'>,</span> <span class='rubyid_id identifier id'>id</span><span class='comma token'>,</span> <span class='rubyid_publish identifier id'>publish</span><span class='comma token'>,</span> <span class='rubyid_archival_object identifier id'>archival_object</span><span class='comma token'>,</span> <span class='rubyid_report identifier id'>report</span><span class='rparen token'>)</span>
   <span class='rubyid_dig_o identifier id'>dig_o</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
   <span class='rubyid_dig_instance identifier id'>dig_instance</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
-  <span class='rubyid_unless unless kw'>unless</span> <span class='notop op'>!</span><span class='rubyid_thumb identifier id'>thumb</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_link identifier id'>link</span>
-    <span class='rubyid_files identifier id'>files</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
-    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_link identifier id'>link</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_link identifier id'>link</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;http&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_fv identifier id'>fv</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:file_version</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
-      <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_file_uri identifier id'>file_uri</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span>
-      <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='rubyid_publish identifier id'>publish</span>
-      <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_xlink_actuate_attribute identifier id'>xlink_actuate_attribute</span> <span class='assign token'>=</span> <span class='string val'>&quot;onRequest&quot;</span>
-      <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_xlink_show_attribute identifier id'>xlink_show_attribute</span> <span class='assign token'>=</span> <span class='string val'>&quot;new&quot;</span>
-      <span class='rubyid_files identifier id'>files</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span> <span class='rubyid_fv identifier id'>fv</span>
+  <span class='comment val'># might as well check the dig_id first</span>
+  <span class='rubyid_if if kw'>if</span> <span class='rubyid_@validate_only ivar id'>@validate_only</span>
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_archival_object identifier id'>archival_object</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
+      <span class='rubyid_archival_object identifier id'>archival_object</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:archival_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+      <span class='rubyid_archival_object identifier id'>archival_object</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='string val'>&quot;random title&quot;</span>
+      <span class='rubyid_archival_object identifier id'>archival_object</span><span class='dot token'>.</span><span class='rubyid_ref_id identifier id'>ref_id</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;VAL#{rand(1000000)}&quot;</span>
     <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_thumb identifier id'>thumb</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_thumb identifier id'>thumb</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;http&quot;</span><span class='rparen token'>)</span>
-      <span class='rubyid_fv identifier id'>fv</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:file_version</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
-      <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_file_uri identifier id'>file_uri</span> <span class='assign token'>=</span> <span class='rubyid_thumb identifier id'>thumb</span>
-      <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='rubyid_publish identifier id'>publish</span>
-      <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_xlink_actuate_attribute identifier id'>xlink_actuate_attribute</span> <span class='assign token'>=</span> <span class='string val'>&quot;onLoad&quot;</span>
-      <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_xlink_show_attribute identifier id'>xlink_show_attribute</span> <span class='assign token'>=</span> <span class='string val'>&quot;embed&quot;</span>
-      <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_is_representative identifier id'>is_representative</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-      <span class='rubyid_files identifier id'>files</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span> <span class='rubyid_fv identifier id'>fv</span>
-    <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_osn identifier id'>osn</span> <span class='assign token'>=</span> <span class='rubyid_id identifier id'>id</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='lparen token'>(</span><span class='rubyid_archival_object identifier id'>archival_object</span><span class='dot token'>.</span><span class='rubyid_ref_id identifier id'>ref_id</span> <span class='plus op'>+</span> <span class='string val'>&quot;d&quot;</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_id identifier id'>id</span>
-    <span class='rubyid_dig_o identifier id'>dig_o</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
-    <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='rubyid_title identifier id'>title</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='rubyid_archival_object identifier id'>archival_object</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span> <span class='colon op'>:</span> <span class='rubyid_title identifier id'>title</span>
-    <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_digital_object_id identifier id'>digital_object_id</span> <span class='assign token'>=</span> <span class='rubyid_osn identifier id'>osn</span>
-    <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_file_versions identifier id'>file_versions</span> <span class='assign token'>=</span> <span class='rubyid_files identifier id'>files</span>
-    <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='rubyid_publish identifier id'>publish</span>
-    <span class='rubyid_begin begin kw'>begin</span>
-      <span class='rubyid_dig_o identifier id'>dig_o</span> <span class='assign token'>=</span> <span class='rubyid_save identifier id'>save</span><span class='lparen token'>(</span><span class='rubyid_dig_o identifier id'>dig_o</span><span class='comma token'>,</span> <span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='rparen token'>)</span>
-    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ve identifier id'>ve</span>
-      <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_errors identifier id'>add_errors</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.dig_validation&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:err</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ve identifier id'>ve</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-      <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
-    <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
-      <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
-    <span class='rubyid_end end kw'>end</span>
-    <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_info identifier id'>add_info</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.created&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:what</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.dig&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;&#39;#{dig_o.title}&#39; #{dig_o.uri} [#{dig_o.digital_object_id}]&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
-    <span class='rubyid_dig_instance identifier id'>dig_instance</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
-    <span class='rubyid_dig_instance identifier id'>dig_instance</span><span class='dot token'>.</span><span class='rubyid_instance_type identifier id'>instance_type</span> <span class='assign token'>=</span> <span class='string val'>&quot;digital_object&quot;</span>
-    <span class='rubyid_dig_instance identifier id'>dig_instance</span><span class='dot token'>.</span><span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span> <span class='rbrace token'>}</span>
   <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_osn identifier id'>osn</span> <span class='assign token'>=</span> <span class='rubyid_id identifier id'>id</span> <span class='orop op'>||</span> <span class='dstring node'>&quot;#{archival_object.ref_id.to_s}d&quot;</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_check_digital_id identifier id'>check_digital_id</span><span class='lparen token'>(</span><span class='rubyid_osn identifier id'>osn</span><span class='rparen token'>)</span>
+<span class='comment val'>=begin
+    if @validate_only
+      I18n.t(&quot;bulk_import.error.dig_obj_unique&quot;, :id =&gt; osn)
+      report.add_errors(I18n.t(&quot;bulk_import.error.dig_obj_unique&quot;, :id =&gt; osn))
+    else
+=end
+</span>
+
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_BulkImportException constant id'>BulkImportException</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.dig_obj_unique&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_osn identifier id'>osn</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='comment val'>#      end</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_files identifier id'>files</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_link identifier id'>link</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_link identifier id'>link</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;http&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_fv identifier id'>fv</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:file_version</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+    <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_file_uri identifier id'>file_uri</span> <span class='assign token'>=</span> <span class='rubyid_link identifier id'>link</span>
+    <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='rubyid_publish identifier id'>publish</span>
+    <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_xlink_actuate_attribute identifier id'>xlink_actuate_attribute</span> <span class='assign token'>=</span> <span class='string val'>&quot;onRequest&quot;</span>
+    <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_xlink_show_attribute identifier id'>xlink_show_attribute</span> <span class='assign token'>=</span> <span class='string val'>&quot;new&quot;</span>
+    <span class='rubyid_files identifier id'>files</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span> <span class='rubyid_fv identifier id'>fv</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_thumb identifier id'>thumb</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_thumb identifier id'>thumb</span><span class='dot token'>.</span><span class='rubyid_start_with? fid id'>start_with?</span><span class='lparen token'>(</span><span class='string val'>&quot;http&quot;</span><span class='rparen token'>)</span>
+    <span class='rubyid_fv identifier id'>fv</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:file_version</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+    <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_file_uri identifier id'>file_uri</span> <span class='assign token'>=</span> <span class='rubyid_thumb identifier id'>thumb</span>
+    <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='rubyid_publish identifier id'>publish</span>
+    <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_xlink_actuate_attribute identifier id'>xlink_actuate_attribute</span> <span class='assign token'>=</span> <span class='string val'>&quot;onLoad&quot;</span>
+    <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_xlink_show_attribute identifier id'>xlink_show_attribute</span> <span class='assign token'>=</span> <span class='string val'>&quot;embed&quot;</span>
+    <span class='rubyid_fv identifier id'>fv</span><span class='dot token'>.</span><span class='rubyid_is_representative identifier id'>is_representative</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
+    <span class='rubyid_files identifier id'>files</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span> <span class='rubyid_fv identifier id'>fv</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_dig_o identifier id'>dig_o</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:digital_object</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+  <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_title identifier id'>title</span> <span class='assign token'>=</span> <span class='rubyid_title identifier id'>title</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='rubyid_archival_object identifier id'>archival_object</span><span class='dot token'>.</span><span class='rubyid_display_string identifier id'>display_string</span> <span class='colon op'>:</span> <span class='rubyid_title identifier id'>title</span>
+  <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_digital_object_id identifier id'>digital_object_id</span> <span class='assign token'>=</span> <span class='rubyid_osn identifier id'>osn</span>
+  <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_file_versions identifier id'>file_versions</span> <span class='assign token'>=</span> <span class='rubyid_files identifier id'>files</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_files identifier id'>files</span><span class='dot token'>.</span><span class='rubyid_any? fid id'>any?</span>
+  <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_publish identifier id'>publish</span> <span class='assign token'>=</span> <span class='rubyid_publish identifier id'>publish</span>
+  <span class='rubyid_begin begin kw'>begin</span>
+    <span class='rubyid_dig_o identifier id'>dig_o</span> <span class='assign token'>=</span> <span class='rubyid_save identifier id'>save</span><span class='lparen token'>(</span><span class='rubyid_dig_o identifier id'>dig_o</span><span class='comma token'>,</span> <span class='rubyid_DigitalObject constant id'>DigitalObject</span><span class='rparen token'>)</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='colon2 op'>::</span><span class='rubyid_ValidationException constant id'>ValidationException</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ve identifier id'>ve</span>
+    <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_errors identifier id'>add_errors</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.error.dig_validation&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:err</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_ve identifier id'>ve</span><span class='dot token'>.</span><span class='rubyid_errors identifier id'>errors</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span>
+  <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_e identifier id'>e</span>
+    <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_e identifier id'>e</span>
+  <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_report identifier id'>report</span><span class='dot token'>.</span><span class='rubyid_add_info identifier id'>add_info</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='rubyid_@create_key ivar id'>@create_key</span><span class='comma token'>,</span> <span class='symbol val'>:what</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;bulk_import.dig&quot;</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;&#39;#{dig_o.title}&#39; #{dig_o.uri} [#{dig_o.digital_object_id}]&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='rubyid_dig_instance identifier id'>dig_instance</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='symbol val'>:instance</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='dot token'>.</span><span class='rubyid__always_valid! fid id'>_always_valid!</span>
+  <span class='rubyid_dig_instance identifier id'>dig_instance</span><span class='dot token'>.</span><span class='rubyid_instance_type identifier id'>instance_type</span> <span class='assign token'>=</span> <span class='string val'>&quot;digital_object&quot;</span>
+  <span class='rubyid_dig_instance identifier id'>dig_instance</span><span class='dot token'>.</span><span class='rubyid_digital_object identifier id'>digital_object</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='string val'>&quot;ref&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_@validate_only ivar id'>@validate_only</span> <span class='question op'>?</span> <span class='string val'>&quot;http://x&quot;</span> <span class='colon op'>:</span> <span class='rubyid_dig_o identifier id'>dig_o</span><span class='dot token'>.</span><span class='rubyid_uri identifier id'>uri</span> <span class='rbrace token'>}</span>
   <span class='rubyid_dig_instance identifier id'>dig_instance</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
@@ -425,12 +522,12 @@
       <pre class="lines">
 
 
-53
-54
-55</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/digital_object_handler.rb', line 53</span>
+      <pre class="code"><span class="info file"># File 'backend/app/lib/bulk_import/digital_object_handler.rb', line 77</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_renew identifier id'>renew</span>
   <span class='rubyid_clear identifier id'>clear</span><span class='lparen token'>(</span><span class='rubyid_@digital_object_types ivar id'>@digital_object_types</span><span class='rparen token'>)</span>
@@ -446,9 +543,9 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.0.a Documentation Generated on Thu Jul 16 10:07:15 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:26:08 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.20.
+  0.9.25.
 </div>
 
     </div>
