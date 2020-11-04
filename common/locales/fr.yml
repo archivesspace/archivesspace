@@ -1592,6 +1592,7 @@ fr:
     finding_aid_language: Langue de description
     finding_aid_language_tooltip: |
         <p>Indique toutes les langues présentes dans l'instrument de recherche généré à partir de la description de ressource.</p>
+    finding_aid_langusage_label: "La description est écrite en: "
     finding_aid_script: Script de description
     finding_aid_script_tooltip: |
         <p>Indique tous les scripts présents dans l'instrument de recherche généré à partir de la description de la ressource.</p>
@@ -2042,6 +2043,7 @@ fr:
       generate_arks_job: Générer des ARK en vrac
       trim_whitespace_job: Couper les espaces
       unknown_job_type: Type de tâche inconnu
+      bulk_import_job: Charger via une feuille de calcul
     status: Statut
     status_completed: Effectuée
     status_queued: Mise en attente
@@ -2091,6 +2093,17 @@ fr:
   print_to_pdf_job:
     include_unpublished: Inclure ce qui n'est pas publié
     source: Source
+
+  bulk_import_job:
+    resource_uri: URI de la ressource
+    content_type: Type de feuille de calcul
+    load_type: Type de charge
+    only_validate: Valider seulement
+    type:
+      csv: CSV
+      xlsx: feuille de calcul Excel
+      ao: Charge d'archivage d'objets
+      digital: Charge de l'objet numérique
 
   trim_whitespace_job:
     description: Supprime les espaces blancs de début et de fin des titres des ressources, entrées, objets numériques, objets d'archivage et composants d'objet numérique.
@@ -2337,10 +2350,8 @@ fr:
     processing_row: "Traitement ligne %{row}"
     dig_assoc: Objet numérique ajouté à archives Objet
     row_error: "Row %{row} ne seront pas traitées en raison d'erreurs: %{errs}"
-    no_ao: Aucune archive objet créé
-    ao: objet d'archives
     created: "%{what} établi: %{id}"
-    would_be: "%{what} serait créé"
+    could_be: "%{what} serait créé"
     updated: "%{what}: %{id}"
     clip_btn: Copier dans le presse-papier
     clip_created: "\t%{what} créé:\t%{nm}\t%{id}\t%{ref_id}"
@@ -2348,15 +2359,30 @@ fr:
     clip_info: "\t\t\t\t\t%{what}\n"
     clip_err: "\t\t\t\t\tERREUR: %{err}\n"
     clip_header: "Row\tStatus\tTitle\tURI\tRef ID\tInfo"
+    log_complete: "Importation terminée de %{file}"
+    log_validation: "Validation terminée de %{file}"
+    log_created: "%{row}: Créé %{what}"
+    log_created_be: "%{row}: %{what} serait créé"
+    log_info: "%{row}:\t%{what}"
+    log_error: "%{row}:\tERREUR %{what}"
+    log_obj: "%{what} '%{nm}' %{id} %{ref_id}"
+    log_obj_be: "%{what} '%{nm}' "
+    log_results: Fichier CSV de résultats de compilation
+    ao: objet d'archives
     tc: supérieure.Récipient
     subj: Matière
     agent: Agent
     dig: objet numérique
+    cont_inst: Instance de conteneur
     unfound_id: "ID %{type} %{id} INTROUVABLE. Ceci est un paramètre fictif"
     ref_id_notfound: "Ref Id %{refid} non trouvé"
     processed: Le fichier a été traité
     file_info: "%{size}K avec des lignes %{rows}"
     max_file_info: "%{size}K %{rows} et lignes"
+    object_created: "%{what} créé"
+    object_created_be: "%{what} serait créé"
+    object_not_created_be: "%{what} ne serait pas créé"
+    date_type_default: Aucun type de date n'a été spécifié. Par défaut sur «inclusif».
     warn:
       dup: "Gérée Liste des valeurs contrôlée %{which} a plusieurs instances pour la traduction '%{trans}'. '%{used}' sera utilisé comme valeur."
       disam: "Correspondance multiple (s) trouvé pour '%{what}'. Création '%{name}' pour disabiguation."
@@ -2389,6 +2415,7 @@ fr:
       hier_zero: Hiérarchie doit être supérieure à 0
       hier_wrong: Hiérarchie ne peut pas être plus d'un niveau plus profond que la ligne précédente
       hier_wrong_resource: avez-vous l'intention de commencer à traiter avec un objet d'archivage sélectionné?
+      hier_wrong_resource_validation:  "ATTENTION: rien en dessous de cette ligne n'aurait été traité"
       hier_below_error_level: L'objet d'archivage mère n'a pas été créé
       level: Manquant valide niveau Description
       date: "La date doit avoir au moins: date de début, Date de fin, ou l'expression Date"
@@ -2397,11 +2424,12 @@ fr:
       extent_validation: "Impossible de valider l'étendue (%{ext}): %{msg}"
       no_header: Aucune ligne en-tête (codes de champ) trouvé; Utilisez-vous le bon modèle?
       no_data: Aucune ligne de données traitables trouvé!
-      excel: "Erreur (s) d'analyse syntaxique fichier Excel: %{errs}"
+      spreadsheet: "Erreur(s) d'analyse de la feuille de calcul: %{errs}"
       no_agent: "Impossible de créer Agent %{num}: [%{why}]"
       no_tc: "Impossible de créer supérieure.Récipient %{number}: [%{why}]"
       missing_instance_type: conteneur manquant type d'instance
       no_ao: Aucune archive objet créé
+      no_ao_be: L'objet d'archivage ne serait pas créé
       no_container_instance: "Impossible de créer une instance de conteneurs: [%{why}]"
       no_create: "Incapable de créer: [%{why}]"
       no_move: "Impossible de déplacer les objets d'archives de la fin de la liste (code de réponse %{code})"
@@ -2429,3 +2457,6 @@ fr:
       bad_ao: "Impossible de trouver l'objet d'archives %{errs}"
       no_uri_or_ref: Ni un URI objet d'archives ni REF ID n'a été fournie
       file_too_big: "Ce fichier, à %{file_info}, dépasse la taille et / ou limites de nombre de lignes %{limits}"
+      wrong_file_type: "Le fichier n'est ni une feuille de calcul Excel ni un fichier CSV"
+      dig_obj_unique: "ID d'objet numérique '%{id}' existe déjà."
+      cannot: Impossible de continuer en raison d'erreurs précédentes

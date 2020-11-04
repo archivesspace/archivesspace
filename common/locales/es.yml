@@ -1574,6 +1574,7 @@ es:
     finding_aid_language: Lengua del instrumento de descripción
     finding_aid_language_tooltip: |
         <p>Indica todas las lenguas presentes en el instrumento de descripción.</p>
+    finding_aid_langusage_label: "La descripción está escrita en: "
     finding_aid_script: Guión de Descripción
     finding_aid_script_tooltip: |
         <p>Indica todos los scripts presentes en la ayuda de búsqueda generada a partir de la descripción del recurso.</p>
@@ -2022,6 +2023,7 @@ es:
       generate_arks_job: Generar ARKs a granel
       trim_whitespace_job: Recortar espacios en blanco
       unknown_job_type: Tipo de trabajo desconocido
+      bulk_import_job: Cargar mediante hoja de cálculo
     status: Estado
     status_completed: Completado
     status_queued: Cola
@@ -2071,6 +2073,17 @@ es:
   print_to_pdf_job:
     include_unpublished: Incluir sin publicar
     source: Fuente
+
+  bulk_import_job:
+    resource_uri: URI de recursos
+    content_type: tipo de hoja de cálculo
+    load_type: Tipo de carga
+    only_validate: Sólo Validar
+    type:
+      csv: CSV
+      xlsx: Hoja de cálculo de Excel
+      ao: Carga de objetos Archivo
+      digital: Carga de Objetos Digitales
 
   trim_whitespace_job:
     description: Elimina los espacios en blanco iniciales y finales de los títulos para fondos, actas de ingreso, objetos digitales, objetos de archivo y componentes de objetos digitales.
@@ -2313,10 +2326,8 @@ es:
     processing_row: "El procesamiento de fila %{row}"
     dig_assoc: Objeto digital añade a objetos Archivo
     row_error: "Fila %{row} no serán objeto de tratamiento debido a errores: %{errs}"
-    no_ao: Sin Archivo objeto creado
-    ao: objeto Archivo
     created: "%{what} creado: %{id}"
-    would_be: "%{what} se crearía"
+    could_be: "%{what} se crearía"
     updated: "%{what}: %{id}"
     clip_btn: Copiar al portapapeles
     clip_created: "\t%{what} creado:\t%{nm}\t%{id}\t%{ref_id}"
@@ -2324,15 +2335,30 @@ es:
     clip_info: "\t\t\t\t\t%{what}\n"
     clip_err: "\t\t\t\t\tERROR: %{err}\n"
     clip_header: "Fila\tStatus\tTITLE\tURI\tRef ID\tINFO"
+    log_complete: "Importación completa de %{file}"
+    log_validation: "Validación completa de %{file}"
+    log_created: "%{row}: Creada %{what}"
+    log_created_be: "%{row}: %{what} sería creado"
+    log_info: "%{row}:\t%{what}"
+    log_error: "%{row}:\tERROR %{what}"
+    log_obj: "%{what} '%{nm}' %{id} %{ref_id}"
+    log_obj_be: "%{what} '%{nm}' "
+    log_results: Compilación de archivos CSV de resultados
+    ao: objeto Archivo
     tc: Top Container
     subj: Tema
     agent: Agente
     dig: objetos digitales
+    cont_inst: Instancia de contenedor
     unfound_id: "%{type} %{id} ID NO ENCONTRADO. Este es un marcador de posición"
     ref_id_notfound: "Ref Id %{refid} no encontrado"
     processed: El archivo ha sido procesado
     file_info: "%{size}K con filas %{rows}"
     max_file_info: "%{size}K %{rows} y filas"
+    object_created: "%{what} creada"
+    object_created_be: "%{what} sería creado"
+    object_not_created_be: "%{what} no sería creado"
+    date_type_default: No se especificó ningún tipo de fecha. De forma predeterminada a 'inclusivo'.
     warn:
       dup: "Logró controlada Lista de valores %{which} tiene varias copias de la traducción '%{trans}'. '%{used}' se utilizará como el valor."
       disam: "Coincidencia múltiple (es) encontrados '%{what}'. La creación de '%{name}' para disabiguation."
@@ -2365,6 +2391,7 @@ es:
       hier_zero: Jerarquía debe ser mayor que 0
       hier_wrong: Jerarquía no no puede haber más de un nivel más profundo que la fila anterior
       hier_wrong_resource: quiso decir para iniciar el procesamiento con un objeto de archivo seleccionado?
+      hier_wrong_resource_validation:  "ADVERTENCIA: nada debajo de esta fila se habría procesado"
       hier_below_error_level: El objeto de archivo de los padres no fue creado
       level: Missing válida nivel Descripción
       date: "La fecha debe tener al menos uno de: fecha de inicio, Fecha de finalización, o la expresión de la fecha"
@@ -2373,11 +2400,12 @@ es:
       extent_validation: "No se puede validar medida (%{ext}): %{msg}"
       no_header: Sin cabecera (códigos de campo) encontró fila; está usando la plantilla correcta?
       no_data: No hay filas de datos procesables encontrado!
-      excel: "Error (s) analizar el archivo de Excel: %{errs}"
+      spreadsheet: "Error(s) al analizar la hoja de cálculo: %{errs}"
       no_agent: "No se puede crear el Agente %{num}: [%{why}]"
       no_tc: "No se puede crear parte superior del recipiente %{number}: [%{why}]"
       missing_instance_type: Falta el tipo de instancia envase
       no_ao: Sin Archivo objeto creado
+      no_ao_be: El objeto de archivo no se crearía
       no_container_instance: "No se puede crear de contenedores Instancia: [%{why}]"
       no_create: "Incapaz de crear: [%{why}]"
       no_move: "No se puede mover los objetos de archivo desde el final de la lista (código de respuesta %{code})"
@@ -2405,3 +2433,6 @@ es:
       bad_ao: "No se puede encontrar el objeto de archivos %{errs}"
       no_uri_or_ref: Tampoco se presentó una URI objeto archival ni un ID REF
       file_too_big: "Este archivo, en %{file_info}, supera el tamaño y / o fila límites de número de %{limits}"
+      wrong_file_type: "El archivo no es una hoja de cálculo de Excel ni un archivo CSV"
+      dig_obj_unique: "ID de objeto digital '%{id}' ya existe."
+      cannot: No se puede continuar debido a errores anteriores.
