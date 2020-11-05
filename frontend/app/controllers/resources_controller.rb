@@ -1,7 +1,7 @@
 class ResourcesController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show, :tree_root, :tree_node, :tree_waypoint, :node_from_root, :models_in_graph],
-                      "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :accept_children],
+                      "update_resource_record" => [:new, :edit, :create, :update, :rde, :add_children, :publish, :unpublish, :accept_children],
                       "delete_archival_record" => [:delete],
                       "merge_archival_record" => [:merge],
                       "suppress_archival_record" => [:suppress, :unsuppress],
@@ -309,6 +309,21 @@ class ResourcesController < ApplicationController
 
     if response.code == '200'
       flash[:success] = I18n.t("resource._frontend.messages.published", JSONModelI18nWrapper.new(:resource => resource).enable_parse_mixed_content!(url_for(:root)))
+    else
+      flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
+    end
+
+    redirect_to request.referer
+  end
+
+
+  def unpublish
+    resource = Resource.find(params[:id])
+
+    response = JSONModel::HTTP.post_form("#{resource.uri}/unpublish")
+
+    if response.code == '200'
+      flash[:success] = I18n.t("resource._frontend.messages.unpublished", JSONModelI18nWrapper.new(:resource => resource).enable_parse_mixed_content!(url_for(:root)))
     else
       flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
     end

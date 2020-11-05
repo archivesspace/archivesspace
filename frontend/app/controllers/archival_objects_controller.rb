@@ -1,7 +1,7 @@
 class ArchivalObjectsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_resource_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :accept_children, :validate_rows],
+                      "update_resource_record" => [:new, :edit, :create, :update, :transfer, :rde, :add_children, :publish, :unpublish, :accept_children, :validate_rows],
                       "suppress_archival_record" => [:suppress, :unsuppress],
                       "delete_archival_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults]
@@ -260,6 +260,36 @@ class ArchivalObjectsController < ApplicationController
     end
 
     render_aspace_partial :partial => "shared/rde"
+  end
+
+
+  def publish
+    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
+
+    response = JSONModel::HTTP.post_form("#{@archival_object.uri}/publish")
+
+    if response.code == '200'
+      flash[:success] = I18n.t("archival_object._frontend.messages.published", JSONModelI18nWrapper.new(:archival_object => @archival_object).enable_parse_mixed_content!(url_for(:root)))
+    else
+      flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
+    end
+
+    redirect_to "#{request.referer}#tree::archival_object_#{params[:id]}"
+  end
+
+
+  def unpublish
+    @archival_object = JSONModel(:archival_object).find(params[:id], find_opts)
+
+    response = JSONModel::HTTP.post_form("#{@archival_object.uri}/unpublish")
+
+    if response.code == '200'
+      flash[:success] = I18n.t("archival_object._frontend.messages.unpublished", JSONModelI18nWrapper.new(:archival_object => @archival_object).enable_parse_mixed_content!(url_for(:root)))
+    else
+      flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
+    end
+
+    redirect_to "#{request.referer}#tree::archival_object_#{params[:id]}"
   end
 
 

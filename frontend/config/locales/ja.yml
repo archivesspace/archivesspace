@@ -114,6 +114,18 @@ ja:
     publish_confirm_title: 公開しますか？
     publish_confirm_message: "<p>このアクションを実行すると、このレコード、サブレコード（外部文書、注釈など）および階層内のすべてのコンポーネントが公開されます。
       </p>"
+    unpublish: すべてを非公開
+    unpublish_confirm_title: 非公開にしますか？
+    unpublish_confirm_message: "<p>このアクションを実行すると、このレコード、サブレコード（外部文書、注釈など）および階層内のすべてのコンポーネントが非公開されます。
+      </p>"
+    publish_archival_object: すべてを公開
+    publish_archival_object_confirm_title: 公開しますか？
+    publish_archival_object_confirm_message: "<p>このアクションを実行すると、このレコード、サブレコード（外部文書、注釈など）および階層の下位すべてのコンポーネントが公開されます。
+      </p>"
+    unpublish_archival_object: すべてを非公開
+    unpublish_archival_object_confirm_title: 非公開にしますか？
+    unpublish_archival_object_confirm_message: "<p>このアクションを実行すると、このレコード、サブレコード（外部文書、注釈など）および階層の下位すべてのコンポーネントが非公開されます。
+      </p>"
     view_search_results: 検索結果に移動
     view_published: ビューの公開
     print_to_pdf: PDFを生成
@@ -741,6 +753,8 @@ ja:
         transfer_success: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>をリソース<strong>%{resource.title}</strong>転送しました<strong>%{resource.title}</strong>
         transfer_error: エラーまたは競合のためアーカイブオブジェクトを転送できません： <pre> %{exception} </pre>
         deleted: アーカイブオブジェクト<strong>%{archival_object.display_string}</strong>削除されました
+        published: アーカイブオブジェクト<strong>%{archival_object.title}</strong> 、そのサブレコードとコンポーネントが公開されました
+        unpublished: アーカイブオブジェクト<strong>%{archival_object.title}</strong> 、そのサブレコードとコンポーネントが非公開されました
         unsuppressed: アーカイブオブジェクト<strong>%{archival_object.title}</strong>抑制されていません
         suppressed: アーカイブオブジェクト<strong>%{archival_object.title}</strong>され<strong>%{archival_object.title}</strong>
         suppressed_info: アーカイブオブジェクトは抑制されており、編集できません
@@ -1090,6 +1104,7 @@ ja:
         spawned: アクセシビリティ<strong>%{accession.display_string}</strong>から新しいリソースが生成されました<strong>%{accession.display_string}</strong>
         deleted: リソース<strong>%{resource.title}</strong>削除されました
         published: リソース<strong>%{resource.title}</strong> 、そのサブレコードとコンポーネントが公開されました
+        unpublished: リソース<strong>%{resource.title}</strong> 、そのサブレコードとコンポーネントが非公開されました
         merge_description: 以下のリソースを選択してマージする
         please_select_a_resource_to_merge: リソースを選択してください
         merged: 結合されたリソース

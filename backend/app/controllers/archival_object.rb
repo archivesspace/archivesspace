@@ -107,4 +107,30 @@ class ArchivesSpaceService < Sinatra::Base
     handle_delete(ArchivalObject, params[:id])
   end
 
+  Endpoint.post('/repositories/:repo_id/archival_objects/:id/publish')
+    .description("Publish an Archival Object and all its sub-records and components")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:update_resource_record])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    ao = ArchivalObject.get_or_die(params[:id])
+    ao.publish!
+    updated_response(ao)
+  end
+
+  Endpoint.post('/repositories/:repo_id/archival_objects/:id/unpublish')
+    .description("Unpublish an Archival Object and all its sub-records and components")
+    .params(["id", :id],
+            ["repo_id", :repo_id])
+    .permissions([:update_resource_record])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    ao = ArchivalObject.get_or_die(params[:id])
+    ao.unpublish!
+    updated_response(ao)
+  end
+
 end
