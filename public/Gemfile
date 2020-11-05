@@ -72,3 +72,7 @@ group :test do
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'simplecov', '0.7.1'
 end
+
+# Allow plugins to provide their own Gemfiles too.
+require 'asutils'
+ASUtils.load_plugin_gems(self)
