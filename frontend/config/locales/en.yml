@@ -86,7 +86,7 @@ en:
     delete_multiple_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will remove these records from the database, including any references they have to other records.</p>"
     reset: Reset Defaults
     reset_confirm_title: "Reset %{preftype} to application defaults?"
-    reset_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will reset preferences to installation defaults.</p>"
+    reset_confirm_message: "<p>Please be aware <strong>you cannot undo this action</strong>.</p><p>This action will reset preferences to application defaults.</p>"
     edit_multiple: Edit Records
     edit_multiple_confirm_title: Edit Records?
     edit_multiple_confirm_message: "<p>This will bulk update multiple records.</p>"

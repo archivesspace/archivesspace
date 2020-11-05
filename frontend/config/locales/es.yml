@@ -88,7 +88,7 @@ es:
     delete_multiple_confirm_message: "<p>Por favor, ser conscientes de que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción eliminará estos registros de la base de datos, incluyendo referencias tienen a otros registros.</p>"
     reset: Restablecer predeterminados
     reset_confirm_title: "¿Restablecer %{preftype} a los valores predeterminados de la aplicación?"
-    reset_confirm_message: "<p>Tenga en cuenta que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción restablecerá las preferencias a los valores predeterminados de instalación.</p>"
+    reset_confirm_message: "<p>Tenga en cuenta que <strong>no puede deshacer esta acción</strong>.</p><p>Esta acción restablecerá las preferencias a los valores predeterminados de la aplicación.</p>"
     edit_multiple: Editar múltiples registros
     edit_multiple_confirm_title: ¿Editar registros?
     edit_multiple_confirm_message: "<p>Esto actualizará múltiples registros.</p>"
