@@ -93,7 +93,7 @@ ja:
       </p><p>このアクションは、他のレコードに対する参照を含めて、これらのレコードをデータベースから削除します。 </p>"
     reset: デフォルトにリセット
     reset_confirm_title: "％{preftype}をアプリケーションのデフォルトにリセットしますか？"
-    reset_confirm_message: "<p><strong>この操作を元に戻すことはできません</strong>。</p><p>この操作により、設定がインストールのデフォルトにリセットされます。</p>"
+    reset_confirm_message: "<p><strong>この操作を元に戻すことはできません</strong>。</p><p>このアクションにより、設定がアプリケーションのデフォルトにリセットされます。</p>"
     edit_multiple: レコードを編集する
     edit_multiple_confirm_title: レコードを編集する？
     edit_multiple_confirm_message: "<p>これにより、複数のレコードを一括更新します。 </p>"
