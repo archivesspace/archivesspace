@@ -41,7 +41,7 @@
         <%= form.label_and_textfield("component_id")%>
         <%= form.label_and_textfield "external_ark_url" if AppConfig[:arks_enabled] %>
         <%= form.label_and_select "level", form.possible_options_for("level", true) %>
-        <%= form.label_and_textfield "other_level", :required => true %>
+        <%= form.label_and_textfield "other_level" %>
         <div class="form-group">
           <%= form.label "publish", :class => 'control-label col-sm-2' %>
           <div class="checkbox col-sm-9">

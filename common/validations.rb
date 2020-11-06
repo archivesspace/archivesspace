@@ -380,7 +380,7 @@ module JSONModel::Validations
     warnings = []
 
     if hash["level"] == "otherlevel"
-      warnings << ["other_level", "is required"] if hash["other_level"].nil?
+      warnings << ["other_level", "missing property"] if hash["other_level"].nil?
     end
 
     warnings
