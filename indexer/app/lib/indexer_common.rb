@@ -306,28 +306,28 @@ class IndexerCommon
 
 
   def enum_fields
-    if @enum_fields
-      @enum_fields
-    else
-      enum_fields = []
+    return @enum_fields if @enum_fields
 
-      queue = JSONModel.models.map {|_,model| model.schema['properties']}.flatten.uniq
+    enum_fields = []
+    queue = JSONModel.models.map {|_,model| model.schema['properties']}.flatten.uniq
 
-      while !queue.empty?
-        elt = queue.shift
+    while !queue.empty?
+      elt = queue.shift
 
-        if elt.is_a?(Hash)
-          elt.each do |k, v|
-            enum_fields.push(k) if v.is_a?(Hash) && v['dynamic_enum']
-            queue << v
+      if elt.is_a?(Hash)
+        elt.each do |k, v|
+          if v.is_a?(Hash)
+            enum_fields.push(k) if v['dynamic_enum'] || v.dig('items', 'dynamic_enum')
           end
-        elsif elt.is_a?(Array)
-          queue.concat(elt)
+          queue << v
         end
+      elsif elt.is_a?(Array)
+        queue.concat(elt)
       end
-
-      @enum_fields = enum_fields.uniq
     end
+
+    enum_fields.delete('items') # not an enum, creeps in through dynamic enum lists
+    @enum_fields = enum_fields.uniq
   end
 
 
