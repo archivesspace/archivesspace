@@ -468,31 +468,7 @@
   </target>
 
   <!-- DOCS -->
-  <target name="doc:build" depends="set-classpath, doc:techdocs, doc:yard" description="Generate documentation for endpoints">
-    <property name="match" value=""/>
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="..">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp scripts/build_docs.rb"/>
-      <arg value="${match}"/>
-    </java>
-  </target>
-
-  <target name="doc:techdocs" depends="set-classpath" description="Get md files from tech-docs repo">
-    <property name="match" value=""/>
-    <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="..">
-      <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
-      <env key="GEM_HOME" value="${gem_home}" />
-      <env key="GEM_PATH" value="" />
-      <env key="BUNDLE_PATH" value="${gem_home}" />
-      <arg line="-Iapp scripts/pull_tech_docs.rb"/>
-      <arg value="${match}"/>
-    </java>
-  </target>
-
-  <target name="doc:yard" depends="set-classpath" description="Generate the full YARD documentation">
+  <target name="doc:build" depends="set-classpath" description="Generate the full YARD documentation">
     <java classpath="${jruby_classpath}" classname="org.jruby.Main" fork="true" failonerror="true" dir="../_yard">
       <jvmarg line="${default_java_options} ${env.JAVA_OPTS}"/>
       <env key="GEM_HOME" value="${gem_home}" />
