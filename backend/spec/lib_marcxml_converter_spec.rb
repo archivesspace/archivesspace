@@ -270,6 +270,7 @@ END
 
       it "maps datafield[@tag='245']/subfield[@code='f' or @code='g'] to resources.dates[]" do
         expect(@resource['dates'][0]['expression']).to eq("Resource-Date-Expression-AT-1960 - 1970")
+        expect(@resource['dates'][1]['expression']).to eq("Resource-Date-Expression-AT-1965 - 1968")
       end
 
       it "maps datafield[@tag='300'] to resource.extents[].container_summary using template '$3: $a ; $b, $c ($e, $f, $g)'" do
