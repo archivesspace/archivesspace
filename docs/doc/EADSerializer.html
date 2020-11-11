@@ -2211,7 +2211,17 @@ content</p>
 941
 942
 943
-944</pre>
+944
+945
+946
+947
+948
+949
+950
+951
+952
+953
+954</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/exporters/serializers/ead.rb', line 819</span>
@@ -2317,6 +2327,16 @@ content</p>
 
       <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_finding_aid_language_note identifier id'>finding_aid_language_note</span><span class='rparen token'>)</span>
         <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_langusage identifier id'>langusage</span> <span class='lparen token'>(</span><span class='rubyid_fragments identifier id'>fragments</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+      <span class='rubyid_else else kw'>else</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_langusage identifier id'>langusage</span><span class='lparen token'>(</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='string val'>&quot;resource.finding_aid_langusage_label&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+          <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_language identifier id'>language</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='label val'>langcode:</span> <span class='dstring node'>&quot;#{data.finding_aid_language}&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:scriptcode</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='dstring node'>&quot;#{data.finding_aid_script}&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span>
+            <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.language_iso639_2.#{data.finding_aid_language}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+            <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='string val'>&quot;, &quot;</span><span class='rparen token'>)</span>
+            <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='rubyid_I18n constant id'>I18n</span><span class='dot token'>.</span><span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='dstring node'>&quot;enumerations.script_iso15924.#{data.finding_aid_script}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+            <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='dstring node'>&quot; #{I18n.t(&quot;language_and_script.script&quot;).downcase}&quot;</span><span class='rparen token'>)</span><span class='rbrace token'>}</span>
+        <span class='rubyid_xml identifier id'>xml</span><span class='dot token'>.</span><span class='rubyid_text identifier id'>text</span><span class='lparen token'>(</span><span class='string val'>&quot;.&quot;</span><span class='rparen token'>)</span>
+        <span class='rbrace token'>}</span>
       <span class='rubyid_end end kw'>end</span>
 
       <span class='rubyid_if if kw'>if</span> <span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span> <span class='assign token'>=</span> <span class='rubyid_data identifier id'>data</span><span class='dot token'>.</span><span class='rubyid_descrules identifier id'>descrules</span><span class='rparen token'>)</span>
@@ -3331,7 +3351,7 @@ content</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:58 2020 by
+  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:00 2020 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>
