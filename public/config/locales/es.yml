@@ -210,8 +210,6 @@ es:
     series: Serie
     subfonds: Subfondos
     subgrp: Subgrupo
-    subseries: Subserie
-
     sub-series: Subserie
   errors:
     error_404: "% {type} registro no encontrado"
