@@ -53,7 +53,7 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    expect(parsed.length).to eq(7)
+    expect(parsed.length).to eq(6)
     expect(parsed.find{|r| r['ref_id'] == '1'}['instances'][0]['sub_container']['type_2']).to eq('Folder')
   end
 
@@ -73,7 +73,7 @@ ANEAD
     converter.run
     parsed = JSON(IO.read(converter.get_output_path))
 
-    expect(parsed.length).to eq(7)
+    expect(parsed.length).to eq(6)
     expect(parsed.find{|r| r['ref_id'] == '1'}['title']).to eq('oh well')
     expect(parsed.find{|r| r['ref_id'] == '1'}['dates'][0]['expression']).to eq("1907-1911")
 
