@@ -353,7 +353,7 @@ describe 'Merge request controller' do
         'agent_conventions_declarations' => [
           {
             'replace' => "REPLACE",
-            'id' => subrecord["id"].to_i
+            'position' => "0"
           }
         ]
       }
@@ -384,7 +384,7 @@ describe 'Merge request controller' do
         'agent_conventions_declarations' => [
           {
             'append' => "REPLACE",
-            'id' => subrecord["id"].to_i
+            'position' => "0"
           },
         ]
       }
@@ -417,7 +417,7 @@ describe 'Merge request controller' do
         'agent_record_controls' => [
           {
             'maintenance_agency' => "REPLACE",
-            'id' => victim_subrecord["id"].to_i
+            'position' => "0"
           }
         ]
       }
@@ -451,11 +451,11 @@ describe 'Merge request controller' do
       selections = {
         'agent_conventions_declarations' => [
           {
-            'id' => victim["agent_conventions_declarations"][1]["id"]
+            'position' => "1"
           },
           {
             'replace' => "REPLACE",
-            'id' => subrecord["id"].to_i
+            'position' => "0"
           }
         ]
       }
@@ -485,11 +485,11 @@ describe 'Merge request controller' do
       selections = {
         'agent_conventions_declarations' => [
           {
-            'id' => victim["agent_conventions_declarations"][1]["id"].to_i
+            'position' => "1"
           },
           {
             'append' => "REPLACE",
-            'id' => subrecord["id"].to_i
+            'position' => "0"
           },
         ]
       }
@@ -521,11 +521,11 @@ describe 'Merge request controller' do
       selections = {
         'agent_conventions_declarations' => [
           {
-            'id' => victim["agent_conventions_declarations"][1]["id"].to_i
+            'position' => "1"
           },
           {
             'descriptive_note' => "REPLACE",
-            'id' => victim_subrecord["id"].to_i
+            'position' => "0"
           }
         ]
       }
