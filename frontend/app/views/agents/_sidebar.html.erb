@@ -14,7 +14,7 @@
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_record_identifier', :property => 'agent_record_identifiers', :anchor => "#{@agent.agent_type}_agent_record_identifier") %>
 
 
-   <% if (AppConfig[:agents_display_full] && AppConfig[:agents_display_full] == true && @full_mode) || action_name == "show" %>
+   <% if full_mode? || action_name == "show" %>
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_record_control', :property => 'agent_record_controls', :anchor => "#{@agent.agent_type}_agent_record_control") %>
 
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_other_agency_code', :property => 'agent_other_agency_codes', :anchor => "#{@agent.agent_type}_agent_other_agency_codes") %>
@@ -45,7 +45,7 @@
                                          :anchor => "#{@agent.agent_type}_dates_of_existence") %>
 
 
-   <% if (AppConfig[:agents_display_full] && AppConfig[:agents_display_full] == true && @full_mode) || action_name == "show" %>
+   <% if full_mode? || action_name == "show" %>
 
     <% if @agent.agent_type == "agent_person" %>
         <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_gender', :property => 'agent_genders', :anchor => "agent_person_agent_gender") %>
@@ -68,8 +68,8 @@
                                          :anchor => "#{@agent.agent_type}_used_language") %>
 
     <% end %>
- 
- 
+
+
     <% if user_can?('view_agent_contact_record') %>
       <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_contact', :property => 'agent_contacts', :anchor => "#{@agent.agent_type}_contact_details") %>
     <% end %>
@@ -82,8 +82,8 @@
     <% if action_name != "show" %>
         <%= render_aspace_partial :partial => "shared/sidebar_entry", :locals => {:anchor => "relation_information", :title => "Relation Information"} %>
     <% end %>
-    
-   <% if (AppConfig[:agents_display_full] && AppConfig[:agents_display_full] == true && @full_mode) || action_name == "show" %>
+
+   <% if full_mode? || action_name == "show" %>
      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_resource', :property => 'agent_resources',
                                          :anchor => "#{@agent.agent_type}_agent_resource") %>
 

@@ -22,7 +22,8 @@
       "agent_genders" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_gender) object"}
+        "items" => {"type" => "JSONModel(:agent_gender) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "related_agents" => {

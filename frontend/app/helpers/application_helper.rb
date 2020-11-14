@@ -412,4 +412,15 @@ module ApplicationHelper
   def supported_locales_options
     I18n.supported_locales.map{ |k, v| [t("enumerations.language_iso639_2.#{v}"), k] }
   end
+
+  def full_mode?
+    AppConfig[:agents_display_full] == true && (user_can?("show_full_agents") || user_can?("administer_system"))
+  end
+
+  def has_agent_subrecords?(agent)
+    # agent_person has all agent subrecord types so is ideal for finding any potential subrecord
+    JSONModel(:agent_person).properties_by_tag('agent_subrecord').map(&:first).map(&:to_sym).find do |subrecord|
+      agent.send(subrecord).length.positive?
+    end
+  end
 end
