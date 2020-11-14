@@ -27,79 +27,92 @@
       "agent_record_controls" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_record_control) object"}
+        "items" => {"type" => "JSONModel(:agent_record_control) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_alternate_sets" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_alternate_set) object"}
+        "items" => {"type" => "JSONModel(:agent_alternate_set) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_conventions_declarations" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_conventions_declaration) object"}
+        "items" => {"type" => "JSONModel(:agent_conventions_declaration) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_other_agency_codes" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_other_agency_codes) object"}
+        "items" => {"type" => "JSONModel(:agent_other_agency_codes) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_maintenance_histories" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_maintenance_history) object"}
+        "items" => {"type" => "JSONModel(:agent_maintenance_history) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_record_identifiers" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_record_identifier) object"}
+        "items" => {"type" => "JSONModel(:agent_record_identifier) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_identifiers" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_identifier) object"}
+        "items" => {"type" => "JSONModel(:agent_identifier) object"},
+        "tags" => ["agent_subrecord"]
       },
  
       "agent_sources" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_sources) object"}
+        "items" => {"type" => "JSONModel(:agent_sources) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_places" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_place) object"}
+        "items" => {"type" => "JSONModel(:agent_place) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_occupations" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_occupation) object"}
+        "items" => {"type" => "JSONModel(:agent_occupation) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_functions" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_function) object"}
+        "items" => {"type" => "JSONModel(:agent_function) object"},
+        "tags" => ["agent_subrecord"]
       },
       
       "agent_topics" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_topic) object"}
+        "items" => {"type" => "JSONModel(:agent_topic) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "agent_resources" => {
         "required" => false,
         "type" => "array",
-        "items" => {"type" => "JSONModel(:agent_resource) object"}
+        "items" => {"type" => "JSONModel(:agent_resource) object"},
+        "tags" => ["agent_subrecord"]
       },
 
       "linked_agent_roles" => {
@@ -132,7 +145,11 @@
         "items" => {"type" => "JSONModel(:structured_date_label) object"}
       },
       
-      "used_languages" => {"type" => "array", "items" => {"type" => "JSONModel(:used_language) object"}},
+      "used_languages" => {
+        "type" => "array",
+        "items" => {"type" => "JSONModel(:used_language) object"},
+        "tags" => ["agent_subrecord"]
+      },
 
       "publish" => {"type" => "boolean"},
 

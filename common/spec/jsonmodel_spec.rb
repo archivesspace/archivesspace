@@ -65,7 +65,7 @@ describe JSONModel do
           "publish" => {"type" => "boolean", "required" => false},
           "ref_id" => {"type" => "string", "ifmissing" => "error", "minLength" => 1, "pattern" => "^[a-zA-Z0-9]*$"},
           "component_id" => {"type" => "string", "required" => false, "default" => "", "pattern" => "^[a-zA-Z0-9]*$"},
-          "title" => {"type" => "string", "minLength" => 1, "required" => true},
+          "title" => {"type" => "string", "minLength" => 1, "required" => true, "tags" => ["the_title"]},
 
           "names" => {
             "type" => "array",
@@ -175,6 +175,10 @@ describe JSONModel do
     jo = @klass.JSONModel(:stub).from_hash({:ref_id => "abc", :title => "Stub Object"})
     expect(jo.names.class).to eq(Array)
     expect(jo.names.length).to eq(0)
+  end
+
+  it "can find schema properties by tag lookup" do
+    expect(@klass.JSONModel(:stub).properties_by_tag('the_title').first[0]).to eq 'title'
   end
 
 
