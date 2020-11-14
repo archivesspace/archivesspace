@@ -472,4 +472,8 @@ class JSONModelType
     @data = hash
   end
 
+
+  def self.properties_by_tag(tag)
+    @schema['properties'].find_all { |p, cfg| cfg.fetch('tags', []).include?(tag) }
+  end
 end

@@ -1,27 +1,7 @@
 <%= render_aspace_partial :partial => "shared/form_messages", :locals => {:object => @agent, :form => form} %>
-
 <%= render_aspace_partial :partial => "agents/contact_details", :locals => {:form => form} %>
 
-<% if AppConfig[:agents_display_full] == false || !@full_mode %>
-  <% invisible = true %>
-<% else %>
-  <% invisible = false %>
-<% end %>
-
-<% if invisible && 
-      (@agent.agent_record_controls.length > 0 ||
-      @agent.agent_other_agency_codes.length > 0 ||
-      @agent.agent_conventions_declarations.length > 0 ||
-      @agent.agent_maintenance_histories.length > 0 ||
-      @agent.agent_sources.length > 0 ||
-      @agent.agent_alternate_sets.length > 0 ||
-      (@agent.agent_type == "agent_person" && @agent.agent_genders.length > 0) ||
-      @agent.agent_places.length > 0 ||
-      @agent.agent_occupations.length > 0 ||
-      @agent.agent_functions.length > 0 ||
-      @agent.agent_topics.length > 0 ||
-      @agent.used_languages.length > 0 ||
-      @agent.agent_resources.length > 0) %>
+<% if !full_mode? && has_agent_subrecords?(@agent) %>
   <div class="alert alert-warning">This agent has data that is only editable in Full mode. To enable it, ask your administrator to enable Full Mode on this instance and grant you Full Mode permission.</div>
 <% end %>
 
@@ -52,17 +32,17 @@
 
    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_record_identifiers", :section_id => "#{@agent.agent_type}_agent_record_identifier", :template => "agent_record_identifiers", help_topic: "agent_record_identifiers", :invisible => false} %>
 
-   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_record_controls", :section_id => "#{@agent.agent_type}_agent_record_control", :template => "agent_record_control", help_topic: "agent_record_controls", :cardinality => :zero_to_one, :list_limited_to_one => true, :invisible => invisible} %>
+   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_record_controls", :section_id => "#{@agent.agent_type}_agent_record_control", :template => "agent_record_control", help_topic: "agent_record_controls", :cardinality => :zero_to_one, :list_limited_to_one => true, :invisible => !full_mode?} %>
 
-   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_other_agency_codes", :section_id => "#{@agent.agent_type}_agent_other_agency_codes", :template => "agent_other_agency_codes", help_topic: "agent_other_agency_codes", :invisible => invisible} %>
+   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_other_agency_codes", :section_id => "#{@agent.agent_type}_agent_other_agency_codes", :template => "agent_other_agency_codes", help_topic: "agent_other_agency_codes", :invisible => !full_mode?} %>
 
-   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_conventions_declarations", :section_id => "#{@agent.agent_type}_agent_conventions_declaration", :template => "agent_conventions_declaration", help_topic: "agent_conventions_declarations", :invisible => invisible} %>
+   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_conventions_declarations", :section_id => "#{@agent.agent_type}_agent_conventions_declaration", :template => "agent_conventions_declaration", help_topic: "agent_conventions_declarations", :invisible => !full_mode?} %>
 
-   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_maintenance_histories", :section_id => "#{@agent.agent_type}_agent_maintenance_history", :template => "agent_maintenance_histories", help_topic: "agent_maintenance_histories", :invisible => invisible} %>
+   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_maintenance_histories", :section_id => "#{@agent.agent_type}_agent_maintenance_history", :template => "agent_maintenance_histories", help_topic: "agent_maintenance_histories", :invisible => !full_mode?} %>
 
-   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_sources", :section_id => "#{@agent.agent_type}_agent_sources", :template => "agent_sources", help_topic: "agent_sources", :invisible => invisible } %>
+   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_sources", :section_id => "#{@agent.agent_type}_agent_sources", :template => "agent_sources", help_topic: "agent_sources", :invisible => !full_mode? } %>
 
-   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_alternate_sets", :section_id => "#{@agent.agent_type}_agent_alternate_set", :template => "agent_alternate_set", help_topic: "agent_alternate_sets", :invisible => invisible} %>
+   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_alternate_sets", :section_id => "#{@agent.agent_type}_agent_alternate_set", :template => "agent_alternate_set", help_topic: "agent_alternate_sets", :invisible => !full_mode?} %>
   </section>
 
   <section id="identity_information" class="agents-subsection">
@@ -85,18 +65,18 @@
 
 
      <% if @agent.agent_type.to_s == "agent_person" %>
-       <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_genders", :section_id => "#{@agent.agent_type}_agent_gender", :template => "agent_gender", help_topic: "agent_genders", :invisible => invisible} %>
+       <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_genders", :section_id => "#{@agent.agent_type}_agent_gender", :template => "agent_gender", help_topic: "agent_genders", :invisible => !full_mode?} %>
      <% end %>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_places", :section_id => "#{@agent.agent_type}_agent_place", :template => "agent_place", help_topic: "agent_places", :invisible => invisible} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_places", :section_id => "#{@agent.agent_type}_agent_place", :template => "agent_place", help_topic: "agent_places", :invisible => !full_mode?} %>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_occupations", :section_id => "#{@agent.agent_type}_agent_occupation", :template => "agent_occupation", help_topic: "agent_occupation", :invisible => invisible} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_occupations", :section_id => "#{@agent.agent_type}_agent_occupation", :template => "agent_occupation", help_topic: "agent_occupation", :invisible => !full_mode?} %>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_functions", :section_id => "#{@agent.agent_type}_agent_function", :template => "agent_function", help_topic: "agent_function", :invisible => invisible} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_functions", :section_id => "#{@agent.agent_type}_agent_function", :template => "agent_function", help_topic: "agent_function", :invisible => !full_mode?} %>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_topics", :section_id => "#{@agent.agent_type}_agent_topic", :template => "agent_topic", help_topic: "agent_topic", :invisible => invisible} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_topics", :section_id => "#{@agent.agent_type}_agent_topic", :template => "agent_topic", help_topic: "agent_topic", :invisible => !full_mode?} %>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "used_languages", :section_id => "#{@agent.agent_type}_used_language", :template => "used_language", :invisible => invisible} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "used_languages", :section_id => "#{@agent.agent_type}_used_language", :template => "used_language", :invisible => !full_mode?} %>
 
   <% if user_can?('view_agent_contact_record') %>
     <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_contacts", :section_id => "#{@agent.agent_type}_contact_details", :template_erb => "agents/contact_details", :template => "agent_contact", :help_topic => "#{@agent.agent_type}_contact_details", :invisible => false} %>
@@ -112,7 +92,7 @@
       <%= I18n.t("agent._frontend.section.relation_information") %>
     </h3>
 
-    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_resources", :section_id => "#{@agent.agent_type}_agent_resource", :template => "agent_resource", help_topic: "agent_resource", :invisible => invisible} %>
+    <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "agent_resources", :section_id => "#{@agent.agent_type}_agent_resource", :template => "agent_resource", help_topic: "agent_resource", :invisible => !full_mode?} %>
 
   <% unless @agent.agent_type.to_s == "agent_software" %>
     <%= render_aspace_partial :partial => "related_agents/form", :locals => {:form => form} %>
