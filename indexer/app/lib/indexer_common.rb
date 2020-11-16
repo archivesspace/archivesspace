@@ -149,7 +149,7 @@ class IndexerCommon
       end
     end
 
-    strings.join(' ')
+    strings.join(' ').strip
   end
 
 
@@ -166,7 +166,7 @@ class IndexerCommon
         IndexerCommon.extract_string_values(name)
       }.join(" ")
     end
-    fullrecord
+    fullrecord.strip
   end
 
   # There's a problem with how translation paths get loaded when selenium tests are run
