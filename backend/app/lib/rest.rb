@@ -32,12 +32,16 @@ module RESTHelpers
     end
 
 
-    def merged_response(target, victims, selections = [])
+    def merged_response(target, victims, selections = [], result = nil)
       type = target[:type].to_sym
       response = {:status => 'Merged', :id => target[:id], :selections => selections }
 
       response[:target_uri] = JSONModel(type).uri_for(target[:id], :repo_id => params[:repo_id])
       response[:deleted_uris] = victims.map { |v| JSONModel(type).uri_for(v[:id], :repo_id => params[:repo_id]) }
+
+      unless result.nil?
+        response[:result] = result
+      end
 
       json_response(response)
     end

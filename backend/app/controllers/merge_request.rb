@@ -154,40 +154,36 @@ curl -H 'Content-Type: application/json' \\
       raise BadParamsException.new(:merge_request_detail => ["Agent merge request can only merge agent records"])
     end
     agent_model = AgentManager.model_for(target[:type])
-    target = agent_model.get_or_die(target[:id])
-    victim = agent_model.get_or_die(victims[0][:id])
-    if params[:dry_run]
-      target = agent_model.to_jsonmodel(target)
-      victim = agent_model.to_jsonmodel(victim)
-      new_target = merge_details(target, victim, selections, params)
-      result = resolve_references(new_target, RESOLVE_LIST)
+    target_obj = agent_model.get_or_die(target[:id])
+    victim_obj = agent_model.get_or_die(victims[0][:id])
+    target_json = agent_model.to_jsonmodel(target_obj)
+    victim_json = agent_model.to_jsonmodel(victim_obj)
+    new_target = merge_details(target_json, victim_json, selections, params)
+    result = resolve_references(new_target, RESOLVE_LIST)
 
-      json_response(resolve_references(result, RESOLVE_LIST))
-    else
-      target_json = agent_model.to_jsonmodel(target)
-      victim_json = agent_model.to_jsonmodel(victim)
-      new_target = merge_details(target_json, victim_json, selections, params)
-
-      target.assimilate((victims.map {|v|
+    # if this is not a dry run, commit the merge.
+    # otherwise, we'll send the response without saving any results.
+    unless params[:dry_run]
+      target_obj.assimilate((victims.map {|v|
                                        AgentManager.model_for(v[:type]).get_or_die(v[:id])
                                      }))
 
       #update lock version which may have happened during call to #assimilate
-      target_json_updated = agent_model.to_jsonmodel(target)
+      target_json_updated = agent_model.to_jsonmodel(target_obj)
       new_target['lock_version'] = target_json_updated['lock_version']
 
       if selections != {}
         begin
-          target.update_from_json(new_target)
+          target_obj.update_from_json(new_target)
         rescue => e
           STDERR.puts "EXCEPTION!"
           STDERR.puts e.message
           STDERR.puts e.backtrace
         end
       end
-
-      json_response(:status => "OK")
     end
+
+    merged_response(target, victims, selections, result)
   end
 
 
