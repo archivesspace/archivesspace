@@ -270,7 +270,7 @@ module SearchHelper
   end
 
   def add_actions_column
-    add_column(sr_only('Actions'), {:template => 'shared/actions',
+    add_column(sr_only(I18n.t('search_results.actions')), {:template => 'shared/actions',
       :class => 'actions table-record-actions'})
   end
 

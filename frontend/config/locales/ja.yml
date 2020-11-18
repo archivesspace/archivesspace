@@ -1679,6 +1679,9 @@ ja:
         find_rating: ％{rating_type} 評価のレコードを検索
         find_format: ％{format_type} マテリアルタイプ/フォーマットのレコードを検索します
         find_issue: ％{issue_type} 保全問題のあるレコードを検索する
+        remove_rating: ％{rating_type} レーティングを削除
+        remove_format: ％{format_type} マテリアルタイプ/フォーマットを削除します
+        remove_issue: ％{issue_type} 保護の問題を削除します
       messages:
         updated: 評価アトリビュートが更新されました
         error: アセスメント属性の更新中にエラーが発生しました

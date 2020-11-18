@@ -9,18 +9,21 @@
     <%= form_tag({:controller => :lcnaf, :action => :search}, {:id => "lcnaf_search", :class => "form-search", :method => "GET"}) do |form| %>
 
     <div class='control-group form-group required'>
-      <div class="radio">
-        <label for="lcnaf_service_loc">
-          <input type="radio" name="lcnaf_service" value="lcnaf" id="lcnaf_service_loc" checked="true">
-          LCNAF - https://id.loc.gov/authorities/names
-        </label>
-      </div>
-      <div class="radio">
+      <fieldset>
+      <legend class="sr-only"><%= I18n.t("plugins.lcnaf.authority") %></legend>
+        <div class="radio">
+          <label for="lcnaf_service_loc">
+            <input type="radio" name="lcnaf_service" value="lcnaf" id="lcnaf_service_loc" checked="true">
+            LCNAF - https://id.loc.gov/authorities/names
+          </label>
+        </div>
+        <div class="radio">
           <label for="lcsh_service_loc">
               <input type="radio" name="lcnaf_service" value="lcsh" id="lcsh_service_loc">
            LCSH - https://id.loc.gov/authorities/subjects
           </label>
-      </div>
+        </div>
+      </fieldset>
     </div>
 
     <div class='control-group form-group required'> 
@@ -38,7 +41,7 @@
     
     <div class='control-group form-group'> 
       <button type="submit" class="btn btn-primary btn-default">
-        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>"Loading..." %>
         <%= I18n.t("plugins.lcnaf.actions.search") %>
       </button>
     </div>
@@ -54,7 +57,7 @@
       <div class="alert alert-info"><%= I18n.t("plugins.lcnaf.messages.none_selected") %></div>
       <div id="selected"></div>
       <button id="import-selected" class="btn btn-primary btn-default" disabled="disabled">
-        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+        <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>"Importing..." %>
         <%= I18n.t("plugins.lcnaf.actions.import") %>
       </button>
     </div>

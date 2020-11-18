@@ -1697,6 +1697,9 @@ es:
         find_rating: Buscar registros con una calificación %{rating_type}
         find_format: Buscar registros con un %{format_type} tipo / formato de material
         find_issue: Buscar registros con un problema de conservación %{issue_type}
+        remove_rating: Quitar calificación de %{rating_type}
+        remove_format: Quitar %{format_type} tipo / formato de material
+        remove_issue: Eliminar %{issue_type} problema de conservación
       messages:
         updated: Atributos de evaluación actualizados
         error: Error al actualizar los atributos de evaluación

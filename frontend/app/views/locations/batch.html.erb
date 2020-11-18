@@ -42,7 +42,7 @@
               <div class="alert alert-warning"><%= I18n.t("location_batch._frontend.messages.warning") %></div>
             <% end %>
             <button type="submit" class="btn btn-primary">
-              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon", :alt=>I18n.t("location_batch._frontend.action.creating") %>
               <span class="btn-label"><%= I18n.t("location_batch._frontend.action.#{@action}") %></span>
               <span class="btn-busy-label"><%= I18n.t("location_batch._frontend.action.creating") %></span>
             </button>

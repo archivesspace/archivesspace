@@ -1697,6 +1697,9 @@ en:
         find_rating: Find records with a %{rating_type} rating
         find_format: Find records with a %{format_type} material type/format
         find_issue: Find records with a %{issue_type} conservation issue
+        remove_rating: Remove %{rating_type} rating
+        remove_format: Remove %{format_type} material type/format
+        remove_issue: Remove %{issue_type} conservation issue
       messages:
         updated: Assessment Attributes updated
         error: Error updating Assessment Attributes
