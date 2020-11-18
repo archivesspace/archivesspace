@@ -3,7 +3,10 @@
 <%= form_for @agent, :as => "agent", :url => {:action => :update_required}, :html => {:class => 'form-horizontal aspace-record-form', :id => "agent_form"} do |f| %>
   <%= form_context :agent, @agent do |form| %>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-3">
+        <%= render_aspace_partial :partial => "required_sidebar", :locals => {:form => form} %>
+      </div>
+      <div class="col-md-9">
         <%= render_aspace_partial :partial => "shared/toolbar_new_records" %>
         <div class="record-pane">
           <%= link_to_help :topic => "#{@agent.agent_type}" %>
