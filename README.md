@@ -3,7 +3,7 @@ ArchivesSpace
 
 Built for archives by archivists, ArchivesSpace is the open source archives information management application for managing and providing web access to archives, manuscripts and digital objects.
 
-[![Build Status](https://travis-ci.org/archivesspace/archivesspace.svg?branch=master)](https://travis-ci.org/archivesspace/archivesspace)
+![Build ArchivesSpace release package](https://github.com/archivesspace/archivesspace/workflows/Build%20ArchivesSpace%20release%20package/badge.svg?branch=master)
 
 * [archivesspace.org](http://archivesspace.org)
 * [User Documentation](https://docs.archivesspace.org/)
