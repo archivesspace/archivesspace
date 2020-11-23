@@ -15,7 +15,7 @@
       @agent.agent_maintenance_histories.length > 0 ||
       @agent.agent_sources.length > 0 ||
       @agent.agent_alternate_sets.length > 0 ||
-      @agent.agent_genders.length > 0 ||
+      (@agent.agent_type == "agent_person" && @agent.agent_genders.length > 0) ||
       @agent.agent_places.length > 0 ||
       @agent.agent_occupations.length > 0 ||
       @agent.agent_functions.length > 0 ||
