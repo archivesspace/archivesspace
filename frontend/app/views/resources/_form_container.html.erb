@@ -26,7 +26,7 @@
 
       <%= form.label_and_textfield "external_ark_url" if AppConfig[:arks_enabled] %>
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
-      <%= form.label_and_textfield "other_level" %>
+      <%= form.label_and_textfield "other_level", :required => true %>
       <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
       <%= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <%= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
