@@ -5,7 +5,7 @@
     "type" => "object",
 
     "properties" => {
-      "place_role_enum" => {"type" => "string", "dynamic_enum" => "place_role_enum"},
+      "place_role_enum" => {"type" => "string", "dynamic_enum" => "place_role_enum", "required" => "false"},
 
       "dates" => {
         "type" => "array",
