@@ -231,7 +231,7 @@ Sequel.migration do
     create_table(:agent_place) do
       primary_key :id
 
-      Integer :place_role_enum_id, :null => false
+      Integer :place_role_enum_id, :null => true
 
       Integer :agent_person_id, :null => true
       Integer :agent_family_id, :null => true
