@@ -3,11 +3,14 @@
              :record_type => 'agent',
              :record => @agent,
              :plusone => :submit,
+             :suppress_basic_information => true,
              :save_button_text => I18n.t("#{@agent.agent_type}._frontend.action.save")
            }) do |sidebar| %>
 
     <% if action_name != "show" %>
-      <%= render_aspace_partial :partial => "shared/sidebar_entry", :locals => {:anchor => "record_control_information", :title => "Record Control Information"} %>
+      <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "basic_information", :title => "Basic Information"} %>
+
+      <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "record_control_information", :title => "Record Control Information"} %>
     <% end %>
 
 
@@ -29,7 +32,7 @@
    <% end %>
 
     <% if action_name != "show" %>
-        <%= render_aspace_partial :partial => "shared/sidebar_entry", :locals => {:anchor => "identity_information", :title => "Identity Information"} %>
+        <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "identity_information", :title => "Identity Information"} %>
     <% end %>
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_identifier', :property => 'agent_identifiers', :anchor => "#{@agent.agent_type}_agent_identifier") %>
@@ -38,7 +41,7 @@
 
 
     <% if action_name != "show" %>
-        <%= render_aspace_partial :partial => "shared/sidebar_entry", :locals => {:anchor => "description_information", :title => "Description Information"} %>
+        <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "description_information", :title => "Description Information"} %>
     <% end %>
 
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'dates_of_existence', :property => 'dates_of_existence',
@@ -80,7 +83,7 @@
     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => "external_documents", :anchor => "#{@agent.agent_type}_external_documents") %>
 
     <% if action_name != "show" %>
-        <%= render_aspace_partial :partial => "shared/sidebar_entry", :locals => {:anchor => "relation_information", :title => "Relation Information"} %>
+        <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "relation_information", :title => "Relation Information"} %>
     <% end %>
     
    <% if (AppConfig[:agents_display_full] && AppConfig[:agents_display_full] == true && @full_mode) || action_name == "show" %>
