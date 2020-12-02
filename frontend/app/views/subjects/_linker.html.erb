@@ -21,20 +21,22 @@
   exclude_ids = [] if exclude_ids.blank?
   hide_create = false if hide_create.blank?
 
+  term_type_filter = "" if term_type_filter.blank?
+
   if !defined?(linker_label)
     linker_label = (multiplicity === "many") ? I18n.t("subject._plural") : I18n.t("subject._singular")
   end
 
   # ANW-429: For certain forms, we want to restrict the list of subjects to certain term types. This URL-encoded URL snippet gets appended to the generated URL so that the query used to generate terms to browse is limited to that scope.
-  if defined?(term_type_filter)
-    term_type_filter = "%26filter_term%5B%5D%3D%7B%22first_term_type%22%3A%22#{term_type_filter}%22%7D"
+  unless term_type_filter.empty?
+    term_type_filter_query = "%26filter_term%5B%5D%3D%7B%22first_term_type%22%3A%22#{term_type_filter}%22%7D"
   else
-    term_type_filter = ""
+    term_type_filter_query = ""
   end
 
-  browse_url = url_for(:controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.SUBJECT_FACETS, :sort => "title_sort asc", :exclude => exclude_ids).to_s + term_type_filter
+  browse_url = url_for(:controller => :search, :action => :do_search, :format => :js, :facets => SearchResultData.SUBJECT_FACETS, :sort => "title_sort asc", :exclude => exclude_ids).to_s + term_type_filter_query
 
-  data_url = url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.SUBJECT_FACETS).to_s + term_type_filter
+  data_url = url_for(:controller => :search, :action => :do_search, :format => :json, :facets => SearchResultData.SUBJECT_FACETS).to_s + term_type_filter_query
 %>
 
 <div class="form-group required">
@@ -81,7 +83,7 @@
               <ul class="dropdown-menu">
                  <li><a href="javascript:void(0);" class="linker-browse-btn"><%= I18n.t("actions.browse") %></a></li>
               <% if !hide_create && user_can?('update_subject_record') %>
-                 <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
+                 <li><a href="javascript:void(0);" data-target="<%= url_for :controller => :subjects, :action => :new, :inline => true, :term_type => term_type_filter %>" class="linker-create-btn"><%= I18n.t("actions.create") %></a></li>
               <% end %>
               </ul>
           </div>

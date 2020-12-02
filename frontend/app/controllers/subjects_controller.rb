@@ -29,6 +29,10 @@ class SubjectsController < ApplicationController
   def new
     @subject = JSONModel(:subject).new({:vocab_id => JSONModel(:vocabulary).id_for(current_vocabulary["uri"]), :terms => [{}]})._always_valid!
 
+    if params[:term_type]
+      @subject["terms"]= [JSONModel(:term).new({:term_type => params[:term_type]})]
+    end
+
     if user_prefs['default_values']
       defaults = DefaultValues.get 'subject'
 
