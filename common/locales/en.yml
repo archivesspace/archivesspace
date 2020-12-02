@@ -1805,7 +1805,7 @@ en:
       update_subject_record: create/update subject records
       update_agent_record: create/update agent records
       view_agent_contact_record: view contact details for agent records
-      show_full_agents: add and edit extended agent attributes
+      show_full_agents: work with agents in full mode
       update_vocabulary_record: create/update vocabulary records
       update_accession_record: create/update accessions in this repository
       update_resource_record: create/update resources in this repository
