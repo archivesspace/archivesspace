@@ -2418,7 +2418,7 @@ en:
     import_type_assessment_csv: Assessment CSV
     import_type_accession_csv: Accession CSV
     import_type_digital_object_csv: Digital Object CSV
-    import_type_eac_xml: EAC
+    import_type_eac_xml: EAC-CPF
     import_type_location_csv: Location CSV
     import_type_marcxml: MarcXML Bibliographic (Resource)
     import_type_marcxml_accession: MarcXML Bibliographic (Accession)
