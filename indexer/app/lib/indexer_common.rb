@@ -217,6 +217,21 @@ class IndexerCommon
   end
 
 
+  def add_subjects_subrecord(doc, record, subrecord, type = 'subjects')
+    doc['subjects'] ||= []
+    doc['subject_uris'] ||= []
+
+    if record['record'][subrecord]
+      record['record'][subrecord].each do |sr|
+        next unless sr[type]
+
+        doc['subjects'].concat(sr[type].map {|s| s['_resolved']['title']}.compact)
+        doc['subject_uris'].concat(sr[type].collect{|link| link['ref']})
+      end
+    end
+  end
+
+
   def add_audit_info(doc, record)
     ['created_by', 'last_modified_by', 'user_mtime', 'system_mtime', 'create_time'].each do |f|
       doc[f] = record['record'][f] if record['record'].has_key?(f)
@@ -508,6 +523,16 @@ class IndexerCommon
         else
           doc['is_user'] = false
         end
+
+        add_subjects_subrecord(doc, record, 'agent_functions')
+        add_subjects_subrecord(doc, record, 'agent_occupations')
+        add_subjects_subrecord(doc, record, 'agent_places')
+        add_subjects_subrecord(doc, record, 'agent_topics')
+
+        add_subjects_subrecord(doc, record, 'agent_functions', 'places')
+        add_subjects_subrecord(doc, record, 'agent_occupations', 'places')
+        add_subjects_subrecord(doc, record, 'agent_resources', 'places')
+        add_subjects_subrecord(doc, record, 'agent_topics', 'places')
 
         # Assign the additional type of 'agent'
         doc['types'] << 'agent'
