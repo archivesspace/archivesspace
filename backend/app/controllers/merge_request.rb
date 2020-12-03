@@ -137,9 +137,35 @@ curl -H 'Content-Type: application/json' \\
     merged_response( target, victims )
   end
 
-
+  # Shell example for /merge_requests/agent_detail below illustrates an agent merge where:
+  # - Only the primary name field from the FIRST (position = 0) victim agent record replaces the primary name field in the target. After the merge, the rest of the victim name record is discarded
+  # - The entire FIRST (position = 0) agent_record_identifer record from the victim is added to the set of agent_record_identifier records in the target at the end (position = n + 1)
+  # - The entire SECOND (position = 1) agent_conventions_declaration from the victim replaces the FIRST (because it is at index = 0 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the target
+  # - The entire FIRST (position = 0) agent_conventions_declaration from the victim replaces the SECOND (because it is at index = 1 in agent_conventions_declaration array in json below)agent_conventions_declaration record in the target
   Endpoint.post('/merge_requests/agent_detail')
   .description("Carry out a detailed merge request against Agent records")
+  .example('shell') do
+    <<~SHELL
+    curl -H 'Content-Type: application/json' \\
+        -H "X-ArchivesSpace-Session: $SESSION" \\
+        -d '{"dry_run":true, \\
+             "merge_request_detail":{ \\
+               "jsonmodel_type":"merge_request_detail", \\
+               "victims":[{"ref":"/agents/people/3"}], \\
+               "target":{"ref":"/agents/people/4"}, \\
+               "selections":{
+                 "names":[{"primary_name":"REPLACE", "position":"0"}], \\
+                 "agent_record_identifiers":[{"append":"APPEND", "position":"0"}], \\
+                 "agent_conventions_declarations":[
+                   {"append":"REPLACE", "position":"1"}, \\
+                   {"append":"REPLACE", "position":"0"} \\
+                  ],
+               } \\
+            } \\
+          } \\
+        "http://localhost:8089/merge_requests/agent_detail"
+    SHELL
+    end
   .params(["dry_run", BooleanParam, "If true, don't process the merge, just display the merged record", :optional => true],
           ["merge_request_detail",
              JSONModel(:merge_request_detail), "A detailed merge request",
