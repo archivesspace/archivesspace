@@ -25,13 +25,7 @@ module MergeHelpers
     selections.each_pair do |k, v|
       path << k
 
-      if selections['position']
-      	position = selections['position']
-      else
-      	# we expect a position to be passed in from the params from the frontend. 
-      	# if for some reason that doesn't happen, assigning a value of -1 will ensure it's not matched since -1 is not a valid array index, and that unexpected things don't happen in the merge later on
-      	position = -1
-      end
+      position = selections['position']
 
       case v
         when String
@@ -231,21 +225,6 @@ module MergeHelpers
     return subrecord
   end
 
-  # don't try to replace these values from victim to target when merging, ever!
-  def skippable_record_key?(k)
-    k == "agent_person_id" ||
-    k == "agent_family_id" ||
-    k == "agent_corporate_entity_id" ||
-    k == "agent_software_id" ||
-    k == "created_by" ||
-    k == "last_modified_by" ||
-    k == "create_time" ||
-    k == "system_mtime" ||
-    k == "user_mtime" ||
-    k == "lock_version" ||
-    k == "primary_identifier" || # only one primary identifier allowed in set 
-    k == "jsonmodel_type"
-  end
 
   # NOTE: this code is a duplicate of the auto_generate code for creating sort name
   # in the name_person, name_family, name_software, name_corporate_entity models
