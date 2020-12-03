@@ -16,10 +16,13 @@ $expire = 30_000
 # create file handle for config file in case it needs to be updated to support a test
 $config_location = File.join(File.dirname(__FILE__), "..", "..", "..", "common", "config", "config.rb")
 if File.exists?($config_location)
-  $config_file = File.open($config_location, "a")
+  $existing_config = $config_location + ".old"
+  FileUtils.mv($config_location, $existing_config)
 else
-  $config_file = File.new($config_location, "w")
+  $existing_config = nil
 end
+
+$config_file = File.new($config_location, "w")
 
 $backend_start_fn = proc {
   # for the indexers
@@ -70,6 +73,10 @@ RSpec.configure do |config|
 
   config.after(:suite) do
     $config_file.close
+
+    if $existing_config
+      FileUtils.mv($existing_config, $config_location)
+    end
     report_sleep
     cleanup
   end
