@@ -5,6 +5,7 @@
     "type" => "object",
 
     "properties" => {
+      "publish" => {"type" => "boolean"},
       "dates" => {
         "type" => "array",
         "items" => {"type" => "JSONModel(:structured_date_label) object"}

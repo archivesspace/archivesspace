@@ -456,6 +456,9 @@ Sequel.migration do
       Integer :agent_corporate_entity_id, :null => true
       Integer :agent_software_id, :null => true
 
+      Integer :publish
+      Integer :suppressed
+
       apply_mtime_columns
       Integer :lock_version, :default => 0, :null => false
     end
