@@ -5,6 +5,7 @@
     "type" => "object",
 
     "properties" => {
+      "publish" => {"type" => "boolean"},
       "notes" => {
         "type" => "array",
         "items" => {"type" => [{"type" => "JSONModel(:note_text) object"},
