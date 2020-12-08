@@ -494,13 +494,29 @@ en:
   agent_software:
     _singular: Software
 
+  agent_function:
+    _singular: Function
+    _plural: Functions
+
+  agent_gender:
+    _singular: Gender
+    _plural: Gender
+
   agent_place:
     _singular: Place
     _plural: Places
 
+  agent_resource:
+    _singular: Related External Resource
+    _plural: Related External Resources
+
   agent_occupation:
     _singular: Occupation
     _plural: Occupations
+
+  agent_topic:
+    _singular: Topic
+    _plural: Topics
 
   components:
     expand: Expand
@@ -648,4 +664,3 @@ en:
     persistent_id: Persistent ID
     type: Note Type
     content: Content
-

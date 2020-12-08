@@ -1,0 +1,15 @@
+<% if result.json['agent_topics'].any? %>
+  <ul>
+  <% result.json['agent_topics'].each do |n| %>
+    <% subjects = n['subjects'] %>
+
+    <% subjects.each do |s| %>
+      <% if s['_resolved']['publish'] %>
+        <li><a href="<%= s['_resolved']['uri']%>"><%= s['_resolved']['title'] %></a></li>
+      <% else %>
+        <li><%= s['_resolved']['title'] %></li>
+      <% end %>
+    <% end %>
+  <% end %>
+  </ul>
+<% end %>

@@ -36,7 +36,7 @@
     <% end %>
 
     <%# DATES %>
-    <% if json['dates_of_existence'] %>
+    <% if json['dates_of_existence'].any? %>
       <h3>Dates</h3>
       <ul>
         <% json['dates_of_existence'].each do |d| %>
@@ -53,8 +53,8 @@
     <% bio_notes = json['notes'].select{ |n| n['jsonmodel_type'] == "note_bioghist" && n['publish'] == true} %>
 
     <% if bio_notes.any? %>
-      <h3>Biography</h3>
       <% bio_notes.each do |n| %>
+        <h3><%= n['label'] ? "Biography: #{n['label']}" : 'Biography' %></h3>
         <% sn = n['subnotes'] %>
 
         <% if sn.first['publish'] == true %>
@@ -67,8 +67,8 @@
     <% gn_notes = json['notes'].select{ |n| n['jsonmodel_type'] == "note_general_context" && n['publish'] == true} %>
 
     <% if gn_notes.any? %>
-      <h3>General Context</h3>
       <% gn_notes.each do |n| %>
+        <h3><%= n['label'] ? "General Context: #{n['label']}" : 'General Context' %></h3>
         <% sn = n['subnotes'] %>
 
         <% if sn.first['publish'] == true %>
@@ -90,61 +90,75 @@
     <% end %>
   </div>
 
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
-    <% if @result.json['names'].length > 1 ||
-          (@result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty?) ||
-          ASUtils.wrap(@result.external_documents).length > 0 %>
+  <% if show_agents_sidebar?(@result) %>
+    <div id="sidebar" class="col-sm-3 sidebar sidebar-container">
+      <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
+      <div class="acc_holder clear" >
+        <div class="panel-group" id="agent_accordion">
 
-    <h3><%= t('more_about') %> '<%= @result.display_string %>'</h3>
-    <div class="acc_holder clear" >
-      <div class="panel-group" id="agent_accordion">
+          <% n = render partial: 'name', locals: {:result => @result} %>
+          <%= render partial: 'shared/accordion_panel', locals:
+            {:p_title =>  I18n.t('name_person._plural'),
+              :p_id => "names_panel",
+              :p_body => n } %>
 
-        <% n = render partial: 'name', locals: {:result => @result} %>
-        <%= render partial: 'shared/accordion_panel', locals: 
-          {:p_title =>  I18n.t('name_person._plural'),
-            :p_id => "names_panel",
-            :p_body => n } %>
+          <% pn = render partial: 'parallel_names', locals: {:result => @result} %>
+          <%= render partial: 'shared/accordion_panel', locals:
+            {:p_title =>  I18n.t('parallel_name_person._plural'),
+              :p_id => "parallel_names_panel",
+              :p_body => pn } %>
 
-        <% pn = render partial: 'parallel_names', locals: {:result => @result} %>
-        <%= render partial: 'shared/accordion_panel', locals: 
-          {:p_title =>  I18n.t('parallel_name_person._plural'),
-            :p_id => "parallel_names_panel",
-            :p_body => pn } %>
+          <% fn = render partial: 'functions', locals: {:result => @result} %>
+          <%= render partial: 'shared/accordion_panel', locals:
+            {:p_title =>  I18n.t('agent_function._plural'),
+              :p_id => "agent_functions_panel",
+              :p_body => fn } %>
 
-        <% pl = render partial: 'places', locals: {:result => @result} %>
-        <%= render partial: 'shared/accordion_panel', locals: 
-          {:p_title =>  I18n.t('agent_place._plural'),
-            :p_id => "agent_places_panel",
-            :p_body => pl } %>
+          <% gd = render partial: 'gender', locals: {:result => @result} %>
+          <%= render partial: 'shared/accordion_panel', locals:
+            {:p_title =>  I18n.t('agent_gender._plural'),
+              :p_id => "agent_gender_panel",
+              :p_body => gd } %>
 
-        <% o = render partial: 'occupations', locals: {:result => @result} %>
-        <%= render partial: 'shared/accordion_panel', locals: 
-          {:p_title =>  I18n.t('agent_occupation._plural'),
-            :p_id => "agent_occupations_panel",
-            :p_body => o } %>
- 
-        <% if @result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty? %>
-          <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.json['related_agents'], :list_clss => 'related_agents'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.related_agents'), :p_id => 'related_agents_list', :p_body => x} %>
-        <% end %>
+          <% pl = render partial: 'places', locals: {:result => @result} %>
+          <%= render partial: 'shared/accordion_panel', locals:
+            {:p_title =>  I18n.t('agent_place._plural'),
+              :p_id => "agent_places_panel",
+              :p_body => pl } %>
 
-        <% unless json['agent_resources'].blank? %>
-          <% x = render partial: 'shared/present_list_agent_resources', locals: {:list =>  json['agent_resources'], :list_clss => 'external_docs'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent_resources'), :p_id => 'agent_resource_list', :p_body => x} %>
-        <% end %>
- 
+          <% o = render partial: 'occupations', locals: {:result => @result} %>
+          <%= render partial: 'shared/accordion_panel', locals:
+            {:p_title =>  I18n.t('agent_occupation._plural'),
+              :p_id => "agent_occupations_panel",
+              :p_body => o } %>
 
-        <% unless @result.external_documents.blank? %>
-          <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
-        <% end %>
-        
+          <% tp = render partial: 'topics', locals: {:result => @result} %>
+          <%= render partial: 'shared/accordion_panel', locals:
+            {:p_title =>  I18n.t('agent_topic._plural'),
+              :p_id => "agent_topics_panel",
+              :p_body => tp } %>
+
+          <% if @result.respond_to?(:related_agents) && !ASUtils.wrap(@result.related_agents).empty? %>
+            <% x = render partial: 'agents/related_agents', locals: {:related_agents => @result.json['related_agents'], :list_clss => 'related_agents'} %>
+            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent._public.section.related_agents'), :p_id => 'related_agents_list', :p_body => x} %>
+          <% end %>
+
+          <% unless json['agent_resources'].blank? %>
+            <% x = render partial: 'shared/present_list_agent_resources', locals: {:list =>  json['agent_resources'], :list_clss => 'external_docs'} %>
+            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('agent_resources'), :p_id => 'agent_resource_list', :p_body => x} %>
+          <% end %>
+
+
+          <% unless @result.external_documents.blank? %>
+            <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+            <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('external_docs'), :p_id => 'ext_doc_list', :p_body => x} %>
+          <% end %>
+
+        </div>
       </div>
-    </div>
-    <script type="text/javascript" >
-        initialize_accordion("#agent_accordion .note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
-    </script>
-
+      <script type="text/javascript" >
+          initialize_accordion("#agent_accordion .note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
+      </script>
   <% end %>
 
   <% if !@facets.blank? || !@filters.blank? %>
