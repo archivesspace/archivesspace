@@ -3,100 +3,210 @@
              :record_type => 'agent',
              :record => @agent,
              :plusone => :submit,
-             :suppress_basic_information => true,
              :save_button_text => I18n.t("#{@agent.agent_type}._frontend.action.save")
            }) do |sidebar| %>
 
-    <% if action_name != "show" %>
-      <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "basic_information", :title => "Basic Information"} %>
+    <%= sidebar.render_for_view_and_edit(
+      :subrecord_type => 'record_control_information',
+      :property => 'record_control_information',
+      :anchor => "record_control_information",
+      :sidebar_heading => true,
+      :sidebar_children => [:agent_record_identifiers,
+                            :agent_record_controls,
+                            :agent_other_agency_codes,
+                            :agent_conventions_declarations,
+                            :agent_maintenance_histories,
+                            :agent_sources,
+                            :agent_alternate_sets]) %>
 
-      <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "record_control_information", :title => "Record Control Information"} %>
-    <% end %>
+      <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'agent_record_identifier',
+        :property => 'agent_record_identifiers',
+        :anchor => "#{@agent.agent_type}_agent_record_identifier",
+        :subentry => true) %>
 
+      <% if full_mode? || action_name == "show" %>
+        <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'agent_record_control',
+        :property => 'agent_record_controls',
+        :anchor => "#{@agent.agent_type}_agent_record_control",
+        :subentry => true) %>
 
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_record_identifier', :property => 'agent_record_identifiers', :anchor => "#{@agent.agent_type}_agent_record_identifier") %>
+        <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'agent_other_agency_code',
+        :property => 'agent_other_agency_codes',
+        :anchor => "#{@agent.agent_type}_agent_other_agency_codes",
+        :subentry => true) %>
 
+        <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'agent_conventions_declaration',
+        :property => 'agent_conventions_declarations',
+        :anchor => "#{@agent.agent_type}_agent_conventions_declaration",
+        :subentry => true) %>
 
-   <% if full_mode? || action_name == "show" %>
-     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_record_control', :property => 'agent_record_controls', :anchor => "#{@agent.agent_type}_agent_record_control") %>
+        <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'agent_maintenance_history',
+        :property => 'agent_maintenance_histories',
+        :anchor => "#{@agent.agent_type}_agent_maintenance_history",
+        :subentry => true) %>
 
-     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_other_agency_code', :property => 'agent_other_agency_codes', :anchor => "#{@agent.agent_type}_agent_other_agency_codes") %>
+        <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'agent_source',
+        :property => 'agent_sources',
+        :anchor => "#{@agent.agent_type}_agent_sources",
+        :subentry => true) %>
 
-     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_conventions_declaration', :property => 'agent_conventions_declarations', :anchor => "#{@agent.agent_type}_agent_conventions_declaration") %>
-
-     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_maintenance_history', :property => 'agent_maintenance_histories', :anchor => "#{@agent.agent_type}_agent_maintenance_history") %>
-
-     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_source', :property => 'agent_sources', :anchor => "#{@agent.agent_type}_agent_sources") %>
-
-     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_alternate_set', :property => 'agent_alternate_sets', :anchor => "#{@agent.agent_type}_agent_alternate_set") %>
-   <% end %>
-
-    <% if action_name != "show" %>
-        <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "identity_information", :title => "Identity Information"} %>
-    <% end %>
-
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_identifier', :property => 'agent_identifiers', :anchor => "#{@agent.agent_type}_agent_identifier") %>
-
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_name', :property => 'names', :anchor => "#{@agent.agent_type}_names") %>
-
-
-    <% if action_name != "show" %>
-        <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "description_information", :title => "Description Information"} %>
-    <% end %>
-
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'dates_of_existence', :property => 'dates_of_existence',
-                                         :anchor => "#{@agent.agent_type}_dates_of_existence") %>
-
-
-   <% if full_mode? || action_name == "show" %>
-
-    <% if @agent.agent_type == "agent_person" %>
-        <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_gender', :property => 'agent_genders', :anchor => "agent_person_agent_gender") %>
-    <% end %>
-
-
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_place', :property => 'agent_places',
-                                         :anchor => "#{@agent.agent_type}_agent_place") %>
-
-      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_occupation', :property => 'agent_occupations',
-                                           :anchor => "#{@agent.agent_type}_agent_occupation") %>
- 
-      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_function', :property => 'agent_functions',
-                                           :anchor => "#{@agent.agent_type}_agent_function") %>
-
-      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_topic', :property => 'agent_topics',
-                                           :anchor => "#{@agent.agent_type}_agent_topic") %>
-
-      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'used_language', :property => 'used_languages',
-                                         :anchor => "#{@agent.agent_type}_used_language") %>
-
-    <% end %>
+        <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'agent_alternate_set',
+        :property => 'agent_alternate_sets',
+        :anchor => "#{@agent.agent_type}_agent_alternate_set",
+        :subentry => true) %>
+      <% end %>
 
 
-    <% if user_can?('view_agent_contact_record') %>
-      <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_contact', :property => 'agent_contacts', :anchor => "#{@agent.agent_type}_contact_details") %>
-    <% end %>
+    <%= sidebar.render_for_view_and_edit(
+      :subrecord_type => "identity_information",
+      :property => "identity_information",
+      :anchor => "identity_information",
+      :sidebar_heading => true,
+      :sidebar_children => [:agent_identifiers,
+                            :names]) %>
 
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'note', :property => 'notes', :anchor => "#{@agent.agent_type}_notes") %>
+      <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'agent_identifier',
+        :property => 'agent_identifiers',
+        :anchor => "#{@agent.agent_type}_agent_identifier",
+        :subentry => true) %>
 
+      <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'agent_name',
+        :property => 'names',
+        :anchor => "#{@agent.agent_type}_names",
+        :subentry => true) %>
 
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'external_document', :property => "external_documents", :anchor => "#{@agent.agent_type}_external_documents") %>
+    <%= sidebar.render_for_view_and_edit(
+      :subrecord_type => "description_information",
+      :property => "description_information",
+      :anchor => "description_information",
+      :sidebar_heading => true,
+      :sidebar_children => [:dates_of_existence,
+                            :agent_genders,
+                            :agent_places,
+                            :agent_occupations,
+                            :agent_functions,
+                            :agent_topics,
+                            :used_languages,
+                            :agent_contacts,
+                            :notes,
+                            :external_documents]) %>
 
-    <% if action_name != "show" %>
-        <%= render_aspace_partial :partial => "shared/sidebar_heading", :locals => {:anchor => "relation_information", :title => "Relation Information"} %>
-    <% end %>
+      <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'dates_of_existence',
+        :property => 'dates_of_existence',
+        :anchor => "#{@agent.agent_type}_dates_of_existence",
+        :subentry => true) %>
 
-   <% if full_mode? || action_name == "show" %>
-     <%= sidebar.render_for_view_and_edit(:subrecord_type => 'agent_resource', :property => 'agent_resources',
-                                         :anchor => "#{@agent.agent_type}_agent_resource") %>
+      <% if full_mode? || action_name == "show" %>
 
-   <% end %>
+        <% if @agent.agent_type == "agent_person" %>
+          <%= sidebar.render_for_view_and_edit(
+          :subrecord_type => 'agent_gender',
+          :property => 'agent_genders',
+          :anchor => "agent_person_agent_gender",
+          :subentry => true) %>
+        <% end %>
 
-    <%= sidebar.render_for_view_and_edit(:subrecord_type => 'related_agent', :property => 'related_agents', :anchor => "related_agents") %>
+        <%= sidebar.render_for_view_and_edit(
+          :subrecord_type => 'agent_place',
+          :property => 'agent_places',
+          :anchor => "#{@agent.agent_type}_agent_place",
+          :subentry => true) %>
 
-    <%= sidebar.render_for_view_only(:subrecord_type => 'search_embedded', :property => :none, :anchor => 'search_embedded') %>
+        <%= sidebar.render_for_view_and_edit(
+          :subrecord_type => 'agent_occupation',
+          :property => 'agent_occupations',
+          :anchor => "#{@agent.agent_type}_agent_occupation",
+          :subentry => true) %>
+
+        <%= sidebar.render_for_view_and_edit(
+          :subrecord_type => 'agent_function',
+          :property => 'agent_functions',
+          :anchor => "#{@agent.agent_type}_agent_function",
+          :subentry => true) %>
+
+        <%= sidebar.render_for_view_and_edit(
+          :subrecord_type => 'agent_topic',
+          :property => 'agent_topics',
+          :anchor => "#{@agent.agent_type}_agent_topic",
+          :subentry => true) %>
+
+        <%= sidebar.render_for_view_and_edit(
+          :subrecord_type => 'used_language',
+          :property => 'used_languages',
+          :anchor => "#{@agent.agent_type}_used_language",
+          :subentry => true) %>
+
+      <% end %>
+
+      <% if user_can?('view_agent_contact_record') %>
+        <%= sidebar.render_for_view_and_edit(
+          :subrecord_type => 'agent_contact',
+          :property => 'agent_contacts',
+          :anchor => "#{@agent.agent_type}_contact_details",
+          :subentry => true) %>
+      <% end %>
+
+      <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'note',
+        :property => 'notes',
+        :anchor => "#{@agent.agent_type}_notes",
+        :subentry => true) %>
+
+      <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'external_document',
+        :property => "external_documents",
+        :anchor => "#{@agent.agent_type}_external_documents",
+        :subentry => true) %>
+
+    <%= sidebar.render_for_view_and_edit(
+      :subrecord_type => "relation_information",
+      :property => "relation_information",
+      :anchor => "relation_information",
+      :sidebar_heading => true,
+      :sidebar_children => [:agent_resources,
+                            :related_agents]) %>
+
+      <% if full_mode? || action_name == "show" %>
+        <%= sidebar.render_for_view_and_edit(
+          :subrecord_type => 'agent_resource',
+          :property => 'agent_resources',
+          :anchor => "#{@agent.agent_type}_agent_resource",
+          :subentry => true) %>
+      <% end %>
+
+      <%= sidebar.render_for_view_and_edit(
+        :subrecord_type => 'related_agent',
+        :property => 'related_agents',
+        :anchor => "related_agents",
+        :subentry => true) %>
+
+    <%= sidebar.render_for_view_only(
+      :subrecord_type => 'search_embedded',
+      :property => :none,
+      :anchor => 'search_embedded') %>
+
     <% if @agent.agent_type == 'agent_person' %>
-      <%= sidebar.render_for_view_only(:title => I18n.t('assessment._frontend.linked_records.linked_via_assessment_surveyed_by'), :subrecord_type => 'assessment', :property => :none, :anchor => 'linked_assessments_surveyed_by') %>
-      <%= sidebar.render_for_view_only(:title => I18n.t('assessment._frontend.linked_records.linked_via_assessment_reviewer'), :subrecord_type => 'assessment', :property => :none, :anchor => 'linked_assessments_reviewer') %>
+      <%= sidebar.render_for_view_only(
+        :title => I18n.t('assessment._frontend.linked_records.linked_via_assessment_surveyed_by'),
+        :subrecord_type => 'assessment',
+        :property => :none,
+        :anchor => 'linked_assessments_surveyed_by') %>
+
+      <%= sidebar.render_for_view_only(
+        :title => I18n.t('assessment._frontend.linked_records.linked_via_assessment_reviewer'),
+        :subrecord_type => 'assessment',
+        :property => :none,
+        :anchor => 'linked_assessments_reviewer') %>
     <% end %>
+
 <% end %>
