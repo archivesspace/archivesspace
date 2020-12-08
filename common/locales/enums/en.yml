@@ -1987,6 +1987,6 @@ en:
     maintenance_agent_type: Maintenence Agent Type
     gender: Gender
     place_role: Place Role
-    date_type: Date Type
+    date_type_structured: Date Type
     date_standardized_type: Date Standardized Type
     date_role: Date Role

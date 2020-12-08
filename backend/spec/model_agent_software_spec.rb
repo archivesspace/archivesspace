@@ -156,8 +156,8 @@ describe 'Agent model' do
                 :names => [agent_name_software2])
           )
 
-          expect(agent_software1[:slug]).to eq("foo_1")
-          expect(agent_software2[:slug]).to eq("foo_2")
+          expect(agent_software1[:slug]).to eq("foo")
+          expect(agent_software2[:slug]).to eq("foo_1")
         end
 
 
