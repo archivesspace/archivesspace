@@ -1,4 +1,11 @@
 module ViewHelper
+  def show_agents_sidebar?(agent)
+    agent.json['names'].length > 1 ||
+      (agent.respond_to?(:related_agents) && ASUtils.wrap(agent.related_agents).any?) ||
+      (agent.respond_to?(:external_documents) && ASUtils.wrap(agent.external_documents).any?) ||
+      (agent.json['agent_resources'] && ASUtils.wrap(agent.json['agent_resources']).any?)
+  end
+
   def inherited?(item)
     (item.key?('_inherited') && item['_inherited']) || (item.key?('is_inherited') && item['is_inherited'])
   end

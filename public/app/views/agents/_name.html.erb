@@ -1,9 +1,7 @@
-<% if result.json['names'].any? %>
+<% if result.json['names'].reject { |n| n['is_display_name'] }.any? %>
   <ul>
-  <% result.json['names'].each do |r| %>
+  <% result.json['names'].reject { |n| n['is_display_name'] }.each do |r| %>
     <li><%= r['sort_name'] %></li>
   <% end %>
   </ul>
 <% end %>
-
-
