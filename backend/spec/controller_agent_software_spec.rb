@@ -61,7 +61,28 @@ describe 'Software agent controller' do
 
     expect(JSONModel(:agent_software).find(id).names.first['sort_name']).to match(/\AArchivesSpace.*1\.0/)
   end
-  
+
+  it "auto-generates the sort name for a parallel name" do
+    id = create_software(
+      {
+        :names => [build(:json_name_software, {
+          :software_name => "ArchivesSpace",
+          :sort_name_auto_generate => true,
+          :parallel_names => [{:software_name => 'Your friendly archives management tool'}]
+        })]
+      }).id
+
+    agent = JSONModel(:agent_software).find(id)
+
+    expect(agent.names.first['sort_name']).to match(/\AArchivesSpace/)
+    expect(agent.names.first['parallel_names'].first['sort_name']).to match(/^Your.*tool$/)
+
+    agent.names.first['parallel_names'].first['version'] = "1.0"
+    agent.save
+
+    expect(JSONModel(:agent_software).find(id).names.first['parallel_names'].first['sort_name']).to match(/^Your.*tool.*1\.0$/)
+  end
+
   it "allows software to have a bioghist notes" do
 
     n1 = build(:json_note_bioghist)

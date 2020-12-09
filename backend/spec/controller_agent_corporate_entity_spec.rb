@@ -47,7 +47,7 @@ describe 'Corporate entity agent controller' do
 
 
   it "can give a list of corporate entity agents" do
-    AppConfig[:default_page_size] = 30 
+    AppConfig[:default_page_size] = 30
     count = JSONModel(:agent_corporate_entity).all(:page => 1)['results'].count
 
     create_corporate_entity
@@ -79,6 +79,29 @@ describe 'Corporate entity agent controller' do
 
     expect(JSONModel(:agent_corporate_entity).find(id).names.first['sort_name']).to match(/\AArchivesSpace.* \(Global\)/)
   end
+
+
+  it "auto-generates the sort name for a parallel name" do
+    id = create_corporate_entity(
+      {
+        :names => [build(:json_name_corporate_entity, {
+          :primary_name => "ArchivesSpace",
+          :sort_name_auto_generate => true,
+          :parallel_names => [{:primary_name => 'ASpace'}]
+        })]
+      }).id
+
+    agent = JSONModel(:agent_corporate_entity).find(id)
+
+    expect(agent.names.first['sort_name']).to match(/^ArchivesSpace/)
+    expect(agent.names.first['parallel_names'].first['sort_name']).to match(/^ASpace/)
+
+    agent.names.first['parallel_names'].first['qualifier'] = "Global"
+    agent.save
+
+    expect(JSONModel(:agent_corporate_entity).find(id).names.first['parallel_names'].first['sort_name']).to match(/^ASpace.*\(Global\)$/)
+  end
+
 
   it "allows corporations to have a bioghist notes" do
 
@@ -127,7 +150,7 @@ describe 'Corporate entity agent controller' do
     expect(agent.notes.length).to eq(1)
     expect(agent.notes[0]["label"]).to eq(n1.label)
   end
-  
+
   it "allows corporations to have a structure_or_genealogy notes" do
 
     n1 = build(:json_note_legal_status)

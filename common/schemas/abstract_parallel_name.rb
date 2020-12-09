@@ -13,12 +13,12 @@
       "rules" => {"type" => "string", "dynamic_enum" => "name_rule"},
 
       "language" => {
-        "type" => "string", 
-        "dynamic_enum" => "language_iso639_2", 
+        "type" => "string",
+        "dynamic_enum" => "language_iso639_2",
         "required" => false
       },
       "script" => {
-        "type" => "string", 
+        "type" => "string",
         "dynamic_enum" => "script_iso15924",
         "required" => false
       },
@@ -27,6 +27,9 @@
         "dynamic_enum" => "romanization_enum",
         "required" => false
       },
+      "sort_name" => {"type" => "string", "maxLength" => 255},
+      "sort_name_date_string" => {"type" => "string", "maxLength" => 255},
+      "sort_name_auto_generate" => {"type" => "boolean", "default" => true},
     },
   },
 }
