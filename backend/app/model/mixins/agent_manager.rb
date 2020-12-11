@@ -7,6 +7,9 @@ module AgentManager
 
   AGENT_MUST_BE_UNIQUE = "Agent must be unique".freeze
   AGENT_MUST_BE_UNIQUE_MYSQL_CONSTRAINT = /Duplicate entry .* for key 'sha1_agent_person'/.freeze
+  AGENT_SUBRECORDS_WITH_SUBJECTS = [
+    'agent_functions', 'agent_occupations', 'agent_places', 'agent_resources', 'agent_topics'
+  ].freeze
 
   @@registered_agents ||= {}
 
@@ -65,6 +68,7 @@ module AgentManager
       self.class.ensure_authorized_name(json)
       self.class.ensure_display_name(json)
       self.class.combine_unauthorized_names(json)
+      self.class.set_publish_for_subrecords_with_subjects(json)
 
       # Force validation to make sure we're left with a valid record after our
       # changes
@@ -181,6 +185,16 @@ module AgentManager
       end
 
 
+      # Set the publish value of subrecords to match the publish value of the agent
+      # to work with implied publication for subjects
+      def set_publish_for_subrecords_with_subjects(json)
+        publish = json['publish']
+        AGENT_SUBRECORDS_WITH_SUBJECTS.each do |subrecord_type|
+          json[subrecord_type].each { |subrecord| subrecord['publish'] = publish }
+        end
+      end
+
+
       def ensure_exists(json, referrer)
         DB.attempt {
           self.ensure_authorized_name(json)
@@ -249,6 +263,7 @@ module AgentManager
         self.ensure_authorized_name(json)
         self.ensure_display_name(json)
         self.combine_unauthorized_names(json)
+        self.set_publish_for_subrecords_with_subjects(json)
 
         # Force validation to make sure we're left with a valid record after our
         # changes
