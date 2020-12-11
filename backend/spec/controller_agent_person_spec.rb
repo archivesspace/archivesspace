@@ -65,6 +65,30 @@ describe 'Person agent controller' do
   end
 
 
+  it "auto-generates the sort name for a parallel name" do
+    id = create_person(
+      {
+        :names => [build(:json_name_person, {
+          :primary_name => "Caesar",
+          :rest_of_name => "Julius",
+          :name_order => "direct",
+          :sort_name_auto_generate => true,
+          :parallel_names => [{:primary_name => 'Gaius Julius Caesar', :name_order => "direct"}]
+        })]
+      }).id
+
+    agent = JSONModel(:agent_person).find(id)
+
+    expect(agent.names.first['sort_name']).to match(/^Julius Caesar/)
+    expect(agent.names.first['parallel_names'].first['sort_name']).to match(/^Gaius Julius Caesar/)
+
+    agent.names.first['parallel_names'].first['title'] = "Dictator"
+    agent.save
+
+    expect(JSONModel(:agent_person).find(id).names.first['parallel_names'].first['sort_name']).to match(/^Gaius.*Dictator$/)
+  end
+
+
   it "allows people to have a bioghist notes" do
 
     n1 = build(:json_note_bioghist)

@@ -56,6 +56,28 @@ describe 'Family agent controller' do
   end
 
 
+  it "auto-generates the sort name for a parallel name" do
+    id = create_family(
+      {
+        :names => [build(:json_name_family, {
+          :family_name => "Canidae",
+          :sort_name_auto_generate => true,
+          :parallel_names => [{:family_name => 'Dogs'}]
+        })]
+      }).id
+
+    agent = JSONModel(:agent_family).find(id)
+
+    expect(agent.names.first['sort_name']).to match(/^Canidae/)
+    expect(agent.names.first['parallel_names'].first['sort_name']).to match(/^Dogs/)
+
+    agent.names.first['parallel_names'].first['qualifier'] = "Pets"
+    agent.save
+
+    expect(JSONModel(:agent_family).find(id).names.first['parallel_names'].first['sort_name']).to match(/^Dogs.*\(Pets\)$/)
+  end
+
+
   it "can give a list of family agents" do
     uris = (1...4).map {|_| create_family.uri}
     results = JSONModel(:agent_family).all(:page => 1)['results'].map {|rec| rec['uri']}
