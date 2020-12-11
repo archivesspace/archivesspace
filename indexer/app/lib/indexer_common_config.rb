@@ -41,6 +41,7 @@ class IndexerCommonConfig
       'container_profile',
       'container_locations',
       'subjects',
+      'places',
 
       # EAD export depends on this
       'linked_agents',
