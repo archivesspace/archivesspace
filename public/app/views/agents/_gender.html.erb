@@ -1,4 +1,4 @@
-<% if result.json['agent_genders'].any? %>
+<% if result.json.key?('agent_genders') && result.json['agent_genders'].any? %>
   <ul>
   <% result.json['agent_genders'].each do |n| %>
     <li><%= I18n.t("enumerations.gender_enum.#{n['gender_enum']}") %></li>
