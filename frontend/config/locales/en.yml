@@ -1912,6 +1912,7 @@ en:
     text_note: Note
     dates: Dates
     subjects: Places
+    publish: Published
 
   agent_place_required:
     <<: *agent_place_attributes
@@ -1937,6 +1938,7 @@ en:
     dates: Dates
     subjects: Occupations
     places: Places
+    publish: Published
 
   agent_occupation_required:
     <<: *agent_occupation_attributes
@@ -1962,6 +1964,7 @@ en:
     dates: Dates
     subjects: Functions
     places: Places
+    publish: Published
 
   agent_function_required:
     <<: *agent_function_attributes
@@ -1987,6 +1990,7 @@ en:
     dates: Dates
     subjects: Topics
     places: Places
+    publish: Published
 
   agent_topic_required:
     <<: *agent_topic_attributes
@@ -2178,6 +2182,7 @@ en:
     _singular: Related External Resource
     dates: Dates
     places: Places
+    publish: Published
     linked_agent_role: Resource Relation Type
     linked_resource: Related External Resource
     linked_resource_description: Description

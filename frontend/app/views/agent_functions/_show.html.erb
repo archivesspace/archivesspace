@@ -7,7 +7,7 @@
 <section id="<%= section_id %>">
   <h3><%= section_title %></h3>
   <div class="panel-group details" id="<%= section_id %>_accordion">
-    <% agent_functions.each_with_index do | agent_function, index | %>
+    <%= context.list_for(context["agent_functions"], "agent_functions[]") do |agent_function, index| %>
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_agent_function_<%= index %>">
@@ -35,8 +35,8 @@
           <% end %>
 
           <% if agent_function["notes"].length > 0 %>
-          <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => @agent.notes, :section_id => "agent_function_notes", :context => context, :heading_size => "h4" } %>
-        <% end %>
+            <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => agent_function["notes"], :section_id => "#{@agent.agent_type}_agent_function__#{index}__notes_", :context => context, :heading_size => "h4" } %>
+          <% end %>
         </div>
       </div>
     <% end %>
