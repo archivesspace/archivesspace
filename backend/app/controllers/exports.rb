@@ -3,7 +3,32 @@ class ArchivesSpaceService < Sinatra::Base
   include ExportHelpers
 
   Endpoint.get('/repositories/:repo_id/digital_objects/dublin_core/:id.xml')
-    .description("Get a Dublin Core representation of a Digital Object ")
+    .description("Get a Dublin Core representation of a Digital Object")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/digital_objects/dublin_core/48.xml" --output do_dublincore.xml
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    do_dc = client.get("/repositories/2/digital_objects/dublin_core/48.xml")
+    # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+    with open("do_dc.xml", "wb") as file:  # save the file
+        file.write(do_dc.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(do_dc.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
@@ -17,6 +42,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/digital_objects/dublin_core/:id.:fmt/metadata')
     .description("Get metadata for a Dublin Core export")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/digital_objects/dublin_core/48.:fmt/metadata" --output do_dc.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    do_dc = client.get("/repositories/2/digital_objects/dublin_core/48.fmt/metadata")
+    # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+    with open("do_dc.fmt", "wb") as file:  # save the file
+        file.write(dc_dc.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(do_dc.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
@@ -28,7 +78,34 @@ class ArchivesSpaceService < Sinatra::Base
 
 
   Endpoint.get('/repositories/:repo_id/digital_objects/mets/:id.xml')
-    .description("Get a METS representation of a Digital Object ")
+    .description("Get a METS representation of a Digital Object")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/digital_objects/mets/48.xml?dmd=PKG410P" --output do_mets.xml
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    mets_xml = client.get("/repositories/2/digital_objects/mets/48.xml",
+                          params={"dmd": "PKG410P"})
+    # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+    # replace PKG410P with your preferred DMD schema
+
+    with open("do_mets.xml", "wb") as file:  # save the file
+        file.write(mets_xml.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(mets_xml.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["dmd", String, "DMD Scheme to use", :optional => true])
@@ -43,6 +120,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/digital_objects/mets/:id.:fmt/metadata')
     .description("Get metadata for a METS export")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/digital_objects/mets/48.:fmt/metadata" --output do_mets.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    mets_fmt = client.get('/repositories/2/digital_objects/mets/48.fmt/metadata')
+    # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+    with open("do_mets.fmt", "wb") as file:  # save the file
+        file.write(mets_fmt.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(mets_fmt.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
@@ -56,6 +158,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/digital_objects/mods/:id.xml')
     .description("Get a MODS representation of a Digital Object ")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/digital_objects/mods/48.xml" --output do_mods.xml
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    mods_xml = client.get('/repositories/2/digital_objects/mods/48.xml')
+    # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+    with open("do_mods.xml", "wb") as file:  # save the file
+        file.write(mods_xml.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(mods_xml.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
@@ -69,6 +196,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/digital_objects/mods/:id.:fmt/metadata')
     .description("Get metadata for a MODS export")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/digital_objects/mods/48.fmt/metadata" --output do_mods.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    mods_fmt = client.get('/repositories/2/digital_objects/mods/48.:fmt/metadata')
+    # replace 2 for your repository ID and 48 with your digital object ID. Find these at the URI on the staff interface
+
+    with open("do_mods.fmt", "wb") as file:  # save the file
+        file.write(mods_fmt.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(mods_fmt.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
@@ -82,6 +234,35 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/resources/marc21/:id.xml')
     .description("Get a MARC 21 representation of a Resource")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/resources/marc21/577.xml?include_unpublished_marc=true;include_unpublished_notes=false" //
+    --output marc21.xml
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    marc21_xml = client.get('/repositories/2/resources/marc21/577.xml',
+               params={'include_unpublished_marc': True,
+                       'include_unpublished_notes': False})
+    # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+    # set parameters to True or False
+
+    with open("marc21.xml", "wb") as file:  # save the file
+        file.write(marc21_xml.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(marc21_xml.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["include_unpublished_marc", BooleanParam, "Include unpublished notes", :optional => true])
@@ -94,9 +275,36 @@ class ArchivesSpaceService < Sinatra::Base
     xml_response(marc)
   end
 
-
   Endpoint.get('/repositories/:repo_id/resources/marc21/:id.:fmt/metadata')
     .description("Get metadata for a MARC21 export")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/resources/marc21/577.:fmt/metadata?include_unpublished_marc=true" //
+    --output marc21.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    marc21_fmt = client.get('/repositories/2/resources/marc21/577.:fmt/metadata',
+                            params={"include_unpublished_marc": True)
+    # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+    # set include_unpublished_marc to True or False
+
+    with open("marc21.fmt", "wb") as file:  # save the file
+        file.write(marc21_fmt.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(marc21_fmt.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["include_unpublished_marc", BooleanParam, "Include unpublished notes", :optional => true])
@@ -111,6 +319,38 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.xml')
     .description("Get an EAD representation of a Resource")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/resource_descriptions/577.xml?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
+    --output ead.xml
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    ead_xml = client.get('repositories/2/resource_descriptions/577.xml',
+                          params={'include_unpublished': False,
+                                  'include_daos': True,
+                                  'numbered_cs': True,
+                                  'print_pdf': False,
+                                  'ead3': False})
+    # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+    # set parameters to True or False
+
+    with open("ead.xml", "wb") as file:  # save the file
+        file.write(ead_xml.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(ead_xml.json())
+    PYTHON
     .params(["id", :id],
             ["include_unpublished", BooleanParam,
              "Include unpublished records", :optional => true],
@@ -137,7 +377,41 @@ class ArchivesSpaceService < Sinatra::Base
   end
 
   Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.pdf')
-    .description("Get an EAD representation of a Resource")
+    .description("Get a PDF representation of a Resource")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/resource_descriptions/577.pdf?include_unpublished=false&include_daos=true&numbered_cs=true&print_pdf=false&ead3=false" //
+    --output ead.pdf
+    SHELL
+    end
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    ead_pdf = client.get('repositories/2/resource_descriptions/577.pdf',
+                          params={'include_unpublished': False,
+                                  'include_daos': True,
+                                  'numbered_cs': True,
+                                  'print_pdf': True,
+                                  'ead3': False})
+    # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+    # set parameters to True or False
+
+    with open("ead.pdf", "wb") as file:  # save the file
+        file.write(ead_pdf.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(ead_pdf.json())
+    PYTHON
+    end
     .params(["id", :id],
             ["include_unpublished", BooleanParam,
              "Include unpublished records", :optional => true],
@@ -175,6 +449,34 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/resource_descriptions/:id.:fmt/metadata')
     .description("Get export metadata for a Resource Description")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/resources/resource_descriptions/577.:fmt/metadata?fmt=864442169P755" //
+    --output resource.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    res_fmt = client.get('/repositories/2/resource_descriptions/577.:fmt/metadata',
+                         params={"fmt": "864442169P755"})
+    # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+    # set fmt to the format of the request you would like to export
+
+    with open("resource.fmt", "wb") as file:  # save the file
+        file.write(res_fmt.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(res_fmt.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id],
             ["fmt", String, "Format of the request",
@@ -192,6 +494,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/resource_labels/:id.tsv')
     .description("Get a tsv list of printable labels for a Resource")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/resource_labels/577.tsv" --output container_labels.tsv
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    request_labels = client.get('repositories/2/resource_labels/577.tsv')
+    # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+
+    with open("container_labels.tsv", "wb") as local_file:
+        local_file.write(request_labels.content)  # write the file's content to our file.
+        local_file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(request_labels.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
@@ -205,6 +532,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/resource_labels/:id.:fmt/metadata')
     .description("Get export metadata for Resource labels")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/resource_labels/577.:fmt/metadata" --output labels.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    labels_fmt = client.get('/repositories/2/resource_labels/577.:fmt/metadata')
+    # replace 2 for your repository ID and 577 with your resource ID. Find these at the URI on the staff interface
+
+    with open("labels_metadata.fmt", "wb") as file:  # save the file
+        file.write(labels_fmt.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(labels_fmt.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([:view_repository])
@@ -218,6 +570,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/people/:id.xml')
     .description("Get an EAC-CPF representation of an Agent")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/archival_contexts/people/159.xml" --output eac_cpf.xml
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    eac_cpf_xml = client.get('/repositories/2/archival_contexts/people/159.xml')
+    # replace 2 for your repository ID and 159 with your agent ID. Find these at the URI on the staff interface
+
+    with open("eac_cpf.xml", "wb") as file:  # save the file
+        file.write(eac_cpf_xml.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_xml.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([])
@@ -231,6 +608,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/people/:id.:fmt/metadata')
     .description("Get metadata for an EAC-CPF export of a person")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/archival_contexts/people/159.:fmt/metadata" --output eac_cpf.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    eac_cpf_fmt = client.get('/repositories/2/archival_contexts/people/159.:fmt/metadata')
+    # replace 2 for your repository ID and 159 with your agent ID. Find these at the URI on the staff interface
+
+    with open("eac_cpf.fmt", "wb") as file:  # save the file
+        file.write(eac_cpf_fmt.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fmt.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([])
@@ -246,6 +648,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/corporate_entities/:id.xml')
     .description("Get an EAC-CPF representation of a Corporate Entity")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1238.xml" --output eac_cpf_corp.xml
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    eac_cpf_corp_xml = client.get('/repositories/2/archival_contexts/corporate_entities/1238.xml')
+    # replace 2 for your repository ID and 1238 with your corporate agent ID. Find these at the URI on the staff interface
+
+    with open("eac_cpf_corp.xml", "wb") as file:  # save the file
+        file.write(eac_cpf_corp_xml.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_corp_xml.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([])
@@ -259,6 +686,32 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/corporate_entities/:id.:fmt/metadata')
     .description("Get metadata for an EAC-CPF export of a corporate entity")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata" //
+    --output eac_cpf_corp.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    eac_cpf_corp_fmt = client.get('/repositories/2/archival_contexts/corporate_entities/1238.:fmt/metadata')
+    # replace 2 for your repository ID and 1238 with your corporate agent ID. Find these at the URI on the staff interface
+
+    with open("eac_cpf_corp.fmt", "wb") as file:  # save the file
+        file.write(eac_cpf_corp_fmt.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_corp_fmt.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([])
@@ -274,6 +727,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/families/:id.xml')
     .description("Get an EAC-CPF representation of a Family")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/archival_contexts/families/479.xml" --output eac_cpf_fam.xml
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    eac_cpf_fam_xml = client.get('/repositories/2/archival_contexts/families/479.xml')
+    # replace 2 for your repository ID and 479 with your family agent ID. Find these at the URI on the staff interface
+
+    with open("eac_cpf_fam.xml", "wb") as file:  # save the file
+        file.write(eac_cpf_fam_xml.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fam_xml.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([])
@@ -287,6 +765,32 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/families/:id.:fmt/metadata')
     .description("Get metadata for an EAC-CPF export of a family")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/archival_contexts/families/479.:fmt/metadata" --output eac_cpf_fam.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    eac_cpf_fam_fmt = client.get('/repositories/2/archival_contexts/families/479.:fmt/metadata')
+    # replace 2 for your repository ID and 479 with your family agent ID. Find these at the URI on the staff interface
+
+    # print(eac_cpf_fam_fmt, eac_cpf_fam_fmt.content)  # write the file's content to our file.
+    with open("eac_cpf_fam.fmt", "wb") as file:  # save the file
+        file.write(eac_cpf_fam_fmt.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_fam_fmt.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([])
@@ -302,6 +806,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/softwares/:id.xml')
     .description("Get an EAC-CPF representation of a Software agent")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/archival_contexts/softwares/1.xml" --output eac_cpf_soft.xml
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    eac_cpf_soft_xml = client.get('/repositories/2/archival_contexts/softwares/1.xml')
+    # replace 2 for your repository ID and 1 with your software agent ID. Find these at the URI on the staff interface
+
+    with open("eac_cpf_soft.xml", "wb") as file:  # save the file
+        file.write(eac_cpf_soft_xml.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_soft_xml.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([])
@@ -315,6 +844,31 @@ class ArchivesSpaceService < Sinatra::Base
 
   Endpoint.get('/repositories/:repo_id/archival_contexts/softwares/:id.:fmt/metadata')
     .description("Get metadata for an EAC-CPF export of a software")
+    .example("shell") do
+    <<~SHELL
+    curl -s -F password="admin" "http://localhost:8089/users/admin/login"
+    set SESSION="session_id"
+    curl -H "X-ArchivesSpace-Session: $SESSION" //
+    "http://localhost:8089/repositories/2/archival_contexts/softwares/1.:fmt/metadata" --output eac_cpf_soft.fmt
+    SHELL
+    .example("python") do
+    <<~PYTHON
+    from asnake.client import ASnakeClient  # import the ArchivesSnake client
+
+    client = ASnakeClient(baseurl="http://localhost:8089", username="admin", password="admin")
+    # replace http://localhost:8089 with your ArchivesSpace API URL and admin for your username and password
+
+    client.authorize()  # authorizes the client
+
+    eac_cpf_soft_fmt = client.get('/repositories/2/archival_contexts/softwares/1.:fmt/metadata')
+    # replace 2 for your repository ID and 1 with your software agent ID. Find these at the URI on the staff interface
+
+    with open("eac_cpf_soft.fmt", "wb") as file:  # save the file
+        file.write(eac_cpf_soft_fmt.content)  # write the file's content to our file.
+        file.close()
+
+    # For error handling, print or log the returned value of client.get with .json() - print(eac_cpf_soft_fmt.json())
+    PYTHON
     .params(["id", :id],
             ["repo_id", :repo_id])
     .permissions([])
