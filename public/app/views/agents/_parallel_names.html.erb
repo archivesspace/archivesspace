@@ -3,9 +3,8 @@
 <% if names_with_primarys.any? %>
   <ul>
   <% names_with_primarys.each do |n| %>
-    <% p_names = n['parallel_names'] %>
-    <% p_names.each do |pn| %>
-      <li><%= pn['primary_name'] %></li>
+    <% n['parallel_names'].sort_by{ |pn| pn['sort_name'] }.each do |pn| %>
+      <li><%= pn['sort_name'] %></li>
     <% end %>
   <% end %>
   </ul>

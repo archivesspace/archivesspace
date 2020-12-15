@@ -170,6 +170,20 @@ describe 'Subject model' do
     expect(JSONModel(:subject).find(subject.id).is_linked_to_published_record).to be_falsey
   end
 
+  it "can derive a subject's publication status from linked agents (subrecords)" do
+    subject = create(:json_subject)
+    expect(JSONModel(:subject).find(subject.id).is_linked_to_published_record).to be_falsey
+
+    agent = create(:json_agent_person, 'agent_topics' => ['subjects' => [{'ref' => subject.uri}]], 'publish' => true)
+    expect(agent['agent_topics'][0]['publish']).to be_truthy
+    expect(JSONModel(:subject).find(subject.id).is_linked_to_published_record).to be_truthy
+
+    agent.publish = false
+    agent.save
+    expect(agent['agent_topics'][0]['publish']).to be_falsey
+    expect(JSONModel(:subject).find(subject.id).is_linked_to_published_record).to be_falsey
+  end
+
   describe "slug tests" do
     before(:all) do
       AppConfig[:use_human_readable_urls] = true

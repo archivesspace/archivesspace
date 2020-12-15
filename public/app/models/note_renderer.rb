@@ -11,8 +11,10 @@ class NoteRenderer
 
   def self.for(type)
     result = @renderers.find {|renderer| renderer.handles_type?(type)}
-
-    raise "No note renderer for '#{type}'" unless result
+    unless result
+      $stderr.puts "No note renderer for '#{type}'"
+      result = UnhandledNoteRenderer
+    end
 
     result.new
   end
@@ -89,5 +91,13 @@ class ERBNoteRenderer < NoteRenderer
     result['label'] = build_label(type, note)
     result['note_text'] = render_partial(type, :locals => {:note => note})
     result
+  end
+end
+
+class UnhandledNoteRenderer < NoteRenderer
+  handles_notes []
+
+  def render(type, note, result)
+    {'label' => '', 'note_text' => ''}
   end
 end
