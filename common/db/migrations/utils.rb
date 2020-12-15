@@ -180,7 +180,6 @@ def fits_structured_date_format?(expr)
 end
 
 # used in migration 126 for creating structured dates
-
 # put any date expression into a structured_date_single with role: begin
 def create_structured_date_for_expr(r, rel)
   role_id_begin = get_enum_value_id("date_role_enum", "begin")
@@ -202,6 +201,31 @@ def create_structured_date_for_expr(r, rel)
                                 :create_time => Time.now,
                                 :system_mtime => Time.now,
                                 :user_mtime => Time.now)
+end
+
+# used in migration 126 for creating structured dates
+def log_date_migration(r)
+  $stderr.puts("Migrating date record to structured_date format")
+  $stderr.puts("================================")
+  $stderr.puts("id                       : " + r[:id].to_s)
+  $stderr.puts("agent_person_id          : " + r[:agent_person_id].to_s)
+  $stderr.puts("agent_family_id          : " + r[:agent_family_id].to_s)
+  $stderr.puts("agent_corporate_entity_id: " + r[:agent_corporate_entity_id].to_s)
+  $stderr.puts("agent_software_id        : " + r[:agent_software_id].to_s)
+  $stderr.puts("name_person_id           : " + r[:name_person_id].to_s)
+  $stderr.puts("name_family_id           : " + r[:name_family_id].to_s)
+  $stderr.puts("name_corporate_entity_id : " + r[:name_corporate_entity_id].to_s)
+  $stderr.puts("name_software_id         : " + r[:name_software_id].to_s)
+  $stderr.puts("related_agents_rlshp_id  : " + r[:name_software_id].to_s)
+  $stderr.puts("date_type_id             : " + r[:agent_software_id].to_s)
+  $stderr.puts("label_id                 : " + r[:label_id].to_s)
+  $stderr.puts("certainty_id             : " + r[:certainty_id].to_s)
+  $stderr.puts("expression               : " + r[:expression].to_s)
+  $stderr.puts("begin                    : " + r[:begin].to_s)
+  $stderr.puts("end                      : " + r[:end].to_s)
+  $stderr.puts("era_id                   : " + r[:era_id].to_s)
+  $stderr.puts("calendar_id              : " + r[:calendar_id].to_s)
+  $stderr.puts("\n")
 end
 
 def create_structured_dates(r, std_begin, std_end, rel)

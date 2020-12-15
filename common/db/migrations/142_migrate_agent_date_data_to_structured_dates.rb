@@ -28,6 +28,8 @@ Sequel.migration do
         next
       end
 
+      log_date_migration(r)
+
       if fits_structured_date_format?(r[:begin])
         std_begin = r[:begin]
       else
@@ -49,7 +51,21 @@ Sequel.migration do
       if std_begin || std_end
         create_structured_dates(r, std_begin, std_end, rel)
       end
-      
+
+      self[:date].filter(:id => r[:id]).delete
     end # of loop
+
+    # remove agents related FKs from date table
+    alter_table(:date) do
+      drop_foreign_key(:agent_person_id)
+      drop_foreign_key(:agent_family_id)
+      drop_foreign_key(:agent_corporate_entity_id)
+      drop_foreign_key(:agent_software_id)
+      drop_foreign_key(:name_person_id)
+      drop_foreign_key(:name_family_id)
+      drop_foreign_key(:name_corporate_entity_id)
+      drop_foreign_key(:name_software_id)
+      drop_foreign_key(:related_agents_rlshp_id)
+    end
   end # of up
 end # of migration
