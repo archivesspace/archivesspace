@@ -91,8 +91,11 @@ $(function() {
       var $section = $($link.attr("href"));
       var $items = $(".subrecord-form-list:first > li", $section);
 
-      var $submenu = getSubMenuHTML($items.length);
-      $link.append($submenu);
+      // Do not add a badge count to sidebar heading items (with class .sidebar-heading) -- only to entry items (with class .sidebar-entry-XXX)
+      if(!$nav.hasClass('sidebar-heading')) {
+        var $submenu = getSubMenuHTML($items.length);
+        $link.append($submenu);
+      }
     });
   };
 
