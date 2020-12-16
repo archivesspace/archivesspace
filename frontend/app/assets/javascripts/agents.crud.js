@@ -7,6 +7,7 @@
 //= require merge_dropdown
 //= require add_event_dropdown
 //= require slug
+//= require lightmode
 
 $(function() {
 
@@ -147,17 +148,17 @@ $(function() {
   };
 
   // We need to trigger this event here, since there is not tree.js to do it
-  // for us. 
+  // for us.
   $(document).ready(function() {
     if ($("#form_agent").length) {
-      $(document).triggerHandler("loadedrecordform.aspace", [$("#form_agent")] ); 
-      $(document).triggerHandler("loadedrecordsubforms.aspace", [$("#form_agent")] ); 
+      $(document).triggerHandler("loadedrecordform.aspace", [$("#form_agent")] );
+      $(document).triggerHandler("loadedrecordsubforms.aspace", [$("#form_agent")] );
       $("#agent_person_dates_of_existence > h3 > button").click(function() {
         selectStructuredDateSubform();
       });
     }
   });
-  
+
   $(document).bind("subrecordcreated.aspace", function(event, object_name, subform) {
     if (object_name === "name") {
       init_name_form($(subform));

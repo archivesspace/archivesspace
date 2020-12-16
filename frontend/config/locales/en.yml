@@ -32,6 +32,7 @@ en:
     show_all: Show All
     transfer_record: Transfer
     more: More
+    lightmode_toggle: Light Mode
     link_to: Link To
     add_prefix: Add
     merge_replace: Replace
@@ -1831,7 +1832,7 @@ en:
 
   agent_record_control_merge_victim:
     <<: *agent_record_control_attributes
-   
+
   agent_gender: &agent_gender_attributes
     _plural: Gender
     _singular: Gender
@@ -1878,7 +1879,7 @@ en:
 
   used_language_merge_target:
     <<: *used_language_attributes
- 
+
   agent_identifier: &agent_identifier_attributes
     _plural: Entity IDs
     _singular: Identifier
@@ -1990,7 +1991,7 @@ en:
 
   agent_topic_required:
     <<: *agent_topic_attributes
-    
+
   agent_topics:
     <<: *agent_topic_attributes
 
@@ -2033,7 +2034,7 @@ en:
 
   agent_alternate_set_merge_victim:
     <<: *agent_alternate_set_attributes
-  
+
   agent_conventions_declaration: &agent_conventions_declaration_attributes
     _plural: Convention Declarations
     _singular: Convention Declaration
@@ -2062,7 +2063,7 @@ en:
 
   agent_conventions_declaration_merge_victim:
     <<: *agent_conventions_declaration_attributes
- 
+
   agent_other_agency_code: &agent_other_agency_code_attributes
     _plural: Other Agency Codes
     _singular: Other Agency Code
@@ -2083,7 +2084,7 @@ en:
 
   agent_other_agency_code_merge_victim:
     <<: *agent_other_agency_code_attributes
- 
+
   agent_maintenance_history: &agent_maintenance_history_attributes
     _plural: Maintenance History
     _singular: Agent Maintenance History
@@ -2098,7 +2099,7 @@ en:
 
   agent_maintenance_histories:
     <<: *agent_maintenance_history_attributes
-  
+
   agent_maintenance_history_required:
     <<: *agent_maintenance_history_attributes
 
@@ -2107,7 +2108,7 @@ en:
 
   agent_maintenance_history_merge_victim:
     <<: *agent_maintenance_history_attributes
- 
+
   agent_record_identifier: &agent_record_identifier_attributes
     _plural: Record IDs
     _singular: Record ID
@@ -2159,7 +2160,7 @@ en:
 
   agent_source_merge_victim:
     <<: *agent_source_attributes
- 
+
   agent_parallel_name:
     _plural: Parallel Names
     use_dates: Use Dates
