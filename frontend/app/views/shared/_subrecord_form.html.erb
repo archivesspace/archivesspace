@@ -20,10 +20,8 @@
   section_classes << (hidden ? "subrecord-form-hidden" : "subrecord-form")
 
   # invisible will still render the data to the DOM so existing data gets passed down and kept
-
-  invisible = false if invisible.blank? 
-  invisible_class = invisible ? "subrecord-form-invisible" : ""
-  section_classes << invisible_class
+  section_classes << 'subrecord-form-invisible' if local_assigns[:invisible]
+  section_classes << 'lightmode_toggle' if local_assigns[:lightmode_toggle]
 
   required = form.required?(name) if required.blank?
 
