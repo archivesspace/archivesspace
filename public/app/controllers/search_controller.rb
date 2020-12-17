@@ -41,7 +41,7 @@ class SearchController < ApplicationController
     Rails.logger.debug("query: #{@query}")
 
     @results = archivesspace.advanced_search(@base_search, page, @criteria)
-    @counts = archivesspace.get_types_counts(DEFAULT_TYPES)
+
     if @results['total_hits'].blank? ||  @results['total_hits'] == 0
       flash[:notice] = I18n.t('search_results.no_results')
       fallback_location = URI(fallback_location)
