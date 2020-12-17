@@ -118,7 +118,7 @@ class ArchivesSpaceClient
 
   def get_types_counts(record_type_list, repo_uri = nil)
     opts = {"record_types[]" => record_type_list}
-    opts["repo_uri"] = "\"#{repo_uri}\"" if repo_uri
+    opts["repo_uri"] = repo_uri if repo_uri
     url = build_url('/search/record_types_by_repository',  opts)
     results = do_search(url)
   end

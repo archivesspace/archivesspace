@@ -181,11 +181,15 @@ class RepositoriesController < ApplicationController
     else
       types = %w(pui_collection pui_record pui_record_group pui_accession pui_digital_object pui_agent  pui_subject)
     end
-    # for now, we've got to get the whole enchilada, until we figure out what's wrong
-    #  counts = archivesspace.get_types_counts(types, repo_id)
-    counts = archivesspace.get_types_counts(types)
+
+    counts = archivesspace.get_types_counts(types, repo_id)
+
     final_counts = {}
-    if counts[repo_id]
+    if !repo_id.nil?
+      counts.each do |k, v|
+        final_counts[k.sub("pui_",'')] = v
+      end
+    elsif counts[repo_id]
       counts[repo_id].each do |k, v|
         final_counts[k.sub("pui_",'')] = v
       end
