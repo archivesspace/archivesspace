@@ -1,4 +1,4 @@
-<ul>
+<ul class="present_list">
   <% list.each do |r| %>
     <li>
       <% if r['file_uri'] %>
@@ -6,7 +6,7 @@
       <% else %>
         <%= r['linked_resource'] %>
       <% end %>
-        
+
     </li>
   <% end %>
 </ul>
