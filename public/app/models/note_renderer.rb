@@ -45,7 +45,7 @@ end
 
 
 class MultipartNoteRenderer < NoteRenderer
-  handles_notes ['note_multipart', 'note_bioghist']
+  handles_notes ['note_multipart', 'note_bioghist', 'note_legal_status', 'note_mandate', 'note_structure_or_genealogy']
 
   def render(type, note, result)
     result['label'] = build_label(type, note)

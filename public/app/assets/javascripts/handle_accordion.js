@@ -7,10 +7,10 @@ function initialize_accordion(what, ex_text, col_text) {
     expand_text = ex_text;
     collapse_text = col_text;
     if ($(what).size() > 1 && $(what).parents(".acc_holder").size() ===1 ) {
-	if ($(what).parents(".acc_holder").children(".acc_button").size() == 0) {
-	    $(what).parents(".acc_holder").prepend("<a  class='btn btn-primary btn-sm acc_button' role='button' ></a>");
-	}
-	collapse_all(what, false);
+        if ($(what).parents(".acc_holder").children(".acc_button").size() == 0) {
+            $(what).parents(".acc_holder").prepend("<a  class='btn btn-primary btn-sm acc_button' role='button' ></a>");
+        }
+        collapse_all(what, true);
     }
 }
 function collapse_all(what, expand) {

@@ -459,8 +459,10 @@ en:
   pui_agent:
     _singular: Name
     _plural:  Names
+    parallel: Parallel Names
     related: Related Names
     creator: Creator
+    also_known_as: Also known by the following names
   record:
     _singular: Record
     _plural: Records
@@ -604,6 +606,9 @@ en:
     _plural: Use Dates
     _singular: Use Date
 
+  used_language:
+    _plural: Used Languages
+    _singular: Used Language
 
   structured_date_label:
     date_label: Label
@@ -664,3 +669,8 @@ en:
     persistent_id: Persistent ID
     type: Note Type
     content: Content
+    bioghist: Biography
+    general: General Context
+    legal_status: Legal Status
+    mandate: Mandate
+    structure_or_genealogy: Structure or Genealogy
