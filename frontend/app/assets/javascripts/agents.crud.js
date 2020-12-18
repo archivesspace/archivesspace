@@ -178,6 +178,15 @@ $(function() {
       init_linked_agent($subform);
       $subform.find('select.linked_agent_role').triggerHandler('change');
     }
+
+    if (object_name === "agent_function" || object_name === "agent_occupation" || object_name === "agent_place" || object_name === "agent_topic") {
+      var $subj = $(subform);
+      setTimeout(function() {
+        if($("section[id*='subjects_'] ul:last li", $subj).children().length == 0) {
+          $("section[id*='subjects_'] .subrecord-form-heading .btn:last", $subj).click();
+        }
+      }, 300);
+    }
   });
 
 });

@@ -4,11 +4,11 @@
   <div class="subrecord-form-fields">
     <div class="agent-record-control-container">
 
-			<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template_erb => "subjects/template", :template => "subrecord_subject_agent_place", :heading_text => "Place Subject", :heading_size => "h4"} %>
-      
-      <%= form.label_and_select "place_role", 
+      <%= form.label_and_select "place_role",
         [""] + form.possible_options_for("place_role", false),
         :required => is_required_by_admin?(r, "agent_places", "place_role") %>
+
+  		<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template_erb => "subjects/template", :template => "subrecord_subject_agent_place", :heading_text => "Place Subject", :heading_size => "h4"} %>
 
 	    <%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :all_note_types => note_types_for("agent_place"), :section_id => "agent_place_notes", :nested_note_jsonmodel => "agent_place", :header_size => "h4", :show_apply_note_order_action => false} %>
 
@@ -42,7 +42,7 @@
   <% end %>
 
   <%= render_aspace_partial :partial => "subjects/show_inline", :locals => {:subjects => form.obj['subjects'], :section_id => "target_place_subjects_", :section_title => I18n.t("agent_place.subjects"), :heading_size => "h4"} %>
-  
+
   <%= form.notes_preview %>
 
   <%= render_aspace_partial :partial => "structured_dates/show_inline", :locals => { :dates => form.obj["dates"], :section_title => I18n.t("agent_place.dates"), :section_id => "target_place_dates", :heading_size => "h4"} %>
@@ -53,7 +53,7 @@
   <% disable_replace = false %>
 
   <%= form.record_level_merge_controls(form, "agent_places", true, !disable_replace) %>
-  
+
   <% field_names = ["place_role"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>
