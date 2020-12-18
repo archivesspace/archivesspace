@@ -185,6 +185,7 @@ ArchivesSpace::Application.routes.draw do
     match 'agents/:agent_type/:id' => 'agents#show', :via => [:get]
     match 'agents' => 'agents#index', :via => [:get]
     match 'agents/:agent_type/:id/delete' => 'agents#delete', :via => [:post]
+    match 'agents/:agent_type/:id/publish' => 'agents#publish', :via => [:post]
     match 'agents/merge' => 'agents#merge', :via => [:post]
     match 'agents/:agent_type/:id/merge_selector' => 'agents#merge_selector', :via => [:post]
     match 'agents/:agent_type/:id/merge_detail' => 'agents#merge_detail', :via => [:post]

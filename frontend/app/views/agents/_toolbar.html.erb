@@ -23,7 +23,19 @@
         <% if user_can?('update_event_record')  %>
             <%= render_aspace_partial :partial => "shared/event_dropdown", :locals => {:record => @agent} %>
         <% end %>
-       
+
+        <div class="btn-group">
+          <%= button_confirm_action(I18n.t("actions.publish"),
+                      url_for({:action => :publish, :id => @agent.id}),
+                      {
+                        :class => "btn btn-sm btn-default",
+                        :"data-title" => I18n.t("actions.publish_confirm_title"),
+                        :"data-message" => I18n.t("actions.publish_confirm_message"),
+                        :"data-confirm-btn-label" => "#{I18n.t("actions.publish")}",
+                        :"data-confirm-btn-class" => "btn-primary",
+                      }) %>
+        </div>
+
         <% if AppConfig[:enable_public] %>
           <%= render_aspace_partial :partial => "shared/view_published_button", :locals => {:record => @agent} %>
         <% end %>

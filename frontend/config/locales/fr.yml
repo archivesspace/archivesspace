@@ -672,6 +672,7 @@ fr:
         created: Agent créé
         updated: Agent sauvegardé
         deleted: Agent supprimé
+        published: "L'agent <strong>%{agent.title}</strong>, ses sous-enregistrements et ses composants ont été publiés"
         delete_conflict: "Impossible de supprimer l'agent: <pre>%{error}</pre>"
         merge_description: Sélectionnez l'agent à fusionner
         merged: Agent(s) fusionné(s)

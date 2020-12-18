@@ -85,6 +85,36 @@ describe 'Family agent controller' do
     expect((uris - results).length).to eq(0)
   end
 
+
+  it "publishes the family agent and subrecords when /publish is POSTed" do
+    family = create(:json_agent_family, {
+                  :publish => false,
+                  :names => [build(:json_name_family)],
+                  :external_documents => [build(:json_external_document, {:publish => false})],
+                  :agent_places => [build(:json_agent_place)]
+                })
+
+    # Confirm various subrecords are unpublished
+    family = JSONModel(:agent_family).find(family.id)
+    expect(family.publish).to be_falsey
+    expect(family.external_documents[0]['publish']).to be_falsey
+    expect(family.agent_places[0]['publish']).to be_falsey
+    expect(family.agent_places[0]['notes'][0]['publish']).to be_falsey
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{family.uri}/publish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+    # Now they're published
+    family = JSONModel(:agent_family).find(family.id)
+    expect(family.publish).to be_truthy
+    expect(family.external_documents[0]['publish']).to be_truthy
+    expect(family.agent_places[0]['publish']).to be_truthy
+    expect(family.agent_places[0]['notes'][0]['publish']).to be_truthy
+  end
+
+
   it "allows families to have a bioghist notes" do
 
     n1 = build(:json_note_bioghist)

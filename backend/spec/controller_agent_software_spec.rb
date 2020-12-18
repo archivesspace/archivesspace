@@ -40,6 +40,35 @@ describe 'Software agent controller' do
   end
 
 
+  it "publishes the software agent and subrecords when /publish is POSTed" do
+    software = create(:json_agent_software, {
+                  :publish => false,
+                  :names => [build(:json_name_software)],
+                  :external_documents => [build(:json_external_document, {:publish => false})],
+                  :agent_places => [build(:json_agent_place)]
+                })
+
+    # Confirm various subrecords are unpublished
+    software = JSONModel(:agent_software).find(software.id)
+    expect(software.publish).to be_falsey
+    expect(software.external_documents[0]['publish']).to be_falsey
+    expect(software.agent_places[0]['publish']).to be_falsey
+    expect(software.agent_places[0]['notes'][0]['publish']).to be_falsey
+
+    url = URI("#{JSONModel::HTTP.backend_url}#{software.uri}/publish")
+
+    request = Net::HTTP::Post.new(url.request_uri)
+    response = JSONModel::HTTP.do_http_request(url, request)
+
+    # Now they're published
+    software = JSONModel(:agent_software).find(software.id)
+    expect(software.publish).to be_truthy
+    expect(software.external_documents[0]['publish']).to be_truthy
+    expect(software.agent_places[0]['publish']).to be_truthy
+    expect(software.agent_places[0]['notes'][0]['publish']).to be_truthy
+  end
+
+
   it "sets the sort name if one is provided" do
     opts = {:names => [build(:json_name_software, :sort_name => "Custom Sort Name", :sort_name_auto_generate => false)]}
 

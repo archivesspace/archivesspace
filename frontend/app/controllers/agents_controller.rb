@@ -1,7 +1,7 @@
 class AgentsController < ApplicationController
 
   set_access_control  "view_repository" => [:index, :show],
-                      "update_agent_record" => [:new, :edit, :create, :update, :merge, :merge_selector, :merge_detail, :merge_preview],
+                      "update_agent_record" => [:new, :edit, :create, :update, :publish, :merge, :merge_selector, :merge_detail, :merge_preview],
                       "delete_agent_record" => [:delete],
                       "manage_repository" => [:defaults, :update_defaults, :required, :update_required]
 
@@ -132,6 +132,20 @@ class AgentsController < ApplicationController
 
     flash[:success] = I18n.t("agent._frontend.messages.deleted", JSONModelI18nWrapper.new(:agent => agent))
     redirect_to(:controller => :agents, :action => :index, :deleted_uri => agent.uri)
+  end
+
+  def publish
+    agent = JSONModel(@agent_type).find(params[:id])
+
+    response = JSONModel::HTTP.post_form("#{agent.uri}/publish")
+
+    if response.code == '200'
+      flash[:success] = I18n.t("agent._frontend.messages.published", JSONModelI18nWrapper.new(:agent => agent).enable_parse_mixed_content!(url_for(:root)))
+    else
+      flash[:error] = ASUtils.json_parse(response.body)['error'].to_s
+    end
+
+    redirect_to request.referer
   end
 
   def defaults
