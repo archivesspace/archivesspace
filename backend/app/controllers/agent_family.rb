@@ -60,4 +60,18 @@ class ArchivesSpaceService < Sinatra::Base
     handle_delete(AgentFamily, params[:id])
   end
 
+
+  Endpoint.post('/agents/families/:id/publish')
+    .description("Publish a family agent and all its sub-records")
+    .params(["id", :id])
+    .permissions([:update_agent_record])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    agent = AgentFamily.get_or_die(params[:id])
+    agent.publish!
+
+    updated_response(agent)
+  end
+
 end

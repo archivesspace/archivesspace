@@ -674,6 +674,7 @@ en:
         created: Agent Created
         updated: Agent Saved
         deleted: Agent Deleted
+        published: "The Agent <strong>%{agent.title}</strong>, its subrecords and components have been published"
         delete_conflict: "Agent could not be deleted: <pre>%{error}</pre>"
         merge_description: Select the agent to merge into
         merged: Agent(s) Merged

@@ -60,4 +60,18 @@ class ArchivesSpaceService < Sinatra::Base
     handle_delete(AgentCorporateEntity, params[:id])
   end
 
+
+  Endpoint.post('/agents/corporate_entities/:id/publish')
+    .description("Publish a corporate entity agent and all its sub-records")
+    .params(["id", :id])
+    .permissions([:update_agent_record])
+    .returns([200, :updated],
+             [400, :error]) \
+  do
+    agent = AgentCorporateEntity.get_or_die(params[:id])
+    agent.publish!
+
+    updated_response(agent)
+  end
+
 end

@@ -674,6 +674,7 @@ es:
         created: Autoridad creada
         updated: Autoridad guardada
         deleted: Autoridad eliminada
+        published: "El Agente <strong>%{agent.title}</strong>, sus subregistros y componentes se han publicado"
         delete_conflict: "El agente no pudo ser eliminado: <pre>%{error}</pre>"
         merge_description: Seleccione el agente para fusionar en
         merged: Autoridad(es) se unificaron

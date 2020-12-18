@@ -679,6 +679,7 @@ ja:
         created: 作成されたエージェント
         updated: エージェントが保存されました
         deleted: エージェントが削除されました
+        published: 「エージェント<strong>％{agent.title}</strong>、そのサブレコードとコンポーネントが公開されました」
         delete_conflict: エージェントを削除できませんでした： <pre> %{error} </pre>
         merge_description: マージするエージェントを選択する
         merged: エージェントが結合されました
