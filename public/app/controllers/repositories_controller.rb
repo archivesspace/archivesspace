@@ -139,8 +139,6 @@ class RepositoriesController < ApplicationController
     resources = {}
     query = "(id:\"#{uri}\" AND publish:true)"
     @counts = get_counts("/repositories/#{params[:id]}")
-    @counts['resource'] = @counts['collection']
-    @counts['classification'] = @counts['record_group']
     #  Pry::ColorPrinter.pp(counts)
     @criteria = {}
     @criteria[:page_size] = 1
@@ -174,26 +172,17 @@ class RepositoriesController < ApplicationController
   end
 
   private
-  # get counts for repository
-  def get_counts(repo_id = nil, collection_only = false)
-    if collection_only
-      types = ['pui_collection']
-    else
-      types = %w(pui_collection pui_record pui_record_group pui_accession pui_digital_object pui_agent  pui_subject)
-    end
 
-    counts = archivesspace.get_types_counts(types, repo_id)
-
+  # get counts of various records belonging to a repository
+  def get_counts(repo_uri)
+    types = %w(pui_collection pui_record pui_record_group pui_accession pui_digital_object pui_agent pui_subject)
+    counts = archivesspace.get_types_counts(types, repo_uri)
     final_counts = {}
-    if !repo_id.nil?
-      counts.each do |k, v|
-        final_counts[k.sub("pui_",'')] = v
-      end
-    elsif counts[repo_id]
-      counts[repo_id].each do |k, v|
-        final_counts[k.sub("pui_",'')] = v
-      end
+    counts.each do |k, v|
+      final_counts[k.sub("pui_",'')] = v
     end
+    final_counts['resource'] = final_counts['collection']
+    final_counts['classification'] = final_counts['record_group']
     final_counts
   end
 
