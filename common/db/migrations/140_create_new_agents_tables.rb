@@ -59,11 +59,11 @@ Sequel.migration do
     create_table(:agent_conventions_declaration) do
       primary_key :id
 
-      Integer :name_rule_id, :null => false
+      Integer :name_rule_id, :null => true
       Integer :file_version_xlink_actuate_attribute_id, :null => true
       Integer :file_version_xlink_show_attribute_id, :null => true
 
-      String :citation, :null => false
+      String :citation, :null => true
       TextField :descriptive_note, :null => false
       String :file_uri, :null => true
       String :xlink_title_attribute, :null => true
@@ -83,7 +83,7 @@ Sequel.migration do
     create_table(:agent_other_agency_codes) do
       primary_key :id
 
-      Integer :agency_code_type_enum_id, :null => false
+      Integer :agency_code_type_enum_id, :null => true
 
       String :maintenance_agency, :null => false
 
