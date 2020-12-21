@@ -31,7 +31,5 @@ Sequel.migration do
   	create_enum("agent_relationship_family_relator", ["is_related_with"])
   	create_editable_enum("gender_enum", ["not_specified"])
 
-    add_values_to_enum("note_multipart_type", ["general_context", "mandate", "legal_status", "structure_or_genealogy"])
-
   end
 end
