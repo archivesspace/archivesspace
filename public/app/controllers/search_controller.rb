@@ -58,8 +58,29 @@ class SearchController < ApplicationController
       all_sorts.keys.each do |type|
         @sort_opts.push(all_sorts[type])
       end
+      # If there are any repositories in the results, get counts of their collections
+      @counts = {}
+      @results.records.each do |result|
+        if result['primary_type'] == 'repository'
+          @counts[result.uri] = get_collection_counts(result.uri)
+        end
+      end
       render 'search/search_results'
     end
+  end
+
+  private
+
+  # get counts of collections belonging to a repository
+  def get_collection_counts(repo_uri)
+    types = ['pui_collection']
+    counts = archivesspace.get_types_counts(types, repo_uri)
+    final_counts = {}
+    counts.each do |k, v|
+      final_counts[k.sub("pui_",'')] = v
+    end
+    final_counts['resource'] = final_counts['collection']
+    final_counts
   end
 
 end
