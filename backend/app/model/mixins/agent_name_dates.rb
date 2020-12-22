@@ -53,7 +53,7 @@ module AgentNameDates
     doe_json.each do |doe|
       date_substring = ""
 
-      if doe["date_type_enum"] == "single"
+      if doe["date_type_structured"] == "single"
         std = doe["structured_date_single"]['date_standardized']
         exp = doe["structured_date_single"]['date_expression']
 
@@ -65,7 +65,7 @@ module AgentNameDates
         elsif exp
           date_substring = exp
         end
-      elsif doe["date_type_enum"] == "range"
+      elsif doe["date_type_structured"] == "range"
         b_std = doe["structured_date_range"]['begin_date_standardized']
         b_exp = doe["structured_date_range"]['begin_date_expression']
         e_std = doe["structured_date_range"]['end_date_standardized']

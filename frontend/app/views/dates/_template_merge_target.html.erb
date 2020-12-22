@@ -104,7 +104,7 @@
     <%= form.record_level_merge_controls(form, "dates_of_existence", false) %>
     <div class="structred-date-label-container">
       <%= form.label_and_readonly "date_label" %>
-      <%= form.label_and_readonly "date_type_enum" %>
+      <%= form.label_and_readonly "date_type_structured" %>
       <%= form.label_and_readonly "date_certainty" %>
       <%= form.label_and_readonly "date_era" %>
       <%= form.label_and_readonly "date_calendar" %>
@@ -132,10 +132,10 @@
       </h4>
       <div class="subrecord-form-fields subrecord-form-container">
         <div class="structured-date-container">
-          <%= form.label_and_readonly "date_role_enum" %>
+          <%= form.label_and_readonly "date_role" %>
           <%= form.label_and_readonly "date_expression" %>
           <%= form.label_and_readonly "date_standardized" %>
-          <%= form.label_and_readonly "date_standardized_type_enum" %>
+          <%= form.label_and_readonly "date_standardized_type" %>
         </div>
       </div>
     </section>
@@ -151,11 +151,11 @@
       <div class="structured-date-container">
         <%= form.label_and_readonly "begin_date_expression" %>
         <%= form.label_and_readonly "begin_date_standardized" %>
-        <%= form.label_and_readonly "begin_date_standardized_type_enum" %>
+        <%= form.label_and_readonly "begin_date_standardized_type" %>
 
         <%= form.label_and_readonly "end_date_expression" %>
         <%= form.label_and_readonly "end_date_standardized" %>
-        <%= form.label_and_readonly "end_date_standardized_type_enum" %>
+        <%= form.label_and_readonly "end_date_standardized_type" %>
       </div>
     </div>
   </section>

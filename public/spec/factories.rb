@@ -364,7 +364,7 @@ module AspaceFactories
       end
 
       factory :json_structured_date_label, class: JSONModel(:structured_date_label) do
-        date_type_enum { "single" }
+        date_type_structured { "single" }
         date_label { 'existence' }
         structured_date_single { build(:json_structured_date_single) }
         date_certainty { "approximate" }
@@ -373,10 +373,10 @@ module AspaceFactories
       end
 
       factory :json_structured_date_single, class: JSONModel(:structured_date_single) do
-        date_role_enum  { "begin" }
+        date_role  { "begin" }
         date_expression { "Yesterday" }
         date_standardized { "2019-06-01" }
-        date_standardized_type_enum { "standard" }
+        date_standardized_type { "standard" }
       end
 
       factory :subject, class: JSONModel(:subject) do

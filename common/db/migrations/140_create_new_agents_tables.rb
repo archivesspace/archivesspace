@@ -7,17 +7,17 @@ Sequel.migration do
     create_table(:agent_record_control) do
       primary_key :id
 
-      Integer :maintenance_status_enum_id, :null => false
-      Integer :publication_status_enum_id, :null => true
-      Integer :government_agency_type_enum_id, :null => true
-      Integer :reference_evaluation_enum_id, :null => true
-      Integer :name_type_enum_id, :null => true
-      Integer :level_of_detail_enum_id, :null => true
-      Integer :modified_record_enum_id, :null => true
-      Integer :cataloging_source_enum_id, :null => true
+      Integer :maintenance_status_id, :null => false
+      Integer :publication_status_id, :null => true
+      Integer :government_agency_type_id, :null => true
+      Integer :reference_evaluation_id, :null => true
+      Integer :name_type_id, :null => true
+      Integer :level_of_detail_id, :null => true
+      Integer :modified_record_id, :null => true
+      Integer :cataloging_source_id, :null => true
       Integer :language_id, :null => true
       Integer :script_id, :null => true
-      Integer :romanization_enum_id, :null => true
+      Integer :romanization_id, :null => true
 
       String :maintenance_agency, :null => true
       String :agency_name, :null => true
@@ -83,7 +83,7 @@ Sequel.migration do
     create_table(:agent_other_agency_codes) do
       primary_key :id
 
-      Integer :agency_code_type_enum_id, :null => true
+      Integer :agency_code_type_id, :null => true
 
       String :maintenance_agency, :null => false
 
@@ -99,8 +99,8 @@ Sequel.migration do
     create_table(:agent_maintenance_history) do
       primary_key :id
 
-      Integer :maintenance_event_type_enum_id, :null => false
-      Integer :maintenance_agent_type_enum_id, :null => false
+      Integer :maintenance_event_type_id, :null => false
+      Integer :maintenance_agent_type_id, :null => false
 
       DateTime :event_date, :null => false
       String :agent, :null => false
@@ -118,8 +118,8 @@ Sequel.migration do
     create_table(:agent_record_identifier) do
       primary_key :id
 
-      Integer :identifier_type_enum_id, :null => true
-      Integer :source_enum_id, :null => false
+      Integer :identifier_type_id, :null => true
+      Integer :source_id, :null => false
 
       Integer :primary_identifier, :null => false
 
@@ -158,16 +158,16 @@ Sequel.migration do
       Integer :lock_version, :default => 0, :null => false
     end
 
-    date_std_type_id = get_enum_value_id("date_standardized_type_enum", "standard")
+    date_std_type_id = get_enum_value_id("date_standardized_type", "standard")
 
     create_table(:structured_date_single) do
       primary_key :id
       Integer :structured_date_label_id, :null => false
 
-      Integer :date_role_enum_id, :null => false
+      Integer :date_role_id, :null => false
       String :date_expression, :null => true
       String :date_standardized, :null => true
-      Integer :date_standardized_type_enum_id, :null => false, :default => date_std_type_id
+      Integer :date_standardized_type_id, :null => false, :default => date_std_type_id
 
       apply_mtime_columns
       Integer :lock_version, :default => 0, :null => false
@@ -179,11 +179,11 @@ Sequel.migration do
 
       String :begin_date_expression, :null => true
       String :begin_date_standardized, :null => true
-      Integer :begin_date_standardized_type_enum_id, :null => false, :default => date_std_type_id
+      Integer :begin_date_standardized_type_id, :null => false, :default => date_std_type_id
 
       String :end_date_expression, :null => true
       String :end_date_standardized, :null => true
-      Integer :end_date_standardized_type_enum_id, :null => false, :default => date_std_type_id
+      Integer :end_date_standardized_type_id, :null => false, :default => date_std_type_id
 
       apply_mtime_columns
       Integer :lock_version, :default => 0, :null => false
@@ -193,7 +193,7 @@ Sequel.migration do
       primary_key :id
 
       Integer :date_label_id, :null => false # existing enum date_label
-      Integer :date_type_enum_id, :null => false
+      Integer :date_type_structured_id, :null => false
       Integer :date_certainty_id, :null => true # existing enum date_certainty
       Integer :date_era_id, :null => true # existing enum date_era
       Integer :date_calendar_id, :null => true # existing enum date_calendar
@@ -231,7 +231,7 @@ Sequel.migration do
     create_table(:agent_place) do
       primary_key :id
 
-      Integer :place_role_enum_id, :null => true
+      Integer :place_role_id, :null => true
 
       Integer :agent_person_id, :null => true
       Integer :agent_family_id, :null => true
@@ -294,7 +294,7 @@ Sequel.migration do
     create_table(:agent_gender) do
       primary_key :id
 
-      Integer :gender_enum_id, :null => false
+      Integer :gender_id, :null => false
 
       Integer :agent_person_id, :null => true
 
@@ -305,7 +305,7 @@ Sequel.migration do
     create_table(:agent_identifier) do
       primary_key :id
 
-      Integer :identifier_type_enum_id, :null => true
+      Integer :identifier_type_id, :null => true
 
       String :entity_identifier, :null => false
       
@@ -331,7 +331,7 @@ Sequel.migration do
 
       Integer :language_id
       Integer :script_id
-      Integer :romanization_enum_id
+      Integer :romanization_id
 
       HalfLongString :title, :null => true
       TextField :prefix, :null => true
@@ -358,7 +358,7 @@ Sequel.migration do
 
       Integer :language_id
       Integer :script_id
-      Integer :romanization_enum_id
+      Integer :romanization_id
 
       TextField :family_name, :null => false
 
@@ -383,7 +383,7 @@ Sequel.migration do
 
       Integer :language_id
       Integer :script_id
-      Integer :romanization_enum_id
+      Integer :romanization_id
 
       TextField :primary_name, :null => false
 
@@ -406,7 +406,7 @@ Sequel.migration do
 
       Integer :language_id
       Integer :script_id
-      Integer :romanization_enum_id
+      Integer :romanization_id
 
       TextField :software_name, :null => false
 

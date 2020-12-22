@@ -51,7 +51,7 @@
   <div class="subrecord-form-fields">
     <div class="structured-date-label-container">
       <%= form.label_and_select "date_label", form.possible_options_for("date_label", false, :include => ["existence"]) %>
-      <%= form.label_and_select "date_type_enum", ["Please select"] + (form.possible_options_for("date_type_enum")) %>
+      <%= form.label_and_select "date_type_structured", ["Please select"] + (form.possible_options_for("date_type_structured")) %>
       <%= form.label_and_select("date_certainty", form.possible_options_for("date_certainty", true)) %>
       <%= form.label_and_select("date_era", form.possible_options_for("date_era", true)) %>
       <%= form.label_and_select("date_calendar", form.possible_options_for("date_calendar", true)) %>
@@ -81,10 +81,10 @@
       </h4>
       <div class="subrecord-form-fields subrecord-form-container">
         <div class="structured-date-container">
-          <%= form.label_and_select "date_role_enum", form.possible_options_for("date_role_enum", false, required: true) %>
+          <%= form.label_and_select "date_role", form.possible_options_for("date_role", false, required: true) %>
           <%= form.label_and_textfield "date_expression",  {:field_opts => {:size => 30, :class => "form-control"} }%>
           <%= form.label_and_date "date_standardized", {:field_opts => {} } %>
-          <%= form.label_and_select "date_standardized_type_enum", form.possible_options_for("date_standardized_type_enum", false) %>
+          <%= form.label_and_select "date_standardized_type", form.possible_options_for("date_standardized_type", false) %>
 
         </div>
       </div>
@@ -101,11 +101,11 @@
       <div class="structured-date-container">
         <%= form.label_and_textfield "begin_date_expression",  {:field_opts => {:size => 30, :class => "form-control"} }%>
         <%= form.label_and_date "begin_date_standardized" %>
-        <%= form.label_and_select "begin_date_standardized_type_enum", form.possible_options_for("begin_date_standardized_type_enum", false) %>
+        <%= form.label_and_select "begin_date_standardized_type", form.possible_options_for("begin_date_standardized_type", false) %>
 
         <%= form.label_and_textfield "end_date_expression",  {:field_opts => {:size => 30, :class => "form-control"} }%>
         <%= form.label_and_date "end_date_standardized" %>
-        <%= form.label_and_select "end_date_standardized_type_enum", form.possible_options_for("end_date_standardized_type_enum", false) %>
+        <%= form.label_and_select "end_date_standardized_type", form.possible_options_for("end_date_standardized_type", false) %>
 
       </div>
     </div>

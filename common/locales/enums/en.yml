@@ -1,34 +1,34 @@
 en:
   enumerations:
-    gender_enum:
+    gender:
       male: Male
       female: Female
       not_known: Not Known
-    place_role_enum:
+    place_role:
       assoc_country: Associated Country
       residence: Residence
       other_assoc: Other
       place_of_birth: Place of Birth
       place_of_death: Place of Death
-    date_type_enum:
+    date_type_structured:
       single: Single
       range: Range
-    date_role_enum:
+    date_role:
       begin: Begin
       end: End
-    date_standardized_type_enum:
+    date_standardized_type:
       standard: Standard
       not_before: Not Before
       not_after: Not After
-    begin_date_standardized_type_enum:
+    begin_date_standardized_type:
       standard: Standard
       not_before: Not Before
       not_after: Not After      
-    end_date_standardized_type_enum:
+    end_date_standardized_type:
       standard: Standard
       not_before: Not Before
       not_after: Not After      
-    maintenance_status_enum:
+    maintenance_status:
       new: New
       upgraded: Upgraded
       revised_corrected: Revised/Corrected
@@ -37,10 +37,10 @@ en:
       cancelled_obsolete: Cancelled/Obsolete
       deleted_split: Deleted-Split
       deleted_replaced: Deleted-Replaced
-    publication_status_enum:
+    publication_status:
       in_process: In-process
       approved: Approved
-    romanization_enum:
+    romanization:
       int_std: International standard 
       nat_std: National standard
       nl_assoc_std: National library association standard
@@ -49,7 +49,7 @@ en:
       unknown_standard: Standard of unknown origin
       conv_rom_cat_agency: Conventional romanization or conventional form of name in language of cataloging agency
       not_applicable: Not applicable
-    government_agency_type_enum: 
+    government_agency_type: 
       ngo: Non-governmental organization
       sac: Autonomous or semi-autonomous component
       multilocal: Multilocal
@@ -62,53 +62,53 @@ en:
       unknown: Unknown if heading is government agency
       other: Other
       natc: No attempt to code
-    reference_evaluation_enum: 
+    reference_evaluation: 
       tr_consistent: Tracings consistent with headings
       tr_inconsistent: Tracings inconsistent with headings
       not_applicable: Not applicable
       natc: No attempt to code
-    name_type_enum: 
+    name_type: 
       differentiated: Differentiated
       undifferentiated: Undifferentiated
       not_applicable: Not applicable
       natc: No attempt to code
-    level_of_detail_enum: 
+    level_of_detail: 
       fully_established: Fully established
       memorandum: Memorandum
       provisional: Provisional
       preliminary: Preliminary
       not_applicable: Not applicable
       natc: No attempt to code
-    modified_record_enum: 
+    modified_record: 
       not_modified: Not modified
       shortened: Shortened
       missing_characters: Missing characters
       natc: No attempt to code
-    cataloging_source_enum:
+    cataloging_source:
       nat_bib_agency: National bibliographic agency 
       ccp: Cooperative cataloging program
       other: Other
       unknown: Unknown
       natc: No attempt to code
-    source_enum: 
+    source: 
       naf: NAF
       snac: SNAC
       local: Local
-    identifier_type_enum: 
+    identifier_type: 
       loc: Library of Congress
       lac: Library and Archives Canada
       local: Local
-    agency_code_type_enum: 
+    agency_code_type: 
       oclc: OCLC
       local: Local
-    maintenance_event_type_enum: 
+    maintenance_event_type: 
       created: Created
       cancelled: Cancelled
       deleted: Deleted
       derived: Derived 
       revised: Revised
       updated: Updated
-    maintenance_agent_type_enum: 
+    maintenance_agent_type: 
       human: Human
       machine: Machine
     linked_event_archival_record_roles:
@@ -1970,22 +1970,22 @@ en:
     rights_statement_act_restriction: Rights Statement Act Restriction
     rights_statement_act_type: Rights Statement Act Type
     rights_statement_other_rights_basis: Rights Statement Other Rights Basis
-    maintenance_status_enum: Maintenence Status
-    publication_status_enum: Publication Status
-    romanization_enum: Romanization
-    government_agency_type_enum: Government Agency Type
-    reference_evaluation_enum:  Reference Evaluation
-    name_type_enum: Name Type
-    level_of_detail_enum: Level of Detail
-    modified_record_enum:  Modified Record
-    cataloging_source_enum: Cataloging Source
-    source_enum: Source
-    identifier_type_enum:  Identifier Type
-    agency_code_type_enum: Agency Code
-    maintenance_event_type_enum: Maintenence Event Type
-    maintenance_agent_type_enum: Maintenence Agent Type
-    gender_enum: Gender
-    place_role_enum: Place Role
-    date_type_enum: Date Type
-    date_standardized_type_enum: Date Standardized Type
-    date_role_enum: Date Role
+    maintenance_status: Maintenence Status
+    publication_status: Publication Status
+    romanization: Romanization
+    government_agency_type: Government Agency Type
+    reference_evaluation:  Reference Evaluation
+    name_type: Name Type
+    level_of_detail: Level of Detail
+    modified_record:  Modified Record
+    cataloging_source: Cataloging Source
+    source: Source
+    identifier_type:  Identifier Type
+    agency_code_type: Agency Code
+    maintenance_event_type: Maintenence Event Type
+    maintenance_agent_type: Maintenence Agent Type
+    gender: Gender
+    place_role: Place Role
+    date_type: Date Type
+    date_standardized_type: Date Standardized Type
+    date_role: Date Role

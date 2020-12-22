@@ -329,7 +329,7 @@ module MarcXMLAuthAgentBaseMap
           status = "deleted_replaced"
         end
 
-        arc['maintenance_status_enum'] = status
+        arc['maintenance_status'] = status
       },
       "//record/controlfield[@tag='003']" => Proc.new{|arc, node|
         org = node.inner_text
@@ -460,14 +460,14 @@ module MarcXMLAuthAgentBaseMap
         end
 
 
-        arc['romanization_enum'] = romanization
+        arc['romanization'] = romanization
         arc['language'] = lang
-        arc['government_agency_type_enum'] = gov_agency
-        arc['reference_evaluation_enum'] = ref_eval
-        arc['name_type_enum'] = name_type
-        arc['level_of_detail_enum'] = lod
-        arc['modified_record_enum'] = mod_record
-        arc['cataloging_source_enum'] = catalog_source
+        arc['government_agency_type'] = gov_agency
+        arc['reference_evaluation'] = ref_eval
+        arc['name_type'] = name_type
+        arc['level_of_detail'] = lod
+        arc['modified_record'] = mod_record
+        arc['cataloging_source'] = catalog_source
       },
       "//record/datafield[@tag='040']/subfield[@code='a']" => Proc.new{|arc, node| 
         val = node.inner_text
@@ -507,20 +507,20 @@ module MarcXMLAuthAgentBaseMap
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] == "local"
+          ari['identifier_type'] == "local"
         else
-          ari['identifier_type_enum'] == "lac"
+          ari['identifier_type'] == "lac"
         end
       },
       "//record/datafield[@tag=016]/subfield[@code='2']" => Proc.new {|ari, node|
         val = node.inner_text
-        ari['source_enum'] = val
+        ari['source'] = val
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] == "local"
+          ari['identifier_type'] == "local"
         else
-          ari['identifier_type_enum'] == "lac"
+          ari['identifier_type'] == "lac"
         end
       },
       "//record/datafield[@tag=024]/subfield[@code='a']" => Proc.new {|ari, node|
@@ -529,16 +529,16 @@ module MarcXMLAuthAgentBaseMap
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] == "local"
+          ari['identifier_type'] == "local"
         end
       },
       "//record/datafield[@tag=024]/subfield[@code='2']" => Proc.new {|ari, node|
         val = node.inner_text
-        ari['source_enum'] = val
+        ari['source'] = val
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] == "local"
+          ari['identifier_type'] == "local"
         end
       },
       "//record/datafield[@tag=035]/subfield[@code='a']" => Proc.new {|ari, node|
@@ -547,21 +547,21 @@ module MarcXMLAuthAgentBaseMap
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] = "local"
+          ari['identifier_type'] = "local"
         end
       },
       "//record/datafield[@tag=035]/subfield[@code='2']" => Proc.new {|ari, node|
         val = node.inner_text
-        ari['source_enum'] = val
+        ari['source'] = val
         ari['primary_identifier'] = true
 
         if node.parent.attr("ind1") == "7"
-          ari['identifier_type_enum'] = "local"
+          ari['identifier_type'] = "local"
         end
       },
     },
     :defaults => {
-      :source_enum => "local"
+      :source => "local"
     }  
   }
   end
@@ -575,15 +575,15 @@ module MarcXMLAuthAgentBaseMap
         tag5_content = node.inner_text
 
         amh['event_date'] = tag5_content[0..7]
-        amh['maintenance_event_type_enum'] = "created"
-        amh['maintenance_agent_type_enum'] = "machine"
+        amh['maintenance_event_type'] = "created"
+        amh['maintenance_agent_type'] = "machine"
       },
       "//record/controlfield[@tag='008']" => Proc.new{|amh, node|
         tag8_content = node.inner_text
 
         amh['event_date'] = "19" + tag8_content[0..5]
-        amh['maintenance_event_type_enum'] = "created"
-        amh['maintenance_agent_type_enum'] = "machine"
+        amh['maintenance_event_type'] = "created"
+        amh['maintenance_agent_type'] = "machine"
       },
       "//record/datafield[@tag='040']/subfield[@code='d']" => Proc.new{|amh, node|
         val = node.inner_text
@@ -632,7 +632,7 @@ module MarcXMLAuthAgentBaseMap
         })
 
         sdl[:date_label] = label
-        sdl[:date_type_enum] = type
+        sdl[:date_type_structured] = type
         sdl[:structured_date_range] = sdr
       }
     }
@@ -660,7 +660,7 @@ module MarcXMLAuthAgentBaseMap
         })
 
         sdl[:date_label] = label
-        sdl[:date_type_enum] = type
+        sdl[:date_type_structured] = type
         sdl[:structured_date_range] = sdr
       }
     }
@@ -688,7 +688,7 @@ module MarcXMLAuthAgentBaseMap
         })
 
         sdl[:date_label] = label
-        sdl[:date_type_enum] = type
+        sdl[:date_type_structured] = type
         sdl[:structured_date_range] = sdr
       }
     }
@@ -716,7 +716,7 @@ module MarcXMLAuthAgentBaseMap
         })
 
         sdl[:date_label] = label
-        sdl[:date_type_enum] = type
+        sdl[:date_type_structured] = type
         sdl[:structured_date_range] = sdr
       }
     }
@@ -734,7 +734,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "place_of_birth"
+      :place_role => "place_of_birth"
     }
   }
   end
@@ -750,7 +750,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "place_of_death"
+      :place_role => "place_of_death"
     }
   }
   end
@@ -766,7 +766,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "assoc_country"
+      :place_role => "assoc_country"
     }
   }
   end
@@ -782,7 +782,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "residence"
+      :place_role => "residence"
     }
   }
   end
@@ -798,7 +798,7 @@ module MarcXMLAuthAgentBaseMap
       "parent::datafield" => date_range_map
     },
     :defaults => {
-      :place_role_enum => "other_assoc"
+      :place_role => "other_assoc"
     }
   }
   end
@@ -849,7 +849,7 @@ module MarcXMLAuthAgentBaseMap
     :map => {
       "self::subfield" => Proc.new {|gender, node| 
         val = node.inner_text
-        gender['gender_enum'] = val
+        gender['gender'] = val
       },
 
       "parent::datafield" => date_range_map

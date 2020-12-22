@@ -23,8 +23,8 @@ describe 'EAC Export' do
 
       eac = get_eac(r)
 
-      expect(eac).to have_tag "control/maintenanceStatus" => arc['maintenance_status_enum']
-      expect(eac).to have_tag "control/publicationStatus" => arc['publication_status_enum']
+      expect(eac).to have_tag "control/maintenanceStatus" => arc['maintenance_status']
+      expect(eac).to have_tag "control/publicationStatus" => arc['publication_status']
       expect(eac).to have_tag "control/maintenanceAgency/agencyName" => arc['agency_name']
       expect(eac).to have_tag "control/maintenanceAgency/agencyCode" => arc['maintenance_agency']
       expect(eac).to have_tag "control/maintenanceAgency/descriptiveNote" => arc['maintenance_agency_note']
@@ -60,9 +60,9 @@ describe 'EAC Export' do
 
       eac = get_eac(r)
 
-      expect(eac).to have_tag "control/maintenanceHistory/maintenanceEvent/eventType" => mh['maintenance_event_type_enum']
+      expect(eac).to have_tag "control/maintenanceHistory/maintenanceEvent/eventType" => mh['maintenance_event_type']
       expect(eac).to have_tag "control/maintenanceHistory/maintenanceEvent/eventDateTime"
-      expect(eac).to have_tag "control/maintenanceHistory/maintenanceEvent/agentType" => mh['maintenance_agent_type_enum']
+      expect(eac).to have_tag "control/maintenanceHistory/maintenanceEvent/agentType" => mh['maintenance_agent_type']
       expect(eac).to have_tag "control/maintenanceHistory/maintenanceEvent/eventDescription" => mh['descriptive_note']
       expect(eac).to have_tag "control/maintenanceHistory/maintenanceEvent/agent" => mh['agent']
  

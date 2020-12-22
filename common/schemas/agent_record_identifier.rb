@@ -11,14 +11,14 @@
         "maxLength" => 65000, 
         "ifmissing" => "error"
       },
-      "source_enum" => {
+      "source" => {
         "type" => "string",
-        "dynamic_enum" => "source_enum", 
+        "dynamic_enum" => "source", 
         "ifmissing" => "error"
       },
-      "identifier_type_enum" => {
+      "identifier_type" => {
         "type" => "string",
-        "dynamic_enum" => "identifier_type_enum",
+        "dynamic_enum" => "identifier_type",
         "required" => false
       },
     }

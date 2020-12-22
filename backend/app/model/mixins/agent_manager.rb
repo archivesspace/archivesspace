@@ -294,7 +294,7 @@ module AgentManager
 
         json.dates_of_existence.each do |date|
           fields << hash_chunk(JSONModel(:structured_date_label).from_hash(date),
-                               %w(date_type_enum date_label))
+                               %w(date_type_structured date_label))
         end
 
         json.agent_contacts.each do |contact|
