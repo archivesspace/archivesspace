@@ -28,7 +28,7 @@ describe 'Structured Date model' do
   end
 
   it "label record is invalid if it has a single subrecord but type == range" do
-    sd = build(:json_structured_date_label, :date_type_enum => "range")
+    sd = build(:json_structured_date_label, :date_type_structured => "range")
     errs = JSONModel::Validations.check_structured_date_label(sd)
 
     expect(errs.length > 0).to eq(true)
@@ -36,7 +36,7 @@ describe 'Structured Date model' do
   end
 
   it "label record is invalid if it has a range subrecord but type == single" do
-    sd = build(:json_structured_date_label_range, :date_type_enum => "single")
+    sd = build(:json_structured_date_label_range, :date_type_structured => "single")
     errs = JSONModel::Validations.check_structured_date_label(sd)
 
     expect(errs.length > 0).to eq(true)
@@ -67,7 +67,7 @@ describe 'Structured Date model' do
   end
 
   it "single dates are invalid if role is missing" do
-    sds = build(:json_structured_date_single, :date_role_enum => nil)
+    sds = build(:json_structured_date_single, :date_role => nil)
   
     errs = JSONModel::Validations.check_structured_date_single(sds)
     expect(errs.length > 0).to eq(true)

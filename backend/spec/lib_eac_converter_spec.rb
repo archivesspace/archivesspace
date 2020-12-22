@@ -97,11 +97,11 @@ describe 'EAC converter' do
       expect(ars.length).to eq(8)
       expect(ars[1]["record_identifier"]).to eq("11850391X")
       expect(ars[1]["primary_identifier"]).to eq(false)
-      expect(ars[1]["identifier_type_enum"]).to eq("PPN")
+      expect(ars[1]["identifier_type"]).to eq("PPN")
 
       expect(ars[2]["record_identifier"]).to eq("http://kalliope-verbund.info/gnd/11850391X")
       expect(ars[2]["primary_identifier"]).to eq(false)
-      expect(ars[2]["identifier_type_enum"]).to eq("uriKPE")
+      expect(ars[2]["identifier_type"]).to eq("uriKPE")
     end
 
     it "imports agent_record_control tags" do
@@ -109,11 +109,11 @@ describe 'EAC converter' do
 
       arc = record["agent_record_controls"].first
 
-      expect(arc["maintenance_status_enum"]).to eq("new")
+      expect(arc["maintenance_status"]).to eq("new")
       expect(arc["agency_name"]).to eq("Deutsche Nationalbibliothek")
       expect(arc["maintenance_agency"]).to eq("DE-101")
       expect(arc["maintenance_agency_note"]).to eq("Agency Note")
-      expect(arc["publication_status_enum"]).to eq("approved")
+      expect(arc["publication_status"]).to eq("approved")
       expect(arc["language"]).to eq("ger")
       expect(arc["script"]).to eq("Latn")
       expect(arc["language_note"]).to eq("Language Note")
@@ -143,8 +143,8 @@ describe 'EAC converter' do
 
       expect(record["agent_maintenance_histories"].length).to eq(2)
 
-      expect(mh["maintenance_event_type_enum"]).to eq("created")
-      expect(mh["maintenance_agent_type_enum"]).to eq("human")
+      expect(mh["maintenance_event_type"]).to eq("created")
+      expect(mh["maintenance_agent_type"]).to eq("human")
       expect(mh["agent"]).to eq("W4")
       expect(mh["event_date"]).to eq("1988-07-01")
       expect(mh["descriptive_note"]).to eq("Event note 1")
@@ -178,7 +178,7 @@ describe 'EAC converter' do
       id = record["agent_identifiers"].first
 
       expect(id["entity_identifier"]).to eq("auto gen number")
-      expect(id["identifier_type_enum"]).to eq("PPX")
+      expect(id["identifier_type"]).to eq("PPX")
     end
 
     it "imports part with no attrs as primary_name" do
@@ -202,7 +202,7 @@ describe 'EAC converter' do
       expect(record['names'][0]['qualifier']).to eq("qualifier")
       expect(record['names'][0]['language']).to eq("eng")
       expect(record['names'][0]['script']).to eq("Latn")
-      expect(record['names'][0]['romanization_enum']).to eq("int_std")
+      expect(record['names'][0]['romanization']).to eq("int_std")
     end
 
     it "imports parallel names" do
@@ -313,7 +313,7 @@ describe 'EAC converter' do
       agent_record = full_record.select {|r| r['jsonmodel_type'] == "agent_person"}.first
 
       expect(agent_record["agent_genders"].length).to eq(1)
-      expect(agent_record["agent_genders"][0]["gender_enum"]).to eq("Woman")
+      expect(agent_record["agent_genders"][0]["gender"]).to eq("Woman")
 
       expect(agent_record["agent_genders"][0]["notes"][0]["content"]).to match(/d-note/)
 

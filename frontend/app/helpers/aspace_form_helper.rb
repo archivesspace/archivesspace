@@ -748,7 +748,7 @@ module AspaceFormHelper
       control_group_classes << "js-slug_auto_checkbox" if name == "is_slug_auto"
 
       # ANW-429: add JS classes to structured date fields
-      control_group_classes << "js-structured_date_select" if name == "date_type_enum"
+      control_group_classes << "js-structured_date_select" if name == "date_type_structured"
 
 
       controls_classes << "#{opts[:controls_class]}" if opts.has_key? :controls_class
@@ -762,7 +762,7 @@ module AspaceFormHelper
 
       # ANW-429
       # TODO: Refactor to the JS files, ideally so this is run when the "Add Date" button is clicked. This is a tricky one since the select field this JS needs to be run on doesn't exist until the callbacks that run after the button is clicked run. Putting it here means that it runs as part of the html, and is always included in the right context.
-      control_group << "<script>selectStructuredDateSubform();</script>" if name == "date_type_enum"
+      control_group << "<script>selectStructuredDateSubform();</script>" if name == "date_type_structured"
 
       control_group.html_safe
     end

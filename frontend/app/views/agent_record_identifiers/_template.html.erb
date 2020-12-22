@@ -12,16 +12,16 @@
  
     <div class="agent-record-control-container">
       <%= form.label_and_textfield "record_identifier",  {:field_opts => {:size => 30, :class => "form-control"} }%>
-      <%= form.label_and_select "source_enum", [""] + form.possible_options_for("source_enum", false) %>
-      <%= form.label_and_select "identifier_type_enum", 
-          [""] + form.possible_options_for("identifier_type_enum", false),
-          :required => is_required_by_admin?(r, "agent_record_identifiers", "identifier_type_enum") %>
+      <%= form.label_and_select "source", [""] + form.possible_options_for("source", false) %>
+      <%= form.label_and_select "identifier_type", 
+          [""] + form.possible_options_for("identifier_type", false),
+          :required => is_required_by_admin?(r, "agent_record_identifiers", "identifier_type") %>
     </div>
   </div>
 <% end %>
 
 <% define_template "agent_record_identifier_required", jsonmodel_definition(:agent_record_identifier) do |form| %>
-  <% field_names = ["record_identifier", "source_enum", "identifier_type_enum"] %>
+  <% field_names = ["record_identifier", "source", "identifier_type"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>
       <%= form.label_and_readonly field_name %>
@@ -37,7 +37,7 @@
   
   <% if form.obj['primary_identifier'] %><span class="badge"><%= I18n.t("agent_record_identifier.primary") %></span><% end %>
 
-  <% field_names = ["record_identifier", "source_enum", "identifier_type_enum"] %>
+  <% field_names = ["record_identifier", "source", "identifier_type"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>
   <% end %>
@@ -52,8 +52,8 @@
   <% if form.obj['primary_identifier'] %><span class="badge"><%= I18n.t("agent_record_identifier.primary") %></span><% end %>
 
   <%= form.label_and_readonly "record_identifier" %>
-  <%= form.label_and_readonly "source_enum" %>
-  <%= form.label_and_readonly "identifier_type_enum" %>
+  <%= form.label_and_readonly "source" %>
+  <%= form.label_and_readonly "identifier_type" %>
 
   <%= form.hidden_input "id", form.obj["id"] %>
 

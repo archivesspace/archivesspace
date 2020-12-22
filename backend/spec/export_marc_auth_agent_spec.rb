@@ -63,7 +63,7 @@ describe 'MARC Auth Export' do
                    ]
       )
 
-      loc_ids = r['agent_record_identifiers'].select{ |ari| ari['identifier_type_enum'] == "loc" }
+      loc_ids = r['agent_record_identifiers'].select{ |ari| ari['identifier_type'] == "loc" }
 
       marc = get_marc_auth(r)
 
@@ -73,11 +73,11 @@ describe 'MARC Auth Export' do
     it "exports to 016" do
       r = create(:json_agent_person_full_subrec, 
                    :agent_record_identifiers => [
-                      build(:agent_record_identifier, :primary_identifier => true, :identifier_type_enum => "lac"),
+                      build(:agent_record_identifier, :primary_identifier => true, :identifier_type => "lac"),
                    ]
       )
 
-      lac_ids = r['agent_record_identifiers'].select{ |ari| ari['identifier_type_enum'] == "lac" }
+      lac_ids = r['agent_record_identifiers'].select{ |ari| ari['identifier_type'] == "lac" }
 
       marc = get_marc_auth(r)
 
@@ -87,11 +87,11 @@ describe 'MARC Auth Export' do
     it "exports to 024" do
       r = create(:json_agent_person_full_subrec, 
                    :agent_record_identifiers => [
-                      build(:agent_record_identifier, :primary_identifier => true, :identifier_type_enum => "other_unmapped"),
+                      build(:agent_record_identifier, :primary_identifier => true, :identifier_type => "other_unmapped"),
                    ]
       )
 
-      other_ids = r['agent_record_identifiers'].select{ |ari| ari['identifier_type_enum'] == "other_unmapped" }
+      other_ids = r['agent_record_identifiers'].select{ |ari| ari['identifier_type'] == "other_unmapped" }
 
       marc = get_marc_auth(r)
 
@@ -101,11 +101,11 @@ describe 'MARC Auth Export' do
     it "exports to 035" do
       r = create(:json_agent_person_full_subrec, 
                    :agent_record_identifiers => [
-                      build(:agent_record_identifier, :primary_identifier => true, :identifier_type_enum => "local"),
+                      build(:agent_record_identifier, :primary_identifier => true, :identifier_type => "local"),
                    ]
       )
 
-      local_ids = r['agent_record_identifiers'].select{ |ari| ari['identifier_type_enum'] == "local" }
+      local_ids = r['agent_record_identifiers'].select{ |ari| ari['identifier_type'] == "local" }
 
       marc = get_marc_auth(r)
 
@@ -115,7 +115,7 @@ describe 'MARC Auth Export' do
     it "exports to 040" do
       r = create(:json_agent_person_full_subrec, 
                    :agent_record_identifiers => [
-                      build(:agent_record_identifier, :primary_identifier => true, :identifier_type_enum => "local"),
+                      build(:agent_record_identifier, :primary_identifier => true, :identifier_type => "local"),
                    ]
       )
       arc = r['agent_record_controls'].first

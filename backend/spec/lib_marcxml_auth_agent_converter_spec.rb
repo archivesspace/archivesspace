@@ -81,7 +81,7 @@ describe 'MARCXML Auth Agent converter' do
 
       record = convert(person_agent_1).select {|r| r['jsonmodel_type'] == "agent_person"}.first
 
-      expect(record['agent_genders'][0]['gender_enum']).to eq("Male")
+      expect(record['agent_genders'][0]['gender']).to eq("Male")
     end
 
     it "imports topics" do
@@ -175,24 +175,24 @@ describe 'MARCXML Auth Agent converter' do
     it "imports agent_record_control" do
       record = convert(person_agent_1).select {|r| r['jsonmodel_type'] == "agent_person"}.first
 
-      expect(record['agent_record_controls'][0]['maintenance_status_enum']).to eq("revised_corrected")
+      expect(record['agent_record_controls'][0]['maintenance_status']).to eq("revised_corrected")
       expect(record['agent_record_controls'][0]['maintenance_agency']).to eq("DLC")
-      expect(record['agent_record_controls'][0]['romanization_enum']).to eq("not_applicable")
+      expect(record['agent_record_controls'][0]['romanization']).to eq("not_applicable")
       expect(record['agent_record_controls'][0]['language']).to eq("eng")
-      expect(record['agent_record_controls'][0]['government_agency_type_enum']).to eq("unknown")
-      expect(record['agent_record_controls'][0]['reference_evaluation_enum']).to eq("tr_consistent")
-      expect(record['agent_record_controls'][0]['name_type_enum']).to eq("differentiated")
-      expect(record['agent_record_controls'][0]['level_of_detail_enum']).to eq("fully_established")
-      expect(record['agent_record_controls'][0]['modified_record_enum']).to eq("not_modified")
-      expect(record['agent_record_controls'][0]['cataloging_source_enum']).to eq("nat_bib_agency")
+      expect(record['agent_record_controls'][0]['government_agency_type']).to eq("unknown")
+      expect(record['agent_record_controls'][0]['reference_evaluation']).to eq("tr_consistent")
+      expect(record['agent_record_controls'][0]['name_type']).to eq("differentiated")
+      expect(record['agent_record_controls'][0]['level_of_detail']).to eq("fully_established")
+      expect(record['agent_record_controls'][0]['modified_record']).to eq("not_modified")
+      expect(record['agent_record_controls'][0]['cataloging_source']).to eq("nat_bib_agency")
     end
 
     it "imports agent_record_identifier" do
       record = convert(person_agent_1).select {|r| r['jsonmodel_type'] == "agent_person"}.first
 
       expect(record['agent_record_identifiers'][0]['record_identifier']).to eq("n  88218900")
-      expect(record['agent_record_identifiers'][0]['identifier_type_enum']).to eq("local")
-      expect(record['agent_record_identifiers'][0]['source_enum']).to eq("DLC")
+      expect(record['agent_record_identifiers'][0]['identifier_type']).to eq("local")
+      expect(record['agent_record_identifiers'][0]['source']).to eq("DLC")
       expect(record['agent_record_identifiers'][0]['primary_identifier']).to eq(true)
     end
 
@@ -200,8 +200,8 @@ describe 'MARCXML Auth Agent converter' do
       record = convert(person_agent_1, true).select {|r| r['jsonmodel_type'] == "agent_person"}.first
 
       expect(record['agent_maintenance_histories'][0]['event_date']).to eq("19890119")
-      expect(record['agent_maintenance_histories'][0]['maintenance_event_type_enum']).to eq("created")
-      expect(record['agent_maintenance_histories'][0]['maintenance_agent_type_enum']).to eq("machine")
+      expect(record['agent_maintenance_histories'][0]['maintenance_event_type']).to eq("created")
+      expect(record['agent_maintenance_histories'][0]['maintenance_agent_type']).to eq("machine")
       expect(record['agent_maintenance_histories'][0]['agent']).to eq("DLC")
     end
 
@@ -223,7 +223,7 @@ describe 'MARCXML Auth Agent converter' do
       record = raw.select {|r| r['jsonmodel_type'] == "agent_person"}.first
       subjects = raw.select {|r| r['jsonmodel_type'] == "subject"}
 
-      place = record['agent_places'].select{|ap| ap['place_role_enum'] == "place_of_birth"}
+      place = record['agent_places'].select{|ap| ap['place_role'] == "place_of_birth"}
 
       expect(place.length).to eq(1)
     end
@@ -234,7 +234,7 @@ describe 'MARCXML Auth Agent converter' do
       record = raw.select {|r| r['jsonmodel_type'] == "agent_person"}.first
       subjects = raw.select {|r| r['jsonmodel_type'] == "subject"}
 
-      place = record['agent_places'].select{|ap| ap['place_role_enum'] == "place_of_death"}
+      place = record['agent_places'].select{|ap| ap['place_role'] == "place_of_death"}
 
       expect(place.length).to eq(1)
     end
@@ -245,7 +245,7 @@ describe 'MARCXML Auth Agent converter' do
       record = raw.select {|r| r['jsonmodel_type'] == "agent_person"}.first
       subjects = raw.select {|r| r['jsonmodel_type'] == "subject"}
 
-      place = record['agent_places'].select{|ap| ap['place_role_enum'] == "assoc_country"}
+      place = record['agent_places'].select{|ap| ap['place_role'] == "assoc_country"}
 
       expect(place.length).to eq(1)
     end
@@ -256,7 +256,7 @@ describe 'MARCXML Auth Agent converter' do
       record = raw.select {|r| r['jsonmodel_type'] == "agent_person"}.first
       subjects = raw.select {|r| r['jsonmodel_type'] == "subject"}
 
-      place = record['agent_places'].select{|ap| ap['place_role_enum'] == "residence"}
+      place = record['agent_places'].select{|ap| ap['place_role'] == "residence"}
 
       expect(place.length).to eq(1)
     end
@@ -267,7 +267,7 @@ describe 'MARCXML Auth Agent converter' do
       record = raw.select {|r| r['jsonmodel_type'] == "agent_person"}.first
       subjects = raw.select {|r| r['jsonmodel_type'] == "subject"}
 
-      place = record['agent_places'].select{|ap| ap['place_role_enum'] == "other_assoc"}
+      place = record['agent_places'].select{|ap| ap['place_role'] == "other_assoc"}
 
       expect(place.length).to eq(1)
     end

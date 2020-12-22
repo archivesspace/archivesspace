@@ -195,7 +195,7 @@ describe "Agents" do
       @driver.click_and_wait_until_gone(:link, 'Edit')
       @driver.find_element(css: '#agent_person_dates_of_existence .subrecord-form-heading .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_dates_of_existence__0__date_type_enum_').select_option('single')
+      @driver.find_element(id: 'agent_dates_of_existence__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_dates_of_existence__0_[structured_date_single]_date_expression_'], '1973')
     
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
@@ -215,7 +215,7 @@ describe "Agents" do
 
       @driver.clear_and_send_keys([:id, 'agent_agent_record_identifiers__0__record_identifier_'], rand(10000))
 
-      @driver.find_element(id: 'agent_agent_record_identifiers__0__source_enum_').select_option('local')
+      @driver.find_element(id: 'agent_agent_record_identifiers__0__source_').select_option('local')
     
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -234,7 +234,7 @@ describe "Agents" do
 
       @driver.clear_and_send_keys([:id, 'agent_agent_record_identifiers__0__record_identifier_'], rand(10000))
 
-      @driver.find_element(id: 'agent_agent_record_identifiers__0__source_enum_').select_option('local')
+      @driver.find_element(id: 'agent_agent_record_identifiers__0__source_').select_option('local')
   
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -300,13 +300,13 @@ describe "Agents" do
 
       @driver.find_element(css: '#agent_person_agent_maintenance_history .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_agent_maintenance_histories__0__maintenance_event_type_enum_').select_option('created')
+      @driver.find_element(id: 'agent_agent_maintenance_histories__0__maintenance_event_type_').select_option('created')
 
       @driver.clear_and_send_keys([:id, 'agent_agent_maintenance_histories__0__event_date_'], '1980-02-12')
 
       @driver.clear_and_send_keys([:id, 'agent_agent_maintenance_histories__0__agent_'], 'HAL 9000')
 
-      @driver.find_element(id: 'agent_agent_maintenance_histories__0__maintenance_agent_type_enum_').select_option('machine')
+      @driver.find_element(id: 'agent_agent_maintenance_histories__0__maintenance_agent_type_').select_option('machine')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -374,7 +374,7 @@ describe "Agents" do
 
       @driver.find_element(css: '#agent_names__0__use_dates_ .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_names__0__use_dates__0__date_type_enum_').select_option('single')
+      @driver.find_element(id: 'agent_names__0__use_dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_names__0__use_dates__0_[structured_date_single]_date_expression_'], '1973')
  
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
@@ -413,7 +413,7 @@ describe "Agents" do
 
       @driver.find_element(css: '#agent_names__0__parallel_names__0__use_dates_ .btn:not(.show-all)').click
 
-       @driver.find_element(id: 'agent_names__0__parallel_names__0__use_dates__0__date_type_enum_').select_option('single')
+       @driver.find_element(id: 'agent_names__0__parallel_names__0__use_dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_names__0__parallel_names__0__use_dates__0_[structured_date_single]_date_expression_'], '1973')
  
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
@@ -431,7 +431,7 @@ describe "Agents" do
 
       @driver.find_element(css: '#agent_person_agent_gender .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_agent_genders__0__gender_enum_').select_option('not_specified')
+      @driver.find_element(id: 'agent_agent_genders__0__gender_').select_option('not_specified')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
 
@@ -448,12 +448,12 @@ describe "Agents" do
 
       @driver.find_element(css: '#agent_person_agent_gender .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_agent_genders__0__gender_enum_').select_option('not_specified')
+      @driver.find_element(id: 'agent_agent_genders__0__gender_').select_option('not_specified')
 
 
       @driver.find_element(css: '#agent_agent_genders__0__dates_ .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_agent_genders__0__dates__0__date_type_enum_').select_option('single')
+      @driver.find_element(id: 'agent_agent_genders__0__dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_agent_genders__0__dates__0_[structured_date_single]_date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
@@ -471,7 +471,7 @@ describe "Agents" do
 
       @driver.find_element(css: '#agent_person_agent_gender .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_agent_genders__0__gender_enum_').select_option('not_specified')
+      @driver.find_element(id: 'agent_agent_genders__0__gender_').select_option('not_specified')
 
       @driver.find_element(css: '#agent_gender .subrecord-form-heading .btn.add-note').click
       @driver.find_element(css: '.top-level-note-type').select_option('note_text')
@@ -509,7 +509,7 @@ describe "Agents" do
       @driver.find_element(css: '#agent_person_agent_place .btn:not(.show-all)').click
 
       # role
-      @driver.find_element(id: 'agent_agent_places__0__place_role_enum_').select_option('place_of_birth')
+      @driver.find_element(id: 'agent_agent_places__0__place_role_').select_option('place_of_birth')
 
       # subject
       @driver.find_element(css: '#agent_agent_places__0__subjects_ .btn:not(.show-all)').click
@@ -548,7 +548,7 @@ describe "Agents" do
       @driver.find_element(css: '#agent_person_agent_place .btn:not(.show-all)').click
 
       # role
-      @driver.find_element(id: 'agent_agent_places__0__place_role_enum_').select_option('place_of_birth')
+      @driver.find_element(id: 'agent_agent_places__0__place_role_').select_option('place_of_birth')
 
       # subject
       @driver.find_element(css: '#agent_agent_places__0__subjects_ .btn:not(.show-all)').click
@@ -561,7 +561,7 @@ describe "Agents" do
       # date
       @driver.find_element(css: '#agent_agent_places__0__dates_ .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_agent_places__0__dates__0__date_type_enum_').select_option('single')
+      @driver.find_element(id: 'agent_agent_places__0__dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_agent_places__0__dates__0_[structured_date_single]_date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
@@ -594,7 +594,7 @@ describe "Agents" do
       @driver.find_element(css: '#agent_person_agent_place .btn:not(.show-all)').click
 
       # role
-      @driver.find_element(id: 'agent_agent_places__0__place_role_enum_').select_option('place_of_birth')
+      @driver.find_element(id: 'agent_agent_places__0__place_role_').select_option('place_of_birth')
 
       # subject
       @driver.find_element(css: '#agent_agent_places__0__subjects_ .btn:not(.show-all)').click
@@ -686,7 +686,7 @@ describe "Agents" do
       # date
       @driver.find_element(css: '#agent_agent_occupations__0__dates_ .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_agent_occupations__0__dates__0__date_type_enum_').select_option('single')
+      @driver.find_element(id: 'agent_agent_occupations__0__dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_agent_occupations__0__dates__0_[structured_date_single]_date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
@@ -807,7 +807,7 @@ describe "Agents" do
       # date
       @driver.find_element(css: '#agent_agent_functions__0__dates_ .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_agent_functions__0__dates__0__date_type_enum_').select_option('single')
+      @driver.find_element(id: 'agent_agent_functions__0__dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_agent_functions__0__dates__0_[structured_date_single]_date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")
@@ -928,7 +928,7 @@ describe "Agents" do
       # date
       @driver.find_element(css: '#agent_agent_topics__0__dates_ .btn:not(.show-all)').click
 
-      @driver.find_element(id: 'agent_agent_topics__0__dates__0__date_type_enum_').select_option('single')
+      @driver.find_element(id: 'agent_agent_topics__0__dates__0__date_type_structured_').select_option('single')
       @driver.clear_and_send_keys([:id, 'agent_agent_topics__0__dates__0_[structured_date_single]_date_expression_'], '1973')
 
       @driver.click_and_wait_until_gone(css: "form .record-pane button[type='submit']")

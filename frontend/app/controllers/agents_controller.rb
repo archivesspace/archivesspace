@@ -288,11 +288,11 @@ class AgentsController < ApplicationController
       if params["agent"]["dates_of_existence"]
         params['agent']['dates_of_existence'].each do |key, label|
           if label["structured_date_single"]
-            label["date_type_enum"] = "single"
+            label["date_type_structured"] = "single"
           elsif label["structured_date_range"]
-            label["date_type_enum"] = "range"
+            label["date_type_structured"] = "range"
           else
-            label["date_type_enum"] = "Add or update either a single or ranged date subrecord to set"
+            label["date_type_structured"] = "Add or update either a single or ranged date subrecord to set"
           end
         end
       end
@@ -302,11 +302,11 @@ class AgentsController < ApplicationController
           if name['use_dates']
             name['use_dates'].each do |key, label|
               if label["structured_date_single"]
-                label["date_type_enum"] = "single"
+                label["date_type_structured"] = "single"
               elsif label["structured_date_range"]
-                label["date_type_enum"] = "range"
+                label["date_type_structured"] = "range"
               else
-                label["date_type_enum"] = "Add or update either a single or ranged date subrecord to set"
+                label["date_type_structured"] = "Add or update either a single or ranged date subrecord to set"
               end
             end
           end
@@ -317,11 +317,11 @@ class AgentsController < ApplicationController
         params['agent']['related_agents'].each do |key, rel|
           if rel["dates"]
             if rel["dates"]["structured_date_single"]
-              rel["dates"]["date_type_enum"] = "single"
+              rel["dates"]["date_type_structured"] = "single"
             elsif rel["dates"]["structured_date_range"]
-              rel["dates"]["date_type_enum"] = "range"
+              rel["dates"]["date_type_structured"] = "range"
             else
-              rel["dates"]["date_type_enum"] = "Add or update either a single or ranged date subrecord to set"
+              rel["dates"]["date_type_structured"] = "Add or update either a single or ranged date subrecord to set"
             end
           end
         end

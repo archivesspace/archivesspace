@@ -1,7 +1,7 @@
 <% if result.json['agent_genders'].any? %>
   <ul>
   <% result.json['agent_genders'].each do |n| %>
-    <li><%= I18n.t("enumerations.gender_enum.#{n['gender_enum']}") %></li>
+    <li><%= I18n.t("enumerations.gender.#{n['gender']}") %></li>
   <% end %>
   </ul>
 <% end %>

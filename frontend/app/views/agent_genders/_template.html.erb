@@ -1,7 +1,7 @@
 <% define_template "agent_gender", jsonmodel_definition(:agent_gender) do |form| %>
   <div class="subrecord-form-fields">
     <div class="agent-record-control-container">
-      <%= form.label_and_select "gender_enum", [""] + form.possible_options_for("gender_enum", false) %>
+      <%= form.label_and_select "gender", [""] + form.possible_options_for("gender", false) %>
 
       <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template_erb => "dates/template", :template => "structured_date_label", :heading_text => I18n.t("name._frontend.section.dates"), :heading_size => "h4"} %>
 
@@ -13,7 +13,7 @@
 <% end %>
 
 <% define_template "agent_gender_required", jsonmodel_definition(:agent_gender) do |form| %>
-  <% field_names = ["gender_enum"] %>
+  <% field_names = ["gender"] %>
   <% field_names.each do |field_name| %>
     <% if form.required?(field_name) %>
       <%= form.label_and_readonly field_name %>
@@ -30,7 +30,7 @@
 <% define_template "agent_gender_merge_target", jsonmodel_definition(:agent_gender) do |form| %>
 
   <%= form.record_level_merge_controls(form, "agent_gender", false) %>
-  <% field_names = ["gender_enum"] %>
+  <% field_names = ["gender"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>
   <% end %>
@@ -46,7 +46,7 @@
 
   <%= form.record_level_merge_controls(form, "agent_gender", true, !disable_replace) %>
   
-  <% field_names = ["gender_enum"] %>
+  <% field_names = ["gender"] %>
   <% field_names.each do |field_name| %>
     <%= form.label_and_readonly field_name %>
   <% end %>

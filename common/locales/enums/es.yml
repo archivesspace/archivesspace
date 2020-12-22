@@ -1,20 +1,20 @@
 ﻿es:
   enumerations:
-    date_type_enum:
+    date_type_structured:
       single: Soltero
       range: Distancia
-    date_role_enum:
+    date_role:
       begin: Empezar
       end: Fin
-    begin_date_standardized_type_enum:
+    begin_date_standardized_type:
       standard: Estándar
       not_before: No antes
       not_after: No después de
-    end_date_standardized_type_enum:
+    end_date_standardized_type:
       standard: Estándar
       not_before: No antes
       not_after: No después de 
-    maintenance_status_enum:
+    maintenance_status:
       new: Nuevo
       upgraded: Actualizado
       revised_corrected: Revisado / Corregido
@@ -23,10 +23,10 @@
       cancelled_obsolete: Cancelado / Obsoleto
       deleted_split: Eliminado-Split
       deleted_replaced: Eliminado-reemplazado
-    publication_status_enum:
+    publication_status:
       in_process: En proceso
       approved: Aprobado
-    romanization_enum:
+    romanization:
       int_std: Estándar internacional
       nat_std: Norma nacional
       nl_assoc_std: Asociación nacional de bibliotecas estándar
@@ -35,7 +35,7 @@
       unknown_standard: Estándar de origen desconocido
       conv_rom_cat_agency: Romanización convencional o forma convencional de nombre en el idioma de la agencia de catalogación
       not_applicable: No aplica
-    government_agency_type_enum: 
+    government_agency_type: 
       ngo: Organización no gubernamental
       sac: Componente autónomo o semiautónomo.
       multilocal: Multilocal
@@ -48,53 +48,53 @@
       unknown: Desconocido si el rumbo es agencia gubernamental
       other: Otro
       natc: Ningún intento de codificar
-    reference_evaluation_enum: 
+    reference_evaluation: 
       tr_consistent: Trazados consistentes con encabezados
       tr_inconsistent: Trazados inconsistentes con los encabezados
       not_applicable: No aplica
       natc: Ningún intento de codificar
-    name_type_enum: 
+    name_type: 
       differentiated: Diferenciado
       undifferentiated: Indiferenciado
       not_applicable: No aplica
       natc: Ningún intento de codificar
-    level_of_detail_enum: 
+    level_of_detail: 
       fully_established: Plenamente establecido
       memorandum: Memorándum
       provisional: Provisional
       preliminary: Preliminar
       not_applicable: No aplica
       natc: Ningún intento de codificar
-    modified_record_enum: 
+    modified_record: 
       not_modified: No modificado
       shortened: Acortado
       missing_characters: Personajes desaparecidos
       natc: Ningún intento de codificar
-    cataloging_source_enum:
+    cataloging_source:
       nat_bib_agency: Agencia bibliográfica nacional
       ccp: Programa cooperativo de catalogación
       other: Otro
       unknown: Desconocido
       natc: Ningún intento de codificar
-    source_enum: 
+    source: 
       naf: NAF
       snac: SNAC
       local: Local
-    identifier_type_enum: 
+    identifier_type: 
       loc: Biblioteca del Congreso
       lac: Biblioteca y Archivos de Canadá
       local: Local
-    agency_code_type_enum: 
+    agency_code_type: 
       oclc: OCLC
       local: Local
-    maintenance_event_type_enum: 
+    maintenance_event_type: 
       created: Creado
       cancelled: Cancelado
       deleted: Eliminado
       derived: Derivado
       revised: Revisado
       updated: Actualizado
-    maintenance_agent_type_enum: 
+    maintenance_agent_type: 
       human: Humano
       machine: Máquina
     linked_event_archival_record_roles:
@@ -1936,17 +1936,17 @@
     rights_statement_act_restriction: Ley de declaración de derechos de restricción
     rights_statement_act_type: Declaración de Derechos Tipo de Ley
     rights_statement_other_rights_basis: Declaración de derechos Otros derechos de base
-    maintenance_status_enum: Estado de mantenimiento
-    publication_status_enum: Estado de publicación
-    romanization_enum: Romanización
-    government_agency_type_enum: Tipo de agencia gubernamental
-    reference_evaluation_enum: Evaluación de referencia 
-    name_type_enum: Nombre Tipo
-    level_of_detail_enum: Nivel de detalle
-    modified_record_enum:  Registro modificado
-    cataloging_source_enum: Fuente de catalogación
-    source_enum: Fuente
-    identifier_type_enum:  Tipo de identificador
-    agency_code_type_enum: Código de agencia
-    maintenance_event_type_enum: Tipo de evento de mantenimiento
-    maintenance_agent_type_enum: Tipo de agente de mantenimiento
+    maintenance_status: Estado de mantenimiento
+    publication_status: Estado de publicación
+    romanization: Romanización
+    government_agency_type: Tipo de agencia gubernamental
+    reference_evaluation: Evaluación de referencia 
+    name_type: Nombre Tipo
+    level_of_detail: Nivel de detalle
+    modified_record:  Registro modificado
+    cataloging_source: Fuente de catalogación
+    source: Fuente
+    identifier_type:  Tipo de identificador
+    agency_code_type: Código de agencia
+    maintenance_event_type: Tipo de evento de mantenimiento
+    maintenance_agent_type: Tipo de agente de mantenimiento

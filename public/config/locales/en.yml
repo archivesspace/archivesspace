@@ -582,8 +582,8 @@ en:
     _frontend:
       action:
         add: Add Record ID
-    identifier_type_enum: Identifier Type
-    source_enum: Source
+    identifier_type: Identifier Type
+    source: Source
     primary_identifier: Is Primary Identifier?
     primary: Primary
     record_identifier: Record Identifier
@@ -594,7 +594,7 @@ en:
     _frontend:
       action:
         add: Add Entity ID
-    identifier_type_enum: Identifier Type
+    identifier_type: Identifier Type
     entity_identifier: Entity ID
 
   dates_of_existence:
@@ -608,24 +608,24 @@ en:
 
   structured_date_label:
     date_label: Label
-    date_type_enum: Date Type
+    date_type_structured: Date Type
     date_certainty: Certainty
     date_era: Era
     date_calendar: Calendar
 
   structured_date_single:
-    date_role_enum: Date Role
+    date_role: Date Role
     date_expression: Date Expression
     date_standardized: Standardized Date
-    date_standardized_type_enum: Standardized Date Type
+    date_standardized_type: Standardized Date Type
 
   structured_date_range:
     begin_date_expression: Begin Date Expression
     begin_date_standardized: Begin Standardized Date
-    begin_date_standardized_type_enum: Begin Standardized Date Type
+    begin_date_standardized_type: Begin Standardized Date Type
     end_date_expression: End Date Expression
     end_date_standardized: End Standardized Date
-    end_date_standardized_type_enum: End Standardized Date Type
+    end_date_standardized_type: End Standardized Date Type
 
   agent_contact:
     name: Contact Name

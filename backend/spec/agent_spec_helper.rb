@@ -39,7 +39,7 @@ rescue => e
 end
 
 def add_gender_values
-	ge = Enumeration.find(:name => 'gender_enum')
+	ge = Enumeration.find(:name => 'gender')
   ge.add_enumeration_value(:value => 'female')
   ge.add_enumeration_value(:value => 'male')
   ge.add_enumeration_value(:value => 'non-binary')

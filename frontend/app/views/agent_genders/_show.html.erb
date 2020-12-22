@@ -14,8 +14,8 @@
               <span class="glyphicon"></span>
             </div>
             <div class="col-md-6">
-              <% if agent_gender["gender_enum"] %>
-                <%= I18n.t("enumerations.gender_enum." + agent_gender["gender_enum"]) %>
+              <% if agent_gender["gender"] %>
+                <%= I18n.t("enumerations.gender." + agent_gender["gender"]) %>
               <% else %>
                 <%= I18n.t("agent_gender._singular") %>
               <% end %>

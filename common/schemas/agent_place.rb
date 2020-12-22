@@ -6,7 +6,7 @@
 
     "properties" => {
       "publish" => {"type" => "boolean"},
-      "place_role_enum" => {"type" => "string", "dynamic_enum" => "place_role_enum", "required" => "false"},
+      "place_role" => {"type" => "string", "dynamic_enum" => "place_role", "required" => "false"},
 
       "dates" => {
         "type" => "array",

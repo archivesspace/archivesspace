@@ -5,7 +5,7 @@
     "type" => "object",
 
     "properties" => {
-      "gender_enum" => {"type" => "string", "dynamic_enum" => "gender_enum"},
+      "gender" => {"type" => "string", "dynamic_enum" => "gender"},
 
       "dates" => {
         "type" => "array",

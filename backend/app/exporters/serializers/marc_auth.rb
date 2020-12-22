@@ -71,7 +71,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
       if json['agent_record_controls'] && json['agent_record_controls'].any?
         arc = json['agent_record_controls'].first
 
-        case arc['maintenance_status_enum']
+        case arc['maintenance_status']
         when "new"
           pos5 = 'n'
         when "upgraded"
@@ -88,7 +88,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
           pos5 = 'x'
         end
 
-        if arc['level_of_detail_enum'] == "fully_established"
+        if arc['level_of_detail'] == "fully_established"
           pos17 = 'n'
         else
           pos17 = 'o'
@@ -134,7 +134,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
 
   # this field is mostly from agent_record_control record.
   def controlfield_008(json, xml)
-    created_maint_events = json['agent_maintenance_histories'].select {|amh| amh['maintenance_event_type_enum'] == 'created'}
+    created_maint_events = json['agent_maintenance_histories'].select {|amh| amh['maintenance_event_type'] == 'created'}
     if created_maint_events.any?
       pos0_5 = created_maint_events.first['event_date'].strftime("%y%m%d")
     else
@@ -143,7 +143,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
 
     if json['agent_record_controls'] && json['agent_record_controls'].any?
       arc = json['agent_record_controls'].first
-      case arc['romanization_enum']
+      case arc['romanization']
       when 'int_std'
         pos_7 = "a"
       when 'nat_std'
@@ -170,7 +170,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
         pos_8 = '|'
       end
 
-      case arc['government_agency_type_enum']
+      case arc['government_agency_type']
       when 'ngo'
         pos_28 = " "
       when 'sac'
@@ -197,7 +197,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
         pos_28 = "|"
       end
 
-      case arc['reference_evaluation_enum']
+      case arc['reference_evaluation']
       when 'tr_consistent' 
         pos_29 = "a"
       when 'tr_inconsistent' 
@@ -208,7 +208,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
         pos_29 = "|"
       end
 
-      case arc['name_type_enum']
+      case arc['name_type']
       when 'differentiated' 
         pos_32 = "a"
       when 'undifferentiated' 
@@ -219,7 +219,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
         pos_32 = "|"
       end
 
-      case arc['level_of_detail_enum']
+      case arc['level_of_detail']
       when "fully_established"
         pos_33 = "a"
       when "memorandum"
@@ -234,7 +234,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
         pos_33 = "|"
       end
 
-      case arc['modified_record_enum']
+      case arc['modified_record']
       when "not_modified" 
         pos_38 = " "
       when "shortened"
@@ -245,7 +245,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
         pos_38 = "|"
       end
 
-      case arc['cataloging_source_enum']
+      case arc['cataloging_source']
       when "nat_bib_agency" 
         pos_39 = " "
       when "ccp"
@@ -275,10 +275,10 @@ class MARCAuthSerializer < ASpaceExport::Serializer
 
   def ids(json, xml)
     if json['agent_record_identifiers'] && json['agent_record_identifiers'].any?
-      loc_ids = json['agent_record_identifiers'].select{ |ari| ari['identifier_type_enum'] == "loc" }
-      lac_ids = json['agent_record_identifiers'].select{ |ari| ari['identifier_type_enum'] == "lac" }
-      local_ids = json['agent_record_identifiers'].select{ |ari| ari['identifier_type_enum'] == "local" }
-      other_ids = json['agent_record_identifiers'].select{ |ari| !["loc", "lac", "local"].include?(ari['identifier_type_enum']) }
+      loc_ids = json['agent_record_identifiers'].select{ |ari| ari['identifier_type'] == "loc" }
+      lac_ids = json['agent_record_identifiers'].select{ |ari| ari['identifier_type'] == "lac" }
+      local_ids = json['agent_record_identifiers'].select{ |ari| ari['identifier_type'] == "local" }
+      other_ids = json['agent_record_identifiers'].select{ |ari| !["loc", "lac", "local"].include?(ari['identifier_type']) }
 
       if loc_ids.any?
         xml.datafield(:tag => "010", :ind1 => " ", :ind2 => " ") {
@@ -295,7 +295,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
           }
 
           xml.subfield(:code => "2") {
-            xml.text lac_ids.first["source_enum"]
+            xml.text lac_ids.first["source"]
           }
         }
       end
@@ -307,7 +307,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
           }
 
           xml.subfield(:code => "2") {
-            xml.text other_ids.first["source_enum"]
+            xml.text other_ids.first["source"]
           }
         }
       end
@@ -319,7 +319,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
           }
 
           xml.subfield(:code => "2") {
-            xml.text local_ids.first["source_enum"]
+            xml.text local_ids.first["source"]
           }
         }
       end
@@ -595,9 +595,9 @@ class MARCAuthSerializer < ASpaceExport::Serializer
   end
 
   def dates(structured_date, begin_code, end_code, xml)
-    if structured_date['date_type_enum'] == "single"
+    if structured_date['date_type_structured'] == "single"
       begin_date = structured_date['structured_date_single']['date_expression'] ? structured_date['structured_date_single']['date_expression'] : structured_date['structured_date_single']['date_standardized']
-    elsif structured_date['date_type_enum'] == "range"
+    elsif structured_date['date_type_structured'] == "range"
       begin_date = structured_date['structured_date_range']['begin_date_expression'] ? structured_date['structured_date_range']['begin_date_expression'] : structured_date['structured_date_range']['begin_date_standardized']
       end_date = structured_date['structured_date_range']['end_date_expression'] ? structured_date['structured_date_range']['end_date_expression'] : structured_date['structured_date_range']['end_date_standardized']
     end
@@ -615,9 +615,9 @@ class MARCAuthSerializer < ASpaceExport::Serializer
 
   # similar to above method, but only outputs standardized dates
   def dates_standardized(structured_date, begin_code, end_code, xml)
-    if structured_date['date_type_enum'] == "single"
+    if structured_date['date_type_structured'] == "single"
       begin_date = structured_date['structured_date_single']['date_standardized']
-    elsif structured_date['date_type_enum'] == "range"
+    elsif structured_date['date_type_structured'] == "range"
       begin_date = structured_date['structured_date_range']['begin_date_standardized']
       end_date =  structured_date['structured_date_range']['end_date_standardized']
     end
@@ -639,7 +639,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
     if json['agent_places'].any?
       json['agent_places'].each do |place|
         xml.datafield(:tag => "370", :ind1 => " ", :ind2 => " " ) {
-          case place['place_role_enum']
+          case place['place_role']
           when "place_of_birth"
             subfield_code = "a"
           when "place_of_death"
@@ -741,7 +741,7 @@ class MARCAuthSerializer < ASpaceExport::Serializer
       json['agent_genders'].each do |gender|
         xml.datafield(:tag => "375", :ind1 => " ", :ind2 => " ") {
           xml.subfield(:code => 'a') {
-            xml.text gender["gender_enum"]
+            xml.text gender["gender"]
           }
 
           if gender['dates'].any?

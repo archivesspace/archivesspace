@@ -55,7 +55,7 @@ class EACSerializer < ASpaceExport::Serializer
           if ari["primary_identifier"] == true
             xml.recordId ari["record_identifier"]
           else
-            attrs = {:localType => ari["identifier_type_enum"]}
+            attrs = {:localType => ari["identifier_type"]}
             create_node(xml, "otherRecordId", attrs, ari["record_identifier"])
           end
         end
@@ -65,8 +65,8 @@ class EACSerializer < ASpaceExport::Serializer
       if json['agent_record_controls'] && json['agent_record_controls'].any?
         arc = json['agent_record_controls'].first
   
-        create_node(xml, "maintenanceStatus", {}, arc['maintenance_status_enum'])
-        create_node(xml, "publicationStatus", {}, arc['publication_status_enum'])
+        create_node(xml, "maintenanceStatus", {}, arc['maintenance_status'])
+        create_node(xml, "publicationStatus", {}, arc['publication_status'])
   
         if filled_out?([arc["maintenance_agency"], arc["agency_name"], arc["maintenance_agency_note"]])
 
@@ -117,14 +117,14 @@ class EACSerializer < ASpaceExport::Serializer
         xml.maintenanceHistory {
           json['agent_maintenance_histories'].each do |mh|
 
-            if filled_out?([mh['maintenance_event_type_enum'], mh['event_date'], mh['maintenance_agent_type_enum'], mh['agent'], mh['descriptive_note']])
+            if filled_out?([mh['maintenance_event_type'], mh['event_date'], mh['maintenance_agent_type'], mh['agent'], mh['descriptive_note']])
 
               xml.maintenanceEvent {
-                create_node(xml, "eventType", {}, mh['maintenance_event_type_enum'])
+                create_node(xml, "eventType", {}, mh['maintenance_event_type'])
 
                 xml.eventDateTime(:standardDateTime => mh['event_date']) if filled_out?([mh['event_date']], :all)
 
-                create_node(xml, "agentType", {}, mh['maintenance_agent_type_enum'])
+                create_node(xml, "agentType", {}, mh['maintenance_agent_type'])
 
                 create_node(xml, "agent", {}, mh['agent'])
                 create_node(xml, "eventDescription", {}, mh['descriptive_note'])
@@ -168,7 +168,7 @@ class EACSerializer < ASpaceExport::Serializer
         # AGENT_IDENTIFIERS
         if json['agent_identifiers'].any?
           json['agent_identifiers'].each do |ad|
-            attrs = {:localType => ad['identifier_type_enum']}
+            attrs = {:localType => ad['identifier_type']}
 
             create_node(xml, "entityId", attrs, ad['entity_identifier'])
           end
@@ -204,7 +204,7 @@ class EACSerializer < ASpaceExport::Serializer
         if json['dates_of_existence'] && json['dates_of_existence'].any?
           xml.existDates {
             json['dates_of_existence'].each do |date|
-              if date['date_type_enum'] == 'single'
+              if date['date_type_structured'] == 'single'
                 _build_date_single(date, xml)
               else
                 _build_date_range(date, xml)
@@ -246,13 +246,13 @@ class EACSerializer < ASpaceExport::Serializer
               subject = place['subjects'].first['_resolved']
               entry_attrs = {:vocabularySource => subject['source']}
 
-              if filled_out?([place['place_role_enum'], subject['terms'].first['term']])
+              if filled_out?([place['place_role'], subject['terms'].first['term']])
                 xml.place {
-                  create_node(xml, "placeRole", {}, place['place_role_enum'])
+                  create_node(xml, "placeRole", {}, place['place_role'])
                   create_node(xml, "placeEntry", entry_attrs, subject['terms'].first['term'])
 
                   place['dates'].each do |date|
-                    if date['date_type_enum'] == 'single'
+                    if date['date_type_structured'] == 'single'
                       _build_date_single(date, xml)
                     else
                       _build_date_range(date, xml)
@@ -280,7 +280,7 @@ class EACSerializer < ASpaceExport::Serializer
                   create_node(xml, "term", {}, subject['terms'].first['term'])
 
                   occupation['dates'].each do |date|
-                    if date['date_type_enum'] == 'single'
+                    if date['date_type_structured'] == 'single'
                       _build_date_single(date, xml)
                     else
                       _build_date_range(date, xml)
@@ -308,7 +308,7 @@ class EACSerializer < ASpaceExport::Serializer
                   create_node(xml, "term", {}, subject['terms'].first['term'])
 
                   function['dates'].each do |date|
-                    if date['date_type_enum'] == 'single'
+                    if date['date_type_structured'] == 'single'
                       _build_date_single(date, xml)
                     else
                       _build_date_range(date, xml)
@@ -339,7 +339,7 @@ class EACSerializer < ASpaceExport::Serializer
                    xml.localDescription(:localType => "associatedSubject") {
                      create_node(xml, "term", {}, subject['terms'].first['term'])  
                      topic['dates'].each do |date|
-                       if date['date_type_enum'] == 'single'
+                       if date['date_type_structured'] == 'single'
                          _build_date_single(date, xml)
                        else
                          _build_date_range(date, xml)
@@ -359,12 +359,12 @@ class EACSerializer < ASpaceExport::Serializer
             if json['agent_genders']
               json['agent_genders'].each do |gender|
 
-                if filled_out?([gender['gender_enum']])
+                if filled_out?([gender['gender']])
                   xml.localDescription(:localType => "gender") {
-                    create_node(xml, "term", {}, gender['gender_enum'])
+                    create_node(xml, "term", {}, gender['gender'])
 
                     gender['dates'].each do |date|
-                      if date['date_type_enum'] == 'single'
+                      if date['date_type_structured'] == 'single'
                         _build_date_single(date, xml)
                       else
                         _build_date_range(date, xml)
@@ -499,7 +499,7 @@ class EACSerializer < ASpaceExport::Serializer
                 end
 
                 ar['dates'].each do |date|
-                  if date['date_type_enum'] == 'single'
+                  if date['date_type_structured'] == 'single'
                     _build_date_single(date, xml)
                   else
                     _build_date_range(date, xml)
@@ -531,7 +531,7 @@ class EACSerializer < ASpaceExport::Serializer
                 xml.relationEntry name
 
                 if ra['dates']
-                  if ra['dates']['date_type_enum'] == 'single'
+                  if ra['dates']['date_type_structured'] == 'single'
                     _build_date_single(ra['dates'], xml)
                   else
                     _build_date_range(ra['dates'], xml)
@@ -611,7 +611,7 @@ class EACSerializer < ASpaceExport::Serializer
   end
 
   def _build_name_entry(name, xml, json, obj)
-    attrs = {"xml:lang" => name['language'], "scriptCode" => name['script'], "transliteration" => name['romanization_enum']}
+    attrs = {"xml:lang" => name['language'], "scriptCode" => name['script'], "transliteration" => name['romanization']}
     xml.nameEntry(clean_attrs(attrs)) {
 
       obj.name_part_fields.each do |field, localType|
@@ -624,7 +624,7 @@ class EACSerializer < ASpaceExport::Serializer
 
       xml.useDates {
         name['use_dates'].each do |date|
-            if date['date_type_enum'] == 'single'
+            if date['date_type_structured'] == 'single'
               _build_date_single(date, xml)
             else
               _build_date_range(date, xml)
