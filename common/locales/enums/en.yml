@@ -403,6 +403,7 @@ en:
       lcshac: Library of Congress Children's Subject Headings
       local: Local sources
       lcnaf: Library of Congress Name Authority File
+      snac: SNAC
       naf: NACO Authority File
       nad: NAD / ARK II Name Authority Database
       nal: National Agricultural Library subject headings

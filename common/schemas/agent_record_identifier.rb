@@ -13,7 +13,7 @@
       },
       "source" => {
         "type" => "string",
-        "dynamic_enum" => "source", 
+        "dynamic_enum" => "name_source", 
         "ifmissing" => "error"
       },
       "identifier_type" => {
