@@ -146,13 +146,13 @@ cleverer…</p>
         <dt id="models-classvariable" class="">@@models =
           
         </dt>
-        <dd><pre class="code"><span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+        <dd><pre class="code"><span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_util identifier id'>util</span><span class='dot token'>.</span><span class='rubyid_concurrent identifier id'>concurrent</span><span class='dot token'>.</span><span class='rubyid_ConcurrentHashMap constant id'>ConcurrentHashMap</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 </pre></dd>
       
         <dt id="custom_validations-classvariable" class="">@@custom_validations =
           
         </dt>
-        <dd><pre class="code"><span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+        <dd><pre class="code"><span class='rubyid_java identifier id'>java</span><span class='dot token'>.</span><span class='rubyid_util identifier id'>util</span><span class='dot token'>.</span><span class='rubyid_concurrent identifier id'>concurrent</span><span class='dot token'>.</span><span class='rubyid_ConcurrentHashMap constant id'>ConcurrentHashMap</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 </pre></dd>
       
         <dt id="strict_mode-classvariable" class="">@@strict_mode =
@@ -944,7 +944,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-151
 152
 153
 154
@@ -956,10 +955,11 @@ property of each object to cast it into a JSONModel.</p>
 160
 161
 162
-163</pre>
+163
+164</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 151</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 152</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_allow_unmapped_enum_value identifier id'>allow_unmapped_enum_value</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='comma token'>,</span> <span class='rubyid_magic_value identifier id'>magic_value</span> <span class='assign token'>=</span> <span class='string val'>&#39;other_unmapped&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_Array constant id'>Array</span>
@@ -1034,7 +1034,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-250
 251
 252
 253
@@ -1052,10 +1051,11 @@ property of each object to cast it into a JSONModel.</p>
 265
 266
 267
-268</pre>
+268
+269</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 251</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_check_valid_refs identifier id'>check_valid_refs</span><span class='lparen token'>(</span><span class='rubyid_properties identifier id'>properties</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_properties identifier id'>properties</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
@@ -1120,12 +1120,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-348
 349
-350</pre>
+350
+351</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 348</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 349</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_client_mode? fid id'>client_mode?</span>
   <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:client_mode</span><span class='rbrack token'>]</span>
@@ -1151,12 +1151,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-20
 21
-22</pre>
+22
+23</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 21</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_custom_validations identifier id'>custom_validations</span>
   <span class='rubyid_@@custom_validations ivar id'>@@custom_validations</span>
@@ -1182,12 +1182,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-126
 127
-128</pre>
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 127</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_destroy_model identifier id'>destroy_model</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span>
   <span class='rubyid_@@models ivar id'>@@models</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
@@ -1213,12 +1213,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-343
 344
-345</pre>
+345
+346</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 343</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 344</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enum_default_value identifier id'>enum_default_value</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_default_value_for identifier id'>default_value_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -1244,12 +1244,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-338
 339
-340</pre>
+340
+341</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 338</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 339</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enum_values identifier id'>enum_values</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
   <span class='rubyid_@@init_args ivar id'>@@init_args</span><span class='lbrack token'>[</span><span class='symbol val'>:enum_source</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_values_for identifier id'>values_for</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
@@ -1310,7 +1310,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-270
 271
 272
 273
@@ -1375,10 +1374,11 @@ property of each object to cast it into a JSONModel.</p>
 332
 333
 334
-335</pre>
+335
+336</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 270</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 271</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span><span class='lparen token'>(</span><span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
@@ -1467,16 +1467,16 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-59
 60
 61
 62
 63
 64
-65</pre>
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 59</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 60</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@@models ivar id'>@@models</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
@@ -1506,7 +1506,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-166
 167
 168
 169
@@ -1582,10 +1581,11 @@ property of each object to cast it into a JSONModel.</p>
 239
 240
 241
-242</pre>
+242
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 167</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_load_schema identifier id'>load_schema</span><span class='lparen token'>(</span><span class='rubyid_schema_name identifier id'>schema_name</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_not not kw'>not</span> <span class='rubyid_@@models ivar id'>@@models</span><span class='lbrack token'>[</span><span class='rubyid_schema_name identifier id'>schema_name</span><span class='rbrack token'>]</span>
@@ -1685,12 +1685,12 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-79
 80
-81</pre>
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 80</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_models identifier id'>models</span>
   <span class='rubyid_@@models ivar id'>@@models</span>
@@ -1716,16 +1716,16 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-353
 354
 355
 356
 357
 358
-359</pre>
+359
+360</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 353</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 354</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_jsonmodel_ref identifier id'>parse_jsonmodel_ref</span><span class='lparen token'>(</span><span class='rubyid_ref identifier id'>ref</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_ref identifier id'>ref</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span> <span class='rubyid_String constant id'>String</span> <span class='rubyid_and and kw'>and</span> <span class='rubyid_ref identifier id'>ref</span> <span class='match op'>=~</span> <span class='regexp val'>/JSONModel\(:([a-zA-Z_\-]+)\) (.*)/</span>
@@ -1755,7 +1755,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-103
 104
 105
 106
@@ -1775,10 +1774,11 @@ property of each object to cast it into a JSONModel.</p>
 120
 121
 122
-123</pre>
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 104</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_reference identifier id'>reference</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1863,16 +1863,16 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-84
 85
 86
 87
 88
 89
-90</pre>
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 85</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_repository_for identifier id'>repository_for</span><span class='lparen token'>(</span><span class='rubyid_reference identifier id'>reference</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_reference identifier id'>reference</span> <span class='match op'>=~</span> <span class='regexp val'>/^(\/repositories\/[0-9]+)\//</span>
@@ -1902,7 +1902,6 @@ property of each object to cast it into a JSONModel.</p>
       <pre class="lines">
 
 
-131
 132
 133
 134
@@ -1919,10 +1918,11 @@ property of each object to cast it into a JSONModel.</p>
 145
 146
 147
-148</pre>
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 132</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema_src identifier id'>schema_src</span><span class='lparen token'>(</span><span class='rubyid_schema_name identifier id'>schema_name</span><span class='rparen token'>)</span>
 
@@ -2056,12 +2056,12 @@ this method traverses a JSONModel and sets publish = false for any node that has
       <pre class="lines">
 
 
-24
 25
-26</pre>
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 24</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 25</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strict_mode identifier id'>strict_mode</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
   <span class='rubyid_@@strict_mode ivar id'>@@strict_mode</span> <span class='assign token'>=</span> <span class='rubyid_val identifier id'>val</span>
@@ -2110,12 +2110,12 @@ this method traverses a JSONModel and sets publish = false for any node that has
       <pre class="lines">
 
 
-29
 30
-31</pre>
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 30</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_strict_mode? fid id'>strict_mode?</span>
   <span class='rubyid_@@strict_mode ivar id'>@@strict_mode</span>
@@ -2151,13 +2151,13 @@ this method traverses a JSONModel and sets publish = false for any node that has
       <pre class="lines">
 
 
-245
 246
 247
-248</pre>
+248
+249</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 245</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 246</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_validate_schema identifier id'>validate_schema</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='rparen token'>)</span>
   <span class='rubyid_check_valid_refs identifier id'>check_valid_refs</span><span class='lparen token'>(</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -2233,12 +2233,12 @@ this method traverses a JSONModel and sets publish = false for any node that has
       <pre class="lines">
 
 
-68
 69
-70</pre>
+70
+71</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 69</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_JSONModel constant id'>JSONModel</span><span class='lparen token'>(</span><span class='rubyid_source identifier id'>source</span><span class='rparen token'>)</span>
@@ -2274,12 +2274,12 @@ this method traverses a JSONModel and sets publish = false for any node that has
       <pre class="lines">
 
 
-74
 75
-76</pre>
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'common/jsonmodel.rb', line 75</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_models identifier id'>models</span>
   <span class='rubyid_@@models ivar id'>@@models</span>
@@ -2295,7 +2295,7 @@ this method traverses a JSONModel and sets publish = false for any node that has
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:35 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:01:56 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>

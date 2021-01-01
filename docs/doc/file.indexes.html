@@ -59,77 +59,20 @@
 
       <div id="content"><div id='filecontents'><h1 id="re-creating-indexes">Re-creating indexes</h1>
 
-<p>There are two strategies for reindexing ArchivesSpace:</p>
-
-<ul>
-  <li>soft reindex</li>
-  <li>full reindex</li>
-</ul>
-
-<h2 id="soft-reindex">Soft reindex</h2>
-
-<p>A soft reindex updates the existing documents in Solr without directly
-touching the actual index documents on the filesystem. This can be done
-while the system is running and is suitable for most use cases.</p>
-
-<p>There are two common ways to perform a soft reindex:</p>
-
-<ol>
-  <li>Delete indexer state files</li>
-</ol>
-
 <p>ArchivesSpace keeps track of what has been indexed by using the files
 under <code>data/indexer_state</code> and <code>data/indexer_pui_state</code> (for the PUI).</p>
 
-<p>If these files are missing, the indexer assumes that nothing has been
-indexed and reindexes everything. To force ArchivesSpace to reindex all
-records, just delete the files in <code>/path/to/archivesspace/data/indexer_state</code>
-and <code>/path/to/archivesspace/data/indexer_pui_state</code>.</p>
+<p>If these files are missing, the indexer assumes that nothing has been indexed and reindexes everything.</p>
 
-<p>You also can do this selectively by record type, for example, to reindex
-accessions in repository 2 delete the file called <code>2_accession.dat</code>.</p>
+<p>To force ArchivesSpace to reindex all records, just delete the
+directory <code>/path/to/archivesspace/data/indexer_state</code> and <code>/path/to/archivesspace/data/indexer_pui_state</code>.</p>
 
-<ol>
-  <li>Bump <code>system_mtime</code> values in the database</li>
-</ol>
-
-<p>If you update a record’s <code>system_mtime</code> it becomes eligible for reindexing.</p>
-
-<p><code>sql
-#reindex all resources
-UPDATE resource SET system_mtime = NOW();
-#reindex resource 1
-UPDATE resource SET system_mtime = NOW() WHERE id = 1;
-</code></p>
-
-<h2 id="full-reindex">Full reindex</h2>
-
-<p>A full reindex is a complete rebuild of the index from the database. This
-may be required if you are having indexer issues, in the case of index
-corruption, or if called for by an upgrade owing to changes in ArchivesSpace’s
-Solr configuration.</p>
-
-<p>To perform a full reindex:</p>
-
-<ul>
-  <li>Shutdown ArchivesSpace</li>
-  <li>Delete these directories:
-    <ul>
-      <li><code>rm -rf /path/to/archivesspace/data/indexer_state/</code></li>
-      <li><code>rm -rf /path/to/archivesspace/data/indexer_pui_state/</code></li>
-      <li><code>rm -rf /path/to/archivesspace/data/solr_index/</code></li>
-    </ul>
-  </li>
-  <li>Restart ArchivesSpace</li>
-</ul>
-
-<p>You can watch the <a href="https://www.youtube.com/watch?v=yFJ6yAaPa3A">Tips for indexing ArchivesSpace</a> youtube video to see these steps performed.</p>
-
-<hr />
+<p>Since the indexing process is cumulative, there’s no harm in indexing the same
+document multiple times.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:13 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:01:24 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>

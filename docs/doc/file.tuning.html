@@ -80,26 +80,11 @@ Keep in mind that ArchivesSpace can be hosted on multiple server, either in a <a
 
 <p>Windows users must edit the archivesspace.bat file.</p>
 
-<p>If you’re having trouble with errors like <code>java.lang.OutOfMemoryError</code> try doubling the <code>ASPACE_JAVA_XMX</code>. On Linux you can do this either by setting an environment variable like <code>$ export ASPACE_JAVA_XMX="Xmx2048m"</code> or by editing archivsspace.sh:</p>
-
-<p><code>
-if [ "$ASPACE_JAVA_XMX" = "" ]; then
-    ASPACE_JAVA_XMX="-Xmx2048m"
-fi
-</code>
-For Windows, you’ll change archivesspace.bat:</p>
-
-<p><code>
-java -Darchivesspace-daemon=yes %JAVA_OPTS% -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:NewRatio=1 -Xss2m -X
-mx2048m -Dfile.encoding=UTF-8 -cp "%GEM_HOME%\gems\jruby-rack-1.1.12\lib\*;lib\*;launcher\lib\*!JRUBY!" org.jruby.Main "la
-uncher/launcher.rb" &gt; "logs/archivesspace.out" 2&gt;&amp;1
-</code></p>
-
 <p><strong>NOTE: THE APPLICATION WILL NOT USE THE AVAILABLE MEMORY UNLESS YOU SET THE MAXIMUM HEAP SIZE TO ALLOCATE IT</strong> For example, if your server has 4 gigs of RAM, but you haven’t adjusted the ArchivesSpace settings, you’ll only be using 1 gig.</p>
 
 <h2 id="mysql">MySQL</h2>
 
-<p>The ArchivesSpace application can hit a database server rather hard, since it’s a metadata rich application. There are many articles online about how to tune a MySQL database. A good place to start is try something like <a href="http://mysqltuner.com/">MySQL Tuner</a> or <a href="https://rtcamp.com/tutorials/mysql/tuningprimer/">Tuning Primer</a> which can give good hints on possible tweaks to make to your MySQL server configuration.</p>
+<p>The ArchivesSpace application can hit a MySQL db server rather hard, since it’s a metadata rich application. There are many articles online about how to tune a MySQL database. A good place to start is try something like <a href="http://mysqltuner.com/">MySQL Tuner</a> or <a href="https://rtcamp.com/tutorials/mysql/tuningprimer/">Tuning Primer</a> which can give good hints on possible tweaks to make to your MySQL server configuration.</p>
 
 <p>Keep a close eye on the memory available to the server, as well as your InnoDB buffer pool.</p>
 
@@ -109,7 +94,7 @@ uncher/launcher.rb" &gt; "logs/archivesspace.out" 2&gt;&amp;1
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:12 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:01:29 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>

@@ -84,7 +84,7 @@ replace the lower case x with the version number updating to. For example,
 
 <pre class="code ruby"><code class="ruby"> $ <span class='rubyid_mkdir identifier id'>mkdir</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span>
  $ <span class='rubyid_cd identifier id'>cd</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='float val'>1.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span>
- $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_LJO constant id'>LJO</span> <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_releases identifier id'>releases</span><span class='div op'>/</span><span class='rubyid_download identifier id'>download</span><span class='div op'>/</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
+ $ <span class='rubyid_curl identifier id'>curl</span> <span class='minus op'>-</span><span class='rubyid_O constant id'>O</span> <span class='label val'>https:</span><span class='div op'>/</span><span class='regexp val'>/github.com/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='div op'>/</span><span class='rubyid_releases identifier id'>releases</span><span class='div op'>/</span><span class='rubyid_download identifier id'>download</span><span class='div op'>/</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='div op'>/</span><span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
  $ <span class='rubyid_unzip identifier id'>unzip</span> <span class='minus op'>-</span><span class='rubyid_x identifier id'>x</span> <span class='rubyid_archivesspace identifier id'>archivesspace</span><span class='minus op'>-</span><span class='rubyid_v1 identifier id'>v1</span><span class='float val'>.5</span><span class='dot token'>.</span><span class='rubyid_x identifier id'>x</span><span class='dot token'>.</span><span class='rubyid_zip identifier id'>zip</span>
 </code></pre>
 
@@ -105,7 +105,7 @@ running ArchivesSpace instance now.</p>
 your original ArchivesSpace installation:</p>
 
 <ul>
-  <li>the <code>data</code> directory (see <strong>Indexes note</strong> below)</li>
+  <li>the <code>data</code> directory</li>
   <li>the <code>config</code> directory (see <strong>Configuration note</strong> below)</li>
   <li>your <code>lib/mysql-connector*.jar</code> file (if using MySQL)</li>
   <li>any plugins and local modifications you have installed in your <code>plugins</code> directory</li>
@@ -148,13 +148,6 @@ settings you need to set explicitly, but you never know when you’ll
 discover a new, exciting feature!  Documentation might also refer to
 uncommenting configuration options that won’t be in your file if you
 keep your older version.</p>
-
-<h3 id="indexes-note">Indexes note</h3>
-
-<p>Sometimes a new release of ArchivesSpace will require a FULL reindex
-which means you do not want to copy over anything from your data directory
-to your new release. The data directory contains the indexes created by Solr.
-Check the release notes of the new version for any details about reindexing.</p>
 
 <h2 id="transfer-your-locales-data">Transfer your locales data</h2>
 
@@ -241,7 +234,7 @@ any libraries from the previous ASpace version from your Tomcat classpath.</p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:14 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:01:24 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>

@@ -118,20 +118,10 @@
 
     <dl class="constants">
       
-        <dt id="HARDCODED_ENUM_FIELDS-constant" class="">HARDCODED_ENUM_FIELDS =
-          <div class="docstring">
-  <div class="discussion">
-    <p>TODO: We should fix this to read from the JSON schemas</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-
-</div>
+        <dt id="EXCLUDED_STRING_VALUE_PROPERTIES-constant" class="">EXCLUDED_STRING_VALUE_PROPERTIES =
+          
         </dt>
-        <dd><pre class="code"><span class='lbrack token'>[</span><span class='string val'>&quot;relator&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;role&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;source&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;rules&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;acquisition_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;resource_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;processing_priority&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;processing_status&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;era&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;calendar&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;digital_object_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;level&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;processing_total_extent_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;extent_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;language&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;script&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;event_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;type_1&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;type_2&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;type_3&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;salutation&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;outcome&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;finding_aid_description_rules&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;finding_aid_status&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;instance_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;use_statement&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;checksum_method&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;date_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;label&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;certainty&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;scope&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;portion&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;xlink_actuate_attribute&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;xlink_show_attribute&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;file_format_name&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;temporary&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;name_order&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;country&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;jurisdiction&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;rights_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;ip_status&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;term_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum_1&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum_2&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum_3&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;enum_4&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;relator_type&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;job_type&quot;</span><span class='rbrack token'>]</span>
+        <dd><pre class="code"><span class='rubyid_Set constant id'>Set</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>%w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order)</span><span class='rparen token'>)</span>
 </pre></dd>
       
         <dt id="record_types-classvariable" class="">@@record_types =
@@ -867,6 +857,29 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#enum_fields-instance_method" title="#enum_fields (instance method)">#<strong>enum_fields</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#get_record_scope-instance_method" title="#get_record_scope (instance method)">#<strong>get_record_scope</strong>(uri)  &#x21d2; Object </a>
     
 
@@ -1345,7 +1358,10 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
 81
 82
 83
-84</pre>
+84
+85
+86
+87</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 61</span>
@@ -1367,6 +1383,9 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
       <span class='rubyid_sleep identifier id'>sleep</span><span class='lparen token'>(</span><span class='integer val'>5</span><span class='rparen token'>)</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
+
+  <span class='comment val'># Force load up front</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_enum_fields identifier id'>enum_fields</span>
 
   <span class='rubyid_configure_doc_rules identifier id'>configure_doc_rules</span>
 
@@ -1464,39 +1483,39 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
 156
 157
 158
-159</pre>
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 156</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_build_fullrecord identifier id'>build_fullrecord</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_fullrecord identifier id'>fullrecord</span> <span class='assign token'>=</span> <span class='rubyid_IndexerCommon constant id'>IndexerCommon</span><span class='dot token'>.</span><span class='rubyid_extract_string_values identifier id'>extract_string_values</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='dstring node'>%w(finding_aid_subtitle finding_aid_author)</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='bitor op'>|</span>
     <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='rubyid_field identifier id'>field</span><span class='rparen token'>)</span>
-      <span class='rubyid_fullrecord identifier id'>fullrecord</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{record[&#39;record&#39;][field]} &quot;</span>
+      <span class='rubyid_fullrecord identifier id'>fullrecord</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot; #{record[&#39;record&#39;][field]}&quot;</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;names&#39;</span><span class='rparen token'>)</span>
-    <span class='rubyid_fullrecord identifier id'>fullrecord</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
+    <span class='rubyid_fullrecord identifier id'>fullrecord</span> <span class='lshft op'>&lt;&lt;</span> <span class='string val'>&quot; &quot;</span> <span class='plus op'>+</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;names&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_name identifier id'>name</span><span class='bitor op'>|</span>
       <span class='rubyid_IndexerCommon constant id'>IndexerCommon</span><span class='dot token'>.</span><span class='rubyid_extract_string_values identifier id'>extract_string_values</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span>
     <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot; &quot;</span><span class='rparen token'>)</span>
   <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_fullrecord identifier id'>fullrecord</span>
+  <span class='rubyid_fullrecord identifier id'>fullrecord</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1519,11 +1538,6 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
       <pre class="lines">
 
 
-121
-122
-123
-124
-125
 126
 127
 128
@@ -1540,32 +1554,49 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
 139
 140
 141
-142</pre>
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 126</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extract_string_values identifier id'>extract_string_values</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='rparen token'>)</span>
-  <span class='rubyid_text identifier id'>text</span> <span class='assign token'>=</span> <span class='string val'>&quot;&quot;</span>
-  <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
-    <span class='rubyid_if if kw'>if</span> <span class='dstring node'>%w(created_by last_modified_by system_mtime user_mtime json types create_time date_type jsonmodel_type publish extent_type language script system_generated suppressed source rules name_order)</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_key identifier id'>key</span> <span class='match op'>=~</span> <span class='regexp val'>/_enum_s$/</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
-      <span class='rubyid_text identifier id'>text</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{val} &quot;</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
-      <span class='rubyid_text identifier id'>text</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extract_string_values identifier id'>extract_string_values</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
-    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
-      <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
-        <span class='rubyid_if if kw'>if</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
-          <span class='rubyid_text identifier id'>text</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;#{v} &quot;</span>
-        <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
-          <span class='rubyid_text identifier id'>text</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_extract_string_values identifier id'>extract_string_values</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
+  <span class='rubyid_queue identifier id'>queue</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rubyid_doc identifier id'>doc</span><span class='rbrack token'>]</span>
+  <span class='rubyid_strings identifier id'>strings</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+
+  <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_doc identifier id'>doc</span> <span class='assign token'>=</span> <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_pop identifier id'>pop</span>
+
+    <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_key identifier id'>key</span><span class='comma token'>,</span> <span class='rubyid_val identifier id'>val</span><span class='bitor op'>|</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_EXCLUDED_STRING_VALUE_PROPERTIES constant id'>EXCLUDED_STRING_VALUE_PROPERTIES</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_key identifier id'>key</span><span class='rparen token'>)</span> <span class='orop op'>||</span> <span class='rubyid_key identifier id'>key</span> <span class='match op'>=~</span> <span class='regexp val'>/_enum_s$/</span>
+        <span class='comment val'># ignored</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
+        <span class='rubyid_strings identifier id'>strings</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
+        <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_val identifier id'>val</span><span class='rparen token'>)</span>
+      <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
+        <span class='rubyid_val identifier id'>val</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
+          <span class='rubyid_if if kw'>if</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span>
+            <span class='rubyid_strings identifier id'>strings</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
+          <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
+            <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_v identifier id'>v</span><span class='rparen token'>)</span>
+          <span class='rubyid_end end kw'>end</span>
         <span class='rubyid_end end kw'>end</span>
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_end end kw'>end</span>
 
-  <span class='rubyid_text identifier id'>text</span>
+  <span class='rubyid_strings identifier id'>strings</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&#39; &#39;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_strip identifier id'>strip</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -1588,19 +1619,19 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
       <pre class="lines">
 
 
-102
-103
-104
 105
 106
 107
 108
 109
 110
-111</pre>
+111
+112
+113
+114</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 105</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_permutations_for_identifier identifier id'>generate_permutations_for_identifier</span><span class='lparen token'>(</span><span class='rubyid_identifer identifier id'>identifer</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_identifer identifier id'>identifer</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -1643,13 +1674,13 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
       <pre class="lines">
 
 
-115
-116
-117
-118</pre>
+118
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 118</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_sort_string_for_identifier identifier id'>generate_sort_string_for_identifier</span><span class='lparen token'>(</span><span class='rubyid_identifier identifier id'>identifier</span><span class='comma token'>,</span> <span class='rubyid_size identifier id'>size</span> <span class='assign token'>=</span> <span class='integer val'>255</span><span class='rparen token'>)</span>
   <span class='rubyid_letters identifier id'>letters</span><span class='comma token'>,</span> <span class='rubyid_numbers identifier id'>numbers</span><span class='comma token'>,</span> <span class='rubyid_rest identifier id'>rest</span> <span class='assign token'>=</span> <span class='rubyid_identifier identifier id'>identifier</span><span class='dot token'>.</span><span class='rubyid_scan identifier id'>scan</span><span class='lparen token'>(</span><span class='regexp val'>/([^0-9]*)([0-9]*)(.*)/</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span>
@@ -1676,9 +1707,6 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
       <pre class="lines">
 
 
-86
-87
-88
 89
 90
 91
@@ -1689,10 +1717,13 @@ Call this instead of I18n.t so that it won’t cause an error when selenium test
 96
 97
 98
-99</pre>
+99
+100
+101
+102</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 86</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 89</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_generate_years_for_date_range identifier id'>generate_years_for_date_range</span><span class='lparen token'>(</span><span class='rubyid_begin_date identifier id'>begin_date</span><span class='comma token'>,</span> <span class='rubyid_end_date identifier id'>end_date</span><span class='rparen token'>)</span>
   <span class='rubyid_return return kw'>return</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_begin_date identifier id'>begin_date</span>
@@ -1831,17 +1862,6 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
 185
 186
 187
@@ -1867,10 +1887,21 @@ Duration is given in seconds.</p>
 207
 208
 209
-210</pre>
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 185</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_agents identifier id'>add_agents</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;linked_agents&#39;</span><span class='rbrack token'>]</span>
@@ -1930,14 +1961,14 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-220
-221
-222
-223
-224</pre>
+231
+232
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 231</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_audit_info identifier id'>add_audit_info</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='lbrack token'>[</span><span class='string val'>&#39;created_by&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;last_modified_by&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;user_mtime&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;system_mtime&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;create_time&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_f identifier id'>f</span><span class='bitor op'>|</span>
@@ -1965,12 +1996,12 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-878
-879
-880</pre>
+914
+915
+916</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 878</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 914</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_batch_hook identifier id'>add_batch_hook</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_@batch_hooks ivar id'>@batch_hooks</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_block identifier id'>block</span>
@@ -1996,12 +2027,12 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-883
-884
-885</pre>
+919
+920
+921</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 883</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 919</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_delete_hook identifier id'>add_delete_hook</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_@delete_hooks ivar id'>@delete_hooks</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_block identifier id'>block</span>
@@ -2027,12 +2058,12 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-858
-859
-860</pre>
+894
+895
+896</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 858</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 894</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_document_prepare_hook identifier id'>add_document_prepare_hook</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_@document_prepare_hooks ivar id'>@document_prepare_hooks</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_block identifier id'>block</span>
@@ -2058,20 +2089,20 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293</pre>
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 283</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 295</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_extents identifier id'>add_extents</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;extents&#39;</span><span class='rbrack token'>]</span>
@@ -2105,12 +2136,12 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-873
-874
-875</pre>
+909
+910
+911</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 873</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 909</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_extra_documents_hook identifier id'>add_extra_documents_hook</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_@extra_documents_hooks ivar id'>@extra_documents_hooks</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_block identifier id'>block</span>
@@ -2136,14 +2167,14 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-261
-262
-263
-264
-265</pre>
+272
+273
+274
+275
+276</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 261</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 272</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_level identifier id'>add_level</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span> <span class='string val'>&#39;level&#39;</span>
@@ -2171,14 +2202,14 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-227
-228
-229
-230
-231</pre>
+238
+239
+240
+241
+242</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 238</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_notes identifier id'>add_notes</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;notes&#39;</span><span class='rbrack token'>]</span>
@@ -2206,15 +2237,15 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-212
-213
-214
-215
-216
-217</pre>
+223
+224
+225
+226
+227
+228</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 223</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_subjects identifier id'>add_subjects</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;subjects&#39;</span><span class='rbrack token'>]</span>
@@ -2243,23 +2274,23 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
 279
 280
-281</pre>
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 279</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_summary identifier id'>add_summary</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='string val'>&#39;notes&#39;</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;notes&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
@@ -2296,17 +2327,6 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
 245
 246
 247
@@ -2320,10 +2340,21 @@ Duration is given in seconds.</p>
 255
 256
 257
-258</pre>
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 234</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 245</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_add_years identifier id'>add_years</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&#39;record&#39;</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='string val'>&#39;dates&#39;</span><span class='rbrack token'>]</span>
@@ -2371,48 +2402,48 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-1193
-1194
-1195
-1196
-1197
-1198
-1199
-1200
-1201
-1202
-1203
-1204
-1205
-1206
-1207
-1208
-1209
-1210
-1211
-1212
-1213
-1214
-1215
-1216
-1217
-1218
-1219
-1220
-1221
-1222
-1223
-1224
-1225
-1226
-1227
 1228
 1229
 1230
-1231</pre>
+1231
+1232
+1233
+1234
+1235
+1236
+1237
+1238
+1239
+1240
+1241
+1242
+1243
+1244
+1245
+1246
+1247
+1248
+1249
+1250
+1251
+1252
+1253
+1254
+1255
+1256
+1257
+1258
+1259
+1260
+1261
+1262
+1263
+1264
+1265
+1266</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1193</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1228</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_apply_pui_fields identifier id'>apply_pui_fields</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='comment val'># only add pui types if the record is published</span>
@@ -2474,18 +2505,20 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-1014
-1015
-1016
-1017
-1018
-1019
-1020</pre>
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1014</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1050</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_clean_for_sort identifier id'>clean_for_sort</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_nil nil kw'>nil</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
   <span class='rubyid_out identifier id'>out</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/&lt;[^&gt;]+&gt;/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_out identifier id'>out</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='regexp val'>/-/</span><span class='comma token'>,</span> <span class='string val'>&#39; &#39;</span><span class='rparen token'>)</span>
   <span class='rubyid_out identifier id'>out</span><span class='dot token'>.</span><span class='rubyid_gsub! fid id'>gsub!</span><span class='lparen token'>(</span><span class='regexp val'>/[^\w\s]/</span><span class='comma token'>,</span> <span class='string val'>&#39;&#39;</span><span class='rparen token'>)</span>
@@ -2513,20 +2546,20 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-1001
-1002
-1003
-1004
-1005
-1006
-1007
-1008
-1009
-1010
-1011</pre>
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1047</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1001</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1037</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_clean_whitespace identifier id'>clean_whitespace</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_String constant id'>String</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='notop op'>!</span><span class='rubyid_doc identifier id'>doc</span><span class='dot token'>.</span><span class='rubyid_frozen? fid id'>frozen?</span>
@@ -2560,42 +2593,6 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315
-316
-317
-318
-319
-320
-321
-322
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
 334
 335
 336
@@ -3117,17 +3114,53 @@ Duration is given in seconds.</p>
 852
 853
 854
-855</pre>
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 334</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_configure_doc_rules identifier id'>configure_doc_rules</span>
 
   <span class='rubyid_add_document_prepare_hook identifier id'>add_document_prepare_hook</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_doc identifier id'>doc</span><span class='comma token'>,</span> <span class='rubyid_record identifier id'>record</span><span class='bitor op'>|</span>
     <span class='rubyid_found_keys identifier id'>found_keys</span> <span class='assign token'>=</span> <span class='rubyid_Set constant id'>Set</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
 
-    <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_search_nested identifier id'>search_nested</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&quot;record&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_HARDCODED_ENUM_FIELDS constant id'>HARDCODED_ENUM_FIELDS</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_field_value identifier id'>field_value</span><span class='bitor op'>|</span>
+    <span class='rubyid_ASUtils constant id'>ASUtils</span><span class='dot token'>.</span><span class='rubyid_search_nested identifier id'>search_nested</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='lbrack token'>[</span><span class='string val'>&quot;record&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_enum_fields identifier id'>enum_fields</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&#39;_resolved&#39;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_field identifier id'>field</span><span class='comma token'>,</span> <span class='rubyid_field_value identifier id'>field_value</span><span class='bitor op'>|</span>
       <span class='rubyid_key identifier id'>key</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{field}_enum_s&quot;</span>
 
       <span class='rubyid_doc identifier id'>doc</span><span class='lbrack token'>[</span><span class='rubyid_key identifier id'>key</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_Set constant id'>Set</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
@@ -3711,22 +3744,22 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-986
-987
-988
-989
-990
-991
-992
-993
-994
-995
-996
-997
-998</pre>
+1022
+1023
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 986</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1022</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_dedupe_by_uri identifier id'>dedupe_by_uri</span><span class='lparen token'>(</span><span class='rubyid_records identifier id'>records</span><span class='rparen token'>)</span>
   <span class='rubyid_result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -3762,37 +3795,37 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-955
-956
-957
-958
-959
-960
-961
-962
-963
-964
-965
-966
-967
-968
-969
-970
-971
-972
-973
-974
-975
-976
-977
-978
-979
-980
-981
-982</pre>
+991
+992
+993
+994
+995
+996
+997
+998
+999
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+1016
+1017
+1018</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 955</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 991</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_delete_records identifier id'>delete_records</span><span class='lparen token'>(</span><span class='rubyid_records identifier id'>records</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
@@ -3843,22 +3876,22 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-893
-894
-895
-896
-897
-898
-899
-900
-901
-902
-903
-904
-905</pre>
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 893</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 929</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_do_http_request identifier id'>do_http_request</span><span class='lparen token'>(</span><span class='rubyid_url identifier id'>url</span><span class='comma token'>,</span> <span class='rubyid_req identifier id'>req</span><span class='rparen token'>)</span>
   <span class='rubyid_req identifier id'>req</span><span class='lbrack token'>[</span><span class='string val'>&#39;X-ArchivesSpace-Session&#39;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='rubyid_@current_session ivar id'>@current_session</span>
@@ -3872,6 +3905,79 @@ Duration is given in seconds.</p>
   <span class='rubyid_end end kw'>end</span>
 <span class='rubyid_rescue rescue kw'>rescue</span> <span class='rubyid_Timeout constant id'>Timeout</span><span class='colon2 op'>::</span><span class='rubyid_Error constant id'>Error</span>
   <span class='rubyid_FakeSolrTimeoutResponse constant id'>FakeSolrTimeoutResponse</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_req identifier id'>req</span><span class='rparen token'>)</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="enum_fields-instance_method">
+  
+    #<strong>enum_fields</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 308</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_enum_fields identifier id'>enum_fields</span>
+  <span class='rubyid_return return kw'>return</span> <span class='rubyid_@enum_fields ivar id'>@enum_fields</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_@enum_fields ivar id'>@enum_fields</span>
+
+  <span class='rubyid_enum_fields identifier id'>enum_fields</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='rubyid_queue identifier id'>queue</span> <span class='assign token'>=</span> <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_models identifier id'>models</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid__ identifier id'>_</span><span class='comma token'>,</span><span class='rubyid_model identifier id'>model</span><span class='bitor op'>|</span> <span class='rubyid_model identifier id'>model</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;properties&#39;</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span>
+
+  <span class='rubyid_while while kw'>while</span> <span class='notop op'>!</span><span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
+    <span class='rubyid_elt identifier id'>elt</span> <span class='assign token'>=</span> <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_shift identifier id'>shift</span>
+
+    <span class='rubyid_if if kw'>if</span> <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
+      <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
+        <span class='rubyid_if if kw'>if</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
+          <span class='rubyid_enum_fields identifier id'>enum_fields</span><span class='dot token'>.</span><span class='rubyid_push identifier id'>push</span><span class='lparen token'>(</span><span class='rubyid_k identifier id'>k</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_v identifier id'>v</span><span class='lbrack token'>[</span><span class='string val'>&#39;dynamic_enum&#39;</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='rubyid_v identifier id'>v</span><span class='dot token'>.</span><span class='rubyid_dig identifier id'>dig</span><span class='lparen token'>(</span><span class='string val'>&#39;items&#39;</span><span class='comma token'>,</span> <span class='string val'>&#39;dynamic_enum&#39;</span><span class='rparen token'>)</span>
+        <span class='rubyid_end end kw'>end</span>
+        <span class='rubyid_queue identifier id'>queue</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_v identifier id'>v</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_elt identifier id'>elt</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span>
+      <span class='rubyid_queue identifier id'>queue</span><span class='dot token'>.</span><span class='rubyid_concat identifier id'>concat</span><span class='lparen token'>(</span><span class='rubyid_elt identifier id'>elt</span><span class='rparen token'>)</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+
+  <span class='rubyid_enum_fields identifier id'>enum_fields</span><span class='dot token'>.</span><span class='rubyid_delete identifier id'>delete</span><span class='lparen token'>(</span><span class='string val'>&#39;items&#39;</span><span class='rparen token'>)</span> <span class='comment val'># not an enum, creeps in through dynamic enum lists</span>
+  <span class='rubyid_@enum_fields ivar id'>@enum_fields</span> <span class='assign token'>=</span> <span class='rubyid_enum_fields identifier id'>enum_fields</span><span class='dot token'>.</span><span class='rubyid_uniq identifier id'>uniq</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -3894,12 +4000,12 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-941
-942
-943</pre>
+977
+978
+979</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 941</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 977</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_get_record_scope identifier id'>get_record_scope</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
   <span class='rubyid_JSONModel constant id'>JSONModel</span><span class='dot token'>.</span><span class='rubyid_parse_reference identifier id'>parse_reference</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='symbol val'>:repository</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>&quot;global&quot;</span>
@@ -3925,43 +4031,6 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-1115
-1116
-1117
-1118
-1119
-1120
-1121
-1122
-1123
-1124
-1125
-1126
-1127
-1128
-1129
-1130
-1131
-1132
-1133
-1134
-1135
-1136
-1137
-1138
-1139
-1140
-1141
-1142
-1143
-1144
-1145
-1146
-1147
-1148
-1149
-1150
-1151
 1152
 1153
 1154
@@ -3972,10 +4041,45 @@ Duration is given in seconds.</p>
 1159
 1160
 1161
-1162</pre>
+1162
+1163
+1164
+1165
+1166
+1167
+1168
+1169
+1170
+1171
+1172
+1173
+1174
+1175
+1176
+1177
+1178
+1179
+1180
+1181
+1182
+1183
+1184
+1185
+1186
+1187
+1188
+1189
+1190
+1191
+1192
+1193
+1194
+1195
+1196
+1197</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1115</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1152</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index_batch identifier id'>index_batch</span><span class='lparen token'>(</span><span class='rubyid_batch identifier id'>batch</span><span class='comma token'>,</span> <span class='rubyid_timing identifier id'>timing</span> <span class='assign token'>=</span> <span class='rubyid_IndexerTiming constant id'>IndexerTiming</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='comma token'>,</span> <span class='rubyid_opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
   <span class='rubyid_timing identifier id'>timing</span> <span class='opasgn op'>||=</span> <span class='rubyid_IndexerTiming constant id'>IndexerTiming</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
@@ -3989,11 +4093,9 @@ Duration is given in seconds.</p>
 
   <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_batch identifier id'>batch</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
     <span class='comment val'># For any record we&#39;re updating, delete any child records first (where applicable)</span>
-    <span class='rubyid_records_with_children identifier id'>records_with_children</span> <span class='assign token'>=</span> <span class='rubyid_batch identifier id'>batch</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_e identifier id'>e</span><span class='bitor op'>|</span>
-      <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_records_with_children identifier id'>records_with_children</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_e identifier id'>e</span><span class='lbrack token'>[</span><span class='string val'>&#39;primary_type&#39;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span><span class='rparen token'>)</span>
-        <span class='dstring node'>&quot;\&quot;#{e[&#39;id&#39;]}\&quot;&quot;</span>
-      <span class='rubyid_end end kw'>end</span>
-    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span>
+    <span class='rubyid_records_with_children identifier id'>records_with_children</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_records_with_children identifier id'>records_with_children</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_record_type identifier id'>record_type</span><span class='bitor op'>|</span>
+      <span class='rubyid_batch identifier id'>batch</span><span class='dot token'>.</span><span class='rubyid_record_info_for_type identifier id'>record_info_for_type</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_map identifier id'>map</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_info identifier id'>info</span><span class='bitor op'>|</span> <span class='string val'>&#39;&quot;%s&quot;&#39;</span> <span class='mod op'>%</span> <span class='lbrack token'>[</span><span class='rubyid_info identifier id'>info</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+    <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span>
 
     <span class='rubyid_if if kw'>if</span> <span class='notop op'>!</span><span class='rubyid_records_with_children identifier id'>records_with_children</span><span class='dot token'>.</span><span class='rubyid_empty? fid id'>empty?</span>
       <span class='rubyid_req identifier id'>req</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Post constant id'>Post</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{solr_url.path}/update&quot;</span><span class='rparen token'>)</span>
@@ -4046,43 +4148,6 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-1045
-1046
-1047
-1048
-1049
-1050
-1051
-1052
-1053
-1054
-1055
-1056
-1057
-1058
-1059
-1060
-1061
-1062
-1063
-1064
-1065
-1066
-1067
-1068
-1069
-1070
-1071
-1072
-1073
-1074
-1075
-1076
-1077
-1078
-1079
-1080
-1081
 1082
 1083
 1084
@@ -4113,10 +4178,47 @@ Duration is given in seconds.</p>
 1109
 1110
 1111
-1112</pre>
+1112
+1113
+1114
+1115
+1116
+1117
+1118
+1119
+1120
+1121
+1122
+1123
+1124
+1125
+1126
+1127
+1128
+1129
+1130
+1131
+1132
+1133
+1134
+1135
+1136
+1137
+1138
+1139
+1140
+1141
+1142
+1143
+1144
+1145
+1146
+1147
+1148
+1149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1045</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1082</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_index_records identifier id'>index_records</span><span class='lparen token'>(</span><span class='rubyid_records identifier id'>records</span><span class='comma token'>,</span> <span class='rubyid_timing identifier id'>timing</span> <span class='assign token'>=</span> <span class='rubyid_IndexerTiming constant id'>IndexerTiming</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='rparen token'>)</span>
   <span class='rubyid_batch identifier id'>batch</span> <span class='assign token'>=</span> <span class='rubyid_IndexBatch constant id'>IndexBatch</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
@@ -4230,16 +4332,16 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-946
-947
-948
-949
-950
-951
-952</pre>
+982
+983
+984
+985
+986
+987
+988</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 946</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 982</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_is_repository_unpublished? fid id'>is_repository_unpublished?</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='comma token'>,</span> <span class='rubyid_values identifier id'>values</span><span class='rparen token'>)</span>
   <span class='rubyid_repo_id identifier id'>repo_id</span> <span class='assign token'>=</span> <span class='rubyid_get_record_scope identifier id'>get_record_scope</span><span class='lparen token'>(</span><span class='rubyid_uri identifier id'>uri</span><span class='rparen token'>)</span>
@@ -4269,35 +4371,35 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-913
-914
-915
-916
-917
-918
-919
-920
-921
-922
-923
-924
-925
-926
-927
-928
-929
-930
-931
-932
-933
-934
-935
-936
-937
-938</pre>
+949
+950
+951
+952
+953
+954
+955
+956
+957
+958
+959
+960
+961
+962
+963
+964
+965
+966
+967
+968
+969
+970
+971
+972
+973
+974</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 913</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 949</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_login identifier id'>login</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@current_session ivar id'>@current_session</span>
@@ -4369,12 +4471,12 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-1181
-1182
-1183</pre>
+1216
+1217
+1218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1181</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1216</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_paused? fid id'>paused?</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_singleton_class identifier id'>singleton_class</span><span class='dot token'>.</span><span class='rubyid_class_variable_get identifier id'>class_variable_get</span><span class='lparen token'>(</span><span class='symbol val'>:@@paused_until</span><span class='rparen token'>)</span> <span class='gt op'>&gt;</span> <span class='rubyid_Time constant id'>Time</span><span class='dot token'>.</span><span class='rubyid_now identifier id'>now</span>
@@ -4400,12 +4502,12 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-863
-864
-865</pre>
+899
+900
+901</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 863</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 899</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_record_has_children identifier id'>record_has_children</span><span class='lparen token'>(</span><span class='rubyid_record_type identifier id'>record_type</span><span class='rparen token'>)</span>
   <span class='rubyid_@@records_with_children ivar id'>@@records_with_children</span> <span class='lshft op'>&lt;&lt;</span> <span class='rubyid_record_type identifier id'>record_type</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
@@ -4462,12 +4564,12 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-868
-869
-870</pre>
+904
+905
+906</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 868</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 904</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_records_with_children identifier id'>records_with_children</span>
   <span class='rubyid_@@records_with_children ivar id'>@@records_with_children</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
@@ -4493,12 +4595,12 @@ Duration is given in seconds.</p>
       <pre class="lines">
 
 
-908
-909
-910</pre>
+944
+945
+946</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 908</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 944</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_reset_session identifier id'>reset_session</span>
   <span class='rubyid_@current_session ivar id'>@current_session</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span>
@@ -4566,29 +4668,29 @@ iterate through the do_not_index list and scrub out that part of the JSON tree</
       <pre class="lines">
 
 
-1024
-1025
-1026
-1027
-1028
-1029
-1030
-1031
-1032
-1033
-1034
-1035
-1036
-1037
-1038
-1039
-1040
-1041
-1042
-1043</pre>
+1061
+1062
+1063
+1064
+1065
+1066
+1067
+1068
+1069
+1070
+1071
+1072
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1024</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1061</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_sanitize_json identifier id'>sanitize_json</span><span class='lparen token'>(</span><span class='rubyid_json identifier id'>json</span><span class='rparen token'>)</span>
   <span class='rubyid_IndexerCommonConfig constant id'>IndexerCommonConfig</span><span class='colon2 op'>::</span><span class='rubyid_do_not_index identifier id'>do_not_index</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_k identifier id'>k</span><span class='comma token'>,</span> <span class='rubyid_v identifier id'>v</span><span class='bitor op'>|</span>
@@ -4631,24 +4733,24 @@ iterate through the do_not_index list and scrub out that part of the JSON tree</
       <pre class="lines">
 
 
-1165
-1166
-1167
-1168
-1169
-1170
-1171
-1172
-1173
-1174
-1175
-1176
-1177
-1178
-1179</pre>
+1200
+1201
+1202
+1203
+1204
+1205
+1206
+1207
+1208
+1209
+1210
+1211
+1212
+1213
+1214</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1165</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1200</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_send_commit identifier id'>send_commit</span><span class='lparen token'>(</span><span class='rubyid_type identifier id'>type</span> <span class='assign token'>=</span> <span class='symbol val'>:hard</span><span class='rparen token'>)</span>
   <span class='rubyid_req identifier id'>req</span> <span class='assign token'>=</span> <span class='rubyid_Net constant id'>Net</span><span class='colon2 op'>::</span><span class='rubyid_HTTP constant id'>HTTP</span><span class='colon2 op'>::</span><span class='rubyid_Post constant id'>Post</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{solr_url.path}/update&quot;</span><span class='rparen token'>)</span>
@@ -4709,12 +4811,12 @@ iterate through the do_not_index list and scrub out that part of the JSON tree</
       <pre class="lines">
 
 
-1189
-1190
-1191</pre>
+1224
+1225
+1226</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1189</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1224</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_skip_index_doc? fid id'>skip_index_doc?</span><span class='lparen token'>(</span><span class='rubyid_doc identifier id'>doc</span><span class='rparen token'>)</span>
   <span class='rubyid_false false kw'>false</span>
@@ -4763,12 +4865,12 @@ iterate through the do_not_index list and scrub out that part of the JSON tree</
       <pre class="lines">
 
 
-1185
-1186
-1187</pre>
+1220
+1221
+1222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1185</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 1220</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_skip_index_record? fid id'>skip_index_record?</span><span class='lparen token'>(</span><span class='rubyid_record identifier id'>record</span><span class='rparen token'>)</span>
   <span class='rubyid_false false kw'>false</span>
@@ -4794,12 +4896,12 @@ iterate through the do_not_index list and scrub out that part of the JSON tree</
       <pre class="lines">
 
 
-888
-889
-890</pre>
+924
+925
+926</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 888</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 924</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_solr_url identifier id'>solr_url</span>
   <span class='rubyid_URI constant id'>URI</span><span class='dot token'>.</span><span class='rubyid_parse identifier id'>parse</span><span class='lparen token'>(</span><span class='rubyid_AppConfig constant id'>AppConfig</span><span class='lbrack token'>[</span><span class='symbol val'>:solr_url</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -4825,18 +4927,18 @@ iterate through the do_not_index list and scrub out that part of the JSON tree</
       <pre class="lines">
 
 
-164
-165
-166
-167
-168
-169
-170
-171
-172</pre>
+175
+176
+177
+178
+179
+180
+181
+182
+183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'indexer/app/lib/indexer_common.rb', line 175</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_t identifier id'>t</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@@selenium ivar id'>@@selenium</span>
@@ -4858,7 +4960,7 @@ iterate through the do_not_index list and scrub out that part of the JSON tree</
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:25 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:03:22 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>

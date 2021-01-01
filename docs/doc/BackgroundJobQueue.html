@@ -609,7 +609,7 @@
       <span class='comment val'># Mark the job as permanently canceled</span>
       <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_finish! fid id'>finish!</span><span class='lparen token'>(</span><span class='symbol val'>:canceled</span><span class='rparen token'>)</span>
     <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_success? fid id'>success?</span>
+      <span class='rubyid_if if kw'>if</span> <span class='rubyid_job identifier id'>job</span><span class='dot token'>.</span><span class='rubyid_running? fid id'>running?</span>
         <span class='comment val'># If the job didn&#39;t record success, mark it as finished ourselves.</span>
         <span class='comment val'># This isn&#39;t really a problem, but it does mean that the job status</span>
         <span class='comment val'># update is now happening in a separate DB transaction than the one</span>
@@ -734,7 +734,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:00 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:02:39 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>

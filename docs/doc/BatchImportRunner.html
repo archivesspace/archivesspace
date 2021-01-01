@@ -292,7 +292,28 @@
 127
 128
 129
-130</pre>
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'backend/app/lib/job_runners/batch_import_runner.rb', line 20</span>
@@ -367,7 +388,28 @@
       <span class='rubyid_end end kw'>end</span>
     <span class='rubyid_end end kw'>end</span>
   <span class='rubyid_rescue rescue kw'>rescue</span>
-    <span class='rubyid_last_error identifier id'>last_error</span> <span class='assign token'>=</span> <span class='rubyid_$! gvar id'>$!</span>
+    <span class='comment val'># If we get to here, last_error will generally not have been set yet.  The</span>
+    <span class='comment val'># conditional set is here to deal with code that does something like this:</span>
+    <span class='comment val'>#</span>
+    <span class='comment val'>#  DB.open do                 # Start a transaction (1)</span>
+    <span class='comment val'>#    BatchImportRunner#run    # Run this import process, which does another DB.open (2)</span>
+    <span class='comment val'>#    &lt;run some other updates&gt;</span>
+    <span class='comment val'>#  end</span>
+    <span class='comment val'>#</span>
+    <span class='comment val'># The intention is to run the import and some related updates in a single</span>
+    <span class='comment val'># transaction, but the result is surprising: if the BatchImportRunner</span>
+    <span class='comment val'># fails for some reason, everything gets rolled back and the only error</span>
+    <span class='comment val'># logged is a Sequel::Rollback.</span>
+    <span class='comment val'>#</span>
+    <span class='comment val'># What&#39;s happening here is that DB.open (2) actually didn&#39;t establish a</span>
+    <span class='comment val'># new transaction (since it was already running in a transaction) and, as</span>
+    <span class='comment val'># a result, Sequel didn&#39;t set up the begin/rescue block needed to catch</span>
+    <span class='comment val'># Sequel::Rollback.  So the rollback exception keeps bubbling up until</span>
+    <span class='comment val'># it&#39;s caught by the block you&#39;re currently reading.  When this happens,</span>
+    <span class='comment val'># last_error contains the real cause of the strife, and Sequel::Rollback</span>
+    <span class='comment val'># should be ignored.</span>
+
+    <span class='rubyid_last_error identifier id'>last_error</span> <span class='opasgn op'>||=</span> <span class='rubyid_$! gvar id'>$!</span>
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_last_error identifier id'>last_error</span>
@@ -419,7 +461,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:09 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:02:54 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>

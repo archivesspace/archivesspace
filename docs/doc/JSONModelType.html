@@ -1357,7 +1357,7 @@
   <span class='rubyid_end end kw'>end</span>
 
   <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_schema identifier id'>schema</span><span class='lbrack token'>[</span><span class='string val'>&#39;uri&#39;</span><span class='rbrack token'>]</span>
-  <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_pattern identifier id'>pattern</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\/:[a-zA-Z_]+\//</span><span class='comma token'>,</span> <span class='string val'>&#39;/[^/ ]+/&#39;</span><span class='rparen token'>)</span>
+  <span class='rubyid_pattern identifier id'>pattern</span> <span class='assign token'>=</span> <span class='rubyid_pattern identifier id'>pattern</span><span class='dot token'>.</span><span class='rubyid_gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\/:[a-zA-Z_]+(\/|$)/</span><span class='comma token'>,</span> <span class='string val'>&#39;/[^/ ]+\1&#39;</span><span class='rparen token'>)</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_uri identifier id'>uri</span> <span class='match op'>=~</span> <span class='dregexp node'>/#{pattern}\/#{ID_REGEXP}(\#.*)?$/</span>
     <span class='rubyid_return return kw'>return</span> <span class='rubyid_id_to_int identifier id'>id_to_int</span><span class='lparen token'>(</span><span class='rubyid_$1 nth_ref id'>$1</span><span class='rparen token'>)</span>
@@ -2600,7 +2600,7 @@ that don’t appear in the JSON schema will not appear in the result.</p>
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:22:21 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:03:17 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>

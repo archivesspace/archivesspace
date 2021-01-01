@@ -783,7 +783,7 @@ If you want to override that, update this with an absolute path</p>
 <p>URL to direct the feedback link.
 You can remove this from the footer by making the value blank.</p>
 
-<p><code>AppConfig[:feedback_url] = "http://archivesspace.org/contact"</code></p>
+<p><code>AppConfig[:feedback_url] = "http://archivesspace.org/feedback"</code></p>
 
 <h3 id="user-registration">User registration</h3>
 
@@ -809,15 +809,15 @@ You can remove this from the footer by making the value blank.</p>
   <p>TODO - Needs more documentation</p>
 </blockquote>
 
-<p><code>AppConfig[:help_url] = "https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/overview"</code>`</p>
+<p><code>AppConfig[:help_url] = "http://docs.archivesspace.org"</code></p>
 
-<h4 id="appconfighelptopicbaseurl"><code>AppConfig[:help_topic_base_url]</code></h4>
+<h4 id="appconfighelptopicprefix"><code>AppConfig[:help_topic_prefix]</code></h4>
 
 <blockquote>
   <p>TODO - Needs more documentation</p>
 </blockquote>
 
-<p><code>AppConfig[:help_topic_base_url] = "https://archivesspace.atlassian.net/wiki/spaces/ArchivesSpaceUserManual/pages/"</code>`</p>
+<p><code>AppConfig[:help_topic_prefix] = "/Default_CSH.htm#"</code></p>
 
 <h3 id="shared-storage">Shared storage</h3>
 
@@ -1214,16 +1214,7 @@ AppConfig[:pui_repos]['foo'][:hide][:counts] = true
 
 <h4 id="appconfigpuienablestafflink"><code>AppConfig[:pui_enable_staff_link]</code></h4>
 
-<p>when a user is authenticated, add a link back to the staff interface from the specified record</p>
-
-<p><code>AppConfig[:pui_enable_staff_link] = true</code></p>
-
-<h4 id="appconfigpuistafflinkmode"><code>AppConfig[:pui_staff_link_mode]</code></h4>
-
-<p>by default, staff link will open record in staff interface in edit mode,
-change this to ‘readonly’ for it to open in readonly mode</p>
-
-<p><code>AppConfig[:pui_staff_link_mode] = 'edit'</code></p>
+<p><code>AppConfig[:pui_enable_staff_link] = true # when a user is authenticated, add a link back to the staff interface from the specified record</code></p>
 
 <h4 id="appconfigpuipagecustomactions"><code>AppConfig[:pui_page_custom_actions]</code></h4>
 
@@ -1355,16 +1346,10 @@ AppConfig[:pui_email_smtp_settings] = {
 <p>The number of characters to truncate before showing the ‘Read More’ link on notes</p>
 
 <p><code>AppConfig[:pui_readmore_max_characters] = 450</code></p>
-
-<h4 id="appconfigmaxsearchcolumns"><code>AppConfig[:max_search_columns]</code></h4>
-
-<p>Use to specify the maximum number of columns to display when searching or browsing</p>
-
-<p><code>AppConfig[:max_search_columns] = 7</code></p>
 </div></div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Mon Nov  2 14:25:11 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:01:26 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>

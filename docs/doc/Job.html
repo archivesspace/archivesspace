@@ -686,6 +686,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#running%3F-instance_method" title="#running? (instance method)">#<strong>running?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#start!-instance_method" title="#start! (instance method)">#<strong>start!</strong>  &#x21d2; Object </a>
     
 
@@ -1436,15 +1459,15 @@
       <pre class="lines">
 
 
-206
-207
-208
-209
-210
-211</pre>
+212
+213
+214
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 206</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 212</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_cancel! fid id'>cancel!</span>
   <span class='rubyid_if if kw'>if</span> <span class='lbrack token'>[</span><span class='string val'>&quot;queued&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;running&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_status identifier id'>status</span>
@@ -1708,6 +1731,62 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="running?-instance_method">
+  
+    #<strong>running?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+200
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 200</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_running? fid id'>running?</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reload identifier id'>reload</span>
+  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_status identifier id'>status</span> <span class='eq op'>==</span> <span class='string val'>&#39;running&#39;</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="start!-instance_method">
   
     #<strong>start!</strong>  &#x21d2; <tt>Object</tt> 
@@ -1780,13 +1859,13 @@
       <pre class="lines">
 
 
-200
-201
-202
-203</pre>
+206
+207
+208
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 206</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_success? fid id'>success?</span>
   <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_reload identifier id'>reload</span>
@@ -1844,12 +1923,12 @@
       <pre class="lines">
 
 
-214
-215
-216</pre>
+220
+221
+222</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'backend/app/model/job.rb', line 220</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_update_mtime identifier id'>update_mtime</span>
   <span class='rubyid_Job constant id'>Job</span><span class='dot token'>.</span><span class='rubyid_update_mtime_for_ids identifier id'>update_mtime_for_ids</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_id identifier id'>id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
@@ -1963,7 +2042,7 @@
 </div>
 
       <div id="footer">
-  ArchivesSpace Version v2.8.1.a Documentation Generated on Wed Nov 11 13:21:40 2020 by
+  ArchivesSpace Version v2.8.1-rc1.a Documentation Generated on Fri Jan  1 16:02:06 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.25.
 </div>
