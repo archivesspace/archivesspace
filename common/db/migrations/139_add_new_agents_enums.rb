@@ -14,7 +14,6 @@ Sequel.migration do
 		create_enum("level_of_detail", ["fully_established", "memorandum", "provisional", "preliminary", "not_applicable", "natc"])
 		create_enum("modified_record", ["not_modified", "shortened", "missing_characters", "natc"])
 		create_enum("cataloging_source", ["nat_bib_agency", "ccp", "other", "unknown", "natc"])
-		create_editable_enum("source", ["naf", "snac", "local"])
 		create_editable_enum("identifier_type", ["loc", "lac", "local", "other_unmapped"])
 		create_editable_enum("agency_code_type", ["oclc", "local"])
 		create_enum("maintenance_event_type", ["created", "cancelled", "deleted", "derived", "revised", "updated"])
@@ -30,6 +29,8 @@ Sequel.migration do
   	create_enum("agent_relationship_temporal_relator", ["is_temporal_with"])
   	create_enum("agent_relationship_family_relator", ["is_related_with"])
   	create_editable_enum("gender", ["not_specified"])
+  	
+  	add_values_to_enum("name_source", ["snac"])
 
   end
 end
