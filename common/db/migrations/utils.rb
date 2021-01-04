@@ -182,11 +182,11 @@ end
 # used in migration 126 for creating structured dates
 # put any date expression into a structured_date_single with role: begin
 def create_structured_date_for_expr(r, rel)
-  role_id_begin = get_enum_value_id("date_role_enum", "begin")
-  type_id_single = get_enum_value_id("date_type_enum", "single")
+  role_id_begin = get_enum_value_id("date_role", "begin")
+  type_id_single = get_enum_value_id("date_type_structured", "single")
 
   l = self[:structured_date_label].insert(:date_label_id => r[:label_id],
-                                          :date_type_enum_id => type_id_single,
+                                          :date_type_structured_id => type_id_single,
                                           :date_certainty_id => r[:certainty_id],
                                           :date_era_id => r[:era_id],
                                           :date_calendar_id => r[:calendar_id],
@@ -195,7 +195,7 @@ def create_structured_date_for_expr(r, rel)
                                           :user_mtime => Time.now,
                                           rel => r[rel])
 
-  self[:structured_date_single].insert(:date_role_enum_id => role_id_begin,
+  self[:structured_date_single].insert(:date_role_id => role_id_begin,
                                 :date_expression => r[:expression],
                                 :structured_date_label_id => l,
                                 :create_time => Time.now,
@@ -230,15 +230,15 @@ end
 
 def create_structured_dates(r, std_begin, std_end, rel)
   #look up the right value of the role and type from the enum values table
-  role_id_begin = get_enum_value_id("date_role_enum", "begin")
-  role_id_end = get_enum_value_id("date_role_enum", "end")
-  type_id_single = get_enum_value_id("date_type_enum", "single")
-  type_id_range = get_enum_value_id("date_type_enum", "range")
+  role_id_begin = get_enum_value_id("date_role", "begin")
+  role_id_end = get_enum_value_id("date_role", "end")
+  type_id_single = get_enum_value_id("date_type_structured", "single")
+  type_id_range = get_enum_value_id("date_type_structured", "range")
 
   type_id = std_end ? type_id_range : type_id_single
 
   l = self[:structured_date_label].insert(:date_label_id => r[:label_id],
-                                          :date_type_enum_id => type_id,
+                                          :date_type_structured_id => type_id,
                                           :date_certainty_id => r[:certainty_id],
                                           :date_era_id => r[:era_id],
                                           :date_calendar_id => r[:calendar_id],
@@ -258,7 +258,7 @@ def create_structured_dates(r, std_begin, std_end, rel)
 
   # otherwise, create a single, begin date if we have a begin
   elsif std_begin
-    self[:structured_date_single].insert(:date_role_enum_id => role_id_begin,
+    self[:structured_date_single].insert(:date_role_id => role_id_begin,
                                   :date_standardized => std_begin,
                                   :structured_date_label_id => l,
                                   :create_time => Time.now,
@@ -267,7 +267,7 @@ def create_structured_dates(r, std_begin, std_end, rel)
 
   # otherwise, create a single, end date if we have an end
   elsif std_end
-    self[:structured_date_single].insert(:date_role_enum_id => role_id_end,
+    self[:structured_date_single].insert(:date_role_id => role_id_end,
                                   :date_standardized => std_end,
                                   :structured_date_label_id => l,
                                   :create_time => Time.now,
