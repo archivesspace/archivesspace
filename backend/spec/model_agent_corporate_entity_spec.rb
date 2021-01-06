@@ -54,6 +54,15 @@ describe 'Agent model' do
      }.to raise_error(JSONModel::ValidationException)
   end
 
+  it "appends the use date to the end of a agent corporate_entity display name" do
+    name_corporate_entity = build(:json_name_corporate_entity)
+
+    name_date = name_corporate_entity['use_dates'][0]['structured_date_single']['date_expression']
+
+    expect(name_corporate_entity['sort_name'] =~ /#{name_date}/)
+  end
+
+
   it "returns the existing agent if an name authority id is already in place " do
     json =    build( :json_agent_corporate_entity,
                      :names => [build(:json_name_corporate_entity,
