@@ -32,6 +32,15 @@ describe 'Agent model' do
     expect(AgentSoftware[agent[:id]].agent_contact.length).to eq(1)
     expect(AgentSoftware[agent[:id]].agent_contact[0][:name]).to eq(opts[:name])
   end
+  
+  it "appends the use date to the end of a agent software display name" do
+    name_software = build(:json_name_software)
+
+    name_date = name_software['use_dates'][0]['structured_date_single']['date_expression']
+
+    expect(name_software['sort_name'] =~ /#{name_date}/)
+  end
+
 
   it "requires a source to be set if an authority id is provided" do
     test_opts = {:names => [

@@ -59,6 +59,15 @@ describe 'Agent Family model' do
      }.to raise_error(JSONModel::ValidationException)
   end
 
+  it "appends the use date to the end of a agent family display name" do
+    name_family = build(:json_name_family)
+
+    name_date = name_family['use_dates'][0]['structured_date_single']['date_expression']
+
+    expect(name_family['sort_name'] =~ /#{name_date}/)
+  end
+
+
   it "returns the existing agent if an name authority id is already in place " do
     json =    build( :json_agent_family,
                      :names => [build(:json_name_family,

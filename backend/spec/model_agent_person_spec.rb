@@ -330,6 +330,13 @@ describe 'Agent model' do
     expect(AgentPerson.to_jsonmodel(agent.id).names[1]['is_display_name']).to be_truthy
   end
 
+  it "appends the use date to the end of a agent persons display name" do
+    name_person = build(:json_name_person)
+
+    name_date = name_person['use_dates'][0]['structured_date_single']['date_expression']
+
+    expect(name_person['sort_name'] =~ /#{name_date}/)
+  end
 
   it "preserves the display name when combining the authorized name with an unauthorized name" do
     authorized_name = build(:json_name_person, 'authorized' => true)
