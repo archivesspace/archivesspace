@@ -17,6 +17,16 @@ class MarcXMLAuthAgentConverter < Converter
     end
   end
 
+  def self.for_agents_only(input_file)
+    new(input_file).instance_eval do
+      @batch.record_filter = ->(record) {
+        AgentManager.known_agent_type?(record.class.record_type)
+      }
+
+      self
+    end
+  end
+
   def set_import_events
     config.init_map(MarcXMLAuthAgentConverter.BASE_RECORD_MAP(true))
   end
