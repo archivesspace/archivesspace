@@ -1,10 +1,12 @@
-class LCNAFConverter < MarcXMLBibConverter
+# this class is unchanged from the previous class LCNAFConverter before 
+# Agents processing was broken out separately to use the new MarcXMLAuthAgent converter
+class LCNAFSubjectConverter < MarcXMLBibConverter
 
   def self.import_types(show_hidden = false)
     if show_hidden
       [
        {
-         :name => "marcxml_lcnaf_subjects_and_agents",
+         :name => "marcxml_lcnaf_subjects",
          :description => "Import all subjects and agents from a MARC XML file, setting source to LCNAF"
        }
       ]
@@ -15,7 +17,7 @@ class LCNAFConverter < MarcXMLBibConverter
 
 
   def self.instance_for(type, input_file)
-    if type == "marcxml_lcnaf_subjects_and_agents"
+    if type == "marcxml_lcnaf_subjects"
       self.for_subjects_and_agents_only(input_file)
     else
       nil
@@ -25,7 +27,7 @@ class LCNAFConverter < MarcXMLBibConverter
 end
 
 
-LCNAFConverter.configure do |config|
+LCNAFSubjectConverter.configure do |config|
   [
    "[@tag='720']['@ind1'='1']",
    "[@tag='720']['@ind1'='2']",
