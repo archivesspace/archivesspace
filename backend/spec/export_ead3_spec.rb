@@ -230,6 +230,12 @@ describe "EAD3 export mappings" do
     expect(@doc.to_xml).not_to include("ASPACE EXPORT ERROR")
   end
 
+  after(:all) do
+    as_test_user('admin') do
+      $repo_id = $old_repo_id
+      JSONModel.set_repository($repo_id)
+    end
+  end
 
   let(:repo) { JSONModel(:repository).find($repo_id) }
 
@@ -1394,42 +1400,51 @@ describe "EAD3 export mappings" do
     end
 
     before(:all) {
-      RSpec::Mocks.with_temporary_scope do
-        # EAD export normally tries the search index first, but for the tests we'll
-        # skip that since Solr isn't running.
-        allow(Search).to receive(:records_for_uris) do |*|
-          {'results' => []}
-        end
+      as_test_user('admin') do
+        RSpec::Mocks.with_temporary_scope do
+          # EAD export normally tries the search index first, but for the tests we'll
+          # skip that since Solr isn't running.
+          allow(Search).to receive(:records_for_uris) do |*|
+            {'results' => []}
+          end
 
-        unpublished_resource = create(:json_resource,
-                                      :publish => false,
-                                      :revision_statements => [
-                                        {
-                                          :date => 'some date',
-                                          :description => 'unpublished revision statement',
-                                          :publish => false
-                                        },
-                                        {
-                                          :date => 'some date',
-                                          :description => 'published revision statement',
-                                          :publish => true
-                                        }
-                                      ])
+          unpublished_resource = create(:json_resource,
+                                        :publish => false,
+                                        :revision_statements => [
+                                          {
+                                            :date => 'some date',
+                                            :description => 'unpublished revision statement',
+                                            :publish => false
+                                          },
+                                          {
+                                            :date => 'some date',
+                                            :description => 'published revision statement',
+                                            :publish => true
+                                          }
+                                        ])
 
-        @unpublished_resource_jsonmodel = JSONModel(:resource).find(unpublished_resource.id)
+          @unpublished_resource_jsonmodel = JSONModel(:resource).find(unpublished_resource.id)
 
-        @published_archival_object = create(:json_archival_object_normal,
-                                            :resource => {:ref => @unpublished_resource_jsonmodel.uri},
-                                            :publish => true)
-
-        @unpublished_archival_object = create(:json_archival_object_normal,
+          @published_archival_object = create(:json_archival_object_normal,
                                               :resource => {:ref => @unpublished_resource_jsonmodel.uri},
-                                              :publish => false)
+                                              :publish => true)
 
-        @xml_including_unpublished = get_xml_doc(include_unpublished = true)
-        @xml_not_including_unpublished = get_xml_doc(include_unpublished = false)
+          @unpublished_archival_object = create(:json_archival_object_normal,
+                                                :resource => {:ref => @unpublished_resource_jsonmodel.uri},
+                                                :publish => false)
+
+          @xml_including_unpublished = get_xml_doc(include_unpublished = true)
+          @xml_not_including_unpublished = get_xml_doc(include_unpublished = false)
+        end
       end
     }
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
+    end
 
     it "does not set <ead> attribute audience 'internal' when resource is published" do
       expect(@doc_nsless.at_xpath('//ead')).not_to have_attribute('audience', 'internal')
@@ -1502,49 +1517,58 @@ describe "EAD3 export mappings" do
 
 
     before(:all) {
-      RSpec::Mocks.with_temporary_scope do
-        # EAD export normally tries the search index first, but for the tests we'll
-        # skip that since Solr isn't running.
-        allow(Search).to receive(:records_for_uris) do |*|
-          {'results' => []}
-        end
+      as_test_user('admin') do
+        RSpec::Mocks.with_temporary_scope do
+          # EAD export normally tries the search index first, but for the tests we'll
+          # skip that since Solr isn't running.
+          allow(Search).to receive(:records_for_uris) do |*|
+            {'results' => []}
+          end
 
-        resource = create(:json_resource,
-                          :publish => false)
+          resource = create(:json_resource,
+                            :publish => false)
 
-        @resource_jsonmodel = JSONModel(:resource).find(resource.id)
+          @resource_jsonmodel = JSONModel(:resource).find(resource.id)
 
-        @suppressed_series = create(:json_archival_object_normal,
-                                    :resource => {:ref => @resource_jsonmodel.uri},
-                                    :publish => true,
-                                    :suppressed => true)
-
-        @unsuppressed_series = create(:json_archival_object_normal,
+          @suppressed_series = create(:json_archival_object_normal,
                                       :resource => {:ref => @resource_jsonmodel.uri},
                                       :publish => true,
-                                      :suppressed => false)
+                                      :suppressed => true)
 
-        @suppressed_series_unsuppressedchild = create(:json_archival_object_normal,
-                                                      :resource => {:ref => @resource_jsonmodel.uri},
-                                                      :parent => {:ref => @suppressed_series.uri},
-                                                      :publish => true,
-                                                      :suppressed => false)
+          @unsuppressed_series = create(:json_archival_object_normal,
+                                        :resource => {:ref => @resource_jsonmodel.uri},
+                                        :publish => true,
+                                        :suppressed => false)
 
-        @unsuppressed_series_unsuppressed_child = create(:json_archival_object_normal,
+          @suppressed_series_unsuppressedchild = create(:json_archival_object_normal,
+                                                        :resource => {:ref => @resource_jsonmodel.uri},
+                                                        :parent => {:ref => @suppressed_series.uri},
+                                                        :publish => true,
+                                                        :suppressed => false)
+
+          @unsuppressed_series_unsuppressed_child = create(:json_archival_object_normal,
+                                                           :resource => {:ref => @resource_jsonmodel.uri},
+                                                           :parent => {:ref => @unsuppressed_series.uri},
+                                                           :publish => true,
+                                                           :suppressed => false)
+
+          @unsuppressed_series_suppressed_child = create(:json_archival_object_normal,
                                                          :resource => {:ref => @resource_jsonmodel.uri},
                                                          :parent => {:ref => @unsuppressed_series.uri},
                                                          :publish => true,
-                                                         :suppressed => false)
+                                                         :suppressed => true)
 
-        @unsuppressed_series_suppressed_child = create(:json_archival_object_normal,
-                                                       :resource => {:ref => @resource_jsonmodel.uri},
-                                                       :parent => {:ref => @unsuppressed_series.uri},
-                                                       :publish => true,
-                                                       :suppressed => true)
-
-        @xml = get_xml_doc
+          @xml = get_xml_doc
+        end
       end
     }
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
+    end
 
     it "excludes suppressed items" do
       expect(@xml.xpath('//c').length).to eq(2)

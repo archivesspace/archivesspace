@@ -2,8 +2,9 @@ class AgentTopic < Sequel::Model(:agent_topic)
   include ASModel
 
   corresponds_to JSONModel(:agent_topic)
-  
+
   include Notes
+  include TouchRecords
 
   set_model_scope :global
 
@@ -20,4 +21,14 @@ class AgentTopic < Sequel::Model(:agent_topic)
   self.define_relationship(:name => :subject_agent_subrecord_place,
                            :json_property => 'places',
                            :contains_references_to_types => proc {[Subject]})
+
+  def self.touch_records(obj)
+    [{
+      type: Subject, ids: (
+        AgentManager.linked_subjects(obj.id, :subject_agent_subrecord, :agent_topic) +
+
+        AgentManager.linked_subjects(obj.id, :subject_agent_subrecord_place, :agent_topic)
+      ).uniq
+    }]
+  end
 end

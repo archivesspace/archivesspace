@@ -40,8 +40,6 @@ if ENV['ASPACE_BACKEND_URL']
 else
   require_relative 'spec_helper'
 
-  Thread.current[:active_test_user] = User.find(:username => 'admin')
-
   def get_xml(uri, raw = false)
     response = get(uri)
     if response.status == 200

@@ -4,7 +4,8 @@ class AgentOccupation < Sequel::Model(:agent_occupation)
   corresponds_to JSONModel(:agent_occupation)
 
   include Notes
-  
+  include TouchRecords
+
   set_model_scope :global
 
   self.one_to_many :structured_date_label, :class => "StructuredDateLabel"
@@ -20,5 +21,14 @@ class AgentOccupation < Sequel::Model(:agent_occupation)
   self.define_relationship(:name => :subject_agent_subrecord_place,
                            :json_property => 'places',
                            :contains_references_to_types => proc {[Subject]})
-  
+
+  def self.touch_records(obj)
+    [{
+      type: Subject, ids: (
+        AgentManager.linked_subjects(obj.id, :subject_agent_subrecord, :agent_occupation) +
+
+        AgentManager.linked_subjects(obj.id, :subject_agent_subrecord_place, :agent_occupation)
+      ).uniq
+    }]
+  end
 end

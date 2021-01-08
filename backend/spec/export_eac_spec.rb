@@ -110,16 +110,25 @@ describe 'EAC Export' do
 
   describe 'agent_person' do
     before(:all) do
-      @rec = create(:json_agent_person_full_subrec,
-                    :names => [
-                               build(:json_name_person,
-                                     :prefix => 'abcdefg'
-                                     ),
-                               build(:json_name_person)
-                              ]
-                    )
+      as_test_user('admin') do
+        @rec = create(:json_agent_person_full_subrec,
+                      :names => [
+                                 build(:json_name_person,
+                                       :prefix => 'abcdefg'
+                                       ),
+                                 build(:json_name_person)
+                                ]
+                      )
 
-      @eac = get_eac(@rec)
+        @eac = get_eac(@rec)
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "exports EAC with the correct namespaces" do
@@ -221,35 +230,44 @@ describe 'EAC Export' do
   describe "agent_corporate_entity" do
 
     before(:all) do
-      date1 = build(:json_structured_date_label_range)
-      date2 = build(:json_structured_date_label_range)
-      date3 = build(:json_structured_date_label)
-      note1 = build(:json_note_general_context)
-      note2 = build(:json_note_mandate)
-      note3 = build(:json_note_legal_status)
-      note4 = build(:json_note_structure_or_genealogy)
+      as_test_user('admin') do
+        date1 = build(:json_structured_date_label_range)
+        date2 = build(:json_structured_date_label_range)
+        date3 = build(:json_structured_date_label)
+        note1 = build(:json_note_general_context)
+        note2 = build(:json_note_mandate)
+        note3 = build(:json_note_legal_status)
+        note4 = build(:json_note_structure_or_genealogy)
 
 
-      @rec = create(:json_agent_corporate_entity,
-                    :names => [
-                               build(:json_name_corporate_entity,
-                                     :use_dates => [
-                                                    date1,
-                                                    date2,
-                                                    date3
-                                                    ]
-                                     ),
-                               build(:json_name_corporate_entity)
-                              ],
-                    :notes => [
-                                note1,
-                                note2,
-                                note3,
-                                note4
-                              ]
-                    )
+        @rec = create(:json_agent_corporate_entity,
+                      :names => [
+                                 build(:json_name_corporate_entity,
+                                       :use_dates => [
+                                                      date1,
+                                                      date2,
+                                                      date3
+                                                      ]
+                                       ),
+                                 build(:json_name_corporate_entity)
+                                ],
+                      :notes => [
+                                  note1,
+                                  note2,
+                                  note3,
+                                  note4
+                                ]
+                      )
 
-      @eac = get_eac(@rec)
+        @eac = get_eac(@rec)
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "maps name.primary_name to nameEntry/part[@localType='primary_name']" do
@@ -332,22 +350,29 @@ describe 'EAC Export' do
 
   describe "agent_family" do
     before(:all) do
-      @repo = create(:json_repository)
-      $old_repo_id = $repo_id
-      $repo_id = @repo.id
-      JSONModel.set_repository($repo_id)
+      as_test_user('admin') do
+        @repo = create(:json_repository)
+        $old_repo_id = $repo_id
+        $repo_id = @repo.id
+        JSONModel.set_repository($repo_id)
 
-      @rec = create(:json_agent_family,
-                    :names => [
-                               build(:json_name_family),
-                               build(:json_name_family)
-                              ]
-                    )
+        @rec = create(:json_agent_family,
+                      :names => [
+                                 build(:json_name_family),
+                                 build(:json_name_family)
+                                ]
+                      )
 
-      @eac = get_eac(@rec)
+        @eac = get_eac(@rec)
 
-      # puts "SOURCE: #{@rec.inspect}\n"
-      # puts "RESULT: #{@eac.to_xml}\n"
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "maps name.prefix to nameEntry/part[@localType='prefix']" do
@@ -374,9 +399,18 @@ describe 'EAC Export' do
 
   describe "alternative set subrecords" do
     before(:all) do
-      @rec = create(:json_agent_person_full_subrec
-                    )
-      @eac = get_eac(@rec)
+      as_test_user('admin') do
+        @rec = create(:json_agent_person_full_subrec
+                      )
+        @eac = get_eac(@rec)
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "imports agent alternative set" do
@@ -393,12 +427,19 @@ describe 'EAC Export' do
 
   describe "subject linked subrecords" do
     before(:all) do
-      @rec = create(:json_agent_person_full_subrec
-                    )
-      @eac = get_eac(@rec)
+      as_test_user('admin') do
+        @rec = create(:json_agent_person_full_subrec
+                      )
+        @eac = get_eac(@rec)
+      end
     end
 
-
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
+    end
 
     it "exports agent_places" do
       expect(@eac).to have_tag("description/places/place/placeRole")
@@ -428,9 +469,18 @@ describe 'EAC Export' do
 
   describe "used_languages" do
     before(:all) do
-      @rec = create(:json_agent_person_full_subrec
-                    )
-      @eac = get_eac(@rec)
+      as_test_user('admin') do
+        @rec = create(:json_agent_person_full_subrec
+                      )
+        @eac = get_eac(@rec)
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "exports used_languages" do
@@ -443,14 +493,23 @@ describe 'EAC Export' do
 
   describe "dates of existence" do
     before(:all) do
-      @rec = create(:json_agent_person_full_subrec,
-                    :dates_of_existence => [
-                                            build(:json_structured_date_label),
-                                            build(:json_structured_date_label),
-                                            build(:json_structured_date_label_range),
-                                            ]
-                    )
-      @eac = get_eac(@rec)
+      as_test_user('admin') do
+        @rec = create(:json_agent_person_full_subrec,
+                      :dates_of_existence => [
+                                              build(:json_structured_date_label),
+                                              build(:json_structured_date_label),
+                                              build(:json_structured_date_label_range),
+                                              ]
+                      )
+        @eac = get_eac(@rec)
+      end
+    end
+
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "creates an existDates/date tag for each date of existence" do
@@ -482,35 +541,41 @@ describe 'EAC Export' do
 
   describe "biographical / historical notes" do
     before(:all) do
-      subnotes = [
-                  :note_abstract,
-                  :note_chronology,
-                  :note_citation,
-                  :note_orderedlist,
-                  :note_definedlist,
-                  :note_text,
-                  :note_outline
-                 ]
+      as_test_user('admin') do
+        subnotes = [
+                    :note_abstract,
+                    :note_chronology,
+                    :note_citation,
+                    :note_orderedlist,
+                    :note_definedlist,
+                    :note_text,
+                    :note_outline
+                   ]
 
 
-      @rec = create(:json_agent_person,
-                    :notes => [ build(:json_note_bioghist,
-                                      :subnotes => subnotes.map {|type|
-                                        build("json_#{type.to_s}".intern,
-                                              :publish => true)
-                                      },
-                                      :publish => true
-                                      )
-                              ]
-                    )
-      @eac = get_eac(@rec)
+        @rec = create(:json_agent_person,
+                      :notes => [ build(:json_note_bioghist,
+                                        :subnotes => subnotes.map {|type|
+                                          build("json_#{type.to_s}".intern,
+                                                :publish => true)
+                                        },
+                                        :publish => true
+                                        )
+                                ]
+                      )
+        @eac = get_eac(@rec)
 
-      @subnotes = Hash[subnotes.map{|type| [type, get_subnotes_by_type(@rec.notes[0], type.to_s)[0]] } ]
+        @subnotes = Hash[subnotes.map{|type| [type, get_subnotes_by_type(@rec.notes[0], type.to_s)[0]] } ]
 
-      # puts @rec.inspect
-      # puts @eac.to_xml
+      end
     end
 
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
+    end
 
     it "creates a biogHist tag for each note" do
       rec = create(:json_agent_person,
@@ -642,52 +707,56 @@ describe 'EAC Export' do
 
   describe "Relations" do
     before(:each) do
-      @repo = create(:json_repository)
-      $old_repo_id = $repo_id
-      $repo_id = @repo.id
+      as_test_user('admin') do
+        @repo = create(:json_repository)
+        $old_repo_id = $repo_id
+        $repo_id = @repo.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @rec = create(:json_agent_person_full_subrec)
+        @rec = create(:json_agent_person_full_subrec)
 
-      @resource, @digital_object = [:json_resource, :json_digital_object].map {|type|
-        create(type,
-               :linked_agents => [{
-                 'role' => %w(creator subject).sample,
-                 'ref' => @rec.uri
-               }])
-      }
+        @resource, @digital_object = [:json_resource, :json_digital_object].map {|type|
+          create(type,
+                 :linked_agents => [{
+                   'role' => %w(creator subject).sample,
+                   'ref' => @rec.uri
+                 }])
+        }
 
-      @resource_component = create(:json_archival_object,
-                                   :resource => {'ref' => @resource.uri},
-                                   :linked_agents => [{
-                                                        'role' => 'subject',
-                                                        'ref' => @rec.uri
-                                                      }])
+        @resource_component = create(:json_archival_object,
+                                     :resource => {'ref' => @resource.uri},
+                                     :linked_agents => [{
+                                                          'role' => 'subject',
+                                                          'ref' => @rec.uri
+                                                        }])
 
-      @digital_object_component = create(:json_digital_object_component,
-                                         :digital_object => {'ref' => @digital_object.uri},
-                                         :linked_agents => [{
-                                                              'role' => 'subject',
-                                                              'ref' => @rec.uri
-                                                            }])
+        @digital_object_component = create(:json_digital_object_component,
+                                           :digital_object => {'ref' => @digital_object.uri},
+                                           :linked_agents => [{
+                                                                'role' => 'subject',
+                                                                'ref' => @rec.uri
+                                                              }])
 
 
-      @relationship = JSONModel(:agent_relationship_parentchild).new
-      @relationship.relator = "is_child_of"
-      @relationship.ref = @rec.uri
+        @relationship = JSONModel(:agent_relationship_parentchild).new
+        @relationship.relator = "is_child_of"
+        @relationship.ref = @rec.uri
 
-      @linked_agent = create(:json_agent_person,
-                             :related_agents => [@relationship.to_hash]
-                             )
+        @linked_agent = create(:json_agent_person,
+                               :related_agents => [@relationship.to_hash]
+                               )
 
-      @eac = get_eac(@rec)
+        @eac = get_eac(@rec)
 
+      end
     end
 
-    after(:each) do
-      $repo_id = $old_repo_id
-      JSONModel.set_repository($repo_id)
+    after(:all) do
+      as_test_user('admin') do
+        $repo_id = $old_repo_id
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "maps related agents to cpfRelation" do
