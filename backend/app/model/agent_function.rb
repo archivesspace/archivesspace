@@ -4,6 +4,7 @@ class AgentFunction < Sequel::Model(:agent_function)
   corresponds_to JSONModel(:agent_function)
   
   include Notes
+  include TouchRecords
 
   set_model_scope :global
 
@@ -20,4 +21,14 @@ class AgentFunction < Sequel::Model(:agent_function)
   self.define_relationship(:name => :subject_agent_subrecord_place,
                            :json_property => 'places',
                            :contains_references_to_types => proc {[Subject]})
+
+  def self.touch_records(obj)
+    [{
+     type: Subject, ids: (
+       AgentManager.linked_subjects(obj.id, :subject_agent_subrecord, :agent_function) +
+
+       AgentManager.linked_subjects(obj.id, :subject_agent_subrecord_place, :agent_function)
+     ).uniq
+    }]
+  end
 end

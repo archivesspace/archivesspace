@@ -468,22 +468,26 @@ describe 'OAI handler' do
 
   describe "respository with OAI harvesting disabled" do
     before(:all) do
-      @repo_disabled = create(:json_repository, :oai_is_disabled => true)
+      as_test_user('admin') do
+        @repo_disabled = create(:json_repository, :oai_is_disabled => true)
 
-      $another_repo_id = $repo_id
-      $repo_id = @repo_disabled.id
+        $another_repo_id = $repo_id
+        $repo_id = @repo_disabled.id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
 
-      @resource = create(:json_resource,
-                          :level => 'collection')
+        @resource = create(:json_resource,
+                            :level => 'collection')
+      end
     end
 
     after(:all) do
-      @resource.delete
-      $repo_id = $another_repo_id
+      as_test_user('admin') do
+        @resource.delete
+        $repo_id = $another_repo_id
 
-      JSONModel.set_repository($repo_id)
+        JSONModel.set_repository($repo_id)
+      end
     end
 
     it "does not publish resources in a repository with OAI disabled" do
