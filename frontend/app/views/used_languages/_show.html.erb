@@ -6,7 +6,7 @@
 <section id="<%= section_id %>">
   <h3><%= section_title %></h3>
   <div class="panel-group details" id="<%= section_id %>_accordion">
-    <% used_languages.each_with_index do | used_language, index | %>
+    <%= context.list_for(context["used_languages"], "used_languages[]") do |used_language, index| %>
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="row accordion-toggle collapsed" data-toggle="collapse" data-parent="#<%= section_id %>_accordion" href="#<%= section_id %>_used_language_<%= index %>">
@@ -25,7 +25,7 @@
         <div id="<%= section_id %>_used_language_<%= index %>" class="panel-collapse collapse">
           <%= read_only_view(used_language) %>
           <% if used_language["notes"].length > 0 %>
-            <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => used_language["notes"], :section_id => "used_language_notes", :context => context, :heading_size => "h4" } %>
+            <%= render_aspace_partial :partial => "notes/show", :locals => { :notes => used_language["notes"], :section_id => "#{@agent.agent_type}_used_language__#{index}__notes_", :context => context, :heading_size => "h4" } %>
           <% end %>
         </div>
       </div>
